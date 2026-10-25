@@ -1,364 +1,364 @@
 {
- "seed": "a91c03e7d2b84f10",
- "place": {
-  "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
-  "key": "2666300",
-  "name": "Prescott, Michigan",
-  "state": "US-MI"
- },
- "window": 900,
- "after": 31,
- "results": [
-  {
-   "key": "us-policy-positions:environment-energy.ban-new-gas-hookups",
-   "kind": "question",
-   "family": "energy-environment",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9) effective 2025-01-21; then repealed at city effective 2027-07-11",
-   "lawIds": [
-    "law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
-    "law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2027-07-11:law-wiring-16f91ec9-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 2,
-    "governments": 0,
-    "other": 0,
-    "open": 2,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
-     "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization:landlord:jurisdiction_971998ff58477430"
-    ]
-   },
-   "reachAtEnd": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 2,
-    "governments": 0,
-    "other": 0,
-    "open": 2,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
-     "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization:landlord:jurisdiction_971998ff58477430"
-    ]
-   },
-   "inPlay": [],
-   "readers": {
-    "src/core2/modules/outcome-web.ts:166": 636,
-    "src/core2/modules/housing.ts:1652": 60,
-    "src/core2/modules/legislature.ts:2126": 8,
-    "src/core2/life.ts:556": 5
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:environment-energy.ban-new-gas-hookups:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 3427708411,
-      "control": 3427834503,
-      "ids": [
-       "journal:2025-01-21:1660",
-       "journal:2025-02-01:1947",
-       "journal:2025-02-01:1948"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/press-money.ts:374",
-      "treatment": 33213173,
-      "control": 33213399,
-      "ids": [
-       "journal:2025-01-27:1695",
-       "journal:2025-01-27:1696",
-       "journal:2025-01-27:1697"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
-      "treatment": 11682144502,
-      "control": 11682144443,
-      "ids": [
-       "journal:2025-02-27:8528",
-       "journal:2025-03-20:15782",
-       "journal:2025-04-06:22936"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 2575485864,
-      "control": 2575485813,
-      "ids": [
-       "journal:2025-01-21:1632",
-       "journal:2025-01-21:1633",
-       "journal:2025-01-21:1634"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/official-living.ts:102",
-      "treatment": 8360477861,
-      "control": 8360477874,
-      "ids": [
-       "journal:2025-01-27:1699",
-       "journal:2025-01-27:1700",
-       "journal:2025-01-27:1701"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
-      "treatment": 8507505021,
-      "control": 8507505013,
-      "ids": [
-       "journal:2025-01-27:1709",
-       "journal:2025-01-28:1712",
-       "journal:2025-01-28:1715"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
-      "treatment": 440286173182198,
-      "control": 440286173182206,
-      "ids": [
-       "journal:2025-02-01:1772",
-       "journal:2025-02-01:1773",
-       "journal:2025-02-01:1774"
-      ]
-     }
-    ],
-    "diffKinds": 7,
-    "cited": [],
-    "controlCited": [],
-    "own": {
-     "targets": 1,
-     "among": "paid",
-     "pairs": [
-      {
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-       "way": "in",
-       "targets": 1,
-       "moved": 15768,
-       "earliest": "2026-04-06",
-       "sample": [
-        {
-         "target": "organization_382d8545c99fb7e3",
-         "row": "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
-         "date": "2026-04-06",
-         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-         "way": "in",
-         "treatment": -860266,
-         "control": -876034,
-         "journal": "journal:2026-04-06:125000"
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 900,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "kind": "question",
+      "family": "energy-environment",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9) effective 2025-01-21; then repealed at city effective 2027-07-11",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+        "law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2027-07-11:law-wiring-16f91ec9-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
+          "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization:landlord:jurisdiction_971998ff58477430"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
+          "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization:landlord:jurisdiction_971998ff58477430"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:166": 636,
+        "src/core2/modules/housing.ts:1652": 60,
+        "src/core2/modules/legislature.ts:2126": 8,
+        "src/core2/life.ts:556": 5
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:environment-energy.ban-new-gas-hookups:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 3427708411,
+            "control": 3427834503,
+            "ids": [
+              "journal:2025-01-21:1660",
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1948"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/press-money.ts:374",
+            "treatment": 33213173,
+            "control": 33213399,
+            "ids": [
+              "journal:2025-01-27:1695",
+              "journal:2025-01-27:1696",
+              "journal:2025-01-27:1697"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+            "treatment": 11682144502,
+            "control": 11682144443,
+            "ids": [
+              "journal:2025-02-27:8528",
+              "journal:2025-03-20:15782",
+              "journal:2025-04-06:22936"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 2575485864,
+            "control": 2575485813,
+            "ids": [
+              "journal:2025-01-21:1632",
+              "journal:2025-01-21:1633",
+              "journal:2025-01-21:1634"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/official-living.ts:102",
+            "treatment": 8360477861,
+            "control": 8360477874,
+            "ids": [
+              "journal:2025-01-27:1699",
+              "journal:2025-01-27:1700",
+              "journal:2025-01-27:1701"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 8507505021,
+            "control": 8507505013,
+            "ids": [
+              "journal:2025-01-27:1709",
+              "journal:2025-01-28:1712",
+              "journal:2025-01-28:1715"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 440286173182198,
+            "control": 440286173182206,
+            "ids": [
+              "journal:2025-02-01:1772",
+              "journal:2025-02-01:1773",
+              "journal:2025-02-01:1774"
+            ]
+          }
+        ],
+        "diffKinds": 7,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "moved": 15768,
+              "earliest": "2026-04-06",
+              "sample": [
+                {
+                  "target": "organization_382d8545c99fb7e3",
+                  "row": "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
+                  "date": "2026-04-06",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": -860266,
+                  "control": -876034,
+                  "journal": "journal:2026-04-06:125000"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/world-transfer.ts:40|in",
+          "sample": [
+            {
+              "target": "organization_382d8545c99fb7e3",
+              "row": "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
+              "date": "2026-04-06",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "treatment": -860266,
+              "control": -876034,
+              "journal": "journal:2026-04-06:125000"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "organization_382d8545c99fb7e3",
+                "row": "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
+                "date": "2026-04-06",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                "way": "in",
+                "treatment": -860266,
+                "control": -876034,
+                "journal": "journal:2026-04-06:125000"
+              }
+            }
+          ]
         }
-       ]
-      }
-     ],
-     "paid": 1,
-     "pick": "accounts.transfer @ src/core2/world-transfer.ts:40|in",
-     "sample": [
-      {
-       "target": "organization_382d8545c99fb7e3",
-       "row": "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
-       "date": "2026-04-06",
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-       "way": "in",
-       "treatment": -860266,
-       "control": -876034,
-       "journal": "journal:2026-04-06:125000"
-      }
-     ],
-     "near": [
-      {
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-       "way": "in",
-       "targets": 1,
-       "first": {
-        "target": "organization_382d8545c99fb7e3",
-        "row": "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3",
-        "date": "2026-04-06",
-        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-        "way": "in",
-        "treatment": -860266,
-        "control": -876034,
-        "journal": "journal:2026-04-06:125000"
-       }
-      }
-     ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "gas-hookup-ban-to-child-asthma",
+            "status": "built",
+            "to": "health.child-asthma-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 900,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "gas-hookup-ban-to-child-asthma",
+            "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+            "lagMonths": 120,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 50,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 295
     }
-   },
-   "web": {
-    "links": [
-     {
-      "key": "gas-hookup-ban-to-child-asthma",
-      "status": "built",
-      "to": "health.child-asthma-pct"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0,
-    "windowDays": 900,
-    "cause": [
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-01",
-      "month": "2025-01",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-02",
-      "month": "2025-02",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-03",
-      "month": "2025-03",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-04",
-      "month": "2025-04",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-05",
-      "month": "2025-05",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-06",
-      "month": "2025-06",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-07",
-      "month": "2025-07",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-08",
-      "month": "2025-08",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-09",
-      "month": "2025-09",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-10",
-      "month": "2025-10",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-11",
-      "month": "2025-11",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-12",
-      "month": "2025-12",
-      "link": "gas-hookup-ban-to-child-asthma",
-      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "lagMonths": 120,
-      "treated": 1,
-      "control": 0
-     }
-    ],
-    "reenacted": null
-   },
-   "heard": {
-    "people": 50,
-    "sample": [
-     "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
-     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
-     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 295
-  }
- ]
+  ]
 }

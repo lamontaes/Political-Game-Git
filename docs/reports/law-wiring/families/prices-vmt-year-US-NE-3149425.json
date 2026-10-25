@@ -1,941 +1,941 @@
 {
- "seed": "5e27b0c4196fd3a8",
- "place": {
-  "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
-  "key": "3149425",
-  "name": "Uehling, Nebraska",
-  "state": "US-NE"
- },
- "window": 365,
- "after": 31,
- "results": [
-  {
-   "key": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-   "kind": "question",
-   "family": "infrastructure",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871) effective 2025-01-21; then repealed at city effective 2026-01-22",
-   "lawIds": [
-    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
-    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2026-01-22:law-wiring-9b95e871-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 39,
-    "countedPeople": 135,
-    "households": 56,
-    "organizations": 0,
-    "governments": 1,
-    "other": 0,
-    "open": 96,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0191bce915485942",
-     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018e4ce91545651b",
-     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_45a3b3ebe97fe71d:counted-group-8",
-     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_45a3b3ebe97fe71d:counted-group-22"
-    ]
-   },
-   "reachAtEnd": {
-    "fullPeople": 0,
-    "countedGroups": 39,
-    "countedPeople": 135,
-    "households": 56,
-    "organizations": 0,
-    "governments": 1,
-    "other": 0,
-    "open": 96,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0191bce915485942",
-     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018e4ce91545651b",
-     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_45a3b3ebe97fe71d:counted-group-8",
-     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_45a3b3ebe97fe71d:counted-group-22"
-    ]
-   },
-   "inPlay": [],
-   "readers": {
-    "src/core2/modules/outcome-web.ts:166": 10044,
-    "src/core2/modules/world-legislating.ts:253": 296,
-    "src/core2/modules/world-legislating.ts:183": 90,
-    "src/core2/modules/legislature.ts:2126": 40,
-    "src/core2/modules/place-prices.ts:690": 24,
-    "src/core2/life.ts:556": 5,
-    "src/core2/modules/world-legislating.ts:333": 4
-   },
-   "openingRow": "law:US-NE:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 298616518,
-      "control": 294888082,
-      "ids": [
-       "journal:2025-02-01:1872",
-       "journal:2025-02-01:1873",
-       "journal:2025-02-01:1874"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 701856181764999,
-      "control": 701856179105967,
-      "ids": [
-       "journal:2025-02-01:1688",
-       "journal:2025-02-01:1689",
-       "journal:2025-02-01:1690"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 500392078,
-      "control": 498884701,
-      "ids": [
-       "journal:2025-01-24:1580",
-       "journal:2025-01-25:1581",
-       "journal:2025-01-25:1583"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
-      "treatment": 17319313,
-      "control": 16092321,
-      "ids": [
-       "journal:2025-02-03:7707",
-       "journal:2025-02-03:7709",
-       "journal:2025-02-03:7711"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 339325040,
-      "control": 339093360,
-      "ids": [
-       "journal:2025-01-21:1530",
-       "journal:2025-01-21:1531",
-       "journal:2025-01-21:1532"
-      ]
-     },
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 493325719,
-      "control": 493365313,
-      "ids": [
-       "journal:2025-01-28:1602",
-       "journal:2025-01-29:1635",
-       "journal:2025-01-30:1640"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
-      "treatment": 7747302,
-      "control": 7731335,
-      "ids": [
-       "journal:2025-02-19:8299",
-       "journal:2025-02-19:8300",
-       "journal:2025-02-19:8301"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 1294631028,
-      "control": 1294617983,
-      "ids": [
-       "journal:2025-02-01:3076",
-       "journal:2025-02-01:3077",
-       "journal:2025-02-01:3078"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
-      "treatment": 176830706024499,
-      "control": 176830706035838,
-      "ids": [
-       "journal:2025-02-01:1678",
-       "journal:2025-02-01:1679",
-       "journal:2025-02-01:1680"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
-      "treatment": 179892387,
-      "control": 179882346,
-      "ids": [
-       "journal:2025-02-01:3058",
-       "journal:2025-02-01:3059",
-       "journal:2025-02-01:3060"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-      "treatment": 210545298,
-      "control": 210536410,
-      "ids": [
-       "journal:2025-02-01:1915",
-       "journal:2025-02-01:1916",
-       "journal:2025-02-01:1917"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 73081225,
-      "control": 73072718,
-      "ids": [
-       "journal:2025-02-01:1946",
-       "journal:2025-02-01:1949",
-       "journal:2025-02-01:1952"
-      ]
-     }
-    ],
-    "diffKinds": 35,
-    "cited": [
-     {
-      "token": "law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
-      "gross": 6196722,
-      "ids": [
-       "journal:2025-02-03:7630",
-       "journal:2025-02-03:7631",
-       "journal:2025-02-03:7632"
-      ]
-     },
-     {
-      "token": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "gross": 6196722,
-      "ids": [
-       "journal:2025-02-03:7630",
-       "journal:2025-02-03:7631",
-       "journal:2025-02-03:7632"
-      ]
-     },
-     {
-      "token": "law-wiring-9b95e871",
-      "gross": 6196722,
-      "ids": [
-       "journal:2025-02-03:7630",
-       "journal:2025-02-03:7631",
-       "journal:2025-02-03:7632"
-      ]
-     }
-    ],
-    "controlCited": [],
-    "own": {
-     "targets": 96,
-     "among": "paid",
-     "pairs": [
-      {
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-       "way": "in",
-       "targets": 54,
-       "moved": 22406,
-       "earliest": "2025-02-03",
-       "sample": [
-        {
-         "target": "household_0180b9e91539e0f6",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
-         "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-         "way": "in",
-         "treatment": 202,
-         "control": 0,
-         "journal": "journal:2025-02-03:7680"
-        },
-        {
-         "target": "household_0180bae91539e2a9",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bae91539e2a9",
-         "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-         "way": "in",
-         "treatment": 385,
-         "control": 0,
-         "journal": "journal:2025-02-03:7682"
-        },
-        {
-         "target": "household_0180bce91539e60f",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bce91539e60f",
-         "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-         "way": "in",
-         "treatment": 506,
-         "control": 0,
-         "journal": "journal:2025-02-03:7700"
-        },
-        {
-         "target": "household_0180bde91539e7c2",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bde91539e7c2",
-         "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-         "way": "in",
-         "treatment": 459,
-         "control": 0,
-         "journal": "journal:2025-02-03:7684"
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "kind": "question",
+      "family": "infrastructure",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+        "law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2026-01-22:law-wiring-9b95e871-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 39,
+        "countedPeople": 135,
+        "households": 56,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 96,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0191bce915485942",
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018e4ce91545651b",
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_45a3b3ebe97fe71d:counted-group-8",
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_45a3b3ebe97fe71d:counted-group-22"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 39,
+        "countedPeople": 135,
+        "households": 56,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 96,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0191bce915485942",
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018e4ce91545651b",
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_45a3b3ebe97fe71d:counted-group-8",
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_45a3b3ebe97fe71d:counted-group-22"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:166": 10044,
+        "src/core2/modules/world-legislating.ts:253": 296,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/modules/legislature.ts:2126": 40,
+        "src/core2/modules/place-prices.ts:690": 24,
+        "src/core2/life.ts:556": 5,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 298616518,
+            "control": 294888082,
+            "ids": [
+              "journal:2025-02-01:1872",
+              "journal:2025-02-01:1873",
+              "journal:2025-02-01:1874"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 701856181764999,
+            "control": 701856179105967,
+            "ids": [
+              "journal:2025-02-01:1688",
+              "journal:2025-02-01:1689",
+              "journal:2025-02-01:1690"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 500392078,
+            "control": 498884701,
+            "ids": [
+              "journal:2025-01-24:1580",
+              "journal:2025-01-25:1581",
+              "journal:2025-01-25:1583"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
+            "treatment": 17319313,
+            "control": 16092321,
+            "ids": [
+              "journal:2025-02-03:7707",
+              "journal:2025-02-03:7709",
+              "journal:2025-02-03:7711"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 339325040,
+            "control": 339093360,
+            "ids": [
+              "journal:2025-01-21:1530",
+              "journal:2025-01-21:1531",
+              "journal:2025-01-21:1532"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 493325719,
+            "control": 493365313,
+            "ids": [
+              "journal:2025-01-28:1602",
+              "journal:2025-01-29:1635",
+              "journal:2025-01-30:1640"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 7747302,
+            "control": 7731335,
+            "ids": [
+              "journal:2025-02-19:8299",
+              "journal:2025-02-19:8300",
+              "journal:2025-02-19:8301"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1294631028,
+            "control": 1294617983,
+            "ids": [
+              "journal:2025-02-01:3076",
+              "journal:2025-02-01:3077",
+              "journal:2025-02-01:3078"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 176830706024499,
+            "control": 176830706035838,
+            "ids": [
+              "journal:2025-02-01:1678",
+              "journal:2025-02-01:1679",
+              "journal:2025-02-01:1680"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 179892387,
+            "control": 179882346,
+            "ids": [
+              "journal:2025-02-01:3058",
+              "journal:2025-02-01:3059",
+              "journal:2025-02-01:3060"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 210545298,
+            "control": 210536410,
+            "ids": [
+              "journal:2025-02-01:1915",
+              "journal:2025-02-01:1916",
+              "journal:2025-02-01:1917"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 73081225,
+            "control": 73072718,
+            "ids": [
+              "journal:2025-02-01:1946",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1952"
+            ]
+          }
+        ],
+        "diffKinds": 35,
+        "cited": [
+          {
+            "token": "law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+            "gross": 6196722,
+            "ids": [
+              "journal:2025-02-03:7630",
+              "journal:2025-02-03:7631",
+              "journal:2025-02-03:7632"
+            ]
+          },
+          {
+            "token": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "gross": 6196722,
+            "ids": [
+              "journal:2025-02-03:7630",
+              "journal:2025-02-03:7631",
+              "journal:2025-02-03:7632"
+            ]
+          },
+          {
+            "token": "law-wiring-9b95e871",
+            "gross": 6196722,
+            "ids": [
+              "journal:2025-02-03:7630",
+              "journal:2025-02-03:7631",
+              "journal:2025-02-03:7632"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 96,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "way": "in",
+              "targets": 54,
+              "moved": 22406,
+              "earliest": "2025-02-03",
+              "sample": [
+                {
+                  "target": "household_0180b9e91539e0f6",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+                  "way": "in",
+                  "treatment": 202,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:7680"
+                },
+                {
+                  "target": "household_0180bae91539e2a9",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bae91539e2a9",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+                  "way": "in",
+                  "treatment": 385,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:7682"
+                },
+                {
+                  "target": "household_0180bce91539e60f",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bce91539e60f",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+                  "way": "in",
+                  "treatment": 506,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:7700"
+                },
+                {
+                  "target": "household_0180bde91539e7c2",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bde91539e7c2",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+                  "way": "in",
+                  "treatment": 459,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:7684"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 41,
+              "moved": 42929,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "household_0180bce91539e60f",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bce91539e60f",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -594289,
+                  "control": -593783,
+                  "journal": "journal:2025-03-01:8831"
+                },
+                {
+                  "target": "household_0180c1e91539ee8e",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180c1e91539ee8e",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -111613,
+                  "control": -111161,
+                  "journal": "journal:2025-03-01:8830"
+                },
+                {
+                  "target": "household_018749e9153f4154",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018749e9153f4154",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -266526,
+                  "control": -266079,
+                  "journal": "journal:2025-03-01:8829"
+                },
+                {
+                  "target": "household_018ac9e9154250ab",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018ac9e9154250ab",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -632316,
+                  "control": -631884,
+                  "journal": "journal:2025-03-01:8827"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 5,
+              "moved": 3218,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "household_0180b9e91539e0f6",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -94405,
+                  "control": -94205,
+                  "journal": "journal:2025-03-01:8929"
+                },
+                {
+                  "target": "household_01983fe9154da389",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_01983fe9154da389",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -100639,
+                  "control": -100268,
+                  "journal": "journal:2025-03-01:9990"
+                },
+                {
+                  "target": "household_b1a74b5839224c81",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_b1a74b5839224c81",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -4792,
+                  "control": -4373,
+                  "journal": "journal:2025-03-01:10313"
+                },
+                {
+                  "target": "household_019841e9154da6ef",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_019841e9154da6ef",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -164350,
+                  "control": -163499,
+                  "journal": "journal:2025-04-01:17951"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "in",
+              "targets": 5,
+              "moved": 2137,
+              "earliest": "2025-02-05",
+              "sample": [
+                {
+                  "target": "household_0180bae91539e2a9",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bae91539e2a9",
+                  "date": "2025-02-05",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -15443,
+                  "control": -15828,
+                  "journal": "journal:2025-02-05:7895"
+                },
+                {
+                  "target": "household_0180b9e91539e0f6",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
+                  "date": "2025-02-13",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -2596,
+                  "control": -2798,
+                  "journal": "journal:2025-02-13:8200"
+                },
+                {
+                  "target": "household_0183c0e9153c22b2",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0183c0e9153c22b2",
+                  "date": "2025-03-03",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -8626,
+                  "control": -8771,
+                  "journal": "journal:2025-03-03:15243"
+                },
+                {
+                  "target": "household_0183c7e9153c2e97",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0183c7e9153c2e97",
+                  "date": "2025-04-14",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -36574,
+                  "control": -36989,
+                  "journal": "journal:2025-04-14:23665"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 5,
+              "moved": 1724,
+              "earliest": "2025-02-03",
+              "sample": [
+                {
+                  "target": "household_0180b9e91539e0f6",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -202,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:7818"
+                },
+                {
+                  "target": "household_0180bae91539e2a9",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bae91539e2a9",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -385,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:7819"
+                },
+                {
+                  "target": "household_0183c7e9153c2e97",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0183c7e9153c2e97",
+                  "date": "2025-04-03",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -415,
+                  "control": 0,
+                  "journal": "journal:2025-04-03:23174"
+                },
+                {
+                  "target": "household_018ac8e915424ef8",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018ac8e915424ef8",
+                  "date": "2025-04-03",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -346,
+                  "control": 0,
+                  "journal": "journal:2025-04-03:23175"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+              "way": "in",
+              "targets": 4,
+              "moved": 4,
+              "earliest": "2025-03-18",
+              "sample": [
+                {
+                  "target": "household_018acde915425777",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018acde915425777",
+                  "date": "2025-03-18",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "in",
+                  "treatment": 208,
+                  "control": 207,
+                  "journal": "journal:2025-03-18:15887"
+                },
+                {
+                  "target": "household_0180b9e91539e0f6",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
+                  "date": "2025-05-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "in",
+                  "treatment": 497,
+                  "control": 496,
+                  "journal": "journal:2025-05-01:26417"
+                },
+                {
+                  "target": "household_0194bae9154a8bb3",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bae9154a8bb3",
+                  "date": "2025-05-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "in",
+                  "treatment": -131,
+                  "control": -132,
+                  "journal": "journal:2025-05-01:30876"
+                },
+                {
+                  "target": "household_019841e9154da6ef",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_019841e9154da6ef",
+                  "date": "2025-05-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "in",
+                  "treatment": 311,
+                  "control": 310,
+                  "journal": "journal:2025-05-01:26418"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "in",
+              "targets": 3,
+              "moved": 3,
+              "earliest": "2025-09-01",
+              "sample": [
+                {
+                  "target": "household_0194bfe9154a9432",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bfe9154a9432",
+                  "date": "2025-09-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -447673,
+                  "control": -447674,
+                  "journal": "journal:2025-09-01:60398"
+                },
+                {
+                  "target": "household_0194bce9154a8f19",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bce9154a8f19",
+                  "date": "2025-11-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -232938,
+                  "control": -232939,
+                  "journal": "journal:2025-11-01:78055"
+                },
+                {
+                  "target": "household_0180b8e91539df43",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b8e91539df43",
+                  "date": "2025-12-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -47545,
+                  "control": -47546,
+                  "journal": "journal:2025-12-01:85620"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+              "way": "out",
+              "targets": 3,
+              "moved": 3,
+              "earliest": "2025-03-18",
+              "sample": [
+                {
+                  "target": "household_0194bae9154a8bb3",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bae9154a8bb3",
+                  "date": "2025-03-18",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -208,
+                  "control": -207,
+                  "journal": "journal:2025-03-18:15887"
+                },
+                {
+                  "target": "household_019841e9154da6ef",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_019841e9154da6ef",
+                  "date": "2025-03-24",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -225,
+                  "control": -224,
+                  "journal": "journal:2025-03-24:16015"
+                },
+                {
+                  "target": "household_0194bde9154a90cc",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bde9154a90cc",
+                  "date": "2025-03-25",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -741,
+                  "control": -740,
+                  "journal": "journal:2025-03-25:16075"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+              "way": "out",
+              "targets": 2,
+              "moved": 386,
+              "earliest": "2025-02-06",
+              "sample": [
+                {
+                  "target": "household_018e4ce91545651b",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018e4ce91545651b",
+                  "date": "2025-02-06",
+                  "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+                  "way": "out",
+                  "treatment": -39432,
+                  "control": -39239,
+                  "journal": "journal:2025-02-06:7971"
+                },
+                {
+                  "target": "household_0191bce915485942",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0191bce915485942",
+                  "date": "2025-02-14",
+                  "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+                  "way": "out",
+                  "treatment": -39432,
+                  "control": -39239,
+                  "journal": "journal:2025-02-14:8201"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "moved": 5074,
+              "earliest": "2025-08-01",
+              "sample": [
+                {
+                  "target": "household_0194bfe9154a9432",
+                  "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bfe9154a9432",
+                  "date": "2025-08-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 29221,
+                  "control": 24147,
+                  "journal": "journal:2025-08-01:50150"
+                }
+              ]
+            }
+          ],
+          "paid": 54,
+          "pick": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|in",
+          "sample": [
+            {
+              "target": "household_0180b9e91539e0f6",
+              "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
+              "date": "2025-02-03",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "way": "in",
+              "treatment": 202,
+              "control": 0,
+              "journal": "journal:2025-02-03:7680"
+            },
+            {
+              "target": "household_0180bae91539e2a9",
+              "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bae91539e2a9",
+              "date": "2025-02-03",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "way": "in",
+              "treatment": 385,
+              "control": 0,
+              "journal": "journal:2025-02-03:7682"
+            },
+            {
+              "target": "household_0180bce91539e60f",
+              "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bce91539e60f",
+              "date": "2025-02-03",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "way": "in",
+              "treatment": 506,
+              "control": 0,
+              "journal": "journal:2025-02-03:7700"
+            },
+            {
+              "target": "household_0180bde91539e7c2",
+              "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bde91539e7c2",
+              "date": "2025-02-03",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "way": "in",
+              "treatment": 459,
+              "control": 0,
+              "journal": "journal:2025-02-03:7684"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "way": "in",
+              "targets": 54,
+              "first": {
+                "target": "household_0180b9e91539e0f6",
+                "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
+                "date": "2025-02-03",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+                "way": "in",
+                "treatment": 202,
+                "control": 0,
+                "journal": "journal:2025-02-03:7680"
+              }
+            }
+          ]
         }
-       ]
       },
-      {
-       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-       "way": "out",
-       "targets": 41,
-       "moved": 42929,
-       "earliest": "2025-03-01",
-       "sample": [
-        {
-         "target": "household_0180bce91539e60f",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bce91539e60f",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "out",
-         "treatment": -594289,
-         "control": -593783,
-         "journal": "journal:2025-03-01:8831"
-        },
-        {
-         "target": "household_0180c1e91539ee8e",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180c1e91539ee8e",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "out",
-         "treatment": -111613,
-         "control": -111161,
-         "journal": "journal:2025-03-01:8830"
-        },
-        {
-         "target": "household_018749e9153f4154",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018749e9153f4154",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "out",
-         "treatment": -266526,
-         "control": -266079,
-         "journal": "journal:2025-03-01:8829"
-        },
-        {
-         "target": "household_018ac9e9154250ab",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018ac9e9154250ab",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "out",
-         "treatment": -632316,
-         "control": -631884,
-         "journal": "journal:2025-03-01:8827"
-        }
-       ]
+      "web": {
+        "links": [
+          {
+            "key": "mileage-fee-to-vehicle-miles",
+            "status": "built",
+            "to": "traffic.vehicle-miles"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.00005833333333333333
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.00005833333333333333
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.00011666666666666667
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.00023333333333333333
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.00029166666666666664
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.00029166666666666664
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.00035000000000000005
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.00040833333333333336
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-09",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.00046666666666666666
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-10",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.000525
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-11",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.0005833333333333333
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-12",
+            "link": "mileage-fee-to-vehicle-miles",
+            "effect": 0.0006416666666666667
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "month": "2025-05",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "month": "2025-06",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "month": "2025-07",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "month": "2025-08",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-09",
+            "month": "2025-09",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-10",
+            "month": "2025-10",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-11",
+            "month": "2025-11",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-12",
+            "month": "2025-12",
+            "link": "mileage-fee-to-vehicle-miles",
+            "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
       },
-      {
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-       "way": "out",
-       "targets": 5,
-       "moved": 3218,
-       "earliest": "2025-03-01",
-       "sample": [
-        {
-         "target": "household_0180b9e91539e0f6",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "out",
-         "treatment": -94405,
-         "control": -94205,
-         "journal": "journal:2025-03-01:8929"
-        },
-        {
-         "target": "household_01983fe9154da389",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_01983fe9154da389",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "out",
-         "treatment": -100639,
-         "control": -100268,
-         "journal": "journal:2025-03-01:9990"
-        },
-        {
-         "target": "household_b1a74b5839224c81",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_b1a74b5839224c81",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "out",
-         "treatment": -4792,
-         "control": -4373,
-         "journal": "journal:2025-03-01:10313"
-        },
-        {
-         "target": "household_019841e9154da6ef",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_019841e9154da6ef",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "out",
-         "treatment": -164350,
-         "control": -163499,
-         "journal": "journal:2025-04-01:17951"
-        }
-       ]
+      "heard": {
+        "people": 77,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871"
+        ]
       },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-       "way": "in",
-       "targets": 5,
-       "moved": 2137,
-       "earliest": "2025-02-05",
-       "sample": [
-        {
-         "target": "household_0180bae91539e2a9",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bae91539e2a9",
-         "date": "2025-02-05",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "in",
-         "treatment": -15443,
-         "control": -15828,
-         "journal": "journal:2025-02-05:7895"
-        },
-        {
-         "target": "household_0180b9e91539e0f6",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
-         "date": "2025-02-13",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "in",
-         "treatment": -2596,
-         "control": -2798,
-         "journal": "journal:2025-02-13:8200"
-        },
-        {
-         "target": "household_0183c0e9153c22b2",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0183c0e9153c22b2",
-         "date": "2025-03-03",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "in",
-         "treatment": -8626,
-         "control": -8771,
-         "journal": "journal:2025-03-03:15243"
-        },
-        {
-         "target": "household_0183c7e9153c2e97",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0183c7e9153c2e97",
-         "date": "2025-04-14",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "in",
-         "treatment": -36574,
-         "control": -36989,
-         "journal": "journal:2025-04-14:23665"
-        }
-       ]
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
       },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-       "way": "out",
-       "targets": 5,
-       "moved": 1724,
-       "earliest": "2025-02-03",
-       "sample": [
-        {
-         "target": "household_0180b9e91539e0f6",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
-         "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -202,
-         "control": 0,
-         "journal": "journal:2025-02-03:7818"
-        },
-        {
-         "target": "household_0180bae91539e2a9",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bae91539e2a9",
-         "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -385,
-         "control": 0,
-         "journal": "journal:2025-02-03:7819"
-        },
-        {
-         "target": "household_0183c7e9153c2e97",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0183c7e9153c2e97",
-         "date": "2025-04-03",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -415,
-         "control": 0,
-         "journal": "journal:2025-04-03:23174"
-        },
-        {
-         "target": "household_018ac8e915424ef8",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018ac8e915424ef8",
-         "date": "2025-04-03",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -346,
-         "control": 0,
-         "journal": "journal:2025-04-03:23175"
-        }
-       ]
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
       },
-      {
-       "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
-       "way": "in",
-       "targets": 4,
-       "moved": 4,
-       "earliest": "2025-03-18",
-       "sample": [
-        {
-         "target": "household_018acde915425777",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018acde915425777",
-         "date": "2025-03-18",
-         "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
-         "way": "in",
-         "treatment": 208,
-         "control": 207,
-         "journal": "journal:2025-03-18:15887"
-        },
-        {
-         "target": "household_0180b9e91539e0f6",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
-         "date": "2025-05-01",
-         "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
-         "way": "in",
-         "treatment": 497,
-         "control": 496,
-         "journal": "journal:2025-05-01:26417"
-        },
-        {
-         "target": "household_0194bae9154a8bb3",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bae9154a8bb3",
-         "date": "2025-05-01",
-         "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
-         "way": "in",
-         "treatment": -131,
-         "control": -132,
-         "journal": "journal:2025-05-01:30876"
-        },
-        {
-         "target": "household_019841e9154da6ef",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_019841e9154da6ef",
-         "date": "2025-05-01",
-         "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
-         "way": "in",
-         "treatment": 311,
-         "control": 310,
-         "journal": "journal:2025-05-01:26418"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-       "way": "in",
-       "targets": 3,
-       "moved": 3,
-       "earliest": "2025-09-01",
-       "sample": [
-        {
-         "target": "household_0194bfe9154a9432",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bfe9154a9432",
-         "date": "2025-09-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "in",
-         "treatment": -447673,
-         "control": -447674,
-         "journal": "journal:2025-09-01:60398"
-        },
-        {
-         "target": "household_0194bce9154a8f19",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bce9154a8f19",
-         "date": "2025-11-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "in",
-         "treatment": -232938,
-         "control": -232939,
-         "journal": "journal:2025-11-01:78055"
-        },
-        {
-         "target": "household_0180b8e91539df43",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b8e91539df43",
-         "date": "2025-12-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "in",
-         "treatment": -47545,
-         "control": -47546,
-         "journal": "journal:2025-12-01:85620"
-        }
-       ]
-      },
-      {
-       "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
-       "way": "out",
-       "targets": 3,
-       "moved": 3,
-       "earliest": "2025-03-18",
-       "sample": [
-        {
-         "target": "household_0194bae9154a8bb3",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bae9154a8bb3",
-         "date": "2025-03-18",
-         "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
-         "way": "out",
-         "treatment": -208,
-         "control": -207,
-         "journal": "journal:2025-03-18:15887"
-        },
-        {
-         "target": "household_019841e9154da6ef",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_019841e9154da6ef",
-         "date": "2025-03-24",
-         "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
-         "way": "out",
-         "treatment": -225,
-         "control": -224,
-         "journal": "journal:2025-03-24:16015"
-        },
-        {
-         "target": "household_0194bde9154a90cc",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bde9154a90cc",
-         "date": "2025-03-25",
-         "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
-         "way": "out",
-         "treatment": -741,
-         "control": -740,
-         "journal": "journal:2025-03-25:16075"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
-       "way": "out",
-       "targets": 2,
-       "moved": 386,
-       "earliest": "2025-02-06",
-       "sample": [
-        {
-         "target": "household_018e4ce91545651b",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_018e4ce91545651b",
-         "date": "2025-02-06",
-         "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
-         "way": "out",
-         "treatment": -39432,
-         "control": -39239,
-         "journal": "journal:2025-02-06:7971"
-        },
-        {
-         "target": "household_0191bce915485942",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0191bce915485942",
-         "date": "2025-02-14",
-         "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
-         "way": "out",
-         "treatment": -39432,
-         "control": -39239,
-         "journal": "journal:2025-02-14:8201"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-       "way": "in",
-       "targets": 1,
-       "moved": 5074,
-       "earliest": "2025-08-01",
-       "sample": [
-        {
-         "target": "household_0194bfe9154a9432",
-         "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0194bfe9154a9432",
-         "date": "2025-08-01",
-         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-         "way": "in",
-         "treatment": 29221,
-         "control": 24147,
-         "journal": "journal:2025-08-01:50150"
-        }
-       ]
-      }
-     ],
-     "paid": 54,
-     "pick": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|in",
-     "sample": [
-      {
-       "target": "household_0180b9e91539e0f6",
-       "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
-       "date": "2025-02-03",
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-       "way": "in",
-       "treatment": 202,
-       "control": 0,
-       "journal": "journal:2025-02-03:7680"
-      },
-      {
-       "target": "household_0180bae91539e2a9",
-       "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bae91539e2a9",
-       "date": "2025-02-03",
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-       "way": "in",
-       "treatment": 385,
-       "control": 0,
-       "journal": "journal:2025-02-03:7682"
-      },
-      {
-       "target": "household_0180bce91539e60f",
-       "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bce91539e60f",
-       "date": "2025-02-03",
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-       "way": "in",
-       "treatment": 506,
-       "control": 0,
-       "journal": "journal:2025-02-03:7700"
-      },
-      {
-       "target": "household_0180bde91539e7c2",
-       "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180bde91539e7c2",
-       "date": "2025-02-03",
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-       "way": "in",
-       "treatment": 459,
-       "control": 0,
-       "journal": "journal:2025-02-03:7684"
-      }
-     ],
-     "near": [
-      {
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-       "way": "in",
-       "targets": 54,
-       "first": {
-        "target": "household_0180b9e91539e0f6",
-        "row": "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0180b9e91539e0f6",
-        "date": "2025-02-03",
-        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-        "way": "in",
-        "treatment": 202,
-        "control": 0,
-        "journal": "journal:2025-02-03:7680"
-       }
-      }
-     ]
+      "seconds": 66
     }
-   },
-   "web": {
-    "links": [
-     {
-      "key": "mileage-fee-to-vehicle-miles",
-      "status": "built",
-      "to": "traffic.vehicle-miles"
-     }
-    ],
-    "fired": [
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.00005833333333333333
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.00005833333333333333
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.00011666666666666667
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.00023333333333333333
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.00029166666666666664
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.00029166666666666664
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.00035000000000000005
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.00040833333333333336
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-09",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.00046666666666666666
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-10",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.000525
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-11",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.0005833333333333333
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-12",
-      "link": "mileage-fee-to-vehicle-miles",
-      "effect": 0.0006416666666666667
-     }
-    ],
-    "firedCount": 13,
-    "windowDays": 365,
-    "cause": [
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
-      "month": "2025-01",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
-      "month": "2025-02",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
-      "month": "2025-03",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
-      "month": "2025-04",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
-      "month": "2025-05",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
-      "month": "2025-06",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
-      "month": "2025-07",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
-      "month": "2025-08",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-09",
-      "month": "2025-09",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-10",
-      "month": "2025-10",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-11",
-      "month": "2025-11",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-12",
-      "month": "2025-12",
-      "link": "mileage-fee-to-vehicle-miles",
-      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "lagMonths": 0,
-      "treated": 1,
-      "control": 0
-     }
-    ],
-    "reenacted": null
-   },
-   "heard": {
-    "people": 77,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
-     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
-     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 66
-  }
- ]
+  ]
 }

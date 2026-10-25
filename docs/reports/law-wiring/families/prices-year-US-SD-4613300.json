@@ -1,548 +1,548 @@
 {
- "seed": "8a0a30a37a501",
- "place": {
-  "seed": "4c2b2ebd8ce5c28bd319860dad00df3157bb92173c12d7c0d1715bab1b045f81",
-  "key": "4613300",
-  "name": "Colome, South Dakota",
-  "state": "US-SD"
- },
- "window": 365,
- "after": 31,
- "results": [
-  {
-   "key": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-   "kind": "question",
-   "family": "taxes-finance",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25) effective 2025-01-21; then repealed at city effective 2026-01-22",
-   "lawIds": [
-    "law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
-    "law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2026-01-22:law-wiring-0854ab25-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 224,
-    "countedGroups": 2,
-    "countedPeople": 171,
-    "households": 0,
-    "organizations": 6,
-    "governments": 0,
-    "other": 0,
-    "open": 232,
-    "ended": 3,
-    "sample": [
-     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_009c82349e231376|2025-01-21",
-     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0327ceaee3c355ed|2025-01-21",
-     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_047c93dcae8537e8|2025-01-21",
-     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_067d46d5616dd105|2025-01-21"
-    ]
-   },
-   "reachAtEnd": {
-    "fullPeople": 219,
-    "countedGroups": 2,
-    "countedPeople": 184,
-    "households": 0,
-    "organizations": 6,
-    "governments": 0,
-    "other": 0,
-    "open": 227,
-    "ended": 10,
-    "sample": [
-     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_009c82349e231376|2025-01-21",
-     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0327ceaee3c355ed|2025-01-21",
-     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_047c93dcae8537e8|2025-01-21",
-     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_067d46d5616dd105|2025-01-21"
-    ]
-   },
-   "inPlay": [],
-   "readers": {
-    "src/core2/modules/outcome-web.ts:166": 313,
-    "src/core2/modules/world-legislating.ts:253": 192,
-    "src/core2/modules/legislature.ts:2126": 84,
-    "src/core2/policy-authority.ts:47": 74,
-    "src/core2/modules/world-legislating.ts:183": 64,
-    "src/core2/law-reach/group-b.ts:229 <- src/core2/life.ts:556": 48,
-    "src/core2/modules/budgets.ts:959": 12,
-    "src/core2/life.ts:556": 5,
-    "src/core2/modules/world-legislating.ts:333": 4
-   },
-   "openingRow": "law:US-SD:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
-   "money": {
-    "direct": [
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
-      "treatment": 3152131890,
-      "control": 3152136587,
-      "ids": [
-       "journal:2025-01-26:1627",
-       "journal:2025-01-27:1643",
-       "journal:2025-01-28:1650"
-      ]
-     }
-    ],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-      "treatment": 20835456,
-      "control": 26005158,
-      "ids": [
-       "journal:2025-02-01:2018",
-       "journal:2025-02-01:2019",
-       "journal:2025-02-01:2021"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 701034665777831,
-      "control": 701034667263380,
-      "ids": [
-       "journal:2025-02-01:1726",
-       "journal:2025-02-01:1727",
-       "journal:2025-02-01:1728"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1096601165,
-      "control": 1097665700,
-      "ids": [
-       "journal:2025-01-21:1555",
-       "journal:2025-01-21:1556",
-       "journal:2025-01-21:1557"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 479690449,
-      "control": 478631131,
-      "ids": [
-       "journal:2025-02-01:3225",
-       "journal:2025-02-01:3226",
-       "journal:2025-02-01:3227"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 372001851,
-      "control": 372083584,
-      "ids": [
-       "journal:2025-01-25:1620",
-       "journal:2025-01-25:1622",
-       "journal:2025-01-25:1624"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 91550442,
-      "control": 91600176,
-      "ids": [
-       "journal:2025-01-21:1599",
-       "journal:2025-02-01:1958",
-       "journal:2025-02-01:1959"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 324113339,
-      "control": 324139386,
-      "ids": [
-       "journal:2025-01-21:1579",
-       "journal:2025-01-21:1580",
-       "journal:2025-01-21:1581"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
-      "treatment": 176870527701380,
-      "control": 176870527696529,
-      "ids": [
-       "journal:2025-02-01:1716",
-       "journal:2025-02-01:1717",
-       "journal:2025-02-01:1718"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
-      "treatment": 3152131890,
-      "control": 3152136587,
-      "ids": [
-       "journal:2025-01-26:1627",
-       "journal:2025-01-27:1643",
-       "journal:2025-01-28:1650"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/press-money.ts:374",
-      "treatment": 13233641,
-      "control": 13237594,
-      "ids": [
-       "journal:2025-01-27:1631",
-       "journal:2025-01-27:1632",
-       "journal:2025-01-27:1633"
-      ]
-     },
-     {
-      "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
-      "treatment": 6056884,
-      "control": 6057510,
-      "ids": [
-       "journal:2025-07-01:48283",
-       "journal:2025-10-01:72681",
-       "journal:2025-10-01:72684"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:812",
-      "treatment": 78386036615974,
-      "control": 78386036615556,
-      "ids": [
-       "journal:2025-02-01:1704",
-       "journal:2025-02-01:1705",
-       "journal:2025-02-01:1706"
-      ]
-     }
-    ],
-    "diffKinds": 14,
-    "cited": [],
-    "controlCited": [],
-    "own": {
-     "targets": 3,
-     "among": "paid",
-     "pairs": [
-      {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-       "way": "in",
-       "targets": 3,
-       "moved": 321420,
-       "earliest": "2025-02-01",
-       "sample": [
-        {
-         "target": "organization_54516994503e0a5c",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
-         "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-         "way": "in",
-         "treatment": -26256,
-         "control": -108138,
-         "journal": "journal:2025-02-01:2033"
-        },
-        {
-         "target": "organization_54516a94503e0c0f",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516a94503e0c0f",
-         "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-         "way": "in",
-         "treatment": -45594,
-         "control": -187749,
-         "journal": "journal:2025-02-01:2036"
-        },
-        {
-         "target": "organization_54516b94503e0dc2",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516b94503e0dc2",
-         "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-         "way": "in",
-         "treatment": -31237,
-         "control": -128620,
-         "journal": "journal:2025-02-01:2039"
+  "seed": "8a0a30a37a501",
+  "place": {
+    "seed": "4c2b2ebd8ce5c28bd319860dad00df3157bb92173c12d7c0d1715bab1b045f81",
+    "key": "4613300",
+    "name": "Colome, South Dakota",
+    "state": "US-SD"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "kind": "question",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
+        "law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2026-01-22:law-wiring-0854ab25-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 224,
+        "countedGroups": 2,
+        "countedPeople": 171,
+        "households": 0,
+        "organizations": 6,
+        "governments": 0,
+        "other": 0,
+        "open": 232,
+        "ended": 3,
+        "sample": [
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_009c82349e231376|2025-01-21",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0327ceaee3c355ed|2025-01-21",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_047c93dcae8537e8|2025-01-21",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_067d46d5616dd105|2025-01-21"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 219,
+        "countedGroups": 2,
+        "countedPeople": 184,
+        "households": 0,
+        "organizations": 6,
+        "governments": 0,
+        "other": 0,
+        "open": 227,
+        "ended": 10,
+        "sample": [
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_009c82349e231376|2025-01-21",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0327ceaee3c355ed|2025-01-21",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_047c93dcae8537e8|2025-01-21",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_067d46d5616dd105|2025-01-21"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:166": 313,
+        "src/core2/modules/world-legislating.ts:253": 192,
+        "src/core2/modules/legislature.ts:2126": 84,
+        "src/core2/policy-authority.ts:47": 74,
+        "src/core2/modules/world-legislating.ts:183": 64,
+        "src/core2/law-reach/group-b.ts:229 <- src/core2/life.ts:556": 48,
+        "src/core2/modules/budgets.ts:959": 12,
+        "src/core2/life.ts:556": 5,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-SD:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3152131890,
+            "control": 3152136587,
+            "ids": [
+              "journal:2025-01-26:1627",
+              "journal:2025-01-27:1643",
+              "journal:2025-01-28:1650"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+            "treatment": 20835456,
+            "control": 26005158,
+            "ids": [
+              "journal:2025-02-01:2018",
+              "journal:2025-02-01:2019",
+              "journal:2025-02-01:2021"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 701034665777831,
+            "control": 701034667263380,
+            "ids": [
+              "journal:2025-02-01:1726",
+              "journal:2025-02-01:1727",
+              "journal:2025-02-01:1728"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1096601165,
+            "control": 1097665700,
+            "ids": [
+              "journal:2025-01-21:1555",
+              "journal:2025-01-21:1556",
+              "journal:2025-01-21:1557"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 479690449,
+            "control": 478631131,
+            "ids": [
+              "journal:2025-02-01:3225",
+              "journal:2025-02-01:3226",
+              "journal:2025-02-01:3227"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 372001851,
+            "control": 372083584,
+            "ids": [
+              "journal:2025-01-25:1620",
+              "journal:2025-01-25:1622",
+              "journal:2025-01-25:1624"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 91550442,
+            "control": 91600176,
+            "ids": [
+              "journal:2025-01-21:1599",
+              "journal:2025-02-01:1958",
+              "journal:2025-02-01:1959"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 324113339,
+            "control": 324139386,
+            "ids": [
+              "journal:2025-01-21:1579",
+              "journal:2025-01-21:1580",
+              "journal:2025-01-21:1581"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 176870527701380,
+            "control": 176870527696529,
+            "ids": [
+              "journal:2025-02-01:1716",
+              "journal:2025-02-01:1717",
+              "journal:2025-02-01:1718"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3152131890,
+            "control": 3152136587,
+            "ids": [
+              "journal:2025-01-26:1627",
+              "journal:2025-01-27:1643",
+              "journal:2025-01-28:1650"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/press-money.ts:374",
+            "treatment": 13233641,
+            "control": 13237594,
+            "ids": [
+              "journal:2025-01-27:1631",
+              "journal:2025-01-27:1632",
+              "journal:2025-01-27:1633"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
+            "treatment": 6056884,
+            "control": 6057510,
+            "ids": [
+              "journal:2025-07-01:48283",
+              "journal:2025-10-01:72681",
+              "journal:2025-10-01:72684"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:812",
+            "treatment": 78386036615974,
+            "control": 78386036615556,
+            "ids": [
+              "journal:2025-02-01:1704",
+              "journal:2025-02-01:1705",
+              "journal:2025-02-01:1706"
+            ]
+          }
+        ],
+        "diffKinds": 14,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 3,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+              "way": "in",
+              "targets": 3,
+              "moved": 321420,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_54516994503e0a5c",
+                  "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+                  "way": "in",
+                  "treatment": -26256,
+                  "control": -108138,
+                  "journal": "journal:2025-02-01:2033"
+                },
+                {
+                  "target": "organization_54516a94503e0c0f",
+                  "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516a94503e0c0f",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+                  "way": "in",
+                  "treatment": -45594,
+                  "control": -187749,
+                  "journal": "journal:2025-02-01:2036"
+                },
+                {
+                  "target": "organization_54516b94503e0dc2",
+                  "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516b94503e0dc2",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+                  "way": "in",
+                  "treatment": -31237,
+                  "control": -128620,
+                  "journal": "journal:2025-02-01:2039"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 1,
+              "moved": 49694,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "organization_54516994503e0a5c",
+                  "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -49694,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:17117"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "in",
+              "targets": 1,
+              "moved": 49694,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "organization_54516994503e0a5c",
+                  "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": 49694,
+                  "control": 0,
+                  "journal": "journal:2025-05-01:25280"
+                }
+              ]
+            }
+          ],
+          "paid": 3,
+          "pick": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274|in",
+          "sample": [
+            {
+              "target": "organization_54516994503e0a5c",
+              "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+              "way": "in",
+              "treatment": -26256,
+              "control": -108138,
+              "journal": "journal:2025-02-01:2033"
+            },
+            {
+              "target": "organization_54516a94503e0c0f",
+              "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516a94503e0c0f",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+              "way": "in",
+              "treatment": -45594,
+              "control": -187749,
+              "journal": "journal:2025-02-01:2036"
+            },
+            {
+              "target": "organization_54516b94503e0dc2",
+              "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516b94503e0dc2",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+              "way": "in",
+              "treatment": -31237,
+              "control": -128620,
+              "journal": "journal:2025-02-01:2039"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+              "way": "in",
+              "targets": 3,
+              "first": {
+                "target": "organization_54516994503e0a5c",
+                "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+                "way": "in",
+                "treatment": -26256,
+                "control": -108138,
+                "journal": "journal:2025-02-01:2033"
+              }
+            }
+          ]
         }
-       ]
       },
-      {
-       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-       "way": "out",
-       "targets": 1,
-       "moved": 49694,
-       "earliest": "2025-04-01",
-       "sample": [
-        {
-         "target": "organization_54516994503e0a5c",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "out",
-         "treatment": -49694,
-         "control": 0,
-         "journal": "journal:2025-04-01:17117"
-        }
-       ]
+      "web": {
+        "links": [
+          {
+            "key": "grocery-exemption-to-poverty",
+            "status": "about-zero",
+            "to": "household.poverty-pct"
+          },
+          {
+            "key": "grocery-exemption-to-food-insecurity",
+            "status": "built",
+            "to": "household.food-insecurity"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-08",
+            "link": "grocery-exemption-to-food-insecurity",
+            "effect": -0.02
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-09",
+            "link": "grocery-exemption-to-food-insecurity",
+            "effect": -0.02
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-10",
+            "link": "grocery-exemption-to-food-insecurity",
+            "effect": -0.02
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-11",
+            "link": "grocery-exemption-to-food-insecurity",
+            "effect": -0.02
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-12",
+            "link": "grocery-exemption-to-food-insecurity",
+            "effect": -0.02
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2026-01",
+            "link": "grocery-exemption-to-food-insecurity",
+            "effect": -0.02
+          }
+        ],
+        "firedCount": 6,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-01",
+            "month": "2025-01",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-02",
+            "month": "2025-02",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-03",
+            "month": "2025-03",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-04",
+            "month": "2025-04",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-05",
+            "month": "2025-05",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-06",
+            "month": "2025-06",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-07",
+            "month": "2025-07",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-08",
+            "month": "2025-08",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-09",
+            "month": "2025-09",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-10",
+            "month": "2025-10",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-11",
+            "month": "2025-11",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_309b0ef82ebd0e42:2025-12",
+            "month": "2025-12",
+            "link": "grocery-exemption-to-food-insecurity",
+            "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
       },
-      {
-       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-       "way": "in",
-       "targets": 1,
-       "moved": 49694,
-       "earliest": "2025-05-01",
-       "sample": [
-        {
-         "target": "organization_54516994503e0a5c",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "in",
-         "treatment": 49694,
-         "control": 0,
-         "journal": "journal:2025-05-01:25280"
-        }
-       ]
-      }
-     ],
-     "paid": 3,
-     "pick": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274|in",
-     "sample": [
-      {
-       "target": "organization_54516994503e0a5c",
-       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
-       "date": "2025-02-01",
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-       "way": "in",
-       "treatment": -26256,
-       "control": -108138,
-       "journal": "journal:2025-02-01:2033"
+      "heard": {
+        "people": 93,
+        "sample": [
+          "person_0f191d3cca699b51:printed:outlet:television:2:jurisdiction_309b0ef82ebd0e42:law-took-effect:law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
+          "person_140b11d8dbb5f81a:printed:outlet:television:2:jurisdiction_309b0ef82ebd0e42:law-took-effect:law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
+          "person_420cd9a3a00ffd7d:printed:outlet:television:2:jurisdiction_309b0ef82ebd0e42:law-took-effect:law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25"
+        ]
       },
-      {
-       "target": "organization_54516a94503e0c0f",
-       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516a94503e0c0f",
-       "date": "2025-02-01",
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-       "way": "in",
-       "treatment": -45594,
-       "control": -187749,
-       "journal": "journal:2025-02-01:2036"
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 67,
+        "sample": []
       },
-      {
-       "target": "organization_54516b94503e0dc2",
-       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516b94503e0dc2",
-       "date": "2025-02-01",
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-       "way": "in",
-       "treatment": -31237,
-       "control": -128620,
-       "journal": "journal:2025-02-01:2039"
-      }
-     ],
-     "near": [
-      {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-       "way": "in",
-       "targets": 3,
-       "first": {
-        "target": "organization_54516994503e0a5c",
-        "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
-        "date": "2025-02-01",
-        "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
-        "way": "in",
-        "treatment": -26256,
-        "control": -108138,
-        "journal": "journal:2025-02-01:2033"
-       }
-      }
-     ]
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 66,
+        "sample": []
+      },
+      "seconds": 70
     }
-   },
-   "web": {
-    "links": [
-     {
-      "key": "grocery-exemption-to-poverty",
-      "status": "about-zero",
-      "to": "household.poverty-pct"
-     },
-     {
-      "key": "grocery-exemption-to-food-insecurity",
-      "status": "built",
-      "to": "household.food-insecurity"
-     }
-    ],
-    "fired": [
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-08",
-      "link": "grocery-exemption-to-food-insecurity",
-      "effect": -0.02
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-09",
-      "link": "grocery-exemption-to-food-insecurity",
-      "effect": -0.02
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-10",
-      "link": "grocery-exemption-to-food-insecurity",
-      "effect": -0.02
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-11",
-      "link": "grocery-exemption-to-food-insecurity",
-      "effect": -0.02
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-12",
-      "link": "grocery-exemption-to-food-insecurity",
-      "effect": -0.02
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2026-01",
-      "link": "grocery-exemption-to-food-insecurity",
-      "effect": -0.02
-     }
-    ],
-    "firedCount": 6,
-    "windowDays": 365,
-    "cause": [
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-01",
-      "month": "2025-01",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-02",
-      "month": "2025-02",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-03",
-      "month": "2025-03",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-04",
-      "month": "2025-04",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-05",
-      "month": "2025-05",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-06",
-      "month": "2025-06",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-07",
-      "month": "2025-07",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-08",
-      "month": "2025-08",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-09",
-      "month": "2025-09",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-10",
-      "month": "2025-10",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-11",
-      "month": "2025-11",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_309b0ef82ebd0e42:2025-12",
-      "month": "2025-12",
-      "link": "grocery-exemption-to-food-insecurity",
-      "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "lagMonths": 6,
-      "treated": 1,
-      "control": 0
-     }
-    ],
-    "reenacted": null
-   },
-   "heard": {
-    "people": 93,
-    "sample": [
-     "person_0f191d3cca699b51:printed:outlet:television:2:jurisdiction_309b0ef82ebd0e42:law-took-effect:law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
-     "person_140b11d8dbb5f81a:printed:outlet:television:2:jurisdiction_309b0ef82ebd0e42:law-took-effect:law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
-     "person_420cd9a3a00ffd7d:printed:outlet:television:2:jurisdiction_309b0ef82ebd0e42:law-took-effect:law:place:4613300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 67,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 66,
-    "sample": []
-   },
-   "seconds": 70
-  }
- ]
+  ]
 }
