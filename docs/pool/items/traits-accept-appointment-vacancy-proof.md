@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/traits-accept-appointment-proof
+pr: #6033
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T12:38:41.717Z
 ---
 
 **What.** offices.accept-appointment (a person weighing a local post offered by appointment, src/core2/modules/offices.ts fillVacancy) runs only when a city, county or township seat falls vacant, its vacancy rule appoints, and no named successor is given. A vacancy needs the official to die or move away, which a one-year window in a small town rarely holds, so the trait audit reports it silent (data/content/trait-decision-gaps.json). Find a drawn place and year that hold such a vacancy (scan seeds for a seat-vacated record on a local seat with an appointing rule) and run the audit there, so the matrix shows its calls with the decision's record id.
