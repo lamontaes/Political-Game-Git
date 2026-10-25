@@ -35,6 +35,7 @@ import type {
   CoreAPI,
   CoreModule,
   CoreState,
+  PersonId,
   PersonState,
   Source,
 } from "../types";
@@ -59,7 +60,12 @@ import {
   partyTie,
   type TieRow,
 } from "./parties";
-import { agreementWith, VIEWS_SPEAKER_KEY } from "./views";
+import { agreementWith, viewOn, VIEWS_SPEAKER_KEY } from "./views";
+import {
+  LEGISLATURE_MODULE_ID,
+  provisionStance,
+  type BillRow,
+} from "./legislature";
 import { recordAppeal } from "./record";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
@@ -1284,6 +1290,7 @@ export function askForDonation(
     ...campaignFor(api, filingId),
     raisedMinor: campaignFor(api, filingId).raisedMinor + amount,
   });
+  recordGift(api, filingId, donorId, amount, given + amount);
   return amount;
 }
 
@@ -1457,6 +1464,101 @@ function spend(
     spentMinor: campaign.spentMinor + input.amountMinor,
     spentByKind: byKind,
   });
+}
+
+/**
+ * A gift from someone other than the candidate is a public record, as a
+ * campaign finance report names each contributor: who gave, how much, their
+ * total, and the share it is of what others have given the campaign. A
+ * donor who holds a view on a bill pending before the body the seat sits on
+ * names the one they hold most strongly, the bill they will want to talk
+ * about.
+ */
+function recordGift(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+  amountMinor: number,
+  totalMinor: number,
+): void {
+  const campaign = campaignFor(api, filingId);
+  const donor = api.state.people.get(donorId);
+  if (
+    donorId === campaign.candidateId ||
+    !donor ||
+    !api.state.people.has(campaign.candidateId)
+  )
+    return;
+  const bill = donorsBill(api, campaign, donor);
+  // The share of what others have given: the candidate's own money is theirs.
+  const outside =
+    campaign.raisedMinor -
+    (giftOf(api, filingId, campaign.candidateId)?.totalMinor ?? 0);
+  api.emit({
+    id: `campaign-gift:${filingId}:${donorId}:${api.state.date}:${totalMinor}`,
+    date: api.state.date,
+    kind: "campaign-gift",
+    personIds: [campaign.candidateId, donorId],
+    placeId: townRow(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `A contribution to ${campaign.organizationId}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    facts: {
+      filingId,
+      contestId: campaign.contestId,
+      candidateId: campaign.candidateId,
+      donorId,
+      amountMinor: String(amountMinor),
+      totalMinor: String(totalMinor),
+      raisedMinor: String(campaign.raisedMinor),
+      share: String(amountMinor / outside),
+      ...(bill ? { billId: bill.id, number: bill.number } : {}),
+    },
+  });
+}
+
+/**
+ * The bill pending before the body a campaign's seat sits on that the donor
+ * holds the strongest view on, either way; none where nothing is pending.
+ */
+function donorsBill(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  donor: Readonly<PersonState>,
+): BillRow | undefined {
+  if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
+  const contest = elections(api, "contests").get(
+    campaign.contestId,
+  ) as unknown as ContestRow | undefined;
+  if (!contest) return undefined;
+  const lean = personLean(api.state.people, donor, townRow(api).lean);
+  let best: { bill: BillRow; strength: number } | undefined;
+  for (const row of api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .rows() as unknown as BillRow[]) {
+    if (row.bodyOfficeId !== contest.officeId || row.status !== "drafted")
+      continue;
+    if (!row.number) continue;
+    const stance = row.provisions[0]
+      ? provisionStance(api, row.provisions[0])
+      : null;
+    if (!stance) continue;
+    const strength = Math.abs(
+      viewOn(api, donor.id as PersonId, stance.question, lean),
+    );
+    if (
+      strength > 0 &&
+      (!best ||
+        strength > best.strength ||
+        (strength === best.strength && row.id < best.bill.id))
+    )
+      best = { bill: row, strength };
+  }
+  return best?.bill;
 }
 
 function postMoney(

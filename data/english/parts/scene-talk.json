@@ -18060,6 +18060,188 @@
         "move": "promise",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.state-request.i-was-glad-to-help-your-campaign-i-ll-want-your-ear-when-it-counts",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I was glad to help your campaign. I'll want your ear when it counts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.that-check-wasn-t-charity-when-i-call-i-need-you-to-pick-up",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "That check wasn't charity. When I call, I need you to pick up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-backed-you-early-i-d-like-to-know-i-can-count-on-you-later",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I backed you early. I'd like to know I can count on you later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-gave-because-i-think-you-ll-listen-keep-listening",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I gave because I think you'll listen. Keep listening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-put-my-money-behind-you-now-i-need-to-know-where-you-stand-on-what-i",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I put my money behind you. Now I need to know where you stand on what I care about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-gave-to-your-campaign-because-of-bill-i-need-you-with-me-on-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I gave to your campaign because of {bill}. I need you with me on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.that-check-was-about-bill-don-t-forget-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "That check was about {bill}. Don't forget it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
     }
   ]
 }

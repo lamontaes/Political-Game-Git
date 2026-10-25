@@ -13,6 +13,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDesignation } from "../english/bill-names";
+import { dollars } from "../english/bill-sections";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import type { Fact } from "./render";
@@ -145,6 +146,18 @@ export function purposeScene(
       text: said.traded ?? "",
       sourceRecordIds: [moment.causeId],
     };
+  // A donor's gift to the campaign (campaigns.ts recordGift): what they gave,
+  // and the lines about a gift need it.
+  if (record?.kind === "campaign-gift") {
+    const gift = {
+      text: dollars(Number(said.amountMinor)),
+      sourceRecordIds: [moment.causeId],
+    };
+    facts.money = gift;
+    facts.gift = gift;
+    // The bill the donor holds the strongest view on, when one is pending.
+    if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
+  }
   // A debate the race just held (meetings.ts holdDebate): the lines about the
   // debate that just ended need it.
   if (record?.kind === "debate")

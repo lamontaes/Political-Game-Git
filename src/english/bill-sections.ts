@@ -109,7 +109,8 @@ const longDate = (iso: string) =>
     timeZone: "UTC",
   });
 
-const dollars = (minor: number) =>
+/** An amount of money as it is said: "$250", "$12.50". */
+export const dollars = (minor: number) =>
   `$${(minor / 100).toLocaleString("en-US", {
     minimumFractionDigits: Number.isInteger(minor / 100) ? 0 : 2,
   })}`;

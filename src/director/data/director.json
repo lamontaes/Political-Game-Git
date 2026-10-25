@@ -407,6 +407,12 @@
       "citation": "Speaking to a campaign crowd, sized like hearing back from a town office (0.15): no Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967), and it sits below filing to run (0.28) so it reaches the candidate's journal without interrupting play (interrupt line 0.5). Checked by the stop appearing as a scene for a campaigning candidate in a played year.",
       "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
     },
+    "directorCampaignGiftImpact": {
+      "value": 0.28,
+      "tag": "ESTIMATED",
+      "citation": "A gift that is everything others have given a campaign, sized like filing to run (0.28), and scaled by the gift's share of what others have given the campaign, so a first or large outside gift is a moment for the candidate and a small late one falls under the moment floor (0.11). No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967). Checked by a donor's gift firing the donor's ask in a played campaign.",
+      "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.15 to 0.35"
+    },
     "directorOfficeReplyImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
@@ -1282,6 +1288,12 @@
       "eventKind": "debate",
       "channel": "cause",
       "impactParameter": "directorCampaignSpeechImpact"
+    },
+    {
+      "eventKind": "campaign-gift",
+      "channel": "money",
+      "impactParameter": "directorCampaignGiftImpact",
+      "scaleFact": "share"
     },
     {
       "eventKind": "executive-action",

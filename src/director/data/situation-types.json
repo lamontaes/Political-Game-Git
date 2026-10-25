@@ -2834,13 +2834,14 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "donor-ask",
-          "causeEngine": "campaigns",
-          "causeRecord": "campaign-contribution",
-          "bind": {
-            "donor": "donor",
-            "you": "subject"
+          "match": {
+            "label": "money:event:campaign-gift",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "candidateId", "is": "subject" }]
           },
+          "causeEngine": "campaigns",
+          "causeRecord": "campaign-gift",
+          "bind": { "donor": "counterpart", "you": "subject" },
           "opener": "donor"
         }
       ],
