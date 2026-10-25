@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/candidacy-rerun-bound
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T08:14:53.565Z
 ---
 
 **What.** src/core2/candidacy.test.ts, "has most incumbents run again, as about 81% really do", fails on clean main (f25b1e4d2b) with GOLDEN_PATH_SEED f9bd82d15c3a6f0ab833241e88afddc160a11591c019179a44360b188485ea29 and place 3374780 (Suissevale, New Hampshire): "expected 0.955 to be less than 0.95". The golden-path run on PR 5917 drew it, and it reddens M2-04, an accepted spec, for any PR that draws the place. A share from one town's handful of incumbents is checked against a fixed ceiling; with few seats one more incumbent running moves it past the line, so the check reads noise, not the rule.

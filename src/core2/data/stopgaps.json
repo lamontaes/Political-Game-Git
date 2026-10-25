@@ -1,5 +1,17 @@
 [
   {
+    "id": "SG-WORLD-salem-county-sales-rate",
+    "kind": "missing-data",
+    "file": "data/research/laws/local-starting-law/sales-tax.json",
+    "line": 1477,
+    "whatItFakes": "Sales in Salem County, New Jersey and in the state's Urban Enterprise Zones are taxed at the full state rate of 6.625 percent; by state law their sellers collect half that, 3.3125 percent.",
+    "why": "The starting law keeps one state sales-tax rate per state and a local add-on; a county or zone whose state rate is reduced has no row of its own. The Tax Foundation table folds the reduction into a negative local average, which a local add-on cannot be, so New Jersey now has no local-average row, like the other states without local sales taxes.",
+    "addedBy": "claude/nj-local-sales-tax",
+    "addedAt": "2026-10-24",
+    "replacement": "A county and zone sales-tax row read from the state statute, so a seller in Salem County or an Urban Enterprise Zone charges its reduced state rate.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-staff-hire-out-of-work",
     "kind": "missing-engine",
     "file": "src/core2/modules/staff.ts",
@@ -1263,12 +1275,36 @@
     "id": "SG-GOV-world-race-lean",
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
-    "line": 1017,
+    "line": 1076,
     "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
     "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each race's candidates as fictional people with records and campaigns, and each legislative district's own 2024 result.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-governor-race",
+    "kind": "missing-data",
+    "file": "src/core2/modules/world-races.ts",
+    "line": 193,
+    "whatItFakes": "A territory's governor race outside the town's own is not run, so its governor serves on past the election its law holds (Guam, the Northern Mariana Islands and the U.S. Virgin Islands elect one in November 2026).",
+    "why": "The territories have no counted electorate places (no presidential vote or county places on record) and no major-party record for their governors; their own parties (Puerto Rico's New Progressive and Popular Democratic, for one) are not modeled.",
+    "addedBy": "claude/world-governor-races",
+    "addedAt": "2026-10-24",
+    "replacement": "Each territory's electorate places from its own 2024 governor or delegate results, and its own parties, so its governor race runs on the same counted engine.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-world-governor-executive",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/world-races.ts",
+    "line": 213,
+    "whatItFakes": "Another state's governor race is run on the counted engine and its winner's party is kept on the seat from the state's inauguration day, but no engine acts as that state's executive: no budget, signature or appointment there reads the new governor, and the officials roster keeps the governor seated at the opening.",
+    "why": "Other states' governments are not yet played at a coarser level; only Congress outside the town is read back (src/core2/modules/legislature.ts reads the world races' seats).",
+    "addedBy": "claude/world-governor-races",
+    "addedAt": "2026-10-24",
+    "replacement": "A coarse executive for each other state whose acts read the seat's elected governor, and the officials roster's governor replaced by the winner when the party changes (pool item gov-world-races-run-no-governors).",
     "status": "open"
   },
   {
@@ -1841,7 +1877,7 @@
     "id": "SG-GOV-delegate-race-size",
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
-    "line": 912,
+    "line": 970,
     "whatItFakes": "A territory's delegate race the town doesn't vote in is decided at its 2024 delegate race's lean with no voters counted: the race row shows no votes.",
     "why": "The Clerk's House tables the game reads hold no delegate districts outside D.C., and the territories' eligible voters are not in the data (CPS does not survey them).",
     "addedBy": "OPUS-GOV-ELECTIONS",
@@ -3101,9 +3137,9 @@
     "id": "SG-GOV-outside-revenue-monthly",
     "kind": "faked-mechanic",
     "file": "src/core2/data/outside-flows.json",
-    "line": 210,
-    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it; corporate, customs, excise, estate and gift, selective sales and vehicle taxes come from named groups of payers on their due dates), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
-    "why": "Real payers outside the town (the rest of the state's taxpayers, fee payers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
+    "line": 228,
+    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it; corporate, customs, excise, estate and gift, selective sales and vehicle taxes, and charges and fees, come from named groups of payers on their due dates), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
+    "why": "Real payers outside the town (the rest of the state's taxpayers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Each revenue line from its real payer on its real dates, and each spending line to its real payees on theirs.",
@@ -3118,7 +3154,7 @@
     "why": "gov-outside-revenue-fees-wiring (p1): the fees line was an even twelfth from the outside account that no household or business paid. The game does not yet model each service's use (a student's tuition, a hospital stay, a sewer bill by dwelling), so the charges follow what a household spends.",
     "addedBy": "CLAUDE-GOV",
     "addedAt": "2026-10-16",
-    "replacement": "Each service paid by the people who use it on the day they use it: tuition by enrolled students' households, hospital charges by patients' visits, sewer and trash by dwellings and businesses, parks and tolls by trips, from the school, health and travel engines.",
+    "replacement": "Each service paid by the people who use it on the day they use it: tuition by enrolled students' households, hospital charges by patients' visits, sewer and trash by dwellings and businesses, parks and tolls by trips, from the school, health and travel engines. (pool item gov-service-charges-by-use).",
     "status": "open"
   },
   {
@@ -3527,7 +3563,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "A finance-engine draw for a residents wage flow (journal-balanced, up to the line's room), called from residents settle() before the shortfall is recorded.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A counted employer short of cash on payday now draws its approved credit line for what its cash and savings could not pay (api.drawWageFlowCredit, a finance-cash credit transfer whose trigger is the wage flow), and only what the line cannot cover is recorded as a shortfall."
   },
   {
     "id": "SG-WORLD-staff-husk-work",
@@ -5320,19 +5357,19 @@
     "why": "The voting engine already reads each reported scandal into the incumbent's appeal (scandalsOf), so a web factor on the reelection rate would move it twice; the cause is not a number the web can read.",
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
-    "replacement": "A recorded count of violations made public before an election, with the researched size checked against the appeal the engine builds.",
-    "status": "open"
+    "replacement": "Resolved Oct 24: the link is carried by the voting engine (carriedBy in links.json): scandalTerm and scandalAppeal in src/core2/modules/voting.ts lower a candidate's appeal with each voter a bribe or conviction story reached, so the web does not run it a second time.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-voting-relief-approval",
     "kind": "missing-data",
     "file": "src/core2/turnout-web.ts",
-    "line": 115,
-    "whatItFakes": "The relief-spending-to-votes and economy-to-approval links are not run.",
-    "why": "The game records no disaster-relief dollars by place, no incumbent approval series, and the two links have no size set (the research gives votes per doubling of relief and a to-confirm approval figure).",
+    "line": 114,
+    "whatItFakes": "The relief-spending-to-votes link is not run. (economy-to-approval is carried by the voting engine's candidateReasons, which reads the national economy.)",
+    "why": "The game records no disaster-relief dollars by place, and the link has no size set (the research gives votes per doubling of relief).",
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
-    "replacement": "Relief dollars by place in the budgets engine, an approval measure from the views engine, and sizes read from Healy and Malhotra 2009 and a confirmed approval source.",
+    "replacement": "Relief dollars by place in the budgets engine and a size read from Healy and Malhotra 2009.",
     "status": "open"
   },
   {
@@ -5472,11 +5509,11 @@
     "kind": "uncalibrated-tunable",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "The size of the web's participation effects on who is at work: the engine adds the log of the web's factor to a deterministic choice score, which reaches the records but is not fitted to the researched size.",
+    "whatItFakes": "The size of the web's participation effects on mothers and married women at work: the engine adds the log of the web's factor to a deterministic choice score, which reaches the records but is not fitted to the researched size. The older workers' term has its own fitted weight (jobsOlderWorkWebWeight).",
     "why": "Measured in a played town: an older-work effect of +0.3 (a 30% change in the researched outcome) moved the share of 62 to 67 year olds at work from 0.656 to 0.677, about 3%, because the choice scores are logistic and the entry and exit pulls are small.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women, ages 62 to 67).",
+    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women), as jobsOlderWorkWebWeight is for ages 62 to 66.",
     "status": "open"
   },
   {
@@ -6533,6 +6570,18 @@
     "addedBy": "effects lead (web-views-lived-crime-moves-stance)",
     "addedAt": "2026-10-24",
     "replacement": "people-counted-victims-lived-crime: each counted group a tally row names moves its view on the police by the full victim's rule times the tally's count, citing the tally row, and a member filled in from that group holds the moved view.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-fee-level-by-bill",
+    "kind": "owner-decision",
+    "file": "src/core2/budgets-service-charges.ts",
+    "line": 129,
+    "whatItFakes": "A government's charges and fees follow its budget's charges line; no council or legislature bill sets a fee's level (a transit fare, a park fee), so a player cannot raise one by bill.",
+    "why": "Whether councils set fees by bill is the owner's call: a real-world step the game lacks is a question, not a feature (DECISION-REGISTER, Oct 14). Asked in OWNER-DECISIONS.md, Open.",
+    "addedBy": "claude/outside-revenue-fees",
+    "addedAt": "2026-10-24",
+    "replacement": "The owner's ruling: either the charges line stays the budget's, or a fee-schedule provision on a bill that the budget's charges line and the households' payments read. (pool item gov-fee-level-by-bill).",
     "status": "open"
   },
   {
