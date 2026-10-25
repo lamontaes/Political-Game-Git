@@ -471,6 +471,7 @@ export function composeJournal(
             : [moment.causeId],
       };
     }
+    const hasOwnLine = Boolean(row?.ownLine);
     const otherId =
       moment.counterpartIds[zero] ??
       (moment.causeKind === "family:child"
@@ -478,7 +479,9 @@ export function composeJournal(
         : undefined);
     if (otherId) {
       const said = other(otherId);
-      if (!said) return null;
+      // One's own race is told without a rival the person never knew by
+      // name: its own lines say only how it went.
+      if (!said) return moment.selfNamed && hasOwnLine ? facts : null;
       const row = core.people.get(otherId);
       // A child is born with a name: "My daughter Jane was born." (owner,
       // Oct 15). A second child already said by name keeps it alone.
