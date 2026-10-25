@@ -186,6 +186,7 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
     const end = addDays(day, 365);
     let flipped: Map<string, string> | undefined;
     let pairs: ReturnType<typeof pairsOf> = [];
+    let floored = 0;
     let records = 0;
     while (day < end && !pairs.length) {
       day = addDays(day, 1);
@@ -206,10 +207,25 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
         );
         if (!flipped.size) break;
       }
-      pairs = pairsOf(base, raised, flipped);
+      // An opening posted at the wage floor pays the floor with a diploma or
+      // without one (schooling never takes a hire under it): both hires are
+      // held to the posted pay, and the search goes on to a pay the diploma
+      // can move.
+      const all = pairsOf(base, raised, flipped);
+      const posted = postingsOf(raised);
+      for (const { personId, ha, hb } of all)
+        if (hb.values.hourlyMinor === ha.values.hourlyMinor)
+          expect(
+            hb.values.hourlyMinor,
+            `${where}: ${hb.jobId} for ${personId}, both at the posted pay`,
+          ).toBe(postingOf(posted, hb)?.hourlyMinor);
+      pairs = all.filter(
+        (pair) => pair.hb.values.hourlyMinor !== pair.ha.values.hourlyMinor,
+      );
+      floored = all.length - pairs.length;
     }
     console.info(
-      `graduation-pay ${where}: ${records} senior records, ${flipped?.size ?? 0} graduated only where raised, ${pairs.length} hired to the same job in both by ${day}`,
+      `graduation-pay ${where}: ${records} senior records, ${flipped?.size ?? 0} graduated only where raised, ${pairs.length} hired to the same job in both by ${day} (${floored} more at a posted floor pay)`,
     );
     if (!pairs.length) {
       tried.push(
