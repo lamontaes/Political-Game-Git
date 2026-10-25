@@ -5,13 +5,14 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-24-every-statewide-race-unopposed
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T21:14:57.662Z
 ---
 
 **What.** On the v0.22.10 release, the November 3, 2026 results in Texas show U.S. Senator, Governor, Lieutenant Governor, Attorney General, Comptroller, Land Commissioner, Agriculture Commissioner, Railroad Commission, my state senator and state representative all "UNOPPOSED", each won by a Republican with about 4.15 million votes. No Democrat or other party ran for any of them. The U.S. Representative (19) result reads "113,807" in its header and "TX-19 Joe Richardson · 213,727" under it. Every race shows "Turnout 50 / 138" and "You —". On my own ballot two of four county commissioner races had no candidate at all. I expected contested statewide races and one total per race.

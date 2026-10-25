@@ -639,7 +639,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-formal-employment"
+      "stopgap": "SG-LABOR-pretrial-employment"
     },
     {
       "key": "release-lower-level-to-larceny",
@@ -1070,7 +1070,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-earnings-at-30"
+      "stopgap": "SG-LABOR-person-exposure"
     },
     {
       "key": "water-violations-to-infant-health",
@@ -1807,7 +1807,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-employment-rate"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "job-loss-to-death-risk",
@@ -2222,7 +2222,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2429, src/core2/modules/jobs.ts:2438, src/core2/modules/jobs.ts:2467, src/core2/modules/jobs.ts:2469, src/core2/modules/jobs.ts:2489, src/core2/modules/jobs.ts:2491"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2434, src/core2/modules/jobs.ts:2443, src/core2/modules/jobs.ts:2472, src/core2/modules/jobs.ts:2474, src/core2/modules/jobs.ts:2494, src/core2/modules/jobs.ts:2496"
         },
         "varied": {
           "status": "fail",
@@ -2500,7 +2500,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-earnings-at-28"
+      "stopgap": "SG-LABOR-person-exposure"
     },
     {
       "key": "class-size-to-scores",
@@ -2700,7 +2700,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-adult-earnings"
+      "stopgap": "SG-LABOR-person-exposure"
     },
     {
       "key": "homicide-nearby-to-scores",
@@ -3147,7 +3147,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-earnings"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "graduation-to-incarceration",
@@ -3773,7 +3773,7 @@
         }
       },
       "wiredPoints": 1,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "broadband-to-employment",
@@ -3822,7 +3822,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-employment-rate"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "broadband-to-married-women-work",
@@ -3842,7 +3842,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2427, src/core2/modules/jobs.ts:2436"
+          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2432, src/core2/modules/jobs.ts:2441"
         },
         "varied": {
           "status": "pass",
@@ -3939,7 +3939,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1564"
+          "evidence": "src/core2/modules/jobs.ts:1567"
         },
         "varied": {
           "status": "pass",
@@ -4015,7 +4015,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-deal-industry-jobs"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "incentive-deal-to-broad-growth",
@@ -4159,7 +4159,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-labor-undocumented-employment"
+      "stopgap": "SG-LABOR-no-legal-status"
     },
     {
       "key": "enforcement-to-us-born-employment",
@@ -4207,7 +4207,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-labor-us-born-employment"
+      "stopgap": "SG-LABOR-no-legal-status"
     },
     {
       "key": "child-tax-credit-to-births",
@@ -4569,7 +4569,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2426, src/core2/modules/jobs.ts:2435"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2431, src/core2/modules/jobs.ts:2440"
         },
         "varied": {
           "status": "fail",
@@ -6012,7 +6012,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2426, src/core2/modules/jobs.ts:2435"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2431, src/core2/modules/jobs.ts:2440"
         },
         "varied": {
           "status": "fail",
@@ -6440,7 +6440,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2429, src/core2/modules/jobs.ts:2438, src/core2/modules/jobs.ts:2467, src/core2/modules/jobs.ts:2469, src/core2/modules/jobs.ts:2489, src/core2/modules/jobs.ts:2491"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2434, src/core2/modules/jobs.ts:2443, src/core2/modules/jobs.ts:2472, src/core2/modules/jobs.ts:2474, src/core2/modules/jobs.ts:2494, src/core2/modules/jobs.ts:2496"
         },
         "varied": {
           "status": "fail",
@@ -6725,7 +6725,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2428, src/core2/modules/jobs.ts:2437, src/core2/modules/jobs.ts:2457"
+          "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2433, src/core2/modules/jobs.ts:2442, src/core2/modules/jobs.ts:2462"
         },
         "varied": {
           "status": "pass",
@@ -6945,7 +6945,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-workforce"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "universal-prek-to-math-proficiency",
@@ -9428,7 +9428,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1565"
+          "evidence": "src/core2/modules/jobs.ts:1568"
         },
         "varied": {
           "status": "pass",
@@ -10044,7 +10044,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1565"
+          "evidence": "src/core2/modules/jobs.ts:1568"
         },
         "varied": {
           "status": "fail",
@@ -10334,7 +10334,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/modules/jobs.ts:1565",
+          "evidence": "outcome read by src/core2/modules/jobs.ts:1568",
           "why": "the web does not run it: it waits on federal.defense-boost-pct"
         },
         "varied": {
@@ -12346,7 +12346,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2429, src/core2/modules/jobs.ts:2438, src/core2/modules/jobs.ts:2467, src/core2/modules/jobs.ts:2469, src/core2/modules/jobs.ts:2489, src/core2/modules/jobs.ts:2491",
+      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2434, src/core2/modules/jobs.ts:2443, src/core2/modules/jobs.ts:2472, src/core2/modules/jobs.ts:2474, src/core2/modules/jobs.ts:2494, src/core2/modules/jobs.ts:2496",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12357,7 +12357,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2427, src/core2/modules/jobs.ts:2436",
+      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2432, src/core2/modules/jobs.ts:2441",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -12365,7 +12365,7 @@
     {
       "measure": "labor.median-earnings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1565",
+      "evidence": "src/core2/modules/jobs.ts:1568",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12401,7 +12401,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2426, src/core2/modules/jobs.ts:2435",
+      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2431, src/core2/modules/jobs.ts:2440",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12412,7 +12412,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2428, src/core2/modules/jobs.ts:2437, src/core2/modules/jobs.ts:2457",
+      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2433, src/core2/modules/jobs.ts:2442, src/core2/modules/jobs.ts:2462",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -12471,7 +12471,7 @@
     {
       "measure": "labor.wages",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1564",
+      "evidence": "src/core2/modules/jobs.ts:1567",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
