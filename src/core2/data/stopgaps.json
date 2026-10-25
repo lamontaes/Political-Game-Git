@@ -5777,7 +5777,7 @@
     "why": "no measure: the web does not keep health.premature-births and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -5801,7 +5801,7 @@
     "why": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-condition-record, SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on those stopgaps instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -5813,7 +5813,7 @@
     "why": "no measure: the web does not keep health.heat-deaths and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -5861,7 +5861,7 @@
     "why": "no measure: the web does not keep health.catastrophic-medical-bills and no engine produces it; nothing in the core records its cause, health.coverage",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -5885,7 +5885,7 @@
     "why": "no measure: the web does not keep health.depression and no engine produces it; nothing in the core records its cause, health.coverage",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -5897,7 +5897,7 @@
     "why": "no measure: the web does not keep health.blood-pressure and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -5921,7 +5921,7 @@
     "why": "no measure: the web does not keep health.death-risk and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -5933,7 +5933,7 @@
     "why": "no measure: the web does not keep health.mortality-all and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -5945,7 +5945,7 @@
     "why": "no measure: the web does not keep health.stroke-and-heart-deaths and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -5957,7 +5957,7 @@
     "why": "no measure: the web does not keep health.adult-metabolic-syndrome and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -6065,7 +6065,7 @@
     "why": "no measure: the web does not keep health.hospital-visits and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -6281,7 +6281,7 @@
     "why": "engine doesn't read the factor: health.youth-cannabis-use moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-condition-record: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -6365,7 +6365,7 @@
     "why": "engine doesn't read the factor: health.drug-out-of-pocket moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-condition-record: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
@@ -6401,7 +6401,7 @@
     "why": "engine doesn't read the factor: health.child-asthma-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-EW-HEALTH-condition-record: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {

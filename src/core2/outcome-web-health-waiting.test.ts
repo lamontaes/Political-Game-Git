@@ -4,8 +4,8 @@
  * health engine's own stopgap in the unwired list, that stopgap names it, and
  * the reason holds in the code: no engine records the outcome, the link has
  * no size (or about zero), or its cause is not recorded on the person. The
- * day an engine reads one of these outcomes, or a link gets a size, this test
- * fails and says to wire the link.
+ * day an engine reads any of these outcomes, or an unsized link gets a size,
+ * this test fails and says to wire the link.
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -63,6 +63,16 @@ const SOURCES = sources().map((path) => ({
   text: readFileSync(path, "utf8"),
 }));
 
+/** The engine files that name an outcome: the day one does, it reads it. */
+function readersOf(
+  outcome: string,
+  files: readonly { path: string; text: string }[] = SOURCES,
+): string[] {
+  return files
+    .filter((file) => file.text.includes(`"${outcome}"`))
+    .map((file) => file.path);
+}
+
 describe("health links that wait, and why", () => {
   for (const [stopgapId, keys] of Object.entries(WAITING))
     for (const key of keys)
@@ -85,15 +95,29 @@ describe("health links that wait, and why", () => {
             web.size === null || Math.abs(web.size ?? 0) < 1e-9,
             `${key}: size ${web.size}; wire it`,
           ).toBe(true);
-        else {
-          // No engine code or data names the outcome: the day one reads it,
-          // wire the link.
-          const readers = SOURCES.filter((file) =>
-            file.text.includes(`"${web.to}"`),
-          ).map((file) => file.path);
-          expect(readers, `${key}: an engine reads ${web.to}; wire it`).toEqual(
-            [],
-          );
-        }
+        // For every waiting link: no engine code or data names the outcome.
+        // The day one reads it, wire the link.
+        expect(
+          readersOf(web.to),
+          `${key}: an engine reads ${web.to}; wire it`,
+        ).toEqual([]);
       });
+
+  // Break-it: the reader check trips the day an engine file names the
+  // outcome, for an unsized link as for a condition-record one.
+  for (const key of ["heat-to-deaths", "gas-hookup-ban-to-child-asthma"])
+    it(`the reader check trips when an engine reads ${key}'s outcome`, () => {
+      const outcome = link(key).to;
+      const reading = [
+        ...SOURCES,
+        {
+          path: "src/core2/modules/engine-that-reads.ts",
+          text: `const measure = webReach(api, placeId, "${outcome}", subject);`,
+        },
+      ];
+      expect(readersOf(outcome)).toEqual([]);
+      expect(readersOf(outcome, reading)).toEqual([
+        "src/core2/modules/engine-that-reads.ts",
+      ]);
+    });
 });
