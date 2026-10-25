@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/core2/player-v1.ts, src/bench/handler.ts
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-07-every-day-starts-at-midnight (Oct 24, lane; the work order's clock half). `advancePlayerV1` lands every advance at minute 0 of the next day. The clock is the M0-M2 lead's engine file (`needs-from: m0-m2` if the lane cannot change it inside the item's Files). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Sent back 2026-10-25 ~21:55 UTC from PR #6059 (branch claude/quirky-ride-vrwwz4-play-stop-07, head 5fcd0cb01b with main merged in): both body screenshots are wrapped in backticks so they render as code, not images; unwrap the image tags and it goes back in the queue; finish on that branch, merge main into it first.
