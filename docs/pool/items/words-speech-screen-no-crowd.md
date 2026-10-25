@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: words/speech-screen-crowd
-pr: #5995
+pr: #5992
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T07:09:57.846Z
