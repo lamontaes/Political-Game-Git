@@ -3285,9 +3285,9 @@
       "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either.",
       "adjourned": {
         "2025": {
-          "dates": ["2025-03-21"],
+          "dates": ["2025-03-21", "2025-06-25"],
           "sourceUrl": "https://legislature.maine.gov/house/",
-          "quote": "The First Regular Session of the 132nd Legislature adjourned SINE DIE on Friday, March 21, 2025 at 12:26 AM.",
+          "quote": "The First Regular Session of the 132nd Legislature adjourned SINE DIE on Friday, March 21, 2025 at 12:26 AM. ... The First Special Session of the 132nd Legislature convened on Tuesday, March 25, 2025 at 10:00 AM. ... The First Special Session of the 132nd Legislature adjourned SINE DIE on Wednesday, June 25, 2025 at 5:31 PM.",
           "readAt": "2026-10-25"
         },
         "2026": {

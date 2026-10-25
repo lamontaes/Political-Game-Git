@@ -118,7 +118,14 @@ it(`a state act passed in 2025 takes effect from its session's 2025 end, seed ${
     const known = row
       ? knownSessionEnds({ ...row, estimated: !!row.estimated }, 2025)
       : null;
-    const sessionEnd = (known ?? medianSessionEnd(endRows, 2025)).at(-1)!;
+    const sessionEndsOf = [
+      ...(known ?? medianSessionEnd(endRows, 2025)),
+    ].sort();
+    // The end of the session each act passed in: the first on or after it,
+    // else the last (a special session that sat later has its own end).
+    const endFor = (passedAt: string) =>
+      sessionEndsOf.find((end) => end >= passedAt) ?? sessionEndsOf.at(-1)!;
+    const sessionEnd = endFor(acts[0]!.retrieved);
     const counted = (from: string) => {
       const at = addDays(
         makeIsoDate(addMonths(from, rule.months ?? 0)),
@@ -129,7 +136,7 @@ it(`a state act passed in 2025 takes effect from its session's 2025 end, seed ${
       return at > floor ? at : floor;
     };
     for (const act of acts) {
-      const fromEnd = counted(sessionEnd);
+      const fromEnd = counted(endFor(act.retrieved));
       const want = fromEnd > act.retrieved ? fromEnd : counted(act.retrieved);
       expect(act.effectiveDate, `${where}: ${act.id}`).toBe(want);
       if (!known && fromEnd > act.retrieved)
@@ -138,7 +145,7 @@ it(`a state act passed in 2025 takes effect from its session's 2025 end, seed ${
         );
     }
     process.stdout.write(
-      `session-end-effective: ${where}: ${stateKey} session ended ${sessionEnd} (${published ? "published" : known ? "its law's limit" : "median, estimated"}); ${acts.length} acts, first ${acts[0]!.id} enacted ${acts[0]!.retrieved}, effective ${acts[0]!.effectiveDate}; passed over: ${tried.join("; ") || "none"}\n`,
+      `session-end-effective: ${where}: ${stateKey} first act's session ended ${sessionEnd} (${published ? "published" : known ? "its law's limit" : "median, estimated"}); ${acts.length} acts, first ${acts[0]!.id} enacted ${acts[0]!.retrieved}, effective ${acts[0]!.effectiveDate}; passed over: ${tried.join("; ") || "none"}\n`,
     );
     return;
   }
@@ -156,4 +163,13 @@ it("a state with no published 2025 end counts from its law's limit, else the lab
   const michigan = stateActEffectiveDate("US-MI", "2025-01-25")!;
   expect(michigan.date).toBe(addDays(makeIsoDate(median), 91));
   expect(michigan.cite).toContain(ends["US-MI"]!.estimated!);
+});
+
+it("an act of Maine's 2025 special session counts from that session's end, not the regular session's", () => {
+  // The First Regular Session adjourned March 21, 2025; the First Special
+  // Session sat March 25 to June 25 (legislature.maine.gov/house/). Maine
+  // counts 90 days after adjournment, so the 91st day is the first in force.
+  expect(stateActEffectiveDate("US-ME", "2025-03-10")?.date).toBe("2025-06-20");
+  expect(stateActEffectiveDate("US-ME", "2025-04-15")?.date).toBe("2025-09-24");
+  expect(stateActEffectiveDate("US-ME", "2025-06-18")?.date).toBe("2025-09-24");
 });
