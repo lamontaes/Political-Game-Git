@@ -1,4 +1,4 @@
-/* global process, URL, URLSearchParams, console, document, fetch */
+/* global process, URLSearchParams, console, document, fetch */
 // The Campaigns screen after a month of campaigning, in a real browser: it
 // says in plain words how many voters were reached, how many moved toward or
 // away, who the opponents are and what a poll would cost. It must not show
@@ -27,7 +27,9 @@ try {
     birthMonth: 6,
     birthDay: 15,
   });
-  const seed = (await (await page.request.get(`${base}/api/seed`)).json()).seed;
+  const seed =
+    process.env.SEED ??
+    (await (await page.request.get(`${base}/api/seed`)).json()).seed;
   const made = await page.request.post(
     `${base}/api/newlife?${new URLSearchParams({ seed, date: "2026-10-12", person })}`,
     { timeout: 300000 },
