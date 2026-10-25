@@ -44,3 +44,5 @@ Sent back 2026-10-20 from PR #4915 (branch claude/counted-views-delete): Merge m
 Sent back 2026-10-20 from PR #4920 (branch claude/births-columns): Changed-file checks failed after merge main: eslint unused var rt in housing-laws.test.ts, and vitest failed with 12 errors (residentsRuntime households undefined in fill-in-returning-newborn.test.ts, jobs-demoted-seeker.test.ts, representative-sample.test.ts, residents-fillin-past.test.ts; countedHouseholdsByPlace not a function in purchase-tax.test.ts); finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5321 (branch claude/pool-views-delete): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #4920 (branch claude/births-columns): Done when requires one-year buildBenchWorld proof and a resolved counted-person-views stopgap, but the body explicitly leaves the person source unfinished and has no Done-when evidence table; finish on that branch, merge main into it first.

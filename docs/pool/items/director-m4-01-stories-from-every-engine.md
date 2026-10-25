@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
 
 Sent back 2026-10-20 from PR #5336 (branch claude/director-m4-01): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5336 (branch claude/director-m4-01): the body lacks the required Done-when evidence table mapping campaign, vote and law moment record IDs and their impact sizing; include the current played-year result rather than an obsolete gate claim; finish on that branch, merge main into it first.

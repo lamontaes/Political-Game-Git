@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dreamy-tesla-bgi3ui-legislature
 pr: #5862
 blocked-on:

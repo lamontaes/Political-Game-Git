@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T02:04:40.027Z
 **Files.** src/core2/vote-level.test.ts
 
 **Notes.** A test fix, not a press change: a national desk prints its top few items a week, so an individual federal event losing out is normal. Fixed on claude/political-game-pool-yucp92-u.
+
+Found running src/core2 on main, Oct 19 to 20 (release-suite-red-list-on-main). The same test file also timed out once on the small container (30 s).

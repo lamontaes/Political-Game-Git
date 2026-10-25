@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dreamy-tesla-bgi3ui-deep-past
 pr: #5854
 blocked-on:

@@ -1,6 +1,301 @@
 {
   "entries": [
     {
+      "version": "0.26.1",
+      "releasedOn": "2026-10-25",
+      "revision": "8d0dd8f295b83d6f63cd421004fda1feaf37ef05",
+      "changeIds": ["release-package-build-heap"]
+    },
+    {
+      "version": "0.26.0",
+      "releasedOn": "2026-10-25",
+      "revision": "cd27a2a370cf83fea4e78be031500d7dc549323d",
+      "changeIds": ["tests-county-governed-openings", "web-reach-crime-justice"]
+    },
+    {
+      "version": "0.25.0",
+      "releasedOn": "2026-10-25",
+      "revision": "2553b99fbfe3ff9ba03f5e982fe58b75ce03d414",
+      "changeIds": [
+        "art-people-whole-out-of-play",
+        "core-census-uncap-opening",
+        "drives-counted-job-loss-unanswered",
+        "tests-closure-counted-seeker-witness-gone",
+        "words-scenes-fire-in-play",
+        "world-apply-and-buy-reasons-vary",
+        "world-federal-treasury-too-small-for-medicaid-match"
+      ]
+    },
+    {
+      "version": "0.24.3",
+      "releasedOn": "2026-10-25",
+      "revision": "122c3217c5847ab4138dc26a8cc2d2b1eb49a83b",
+      "changeIds": [
+        "director-new-adult-skip-finding",
+        "merger0-return-notes-2026-10-25",
+        "tests-counted-births-weight-red",
+        "world-schooling-to-pay"
+      ]
+    },
+    {
+      "version": "0.24.2",
+      "releasedOn": "2026-10-25",
+      "revision": "06a713f25d3cd76ecf9ec343e355eea0da770eff",
+      "changeIds": [
+        "core-private-tuition-counted",
+        "people-abortion-provider-distance",
+        "people-unplanned-pregnancy-decision",
+        "traits-decisions-never-run"
+      ]
+    },
+    {
+      "version": "0.24.1",
+      "releasedOn": "2026-10-25",
+      "revision": "db1f761fbeb793ba3aca425405471f8e547862ff",
+      "changeIds": [
+        "core-planned-approach-office-staff-left",
+        "gov-opening-past-terms-gap-a-day-report",
+        "gov-rival-campaign-day-shared-choices",
+        "gov-world-races-governor-races-counted",
+        "law-wiring-government",
+        "merger0-return-5952-2026-10-24",
+        "merger0-returns-5980-5984-2026-10-24",
+        "release-candidate-typecheck-heap",
+        "tests-life-emotion-choice-unexpected-log",
+        "tests-lived-crime-redraw-two-worlds",
+        "tests-played-world-counted-change-nets-zero",
+        "words-word-pack",
+        "world-closure-counted-seeker-non-finite"
+      ]
+    },
+    {
+      "version": "0.24.0",
+      "releasedOn": "2026-10-24",
+      "revision": "f887b559bf8a97dba5b3168210c14994f3d1367a",
+      "changeIds": [
+        "gov-outside-revenue-fees",
+        "merger0-return-5036-2026-10-24",
+        "web-labor-participation-wired",
+        "words-dialogue-in-play",
+        "words-opening-stopgap-why",
+        "world-nj-local-sales-tax-average-negative"
+      ]
+    },
+    {
+      "version": "0.23.5",
+      "releasedOn": "2026-10-24",
+      "revision": "70cbee1be73392f5801716170484a3ffd7cc7d08",
+      "changeIds": [
+        "core-civic-inputs-clerk-staff",
+        "core-guard-measured-span-scales-with-town",
+        "people-wages-credit-draw",
+        "roadmap-m1-economy-commands",
+        "world-living-costs-arrears-counted"
+      ]
+    },
+    {
+      "version": "0.23.4",
+      "releasedOn": "2026-10-24",
+      "revision": "88bcdef4624f71771e43fec9114763cef503503b",
+      "changeIds": ["world-counted-claim-pays-after-household-leaves"]
+    },
+    {
+      "version": "0.23.3",
+      "releasedOn": "2026-10-24",
+      "revision": "6a647abc41c7725770263e30def1322cd8c43d61",
+      "changeIds": ["jobs-counted-hire-other-employer-calendar"]
+    },
+    {
+      "version": "0.23.2",
+      "releasedOn": "2026-10-24",
+      "revision": "b0664a04bf477d8489e10e8ee7ec9c56980a6924",
+      "changeIds": [
+        "core-speed-work-payroll-in-play",
+        "gov-successor-governor-identity-only-no-office-day",
+        "roadmap-m0-07-turnover-check"
+      ]
+    },
+    {
+      "version": "0.23.1",
+      "releasedOn": "2026-10-24",
+      "revision": "5bb94db1cb477c493502d5b62ec9c341a843ff9f",
+      "changeIds": [
+        "gov-counted-bail-moves-the-cash",
+        "gov-justice-player-test-player-dies",
+        "gov-offices-office-seated-before-it-exists",
+        "roadmap-m1-11-played-year-check",
+        "tests-counted-deaths-opening-reads-bookkeeping-record",
+        "web-reach-civic",
+        "words-batches-as-artifacts",
+        "words-government-scenes-executive-changes",
+        "words-hearing-scene-for-the-sponsor"
+      ]
+    },
+    {
+      "version": "0.23.0",
+      "releasedOn": "2026-10-24",
+      "revision": "d45543e61eeeecc1c61502af08639ae577e556da",
+      "changeIds": [
+        "core-circle-decision-scores-heap",
+        "core-fill-in-returning-commuter-job-start",
+        "core-m7-speed-profile-note",
+        "core-opening-public-coverage-conflict-bayou-blue",
+        "core-speed-cause-holder-weekly-contacts",
+        "core-speed-journal-posting-in-play",
+        "core-speed-work-attendance-in-play",
+        "core-treasury-settles-with-outside-market",
+        "elections-polling-place-misses-town-government",
+        "elections-runner-left-without-filing-on-reweigh",
+        "gov-offices-spec-opening-careers-vivian",
+        "gov-press-outlet-revenue",
+        "gov-seat-holder-under-minimum-age",
+        "gov-territory-paychecks-withhold-federal-income-tax",
+        "merger0-return-5268-2026-10-24",
+        "merger0-return-5588-2026-10-24",
+        "people-births-over-state-rate-small-town",
+        "people-displaced-ambition-share-high",
+        "people-drives-counted-illness-causes",
+        "play-bench-follow-and-read-decisions",
+        "play-filing-overlay-visible-defects",
+        "play-golden-path-panel-in-dev-mode",
+        "research-core-sourced-parameters",
+        "research-estimate-acceptance",
+        "research-housing-sourced-parameters",
+        "research-residents-employment-island-areas",
+        "roadmap-m0-09-flip",
+        "roadmap-m0-flip-proven-five",
+        "roadmap-m1-10-views-played-world",
+        "roadmap-m2-10-races-command",
+        "tests-campaign-turn-donor-total-green-isle",
+        "tests-campaigns-small-place-reach",
+        "tests-corruption-dulac-no-offer-answer",
+        "tests-counted-demotion-retained-cash",
+        "tests-opening-adults-cash-red-malaeimi",
+        "tests-played-world-challenger-lost-primary",
+        "tests-retirement-claim-date-window",
+        "tests-unplaced-fill-in-job-red-bentonia",
+        "tests-voter-groups-contract",
+        "traits-end-to-end-pair",
+        "web-reach-public-finance",
+        "web-views-hear-conditions-moves-stance",
+        "web-views-lived-crime-moves-stance",
+        "words-archive-law-catalog-name",
+        "words-director-hindsight-rescore-slow",
+        "words-opening-speech-per-world",
+        "words-voice-note-grades",
+        "world-homeless-rehouse-left-household",
+        "world-staff-hire-counted-job-relocation"
+      ]
+    },
+    {
+      "version": "0.22.11",
+      "releasedOn": "2026-10-24",
+      "revision": "f42ec38ea842751c01459a508aa48c720b0e4444",
+      "changeIds": [
+        "counted-death-relations",
+        "merger0-pool-sendbacks-2026-10-24",
+        "research-elections-sourced-parameters",
+        "research-offices-sourced-parameters",
+        "roadmap-m1-12-officials-command",
+        "staff-dismissal-after-attendance",
+        "town-employment-mix",
+        "world-trip-resident-from-place-counts"
+      ]
+    },
+    {
+      "version": "0.22.10",
+      "releasedOn": "2026-10-24",
+      "revision": "c953c52cff56d2120509ddfb3f996407eadf2212",
+      "changeIds": [
+        "effect-web-unwired",
+        "justice-plea-waits-for-hearing",
+        "tests-counted-voters-tiny-town"
+      ]
+    },
+    {
+      "version": "0.22.9",
+      "releasedOn": "2026-10-24",
+      "revision": "57b0111b6720023840d713e583e8e2b20b29f4a7",
+      "changeIds": [
+        "core-counted-weight-headcount-red-maricopa",
+        "core-speed-guard-refuses-changed-opening",
+        "traits-campaigns-own-sd"
+      ]
+    },
+    {
+      "version": "0.22.8",
+      "releasedOn": "2026-10-24",
+      "revision": "f1f23098bd147b18f08c173535dd21a03ca098b7",
+      "changeIds": [
+        "core-counted-household-jobs-in-step",
+        "effect-web-schools",
+        "hearing-speaker-named",
+        "pool-health-split",
+        "release-feed-check",
+        "research-core-parameters-sourced-parameters",
+        "screens-2026-10-19-report",
+        "staff-aides-miss-every-scheduled-day",
+        "test-assistance-work-time-limit-fixture",
+        "web-calibrate-births-full"
+      ]
+    },
+    {
+      "version": "0.22.7",
+      "releasedOn": "2026-10-24",
+      "revision": "b02f41afca7363e0e9ec27e3386e24bb3942ad96",
+      "changeIds": ["territory-budget"]
+    },
+    {
+      "version": "0.22.6",
+      "releasedOn": "2026-10-24",
+      "revision": "6d44c8b61042e7c744bd3ee72bcee8fcdf65d570",
+      "changeIds": [
+        "audit-fix-2-employer-callback-table",
+        "core-old-engine-01-zero-dice-guard-repoint",
+        "core-old-imports-population-traits",
+        "core-snapshot-reseal-new-records",
+        "elections-local-races-share-above-band-note",
+        "gov-computer-governor-no-petition-guam",
+        "gov-prestart-history",
+        "jobs-counted-retire-claim-test",
+        "jobs-opening-seekers-small-town",
+        "laws-medicaid-counted-coverage-unpaid-ainaloa",
+        "merger0-pool-sendbacks-2026-10-23",
+        "old-imports-opening-employment-split",
+        "play-golden-path-withholding-journal",
+        "pool-note-calibrate-terms",
+        "pool-sale-eligibility-split",
+        "release-law-tests-positive-witnesses",
+        "release-pr-5766-off-main",
+        "release-queue-oct21-measurement",
+        "release-saves-reseal-world-test",
+        "release-vote-level-federal-story-draw",
+        "research-content-sourced-parameters",
+        "research-deep-past-sourced-parameters",
+        "research-gov-sourced-parameters",
+        "research-health-sourced-parameters",
+        "research-law-reach-sourced-parameters",
+        "research-legislature-sourced-parameters",
+        "research-opening-capital-sourced-parameters",
+        "research-opening-customers-sourced-parameters",
+        "research-people-sourced-parameters",
+        "roadmap-m0-12-next-feature",
+        "roadmap-m1-13-other-places-command",
+        "roadmap-m1-14-history-command",
+        "roadmap-m2-03-filing-command",
+        "speed-year-uses-policy-young-generation",
+        "test-assistance-work-counted-payments-rounding",
+        "words-archive-budget-purpose",
+        "words-batch-22",
+        "words-played-talks-on-their-day",
+        "world-counted-reads-six-engines",
+        "world-disaster-repairs-no-outside-market",
+        "world-jobs-offer-deadline-held",
+        "world-no-counted-rent-flows-small-town",
+        "world-player-household-broke-in-month-one-grangeville"
+      ]
+    },
+    {
       "version": "0.22.5",
       "releasedOn": "2026-10-24",
       "revision": "c599ba2651f5b512dae9df89adec0d21fb46dad9",
