@@ -3152,13 +3152,10 @@ const sheets = {
           ),
           ...(e.region
             ? [
+                // The region's rate under the area it covers, beside the nation's.
                 row(
-                  `Region · ${e.region.month ?? ""}`,
-                  Object.entries(e.region)
-                    .filter(([, v]) => typeof v === "number")
-                    .slice(0, 4)
-                    .map(([k, v]) => `${k} ${Number(v).toFixed(1)}`)
-                    .join(" · "),
+                  `${(e.region.name ?? "").replace(/^./, (c) => c.toUpperCase())} · ${e.region.month ?? ""}`,
+                  `Unemployment ${pct(e.region.unemploymentPct)}`,
                 ),
               ]
             : []),
