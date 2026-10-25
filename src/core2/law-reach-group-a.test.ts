@@ -29,6 +29,7 @@ import { POLICY_QUESTIONS } from "./policy-answers";
 import powerCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import powerMapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
+  adoptedLine,
   governments,
   openBudgets,
   type GovernmentRow,
@@ -42,11 +43,7 @@ import {
   reachParameter,
   townPeople,
 } from "./law-reach/group-a-records";
-import {
-  baseLine,
-  budgetToday,
-  leavePremiumsOf,
-} from "./law-reach/group-a-money";
+import { budgetToday, leavePremiumsOf } from "./law-reach/group-a-money";
 import {
   ALL_MAIL,
   AUTO_REGISTRATION,
@@ -589,13 +586,16 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       advanceCore(core, after(api.state.date, 30));
     const next = budgetToday(api, gov)!;
     expect(next.fiscalYear, where).toBeGreaterThan(first.fiscalYear);
-    // The law is still in force, so the new year's line carries the levy on its own base.
-    const base = baseLine(api, gov, next, "parks");
+    // The law is still in force, so the new year's line carries the levy on the line as the council adopted it
+    // (a budget bill the council passed that year may have moved the line itself).
+    const adopted = adoptedLine(api, gov, next.fiscalYear, "parks");
     expect(next.spendingMinor.parks, where).toBe(
-      base + Math.round(base * share),
+      adopted + Math.round(adopted * share),
     );
     enact(key, "city", 0);
-    expect(budgetToday(api, gov)!.spendingMinor.parks ?? 0, where).toBe(base);
+    expect(budgetToday(api, gov)!.spendingMinor.parks ?? 0, where).toBe(
+      adopted,
+    );
   });
 
   it("reports", () => {
