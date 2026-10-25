@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/held-first-fix
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T16:02:36.920Z
 ---
 
 **What.** src/director/mined/held-first.test.ts fails on clean main (410a5e758c): for scene-words.json and bring-it-up.json it finds no held part offered to grading (expected 0 to be greater than 0), and for journal.json one held part shows in play. The owner's Oct 24 ruling plays every bank piece unless his grades reject it, so the test's premise, that each bank keeps held parts out of play, no longer holds as written.
