@@ -32,14 +32,14 @@
     "sample": []
    },
    "reach": {
-    "fullPeople": 228,
+    "fullPeople": 224,
     "countedGroups": 2,
-    "countedPeople": 168,
+    "countedPeople": 171,
     "households": 0,
     "organizations": 6,
     "governments": 0,
     "other": 0,
-    "open": 236,
+    "open": 232,
     "ended": 3,
     "sample": [
      "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_009c82349e231376|2025-01-21",
@@ -49,14 +49,14 @@
     ]
    },
    "reachAtEnd": {
-    "fullPeople": 223,
+    "fullPeople": 219,
     "countedGroups": 2,
-    "countedPeople": 181,
+    "countedPeople": 184,
     "households": 0,
     "organizations": 6,
     "governments": 0,
     "other": 0,
-    "open": 231,
+    "open": 227,
     "ended": 10,
     "sample": [
      "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_009c82349e231376|2025-01-21",
@@ -82,8 +82,8 @@
     "direct": [
      {
       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
-      "treatment": 3152952072,
-      "control": 3152956792,
+      "treatment": 3152131890,
+      "control": 3152136587,
       "ids": [
        "journal:2025-01-26:1627",
        "journal:2025-01-27:1643",
@@ -93,9 +93,9 @@
     ],
     "diff": [
      {
-      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-      "treatment": 20914336,
-      "control": 26045323,
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+      "treatment": 20835456,
+      "control": 26005158,
       "ids": [
        "journal:2025-02-01:2018",
        "journal:2025-02-01:2019",
@@ -104,8 +104,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 701034666743834,
-      "control": 701034668220955,
+      "treatment": 701034665777831,
+      "control": 701034667263380,
       "ids": [
        "journal:2025-02-01:1726",
        "journal:2025-02-01:1727",
@@ -114,8 +114,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1100626332,
-      "control": 1101690867,
+      "treatment": 1096601165,
+      "control": 1097665700,
       "ids": [
        "journal:2025-01-21:1555",
        "journal:2025-01-21:1556",
@@ -124,8 +124,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 478862428,
-      "control": 477803114,
+      "treatment": 479690449,
+      "control": 478631131,
       "ids": [
        "journal:2025-02-01:3225",
        "journal:2025-02-01:3226",
@@ -134,8 +134,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 385046688,
-      "control": 385127921,
+      "treatment": 372001851,
+      "control": 372083584,
       "ids": [
        "journal:2025-01-25:1620",
        "journal:2025-01-25:1622",
@@ -144,8 +144,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 108712954,
-      "control": 108762339,
+      "treatment": 91550442,
+      "control": 91600176,
       "ids": [
        "journal:2025-01-21:1599",
        "journal:2025-02-01:1958",
@@ -154,8 +154,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 349584680,
-      "control": 349611160,
+      "treatment": 324113339,
+      "control": 324139386,
       "ids": [
        "journal:2025-01-21:1579",
        "journal:2025-01-21:1580",
@@ -164,8 +164,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
-      "treatment": 176870526702020,
-      "control": 176870526697144,
+      "treatment": 176870527701380,
+      "control": 176870527696529,
       "ids": [
        "journal:2025-02-01:1716",
        "journal:2025-02-01:1717",
@@ -174,8 +174,8 @@
      },
      {
       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
-      "treatment": 3152952072,
-      "control": 3152956792,
+      "treatment": 3152131890,
+      "control": 3152136587,
       "ids": [
        "journal:2025-01-26:1627",
        "journal:2025-01-27:1643",
@@ -184,8 +184,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/press-money.ts:374",
-      "treatment": 13233593,
-      "control": 13237502,
+      "treatment": 13233641,
+      "control": 13237594,
       "ids": [
        "journal:2025-01-27:1631",
        "journal:2025-01-27:1632",
@@ -194,18 +194,18 @@
      },
      {
       "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
-      "treatment": 6010113,
-      "control": 6010738,
+      "treatment": 6056884,
+      "control": 6057510,
       "ids": [
-       "journal:2025-07-01:48275",
-       "journal:2025-10-01:73130",
-       "journal:2025-10-01:73133"
+       "journal:2025-07-01:48283",
+       "journal:2025-10-01:72681",
+       "journal:2025-10-01:72684"
       ]
      },
      {
       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:812",
-      "treatment": 78386036687640,
-      "control": 78386036687220,
+      "treatment": 78386036615974,
+      "control": 78386036615556,
       "ids": [
        "journal:2025-02-01:1704",
        "journal:2025-02-01:1705",
@@ -213,15 +213,15 @@
       ]
      }
     ],
-    "diffKinds": 15,
+    "diffKinds": 14,
     "cited": [],
     "controlCited": [],
     "own": {
-     "targets": 173,
+     "targets": 3,
      "among": "paid",
      "pairs": [
       {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "in",
        "targets": 3,
        "moved": 321420,
@@ -231,7 +231,7 @@
          "target": "organization_54516994503e0a5c",
          "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
          "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -26256,
          "control": -108138,
@@ -241,7 +241,7 @@
          "target": "organization_54516a94503e0c0f",
          "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516a94503e0c0f",
          "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -45594,
          "control": -187749,
@@ -251,50 +251,11 @@
          "target": "organization_54516b94503e0dc2",
          "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516b94503e0dc2",
          "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -31237,
          "control": -128620,
          "journal": "journal:2025-02-01:2039"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-       "way": "in",
-       "targets": 3,
-       "moved": 53721,
-       "earliest": "2025-04-01",
-       "sample": [
-        {
-         "target": "person_ec31305de43ad65d",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_ec31305de43ad65d",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "in",
-         "treatment": -277249,
-         "control": -280864,
-         "journal": "journal:2025-04-01:17091"
-        },
-        {
-         "target": "organization_54516994503e0a5c",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "in",
-         "treatment": 49694,
-         "control": 0,
-         "journal": "journal:2025-05-01:25287"
-        },
-        {
-         "target": "person_cd481160f992248b",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_cd481160f992248b",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "in",
-         "treatment": 36029,
-         "control": 35617,
-         "journal": "journal:2025-05-01:25284"
         }
        ]
       },
@@ -313,72 +274,81 @@
          "way": "out",
          "treatment": -49694,
          "control": 0,
-         "journal": "journal:2025-04-01:17122"
+         "journal": "journal:2025-04-01:17117"
         }
        ]
       },
       {
-       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-       "way": "out",
-       "targets": 1,
-       "moved": 3615,
-       "earliest": "2025-03-01",
-       "sample": [
-        {
-         "target": "person_ec31305de43ad65d",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_ec31305de43ad65d",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-         "way": "out",
-         "treatment": 234405,
-         "control": 238020,
-         "journal": "journal:2025-03-01:9116"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
        "way": "in",
        "targets": 1,
-       "moved": 206,
-       "earliest": "2025-06-01",
+       "moved": 49694,
+       "earliest": "2025-05-01",
        "sample": [
         {
-         "target": "person_cd481060f99222d8",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_cd481060f99222d8",
-         "date": "2025-06-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+         "target": "organization_54516994503e0a5c",
+         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
+         "date": "2025-05-01",
+         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
          "way": "in",
-         "treatment": -71991,
-         "control": -72197,
-         "journal": "journal:2025-06-01:34016"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-       "way": "out",
-       "targets": 1,
-       "moved": 206,
-       "earliest": "2025-06-01",
-       "sample": [
-        {
-         "target": "person_cd481160f992248b",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_cd481160f992248b",
-         "date": "2025-06-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "out",
-         "treatment": -47029,
-         "control": -46823,
-         "journal": "journal:2025-06-01:33997"
+         "treatment": 49694,
+         "control": 0,
+         "journal": "journal:2025-05-01:25280"
         }
        ]
       }
      ],
-     "paid": 0,
-     "pick": null,
-     "sample": [],
-     "near": []
+     "paid": 3,
+     "pick": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274|in",
+     "sample": [
+      {
+       "target": "organization_54516994503e0a5c",
+       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
+       "date": "2025-02-01",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+       "way": "in",
+       "treatment": -26256,
+       "control": -108138,
+       "journal": "journal:2025-02-01:2033"
+      },
+      {
+       "target": "organization_54516a94503e0c0f",
+       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516a94503e0c0f",
+       "date": "2025-02-01",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+       "way": "in",
+       "treatment": -45594,
+       "control": -187749,
+       "journal": "journal:2025-02-01:2036"
+      },
+      {
+       "target": "organization_54516b94503e0dc2",
+       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516b94503e0dc2",
+       "date": "2025-02-01",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+       "way": "in",
+       "treatment": -31237,
+       "control": -128620,
+       "journal": "journal:2025-02-01:2039"
+      }
+     ],
+     "near": [
+      {
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+       "way": "in",
+       "targets": 3,
+       "first": {
+        "target": "organization_54516994503e0a5c",
+        "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_54516994503e0a5c",
+        "date": "2025-02-01",
+        "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+        "way": "in",
+        "treatment": -26256,
+        "control": -108138,
+        "journal": "journal:2025-02-01:2033"
+       }
+      }
+     ]
     }
    },
    "web": {
@@ -557,7 +527,7 @@
     "governments": 0,
     "other": 0,
     "open": 0,
-    "ended": 68,
+    "ended": 67,
     "sample": []
    },
    "afterUndoChanged": {
@@ -569,10 +539,10 @@
     "governments": 0,
     "other": 0,
     "open": 0,
-    "ended": 67,
+    "ended": 66,
     "sample": []
    },
-   "seconds": 69
+   "seconds": 70
   }
  ]
 }

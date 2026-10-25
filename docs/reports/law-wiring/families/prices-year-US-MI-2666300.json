@@ -34,12 +34,12 @@
    "reach": {
     "fullPeople": 0,
     "countedGroups": 38,
-    "countedPeople": 127,
-    "households": 51,
+    "countedPeople": 126,
+    "households": 52,
     "organizations": 0,
     "governments": 0,
     "other": 0,
-    "open": 89,
+    "open": 90,
     "ended": 0,
     "sample": [
      "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|jurisdiction_971998ff58477430:counted-group-6",
@@ -51,12 +51,12 @@
    "reachAtEnd": {
     "fullPeople": 0,
     "countedGroups": 38,
-    "countedPeople": 127,
-    "households": 51,
+    "countedPeople": 126,
+    "households": 52,
     "organizations": 0,
     "governments": 0,
     "other": 0,
-    "open": 89,
+    "open": 90,
     "ended": 0,
     "sample": [
      "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|jurisdiction_971998ff58477430:counted-group-6",
@@ -77,29 +77,9 @@
     "direct": [],
     "diff": [
      {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 372382850,
-      "control": 375615604,
-      "ids": [
-       "journal:2025-01-27:1708",
-       "journal:2025-01-28:1711",
-       "journal:2025-01-28:1714"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1295009294,
-      "control": 1293841516,
-      "ids": [
-       "journal:2025-01-21:1606",
-       "journal:2025-01-21:1607",
-       "journal:2025-01-21:1608"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 656176490,
-      "control": 657308258,
+      "treatment": 660010933,
+      "control": 661297572,
       "ids": [
        "journal:2025-02-01:2672",
        "journal:2025-02-01:2673",
@@ -107,13 +87,23 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 710208791511681,
-      "control": 710208790653767,
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+      "treatment": 1291393831,
+      "control": 1290425776,
       "ids": [
-       "journal:2025-02-01:1782",
-       "journal:2025-02-01:1783",
-       "journal:2025-02-01:1784"
+       "journal:2025-01-21:1606",
+       "journal:2025-01-21:1607",
+       "journal:2025-01-21:1608"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+      "treatment": 9392532,
+      "control": 8601564,
+      "ids": [
+       "journal:2025-02-19:8400",
+       "journal:2025-02-19:8401",
+       "journal:2025-02-19:8403"
       ]
      },
      {
@@ -121,45 +111,25 @@
       "treatment": 2385599,
       "control": 3137619,
       "ids": [
-       "journal:2025-10-01:64179",
-       "journal:2025-10-01:64180",
-       "journal:2025-10-01:64181"
+       "journal:2025-10-01:64171",
+       "journal:2025-10-01:64172",
+       "journal:2025-10-01:64173"
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 63206616,
-      "control": 62533298,
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+      "treatment": 244856641,
+      "control": 244244053,
       "ids": [
-       "journal:2025-01-21:1660",
-       "journal:2025-02-01:1950",
-       "journal:2025-02-01:1951"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
-      "treatment": 3331958364,
-      "control": 3332294985,
-      "ids": [
-       "journal:2025-01-27:1709",
-       "journal:2025-01-28:1712",
-       "journal:2025-01-28:1715"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
-      "treatment": 178000598,
-      "control": 178283978,
-      "ids": [
-       "journal:2025-02-01:2658",
-       "journal:2025-02-01:2659",
-       "journal:2025-02-01:2660"
+       "journal:2025-02-01:1974",
+       "journal:2025-02-01:1975",
+       "journal:2025-02-01:1976"
       ]
      },
      {
       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
-      "treatment": 177079580107252,
-      "control": 177079579877751,
+      "treatment": 177079580153627,
+      "control": 177079579787742,
       "ids": [
        "journal:2025-02-01:1772",
        "journal:2025-02-01:1773",
@@ -167,19 +137,9 @@
       ]
      },
      {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 31004541,
-      "control": 31180524,
-      "ids": [
-       "journal:2025-01-25:1680",
-       "journal:2025-01-25:1682",
-       "journal:2025-01-25:1684"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 62133982,
-      "control": 62011249,
+      "treatment": 61924673,
+      "control": 62288001,
       "ids": [
        "journal:2025-02-01:1991",
        "journal:2025-02-01:1993",
@@ -188,20 +148,60 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 349577189,
-      "control": 349459456,
+      "treatment": 349432459,
+      "control": 349101752,
       "ids": [
        "journal:2025-01-23:1677",
        "journal:2025-01-24:1678",
        "journal:2025-01-25:1679"
       ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+      "treatment": 178000607,
+      "control": 178235328,
+      "ids": [
+       "journal:2025-02-01:2658",
+       "journal:2025-02-01:2659",
+       "journal:2025-02-01:2660"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 63338144,
+      "control": 63117358,
+      "ids": [
+       "journal:2025-01-21:1660",
+       "journal:2025-02-01:1950",
+       "journal:2025-02-01:1951"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:558",
+      "treatment": 48600880,
+      "control": 48390215,
+      "ids": [
+       "journal:2025-01-21:1584",
+       "journal:2025-01-21:1585",
+       "journal:2025-01-21:1586"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+      "treatment": 3332171045,
+      "control": 3332309503,
+      "ids": [
+       "journal:2025-01-27:1709",
+       "journal:2025-01-28:1712",
+       "journal:2025-01-28:1715"
+      ]
      }
     ],
-    "diffKinds": 37,
+    "diffKinds": 36,
     "cited": [
      {
       "token": "law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
-      "gross": 583894,
+      "gross": 583800,
       "ids": [
        "journal:2025-02-03:7569",
        "journal:2025-02-03:7570",
@@ -210,7 +210,7 @@
      },
      {
       "token": "us-policy-positions:transportation-infrastructure.fare-free-transit",
-      "gross": 583894,
+      "gross": 583800,
       "ids": [
        "journal:2025-02-03:7569",
        "journal:2025-02-03:7570",
@@ -219,7 +219,7 @@
      },
      {
       "token": "law-wiring-167ca21b",
-      "gross": 583894,
+      "gross": 583800,
       "ids": [
        "journal:2025-02-03:7569",
        "journal:2025-02-03:7570",
@@ -229,14 +229,14 @@
     ],
     "controlCited": [],
     "own": {
-     "targets": 89,
+     "targets": 90,
      "among": "paid",
      "pairs": [
       {
        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.fare-free-transit",
        "way": "in",
-       "targets": 51,
-       "moved": 28409,
+       "targets": 52,
+       "moved": 28932,
        "earliest": "2025-02-03",
        "sample": [
         {
@@ -285,7 +285,7 @@
        "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
        "way": "out",
        "targets": 24,
-       "moved": 23176,
+       "moved": 23175,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -383,7 +383,7 @@
        "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
        "way": "in",
        "targets": 11,
-       "moved": 6452,
+       "moved": 6466,
        "earliest": "2025-02-13",
        "sample": [
         {
@@ -431,8 +431,8 @@
       {
        "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
        "way": "out",
-       "targets": 6,
-       "moved": 22754,
+       "targets": 5,
+       "moved": 22208,
        "earliest": "2025-04-01",
        "sample": [
         {
@@ -530,7 +530,7 @@
        "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
        "way": "out",
        "targets": 4,
-       "moved": 125647,
+       "moved": 191801,
        "earliest": "2025-11-10",
        "sample": [
         {
@@ -541,7 +541,17 @@
          "way": "out",
          "treatment": 134377,
          "control": 172771,
-         "journal": "journal:2025-11-10:79993"
+         "journal": "journal:2025-11-10:79944"
+        },
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd5ef1cc7f383ec6",
+         "date": "2025-11-24",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "out",
+         "treatment": 158525,
+         "control": 235312,
+         "journal": "journal:2025-11-24:80706"
         },
         {
          "target": "household_fd4a74cc7f26c155",
@@ -549,9 +559,9 @@
          "date": "2025-12-07",
          "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
          "way": "out",
-         "treatment": 38060,
+         "treatment": 28545,
          "control": 47575,
-         "journal": "journal:2025-12-07:88471"
+         "journal": "journal:2025-12-07:88365"
         },
         {
          "target": "household_fd5802cc7f323cfb",
@@ -561,17 +571,7 @@
          "way": "out",
          "treatment": 115181,
          "control": 172771,
-         "journal": "journal:2025-12-08:88545"
-        },
-        {
-         "target": "household_fd4dfbcc7f29dc91",
-         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd4dfbcc7f29dc91",
-         "date": "2025-12-27",
-         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-         "way": "out",
-         "treatment": 40296,
-         "control": 60444,
-         "journal": "journal:2025-12-27:89536"
+         "journal": "journal:2025-12-08:88440"
         }
        ]
       },
@@ -579,7 +579,7 @@
        "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
        "way": "in",
        "targets": 4,
-       "moved": 25320,
+       "moved": 42317,
        "earliest": "2025-11-10",
        "sample": [
         {
@@ -590,7 +590,17 @@
          "way": "in",
          "treatment": -20892,
          "control": -29973,
-         "journal": "journal:2025-11-10:79994"
+         "journal": "journal:2025-11-10:79945"
+        },
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd5ef1cc7f383ec6",
+         "date": "2025-11-24",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "in",
+         "treatment": -19668,
+         "control": -37828,
+         "journal": "journal:2025-11-24:80707"
         },
         {
          "target": "household_fd4a74cc7f26c155",
@@ -598,9 +608,9 @@
          "date": "2025-12-07",
          "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
          "way": "in",
-         "treatment": -2912,
+         "treatment": -2184,
          "control": -3640,
-         "journal": "journal:2025-12-07:88472"
+         "journal": "journal:2025-12-07:88366"
         },
         {
          "target": "household_fd5802cc7f323cfb",
@@ -610,74 +620,15 @@
          "way": "in",
          "treatment": -16353,
          "control": -29973,
-         "journal": "journal:2025-12-08:88546"
-        },
-        {
-         "target": "household_fd4dfbcc7f29dc91",
-         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd4dfbcc7f29dc91",
-         "date": "2025-12-27",
-         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
-         "way": "in",
-         "treatment": -3082,
-         "control": -4973,
-         "journal": "journal:2025-12-27:89537"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-       "way": "in",
-       "targets": 4,
-       "moved": 4,
-       "earliest": "2025-12-01",
-       "sample": [
-        {
-         "target": "household_fd4a6dcc7f26b570",
-         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd4a6dcc7f26b570",
-         "date": "2025-12-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "in",
-         "treatment": -177995,
-         "control": -177996,
-         "journal": "journal:2025-12-01:81483"
-        },
-        {
-         "target": "household_fd4dfacc7f29dade",
-         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd4dfacc7f29dade",
-         "date": "2025-12-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "in",
-         "treatment": -138679,
-         "control": -138680,
-         "journal": "journal:2025-12-01:81677"
-        },
-        {
-         "target": "household_fd5802cc7f323cfb",
-         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd5802cc7f323cfb",
-         "date": "2025-12-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "in",
-         "treatment": -117475,
-         "control": -117476,
-         "journal": "journal:2025-12-01:81871"
-        },
-        {
-         "target": "household_fd5ef1cc7f383ec6",
-         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd5ef1cc7f383ec6",
-         "date": "2025-12-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "in",
-         "treatment": -117475,
-         "control": -117476,
-         "journal": "journal:2025-12-01:81991"
+         "journal": "journal:2025-12-08:88441"
         }
        ]
       },
       {
        "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
        "way": "in",
-       "targets": 2,
-       "moved": 144394,
+       "targets": 3,
+       "moved": 259575,
        "earliest": "2025-11-09",
        "sample": [
         {
@@ -688,7 +639,7 @@
          "way": "in",
          "treatment": 106000,
          "control": 0,
-         "journal": "journal:2025-11-09:79906"
+         "journal": "journal:2025-11-09:79862"
         },
         {
          "target": "household_fd4a6dcc7f26b570",
@@ -698,12 +649,61 @@
          "way": "in",
          "treatment": 191968,
          "control": 153574,
-         "journal": "journal:2025-12-08:88560"
+         "journal": "journal:2025-12-08:88455"
+        },
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd5ef1cc7f383ec6",
+         "date": "2025-12-08",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 235312,
+         "control": 120131,
+         "journal": "journal:2025-12-08:88500"
+        }
+       ]
+      },
+      {
+       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+       "way": "out",
+       "targets": 3,
+       "moved": 49591,
+       "earliest": "2025-11-09",
+       "sample": [
+        {
+         "target": "household_fd5802cc7f323cfb",
+         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd5802cc7f323cfb",
+         "date": "2025-11-09",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": -14182,
+         "control": 0,
+         "journal": "journal:2025-11-09:79863"
+        },
+        {
+         "target": "household_fd4a6dcc7f26b570",
+         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd4a6dcc7f26b570",
+         "date": "2025-12-08",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": -34513,
+         "control": -25433,
+         "journal": "journal:2025-12-08:88456"
+        },
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_fd5ef1cc7f383ec6",
+         "date": "2025-12-08",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": -37828,
+         "control": -11499,
+         "journal": "journal:2025-12-08:88501"
         }
        ]
       }
      ],
-     "paid": 51,
+     "paid": 52,
      "pick": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.fare-free-transit|in",
      "sample": [
       {
@@ -751,7 +751,7 @@
       {
        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.fare-free-transit",
        "way": "in",
-       "targets": 51,
+       "targets": 52,
        "first": {
         "target": "household_1093168c88d35e93",
         "row": "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_1093168c88d35e93",
@@ -977,7 +977,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 77
+   "seconds": 98
   },
   {
    "key": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
@@ -1051,8 +1051,8 @@
     "diff": [
      {
       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 65182091,
-      "control": 62533298,
+      "treatment": 65916606,
+      "control": 63117358,
       "ids": [
        "journal:2025-01-21:1660",
        "journal:2025-02-01:1947",
@@ -1061,8 +1061,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 710208793130423,
-      "control": 710208790653767,
+      "treatment": 710208793629573,
+      "control": 710208791231564,
       "ids": [
        "journal:2025-02-01:1782",
        "journal:2025-02-01:1783",
@@ -1071,8 +1071,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 351168469,
-      "control": 349459456,
+      "treatment": 350809169,
+      "control": 349101752,
       "ids": [
        "journal:2025-01-23:1677",
        "journal:2025-01-24:1678",
@@ -1081,8 +1081,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
-      "treatment": 19030411,
-      "control": 17673253,
+      "treatment": 19001968,
+      "control": 17645742,
       "ids": [
        "journal:2025-02-03:7479",
        "journal:2025-02-03:7480",
@@ -1091,8 +1091,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 423389862,
-      "control": 423085541,
+      "treatment": 423744262,
+      "control": 423434469,
       "ids": [
        "journal:2025-01-21:1632",
        "journal:2025-01-21:1633",
@@ -1100,9 +1100,19 @@
       ]
      },
      {
+      "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+      "treatment": 3184600,
+      "control": 3137619,
+      "ids": [
+       "journal:2025-10-01:64651",
+       "journal:2025-10-01:64652",
+       "journal:2025-10-01:64653"
+      ]
+     },
+     {
       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 375710562,
-      "control": 375615604,
+      "treatment": 374649897,
+      "control": 374612033,
       "ids": [
        "journal:2025-01-27:1708",
        "journal:2025-01-28:1711",
@@ -1110,19 +1120,9 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
-      "treatment": 3184600,
-      "control": 3137619,
-      "ids": [
-       "journal:2025-10-01:64654",
-       "journal:2025-10-01:64655",
-       "journal:2025-10-01:64656"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 62029817,
-      "control": 62011249,
+      "treatment": 62307938,
+      "control": 62288001,
       "ids": [
        "journal:2025-02-01:1988",
        "journal:2025-02-01:1990",
@@ -1131,8 +1131,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
-      "treatment": 8620020,
-      "control": 8601529,
+      "treatment": 8620055,
+      "control": 8601564,
       "ids": [
        "journal:2025-02-19:8454",
        "journal:2025-02-19:8455",
@@ -1140,9 +1140,19 @@
       ]
      },
      {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+      "treatment": 244262009,
+      "control": 244244053,
+      "ids": [
+       "journal:2025-02-01:1971",
+       "journal:2025-02-01:1972",
+       "journal:2025-02-01:1973"
+      ]
+     },
+     {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
-      "treatment": 178300296,
-      "control": 178283978,
+      "treatment": 178251719,
+      "control": 178235328,
       "ids": [
        "journal:2025-02-01:2655",
        "journal:2025-02-01:2656",
@@ -1151,30 +1161,20 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 657319277,
-      "control": 657308258,
+      "treatment": 661308613,
+      "control": 661297572,
       "ids": [
        "journal:2025-02-01:2669",
        "journal:2025-02-01:2670",
        "journal:2025-02-01:2671"
       ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 31189075,
-      "control": 31180524,
-      "ids": [
-       "journal:2025-01-25:1680",
-       "journal:2025-01-25:1682",
-       "journal:2025-01-25:1684"
-      ]
      }
     ],
-    "diffKinds": 33,
+    "diffKinds": 34,
     "cited": [
      {
       "token": "law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
-      "gross": 5700155,
+      "gross": 5696358,
       "ids": [
        "journal:2025-02-03:7566",
        "journal:2025-02-03:7567",
@@ -1183,7 +1183,7 @@
      },
      {
       "token": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "gross": 5700155,
+      "gross": 5696358,
       "ids": [
        "journal:2025-02-03:7566",
        "journal:2025-02-03:7567",
@@ -1192,7 +1192,7 @@
      },
      {
       "token": "law-wiring-9b95e871",
-      "gross": 5700155,
+      "gross": 5696358,
       "ids": [
        "journal:2025-02-03:7566",
        "journal:2025-02-03:7567",
@@ -1306,8 +1306,8 @@
       {
        "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
        "way": "out",
-       "targets": 17,
-       "moved": 1215,
+       "targets": 16,
+       "moved": 1214,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -1453,8 +1453,8 @@
       {
        "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
        "way": "out",
-       "targets": 5,
-       "moved": 3602,
+       "targets": 4,
+       "moved": 3229,
        "earliest": "2025-04-01",
        "sample": [
         {
@@ -1550,9 +1550,9 @@
          "date": "2026-01-01",
          "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
          "way": "in",
-         "treatment": -28226,
-         "control": -30490,
-         "journal": "journal:2026-01-01:91691"
+         "treatment": -28223,
+         "control": -30487,
+         "journal": "journal:2026-01-01:91604"
         }
        ]
       },
@@ -1855,7 +1855,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 70
+   "seconds": 93
   },
   {
    "key": "us-policy-positions:transportation-infrastructure.public-broadband",
@@ -1883,13 +1883,13 @@
    },
    "reach": {
     "fullPeople": 0,
-    "countedGroups": 39,
-    "countedPeople": 128,
+    "countedGroups": 38,
+    "countedPeople": 125,
     "households": 52,
     "organizations": 0,
     "governments": 1,
     "other": 0,
-    "open": 92,
+    "open": 91,
     "ended": 0,
     "sample": [
      "applied|us-policy-positions:transportation-infrastructure.public-broadband|jurisdiction_971998ff58477430:counted-group-6",
@@ -1900,13 +1900,13 @@
    },
    "reachAtEnd": {
     "fullPeople": 0,
-    "countedGroups": 39,
-    "countedPeople": 128,
+    "countedGroups": 38,
+    "countedPeople": 125,
     "households": 52,
     "organizations": 0,
     "governments": 1,
     "other": 0,
-    "open": 92,
+    "open": 91,
     "ended": 0,
     "sample": [
      "applied|us-policy-positions:transportation-infrastructure.public-broadband|jurisdiction_971998ff58477430:counted-group-6",
@@ -1938,8 +1938,8 @@
     "diff": [
      {
       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 710208796892035,
-      "control": 710208790653767,
+      "treatment": 710208796340026,
+      "control": 710208791231564,
       "ids": [
        "journal:2025-02-01:1782",
        "journal:2025-02-01:1783",
@@ -1948,8 +1948,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 353137232,
-      "control": 349459456,
+      "treatment": 352874970,
+      "control": 349101752,
       "ids": [
        "journal:2025-01-23:1677",
        "journal:2025-01-24:1678",
@@ -1957,49 +1957,9 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 659882679,
-      "control": 657308258,
-      "ids": [
-       "journal:2025-02-01:2669",
-       "journal:2025-02-01:2670",
-       "journal:2025-02-01:2671"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 64464795,
-      "control": 62533298,
-      "ids": [
-       "journal:2025-01-21:1660",
-       "journal:2025-02-01:1947",
-       "journal:2025-02-01:1948"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
-      "treatment": 19600747,
-      "control": 17673253,
-      "ids": [
-       "journal:2025-02-03:7479",
-       "journal:2025-02-03:7480",
-       "journal:2025-02-03:7481"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1291958139,
-      "control": 1293841516,
-      "ids": [
-       "journal:2025-01-21:1606",
-       "journal:2025-01-21:1607",
-       "journal:2025-01-21:1608"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 424531904,
-      "control": 423085541,
+      "treatment": 425582869,
+      "control": 423434469,
       "ids": [
        "journal:2025-01-21:1632",
        "journal:2025-01-21:1633",
@@ -2007,18 +1967,48 @@
       ]
      },
      {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 374688968,
-      "control": 375615604,
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+      "treatment": 1292559931,
+      "control": 1290425776,
       "ids": [
-       "journal:2025-01-27:1708",
-       "journal:2025-01-28:1711",
-       "journal:2025-01-28:1714"
+       "journal:2025-01-21:1606",
+       "journal:2025-01-21:1607",
+       "journal:2025-01-21:1608"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
+      "treatment": 19572797,
+      "control": 17645742,
+      "ids": [
+       "journal:2025-02-03:7479",
+       "journal:2025-02-03:7480",
+       "journal:2025-02-03:7481"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 64869398,
+      "control": 63117358,
+      "ids": [
+       "journal:2025-01-21:1660",
+       "journal:2025-02-01:1947",
+       "journal:2025-02-01:1948"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+      "treatment": 659608386,
+      "control": 661297572,
+      "ids": [
+       "journal:2025-02-01:2669",
+       "journal:2025-02-01:2670",
+       "journal:2025-02-01:2671"
       ]
      },
      {
       "kind": "accounts.transfer @ src/core2/official-living.ts:102",
-      "treatment": 3259682344,
+      "treatment": 3259166734,
       "control": 3260385386,
       "ids": [
        "journal:2025-01-27:1699",
@@ -2027,37 +2017,47 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 62523565,
-      "control": 62011249,
+      "kind": "accounts.transfer @ src/core2/official-living.ts:75",
+      "treatment": 43742818,
+      "control": 44831581,
       "ids": [
-       "journal:2025-02-01:1988",
-       "journal:2025-02-01:1990",
-       "journal:2025-02-01:1992"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:431",
-      "treatment": 357035,
-      "control": 790164,
-      "ids": [
-       "journal:2025-11-01:72682",
-       "journal:2025-11-01:72683",
-       "journal:2025-12-01:81055"
+       "journal:2025-01-21:1661",
+       "journal:2025-01-21:1662",
+       "journal:2025-01-21:1663"
       ]
      },
      {
       "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
-      "treatment": 3539214,
+      "treatment": 2161598,
       "control": 3137619,
       "ids": [
-       "journal:2025-10-01:64271",
-       "journal:2025-10-01:64272",
-       "journal:2025-11-01:72684"
+       "journal:2025-10-01:64268",
+       "journal:2025-10-01:64269",
+       "journal:2025-11-01:72683"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:431",
+      "treatment": 152636,
+      "control": 790164,
+      "ids": [
+       "journal:2025-11-01:72681",
+       "journal:2025-11-01:72682",
+       "journal:2025-12-01:81066"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+      "treatment": 244866968,
+      "control": 244244053,
+      "ids": [
+       "journal:2025-02-01:1971",
+       "journal:2025-02-01:1972",
+       "journal:2025-02-01:1973"
       ]
      }
     ],
-    "diffKinds": 39,
+    "diffKinds": 40,
     "cited": [
      {
       "token": "law:place:2666300:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
@@ -2089,14 +2089,14 @@
     ],
     "controlCited": [],
     "own": {
-     "targets": 92,
+     "targets": 91,
      "among": "paid",
      "pairs": [
       {
        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.public-broadband",
        "way": "in",
-       "targets": 42,
-       "moved": 58716,
+       "targets": 43,
+       "moved": 60114,
        "earliest": "2025-02-03",
        "sample": [
         {
@@ -2144,8 +2144,8 @@
       {
        "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
        "way": "out",
-       "targets": 24,
-       "moved": 53026,
+       "targets": 25,
+       "moved": 92423,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -2194,7 +2194,7 @@
        "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
        "way": "out",
        "targets": 15,
-       "moved": 5624,
+       "moved": 5616,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -2241,58 +2241,9 @@
       },
       {
        "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-       "way": "out",
-       "targets": 10,
-       "moved": 15389,
-       "earliest": "2025-02-03",
-       "sample": [
-        {
-         "target": "household_fd547ecc7f2f26d8",
-         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd547ecc7f2f26d8",
-         "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -1398,
-         "control": 0,
-         "journal": "journal:2025-02-03:8009"
-        },
-        {
-         "target": "household_10931b8c88d36712",
-         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_10931b8c88d36712",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -31447,
-         "control": -30049,
-         "journal": "journal:2025-03-01:9920"
-        },
-        {
-         "target": "household_fd4a71cc7f26bc3c",
-         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd4a71cc7f26bc3c",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -8329,
-         "control": -6931,
-         "journal": "journal:2025-03-01:9923"
-        },
-        {
-         "target": "household_1093168c88d35e93",
-         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_1093168c88d35e93",
-         "date": "2025-03-03",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -1398,
-         "control": 0,
-         "journal": "journal:2025-03-03:15387"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
        "way": "in",
-       "targets": 8,
-       "moved": 15305,
+       "targets": 9,
+       "moved": 15545,
        "earliest": "2025-02-13",
        "sample": [
         {
@@ -2334,6 +2285,55 @@
          "treatment": -75345,
          "control": -76743,
          "journal": "journal:2025-03-21:16114"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+       "way": "out",
+       "targets": 9,
+       "moved": 15378,
+       "earliest": "2025-02-03",
+       "sample": [
+        {
+         "target": "household_fd547ecc7f2f26d8",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd547ecc7f2f26d8",
+         "date": "2025-02-03",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+         "way": "out",
+         "treatment": -1398,
+         "control": 0,
+         "journal": "journal:2025-02-03:8009"
+        },
+        {
+         "target": "household_10931b8c88d36712",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_10931b8c88d36712",
+         "date": "2025-03-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+         "way": "out",
+         "treatment": -31447,
+         "control": -30049,
+         "journal": "journal:2025-03-01:9920"
+        },
+        {
+         "target": "household_fd4a71cc7f26bc3c",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd4a71cc7f26bc3c",
+         "date": "2025-03-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+         "way": "out",
+         "treatment": -8329,
+         "control": -6931,
+         "journal": "journal:2025-03-01:9923"
+        },
+        {
+         "target": "household_1093168c88d35e93",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_1093168c88d35e93",
+         "date": "2025-03-03",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+         "way": "out",
+         "treatment": -1398,
+         "control": 0,
+         "journal": "journal:2025-03-03:15387"
         }
        ]
       },
@@ -2387,87 +2387,10 @@
        ]
       },
       {
-       "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-       "way": "in",
-       "targets": 2,
-       "moved": 2807,
-       "earliest": "2025-05-01",
-       "sample": [
-        {
-         "target": "household_1093228c88d372f7",
-         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_1093228c88d372f7",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -25124,
-         "control": -27928,
-         "journal": "journal:2025-05-01:30382"
-        },
-        {
-         "target": "household_fd5ef1cc7f383ec6",
-         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5ef1cc7f383ec6",
-         "date": "2025-12-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -48466,
-         "control": -48469,
-         "journal": "journal:2025-12-01:87112"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/life.ts:558",
-       "way": "in",
-       "targets": 2,
-       "moved": 28,
-       "earliest": "2025-12-21",
-       "sample": [
-        {
-         "target": "household_fd4a74cc7f26c155",
-         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd4a74cc7f26c155",
-         "date": "2025-12-21",
-         "kind": "accounts.transfer @ src/core2/life.ts:558",
-         "way": "in",
-         "treatment": 36373,
-         "control": 36360,
-         "journal": "journal:2025-12-21:88908"
-        },
-        {
-         "target": "household_fd5484cc7f2f310a",
-         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5484cc7f2f310a",
-         "date": "2026-01-21",
-         "kind": "accounts.transfer @ src/core2/life.ts:558",
-         "way": "in",
-         "treatment": 37776,
-         "control": 37761,
-         "journal": "journal:2026-01-21:97676"
-        }
-       ]
-      },
-      {
-       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-       "way": "out",
-       "targets": 1,
-       "moved": 19197,
-       "earliest": "2025-12-08",
-       "sample": [
-        {
-         "target": "household_fd4a74cc7f26c155",
-         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd4a74cc7f26c155",
-         "date": "2025-12-08",
-         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-         "way": "out",
-         "treatment": 57590,
-         "control": 76787,
-         "journal": "journal:2025-12-08:88297"
-        }
-       ]
-      },
-      {
        "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
        "way": "in",
-       "targets": 1,
-       "moved": 19197,
+       "targets": 3,
+       "moved": 221181,
        "earliest": "2025-04-28",
        "sample": [
         {
@@ -2479,11 +2402,148 @@
          "treatment": 197702,
          "control": 178505,
          "journal": "journal:2025-04-28:24183"
+        },
+        {
+         "target": "household_fd5802cc7f323cfb",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5802cc7f323cfb",
+         "date": "2025-11-09",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 106000,
+         "control": 0,
+         "journal": "journal:2025-11-09:79873"
+        },
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5ef1cc7f383ec6",
+         "date": "2025-12-08",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 216115,
+         "control": 120131,
+         "journal": "journal:2025-12-08:88392"
+        }
+       ]
+      },
+      {
+       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+       "way": "out",
+       "targets": 3,
+       "moved": 115181,
+       "earliest": "2025-11-24",
+       "sample": [
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5ef1cc7f383ec6",
+         "date": "2025-11-24",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "out",
+         "treatment": 196918,
+         "control": 235312,
+         "journal": "journal:2025-11-24:80690"
+        },
+        {
+         "target": "household_fd4a74cc7f26c155",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd4a74cc7f26c155",
+         "date": "2025-12-08",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "out",
+         "treatment": 57590,
+         "control": 76787,
+         "journal": "journal:2025-12-08:88334"
+        },
+        {
+         "target": "household_fd5802cc7f323cfb",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5802cc7f323cfb",
+         "date": "2025-12-08",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "out",
+         "treatment": 115181,
+         "control": 172771,
+         "journal": "journal:2025-12-08:88337"
+        }
+       ]
+      },
+      {
+       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+       "way": "out",
+       "targets": 3,
+       "moved": 40561,
+       "earliest": "2025-04-28",
+       "sample": [
+        {
+         "target": "household_fd7376cc7f49c9cf",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd7376cc7f49c9cf",
+         "date": "2025-04-28",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": -34137,
+         "control": -29547,
+         "journal": "journal:2025-04-28:24184"
+        },
+        {
+         "target": "household_fd5802cc7f323cfb",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5802cc7f323cfb",
+         "date": "2025-11-09",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": -14182,
+         "control": 0,
+         "journal": "journal:2025-11-09:79874"
+        },
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5ef1cc7f383ec6",
+         "date": "2025-12-08",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": -33288,
+         "control": -11499,
+         "journal": "journal:2025-12-08:88393"
+        }
+       ]
+      },
+      {
+       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+       "way": "in",
+       "targets": 3,
+       "moved": 26471,
+       "earliest": "2025-11-24",
+       "sample": [
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5ef1cc7f383ec6",
+         "date": "2025-11-24",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "in",
+         "treatment": -28748,
+         "control": -37828,
+         "journal": "journal:2025-11-24:80691"
+        },
+        {
+         "target": "household_fd4a74cc7f26c155",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd4a74cc7f26c155",
+         "date": "2025-12-08",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "in",
+         "treatment": -4413,
+         "control": -8184,
+         "journal": "journal:2025-12-08:88335"
+        },
+        {
+         "target": "household_fd5802cc7f323cfb",
+         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_fd5802cc7f323cfb",
+         "date": "2025-12-08",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "in",
+         "treatment": -16353,
+         "control": -29973,
+         "journal": "journal:2025-12-08:88338"
         }
        ]
       }
      ],
-     "paid": 42,
+     "paid": 43,
      "pick": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.public-broadband|in",
      "sample": [
       {
@@ -2531,7 +2591,7 @@
       {
        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:transportation-infrastructure.public-broadband",
        "way": "in",
-       "targets": 42,
+       "targets": 43,
        "first": {
         "target": "household_1093168c88d35e93",
         "row": "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_1093168c88d35e93",
@@ -2643,7 +2703,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 72
+   "seconds": 88
   },
   {
    "key": "sales-tax",
@@ -2720,20 +2780,30 @@
     "direct": [
      {
       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
-      "treatment": 3332288783,
-      "control": 3332294985,
+      "treatment": 3332414203,
+      "control": 3332309503,
       "ids": [
        "journal:2025-01-27:1709",
        "journal:2025-01-28:1712",
        "journal:2025-01-28:1715"
       ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/budgets.ts:942",
+      "treatment": 13530218,
+      "control": 13530222,
+      "ids": [
+       "journal:2025-03-01:8605",
+       "journal:2025-03-01:8606",
+       "journal:2025-03-01:8607"
+      ]
      }
     ],
     "diff": [
      {
-      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-      "treatment": 21800682,
-      "control": 18929138,
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+      "treatment": 21703245,
+      "control": 18847204,
       "ids": [
        "journal:2025-02-01:1989",
        "journal:2025-02-01:1991",
@@ -2741,29 +2811,9 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 660132739,
-      "control": 657308258,
-      "ids": [
-       "journal:2025-02-01:2669",
-       "journal:2025-02-01:2670",
-       "journal:2025-02-01:2671"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1291746737,
-      "control": 1293841516,
-      "ids": [
-       "journal:2025-01-21:1606",
-       "journal:2025-01-21:1607",
-       "journal:2025-01-21:1608"
-      ]
-     },
-     {
       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-      "treatment": 244627289,
-      "control": 245813046,
+      "treatment": 242997692,
+      "control": 244244053,
       "ids": [
        "journal:2025-02-01:1971",
        "journal:2025-02-01:1972",
@@ -2771,13 +2821,63 @@
       ]
      },
      {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+      "treatment": 1291443294,
+      "control": 1290425776,
+      "ids": [
+       "journal:2025-01-21:1606",
+       "journal:2025-01-21:1607",
+       "journal:2025-01-21:1608"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+      "treatment": 375308942,
+      "control": 374612033,
+      "ids": [
+       "journal:2025-01-27:1708",
+       "journal:2025-01-28:1711",
+       "journal:2025-01-28:1714"
+      ]
+     },
+     {
       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 422828422,
-      "control": 423085541,
+      "treatment": 422917231,
+      "control": 423434469,
       "ids": [
        "journal:2025-01-21:1632",
        "journal:2025-01-21:1633",
        "journal:2025-01-21:1634"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+      "treatment": 660996550,
+      "control": 661297572,
+      "ids": [
+       "journal:2025-02-01:2669",
+       "journal:2025-02-01:2670",
+       "journal:2025-02-01:2671"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+      "treatment": 710208791114119,
+      "control": 710208791231564,
+      "ids": [
+       "journal:2025-02-01:1782",
+       "journal:2025-02-01:1783",
+       "journal:2025-02-01:1784"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+      "treatment": 3332414203,
+      "control": 3332309503,
+      "ids": [
+       "journal:2025-01-27:1709",
+       "journal:2025-01-28:1712",
+       "journal:2025-01-28:1715"
       ]
      },
      {
@@ -2786,23 +2886,23 @@
       "control": 58134494,
       "ids": [
        "journal:2025-03-01:8834",
-       "journal:2025-09-01:55542"
+       "journal:2025-09-01:55540"
       ]
      },
      {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 375532144,
-      "control": 375615604,
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 63027620,
+      "control": 63117358,
       "ids": [
-       "journal:2025-01-27:1708",
-       "journal:2025-01-28:1711",
-       "journal:2025-01-28:1714"
+       "journal:2025-01-21:1660",
+       "journal:2025-02-01:1947",
+       "journal:2025-02-01:1948"
       ]
      },
      {
       "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
-      "treatment": 4234680,
-      "control": 4181364,
+      "treatment": 4201770,
+      "control": 4122804,
       "ids": [
        "journal:2025-07-01:45384",
        "journal:2025-07-01:45387",
@@ -2810,51 +2910,21 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:812",
-      "treatment": 80621771901913,
-      "control": 80621771934192,
-      "ids": [
-       "journal:2025-02-01:1760",
-       "journal:2025-02-01:1761",
-       "journal:2025-02-01:1762"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 710208790681584,
-      "control": 710208790653767,
-      "ids": [
-       "journal:2025-02-01:1782",
-       "journal:2025-02-01:1783",
-       "journal:2025-02-01:1784"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 349443470,
-      "control": 349459456,
+      "treatment": 349024693,
+      "control": 349101752,
       "ids": [
        "journal:2025-01-23:1677",
        "journal:2025-01-24:1678",
        "journal:2025-01-25:1679"
       ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
-      "treatment": 177079579893588,
-      "control": 177079579877751,
-      "ids": [
-       "journal:2025-02-01:1772",
-       "journal:2025-02-01:1773",
-       "journal:2025-02-01:1774"
-      ]
      }
     ],
-    "diffKinds": 32,
+    "diffKinds": 34,
     "cited": [
      {
       "token": "sales-tax",
-      "gross": 21800682,
+      "gross": 21703245,
       "ids": [
        "journal:2025-02-01:1989",
        "journal:2025-02-01:1991",
@@ -2871,7 +2941,7 @@
        "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
        "way": "out",
        "targets": 34,
-       "moved": 78,
+       "moved": 85,
        "earliest": "2025-05-01",
        "sample": [
         {
@@ -2920,7 +2990,7 @@
        "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
        "way": "in",
        "targets": 16,
-       "moved": 221343,
+       "moved": 221335,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -2966,7 +3036,7 @@
        ]
       },
       {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "out",
        "targets": 15,
        "moved": 216016,
@@ -2976,7 +3046,7 @@
          "target": "organization_2106f7c068e1dbdb",
          "row": "applied|sales-tax|organization_2106f7c068e1dbdb",
          "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "out",
          "treatment": -56031,
          "control": -48476,
@@ -2986,7 +3056,7 @@
          "target": "organization_2d138e5f9a5809f8",
          "row": "applied|sales-tax|organization_2d138e5f9a5809f8",
          "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "out",
          "treatment": -25999,
          "control": -22501,
@@ -2996,7 +3066,7 @@
          "target": "organization_6bfeefad73e308c6",
          "row": "applied|sales-tax|organization_6bfeefad73e308c6",
          "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "out",
          "treatment": -22229,
          "control": -19232,
@@ -3006,7 +3076,7 @@
          "target": "organization_743abf8a0235301d",
          "row": "applied|sales-tax|organization_743abf8a0235301d",
          "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "out",
          "treatment": -9327,
          "control": -8069,
@@ -3066,8 +3136,8 @@
       {
        "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
        "way": "in",
-       "targets": 8,
-       "moved": 90,
+       "targets": 9,
+       "moved": 8606,
        "earliest": "2025-03-11",
        "sample": [
         {
@@ -3098,7 +3168,7 @@
          "way": "in",
          "treatment": -5596,
          "control": -5597,
-         "journal": "journal:2025-09-01:56726"
+         "journal": "journal:2025-09-01:56724"
         },
         {
          "target": "person_75adb4381bf866d3",
@@ -3108,15 +3178,15 @@
          "way": "in",
          "treatment": -31161,
          "control": -31168,
-         "journal": "journal:2025-11-01:73148"
+         "journal": "journal:2025-11-01:73124"
         }
        ]
       },
       {
        "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
        "way": "out",
-       "targets": 8,
-       "moved": 47,
+       "targets": 9,
+       "moved": 8563,
        "earliest": "2025-04-15",
        "sample": [
         {
@@ -3147,7 +3217,7 @@
          "way": "out",
          "treatment": -11622,
          "control": -11621,
-         "journal": "journal:2025-09-15:62751"
+         "journal": "journal:2025-09-15:62749"
         },
         {
          "target": "person_75adb3381bf86520",
@@ -3157,7 +3227,7 @@
          "way": "out",
          "treatment": -49559,
          "control": -49552,
-         "journal": "journal:2025-11-01:73149"
+         "journal": "journal:2025-11-01:73125"
         }
        ]
       },
@@ -3260,10 +3330,59 @@
        ]
       },
       {
+       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+       "way": "out",
+       "targets": 4,
+       "moved": 76027,
+       "earliest": "2025-02-27",
+       "sample": [
+        {
+         "target": "person_95f684085236b198",
+         "row": "applied|sales-tax|person_95f684085236b198",
+         "date": "2025-02-27",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "out",
+         "treatment": 166920,
+         "control": 194740,
+         "journal": "journal:2025-02-27:8541"
+        },
+        {
+         "target": "person_4f080ed099c4eb6e",
+         "row": "applied|sales-tax|person_4f080ed099c4eb6e",
+         "date": "2026-01-05",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "out",
+         "treatment": 115180,
+         "control": 115181,
+         "journal": "journal:2026-01-05:95839"
+        },
+        {
+         "target": "person_6cc6677b3f67daa3",
+         "row": "applied|sales-tax|person_6cc6677b3f67daa3",
+         "date": "2026-01-05",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "out",
+         "treatment": 153574,
+         "control": 191968,
+         "journal": "journal:2026-01-05:95806"
+        },
+        {
+         "target": "person_63d17a32b8f79298",
+         "row": "applied|sales-tax|person_63d17a32b8f79298",
+         "date": "2026-01-18",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "out",
+         "treatment": 48763,
+         "control": 58575,
+         "journal": "journal:2026-01-18:96536"
+        }
+       ]
+      },
+      {
        "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
        "way": "in",
        "targets": 3,
-       "moved": 771557,
+       "moved": 771560,
        "earliest": "2025-05-13",
        "sample": [
         {
@@ -3282,9 +3401,9 @@
          "date": "2025-12-01",
          "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
          "way": "in",
-         "treatment": -15369,
-         "control": -15389,
-         "journal": "journal:2025-12-01:81553"
+         "treatment": -15383,
+         "control": -15404,
+         "journal": "journal:2025-12-01:81492"
         },
         {
          "target": "person_6cc6667b3f67d8f0",
@@ -3292,48 +3411,9 @@
          "date": "2025-12-01",
          "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
          "way": "in",
-         "treatment": -19772,
-         "control": -19810,
-         "journal": "journal:2025-12-01:81556"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-       "way": "in",
-       "targets": 3,
-       "moved": 1841,
-       "earliest": "2025-03-01",
-       "sample": [
-        {
-         "target": "organization_743abf8a0235301d",
-         "row": "applied|sales-tax|organization_743abf8a0235301d",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-         "way": "in",
-         "treatment": -298686,
-         "control": -298849,
-         "journal": "journal:2025-03-01:8843"
-        },
-        {
-         "target": "organization_bf3514ed538a80e6",
-         "row": "applied|sales-tax|organization_bf3514ed538a80e6",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-         "way": "in",
-         "treatment": -156764,
-         "control": -157843,
-         "journal": "journal:2025-03-01:8849"
-        },
-        {
-         "target": "organization_bf3515ed538a8299",
-         "row": "applied|sales-tax|organization_bf3515ed538a8299",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-         "way": "in",
-         "treatment": -174642,
-         "control": -175241,
-         "journal": "journal:2025-03-01:8840"
+         "treatment": -19771,
+         "control": -19811,
+         "journal": "journal:2025-12-01:81495"
         }
        ]
       }
@@ -3452,7 +3532,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 73
+   "seconds": 81
   },
   {
    "key": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
@@ -3530,20 +3610,30 @@
     "direct": [
      {
       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
-      "treatment": 3332165110,
-      "control": 3332294985,
+      "treatment": 3332311197,
+      "control": 3332309503,
       "ids": [
        "journal:2025-01-27:1709",
        "journal:2025-01-28:1712",
        "journal:2025-01-28:1715"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/budgets.ts:942",
+      "treatment": 13530219,
+      "control": 13530222,
+      "ids": [
+       "journal:2025-03-01:8605",
+       "journal:2025-03-01:8606",
+       "journal:2025-03-01:8607"
       ]
      }
     ],
     "diff": [
      {
       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 70201279,
-      "control": 62533298,
+      "treatment": 70712209,
+      "control": 63117358,
       "ids": [
        "journal:2025-01-21:1660",
        "journal:2025-02-01:1947",
@@ -3552,8 +3642,8 @@
      },
      {
       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-      "treatment": 239668842,
-      "control": 245813046,
+      "treatment": 237968061,
+      "control": 244244053,
       "ids": [
        "journal:2025-02-01:1971",
        "journal:2025-02-01:1972",
@@ -3562,8 +3652,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 419671573,
-      "control": 423085541,
+      "treatment": 419966340,
+      "control": 423434469,
       "ids": [
        "journal:2025-01-21:1632",
        "journal:2025-01-21:1633",
@@ -3572,8 +3662,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1295659531,
-      "control": 1293841516,
+      "treatment": 1293691864,
+      "control": 1290425776,
       "ids": [
        "journal:2025-01-21:1606",
        "journal:2025-01-21:1607",
@@ -3581,19 +3671,9 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 658794748,
-      "control": 657308258,
-      "ids": [
-       "journal:2025-02-01:2669",
-       "journal:2025-02-01:2670",
-       "journal:2025-02-01:2671"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 348463592,
-      "control": 349459456,
+      "treatment": 348053161,
+      "control": 349101752,
       "ids": [
        "journal:2025-01-23:1677",
        "journal:2025-01-24:1678",
@@ -3601,9 +3681,9 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-      "treatment": 19818637,
-      "control": 18929138,
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+      "treatment": 19730304,
+      "control": 18847204,
       "ids": [
        "journal:2025-02-01:1989",
        "journal:2025-02-01:1991",
@@ -3612,8 +3692,8 @@
      },
      {
       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 375250495,
-      "control": 375615604,
+      "treatment": 375016694,
+      "control": 374612033,
       "ids": [
        "journal:2025-01-27:1708",
        "journal:2025-01-28:1711",
@@ -3621,23 +3701,23 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
-      "treatment": 177950986,
-      "control": 178283978,
-      "ids": [
-       "journal:2025-02-01:2655",
-       "journal:2025-02-01:2656",
-       "journal:2025-02-01:2657"
-      ]
-     },
-     {
       "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
-      "treatment": 4495039,
-      "control": 4181364,
+      "treatment": 4500200,
+      "control": 4122804,
       "ids": [
        "journal:2025-07-01:45384",
        "journal:2025-07-01:45387",
        "journal:2025-07-01:45399"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+      "treatment": 177902391,
+      "control": 178235328,
+      "ids": [
+       "journal:2025-02-01:2655",
+       "journal:2025-02-01:2656",
+       "journal:2025-02-01:2657"
       ]
      },
      {
@@ -3646,81 +3726,81 @@
       "control": 58134494,
       "ids": [
        "journal:2025-03-01:8834",
-       "journal:2025-09-01:55557"
+       "journal:2025-09-01:55555"
       ]
      },
      {
       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
-      "treatment": 177079580128184,
-      "control": 177079579877751,
+      "treatment": 177079579980277,
+      "control": 177079579787742,
       "ids": [
        "journal:2025-02-01:1772",
        "journal:2025-02-01:1773",
        "journal:2025-02-01:1774"
       ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:431",
+      "treatment": 968564,
+      "control": 790164,
+      "ids": [
+       "journal:2025-11-01:71987",
+       "journal:2025-11-01:71988",
+       "journal:2025-11-01:71989"
+      ]
      }
     ],
-    "diffKinds": 35,
+    "diffKinds": 37,
     "cited": [],
     "controlCited": [],
     "own": {
-     "targets": 186,
+     "targets": 3,
      "among": "paid",
      "pairs": [
       {
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "in",
-       "targets": 36,
-       "moved": 86,
-       "earliest": "2025-05-01",
+       "targets": 3,
+       "moved": 199652,
+       "earliest": "2025-02-01",
        "sample": [
         {
-         "target": "household_1093198c88d363ac",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_1093198c88d363ac",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+         "target": "organization_e1c745b8ee72df03",
+         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c745b8ee72df03",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
-         "treatment": -197230,
-         "control": -197229,
-         "journal": "journal:2025-05-01:24205"
+         "treatment": -109175,
+         "control": -26527,
+         "journal": "journal:2025-02-01:2011"
         },
         {
-         "target": "household_fd5eefcc7f383b60",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_fd5eefcc7f383b60",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+         "target": "organization_e1c746b8ee72e0b6",
+         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c746b8ee72e0b6",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
-         "treatment": -154686,
-         "control": -154685,
-         "journal": "journal:2025-05-01:24625"
+         "treatment": -85735,
+         "control": -20827,
+         "journal": "journal:2025-02-01:2013"
         },
         {
-         "target": "household_fd5efacc7f384e11",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_fd5efacc7f384e11",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+         "target": "organization_e1c747b8ee72e269",
+         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c747b8ee72e269",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
-         "treatment": -154686,
-         "control": -154685,
-         "journal": "journal:2025-05-01:24783"
-        },
-        {
-         "target": "household_fd767acc7f4c0672",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_fd767acc7f4c0672",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "in",
-         "treatment": -154686,
-         "control": -154685,
-         "journal": "journal:2025-05-01:25152"
+         "treatment": -68802,
+         "control": -16706,
+         "journal": "journal:2025-02-01:2015"
         }
        ]
       },
       {
        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
        "way": "out",
-       "targets": 9,
-       "moved": 123179,
+       "targets": 2,
+       "moved": 123125,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -3742,132 +3822,43 @@
          "treatment": -13749,
          "control": -68571,
          "journal": "journal:2025-03-01:8835"
-        },
-        {
-         "target": "household_fd5ef6cc7f384745",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_fd5ef6cc7f384745",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-         "way": "out",
-         "treatment": 2543177,
-         "control": 2543160,
-         "journal": "journal:2025-05-01:24120"
-        },
-        {
-         "target": "person_72a5ecaa7a6a34c8",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_72a5ecaa7a6a34c8",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-         "way": "out",
-         "treatment": 107400,
-         "control": 107392,
-         "journal": "journal:2025-05-01:24120"
         }
        ]
       },
       {
-       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-       "way": "in",
-       "targets": 9,
-       "moved": 890,
-       "earliest": "2025-05-01",
-       "sample": [
-        {
-         "target": "person_a4689c4c0a9e7d60",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_a4689c4c0a9e7d60",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "in",
-         "treatment": -21460,
-         "control": -21459,
-         "journal": "journal:2025-05-01:25198"
-        },
-        {
-         "target": "person_507b786a6834007d",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_507b786a6834007d",
-         "date": "2025-09-15",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "in",
-         "treatment": -11622,
-         "control": -11621,
-         "journal": "journal:2025-09-15:62750"
-        },
-        {
-         "target": "person_75adb4381bf866d3",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_75adb4381bf866d3",
-         "date": "2025-11-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "in",
-         "treatment": -31171,
-         "control": -31168,
-         "journal": "journal:2025-11-01:73145"
-        },
-        {
-         "target": "person_daa173be854bed16",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_daa173be854bed16",
-         "date": "2025-12-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "in",
-         "treatment": -42417,
-         "control": -41562,
-         "journal": "journal:2025-12-01:81581"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+       "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
        "way": "out",
-       "targets": 9,
-       "moved": 890,
+       "targets": 2,
+       "moved": 29,
        "earliest": "2025-05-01",
        "sample": [
         {
-         "target": "person_a4689d4c0a9e7f13",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_a4689d4c0a9e7f13",
+         "target": "organization_e1c745b8ee72df03",
+         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c745b8ee72df03",
          "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+         "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
          "way": "out",
-         "treatment": -60440,
-         "control": -60441,
-         "journal": "journal:2025-05-01:25197"
+         "treatment": 2010425,
+         "control": 2010397,
+         "journal": "journal:2025-05-01:25257"
         },
         {
-         "target": "person_507b786a6834007d",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_507b786a6834007d",
-         "date": "2025-09-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+         "target": "organization_e1c746b8ee72e0b6",
+         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c746b8ee72e0b6",
+         "date": "2025-05-01",
+         "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
          "way": "out",
-         "treatment": -5596,
-         "control": -5597,
-         "journal": "journal:2025-09-01:56726"
-        },
-        {
-         "target": "person_75adb3381bf86520",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_75adb3381bf86520",
-         "date": "2025-11-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -49549,
-         "control": -49552,
-         "journal": "journal:2025-11-01:73146"
-        },
-        {
-         "target": "person_daa174be854beec9",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_daa174be854beec9",
-         "date": "2025-12-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -37559,
-         "control": -38414,
-         "journal": "journal:2025-12-01:81582"
+         "treatment": 1859917,
+         "control": 1859916,
+         "journal": "journal:2025-05-01:25261"
         }
        ]
       },
       {
        "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
        "way": "out",
-       "targets": 6,
-       "moved": 110646,
+       "targets": 1,
+       "moved": 68303,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -3879,93 +3870,14 @@
          "treatment": 238383,
          "control": 170080,
          "journal": "journal:2025-03-01:8826"
-        },
-        {
-         "target": "person_95f685085236b34b",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_95f685085236b34b",
-         "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "out",
-         "treatment": -12128,
-         "control": -33298,
-         "journal": "journal:2025-03-01:8789"
-        },
-        {
-         "target": "person_95f684085236b198",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_95f684085236b198",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "out",
-         "treatment": -180371,
-         "control": -201541,
-         "journal": "journal:2025-04-01:16403"
-        },
-        {
-         "target": "person_1fbfce491b7f3850",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_1fbfce491b7f3850",
-         "date": "2025-06-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "out",
-         "treatment": -238658,
-         "control": -238659,
-         "journal": "journal:2025-06-01:31765"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-       "way": "in",
-       "targets": 6,
-       "moved": 21045,
-       "earliest": "2025-04-01",
-       "sample": [
-        {
-         "target": "person_95f685085236b34b",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_95f685085236b34b",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "in",
-         "treatment": -113041,
-         "control": -92031,
-         "journal": "journal:2025-04-01:16402"
-        },
-        {
-         "target": "person_72a5edaa7a6a367b",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_72a5edaa7a6a367b",
-         "date": "2025-06-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "in",
-         "treatment": -2687152,
-         "control": -2687135,
-         "journal": "journal:2025-06-01:31755"
-        },
-        {
-         "target": "household_fd7373cc7f49c4b6",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_fd7373cc7f49c4b6",
-         "date": "2026-01-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "in",
-         "treatment": 48679,
-         "control": 48683,
-         "journal": "journal:2026-01-01:88944"
-        },
-        {
-         "target": "person_56cdad056fceb659",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_56cdad056fceb659",
-         "date": "2026-01-01",
-         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-         "way": "in",
-         "treatment": 96555,
-         "control": 96563,
-         "journal": "journal:2026-01-01:88945"
         }
        ]
       },
       {
        "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
        "way": "out",
-       "targets": 5,
-       "moved": 24,
+       "targets": 1,
+       "moved": 5,
        "earliest": "2025-05-01",
        "sample": [
         {
@@ -3977,205 +3889,77 @@
          "treatment": 761383,
          "control": 761378,
          "journal": "journal:2025-05-01:24177"
-        },
-        {
-         "target": "person_050bfb0ce0ab8e28",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_050bfb0ce0ab8e28",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "out",
-         "treatment": -25403,
-         "control": -25412,
-         "journal": "journal:2025-05-01:24728"
-        },
-        {
-         "target": "person_72a5edaa7a6a367b",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_72a5edaa7a6a367b",
-         "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "out",
-         "treatment": -77054,
-         "control": -77062,
-         "journal": "journal:2025-05-01:24777"
-        },
-        {
-         "target": "person_507b786a6834007d",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_507b786a6834007d",
-         "date": "2025-10-01",
-         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-         "way": "out",
-         "treatment": -64909,
-         "control": -64910,
-         "journal": "journal:2025-10-01:63737"
         }
        ]
       },
       {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+       "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
        "way": "in",
-       "targets": 3,
-       "moved": 199652,
-       "earliest": "2025-02-01",
+       "targets": 1,
+       "moved": 3,
+       "earliest": "2025-05-01",
        "sample": [
-        {
-         "target": "organization_e1c745b8ee72df03",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c745b8ee72df03",
-         "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-         "way": "in",
-         "treatment": -109175,
-         "control": -26527,
-         "journal": "journal:2025-02-01:2011"
-        },
-        {
-         "target": "organization_e1c746b8ee72e0b6",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c746b8ee72e0b6",
-         "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-         "way": "in",
-         "treatment": -85735,
-         "control": -20827,
-         "journal": "journal:2025-02-01:2013"
-        },
         {
          "target": "organization_e1c747b8ee72e269",
          "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c747b8ee72e269",
-         "date": "2025-02-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "date": "2025-05-01",
+         "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
          "way": "in",
-         "treatment": -68802,
-         "control": -16706,
-         "journal": "journal:2025-02-01:2015"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-       "way": "out",
-       "targets": 3,
-       "moved": 7,
-       "earliest": "2025-06-01",
-       "sample": [
-        {
-         "target": "person_7015850ee21aff18",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_7015850ee21aff18",
-         "date": "2025-06-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "out",
-         "treatment": -5760,
-         "control": -5762,
-         "journal": "journal:2025-06-01:37665"
-        },
-        {
-         "target": "person_a4689c4c0a9e7d60",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_a4689c4c0a9e7d60",
-         "date": "2025-06-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "out",
-         "treatment": -4950,
-         "control": -4952,
-         "journal": "journal:2025-06-01:37671"
-        },
-        {
-         "target": "person_4f080ed099c4eb6e",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_4f080ed099c4eb6e",
-         "date": "2025-12-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "out",
-         "treatment": -48466,
-         "control": -48469,
-         "journal": "journal:2025-12-01:86364"
-        }
-       ]
-      },
-      {
-       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-       "way": "out",
-       "targets": 2,
-       "moved": 57592,
-       "earliest": "2025-04-28",
-       "sample": [
-        {
-         "target": "household_fd7376cc7f49c9cf",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_fd7376cc7f49c9cf",
-         "date": "2025-04-28",
-         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-         "way": "out",
-         "treatment": 236096,
-         "control": 178505,
-         "journal": "journal:2025-04-28:23790"
-        },
-        {
-         "target": "person_0dee516f6fc3f37d",
-         "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0dee516f6fc3f37d",
-         "date": "2025-05-26",
-         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-         "way": "out",
-         "treatment": 76788,
-         "control": 76787,
-         "journal": "journal:2025-05-26:31378"
+         "treatment": 1373290,
+         "control": 1373293,
+         "journal": "journal:2025-05-01:25265"
         }
        ]
       }
      ],
-     "paid": 36,
-     "pick": "accounts.transfer @ src/core2/cost-of-living.ts:327|in",
+     "paid": 3,
+     "pick": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274|in",
      "sample": [
       {
-       "target": "household_1093198c88d363ac",
-       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_1093198c88d363ac",
-       "date": "2025-05-01",
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+       "target": "organization_e1c745b8ee72df03",
+       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c745b8ee72df03",
+       "date": "2025-02-01",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "in",
-       "treatment": -197230,
-       "control": -197229,
-       "journal": "journal:2025-05-01:24205"
+       "treatment": -109175,
+       "control": -26527,
+       "journal": "journal:2025-02-01:2011"
       },
       {
-       "target": "household_fd5eefcc7f383b60",
-       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_fd5eefcc7f383b60",
-       "date": "2025-05-01",
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+       "target": "organization_e1c746b8ee72e0b6",
+       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c746b8ee72e0b6",
+       "date": "2025-02-01",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "in",
-       "treatment": -154686,
-       "control": -154685,
-       "journal": "journal:2025-05-01:24625"
+       "treatment": -85735,
+       "control": -20827,
+       "journal": "journal:2025-02-01:2013"
       },
       {
-       "target": "household_fd5efacc7f384e11",
-       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_fd5efacc7f384e11",
-       "date": "2025-05-01",
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+       "target": "organization_e1c747b8ee72e269",
+       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c747b8ee72e269",
+       "date": "2025-02-01",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "in",
-       "treatment": -154686,
-       "control": -154685,
-       "journal": "journal:2025-05-01:24783"
-      },
-      {
-       "target": "household_fd767acc7f4c0672",
-       "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_fd767acc7f4c0672",
-       "date": "2025-05-01",
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-       "way": "in",
-       "treatment": -154686,
-       "control": -154685,
-       "journal": "journal:2025-05-01:25152"
+       "treatment": -68802,
+       "control": -16706,
+       "journal": "journal:2025-02-01:2015"
       }
      ],
      "near": [
       {
-       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "in",
-       "targets": 36,
+       "targets": 3,
        "first": {
-        "target": "household_1093198c88d363ac",
-        "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|household_1093198c88d363ac",
-        "date": "2025-05-01",
-        "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+        "target": "organization_e1c745b8ee72df03",
+        "row": "applied|us-policy-positions:fiscal.exempt-groceries-from-sales-tax|organization_e1c745b8ee72df03",
+        "date": "2025-02-01",
+        "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
         "way": "in",
-        "treatment": -197230,
-        "control": -197229,
-        "journal": "journal:2025-05-01:24205"
+        "treatment": -109175,
+        "control": -26527,
+        "journal": "journal:2025-02-01:2011"
        }
       }
      ]
@@ -4279,7 +4063,7 @@
     "ended": 22,
     "sample": []
    },
-   "seconds": 71
+   "seconds": 86
   },
   {
    "key": "us-policy-positions:business-commerce.legalize-cannabis-sales",
@@ -4349,8 +4133,8 @@
     "diff": [
      {
       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-      "treatment": 241474158,
-      "control": 245813046,
+      "treatment": 240028628,
+      "control": 244244053,
       "ids": [
        "journal:2025-02-01:1971",
        "journal:2025-02-01:1972",
@@ -4359,8 +4143,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 59067399,
-      "control": 62533298,
+      "treatment": 59638260,
+      "control": 63117358,
       "ids": [
        "journal:2025-01-21:1660",
        "journal:2025-02-01:1947",
@@ -4368,49 +4152,9 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 659933814,
-      "control": 657308258,
-      "ids": [
-       "journal:2025-02-01:2669",
-       "journal:2025-02-01:2670",
-       "journal:2025-02-01:2671"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 347971453,
-      "control": 349459456,
-      "ids": [
-       "journal:2025-01-23:1677",
-       "journal:2025-01-24:1678",
-       "journal:2025-01-25:1679"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 421806967,
-      "control": 423085541,
-      "ids": [
-       "journal:2025-01-21:1632",
-       "journal:2025-01-21:1633",
-       "journal:2025-01-21:1634"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
-      "treatment": 16488475,
-      "control": 17673253,
-      "ids": [
-       "journal:2025-02-03:7479",
-       "journal:2025-02-03:7480",
-       "journal:2025-02-03:7481"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1293551729,
-      "control": 1293841516,
+      "treatment": 1293099627,
+      "control": 1290425776,
       "ids": [
        "journal:2025-01-21:1606",
        "journal:2025-01-21:1607",
@@ -4418,19 +4162,39 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-      "treatment": 18642661,
-      "control": 18929138,
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+      "treatment": 422064356,
+      "control": 423434469,
       "ids": [
-       "journal:2025-02-01:1989",
-       "journal:2025-02-01:1991",
-       "journal:2025-02-01:1993"
+       "journal:2025-01-21:1632",
+       "journal:2025-01-21:1633",
+       "journal:2025-01-21:1634"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+      "treatment": 347882417,
+      "control": 349101752,
+      "ids": [
+       "journal:2025-01-23:1677",
+       "journal:2025-01-24:1678",
+       "journal:2025-01-25:1679"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
+      "treatment": 16467055,
+      "control": 17645742,
+      "ids": [
+       "journal:2025-02-03:7479",
+       "journal:2025-02-03:7480",
+       "journal:2025-02-03:7481"
       ]
      },
      {
       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 375891467,
-      "control": 375615604,
+      "treatment": 375285189,
+      "control": 374612033,
       "ids": [
        "journal:2025-01-27:1708",
        "journal:2025-01-28:1711",
@@ -4438,19 +4202,29 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
-      "treatment": 178032670,
-      "control": 178283978,
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+      "treatment": 660924046,
+      "control": 661297572,
       "ids": [
-       "journal:2025-02-01:2655",
-       "journal:2025-02-01:2656",
-       "journal:2025-02-01:2657"
+       "journal:2025-02-01:2669",
+       "journal:2025-02-01:2670",
+       "journal:2025-02-01:2671"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+      "treatment": 18572078,
+      "control": 18847204,
+      "ids": [
+       "journal:2025-02-01:1989",
+       "journal:2025-02-01:1991",
+       "journal:2025-02-01:1993"
       ]
      },
      {
       "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
-      "treatment": 4343910,
-      "control": 4181364,
+      "treatment": 4348638,
+      "control": 4122804,
       "ids": [
        "journal:2025-07-01:43956",
        "journal:2025-07-01:43959",
@@ -4458,22 +4232,32 @@
       ]
      },
      {
-      "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2616",
-      "treatment": 1153320,
-      "control": 1283796,
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+      "treatment": 3332409800,
+      "control": 3332309503,
       "ids": [
-       "journal:2025-08-31:53303",
-       "journal:2025-09-01:59531",
-       "journal:2025-11-22:76931"
+       "journal:2025-01-27:1709",
+       "journal:2025-01-28:1712",
+       "journal:2025-01-28:1715"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+      "treatment": 710208791134782,
+      "control": 710208791231564,
+      "ids": [
+       "journal:2025-02-01:1782",
+       "journal:2025-02-01:1783",
+       "journal:2025-02-01:1784"
       ]
      }
     ],
-    "diffKinds": 34,
+    "diffKinds": 32,
     "cited": [],
     "controlCited": [
      {
       "token": "us-policy-positions:business-commerce.legalize-cannabis-sales",
-      "gross": 5610751,
+      "gross": 5622523,
       "ids": [
        "journal:2025-02-03:7566",
        "journal:2025-02-03:7567",
@@ -4564,7 +4348,7 @@
        ]
       },
       {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales",
        "way": "out",
        "targets": 3,
        "moved": 3048,
@@ -4574,7 +4358,7 @@
          "target": "organization_e1c745b8ee72df03",
          "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_e1c745b8ee72df03",
          "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales",
          "way": "out",
          "treatment": 0,
          "control": -1122,
@@ -4584,7 +4368,7 @@
          "target": "organization_e1c746b8ee72e0b6",
          "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_e1c746b8ee72e0b6",
          "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales",
          "way": "out",
          "treatment": 0,
          "control": -1072,
@@ -4594,7 +4378,7 @@
          "target": "organization_e1c747b8ee72e269",
          "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_e1c747b8ee72e269",
          "date": "2025-02-03",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales",
          "way": "out",
          "treatment": 0,
          "control": -854,
@@ -4718,7 +4502,7 @@
        ]
       },
       {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "in",
        "targets": 1,
        "moved": 1,
@@ -4728,7 +4512,7 @@
          "target": "organization_e1c745b8ee72df03",
          "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_e1c745b8ee72df03",
          "date": "2025-05-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -41280,
          "control": -41279,
@@ -4803,14 +4587,14 @@
        }
       },
       {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales",
        "way": "out",
        "targets": 3,
        "first": {
         "target": "organization_e1c745b8ee72df03",
         "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_e1c745b8ee72df03",
         "date": "2025-02-03",
-        "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+        "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales",
         "way": "out",
         "treatment": 0,
         "control": -1122,
@@ -5015,7 +4799,7 @@
     "reenacted": null
    },
    "heard": {
-    "people": 71,
+    "people": 94,
     "sample": [
      "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
      "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
@@ -5051,7 +4835,7 @@
     "ended": 42,
     "sample": []
    },
-   "seconds": 78
+   "seconds": 81
   },
   {
    "key": "us-policy-positions:environment-energy.ban-new-gas-hookups",
@@ -5281,7 +5065,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 79
+   "seconds": 74
   },
   {
    "key": "us-policy-positions:environment-energy.clean-electricity-standard",
@@ -5351,8 +5135,8 @@
     "diff": [
      {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1282119569,
-      "control": 1293841516,
+      "treatment": 1283645575,
+      "control": 1290425776,
       "ids": [
        "journal:2025-01-21:1606",
        "journal:2025-01-21:1607",
@@ -5360,19 +5144,9 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 668552663,
-      "control": 657308258,
-      "ids": [
-       "journal:2025-02-01:2669",
-       "journal:2025-02-01:2670",
-       "journal:2025-02-01:2671"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 69395370,
-      "control": 62533298,
+      "treatment": 69702628,
+      "control": 63117358,
       "ids": [
        "journal:2025-01-21:1660",
        "journal:2025-02-01:1947",
@@ -5381,8 +5155,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 428917480,
-      "control": 423085541,
+      "treatment": 429335834,
+      "control": 423434469,
       "ids": [
        "journal:2025-01-21:1632",
        "journal:2025-01-21:1633",
@@ -5390,9 +5164,29 @@
       ]
      },
      {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+      "treatment": 667068726,
+      "control": 661297572,
+      "ids": [
+       "journal:2025-02-01:2669",
+       "journal:2025-02-01:2670",
+       "journal:2025-02-01:2671"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+      "treatment": 247510054,
+      "control": 244244053,
+      "ids": [
+       "journal:2025-02-01:1971",
+       "journal:2025-02-01:1972",
+       "journal:2025-02-01:1973"
+      ]
+     },
+     {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 352069231,
-      "control": 349459456,
+      "treatment": 351608382,
+      "control": 349101752,
       "ids": [
        "journal:2025-01-23:1677",
        "journal:2025-01-24:1678",
@@ -5400,13 +5194,23 @@
       ]
      },
      {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-      "treatment": 248088174,
-      "control": 245813046,
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+      "treatment": 375992424,
+      "control": 374612033,
       "ids": [
-       "journal:2025-02-01:1971",
-       "journal:2025-02-01:1972",
-       "journal:2025-02-01:1973"
+       "journal:2025-01-27:1708",
+       "journal:2025-01-28:1711",
+       "journal:2025-01-28:1714"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+      "treatment": 710208790166747,
+      "control": 710208791231564,
+      "ids": [
+       "journal:2025-02-01:1782",
+       "journal:2025-02-01:1783",
+       "journal:2025-02-01:1784"
       ]
      },
      {
@@ -5415,13 +5219,13 @@
       "control": 58134494,
       "ids": [
        "journal:2025-03-01:8853",
-       "journal:2025-09-01:55674"
+       "journal:2025-09-01:55673"
       ]
      },
      {
       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 62620626,
-      "control": 62011249,
+      "treatment": 62666501,
+      "control": 62288001,
       "ids": [
        "journal:2025-02-01:1988",
        "journal:2025-02-01:1990",
@@ -5429,52 +5233,32 @@
       ]
      },
      {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 375051125,
-      "control": 375615604,
-      "ids": [
-       "journal:2025-01-27:1708",
-       "journal:2025-01-28:1711",
-       "journal:2025-01-28:1714"
-      ]
-     },
-     {
       "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2616",
-      "treatment": 972753,
-      "control": 1283796,
+      "treatment": 972594,
+      "control": 1302235,
       "ids": [
-       "journal:2025-08-31:55415",
-       "journal:2025-09-01:61642",
-       "journal:2025-11-22:79951"
+       "journal:2025-08-31:55414",
+       "journal:2025-09-01:61641",
+       "journal:2025-11-22:79921"
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
-      "treatment": 178530679,
-      "control": 178283978,
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+      "treatment": 177079579482979,
+      "control": 177079579787742,
       "ids": [
-       "journal:2025-02-01:2655",
-       "journal:2025-02-01:2656",
-       "journal:2025-02-01:2657"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 710208790896806,
-      "control": 710208790653767,
-      "ids": [
-       "journal:2025-02-01:1782",
-       "journal:2025-02-01:1783",
-       "journal:2025-02-01:1784"
+       "journal:2025-02-01:1772",
+       "journal:2025-02-01:1773",
+       "journal:2025-02-01:1774"
       ]
      }
     ],
-    "diffKinds": 35,
+    "diffKinds": 36,
     "cited": [],
     "controlCited": [
      {
       "token": "us-policy-positions:environment-energy.clean-electricity-standard",
-      "gross": 2396631,
+      "gross": 2396316,
       "ids": [
        "journal:2025-02-03:7458",
        "journal:2025-02-03:7459",
@@ -5490,7 +5274,7 @@
        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
        "way": "out",
        "targets": 80,
-       "moved": 716615,
+       "moved": 716616,
        "earliest": "2025-02-03",
        "sample": [
         {
@@ -5539,7 +5323,7 @@
        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:environment-energy.clean-electricity-standard",
        "way": "out",
        "targets": 76,
-       "moved": 194264,
+       "moved": 194230,
        "earliest": "2025-02-03",
        "sample": [
         {
@@ -5587,8 +5371,8 @@
       {
        "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
        "way": "in",
-       "targets": 31,
-       "moved": 439070,
+       "targets": 32,
+       "moved": 503262,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -5637,7 +5421,7 @@
        "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
        "way": "in",
        "targets": 25,
-       "moved": 21387,
+       "moved": 21388,
        "earliest": "2025-02-03",
        "sample": [
         {
@@ -5686,7 +5470,7 @@
        "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
        "way": "in",
        "targets": 21,
-       "moved": 93440,
+       "moved": 93444,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -5735,7 +5519,7 @@
        "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
        "way": "out",
        "targets": 14,
-       "moved": 20844,
+       "moved": 20831,
        "earliest": "2025-02-13",
        "sample": [
         {
@@ -5781,7 +5565,7 @@
        ]
       },
       {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "in",
        "targets": 14,
        "moved": 791,
@@ -5791,7 +5575,7 @@
          "target": "organization_2106f7c068e1dbdb",
          "row": "applied|us-policy-positions:environment-energy.clean-electricity-standard|organization_2106f7c068e1dbdb",
          "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -59975,
          "control": -59947,
@@ -5801,7 +5585,7 @@
          "target": "organization_2d138e5f9a5809f8",
          "row": "applied|us-policy-positions:environment-energy.clean-electricity-standard|organization_2d138e5f9a5809f8",
          "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -27851,
          "control": -27839,
@@ -5811,7 +5595,7 @@
          "target": "organization_743abf8a0235301d",
          "row": "applied|us-policy-positions:environment-energy.clean-electricity-standard|organization_743abf8a0235301d",
          "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -9981,
          "control": -9977,
@@ -5821,7 +5605,7 @@
          "target": "organization_8820139c2233ecf6",
          "row": "applied|us-policy-positions:environment-energy.clean-electricity-standard|organization_8820139c2233ecf6",
          "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -87562,
          "control": -87521,
@@ -6281,7 +6065,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 81
+   "seconds": 69
   },
   {
    "key": "us-policy-positions:environment-energy.bottle-deposit",
@@ -6351,19 +6135,9 @@
     "direct": [],
     "diff": [
      {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 659135885,
-      "control": 657308258,
-      "ids": [
-       "journal:2025-02-01:2669",
-       "journal:2025-02-01:2670",
-       "journal:2025-02-01:2671"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1292153657,
-      "control": 1293841516,
+      "treatment": 1296780628,
+      "control": 1290425776,
       "ids": [
        "journal:2025-01-21:1606",
        "journal:2025-01-21:1607",
@@ -6371,9 +6145,19 @@
       ]
      },
      {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+      "treatment": 655061419,
+      "control": 661297572,
+      "ids": [
+       "journal:2025-02-01:2669",
+       "journal:2025-02-01:2670",
+       "journal:2025-02-01:2671"
+      ]
+     },
+     {
       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 374984718,
-      "control": 375615604,
+      "treatment": 375730125,
+      "control": 374612033,
       "ids": [
        "journal:2025-01-27:1708",
        "journal:2025-01-28:1711",
@@ -6381,29 +6165,9 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 710208791268934,
-      "control": 710208790653767,
-      "ids": [
-       "journal:2025-02-01:1782",
-       "journal:2025-02-01:1783",
-       "journal:2025-02-01:1784"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 423410086,
-      "control": 423085541,
-      "ids": [
-       "journal:2025-01-21:1632",
-       "journal:2025-01-21:1633",
-       "journal:2025-01-21:1634"
-      ]
-     },
-     {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 349171819,
-      "control": 349459456,
+      "treatment": 348484666,
+      "control": 349101752,
       "ids": [
        "journal:2025-01-23:1677",
        "journal:2025-01-24:1678",
@@ -6411,9 +6175,19 @@
       ]
      },
      {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 63614700,
+      "control": 63117358,
+      "ids": [
+       "journal:2025-01-21:1660",
+       "journal:2025-02-01:1947",
+       "journal:2025-02-01:1948"
+      ]
+     },
+     {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
-      "treatment": 178024639,
-      "control": 178283978,
+      "treatment": 177742573,
+      "control": 178235328,
       "ids": [
        "journal:2025-02-01:2655",
        "journal:2025-02-01:2656",
@@ -6421,19 +6195,49 @@
       ]
      },
      {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-      "treatment": 245587487,
-      "control": 245813046,
+      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+      "treatment": 62667855,
+      "control": 62288001,
       "ids": [
-       "journal:2025-02-01:1971",
-       "journal:2025-02-01:1972",
-       "journal:2025-02-01:1973"
+       "journal:2025-02-01:1988",
+       "journal:2025-02-01:1990",
+       "journal:2025-02-01:1992"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+      "treatment": 3332687948,
+      "control": 3332309503,
+      "ids": [
+       "journal:2025-01-27:1709",
+       "journal:2025-01-28:1712",
+       "journal:2025-01-28:1715"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+      "treatment": 423149144,
+      "control": 423434469,
+      "ids": [
+       "journal:2025-01-21:1632",
+       "journal:2025-01-21:1633",
+       "journal:2025-01-21:1634"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+      "treatment": 710208790985997,
+      "control": 710208791231564,
+      "ids": [
+       "journal:2025-02-01:1782",
+       "journal:2025-02-01:1783",
+       "journal:2025-02-01:1784"
       ]
      },
      {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
-      "treatment": 17529195,
-      "control": 17673253,
+      "treatment": 17473805,
+      "control": 17645742,
       "ids": [
        "journal:2025-02-03:7479",
        "journal:2025-02-03:7480",
@@ -6441,42 +6245,22 @@
       ]
      },
      {
-      "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2616",
-      "treatment": 1153143,
-      "control": 1283796,
+      "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+      "treatment": 10653944,
+      "control": 10487143,
       "ids": [
-       "journal:2025-08-31:54914",
-       "journal:2025-09-01:61140",
-       "journal:2025-11-22:79246"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
-      "treatment": 8728722,
-      "control": 8601529,
-      "ids": [
-       "journal:2025-02-19:8298",
-       "journal:2025-02-19:8299",
-       "journal:2025-02-19:8301"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 62105174,
-      "control": 62011249,
-      "ids": [
-       "journal:2025-02-01:1988",
-       "journal:2025-02-01:1990",
-       "journal:2025-02-01:1992"
+       "journal:2025-02-01:7433",
+       "journal:2025-02-01:7434",
+       "journal:2025-02-01:7435"
       ]
      }
     ],
-    "diffKinds": 35,
+    "diffKinds": 36,
     "cited": [],
     "controlCited": [
      {
       "token": "us-policy-positions:environment-energy.bottle-deposit",
-      "gross": 237498,
+      "gross": 237194,
       "ids": [
        "journal:2025-02-03:7526",
        "journal:2025-02-03:7527",
@@ -6540,8 +6324,8 @@
       {
        "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
        "way": "in",
-       "targets": 24,
-       "moved": 9945,
+       "targets": 25,
+       "moved": 29427,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -6639,7 +6423,7 @@
        "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
        "way": "in",
        "targets": 10,
-       "moved": 87685,
+       "moved": 87686,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -6681,55 +6465,6 @@
          "treatment": -154686,
          "control": -154685,
          "journal": "journal:2025-05-01:24625"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-       "way": "in",
-       "targets": 6,
-       "moved": 55157,
-       "earliest": "2025-04-01",
-       "sample": [
-        {
-         "target": "household_fd6273cc7f3b5183",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd6273cc7f3b5183",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -44401,
-         "control": -43996,
-         "journal": "journal:2025-04-01:22363"
-        },
-        {
-         "target": "household_fd7378cc7f49cd35",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd7378cc7f49cd35",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -30048,
-         "control": -29643,
-         "journal": "journal:2025-04-01:22364"
-        },
-        {
-         "target": "household_1093198c88d363ac",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_1093198c88d363ac",
-         "date": "2025-06-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -6061,
-         "control": -4952,
-         "journal": "journal:2025-06-01:37671"
-        },
-        {
-         "target": "household_fd7677cc7f4c0159",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd7677cc7f4c0159",
-         "date": "2025-06-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -6495,
-         "control": -5762,
-         "journal": "journal:2025-06-01:37665"
         }
        ]
       },
@@ -6783,6 +6518,153 @@
        ]
       },
       {
+       "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+       "way": "in",
+       "targets": 5,
+       "moved": 55119,
+       "earliest": "2025-04-01",
+       "sample": [
+        {
+         "target": "household_fd6273cc7f3b5183",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd6273cc7f3b5183",
+         "date": "2025-04-01",
+         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+         "way": "in",
+         "treatment": -44401,
+         "control": -43996,
+         "journal": "journal:2025-04-01:22363"
+        },
+        {
+         "target": "household_fd7378cc7f49cd35",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd7378cc7f49cd35",
+         "date": "2025-04-01",
+         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+         "way": "in",
+         "treatment": -30048,
+         "control": -29643,
+         "journal": "journal:2025-04-01:22364"
+        },
+        {
+         "target": "household_1093198c88d363ac",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_1093198c88d363ac",
+         "date": "2025-06-01",
+         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+         "way": "in",
+         "treatment": -6061,
+         "control": -4952,
+         "journal": "journal:2025-06-01:37671"
+        },
+        {
+         "target": "household_fd7677cc7f4c0159",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd7677cc7f4c0159",
+         "date": "2025-06-01",
+         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+         "way": "in",
+         "treatment": -6495,
+         "control": -5762,
+         "journal": "journal:2025-06-01:37665"
+        }
+       ]
+      },
+      {
+       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+       "way": "in",
+       "targets": 4,
+       "moved": 181394,
+       "earliest": "2025-02-27",
+       "sample": [
+        {
+         "target": "household_fd5173cc7f2cde50",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd5173cc7f2cde50",
+         "date": "2025-02-27",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 166920,
+         "control": 194740,
+         "journal": "journal:2025-02-27:8541"
+        },
+        {
+         "target": "household_fd5802cc7f323cfb",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd5802cc7f323cfb",
+         "date": "2025-12-08",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 115181,
+         "control": 172771,
+         "journal": "journal:2025-12-08:87503"
+        },
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd5ef1cc7f383ec6",
+         "date": "2026-01-05",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 158524,
+         "control": 158525,
+         "journal": "journal:2026-01-05:95885"
+        },
+        {
+         "target": "household_fd7373cc7f49c4b6",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd7373cc7f49c4b6",
+         "date": "2026-01-05",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 0,
+         "control": 95983,
+         "journal": "journal:2026-01-05:95798"
+        }
+       ]
+      },
+      {
+       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+       "way": "out",
+       "targets": 4,
+       "moved": 45855,
+       "earliest": "2025-02-27",
+       "sample": [
+        {
+         "target": "household_fd5173cc7f2cde50",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd5173cc7f2cde50",
+         "date": "2025-02-27",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": -32074,
+         "control": -38724,
+         "journal": "journal:2025-02-27:8542"
+        },
+        {
+         "target": "household_fd5802cc7f323cfb",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd5802cc7f323cfb",
+         "date": "2025-12-08",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": -16353,
+         "control": -29973,
+         "journal": "journal:2025-12-08:87504"
+        },
+        {
+         "target": "household_fd7373cc7f49c4b6",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd7373cc7f49c4b6",
+         "date": "2026-01-05",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": 0,
+         "control": -11537,
+         "journal": "journal:2026-01-05:95799"
+        },
+        {
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd5ef1cc7f383ec6",
+         "date": "2026-01-19",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+         "way": "out",
+         "treatment": -47429,
+         "control": -61477,
+         "journal": "journal:2026-01-19:96661"
+        }
+       ]
+      },
+      {
        "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
        "way": "in",
        "targets": 4,
@@ -6827,104 +6709,46 @@
          "way": "in",
          "treatment": -5627,
          "control": -5597,
-         "journal": "journal:2025-09-01:56726"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-       "way": "out",
-       "targets": 3,
-       "moved": 510,
-       "earliest": "2025-03-13",
-       "sample": [
-        {
-         "target": "household_10931b8c88d36712",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_10931b8c88d36712",
-         "date": "2025-03-13",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -13419,
-         "control": -13621,
-         "journal": "journal:2025-03-13:15567"
-        },
-        {
-         "target": "household_fd4a71cc7f26bc3c",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd4a71cc7f26bc3c",
-         "date": "2025-03-21",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -11417,
-         "control": -11518,
-         "journal": "journal:2025-03-21:15861"
-        },
-        {
-         "target": "household_fd627ecc7f3b6434",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd627ecc7f3b6434",
-         "date": "2026-01-19",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-         "way": "out",
-         "treatment": -6112,
-         "control": -6319,
-         "journal": "journal:2026-01-19:96803"
+         "journal": "journal:2025-09-01:56724"
         }
        ]
       },
       {
        "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-       "way": "in",
-       "targets": 2,
-       "moved": 123803,
-       "earliest": "2025-02-27",
+       "way": "out",
+       "targets": 3,
+       "moved": 129788,
+       "earliest": "2025-12-07",
        "sample": [
         {
-         "target": "household_fd5173cc7f2cde50",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd5173cc7f2cde50",
-         "date": "2025-02-27",
+         "target": "household_fd5802cc7f323cfb",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd5802cc7f323cfb",
+         "date": "2025-12-07",
          "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-         "way": "in",
-         "treatment": 166920,
-         "control": 194740,
-         "journal": "journal:2025-02-27:8541"
+         "way": "out",
+         "treatment": 116600,
+         "control": 63600,
+         "journal": "journal:2025-12-07:87417"
         },
         {
-         "target": "household_fd7373cc7f49c4b6",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd7373cc7f49c4b6",
-         "date": "2026-01-05",
+         "target": "household_fd5ef1cc7f383ec6",
+         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd5ef1cc7f383ec6",
+         "date": "2025-12-08",
          "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-         "way": "in",
-         "treatment": 0,
-         "control": 95983,
-         "journal": "journal:2026-01-05:95897"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-       "way": "out",
-       "targets": 2,
-       "moved": 34149,
-       "earliest": "2026-01-01",
-       "sample": [
+         "way": "out",
+         "treatment": 158525,
+         "control": 120131,
+         "journal": "journal:2025-12-08:87546"
+        },
         {
          "target": "household_fd4a74cc7f26c155",
          "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd4a74cc7f26c155",
-         "date": "2026-01-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+         "date": "2025-12-22",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
          "way": "out",
-         "treatment": -5836,
-         "control": -36898,
-         "journal": "journal:2026-01-01:90206"
-        },
-        {
-         "target": "household_fd4dfacc7f29dade",
-         "row": "applied|us-policy-positions:environment-energy.bottle-deposit|household_fd4dfacc7f29dade",
-         "date": "2026-01-01",
-         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-         "way": "out",
-         "treatment": -27403,
-         "control": -30490,
-         "journal": "journal:2026-01-01:90208"
+         "treatment": 191968,
+         "control": 153574,
+         "journal": "journal:2025-12-22:88209"
         }
        ]
       }
@@ -7223,7 +7047,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 85
+   "seconds": 70
   },
   {
    "key": "us-policy-positions:environment-energy.price-carbon",
@@ -7297,8 +7121,8 @@
     "diff": [
      {
       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
-      "treatment": 710208802577600,
-      "control": 710208790653767,
+      "treatment": 710208802967965,
+      "control": 710208791231564,
       "ids": [
        "journal:2025-02-01:1782",
        "journal:2025-02-01:1783",
@@ -7307,8 +7131,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 72997748,
-      "control": 62533298,
+      "treatment": 73354989,
+      "control": 63117358,
       "ids": [
        "journal:2025-01-21:1660",
        "journal:2025-02-01:1947",
@@ -7317,8 +7141,8 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-      "treatment": 1299439355,
-      "control": 1293841516,
+      "treatment": 1296734773,
+      "control": 1290425776,
       "ids": [
        "journal:2025-01-21:1606",
        "journal:2025-01-21:1607",
@@ -7326,19 +7150,9 @@
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 418044845,
-      "control": 423085541,
-      "ids": [
-       "journal:2025-01-21:1632",
-       "journal:2025-01-21:1633",
-       "journal:2025-01-21:1634"
-      ]
-     },
-     {
       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-      "treatment": 240785659,
-      "control": 245813046,
+      "treatment": 239062749,
+      "control": 244244053,
       "ids": [
        "journal:2025-02-01:1971",
        "journal:2025-02-01:1972",
@@ -7346,9 +7160,19 @@
       ]
      },
      {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+      "treatment": 418603693,
+      "control": 423434469,
+      "ids": [
+       "journal:2025-01-21:1632",
+       "journal:2025-01-21:1633",
+       "journal:2025-01-21:1634"
+      ]
+     },
+     {
       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-      "treatment": 654481690,
-      "control": 657308258,
+      "treatment": 657833140,
+      "control": 661297572,
       "ids": [
        "journal:2025-02-01:2669",
        "journal:2025-02-01:2670",
@@ -7357,12 +7181,22 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
-      "treatment": 19030140,
-      "control": 17673253,
+      "treatment": 18987436,
+      "control": 17645742,
       "ids": [
        "journal:2025-02-03:7479",
        "journal:2025-02-03:7480",
        "journal:2025-02-03:7481"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+      "treatment": 375717946,
+      "control": 374612033,
+      "ids": [
+       "journal:2025-01-27:1708",
+       "journal:2025-01-28:1711",
+       "journal:2025-01-28:1714"
       ]
      },
      {
@@ -7371,13 +7205,13 @@
       "control": 58134494,
       "ids": [
        "journal:2025-03-01:8902",
-       "journal:2025-09-01:56076"
+       "journal:2025-09-01:56074"
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-      "treatment": 18642339,
-      "control": 18929138,
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
+      "treatment": 18551572,
+      "control": 18847204,
       "ids": [
        "journal:2025-02-01:1989",
        "journal:2025-02-01:1991",
@@ -7386,8 +7220,8 @@
      },
      {
       "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
-      "treatment": 4418369,
-      "control": 4181364,
+      "treatment": 4397883,
+      "control": 4122804,
       "ids": [
        "journal:2025-07-01:45759",
        "journal:2025-07-01:45762",
@@ -7396,22 +7230,12 @@
      },
      {
       "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 349259204,
-      "control": 349459456,
+      "treatment": 348876763,
+      "control": 349101752,
       "ids": [
        "journal:2025-01-23:1677",
        "journal:2025-01-24:1678",
        "journal:2025-01-25:1679"
-      ]
-     },
-     {
-      "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2616",
-      "treatment": 1435985,
-      "control": 1283796,
-      "ids": [
-       "journal:2025-08-31:55818",
-       "journal:2025-09-01:62046",
-       "journal:2025-11-05:79602"
       ]
      }
     ],
@@ -7419,7 +7243,7 @@
     "cited": [
      {
       "token": "law:place:2666300:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297",
-      "gross": 13113808,
+      "gross": 13109013,
       "ids": [
        "journal:2025-02-03:7526",
        "journal:2025-02-03:7527",
@@ -7428,7 +7252,7 @@
      },
      {
       "token": "us-policy-positions:environment-energy.price-carbon",
-      "gross": 13113808,
+      "gross": 13109013,
       "ids": [
        "journal:2025-02-03:7526",
        "journal:2025-02-03:7527",
@@ -7437,7 +7261,7 @@
      },
      {
       "token": "law-wiring-6c6b4297",
-      "gross": 13113808,
+      "gross": 13109013,
       "ids": [
        "journal:2025-02-03:7526",
        "journal:2025-02-03:7527",
@@ -7454,7 +7278,7 @@
        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:environment-energy.price-carbon",
        "way": "out",
        "targets": 76,
-       "moved": 1056019,
+       "moved": 1055453,
        "earliest": "2025-02-03",
        "sample": [
         {
@@ -7503,7 +7327,7 @@
        "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
        "way": "in",
        "targets": 31,
-       "moved": 522309,
+       "moved": 522310,
        "earliest": "2025-03-01",
        "sample": [
         {
@@ -7647,7 +7471,7 @@
        ]
       },
       {
-       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+       "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
        "way": "in",
        "targets": 14,
        "moved": 544,
@@ -7657,7 +7481,7 @@
          "target": "organization_2106f7c068e1dbdb",
          "row": "applied|us-policy-positions:environment-energy.price-carbon|organization_2106f7c068e1dbdb",
          "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -59933,
          "control": -59947,
@@ -7667,7 +7491,7 @@
          "target": "organization_2d138e5f9a5809f8",
          "row": "applied|us-policy-positions:environment-energy.price-carbon|organization_2d138e5f9a5809f8",
          "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -27832,
          "control": -27839,
@@ -7677,7 +7501,7 @@
          "target": "organization_743abf8a0235301d",
          "row": "applied|us-policy-positions:environment-energy.price-carbon|organization_743abf8a0235301d",
          "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -9975,
          "control": -9977,
@@ -7687,7 +7511,7 @@
          "target": "organization_8820139c2233ecf6",
          "row": "applied|us-policy-positions:environment-energy.price-carbon|organization_8820139c2233ecf6",
          "date": "2025-03-01",
-         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+         "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:274",
          "way": "in",
          "treatment": -87500,
          "control": -87521,
@@ -7843,6 +7667,55 @@
        ]
       },
       {
+       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+       "way": "in",
+       "targets": 5,
+       "moved": 125780,
+       "earliest": "2025-05-12",
+       "sample": [
+        {
+         "target": "household_fd5174cc7f2ce003",
+         "row": "applied|us-policy-positions:environment-energy.price-carbon|household_fd5174cc7f2ce003",
+         "date": "2025-05-12",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 178506,
+         "control": 159309,
+         "journal": "journal:2025-05-12:31222"
+        },
+        {
+         "target": "household_fd5802cc7f323cfb",
+         "row": "applied|us-policy-positions:environment-energy.price-carbon|household_fd5802cc7f323cfb",
+         "date": "2025-12-07",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 74200,
+         "control": 63600,
+         "journal": "journal:2025-12-07:88292"
+        },
+        {
+         "target": "household_fd4a74cc7f26c155",
+         "row": "applied|us-policy-positions:environment-energy.price-carbon|household_fd4a74cc7f26c155",
+         "date": "2025-12-08",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 115180,
+         "control": 76787,
+         "journal": "journal:2025-12-08:88364"
+        },
+        {
+         "target": "household_fd4dfbcc7f29dc91",
+         "row": "applied|us-policy-positions:environment-energy.price-carbon|household_fd4dfbcc7f29dc91",
+         "date": "2025-12-08",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+         "way": "in",
+         "treatment": 191967,
+         "control": 172771,
+         "journal": "journal:2025-12-08:88343"
+        }
+       ]
+      },
+      {
        "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
        "way": "out",
        "targets": 5,
@@ -7888,55 +7761,6 @@
          "treatment": 74947,
          "control": 86774,
          "journal": "journal:2025-03-01:8916"
-        }
-       ]
-      },
-      {
-       "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-       "way": "in",
-       "targets": 5,
-       "moved": 16610,
-       "earliest": "2025-04-01",
-       "sample": [
-        {
-         "target": "household_fd5174cc7f2ce003",
-         "row": "applied|us-policy-positions:environment-energy.price-carbon|household_fd5174cc7f2ce003",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -51316,
-         "control": -52467,
-         "journal": "journal:2025-04-01:22502"
-        },
-        {
-         "target": "household_fd6273cc7f3b5183",
-         "row": "applied|us-policy-positions:environment-energy.price-carbon|household_fd6273cc7f3b5183",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -40880,
-         "control": -43996,
-         "journal": "journal:2025-04-01:22504"
-        },
-        {
-         "target": "household_fd7378cc7f49cd35",
-         "row": "applied|us-policy-positions:environment-energy.price-carbon|household_fd7378cc7f49cd35",
-         "date": "2025-04-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -26527,
-         "control": -29643,
-         "journal": "journal:2025-04-01:22505"
-        },
-        {
-         "target": "household_1093198c88d363ac",
-         "row": "applied|us-policy-positions:environment-energy.price-carbon|household_1093198c88d363ac",
-         "date": "2025-06-01",
-         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-         "way": "in",
-         "treatment": -1487,
-         "control": -4952,
-         "journal": "journal:2025-06-01:37970"
         }
        ]
       }
@@ -8164,7 +7988,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 81
+   "seconds": 72
   }
  ]
 }

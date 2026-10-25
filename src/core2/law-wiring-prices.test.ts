@@ -327,10 +327,15 @@ function run(
       rows.filter((r) => r.target === "group" && r.count > 1).length,
       `${where}: counted buyers spared`,
     ).toBeGreaterThan(0);
+    // Prices are tax-inclusive: a buyer's cash does not change, only the seller's remittance does.
     expect(
-      rows.every((r) => r.amountMinor < 0),
-      `${where}: a spared tax is money not paid`,
-    ).toBe(true);
+      rows.filter((r) => r.target !== "organization").map((r) => r.amountMinor),
+      `${where}: buyers' cash is unchanged, so their rows carry 0`,
+    ).toSatisfy((amounts: number[]) => amounts.every((a) => a === 0));
+    expect(
+      rows.filter((r) => r.target === "organization").map((r) => r.amountMinor),
+      `${where}: a spared seller kept the tax it would have remitted`,
+    ).toSatisfy((amounts: number[]) => amounts.every((a) => a < 0));
     expect(
       rows.filter((r) => r.target === "organization").length,
       `${where}: sellers spared`,
