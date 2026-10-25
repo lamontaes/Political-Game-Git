@@ -5,7 +5,7 @@ area: art
 kind: cleanup
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
 pr: #5898
 blocked-on:

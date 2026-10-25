@@ -1089,5 +1089,163 @@ function writeOutputs(input: {
   writeFileSync(`docs/grading/words-${id}.md`, `${out.join("\n")}\n`);
 }
 
+/**
+ * The scenes the director fires in the cached year, composed for one profile by
+ * the same functions play calls, a few candidates per situation type in date
+ * order (the page picks one of each type). Nothing is staged by hand: each comes
+ * from a schedule entry whose cause record matched a situation type.
+ */
+export function directorScenes(
+  cache: string,
+  profile: GradingProfile,
+  perType = 4,
+): {
+  typeKey: string;
+  sceneId: string;
+  causeRecordId: string;
+  item: BenchItem & DedupeItem;
+}[] {
+  const world = loadWorld(worldCachePath(cache));
+  const { core, director } = world;
+  const library = SITUATION_LIBRARY as unknown as {
+    types: {
+      key: string;
+      roles: { key: string; bearing?: string }[];
+      tag: { key: string; endpoint: string; registers: string[] };
+    }[];
+  };
+  const typeOf = new Map(library.types.map((type) => [type.key, type]));
+  const nameOf = (personId: string) => {
+    const row = core.people.get(personId);
+    return row ? `${row.givenName} ${row.familyName}` : personId;
+  };
+  const staged: {
+    personId: string;
+    entry: ScheduleEntry;
+    binding: SceneBinding;
+  }[] = [];
+  for (const [personId, book] of director.ledger.people)
+    for (const entry of book.schedule)
+      for (const binding of entry.bindings)
+        staged.push({ personId, entry, binding });
+  staged.sort(
+    (a, b) =>
+      a.entry.date.localeCompare(b.entry.date) ||
+      a.entry.momentId.localeCompare(b.entry.momentId),
+  );
+  const out: ReturnType<typeof directorScenes> = [];
+  const taken = new Map<string, number>();
+  const journals = new Map<string, ReturnType<typeof composeJournal>>();
+  for (const { personId, entry: whole, binding } of staged) {
+    const type = typeOf.get(binding.typeKey);
+    if (!type) continue;
+    if ((taken.get(type.key) ?? 0) >= perType) continue;
+    if (HELD_SETTINGS.has(binding.setting.kind) || HELD_TYPES.has(type.key))
+      continue;
+    const entry = { ...whole, bindings: [binding] };
+    const moment = director.ledger.people
+      .get(personId)
+      ?.momentsById.get(entry.momentId);
+    if (!moment) continue;
+    const sceneId = `${personId}:${entry.momentId}:${binding.typeKey}`;
+    try {
+      const items = withTraits(core, personId, profile.traits, () =>
+        composeSceneItems({
+          core,
+          director,
+          personId,
+          entry,
+          binding,
+          type,
+          moment,
+          sceneId,
+          profile,
+          nameOf,
+          journals,
+          standIn: [],
+          skipped: [],
+        }),
+      );
+      for (const item of items) {
+        taken.set(type.key, (taken.get(type.key) ?? 0) + 1);
+        out.push({
+          typeKey: type.key,
+          sceneId,
+          causeRecordId: moment.causeId,
+          item,
+        });
+      }
+    } catch {
+      // A scene the engine cannot compose is not shown.
+    }
+  }
+  return out;
+}
+
+/**
+ * The situations the director fires in the cached year, one for each situation
+ * type, with the person whose schedule it is and who opens the scene
+ * (`composeScene`'s `talkToId`): what a generic, key-based exchange needs.
+ */
+export function directorStaged(cache: string): {
+  typeKey: string;
+  personId: string;
+  talkToId?: string;
+  momentId: string;
+  causeId: string;
+  label: string;
+  date: string;
+  counterpartIds: string[];
+}[] {
+  const world = loadWorld(worldCachePath(cache));
+  const { core, director } = world;
+  const rows: ReturnType<typeof directorStaged> = [];
+  const seen = new Set<string>();
+  const staged: {
+    personId: string;
+    entry: ScheduleEntry;
+    binding: SceneBinding;
+  }[] = [];
+  for (const [personId, book] of director.ledger.people)
+    for (const entry of book.schedule)
+      for (const binding of entry.bindings)
+        staged.push({ personId, entry, binding });
+  staged.sort(
+    (a, b) =>
+      a.entry.date.localeCompare(b.entry.date) ||
+      a.entry.momentId.localeCompare(b.entry.momentId),
+  );
+  for (const { personId, entry: whole, binding } of staged) {
+    if (seen.has(binding.typeKey)) continue;
+    const entry = { ...whole, bindings: [binding] };
+    const moment = director.ledger.people
+      .get(personId)
+      ?.momentsById.get(entry.momentId);
+    if (!moment) continue;
+    const year = core.date;
+    (core as { date: string }).date = moment.date;
+    try {
+      const scene = composeScene(core, director, personId, entry);
+      if (!scene) continue;
+      seen.add(binding.typeKey);
+      rows.push({
+        typeKey: binding.typeKey,
+        personId,
+        ...(scene.talkToId ? { talkToId: scene.talkToId } : {}),
+        momentId: moment.id,
+        causeId: moment.causeId,
+        label: moment.label,
+        date: moment.date,
+        counterpartIds: [...moment.counterpartIds],
+      });
+    } catch {
+      // A scene the director cannot compose is not listed.
+    } finally {
+      (core as { date: string }).date = year;
+    }
+  }
+  return rows;
+}
+
 if (process.argv[1]?.endsWith("grading-bench.ts"))
   process.exitCode = runBench(process.argv.slice(2));

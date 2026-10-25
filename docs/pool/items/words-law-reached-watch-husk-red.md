@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/law-reached-husk
+pr: #5991
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T06:54:21.604Z
 ---
 
 **What.** With GOLDEN_PATH_SEED=23ba48d50ea16bbef679fb1ed07c82c110943a90, src/director/law-reached-scenes.test.ts fails on clean main before any scene is staged. The director's watch throws 'Watched person is not a recorded person: person_030efef252b9bec5' for one of the heirs that heirsOf returns, because that heir is still part of the counted population. Decide by the two-level population rule whether the heir is filled in before the director watches them or the test watches only recorded heirs, and fix it at the root.
