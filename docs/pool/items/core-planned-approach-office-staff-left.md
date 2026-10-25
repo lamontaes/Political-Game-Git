@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: words/approach-staff-left
 pr: #6016
 blocked-on:
