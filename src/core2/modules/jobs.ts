@@ -1365,12 +1365,16 @@ function layOff(
   // the counts no longer hold them.
   const placeId = (c.people.get(job.personId) ??
     residentFacts(c, job.personId))!.placeId;
+  // A worker filled in since the hire is a full person even when the job they
+  // lost lived in the counted books: the event names them, so they learn of it
+  // and answer it as anyone named does.
+  const full = c.people.has(job.personId);
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
     kind: "work.job-lost",
     // A counted worker is not a full person; the change row names them until fill-in.
-    personIds: counted ? [] : [job.personId],
+    personIds: full ? [job.personId] : [],
     placeId,
     source: source(api, "A layoff decided from the business's books."),
     publicRecord: false,
@@ -1384,7 +1388,7 @@ function layOff(
     facts: {
       decidedBy: decidedBy ?? organizationId,
       organizationId,
-      ...(counted ? { "counted-subject": job.personId } : {}),
+      ...(full ? {} : { "counted-subject": job.personId }),
     },
   });
   // Laid off through no choice of their own: a claim under the state's program.
