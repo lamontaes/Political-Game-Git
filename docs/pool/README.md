@@ -15,7 +15,7 @@ This folder is that place. It replaces the pool lists inside work orders, the "N
 - **Stale claims:** a claim older than 60 minutes with no pushed branch and no PR may be released and taken; say so in the item's Notes.
 - **Adding:** `npm run pool -- add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --rules ... --done ... --files ...` creates the item and pushes it to main. A priority 1 or 2 item must give all four body flags (`--notes` is optional); `add` refuses one that would fail the quality check below. Priority 3 may start from the template.
 - **Size** (owner, Oct 15): an L item is split by the session that claims it into bounded sub-items in the pool (each S or M with its own done-when) before any building; the L item becomes `blocked-on` its parts.
-- **Pick in order:** the index's "Next up" list (the first 15) is the order: priority (1 first), then size (S, M, L), then area, then id. A session with an assignment finishes it, then takes the pool from the top.
+- **Pick in order:** the index's "Next up" list (the first 15) is the order: play-first items come first, in the order `docs/play-first/ORDER.md` gives (the lane's rules: `docs/play-first/README.md`); then priority, size, area, id. A session with an assignment finishes it, then takes the pool from the top.
 
 ## Prompts
 
@@ -31,7 +31,7 @@ Any agent with repository access (Claude, Codex, Cursor, Antigravity or another)
 
 ### Checker
 
-> Read AGENTS.md and .agents/skills/browser-visual-acceptance/SKILL.md in lamontaes/Political-Game-Git. Start the bench (`npm run bench`) and play as the owner would, one hour, from a new game in a drawn place: note every defect with what you did, what you saw and what you expected, and file each as a pool item in docs/pool/items (kind bug, priority 1 for anything that stops play), with screenshots, on one branch and one PR. Never edit code. You are in a cloud environment: set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
+> Read AGENTS.md and the "Done" section of .agents/skills/play-first/SKILL.md in lamontaes/Political-Game-Git. Start the bench (`npm run bench`) and play as the owner would, one hour, from a new game in a drawn place: note every defect with what you did, what you saw and what you expected, and file each as a pool item in docs/pool/items (kind bug, priority 1 for anything that stops play), with screenshots, on one branch and one PR. Never edit code. You are in a cloud environment: set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
 
 ## The item file
 
