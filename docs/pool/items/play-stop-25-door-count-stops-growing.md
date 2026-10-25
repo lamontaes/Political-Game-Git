@@ -5,14 +5,14 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/play-stop-25-door-count
 pr: #6065
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-25T21:21:25.084Z
 ---
 
 **What.** On the v0.22.10 release I pressed Knock on doors every week from February 2025 to October 2026. Each time the status said "KNOCK ON DOORS · 36 DOORS · 6 REACHED", but Politics → Campaigns stayed at "1080 doors" and "Doors 172 · +105 · −67" from September 2, 2025 until election day, 14 months later. Late in the campaign Knock on doors and Ask for an interview were grayed with no reason. I expected the count to grow each week or the screen to say why my knocking no longer counted.
