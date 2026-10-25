@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/approach-office-staffed
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T10:16:55.943Z
 ---
 
 **What.** A resident with a cause plans to approach a town office while it has staff (the known-office offers keep only staffed offices), but the plan is carried out later, and by then the office's last staff member can be gone. The approach performer then throws 'An official approach requires a recorded staff member.' (src/core2/modules/life.ts). On clean main it stops Long Hollow, South Dakota (4638760, seed 5da89cbd151c955ac0720c2296a9156c17fbdb7025128c169387a27ff8f7aeff, the paired performance check's draw for one commit) on February 20, 2025, so any PR whose head draws that town fails the paired performance check.
