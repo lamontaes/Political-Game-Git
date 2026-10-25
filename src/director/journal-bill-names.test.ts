@@ -77,12 +77,18 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
   )
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const name = billTitleOf(billOf(api, bill.id))!.title;
+  // A short title is a name and its form word, so a sentence says it with
+  // its article: "I voted for the Bottle Deposit Act."
+  const said = `the ${name}`;
   const cast = votesOn(api, bill.id).find((row) => row.memberId === memberId);
   const lines = composeJournal(core, director, memberId).flatMap(
     (chapter) => chapter.lines,
   );
   const introduced = lines.find(
     (line) => line.text.includes(name) && /introduced/i.test(line.text),
+  );
+  expect(introduced?.text, `${place.name} ${bill.id}`).toContain(
+    `introduced ${said}`,
   );
   expect(
     introduced,
@@ -97,8 +103,8 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
       voted,
       `${bill.id}: no vote line in ${lines.map((l) => l.text).join(" | ")} (cast ${cast.vote}; ${core.durableLog.get(`office.voted:${bill.id}:${memberId}`) ? "event logged" : "no event"})`,
     ).toBeDefined();
-    expect(voted!.text).toMatch(
-      cast.vote === "yes" ? /voted for/ : /voted against/,
+    expect(voted!.text).toContain(
+      `${cast.vote === "yes" ? "voted for" : "voted against"} ${said}.`,
     );
     expect(voted!.sourceRecordIds).toContain(
       `office.voted:${bill.id}:${memberId}`,

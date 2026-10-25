@@ -6,7 +6,7 @@ import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../core2/modules/legislature";
-import { billTitleOf } from "../english/bill-names";
+import { billTitleOf, billTitleSaid } from "../english/bill-names";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -72,9 +72,10 @@ type JournalMoment = Pick<
 > & { readonly actFacts?: Facts };
 
 /**
- * A bill's real name, from the legislature's own record of it: "Wage Floor
- * Increase Act". Undefined where the bill is not on record or has no name,
- * and the line that would name it is left out.
+ * A bill's real name, from the legislature's own record of it, as a
+ * sentence says it: "the Wage Floor Increase Act". Undefined where the bill
+ * is not on record or has no name, and the line that would name it is left
+ * out.
  */
 function billName(
   core: Readonly<CoreState>,
@@ -86,7 +87,8 @@ function billName(
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("bills")
     .get(billId) as unknown as BillRow | undefined;
-  return row ? (billTitleOf(row)?.title ?? undefined) : undefined;
+  const title = row ? billTitleOf(row)?.title : undefined;
+  return title ? billTitleSaid(title) : undefined;
 }
 
 /** The person's relatives by id, with the family fact that records each. */
