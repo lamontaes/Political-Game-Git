@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: cto-release-lane-files-no-declaration
-pr: #6049
+pr: #6119
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T23:42:13.390Z
