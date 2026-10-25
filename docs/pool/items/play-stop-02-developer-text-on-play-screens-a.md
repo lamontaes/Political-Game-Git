@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-02-developer-text-on-play-screens-a
-pr:
+pr: #6086
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
