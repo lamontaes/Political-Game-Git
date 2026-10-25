@@ -24,7 +24,6 @@ import { makeIsoDate } from "./kernel/dates";
 import { SeededRng } from "./kernel/rng";
 import * as oldBallot from "../simulation/municipal-ballot-rules";
 import { municipalRulePackFor } from "./gov-rules/municipal-election-rule-packs";
-import * as oldPacks from "../simulation/municipal-election-rule-packs";
 import * as oldElectionRules from "../simulation/municipal-election-rules";
 import * as oldTownCalendar from "../simulation/nationwide-world/town-election-calendar";
 import * as oldCountyCalendar from "../simulation/nationwide-world/county-election-calendar";
@@ -180,9 +179,12 @@ describe("ported government rule readers", () => {
         pack?.recallDoctrine.kind === "locally-selectable"
           ? pack.recallDoctrine.statutoryDefault
           : null;
+      // The old reader read a state's own doctrine only where its pack knew
+      // one; anywhere else (a charter or form choice among them) it fell back
+      // to the national estimate.
       const oldConditional =
-        oldPacks.municipalRulePackFor(state.usps)?.directDemocracy
-          .recallDoctrine.kind === "locally-selectable";
+        oldBallot.resolveMunicipalRecallRule(state.usps).doctrineBasis ===
+        "national-estimated";
       for (const usps of [state.usps, state.usps.toLowerCase()]) {
         for (const doctrine of doctrines) {
           const now = ballot.resolveMunicipalRecallRule(usps, doctrine);
