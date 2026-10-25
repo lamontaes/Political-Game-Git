@@ -1,0 +1,36 @@
+{
+  "id": "opening-pregnancy-2024",
+  "publisher": "National Center for Health Statistics (NCHS Data Brief 535, July 2025); Jukic, Baird, Weinberg, McConnaughey and Wilcox, Human Reproduction 28(10):2848-2855 (2013)",
+  "vintage": "2024 births; 2013 gestation study",
+  "table": "Births in the United States, 2024 (key findings); Length of human pregnancy (abstract, PubMed 23922246)",
+  "title": "How many women are carrying a pregnancy to term on a given day",
+  "universe": "Females 15 to 44 (fertility rate); 125 naturally conceived singleton live births (gestation)",
+  "geography": "United States; each place's rate is in data/research/renewal/natality-2024.json (all 56 places)",
+  "sourceUrl": "https://www.cdc.gov/nchs/products/databriefs/db535.htm",
+  "retrievedOn": "2026-10-23",
+  "limits": "Counts only pregnancies that end in a live birth, the only kind the renewal module records; losses and abortions are not in it. On any day the women carrying such a pregnancy are about the births of the next 268 days, so the share is the fertility rate times 268 / 365.25. It checks how many opening pregnancies a town starts with; it never decides who is pregnant.",
+  "rows": {
+    "generalFertilityRate": {
+      "value": 53.8,
+      "unit": "births per 1,000 females 15 to 44, 2024",
+      "quote": "The general fertility rate declined 1% from 2023 to 2024 to 53.8 births per 1,000 females ages 15–44."
+    },
+    "gestationDaysFromOvulation": {
+      "value": 268,
+      "unit": "days, median from ovulation to birth",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/23922246/",
+      "quote": "The median time from ovulation to birth was 268 days (38 weeks, 2 days). Even after excluding six preterm births, the gestational length range was 37 days."
+    }
+  },
+  "band": {
+    "measure": "share of full-person women 15 to 44 with an opening pregnancy on day one",
+    "formula": "the drawn place's fertilityPer1000Females15to44 / 1000 x 268 / 365.25",
+    "national": 0.0395,
+    "acrossPlaces": {
+      "low": 0.0218,
+      "high": 0.0574,
+      "from": "the lowest and highest place rates in natality-2024.json (29.7 and 78.2)"
+    },
+    "readBy": "scripts/research/core-year.ts"
+  }
+}

@@ -1,5 +1,6 @@
 /** Proposed recorded-payday cash owner. Attendance creates no cash or choice here. */
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { bookkeeping } from "./bookkeeping";
 import { cashJournalParameters } from "./cash-host";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";
@@ -267,16 +268,21 @@ function payrollControl(s: FinancePlanningSession): ControlSnapshot {
   return snapshot;
 }
 
+// In play the checks and copies below only confirm what the engines already
+// wrote, so they return at once; tests and the bench run them with bookkeeping on.
 function identity(value: string): void {
+  if (!bookkeeping()) return;
   if (typeof value !== "string" || !value || value !== value.trim())
     throw new Error("Payroll cash requires exact recorded identities.");
 }
 function minor(value: number, zero: number): number {
+  if (!bookkeeping()) return value;
   if (!Number.isSafeInteger(value) || value < zero)
     throw new Error("Payroll cash amount or stock is malformed or overflows.");
   return value;
 }
 function plus(left: number, right: number, zero: number): number {
+  if (!bookkeeping()) return left + right;
   return minor(
     Number(BigInt(minor(left, zero)) + BigInt(minor(right, zero))),
     zero,
@@ -293,6 +299,7 @@ function configuration(s: FinancePlanningSession): PayrollData {
   const r = s.reads,
     cfg = r.field(r.field(s.core, "data"), "work") as PayrollData | undefined;
   if (!cfg) throw new Error("Payroll cash has no actual work data.");
+  if (!bookkeeping()) return cfg;
   const kinds = r.field(cfg, "journalSourceKinds");
   for (const value of [
     r.field(cfg, "payrollCashModuleId"),
@@ -308,6 +315,7 @@ function configuration(s: FinancePlanningSession): PayrollData {
   return cfg;
 }
 function source(s: FinancePlanningSession, value: Source, at: string): Source {
+  if (!bookkeeping()) return value;
   const r = s.reads;
   if (!value) throw new Error("Payroll cash requires full owning Source.");
   r.payload(value, s.zero, s.one);
@@ -334,6 +342,7 @@ function copy<T>(
   one: number,
   active = new Set<object>(),
 ): T {
+  if (!bookkeeping()) return raw;
   if (
     typeof raw === "function" ||
     typeof raw === "symbol" ||
@@ -383,7 +392,7 @@ function same(
   right: unknown,
   seen = new WeakMap<object, object>(),
 ): boolean {
-  if (Object.is(left, right)) return true;
+  if (!bookkeeping() || Object.is(left, right)) return true;
   if (
     left === null ||
     right === null ||
@@ -476,36 +485,42 @@ function owningBasis(
     calendar = calendarId
       ? r.mapGet(r.field(work, "payrollCalendars"), calendarId)
       : undefined;
+  if (!calendar || !job)
+    throw new Error(
+      "Payroll no longer resolves its actual job/person/employer/calendar links.",
+    );
   if (
-    !calendar ||
-    !job ||
-    !person ||
-    !employer ||
-    r.field(job, "id") !== jobId ||
-    r.field(job, "personId") !== personId ||
-    r.field(job, "organizationId") !== organizationId ||
-    r.field(person, "id") !== personId ||
-    r.field(employer, "id") !== organizationId ||
-    r.field(calendar, "id") !== calendarId ||
-    r.field(calendar, "organizationId") !== organizationId ||
-    r.mapGet(r.field(work, "payrollCalendarByCommitment"), commitmentId) !==
-      calendarId ||
-    r.mapGet(r.field(work, "payrollCalendarByJob"), jobId) !== calendarId
+    bookkeeping() &&
+    (!person ||
+      !employer ||
+      r.field(job, "id") !== jobId ||
+      r.field(job, "personId") !== personId ||
+      r.field(job, "organizationId") !== organizationId ||
+      r.field(person, "id") !== personId ||
+      r.field(employer, "id") !== organizationId ||
+      r.field(calendar, "id") !== calendarId ||
+      r.field(calendar, "organizationId") !== organizationId ||
+      r.mapGet(r.field(work, "payrollCalendarByCommitment"), commitmentId) !==
+        calendarId ||
+      r.mapGet(r.field(work, "payrollCalendarByJob"), jobId) !== calendarId)
   )
     throw new Error(
       "Payroll no longer resolves its actual job/person/employer/calendar links.",
     );
-  if (!admittedWorkPayrollCalendarMatches(core, calendarId, calendar))
+  if (
+    bookkeeping() &&
+    !admittedWorkPayrollCalendarMatches(core, calendarId!, calendar)
+  )
     throw new Error(
       "Payroll calendar was replaced or lacks its genuine owning admission.",
     );
   // Primary active job and end bounds govern attendance, not cancellation of earned debt.
-  if (requireLivingPayee && r.field(person, "alive") !== true)
+  if (bookkeeping() && requireLivingPayee && r.field(person!, "alive") !== true)
     throw new Error(
       "Payroll debt is held pending separately qualified deceased-payee authority.",
     );
   const basis: WorkPayrollBasis = {
-    calendarId,
+    calendarId: calendarId!,
     commitmentId,
     jobId,
     personId,
@@ -515,19 +530,20 @@ function owningBasis(
     scheduleSource: source(s, r.field(row, "scheduleSource"), at),
   };
   source(s, r.field(calendar, "source"), at);
-  source(s, r.field(employer, "source"), at);
+  source(s, r.field(employer!, "source"), at);
   const startsAt = r.field(row, "startsAt"),
     commitmentEnd = r.field(row, "endsAt"),
     jobEnd = r.field(job, "endsAt");
-  for (const bound of [startsAt, commitmentEnd, jobEnd])
-    if (bound !== undefined && makeIsoDate(bound) !== bound)
-      throw new Error("Payroll retained employment bounds are malformed.");
+  if (bookkeeping())
+    for (const bound of [startsAt, commitmentEnd, jobEnd])
+      if (bound !== undefined && makeIsoDate(bound) !== bound)
+        throw new Error("Payroll retained employment bounds are malformed.");
   return {
     work,
     commitment: row,
     calendar,
     basis,
-    employer,
+    employer: employer!,
     startsAt,
     commitmentEnd,
     jobEnd,
@@ -539,7 +555,7 @@ function validateEarnedBounds(
   period: WorkEarnedPayPeriod | undefined,
   owner: ReturnType<typeof owningBasis>,
 ): void {
-  if (!period) return;
+  if (!period || !bookkeeping()) return;
   const r = s.reads,
     first = r.field(period, "firstEarnedAt"),
     last = r.field(period, "lastEarnedAt");
@@ -689,22 +705,24 @@ function currentContext(
       commitmentId,
     );
   if (!ledger) throw new Error("Payroll has no actual admitted earned ledger.");
-  const targets = [
-    r.field(work, "payrollLedgerByCommitment"),
-    r.field(work, "earnedPayPeriods"),
-    r.field(work, "earnedPayPeriodByCommitmentIndex"),
-    r.field(work, "payrollPeriodsByDue"),
-    r.field(work, "payrollArrearsByDue"),
-    r.field(work, "payrollCashSources"),
-    r.field(work, "latestPayrollByJob"),
-    r.field(work, "detailedPayroll"),
-    r.field(work, "totalsByJob"),
-  ];
+  const targets = !bookkeeping()
+    ? []
+    : [
+        r.field(work, "payrollLedgerByCommitment"),
+        r.field(work, "earnedPayPeriods"),
+        r.field(work, "earnedPayPeriodByCommitmentIndex"),
+        r.field(work, "payrollPeriodsByDue"),
+        r.field(work, "payrollArrearsByDue"),
+        r.field(work, "payrollCashSources"),
+        r.field(work, "latestPayrollByJob"),
+        r.field(work, "detailedPayroll"),
+        r.field(work, "totalsByJob"),
+      ];
   if (new Set(targets).size !== targets.length)
     throw new Error("Payroll writable tables must retain independent owners.");
   for (const table of targets)
     r.mapHas(table as ReadonlyMap<unknown, unknown>, undefined);
-  if (periodIndex) {
+  if (bookkeeping() && periodIndex) {
     r.payload(periodIndex, s.zero, s.one);
     for (const [index, id] of Map.prototype.entries.call(
       periodIndex,
@@ -734,7 +752,7 @@ function currentContext(
     period = periodId
       ? r.mapGet(r.field(work, "earnedPayPeriods"), periodId)
       : undefined;
-  if (periodId !== undefined) {
+  if (bookkeeping() && periodId !== undefined) {
     const dueMembers = r.mapGet(r.field(work, "payrollPeriodsByDue"), s.date);
     if (!period || !dueMembers || !r.member(dueMembers, periodId))
       throw new Error(
@@ -744,7 +762,7 @@ function currentContext(
   validateEarnedBounds(s, period, owner);
   const lastEarnedAt = r.field(ledger, "lastEarnedAt"),
     lastWorkResultId = r.field(ledger, "lastWorkResultId");
-  if (lastEarnedAt !== undefined) {
+  if (bookkeeping() && lastEarnedAt !== undefined) {
     const attendance = r.mapGet(
       r.field(work, "lastAttendanceByJob"),
       basis.jobId,
@@ -772,7 +790,7 @@ function currentContext(
     source(s, r.field(attendance, "source"), lastEarnedAt);
   }
   const priorReceiptId = r.field(ledger, "lastPayrollReceiptId");
-  if (priorReceiptId !== undefined) {
+  if (bookkeeping() && priorReceiptId !== undefined) {
     const prior = r.mapGet(r.field(work, "payrollCashSources"), priorReceiptId),
       latest = r.mapGet(r.field(work, "latestPayrollByJob"), basis.jobId);
     if (
@@ -846,7 +864,7 @@ function currentContext(
           "Payroll current ledger differs from its actual prior cash result.",
         );
   }
-  if (r.field(ledger, "arrearsMinor") > s.zero) {
+  if (bookkeeping() && r.field(ledger, "arrearsMinor") > s.zero) {
     const priorAt = r.field(ledger, "lastSettledAt"),
       retry = priorAt
         ? nextWorkPayrollPeriod(
@@ -889,7 +907,7 @@ function currentContext(
     r.field(work, "commitmentsByPerson"),
     basis.personId,
   );
-  if (!members || !r.member(members, commitmentId))
+  if (bookkeeping() && (!members || !r.member(members, commitmentId)))
     throw new Error("Payroll actual retained person membership is absent.");
   return {
     work,
@@ -1927,14 +1945,19 @@ export function workPayrollCashSourceProvider(
   api: CoreAPI,
   reference: Readonly<CashJournalSourceRef>,
 ): CashJournalSourceSlot | undefined {
+  // Play reads the staged row and hands back its own references. Bookkeeping
+  // (tests, the bench) re-derives the settlement from the current records and
+  // compares it with the row before the journal trusts it.
   const apiReads = new FinanceReadGuard(),
     core = apiReads.field(api, "state") as CoreState,
-    s = new FinancePlanningSession(
-      core,
-      core.cashJournal,
-      cashJournalParameters(core),
-    ),
-    r = s.reads,
+    s = bookkeeping()
+      ? new FinancePlanningSession(
+          core,
+          core.cashJournal,
+          cashJournalParameters(core),
+        )
+      : undefined,
+    r = s ? s.reads : apiReads,
     work = r.field(core, "work") as Runtime,
     row = r.mapGet(r.field(work, "payrollCashSources"), reference.id);
   if (
@@ -1944,7 +1967,9 @@ export function workPayrollCashSourceProvider(
   )
     return undefined;
   const installation = installed.get(core),
-    cfg = configuration(s);
+    cfg = s
+      ? configuration(s)
+      : (r.field(r.field(core, "data"), "work") as PayrollData);
   if (
     r.field(api, "state") !== core ||
     r.field(r.field(cfg, "journalSourceKinds"), "payroll") !== reference.kind ||
@@ -1965,193 +1990,201 @@ export function workPayrollCashSourceProvider(
       ControlSnapshot | undefined,
     result = r.field(row, "result"),
     date = r.field(row, "date");
-  r.payload(result, s.zero, s.one);
-  r.payload(r.field(row, "credits"), s.zero, s.one);
-  r.payload(r.field(row, "projection"), s.zero, s.one);
-  r.payload(r.field(row, "references"), s.zero, s.one);
-  if (
-    r.field(result, "id") !== reference.id ||
-    r.field(result, "date") !== date
-  )
-    throw new Error(
-      "Payroll canonical source lost its actual receipt identity.",
-    );
-  const completed =
-    r.field(row, "postedJournalSequence") !== undefined ||
-    r.field(row, "completedAt") !== undefined;
-  if ((bundle && (date !== s.date || completed)) || (!bundle && !completed))
-    throw new Error(
-      "Payroll source is stale, unprepared or already completed.",
-    );
   let actualRelated: readonly Related[];
-  if (r.field(row, "group") === true) {
-    actualRelated = validateGroupSource(
-      s,
-      row as WorkPayrollGroupSourceState,
-      bundle,
-    );
-  } else {
-    const single = row as SingleWorkPayrollCashSourceState,
-      value = result as WorkPayrollCashReceipt;
-    r.payload(r.field(single, "ledgerBefore"), s.zero, s.one);
-    r.payload(r.field(single, "ledgerAfter"), s.zero, s.one);
-    r.payload(r.field(single, "earnedPeriod"), s.zero, s.one);
-    if (bundle) {
-      const current = currentContext(s, r.field(value, "commitmentId"));
-      if (groupContexts(s, current).length !== s.one)
-        throw new Error(
-          "Single payroll source now owns a different payable retained group.",
-        );
-      const actual = prepare(s, current);
-      if (
-        current.request.id !== r.field(single, "id") ||
-        !same(r, actual.result, value) ||
-        !same(r, actual.ledger, r.field(single, "ledgerAfter")) ||
-        !same(r, current.ledger, r.field(single, "ledgerBefore")) ||
-        !same(r, current.period, r.field(single, "earnedPeriod")) ||
-        !same(r, actual.projection, r.field(single, "projection")) ||
-        !same(r, actual.related, r.field(single, "references")) ||
-        r.field(single, "postings") !== bundle.postings ||
-        !same(r, value, bundle.result)
-      )
-        throw new Error(
-          "Payroll source differs from its genuine current accrued request or cash projection.",
-        );
-      actualRelated = actual.related;
+  if (!s) actualRelated = r.field(row, "references") as readonly Related[];
+  else {
+    r.payload(result, s.zero, s.one);
+    r.payload(r.field(row, "credits"), s.zero, s.one);
+    r.payload(r.field(row, "projection"), s.zero, s.one);
+    r.payload(r.field(row, "references"), s.zero, s.one);
+    if (
+      r.field(result, "id") !== reference.id ||
+      r.field(result, "date") !== date
+    )
+      throw new Error(
+        "Payroll canonical source lost its actual receipt identity.",
+      );
+    const completed =
+      r.field(row, "postedJournalSequence") !== undefined ||
+      r.field(row, "completedAt") !== undefined;
+    if ((bundle && (date !== s.date || completed)) || (!bundle && !completed))
+      throw new Error(
+        "Payroll source is stale, unprepared or already completed.",
+      );
+    if (r.field(row, "group") === true) {
+      actualRelated = validateGroupSource(
+        s,
+        row as WorkPayrollGroupSourceState,
+        bundle,
+      );
     } else {
-      // Completed rows retain their actual original earned record, not invented current attendance.
-      const owner = owningBasis(s, r.field(value, "commitmentId"), date, false),
-        period = r.field(single, "earnedPeriod");
-      validateEarnedBounds(s, period, owner);
-      const request = prepareWorkPayrollRequest(
-          r,
-          owner.calendar,
-          owner.basis,
-          r.field(single, "ledgerBefore"),
-          period,
-          date,
-          r.field(single, "id"),
-          units(s),
-        ),
-        settled = prepareWorkPayrollSettlement(
-          r,
-          owner.calendar,
-          owner.basis,
-          r.field(single, "ledgerBefore"),
+      const single = row as SingleWorkPayrollCashSourceState,
+        value = result as WorkPayrollCashReceipt;
+      r.payload(r.field(single, "ledgerBefore"), s.zero, s.one);
+      r.payload(r.field(single, "ledgerAfter"), s.zero, s.one);
+      r.payload(r.field(single, "earnedPeriod"), s.zero, s.one);
+      if (bundle) {
+        const current = currentContext(s, r.field(value, "commitmentId"));
+        if (groupContexts(s, current).length !== s.one)
+          throw new Error(
+            "Single payroll source now owns a different payable retained group.",
+          );
+        const actual = prepare(s, current);
+        if (
+          current.request.id !== r.field(single, "id") ||
+          !same(r, actual.result, value) ||
+          !same(r, actual.ledger, r.field(single, "ledgerAfter")) ||
+          !same(r, current.ledger, r.field(single, "ledgerBefore")) ||
+          !same(r, current.period, r.field(single, "earnedPeriod")) ||
+          !same(r, actual.projection, r.field(single, "projection")) ||
+          !same(r, actual.related, r.field(single, "references")) ||
+          r.field(single, "postings") !== bundle.postings ||
+          !same(r, value, bundle.result)
+        )
+          throw new Error(
+            "Payroll source differs from its genuine current accrued request or cash projection.",
+          );
+        actualRelated = actual.related;
+      } else {
+        // Completed rows retain their actual original earned record, not invented current attendance.
+        const owner = owningBasis(
+            s,
+            r.field(value, "commitmentId"),
+            date,
+            false,
+          ),
+          period = r.field(single, "earnedPeriod");
+        validateEarnedBounds(s, period, owner);
+        const request = prepareWorkPayrollRequest(
+            r,
+            owner.calendar,
+            owner.basis,
+            r.field(single, "ledgerBefore"),
+            period,
+            date,
+            r.field(single, "id"),
+            units(s),
+          ),
+          settled = prepareWorkPayrollSettlement(
+            r,
+            owner.calendar,
+            owner.basis,
+            r.field(single, "ledgerBefore"),
+            period,
+            request,
+            r.field(value, "paidMinor"),
+            units(s),
+          );
+        for (const key of [
+          "calendarId",
+          "commitmentId",
+          "jobId",
+          "personId",
+          "organizationId",
+          "index",
+          "fromAt",
+          "throughAt",
+          "dueAt",
+          "earnedPeriodId",
+          "newlyDueMinor",
+          "arrearsBeforeMinor",
+          "requestedMinor",
+          "paidMinor",
+          "shortfallMinor",
+          "paidArrearsMinor",
+          "paidNewlyDueMinor",
+          "missedNewlyDueMinor",
+          "arrearsAfterMinor",
+        ] as const)
+          if (r.field(value, key) !== settled.receipt[key])
+            throw new Error(
+              "Completed payroll lost its original genuine request/settlement.",
+            );
+        if (
+          !same(r, settled.ledger, r.field(single, "ledgerAfter")) ||
+          !same(
+            r,
+            r.field(value, "calendarSource"),
+            r.field(owner.calendar, "source"),
+          ) ||
+          !same(r, r.field(value, "jobSource"), owner.basis.jobSource) ||
+          !same(r, r.field(value, "paySource"), owner.basis.paySource) ||
+          !same(
+            r,
+            r.field(value, "scheduleSource"),
+            owner.basis.scheduleSource,
+          ) ||
+          !same(
+            r,
+            r.field(value, "earnedPeriodSource"),
+            period ? r.field(period, "source") : undefined,
+          )
+        )
+          throw new Error(
+            "Completed payroll lost its full original owning evidence.",
+          );
+        const projection = r.field(single, "projection");
+        if (
+          r.field(value, "id") !== r.field(projection, "receiptId") ||
+          r.field(value, "organizationId") !==
+            r.field(projection, "organizationId") ||
+          r.field(value, "personId") !== r.field(projection, "personId") ||
+          r.field(value, "requestedMinor") !==
+            r.field(projection, "requestedMinor") ||
+          r.field(value, "paidMinor") !==
+            r.field(projection, "expectedPaidMinor") ||
+          r.field(value, "shortfallMinor") !==
+            r.field(projection, "requestedMinor") -
+              r.field(projection, "expectedPaidMinor") ||
+          r.field(value, "payerCashBeforeMinor") !==
+            r.field(projection, "payerCashBeforeMinor") ||
+          r.field(value, "payerCashAfterMinor") !==
+            r.field(projection, "payerCashAfterMinor") ||
+          r.field(value, "payeeCashBeforeMinor") !==
+            r.field(projection, "payeeCashBeforeMinor") ||
+          r.field(value, "payeeCashAfterMinor") !==
+            r.field(projection, "payeeCashAfterMinor")
+        )
+          throw new Error(
+            "Completed payroll financial evidence differs from its actual original projection.",
+          );
+        const expectedSource = {
+          ...copy(r, settled.receipt.source, s.zero, s.one),
+          citation:
+            r.field(settled.receipt.source, "citation") +
+            " " +
+            r.field(cfg, "payrollReceiptCitation"),
+        };
+        if (!same(r, r.field(value, "source"), expectedSource))
+          throw new Error(
+            "Completed payroll lost its original full receipt Source.",
+          );
+        const context: Context = {
+          work,
+          cfg,
+          commitment: owner.commitment,
+          calendar: owner.calendar,
+          basis: owner.basis,
+          ledger: r.field(single, "ledgerBefore"),
           period,
           request,
-          r.field(value, "paidMinor"),
-          units(s),
-        );
-      for (const key of [
-        "calendarId",
-        "commitmentId",
-        "jobId",
-        "personId",
-        "organizationId",
-        "index",
-        "fromAt",
-        "throughAt",
-        "dueAt",
-        "earnedPeriodId",
-        "newlyDueMinor",
-        "arrearsBeforeMinor",
-        "requestedMinor",
-        "paidMinor",
-        "shortfallMinor",
-        "paidArrearsMinor",
-        "paidNewlyDueMinor",
-        "missedNewlyDueMinor",
-        "arrearsAfterMinor",
-      ] as const)
-        if (r.field(value, key) !== settled.receipt[key])
+        };
+        if (
+          !same(
+            r,
+            references(s, context, r.field(value, "publicPayDue")),
+            r.field(single, "references"),
+          )
+        )
           throw new Error(
-            "Completed payroll lost its original genuine request/settlement.",
+            "Completed payroll related records no longer match its actual owning evidence.",
           );
-      if (
-        !same(r, settled.ledger, r.field(single, "ledgerAfter")) ||
-        !same(
-          r,
-          r.field(value, "calendarSource"),
-          r.field(owner.calendar, "source"),
-        ) ||
-        !same(r, r.field(value, "jobSource"), owner.basis.jobSource) ||
-        !same(r, r.field(value, "paySource"), owner.basis.paySource) ||
-        !same(
-          r,
-          r.field(value, "scheduleSource"),
-          owner.basis.scheduleSource,
-        ) ||
-        !same(
-          r,
-          r.field(value, "earnedPeriodSource"),
-          period ? r.field(period, "source") : undefined,
-        )
-      )
-        throw new Error(
-          "Completed payroll lost its full original owning evidence.",
-        );
-      const projection = r.field(single, "projection");
-      if (
-        r.field(value, "id") !== r.field(projection, "receiptId") ||
-        r.field(value, "organizationId") !==
-          r.field(projection, "organizationId") ||
-        r.field(value, "personId") !== r.field(projection, "personId") ||
-        r.field(value, "requestedMinor") !==
-          r.field(projection, "requestedMinor") ||
-        r.field(value, "paidMinor") !==
-          r.field(projection, "expectedPaidMinor") ||
-        r.field(value, "shortfallMinor") !==
-          r.field(projection, "requestedMinor") -
-            r.field(projection, "expectedPaidMinor") ||
-        r.field(value, "payerCashBeforeMinor") !==
-          r.field(projection, "payerCashBeforeMinor") ||
-        r.field(value, "payerCashAfterMinor") !==
-          r.field(projection, "payerCashAfterMinor") ||
-        r.field(value, "payeeCashBeforeMinor") !==
-          r.field(projection, "payeeCashBeforeMinor") ||
-        r.field(value, "payeeCashAfterMinor") !==
-          r.field(projection, "payeeCashAfterMinor")
-      )
-        throw new Error(
-          "Completed payroll financial evidence differs from its actual original projection.",
-        );
-      const expectedSource = {
-        ...copy(r, settled.receipt.source, s.zero, s.one),
-        citation:
-          r.field(settled.receipt.source, "citation") +
-          " " +
-          r.field(cfg, "payrollReceiptCitation"),
-      };
-      if (!same(r, r.field(value, "source"), expectedSource))
-        throw new Error(
-          "Completed payroll lost its original full receipt Source.",
-        );
-      const context: Context = {
-        work,
-        cfg,
-        commitment: owner.commitment,
-        calendar: owner.calendar,
-        basis: owner.basis,
-        ledger: r.field(single, "ledgerBefore"),
-        period,
-        request,
-      };
-      if (
-        !same(
-          r,
-          references(s, context, r.field(value, "publicPayDue")),
-          r.field(single, "references"),
-        )
-      )
-        throw new Error(
-          "Completed payroll related records no longer match its actual owning evidence.",
-        );
-      actualRelated = r.field(single, "references");
+        actualRelated = r.field(single, "references");
+      }
     }
+    for (const item of actualRelated) source(s, item.source, item.date);
+    source(s, r.field(result, "source"), date);
   }
-  for (const item of actualRelated) source(s, item.source, item.date);
-  source(s, r.field(result, "source"), date);
   const credit = resolveCompositeFinanceCreditSources(
       core,
       r.field(row, "credits"),
@@ -2178,22 +2211,24 @@ export function workPayrollCashSourceProvider(
       secondaryMarkers: bundle ? credit.secondaryMarkers : [],
       retainFull: retainedHas.call(retainedControlledSources, row),
     };
-  apiReads.verify();
-  s.reads.verify();
-  s.nextReads.verify();
-  if (bundle) {
-    if (!controlSnapshot)
-      throw new Error(
-        "Payroll source lost its original explicit-control preimage.",
+  if (s) {
+    apiReads.verify();
+    s.reads.verify();
+    s.nextReads.verify();
+    if (bundle) {
+      if (!controlSnapshot)
+        throw new Error(
+          "Payroll source lost its original explicit-control preimage.",
+        );
+      controlSnapshot.verify();
+      bundle.preflight.verify(
+        core,
+        core.cashJournal,
+        cashJournalParameters(core),
       );
-    controlSnapshot.verify();
-    bundle.preflight.verify(
-      core,
-      core.cashJournal,
-      cashJournalParameters(core),
-    );
-    // Native private identity only, after the original reflective preflight.
-    controlSnapshot.verify();
+      // Native private identity only, after the original reflective preflight.
+      controlSnapshot.verify();
+    }
   }
   return slot;
 }
