@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/quirky-ride-vrwwz4-play-stop-03
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
 milestone: play-first
-claimed-at: 2026-10-25T15:44:19.522Z
+claimed-at:
 ---
 
 **What.** In the v0.22.10 creator I built a blonde, average-build woman in a burgundy top and gray pants, and the Who you are screen shows her. In play the figure named Bo Snider is someone else every time: a girl with braids in a gray hoodie in my bedroom (look-009, heavy build), a woman in an apron with coffee (look-022) the next week, and a redhead in a denim jacket in the café (the same look as the city secretary Eden Rivera). On the first evening at home I am not in the room at all. The talk box shows my portrait next to the other person's name. I expected to see the character I made in every scene.
