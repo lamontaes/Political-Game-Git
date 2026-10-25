@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-api-parameter-once
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T07:44:50.722Z
 ---
 
 **What.** In Long Hill, Connecticut's played year (seed m7b), the parameter reader that coreAPI hands every engine (api.parameter in src/core2/state.ts) takes 2.34 s of self time in a profiled pair, plus about 1 s more in parameter() under it. Each read looks the key up in the registry object, checks for a stopgap, and calls parameter(), which checks bookkeeping and reads its own per-registry map. Engines read zero, one and their tunables millions of times a day. In play the registry never changes, so the reader can keep each key's checked value and stopgap in one map per world and read that, with bookkeeping re-reading as parameter() already does.
