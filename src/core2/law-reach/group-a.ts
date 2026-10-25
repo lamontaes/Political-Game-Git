@@ -25,6 +25,12 @@ const records: PolicyHandler = (api, change) =>
 // load this registry back through law reach; read its handler when a law
 // takes effect, not when this file loads, so no import order leaves it unset.
 const voting: PolicyHandler = (api, change) => votingLaw(api, change);
+// The money file reaches the treasury and budget engines, which load this
+// registry back the same way; its handlers are read when a law takes effect.
+const leave: PolicyHandler = (api, change) => paidLeave(api, change);
+const parks: PolicyHandler = (api, change) => parksFunding(api, change);
+const housingLine: PolicyHandler = (api, change) =>
+  housingLineMeasure(api, change);
 
 /** Each mechanic's handler, by the mechanic name a policy's data row gives. */
 const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
@@ -45,10 +51,10 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
-  "paid-leave-premium": [paidLeave],
-  "parks-funding": [parksFunding],
+  "paid-leave-premium": [leave],
+  "parks-funding": [parks],
   // The housing engine pays the assistance monthly (housing-assistance.ts), citing the measure kept here.
-  "housing-assistance": [housingLineMeasure],
+  "housing-assistance": [housingLine],
   staffing: [staffing],
   "public-bargaining": [records, publicBargaining],
   "right-to-work": [records, rightToWork],

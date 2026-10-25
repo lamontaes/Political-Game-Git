@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #6013
 blocked-on:
@@ -21,6 +21,6 @@ claimed-at:
 
 **Files.** src/core2/closure-counted-seeker-finite.test.ts
 
-**Notes.** TODO
+**Notes.** 2026-10-25 (claude/closure-seeker-witness): natural uncoded counted hires are rare (none in 12 months in Cleona PA, Washington DC, Bayshore NC or Chickamauga GA, measured), so the test now opens one position on a drawn town's press outlet staff job, as the engine does when a reporter leaves, and the weekly round fills it from the counts within a week.
 
-Sent back 2026-10-25 from PR #6013 (branch claude/closure-seeker-witness): own typecheck TS2305 closure-counted-seeker-finite.test.ts:23 imports ModuleRow from ./types instead of exporting ./module-data; reported root passed but fresh/mutation proof remains after import repair; finish on that branch, merge main into it first.
+Sent back 2026-10-25 from PR #6013 (branch claude/closure-seeker-witness): own typecheck TS2305 closure-counted-seeker-finite.test.ts:23 imports ModuleRow from ./types instead of exporting ./module-data; fixed the same day (import moved to ./module-data, typecheck, two fresh witnesses and the break-it rerun).

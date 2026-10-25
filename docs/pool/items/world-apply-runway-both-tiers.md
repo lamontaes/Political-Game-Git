@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5812
 blocked-on:
