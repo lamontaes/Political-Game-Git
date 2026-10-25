@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.28.0",
+      "releasedOn": "2026-10-25",
+      "revision": "2432b123aed7aa4e61452351be582ae6f2bc4d43",
+      "changeIds": [
+        "core-voter-groups-weight-sum-order",
+        "law-reach-money-handlers-load-cycle",
+        "officials-carry-every-trait",
+        "people-fill-in-keeps-job-tenure",
+        "play-stop-09-jobs-here-count-too-high",
+        "play-stop-14-town-list-stops-at-400",
+        "tests-no-pinned-place-opelika",
+        "web-labor-waiting-links-named",
+        "world-disaster-no-outside-market",
+        "world-session-calendar-2025-ends",
+        "world-unfilled-pay-room-double-counts"
+      ]
+    },
+    {
       "version": "0.27.0",
       "releasedOn": "2026-10-25",
       "revision": "a83efbf169b110f18fda615ec1653b8de82cc021",

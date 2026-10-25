@@ -296,6 +296,50 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.28.0
+
+_Released October 25, 2026._
+
+### Improved
+
+- **State and federal officials have a full personality, like the people of your
+  town.** Every governor, legislator and member of Congress now has a level on
+  every personality trait, drawn the way a resident's is, and still leans more
+  outgoing, dutiful and driven than the average person. Their personality now
+  weighs in their choices as fully as a neighbor's does in theirs, where before
+  most of it was missing.
+
+### Fixed
+
+- **A resident you meet keeps the years they have worked their job** When the
+  game fills in a resident from the wider population, they keep the time they
+  have held their job, so an employer no longer treats them as its newest hire
+  when it lets workers go or gives raises.
+
+- **News's jobs line counts your own town.** The "Jobs here" line in News now
+  counts the people of your town who are at work, including those who work
+  outside it, and those looking for work, and the openings its own employers
+  have posted. It used to add every job held by an official or other named
+  person anywhere in the country, so a town of 2,570 showed 2,036 employed.
+
+- **The creator lists every town in a state** Choosing where you are from now
+  lists every town in the state, not the first 400. Each town shows its
+  population, marked "about" where the records hold no count, and towns that
+  share a name show their county.
+
+- **State laws passed in 2025 take effect the set time after the session ends.**
+  In the 18 places whose new laws take effect a set time after the legislature
+  adjourns, a law passed in 2025 counted that time from the day it passed,
+  because the game had no 2025 adjournment dates. It now counts from each
+  legislature's real 2025 adjournment. An act passed in a special session counts
+  from that session's end. Where a place has none, it counts from the end its
+  law sets, or from a labeled estimate.
+
+- **An employer can raise the pay on a job nobody takes** An employer reading
+  whether it can afford to raise an unfilled job's pay no longer counts its
+  wages and compliance costs twice, so a business with money left after its
+  month's costs can offer more for a job that has gone unfilled, as intended.
+
 ## PRE-ALPHA 0.27.0
 
 _Released October 25, 2026._
