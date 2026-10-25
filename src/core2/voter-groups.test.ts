@@ -99,7 +99,11 @@ it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}
     (n, h) => n + store.weightedCount(h),
     0,
   );
-  expect(weighted, where).toBeLessThanOrEqual(recorded);
+  // The two sums add the same weights in a different order, so they may part in
+  // the last bits: allow the rounding a sum of this many terms can carry, no more.
+  const rounding =
+    recorded * Number.EPSILON * (voters.length + households.size);
+  expect(weighted, where).toBeLessThanOrEqual(recorded + rounding);
   expect(weighted, where).toBeGreaterThan(0);
 
   // The sample is the town's counted adults, in lean order by real voters.

@@ -1294,8 +1294,14 @@ export function tenureYears(api: CoreAPI, job: JobInput): number {
   ]
     .map((id) => core(api).work.commitments.get(id)!)
     .find((row) => row.jobId === job.id);
+  // A counted worker's hire here dates their job, as it did before they were
+  // filled in (countedTenureYears); a full hire keeps no such date.
   const since =
-    commitment?.heldSince ?? commitment?.startsAt ?? api.state.startedAt;
+    (store(api).table("pay").get(job.id) as { since?: string } | undefined)
+      ?.since ??
+    commitment?.heldSince ??
+    commitment?.startsAt ??
+    api.state.startedAt;
   return (
     daysBetweenText(since, api.state.date) / api.parameter("jobsDaysPerYear")
   );
@@ -2253,6 +2259,8 @@ function hireCounted(
     personId: seeker.personId,
     payrollCalendarId: calendar!.id,
     startsAt: addDays(makeIsoDate(api.state.date), 1),
+    // A new hire's own: a filled-in template's earlier tenure is not copied.
+    heldSince: undefined,
     endsAt: undefined,
     hourlyMinor: position.hourlyMinor,
     scheduleTemplateJobId: role.template.id,
@@ -3183,6 +3191,7 @@ function hire(
       personId: person.id,
       payrollCalendarId: newCalendar.id,
       startsAt,
+      heldSince: undefined,
       endsAt: undefined,
       hourlyMinor: pay,
       scheduleTemplateJobId: template.id,
