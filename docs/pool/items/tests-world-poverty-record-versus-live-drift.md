@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/poverty-record-date
-pr:
+pr: #6110
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T21:01:54.133Z
