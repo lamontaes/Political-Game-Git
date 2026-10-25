@@ -108,6 +108,9 @@
     "tuition-freeze-to-college-completion",
     "income-tax-to-out-migration",
     "graduated-income-tax-to-out-migration",
+    "income-tax-rate-to-out-migration",
+    "estate-tax-to-out-migration",
+    "inheritance-tax-to-out-migration",
     "balanced-budget-to-borrowing-cost",
     "pension-funding-to-borrowing-cost",
     "reserve-balance-to-borrowing-cost",
@@ -120,8 +123,6 @@
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
     "poor-roads-to-prices",
-    "estate-tax-to-out-migration",
-    "inheritance-tax-to-out-migration",
     "parks-spending-to-exercise-access"
   ],
   "waiting": {
@@ -523,6 +524,10 @@
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
+    "income-tax-rate-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
     "social-security-tax-to-unemployment": {
       "waitingOn": ["labor.unemployment-pct"]
     },
@@ -542,14 +547,6 @@
     "unemployment-weekly-maximum-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
-    },
-    "income-tax-rate-to-poverty": {
-      "waitingOn": [],
-      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
-    },
-    "income-tax-rate-to-out-migration": {
-      "waitingOn": [],
-      "carriedBy": "src/core2/modules/counted-moves.ts: pullBetween reads the income-tax law in force into the income pull"
     },
     "revolving-door-ban-to-ex-legislator-lobbyists": {
       "waitingOn": [],
