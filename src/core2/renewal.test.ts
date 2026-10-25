@@ -10,7 +10,8 @@ import { gameStartDate } from "./game-start";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { ABORTION_LAW_SERIES, decideUnplanned } from "./births-unplanned";
 import type { BirthCouple } from "./births-plan";
-import { lawInForce } from "./modules/laws";
+import { appliedTo } from "./law-reach/applied";
+import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { coreAPI } from "./state";
 import providerDistance from "../../data/research/people/abortion-provider-distance.json" with { type: "json" };
 
@@ -32,6 +33,7 @@ interface Decision {
   miles: number;
   scores: { continue: number; end: number };
   travelMinor: number;
+  lawShare?: number;
   cashMinor: number;
 }
 
@@ -182,13 +184,15 @@ it(
   ORDINARY_PLACES * 300_000,
 );
 
-it(
-  "an unplanned pregnancy she ends pays her trip from her household's cash, on the journal (named regression)",
-  () => {
+it.each([false, true])(
+  "an unplanned pregnancy she ends pays her trip from her household's cash, on the journal (named regression; restriction enacted: %s)",
+  (restrict) => {
     const tried: string[] = [];
     for (let n = 0; n < PLACES; n += 1) {
       const draw = drawPlace(
-        createHash("sha256").update(`${base}:ended:${n}`).digest("hex"),
+        createHash("sha256")
+          .update(`${base}:${restrict ? "ended-restricted" : "ended"}:${n}`)
+          .digest("hex"),
         "unplanned-ended",
       );
       setBookkeeping(false);
@@ -197,6 +201,18 @@ it(
         placeKey: draw.key,
       });
       const api = coreAPI(core);
+      // A restriction in force at every level the town answers to.
+      if (restrict)
+        for (const level of lawChain(api).levels)
+          enactLaw(api, {
+            jurisdiction: level.jurisdiction,
+            level: level.level,
+            series: ABORTION_LAW_SERIES,
+            value: 1,
+            effectiveDate: core.date,
+            measureId: `fixture:renewal:restriction:${core.date}`,
+            citation: "Controlled law case after the native generated start.",
+          });
       const label = `${draw.name}, ${draw.state} (${draw.key}), seed ${draw.seed}`;
       advanceCore(core, addDays(makeIsoDate(core.date), 30));
       const renewal = api.moduleState(RENEWAL_MODULE_ID);
@@ -297,6 +313,23 @@ it(
               left -= posting.deltaMinor;
         }
       expect(left, `${label}: ${receipts.join(", ")}`).toBe(paid);
+      // The miles the restriction added to the trip are money the household paid under it, on the law's row.
+      const recorded = appliedTo(
+        api,
+        core.people.get(String(pregnancy.motherId))!.householdId,
+      ).filter((row) => row.key === ABORTION_LAW_SERIES);
+      const added = Math.round(paid * (decision.lawShare ?? 0));
+      if (restrict) expect(decision.restricted, label).toBe(true);
+      if (decision.restricted && added > 0)
+        expect(
+          recorded.map((row) => [row.what, row.amountMinor, row.lawId]),
+          label,
+        ).toContainEqual([
+          "trip-lengthened-by-restriction",
+          -added,
+          String(plan.lawId),
+        ]);
+      else expect(recorded, label).toHaveLength(0);
       process.stdout.write(
         `UNPLANNED ENDED ${label}: ${String(pregnancy.motherId)}'s ${String(pregnancy.id)} on ${String(plan.date)}, ended (continue ${decision.scores.continue.toFixed(3)}, end ${decision.scores.end.toFixed(3)}), law ${String(plan.lawId)}, ${decision.miles} miles, trip ${decision.travelMinor} paid ${paid} in ${[...new Set(receipts)].join(", ")}\n`,
       );

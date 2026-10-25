@@ -23,9 +23,9 @@ import {
   BUDGETS_MODULE_ID,
   baseBudget,
   budgetsOf,
+  carriedMeasureOf,
   enactedBudgetChanges,
   governments,
-  lineChangedBy,
   type BudgetRow,
   type GovernmentRow,
 } from "./modules/budgets";
@@ -263,12 +263,12 @@ function lawsOnLine(
     .flatMap((a) => a.additions(api, gov))
     .filter((a) => a.line === line);
   const carried = enactedBudgetChanges(api, gov.id)[line] ?? 0;
-  const by = carried > 0 ? lineChangedBy(api, gov.id, line) : null;
+  const by = carried > 0 ? carriedMeasureOf(api, gov.id, line) : null;
   if (by)
     out.push({
       line,
       key: `budget-line:${line}`,
-      lawId: by.measureId,
+      lawId: by,
       annualMinor: carried,
       what: BILL_LINE_PAID,
     });
@@ -290,7 +290,16 @@ function raisedBy(
   lineAnnualMinor: number,
 ): RaisedBy[] {
   if (lineAnnualMinor <= 0) return [];
-  const laws = lawsOnLine(api, gov, line).map((l) => ({
+  // One payment per law row: a row that raised the line twice is paid once.
+  const byRow = new Map<string, LineAddition>();
+  for (const l of lawsOnLine(api, gov, line)) {
+    const held = byRow.get(l.lawId);
+    byRow.set(
+      l.lawId,
+      held ? { ...held, annualMinor: held.annualMinor + l.annualMinor } : l,
+    );
+  }
+  const laws = [...byRow.values()].map((l) => ({
     ...l,
     share: l.annualMinor / lineAnnualMinor,
   }));

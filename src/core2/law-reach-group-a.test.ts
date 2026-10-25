@@ -30,10 +30,12 @@ import powerCatalog from "../../data/research/powers-catalog/catalog.json" with 
 import powerMapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
   adoptedLine,
+  BUDGETS_MODULE_ID,
   governments,
   openBudgets,
   type GovernmentRow,
 } from "./modules/budgets";
+import { appliedOn } from "./law-reach/applied";
 import { openLawReach } from "./law-reach/host";
 import { selectorGroup } from "./law-reach/group-a-records";
 import {
@@ -577,6 +579,31 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     const share = reachParameter("parksDedicatedShare");
     enact(key, "city", 1);
     const first = budgetToday(api, gov)!;
+    // The treasury's first close pays the levy's share of the line under the law's own payment, and records whom it reached.
+    advanceCore(core, after(api.state.date, 35));
+    const paid = appliedOn(api, key).filter(
+      (r) => r.what === "parks-line-paid",
+    );
+    expect(
+      paid.length,
+      `${where}: the levy's share is recorded`,
+    ).toBeGreaterThan(0);
+    expect(
+      paid.every((r) => r.amountMinor > 0),
+      where,
+    ).toBe(true);
+    expect(
+      (
+        api
+          .moduleState(BUDGETS_MODULE_ID)
+          .table("spendingPayments")
+          .rows() as unknown as {
+          id: string;
+          amountMinor: number;
+        }[]
+      ).some((p) => p.id.includes(paid[0]!.lawId) && p.amountMinor > 0),
+      `${where}: a payment names the law row ${paid[0]?.lawId}`,
+    ).toBe(true);
     // Live to the next fiscal year's start: its budget begins without the levy.
     for (
       let i = 0;
@@ -596,6 +623,11 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     expect(budgetToday(api, gov)!.spendingMinor.parks ?? 0, where).toBe(
       adopted,
     );
+    // A repeal ends the treasury's records of it.
+    expect(
+      appliedOn(api, key).filter((r) => r.what === "parks-line-paid"),
+      where,
+    ).toHaveLength(0);
   });
 
   it("reports", () => {
