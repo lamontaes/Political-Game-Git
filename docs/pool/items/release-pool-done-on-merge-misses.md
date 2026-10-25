@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/pool-done-proof
-pr:
+pr: #5990
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T07:04:13.578Z

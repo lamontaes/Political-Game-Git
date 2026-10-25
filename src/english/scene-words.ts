@@ -1,0 +1,179 @@
+/**
+ * The English engine's half of a scene's narration. The director
+ * (`composeScene` in `src/director/scene.ts`) says which line the narrator
+ * gives (the day, the setting, who is there, what is happening, how the scene
+ * opens, what led here), with the facts from the records; this file picks the
+ * mined sentence that words it and renders it.
+ */
+import { P } from "../core2/parameters";
+import type { PersonId } from "../core2/types";
+import {
+  renderGroundedEnglish,
+  type AuthoredEnglishBank,
+  type GroundedEnglishKnowledge,
+  type GroundedEnglishPacket,
+} from "./grounded-english";
+import { SCENE_BANK, sceneWordsFromBank } from "./mined/scene-bank";
+
+const zero = P.zero;
+const one = P.one;
+
+interface Variant {
+  key: string;
+  text: string;
+  stages?: string[];
+}
+export interface SceneWords {
+  version: string;
+  and: string;
+  settings: Readonly<Record<string, Variant[]>>;
+  present: Variant[];
+  /** The day, as the narrator opens: "It's a Tuesday in March." */
+  frame: Variant[];
+  /** What is happening, by the staged situation's type. */
+  leads: readonly { typeKey: string; variants: Variant[] }[];
+  causes: readonly { labelPrefix: string; variants: Variant[] }[];
+  /** How the scene's first move opens it, by that move ("tell", "farewell"). */
+  openings?: Readonly<Record<string, Variant[]>>;
+}
+/** The default words are the mined bank's. */
+export const SCENE_WORDS: SceneWords = sceneWordsFromBank();
+/** Every piece of the bank, shipped or held, as the grading view reads them. */
+export function everySceneWord(): SceneWords {
+  return sceneWordsFromBank({
+    ...SCENE_BANK,
+    parts: SCENE_BANK.parts.map((part) => ({ ...part, shippable: true })),
+  });
+}
+
+export interface Fact {
+  text: string;
+  sourceRecordIds: readonly string[];
+}
+export interface SceneLine {
+  text: string;
+  sourceRecordIds: readonly string[];
+}
+
+/**
+ * A line the narrator gives: the day (`frame`), the setting by its kind, who
+ * is there, what is happening by the staged situation's type (`lead`), how the
+ * first move opens the scene, and what led here by the moment's label
+ * (`cause`).
+ */
+export type NarrationMove =
+  | { part: "frame" }
+  | { part: "setting"; kind: string }
+  | { part: "present" }
+  | { part: "lead"; typeKey: string }
+  | { part: "opening"; move: string }
+  | { part: "cause"; label: string };
+
+const bankOf = (
+  words: SceneWords,
+  move: NarrationMove,
+): { key: string; variants: readonly Variant[] | undefined } | null => {
+  switch (move.part) {
+    case "frame":
+      return { key: "scene-frame", variants: words.frame };
+    case "setting":
+      return {
+        key: `scene-setting:${move.kind}`,
+        variants: words.settings[move.kind],
+      };
+    case "present":
+      return { key: "scene-present", variants: words.present };
+    case "lead": {
+      const lead = words.leads.find((row) => row.typeKey === move.typeKey);
+      return lead
+        ? { key: `scene-lead:${lead.typeKey}`, variants: lead.variants }
+        : null;
+    }
+    case "opening":
+      return {
+        key: `scene-opening:${move.move}`,
+        variants: words.openings?.[move.move],
+      };
+    case "cause": {
+      const cause = words.causes.find((row) =>
+        move.label.startsWith(row.labelPrefix),
+      );
+      return cause
+        ? { key: `scene-cause:${cause.labelPrefix}`, variants: cause.variants }
+        : null;
+    }
+  }
+};
+
+/**
+ * Words one line of the narration, or null when the bank has no sentence for
+ * it or none fits its facts. The facts may be given as a function: it is
+ * called only when the bank has a row for the move (what is happening, what
+ * led here), so naming someone for a line the bank cannot say names no one.
+ */
+export function wordSceneLine(request: {
+  seed: string;
+  move: NarrationMove;
+  viewerId: PersonId;
+  facts: Record<string, Fact> | (() => Record<string, Fact>);
+  /** The stage a line is worded in ("one" or "many" present, "other" or "alone"). */
+  stage?: (facts: Record<string, Fact>) => string;
+  momentKey: string;
+  fallbackSourceId: string;
+  words?: SceneWords;
+}): SceneLine | null {
+  const words = request.words ?? SCENE_WORDS;
+  const found = bankOf(words, request.move);
+  if (!found) return null;
+  const facts =
+    typeof request.facts === "function" ? request.facts() : request.facts;
+  const rows = found.variants;
+  if (!rows?.length) return null;
+  const bank: AuthoredEnglishBank = {
+    key: found.key,
+    version: words.version,
+    surface: "scene",
+    variants: rows.map((row) => ({ ...row, kind: "template" as const })),
+  };
+  const ids = [
+    ...new Set(Object.values(facts).flatMap((row) => row.sourceRecordIds)),
+  ];
+  const result = renderGroundedEnglish(
+    {
+      surface: "scene",
+      momentKey: request.momentKey,
+      worldSeed: request.seed,
+      bankVersion: words.version,
+      stage: request.stage?.(facts) ?? "default",
+      sourceRecordIds: ids.length ? ids : [request.fallbackSourceId],
+      facts,
+      viewer: { personId: request.viewerId, traits: {} },
+      knowledge: Object.entries(facts).map(([factKey, fact]) => ({
+        personId: request.viewerId,
+        factKey,
+        sourceRecordIds: fact.sourceRecordIds,
+      })) as unknown as GroundedEnglishKnowledge[],
+    } as unknown as GroundedEnglishPacket,
+    bank,
+  );
+  if (result.kind !== "rendered") return null;
+  return {
+    text: result.text.charAt(zero).toUpperCase() + result.text.slice(one),
+    sourceRecordIds: result.sourceRecordIds,
+  };
+}
+
+/** The people who are there, named as one list: "Ana, Luis and your mother". */
+export function sceneNameList(
+  names: readonly string[],
+  words: SceneWords = SCENE_WORDS,
+): string {
+  return names.length === one
+    ? names[zero]!
+    : `${names.slice(zero, -one).join(", ")} ${words.and} ${names.at(-one)!}`;
+}
+
+/** The sentences of a scene's opening, said as one paragraph. */
+export function sceneParagraph(lines: readonly SceneLine[]): string {
+  return lines.map((line) => line.text).join(" ");
+}
