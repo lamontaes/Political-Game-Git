@@ -1528,6 +1528,15 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!given || !family) throw new Error("A name is needed.");
       if (makeIsoDate(identity.birthDate) > core.date)
         throw new Error("A birth date cannot be in the future.");
+      // The household that carried the player's drawn family name carries the
+      // chosen one, so the family the player meets shares it.
+      // stopgapId: SG-PLAY-creator-family-shares-name
+      const drawn = actor.familyName;
+      for (const id of core.households.get(actor.householdId)?.memberIds ??
+        []) {
+        const member = core.people.get(id);
+        if (member && member.familyName === drawn) member.familyName = family;
+      }
       actor.givenName = given;
       actor.familyName = family;
       actor.birthDate = identity.birthDate;

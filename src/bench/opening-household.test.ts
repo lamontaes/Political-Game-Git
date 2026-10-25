@@ -51,6 +51,7 @@ function householdKin(core: CoreState, playerId: string) {
 describe("the first evening at home names the household", () => {
   const place = drawPlace(runSeed, "opening-household");
   const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
+  console.log(where);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -123,9 +124,12 @@ describe("the first evening at home names the household", () => {
     );
   });
 
-  it("introduces the household of a player the creator renamed, reporting every surname no record explains", () => {
+  it("gives a player the creator renamed a household that shares the chosen name", () => {
     const player = core.people.get(playerId)!;
-    const before = player.familyName;
+    const { givenName, familyName: before } = player;
+    const shared = householdKin(core, playerId).filter(
+      (row) => row.member.familyName === before,
+    );
     // What the creator does: a chosen name over the drawn household's.
     coreAPI(core).chooseIdentityV1(playerId, {
       givenName: "Bo",
@@ -147,19 +151,18 @@ describe("the first evening at home names the household", () => {
             phrase.toLowerCase(),
           );
       }
-      // The drawn household shares one surname (${before}), not Snider: those with
-      // no record tying them to a parent are reported, never given an invented reason.
-      const different = kin.filter((row) => row.member.familyName !== "Snider");
+      // Everyone who carried the drawn name (${before}) now carries Snider,
+      // so no surname at home is left unexplained.
       expect(
-        different.length,
-        `every member now differs from the chosen name: ${where}`,
-      ).toBe(kin.length);
-      for (const row of narration)
-        expect(row.text, where).not.toMatch(/ side\b[^,]/);
-      expect(intro.unexplained.length, where).toBeGreaterThan(0);
+        shared.length,
+        `a household shares the name: ${where}`,
+      ).toBeGreaterThan(0);
+      for (const { member } of shared)
+        expect(member.familyName, where).toBe("Snider");
+      expect(intro.unexplained, where).toEqual([]);
     } finally {
       coreAPI(core).chooseIdentityV1(playerId, {
-        givenName: player.givenName,
+        givenName,
         familyName: before,
         birthDate: player.birthDate,
         looks: {},
