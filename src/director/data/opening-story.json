@@ -9,7 +9,7 @@
     "stages": [
       {
         "stage": "president",
-        "levels": ["occasion", "country"],
+        "levels": ["salutation", "occasion", "country"],
         "people": [
           {
             "reason": "vice-president"

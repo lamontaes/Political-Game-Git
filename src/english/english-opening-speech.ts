@@ -47,6 +47,7 @@ export type OpeningSpeechKind = "state-of-the-union" | "inaugural";
 
 /** Where the camera is while a section is spoken. */
 export type OpeningLevel =
+  | "salutation"
   | "occasion"
   | "country"
   | "congress"
@@ -75,7 +76,7 @@ export const OPENING_SECTIONS: readonly {
   moves: readonly SectionMove[];
 }[] = [
   {
-    level: "occasion",
+    level: "salutation",
     required: true,
     moves: [
       // The formal address to the chamber or the nation, not "Thank you, everybody."
@@ -85,9 +86,9 @@ export const OPENING_SECTIONS: readonly {
         required: true,
         only: /Speaker|fellow|evening/,
       },
-      { role: "occasion", act: "tell" },
     ],
   },
+  { level: "occasion", moves: [{ role: "occasion", act: "tell" }] },
   // One sentence per kind of number, each only when the world records it.
   {
     level: "country",

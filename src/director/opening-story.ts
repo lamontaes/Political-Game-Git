@@ -358,13 +358,14 @@ const NUMBER_FACT: Readonly<Record<string, string>> = {
  * and whether the agenda comes before them. Each of the President's leading
  * goals bears on the numbers its catalog subject names; those come first,
  * the rest after, and each goal that bears on one the record holds adds one
- * to the count. A President whose first goal bears on none opens with the
- * agenda. Unemployment is always said, first among the numbers.
+ * to the count. A President whose first goal bears on one opens with the
+ * numbers, right after the salutation; any other opens with the occasion.
+ * Unemployment is always said, first among the numbers.
  */
 function addressShape(
   official: OfficialRow,
   country: Facts,
-): { numbers: string[]; agendaFirst: boolean } {
+): { numbers: string[]; numbersFirst: boolean } {
   const held = (number: string) => !!country[NUMBER_FACT[number] ?? ""];
   const bears = (question: string) =>
     (SHAPE.numbersBySubject[questionSubject(question) ?? ""] ?? []).filter(
@@ -383,7 +384,7 @@ function addressShape(
   const first = goals[P.zero];
   return {
     numbers: ["unemployment", ...numbers],
-    agendaFirst: !first || !bears(first).length,
+    numbersFirst: !!first && bears(first).length > P.zero,
   };
 }
 
@@ -428,6 +429,7 @@ function sectionFacts(
       : undefined;
   const place = visitedPlace(president, townState);
   return {
+    salutation: {},
     occasion: third ? { goal: third } : {},
     country,
     congress: first ? { goal: first } : {},
@@ -474,14 +476,15 @@ function composeAddressOf(
   const stage = chairStage(core);
   const sentences: OpeningSentence[] = [];
   // The President's record shapes the address: which numbers, in what
-  // order, and whether the agenda comes before them.
+  // order, and whether they come before the occasion. Both are said on the
+  // President's own stage, so the camera's order holds.
   const shape = addressShape(official, facts.country);
-  const sections = shape.agendaFirst
+  const sections = shape.numbersFirst
     ? OPENING_SECTIONS.map((section, at, all) =>
-        section.level === "country"
-          ? all.find((row) => row.level === "congress")!
-          : section.level === "congress"
-            ? all.find((row) => row.level === "country")!
+        section.level === "occasion"
+          ? all.find((row) => row.level === "country")!
+          : section.level === "country"
+            ? all.find((row) => row.level === "occasion")!
             : section,
       )
     : OPENING_SECTIONS;
@@ -509,9 +512,13 @@ function composeAddressOf(
                       variant.text,
                     )) &&
                   // The country is told by its figures: a sentence that
-                  // carries the number and what it is, never a bare claim
-                  // ("Prices are too high", owner, Oct 14, 2026).
-                  (section.level !== "country" || variant.text.includes("{{")),
+                  // carries the number it reports, never a bare claim
+                  // ("Prices are too high", owner, Oct 14, 2026), nor
+                  // another number's ("Our wages grew" is not the economy's).
+                  (section.level !== "country" ||
+                    variant.text.includes(
+                      `{{${NUMBER_FACT[move.topic ?? ""] ?? ""}}}`,
+                    )),
               ),
             },
           },

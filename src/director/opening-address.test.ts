@@ -10,8 +10,10 @@ import { questionSubject } from "../english/policy-names";
 // The address from this world's numbers and this President
 // (play-first-09-opening-speech-per-world). Every address cites at least
 // three of the country's numbers besides unemployment, each from the
-// economy's own month records; a President whose first goal bears on one of
-// those numbers opens with them, any other opens with the agenda. Places are
+// economy's own month records. A President whose first goal bears on one of
+// those numbers opens with them, right after the salutation; any other opens
+// with the occasion. Both are on the President's own stage, so the camera's
+// order (the President, Congress, the state, the family) holds. Places are
 // drawn in turn until two worlds' addresses differ in length and in the
 // order of their sections, and no two give the same lines.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
@@ -54,8 +56,8 @@ it(`two worlds' addresses differ in length and order, each citing its own number
         row.sourceRecordIds.some((id) => id.includes("macro")),
         `${where}: "${row.text}" cites ${row.sourceRecordIds.join(", ")}`,
       ).toBe(true);
-    // The agenda comes first unless the President's first goal bears on a
-    // number the address says.
+    // The numbers come before the occasion when the President's first goal
+    // bears on a number the address says.
     const levels = [...new Set(sentences.map((row) => row.level))];
     const firstGoal = sentences
       .find((row) => row.level === "congress" && row.facts.includes("goal"))
@@ -67,9 +69,9 @@ it(`two worlds' addresses differ in length and order, each citing its own number
       (BEARS[questionSubject(firstGoal) ?? ""] ?? []).some((number) =>
         said.has(NUMBER_FACTS[number]!),
       );
-    if (levels.includes("congress"))
+    if (levels.includes("occasion"))
       expect(
-        levels.indexOf("country") < levels.indexOf("congress"),
+        levels.indexOf("country") < levels.indexOf("occasion"),
         `${where}: first goal ${firstGoal} (${questionSubject(firstGoal ?? "")}), sections ${levels.join(" → ")}`,
       ).toBe(leads);
     const lines = sentences.map((row) => row.text);

@@ -1872,10 +1872,10 @@
       "bearing": "glad"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.our-wages-grew-wage-growth-percent-this-past-year",
+      "key": "opening-speech.state-of-the-union-report.wages-rose-wage-growth-percent-this-past-year",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "Our wages grew {wage_growth} percent this past year.",
+      "text": "Wages rose {wage_growth} percent this past year.",
       "uses": [
         {
           "move": "state-of-the-union-report",
