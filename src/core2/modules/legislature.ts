@@ -1,4 +1,4 @@
-import type { OfficeInput } from "../offices-local";
+import { cityGovernmentIsStateLevel, type OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
   lineItemVetoOf,
@@ -750,17 +750,18 @@ function budgetChambers(
       introducedIn: FEDERAL_HOUSE,
       body: "Congress",
     };
-  if (gov.level === "state") {
+  const legislature = (stateId: string) => {
     const state = offices
       .filter(
-        (o) => o.kind.startsWith("legislature-") && o.jurisdiction === gov.id,
+        (o) => o.kind.startsWith("legislature-") && o.jurisdiction === stateId,
       )
       .map((o) => o.id)
       .sort();
     return state.length
       ? { chambers: state, introducedIn: state[0]!, body: "the legislature" }
       : null;
-  }
+  };
+  if (gov.level === "state") return legislature(gov.id);
   // A county's board, a city's council, or a township's board where the
   // town's own government is its township.
   const body =
@@ -779,7 +780,12 @@ function budgetChambers(
               ? "the township board"
               : "the council",
       }
-    : null;
+    : // A city whose government is also the place's state-level one has no
+      // council of its own: its council is the state-level legislature.
+      gov.level === "city" &&
+        cityGovernmentIsStateLevel(api.state.placeMetadata.placeKey as string)
+      ? legislature(governments(api).find((g) => g.level === "state")?.id ?? "")
+      : null;
 }
 
 /** Last year's adopted lines, for a budget the council rejects. */

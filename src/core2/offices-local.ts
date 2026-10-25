@@ -272,6 +272,20 @@ function boardOffices(
   return offices;
 }
 
+/**
+ * Whether the place's city government is also its state-level government (its
+ * council and executive are seated once, at the state level), from the same
+ * municipal reading that seats no separate city council.
+ */
+export function cityGovernmentIsStateLevel(placeKey: string): boolean {
+  return placeLocalGovernmentUnits(corePlaceByKey(placeKey)).municipal.some(
+    (unit) => {
+      const key = localGoverningBodyRules(unit)?.researchedGovernmentKey;
+      return !!key && STATE_LEVEL_GOVERNMENTS.has(key);
+    },
+  );
+}
+
 /** Every local office whose seats cover the place. */
 export function localOfficesForPlace(placeKey: string): readonly OfficeInput[] {
   const place = corePlaceByKey(placeKey);
