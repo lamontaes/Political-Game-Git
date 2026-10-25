@@ -93,7 +93,7 @@ import {
   payWiderAudience,
   type OutletMoneyDeps,
 } from "../press-money";
-import { countedJobsOf } from "../residents-economy";
+import { countedHeadsOf, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
 import {
@@ -334,18 +334,42 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
 const bandOf = (age: number): Band =>
   age < 30 ? "18-29" : age < 50 ? "30-49" : age < 65 ? "50-64" : "65+";
 
+/**
+ * What an outlet's own open jobs are paid in a year: each full job at its work
+ * schedule's weekly hours, and each counted job at its daily wage times the
+ * jobs it stands for, as the payroll and wage flows pay them.
+ */
+function outletPayrollYearMinor(api: CoreAPI, organizationId: string): number {
+  const core = api.state as CoreState;
+  let total = 0;
+  for (const id of core.finance.jobsByOrganization.get(organizationId) ?? []) {
+    const job = core.jobs.get(id);
+    if (!job || job.endsAt !== undefined) continue;
+    for (const commitmentId of core.work.commitmentsByPerson.get(
+      job.personId,
+    ) ?? []) {
+      const commitment = core.work.commitments.get(commitmentId);
+      if (commitment?.jobId !== job.id || commitment.endsAt !== undefined)
+        continue;
+      total +=
+        ((commitment.hourlyMinor * commitment.expectedWeeklyMinutes) / 60) *
+        pressParameter("weeksPerYear");
+    }
+  }
+  for (const job of countedJobsOf(core, organizationId))
+    total +=
+      job.wageDailyMinor *
+      api.parameter("jobsDaysPerYear") *
+      countedHeadsOf(core, job.personId);
+  return total;
+}
+
 /** What an outlet's people in town cost in a month: their pay, the employer's payroll taxes on it and its margin. */
 export function outletMonthlyCostMinor(
   api: CoreAPI,
   outlet: OutletRow,
 ): number {
-  const core = api.state as CoreState;
-  const payroll = [outlet.headId, ...outlet.reporterIds].reduce((sum, id) => {
-    const job = id ? core.jobs.get(core.people.get(id)?.jobId ?? "") : null;
-    return (
-      sum + (job?.hourlyMinor ?? 0) * pressParameter("fullTimeHoursPerYear")
-    );
-  }, 0);
+  const payroll = outletPayrollYearMinor(api, outlet.organizationId);
   const payTaxShare = employerTaxShareOfWage(
     api,
     pressParameter("reporterAnnualPayMinor"),
@@ -730,11 +754,7 @@ function enrollPressEmployers(api: CoreAPI): void {
     if (!jobs.length || core.finance.businesses.has(outlet.organizationId))
       continue;
     const payroll = Math.round(
-      jobs.reduce(
-        (sum, job) =>
-          sum + (job.hourlyMinor ?? 0) * pressParameter("fullTimeHoursPerYear"),
-        0,
-      ),
+      outletPayrollYearMinor(api, outlet.organizationId),
     );
     // Its demand is the revenue it can expect (subscriptions, ads and its
     // wider audience's part); an actual income anchor prevents manufactured

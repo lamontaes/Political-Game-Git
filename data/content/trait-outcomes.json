@@ -22,7 +22,7 @@
       "engine": "src/core2/births-people.ts",
       "wired": true,
       "evidence": "src/core2/births-people.ts:102 draws a newborn from its parents' inherited parts (regenerated from the seed, the same parts the opening drew); measured parent-child correlation in two drawn places (buildBenchWorld seeds herit1 and herit2, 78 and 192 pairs): 0.03 to 0.34 by dimension, mean 0.18, against 0.20 to 0.28 expected from a heritability of 0.40 (Vukasovic & Bratko 2015)",
-      "note": "Counted newborns are seeded without their parents' parts: SG-PW8-counted-newborn-temperament."
+      "note": "A counted newborn inherits by the same rule from its counted parents' kept levels (inheritedTemperament in src/core2/opening-personality.ts)."
     },
     {
       "id": "outcome.mean-level-change-with-age",

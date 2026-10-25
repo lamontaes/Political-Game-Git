@@ -109,9 +109,9 @@
       "fix": "Let a simulated candidate whose stated position contradicts their recorded vote answer with the lie move, from their own honesty, ties and the record; the reporter's check then runs from the press engine's own rule (pool item press-world-candidates-answer-from-record)."
     },
     "estates.will": {
-      "class": "rare",
-      "why": "Runs when someone with an estate dies (src/core2/estates.ts:159). Ran 3 times in the election window (first 2026-10-08).",
-      "fix": "The calls run, but a retained decision or owning estate record witness remains unproved; capture and verify it in the audit without adding production history for the wider population (pool item traits-audit-will-record-proof)."
+      "class": "circumstances saturate the choice",
+      "why": "Runs when someone with an estate dies (src/core2/estates.ts, willOf): 5 and 1 times in the two played years, and 3 times in an election window (first 2026-10-08). Weighed for every adult 55 or older in Haledon, New Jersey as if at death, the age term puts all 858 over the line with temperament off, against the study's 37.4% (Ryser et al. 2026, Swiss adults 55+), so no weight can reach the study's odds of 1.42.",
+      "fix": "A will-making rate by age from research for the age term, then the weight (people-estates-will-trust-rates); the audit's witness of the retained decision or estate record is traits-audit-will-record-proof."
     },
     "office-day-state.clemency": {
       "class": "no trigger (no prisoner)",
@@ -182,6 +182,21 @@
       "class": "trigger needs a record nobody writes",
       "why": "Runs when a relationship change carries negative hours (src/core2/state.ts:1068, src/core2/closeness.ts:259). Two engines write them: a grudge drive's confrontation (src/core2/modules/drives.ts:1809), offered only against a living person (:1583) while the drive's target is the employer, landlord or closed business it blames (src/core2/data/drives.json:685-694), so no confrontation was offered; and a taken bribe the official voted against (src/core2/modules/corruption.ts:545), which needs a taken bribe.",
       "fix": "Let a grudge drive name the person behind the organization (the manager who fired, the landlord who evicted) so a confrontation can be offered; the bribe route follows corruption.offer (pool item people-grudge-confront-person)."
+    },
+    "contracts.award": {
+      "class": "not a two-way choice",
+      "why": "Each member of a government's body ranks every bid by price against their tie to the firm's owner (src/core2/modules/contracts.ts), and temperament moves weight between the two: 1,450 and 1,740 calls in the two played years, with no yes or no for scripts/traits/trait-calibrate.ts to fit against Pletzer et al. 2020.",
+      "fix": "A ranking calibration: how often the most rule-bending third picks the known firm over the lowest bid against the least."
+    },
+    "estates.trust": {
+      "class": "circumstances saturate the choice",
+      "why": "Runs at death (src/core2/estates.ts, trustOf): 14 and 13 times in the two played years. Weighed for the 832 adults 55 or older with savings in Haledon, New Jersey, the wealth term keeps 98% far below the line, and temperament turns none at any weight up to 1, against the study's odds of 1.34.",
+      "fix": "A trust-holding rate by wealth from research for the wealth term, then the weight (people-estates-will-trust-rates)."
+    },
+    "renewal.plan-child": {
+      "class": "circumstances saturate the choice",
+      "why": "A couple's case for planning a child (src/core2/births-plan.ts, birthCircumstances) sits 3.6 to 18.3 below waiting in nine of ten reviews (Haledon, New Jersey, seed fc8bf1311d0f, 384 reviews), while temperament spans about plus or minus 0.4, so at the general weight it turned none. scripts/traits/trait-calibrate.ts fits 7.05 there (odds 1.74 against the study's 1.93), but at that weight the share of reviews that plan a child rises from 1.8% to 2.6%, about 40% more births; in Kenvir, Kentucky (32bb83941552, 210 reviews) no weight reaches it.",
+      "fix": "Re-center the waiting side against the births rate, then set the weight (traits-plan-child-weight-recentered)."
     },
     "interest-groups.employer-join": {
       "class": "no study number",
