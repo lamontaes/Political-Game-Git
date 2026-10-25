@@ -103,6 +103,11 @@ export function ownPayments(
 ) {
   const index = accountIndex(treated, control);
   const foreign = foreignTo(key);
+  // Where the law's records name money, its own payment is looked for among
+  // those it paid or charged: a right that names none (every employed person
+  // may refuse a union fee) is not expected to show a payment of its own.
+  const payees = targets.filter((t) => t.amountMinor !== 0);
+  const looked = payees.length ? payees : targets;
   const sums = (
     m: ReadonlyMap<string, readonly Posting[]>,
     accounts: string[],
@@ -135,7 +140,7 @@ export function ownPayments(
   const shared = new Map<string, number>();
   const earliest = new Map<string, string>();
   const moved = new Map<string, number>();
-  for (const t of targets) {
+  for (const t of looked) {
     const owners = [t.targetId, ...membersOf(t.targetId)];
     const accounts = [...new Set(owners.flatMap((o) => index.get(o) ?? []))];
     if (!accounts.length) continue;
@@ -199,7 +204,12 @@ export function ownPayments(
     })
     .sort((a, b) => b.targets - a.targets || b.moved - a.moved)
     .slice(0, 10);
-  return { targets: targets.length, pairs, ...pickOwn(targets.length, pairs) };
+  return {
+    targets: looked.length,
+    among: payees.length ? ("paid" as const) : ("reached" as const),
+    pairs,
+    ...pickOwn(looked.length, pairs),
+  };
 }
 
 /** One kind and direction of payment the targets got, with how many got it and the money it moved. */

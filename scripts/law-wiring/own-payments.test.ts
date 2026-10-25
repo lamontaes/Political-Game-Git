@@ -257,4 +257,41 @@ describe("a law's own payments", () => {
       "work-payroll under minimum-wage",
     ]);
   });
+
+  it("looks for the law's payment among those its records say it paid", () => {
+    // A right-to-work law reaches every employed person as a right, with no
+    // money, and the union local as the dues it lost. The local's dues are the
+    // law's payment, though three workers' spending drifted too.
+    const workers = Array.from({ length: 30 }, (_, i) => `person_${i}`);
+    const treated: Record<string, Posting[]> = {
+      organization_local: [["2025-02-01", "dues", 48_052, "journal:d"]],
+    };
+    const control: Record<string, Posting[]> = {
+      organization_local: [["2025-02-01", "dues", 48_141, "journal:d"]],
+    };
+    for (const id of workers.slice(0, 3)) {
+      treated[id] = [["2025-03-01", "purchase", -310, `journal:${id}`]];
+      control[id] = [["2025-03-01", "purchase", -300, `journal:${id}`]];
+    }
+    const local: Reached = {
+      ...reached("organization_local"),
+      amountMinor: -89,
+    };
+    const own = ownPayments(
+      none,
+      [...workers.map((id) => reached(id)), local],
+      world(treated),
+      world(control),
+      false,
+      "2025-01-02",
+    );
+    expect(own.among).toBe("paid");
+    expect(own.targets).toBe(1);
+    expect(own.pick).toBe("dues|out");
+    expect(own.sample[0]).toMatchObject({
+      target: "organization_local",
+      treatment: 48_052,
+      control: 48_141,
+    });
+  });
 });
