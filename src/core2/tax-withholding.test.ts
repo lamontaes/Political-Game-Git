@@ -12,7 +12,7 @@ import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
 import { lawChain, lawInForce, openLaws } from "./modules/laws";
 import { openBudgets, withholdingOf } from "./modules/budgets";
-import { withholdingFor } from "./tax-withholding";
+import { scheduleTax, withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -144,15 +144,23 @@ describe("pay to a worker who lives outside the town (audit 12, 13)", () => {
       const stateLaw = lawInForce(api, "income-tax").levels.find(
         (l) => l.level === "state",
       );
-      const taxesIncome =
+      const single = (
+        stateLaw?.row?.terms?.schedules as
+          { single?: Parameters<typeof scheduleTax>[0] } | undefined
+      )?.single;
+      // A state's schedule taxes pay only above its standard deduction and any
+      // zero bracket, so a low-paid worker can owe it nothing.
+      const owesState =
         stateLaw?.row &&
         !stateLaw.setAside &&
         (stateLaw.row.value ?? 0) > 0 &&
-        ((
-          stateLaw.row.terms?.schedules as
-            { single?: { brackets: unknown[] } } | undefined
-        )?.single?.brackets.length ?? 0) > 0;
-      if (taxesIncome)
+        !!single?.brackets.length &&
+        records.some((r) => {
+          const periods = 365 / Math.max(1, r.periodDays);
+          const yearly = scheduleTax(single, (r.paidMinor / 100) * periods);
+          return Math.round((yearly / periods) * 100) > 0;
+        });
+      if (owesState)
         expect(
           lines.some((l) => l.level === "state" && l.tax === "income"),
           where,

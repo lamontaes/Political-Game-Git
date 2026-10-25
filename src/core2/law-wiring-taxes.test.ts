@@ -34,6 +34,10 @@ import {
 import { billCatalog } from "./bill-catalog";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { ownerOf } from "./modules/business";
+import { ownedHomes } from "./modules/housing";
+import { PUBLIC_EMPLOYERS } from "./law-reach/group-b";
+import { jobsAt } from "./law-reach/group-b-money";
+import { townFacts } from "./law-reach/group-b-people";
 import { outsideAccountOf, treasuryMonthsOf } from "./budgets-treasury";
 import {
   bodyOf,
@@ -46,9 +50,9 @@ import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-// Each draw plays about half a year; a place missing a subject (no state
-// corporate rate, no grant row, no public worker a pension rule funds) is
-// redrawn, and eight draws keep a run under about five minutes.
+// A draw reads only the opening records of the place it builds; one missing
+// a subject a law needs (no state corporate rate, no grant row, no public
+// worker a pension rule funds) is redrawn before anything is played.
 const TRIES = 8;
 const ADOPT = "us-policy-positions:fiscal.adopt-income-tax";
 const GRADUATED = "us-policy-positions:fiscal.graduated-income-tax";
@@ -151,24 +155,107 @@ function estatePosts(
   return posts;
 }
 
+/**
+ * A member of the town's governing body (a council, a township board), to
+ * sponsor a bill; a place with no town government of its own is governed
+ * locally by its county's board.
+ */
+function townBodySeat(api: CoreAPI) {
+  const seated = (levels: readonly string[]) =>
+    townSeats(api).find(
+      (s) =>
+        levels.includes(s.office.level) &&
+        s.holder?.personId &&
+        !!bodyOf(api, s.office.id),
+    );
+  return seated(["city", "township"]) ?? seated(["county"]);
+}
+
+/**
+ * The subjects a drawn place lacks, read from its opening records before
+ * anything is played: the law rows in force, the residents law reach reads
+ * (named and counted), the owners' homes, the businesses and who owns them,
+ * the public jobs and the town's body. A place lacking none must show every
+ * law applied after play, or the test fails.
+ */
+function lacking(api: CoreAPI): string[] {
+  const core = api.state as CoreState;
+  const stateRow = (series: string) =>
+    lawInForce(api, series).levels.find(
+      (l) => l.level === "state" && !l.setAside,
+    )?.row;
+  const facts = townFacts(api, lawChain(api).townPlaceId);
+  const working = facts.residents.filter(
+    (r) => r.employed || (r.employedShare ?? 0) > 0,
+  );
+  const homes = ownedHomes(api);
+  const publicJobs = new Set(
+    jobsAt(api, PUBLIC_EMPLOYERS).map((j) => j.personId),
+  );
+  const needs: [string, boolean][] = [
+    // The web's pay link reads the state's corporate rate.
+    [
+      "a state corporate rate",
+      Number(stateRow("corporate-income-tax")?.value ?? 0) > 0,
+    ],
+    // The local income tax authority is a state's grant to its localities
+    // (D.C. and the territories have no such row in the starting law).
+    [
+      "a state local income tax authority row",
+      !!stateRow("local-income-tax-authority"),
+    ],
+    ["a property tax row", !!lawInForce(api, "property-tax").governing],
+    ["a full worker", working.some((r) => r.named)],
+    ["a counted worker", working.some((r) => !r.named)],
+    [
+      "a full owner household",
+      homes.some((h) => core.households.has(h.householdId)),
+    ],
+    [
+      "a counted owner household",
+      homes.some((h) => !core.households.has(h.householdId)),
+    ],
+    [
+      "a business an organization owns",
+      [...core.finance.businesses].some(
+        ([id, books]) =>
+          !books.closedAt && core.organizations.has(ownerOf(api, id) ?? ""),
+      ),
+    ],
+    ["a public worker", facts.residents.some((r) => publicJobs.has(r.id))],
+    ["a member of the town's body", !!townBodySeat(api)],
+  ];
+  return needs.filter(([, has]) => !has).map(([what]) => what);
+}
+
 interface Attempt {
   readonly where: string;
   readonly api: CoreAPI;
   readonly core: CoreState;
   readonly ids: Record<string, string>;
-  readonly missing: string[];
+  /** Laws with no applied record after play, in a place that had a subject for each. */
+  readonly absent: string[];
   /** Every journal post of the run: its id and what names it (source, accounts). */
   readonly posts: { id: string; text: string }[];
 }
 
-function attempt(index: number): Attempt {
+/** Builds a drawn place and reads, from its opening records, what subjects it lacks. */
+function draw(index: number): {
+  where: string;
+  core: CoreState;
+  lacks: string[];
+} {
   const drawn = drawPlace(seed, `law-wiring-taxes:${index}`);
   const where = `${drawn.name} (${drawn.key}), seed ${seed}`;
   const world = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: drawn.key,
   });
-  const core = world.core;
+  return { where, core: world.core, lacks: lacking(coreAPI(world.core)) };
+}
+
+/** Plays an eligible place: the laws put in force, about half a year run. */
+function play(where: string, core: CoreState): Attempt {
   const api = coreAPI(core);
   const ids: Record<string, string> = {};
   for (const key of QUESTIONS)
@@ -210,58 +297,51 @@ function attempt(index: number): Attempt {
   } finally {
     setJournalTrace(null);
   }
-  // The web's pay link reads the state's corporate rate: a state with none has
-  // nothing to move, so the place is redrawn.
-  const stateRate = lawInForce(api, "corporate-income-tax").levels.find(
-    (l) => l.level === "state" && !l.setAside,
-  )?.row?.value;
-  // The local income tax authority is a state's grant to its localities: a
-  // place whose state level carries no such row (D.C. and the territories have
-  // none in the starting law) has no grant to read, so it is redrawn.
-  const grant = lawInForce(api, "local-income-tax-authority").levels.some(
-    (l) => l.level === "state" && l.row,
-  );
-  const missing = [
+  const absent = [
     "income-tax",
     "property-tax",
     "corporate-income-tax",
     ...QUESTIONS,
   ]
     .filter((key) => !keysOf(api, key).length)
-    .concat(stateRate && stateRate > 0 ? [] : ["a state corporate rate"])
-    .concat(grant ? [] : ["a state local income tax authority row"])
     .concat(
       Object.entries(ids)
         .filter(([, id]) => !id)
         .map(([name]) => `${name} law row`),
     );
-  return { where, api, core, ids, missing, posts };
+  return { where, api, core, ids, absent, posts };
 }
 
 describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
   it(
     "applies each law to people, groups and treasuries, moves money, and ends on repeal",
-    // Each attempt builds a town and runs 170 days; up to four towns may be drawn.
+    // Each draw builds a town; only the first with a subject for every law
+    // runs its 170 days.
     { timeout: 900_000 },
     () => {
       setBookkeeping(false);
       try {
         const tried: string[] = [];
-        let found: Attempt | null = null;
-        for (let i = 0; i < TRIES && !found; i++) {
-          const a = attempt(i);
-          tried.push(
-            `${a.where}: no rows for ${a.missing.join(", ") || "none"}`,
-          );
-          // A place with no subject for a law (no owners, no business owned by
-          // an organization) redraws; every place tried is named on failure.
-          if (!a.missing.length) found = a;
+        let eligible: ReturnType<typeof draw> | null = null;
+        for (let i = 0; i < TRIES && !eligible; i++) {
+          const d = draw(i);
+          tried.push(`${d.where}: lacks ${d.lacks.join(", ") || "nothing"}`);
+          // A place whose opening records lack a subject for a law (no owners,
+          // no business an organization owns) is redrawn before play; every
+          // place tried is named on failure.
+          if (!d.lacks.length) eligible = d;
         }
         expect(
-          found,
+          eligible,
           `no drawn place had a subject for every law: ${tried.join("; ")}`,
         ).not.toBeNull();
-        const { api, core, ids, where, posts: runPosts } = found!;
+        const found = play(eligible!.where, eligible!.core);
+        const { api, core, ids, where, posts: runPosts } = found;
+        // The place had a subject for every law, so each must have applied it.
+        expect(
+          found.absent,
+          `${where}: laws with no applied record after play`,
+        ).toEqual([]);
         const rows = (key: string) => keysOf(api, key);
         const open = (key: string) => rows(key).filter((r) => !r.endedOn);
         const money = (list: readonly LawAppliedRow[]) =>
@@ -475,17 +555,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
 
         // Local income-tax authority: a local body drafts a tax bill and the
         // state's grant or refusal is read for it.
-        // The town's governing body (a council, a township board), with a
-        // member of it to sponsor the bill; a place with no town government
-        // of its own is governed locally by its county's board.
-        const seated = (levels: readonly string[]) =>
-          townSeats(api).find(
-            (s) =>
-              levels.includes(s.office.level) &&
-              s.holder?.personId &&
-              !!bodyOf(api, s.office.id),
-          );
-        const seat = seated(["city", "township"]) ?? seated(["county"]);
+        const seat = townBodySeat(api);
         expect(seat, `${where}: a member of the town's body`).toBeDefined();
         const office = seat!.office;
         const sponsor = { id: seat!.holder!.personId! };

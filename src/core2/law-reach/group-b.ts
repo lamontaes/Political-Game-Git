@@ -743,7 +743,8 @@ function recordFundedWorkers(
     });
 }
 
-const PUBLIC_EMPLOYERS = [
+/** The employers whose workers a pension rule funds: the town's public offices and services. */
+export const PUBLIC_EMPLOYERS = [
   "sector:local-government-office",
   "sector:state-government-office",
   "sector:federal-government-office",
