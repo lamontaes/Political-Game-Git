@@ -12,8 +12,10 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { JOBS_MODULE_ID } from "./modules/jobs";
 import { residentsRuntime } from "./modules/residents";
 import { countedHeadsOf } from "./residents-economy";
+import { coreAPI, fillInPerson } from "./state";
 import { absenceRate, joltsRate, turnoverReport } from "./turnover-check";
 
 const seed = process.env.TURNOVER_SEED ?? randomBytes(8).toString("hex");
@@ -71,28 +73,92 @@ it("reports a played year's monthly turnover rates against JOLTS, by record id",
 
 it("counts a counted worker's job as the household weight it stands for, as the jobs engine does", () => {
   setBookkeeping(false);
-  // The drawn place opened at three times its sample size, so counted
-  // households stand for more than one person each.
-  const place = drawPlace(`${seed}:weighted`, "residents-turnover");
-  const where = `seed ${seed}:weighted, ${place.name} (${place.key}), world seed ${place.seed}`;
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-    countScale: 3,
-  });
-  let records = 0;
-  let people = 0;
-  for (const job of core.jobs.values())
-    if (!job.endsAt) {
-      records += 1;
-      people += 1;
+  // Places are drawn (opened at three times their sample size) until one has
+  // counted households that stand for more than one person each.
+  const tried: string[] = [];
+  for (let n = 0; n < 6; n++) {
+    const place = drawPlace(`${seed}:weighted:${n}`, "residents-turnover");
+    const where = `seed ${seed}:weighted:${n}, ${place.name} (${place.key}), world seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+      countScale: 3,
+    });
+    let records = 0;
+    let people = 0;
+    for (const job of core.jobs.values())
+      if (!job.endsAt) {
+        records += 1;
+        people += 1;
+      }
+    for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+      if (!job.endsAt) {
+        records += 1;
+        people += countedHeadsOf(core, job.personId);
+      }
+    const report = turnoverReport(core, core.date, core.date);
+    expect(report.employed, where).toBe(people);
+    if (people > records) return;
+    tried.push(`${where}: ${people} people, ${records} records`);
+  }
+  throw new Error(
+    `no drawn place had weighted counted jobs: ${tried.join("; ")}`,
+  );
+}, 600_000);
+
+it("keeps a past change's weight when its counted worker is filled in as a full person", () => {
+  setBookkeeping(false);
+  const tried: string[] = [];
+  for (let n = 0; n < 6; n++) {
+    const place = drawPlace(`${seed}:fill:${n}`, "residents-turnover");
+    const where = `seed ${seed}:fill:${n}, ${place.name} (${place.key}), world seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+      countScale: 3,
+    });
+    const from = core.date;
+    advanceCore(core, addDays(makeIsoDate(from), 60));
+    const to = core.date;
+    const rows = coreAPI(core)
+      .moduleState(JOBS_MODULE_ID)
+      .table("changes")
+      .rows() as unknown as {
+      id: string;
+      jobId: string;
+      personId: string;
+      heads?: number;
+    }[];
+    // A change made for a counted worker who stood for several people.
+    const row = rows.find(
+      (r) => !core.jobs.has(r.jobId) && countedHeadsOf(core, r.personId) > 1,
+    );
+    if (!row) {
+      tried.push(`${where}: no weighted change in 60 days`);
+      continue;
     }
-  for (const job of residentsRuntime(core)?.jobs.values() ?? [])
-    if (!job.endsAt) {
-      records += 1;
-      people += countedHeadsOf(core, job.personId);
-    }
-  expect(people, where).toBeGreaterThan(records);
-  const report = turnoverReport(core, core.date, core.date);
-  expect(report.employed, where).toBe(people);
+    const before = turnoverReport(core, from, to);
+    const weight = row.heads;
+    expect(weight, `${where}: ${row.id} stores its weight`).toBeGreaterThan(1);
+    fillInPerson(core, row.personId);
+    expect(countedHeadsOf(core, row.personId), where).toBe(1);
+    const after = turnoverReport(core, from, to);
+    expect(after.counts, `${where}: ${row.id} counts across fill-in`).toEqual(
+      before.counts,
+    );
+    expect(
+      (
+        coreAPI(core)
+          .moduleState(JOBS_MODULE_ID)
+          .table("changes")
+          .get(row.id) as unknown as { heads?: number }
+      ).heads,
+      where,
+    ).toBe(weight);
+    process.stdout.write(
+      `fill-in keeps weight: ${where}; ${row.id} stood for ${weight} before and after; counts ${JSON.stringify(after.counts)}\n`,
+    );
+    return;
+  }
+  throw new Error(`no place had a weighted change: ${tried.join("; ")}`);
 }, 600_000);

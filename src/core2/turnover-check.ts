@@ -55,19 +55,16 @@ export function turnoverReport(
     date?: string;
     jobId?: string;
     personId?: string;
+    heads?: number;
   }[];
   const counts: Record<string, number> = {};
   const ids: Record<string, string[]> = {};
   for (const row of changes) {
     const date = row.date ?? row.id.split(":")[1] ?? "";
     if (date < from || date >= to) continue;
-    // The jobs engine's own rule: one for a full person's job, the household
-    // weight for a counted worker's, so the JOLTS denominator and the event
-    // counts are in the same population units.
-    const heads =
-      row.jobId && !core.jobs.has(row.jobId) && row.personId
-        ? countedHeadsOf(core, row.personId)
-        : 1;
+    // The people the change stood for when the jobs engine recorded it, so a
+    // later fill-in of the worker leaves the year's counts as they were.
+    const heads = row.heads ?? 1;
     counts[row.kind] = (counts[row.kind] ?? 0) + heads;
     const seen = (ids[row.kind] ??= []);
     if (seen.length < 3) seen.push(row.id);

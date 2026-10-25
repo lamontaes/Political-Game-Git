@@ -284,20 +284,19 @@ function record(
   },
 ): void {
   // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
+  const heads = headsOf(core(api), { id: row.jobId, personId: row.personId });
   if (row.kind === "quit" || row.kind === "left-work")
-    noteLeaver(
-      api,
-      row.organizationId,
-      row.jobId,
-      row.personId,
-      headsOf(core(api), { id: row.jobId, personId: row.personId }),
-    );
+    noteLeaver(api, row.organizationId, row.jobId, row.personId, heads);
   store(api)
     .table("changes")
     .put({
       id: `job-change:${api.state.date}:${row.jobId}:${row.kind}`,
       date: api.state.date,
       ...row,
+      // The people this change stands for when it happens (one for a full
+      // person, the household weight for a counted worker), kept so a later
+      // fill-in never changes what the year's counts read.
+      heads,
       values: { ...(row.values ?? {}) },
     });
 }

@@ -37,6 +37,18 @@
         "State and local": 1.5,
         "State and local education": 1.4,
         "State and local, excluding education": 1.6
+      },
+      "spread": {
+        "basis": "range across the industry rows of the same published table",
+        "low": {
+          "row": "Federal",
+          "value": 0.9
+        },
+        "high": {
+          "row": "Arts, entertainment, and recreation",
+          "value": 6.3
+        },
+        "rows": 28
       }
     },
     "totalSeparations": {
@@ -71,6 +83,18 @@
         "State and local": 1.4,
         "State and local education": 1.4,
         "State and local, excluding education": 1.5
+      },
+      "spread": {
+        "basis": "range across the industry rows of the same published table",
+        "low": {
+          "row": "State and local",
+          "value": 1.4
+        },
+        "high": {
+          "row": "Arts, entertainment, and recreation",
+          "value": 6.1
+        },
+        "rows": 28
       }
     },
     "quits": {
@@ -105,6 +129,18 @@
         "State and local": 0.8,
         "State and local education": 0.8,
         "State and local, excluding education": 0.8
+      },
+      "spread": {
+        "basis": "range across the industry rows of the same published table",
+        "low": {
+          "row": "Government",
+          "value": 0.8
+        },
+        "high": {
+          "row": "Accommodation and food services",
+          "value": 4.2
+        },
+        "rows": 28
       }
     },
     "layoffsAndDischarges": {
@@ -139,6 +175,18 @@
         "State and local": 0.4,
         "State and local education": 0.3,
         "State and local, excluding education": 0.4
+      },
+      "spread": {
+        "basis": "range across the industry rows of the same published table",
+        "low": {
+          "row": "Federal",
+          "value": 0.3
+        },
+        "high": {
+          "row": "Arts, entertainment, and recreation",
+          "value": 3.8
+        },
+        "rows": 28
       }
     }
   },
@@ -183,6 +231,19 @@
       "Federal government": 5.0,
       "State government": 4.3,
       "Local government": 3.8
+    },
+    "spread": {
+      "basis": "range across the industry rows of the same published table",
+      "low": {
+        "row": "Utilities",
+        "value": 2.2
+      },
+      "high": {
+        "row": "Federal government",
+        "value": 5.0
+      },
+      "rows": 35
     }
-  }
+  },
+  "spreadNote": "The tables publish one annual-average rate per industry and no standard error, so the spread each row carries is the range across the industry rows of its own table (computed from the rows above). A town's rate is checked against its industry's row and read against that range; the spread never decides one worker's outcome."
 }
