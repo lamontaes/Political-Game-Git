@@ -2969,7 +2969,8 @@
             "colleague": "counterpart",
             "you": "subject"
           },
-          "opener": "colleague"
+          "opener": "colleague",
+          "setting": ["chamber"]
         }
       ],
       "tag": {
@@ -3051,13 +3052,14 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "sponsor-sought",
-          "causeEngine": "legislature",
-          "causeRecord": "legislative-vote",
-          "bind": {
-            "member": "members",
-            "you": "subject"
+          "match": {
+            "label": "cause:event:carry-asked",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "memberId", "is": "subject" }]
           },
+          "causeEngine": "legislature",
+          "causeRecord": "carry-asked",
+          "bind": { "member": "counterpart", "you": "subject" },
           "opener": "member"
         }
       ],
@@ -3201,7 +3203,8 @@
             "constituent": "counterpart",
             "you": "subject"
           },
-          "opener": "constituent"
+          "opener": "constituent",
+          "setting": ["office"]
         },
         {
           "match": {

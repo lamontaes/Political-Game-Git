@@ -12,7 +12,7 @@ import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { spokenDesignation } from "../english/bill-names";
+import { billNameFor, spokenDesignation } from "../english/bill-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import type { Fact } from "./render";
@@ -138,6 +138,27 @@ function composeBinding(
       text: spokenDesignation(said.number, bill?.form.kind ?? ""),
       sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
     };
+  }
+  // An executive's ask to carry their bill (legislature.ts askToCarry): the
+  // lines about a bill its asker can't introduce need it.
+  if (record?.kind === "carry-asked" && said.byExecutive === "yes")
+    facts["carry-ask"] = {
+      text: said.askerId ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+  // An ask to carry a bill the member turned down has no number yet: the
+  // bill goes by its name, from the policy the ask was for.
+  if (record?.kind === "carry-asked" && !said.number && said.question) {
+    const name = billNameFor(
+      said.question,
+      said.formKind ?? "",
+      said.direction === "repeal",
+    );
+    if (name)
+      facts.bill = {
+        text: `the ${name.title}`,
+        sourceRecordIds: [moment.causeId],
+      };
   }
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };

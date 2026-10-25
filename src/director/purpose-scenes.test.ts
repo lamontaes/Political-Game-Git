@@ -254,6 +254,15 @@ const run = (drawSeed: string): string | null => {
   // its day, not at the end of the year.
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
+  // A tied count names no winner: the elections engine sends the race to a
+  // second round, so the place is passed over (three filers with 0, 1 and 1
+  // votes in a small town, one CI run).
+  const tally = core.durableLog.get(`election-result:${contest.id}`);
+  const totals = Object.values(
+    JSON.parse(String(tally?.facts?.totals ?? "{}")) as Record<string, number>,
+  ).sort((a, b) => b - a);
+  if (!result?.winnerId && totals.length > 1 && totals[0] === totals[1])
+    return `${where}: the count of ${contest.id} was tied`;
   expect(
     result?.winnerId,
     `${where}: ${contest.id} has no winner`,

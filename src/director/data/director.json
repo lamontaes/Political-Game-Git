@@ -1284,6 +1284,11 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "carry-asked",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "debate",
       "channel": "cause",
       "impactParameter": "directorCampaignSpeechImpact"

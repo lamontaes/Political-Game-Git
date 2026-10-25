@@ -73,6 +73,11 @@ export interface SituationCause {
   bind?: Readonly<Record<string, string>>;
   opener?: string;
   opening?: string;
+  /**
+   * Where this cause stages the type, when it is not the type's own order of
+   * settings: a vote trade is asked for in the chamber its record names.
+   */
+  setting?: readonly string[];
 }
 
 export interface SituationType {
@@ -489,7 +494,8 @@ function bindType(
   library: SituationLibrary,
 ): SceneBinding | { failure: string; detail: string } {
   let failure: { failure: string; detail: string } | undefined;
-  for (const settingKind of type.setting) {
+  const settings = cause.setting ?? type.setting;
+  for (const settingKind of settings) {
     const taken = new Set<PersonId>();
     const roles: SceneBinding["roles"] = [];
     let unbound: string | undefined;
@@ -549,7 +555,7 @@ function bindType(
       ),
     };
   }
-  return failure ?? { failure: "no-place", detail: type.setting.join(",") };
+  return failure ?? { failure: "no-place", detail: settings.join(",") };
 }
 
 /**

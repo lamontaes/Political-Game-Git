@@ -11,6 +11,7 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import { SITUATION_LIBRARY } from "./scheduling";
 
 // A vote traded in committee comes due on the floor. When a holdout traded
 // their vote for their own section at the committee's markup, the legislature
@@ -63,12 +64,36 @@ it(`a vote traded in committee is the member's vote-confirmed scene on the floor
       const binding = entry?.bindings.find(
         (row) => row.typeKey === "vote-confirmed",
       );
-      expect(binding, `${here}: no vote-confirmed scene`).toBeTruthy();
+      if (!binding) {
+        // One sitting covers a day for the same people, and the same scene
+        // with the same people is not staged again within the repeat window
+        // (scheduling.ts): this sponsor already came asking after a promise
+        // of this member's, that day or within the window.
+        const from = addDays(
+          makeIsoDate(promise.date),
+          -SITUATION_LIBRARY.scheduling.repeatDays,
+        );
+        const asked = book.schedule.find(
+          (row) =>
+            row !== entry &&
+            row.date <= promise.date &&
+            row.date > from &&
+            row.bindings.some(
+              (other) =>
+                other.typeKey === "vote-confirmed" &&
+                other.roles
+                  .find((role) => role.role === "colleague")!
+                  .personIds.includes(sponsorId as PersonId),
+            ),
+        );
+        expect(asked, `${here}: no vote-confirmed scene`).toBeTruthy();
+        continue;
+      }
       expect(
-        binding!.roles.find((row) => row.role === "colleague")!.personIds,
+        binding.roles.find((row) => row.role === "colleague")!.personIds,
         here,
       ).toEqual([sponsorId]);
-      expect(binding!.setting, here).toEqual({
+      expect(binding.setting, here).toEqual({
         kind: "office",
         recordId: promise.facts!.officeId,
       });
