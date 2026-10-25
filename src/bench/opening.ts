@@ -8,6 +8,7 @@ import pictures from "./data/opening-pictures.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import type { OpeningSentence, OpeningStory } from "../director/opening-story";
 import { stageOfLevel, type OpeningFigure } from "../director/opening-sequence";
+import { composeHouseholdIntro } from "../director/household-intro";
 
 // The opening (owner, Oct 14, 2026): the President's address, full screen,
 // sentence by sentence in the speech box, the picture cutting to what each
@@ -123,7 +124,12 @@ export function openingFrames(
     pointOut: (OpeningFigure & { line?: number })[];
     /** Who says the lines: the anchor's lead-in, else the President. */
     speaker?: "anchor";
-    lines: { text: string; sourceRecordIds: readonly string[] }[];
+    /** Who says a line, where it differs from the frame's speaker. */
+    lines: {
+      text: string;
+      sourceRecordIds: readonly string[];
+      speaker?: "anchor" | "narrator";
+    }[];
   }[] = [];
   // What the player is watching, first (owner, Oct 14, 2026): their own
   // household at home that evening, the anchor leading into the address.
@@ -142,7 +148,17 @@ export function openingFrames(
       people: stagePeople(core, place, cast).people,
       pointOut: [...household],
       speaker: "anchor",
-      lines: [...story.lead],
+      // Then the narrator says who is in the room and how each is family,
+      // read now from the player's own record (the creator may have renamed
+      // them since the story was composed).
+      lines: [
+        ...story.lead,
+        ...composeHouseholdIntro(core, playerId).lines.map((row) => ({
+          text: row.text,
+          sourceRecordIds: row.sourceRecordIds,
+          speaker: "narrator" as const,
+        })),
+      ],
     });
   }
   const order = story.sequence.map((row) => row.stage);

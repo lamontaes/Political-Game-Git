@@ -152,6 +152,7 @@ export function sceneWordsFromBank(
       })),
     ),
     frame: variants(bank, "frame", "day", false, heldFirst),
+    household: variants(bank, "household", "kin", true, heldFirst),
     leads: rows.leads.map((typeKey) => ({
       typeKey,
       variants: variants(bank, "lead", typeKey, true, heldFirst),

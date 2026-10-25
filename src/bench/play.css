@@ -1576,6 +1576,13 @@ body.dev .dev-ring {
 #opening-box .speech {
   margin: 8px 0 0;
 }
+/* The narrator has no name card: the line stands alone in the box. */
+#opening-box.narrated .who {
+  display: none;
+}
+#opening-box.narrated .speech {
+  margin: 0;
+}
 #opening-point {
   top: calc(9vh + 18px);
   left: var(--gutter);

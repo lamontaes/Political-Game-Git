@@ -297,18 +297,25 @@ async function playOpening() {
   openingReady = undefined;
   if (!opening?.frames?.length) return opening;
   const { speaker } = opening;
-  // Who is speaking: the anchor's lead-in on the news, then the President.
-  const speakerCard = (anchor) => {
+  // Who is speaking: the anchor's lead-in on the news, the narrator setting
+  // the room, then the President.
+  const speakerCard = (who) => {
+    const president = who !== "anchor" && who !== "narrator";
+    // The narrator has no name card: the line stands alone in the box.
+    $("opening-box").classList.toggle("narrated", who === "narrator");
     $("opening-bust").style.backgroundImage =
-      !anchor && speaker.figureUrl ? `url("${speaker.figureUrl}")` : "";
-    $("opening-name").textContent = anchor
-      ? (controls.opening?.news ?? "")
-      : speaker.name;
-    $("opening-role").textContent = anchor
-      ? ""
-      : [speaker.title, ...speaker.detail].filter(Boolean).join(" · ");
+      president && speaker.figureUrl ? `url("${speaker.figureUrl}")` : "";
+    $("opening-name").textContent =
+      who === "anchor"
+        ? (controls.opening?.news ?? "")
+        : who === "narrator"
+          ? ""
+          : speaker.name;
+    $("opening-role").textContent = president
+      ? [speaker.title, ...speaker.detail].filter(Boolean).join(" · ")
+      : "";
   };
-  speakerCard(false);
+  speakerCard();
   show("opening-box", true);
   $("game").classList.add("letterbox", "cinema");
   frames: for (const frame of opening.frames) {
@@ -317,7 +324,7 @@ async function playOpening() {
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
-    speakerCard(frame.speaker === "anchor");
+    speakerCard(frame.speaker);
     // Who the camera points out: a household as the frame opens, anyone the
     // address names on the line that names them.
     const figures = frame.pointOut ?? [];
@@ -327,6 +334,7 @@ async function playOpening() {
     // A click moves on to the next sentence; Skip ends the address. The
     // picture holds until the camera has passed everyone on it.
     for (const [at, line] of frame.lines.entries()) {
+      speakerCard(line.speaker ?? frame.speaker);
       $("opening-speech").textContent = line.text;
       const named = figures.filter((row) => row.line === at);
       if (named.length) {

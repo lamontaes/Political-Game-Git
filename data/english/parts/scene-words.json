@@ -13,7 +13,10 @@
     "weekday": "The day of the week, from the moment's date.",
     "month": "The month, from the moment's date.",
     "name": "The member the scene is about, by name, from the member's term.",
-    "issue": "The bill's question, named as the bill catalog records it."
+    "issue": "The bill's question, named as the bill catalog records it.",
+    "relation": "A household member as the player is kin to them, with the possessive, from the family fact (\"your father\").",
+    "member": "A household member, by name, from the household record.",
+    "side": "Which parent's side of the family a member comes through, from the parent's own family fact (\"your mother's side\")."
   },
   "maxWords": 10,
   "mining": {
@@ -3090,6 +3093,195 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.household-plain.relation-member-lives-under-your-roof",
+      "move": "household-plain",
+      "kind": "spoken",
+      "text": "{relation}, {member}, lives under your roof.",
+      "uses": [
+        {
+          "move": "household-plain",
+          "subject": "household",
+          "role": "kin",
+          "choice": "plain"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.household-plain.relation-member-shares-your-home",
+      "move": "household-plain",
+      "kind": "spoken",
+      "text": "{relation}, {member}, shares your home.",
+      "uses": [
+        {
+          "move": "household-plain",
+          "subject": "household",
+          "role": "kin",
+          "choice": "plain"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.household-plain.member-relation-lives-in-the-house-with-you",
+      "move": "household-plain",
+      "kind": "spoken",
+      "text": "{member}, {relation}, lives in the house with you.",
+      "uses": [
+        {
+          "move": "household-plain",
+          "subject": "household",
+          "role": "kin",
+          "choice": "plain"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.household-side.relation-member-is-on-side-and-lives-with-you",
+      "move": "household-side",
+      "kind": "spoken",
+      "text": "{relation}, {member}, is on {side}, and lives with you.",
+      "uses": [
+        {
+          "move": "household-side",
+          "subject": "household",
+          "role": "kin",
+          "choice": "side"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.household-side.member-is-relation-on-side-and-shares-your-home",
+      "move": "household-side",
+      "kind": "spoken",
+      "text": "{member} is {relation} on {side}, and shares your home.",
+      "uses": [
+        {
+          "move": "household-side",
+          "subject": "household",
+          "role": "kin",
+          "choice": "side"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.household-housemate.member-lives-in-your-home",
+      "move": "household-housemate",
+      "kind": "spoken",
+      "text": "{member} lives in your home.",
+      "uses": [
+        {
+          "move": "household-housemate",
+          "subject": "household",
+          "role": "kin",
+          "choice": "housemate"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.household-housemate.member-lives-under-your-roof",
+      "move": "household-housemate",
+      "kind": "spoken",
+      "text": "{member} lives under your roof.",
+      "uses": [
+        {
+          "move": "household-housemate",
+          "subject": "household",
+          "role": "kin",
+          "choice": "housemate"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.household-plain.relation-member-calls-this-house-home",
+      "move": "household-plain",
+      "kind": "spoken",
+      "text": "{relation}, {member}, calls this house home.",
+      "uses": [
+        {
+          "move": "household-plain",
+          "subject": "household",
+          "role": "kin",
+          "choice": "plain"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.household-plain.member-relation-lives-here-too",
+      "move": "household-plain",
+      "kind": "spoken",
+      "text": "{member}, {relation}, lives here too.",
+      "uses": [
+        {
+          "move": "household-plain",
+          "subject": "household",
+          "role": "kin",
+          "choice": "plain"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
       "tag": {
         "move": "narrate"
       }

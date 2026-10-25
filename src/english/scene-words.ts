@@ -30,6 +30,12 @@ export interface SceneWords {
   present: Variant[];
   /** The day, as the narrator opens: "It's a Tuesday in March." */
   frame: Variant[];
+  /**
+   * Who lives in the player's home and how each is family: "Your father,
+   * John Stein, lives under your roof." Stages: `plain`, `side` (a surname
+   * that differs, explained by whose side of the family) and `housemate`.
+   */
+  household?: Variant[];
   /** What is happening, by the staged situation's type. */
   leads: readonly { typeKey: string; variants: Variant[] }[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
@@ -65,6 +71,7 @@ export type NarrationMove =
   | { part: "frame" }
   | { part: "setting"; kind: string }
   | { part: "present" }
+  | { part: "household" }
   | { part: "lead"; typeKey: string }
   | { part: "opening"; move: string }
   | { part: "cause"; label: string };
@@ -83,6 +90,8 @@ const bankOf = (
       };
     case "present":
       return { key: "scene-present", variants: words.present };
+    case "household":
+      return { key: "scene-household", variants: words.household };
     case "lead": {
       const lead = words.leads.find((row) => row.typeKey === move.typeKey);
       return lead
