@@ -17,6 +17,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
+import crimeData from "../core2/data/crime/victimization.json" with { type: "json" };
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import {
@@ -63,12 +64,19 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
         .table("months")
         .rows() as unknown as {
         date: string;
-        victims: { eventId: string; householdId: string }[];
+        victims: { type: string; eventId: string; householdId: string }[];
       }[];
       for (const month of [...months].sort((a, b) =>
         a.date.localeCompare(b.date),
       ))
         for (const victim of month.victims ?? []) {
+          // A crime recorded against the household names every member, so
+          // the housemate who listens keeps it as a moment too.
+          if (
+            (crimeData.types as Record<string, { unit: string }>)[victim.type]
+              ?.unit !== "household"
+          )
+            continue;
           const members =
             first.households.get(victim.householdId)?.memberIds ?? [];
           if (members.filter((id) => first.people.get(id)?.alive).length < 2)
@@ -88,9 +96,8 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
       [])
       if (core.people.get(id)?.alive) director.watch(core, id);
     advanceCore(core, addDays(makeIsoDate(victimized.date), 1));
-    // The person the crime record names keeps it as a moment, and raises it
-    // with a housemate (a break-in names the household; an assault, the one
-    // attacked).
+    // Each member the crime record names keeps it as a moment; the victim
+    // raises it with a housemate on the housemate's own moment of it.
     let found:
       | {
           victim: PersonId;
@@ -107,19 +114,28 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
         .get(id)
         ?.moments.find((row) => row.causeId === victimized!.eventId);
       if (!moment || moment.label !== VICTIMIZED) continue;
-      const housemate = members.find((other) => other !== id);
-      if (!housemate) continue;
+      // The housemate's own moment of the same crime is the talk's occasion.
+      const heard = members
+        .filter((other) => other !== id)
+        .map((other) => ({
+          other,
+          moment: director.ledger.people
+            .get(other)
+            ?.moments.find((row) => row.causeId === victimized!.eventId),
+        }))
+        .find((row) => row.moment);
+      if (!heard) continue;
       found = {
         victim: id as PersonId,
-        listener: housemate as PersonId,
+        listener: heard.other as PersonId,
         causeId: moment.causeId,
-        momentId: moment.id,
+        momentId: heard.moment!.id,
       };
       break;
     }
     expect(
       found,
-      `${where}: ${victimized.eventId} on ${victimized.date} is a moment for a member of ${victimized.householdId} who lives with someone (the second pass rebuilt the same world)`,
+      `${where}: ${victimized.eventId} on ${victimized.date} is a moment for two members of ${victimized.householdId} (the second pass rebuilt the same world)`,
     ).toBeDefined();
     if (!found) continue;
     // The subject is the victim's, from the crime record.
@@ -151,6 +167,11 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
       occasionId: found.momentId,
       data: conversationDataFromBank(undefined, true),
     });
+    expect(
+      talk.occasion?.id,
+      `${where}: the talk's occasion is ${found.listener}'s own moment of ${found.causeId}`,
+    ).toBe(found.momentId);
+    expect(talk.occasion?.causeId, where).toBe(found.causeId);
     const raised = talk.lines.find(
       (line) =>
         line.speakerId === found!.victim &&
@@ -164,7 +185,7 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
     advanceCore(core, end);
     expect(core.date, `${where}: the watched year plays to its end`).toBe(end);
     process.stdout.write(
-      `CRIME TALK ${where}: ${found.victim} to housemate ${found.listener}, subject ${subject!.id} (stage ${subject!.stage}), said "${raised!.text}" from ${found.causeId}\n`,
+      `CRIME TALK ${where}: ${found.victim} to housemate ${found.listener} on their own moment ${found.momentId}, subject ${subject!.id} (stage ${subject!.stage}), said "${raised!.text}" from ${found.causeId}\n`,
     );
     return;
   }
