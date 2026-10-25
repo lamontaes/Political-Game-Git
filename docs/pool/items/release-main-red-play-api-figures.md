@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/release-play-api-figures
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T18:19:26.911Z
 ---
 
 **What.** Main release run 40215933110 (source 8d0dd8f295, the merge of #6049) built the game on macOS and Windows, then both desktop package jobs failed at 'Stage the compiled game and its play server': 'Play API reads /Users/runner/work/Political-Game-Git, outside the repository.' desktop/scripts/build-play-api.mjs copies every folder a bundled module names with new URL(..., import.meta.url), reading the static part of a template; src/bench/handler.ts serves the v2 standing figures with new URL(`../..${url.pathname}`, import.meta.url) (4a0c9c8ee4, Oct 24), whose static part '../..' resolves to the repository root, so the script takes its parent. No desktop release publishes until this is fixed.
