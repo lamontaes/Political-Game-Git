@@ -212,6 +212,12 @@ function attempt(index: number): Attempt {
   const stateRate = lawInForce(api, "corporate-income-tax").levels.find(
     (l) => l.level === "state" && !l.setAside,
   )?.row?.value;
+  // The local income tax authority is a state's grant to its localities: a
+  // place whose state level carries no such row (D.C. and the territories have
+  // none in the starting law) has no grant to read, so it is redrawn.
+  const grant = lawInForce(api, "local-income-tax-authority").levels.some(
+    (l) => l.level === "state" && l.row,
+  );
   const missing = [
     "income-tax",
     "property-tax",
@@ -220,6 +226,7 @@ function attempt(index: number): Attempt {
   ]
     .filter((key) => !keysOf(api, key).length)
     .concat(stateRate && stateRate > 0 ? [] : ["a state corporate rate"])
+    .concat(grant ? [] : ["a state local income tax authority row"])
     .concat(
       Object.entries(ids)
         .filter(([, id]) => !id)
