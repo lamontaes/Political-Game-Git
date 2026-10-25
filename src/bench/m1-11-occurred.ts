@@ -8,8 +8,10 @@
 export interface OccurredEvent {
   readonly id: string;
   readonly kind: string;
-  /** Full people the event named, plus counted people its records named. */
+  /** Full people the event named, plus counted people its records named, who could answer it then (alive, and still counted for a counted one). */
   readonly named: readonly string[];
+  /** People its records named who could not answer it then (dead, or no longer in the counts), by record id. */
+  readonly ineligible?: readonly string[];
 }
 
 export interface OccurrenceReport {

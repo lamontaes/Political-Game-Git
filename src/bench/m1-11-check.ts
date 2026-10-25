@@ -32,7 +32,7 @@ import {
   drivesReport,
   type FormationTrace,
 } from "../core2/modules/drives";
-import { residentsRuntime } from "../core2/modules/residents";
+import { residentFacts, residentsRuntime } from "../core2/modules/residents";
 import { coreAPI } from "../core2/state";
 import { answeredByNamed } from "./m1-11-named";
 import { occurrence, type OccurredEvent } from "./m1-11-occurred";
@@ -87,14 +87,22 @@ coreAPI(core).subscribeEvents("m1-11-check", [...KINDS], (_api, event) => {
     facts[driveFacts.countedSubject],
     ...(perceivers ? (JSON.parse(perceivers) as string[]) : []),
   ].filter((id): id is string => !!id);
+  // The engine answers a full person who is alive and a counted person still
+  // in the counts; anyone else the records name is kept, by id, as unable to.
+  const candidates = [
+    ...(event.personIds ?? []),
+    ...counted,
+    ...(event.kind === "organization.closed" ? closureWorkers(event.id) : []),
+  ];
+  const able = (id: string) =>
+    core.people.get(id as never)?.alive === true ||
+    (!core.people.has(id as never) &&
+      residentFacts(core, id as never) !== undefined);
   occurred.push({
     id: event.id,
     kind: event.kind,
-    named: [
-      ...(event.personIds ?? []).filter((id) => core.people.has(id as never)),
-      ...counted,
-      ...(event.kind === "organization.closed" ? closureWorkers(event.id) : []),
-    ],
+    named: [...new Set(candidates.filter(able))],
+    ineligible: [...new Set(candidates.filter((id) => !able(id)))],
   });
 });
 const dropped = process.env.M1_11_DROP_RESPONSES_OF;
@@ -144,7 +152,7 @@ for (const kind of KINDS) {
     lost.length === 0,
     `${where}: ${lost.length} ${kind} events named someone and drew no response (${lost
       .slice(0, 3)
-      .map((event) => event.id)
+      .map((event) => `${event.id} naming ${event.named.join(" ")}`)
       .join(", ")})`,
   );
 }
@@ -270,7 +278,11 @@ console.log(
       },
       notExercised,
       occurred: occurred.length,
-      namedNoOne: report.namedNoOne.slice(0, 5).map((event) => event.id),
+      namedNoOne: report.namedNoOne.length,
+      namedNoOneSample: report.namedNoOne.slice(0, 5).map((event) => ({
+        event: event.id,
+        ineligible: event.ineligible,
+      })),
       answers: answers.length,
       countedAnswers: answers.filter((row) => row.counted).length,
       countedSample: answers
