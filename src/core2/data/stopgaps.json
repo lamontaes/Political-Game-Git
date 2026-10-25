@@ -6585,15 +6585,27 @@
     "status": "open"
   },
   {
-    "id": "SG-TRAITS-pay-growth-by-performance",
+    "id": "SG-WORLD-jobs-public-pay-growth",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 1247,
-    "whatItFakes": "A worker's pay is the rate their job was posted at, so temperament changes earnings only through who is hired first and who is let go last; nobody's pay grows with their tenure or how they work.",
-    "why": "Real pay grows with tenure and performance (Gensowski 2018: about 16.7 percent of lifetime earnings per standard deviation of conscientiousness). The owner ruled on Oct 24 that it is built, not asked: pay moves with tenure and the worker's record at the employer, calibrated from BLS/ECI tenure-wage research, no fixed step (OWNER-DECISIONS.md, Oct 24).",
-    "addedBy": "claude/traits-outcome-job-performance",
-    "addedAt": "2026-10-24",
-    "replacement": "Pay growth by tenure and the worker's record, built by owner-pay-growth-by-performance; this row resolves when it lands.",
+    "line": 1745,
+    "whatItFakes": "A worker at an employer with no business books (a town, county or state government, or another public body) gets the yearly move with the place's pay level but no raise for tenure or how they work, so a public employee's pay does not grow within the job as a private worker's does.",
+    "why": "A business's raises are held to the room its own trading month leaves; a public employer has no trading month, and its pay follows its budget line and the public pay floor (public-pay-floor.ts, the bargaining law). Public step schedules and the budget room they would read are not modeled yet.",
+    "addedBy": "claude/traits-pay-growth",
+    "addedAt": "2026-10-25",
+    "replacement": "Within-job raises for public workers by the same withinJobRaise rule, held to the room in the government's personnel budget line (the budgets engine) or set by the step schedule a bargaining or pay law records.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-opening-tenure",
+    "kind": "missing-data",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1750,
+    "whatItFakes": "Every job held at the opening counts its tenure from the game's start, so each opening worker's first yearly raise reads the steepest year of the tenure profile (about 2.6 points over the market's move) instead of the year their real tenure would put them in (about 1.0 point at the BLS median of 3.9 years).",
+    "why": "The opening records no start date for anyone's job (src/core2/deep-past.ts keeps only a supplied start and assigns no median to a missing job history), so tenure within a firm spans a few days at the start; the same gap is why traitWeightJobsValueWorker is sized against real tenure rather than the played world's.",
+    "addedBy": "claude/traits-pay-growth",
+    "addedAt": "2026-10-25",
+    "replacement": "An opening start date for each job held at the opening, generated from the BLS Employee Tenure tables by age and industry when the world is generated (who exists may be seeded), read by tenureYears for raises and layoffs alike.",
     "status": "open"
   }
 ]

@@ -71,16 +71,14 @@
       "title": "An ordinary worker's performance at work",
       "engine": "src/core2/modules/jobs.ts",
       "wired": true,
-      "evidence": "src/core2/modules/jobs.ts:1314 howTheyWork: a business values a worker by their lean toward diligence (jobs.value-worker, traitWeightJobsValueWorker sized from Barrick & Mount 1991, r 0.22) when it ranks applicants (jobs.ts:1908) and when it lets a worker go (jobs.ts:1363). Played: Oak Grove, Oregon (4153900), seed 427e8d601b48ca1ab600d7c7efb7407962876546823fbe28f7f06a1e304432fa, layoff job-change:2025-03-01:work-relationship_129ba20d7adbab65:layoff let person_43cf7cae695a94c6 go for how they work while a worker with less tenure was kept."
+      "evidence": "src/core2/modules/jobs.ts:1319 howTheyWork: a business values a worker by their lean toward diligence (jobs.value-worker, traitWeightJobsValueWorker sized from Barrick & Mount 1991, r 0.22) when it ranks applicants (jobs.ts:2056) and when it lets a worker go (jobs.ts:1366). Played: Oak Grove, Oregon (4153900), seed 427e8d601b48ca1ab600d7c7efb7407962876546823fbe28f7f06a1e304432fa, layoff job-change:2025-03-01:work-relationship_129ba20d7adbab65:layoff let person_43cf7cae695a94c6 go for how they work while a worker with less tenure was kept."
     },
     {
       "id": "outcome.earnings",
       "title": "Promotion and pay by temperament",
       "engine": "src/core2/modules/jobs.ts",
-      "wired": "partly",
-      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:1247, stopgap SG-TRAITS-pay-growth-by-performance); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
-      "evidence": "Through hiring and layoffs: how a person works raises their value to an employer (src/core2/modules/jobs.ts:1314), so diligent people are hired sooner and let go later",
-      "item": "owner-pay-growth-by-performance"
+      "wired": true,
+      "evidence": "src/core2/modules/jobs.ts:1758 raisePay: on each job's yearly review a business adds to the market's move the return to the worker's tenure and how it reads their work (withinJobRaise, jobs.ts:1676; the work read is howTheyWork, jobs.ts:1319, through jobs.value-worker), sized from the tenure-wage and merit-raise research (jobsTenureReturnFull, jobsTenureReturnYears, jobsRaisePerWorkYear), in the share the business's memory of losses leaves it; the payroll pays the raised rate. Earlier channels stay: diligent people are hired sooner and let go later. Played: Aiea, Hawaii (1500550), seed 125c9f1ddf75bae0921d924b509a850dede48872f2fec473eaf9a3e8bdba0102, both raised in full at 0.948 years' tenure: pay-change:2026-01-01:work-relationship_b6c2f155e9938148 raised person_4d08aadd62909039 (how they work 4.400) from 1798 to 1915 cents an hour, pay-change:2026-01-01:work-relationship_224945d30e8f1354 raised person_dea9c6e0ad2bbce0 (-3.617) from 2192 to 2305, against a market move of 3.1 percent each (test src/core2/jobs-pay-growth.traits.test.ts)."
     },
     {
       "id": "outcome.health-behaviors",
