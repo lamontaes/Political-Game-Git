@@ -35,6 +35,7 @@ import {
 } from "./modules/outcome-web";
 import { CALIBRATED_AT, moderatorScale, WEB_LINKS } from "./outcome-web-model";
 import { webFactorFor } from "./outcome-web-reach";
+import WEB_SETTINGS from "./data/outcome-web/outcome-web.json";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -195,12 +196,16 @@ function play(drawSeed: string) {
     if (observing) core.observer = true;
     advanceCore(core, next);
     core.observer = wasObserver;
-    const latest = townRows().at(-1)!;
-    if (!factorsAt.has(latest.id))
-      factorsAt.set(
-        latest.id,
-        new Map(books().map(([id, book]) => [id, book.lastWebPriceFactor])),
-      );
+    // The web writes a new month row on its scheduled day; reading the month
+    // table only then keeps a long run from scanning it every day.
+    if (Number(next.slice(8, 10)) === WEB_SETTINGS.schedule.dayOfMonth) {
+      const latest = townRows().at(-1)!;
+      if (!factorsAt.has(latest.id))
+        factorsAt.set(
+          latest.id,
+          new Map(books().map(([id, book]) => [id, book.lastWebPriceFactor])),
+        );
+    }
     day = next;
   }
   return {
