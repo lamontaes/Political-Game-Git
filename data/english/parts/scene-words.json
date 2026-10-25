@@ -1626,10 +1626,10 @@
       }
     },
     {
-      "key": "scene-words.lead-reunion-other.you-and-other-are-together-again",
+      "key": "scene-words.lead-reunion-other.you-haven-t-seen-other-in-a-long-time",
       "move": "lead-reunion-other",
       "kind": "spoken",
-      "text": "You and {other} are together again.",
+      "text": "You haven't seen {other} in a long time.",
       "uses": [
         {
           "move": "lead-reunion-other",
@@ -3008,6 +3008,90 @@
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-alone.you-step-up-to-the-podium",
+      "move": "lead-address-alone",
+      "kind": "spoken",
+      "text": "You step up to the podium. The country is listening.",
+      "uses": [
+        {
+          "move": "lead-address-alone",
+          "subject": "lead",
+          "role": "address",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-alone.the-crowd-goes-quiet",
+      "move": "lead-address-alone",
+      "kind": "spoken",
+      "text": "The crowd goes quiet as you reach the microphone.",
+      "uses": [
+        {
+          "move": "lead-address-alone",
+          "subject": "lead",
+          "role": "address",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-other.other-hands-you-the-final-draft",
+      "move": "lead-address-other",
+      "kind": "spoken",
+      "text": "{other} hands you the draft. You walk to the podium.",
+      "uses": [
+        {
+          "move": "lead-address-other",
+          "subject": "lead",
+          "role": "address",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-other.other-squeezes-your-arm",
+      "move": "lead-address-other",
+      "kind": "spoken",
+      "text": "{other} squeezes your arm. Then it's you and the microphone.",
+      "uses": [
+        {
+          "move": "lead-address-other",
+          "subject": "lead",
+          "role": "address",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
       }
     }
   ]
