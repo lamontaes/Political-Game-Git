@@ -1,8 +1,10 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "../bench/world";
 import assistance from "./data/disasters/assistance.json" with { type: "json" };
 import households from "./data/disasters/households.json" with { type: "json" };
+import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
@@ -140,12 +142,11 @@ describe(`disasters from the record (seed ${seed})`, () => {
       if (!townsWithDamage(place.state.replace(/^US-/, "")).has(name)) continue;
       opened += 1;
       const where = `${place.name}, ${place.state} (seed ${seed}:edge:${draw})`;
-      const core = createLifeCore(
-        generatedOpening(place, {
-          twoLevel: true,
-          settings: { population: 1500 },
-        }),
-      );
+      // The player's own world: every module the bench installs.
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
       const api = coreAPI(core);
       const yearEnd = addDays(makeIsoDate(core.date), 365);
       const disaster = townDisastersWithDamage(api)
@@ -209,8 +210,5 @@ describe(`disasters from the record (seed ${seed})`, () => {
     throw new Error(
       `no damaged-home disaster paid repairs to an outside market in ${opened} opened places of ${draw} draws (seed ${seed}):\n${tried.join("\n")}`,
     );
-    // Same screen and opening as disasters-no-market.test.ts: an opening took
-    // 3.8 to 9.1 seconds and a played year 8.9 to 14.5 there, so ten opened
-    // towns are about four minutes.
   }, 600_000);
 });
