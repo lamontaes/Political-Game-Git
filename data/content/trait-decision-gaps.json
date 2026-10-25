@@ -2,10 +2,10 @@
   "version": 1,
   "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
   "formulaSiteAliases": {
-    "src/core2/modules/jobs.ts:2221": "jobs.counted-retire",
-    "src/core2/modules/jobs.ts:2476": "jobs.counted-look",
-    "src/core2/modules/jobs.ts:2546": "jobs.counted-look",
-    "src/core2/modules/business.ts:1543": "business.counted-found"
+    "src/core2/modules/jobs.ts:2258": "jobs.counted-retire",
+    "src/core2/modules/jobs.ts:2513": "jobs.counted-look",
+    "src/core2/modules/jobs.ts:2583": "jobs.counted-look",
+    "src/core2/modules/business.ts:1542": "business.counted-found"
   },
   "gaps": {
     "corruption.offer": {
@@ -86,12 +86,12 @@
     "offices.accept-appointment": {
       "class": "rare",
       "why": "Weighed only when a city, county or township seat falls vacant and the post fills by appointment: fillVacancy's appoint (src/core2/modules/offices.ts:1135, decision read at :1162) offers the post only to a city, county or township seat, only under a vacancy rule that appoints (successor, appointment, or appointment-then-special, called at :1216, :1218 and :1238), and only when no named successor is given first (:1190). A vacancy needs the serving official to die or move away; none did in the election window.",
-      "fix": "Add resignation as a vacancy cause."
+      "fix": "Audit a drawn year that holds a local vacancy filled by appointment (traits-accept-appointment-vacancy-proof)."
     },
     "constituent-cases.handle-case": {
       "class": "rare (staff takes the case first)",
-      "why": "The official's own read (src/core2/modules/constituent-cases.ts:437, ownCaseDecision) runs only for an official with no staffer: officeHandles hands every case to a staffer first (:451). Ran 2 times in the election window (first 2026-01-09).",
-      "fix": "Let the official's own lean set what the staffer is told."
+      "why": "The official's own read (src/core2/modules/constituent-cases.ts:437, ownCaseDecision) runs only for an official with no staffer: officeHandles hands every case to a staffer first (:451). Ran 2 times in one election-window run (first 2026-01-09) and none in a later one.",
+      "fix": "The official decides every case first and the staffer carries it out (traits-wire-integrity, PR 5715); its circumstances vary with traits-integrity-cases-vary."
     },
     "conversation.believe-claim": {
       "class": "no trigger (player only)",
@@ -171,12 +171,12 @@
     "appointments.weigh": {
       "class": "runs only at the opening and on a vacancy",
       "why": "The appointer's loyalty against merit (src/core2/appointments.ts:56) is read whenever a post is filled. The town's department heads and the state's cabinet are filled when the executive module opens (src/core2/modules/executive.ts:151-152), before the audit's probe is on; afterward only a department head who dies or moves away (executive.ts:1168-1172) or a newly seated governor (:1197) fills one, and neither happened in the election window.",
-      "fix": "Count the opening's calls by switching the probe on before the build, or audit a window that holds a vacancy or a governor's swearing-in."
+      "fix": "Count the opening's calls apart from the played year, with an appointment's record id (traits-audit-opening-appointments)."
     },
     "housing.settle-arrears": {
       "class": "no trigger (fill-in only)",
       "why": "Runs only when a counted household with an open eviction case is filled in (src/core2/modules/housing.ts:2041 onFillIn, :2057), which happens when the player meets or clicks one of its members. The other engines' fill-ins (staff.ts:677, candidacy.ts:730, constituent-cases.ts:275, campaigns.ts:806, press.ts:2563, housing-homeless.ts:508, housing-foreclosure.ts:331) reached no such household.",
-      "fix": "Let a counted household settle part of its group's arrears as the group's own act each month by the same rule (times its count), so the filled-in case only carries the record."
+      "fix": "A household behind on rent settles what it can each month from its spare cash, full and counted by the same rule, so a fill-in only carries the record (traits-wire-money, PR 5587: 20 and 5 weighings in its two drawn towns)."
     },
     "legislature.poison-pill": {
       "class": "rare",
