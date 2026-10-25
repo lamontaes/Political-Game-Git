@@ -812,10 +812,25 @@ export function coreAPI(core: CoreState): CoreAPI {
   recordStopgapsIn(core.stopgapHits);
   const prior = writerAPIs.get(core);
   if (prior) return prior;
+  // In play the registry never changes: each key is read and checked once,
+  // then kept with the stopgap it names, which every read still records.
+  // Bookkeeping re-reads the registry, as `parameter` does.
+  const read = new Map<
+    string,
+    { value: number; stopgapId: string | undefined }
+  >();
   const p = (key: string) => {
+    const play = !bookkeeping();
+    const known = play ? read.get(key) : undefined;
+    if (known) {
+      if (known.stopgapId) stopgap(known.stopgapId, core);
+      return known.value;
+    }
     const row = core.data.parameters[key];
     if (row?.stopgapId) stopgap(row.stopgapId, core);
-    return parameter(key, core.data.parameters);
+    const value = parameter(key, core.data.parameters);
+    if (play) read.set(key, { value, stopgapId: row?.stopgapId });
+    return value;
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
