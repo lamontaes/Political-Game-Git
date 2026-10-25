@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/play-stop-08-high-school
-pr:
+pr: #6038
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T15:57:39.096Z
