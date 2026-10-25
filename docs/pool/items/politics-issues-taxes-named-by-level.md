@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/issues-tax-levels
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T16:00:20.256Z
 ---
 
 **What.** Politics → Issues shows each tax as the law in force across every level, so an income tax card adds the federal and state top rates and a sales tax card adds the state rate and the local average. The card took its title from the bill catalog's name for a city bill, Local income tax rate, so a Texas town read 'Local income tax rate 37% top rate' though Texas has no income tax and the 37 percent is the federal top rate. The level rows under it said only Federal or State, and the later phases said only a date. This is the buildable half of play-stop-06-texas-shows-local-income-tax, which stays open for the owner's installed-build check.
