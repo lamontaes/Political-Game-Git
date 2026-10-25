@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: blocked
 claimed-by:
 pr: #6037
-blocked-on:
+blocked-on: owner-installed-build-acceptance
 source: added with npm run pool -- add
 lead: m0-m2
 milestone: play-first
