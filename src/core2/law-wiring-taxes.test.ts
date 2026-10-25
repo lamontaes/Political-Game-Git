@@ -466,13 +466,16 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         // Local income-tax authority: a local body drafts a tax bill and the
         // state's grant or refusal is read for it.
         // The town's governing body (a council, a township board), with a
-        // member of it to sponsor the bill.
-        const seat = townSeats(api).find(
-          (s) =>
-            (s.office.level === "city" || s.office.level === "township") &&
-            s.holder?.personId &&
-            !!bodyOf(api, s.office.id),
-        );
+        // member of it to sponsor the bill; a place with no town government
+        // of its own is governed locally by its county's board.
+        const seated = (levels: readonly string[]) =>
+          townSeats(api).find(
+            (s) =>
+              levels.includes(s.office.level) &&
+              s.holder?.personId &&
+              !!bodyOf(api, s.office.id),
+          );
+        const seat = seated(["city", "township"]) ?? seated(["county"]);
         expect(seat, `${where}: a member of the town's body`).toBeDefined();
         const office = seat!.office;
         const sponsor = { id: seat!.holder!.personId! };
