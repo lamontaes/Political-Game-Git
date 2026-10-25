@@ -47,6 +47,8 @@ import {
 import {
   countedHouseholdJobChanged,
   keepCalendar,
+  countedHouseholdOf,
+  householdCash,
   residentFacts,
   residentPerson,
   residentsRuntime,
@@ -1667,17 +1669,6 @@ function reviewJobless(api: CoreAPI): void {
     const age =
       daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
     if (age < young || age >= old) continue;
-    // A dependent's own living cost is carried by the household, so the
-    // pressure is how few days the household's money covers its costs.
-    let liquid = 0,
-      cost = 0;
-    for (const memberId of c.households.get(person.householdId)!.memberIds) {
-      const member = c.people.get(memberId);
-      if (!member?.alive) continue;
-      liquid += member.liquidMinor;
-      cost += member.livingCostDailyMinor;
-    }
-    const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
     const enter = participationShift(
       api,
       person.placeId,
@@ -1689,9 +1680,9 @@ function reviewJobless(api: CoreAPI): void {
       offer("look", person.id, {
         baseline: p("jobsEnterBaseline"),
         ...(enter ? { web: enter } : {}),
-        needWork:
-          p("jobsUnemployedNeedWeight") /
-          (p("one") + days / (p("jobsDaysPerYear") / p("macroMonthsPerYear"))),
+        // A dependent's own living cost is carried by the household, so the
+        // pressure is how few days the household's money covers its costs.
+        needWork: unemployedNeed(api, person.id),
         // Where jobs are scarce, fewer start looking (discouraged workers).
         unemployment:
           -p("jobsUnemploymentEntryWeight") *
@@ -1721,6 +1712,49 @@ function lastPay(api: CoreAPI, personId: string): number {
     }
   }
   return pay;
+}
+
+/**
+ * How much an unemployed person needs work: the base need shrunk by how many
+ * months their household's money covers its costs, so a person with a long
+ * runway applies less eagerly than one a month from the rent. A full person's
+ * household is its members' records; a counted person's is its counted
+ * household's share of its group's money (its columns where groups hold none), which is what a
+ * fill-in hands its members, so filling one in leaves the need as it was.
+ */
+export function unemployedNeed(api: CoreAPI, personId: string): number {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const person = c.people.get(personId);
+  let liquid = 0,
+    cost = 0;
+  if (person) {
+    const household = c.households.get(person.householdId);
+    for (const memberId of household?.memberIds ?? [personId]) {
+      const member = c.people.get(memberId);
+      if (!member?.alive) continue;
+      liquid += member.liquidMinor;
+      cost += member.livingCostDailyMinor;
+    }
+  } else {
+    const counted = countedHouseholdOf(c, personId);
+    const rt = residentsRuntime(c);
+    if (counted && rt) {
+      // Its money is its share of its group's account, which a fill-in hands
+      // its members; a world whose groups hold no money keeps it in the
+      // members' columns.
+      for (const member of rt.store.factsOfHousehold(counted)) {
+        if (!rt.funded) liquid += member.liquidMinor;
+        cost += member.livingCostDailyMinor;
+      }
+      if (rt.funded) liquid += householdCash(rt, counted);
+    }
+  }
+  const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
+  return (
+    p("jobsUnemployedNeedWeight") /
+    (p("one") + days / (p("jobsDaysPerYear") / p("macroMonthsPerYear")))
+  );
 }
 
 /** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
@@ -1766,6 +1800,7 @@ function runWeek(api: CoreAPI): void {
     )
       continue;
     const reference = seeker.referenceHourlyMinor;
+    const need = unemployedNeed(api, person.id);
     const scored = scoreOffers(c, person.id, [
       offer("wait", seeker.id, {}),
       ...nearby.map((position) =>
@@ -1773,7 +1808,7 @@ function runWeek(api: CoreAPI): void {
           pay:
             p("jobsApplyPayWeight") *
             (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
-          needWork: seeker.employed ? 0 : p("jobsUnemployedNeedWeight"),
+          needWork: seeker.employed ? 0 : need,
         }),
       ),
     ]);
@@ -1816,12 +1851,14 @@ function runWeek(api: CoreAPI): void {
       (traitLean(c, person, jobsData.actions.apply.actKinds) -
         traitLean(c, person, jobsData.actions.wait.actKinds));
     const reference = seeker.referenceHourlyMinor;
+    // The same runway-scaled need a full person weighs.
+    const need = seeker.employed ? 0 : unemployedNeed(api, seeker.personId);
     for (const position of byPlace.get(seeker.placeId) ?? [])
       if (
         p("jobsRateWeight") *
           (p("jobsApplyPayWeight") *
             (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
-            (seeker.employed ? 0 : p("jobsUnemployedNeedWeight"))) +
+            (seeker.employed ? 0 : need)) +
           traitTerm >
         0
       )
