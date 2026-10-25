@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T13:08:00.000Z
 
 **Rules.** Red main comes first: repair the candidate build before merging unrelated work, preserving the exact-candidate checks and publication boundaries. Replace, never layer: configure the existing validation process rather than adding a second build or bypassing any typecheck project.
 
-**Done when.** The release candidate's existing build and standalone typecheck inherit a 5 GB Node heap. A local build on current main with that setting passes, and the PR records the failed run, measured typecheck evidence, changed-file checks and a Done-when evidence table without claiming a GitHub badge as its gate.
+**Done when.** The release candidate's existing build and standalone typecheck inherit a 5 GB Node heap. A local build on current main with that setting passes, and the PR records the failed run, measured typecheck evidence, changed-file checks, the release workflow test and a Done-when evidence table without claiming a GitHub badge as its gate.
 
 **Files.** .github/workflows/release.yml, docs/release/changes/release-candidate-typecheck-heap.md
 
