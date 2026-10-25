@@ -1,60 +1,60 @@
 {
   "generatedBy": "scripts/outcome-web/effect-matrix.ts",
   "summary": {
-    "links": 221,
-    "lawLinks": 118,
-    "webCoverageWired": 118,
+    "links": 232,
+    "lawLinks": 128,
+    "webCoverageWired": 120,
     "allEightPoints": 0,
-    "reachesOrCarried": 125,
-    "namedInAStopgap": 103,
+    "reachesOrCarried": 132,
+    "namedInAStopgap": 107,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 125,
+    "reachesTheWorld": 132,
     "withAnyModerator": 22,
     "byPoint": {
       "cause": {
-        "pass": 149,
+        "pass": 159,
         "partial": 18,
-        "fail": 54,
+        "fail": 55,
         "n/a": 0
       },
       "size": {
-        "pass": 158,
+        "pass": 167,
         "partial": 15,
-        "fail": 48,
+        "fail": 50,
         "n/a": 0
       },
       "reaches": {
-        "pass": 125,
+        "pass": 132,
         "partial": 0,
-        "fail": 96,
+        "fail": 100,
         "n/a": 0
       },
       "varied": {
         "pass": 15,
         "partial": 7,
-        "fail": 199,
+        "fail": 210,
         "n/a": 0
       },
       "knockOn": {
         "pass": 12,
-        "partial": 35,
+        "partial": 42,
         "fail": 0,
-        "n/a": 174
+        "n/a": 178
       },
       "timing": {
         "pass": 2,
-        "partial": 219,
+        "partial": 230,
         "fail": 0,
         "n/a": 0
       },
       "knowing": {
         "pass": 7,
         "partial": 2,
-        "fail": 212,
+        "fail": 223,
         "n/a": 0
       },
       "oneRule": {
-        "pass": 220,
+        "pass": 231,
         "partial": 1,
         "fail": 0,
         "n/a": 0
@@ -708,7 +708,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1601"
+          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1603"
         },
         "varied": {
           "status": "fail",
@@ -802,7 +802,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1611"
+          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1613"
         },
         "varied": {
           "status": "fail",
@@ -1020,7 +1020,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-premature-births"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "birth-year-pollution-to-adult-earnings",
@@ -1119,7 +1119,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-low-birthweight"
+      "stopgap": "SG-EW-HEALTH-condition-record"
     },
     {
       "key": "heat-to-deaths",
@@ -1169,7 +1169,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-heat-deaths"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "carbon-monoxide-to-absence",
@@ -1512,7 +1512,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-catastrophic-medical-bills"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "coverage-to-medical-debt",
@@ -1610,7 +1610,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-depression"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "coverage-to-blood-pressure",
@@ -1660,7 +1660,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-blood-pressure"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "coverage-to-mortality-55-64",
@@ -1855,7 +1855,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-death-risk"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "recession-to-total-mortality",
@@ -1904,7 +1904,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-mortality-all"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "long-hours-to-heart-and-stroke",
@@ -1954,7 +1954,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-stroke-and-heart-deaths"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "eitc-to-low-birthweight",
@@ -2003,7 +2003,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-low-birthweight"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "child-food-stamps-to-adult-health",
@@ -2053,7 +2053,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-adult-metabolic-syndrome"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "child-benefit-to-child-poverty",
@@ -2208,7 +2208,7 @@
       "to": "labor.low-wage-jobs",
       "causeKind": "gov",
       "lawLink": false,
-      "webCoverage": "waiting",
+      "webCoverage": "wired",
       "points": {
         "cause": {
           "status": "pass",
@@ -2220,7 +2220,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2297, src/core2/modules/jobs.ts:2306, src/core2/modules/jobs.ts:2335, src/core2/modules/jobs.ts:2337, src/core2/modules/jobs.ts:2357, src/core2/modules/jobs.ts:2359"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2429, src/core2/modules/jobs.ts:2438, src/core2/modules/jobs.ts:2467, src/core2/modules/jobs.ts:2469, src/core2/modules/jobs.ts:2489, src/core2/modules/jobs.ts:2491"
         },
         "varied": {
           "status": "fail",
@@ -3292,7 +3292,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-mortality-all"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "new-apartments-to-nearby-rent",
@@ -3304,7 +3304,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.new-large-buildings, which src/core2/housing-construction.ts:268 reads into its own records"
+          "evidence": "web ledger housing.new-large-buildings, which src/core2/housing-construction.ts:269 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3360,7 +3360,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-construction.ts:273"
+          "evidence": "src/core2/housing-construction.ts:274"
         },
         "varied": {
           "status": "fail",
@@ -3578,7 +3578,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-hospital-visits"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "home-prices-to-owner-births",
@@ -3837,7 +3837,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2295, src/core2/modules/jobs.ts:2304"
+          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2427, src/core2/modules/jobs.ts:2436"
         },
         "varied": {
           "status": "pass",
@@ -3934,7 +3934,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1551"
+          "evidence": "src/core2/modules/jobs.ts:1564"
         },
         "varied": {
           "status": "pass",
@@ -4561,7 +4561,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2294, src/core2/modules/jobs.ts:2303"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2426, src/core2/modules/jobs.ts:2435"
         },
         "varied": {
           "status": "fail",
@@ -5767,7 +5767,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-construction.ts:268"
+          "evidence": "src/core2/housing-construction.ts:269"
         },
         "varied": {
           "status": "fail",
@@ -5936,7 +5936,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-health-youth-cannabis-use"
+      "stopgap": "SG-EW-HEALTH-condition-record"
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
@@ -6004,7 +6004,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2294, src/core2/modules/jobs.ts:2303"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2426, src/core2/modules/jobs.ts:2435"
         },
         "varied": {
           "status": "fail",
@@ -6432,7 +6432,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2297, src/core2/modules/jobs.ts:2306, src/core2/modules/jobs.ts:2335, src/core2/modules/jobs.ts:2337, src/core2/modules/jobs.ts:2357, src/core2/modules/jobs.ts:2359"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2429, src/core2/modules/jobs.ts:2438, src/core2/modules/jobs.ts:2467, src/core2/modules/jobs.ts:2469, src/core2/modules/jobs.ts:2489, src/core2/modules/jobs.ts:2491"
         },
         "varied": {
           "status": "fail",
@@ -6717,7 +6717,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2296, src/core2/modules/jobs.ts:2305, src/core2/modules/jobs.ts:2325"
+          "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2428, src/core2/modules/jobs.ts:2437, src/core2/modules/jobs.ts:2457"
         },
         "varied": {
           "status": "pass",
@@ -6791,7 +6791,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-health-drug-out-of-pocket"
+      "stopgap": "SG-EW-HEALTH-condition-record"
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",
@@ -9419,7 +9419,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1552"
+          "evidence": "src/core2/modules/jobs.ts:1565"
         },
         "varied": {
           "status": "pass",
@@ -9586,7 +9586,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-health-child-asthma-pct"
+      "stopgap": "SG-EW-HEALTH-condition-record"
     },
     {
       "key": "tuition-freeze-to-college-completion",
@@ -10035,7 +10035,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1552"
+          "evidence": "src/core2/modules/jobs.ts:1565"
         },
         "varied": {
           "status": "fail",
@@ -10324,7 +10324,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1552"
+          "evidence": "src/core2/modules/jobs.ts:1565"
         },
         "varied": {
           "status": "fail",
@@ -10650,7 +10650,7 @@
       "to": "parks.access-to-exercise",
       "causeKind": "gov",
       "lawLink": false,
-      "webCoverage": "waiting",
+      "webCoverage": "wired",
       "points": {
         "cause": {
           "status": "pass",
@@ -10691,6 +10691,537 @@
       },
       "wiredPoints": 4,
       "stopgap": "SG-WEB-unread-parks-access-to-exercise"
+    },
+    {
+      "key": "social-security-tax-to-unemployment",
+      "from": "law:social-security-tax",
+      "to": "labor.unemployment-pct",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "pass",
+          "evidence": "data/research/outcome-web/links.json:5883 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+        },
+        "reaches": {
+          "status": "fail",
+          "evidence": "world-metrics months.unemploymentRate",
+          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "partial",
+          "evidence": "feeds unemployment-to-burglary, unemployment-to-vandalism, unemployment-to-robbery, unemployment-to-assault, recession-to-total-mortality, unemployment-to-poverty, unemployment-to-births, unemployment-to-uninsured through the web ledger",
+          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:5883 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads labor.unemployment-pct"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+    },
+    {
+      "key": "medicare-tax-to-unemployment",
+      "from": "law:medicare-tax",
+      "to": "labor.unemployment-pct",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "pass",
+          "evidence": "data/research/outcome-web/links.json:5905 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+        },
+        "reaches": {
+          "status": "fail",
+          "evidence": "world-metrics months.unemploymentRate",
+          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "partial",
+          "evidence": "feeds unemployment-to-burglary, unemployment-to-vandalism, unemployment-to-robbery, unemployment-to-assault, recession-to-total-mortality, unemployment-to-poverty, unemployment-to-births, unemployment-to-uninsured through the web ledger",
+          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:5905 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads labor.unemployment-pct"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+    },
+    {
+      "key": "federal-unemployment-tax-to-unemployment",
+      "from": "law:federal-unemployment-tax",
+      "to": "labor.unemployment-pct",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "pass",
+          "evidence": "data/research/outcome-web/links.json:5927 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+        },
+        "reaches": {
+          "status": "fail",
+          "evidence": "world-metrics months.unemploymentRate",
+          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "partial",
+          "evidence": "feeds unemployment-to-burglary, unemployment-to-vandalism, unemployment-to-robbery, unemployment-to-assault, recession-to-total-mortality, unemployment-to-poverty, unemployment-to-births, unemployment-to-uninsured through the web ledger",
+          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:5927 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads labor.unemployment-pct"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+    },
+    {
+      "key": "state-unemployment-tax-to-unemployment",
+      "from": "law:state-unemployment-tax",
+      "to": "labor.unemployment-pct",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "pass",
+          "evidence": "data/research/outcome-web/links.json:5949 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+        },
+        "reaches": {
+          "status": "fail",
+          "evidence": "world-metrics months.unemploymentRate",
+          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "partial",
+          "evidence": "feeds unemployment-to-burglary, unemployment-to-vandalism, unemployment-to-robbery, unemployment-to-assault, recession-to-total-mortality, unemployment-to-poverty, unemployment-to-births, unemployment-to-uninsured through the web ledger",
+          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:5949 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads labor.unemployment-pct"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+    },
+    {
+      "key": "unemployment-insurance-to-poverty",
+      "from": "law:unemployment-insurance",
+      "to": "household.poverty-pct",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "pass",
+          "evidence": "data/research/outcome-web/links.json:5971 size -0.007, range [-0.0121, -0.0047], U.S. Census Bureau, Poverty in the United States: 2023 (P60-283), Tables B-6 and B-7"
+        },
+        "reaches": {
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "partial",
+          "evidence": "feeds poverty-to-math-proficiency through the web ledger",
+          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:5971 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads household.poverty-pct"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 4,
+      "stopgap": null
+    },
+    {
+      "key": "unemployment-weekly-maximum-to-poverty",
+      "from": "law:unemployment-weekly-maximum",
+      "to": "household.poverty-pct",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "fail",
+          "evidence": "data/research/outcome-web/links.json:5994",
+          "why": "no size: the link's research has not been sized"
+        },
+        "reaches": {
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "partial",
+          "evidence": "feeds poverty-to-math-proficiency through the web ledger",
+          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:5994 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads household.poverty-pct"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 3,
+      "stopgap": null
+    },
+    {
+      "key": "revolving-door-ban-to-ex-legislator-lobbyists",
+      "from": "law:us-policy-positions:government-operations.ban-lobbying-after-office",
+      "to": "politics.ex-legislator-lobbyists",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "pass",
+          "evidence": "data/research/outcome-web/links.json:6017 size 0, range [-0.05, 0.05], Strickland 2020, The Declining Value of Revolving-Door Lobbyists: Evidence from the American States, American Journal of Political Science 64(1):67-81 (doi 10.1111/ajps.12485); abstract read at https://ideas.repec.org/a/wly/amposc/v64y2020i1p67-81.html"
+        },
+        "reaches": {
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: src/core2/modules/interest-groups.ts passes over a former officeholder the ban still bars (lobbyingBarredUntil, src/core2/law-reach/group-a-voting.ts) when it chooses a group's lobbyist"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "n/a",
+          "evidence": "no link starts from politics.ex-legislator-lobbyists"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:6017 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads politics.ex-legislator-lobbyists"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 5,
+      "stopgap": null
+    },
+    {
+      "key": "revolving-door-ban-to-candidate-entry",
+      "from": "law:us-policy-positions:government-operations.ban-lobbying-after-office",
+      "to": "elections.new-candidate-entry",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "pass",
+          "evidence": "data/research/outcome-web/links.json:6040 size -0.182, range [-0.25, -0.11], Fisman, Leder-Luis, O'Donnell and Vannutelli 2025, Revolving Door Laws and Political Selection, NBER Working Paper 33626 (https://www.nber.org/system/files/working_papers/w33626/w33626.pdf), abstract and section V; state legislative candidates 1968 to 2022, staggered adoption"
+        },
+        "reaches": {
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: src/core2/modules/candidacy.ts weighs the law when a would-be newcomer, named or counted, decides whether to run for a legislative seat (afterOffice, read through revolvingDoorFor in src/core2/law-reach/group-a-voting.ts; candidacyRevolvingDoorWeight is calibrated to the paper's 18.2% fewer entrants)"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "n/a",
+          "evidence": "no link starts from elections.new-candidate-entry"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:6040 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads elections.new-candidate-entry"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 5,
+      "stopgap": null
+    },
+    {
+      "key": "public-jobs-to-private-employment",
+      "from": "budget.administration-added-pct",
+      "to": "labor.unemployment-pct",
+      "causeKind": "missing",
+      "lawLink": false,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "fail",
+          "evidence": "data/research/outcome-web/links.json:6062",
+          "why": "no measure: nothing in the core records budget.administration-added-pct"
+        },
+        "size": {
+          "status": "pass",
+          "evidence": "data/research/outcome-web/links.json:6062 size 0, range [-0.05, 0.05], Faggio and Overman 2014, The effect of public sector employment on local labour markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/"
+        },
+        "reaches": {
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: src/core2/modules/jobs.ts fills the openings the line funds (postFundedOpenings, posted by src/core2/law-reach/group-a-staffing.ts) from named and counted seekers, and the unemployment measure counts each hire"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "partial",
+          "evidence": "feeds unemployment-to-burglary, unemployment-to-vandalism, unemployment-to-robbery, unemployment-to-assault, recession-to-total-mortality, unemployment-to-poverty, unemployment-to-births, unemployment-to-uninsured through the web ledger",
+          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:6062 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads labor.unemployment-pct"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 3,
+      "stopgap": null
+    },
+    {
+      "key": "home-rule-to-local-spending",
+      "from": "law:us-policy-positions:government-operations.broaden-local-authority",
+      "to": "gov.local-spending-mix",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "fail",
+          "evidence": "data/research/outcome-web/links.json:6085",
+          "why": "no size: the link's research has not been sized"
+        },
+        "reaches": {
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: src/core2/policy-authority.ts lets a town or county body legislate on what the state leaves to home rule, read by src/core2/modules/legislature.ts when a bill is drafted; the bills it passes set the ordinances and spending"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "n/a",
+          "evidence": "no link starts from gov.local-spending-mix"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:6085 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads gov.local-spending-mix"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 4,
+      "stopgap": null
+    },
+    {
+      "key": "public-pay-floor-to-other-employers-wages",
+      "from": "law:public-pay-floor",
+      "to": "labor.wages",
+      "causeKind": "law",
+      "lawLink": true,
+      "webCoverage": "waiting",
+      "points": {
+        "cause": {
+          "status": "pass",
+          "evidence": "src/core2/modules/outcome-web.ts lawValue (laws module rows in force, lagged)"
+        },
+        "size": {
+          "status": "pass",
+          "evidence": "data/research/outcome-web/links.json:6106 size 0, range [-0.05, 0.05], Derenoncourt and Weil 2024, Voluntary Minimum Wages, NBER Working Paper 32546 (doi 10.3386/w32546), abstract; full text read at https://gceps.princeton.edu/wp-content/uploads/2024/06/wp333_Derenoncourt_VolMinWages.pdf (payroll data for thousands of firms, 2014 to 2023)"
+        },
+        "reaches": {
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay"
+        },
+        "varied": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "no moderator: every place and person moves by the same proportion"
+        },
+        "knockOn": {
+          "status": "n/a",
+          "evidence": "no link starts from labor.wages"
+        },
+        "timing": {
+          "status": "partial",
+          "evidence": "data/research/outcome-web/links.json:6106 lag 0 months",
+          "why": "a single step after the lag: no researched phase-in or fade"
+        },
+        "knowing": {
+          "status": "fail",
+          "evidence": "-",
+          "why": "nobody notices: no view, news or electorate input reads labor.wages"
+        },
+        "oneRule": {
+          "status": "pass",
+          "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
+        }
+      },
+      "wiredPoints": 5,
+      "stopgap": null
     }
   ],
   "measures": [
@@ -10739,6 +11270,15 @@
         "broadband-to-married-women-work"
       ],
       "asOutcome": ["public-broadband-to-home-access"]
+    },
+    {
+      "measure": "budget.administration-added-pct",
+      "status": "missing",
+      "evidence": "-",
+      "why": "no measure: no engine records it and the web does not keep it",
+      "countedTwice": false,
+      "asCause": ["public-jobs-to-private-employment"],
+      "asOutcome": []
     },
     {
       "measure": "budget.parks-added-pct",
@@ -10980,6 +11520,15 @@
       ]
     },
     {
+      "measure": "elections.new-candidate-entry",
+      "status": "missing",
+      "evidence": "-",
+      "why": "no measure: no engine records it and the web does not keep it",
+      "countedTwice": false,
+      "asCause": [],
+      "asOutcome": ["revolving-door-ban-to-candidate-entry"]
+    },
+    {
       "measure": "energy.electricity-price",
       "status": "engine-reads-web",
       "evidence": "src/core2/modules/place-prices.ts:880, src/core2/modules/place-prices.ts:945",
@@ -11207,6 +11756,15 @@
       "countedTwice": false,
       "asCause": ["exposed-corruption-to-reelection"],
       "asOutcome": []
+    },
+    {
+      "measure": "gov.local-spending-mix",
+      "status": "missing",
+      "evidence": "-",
+      "why": "no measure: no engine records it and the web does not keep it",
+      "countedTwice": false,
+      "asCause": [],
+      "asOutcome": ["home-rule-to-local-spending"]
     },
     {
       "measure": "gov.nondisaster-transfers",
@@ -11445,7 +12003,7 @@
     {
       "measure": "health.youth-firearm-deaths",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1601",
+      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1603",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["child-access-law-to-youth-gun-deaths"]
@@ -11453,7 +12011,7 @@
     {
       "measure": "health.youth-firearm-suicide",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1611",
+      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1613",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["min-age-to-youth-gun-suicide"]
@@ -11508,7 +12066,9 @@
         "retirement-age-to-poverty",
         "top-income-tax-rate-to-poverty",
         "student-loan-forgiveness-to-poverty",
-        "city-anti-discrimination-to-poverty"
+        "city-anti-discrimination-to-poverty",
+        "unemployment-insurance-to-poverty",
+        "unemployment-weekly-maximum-to-poverty"
       ]
     },
     {
@@ -11588,7 +12148,7 @@
     {
       "measure": "housing.new-large-buildings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-construction.ts:268",
+      "evidence": "src/core2/housing-construction.ts:269",
       "countedTwice": false,
       "asCause": ["new-apartments-to-nearby-rent"],
       "asOutcome": ["housing-by-right-to-new-buildings"]
@@ -11620,7 +12180,7 @@
     {
       "measure": "housing.rental-supply",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-construction.ts:273",
+      "evidence": "src/core2/housing-construction.ts:274",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["rent-control-to-rental-supply"]
@@ -11775,7 +12335,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2297, src/core2/modules/jobs.ts:2306, src/core2/modules/jobs.ts:2335, src/core2/modules/jobs.ts:2337, src/core2/modules/jobs.ts:2357, src/core2/modules/jobs.ts:2359",
+      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2429, src/core2/modules/jobs.ts:2438, src/core2/modules/jobs.ts:2467, src/core2/modules/jobs.ts:2469, src/core2/modules/jobs.ts:2489, src/core2/modules/jobs.ts:2491",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11786,7 +12346,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2295, src/core2/modules/jobs.ts:2304",
+      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2427, src/core2/modules/jobs.ts:2436",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -11794,7 +12354,7 @@
     {
       "measure": "labor.median-earnings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1552",
+      "evidence": "src/core2/modules/jobs.ts:1565",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11830,7 +12390,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2294, src/core2/modules/jobs.ts:2303",
+      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2426, src/core2/modules/jobs.ts:2435",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11841,7 +12401,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2296, src/core2/modules/jobs.ts:2305, src/core2/modules/jobs.ts:2325",
+      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2428, src/core2/modules/jobs.ts:2437, src/core2/modules/jobs.ts:2457",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -11879,7 +12439,14 @@
         "unemployment-to-births",
         "unemployment-to-uninsured"
       ],
-      "asOutcome": ["transit-loss-to-unemployment"]
+      "asOutcome": [
+        "transit-loss-to-unemployment",
+        "social-security-tax-to-unemployment",
+        "medicare-tax-to-unemployment",
+        "federal-unemployment-tax-to-unemployment",
+        "state-unemployment-tax-to-unemployment",
+        "public-jobs-to-private-employment"
+      ]
     },
     {
       "measure": "labor.us-born-employment",
@@ -11893,10 +12460,13 @@
     {
       "measure": "labor.wages",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1551",
+      "evidence": "src/core2/modules/jobs.ts:1564",
       "countedTwice": false,
       "asCause": [],
-      "asOutcome": ["corporate-tax-incidence"]
+      "asOutcome": [
+        "corporate-tax-incidence",
+        "public-pay-floor-to-other-employers-wages"
+      ]
     },
     {
       "measure": "labor.workforce",
@@ -11994,6 +12564,15 @@
         "police-to-low-level-arrests"
       ],
       "asOutcome": []
+    },
+    {
+      "measure": "politics.ex-legislator-lobbyists",
+      "status": "missing",
+      "evidence": "-",
+      "why": "no measure: no engine records it and the web does not keep it",
+      "countedTwice": false,
+      "asCause": [],
+      "asOutcome": ["revolving-door-ban-to-ex-legislator-lobbyists"]
     },
     {
       "measure": "population.out-migration",

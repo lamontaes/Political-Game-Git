@@ -4626,6 +4626,32 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "grudgeConfrontRecencyWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "How strongly having just confronted the person a grudge is held against weighs against confronting them again (a reason in the chooser, fading at grudgeConfrontRecencyDays). Without it a laid-off holder, whose stress and unmet safety the act answers, confronted the same person several times a day for months (179 confrontations on 179 days for one grudge in Rockport, Texas, seed cbf9ae5a6ee7, where a confrontation's other reasons summed to about 3.2). Checked so a grudge leads to an occasional confrontation, not a daily one, in a played year.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures confrontation spacing on the chooser's utility scale."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "grudgeConfrontRecencyDays": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "Days over which the weight of a recent confrontation against another fades by a factor of e (about two-thirds gone after two months).",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how long people wait before confronting the same person again."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
   "responseCarryOnFit": {
     "value": 1,
     "tag": "TUNABLE",
@@ -4647,6 +4673,21 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No instrument-matched bound links trait-act lean to response choice after life events."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseBereavementFitScale": {
+    "value": 2.1,
+    "tag": "TUNABLE",
+    "citation": "How much harder a death in the family pushes toward a lasting drive than the responses' own fits say: a multiple of the cause, guard and calling fits in the two bereavement rules only. Cause-sharing and speeches keep the fits as they are, because doubling them for every event would raise the causes people take up from hearing of one from 7% to 39% (replay of recorded played-year responses). Calibrated Oct 24 (traits lead) to the share of the bereaved who carry on: 65.7% resilient after a potential trauma, 95% interval 61.6 to 69.8 (Galatzer-Levy, Huang and Bonanno 2018, data/research/people/trauma-trajectories-2018.json; the spousal-loss cohort alone was 45.9%, Bonanno and others 2002, data/research/people/bonanno-bereavement-patterns-2002.json). Measured: 1,000 bereaved adults with generated temperaments (src/core2/drives.test.ts, seed p10-drives-bands) 64.1% carry on; played years at this value, 41 drawn places, 636 of 950 bereaved adults (family and household of the person who died, 16 and older) carried on, 66.9% (95% interval 63.9 to 69.9). At 2.0 the played share read 69.9% and at 2.05 71.3% in earlier pooled batches, hence 2.1.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "low": 2.0,
+      "high": 2.15,
+      "unit": "scale",
+      "citation": "In the fixture a scale of 1.9 gives 70.9% and 2.2 gives 60.1% of the bereaved carrying on against the 61.6 to 69.8% band; replaying 341 recorded bereaved responses from played years, the share stays inside the band from about 2.0 to 2.25."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4744,13 +4785,15 @@
     }
   },
   "responseGrudgeFit": {
-    "value": 0.8,
+    "value": 1.7,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How strongly a perceived wrong pushes toward holding a grudge against the person responsible, before traits lean the person. Calibrated Oct 24 (traits lead) so the share of laid-off workers who hold a grudge sits inside the share of fired workers who act on one: 1.7 to 14.9% filed a claim, between those given a complete explanation or treated with dignity and those given none or treated without (Greenberg, Lind, Scott and Welchans 1998, data/research/people/termination-claims-1998.json; the share who hold a grudge is not published and a claim is the costly end of one), and under the 69% of the fired who call their firing unfair (NELP and YouGov 2022, data/research/people/nelp-yougov-firings-2022.json). The prototype value 0.8 gave 0.2% of laid-off adults a grudge, so none was ever held and relationships.fall-out never ran. Measured: 1,000 laid-off adults with generated temperaments (src/core2/drives.test.ts, seed p10-drives-bands) 12.0%; played years at this value, 14 drawn places, 38 of 403 layoff and closure responses held a grudge, 9.4% (95% interval 6.9 to 12.7).",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+      "low": 1.3,
+      "high": 1.8,
+      "unit": "fit",
+      "citation": "In the same fixture a fit of 1.3 gives 4.4% and 1.8 gives 14.6% of laid-off adults a grudge; replaying 377 recorded layoff responses from played years, 1.3 gives 2.7% and 1.9 gives 14.9%: inside 1.7 to 14.9% from about 1.3 to 1.8."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -5549,14 +5592,14 @@
     }
   },
   "traitWeightCandidacyRun": {
-    "value": 0.91,
+    "value": 0.2,
     "tag": "ESTIMATED",
-    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range: target odds ratio 1.21 between thirds. The chooser's trait term is the only place personality enters (the separate temperament reason was removed). Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.21.",
+    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range: target odds ratio 1.21 between thirds. The chooser's trait term is the only place personality enters. Only newcomers weigh running: a serving incumbent weighs standing again (voting.stand-again). Running is rare among newcomers, so at the real share the few who run are those temperament tips over the line; the study's outcome (ever having run for office) has a base rate of a few percent, so the odds are read with every reason total moved so one in twenty would run. Fitted on 14,430 newcomers' decisions in the election-window years of four places drawn from all 56 (seeds e6cc8ea3d8b7, a3367c5b3f9c, fc53ee5340e9 and fd6b432aad56, scripts/traits/trait-wiring-audit.ts with TRAIT_AUDIT_ELECTION=1): the places fit alone at 0.15 to 0.22 and pooled at 0.23; 0.2 reaches 1.21 to 1.35 in them. Before incumbents left this choice it was fitted at 0.91 with their nearly certain yes in the sample.",
     "spread": {
-      "low": 0.45,
-      "high": 1.4,
+      "low": 0.11,
+      "high": 0.23,
       "unit": "weight",
-      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
+      "citation": "The places' own fits at a one-in-twenty share, with Secretary, Maryland and Halaula, Hawaii (from the campaigns trait test at 0.91) at 0.12 and 0.11."
     }
   },
   "traitWeightSpeechRetell": {
