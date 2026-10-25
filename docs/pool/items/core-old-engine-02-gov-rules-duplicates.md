@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Audit section A: "Names and identity: already copied to src/core2/gov-rules; only the imports in town-households.ts and src/bench/creator.ts still point at the old copies (#5031)." The pool items `people-port-names` and `core-old-imports-14` were marked done without removing these imports. Parent: core-delete-old-engine.
 
 Sent back 2026-10-24 from PR #5921 (branch claude/old-engine-02-gov-rules): its explicit carried-stack prerequisite #5031 remains open and unmerged; the body also has no completed golden-path pass, so no local green gate is claimed; finish on that branch, merge main into it first after #5031 merges.
+
+Fixer handed PR 5921 back Oct 24, 2026: its src/simulation lines come from the stacked parent #5031 (core-old-imports-town-households), which waits on the CTO call about the cohort selector; it stays blocked on that.
