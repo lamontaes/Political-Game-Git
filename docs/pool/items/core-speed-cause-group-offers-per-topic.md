@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-cause-group-offers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T12:32:27.608Z
 ---
 
 **What.** In Opelika, Alabama (key 0157048, seed op1) on main 01f5cd4715, the ninth played month takes 57.8 s, and the drives engine's offer of known cause groups (the known-cause-group provider in src/core2/modules/drives.ts) takes 6.03 s of it, 4.63 s in groupKnown. For each drive a person holds it copies and sorts the topic's group set and checks every group's knowledge fact and membership again, so a person holding several drives on one topic checks the same groups several times a day. Work each topic's reachable groups out once per call, in the same order, and give each drive the same offers.
