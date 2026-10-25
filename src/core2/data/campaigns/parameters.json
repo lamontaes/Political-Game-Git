@@ -925,6 +925,12 @@
       "source": "How far a candidate's sociability moves their event share, and their deliberation their poll share (each trait -1 to 1).",
       "spread": [0.2, 1]
     },
+    "pollSampleSize": {
+      "value": 50,
+      "tag": "TUNABLE",
+      "source": "The interviews the player's own poll asks for from the Campaigns screen: a small first look a new local campaign can pay for, under the 200 a commissioned local poll usually runs (pollMinimumInterviews). Checked against the cash a first-month local campaign raises.",
+      "spread": [30, 200]
+    },
     "pollMinimumInterviews": {
       "value": 200,
       "tag": "ESTIMATED",

@@ -171,16 +171,16 @@
       }
     },
     {
-      "key": "campaign-standing.opponents.you-are-running-against-opponents",
-      "move": "opponents",
+      "key": "campaign-standing.opponent-one.you-are-running-against-opponents",
+      "move": "opponent-one",
       "kind": "written",
       "text": "You are running against {opponents}.",
       "uses": [
         {
-          "move": "opponents",
+          "move": "opponent-one",
           "subject": "campaign",
           "role": "standing",
-          "choice": "opponents"
+          "choice": "opponent-one"
         }
       ],
       "shippable": true,
@@ -189,7 +189,29 @@
       "date": "2026-10-25",
       "tag": {
         "move": "deliver-news",
-        "key": "opponents"
+        "key": "opponent-one"
+      }
+    },
+    {
+      "key": "campaign-standing.opponent-one.your-opponent-is-opponents",
+      "move": "opponent-one",
+      "kind": "written",
+      "text": "Your opponent is {opponents}.",
+      "uses": [
+        {
+          "move": "opponent-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-one"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-one"
       }
     },
     {

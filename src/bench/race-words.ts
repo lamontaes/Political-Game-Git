@@ -1,6 +1,9 @@
-// How the Campaigns screen says where a race stands: sentences from the
-// English engine's campaign-standing bank, filled from the campaign's records.
+// How the Campaigns screen says where a race stands: the English engine
+// words each move from the campaign-standing bank, its facts filled from the
+// campaign's records and each fact citing the record it came from.
 import standing from "../../data/english/parts/campaign-standing.json" with { type: "json" };
+import { renderLine, type Fact, type Variant } from "../english/bank-line";
+import { heldByGrades } from "../english/english-grades";
 
 interface StandingPart {
   key: string;
@@ -8,6 +11,19 @@ interface StandingPart {
   text: string;
   shippable: boolean;
 }
+
+const PARTS = standing.parts as StandingPart[];
+const VERSION = `campaign-standing:${PARTS.length}`;
+
+/** The bank's shippable, ungraded-down parts for a move, as engine variants. */
+const variantsOf = (move: string): Variant[] =>
+  PARTS.filter(
+    (part) => part.move === move && part.shippable && !heldByGrades(part.key),
+  ).map((part) => ({
+    key: part.key,
+    pieceKey: part.key,
+    text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
+  }));
 
 /** "Ann, Bo and Cy": a list of names the way people say it. */
 export function nameList(names: readonly string[]): string {
@@ -23,25 +39,43 @@ export const dollarsOf = (minor: number): string =>
     maximumFractionDigits: minor % 100 === 0 ? 0 : 2,
   });
 
-const hash = (text: string): number =>
-  [...text].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+/** A record's date as people write it: "March 3, 2026". */
+export const dateWords = (iso: string): string =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 
 /**
- * One sentence of the bank for a move, its slots filled from the records. The
- * wording is picked by a stable hash of the record it speaks of, so the same
- * race always reads the same.
+ * One sentence for a move, said to the player, from the engine's stable pick
+ * among the bank's wordings; every slot is a fact citing its record.
  */
 export function standingLine(
+  seed: string,
+  playerId: string,
   move: string,
   recordId: string,
   slots: Readonly<Record<string, string | number>>,
 ): string {
-  const parts = (standing.parts as StandingPart[])
-    .filter((part) => part.move === move && part.shippable)
-    .sort((a, b) => a.key.localeCompare(b.key));
-  const part = parts[hash(`${recordId}|${move}`) % Math.max(1, parts.length)];
-  if (!part) return "";
-  return part.text.replace(/\{(\w+)\}/g, (_, slot: string) =>
-    String(slots[slot] ?? ""),
+  const facts: Record<string, Fact> = Object.fromEntries(
+    Object.entries(slots).map(([slot, value]) => [
+      slot,
+      { text: String(value), sourceRecordIds: [recordId] },
+    ]),
+  );
+  return (
+    renderLine({
+      seed,
+      surface: "menu",
+      holderId: playerId,
+      bankKey: `campaign-standing:${move}`,
+      version: VERSION,
+      variants: variantsOf(move),
+      facts,
+      momentKey: `${recordId}|${move}`,
+      fallbackSourceId: recordId,
+    })?.text ?? ""
   );
 }

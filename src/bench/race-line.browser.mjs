@@ -164,7 +164,7 @@ try {
   );
   assert.match(
     text,
-    /\b(running against|opponents are) [A-Z][a-z]+ [A-Z][a-z]+/,
+    /\b(running against|opponents? (is|are)) [A-Z][a-z]+ [A-Z][a-z]+/,
     "nothing names the opponents",
   );
   assert.match(

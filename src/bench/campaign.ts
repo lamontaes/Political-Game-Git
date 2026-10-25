@@ -39,11 +39,11 @@ import {
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-views";
 import { backdropFile, stagePeople } from "./scene";
-import { dollarsOf, nameList, standingLine } from "./race-words";
+import { dateWords, dollarsOf, nameList, standingLine } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
-const POLL_SAMPLE = 50;
+const POLL_SAMPLE = campaignParameter("pollSampleSize");
 
 const ELECTIONS = "core2-elections-v1";
 const CAMPAIGNS = "core2-campaigns-v1";
@@ -201,51 +201,55 @@ function raceStanding(
   const others = causes.filter((who) => !who.you);
   const id = filing.id;
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
-  const nameOf = (candidateId: string) =>
-    causes.find((who) => who.candidateId === candidateId)?.name ??
-    (candidateId === "undecided"
-      ? "undecided"
-      : candidateId === "no-opinion"
-        ? "no opinion"
-        : candidateId);
+  const line = (
+    move: string,
+    recordId: string,
+    slots: Readonly<Record<string, string | number>>,
+  ) => standingLine(core.seed, filing.personId, move, recordId, slots);
   return [
     mine && mine.reached > 0
-      ? standingLine("reached", id, { reached: mine.reached })
-      : standingLine("reached-none", id, {}),
+      ? line("reached", id, { reached: mine.reached })
+      : line("reached-none", id, {}),
     ...(mine && mine.reached > 0
       ? [
-          standingLine("moved", id, {
+          line("moved", id, {
             warmer: mine.warmer,
             cooler: mine.cooler,
           }),
         ]
       : []),
     others.length
-      ? standingLine("opponents", id, {
+      ? line(others.length === 1 ? "opponent-one" : "opponents", id, {
           opponents: nameList(others.map((who) => who.name)),
         })
-      : standingLine("opponents-none", id, {}),
+      : line("opponents-none", id, {}),
     ...others
       .filter((who) => who.reached > 0)
       .map((who) =>
-        standingLine("opponent-reached", `${id}|${who.candidateId}`, {
+        line("opponent-reached", `${id}|${who.candidateId}`, {
           name: who.name,
           reached: who.reached,
         }),
       ),
     ...(lastPoll
       ? [
-          standingLine("poll-result", id, {
-            date: lastPoll.date,
+          line("poll-result", id, {
+            date: dateWords(lastPoll.date),
             contacted: lastPoll.contacted,
+            // The candidates' answers, by name; the bank has no words for
+            // the undecided yet, so they are left out of the tally.
             tally: Object.entries(lastPoll.answers)
+              .flatMap(([who, n]) => {
+                const name = causes.find((c) => c.candidateId === who)?.name;
+                return name ? [[name, n] as const] : [];
+              })
               .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-              .map(([who, n]) => `${nameOf(who)} ${n}`)
+              .map(([name, n]) => `${name} ${n}`)
               .join(", "),
           }),
         ]
       : []),
-    standingLine("poll-cost", id, {
+    line("poll-cost", id, {
       sample: POLL_SAMPLE,
       cost: dollarsOf(POLL_SAMPLE * perInterview),
     }),
