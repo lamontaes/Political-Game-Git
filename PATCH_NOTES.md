@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.26.1
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Desktop packaging has room to build the full word pack** The desktop package
+  build now gives its typecheck the same 5 GB Node heap as release validation.
+  With 4 GB it ran out of memory on macOS and Windows, so no desktop update
+  could be published.
+
 ## PRE-ALPHA 0.26.0
 
 _Released October 25, 2026._
