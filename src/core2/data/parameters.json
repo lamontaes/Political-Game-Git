@@ -5791,12 +5791,14 @@
     }
   },
   "traitWeightCampaignsEndorse": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.endorse decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2 (rows campaigns.endorse in data/research/trait-effect-sizes.json: openness and extraversion on having tried to convince people to vote for or against a candidate, a proxy for an endorsement), carried to the thirds as an odds ratio of 2.70. Fitted with scripts/traits/trait-calibrate.ts on played years (buildBenchWorld, every module, January 20, 2025 to January 20, 2026): Haledon, New Jersey (place key 3429070, seed fc8bf1311d0f) fits 0.2 on 1,053 calls and Kenvir, Kentucky (2142112, seed 32bb83941552) fits 0.1 on 62. At 0.15 Haledon's thirds reach 2.12, or 2.76 with every case crossed with every decider's lean; at the general weight of 1 they ran at 269.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "The two towns' own fits."
     }
   },
   "traitWeightCampaignsOpenDoor": {

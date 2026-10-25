@@ -114,9 +114,9 @@
       "fix": "Same as voting.turnout."
     },
     "estates.will": {
-      "class": "rare",
-      "why": "Runs when someone with an estate dies (src/core2/estates.ts:283).",
-      "fix": "None needed; rare by nature."
+      "class": "circumstances saturate the choice",
+      "why": "Runs when someone with an estate dies (src/core2/estates.ts, willOf): 5 and 1 times in the two played years. Weighed for every adult 55 or older in Haledon, New Jersey as if at death, the age term puts all 858 over the line with temperament off, against the study's 37.4% (Ryser et al. 2026, Swiss adults 55+), so no weight can reach the study's odds of 1.42.",
+      "fix": "A will-making rate by age from research for the age term, then the weight (people-estates-will-trust-rates)."
     },
     "office-day-state.clemency": {
       "class": "rare",
@@ -162,6 +162,21 @@
       "class": "circumstances tie",
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
+    },
+    "renewal.plan-child": {
+      "class": "circumstances saturate the choice",
+      "why": "A couple's case for planning a child (src/core2/births-plan.ts, birthCircumstances) sits 3.6 to 18.3 below waiting in nine of ten reviews (Haledon, New Jersey, seed fc8bf1311d0f, 384 reviews), while temperament spans about plus or minus 0.4, so at the general weight it turned none. scripts/traits/trait-calibrate.ts fits 7.05 there (odds 1.74 against the study's 1.93), but at that weight the share of reviews that plan a child rises from 1.8% to 2.6%, about 40% more births; in Kenvir, Kentucky (32bb83941552, 210 reviews) no weight reaches it.",
+      "fix": "Re-center the waiting side against the births rate, then set the weight (traits-plan-child-weight-recentered)."
+    },
+    "estates.trust": {
+      "class": "circumstances saturate the choice",
+      "why": "Runs at death (src/core2/estates.ts, trustOf): 14 and 13 times in the two played years. Weighed for the 832 adults 55 or older with savings in Haledon, New Jersey, the wealth term keeps 98% far below the line, and temperament turns none at any weight up to 1, against the study's odds of 1.34.",
+      "fix": "A trust-holding rate by wealth from research for the wealth term, then the weight (people-estates-will-trust-rates)."
+    },
+    "contracts.award": {
+      "class": "not a two-way choice",
+      "why": "Each member of a government's body ranks every bid by price against their tie to the firm's owner (src/core2/modules/contracts.ts), and temperament moves weight between the two: 1,450 and 1,740 calls in the two played years, with no yes or no for scripts/traits/trait-calibrate.ts to fit against Pletzer et al. 2020.",
+      "fix": "A ranking calibration: how often the most rule-bending third picks the known firm over the lowest bid against the least."
     }
   }
 }
