@@ -17,6 +17,7 @@ import conversationRules from "./data/conversation-rules.json" with { type: "jso
 import type { Director } from "./ledger";
 import type { Fact } from "./render";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import type { Moment } from "./types";
 import {
   composeSceneTalk,
   type PurposeType,
@@ -54,26 +55,54 @@ const TYPES = new Map(
 
 /**
  * The exchange for a scheduled moment whose situation type has a purpose, or
- * null when the moment has none. `includeHeld` is the grading view: it
- * composes from the lines held until the owner grades them, as the review
- * page does; play leaves it off, so a scene whose words are all held is
- * skipped with why.
+ * null when the moment has none. A moment may stage more than one such scene
+ * (the clerk takes a filing; the household hears of it that evening): the
+ * first the records can word is the one that plays, or the one `typeKey`
+ * names. `includeHeld` is the grading view: it composes from the lines held
+ * until the owner grades them, as the review page does; play leaves it off,
+ * so a scene whose words are all held is skipped with why.
  */
 export function purposeScene(
   core: Readonly<CoreState>,
   director: Director,
   personId: PersonId,
   entry: ScheduleEntry,
-  options: { includeHeld?: boolean } = {},
+  options: { includeHeld?: boolean; typeKey?: string } = {},
 ): PurposeSceneResult | null {
   const moment = director.ledger.people
     .get(personId)
     ?.momentsById.get(entry.momentId);
   if (!moment) return null;
-  const binding = entry.bindings.find(
-    (row) => (TYPES.get(row.typeKey) as PurposeType | undefined)?.purpose,
+  const bindings = entry.bindings.filter(
+    (row) =>
+      (TYPES.get(row.typeKey) as PurposeType | undefined)?.purpose &&
+      (!options.typeKey || row.typeKey === options.typeKey),
   );
-  if (!binding) return null;
+  let skipped: PurposeSceneResult | null = null;
+  for (const binding of bindings) {
+    const result = composeBinding(
+      core,
+      director,
+      personId,
+      moment,
+      binding,
+      options,
+    );
+    if (result.kind === "composed") return result;
+    skipped ??= result;
+  }
+  return skipped;
+}
+
+/** One purpose scene of a moment, worded from its records. */
+function composeBinding(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  moment: Moment,
+  binding: ScheduleEntry["bindings"][number],
+  options: { includeHeld?: boolean },
+): PurposeSceneResult {
   const type = TYPES.get(binding.typeKey) as PurposeType;
   const cast = (role: string | undefined) =>
     binding.roles.find((row) => row.role === role)?.personIds[P.zero];
