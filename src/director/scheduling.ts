@@ -442,11 +442,17 @@ function resolveSetting(
         ? { kind: "venue", recordId: seat.place.context.jurisdiction.id }
         : undefined;
     }
-    case "office":
-      // An officeholder's office is their post's employer on record.
+    case "office": {
+      // The office the cause record names (the executive's, for a bill on
+      // the desk); otherwise an officeholder's office is their post's
+      // employer on record.
+      const office = core.durableLog.get(moment.causeId)?.facts?.officeId;
+      if (typeof office === "string" && office)
+        return { kind, recordId: office };
       return job?.organizationId
         ? { kind, recordId: job.organizationId }
         : undefined;
+    }
     case "phone":
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
@@ -458,13 +464,6 @@ function resolveSetting(
       const chamber = core.durableLog.get(moment.causeId)?.facts?.chamber;
       return typeof chamber === "string" && chamber
         ? { kind, recordId: chamber }
-        : undefined;
-    }
-    case "office": {
-      // The office the cause record names (the executive's, for a bill on the desk).
-      const office = core.durableLog.get(moment.causeId)?.facts?.officeId;
-      return typeof office === "string" && office
-        ? { kind, recordId: office }
         : undefined;
     }
     default:
