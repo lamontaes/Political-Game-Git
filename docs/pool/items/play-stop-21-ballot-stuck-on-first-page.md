@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-21-ballot-stuck-on-first-page
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-24T20:17:19.177Z
 ---
 
 **What.** On election day, November 3, 2026, on the v0.22.10 release, pressing Day took me to a polling place with a ballot panel showing five races: Tax assessor-collector and four Commissioner races, two of which have no candidate. The ballot holds 25 races (county offices, three Council member races including mine, Mayor, statewide offices, the legislature, U.S. House and U.S. Senate), but the other 20 are paged out. Continue does nothing, before or after marking every race on the page, and sends nothing to the game; the mouse wheel and Page Down do nothing. The game recorded my ballot only for the five visible races. I expected Continue to show the next page and to vote for myself.

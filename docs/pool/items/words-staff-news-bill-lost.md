@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: in-pr
-claimed-by: words/staff-news-bill-lost
+status: open
+claimed-by:
 pr: #5965
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T17:25:06.641Z
+claimed-at:
 ---
 
 **What.** The staff-news scene, where an aide comes in and closes the door with bad news, waits on a press record that needs a bribe and a tip, so it never fires. A bill that loses its vote is the bad news most sponsors actually get, but the legislature writes nothing about the loss except the roll call, which doesn't say the bill failed or who sponsored it. This item has the legislature record a bill's failure (held in committee or voted down on the floor) for the sponsor, the director size it, and the staff-news scene fire from it with one of the sponsor's own aides as the one bringing the news. The talk names the bill from the record and uses lines about a lost vote, which outrank the lines about a news story exactly when the bill-lost fact is present.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T17:25:06.641Z
 **Files.** src/core2/modules/legislature.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json, src/director/staff-news-scene.test.ts
 
 **Notes.** Builds on the branch of words-office-hours-scene (#5955), which carries the staff cast fill from words-desk-bill-scene (#5953); the PR carries that chain until it merges.
+
+Sent back 2026-10-24 from PR #5965 (branch words/staff-news-bill-lost): head 7a1ef9044f explicitly carries parent feature #5955 and the #5953/#5949/#5914/#5942 stack; #5955 and #5953 checked live still open/unmerged, so await their reviewed main delivery, then finish on this branch, merge main into it first. No completed local scene gate or new runtime defect claimed.

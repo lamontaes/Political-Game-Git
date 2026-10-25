@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/traits-civic
-pr: #5657
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-24T16:12:41.027Z
+claimed-at:
 ---
 
 **What.** This is one bounded family of the trait wiring audit (`traits-wiring-audit`, reopened Oct 24). Every decision in the civic life and news family: voting turnout, telling news, meetings, parties, interest groups, press contact, believing a claim, persuasion and trust must run in a played year and weigh the person's traits at a size taken from research. A decision with no study keeps the owner's general weight of 1 only with a gap row that says why. Twins with traits flat or mirrored must show the decisions turning, at the rate the research gives, never at overwhelming odds.
@@ -24,3 +24,7 @@ claimed-at: 2026-10-24T16:12:41.027Z
 **Notes.** Split Oct 24 by the CTO from `traits-wiring-audit` (order `docs/work-orders/lead-traits-2026-10-24.md`). PR #5657 (branch claude/traits-civic) holds it and has conflicted with main since Oct 21. After #5745 merged, the Mondak-calibrated weights must be rescaled by each trait's own standard deviation (openness and emotional stability 1.1, extraversion 1.3) or recalibrated with `scripts/traits/trait-calibrate.ts`. A PR for this family names this item on line 1 (`Pool item: traits-wire-civic`) and `Lead: traits` in its body; a bare `traits-wiring-audit` on line 1 marked the audit done on merge, which is the auto-done bug.
 
 Sent back 2026-10-24 from PR #5657 (branch claude/traits-civic): family acceptance requires positive calls and rate evidence for every decision, but ballot-measures.vote and employer-join have zero calls in both years and seven decisions lack pick rates; complete that evidence or bound the delivered subset while retaining the family open; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #5657 (branch claude/traits-civic): corrected employer/ballot proof still leaves zero ballot calls in one audit year and overwhelming reported odds versus research targets; non-Words branch also edits director conversation reader; repair or bound acceptance and route director seam through Words; finish on that branch, merge main into it first.
+
+Oct 25 (traits lead): PR #5657's completed slice (believing a story, party meetings, joining a group and passing on news at their study sizes, with a gap row for every other civic decision) moved to `traits-civic-shared-rule`, and the PR's director change moved to the Words line as `words-director-claims-shared-rule`. This item stays open for the rest: the ballot-measure vote in both audit years, and backing the incumbent, telling an exit pollster, holding a town hall, joining a party, a lobbyist speaking up, accepting an interview and taking part at a meeting at their research rates. Each one's gap row names its cause and numbers.

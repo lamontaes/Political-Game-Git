@@ -12,6 +12,7 @@ blocked-on: play-stop-07-every-day-starts-at-midnight-a, play-stop-07-every-day-
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at:
 ---
 
 **What.** On the v0.22.10 release, pressing Day on Monday January 20 at 8:30 PM went to Wednesday January 22 at 12:00 AM, so Tuesday never happened on screen. Every later Day and Week press also lands at 12:00 AM, alone in the bedroom, for 21 weeks of play. Knock on doors says "3 hours" but the clock stays at 12:00 AM while the scene is a sunny afternoon. Travel to the city secretary at midnight on a Sunday opens the office in daylight. I expected days to start in the morning, to see school or work, and the clock to move with what I do.

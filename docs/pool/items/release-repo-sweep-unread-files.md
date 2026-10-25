@@ -5,7 +5,7 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5867
 after:

@@ -109,7 +109,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - A stand-in without a row in `src/core2/data/stopgaps.json` and a code marker, or a stopgap row deleted.
    - A state, city or GEOID named in logic.
    - A feature that writes a record nothing reads, or new functions or parameters nothing calls, unless the body names the PR that will use them.
-   - Hand-written player text in code or data (`origin: "authored"` with `shippable: true`), except lines the owner graded or liked: the Oct 24 ruling released the hold, so a change in `data/english/` that flips held lines to shippable is never a send-back reason.
+   - Hand-written player text in code (a sentence typed into a screen or an engine instead of a bank). A bank part's `shippable` must match the grade ledger (`tests/english-parts-banks.test.ts`): authored bank parts are English engine pieces and play unless graded out (owner, Oct 24).
    - Code in `src/core2` importing from `src/simulation`.
    - Owner names or dated owner notes in code or shipped data.
    - Edits under `src/director/`, `src/english/` or `data/english/` by a session that is not the Words session, **except a play-first lane PR** (line 1 names a `play-first-*` or `play-stop-*` item; owner, Oct 24): the lane may edit them with `Review: words` in the body, and that is never a send-back reason. Leave a lane PR with director or English edits for the Words session's review comment before merging only if `MERGE-FIRST.md` says so; otherwise merge on green.
