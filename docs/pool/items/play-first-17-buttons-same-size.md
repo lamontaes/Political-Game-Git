@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-first-17-buttons-same-size
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T19:31:40.583Z
 ---
 
 **What.** The owner's read of the playtest screenshots: buttons are the same size. In the v0.22.10 release buttons in one row differ in height and width (the title menu, the creator's Back and Continue, the talk box's controls). This item sets one button size rule in the Kit 13 styles and applies it everywhere.
