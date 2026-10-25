@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/bayou-blue-coverage
 pr: #5944
-blocked-on:
+blocked-on: core-opening-coverage-every-locality
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T19:13:27.677Z
 ---
