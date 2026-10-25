@@ -2,16 +2,6 @@
   "about": "Law reach, group A (labor, business, housing, justice, rights, technology and government menus): what each catalog policy does once it's law, through the engine that owns the thing it changes. Each policy names the named people, organizations, officeholders and counted groups it reaches (a selector over their own records), the kind of effect (a rule with its enforcer and penalty, an eligibility, a right, a price or a compliance duty), and the mechanic that moves pay, money, staff, budgets or election costs where one runs. Read by src/core2/law-reach/group-a.ts. Numbers live in reach-group-a-parameters.json. A stopgapId names what another engine must provide before the effect is complete.",
   "estimate": true,
   "selectors": {
-    "publicEmployers": [
-      "service:police",
-      "service:fire",
-      "service:public-health",
-      "service:municipal-government",
-      "service:public-school",
-      "service:corrections",
-      "sector:local-government-office",
-      "sector:state-government-office"
-    ],
     "businesses": ["enterprise:"],
     "builders": ["enterprise:construction", "enterprise:real-estate"],
     "retailers": ["enterprise:retail"],

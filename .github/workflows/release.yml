@@ -494,7 +494,9 @@ jobs:
 
       - name: Build the game
         env:
-          NODE_OPTIONS: --max-old-space-size=4096
+          # The full word pack takes typecheck beyond 4 GB; this is the same
+          # measured allowance as candidate validation.
+          NODE_OPTIONS: --max-old-space-size=5120
           PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
         run: npm run build
 

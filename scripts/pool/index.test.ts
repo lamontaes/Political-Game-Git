@@ -38,7 +38,7 @@ describe("pool index", () => {
     const text = readFileSync(join(dir, "INDEX.md"), "utf8");
     expect(text).toContain("**2 items:** 1 open, 0 claimed, 1 in-pr");
     expect(text).toContain(
-      "[laws-b](items/laws-b.md) | Title of laws-b | laws | wiring | 1 | M |  | #12 |",
+      "[laws-b](items/laws-b.md) | Title of laws-b | laws |  | wiring | 1 | M |  | #12 |",
     );
     expect(run(dir, true).errors).toEqual([]);
     writeFileSync(join(dir, "items", "laws-c.md"), item("laws-c"));
@@ -310,6 +310,24 @@ describe("quality gate", () => {
     const withPr = GOOD.replace("the test in", "after #12 lands the test in");
     expect(quality("x-a.md", fm, withPr).join()).toMatch(/PR number/);
     expect(quality("x-a.md", { ...fm, after: "x-b" }, withPr)).toEqual([]);
+  });
+  it("holds a play-first item to a time box of 4 hours or less, You will see and Screenshot", () => {
+    const lane = { ...fm, milestone: "play-first" };
+    const three =
+      "**Time box.** 3 hours; if not done, push what exists.\n\n**You will see.** The ballot pages to his race.\n\n**Screenshot.** Before and after, from a drawn place.\n\n**Files.**";
+    const shaped = GOOD.replace("**Files.**", three);
+    expect(quality("x-a.md", lane, shaped)).toEqual([]);
+    expect(quality("x-a.md", fm, GOOD)).toEqual([]);
+    const e = quality("x-a.md", lane, GOOD).join("\n");
+    expect(e).toMatch(/x-a: a play-first item needs a Time box/);
+    expect(e).toMatch(/needs its You will see line/);
+    expect(e).toMatch(/needs its Screenshot line/);
+    const long = shaped.replace("3 hours", "5 hours");
+    expect(quality("x-a.md", lane, long).join()).toMatch(/4 hours or less/);
+    expect(quality("x-a.md", { ...lane, priority: "3" }, GOOD).join()).toMatch(
+      /Time box/,
+    );
+    expect(quality("x-a.md", { ...lane, status: "blocked" }, GOOD)).toEqual([]);
   });
   it("check fails with the item id, plain run warns", () => {
     const dir = fixture();
