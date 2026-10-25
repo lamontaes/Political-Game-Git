@@ -116,6 +116,8 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
           ),
         );
       let countedChecked = 0;
+      // The first counted worker a contract re-rated, by job id, as the witness.
+      let countedWitness = "";
       // The world's own legislature may repeal the law on any day; the test
       // re-enacts it daily so a budget date never falls in a lapse.
       for (let day = 0; day < 400; day += 1) {
@@ -138,6 +140,8 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
               `${place.key}: counted ${jobId} under ${c.id}`,
             ).toBe(Math.max(was.hourly, Math.round(was.hourly * (1 + growth))));
             countedChecked += 1;
+            if (!countedWitness && now.hourly > was.hourly)
+              countedWitness = `${jobId} ${was.hourly} to ${now.hourly} under ${c.id}`;
           }
         }
         // Stop as soon as a contract has raised a named worker's pay (or,
@@ -158,18 +162,21 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
         tried.push(`${place.key}: ${countedChecked} counted jobs re-rated`);
         if (countedTotal > 0) {
           process.stdout.write(
-            `BARGAINING COUNTED ${place.key} (seed ${seed}): ${countedChecked} counted jobs re-rated by their line's growth\n`,
+            `BARGAINING COUNTED ${place.key} (seed ${seed}): ${countedChecked} counted jobs re-rated by their line's growth (e.g. ${countedWitness})\n`,
           );
           return;
         }
         continue;
       }
       const raised = contracts(api).filter((c) => Number(c.facts.raised) > 0);
+      // The counts behind each contract, so a place with no counted re-rate
+      // shows why: no counted job in the unit, or a line that did not grow.
+      const countedNow = countedPay();
       tried.push(
         `${place.key}: ${contracts(api)
           .map(
             (c) =>
-              `${c.facts.line} ${c.facts.raisePct}% (${c.facts.sampleJobId ?? "counted only"})`,
+              `${c.facts.line} ${c.facts.raisePct}% (${c.facts.raised} of ${c.facts.jobs} jobs raised; ${[...countedNow.values()].filter((row) => row.classification === c.facts.classification).length} counted jobs in the unit now; sample ${c.facts.sampleJobId ?? "none named"})`,
           )
           .join(", ")}`,
       );
@@ -239,7 +246,7 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
           cashSource!.completedAt !== undefined,
       ).toBe(true);
       process.stdout.write(
-        `BARGAINING ${place.key} (seed ${seed}): ${contract.id} raised ${f.raised} jobs by ${f.raisePct}% (${f.line}); ${sampleJob.personId} on ${sampleJob.id} ${f.sampleFromMinor} to ${f.sampleToMinor}, paid by ${sampleJob.organizationId} in ${paid!.lastPayrollReceiptId} (${receipt!.paidMinor} minor, journal ${cashSource!.postedJournalSequence ?? "completed public source"}); ${countedChecked} counted jobs re-rated and checked\n`,
+        `BARGAINING ${place.key} (seed ${seed}): ${contract.id} raised ${f.raised} jobs by ${f.raisePct}% (${f.line}); ${sampleJob.personId} on ${sampleJob.id} ${f.sampleFromMinor} to ${f.sampleToMinor}, paid by ${sampleJob.organizationId} in ${paid!.lastPayrollReceiptId} (${receipt!.paidMinor} minor, journal ${cashSource!.postedJournalSequence ?? "completed public source"}); ${countedChecked} counted jobs re-rated and checked (e.g. ${countedWitness})\n`,
       );
       // A repeal at every level in force stops the next contract.
       const repealed = new Set(yesLevels(api, KEY).map((l) => l.lawId));
