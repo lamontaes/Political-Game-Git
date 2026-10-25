@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/small-town-treasury-payroll
+pr: #5998
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T06:37:52.753Z
 ---
 
 **What.** On main f8e3b721e9 both cases of src/core2/small-town-treasury-payroll.test.ts fail. Nua, American Samoa (territory:AS:nua, seed 40382eac95285f11) pays a US-AS payroll of 471,802,650 minor units against a bound of 347,970,000 (line 66). Brookford, North Carolina (3708140, seed brookford-1) leaves its police chief (job:public:town:police-chief:person_f2434c0ea0da3427) 292,528 in arrears against a bound of 136,214.8 (line 74). The test passed when world-small-town-treasury-shortfall closed, so something since has raised territory pay or lowered a small town's revenue; find which change and fix it at the root, never by loosening the bound.

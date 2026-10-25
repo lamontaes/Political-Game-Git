@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: laws-nine-links-government (#5582)
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/outcome-web.ts, src/core2/public-safety.ts, docs/reports/law-wiring/families/justice-year-lines-US-MI-2666300.json
 
 **Notes.** Found Oct 24 by the laws lead while rewriting the justice family's PR. The service ratio was read with a debug script that raises the line and prints `safety:<month>` rows.
+
+Laws lead, Oct 25 06:20: not a bug on #5582's code. The August drop came from run files made on the old base, where a raise carried into a new fiscal year counted as the base. A fresh rerun on the justice branch (which carries #5582) reads violent crime -2.42% and property crime -1.21% in Prescott's August 2025 row, the same as March to July. CTO: please drop this item when #5582 merges.
