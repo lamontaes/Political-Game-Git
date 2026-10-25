@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T07:23:30.762Z
 **Files.** src/core2/modules/news.ts
 
 **Notes.** Filed Oct 25 by the speed lead from the by-module profile of the counted renewal branch's paired run (news.ts 9.7 s, second after work.ts).
+
+Ready Oct 25 (speed lead), not opened while the play-first freeze holds: branch `claude/speed-news-telling` at 9e0109ebd5 on main e796c06eee (no code change from 01f5cd4715). Exact: deep fingerprints identical before and after (Long Hill year one `3350c66a3805f1e8`; Stanardsville years one to three `176370fb6d3c2ba1`, `3ccb0a9002236aa5`, `4be9e9254da3aaf3`). Profiled pair 126.4 to 121.3 s (0.960): `recentList` 1.3 to 0.4 s, `recentStoriesHeard` 3.4 to 1.2 s (it now reads the stories table once per telling), the news engine 10.45 to 8.96 s. Plain pair 131.6 to 125.3 s (0.952). The news, news-telling, outcome-news, press and law-knowledge tests pass; typecheck, release check and zero-dice are clean.
