@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/traits-integrity-cases-vary
-pr:
+pr: #6001
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T20:04:36.685Z

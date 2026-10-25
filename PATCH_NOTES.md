@@ -296,6 +296,67 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.24.0
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Government charges and fees record their payers separately from the outside
+  revenue lump** A government's charges and fees are now paid by named payers
+  (the town's households and the people elsewhere who use its services) instead
+  of riding the monthly outside lump; the amounts each treasury receives are the
+  same.
+
+- **A law that raises the full retirement age now keeps more people from 62 to
+  66 at work.** Raising the age for full Social Security benefits used to change
+  nothing about who works. Now people from 62 to 66 weigh it when they decide
+  whether to retire or look for work, and a two-year rise keeps about a tenth
+  more of them on the job, as the research finds. Nothing changes while no such
+  law is in force.
+
+- **New Jersey no longer starts with a local sales tax below zero** New Jersey
+  levies no general local sales tax, but its starting law carried an average
+  local rate below zero, taken from a table that folds Salem County's and the
+  Urban Enterprise Zones' half state rate into it. New Jersey now has no local
+  rate, like the other states without local sales taxes, and its sales carry the
+  state rate.
+
+### Changed
+
+- **All the dialogue is in the game, and only the lines you rejected stay out**
+  Scenes, conversations, the journal and the news now use every line the English
+  engine has, not only the few that were graded. People with a reason to talk to
+  you say it in ordinary play, and the campaign speech screen offers its four
+  choices at every stage again. A line you graded bad is left out everywhere at
+  once, and each new round of grades reaches the whole game.
+
+## PRE-ALPHA 0.23.5
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A town's clerk now shows up on the town office's staff, and a newly hired
+  clerk replaces one who left.** Towns record their government under the
+  municipal-government classification, which the public-office list did not
+  recognize, so a town's clerk was left off the office staff while a county's
+  clerk was listed. The town office is now built from the same recorded
+  government facts as the county office, with its clerk on the staff. An
+  office's staff now follow its jobs: a clerk hired during play joins the list
+  and one who leaves comes off it.
+
+- **A business short of cash on payday now draws its credit line to pay its
+  workers.** An employer with an approved credit line now draws on it when its
+  cash runs short on payday, instead of leaving its workers' pay unpaid. A
+  business with credit room no longer piles up unpaid wages and closes over
+  them.
+
+- **Households in the wider population now carry living costs they could not
+  pay.** A group of counted households that cannot pay its living cost on the
+  first of the month is asked again each day until money arrives, as a full
+  household already is.
+
 ## PRE-ALPHA 0.23.4
 
 _Released October 24, 2026._

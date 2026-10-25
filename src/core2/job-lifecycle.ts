@@ -6,6 +6,7 @@
  */
 import { makeIsoDate } from "./kernel/dates";
 import { financeIndex } from "./finance-state";
+import { refreshOfficeStaff } from "./civic-inputs";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
 import type {
@@ -63,6 +64,7 @@ export function startRecordedJob(
   api.updatePerson(actor.id, { jobId: job.id });
   api.addWorkCommitment(commitment);
   api.addWorkPayrollCalendar(calendar);
+  refreshOfficeStaff(core, job.organizationId);
 }
 
 /**
@@ -91,6 +93,7 @@ export function startSalariedPost(
   core.jobs.set(job.id, { ...job });
   financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
   api.updatePerson(actor.id, { jobId: job.id });
+  refreshOfficeStaff(core, job.organizationId);
 }
 
 /**
@@ -126,6 +129,7 @@ export function endRecordedJob(
     throw new Error("A job ends before its day's work, from calendar work.");
   job.endsAt = core.date;
   if (actor.jobId === jobId) delete actor.jobId;
+  refreshOfficeStaff(core, job.organizationId);
   for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??
     []) {
     const commitment = core.work.commitments.get(commitmentId)!;

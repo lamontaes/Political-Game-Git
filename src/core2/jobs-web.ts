@@ -185,8 +185,10 @@ const SHIFTS = new WeakMap<
  * The log of the web's factor on the pull to be at work for this person:
  * mothers of young children, married women and people from the earliest
  * retirement age to the full retirement age each have their own outcome, and
- * a person in several takes each (they are separate causes). Zero where the
- * web moves nothing. Cached per place and band for the day.
+ * a person in several takes each (they are separate causes). The older
+ * workers' term is weighted, fitted so a played year moves their share at
+ * work by the researched size. Zero where the web moves nothing. Cached per
+ * place and band for the day.
  */
 export function participationShift(
   api: CoreAPI,
@@ -203,7 +205,7 @@ export function participationShift(
   )
     measures.push(OLDER_WORK);
   if (!measures.length) return 0;
-  stopgap("SG-LABOR-participation-scale");
+  if (facts.mother || facts.partnered) stopgap("SG-LABOR-participation-scale");
   const c = api.state as CoreState;
   let cache = SHIFTS.get(c);
   if (!cache || cache.date !== c.date)
@@ -221,9 +223,9 @@ export function participationShift(
   };
   let shift = 0;
   for (const measure of measures)
-    shift += Math.log(
-      Math.max(1e-6, webFactorFor(api, placeId, measure, subject)),
-    );
+    shift +=
+      (measure === OLDER_WORK ? p("jobsOlderWorkWebWeight") : 1) *
+      Math.log(Math.max(1e-6, webFactorFor(api, placeId, measure, subject)));
   cache.byKey.set(key, shift);
   return shift;
 }
