@@ -1,12 +1,18 @@
 /**
  * How much the people of a played town do for their causes, year by year,
- * against how often real people do it (people-cause-holder-activity-calibrated).
+ * beside how often real people do the nearest thing the Civic Engagement and
+ * Volunteering Supplement measures (people-cause-holder-activity-calibrated).
  * For each act a person with a cause can take, the share of the town's full
- * adults who took it at least once in the year and how many times each did,
- * beside the band the Civic Engagement and Volunteering Supplement gives for the
- * matching measure (the range of its four survey years), and each volunteer's
- * hours against the hours real volunteers give. The bands check the town's
- * totals; nothing reads them to decide who acts.
+ * people aged 16 and over (the survey's universe) who took it at least once in
+ * the year and how many times each did, beside the survey's range over its
+ * four years for its nearest measure, and each volunteer's hours beside the
+ * hours real volunteers give. Every survey measure is broader than the game's
+ * act (any organization, not only causes; attending a meeting, not organizing
+ * one; belonging to any group, not joining a cause group this year), and the
+ * town's full people are the player's circle and the people around them, not
+ * a sample of the town. So each line is an exploratory proxy: the report says
+ * how the act differs from the measure and draws no conclusion about whether
+ * the town is in a band. Nothing reads these numbers to decide who acts.
  * Run: node --max-old-space-size=8192 --import tsx scripts/research/cause-activity-year.ts [seed] [placeKey] [years]
  */
 import { randomBytes } from "node:crypto";
@@ -32,39 +38,62 @@ const band = (measure: Measure) => {
 };
 const pct = (x: number) => `${(100 * x).toFixed(1)}%`;
 
-/** Each act a cause holder takes, and the survey measure its share is checked against. */
-const ACTS: readonly { kind: string; act: string; measure: Measure }[] = [
+/**
+ * Each act a cause holder takes, the survey measure nearest it, and how the
+ * two differ (the measure is the broader in every case).
+ */
+const ACTS: readonly {
+  kind: string;
+  act: string;
+  measure: Measure;
+  differs: string;
+}[] = [
   {
     kind: "cause.volunteered",
     act: "volunteered for a cause",
     measure: "formalVolunteering",
+    differs:
+      "the survey counts volunteering through any organization, religious, school and civic included",
   },
   {
     kind: "cause.donated",
     act: "donated to a cause",
     measure: "donatingToAPoliticalCause",
+    differs:
+      "the survey counts money to a political party, candidate or cause; the game's causes include civic ones",
   },
   {
     kind: "office.approached",
     act: "approached an office",
     measure: "contactingPublicOfficials",
+    differs:
+      "the survey counts any contact with a public official, about anything",
   },
   {
     kind: "initiative.organizing-started",
     act: "organized a meeting",
     measure: "attendingPublicMeetings",
+    differs:
+      "the survey counts attending a public meeting; organizing one is rarer",
   },
   {
     kind: "cause-group.joined",
-    act: "joined a cause group",
+    act: "joined a cause group this year",
     measure: "organizationalMembership",
+    differs:
+      "the survey counts belonging to any group at the time asked, not joining one this year; the stock is printed above",
   },
   {
     kind: "cause.shared",
     act: "shared a cause",
     measure: "discussingIssuesWithFriendsAndFamily",
+    differs:
+      "the survey counts discussing any political or civic issue with friends or family",
   },
 ];
+
+/** The survey's universe: people aged 16 and over. */
+const SURVEY_AGE = 16;
 
 const seedArg = process.argv[2] ?? randomBytes(8).toString("hex");
 const place = process.argv[3]
@@ -85,7 +114,7 @@ const { core } = buildBenchWorld(place.seed, gameStartDate(), {
   placeKey: place.key,
 });
 console.log(
-  `${place.name} (${place.key}), seed ${place.seed}: ${playYears} played years. Bands: CEV national rates ${years.join(", ")}; hours per volunteer, median ${hours.hoursPerVolunteer["2023"].median} to ${hours.hoursPerVolunteer["2017"].median}, mean ${hours.hoursPerVolunteer["2023"].mean} to ${hours.hoursPerVolunteer["2017"].mean}.`,
+  `${place.name} (${place.key}), seed ${place.seed}: ${playYears} played years. Survey measures (exploratory proxies, each broader than the game's act): CEV national rates ${years.join(", ")}; hours per formal volunteer through any organization, median ${hours.hoursPerVolunteer["2023"].median} to ${hours.hoursPerVolunteer["2017"].median}, mean ${hours.hoursPerVolunteer["2023"].mean} to ${hours.hoursPerVolunteer["2017"].mean}.`,
 );
 let acts = new Map<string, Map<string, number>>();
 let firstIds = new Map<string, string>();
@@ -106,37 +135,47 @@ for (let year = 1; year <= playYears; year += 1) {
   firstIds = new Map();
   advanceCore(core, addDays(makeIsoDate(core.date), 365));
   const thisYear = Number(core.date.slice(0, 4));
-  const adults = [...core.people.values()].filter(
-    (p) =>
-      p.alive &&
-      p.tier !== "husk" &&
-      thisYear - Number(p.birthDate.slice(0, 4)) >= 18,
-  ).length;
+  // The survey's universe among the town's full people: alive, 16 and over.
+  const universe = new Set(
+    [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          p.tier !== "husk" &&
+          thisYear - Number(p.birthDate.slice(0, 4)) >= SURVEY_AGE,
+      )
+      .map((p) => p.id),
+  );
+  const people16 = universe.size;
   const members = new Set(
-    [...core.memberships.keys()].map((key) => key.split(":")[0]),
+    [...core.memberships.keys()]
+      .map((key) => key.split(":")[0]!)
+      .filter((id) => universe.has(id)),
   ).size;
+  const { low: memberLow, high: memberHigh } = band("organizationalMembership");
   console.log(
-    `Year ${year} (to ${core.date}), ${adults} full adults; ${members} belong to a group (${pct(members / adults)}), ${core.memberships.size} memberships.`,
+    `Year ${year} (to ${core.date}), ${people16} full people aged ${SURVEY_AGE} and over; ${members} belong to a group (${pct(members / people16)}; survey, any group: ${pct(memberLow)} to ${pct(memberHigh)}), ${core.memberships.size} memberships.`,
   );
   for (const row of ACTS) {
-    const byPerson = acts.get(row.kind) ?? new Map<string, number>();
-    const people = byPerson.size;
-    const total = [...byPerson.values()].reduce((n, v) => n + v, 0);
+    const all = acts.get(row.kind) ?? new Map<string, number>();
+    const byPerson = [...all].filter(([id]) => universe.has(id));
+    const people = byPerson.length;
+    const total = byPerson.reduce((n, [, v]) => n + v, 0);
     const { low, high } = band(row.measure);
-    const share = adults ? people / adults : 0;
-    const where = share < low ? "below" : share > high ? "above" : "inside";
+    const share = people16 ? people / people16 : 0;
     console.log(
-      `  ${row.act}: ${people} people (${pct(share)}, ${where} ${row.measure} ${pct(low)} to ${pct(high)}), ${total} times, ${people ? (total / people).toFixed(1) : "0"} each; first record ${firstIds.get(row.kind) ?? "none"}`,
+      `  ${row.act}: ${people} people (${pct(share)}), ${total} times, ${people ? (total / people).toFixed(1) : "0"} each; nearest survey measure ${row.measure} ${pct(low)} to ${pct(high)} (${row.differs}); first record ${firstIds.get(row.kind) ?? "none"}`,
     );
   }
-  const volunteers = [...(acts.get("cause.volunteered") ?? new Map()).values()]
-    .map((n) => n * volunteerHours)
+  const volunteers = [...(acts.get("cause.volunteered") ?? new Map())]
+    .filter(([id]) => universe.has(id))
+    .map(([, n]) => n * volunteerHours)
     .sort((a, b) => a - b);
   if (volunteers.length) {
     const median = volunteers[Math.floor(volunteers.length / 2)]!;
     const mean = volunteers.reduce((n, v) => n + v, 0) / volunteers.length;
     console.log(
-      `  hours per volunteer (volunteerHours ${volunteerHours} a session): median ${median.toFixed(0)}, mean ${mean.toFixed(0)}`,
+      `  hours per cause volunteer (volunteerHours ${volunteerHours} a session): median ${median.toFixed(0)}, mean ${mean.toFixed(0)}; survey, any organization, over a quarter of people: median ${hours.hoursPerVolunteer["2023"].median} to ${hours.hoursPerVolunteer["2017"].median}`,
     );
   }
 }

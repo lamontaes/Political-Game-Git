@@ -27,5 +27,5 @@
     "average hours served per volunteer in the previous year dropped from 96.5 hours when the CEV began in 2017 to 70 hours in 2023.",
     "Similarly, half of formal volunteers served 40 hours in 2017 compared to 24 hours in the latest data."
   ],
-  "use": "The band the cause-activity year report (scripts/research/cause-activity-year.ts) checks a played town's volunteers against: hours volunteered a year by each person who volunteered (their volunteer acts times volunteerHours), median 24 to 40 and mean 70 to 96.5. Never a cap; a holder's own time, money and pulls decide each act."
+  "use": "Set beside a played town's cause volunteers by the cause-activity year report (scripts/research/cause-activity-year.ts): hours volunteered a year by each person who volunteered for a cause (their volunteer acts times volunteerHours), beside the hours of real formal volunteers through any organization, median 24 to 40 and mean 70 to 96.5. The survey's volunteers are over a quarter of people and count every organization, so it is an exploratory proxy, not a band for cause volunteering. Never a cap; a holder's own time, money and pulls decide each act."
 }
