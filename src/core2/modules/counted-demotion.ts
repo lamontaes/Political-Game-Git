@@ -22,16 +22,19 @@ import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash, pairKey } from "../kernel/ids";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { ELECTIONS_MODULE_ID } from "./elections";
+import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
 import {
   countedFundOf,
   countedSpread,
+  joinPublicPayAuthority,
   keepCalendar,
   residentsRuntime,
   returnToCounts,
   returnCommuterPay,
   commuterPeriodPay,
 } from "./residents";
-import { admitPublicPayAuthority } from "../public-work-pay";
+import { returnClaimToCounts } from "./retirement-claims";
 import { isSchoolDistrict, type ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import type {
@@ -106,6 +109,25 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
   if (core.modules.has("business"))
     for (const row of api.moduleState("business").table("owners").rows())
       out.add((row as unknown as { ownerId: string }).ownerId);
+  // Someone who has decided to run for office is in public life until their
+  // race is decided, like those who hold one: their decision waits for its
+  // filing day (Las Piedras, Puerto Rico: ten runners back in the counts by
+  // the board's filing day, so none of them filed).
+  if (
+    core.modules.has(CANDIDACY_MODULE_ID) &&
+    core.modules.has(ELECTIONS_MODULE_ID)
+  ) {
+    const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+    for (const row of api
+      .moduleState(CANDIDACY_MODULE_ID)
+      .table("decisions")
+      .rows() as unknown as CandidacyDecision[]) {
+      if (!row.run) continue;
+      const contest = contests.get(row.contestId) as unknown as
+        { electionDate: string } | undefined;
+      if (contest && contest.electionDate >= core.date) out.add(row.personId);
+    }
+  }
   return out;
 }
 
@@ -141,29 +163,6 @@ function asCounted(
     ...(person.looks ? { looks: person.looks } : {}),
     pastFacts: [],
   };
-}
-
-/**
- * A demoted worker's commitment at a public employer joins the employer's pay
- * authority under its new id, as a hire's does (job-lifecycle.ts): the
- * authority resolves due pay only for the commitments it lists.
- */
-function joinPublicPayAuthority(
-  core: CoreState,
-  commitment: WorkCommitmentInput,
-): void {
-  if (commitment.publicPayAuthorityId === undefined) return;
-  const employer = core.organizations.get(commitment.organizationId);
-  const authority = employer?.publicPayAuthority;
-  if (!employer || authority?.id !== commitment.publicPayAuthorityId) return;
-  if (authority.workCommitmentIds.includes(commitment.id)) return;
-  employer.publicPayAuthority = admitPublicPayAuthority(
-    {
-      ...authority,
-      workCommitmentIds: [...authority.workCommitmentIds, commitment.id],
-    },
-    core.date,
-  );
 }
 
 /** Demote one filled-in household now. Returns the record. */
@@ -294,6 +293,8 @@ export function demoteHousehold(
   // Its commuters are the place's unplaced workers again.
   returnCommuterPay(core, householdId, commuterPay);
   for (const job of jobs) addCountedJob(core, job);
+  // Retirement awards claimed in play join the residents' income again.
+  for (const person of people) returnClaimToCounts(api, person.id, placeId);
   // Its money goes to its group's account.
   const fund = countedFundOf(core, householdId);
   let cash = 0;

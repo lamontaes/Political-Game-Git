@@ -6,9 +6,11 @@
  *
  * - Infants (under one) read health.infant-mortality.
  * - Ages 55 to 64 read health.mortality-55-64.
- * - Every cause (overdose, youth firearm homicide and suicide, motor
+ * - Every cause (overdose, firearm homicide, youth firearm suicide, motor
  *   vehicle; death-cause.ts) moves its share of the deaths at that age, so
- *   the total hazard rises by the share the web moved.
+ *   the total hazard rises by the share the web moved. Firearm homicide reads
+ *   the youth firearm deaths at ages 1 to 19 and the crime outcome (the
+ *   stand-your-ground and permit laws) at every age.
  */
 import deathWeb from "./data/health/death-web.json" with { type: "json" };
 import { causeMix } from "./death-cause";
