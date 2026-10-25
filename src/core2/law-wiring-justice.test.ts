@@ -609,7 +609,8 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
     } finally {
       setBookkeeping(true);
     }
-  }, 300_000);
+    // Up to five draws of about 90 seconds each, then the year's checks.
+  }, 900_000);
 
   it("restoring the vote after a sentence changes who the electorate counts as barred", () => {
     setBookkeeping(false);
