@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/playtest-report-lead
+pr: #5988
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T06:42:57.929Z
 ---
 
 **What.** The October 24 playtest report starts its lead with the tested commit hash 4c943f3. The report checker rejects that method detail in the lead, making test:skill-ops fail on clean main. Move the build identifier to the method while keeping the lead focused on what happened in play and why it matters. Preserve the underlying playtest observations and release identification.
