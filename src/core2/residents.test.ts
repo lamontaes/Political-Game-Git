@@ -583,7 +583,7 @@ describe(`a counted payroll short of cash draws its employer's credit line (seed
     const tried: string[] = [];
     for (let attempt = 0; attempt < 6; attempt += 1) {
       const drawn = drawPlace(`${seed}:${attempt}`, "wages-credit-draw");
-      const where = `${drawn.name} (${drawn.key}), seed ${drawn.seed}`;
+      const where = `${drawn.name} (${drawn.key}), seed ${drawn.seed}, base ${seed}:${attempt}`;
       const build = () => {
         setBookkeeping(false);
         return buildBenchWorld(drawn.seed, gameStartDate(), {
@@ -675,7 +675,10 @@ describe(`a counted payroll short of cash draws its employer's credit line (seed
         `${where}: no wage shortfall that payday`,
       ).toBe(false);
       process.stdout.write(
-        `WAGE DRAW ${where}: ${draws} draws in the year; ${found.payerId} drew ${credit!.transferredMinor} on ${found.date} in ${drawReceipt!.id} (${credit!.id}), facility ${found.facilityId} ${credit!.principalBeforeMinor} -> ${credit!.principalAfterMinor}; wages ${found.flowId} paid ${flow.lastPaidMinor} of ${flow.lastRequestedMinor} in ${payReceipt!.id}\n`,
+        `WAGE DRAW ${where}: ${draws} draws in the year; ${found.payerId} drew ${credit!.transferredMinor} on ${found.date} in ${drawReceipt!.id} (${credit!.id}); facility ${found.facilityId} principal ${credit!.principalBeforeMinor} -> ${credit!.principalAfterMinor}\n`,
+      );
+      process.stdout.write(
+        `WAGE PAID ${where}: ${found.flowId} paid ${flow.lastPaidMinor} of ${flow.lastRequestedMinor} in ${payReceipt!.id} (${payReceipt!.sourceRef.id})\n`,
       );
       return;
     }

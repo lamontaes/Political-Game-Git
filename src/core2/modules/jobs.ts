@@ -290,21 +290,20 @@ function record(
     tradingId?: string;
   },
 ): void {
+  // The people the change stands for when it happens (a counted worker's
+  // household weight, one for a full person), kept on the change so a later
+  // fill-in doesn't rewrite it.
+  const heads = headsOf(core(api), { id: row.jobId, personId: row.personId });
   // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
   if (row.kind === "quit" || row.kind === "left-work")
-    noteLeaver(
-      api,
-      row.organizationId,
-      row.jobId,
-      row.personId,
-      headsOf(core(api), { id: row.jobId, personId: row.personId }),
-    );
+    noteLeaver(api, row.organizationId, row.jobId, row.personId, heads);
   store(api)
     .table("changes")
     .put({
       id: `job-change:${api.state.date}:${row.jobId}:${row.kind}`,
       date: api.state.date,
       ...row,
+      heads,
       values: { ...(row.values ?? {}) },
     });
 }
@@ -2130,7 +2129,10 @@ function hireCounted(
     personId: seeker.personId,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily: hours,
     wageDailyMinor: Math.round(position.hourlyMinor * hours),
@@ -2143,21 +2145,17 @@ function hireCounted(
   // The role's schedule and payday, as a full hire takes them, kept with the
   // household so the worker is on that payroll the day they are met.
   const role = roleTemplate(c, { ...position, templateJobId: template.id });
-  const startsAt = addDays(makeIsoDate(api.state.date), 1);
-  // The hiring employer's own payroll, as a full hire's: a template at
-  // another employer lends its payday, not its calendar.
+  // A founded firm hires from another employer's role: its hire is paid on the
+  // firm's own calendar with that role's payday, one per firm and role, as a
+  // full hire's calendar names its own employer (hire, below).
   const calendar: WorkPayrollCalendarInput | undefined =
     role &&
     (role.calendar.organizationId === position.organizationId
       ? role.calendar
       : {
           ...role.calendar,
+          id: `${role.calendar.id}:at:${position.organizationId}`,
           organizationId: position.organizationId,
-          id: `payroll-calendar:${jobId}`,
-          workCommitmentIds: [`work-commitment:${jobId}`],
-          basisRecordIds: [position.organizationId],
-          effectiveFrom: [startsAt, role.calendar.effectiveFrom].sort().at(-1)!,
-          source: job.source,
         });
   const commitment: WorkCommitmentInput | undefined = role && {
     ...role.commitment,
@@ -2166,7 +2164,7 @@ function hireCounted(
     jobId,
     personId: seeker.personId,
     payrollCalendarId: calendar!.id,
-    startsAt,
+    startsAt: addDays(makeIsoDate(api.state.date), 1),
     endsAt: undefined,
     hourlyMinor: position.hourlyMinor,
     scheduleTemplateJobId: role.template.id,
@@ -3066,7 +3064,10 @@ function hire(
     personId: person.id,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily,
     wageDailyMinor: Math.round(position.hourlyMinor * hoursDaily),

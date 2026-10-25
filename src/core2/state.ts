@@ -1,3 +1,4 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
   closenessAfter,
@@ -6,7 +7,7 @@ import {
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
-import { queueDecisionDetail } from "./decision-detail";
+import { keptDecision, queueDecisionDetail } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
@@ -696,6 +697,15 @@ export function retainLog(core: CoreState, event: LogRecord): void {
   if (core.durableLog.has(event.id)) return;
   const row: LogRecord = {
     ...event,
+    ...(event.decision
+      ? {
+          decision: keptDecision(
+            core,
+            event.decision,
+            isExplicitlyControlledPersonV1(core, event.decision.actorId),
+          ),
+        }
+      : {}),
     visibility: core.observer
       ? "observer"
       : circle
@@ -2232,6 +2242,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
           job.id,
         );
         api.updatePerson(row.id, { jobId: job.id });
+        refreshOfficeStaff(core, job.organizationId);
       }
       admitted.push(core.people.get(row.id)!);
       continue;
@@ -2261,6 +2272,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+      refreshOfficeStaff(core, job.organizationId);
     }
   }
   // Their economic life moves from the merged flows to their own records.

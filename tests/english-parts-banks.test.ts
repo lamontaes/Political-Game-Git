@@ -3,6 +3,7 @@ import path from "path";
 import { describe, expect, it } from "vitest";
 import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
 import {
+  heldByGrades,
   PART_GRADES,
   type PartGradeLedger,
 } from "../src/english/english-grades";
@@ -17,9 +18,6 @@ import {
  */
 
 const PARTS_DIR = path.resolve(__dirname, "../data/english/parts");
-
-/** Federal (.gov) records are U.S. government works, so their wording may ship. */
-const PUBLIC_DOMAIN_SOURCES = /^https:\/\/(?:[a-z0-9-]+\.)+gov\//;
 
 const DEVELOPER_WORDS = [
   "game profile",
@@ -62,27 +60,29 @@ export function provenanceProblems(part: Part): string[] {
     problems.push("a mined part names its source document");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(source?.date ?? ""))
     problems.push("a mined part carries its source date");
+  // Where the wording came from never decides whether it plays; the source
+  // is a note.
   if (!/^https:\/\//.test(source?.url ?? ""))
     problems.push("a mined part carries an https source url");
-  else if (part.shippable && !PUBLIC_DOMAIN_SOURCES.test(source!.url))
-    problems.push("a shippable mined part comes from a federal (.gov) record");
   return problems;
 }
 
 /**
- * An authored part is hand-written player text: it ships only once the owner
- * has graded it good (words-authored-parts-shippable-sweep). Empty when the
- * part is mined, not shippable, or graded good at least once.
+ * A part plays exactly when the owner's grades don't hold it. The grade
+ * step (`scripts/dialogue-batch/apply-grades.ts`) sets the flag across every
+ * bank, so a part he graded bad or fix stops playing everywhere and every
+ * other part plays.
  */
 export function gradeProblems(
   part: Part,
   ledger: PartGradeLedger = PART_GRADES,
 ): string[] {
-  if (part.origin !== "authored" || !part.shippable) return [];
-  const counts = ledger.parts[part.key];
-  return (counts?.good ?? 0) > 0 || (counts?.sharedGood ?? 0) > 0
-    ? []
-    : ["an authored part ships only once it is graded good"];
+  const held = heldByGrades(part.key, ledger);
+  if (part.shippable && held)
+    return ["a part the owner graded bad or fix still plays"];
+  if (!part.shippable && !held)
+    return ["a part the owner never rejected is held out of play"];
+  return [];
 }
 
 type Bank = {
@@ -137,7 +137,7 @@ describe("English part banks", () => {
     ).toEqual([]);
   });
 
-  it("refuses an authored part marked shippable with no good grade, and accepts it once graded", () => {
+  it("plays an ungraded or liked part, holds a rejected one, and refuses either the other way round", () => {
     const part: Part = {
       key: "x.y.1",
       move: "y",
@@ -148,18 +148,32 @@ describe("English part banks", () => {
       author: "the Words session",
       date: "2026-10-20",
     };
-    const ledger = (good: number) =>
+    const ledger = (good: number, bad: number) =>
       ({
-        parts: { "x.y.1": { good, bad: 0, fix: 0 } },
+        parts: {
+          "x.y.1": {
+            good,
+            bad,
+            fix: 0,
+            sharedGood: 0,
+            sharedBad: 0,
+            sharedFix: 0,
+          },
+        },
       }) as unknown as PartGradeLedger;
-    expect(gradeProblems(part, ledger(0))).toHaveLength(1);
-    expect(gradeProblems(part, ledger(1))).toEqual([]);
-    expect(gradeProblems({ ...part, shippable: false }, ledger(0))).toEqual([]);
+    const none = { parts: {} } as unknown as PartGradeLedger;
+    expect(gradeProblems(part, none)).toEqual([]);
+    expect(gradeProblems(part, ledger(1, 0))).toEqual([]);
+    expect(gradeProblems(part, ledger(0, 1))).toHaveLength(1);
+    expect(gradeProblems({ ...part, shippable: false }, ledger(0, 1))).toEqual(
+      [],
+    );
+    expect(gradeProblems({ ...part, shippable: false }, none)).toHaveLength(1);
   });
 
   for (const { name, bank } of banks) {
     describe(name, () => {
-      it("ships no authored part before the owner has graded it good", () => {
+      it("plays every part the owner has not rejected, and none he has", () => {
         for (const part of bank.parts)
           expect(gradeProblems(part), part.key).toEqual([]);
       });

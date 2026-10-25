@@ -588,9 +588,16 @@ export function chargeGroups(
     scaleOf?: (group: number) => number;
     /** Money a group keeps back from this payment (its housing due this month). */
     reserveOf?: (group: number) => number;
+    /** What each group still owes on a payment that is carried until paid (outside living costs); housing uses `rt.arrears`. */
+    carry?: Map<number, number>;
+    /** The charge-off age of what a group carries, in its own monthly bills: what it owes past that is written off, as for a full household. */
+    carryCeilingBills?: number;
   },
 ): {
   paid: number;
+  /** What the groups still owe after this payment, and what was written off past the charge-off age (carried payments only). */
+  carried: number;
+  writtenOff: number;
   /** What reached the first payee (the rest went to the others). */
   toPayee: number;
   byGroup: Map<number, { asked: number; paid: number }>;
@@ -598,14 +605,32 @@ export function chargeGroups(
   const weights = flowWeights(rt, input.flow);
   const housing = HOUSING_KINDS.has(input.flow.financeKind);
   const shares = splitWhole(input.requested, weights);
+  // On a day with no new bill, the groups that still owe are asked for what they owe.
+  if (input.carry && input.requested === 0)
+    for (const [group, owed] of input.carry)
+      if (owed > 0 && (weights.get(group) ?? 0) > 0) shares.set(group, 0);
+  // A group's monthly bill, for the charge-off ceiling on what it carries.
+  const bill =
+    input.carry && input.carryCeilingBills !== undefined
+      ? splitWhole(
+          Math.round(
+            ((input.flow as { amountMinor?: number }).amountMinor ?? 0) *
+              flowScale(rt, input.flow),
+          ),
+          weights,
+        )
+      : undefined;
   const byGroup = new Map<number, { asked: number; paid: number }>();
   const lines: { accountId: string; deltaMinor: number }[] = [];
   let paid = 0;
+  let carried = 0;
+  let writtenOff = 0;
   for (const [group, share] of shares) {
     const scaled = input.scaleOf
       ? Math.round(share * input.scaleOf(group))
       : share;
-    const arrears = housing ? (rt.arrears.get(group) ?? 0) : 0;
+    const book = housing ? rt.arrears : input.carry;
+    const arrears = book?.get(group) ?? 0;
     const asked = scaled + arrears;
     const pay = Math.max(
       0,
@@ -614,7 +639,18 @@ export function chargeGroups(
         fundBalance(api, rt, group) - (input.reserveOf?.(group) ?? 0),
       ),
     );
-    if (housing) rt.arrears.set(group, asked - pay);
+    let owes = asked - pay;
+    if (bill && book === input.carry) {
+      const ceiling = Math.round(
+        (bill.get(group) ?? 0) * input.carryCeilingBills!,
+      );
+      if (owes > ceiling) {
+        writtenOff += owes - ceiling;
+        owes = ceiling;
+      }
+      carried += owes;
+    }
+    book?.set(group, owes);
     byGroup.set(group, { asked, paid: pay });
     if (pay <= 0) continue;
     lines.push({ accountId: fundOf(api, rt, group), deltaMinor: -pay });
@@ -646,7 +682,7 @@ export function chargeGroups(
       source: input.source,
     });
   }
-  return { paid, toPayee, byGroup };
+  return { paid, carried, writtenOff, toPayee, byGroup };
 }
 
 /**

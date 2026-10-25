@@ -21,7 +21,7 @@ import {
   transferSplit,
   withdrawSavings,
 } from "../accounts";
-import { livingCostParts } from "../living-cost-split";
+import { livingCostParts, outsideCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { openingWorkCommitments } from "./work";
 import { coreAPI } from "../state";
@@ -55,6 +55,7 @@ import {
   CountedPersonHouseholdMap,
   CountedStore,
   decodeStore,
+  isDemoted,
   encodeStore,
   MemberState,
   type CountedHousehold,
@@ -122,6 +123,8 @@ interface FlowState extends ResidentFlowInput {
   accruedCostMinor?: number;
   accrualHistory?: { date: IsoDate; accrued: number }[];
   outsidePaidMinor?: number;
+  /** What its payments sent to someone other than its payee (a business's ads in the town's outlets), all time. */
+  splitPaidMinor?: number;
   /** wages: what the payer's cash could not pay on its latest short payday, the most its credit line may draw for it. */
   creditNeed?: { date: IsoDate; minor: number };
   endedAt?: IsoDate;
@@ -177,6 +180,8 @@ export interface ResidentsRuntime {
   funded: boolean;
   /** Housing payments each group still owes. */
   arrears: Map<number, number>;
+  /** Outside living costs each group could not pay, asked again each day until paid. */
+  livingArrears: Map<number, number>;
   /** Each group's monthly housing and outside living costs, kept back from its spending. */
   housingDue: Map<number, number>;
   /** Each group's latest month of housing payments: asked and paid. */
@@ -666,6 +671,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     funds: new Map(),
     funded: false,
     arrears: new Map(),
+    livingArrears: new Map(),
     housingDue: new Map(),
     housingMonth: new Map(),
     withholdingYtd: new Map(),
@@ -1012,13 +1018,14 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     flow.financeKind === FIXED_SPENDING || HOUSING_KINDS.has(flow.financeKind);
   // A household's living cost it could not pay is carried and asked again each
   // day until paid (like rent), so cash that arrives after the 1st still pays it.
-  const carries =
-    flow.financeKind === FIXED_SPENDING && !countedPays && !countedPaid;
+  const carries = flow.financeKind === FIXED_SPENDING && !countedPaid;
   const askedBefore = carries ? flow.arrearsMinor : 0;
   if (carries && date < flow.nextAt) base = 0;
   let requested =
     base + (flow.kind === "wages" || carries ? flow.arrearsMinor : 0);
   let paid: number;
+  let groupsCarried = 0;
+  let groupsWrittenOff = 0;
   if (countedPays) {
     // Each counted group pays its own part from its own account: purchases
     // that follow income at its month's scale, rent and mortgages as owed.
@@ -1028,6 +1035,12 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       id: `${flow.id}@${date}`,
       flow,
       requested: base,
+      ...(carries
+        ? {
+            carry: rt.livingArrears,
+            carryCeilingBills: api.parameter("livingCostWriteOffBills"),
+          }
+        : {}),
       reasonKey: flow.financeKind,
       source: flow.source,
       ...(scaled
@@ -1038,12 +1051,14 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       // A seller serves only what it can: spending beyond its capacity buys
       // the same thing outside the town.
       payees: (total) => {
-        // A part of the living cost is a government's charges (budgets).
+        // A part of the living cost is a government's charges or a paper's
+        // subscription.
         if (flow.financeKind === FIXED_SPENDING) {
           const governments = livingCostParts(
             core,
             flow.placeId,
             total,
+            flow.payerId,
           ).flatMap((row) => {
             const accountId = core.cashJournal.residualAccountByOwner.get(
               row.organizationId,
@@ -1078,6 +1093,8 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         ];
       },
     });
+    groupsCarried = charged.carried;
+    groupsWrittenOff = charged.writtenOff;
     requested = 0;
     for (const [group, row] of charged.byGroup) {
       requested += row.asked;
@@ -1146,13 +1163,17 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     // monthly bills) is written off: it stays on the books as written off and
     // is not asked again, so a household with no job and no cash does not owe
     // a growing sum forever.
+    // Counted groups each hold their own balance, charged off at the same age.
     const owed = requested - paid;
     const ceiling = Math.round(
       flow.amountMinor * api.parameter("livingCostWriteOffBills"),
     );
-    flow.arrearsMinor = Math.min(owed, ceiling);
-    if (owed > ceiling)
-      flow.writtenOffMinor = (flow.writtenOffMinor ?? 0) + (owed - ceiling);
+    flow.arrearsMinor = countedPays ? groupsCarried : Math.min(owed, ceiling);
+    const written = countedPays
+      ? groupsWrittenOff
+      : Math.max(0, owed - ceiling);
+    if (written > 0)
+      flow.writtenOffMinor = (flow.writtenOffMinor ?? 0) + written;
   }
   flow.lastRequestedMinor = requested;
   flow.lastPaidMinor = paid;
@@ -1235,17 +1256,25 @@ function post(
   payerId: string = flow.payerId,
 ): void {
   const core = api.state;
-  const governments =
+  // A part of a living cost is a government's charges or a paper's
+  // subscription; a part of a business's costs bought outside is advertising
+  // in the town's outlets.
+  const governments = (
     flow.financeKind === FIXED_SPENDING
-      ? livingCostParts(core, flow.placeId, paid).flatMap((row) => {
-          const accountId = core.cashJournal.residualAccountByOwner.get(
-            row.organizationId,
-          );
-          return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
-        })
-      : [];
+      ? livingCostParts(core, flow.placeId, paid, payerId)
+      : flow.kind === "outside-costs"
+        ? outsideCostParts(core, flow.placeId, paid, payerId)
+        : []
+  ).flatMap((row) => {
+    const accountId = core.cashJournal.residualAccountByOwner.get(
+      row.organizationId,
+    );
+    return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
+  });
   if (governments.length) {
     const toGovernments = governments.reduce((n, row) => n + row.deltaMinor, 0);
+    if (flow.kind === "outside-costs")
+      flow.splitPaidMinor = (flow.splitPaidMinor ?? 0) + toGovernments;
     transferSplit(core, api, {
       id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
       lines: [
@@ -2226,6 +2255,37 @@ export function monthlyLivingCostMinor(
   return Math.round(total);
 }
 
+/**
+ * What one full household, or the counted households together, owe for
+ * living costs in a month: the part of `monthlyLivingCostMinor` a payer's own
+ * share of a living-cost payment is set against.
+ */
+export function payerLivingCostMinor(
+  core: CoreState,
+  placeId: PlaceId,
+  payer: { readonly householdId: string } | "counted",
+): number {
+  const rt = runtimes.get(core);
+  if (!rt) return 0;
+  if (payer !== "counted") {
+    const flow = rt.flows.get(`residents:outside-living:${payer.householdId}`);
+    return flow && !flow.endedAt
+      ? Math.round((flow.amountMinor * perYear(flow)) / 12)
+      : 0;
+  }
+  let total = 0;
+  for (const flow of rt.flows.values())
+    if (
+      !flow.endedAt &&
+      flow.kind === "purchase" &&
+      flow.financeKind === FIXED_SPENDING &&
+      flow.placeId === placeId &&
+      flow.payerId === flow.residentsId
+    )
+      total += (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12;
+  return Math.round(total);
+}
+
 const perYear = (flow: FlowState) =>
   flow.cadence.kind === "months"
     ? 12 / flow.cadence.every
@@ -2550,6 +2610,20 @@ export function removeCountedPerson(
   store.version++;
   store.membersVersion++;
   store.touch(h);
+  // Someone back in the counts (demoted) keeps their record: it dies with
+  // them and leaves the household, as a demotion leaves out members who died,
+  // so meeting the household again brings back only the living.
+  const kept = core.people.get(personId);
+  if (kept && isDemoted(kept)) {
+    const api = rt.api ?? coreAPI(core);
+    api.updatePerson(personId, { alive: false });
+    const home = core.households.get(kept.householdId);
+    if (home?.memberIds.includes(personId))
+      core.households.set(home.id, {
+        ...home,
+        memberIds: home.memberIds.filter((id) => id !== personId),
+      });
+  }
   h.jobs = h.jobs.filter((row) => row.personId !== personId);
   h.workCommitments = h.workCommitments.filter(
     (row) => row.personId !== personId,
@@ -2621,6 +2695,19 @@ function endHouseholdFlows(
   );
   const rent = rt.flows.get(`rent:${h.id}`);
   if (rent && !rent.endedAt) end(rent, date, "household-left");
+  // An award a member claimed in play is its own flow, not one of the
+  // household's income contracts (retirement-claims.ts): it leaves with them.
+  const claims = rt.store
+    .countedMembers(h)
+    .map((m) => `retirement-claim:${rt.store.ids[m]!}`);
+  if (claims.length)
+    for (const flow of rt.flows.values())
+      if (
+        flow.kind === "retirement" &&
+        !flow.endedAt &&
+        claims.some((id) => flow.id === id || flow.id.startsWith(`${id}:`))
+      )
+        end(flow, date, "household-left");
 }
 
 /**
