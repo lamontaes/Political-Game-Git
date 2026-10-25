@@ -8,6 +8,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   type ContestRow,
@@ -26,9 +27,10 @@ import { purposeScene } from "./purpose-scene";
 // exchange on the play screen, worded by the English engine and naming the
 // record and every fact it says. The count's result record fires the win or
 // the loss at home for every filer on the night it plays, and the year plays
-// out in full.
+// out in full. Many places elect their seats only in even years: a place with
+// no race counted within the year is passed over the day it is built.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 4;
+const ATTEMPTS = 8;
 const YEAR = 365;
 
 /** One drawn place: why it could not show both scenes, or null once it has. */
@@ -66,6 +68,19 @@ const run = (drawSeed: string): string | null => {
           a.electionDate.localeCompare(b.electionDate) ||
           a.id.localeCompare(b.id),
       );
+  // The elections engine holds each seat's next contest from the start.
+  const contests = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .rows() as unknown as ContestRow[];
+  if (
+    !contests.some(
+      (race) =>
+        race.filingDeadline >= core.date &&
+        addDays(makeIsoDate(race.electionDate), 2) <= end,
+    )
+  )
+    return `${where}: no race is counted within the year`;
   for (let day = 0; !open().length && day < YEAR; day += 7)
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
   let contest: ContestRow | undefined;
