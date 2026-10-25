@@ -63,8 +63,45 @@ it("lowers union dues as membership falls after the law, and raises them back on
         });
         advanceCore(core, addDays(makeIsoDate(core.date), days));
       };
+      // Plays `days` a month at a time (the dues are reset monthly), stopping
+      // where a bill passed in play changes the law away from `applied`: the
+      // row it then holds, or null when the law stood throughout.
+      const playWatching = (days: number, applied: number) => {
+        const end = addDays(makeIsoDate(core.date), days);
+        while (core.date < end) {
+          const step = addDays(makeIsoDate(core.date), 30);
+          advanceCore(core, step < end ? step : end);
+          const now = rightToWorkRow(api);
+          if (now && now.applied !== applied) return now;
+        }
+        return null;
+      };
       // A state with the law at the opening has its effect in the dues already.
-      set(1, 400);
+      set(1, 0);
+      const playedRepeal = playWatching(400, 1);
+      if (playedRepeal) {
+        // The played legislature repealed the law inside the window (Nevada,
+        // AB 39): its effect is asserted only while it stood, and the repeal
+        // brings the dues back up from where they stood when it took effect.
+        // The row names the law that changed it: the played bill's.
+        expect(playedRepeal.lawId, where).not.toMatch(/^law:.*test:rtw:/);
+        expect(inForceHere(api, question), where).toBe(false);
+        if (playedRepeal.baseline === 0)
+          expect(playedRepeal.startPoints, where).toBeLessThan(0);
+        const atPlayedRepeal = new Map(
+          dues().map((f) => [f.id, f.amountMinor]),
+        );
+        const reenacted = playWatching(400, 0);
+        if (!reenacted && playedRepeal.baseline === 0)
+          for (const flow of dues())
+            expect(flow.amountMinor, `${where}: ${flow.id}`).toBeGreaterThan(
+              atPlayedRepeal.get(flow.id)!,
+            );
+        console.log(
+          `right-to-work: ${where}: repealed in play by ${playedRepeal.lawId} on ${playedRepeal.changedOn}; ${dues().length} locals' dues charged again`,
+        );
+        return;
+      }
       const row = rightToWorkRow(api);
       expect(row, `${where}: no row`).not.toBeNull();
       const points = membershipPoints(row!, core.date);
