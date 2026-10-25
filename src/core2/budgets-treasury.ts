@@ -17,6 +17,7 @@ import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
+import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
@@ -131,6 +132,8 @@ const PAYERS = payerData as unknown as {
       payer: { id: string; name: string };
       dueMonths: number[];
       dueDay: number;
+      /** The transfer's kind for a line that is not a tax; a tax is `treasury-tax`. */
+      transfer?: string;
     }
   >;
 };
@@ -150,19 +153,6 @@ const TOWN_PAID_LINES = new Set([
   "generalSalesTax",
   "propertyTax",
 ]);
-
-/** The revenue line of charges for services and fees. */
-const FEES_LINE = "chargesAndFees";
-
-/** The part of this government's charges the town's modeled households pay (0 if none). */
-function feesPaidInTown(api: CoreAPI, governmentId: string): number {
-  const row = api
-    .moduleState(BUDGETS_MODULE_ID)
-    .table("serviceCharges")
-    .get(governmentId) as unknown as
-    { share: number; modeledShare: number } | undefined;
-  return row && row.share > 0 ? row.modeledShare : 0;
-}
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(BUDGETS_MODULE_ID).table(name);
@@ -193,16 +183,22 @@ export function townShareOf(api: CoreAPI, gov: GovernmentRow): number {
   return residents > 0 ? Math.min(1, townResidents(api) / residents) : 0;
 }
 
-/** The outside account public money comes from and goes to: the town's, else any. */
+/**
+ * The outside account public money comes from and goes to: the town's
+ * outside market (buyers and sellers outside the town), else any other
+ * outside account in the town, else any. A public employer's own outside
+ * account is its pay authority's (opening-public-pay.ts) and carries only that
+ * employer's government's wages, so a treasury's national-scale flows never
+ * run through it.
+ */
 export function outsideAccountOf(api: CoreAPI): string | undefined {
   const town = lawChain(api).townPlaceId;
-  return [...api.state.organizations.values()]
-    .filter((o) => o.outsideFlow !== undefined)
-    .sort(
-      (a, b) =>
-        Number(b.placeId === town) - Number(a.placeId === town) ||
-        a.id.localeCompare(b.id),
-    )[0]?.id;
+  const orgs = [...api.state.organizations.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  );
+  return (
+    townOutsideOf(orgs, town) ?? orgs.find((o) => o.outsideFlow !== undefined)
+  )?.id;
 }
 
 /** The line a public post's pay draws on: the longest matching prefix. */
@@ -531,28 +527,21 @@ function publicPayShortfallOf(api: CoreAPI, gov: GovernmentRow): number {
 /**
  * What a treasury receives from outside the town's flows in a month: each
  * revenue line, less the part the town's own flows pay (withholding, sales
- * tax, property tax) and the town's modeled households pay (charges and fees).
- * `townPaysFees` false gives the figure before the households paid any fees.
+ * tax, property tax). A line with named payers (charges and fees among them)
+ * is paid by them, not here.
  */
 export function outsideRevenueMonthly(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   aided: ReadonlySet<string>,
-  townPaysFees = true,
 ): number {
   const away = 1 - townShareOf(api, gov);
   let annual = 0;
   for (const [line, amount] of Object.entries(budget.revenueMinor)) {
     if (aided.has(`${gov.level}|${line}`)) continue;
-    // A tax with named payers is paid by them on its due dates, below.
+    // A line with named payers is paid by them on its due dates, below.
     if (PAYERS.lines[line]) continue;
-    // The town's modeled households pay their part of a government's
-    // charges and fees out of their living costs (budgets-service-charges.ts).
-    if (line === FEES_LINE) {
-      annual += amount * (townPaysFees ? 1 - feesPaidInTown(api, gov.id) : 1);
-      continue;
-    }
     annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
   }
   return Math.round(annual / treasuryParameter("monthsPerYear"));
@@ -637,11 +626,11 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         minor: townPaid - credited,
       } as unknown as ModuleRow);
       const receipt = accounts.transfer({
-        id: `treasury-tax:${line}:${rule.payer.id}:${gov.id}:${date}`,
+        id: `${rule.transfer ?? "treasury-tax"}:${line}:${rule.payer.id}:${gov.id}:${date}`,
         from: accounts.main(outside),
         to: accounts.main(gov.organizationId),
         amountMinor: installment - credited,
-        reasonKey: "treasury-tax",
+        reasonKey: rule.transfer ?? "treasury-tax",
         source,
       });
       table(api, "taxPayments").put({

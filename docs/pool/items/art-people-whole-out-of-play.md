@@ -5,7 +5,7 @@ area: art
 kind: cleanup
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5898
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-24 UTC from PR #5898 (branch art/people-whole-out-of-play): live b24 implementation spec still prescribes deleted appearance-engine pack and pose chooser; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5898 (branch art/people-whole-out-of-play): b24 fixed but live docs/design/list-pick-inventory.md:135 still lists deleted appearance-engine/pose-chooser.ts as current pick; update retired inventory/totals or explicitly qualify historical with replacement; finish on that branch, merge main into it first.
