@@ -51,7 +51,7 @@ function hear(weight: number | null) {
     weight === null
       ? run()
       : withTraitWeight(core, "speech.retell", weight, run);
-  return { core, api, retellings };
+  return { core, api, retellings, speakerId: speaker.id };
 }
 
 describe(`a speech heard in ${place.name} (seed ${SEED})`, () => {
@@ -61,22 +61,55 @@ describe(`a speech heard in ${place.name} (seed ${SEED})`, () => {
   it("is retold at a higher rate by the third leaning most toward retelling than by the third leaning least, and not when personality is flat", () => {
     const gap = (world: ReturnType<typeof hear>) =>
       thirdsLogOdds(
-        world.retellings.map((row) => ({
-          lean: decisionLean(
-            world.core,
-            world.core.people.get(row.listenerId)!,
-            "speech.retell",
-            "speech-retell",
-            "speech-keep",
-          ),
-          p: row.retold ? 1 : 0,
-        })),
+        world.retellings
+          .filter((row) => row.scores.length > 0)
+          .map((row) => ({
+            lean: decisionLean(
+              world.core,
+              world.core.people.get(row.listenerId)!,
+              "speech.retell",
+              "speech-retell",
+              "speech-keep",
+            ),
+            p: row.retold ? 1 : 0,
+          })),
       );
     const net = gap(played) - gap(flat);
     console.log(
       `retell: ${played.retellings.length} listeners, ${played.retellings.filter((r) => r.retold).length} retold; net log odds ${net.toFixed(3)} (flat arm retold ${flat.retellings.filter((r) => r.retold).length})`,
     );
     expect(net).toBeGreaterThan(0.2);
+  });
+
+  it("weighs no retelling for a listener with nobody at home outside the audience, and weighs it for the rest", () => {
+    // The audience and the speaker: nobody told at home.
+    const audience = new Set([
+      played.speakerId,
+      ...played.retellings.map((row) => row.listenerId),
+    ]);
+    const atHome = (row: Retelling) =>
+      (
+        played.core.households.get(
+          played.core.people.get(row.listenerId)!.householdId,
+        )?.memberIds ?? []
+      ).some(
+        (id) =>
+          id !== row.listenerId &&
+          !audience.has(id) &&
+          played.core.people.get(id)?.alive,
+      );
+    const alone = played.retellings.filter((row) => !atHome(row));
+    const withSomeone = played.retellings.filter(atHome);
+    console.log(
+      `retell: ${alone.length} listeners with nobody at home to tell, ${withSomeone.length} with someone`,
+    );
+    expect(alone.length).toBeGreaterThan(0);
+    expect(withSomeone.length).toBeGreaterThan(0);
+    for (const row of alone) {
+      expect(row.scores, row.id).toEqual([]);
+      expect(row.retold, row.id).toBe(false);
+    }
+    for (const row of withSomeone) expect(row.scores.length, row.id).toBe(2);
   });
 
   it("reaches only the household members who take a claim in, by their own lean and how close the listener is", () => {

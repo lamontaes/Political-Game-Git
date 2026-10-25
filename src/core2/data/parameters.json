@@ -5540,12 +5540,14 @@
     }
   },
   "traitWeightSpeechRetell": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the speech.retell decision. A listener retells a speech at home when how far it moved them plus their lean toward retelling outweighs keeping it to themselves; the chooser's trait reason carries it, with no separate sociability term. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.11,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the speech.retell decision, fitted with the retelling case (speechKeepPull and the two engagement weights in src/core2/data/speech/parameters.json; traits-retell-circumstances) to Hibbing, Ritchie and Anderson 2011 (Political Behavior 33(4):601-624, Table 2, family discussion): conscientiousness 0.63 on the ordered log-odds of talking local politics with family over the trait's full range (SD 0.29), odds ratio 1.49 between the thirds. Read as crossed net odds (every weighing's case against every listener's lean, top third against bottom third) over 22,461 weighings in four drawn towns' played years, it gives 1.50 pooled and 1.42 to 1.91 by town.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.055,
+      "high": 0.19,
+      "unit": "weight",
+      "citation": "The weights at which the pooled crossed net odds reach the study's interval, 1.2 to 2.4 (coefficient 0.63 plus or minus 1.96 standard errors of 0.28, scaled the same way), at this case."
     }
   },
   "traitWeightContractsAward": {
