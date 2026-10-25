@@ -12,7 +12,7 @@ description: >
 
 # Play first
 
-Current as of 2026-10-24, 21:30 UTC (the acting CTO's lane PR #5963; the owner's Oct 24 "go ahead": lane agents may edit director and English files for lane items, with the Words session's review)
+Current as of 2026-10-25, 18:30 UTC (the acting CTO's lane PR #5963; the owner's Oct 24 "go ahead": lane agents may edit director and English files for lane items, with the Words session's review)
 
 The owner has never been able to play his game. This lane fixes that, one bounded item at a time, run by many agents of different models in turn. **The owner is a file, not a session:** his rulings are `docs/play-first/LAW.md`, the order is `ORDER.md`, where the last agent stopped is `PROGRESS.md`. Nothing lives in your memory or anyone else's.
 
@@ -65,8 +65,4 @@ Set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm c
 
 ## The prompt
 
-> Read AGENTS.md, then docs/play-first/README.md, LAW.md, ORDER.md, PROGRESS.md and the CTO section of docs/coordination/LEADS-2026-10-24.md in lamontaes/Political-Game-Git. You are the next agent on the play-first lane; the lane is the owner, you are its hands.
-> Take the first item in ORDER.md that PROGRESS.md does not show as done or pushed in the last 3 hours; claim it: `node --import tsx scripts/pool/index.ts claim <id> --branch play-first/<id>`.
-> Work it to its You-will-see line inside its time box. Push every 30 minutes or every green step; open the draft PR at the first push with the item id on line 1 and before/after screenshots (`Review: words` if you touched director or English files).
-> Before you stop for any reason, add the handoff line from HANDOFF-TEMPLATE.md to PROGRESS.md and push. Honor every line of LAW.md. Never dev mode to get past something; never force-push; never merge your own PR.
-> Cloud environment: OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command; never ask the owner to confirm it.
+> Read AGENTS.md, then docs/play-first/README.md, LAW.md, ORDER.md and PROGRESS.md in lamontaes/Political-Game-Git. You are the next agent on the play-first lane; the lane is the owner, you are its hands. Take the first item in ORDER.md marked [open], or [claimed]/[in PR] with no push in the last 3 hours (check the branch); claim it: `node --import tsx scripts/pool/index.ts claim <id> --branch play-first/<id>` (or check out the existing branch). Work it to its You-will-see line inside its time box. Push every 30 minutes or every green step; open the draft PR at the first push with the item id on line 1 and before/after screenshots. Before you stop for any reason, append the handoff block from HANDOFF-TEMPLATE.md to PROGRESS.md and push. Honor every line of LAW.md. Never dev mode to get past something; never force-push; never merge your own PR. Cloud environment: OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command; never ask the owner to confirm it.

@@ -44,6 +44,7 @@ import {
 } from "../../src/core2/modules/budgets";
 import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "../../src/core2/law-reach/group-b-store";
+import { ownPayments, UNDER, type Posting, type Reached } from "./own-payments";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import { townSeats } from "../../src/core2/modules/offices";
@@ -128,16 +129,36 @@ interface Trace {
   money: Map<string, { gross: number; posts: number; ids: string[] }>;
   /** posts whose source cites a law id or key */
   cited: Map<string, { gross: number; ids: string[] }>;
+  /** account -> each posting on it: date, source kind, signed amount, journal id */
+  byAccount: Map<string, Posting[]>;
   on: boolean;
 }
 const trace: Trace = {
   reads: new Map(),
   money: new Map(),
   cited: new Map(),
+  byAccount: new Map(),
   on: false,
 };
 let trackedKeys = new Set<string>();
+const kinds = new Map<string, string>();
 let citeTokens: string[] = [];
+/** Every law key, to name the laws a payment's source cites. */
+const lawKeys = allLaws().map((l) => l.key);
+const underCache = new Map<string, string>();
+/** The law keys a source id cites, from its first "law:" on (a price's id ends in its law's key and row), bounded by colons. */
+function underOf(sourceId: string): string {
+  const at = sourceId.indexOf("law:");
+  if (at < 0) return "";
+  const tail = `:${sourceId.slice(at)}:`;
+  let under = underCache.get(tail);
+  if (under === undefined) {
+    if (underCache.size > 50_000) underCache.clear();
+    under = lawKeys.filter((k) => tail.includes(`:${k}:`)).join("+");
+    underCache.set(tail, under);
+  }
+  return under;
+}
 
 function startTraces(): void {
   Error.stackTraceLimit = 60;
@@ -169,6 +190,16 @@ function startTraces(): void {
     row.posts += 1;
     if (row.ids.length < 3) row.ids.push(input.id);
     trace.money.set(kind, row);
+    // One shared string per source kind, poster and the laws its source cites.
+    const under = underOf(input.sourceRef.id);
+    const own = under ? `${kind}${UNDER}${under}` : kind;
+    const shared = kinds.get(own) ?? kinds.set(own, own).get(own)!;
+    for (const p of input.postings) {
+      const list = trace.byAccount.get(p.accountId);
+      const posting: Posting = [input.date, shared, p.deltaMinor, input.id];
+      if (list) list.push(posting);
+      else trace.byAccount.set(p.accountId, [posting]);
+    }
     const text = `${input.id} ${input.sourceRef.id}`;
     for (const t of citeTokens)
       if (text.includes(t)) {
@@ -183,6 +214,7 @@ function resetTrace(): void {
   trace.reads = new Map();
   trace.money = new Map();
   trace.cited = new Map();
+  trace.byAccount = new Map();
 }
 
 // ---- reading the world ----------------------------------------------------
@@ -455,6 +487,53 @@ function stepHearing(
   }
 }
 
+function reachedTargets(
+  core: CoreState,
+  key: string,
+  lawIds: ReadonlySet<string> | null,
+): Reached[] {
+  const api = coreAPI(core);
+  const out = new Map<string, Reached>();
+  const add = (row: Record<string, unknown>, target: unknown) => {
+    if (lawIds && row.lawId && !lawIds.has(String(row.lawId))) return;
+    const targetId = String(target);
+    if (out.has(targetId)) return;
+    out.set(targetId, {
+      targetId,
+      row: String(row.id),
+      amountMinor: Number(row.amountMinor ?? 0) || 0,
+      since: String(row.since ?? ""),
+    });
+  };
+  if (core.modules.has(LAW_REACH_HOST_ID))
+    for (const row of api
+      .moduleState(LAW_REACH_HOST_ID)
+      .table(LAW_APPLIED_TABLE)
+      .rows() as unknown as LawAppliedRow[])
+      if (row.key === key)
+        add(row as unknown as Record<string, unknown>, row.targetId);
+  if (core.modules.has(REACH_A_MODULE_ID))
+    for (const row of api
+      .moduleState(REACH_A_MODULE_ID)
+      .table("reach")
+      .rows() as unknown as Record<string, unknown>[])
+      if (row.key === key) add(row, row.targetId);
+  if (core.modules.has(REACH_B_MODULE_ID)) {
+    const b = api.moduleState(REACH_B_MODULE_ID);
+    // Its group rows count a place's counted people, not a payee: skipped.
+    for (const [table, field] of [
+      ["people", "personId"],
+      ["organizations", "organizationId"],
+    ] as const)
+      for (const row of b.table(table).rows() as unknown as Record<
+        string,
+        unknown
+      >[])
+        if (row.key === key) add(row, row[field]);
+  }
+  return [...out.values()].sort((a, b) => a.targetId.localeCompare(b.targetId));
+}
+
 function snapshotMoney() {
   const m = new Map<string, { gross: number; posts: number; ids: string[] }>();
   for (const [k, v] of trace.money) m.set(k, { ...v, ids: [...v.ids] });
@@ -490,6 +569,13 @@ function townLevel(
  * independent redistricting commission draws a state's lines (a town draws
  * only its own ward lines, and most towns have none).
  */
+/**
+ * `--at <level>` enacts every law of the run at that level: a law a town
+ * cannot pass where it is drawn (a state's own minimum wage question, where
+ * the state preempts local wages) is enacted where it can be. The general
+ * rule is `laws-checker-enacts-where-no-power`.
+ */
+const AT = arg("at");
 const ENACT_AT: Readonly<Record<string, readonly string[]>> = {
   "us-policy-positions:government-operations.independent-redistricting": [
     "state",
@@ -554,7 +640,10 @@ function setQuestion(
     }
     return `repealed at ${levels.join(", ") || "no level"} effective ${date}`;
   }
-  const at = townLevel(api, ENACT_AT[law.key] ?? law.catalog?.levels ?? null);
+  const at = townLevel(
+    api,
+    AT ? [AT] : (ENACT_AT[law.key] ?? law.catalog?.levels ?? null),
+  );
   if (!at) return "no level of the town's chain may enact it";
   const row = enactLaw(api, {
     ...at,
@@ -668,7 +757,7 @@ function changeAmount(
   const g = now.governing as LawRowInput | null | undefined;
   const at = g
     ? { level: g.level, jurisdiction: g.jurisdiction }
-    : townLevel(api, law.catalog?.levels ?? null);
+    : townLevel(api, AT ? [AT] : (law.catalog?.levels ?? null));
   if (!at)
     return {
       lawIds: ids,
@@ -789,6 +878,10 @@ interface Control {
   reach: Map<string, ReachCount>;
   /** Posts citing each law's key in the control world, where a law in force at the opening stays in force. */
   cited: Map<string, { gross: number; ids: string[] }>;
+  /** Every posting in the control window, by account. */
+  byAccount: Map<string, Posting[]>;
+  /** Whom each law in force reached in the control world (a repeal stops their money). */
+  targets: Map<string, Reached[]>;
 }
 
 /** The series a null law sets: no engine, handler or link reads it. */
@@ -840,6 +933,10 @@ function runControl(
   const money = snapshotMoney();
   const reads = trace.reads;
   const cited = new Map(trace.cited);
+  const byAccount = trace.byAccount;
+  const targets = new Map(
+    laws.map((l) => [l.key, reachedTargets(w.core, l.key, null)] as const),
+  );
   const placeId = lawChain(coreAPI(w.core)).townPlaceId;
   const web = new Map<string, number>();
   for (const law of laws)
@@ -850,7 +947,7 @@ function runControl(
   for (const law of laws)
     for (const c of webCauses(w.core, placeId, [law]))
       cause.set(`${c.id}|${c.link.key}`, c.value);
-  return { money, reads, web, cause, reach, cited };
+  return { money, reads, web, cause, reach, cited, byAccount, targets };
 }
 
 function checkLaw(
@@ -946,6 +1043,18 @@ function checkLaw(
   // Once a body's own row takes over, the people the change reached cite that
   // row, so an enactment's reach is its widest step in the window.
   const reachAtEnd = reachOf(core, law.key, ids);
+  // The law's own payments to whom it reached, against the control world.
+  const own = ownPayments(
+    (id) => core.households.get(id)?.memberIds ?? [],
+    opening
+      ? (control.targets.get(law.key) ?? [])
+      : reachedTargets(core, law.key, ids),
+    trace.byAccount,
+    control.byAccount,
+    opening,
+    since,
+    law.key,
+  );
   const reach =
     peak?.reach && peak.reach.open > reachAtEnd.open ? peak.reach : reachAtEnd;
   // Law rows a body in play (not the checker) put in force on the series in the window.
@@ -1113,6 +1222,7 @@ function checkLaw(
       diffKinds: moneyDiff.length,
       cited,
       controlCited,
+      own,
     },
     web: {
       links: links.map((l) => ({ key: l.key, status: l.status, to: l.to })),

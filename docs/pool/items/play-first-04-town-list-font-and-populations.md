@@ -7,11 +7,12 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #6088
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at:
 ---
 
 **What.** The owner's read of the playtest screenshots: one font in the town list (the states' font), and the populations shown are the simulated ones. In the v0.22.10 creator the town list mixes fonts, and its counts come from a different table than the town the world builds. This item sets the list in the states' font and shows each town's count from the same source the world opens with.
@@ -29,3 +30,5 @@ milestone: play-first
 **Files.** src/bench/creator.ts, src/bench/place-selection.mjs, src/bench/places.ts, src/bench/play.css
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Sent back 2026-10-25 ~22:45 UTC from PR #6088 (branch play-first/play-first-04-town-list-font-and-populations, head 7617facf1f with main merged in): both body screenshots are wrapped in backticks so they render as code, not images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
