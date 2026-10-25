@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/closure-seeker-witness
-pr:
+pr: #6013
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T09:54:43.101Z
