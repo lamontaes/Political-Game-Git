@@ -21,4 +21,4 @@ claimed-at: 2026-10-25T15:19:59.748Z
 
 **Files.** src/core2/modules/outcome-web.ts, src/core2/modules/laws.ts
 
-**Notes.** TODO
+**Notes.** Fixed by #6006 (`web-reach-health`), effects lead, Oct 25: the web now reads a date before the calibration date as the law stood on that date (`causeAt` in `src/core2/modules/outcome-web.ts`). Its played test repeals the Medicaid expansion in Magas Arriba, Puerto Rico (seed `cd8115b11913aa3f`); the 12-month mortality link stays at no effect until `web:jurisdiction_2e69284a5d5f9738:2026-02`, and the break-it check with the old reading fails at once.
