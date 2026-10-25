@@ -293,49 +293,67 @@ export function scoreOffers(
   const scored: ScoredOffer[] = [];
   let nextOfferIndex = p("zero");
   const traitWeight = p(traitWeightKey(offers));
+  const zero = p("zero");
+  // The terms that depend only on the kind of act (its need, the strongest
+  // goal it serves, its act kinds' trait lean and its feelings) are the same
+  // for every offer of that kind in this call: worked out once per kind.
+  const byKind = new Map<
+    ActOffer["definition"],
+    { need: number; goal: number; trait: number; emotion: number }
+  >();
   for (const offer of offers) {
     const offerIndex = nextOfferIndex++;
     const action = offer.definition;
     const effortHours = offer.effortHours ?? p(action.effortParameter);
     if (!Number.isFinite(offer.availableHours) || !Number.isFinite(effortHours))
       throw new Error("Non-finite choice utility.");
-    if (offer.availableHours < p("zero") || effortHours < p("zero"))
+    if (offer.availableHours < zero || effortHours < zero)
       throw new Error("Invalid choice time budget.");
     const drive = offer.driveId ? actor.drives.get(offer.driveId) : undefined;
-    // The strongest matching goal, without copying the person's goals.
-    let goal = p("zero");
-    if (action.goalKinds.length) {
-      for (const row of actor.goals.values())
-        if (action.goalKinds.includes(row.kind))
-          goal = Math.max(
-            goal,
-            context?.goalUrgencies?.[row.id] ?? row.urgency,
-          );
-      for (const row of context?.goalRows ?? [])
-        if (action.goalKinds.includes(row.kind))
-          goal = Math.max(
-            goal,
-            context?.goalUrgencies?.[row.id] ?? row.urgency,
-          );
+    let kind = byKind.get(action);
+    if (!kind) {
+      // The strongest matching goal, without copying the person's goals.
+      let goal = zero;
+      if (action.goalKinds.length) {
+        for (const row of actor.goals.values())
+          if (action.goalKinds.includes(row.kind))
+            goal = Math.max(
+              goal,
+              context?.goalUrgencies?.[row.id] ?? row.urgency,
+            );
+        for (const row of context?.goalRows ?? [])
+          if (action.goalKinds.includes(row.kind))
+            goal = Math.max(
+              goal,
+              context?.goalUrgencies?.[row.id] ?? row.urgency,
+            );
+      }
+      kind = {
+        need:
+          (context?.needValues?.[action.need] ??
+            actor.needs[action.need] ??
+            zero) * p("needWeight"),
+        goal: goal * p("goalWeight"),
+        trait: traitScore(core, actor, offer) * traitWeight,
+        emotion:
+          p("emotionWeight") *
+          ((context?.affect ?? actor.affect).mood *
+            p(action.emotion?.moodMultiplierParameter ?? "zero") +
+            (context?.affect ?? actor.affect).stress *
+              p(action.emotion?.stressMultiplierParameter ?? "zero")),
+      };
+      byKind.set(action, kind);
     }
     const reasons: DecisionReason = {
-      need:
-        (context?.needValues?.[action.need] ??
-          actor.needs[action.need] ??
-          p("zero")) * p("needWeight"),
-      goal: goal * p("goalWeight"),
-      drive: (drive?.strength ?? p("zero")) * p("driveWeight"),
-      trait: traitScore(core, actor, offer) * traitWeight,
-      emotion:
-        p("emotionWeight") *
-        ((context?.affect ?? actor.affect).mood *
-          p(action.emotion?.moodMultiplierParameter ?? "zero") +
-          (context?.affect ?? actor.affect).stress *
-            p(action.emotion?.stressMultiplierParameter ?? "zero")),
+      need: kind.need,
+      goal: kind.goal,
+      drive: (drive?.strength ?? zero) * p("driveWeight"),
+      trait: kind.trait,
+      emotion: kind.emotion,
       effort:
-        offer.availableHours > p("zero")
+        offer.availableHours > zero
           ? (-effortHours / offer.availableHours) * p("effortWeight")
-          : p("zero"),
+          : zero,
     };
     const ownBindings = action.reasonBindings ?? NO_BINDINGS,
       offerBindings = offer.reasonBindings ?? NO_BINDINGS;
