@@ -189,20 +189,20 @@ try {
           continue;
         }
         const order = [...Array(n).keys()].sort((a, b) => {
+          // A 2026 race fills a multi-page general-election ballot, which is
+          // what the pager proof needs; nearer races fit on one page.
           const rank = (t) =>
-            /council.*2025/i.test(t)
+            /council.*2026/i.test(t)
               ? 0
-              : /council/i.test(t)
+              : /2026/i.test(t)
                 ? 1
-                : /mayor.*2025/i.test(t)
+                : /council/i.test(t)
                   ? 2
                   : /mayor/i.test(t)
                     ? 3
-                    : /2025/i.test(t)
+                    : /I want to run for/i.test(t)
                       ? 4
-                      : /I want to run for/i.test(t)
-                        ? 5
-                        : 6;
+                      : 5;
           return rank(texts[a]) - rank(texts[b]);
         });
         let acted = false;
