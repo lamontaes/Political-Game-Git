@@ -23,6 +23,7 @@ try {
     { timeout: 600000 },
   );
   await page.locator("#new-life").click();
+  await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
   const response = await made;
   console.log("Seed:", new URL(response.url()).searchParams.get("seed"));

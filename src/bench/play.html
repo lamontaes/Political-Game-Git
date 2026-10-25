@@ -89,15 +89,6 @@
             <b>New game</b>
           </button>
           <button
-            id="front-watch"
-            class="item"
-            type="button"
-            data-testid="watch-world"
-            disabled
-          >
-            <b>Watch the world</b>
-          </button>
-          <button
             id="front-continue"
             class="item"
             type="button"
@@ -148,8 +139,34 @@
             data-testid="title-version"
           ></small>
         </div>
-        <!-- New game: how the world begins. -->
+        <!-- New game: Start a life is the way in; the world modes sit under one Advanced link (owner, Oct 24). -->
         <div id="front-new" data-testid="new-game-choice" hidden>
+          <button
+            id="new-start"
+            class="item primary"
+            type="button"
+            data-testid="start-life"
+          >
+            <b>Start a life</b>
+          </button>
+          <button
+            id="new-advanced"
+            class="item link"
+            type="button"
+            data-testid="new-advanced"
+            data-label="title.advanced"
+          ></button>
+          <button
+            id="new-back"
+            class="item"
+            type="button"
+            data-testid="new-game-back"
+          >
+            <b>Back</b>
+          </button>
+        </div>
+        <!-- Advanced: the world modes, none of them a life. -->
+        <div id="front-advanced" data-testid="world-modes" hidden>
           <button
             id="new-custom"
             class="item"
@@ -157,14 +174,6 @@
             data-testid="custom-world"
           >
             <b>Custom world</b>
-          </button>
-          <button
-            id="new-start"
-            class="item"
-            type="button"
-            data-testid="start-life"
-          >
-            <b>Start a life</b>
           </button>
           <button
             id="new-world"
@@ -175,10 +184,19 @@
             <b>New world</b>
           </button>
           <button
-            id="new-back"
+            id="front-watch"
             class="item"
             type="button"
-            data-testid="new-game-back"
+            data-testid="watch-world"
+            disabled
+          >
+            <b>Watch the world</b>
+          </button>
+          <button
+            id="advanced-back"
+            class="item"
+            type="button"
+            data-testid="advanced-back"
           >
             <b>Back</b>
           </button>

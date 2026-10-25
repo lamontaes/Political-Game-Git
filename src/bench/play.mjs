@@ -563,6 +563,12 @@ const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
   controls = value;
+  // Title labels are control names from data, never typed here.
+  for (const el of document.querySelectorAll("[data-label]"))
+    el.textContent =
+      el.dataset.label
+        .split(".")
+        .reduce((node, key) => node?.[key], controls) ?? "";
   $("week").textContent = controls.time?.week ?? "";
   return value;
 });
@@ -4177,11 +4183,13 @@ $("front-options").addEventListener("click", () => openSheet("options"));
 $("dev-toggle").addEventListener("click", () =>
   document.body.classList.toggle("dev"),
 );
-// New game: Custom world (the world's settings, then the creator), Start a
-// life (the creator) or New world (straight in, a random person and place).
+// New game: Start a life (the creator) first, with one Advanced link to the
+// world modes: Custom world (the world's settings, then the creator) and New
+// world (straight in, a random person and place).
 const FRONT_PANELS = [
   "front-main",
   "front-new",
+  "front-advanced",
   "front-custom",
   "cr-character",
   "cr-place",
@@ -4312,13 +4320,17 @@ async function openCreator(custom) {
   frontPanel("cr-character");
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
+$("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
+$("advanced-back").addEventListener("click", () => frontPanel("front-new"));
 $("new-back").addEventListener("click", () => frontPanel("front-main"));
 $("new-custom").addEventListener("click", () => frontPanel("front-custom"));
 $("new-start").addEventListener("click", () => void openCreator(false));
 $("new-world").addEventListener("click", () => startLife({}));
-$("custom-back").addEventListener("click", () => frontPanel("front-new"));
+$("custom-back").addEventListener("click", () => frontPanel("front-advanced"));
 $("custom-next").addEventListener("click", () => void openCreator(true));
-$("cr-route").addEventListener("click", () => frontPanel("front-new"));
+$("cr-route").addEventListener("click", () =>
+  frontPanel(setup.custom ? "front-advanced" : "front-new"),
+);
 $("cr-character-back").addEventListener("click", () =>
   frontPanel(setup.custom ? "front-custom" : "front-new"),
 );
@@ -4627,7 +4639,7 @@ async function startLife({ custom = false, placeKey, person }) {
   } catch (error) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
-    frontPanel(person ? "cr-look" : "front-new");
+    frontPanel(person ? "cr-look" : "front-advanced");
   } finally {
     document.querySelector("#front .progress").hidden = true;
   }

@@ -738,6 +738,24 @@ input[type="range"]::-moz-range-thumb {
 #new-life b {
   color: #fff;
 }
+/* Start a life is the first and largest choice; Advanced is a quiet link beneath it. */
+.item.primary {
+  padding: 14px 0 16px;
+}
+.item.primary b {
+  font-size: 22px;
+  color: #fff;
+}
+.item.link {
+  color: var(--text-2);
+  font: 400 13px var(--ui);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 2px 0 12px;
+}
+.item.link:hover {
+  color: #fff;
+}
 #front-status:empty {
   display: none;
 }

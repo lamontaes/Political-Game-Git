@@ -180,6 +180,9 @@
     "interviewOutlet": "Ask for an interview with",
     "nameHeadPick": "Name to the post"
   },
+  "title": {
+    "advanced": "Advanced"
+  },
   "titleUnavailable": {
     "watch": "Watching the world without a player is not on the new core yet.",
     "saves": "Saved games come with the save format at early-access preparation.",
