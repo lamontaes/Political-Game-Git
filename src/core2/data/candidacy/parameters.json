@@ -99,7 +99,7 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyOpenSeatWeight": {
-    "value": 0.5,
+    "value": 1.2,
     "tag": "TUNABLE",
     "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Set at the low end so one open seat in a town of about a thousand adults still draws only a handful. Spread 0.5 to 1.5.",
     "stopgapId": "SG-P15-candidacy-weights"
