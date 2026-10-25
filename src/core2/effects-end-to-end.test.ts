@@ -14,9 +14,8 @@
  * 5. each of them lives it and takes it as a reason for the side they
  *    already hold on police spending, the stance citing the record;
  * 6. the director keeps it as a moment for that person, and a talk with
- *    someone they know raises it as a subject whose source is the record.
- *    The lines that say it are held until graded, so play leaves it unsaid
- *    and the grading route says it.
+ *    someone they know raises it as a subject whose source is the record,
+ *    and ordinary play says it: no grade holds its lines.
  *
  * The research's size is a share a point of unemployment above 4%, so the
  * link raises the rate only in a month the town's unemployment is above it;
@@ -57,7 +56,6 @@ import {
   openConversation,
   subjectsBetween,
 } from "../director/conversation";
-import { conversationDataFromBank } from "../director/mined/conversation-bank";
 
 const seed =
   process.env.EFFECTS_END_TO_END_SEED || randomBytes(8).toString("hex");
@@ -329,16 +327,14 @@ describe(`unemployment to a named victim's view on the police (seed ${seed})`, (
       expect(subject!.facts.victimized!.sourceRecordIds, where).toEqual([
         victim.eventId,
       ]);
-      // Held: play has no graded line for it yet; the grading route says it.
+      // Play has lines to raise it with: no grade holds them.
       expect(
-        CONVERSATION_DATA.subjects.victimization?.raise ?? [],
+        CONVERSATION_DATA.subjects.victimization?.raise?.length ?? 0,
         where,
-      ).toEqual([]);
-      const talk = openConversation(again, listener!, victimId, {
-        director,
-        occasionId: moment!.id,
-        data: conversationDataFromBank(undefined, true),
-      });
+      ).toBeGreaterThan(0);
+      // The talk's occasion would be the listener's own moment, and the crime
+      // made none for them: the victim raises it as the talk's main subject.
+      const talk = openConversation(again, listener!, victimId, { director });
       const raised = talk.lines.find(
         (line) =>
           line.speakerId === victimId &&
@@ -358,7 +354,7 @@ describe(`unemployment to a named victim's view on the police (seed ${seed})`, (
           (moved.length > 1
             ? `; ${moved.length - 1} more in the household moved`
             : "") +
-          ` -> director moment ${moment!.id} -> talk with ${listener} on subject ${subject!.id}, said on the grading route as "${raised!.text}"`,
+          ` -> director moment ${moment!.id} -> talk with ${listener} on subject ${subject!.id}, said in ordinary play as "${raised!.text}"`,
       );
     } finally {
       setBookkeeping(priorBookkeeping);
