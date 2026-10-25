@@ -747,8 +747,9 @@ export function composeOpeningStory(
 
 /**
  * Record the address once, as a public event on the opening day: the news
- * engine carries it to the town, the player saw it, and anyone who hears it
- * can bring it up. Returns the story it recorded, or null.
+ * engine carries it to the town, the player and the household watching it
+ * with them on the news at home saw it, and anyone who hears it can bring it
+ * up. Returns the story it recorded, or null.
  */
 export function recordOpeningStory(
   core: CoreState,
@@ -767,7 +768,13 @@ export function recordOpeningStory(
     date: core.date as never,
     kind: OPENING_ADDRESS_EVENT,
     personIds: [story.president.id],
-    witnessIds: [playerId],
+    // The household watches it with the player, on the news they have on.
+    witnessIds: [
+      playerId,
+      ...story.home.memberIds.filter(
+        (id) => id !== playerId && core.people.has(id),
+      ),
+    ],
     placeId: core.people.get(playerId)!.placeId,
     source: {
       tag: "SOURCED",
