@@ -1,6 +1,31 @@
 {
   "entries": [
     {
+      "version": "0.24.0",
+      "releasedOn": "2026-10-24",
+      "revision": "f887b559bf8a97dba5b3168210c14994f3d1367a",
+      "changeIds": [
+        "gov-outside-revenue-fees",
+        "merger0-return-5036-2026-10-24",
+        "web-labor-participation-wired",
+        "words-dialogue-in-play",
+        "words-opening-stopgap-why",
+        "world-nj-local-sales-tax-average-negative"
+      ]
+    },
+    {
+      "version": "0.23.5",
+      "releasedOn": "2026-10-24",
+      "revision": "70cbee1be73392f5801716170484a3ffd7cc7d08",
+      "changeIds": [
+        "core-civic-inputs-clerk-staff",
+        "core-guard-measured-span-scales-with-town",
+        "people-wages-credit-draw",
+        "roadmap-m1-economy-commands",
+        "world-living-costs-arrears-counted"
+      ]
+    },
+    {
       "version": "0.23.4",
       "releasedOn": "2026-10-24",
       "revision": "88bcdef4624f71771e43fec9114763cef503503b",

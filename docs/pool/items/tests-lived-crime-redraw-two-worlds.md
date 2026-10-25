@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/lived-crime-redraw-memory
 pr: #5978
 blocked-on:
