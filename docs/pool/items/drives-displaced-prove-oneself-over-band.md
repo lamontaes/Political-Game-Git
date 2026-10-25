@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/quirky-ride-vrwwz4-prove-oneself
+status: open
+claimed-by:
 pr: #6044
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T12:58:14.330Z
+claimed-at:
 ---
 
 **What.** The accepted spec M1-11's command (src/bench/m1-11-check.ts) fails on main in North Canton, Ohio (place key 3956294, seed 8a8c23de2f386de8944a7ea780e0004858517370b27b7434222d447aeebaf97c): 35.1 percent of 111 displaced workers choose prove-oneself, outside the 6 to 25 percent band the drives engine's own test holds (data/research/drives/economic-losses.json: retraining 10 to 16 percent plus a few points of new businesses). Steamboat Springs, Colorado reads 14.5 percent and Niceville, Florida 12.5 percent, so the rate moves with the town far more than the research allows. Golden-path turns red by draw on unrelated PRs (lamontaes/Political-Game-Git#5972). Find which inputs to the drives response choice (ambition fit, age agency, traits, the job lost) drive North Canton's displaced workers to prove-oneself, and fix the cause in the engine, not the band.
