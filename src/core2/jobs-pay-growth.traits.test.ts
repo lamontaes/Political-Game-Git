@@ -24,6 +24,8 @@ import type { CoreState } from "./types";
 const DAYS = 365;
 /** Days a raised worker is followed on the payroll after their raise. */
 const FOLLOW_DAYS = 14;
+/** Years apart that two workers' tenures count as the same. */
+const SAME_TENURE_YEARS = 0.25;
 
 function nextMonthStart(date: string): string {
   const [year, month] = date.split("-").map(Number) as [number, number];
@@ -155,8 +157,10 @@ function playYear(): void {
       `${countedRaised[0]!.values.fromHourlyMinor} to ${countedRaised[0]!.values.toHourlyMinor}`,
   );
 
-  // Two workers of opposite temperament at the same tenure, both raised in
-  // full: the one read as more diligent got the larger within-job raise.
+  // Two workers of opposite temperament at about the same tenure, both raised
+  // in full: the one read as more diligent got the larger within-job raise.
+  // Tenure held when the game began is estimated person by person, so no two
+  // workers share it to the day; a quarter year apart is the same tenure here.
   const full = raises.filter((row) => row.values.given === 1);
   let pair: [RaiseRow, RaiseRow] | undefined;
   for (const a of full)
@@ -164,8 +168,9 @@ function playYear(): void {
       if (
         a.values.workScore <= 0 ||
         b.values.workScore >= 0 ||
-        Math.abs(a.values.tenureYears - b.values.tenureYears) > 0.05 ||
-        Math.abs(a.values.sinceYears - b.values.sinceYears) > 0.05
+        Math.abs(a.values.tenureYears - b.values.tenureYears) >
+          SAME_TENURE_YEARS ||
+        Math.abs(a.values.sinceYears - b.values.sinceYears) > SAME_TENURE_YEARS
       )
         continue;
       const gap = a.values.workScore - b.values.workScore;
