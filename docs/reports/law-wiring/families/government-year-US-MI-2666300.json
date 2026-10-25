@@ -67,39 +67,39 @@
       },
       "inPlay": [],
       "readers": {
-        "src/core2/modules/outcome-web.ts:166": 318,
         "src/core2/modules/world-legislating.ts:253": 296,
-        "src/core2/modules/legislature.ts:2094": 140,
+        "src/core2/modules/outcome-web.ts:166": 282,
+        "src/core2/modules/legislature.ts:2126": 140,
         "src/core2/modules/world-legislating.ts:183": 90,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:1055": 16,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:2471": 16,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/voting.ts:1055": 16,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/voting.ts:2471": 16,
         "src/core2/life.ts:556": 5,
         "src/core2/modules/world-legislating.ts:333": 4,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/electorate-inputs.ts:230": 4,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/life.ts:556": 4
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/electorate-inputs.ts:230": 4,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/life.ts:556": 4
       },
       "openingRow": "law:US-MI:state:us-policy-positions:government-operations.all-mail-voting:general:starting",
       "money": {
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:915",
-            "treatment": 710208788495211,
-            "control": 710208788552157,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208790558877,
+            "control": 710208790615830,
             "ids": [
+              "journal:2025-02-01:1740",
               "journal:2025-02-01:1741",
-              "journal:2025-02-01:1742",
-              "journal:2025-02-01:1743"
+              "journal:2025-02-01:1742"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:316",
-            "treatment": 17320410,
-            "control": 17263464,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:306",
+            "treatment": 17320478,
+            "control": 17263525,
             "ids": [
-              "journal:2025-02-01:1888",
-              "journal:2025-03-01:8715",
-              "journal:2025-04-01:16313"
+              "journal:2025-02-01:1887",
+              "journal:2025-03-01:8735",
+              "journal:2025-04-01:16318"
             ]
           }
         ],
@@ -107,11 +107,18 @@
         "cited": [
           {
             "token": "us-policy-positions:government-operations.all-mail-voting",
-            "gross": 56946,
-            "ids": ["journal:2025-11-04:78181"]
+            "gross": 56953,
+            "ids": ["journal:2025-11-04:78380"]
           }
         ],
-        "controlCited": []
+        "controlCited": [],
+        "own": {
+          "targets": 199,
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": []
+        }
       },
       "web": {
         "links": [
@@ -303,7 +310,7 @@
         "reenacted": null
       },
       "heard": {
-        "people": 143,
+        "people": 105,
         "sample": [
           "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612",
           "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612",
@@ -334,7 +341,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 76
+      "seconds": 95
     },
     {
       "key": "us-policy-positions:government-operations.automatic-voter-registration",
@@ -390,12 +397,12 @@
       },
       "inPlay": [],
       "readers": {
-        "src/core2/modules/legislature.ts:2094": 591,
-        "src/core2/modules/outcome-web.ts:166": 350,
+        "src/core2/modules/legislature.ts:2126": 591,
+        "src/core2/modules/outcome-web.ts:166": 344,
         "src/core2/modules/world-legislating.ts:253": 222,
         "src/core2/modules/world-legislating.ts:183": 90,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:1055": 16,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:2471": 16,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/voting.ts:1055": 16,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/voting.ts:2471": 16,
         "src/core2/life.ts:556": 5,
         "src/core2/modules/world-legislating.ts:333": 4
       },
@@ -404,9 +411,19 @@
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
-            "treatment": 1940031685,
-            "control": 1942653660,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 661654760,
+            "control": 659937612,
+            "ids": [
+              "journal:2025-02-01:2625",
+              "journal:2025-02-01:2626",
+              "journal:2025-02-01:2627"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1288891848,
+            "control": 1290493693,
             "ids": [
               "journal:2025-01-21:1565",
               "journal:2025-01-21:1566",
@@ -414,29 +431,19 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
-            "treatment": 6046954,
-            "control": 4289861,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 9988555,
+            "control": 8515412,
             "ids": [
-              "journal:2025-09-01:55173",
-              "journal:2025-09-01:55174",
-              "journal:2025-09-01:55175"
+              "journal:2025-02-19:8294",
+              "journal:2025-02-19:8295",
+              "journal:2025-02-19:8297"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
-            "treatment": 11096245,
-            "control": 9365607,
-            "ids": [
-              "journal:2025-02-19:8275",
-              "journal:2025-02-19:8276",
-              "journal:2025-02-19:8278"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 374287030,
-            "control": 373201924,
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 374214287,
+            "control": 375260880,
             "ids": [
               "journal:2025-01-27:1666",
               "journal:2025-01-28:1669",
@@ -444,89 +451,242 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-            "treatment": 349951877,
-            "control": 348934695,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 347926213,
+            "control": 348709187,
             "ids": [
-              "journal:2025-01-23:1639",
-              "journal:2025-01-24:1640",
-              "journal:2025-01-25:1641"
+              "journal:2025-01-23:1635",
+              "journal:2025-01-24:1636",
+              "journal:2025-01-25:1637"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-            "treatment": 58937844,
-            "control": 59928516,
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 2345596,
+            "control": 3102315,
             "ids": [
-              "journal:2025-02-01:1947",
-              "journal:2025-02-01:1949",
-              "journal:2025-02-01:1951"
+              "journal:2025-10-01:63339",
+              "journal:2025-10-01:63340",
+              "journal:2025-10-01:63341"
             ]
           },
           {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 241061576,
-            "control": 242007556,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 176619244,
+            "control": 177187880,
             "ids": [
-              "journal:2025-02-01:1930",
-              "journal:2025-02-01:1931",
-              "journal:2025-02-01:1932"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 424862499,
-            "control": 424039081,
-            "ids": [
-              "journal:2025-01-21:1595",
-              "journal:2025-01-21:1596",
-              "journal:2025-01-21:1597"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
-            "treatment": 10885525,
-            "control": 11359050,
-            "ids": [
-              "journal:2025-03-01:9713",
-              "journal:2025-04-01:17460",
-              "journal:2025-05-01:25100"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
-            "treatment": 177079579363128,
-            "control": 177079579773746,
-            "ids": [
-              "journal:2025-02-01:1731",
-              "journal:2025-02-01:1732",
-              "journal:2025-02-01:1733"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:407",
-            "treatment": 858193,
-            "control": 1177695,
-            "ids": [
-              "journal:2025-10-01:63298",
-              "journal:2025-10-01:63299",
-              "journal:2025-11-01:71512"
+              "journal:2025-02-01:2611",
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-            "treatment": 65423216,
-            "control": 65149734,
+            "treatment": 61652069,
+            "control": 61215725,
             "ids": [
+              "journal:2025-02-01:1905",
               "journal:2025-02-01:1906",
-              "journal:2025-02-01:1907",
-              "journal:2025-02-01:1908"
+              "journal:2025-02-01:1907"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208790929801,
+            "control": 710208790615830,
+            "ids": [
+              "journal:2025-02-01:1740",
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 243123250,
+            "control": 243383384,
+            "ids": [
+              "journal:2025-02-01:1929",
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 421282703,
+            "control": 421073533,
+            "ids": [
+              "journal:2025-01-21:1591",
+              "journal:2025-01-21:1592",
+              "journal:2025-01-21:1593"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3331911719,
+            "control": 3332002834,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
             ]
           }
         ],
-        "diffKinds": 35,
+        "diffKinds": 37,
         "cited": [],
-        "controlCited": []
+        "controlCited": [],
+        "own": {
+          "targets": 199,
+          "pairs": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 3,
+              "moved": 68356,
+              "earliest": "2025-02-27",
+              "sample": [
+                {
+                  "target": "person_95f684085236b198",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_95f684085236b198",
+                  "date": "2025-02-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 166920,
+                  "control": 194740,
+                  "journal": "journal:2025-02-27:8498"
+                },
+                {
+                  "target": "person_1fbfcf491b7f3a03",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_1fbfcf491b7f3a03",
+                  "date": "2025-04-14",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 172771,
+                  "control": 191968,
+                  "journal": "journal:2025-04-14:23124"
+                },
+                {
+                  "target": "person_cced9480e845c19b",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_cced9480e845c19b",
+                  "date": "2025-04-21",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 192051,
+                  "control": 213390,
+                  "journal": "journal:2025-04-21:23360"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "out",
+              "targets": 3,
+              "moved": 16338,
+              "earliest": "2025-02-27",
+              "sample": [
+                {
+                  "target": "person_95f684085236b198",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_95f684085236b198",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -32074,
+                  "control": -38724,
+                  "journal": "journal:2025-02-27:8499"
+                },
+                {
+                  "target": "person_1fbfcf491b7f3a03",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_1fbfcf491b7f3a03",
+                  "date": "2025-04-14",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -33474,
+                  "control": -38062,
+                  "journal": "journal:2025-04-14:23125"
+                },
+                {
+                  "target": "person_cced9480e845c19b",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_cced9480e845c19b",
+                  "date": "2025-04-21",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -38081,
+                  "control": -43181,
+                  "journal": "journal:2025-04-21:23361"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 2,
+              "moved": 42340,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_95f685085236b34b",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_95f685085236b34b",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -12128,
+                  "control": -33298,
+                  "journal": "journal:2025-03-01:8746"
+                },
+                {
+                  "target": "person_95f684085236b198",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_95f684085236b198",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -180371,
+                  "control": -201541,
+                  "journal": "journal:2025-04-01:16332"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "in",
+              "targets": 1,
+              "moved": 21010,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_95f685085236b34b",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_95f685085236b34b",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -113041,
+                  "control": -92031,
+                  "journal": "journal:2025-04-01:16331"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+              "way": "in",
+              "targets": 1,
+              "moved": 8,
+              "earliest": "2025-12-01",
+              "sample": [
+                {
+                  "target": "person_2dc9b118ebc09a54",
+                  "row": "applied|us-policy-positions:government-operations.automatic-voter-registration|person_2dc9b118ebc09a54",
+                  "date": "2025-12-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "in",
+                  "treatment": 1464,
+                  "control": 1472,
+                  "journal": "journal:2025-12-01:81360"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": []
+        }
       },
       "web": {
         "links": [
@@ -683,7 +843,7 @@
         "reenacted": null
       },
       "heard": {
-        "people": 91,
+        "people": 88,
         "sample": [
           "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a",
           "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a",
@@ -691,9 +851,9 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 99,
-        "countedGroups": 91,
-        "countedPeople": 91,
+        "fullPeople": 106,
+        "countedGroups": 84,
+        "countedPeople": 84,
         "households": 0,
         "organizations": 0,
         "governments": 0,
@@ -719,7 +879,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 76
+      "seconds": 87
     },
     {
       "key": "us-policy-positions:government-operations.independent-redistricting",
@@ -772,10 +932,10 @@
       },
       "inPlay": [],
       "readers": {
-        "src/core2/modules/outcome-web.ts:166": 396,
-        "src/core2/modules/legislature.ts:2094": 371,
+        "src/core2/modules/outcome-web.ts:166": 388,
+        "src/core2/modules/legislature.ts:2126": 371,
         "src/core2/modules/world-legislating.ts:253": 288,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/budgets.ts:717": 96,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:722": 96,
         "src/core2/modules/world-legislating.ts:183": 90,
         "src/core2/life.ts:556": 10,
         "src/core2/modules/world-legislating.ts:333": 4
@@ -785,25 +945,35 @@
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:316",
-            "treatment": 24684,
-            "control": 17263464,
-            "ids": ["journal:2025-11-04:78228"]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:915",
-            "treatment": 710208805534843,
-            "control": 710208788552157,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208808130188,
+            "control": 710208790615830,
             "ids": [
+              "journal:2025-02-01:1740",
               "journal:2025-02-01:1741",
-              "journal:2025-02-01:1742",
-              "journal:2025-02-01:1743"
+              "journal:2025-02-01:1742"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
-            "treatment": 1940031685,
-            "control": 1942653660,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:306",
+            "treatment": 24750,
+            "control": 17263525,
+            "ids": ["journal:2025-11-04:78446"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 661654760,
+            "control": 659937612,
+            "ids": [
+              "journal:2025-02-01:2624",
+              "journal:2025-02-01:2625",
+              "journal:2025-02-01:2626"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1288891848,
+            "control": 1290493693,
             "ids": [
               "journal:2025-01-21:1565",
               "journal:2025-01-21:1566",
@@ -811,29 +981,19 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
-            "treatment": 6046954,
-            "control": 4289861,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 9988550,
+            "control": 8515412,
             "ids": [
-              "journal:2025-09-01:55169",
-              "journal:2025-09-01:55170",
-              "journal:2025-09-01:55171"
+              "journal:2025-02-19:8293",
+              "journal:2025-02-19:8294",
+              "journal:2025-02-19:8296"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
-            "treatment": 11096245,
-            "control": 9365607,
-            "ids": [
-              "journal:2025-02-19:8274",
-              "journal:2025-02-19:8275",
-              "journal:2025-02-19:8277"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 374287030,
-            "control": 373201924,
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 374252681,
+            "control": 375260880,
             "ids": [
               "journal:2025-01-27:1666",
               "journal:2025-01-28:1669",
@@ -841,79 +1001,231 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-            "treatment": 349951866,
-            "control": 348934695,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 347926060,
+            "control": 348709187,
             "ids": [
-              "journal:2025-01-23:1639",
-              "journal:2025-01-24:1640",
-              "journal:2025-01-25:1641"
+              "journal:2025-01-23:1635",
+              "journal:2025-01-24:1636",
+              "journal:2025-01-25:1637"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-            "treatment": 58937844,
-            "control": 59928516,
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 2345596,
+            "control": 3102315,
             "ids": [
-              "journal:2025-02-01:1946",
-              "journal:2025-02-01:1948",
-              "journal:2025-02-01:1950"
+              "journal:2025-10-01:63335",
+              "journal:2025-10-01:63336",
+              "journal:2025-10-01:63337"
             ]
           },
           {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 241061576,
-            "control": 242007556,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 176619322,
+            "control": 177187880,
             "ids": [
+              "journal:2025-02-01:2610",
+              "journal:2025-02-01:2611",
+              "journal:2025-02-01:2612"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 61651922,
+            "control": 61215725,
+            "ids": [
+              "journal:2025-02-01:1904",
+              "journal:2025-02-01:1905",
+              "journal:2025-02-01:1906"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 243123304,
+            "control": 243383384,
+            "ids": [
+              "journal:2025-02-01:1928",
               "journal:2025-02-01:1929",
-              "journal:2025-02-01:1930",
-              "journal:2025-02-01:1931"
+              "journal:2025-02-01:1930"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 424862408,
-            "control": 424039081,
+            "treatment": 421313035,
+            "control": 421073533,
             "ids": [
-              "journal:2025-01-21:1595",
-              "journal:2025-01-21:1596",
-              "journal:2025-01-21:1597"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
-            "treatment": 10885525,
-            "control": 11359050,
-            "ids": [
-              "journal:2025-03-01:9711",
-              "journal:2025-04-01:17457",
-              "journal:2025-05-01:25096"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
-            "treatment": 177079579363078,
-            "control": 177079579773746,
-            "ids": [
-              "journal:2025-02-01:1731",
-              "journal:2025-02-01:1732",
-              "journal:2025-02-01:1733"
+              "journal:2025-01-21:1591",
+              "journal:2025-01-21:1592",
+              "journal:2025-01-21:1593"
             ]
           }
         ],
-        "diffKinds": 36,
+        "diffKinds": 37,
         "cited": [],
         "controlCited": [
           {
             "token": "us-policy-positions:government-operations.independent-redistricting",
             "gross": 17238780,
             "ids": [
-              "journal:2025-02-01:1888",
-              "journal:2025-03-01:8715",
-              "journal:2025-04-01:16313"
+              "journal:2025-02-01:1887",
+              "journal:2025-03-01:8735",
+              "journal:2025-04-01:16318"
             ]
           }
-        ]
+        ],
+        "own": {
+          "targets": 1,
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+              "way": "in",
+              "targets": 1,
+              "moved": 4309695,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "US-MI",
+                  "row": "applied|us-policy-positions:government-operations.independent-redistricting|US-MI",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+                  "way": "in",
+                  "treatment": -478561446588,
+                  "control": -478557136893,
+                  "journal": "journal:2025-03-01:8591"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:306",
+              "way": "out",
+              "targets": 1,
+              "moved": 4309695,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "US-MI",
+                  "row": "applied|us-policy-positions:government-operations.independent-redistricting|US-MI",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:306",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": -4309695,
+                  "journal": "journal:2025-02-01:1887"
+                }
+              ]
+            },
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "out",
+              "targets": 1,
+              "moved": 23247,
+              "earliest": "2025-04-24",
+              "sample": [
+                {
+                  "target": "US-MI",
+                  "row": "applied|us-policy-positions:government-operations.independent-redistricting|US-MI",
+                  "date": "2025-04-24",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "out",
+                  "treatment": -562573,
+                  "control": -585820,
+                  "journal": "journal:2025-04-24:23482"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "in",
+              "targets": 1,
+              "moved": 1182,
+              "earliest": "2025-02-27",
+              "sample": [
+                {
+                  "target": "US-MI",
+                  "row": "applied|us-policy-positions:government-operations.independent-redistricting|US-MI",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "in",
+                  "treatment": -13097,
+                  "control": -11915,
+                  "journal": "journal:2025-02-27:8487"
+                }
+              ]
+            },
+            {
+              "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+              "way": "in",
+              "targets": 1,
+              "moved": 518,
+              "earliest": "2025-04-14",
+              "sample": [
+                {
+                  "target": "US-MI",
+                  "row": "applied|us-policy-positions:government-operations.independent-redistricting|US-MI",
+                  "date": "2025-04-14",
+                  "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+                  "way": "in",
+                  "treatment": -23183,
+                  "control": -22665,
+                  "journal": "journal:2025-04-14:23114"
+                }
+              ]
+            },
+            {
+              "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+              "way": "out",
+              "targets": 1,
+              "moved": 278,
+              "earliest": "2025-04-28",
+              "sample": [
+                {
+                  "target": "US-MI",
+                  "row": "applied|us-policy-positions:government-operations.independent-redistricting|US-MI",
+                  "date": "2025-04-28",
+                  "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+                  "way": "out",
+                  "treatment": -62243,
+                  "control": -62521,
+                  "journal": "journal:2025-04-28:23603"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+              "way": "out",
+              "targets": 1,
+              "moved": 2,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "US-MI",
+                  "row": "applied|us-policy-positions:government-operations.independent-redistricting|US-MI",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+                  "way": "out",
+                  "treatment": 549337,
+                  "control": 549335,
+                  "journal": "journal:2025-05-01:24051"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:306|out",
+          "sample": [
+            {
+              "target": "US-MI",
+              "row": "applied|us-policy-positions:government-operations.independent-redistricting|US-MI",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:306",
+              "way": "out",
+              "treatment": 0,
+              "control": -4309695,
+              "journal": "journal:2025-02-01:1887"
+            }
+          ]
+        }
       },
       "web": {
         "links": [
@@ -1021,7 +1333,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 75
+      "seconds": 92
     },
     {
       "key": "us-policy-positions:government-operations.require-photo-id-to-vote",
@@ -1077,12 +1389,12 @@
       },
       "inPlay": [],
       "readers": {
-        "src/core2/modules/legislature.ts:2094": 999,
-        "src/core2/modules/outcome-web.ts:166": 300,
+        "src/core2/modules/legislature.ts:2126": 999,
+        "src/core2/modules/outcome-web.ts:166": 294,
         "src/core2/modules/world-legislating.ts:253": 222,
         "src/core2/modules/world-legislating.ts:183": 90,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:1055": 16,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:2471": 16,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/voting.ts:1055": 16,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/voting.ts:2471": 16,
         "src/core2/life.ts:556": 5,
         "src/core2/modules/world-legislating.ts:333": 4
       },
@@ -1091,9 +1403,19 @@
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
-            "treatment": 1939900878,
-            "control": 1942653660,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 663819411,
+            "control": 659937612,
+            "ids": [
+              "journal:2025-02-01:2625",
+              "journal:2025-02-01:2626",
+              "journal:2025-02-01:2627"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1286724773,
+            "control": 1290493693,
             "ids": [
               "journal:2025-01-21:1565",
               "journal:2025-01-21:1566",
@@ -1101,39 +1423,19 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-            "treatment": 351433549,
-            "control": 348934695,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 9988531,
+            "control": 8515412,
             "ids": [
-              "journal:2025-01-23:1639",
-              "journal:2025-01-24:1640",
-              "journal:2025-01-25:1641"
+              "journal:2025-02-19:8294",
+              "journal:2025-02-19:8295",
+              "journal:2025-02-19:8297"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-            "treatment": 58884017,
-            "control": 59928516,
-            "ids": [
-              "journal:2025-02-01:1947",
-              "journal:2025-02-01:1949",
-              "journal:2025-02-01:1951"
-            ]
-          },
-          {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 241058218,
-            "control": 242007556,
-            "ids": [
-              "journal:2025-02-01:1930",
-              "journal:2025-02-01:1931",
-              "journal:2025-02-01:1932"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 372433548,
-            "control": 373201924,
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 374252613,
+            "control": 375260880,
             "ids": [
               "journal:2025-01-27:1666",
               "journal:2025-01-28:1669",
@@ -1141,79 +1443,242 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
-            "treatment": 5047366,
-            "control": 4289861,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 347927958,
+            "control": 348709187,
             "ids": [
-              "journal:2025-09-01:55172",
-              "journal:2025-09-01:55173",
-              "journal:2025-09-01:55174"
+              "journal:2025-01-23:1635",
+              "journal:2025-01-24:1636",
+              "journal:2025-01-25:1637"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
-            "treatment": 178218212,
-            "control": 177467502,
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 2389421,
+            "control": 3102315,
             "ids": [
+              "journal:2025-10-01:63339",
+              "journal:2025-10-01:63340",
+              "journal:2025-10-01:63341"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 176619990,
+            "control": 177187880,
+            "ids": [
+              "journal:2025-02-01:2611",
               "journal:2025-02-01:2612",
-              "journal:2025-02-01:2613",
-              "journal:2025-02-01:2614"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
-            "treatment": 9853823,
-            "control": 9365607,
-            "ids": [
-              "journal:2025-02-19:8275",
-              "journal:2025-02-19:8276",
-              "journal:2025-02-19:8278"
+              "journal:2025-02-01:2613"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-            "treatment": 64727033,
-            "control": 65149734,
+            "treatment": 61652805,
+            "control": 61215725,
             "ids": [
+              "journal:2025-02-01:1905",
               "journal:2025-02-01:1906",
-              "journal:2025-02-01:1907",
-              "journal:2025-02-01:1908"
+              "journal:2025-02-01:1907"
             ]
           },
           {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1532",
-            "treatment": 3332848705,
-            "control": 3333269179,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208790892858,
+            "control": 710208790615830,
             "ids": [
-              "journal:2025-01-27:1667",
-              "journal:2025-01-28:1670",
-              "journal:2025-01-28:1673"
+              "journal:2025-02-01:1740",
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 243124535,
+            "control": 243383384,
+            "ids": [
+              "journal:2025-02-01:1929",
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 424440972,
-            "control": 424039081,
+            "treatment": 421274186,
+            "control": 421073533,
             "ids": [
-              "journal:2025-01-21:1595",
-              "journal:2025-01-21:1596",
-              "journal:2025-01-21:1597"
+              "journal:2025-01-21:1591",
+              "journal:2025-01-21:1592",
+              "journal:2025-01-21:1593"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:407",
-            "treatment": 871159,
-            "control": 1177695,
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 61222746,
+            "control": 61308924,
             "ids": [
-              "journal:2025-10-01:63261",
-              "journal:2025-10-01:63262",
-              "journal:2025-11-01:71425"
+              "journal:2025-02-01:1946",
+              "journal:2025-02-01:1948",
+              "journal:2025-02-01:1950"
             ]
           }
         ],
-        "diffKinds": 36,
+        "diffKinds": 37,
         "cited": [],
-        "controlCited": []
+        "controlCited": [],
+        "own": {
+          "targets": 199,
+          "pairs": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 3,
+              "moved": 68356,
+              "earliest": "2025-02-27",
+              "sample": [
+                {
+                  "target": "person_95f684085236b198",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_95f684085236b198",
+                  "date": "2025-02-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 166920,
+                  "control": 194740,
+                  "journal": "journal:2025-02-27:8498"
+                },
+                {
+                  "target": "person_1fbfcf491b7f3a03",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_1fbfcf491b7f3a03",
+                  "date": "2025-04-14",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 172771,
+                  "control": 191968,
+                  "journal": "journal:2025-04-14:23124"
+                },
+                {
+                  "target": "person_cced9480e845c19b",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_cced9480e845c19b",
+                  "date": "2025-04-21",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 192051,
+                  "control": 213390,
+                  "journal": "journal:2025-04-21:23360"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "out",
+              "targets": 3,
+              "moved": 16338,
+              "earliest": "2025-02-27",
+              "sample": [
+                {
+                  "target": "person_95f684085236b198",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_95f684085236b198",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -32074,
+                  "control": -38724,
+                  "journal": "journal:2025-02-27:8499"
+                },
+                {
+                  "target": "person_1fbfcf491b7f3a03",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_1fbfcf491b7f3a03",
+                  "date": "2025-04-14",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -33474,
+                  "control": -38062,
+                  "journal": "journal:2025-04-14:23125"
+                },
+                {
+                  "target": "person_cced9480e845c19b",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_cced9480e845c19b",
+                  "date": "2025-04-21",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -38081,
+                  "control": -43181,
+                  "journal": "journal:2025-04-21:23361"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 2,
+              "moved": 42340,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_95f685085236b34b",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_95f685085236b34b",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -12128,
+                  "control": -33298,
+                  "journal": "journal:2025-03-01:8746"
+                },
+                {
+                  "target": "person_95f684085236b198",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_95f684085236b198",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -180371,
+                  "control": -201541,
+                  "journal": "journal:2025-04-01:16332"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "in",
+              "targets": 1,
+              "moved": 21010,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_95f685085236b34b",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_95f685085236b34b",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -113041,
+                  "control": -92031,
+                  "journal": "journal:2025-04-01:16331"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+              "way": "in",
+              "targets": 1,
+              "moved": 8,
+              "earliest": "2025-12-01",
+              "sample": [
+                {
+                  "target": "person_2dc9b118ebc09a54",
+                  "row": "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_2dc9b118ebc09a54",
+                  "date": "2025-12-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "in",
+                  "treatment": 1464,
+                  "control": 1472,
+                  "journal": "journal:2025-12-01:81360"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": []
+        }
       },
       "web": {
         "links": [
@@ -1344,7 +1809,7 @@
         "reenacted": null
       },
       "heard": {
-        "people": 111,
+        "people": 110,
         "sample": [
           "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b",
           "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b",
@@ -1352,9 +1817,9 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 96,
-        "countedGroups": 94,
-        "countedPeople": 94,
+        "fullPeople": 106,
+        "countedGroups": 84,
+        "countedPeople": 84,
         "households": 0,
         "organizations": 0,
         "governments": 0,
@@ -1380,7 +1845,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 70
+      "seconds": 91
     },
     {
       "key": "us-policy-positions:government-operations.same-day-voter-registration",
@@ -1436,12 +1901,12 @@
       },
       "inPlay": [],
       "readers": {
-        "src/core2/modules/legislature.ts:2094": 996,
-        "src/core2/modules/outcome-web.ts:166": 300,
+        "src/core2/modules/legislature.ts:2126": 996,
+        "src/core2/modules/outcome-web.ts:166": 294,
         "src/core2/modules/world-legislating.ts:253": 222,
         "src/core2/modules/world-legislating.ts:183": 90,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:1055": 16,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:2471": 16,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/voting.ts:1055": 16,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/voting.ts:2471": 16,
         "src/core2/life.ts:556": 5,
         "src/core2/modules/world-legislating.ts:333": 4
       },
@@ -1450,9 +1915,19 @@
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
-            "treatment": 1940031685,
-            "control": 1942653660,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 661654760,
+            "control": 659937612,
+            "ids": [
+              "journal:2025-02-01:2625",
+              "journal:2025-02-01:2626",
+              "journal:2025-02-01:2627"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1288891848,
+            "control": 1290493693,
             "ids": [
               "journal:2025-01-21:1565",
               "journal:2025-01-21:1566",
@@ -1460,29 +1935,19 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
-            "treatment": 6046954,
-            "control": 4289861,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 9988555,
+            "control": 8515412,
             "ids": [
-              "journal:2025-09-01:55173",
-              "journal:2025-09-01:55174",
-              "journal:2025-09-01:55175"
+              "journal:2025-02-19:8294",
+              "journal:2025-02-19:8295",
+              "journal:2025-02-19:8297"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
-            "treatment": 11096245,
-            "control": 9365607,
-            "ids": [
-              "journal:2025-02-19:8275",
-              "journal:2025-02-19:8276",
-              "journal:2025-02-19:8278"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 374287030,
-            "control": 373201924,
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 374214287,
+            "control": 375260880,
             "ids": [
               "journal:2025-01-27:1666",
               "journal:2025-01-28:1669",
@@ -1490,95 +1955,248 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-            "treatment": 349951877,
-            "control": 348934695,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 347926213,
+            "control": 348709187,
             "ids": [
-              "journal:2025-01-23:1639",
-              "journal:2025-01-24:1640",
-              "journal:2025-01-25:1641"
+              "journal:2025-01-23:1635",
+              "journal:2025-01-24:1636",
+              "journal:2025-01-25:1637"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-            "treatment": 58937844,
-            "control": 59928516,
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 2345596,
+            "control": 3102315,
             "ids": [
-              "journal:2025-02-01:1947",
-              "journal:2025-02-01:1949",
-              "journal:2025-02-01:1951"
+              "journal:2025-10-01:63339",
+              "journal:2025-10-01:63340",
+              "journal:2025-10-01:63341"
             ]
           },
           {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 241061576,
-            "control": 242007556,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 176619244,
+            "control": 177187880,
             "ids": [
-              "journal:2025-02-01:1930",
-              "journal:2025-02-01:1931",
-              "journal:2025-02-01:1932"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 424862405,
-            "control": 424039081,
-            "ids": [
-              "journal:2025-01-21:1595",
-              "journal:2025-01-21:1596",
-              "journal:2025-01-21:1597"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
-            "treatment": 10885525,
-            "control": 11359050,
-            "ids": [
-              "journal:2025-03-01:9713",
-              "journal:2025-04-01:17460",
-              "journal:2025-05-01:25100"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
-            "treatment": 177079579363120,
-            "control": 177079579773746,
-            "ids": [
-              "journal:2025-02-01:1731",
-              "journal:2025-02-01:1732",
-              "journal:2025-02-01:1733"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:407",
-            "treatment": 858193,
-            "control": 1177695,
-            "ids": [
-              "journal:2025-10-01:63298",
-              "journal:2025-10-01:63299",
-              "journal:2025-11-01:71512"
+              "journal:2025-02-01:2611",
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-            "treatment": 65423216,
-            "control": 65149734,
+            "treatment": 61652069,
+            "control": 61215725,
             "ids": [
+              "journal:2025-02-01:1905",
               "journal:2025-02-01:1906",
-              "journal:2025-02-01:1907",
-              "journal:2025-02-01:1908"
+              "journal:2025-02-01:1907"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208790954551,
+            "control": 710208790615830,
+            "ids": [
+              "journal:2025-02-01:1740",
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 243123250,
+            "control": 243383384,
+            "ids": [
+              "journal:2025-02-01:1929",
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 421282703,
+            "control": 421073533,
+            "ids": [
+              "journal:2025-01-21:1591",
+              "journal:2025-01-21:1592",
+              "journal:2025-01-21:1593"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3331911719,
+            "control": 3332002834,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
             ]
           }
         ],
-        "diffKinds": 36,
+        "diffKinds": 37,
         "cited": [],
         "controlCited": [
           {
             "token": "us-policy-positions:government-operations.same-day-voter-registration",
-            "gross": 24684,
-            "ids": ["journal:2025-11-04:78180"]
+            "gross": 24745,
+            "ids": ["journal:2025-11-04:78379"]
           }
-        ]
+        ],
+        "own": {
+          "targets": 199,
+          "pairs": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 3,
+              "moved": 68356,
+              "earliest": "2025-02-27",
+              "sample": [
+                {
+                  "target": "person_95f684085236b198",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_95f684085236b198",
+                  "date": "2025-02-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 166920,
+                  "control": 194740,
+                  "journal": "journal:2025-02-27:8498"
+                },
+                {
+                  "target": "person_1fbfcf491b7f3a03",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_1fbfcf491b7f3a03",
+                  "date": "2025-04-14",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 172771,
+                  "control": 191968,
+                  "journal": "journal:2025-04-14:23124"
+                },
+                {
+                  "target": "person_cced9480e845c19b",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_cced9480e845c19b",
+                  "date": "2025-04-21",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 192051,
+                  "control": 213390,
+                  "journal": "journal:2025-04-21:23360"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "out",
+              "targets": 3,
+              "moved": 16338,
+              "earliest": "2025-02-27",
+              "sample": [
+                {
+                  "target": "person_95f684085236b198",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_95f684085236b198",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -32074,
+                  "control": -38724,
+                  "journal": "journal:2025-02-27:8499"
+                },
+                {
+                  "target": "person_1fbfcf491b7f3a03",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_1fbfcf491b7f3a03",
+                  "date": "2025-04-14",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -33474,
+                  "control": -38062,
+                  "journal": "journal:2025-04-14:23125"
+                },
+                {
+                  "target": "person_cced9480e845c19b",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_cced9480e845c19b",
+                  "date": "2025-04-21",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -38081,
+                  "control": -43181,
+                  "journal": "journal:2025-04-21:23361"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 2,
+              "moved": 42340,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_95f685085236b34b",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_95f685085236b34b",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -12128,
+                  "control": -33298,
+                  "journal": "journal:2025-03-01:8746"
+                },
+                {
+                  "target": "person_95f684085236b198",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_95f684085236b198",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -180371,
+                  "control": -201541,
+                  "journal": "journal:2025-04-01:16332"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "in",
+              "targets": 1,
+              "moved": 21010,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_95f685085236b34b",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_95f685085236b34b",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -113041,
+                  "control": -92031,
+                  "journal": "journal:2025-04-01:16331"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+              "way": "in",
+              "targets": 1,
+              "moved": 8,
+              "earliest": "2025-12-01",
+              "sample": [
+                {
+                  "target": "person_2dc9b118ebc09a54",
+                  "row": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_2dc9b118ebc09a54",
+                  "date": "2025-12-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "in",
+                  "treatment": 1464,
+                  "control": 1472,
+                  "journal": "journal:2025-12-01:81360"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": []
+        }
       },
       "web": {
         "links": [
@@ -1773,9 +2391,9 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 99,
-        "countedGroups": 91,
-        "countedPeople": 91,
+        "fullPeople": 106,
+        "countedGroups": 84,
+        "countedPeople": 84,
         "households": 0,
         "organizations": 0,
         "governments": 0,
@@ -1801,7 +2419,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 76
+      "seconds": 94
     },
     {
       "key": "us-policy-positions:government-operations.ban-lobbying-after-office",
@@ -1861,13 +2479,12 @@
       },
       "inPlay": [],
       "readers": {
-        "src/core2/modules/legislature.ts:2094": 1228,
+        "src/core2/modules/legislature.ts:2126": 1228,
         "src/core2/modules/world-legislating.ts:253": 234,
-        "src/core2/modules/outcome-web.ts:166": 105,
+        "src/core2/modules/outcome-web.ts:166": 93,
         "src/core2/modules/world-legislating.ts:183": 90,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/candidacy.ts:364": 56,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:625": 40,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:619": 32,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/candidacy.ts:364": 56,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/interest-groups.ts:625": 40,
         "src/core2/life.ts:556": 8,
         "src/core2/modules/world-legislating.ts:333": 4
       },
@@ -1876,9 +2493,29 @@
         "direct": [],
         "diff": [
           {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 372176882,
-            "control": 373201924,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208790636493,
+            "control": 710208790615830,
+            "ids": [
+              "journal:2025-02-01:1740",
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 421054039,
+            "control": 421073533,
+            "ids": [
+              "journal:2025-01-21:1591",
+              "journal:2025-01-21:1592",
+              "journal:2025-01-21:1593"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 375241682,
+            "control": 375260880,
             "ids": [
               "journal:2025-01-27:1666",
               "journal:2025-01-28:1669",
@@ -1886,39 +2523,19 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-            "treatment": 349937930,
-            "control": 348934695,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:904",
+            "treatment": 177079579838537,
+            "control": 177079579833453,
             "ids": [
-              "journal:2025-01-23:1639",
-              "journal:2025-01-24:1640",
-              "journal:2025-01-25:1641"
+              "journal:2025-02-01:1730",
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
-            "treatment": 5055045,
-            "control": 4289861,
-            "ids": [
-              "journal:2025-09-01:55193",
-              "journal:2025-09-01:55194",
-              "journal:2025-09-01:55195"
-            ]
-          },
-          {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 242700137,
-            "control": 242007556,
-            "ids": [
-              "journal:2025-02-01:1930",
-              "journal:2025-02-01:1931",
-              "journal:2025-02-01:1932"
-            ]
-          },
-          {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1532",
-            "treatment": 3332658139,
-            "control": 3333269179,
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3331998414,
+            "control": 3332002834,
             "ids": [
               "journal:2025-01-27:1667",
               "journal:2025-01-28:1670",
@@ -1926,79 +2543,86 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:915",
-            "treatment": 710208789102027,
-            "control": 710208788552157,
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 31089509,
+            "control": 31090973,
             "ids": [
-              "journal:2025-02-01:1741",
-              "journal:2025-02-01:1742",
-              "journal:2025-02-01:1743"
+              "journal:2025-01-25:1638",
+              "journal:2025-01-25:1640",
+              "journal:2025-01-25:1642"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 348710189,
+            "control": 348709187,
+            "ids": [
+              "journal:2025-01-23:1635",
+              "journal:2025-01-24:1636",
+              "journal:2025-01-25:1637"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:1494",
+            "treatment": 98600,
+            "control": 99100,
+            "ids": [
+              "journal:2025-06-04:38029",
+              "journal:2025-06-04:38030",
+              "journal:2025-06-04:38031"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-            "treatment": 64617186,
-            "control": 65149734,
+            "treatment": 61215416,
+            "control": 61215725,
             "ids": [
+              "journal:2025-02-01:1905",
               "journal:2025-02-01:1906",
-              "journal:2025-02-01:1907",
-              "journal:2025-02-01:1908"
+              "journal:2025-02-01:1907"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
-            "treatment": 18121395,
-            "control": 17757173,
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:1494",
+            "treatment": 29946,
+            "control": 30225,
             "ids": [
-              "journal:2025-02-03:7435",
-              "journal:2025-02-03:7436",
-              "journal:2025-02-03:7437"
+              "journal:2025-09-11:62263",
+              "journal:2025-09-17:62589",
+              "journal:2025-09-17:62598"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
-            "treatment": 177674252,
-            "control": 177467502,
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1494",
+            "treatment": 348173,
+            "control": 348389,
             "ids": [
-              "journal:2025-02-01:2612",
-              "journal:2025-02-01:2613",
-              "journal:2025-02-01:2614"
+              "journal:2025-06-01:32816",
+              "journal:2025-06-04:38033",
+              "journal:2025-06-04:38035"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/life.ts:558",
-            "treatment": 46344743,
-            "control": 46549396,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1290493839,
+            "control": 1290493693,
             "ids": [
-              "journal:2025-01-23:1638",
-              "journal:2025-02-06:8009",
-              "journal:2025-02-21:8336"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
-            "treatment": 177079579596962,
-            "control": 177079579773746,
-            "ids": [
-              "journal:2025-02-01:1731",
-              "journal:2025-02-01:1732",
-              "journal:2025-02-01:1733"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-            "treatment": 60062478,
-            "control": 59928516,
-            "ids": [
-              "journal:2025-02-01:1947",
-              "journal:2025-02-01:1949",
-              "journal:2025-02-01:1951"
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
             ]
           }
         ],
-        "diffKinds": 34,
+        "diffKinds": 25,
         "cited": [],
-        "controlCited": []
+        "controlCited": [],
+        "own": {
+          "targets": 190,
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": []
+        }
       },
       "web": {
         "links": [
@@ -2020,7 +2644,7 @@
         "reenacted": null
       },
       "heard": {
-        "people": 109,
+        "people": 108,
         "sample": [
           "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e",
           "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e",
@@ -2051,7 +2675,7 @@
         "ended": 190,
         "sample": []
       },
-      "seconds": 74
+      "seconds": 101
     },
     {
       "key": "public-pay-floor",
@@ -2094,21 +2718,21 @@
         ]
       },
       "reachAtEnd": {
-        "fullPeople": 1,
+        "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 1,
+        "open": 0,
         "ended": 0,
-        "sample": ["applied|public-pay-floor|person_56cdad056fceb659"]
+        "sample": []
       },
       "inPlay": [],
       "readers": {
-        "src/core2/public-pay-floor.ts:70": 132,
-        "src/core2/modules/outcome-web.ts:166": 100,
+        "src/core2/public-pay-floor.ts:70": 138,
+        "src/core2/modules/outcome-web.ts:166": 94,
         "src/core2/life.ts:556": 2
       },
       "openingRow": "law:US:federal:public-pay-floor:general:1985-02-19",
@@ -2116,9 +2740,9 @@
         "direct": [],
         "diff": [
           {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 445638583,
-            "control": 373201924,
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 450340795,
+            "control": 375260880,
             "ids": [
               "journal:2025-01-27:1666",
               "journal:2025-01-28:1669",
@@ -2126,39 +2750,39 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:915",
-            "treatment": 710208726324610,
-            "control": 710208788552157,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208729214191,
+            "control": 710208790615830,
             "ids": [
+              "journal:2025-02-01:1740",
               "journal:2025-02-01:1741",
-              "journal:2025-02-01:1742",
-              "journal:2025-02-01:1743"
+              "journal:2025-02-01:1742"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 449178273,
-            "control": 424039081,
+            "treatment": 446173590,
+            "control": 421073533,
             "ids": [
-              "journal:2025-01-21:1595",
-              "journal:2025-01-21:1596",
-              "journal:2025-01-21:1597"
+              "journal:2025-01-21:1591",
+              "journal:2025-01-21:1592",
+              "journal:2025-01-21:1593"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
-            "treatment": 177079560870569,
-            "control": 177079579773746,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:904",
+            "treatment": 177079561473360,
+            "control": 177079579833453,
             "ids": [
+              "journal:2025-02-01:1730",
               "journal:2025-02-01:1731",
-              "journal:2025-02-01:1732",
-              "journal:2025-02-01:1733"
+              "journal:2025-02-01:1732"
             ]
           },
           {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1532",
-            "treatment": 3348561382,
-            "control": 3333269179,
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3348336561,
+            "control": 3332002834,
             "ids": [
               "journal:2025-01-27:1667",
               "journal:2025-01-28:1670",
@@ -2166,49 +2790,19 @@
             ]
           },
           {
-            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
-            "treatment": 34983385,
-            "control": 31121331,
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 35101167,
+            "control": 31090973,
             "ids": [
-              "journal:2025-01-25:1642",
-              "journal:2025-01-25:1644",
-              "journal:2025-01-25:1646"
+              "journal:2025-01-25:1638",
+              "journal:2025-01-25:1640",
+              "journal:2025-01-25:1642"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/life.ts:558",
-            "treatment": 43142395,
-            "control": 46549396,
-            "ids": [
-              "journal:2025-01-23:1638",
-              "journal:2025-02-06:7976",
-              "journal:2025-02-21:8302"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-            "treatment": 351865985,
-            "control": 348934695,
-            "ids": [
-              "journal:2025-01-23:1639",
-              "journal:2025-01-24:1640",
-              "journal:2025-01-25:1641"
-            ]
-          },
-          {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 244916891,
-            "control": 242007556,
-            "ids": [
-              "journal:2025-02-01:1896",
-              "journal:2025-02-01:1897",
-              "journal:2025-02-01:1898"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
-            "treatment": 1940601223,
-            "control": 1942653660,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1293443088,
+            "control": 1290493693,
             "ids": [
               "journal:2025-01-21:1565",
               "journal:2025-01-21:1566",
@@ -2216,19 +2810,49 @@
             ]
           },
           {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 246276738,
+            "control": 243383384,
+            "ids": [
+              "journal:2025-02-01:1895",
+              "journal:2025-02-01:1896",
+              "journal:2025-02-01:1897"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 43294287,
+            "control": 46110029,
+            "ids": [
+              "journal:2025-01-23:1634",
+              "journal:2025-02-06:7977",
+              "journal:2025-02-21:8321"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 63982670,
+            "control": 61308924,
+            "ids": [
+              "journal:2025-02-01:1912",
+              "journal:2025-02-01:1914",
+              "journal:2025-02-01:1916"
+            ]
+          },
+          {
             "kind": "accounts.transfer @ src/core2/official-living.ts:75",
             "treatment": 46646186,
             "control": 44831581,
             "ids": [
-              "journal:2025-01-21:1623",
-              "journal:2025-01-21:1624",
-              "journal:2025-01-21:1625"
+              "journal:2025-01-21:1619",
+              "journal:2025-01-21:1620",
+              "journal:2025-01-21:1621"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/official-living.ts:102",
-            "treatment": 3263175978,
-            "control": 3261416606,
+            "treatment": 3263004108,
+            "control": 3261244736,
             "ids": [
               "journal:2025-01-27:1657",
               "journal:2025-01-27:1658",
@@ -2236,9 +2860,548 @@
             ]
           }
         ],
-        "diffKinds": 41,
+        "diffKinds": 42,
         "cited": [],
-        "controlCited": []
+        "controlCited": [],
+        "own": {
+          "targets": 79,
+          "pairs": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 52,
+              "moved": 2538979,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_0e958e70e62d2b8a",
+                  "row": "applied|public-pay-floor|person_0e958e70e62d2b8a",
+                  "date": "2025-02-13",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 241704,
+                  "control": 225342,
+                  "journal": "journal:2025-02-13:8101"
+                },
+                {
+                  "target": "person_0e958f70e62d2d3d",
+                  "row": "applied|public-pay-floor|person_0e958f70e62d2d3d",
+                  "date": "2025-02-13",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 241663,
+                  "control": 224604,
+                  "journal": "journal:2025-02-13:8113"
+                },
+                {
+                  "target": "person_2dc9b418ebc09f6d",
+                  "row": "applied|public-pay-floor|person_2dc9b418ebc09f6d",
+                  "date": "2025-02-13",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 76768,
+                  "control": 5536,
+                  "journal": "journal:2025-02-13:8117"
+                },
+                {
+                  "target": "person_423656f02ae97942",
+                  "row": "applied|public-pay-floor|person_423656f02ae97942",
+                  "date": "2025-02-13",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 107406,
+                  "control": 68748,
+                  "journal": "journal:2025-02-13:8105"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "out",
+              "targets": 52,
+              "moved": 507181,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_0e958e70e62d2b8a",
+                  "row": "applied|public-pay-floor|person_0e958e70e62d2b8a",
+                  "date": "2025-02-13",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -49949,
+                  "control": -46037,
+                  "journal": "journal:2025-02-13:8102"
+                },
+                {
+                  "target": "person_0e958f70e62d2d3d",
+                  "row": "applied|public-pay-floor|person_0e958f70e62d2d3d",
+                  "date": "2025-02-13",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -49939,
+                  "control": -45862,
+                  "journal": "journal:2025-02-13:8114"
+                },
+                {
+                  "target": "person_2dc9b418ebc09f6d",
+                  "row": "applied|public-pay-floor|person_2dc9b418ebc09f6d",
+                  "date": "2025-02-13",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -11059,
+                  "control": -658,
+                  "journal": "journal:2025-02-13:8118"
+                },
+                {
+                  "target": "person_423656f02ae97942",
+                  "row": "applied|public-pay-floor|person_423656f02ae97942",
+                  "date": "2025-02-13",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -17851,
+                  "control": -9302,
+                  "journal": "journal:2025-02-13:8106"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "out",
+              "targets": 35,
+              "moved": 85359,
+              "earliest": "2025-02-03",
+              "sample": [
+                {
+                  "target": "person_0e958e70e62d2b8a",
+                  "row": "applied|public-pay-floor|person_0e958e70e62d2b8a",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": -695,
+                  "control": -687,
+                  "journal": "journal:2025-02-03:7390"
+                },
+                {
+                  "target": "person_423656f02ae97942",
+                  "row": "applied|public-pay-floor|person_423656f02ae97942",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": -656,
+                  "control": -625,
+                  "journal": "journal:2025-02-03:7391"
+                },
+                {
+                  "target": "person_5dcc4aa2f70afb32",
+                  "row": "applied|public-pay-floor|person_5dcc4aa2f70afb32",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": -935,
+                  "control": -904,
+                  "journal": "journal:2025-02-03:7395"
+                },
+                {
+                  "target": "person_84039870b5970636",
+                  "row": "applied|public-pay-floor|person_84039870b5970636",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": -516,
+                  "control": -484,
+                  "journal": "journal:2025-02-03:7387"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 33,
+              "moved": 1177367,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_0161274dc68d50d8",
+                  "row": "applied|public-pay-floor|person_0161274dc68d50d8",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -159627,
+                  "control": -114118,
+                  "journal": "journal:2025-03-01:8815"
+                },
+                {
+                  "target": "person_1fbfcf491b7f3a03",
+                  "row": "applied|public-pay-floor|person_1fbfcf491b7f3a03",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -85619,
+                  "control": -73943,
+                  "journal": "journal:2025-03-01:9235"
+                },
+                {
+                  "target": "person_2dc9b418ebc09f6d",
+                  "row": "applied|public-pay-floor|person_2dc9b418ebc09f6d",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -167889,
+                  "control": -48432,
+                  "journal": "journal:2025-03-01:9156"
+                },
+                {
+                  "target": "person_423656f02ae97942",
+                  "row": "applied|public-pay-floor|person_423656f02ae97942",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -151949,
+                  "control": -33246,
+                  "journal": "journal:2025-03-01:9110"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 30,
+              "moved": 2850376,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_0e958e70e62d2b8a",
+                  "row": "applied|public-pay-floor|person_0e958e70e62d2b8a",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -180102,
+                  "control": -155643,
+                  "journal": "journal:2025-03-01:8698"
+                },
+                {
+                  "target": "person_0e958f70e62d2d3d",
+                  "row": "applied|public-pay-floor|person_0e958f70e62d2d3d",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -457559,
+                  "control": -432047,
+                  "journal": "journal:2025-03-01:8697"
+                },
+                {
+                  "target": "person_2dc9b418ebc09f6d",
+                  "row": "applied|public-pay-floor|person_2dc9b418ebc09f6d",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": 36685,
+                  "control": 38676,
+                  "journal": "journal:2025-03-01:8736"
+                },
+                {
+                  "target": "person_423657f02ae97af5",
+                  "row": "applied|public-pay-floor|person_423657f02ae97af5",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -260102,
+                  "control": -158983,
+                  "journal": "journal:2025-03-01:8699"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 17,
+              "moved": 436508,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_7b570565dc6dd202",
+                  "row": "applied|public-pay-floor|person_7b570565dc6dd202",
+                  "date": "2025-02-13",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -38560,
+                  "control": -9613,
+                  "journal": "journal:2025-02-13:8166"
+                },
+                {
+                  "target": "person_ae720410206893b1",
+                  "row": "applied|public-pay-floor|person_ae720410206893b1",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -43670,
+                  "control": 0,
+                  "journal": "journal:2025-03-01:9736"
+                },
+                {
+                  "target": "person_c48fe5a2b934abf1",
+                  "row": "applied|public-pay-floor|person_c48fe5a2b934abf1",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -53251,
+                  "control": 0,
+                  "journal": "journal:2025-03-01:9760"
+                },
+                {
+                  "target": "person_dd17fb5b0b7b84f1",
+                  "row": "applied|public-pay-floor|person_dd17fb5b0b7b84f1",
+                  "date": "2025-03-03",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -93233,
+                  "control": -80716,
+                  "journal": "journal:2025-03-03:15078"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+              "way": "out",
+              "targets": 10,
+              "moved": 331723,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "person_a66a51fc6585ef0a",
+                  "row": "applied|public-pay-floor|person_a66a51fc6585ef0a",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+                  "way": "out",
+                  "treatment": -52467,
+                  "control": 0,
+                  "journal": "journal:2025-02-01:7373"
+                },
+                {
+                  "target": "person_0dee516f6fc3f37d",
+                  "row": "applied|public-pay-floor|person_0dee516f6fc3f37d",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+                  "way": "out",
+                  "treatment": -9364,
+                  "control": -1439,
+                  "journal": "journal:2025-04-01:22354"
+                },
+                {
+                  "target": "person_63d17b32b8f7944b",
+                  "row": "applied|public-pay-floor|person_63d17b32b8f7944b",
+                  "date": "2025-11-01",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+                  "way": "out",
+                  "treatment": -52467,
+                  "control": 0,
+                  "journal": "journal:2025-11-01:78064"
+                },
+                {
+                  "target": "person_daa174be854beec9",
+                  "row": "applied|public-pay-floor|person_daa174be854beec9",
+                  "date": "2025-11-01",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+                  "way": "out",
+                  "treatment": -52467,
+                  "control": 0,
+                  "journal": "journal:2025-11-01:78063"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "in",
+              "targets": 10,
+              "moved": 223123,
+              "earliest": "2025-02-21",
+              "sample": [
+                {
+                  "target": "person_7b570565dc6dd202",
+                  "row": "applied|public-pay-floor|person_7b570565dc6dd202",
+                  "date": "2025-02-21",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -28947,
+                  "journal": ""
+                },
+                {
+                  "target": "person_c48fe4a2b934aa3e",
+                  "row": "applied|public-pay-floor|person_c48fe4a2b934aa3e",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -31910,
+                  "control": -85161,
+                  "journal": "journal:2025-03-01:9761"
+                },
+                {
+                  "target": "person_ae720410206893b1",
+                  "row": "applied|public-pay-floor|person_ae720410206893b1",
+                  "date": "2025-03-13",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -13621,
+                  "journal": ""
+                },
+                {
+                  "target": "person_dd17fb5b0b7b84f1",
+                  "row": "applied|public-pay-floor|person_dd17fb5b0b7b84f1",
+                  "date": "2025-03-17",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -12517,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 10,
+              "moved": 77491,
+              "earliest": "2025-02-03",
+              "sample": [
+                {
+                  "target": "person_a66a51fc6585ef0a",
+                  "row": "applied|public-pay-floor|person_a66a51fc6585ef0a",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -708,
+                  "journal": ""
+                },
+                {
+                  "target": "person_341d24c290238fc2",
+                  "row": "applied|public-pay-floor|person_341d24c290238fc2",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 401573,
+                  "control": 401466,
+                  "journal": "journal:2025-03-01:8741"
+                },
+                {
+                  "target": "person_a4689d4c0a9e7f13",
+                  "row": "applied|public-pay-floor|person_a4689d4c0a9e7f13",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 579683,
+                  "control": 552881,
+                  "journal": "journal:2025-03-01:8739"
+                },
+                {
+                  "target": "person_d1c82ece42074ce1",
+                  "row": "applied|public-pay-floor|person_d1c82ece42074ce1",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 457970,
+                  "control": 457733,
+                  "journal": "journal:2025-03-01:8740"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "in",
+              "targets": 8,
+              "moved": 264407,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_423657f02ae97af5",
+                  "row": "applied|public-pay-floor|person_423657f02ae97af5",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -30975,
+                  "control": -132094,
+                  "journal": "journal:2025-03-01:9103"
+                },
+                {
+                  "target": "person_c48fe4a2b934aa3e",
+                  "row": "applied|public-pay-floor|person_c48fe4a2b934aa3e",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -60986,
+                  "journal": ""
+                },
+                {
+                  "target": "person_2dc9b418ebc09f6d",
+                  "row": "applied|public-pay-floor|person_2dc9b418ebc09f6d",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -8635,
+                  "control": -50730,
+                  "journal": "journal:2025-04-01:16856"
+                },
+                {
+                  "target": "person_9f731738b52b4db4",
+                  "row": "applied|public-pay-floor|person_9f731738b52b4db4",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -62131,
+                  "control": -74888,
+                  "journal": "journal:2025-04-01:17093"
+                }
+              ]
+            }
+          ],
+          "paid": 30,
+          "pick": "accounts.transfer @ src/core2/credit-deposits.ts:159|out",
+          "sample": [
+            {
+              "target": "person_0e958e70e62d2b8a",
+              "row": "applied|public-pay-floor|person_0e958e70e62d2b8a",
+              "date": "2025-03-01",
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "treatment": -180102,
+              "control": -155643,
+              "journal": "journal:2025-03-01:8698"
+            },
+            {
+              "target": "person_0e958f70e62d2d3d",
+              "row": "applied|public-pay-floor|person_0e958f70e62d2d3d",
+              "date": "2025-03-01",
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "treatment": -457559,
+              "control": -432047,
+              "journal": "journal:2025-03-01:8697"
+            },
+            {
+              "target": "person_2dc9b418ebc09f6d",
+              "row": "applied|public-pay-floor|person_2dc9b418ebc09f6d",
+              "date": "2025-03-01",
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "treatment": 36685,
+              "control": 38676,
+              "journal": "journal:2025-03-01:8736"
+            },
+            {
+              "target": "person_423657f02ae97af5",
+              "row": "applied|public-pay-floor|person_423657f02ae97af5",
+              "date": "2025-03-01",
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "treatment": -260102,
+              "control": -158983,
+              "journal": "journal:2025-03-01:8699"
+            }
+          ]
+        }
       },
       "web": {
         "links": [
@@ -2255,7 +3418,7 @@
         "reenacted": null
       },
       "heard": {
-        "people": 65,
+        "people": 64,
         "sample": [
           "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
           "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
@@ -2286,7 +3449,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 79
+      "seconds": 94
     },
     {
       "key": "budget-line:administration",
@@ -2348,9 +3511,9 @@
         "direct": [],
         "diff": [
           {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 407196277,
-            "control": 372452745,
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 396433280,
+            "control": 374214287,
             "ids": [
               "journal:2025-01-27:1666",
               "journal:2025-01-28:1669",
@@ -2358,19 +3521,59 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:915",
-            "treatment": 710208773151271,
-            "control": 710208788472266,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208777973041,
+            "control": 710208790929807,
             "ids": [
+              "journal:2025-02-01:1741",
               "journal:2025-02-01:1742",
-              "journal:2025-02-01:1743",
-              "journal:2025-02-01:1744"
+              "journal:2025-02-01:1743"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
-            "treatment": 1951951651,
-            "control": 1939899910,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 359738908,
+            "control": 347926219,
+            "ids": [
+              "journal:2025-01-23:1635",
+              "journal:2025-01-24:1636",
+              "journal:2025-01-25:1637"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 185356212,
+            "control": 176619252,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:904",
+            "treatment": 177079574655778,
+            "control": 177079579895765,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 65804292,
+            "control": 61222591,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1293199819,
+            "control": 1288891823,
             "ids": [
               "journal:2025-01-21:1565",
               "journal:2025-01-21:1566",
@@ -2378,59 +3581,39 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-            "treatment": 363321265,
-            "control": 351432380,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 665599102,
+            "control": 661654791,
             "ids": [
-              "journal:2025-01-23:1639",
-              "journal:2025-01-24:1640",
-              "journal:2025-01-25:1641"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
-            "treatment": 187596676,
-            "control": 178218552,
-            "ids": [
-              "journal:2025-02-01:2613",
-              "journal:2025-02-01:2614",
-              "journal:2025-02-01:2615"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
-            "treatment": 177079571490278,
-            "control": 177079579482097,
-            "ids": [
-              "journal:2025-02-01:1732",
-              "journal:2025-02-01:1733",
-              "journal:2025-02-01:1734"
+              "journal:2025-02-01:2626",
+              "journal:2025-02-01:2627",
+              "journal:2025-02-01:2628"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 431938792,
-            "control": 424455129,
+            "treatment": 423889654,
+            "control": 421289089,
             "ids": [
-              "journal:2025-01-21:1595",
-              "journal:2025-01-21:1596",
-              "journal:2025-01-21:1597"
+              "journal:2025-01-21:1591",
+              "journal:2025-01-21:1592",
+              "journal:2025-01-21:1593"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-            "treatment": 64384043,
-            "control": 58884079,
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 43652796,
+            "control": 46177429,
             "ids": [
-              "journal:2025-02-01:1948",
-              "journal:2025-02-01:1950",
-              "journal:2025-02-01:1952"
+              "journal:2025-01-23:1634",
+              "journal:2025-02-06:8014",
+              "journal:2025-02-21:8363"
             ]
           },
           {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1532",
-            "treatment": 3337301629,
-            "control": 3332853342,
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3334242592,
+            "control": 3331912340,
             "ids": [
               "journal:2025-01-27:1667",
               "journal:2025-01-28:1670",
@@ -2438,49 +3621,368 @@
             ]
           },
           {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 236680359,
-            "control": 241058848,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 8286997,
+            "control": 9988555,
             "ids": [
-              "journal:2025-02-01:1931",
-              "journal:2025-02-01:1932",
-              "journal:2025-02-01:1933"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
-            "treatment": 6691302,
-            "control": 9853816,
-            "ids": [
-              "journal:2025-02-19:8283",
-              "journal:2025-02-19:8284",
-              "journal:2025-02-19:8286"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/life.ts:558",
-            "treatment": 43597667,
-            "control": 46554461,
-            "ids": [
-              "journal:2025-01-23:1638",
-              "journal:2025-02-06:8013",
-              "journal:2025-02-21:8344"
+              "journal:2025-02-19:8302",
+              "journal:2025-02-19:8303",
+              "journal:2025-02-19:8305"
             ]
           }
         ],
-        "diffKinds": 37,
+        "diffKinds": 38,
         "cited": [
           {
             "token": "budget-line:administration",
-            "gross": 26212749,
+            "gross": 25723701,
             "ids": [
-              "journal:2025-02-13:8116",
-              "journal:2025-02-13:8117",
-              "journal:2025-02-27:8470"
+              "journal:2025-02-13:8135",
+              "journal:2025-02-13:8136",
+              "journal:2025-02-27:8487"
             ]
           }
         ],
-        "controlCited": []
+        "controlCited": [],
+        "own": {
+          "targets": 6,
+          "pairs": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 3,
+              "moved": 427680,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+                  "date": "2025-02-13",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 77760,
+                  "control": 0,
+                  "journal": "journal:2025-02-13:8135"
+                },
+                {
+                  "target": "person_0bbe6a59b6ca584c",
+                  "row": "applied|budget-line:administration|person_0bbe6a59b6ca584c",
+                  "date": "2025-02-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 174960,
+                  "control": 0,
+                  "journal": "journal:2025-02-27:8489"
+                },
+                {
+                  "target": "person_7015860ee21b00cb",
+                  "row": "applied|budget-line:administration|person_7015860ee21b00cb",
+                  "date": "2025-03-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 174960,
+                  "control": 0,
+                  "journal": "journal:2025-03-27:15945"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 3,
+              "moved": 240297,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_0bbe6a59b6ca584c",
+                  "row": "applied|budget-line:administration|person_0bbe6a59b6ca584c",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -130298,
+                  "control": 0,
+                  "journal": "journal:2025-03-01:9695"
+                },
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -75531,
+                  "control": 0,
+                  "journal": "journal:2025-03-01:8972"
+                },
+                {
+                  "target": "person_7015860ee21b00cb",
+                  "row": "applied|budget-line:administration|person_7015860ee21b00cb",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -34468,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:17469"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "out",
+              "targets": 3,
+              "moved": 79271,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+                  "date": "2025-02-13",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -11277,
+                  "control": 0,
+                  "journal": "journal:2025-02-13:8136"
+                },
+                {
+                  "target": "person_0bbe6a59b6ca584c",
+                  "row": "applied|budget-line:administration|person_0bbe6a59b6ca584c",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -33997,
+                  "control": 0,
+                  "journal": "journal:2025-02-27:8490"
+                },
+                {
+                  "target": "person_7015860ee21b00cb",
+                  "row": "applied|budget-line:administration|person_7015860ee21b00cb",
+                  "date": "2025-03-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -33997,
+                  "control": 0,
+                  "journal": "journal:2025-03-27:15946"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 3,
+              "moved": 67931,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_0bbe6a59b6ca584c",
+                  "row": "applied|budget-line:administration|person_0bbe6a59b6ca584c",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -12907,
+                  "control": -9667,
+                  "journal": "journal:2025-03-01:9821"
+                },
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -18449,
+                  "control": -6931,
+                  "journal": "journal:2025-03-01:9794"
+                },
+                {
+                  "target": "person_7015860ee21b00cb",
+                  "row": "applied|budget-line:administration|person_7015860ee21b00cb",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -53173,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:17585"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "out",
+              "targets": 3,
+              "moved": 949,
+              "earliest": "2025-02-03",
+              "sample": [
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": -484,
+                  "control": -386,
+                  "journal": "journal:2025-02-03:7424"
+                },
+                {
+                  "target": "person_0bbe6a59b6ca584c",
+                  "row": "applied|budget-line:administration|person_0bbe6a59b6ca584c",
+                  "date": "2025-03-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": -734,
+                  "control": -640,
+                  "journal": "journal:2025-03-03:14606"
+                },
+                {
+                  "target": "person_7015860ee21b00cb",
+                  "row": "applied|budget-line:administration|person_7015860ee21b00cb",
+                  "date": "2025-04-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": -757,
+                  "control": 0,
+                  "journal": "journal:2025-04-03:22398"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "out",
+              "targets": 2,
+              "moved": 44050,
+              "earliest": "2025-02-21",
+              "sample": [
+                {
+                  "target": "person_0bbe6a59b6ca584c",
+                  "row": "applied|budget-line:administration|person_0bbe6a59b6ca584c",
+                  "date": "2025-02-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 7425,
+                  "journal": ""
+                },
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+                  "date": "2025-02-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 36625,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+              "way": "out",
+              "targets": 1,
+              "moved": 97202,
+              "earliest": "2025-01-31",
+              "sample": [
+                {
+                  "target": "organization_1571ef11eb9b9b4a",
+                  "row": "applied|budget-line:administration|organization_1571ef11eb9b9b4a",
+                  "date": "2025-01-31",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+                  "way": "out",
+                  "treatment": -97202,
+                  "control": 0,
+                  "journal": "journal:2025-01-31:1714"
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "out",
+              "targets": 1,
+              "moved": 15120,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -40227,
+                  "control": -25107,
+                  "journal": "journal:2025-04-01:16464"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "in",
+              "targets": 1,
+              "moved": 11518,
+              "earliest": "2025-03-21",
+              "sample": [
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+                  "date": "2025-03-21",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -11518,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+              "way": "out",
+              "targets": 1,
+              "moved": 11400,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+                  "way": "out",
+                  "treatment": -11400,
+                  "control": 0,
+                  "journal": "journal:2025-02-01:7408"
+                }
+              ]
+            }
+          ],
+          "paid": 3,
+          "pick": "work-payroll @ src/core2/work-payroll-cash.ts:2386|in",
+          "sample": [
+            {
+              "target": "person_8ff861de2f15d13f",
+              "row": "applied|budget-line:administration|person_8ff861de2f15d13f",
+              "date": "2025-02-13",
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "treatment": 77760,
+              "control": 0,
+              "journal": "journal:2025-02-13:8135"
+            },
+            {
+              "target": "person_0bbe6a59b6ca584c",
+              "row": "applied|budget-line:administration|person_0bbe6a59b6ca584c",
+              "date": "2025-02-27",
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "treatment": 174960,
+              "control": 0,
+              "journal": "journal:2025-02-27:8489"
+            },
+            {
+              "target": "person_7015860ee21b00cb",
+              "row": "applied|budget-line:administration|person_7015860ee21b00cb",
+              "date": "2025-03-27",
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "treatment": 174960,
+              "control": 0,
+              "journal": "journal:2025-03-27:15945"
+            }
+          ]
+        }
       },
       "web": {
         "links": [
@@ -2497,7 +3999,7 @@
         "reenacted": null
       },
       "heard": {
-        "people": 48,
+        "people": 49,
         "sample": [
           "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:administration:law-wiring-190055c7",
           "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:administration:law-wiring-190055c7",
@@ -2533,7 +4035,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 71
+      "seconds": 90
     },
     {
       "key": "us-policy-positions:government-operations.broaden-local-authority",
@@ -2586,11 +4088,11 @@
       },
       "inPlay": [],
       "readers": {
-        "src/core2/modules/legislature.ts:2094": 1090,
-        "src/core2/policy-authority.ts:47": 333,
+        "src/core2/modules/legislature.ts:2126": 1090,
+        "src/core2/policy-authority.ts:47": 335,
         "src/core2/modules/world-legislating.ts:253": 222,
-        "src/core2/modules/outcome-web.ts:166": 91,
         "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/modules/outcome-web.ts:166": 85,
         "src/core2/life.ts:556": 5,
         "src/core2/modules/world-legislating.ts:333": 4
       },
@@ -2599,9 +4101,9 @@
         "direct": [],
         "diff": [
           {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 381328555,
-            "control": 373201924,
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 389391572,
+            "control": 375260880,
             "ids": [
               "journal:2025-01-27:1666",
               "journal:2025-01-28:1669",
@@ -2609,119 +4111,126 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 428604354,
-            "control": 424039081,
-            "ids": [
-              "journal:2025-01-21:1595",
-              "journal:2025-01-21:1596",
-              "journal:2025-01-21:1597"
-            ]
-          },
-          {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 238381443,
-            "control": 242007556,
-            "ids": [
-              "journal:2025-02-01:1930",
-              "journal:2025-02-01:1931",
-              "journal:2025-02-01:1932"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-            "treatment": 352436583,
-            "control": 348934695,
-            "ids": [
-              "journal:2025-01-23:1639",
-              "journal:2025-01-24:1640",
-              "journal:2025-01-25:1641"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:915",
-            "treatment": 710208785896922,
-            "control": 710208788552157,
-            "ids": [
-              "journal:2025-02-01:1741",
-              "journal:2025-02-01:1742",
-              "journal:2025-02-01:1743"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
-            "treatment": 6904880,
-            "control": 9365607,
-            "ids": [
-              "journal:2025-02-19:8264",
-              "journal:2025-02-19:8265",
-              "journal:2025-02-19:8267"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
-            "treatment": 179792053,
-            "control": 177467502,
-            "ids": [
-              "journal:2025-02-01:2612",
-              "journal:2025-02-01:2613",
-              "journal:2025-02-01:2614"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
-            "treatment": 177079577751372,
-            "control": 177079579773746,
-            "ids": [
-              "journal:2025-02-01:1731",
-              "journal:2025-02-01:1732",
-              "journal:2025-02-01:1733"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
-            "treatment": 12976525,
-            "control": 11359050,
-            "ids": [
-              "journal:2025-03-01:9691",
-              "journal:2025-04-01:17317",
-              "journal:2025-05-01:24901"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1209",
-            "treatment": 22675353,
-            "control": 24225960,
-            "ids": [
-              "journal:2025-02-01:2626",
-              "journal:2025-02-01:2627",
-              "journal:2025-02-01:2628"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/official-living.ts:102",
-            "treatment": 3260213516,
-            "control": 3261416606,
-            "ids": [
-              "journal:2025-01-27:1657",
-              "journal:2025-01-27:1658",
-              "journal:2025-01-27:1659"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
-            "treatment": 1941814291,
-            "control": 1942653660,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1303013877,
+            "control": 1290493693,
             "ids": [
               "journal:2025-01-21:1565",
               "journal:2025-01-21:1566",
               "journal:2025-01-21:1567"
             ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 648038850,
+            "control": 659937612,
+            "ids": [
+              "journal:2025-02-01:2625",
+              "journal:2025-02-01:2626",
+              "journal:2025-02-01:2627"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 425800440,
+            "control": 421073533,
+            "ids": [
+              "journal:2025-01-21:1591",
+              "journal:2025-01-21:1592",
+              "journal:2025-01-21:1593"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208786321654,
+            "control": 710208790615830,
+            "ids": [
+              "journal:2025-02-01:1740",
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 352171009,
+            "control": 348709187,
+            "ids": [
+              "journal:2025-01-23:1635",
+              "journal:2025-01-24:1636",
+              "journal:2025-01-25:1637"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 239976012,
+            "control": 243383384,
+            "ids": [
+              "journal:2025-02-01:1929",
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:904",
+            "treatment": 177079576771591,
+            "control": 177079579833453,
+            "ids": [
+              "journal:2025-02-01:1730",
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 179986187,
+            "control": 177187880,
+            "ids": [
+              "journal:2025-02-01:2611",
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3334201311,
+            "control": 3332002834,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2616",
+            "treatment": 3365996,
+            "control": 1296521,
+            "ids": [
+              "journal:2025-08-31:54601",
+              "journal:2025-09-01:60791",
+              "journal:2025-09-28:62405"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/press-money.ts:374",
+            "treatment": 9578894,
+            "control": 7646329,
+            "ids": [
+              "journal:2025-01-27:1653",
+              "journal:2025-01-27:1654",
+              "journal:2025-01-27:1655"
+            ]
           }
         ],
-        "diffKinds": 39,
+        "diffKinds": 40,
         "cited": [],
-        "controlCited": []
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": []
+        }
       },
       "web": {
         "links": [
@@ -2771,7 +4280,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 73
+      "seconds": 77
     },
     {
       "key": "us-policy-positions:government-operations.legislative-term-limits",
@@ -2827,12 +4336,12 @@
       },
       "inPlay": [],
       "readers": {
-        "src/core2/modules/legislature.ts:2094": 1239,
-        "src/core2/modules/outcome-web.ts:166": 294,
+        "src/core2/modules/legislature.ts:2126": 1239,
+        "src/core2/modules/outcome-web.ts:166": 288,
         "src/core2/modules/world-legislating.ts:253": 278,
         "src/core2/modules/world-legislating.ts:183": 90,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/elections.ts:730": 20,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/elections.ts:696": 16,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/elections.ts:732": 20,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/elections.ts:698": 16,
         "src/core2/life.ts:556": 10,
         "src/core2/modules/world-legislating.ts:333": 4
       },
@@ -2841,9 +4350,19 @@
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
-            "treatment": 1940033683,
-            "control": 1942653660,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 663783592,
+            "control": 659937612,
+            "ids": [
+              "journal:2025-02-01:2625",
+              "journal:2025-02-01:2626",
+              "journal:2025-02-01:2627"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1286764998,
+            "control": 1290493693,
             "ids": [
               "journal:2025-01-21:1565",
               "journal:2025-01-21:1566",
@@ -2851,39 +4370,19 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
-            "treatment": 6046940,
-            "control": 4289861,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 9988578,
+            "control": 8515412,
             "ids": [
-              "journal:2025-09-01:55174",
-              "journal:2025-09-01:55175",
-              "journal:2025-09-01:55176"
+              "journal:2025-02-19:8294",
+              "journal:2025-02-19:8295",
+              "journal:2025-02-19:8297"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
-            "treatment": 11096249,
-            "control": 9365607,
-            "ids": [
-              "journal:2025-02-19:8275",
-              "journal:2025-02-19:8276",
-              "journal:2025-02-19:8278"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-            "treatment": 349956907,
-            "control": 348934695,
-            "ids": [
-              "journal:2025-01-23:1639",
-              "journal:2025-01-24:1640",
-              "journal:2025-01-25:1641"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 374210242,
-            "control": 373201924,
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 374137546,
+            "control": 375260880,
             "ids": [
               "journal:2025-01-27:1666",
               "journal:2025-01-28:1669",
@@ -2891,79 +4390,241 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-            "treatment": 58937724,
-            "control": 59928516,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 347931170,
+            "control": 348709187,
             "ids": [
-              "journal:2025-02-01:1947",
-              "journal:2025-02-01:1949",
-              "journal:2025-02-01:1951"
+              "journal:2025-01-23:1635",
+              "journal:2025-01-24:1636",
+              "journal:2025-01-25:1637"
             ]
           },
           {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 241060414,
-            "control": 242007556,
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 2345596,
+            "control": 3102315,
             "ids": [
-              "journal:2025-02-01:1930",
-              "journal:2025-02-01:1931",
-              "journal:2025-02-01:1932"
+              "journal:2025-10-01:63340",
+              "journal:2025-10-01:63341",
+              "journal:2025-10-01:63342"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 424807431,
-            "control": 424039081,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 176618401,
+            "control": 177187880,
             "ids": [
-              "journal:2025-01-21:1595",
-              "journal:2025-01-21:1596",
-              "journal:2025-01-21:1597"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
-            "treatment": 10885525,
-            "control": 11359050,
-            "ids": [
-              "journal:2025-03-01:9713",
-              "journal:2025-04-01:17460",
-              "journal:2025-05-01:25100"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
-            "treatment": 177079579383356,
-            "control": 177079579773746,
-            "ids": [
-              "journal:2025-02-01:1731",
-              "journal:2025-02-01:1732",
-              "journal:2025-02-01:1733"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:407",
-            "treatment": 858156,
-            "control": 1177695,
-            "ids": [
-              "journal:2025-10-01:63299",
-              "journal:2025-10-01:63300",
-              "journal:2025-11-01:71514"
+              "journal:2025-02-01:2611",
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-            "treatment": 65422550,
-            "control": 65149734,
+            "treatment": 61651314,
+            "control": 61215725,
             "ids": [
+              "journal:2025-02-01:1905",
               "journal:2025-02-01:1906",
-              "journal:2025-02-01:1907",
-              "journal:2025-02-01:1908"
+              "journal:2025-02-01:1907"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 710208791012481,
+            "control": 710208790615830,
+            "ids": [
+              "journal:2025-02-01:1740",
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 243122198,
+            "control": 243383384,
+            "ids": [
+              "journal:2025-02-01:1929",
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 421227903,
+            "control": 421073533,
+            "ids": [
+              "journal:2025-01-21:1591",
+              "journal:2025-01-21:1592",
+              "journal:2025-01-21:1593"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3331894939,
+            "control": 3332002834,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
             ]
           }
         ],
-        "diffKinds": 35,
+        "diffKinds": 37,
         "cited": [],
-        "controlCited": []
+        "controlCited": [],
+        "own": {
+          "targets": 161,
+          "pairs": [
+            {
+              "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:1494",
+              "way": "out",
+              "targets": 2,
+              "moved": 900,
+              "earliest": "2025-06-28",
+              "sample": [
+                {
+                  "target": "person_2dc9b418ebc09f6d",
+                  "row": "applied|us-policy-positions:government-operations.legislative-term-limits|person_2dc9b418ebc09f6d",
+                  "date": "2025-06-28",
+                  "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:1494",
+                  "way": "out",
+                  "treatment": 800,
+                  "control": 700,
+                  "journal": "journal:2025-06-28:39056"
+                },
+                {
+                  "target": "person_3f9b10502a79be77",
+                  "row": "applied|us-policy-positions:government-operations.legislative-term-limits|person_3f9b10502a79be77",
+                  "date": "2025-08-12",
+                  "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:1494",
+                  "way": "out",
+                  "treatment": 800,
+                  "control": 0,
+                  "journal": "journal:2025-08-12:54350"
+                }
+              ]
+            },
+            {
+              "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1494",
+              "way": "in",
+              "targets": 2,
+              "moved": 3,
+              "earliest": "2025-06-28",
+              "sample": [
+                {
+                  "target": "person_2dc9b418ebc09f6d",
+                  "row": "applied|us-policy-positions:government-operations.legislative-term-limits|person_2dc9b418ebc09f6d",
+                  "date": "2025-06-28",
+                  "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1494",
+                  "way": "in",
+                  "treatment": -9,
+                  "control": -8,
+                  "journal": "journal:2025-06-28:39058"
+                },
+                {
+                  "target": "person_3f9b10502a79be77",
+                  "row": "applied|us-policy-positions:government-operations.legislative-term-limits|person_3f9b10502a79be77",
+                  "date": "2025-08-12",
+                  "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1494",
+                  "way": "in",
+                  "treatment": -66,
+                  "control": -64,
+                  "journal": "journal:2025-08-12:54349"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 2,
+              "moved": 2,
+              "earliest": "2025-06-01",
+              "sample": [
+                {
+                  "target": "person_0e958e70e62d2b8a",
+                  "row": "applied|us-policy-positions:government-operations.legislative-term-limits|person_0e958e70e62d2b8a",
+                  "date": "2025-06-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -177308,
+                  "control": -177309,
+                  "journal": "journal:2025-06-01:31607"
+                },
+                {
+                  "target": "person_3f9b10502a79be77",
+                  "row": "applied|us-policy-positions:government-operations.legislative-term-limits|person_3f9b10502a79be77",
+                  "date": "2025-07-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -54010,
+                  "control": -54011,
+                  "journal": "journal:2025-07-01:39283"
+                }
+              ]
+            },
+            {
+              "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:1494",
+              "way": "in",
+              "targets": 1,
+              "moved": 700,
+              "earliest": "2025-07-25",
+              "sample": [
+                {
+                  "target": "person_3f9b10502a79be77",
+                  "row": "applied|us-policy-positions:government-operations.legislative-term-limits|person_3f9b10502a79be77",
+                  "date": "2025-07-25",
+                  "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:1494",
+                  "way": "in",
+                  "treatment": 600,
+                  "control": 1300,
+                  "journal": "journal:2025-07-25:46929"
+                }
+              ]
+            },
+            {
+              "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1494",
+              "way": "out",
+              "targets": 1,
+              "moved": 9,
+              "earliest": "2025-07-25",
+              "sample": [
+                {
+                  "target": "person_3f9b10502a79be77",
+                  "row": "applied|us-policy-positions:government-operations.legislative-term-limits|person_3f9b10502a79be77",
+                  "date": "2025-07-25",
+                  "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1494",
+                  "way": "out",
+                  "treatment": -47,
+                  "control": -56,
+                  "journal": "journal:2025-07-25:46937"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "in",
+              "targets": 1,
+              "moved": 1,
+              "earliest": "2025-06-01",
+              "sample": [
+                {
+                  "target": "person_3f9b10502a79be77",
+                  "row": "applied|us-policy-positions:government-operations.legislative-term-limits|person_3f9b10502a79be77",
+                  "date": "2025-06-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -184855,
+                  "control": -184854,
+                  "journal": "journal:2025-06-01:32540"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": []
+        }
       },
       "web": {
         "links": [
@@ -3035,7 +4696,7 @@
         "reenacted": null
       },
       "heard": {
-        "people": 116,
+        "people": 115,
         "sample": [
           "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48",
           "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48",
@@ -3043,14 +4704,14 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 163,
+        "fullPeople": 162,
         "countedGroups": 0,
         "countedPeople": 0,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 163,
+        "open": 162,
         "ended": 160,
         "sample": [
           "reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2026-01-22:law-wiring-b04adc48-b:legislators:person_0bbe6a59b6ca584c:2026-01-22",
@@ -3071,7 +4732,7 @@
         "ended": 160,
         "sample": []
       },
-      "seconds": 74
+      "seconds": 86
     }
   ]
 }
