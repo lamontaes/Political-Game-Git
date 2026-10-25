@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-circle-heap
 pr: #5957
 blocked-on:
