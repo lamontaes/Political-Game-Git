@@ -1550,10 +1550,22 @@ export function createDrivesModule(
       "known-cause-group": (api, actor, action) => {
         const groups = runtimeFor(api.state).groupsByTopic;
         const out: ActOffer[] = [];
-        for (const drive of servingDrives(api, actor, action))
-          for (const id of [...(groups.get(drive.topic) ?? [])].sort())
-            if (groupKnown(api, actor.id, id) && groupNearby(api, actor, id))
-              out.push(driveOffer(api, action, id, drive));
+        // Each topic's groups this person knows and can reach, worked out once
+        // for all their drives on it, in the same order.
+        const reachable = new Map<string, string[]>();
+        for (const drive of servingDrives(api, actor, action)) {
+          let ids = reachable.get(drive.topic);
+          if (!ids) {
+            ids = [...(groups.get(drive.topic) ?? [])]
+              .sort()
+              .filter(
+                (id) =>
+                  groupKnown(api, actor.id, id) && groupNearby(api, actor, id),
+              );
+            reachable.set(drive.topic, ids);
+          }
+          for (const id of ids) out.push(driveOffer(api, action, id, drive));
+        }
         return out;
       },
       "volunteer-place": (api, actor, action) => {
