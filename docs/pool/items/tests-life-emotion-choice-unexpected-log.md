@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/life-emotion-log
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T06:45:50.482Z
 ---
 
 **What.** On clean main c8b5e8ce165a53a4ebff032fb2344cc97013197b, src/core2/life.test.ts fails its mood and stress choice case at line 432. It expects core.durableLog.size to be zero after scoring choices but finds one record. The same file passes its other sixteen cases, and PR #5920 reproduces the identical failure, so this is a main defect independent of its weekly contact shortlist.
