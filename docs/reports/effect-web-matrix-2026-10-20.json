@@ -6,14 +6,14 @@
     "webCoverageWired": 120,
     "allEightPoints": 0,
     "reachesOrCarried": 132,
-    "namedInAStopgap": 107,
+    "namedInAStopgap": 108,
     "notReachingAndNoStopgap": 0,
     "reachesTheWorld": 132,
     "withAnyModerator": 22,
     "byPoint": {
       "cause": {
-        "pass": 159,
-        "partial": 18,
+        "pass": 160,
+        "partial": 17,
         "fail": 55,
         "n/a": 0
       },
@@ -36,8 +36,8 @@
         "n/a": 0
       },
       "knockOn": {
-        "pass": 12,
-        "partial": 42,
+        "pass": 16,
+        "partial": 38,
         "fail": 0,
         "n/a": 178
       },
@@ -1728,7 +1728,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "through uninsured-to-graduation: src/core2/school-outcomes.ts:37"
+          "evidence": "src/core2/modules/coverage.ts:222"
         },
         "varied": {
           "status": "partial",
@@ -1736,9 +1736,8 @@
           "why": "a place-level moderator only: every person in a place still gets the same proportion"
         },
         "knockOn": {
-          "status": "partial",
-          "evidence": "feeds uninsured-to-graduation through the web ledger",
-          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+          "status": "pass",
+          "evidence": "feeds uninsured-to-graduation from engine records"
         },
         "timing": {
           "status": "partial",
@@ -1755,7 +1754,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
+      "wiredPoints": 5,
       "stopgap": null
     },
     {
@@ -4371,7 +4370,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "through uninsured-to-graduation: src/core2/school-outcomes.ts:37"
+          "evidence": "src/core2/modules/coverage.ts:222"
         },
         "varied": {
           "status": "fail",
@@ -4379,9 +4378,8 @@
           "why": "no moderator: every place and person moves by the same proportion"
         },
         "knockOn": {
-          "status": "partial",
-          "evidence": "feeds uninsured-to-graduation through the web ledger",
-          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+          "status": "pass",
+          "evidence": "feeds uninsured-to-graduation from engine records"
         },
         "timing": {
           "status": "partial",
@@ -4398,8 +4396,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": null
+      "wiredPoints": 4,
+      "stopgap": "SG-EW-HEALTH-medical-debt-reader"
     },
     {
       "key": "abortion-ban-to-births",
@@ -5194,7 +5192,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "through uninsured-to-graduation: src/core2/school-outcomes.ts:37"
+          "evidence": "src/core2/modules/coverage.ts:222"
         },
         "varied": {
           "status": "fail",
@@ -5202,9 +5200,8 @@
           "why": "no moderator: every place and person moves by the same proportion"
         },
         "knockOn": {
-          "status": "partial",
-          "evidence": "feeds uninsured-to-graduation through the web ledger",
-          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+          "status": "pass",
+          "evidence": "feeds uninsured-to-graduation from engine records"
         },
         "timing": {
           "status": "partial",
@@ -5221,7 +5218,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
+      "wiredPoints": 5,
       "stopgap": null
     },
     {
@@ -5316,7 +5313,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-finance-medical-debt-in-collections"
+      "stopgap": "SG-EW-HEALTH-medical-debt-reader"
     },
     {
       "key": "snap-work-requirement-to-participation",
@@ -6337,16 +6334,15 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "through uninsured-to-graduation: src/core2/school-outcomes.ts:37"
+          "evidence": "src/core2/modules/coverage.ts:222"
         },
         "varied": {
           "status": "pass",
           "evidence": "data/research/outcome-web/links.json:3480 varies by 2 moderator(s)"
         },
         "knockOn": {
-          "status": "partial",
-          "evidence": "feeds uninsured-to-graduation through the web ledger",
-          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+          "status": "pass",
+          "evidence": "feeds uninsured-to-graduation from engine records"
         },
         "timing": {
           "status": "partial",
@@ -6363,7 +6359,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 5,
+      "wiredPoints": 6,
       "stopgap": null
     },
     {
@@ -7322,9 +7318,8 @@
       "webCoverage": "wired",
       "points": {
         "cause": {
-          "status": "partial",
-          "evidence": "web ledger health.uninsured-pct",
-          "why": "the cause is the web's own number for health.uninsured-pct, not an engine record: no engine produces health.uninsured-pct (or reads the web's factor for it), so it holds at its 2024 base apart from other links"
+          "status": "pass",
+          "evidence": "web ledger health.uninsured-pct, which src/core2/modules/coverage.ts:222 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -7358,7 +7353,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
+      "wiredPoints": 5,
       "stopgap": null
     },
     {
@@ -11979,9 +11974,8 @@
     },
     {
       "measure": "health.uninsured-pct",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/modules/coverage.ts:222",
       "countedTwice": false,
       "asCause": ["uninsured-to-graduation"],
       "asOutcome": [
