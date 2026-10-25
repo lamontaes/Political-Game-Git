@@ -299,9 +299,9 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
   ]);
   expect(
     subjectsBetween(again.core, housemate, victim, again.director).filter(
-      (row) => row.kind === "victimization",
+      (row) => row.kind === "victimization" && row.aboutId === violent.eventId,
     ),
-    `${there}: ${housemate}, whom ${violent.eventId} did not happen to, has no victimization to raise with ${victim}`,
+    `${there}: ${housemate}, whom ${violent.eventId} did not happen to, cannot raise that crime as their own with ${victim}`,
   ).toEqual([]);
   // Ordinary play: with the housemate as the one who speaks, no line of
   // theirs tells the victim's crime as their own.

@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-payday-withholding-in-play
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T23:32:01.364Z
 ---
 
 **What.** After the payroll settlement stopped preparing each payday twice, the largest parts of a payday outside the cash journal are the withholding (withholdPay and withhold in budgets.ts, about 2 s of Long Hill's year in the paired CPU profile) and the employer's share (payEmployerShare in employer-taxes.ts, about 1 s). Each builds a FinancePlanningSession per call, with its read guards and cash planner, and re-reads the law in force and the place's records for every worker on every payday. Keep every check under the bookkeeping switch and build only what the posting reads in play.
