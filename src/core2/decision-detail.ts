@@ -4,12 +4,15 @@
  * member's act keeps only what the "why" view needs to name the choice. The
  * player's own routine acts keep everything for `playerDecisionDetailDays`
  * (after a year only the summary and the reasons, not every option's
- * score); their public records and news keep everything. Writers
+ * score); their public records and news keep everything. A circle
+ * member's weighed choice keeps its full record for the same detail window
+ * and then goes; their other entries go after `circleActRetentionMonths`.
+ * Writers
  * queue each record as they keep it, so condensing visits each record once
  * and never scans the log.
  */
 import { parameter } from "./parameters";
-import type { CoreState, DecisionResult } from "./types";
+import type { CoreState, DecisionResult, LogRecord } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 import { forgetOldExperiences } from "./knowledge-retention";
 
@@ -168,6 +171,12 @@ export function condenseCircleDecisions(core: CoreState): void {
       }
       continue;
     }
+    // A choice a circle member weighed is detail: it keeps every option's
+    // score for the detail window, then goes. What they did is on their act.
+    if (row.kind === "person.weighed" && !row.publicRecord && !row.news) {
+      forgetEntry(core, row);
+      continue;
+    }
     if (row.decision && row.decision.actorId !== core.playerId)
       condenseDecision(core, row.id);
     if (!row.publicRecord && !row.news) {
@@ -198,8 +207,8 @@ function condensePlayerDecisions(core: CoreState): void {
 }
 
 /**
- * A circle member's routine entry (an act, a choice they weighed, a cause
- * they shared or heard) is dropped after circleActRetentionMonths: the
+ * A circle member's routine entry (an act, a cause they shared or heard)
+ * is dropped after circleActRetentionMonths: the
  * people and relationships it changed keep their state; only the old entry
  * goes (the player's own entries, public records and news stay).
  */
@@ -221,13 +230,18 @@ function dropOldCircleActs(
     done++;
     const row = core.durableLog.get(id);
     if (!row || involvesPlayer(core, row)) continue;
-    core.durableLog.delete(id);
-    for (const person of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
-      core.logByPerson.get(person)?.delete(id);
-    core.logByKind.get(row.kind)?.delete(id);
-    core.logByPlace.get(row.placeId)?.delete(id);
+    forgetEntry(core, row);
   }
   if (done) drops.splice(0, done);
+}
+
+/** Removes one entry from the log and its indexes. */
+function forgetEntry(core: CoreState, row: LogRecord): void {
+  core.durableLog.delete(row.id);
+  for (const person of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
+    core.logByPerson.get(person)?.delete(row.id);
+  core.logByKind.get(row.kind)?.delete(row.id);
+  core.logByPlace.get(row.placeId)?.delete(row.id);
 }
 
 /**

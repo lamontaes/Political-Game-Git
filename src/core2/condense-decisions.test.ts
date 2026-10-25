@@ -76,7 +76,7 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
     expect(recent.some((row) => row.decision!.scores !== undefined)).toBe(true);
   }, 300_000);
 
-  it("drops a circle member's weighed choices and other routine entries after circleActRetentionMonths, keeping the player's own", () => {
+  it("drops a circle member's weighed choices after the detail window and their other entries after circleActRetentionMonths, keeping the player's own", () => {
     // Every module installed, so drives, campaigns and the news write the
     // circle's weighed choices and entries as in play.
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -104,18 +104,36 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
       0,
     );
     expect(own.length, "the player's own entries").toBeGreaterThan(0);
-    const day = new Date(`${core.date}T00:00:00Z`);
-    day.setUTCMonth(
-      day.getUTCMonth() + parameter("circleActRetentionMonths") + 1,
+    const later = (move: (day: Date) => void) => {
+      const day = new Date(`${core.date}T00:00:00Z`);
+      move(day);
+      core.date = day.toISOString().slice(0, 10);
+      condenseCircleDecisions(core);
+    };
+    const gone = (rows: typeof routine) => {
+      for (const row of rows) {
+        expect(core.durableLog.has(row.id), row.id).toBe(false);
+        expect(core.logByKind.get(row.kind)?.has(row.id) ?? false, row.id).toBe(
+          false,
+        );
+      }
+    };
+    // Past the detail window the weighed choices are gone, the entries stay.
+    later((day) =>
+      day.setUTCDate(
+        day.getUTCDate() + parameter("circleDecisionDetailDays") + 1,
+      ),
     );
-    core.date = day.toISOString().slice(0, 10);
-    condenseCircleDecisions(core);
-    for (const row of [...weighed, ...entries]) {
-      expect(core.durableLog.has(row.id), row.id).toBe(false);
-      expect(core.logByKind.get(row.kind)?.has(row.id) ?? false, row.id).toBe(
-        false,
-      );
-    }
+    gone(weighed);
+    for (const row of entries)
+      expect(core.durableLog.has(row.id), row.id).toBe(true);
+    // Past the retention months the entries are gone too.
+    later((day) =>
+      day.setUTCMonth(
+        day.getUTCMonth() + parameter("circleActRetentionMonths") + 1,
+      ),
+    );
+    gone(entries);
     for (const row of own)
       expect(core.durableLog.has(row.id), row.id).toBe(true);
   }, 300_000);
