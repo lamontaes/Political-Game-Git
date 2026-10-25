@@ -73,7 +73,11 @@ describe("a law's own payments", () => {
     );
     expect(own.paid).toBe(3);
     expect(own.sample.every((e) => e.kind === "work-payroll")).toBe(true);
-    expect(own.kinds).toEqual({ "work-payroll|in": 3, "purchase|in": 1 });
+    expect(own.pick).toBe("work-payroll|in");
+    expect(own.pairs.map((p) => [p.kind, p.way, p.targets])).toEqual([
+      ["work-payroll", "in", 3],
+      ["purchase", "in", 1],
+    ]);
   });
 
   it("does not count a difference long after the law reached the target", () => {
@@ -149,7 +153,7 @@ describe("a law's own payments", () => {
       "2025-01-02",
     );
     expect(own.paid).toBe(1);
-    expect(own.kinds).toEqual({ "rent-assistance|in": 1 });
+    expect(own.pick).toBe("rent-assistance|in");
   });
 
   it("does not credit a payment only one target of many got", () => {
@@ -169,5 +173,41 @@ describe("a law's own payments", () => {
       "2025-01-02",
     );
     expect(own.paid).toBe(0);
+  });
+
+  it("takes the paycheck over the spending it allows, by the money each moved", () => {
+    // Four raised workers spend a little more; three of their paychecks have
+    // come in the window. The paycheck moved more money: it is the law's.
+    const ids = ["person_a", "person_b", "person_c", "person_d"];
+    const treated: Record<string, Posting[]> = {};
+    const control: Record<string, Posting[]> = {};
+    for (const [i, id] of ids.entries()) {
+      treated[id] = [["2025-02-01", "cost-of-living", -320, `journal:s${i}`]];
+      control[id] = [["2025-02-01", "cost-of-living", -300, `journal:s${i}`]];
+      if (i < 3) {
+        treated[id].push([
+          "2025-01-24",
+          "work-payroll",
+          1_100,
+          `journal:p${i}`,
+        ]);
+        control[id].push([
+          "2025-01-24",
+          "work-payroll",
+          1_000,
+          `journal:p${i}`,
+        ]);
+      }
+    }
+    const own = ownPayments(
+      none,
+      ids.map((id) => reached(id)),
+      world(treated),
+      world(control),
+      false,
+      "2025-01-02",
+    );
+    expect(own.pick).toBe("work-payroll|in");
+    expect(own.paid).toBe(3);
   });
 });

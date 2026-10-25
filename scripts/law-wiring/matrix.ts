@@ -9,7 +9,7 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
-import { ownLeast } from "./own-payments";
+import { ownLeast, pickOwn, type OwnPair } from "./own-payments";
 import {
   allLaws,
   changeInData,
@@ -67,7 +67,8 @@ interface Result {
     own?: {
       targets: number;
       paid: number;
-      kinds: Record<string, number>;
+      /** Each kind and direction of payment the targets got (newer result files). */
+      pairs?: OwnPair[];
       sample: {
         target: string;
         row: string;
@@ -342,13 +343,16 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
       .filter((c) => c.gross > 0)
       .map((c) => ({ place, c })),
   );
-  const own = runs.flatMap(({ place, r }) =>
-    r.money?.own &&
-    r.money.own.paid > 0 &&
-    r.money.own.paid >= ownLeast(r.money.own.targets)
-      ? [{ place, o: r.money.own }]
-      : [],
-  );
+  // The law's own payment, picked by the same rule the checker uses from
+  // every kind its targets got (older result files carry only the pick).
+  const own = runs.flatMap(({ place, r }) => {
+    const o = r.money?.own;
+    if (!o) return [];
+    const picked = o.pairs ? pickOwn(o.targets, o.pairs) : o;
+    return picked.paid > 0 && picked.paid >= ownLeast(o.targets)
+      ? [{ place, o: { targets: o.targets, ...picked } }]
+      : [];
+  });
   if (direct.length || cited.length || controlCited.length || own.length) {
     const ev = [
       ...direct

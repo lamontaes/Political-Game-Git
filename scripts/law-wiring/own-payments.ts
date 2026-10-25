@@ -151,28 +151,68 @@ export function ownPayments(
   // Most targets first; on a tie, the most money (a raise's paycheck over the
   // tax withheld from it), then the payment that came soonest after the law
   // reached them (a law pays when it applies, drift comes later).
-  const order = [...shared].sort(
-    (a, b) =>
-      b[1] - a[1] ||
-      moved.get(b[0])! - moved.get(a[0])! ||
-      earliest.get(a[0])!.localeCompare(earliest.get(b[0])!) ||
-      a[0].localeCompare(b[0]),
-  );
-  const least = ownLeast(targets.length);
-  const top = (order[0]?.[1] ?? 0) >= least ? order[0]![0] : undefined;
-  const found = top
-    ? byTarget
-        .flatMap((m) => (m.has(top) ? [m.get(top)!] : []))
+  const pairs: OwnPair[] = [...shared]
+    .map(([pair, count]) => {
+      const [kind, way] = pair.split("|") as [string, "in" | "out"];
+      const firsts = byTarget
+        .flatMap((m) => (m.has(pair) ? [m.get(pair)!] : []))
         .sort(
           (a, b) =>
             a.date.localeCompare(b.date) || a.target.localeCompare(b.target),
-        )
-    : [];
+        );
+      return {
+        kind,
+        way,
+        targets: count,
+        moved: moved.get(pair)!,
+        earliest: earliest.get(pair)!,
+        sample: firsts.slice(0, 4),
+      };
+    })
+    .sort((a, b) => b.targets - a.targets || b.moved - a.moved)
+    .slice(0, 10);
+  return { targets: targets.length, pairs, ...pickOwn(targets.length, pairs) };
+}
+
+/** One kind and direction of payment the targets got, with how many got it and the money it moved. */
+export interface OwnPair {
+  kind: string;
+  way: "in" | "out";
+  targets: number;
+  moved: number;
+  earliest: string;
+  sample: {
+    target: string;
+    row: string;
+    date: string;
+    kind: string;
+    way: "in" | "out";
+    treatment: number;
+    control: number;
+    journal: string;
+  }[];
+}
+
+/**
+ * Which payment is the law's own. Among the kinds and directions shared by
+ * enough targets (ownLeast) and by at least half as many as the most shared,
+ * the one that moved the most money: the law's payment itself (a raise's
+ * paycheck, a premium) moves more than what follows from it (the spending a
+ * raise allows, the tax withheld from it) or drift (a deposit's interest).
+ */
+export function pickOwn(targets: number, pairs: readonly OwnPair[]) {
+  const most = Math.max(0, ...pairs.map((p) => p.targets));
+  const top = pairs
+    .filter((p) => p.targets >= ownLeast(targets) && p.targets * 2 >= most)
+    .sort(
+      (a, b) =>
+        b.moved - a.moved ||
+        a.earliest.localeCompare(b.earliest) ||
+        a.kind.localeCompare(b.kind),
+    )[0];
   return {
-    targets: targets.length,
-    paid: found.length,
-    /** Targets with a differing payment of each kind and direction, most shared first. */
-    kinds: Object.fromEntries(order.slice(0, 8)),
-    sample: found.slice(0, 6),
+    paid: top?.targets ?? 0,
+    pick: top ? `${top.kind}|${top.way}` : null,
+    sample: top?.sample ?? [],
   };
 }
