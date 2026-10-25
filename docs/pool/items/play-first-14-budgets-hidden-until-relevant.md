@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-first-14-budgets-hidden-until-relevant
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T19:45:57.023Z
 ---
 
 **What.** The owner's read of the playtest screenshots: no budgets for a 17-year-old. The v0.22.10 Politics tab showed the United States budget to the cent ("$5,234,616,386,315.43") on the first evening. This item hides Budgets until it is relevant to the player: they hold office, have filed, or are of age to vote (owner, Oct 24), and rounds the amounts the way a reader says them.
