@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T17:36:29.709Z
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/residents.ts, src/core2/modules/renewal.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-25 from PR #6068 (branch claude/counted-change-expected-events, checked 08d042ca05): its own Hartland evidence says disabling counted births, deaths and moves still passes because other flows change the count; forcing the checker readings to zero does not satisfy the disabled-engine Done-when. Keep checker observations unchanged and prove the real negative control alongside the same-root positive world; finish on that branch, merge main into it first. No completed local green test gate was claimed.
