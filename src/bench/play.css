@@ -935,14 +935,26 @@ body.dev .dev-ring {
 }
 
 /* ---- The play HUD: the player card, bottom left (the only place the date and time appear) ---- */
-.me {
+/* The menu icons and the card stand in one column, bottom left: the icons
+   always above the card, however tall the card's status line makes it. */
+#dock {
+  position: absolute;
   left: var(--gutter);
   bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+#dock > .panel {
+  position: relative;
+}
+.me {
   display: flex;
   gap: 11px;
   align-items: center;
   padding: 7px 18px 7px 7px;
-  max-width: calc(50vw - 380px);
+  max-width: calc(100vw - 2 * var(--gutter));
 }
 /* With a menu open the card keeps to the menu's column. */
 #game.sheet-open .me {
@@ -982,9 +994,6 @@ body.dev .dev-ring {
   margin-bottom: 4px;
 }
 #rings {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 108px;
   display: flex;
   gap: 8px;
 }
