@@ -520,10 +520,10 @@
       "bearing": "braced"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.unemployment-is-at-unemployment-rate-percent",
+      "key": "opening-speech.state-of-the-union-report.national-unemployment-is-at-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "Unemployment is at {unemployment_rate} percent.",
+      "text": "National unemployment is at {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -538,28 +538,20 @@
           "choice": "report"
         }
       ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "dcpd": 7
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks on the Passage of Public Debt Limit and Federal Budget Legislation",
-        "date": "2023-06-02",
-        "granule": "DCPD-202300493",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202300493",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
       "tag": {
         "move": "tell"
       },
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.the-unemployment-rate-is-unemployment-rate-perce",
+      "key": "opening-speech.state-of-the-union-report.the-national-unemployment-rate-is-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "The unemployment rate is {unemployment_rate} percent.",
+      "text": "The national unemployment rate is {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -574,28 +566,20 @@
           "choice": "report"
         }
       ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 6
-      },
       "shippable": true,
-      "source": {
-        "document": "Statement on the Bureau of Labor Statistics Report on the Employment Situation in July",
-        "date": "2023-08-04",
-        "granule": "DCPD-202300673",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202300673",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
       "tag": {
         "move": "tell"
       },
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.unemployment-is-down-to-unemployment-rate-percen",
+      "key": "opening-speech.state-of-the-union-report.national-unemployment-is-down-to-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "Unemployment is down to {unemployment_rate} percent.",
+      "text": "Across the country, unemployment is down to {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -612,18 +596,10 @@
           "requiresFacts": ["unemployment-down"]
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks at a Campaign Rally in Detroit, Michigan",
-        "date": "2024-07-12",
-        "granule": "DCPD-202400605",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202400605",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
       "tag": {
         "move": "tell"
       },

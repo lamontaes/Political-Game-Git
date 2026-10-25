@@ -31,7 +31,11 @@ import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { ownStance } from "../core2/officials-roster";
 import { PRESIDENT_FACT } from "../core2/officials-president";
-import { regionalMonth, regionOfPlace } from "../core2/modules/regional";
+import {
+  regionalMonth,
+  regionName,
+  regionOfPlace,
+} from "../core2/modules/regional";
 import { openingRegionMonths } from "../core2/regional-model";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -634,11 +638,15 @@ function townStory(
         (row) => row.regionId === regionId,
       ))
     : undefined;
+  const area = regionName(region.regionId);
   return {
     kind: "jobs-report",
     recordId: region.id,
     facts: {
       place: fact(townName, townId),
+      // The rate is the region's (a metro, or the state outside its metros),
+      // so the story names that area, not the town.
+      ...(area ? { area: fact(area, region.id) } : {}),
       percent: fact(region.unemploymentPct.toFixed(N.decimals), region.id),
       ...(before && region.unemploymentPct < before.unemploymentPct
         ? { "unemployment-down": fact("yes", region.id, before.id) }
