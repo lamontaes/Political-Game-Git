@@ -3243,6 +3243,18 @@ L('state','confront',A,'rally-opponent',[("Nice answers up there. Too bad none o
 L('reply','deflect',Y,'rally-opponent',[("I said what I came to say tonight.","guarded",DB)])
 L('reply','confront',Y,'rally-opponent',[("You could have said that on stage.","braced",DB)])
 L('reply','boast',Y,'rally-opponent',[("People heard me tonight. That's enough for me.","braced",DB)])
+# An executive's ask to carry their bill (legislature.ts askToCarry): the executive can't introduce it. Each
+# needs the fact carry-ask, and with it they outrank the lines that don't fit an executive's ask.
+CA=['carry-ask']
+L(N,N,R,'carry-bill',[("{name} can't introduce {bill} without a member to sponsor it, and {name} wants that member to be you.","curious",CA)])
+L('state','request',A,'carry-bill',[("I can't introduce {bill} myself. I need you to carry it.","hopeful",CA),("{bill} needs a member to sponsor it, and you're the one I want.","hopeful",CA)])
+L('follow','plea',A,'carry-bill',[("I can't file it myself. You're the one I'd trust with it.","hopeful",CA)])
+# A donor's gift to the campaign (campaigns.ts recordGift): the donor wants something back. Each needs the
+# fact gift; the two that name the bill the donor holds the strongest view on need donor-bill too, and outrank
+# the rest exactly when there is one.
+GF=['gift']; GB=['gift','donor-bill']
+L('state','request',A,'donor-ask',[("I was glad to help your campaign. I'll want your ear when it counts.","calm",GF),("That check wasn't charity. When I call, I need you to pick up.","braced",GF),("I backed you early. I'd like to know I can count on you later.","calm",GF),("I gave because I think you'll listen. Keep listening.","calm",GF),("I put my money behind you. Now I need to know where you stand on what I care about.","braced",GF)])
+L('state','request',A,'donor-ask',[("I gave to your campaign because of {bill}. I need you with me on it.","calm",GB),("That check was about {bill}. Don't forget it.","braced",GB)])
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}
