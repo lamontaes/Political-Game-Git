@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/law-wiring-death-tax-terms
 pr: #5744
 blocked-on:

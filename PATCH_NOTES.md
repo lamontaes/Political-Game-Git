@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.26.2
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **A town's radio station or paper no longer runs out of money when its
+  reporter works every scheduled day.** An outlet's cost, which its wider
+  audience helps pay, was counted at a 40-hour week for each of its people, so a
+  reporter scheduled longer cost more than it took in and a station could close.
+  Its cost now follows its own staff's scheduled hours.
+
 ## PRE-ALPHA 0.26.1
 
 _Released October 25, 2026._
