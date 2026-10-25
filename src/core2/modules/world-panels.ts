@@ -4,7 +4,7 @@
  * return record data only.
  */
 import { nationalPanel } from "./macro";
-import { regionalLevel } from "./regional";
+import { regionalLevel, regionName } from "./regional";
 import { JOBS_DATA } from "./jobs";
 import { residentsRuntime } from "./residents";
 import type { CoreAPI, CoreState } from "../types";
@@ -35,7 +35,12 @@ export function regionPanel(api: CoreAPI, placeId: string) {
           row.stateFips === region.stateFips && row.month === region.month,
       )
     : [];
-  return { region, stateRegions: state, nation };
+  return {
+    // The area the region's figures cover, so a screen can say where a rate applies.
+    region: region && { ...region, name: regionName(region.regionId) },
+    stateRegions: state,
+    nation,
+  };
 }
 
 /** One person's job history: every change with its reason and who decided it. */
