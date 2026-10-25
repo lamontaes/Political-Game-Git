@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/territory-board-contests
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T20:41:04.433Z
 ---
 
 **What.** The M2-03 command (src/bench/m2-03-check.ts) on main 4e05f49a29, in the place the runner draws for it, Christiansted, U.S. Virgin Islands (territory:VI:christiansted, seed 939fb5e2ba3a5149ded0014c2b1dde07c7689a2749a0b9a8fbfc3a09d0997679), fails: 'at 18 there is no contest the player can enter'. The ineligible half passes: the Elections System of the Virgin Islands clerk tells a 17-year-old 'You have to be 25 by election day' for the U.S. House seat. The territory has no municipal governments, and the listed offices all carry ages above 18 (Delegate to Congress 25, Governor 30, Legislature 21). The territory's elected Board of Education and Board of Elections, chosen at the same general election, do not appear as contests an 18-year-old can enter. The same may hold in other places without local elected offices.
