@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/regional-population-range
+pr: #6023
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T11:10:27.639Z
 ---
 
 **What.** Roadmap M1-13 asks that other places' populations change within real ranges. data/research/regional holds state jobs, pay and unemployment series and their spreads (series/stats.json), but nothing on population change, so the new M1-13 check (src/bench/m1-13-check.ts) cannot test the clause and says so. Fetch the Census Bureau's state population estimates (vintage components of change, 2000 onward), and record the 5th to 95th percentile of the one-year state change, with metros if the same series gives them.
