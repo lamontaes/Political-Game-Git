@@ -187,6 +187,9 @@ it("an act of Maine's 2025 special session counts from that session's end, not t
   expect(stateActEffectiveDate("US-ME", "2025-03-10")?.date).toBe("2025-06-20");
   expect(stateActEffectiveDate("US-ME", "2025-04-15")?.date).toBe("2025-09-24");
   expect(stateActEffectiveDate("US-ME", "2025-06-18")?.date).toBe("2025-09-24");
+  // A year with no published adjournment counts from the statute's own day,
+  // the third Wednesday in June of an odd year: June 16, 2027.
+  expect(stateActEffectiveDate("US-ME", "2027-04-15")?.date).toBe("2027-09-15");
 });
 
 it("a Maine act passed in the regular session and signed after it counts from that session's end", () => {
