@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-play-stop-12
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T18:14:47.685Z
 ---
 
 **What.** On the v0.22.10 release, after Knock on doors the status card bottom left adds "KNOCK ON DOORS · 36 DOORS · 5 REACHED", grows taller, squeezes my name to "Bo / Snider" and covers the six menu icons. Clicking where the Politics icon shows lands on the card, so no menu can be opened in the door-knocking scene; only Day or Week gets out. Once the campaign panel also stayed open after Knock on doors and hid Day and Week until I pressed ×. I expected the icons to stay clickable.
