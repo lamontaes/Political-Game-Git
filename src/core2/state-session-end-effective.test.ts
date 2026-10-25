@@ -16,7 +16,22 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { advanceCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
+import { buildPopulation } from "./population";
+import { provisionFor } from "./bill-catalog";
+import type { ModuleRow } from "./module-data";
+import { openBudgets } from "./modules/budgets";
+import { openCampaigns } from "./modules/campaigns";
+import { openElections } from "./modules/elections";
+import { openLaws } from "./modules/laws";
+import {
+  draftBill,
+  effectiveRule,
+  LEGISLATURE_MODULE_ID,
+  openLegislature,
+} from "./modules/legislature";
+import { openOffices, townSeats } from "./modules/offices";
+import { openRecord } from "./modules/record";
 import type { LawRowInput } from "./laws-starting";
 import { LAWS_MODULE_ID } from "./modules/laws";
 import { stateActEffectiveDate } from "./state-effective-date";
@@ -172,4 +187,76 @@ it("an act of Maine's 2025 special session counts from that session's end, not t
   expect(stateActEffectiveDate("US-ME", "2025-03-10")?.date).toBe("2025-06-20");
   expect(stateActEffectiveDate("US-ME", "2025-04-15")?.date).toBe("2025-09-24");
   expect(stateActEffectiveDate("US-ME", "2025-06-18")?.date).toBe("2025-09-24");
+});
+
+it("a Maine act passed in the regular session and signed after it counts from that session's end", () => {
+  // Passed March 20, 2025, the day before the regular session adjourned, and
+  // signed March 26, while the special session sat: it is a regular-session
+  // act, in force June 20, not September 24.
+  expect(stateActEffectiveDate("US-ME", "2025-03-26", "2025-03-20")?.date).toBe(
+    "2025-06-20",
+  );
+  // Passed in the special session, signed the week after it adjourned.
+  expect(stateActEffectiveDate("US-ME", "2025-07-02", "2025-06-24")?.date).toBe(
+    "2025-09-24",
+  );
+});
+
+it(`a bill held on the governor's desk takes effect from the session it passed in, seed ${seed}`, () => {
+  // Through the game's own desk: a Maine bill passes on March 20, 2025, waits
+  // for the governor's signature, and is signed on March 26.
+  setBookkeeping(false);
+  let place = drawPlace(`${seed}:desk:0`, "session-end-desk");
+  for (let draw = 1; place.state !== "US-ME" && draw < 2000; draw += 1)
+    place = drawPlace(`${seed}:desk:${draw}`, "session-end-desk");
+  expect(place.state, `no Maine place drawn from ${seed}`).toBe("US-ME");
+  const core = createLifeCore(
+    buildPopulation({
+      seed: place.seed,
+      placeKey: place.key,
+      startedAt: "2025-03-20",
+      minimumPeople: 100,
+    }),
+  );
+  openLaws(core);
+  openOffices(core, place.seed);
+  openElections(core);
+  openCampaigns(core);
+  openRecord(core);
+  openLegislature(core);
+  openBudgets(core);
+  const api = coreAPI(core);
+  const chamber = townSeats(api).find(
+    (s) => s.office.kind.startsWith("legislature-") && s.holder?.personId,
+  );
+  expect(chamber, `${place.name}: a sitting state legislator`).toBeDefined();
+  const drafted = draftBill(api, {
+    bodyOfficeId: chamber!.office.id,
+    sponsorId: chamber!.holder!.personId!,
+    provisions: [
+      provisionFor({
+        policyId: "law:minimum-wage",
+        operation: "raise",
+        amount: 1500,
+      }),
+    ],
+  });
+  // Passed on March 20 and held on the desk (edge fixture: the staged desk,
+  // the played year above is the acceptance).
+  const held = {
+    ...drafted,
+    status: "awaiting-signature",
+    passedOn: "2025-03-20",
+  } as const;
+  api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .put(held as unknown as ModuleRow);
+  core.date = makeIsoDate("2025-03-26");
+  const rule = effectiveRule(api, held);
+  expect(rule.state, place.name).toBe(true);
+  expect(rule.date, `${place.name}: ${held.id}`).toBe("2025-06-20");
+  process.stdout.write(
+    `session-end desk: ${place.name} (${place.key}), seed ${place.seed}: ${held.id} passed 2025-03-20, signed 2025-03-26, effective ${rule.date} (${rule.cite})\n`,
+  );
 });

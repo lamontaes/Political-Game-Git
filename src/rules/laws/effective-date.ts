@@ -114,9 +114,11 @@ export function stateStatuteOperativeAt(
             )
           : operative;
       };
+      // The session the act passed in, in its year of passage.
+      const passedAt = context.finalPassageAt?.() ?? enactedAt;
       const sessionEnd = endOfSessionPassedIn(
-        context.sessionEnds?.(year) ?? [],
-        context.finalPassageAt?.() ?? enactedAt,
+        context.sessionEnds?.(yearOf(passedAt)) ?? [],
+        passedAt,
       );
       const operative = sessionEnd ? counted(sessionEnd) : null;
       return operative && operative > enactedAt

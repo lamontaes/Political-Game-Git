@@ -49,10 +49,15 @@ const SUPPORTED = new Set([
   "first-of-month-after",
 ]);
 
-/** The date an act enacted on `enactedAt` takes effect, and the rule's citation; null where the rule can't say. */
+/**
+ * The date an act enacted on `enactedAt` takes effect, and the rule's
+ * citation; null where the rule can't say. `passedAt` is its final passage,
+ * which decides the session it belongs to when it is signed later.
+ */
 export function stateActEffectiveDate(
   stateKey: string,
   enactedAt: string,
+  passedAt: string = enactedAt,
 ): { readonly date: string; readonly cite: string } | null {
   const row = ruleByState[stateKey];
   const rule = row?.gameRule;
@@ -70,7 +75,7 @@ export function stateActEffectiveDate(
       estimate = end.estimated;
       return medianSessionEnd(sessionEndRows, year);
     },
-    finalPassageAt: () => enactedAt,
+    finalPassageAt: () => passedAt,
   });
   const cite = row.cite ?? "state effective-date rule";
   return date
