@@ -168,6 +168,12 @@ try {
       },
     });
   });
+  // The resume follows the answer; wait for its request before reading it.
+  const resumedAs = async (expected) => {
+    for (let i = 0; i < 50 && resumes.length < expected.length; i += 1)
+      await page.waitForTimeout(200);
+    assert.deepEqual(resumes, expected);
+  };
   offers = pendingOffer();
   await page.locator("#week").evaluate((e) => e.click());
   await page.locator("#job-offer:not([hidden])").waitFor();
@@ -179,10 +185,18 @@ try {
   assert.match(await page.locator("#job-offer-facts").innerText(), /\$18\.00/);
   assert.ok(await page.locator("#job-offer-wait").isHidden());
   assert.ok(await page.locator("#day").isDisabled());
+  // The moment at the smallest common window: the offer and its answers in
+  // reach, the card and menu icons clear of each other.
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await page.waitForTimeout(500);
+  await page.screenshot({
+    path: "docs/reports/job-offer-hold-2026-10-25/offer-1024x768.png",
+  });
+  await page.setViewportSize({ width: 1672, height: 941 });
   await page.locator("#job-offer-take").click();
   await page.waitForFunction(() => document.getElementById("job-offer").hidden);
   assert.deepEqual(answers, ["accept", "decline", "accept"]);
-  assert.deepEqual(resumes, ["stop-held"]);
+  await resumedAs(["stop-held"]);
   await page.waitForFunction(() => !document.getElementById("day").disabled);
 
   // Turn it down releases the hold the same way.
@@ -193,7 +207,7 @@ try {
   await page.locator("#job-offer-turn").click();
   await page.waitForFunction(() => document.getElementById("job-offer").hidden);
   assert.deepEqual(answers, ["accept", "decline", "accept", "decline"]);
-  assert.deepEqual(resumes, ["stop-held", "stop-held-2"]);
+  await resumedAs(["stop-held", "stop-held-2"]);
 
   // An offer that just arrived can wait: Not now leaves it pending, the stop
   // still open, and nothing answered.
@@ -205,7 +219,7 @@ try {
   await page.locator("#job-offer-wait").click();
   await page.waitForFunction(() => document.getElementById("job-offer").hidden);
   assert.deepEqual(answers, ["accept", "decline", "accept", "decline"]);
-  assert.deepEqual(resumes, ["stop-held", "stop-held-2"]);
+  await resumedAs(["stop-held", "stop-held-2"]);
   assert.ok(await page.locator("#day").isDisabled());
   assert.ok(await page.locator("#continue").isVisible());
 
