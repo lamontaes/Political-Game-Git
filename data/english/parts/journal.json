@@ -6860,10 +6860,10 @@
       }
     },
     {
-      "key": "journal.home-line-sibling-born.then-named-was-born",
+      "key": "journal.home-line-sibling-born.named-came-after-me",
       "move": "home-line-sibling-born",
       "kind": "spoken",
-      "text": "Then {named} was born.",
+      "text": "{named} came after me.",
       "uses": [
         {
           "move": "home-line-sibling-born",
