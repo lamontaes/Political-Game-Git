@@ -5,11 +5,10 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #5926
 blocked-on:
-after: gov-outside-revenue-fees
 source: added with npm run pool -- add
 ---
 

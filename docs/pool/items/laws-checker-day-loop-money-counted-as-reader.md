@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/law-wiring-government
+pr: #5582
 blocked-on:
 source: added with npm run pool -- add
 ---
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** scripts/law-wiring/check.ts, scripts/law-wiring/matrix.ts
 
 **Notes.** From the laws lead, Oct 24, reading the money evidence of PR #5582's year runs.
+
+Laws lead, Oct 24: the fix rides #5582 (scripts/law-wiring/check.ts and matrix.ts).

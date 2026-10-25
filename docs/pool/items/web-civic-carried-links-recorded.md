@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/web-reach-civic
 pr: #5927
 blocked-on:

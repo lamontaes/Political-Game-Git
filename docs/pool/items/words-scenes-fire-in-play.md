@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: in-pr
+status: open
 claimed-by:
 pr: #5914
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-24 UTC from PR #5914 (branch words/scenes-fire-in-play): Done-when year and ordinary released-line play route are unproved; held-only test can skip all count/result scene assertions with no required nonempty result proof; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5914 (branch words/scenes-fire-in-play): playExchange choices only switch client DOM/tree nodes, no selected reply/outcome writer or engine reader by record ID as item Rules require; wire it or valid bounded display scope with effects work open; finish on that branch, merge main into it first.

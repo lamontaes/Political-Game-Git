@@ -283,21 +283,20 @@ function record(
     tradingId?: string;
   },
 ): void {
+  // The people the change stands for when it happens (a counted worker's
+  // household weight, one for a full person), kept on the change so a later
+  // fill-in doesn't rewrite it.
+  const heads = headsOf(core(api), { id: row.jobId, personId: row.personId });
   // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
   if (row.kind === "quit" || row.kind === "left-work")
-    noteLeaver(
-      api,
-      row.organizationId,
-      row.jobId,
-      row.personId,
-      headsOf(core(api), { id: row.jobId, personId: row.personId }),
-    );
+    noteLeaver(api, row.organizationId, row.jobId, row.personId, heads);
   store(api)
     .table("changes")
     .put({
       id: `job-change:${api.state.date}:${row.jobId}:${row.kind}`,
       date: api.state.date,
       ...row,
+      heads,
       values: { ...(row.values ?? {}) },
     });
 }
@@ -2067,26 +2066,6 @@ export function moveLabel(
     : other;
 }
 
-/**
- * The payday calendar a hire at an employer keeps, as a full hire's is the
- * employer's own: the role's calendar where the employer runs it, else the
- * employer's copy of it (a new business takes its roles from an existing
- * one), one copy per employer and calendar.
- */
-export function employerPayrollCalendar(
-  calendar: WorkPayrollCalendarInput,
-  organizationId: string,
-): WorkPayrollCalendarInput {
-  return calendar.organizationId === organizationId
-    ? calendar
-    : {
-        ...calendar,
-        id: `${calendar.id}:at:${organizationId}`,
-        organizationId,
-        basisRecordIds: [organizationId],
-      };
-}
-
 function hireCounted(
   api: CoreAPI,
   position: PositionRow,
@@ -2107,7 +2086,10 @@ function hireCounted(
     personId: seeker.personId,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily: hours,
     wageDailyMinor: Math.round(position.hourlyMinor * hours),
@@ -2120,19 +2102,29 @@ function hireCounted(
   // The role's schedule and payday, as a full hire takes them, kept with the
   // household so the worker is on that payroll the day they are met.
   const role = roleTemplate(c, { ...position, templateJobId: template.id });
-  const calendar =
-    role && employerPayrollCalendar(role.calendar, position.organizationId);
-  const commitment: WorkCommitmentInput | undefined = calendar && {
-    ...role!.commitment,
+  // A founded firm hires from another employer's role: its hire is paid on the
+  // firm's own calendar with that role's payday, one per firm and role, as a
+  // full hire's calendar names its own employer (hire, below).
+  const calendar: WorkPayrollCalendarInput | undefined =
+    role &&
+    (role.calendar.organizationId === position.organizationId
+      ? role.calendar
+      : {
+          ...role.calendar,
+          id: `${role.calendar.id}:at:${position.organizationId}`,
+          organizationId: position.organizationId,
+        });
+  const commitment: WorkCommitmentInput | undefined = role && {
+    ...role.commitment,
     organizationId: position.organizationId,
     id: `work-commitment:${jobId}`,
     jobId,
     personId: seeker.personId,
-    payrollCalendarId: calendar.id,
+    payrollCalendarId: calendar!.id,
     startsAt: addDays(makeIsoDate(api.state.date), 1),
     endsAt: undefined,
     hourlyMinor: position.hourlyMinor,
-    scheduleTemplateJobId: role!.template.id,
+    scheduleTemplateJobId: role.template.id,
     paySource: job.source,
     scheduleSource: job.source,
   };
@@ -3024,7 +3016,10 @@ function hire(
     personId: person.id,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily,
     wageDailyMinor: Math.round(position.hourlyMinor * hoursDaily),

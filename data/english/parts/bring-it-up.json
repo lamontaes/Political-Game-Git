@@ -1239,7 +1239,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken"
     },
     {
@@ -1261,7 +1261,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken"
     },
     {
@@ -1283,7 +1283,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken"
     },
     {
@@ -1305,7 +1305,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken"
     }
   ]

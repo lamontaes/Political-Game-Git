@@ -9,7 +9,6 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: gov-outside-revenue-fees
 source: added with npm run pool -- add
 ---
 
