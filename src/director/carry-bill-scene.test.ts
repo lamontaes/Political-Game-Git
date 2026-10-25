@@ -73,11 +73,14 @@ it(`an executive's ask to carry a bill is the member's carry-bill scene, with th
       );
     if (!watchedAsks().length) {
       // Edge case by hand: an executive brings a change of policy its town
-      // may make. They ask the member who leans most toward it, and only an
-      // ask to a member who is a full person is on the record, so each body
-      // and its first few policies are tried until one is; then the day is
-      // played.
-      for (const body of bodies) {
+      // may make to a body that sits (a council, a board, a chamber: more
+      // than one seat, not an office of one). They ask the member who leans
+      // most toward it, and only an ask to a member who is a full person is
+      // on the record, so each body and its first few policies are tried
+      // until one is; then the day is played.
+      for (const body of bodies.filter(
+        (row) => members(api, row.office.id).length > 1,
+      )) {
         const policies = billCatalog(
           api,
           body.office.level as "city" | "county" | "state",
