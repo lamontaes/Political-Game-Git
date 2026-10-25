@@ -21,4 +21,4 @@ claimed-at: 2026-10-25T12:58:14.330Z
 
 **Files.** src/core2/modules/drives.ts, src/core2/data/drives.json, src/core2/data/parameters.json
 
-**Notes.** TODO
+**Notes.** Sent back 2026-10-25 from PR #6044 (branch claude/quirky-ride-vrwwz4-prove-oneself): the unchanged M1-11 check on independent Manson IA seed b63a9c1eccbba0f45589110cb2c6924003d0e8b668b9298a1bde2302f0d6df98 drops prove-oneself from clean main’s 4/25 (16%) to 1/25 (4%), below the unchanged 6–25% band; finish on that branch, merge main into it first.
