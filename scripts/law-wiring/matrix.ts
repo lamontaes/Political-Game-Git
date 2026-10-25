@@ -376,8 +376,24 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
             `${place}: in force in the control world, posts citing ${c.token}: ${c.gross} (${c.ids[0]})`,
         ),
       ...own.slice(0, 2).map(({ place, o }) => {
-        const e = o.sample[0]!;
-        return `${place}: ${o.paid} of ${o.targets} reached got the law's own payment (${e.kind}, paid ${e.way ?? "in"}); e.g. ${e.target} (${e.row}) on ${e.date}: ${e.control} in the control world, ${e.treatment} here (${e.journal})`;
+        const pays = (
+          "near" in o && o.near?.length
+            ? o.near
+            : [
+                {
+                  kind: o.sample[0]!.kind,
+                  way: o.sample[0]!.way ?? "in",
+                  targets: o.paid,
+                  first: o.sample[0],
+                },
+              ]
+        )
+          .slice(0, 3)
+          .map(
+            (n) =>
+              `${n.targets} ${n.kind.split(" @ ")[0]} paid ${n.way} (${n.kind.split(" @ ")[1] ?? ""}; e.g. ${n.first?.target} on ${n.first?.date}: ${n.first?.control} in the control world, ${n.first?.treatment} here, ${n.first?.journal})`,
+          );
+        return `${place}: of ${o.targets} reached, the payments that changed first: ${pays.join("; ")}`;
       }),
     ].join("; ");
     return { status: "wired", evidence: ev, why: "" };

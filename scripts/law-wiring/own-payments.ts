@@ -207,20 +207,30 @@ export function pickOwn(targets: number, pairs: readonly OwnPair[]) {
     (p) => p.targets >= ownLeast(targets) && p.targets * 2 >= most,
   );
   const first = enough.map((p) => p.earliest).sort()[0];
-  const top = first
-    ? enough
-        .filter((p) => p.earliest <= plusDays(first, 7))
-        .sort(
-          (a, b) =>
-            b.targets - a.targets ||
-            b.moved - a.moved ||
-            a.earliest.localeCompare(b.earliest) ||
-            a.kind.localeCompare(b.kind),
-        )[0]
-    : undefined;
+  const near = first
+    ? enough.filter((p) => p.earliest <= plusDays(first, 7))
+    : [];
+  const top = [...near].sort(
+    (a, b) =>
+      b.targets - a.targets ||
+      b.moved - a.moved ||
+      a.earliest.localeCompare(b.earliest) ||
+      a.kind.localeCompare(b.kind),
+  )[0];
   return {
     paid: top?.targets ?? 0,
     pick: top ? `${top.kind}|${top.way}` : null,
     sample: top?.sample ?? [],
+    /** Every payment that began that week, in the order they began: a raise's paycheck and the spending it allows are both the law's money. */
+    near: near
+      .sort(
+        (a, b) => a.earliest.localeCompare(b.earliest) || b.targets - a.targets,
+      )
+      .map((p) => ({
+        kind: p.kind,
+        way: p.way,
+        targets: p.targets,
+        first: p.sample[0],
+      })),
   };
 }
