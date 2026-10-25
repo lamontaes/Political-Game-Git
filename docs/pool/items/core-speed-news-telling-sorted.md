@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-news-telling
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T07:23:30.762Z
 ---
 
 **What.** In Long Hill, Connecticut's played year (seed m7b), the news engine's onRelationshipChange takes 7.5 s inclusive of a 107 s profiled year, and recentList in src/core2/modules/news.ts takes 1.65 s of it. Each story a person hears marks their recent list unsorted, so the next time they tell news the whole list is sorted again with localeCompare. Each day a teller's first telling also filters their whole list and builds a new set of its ids, though only the stories that just passed the cutoff leave. Keep the list in order as stories are heard, drop only the stale tail when the cutoff moves (the full filter only when an entry may have been heard before the cutoff), and remove dropped ids from the set.
