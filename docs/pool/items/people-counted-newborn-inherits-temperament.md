@@ -5,9 +5,9 @@ area: people
 kind: stopgap
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-counted-newborn-temperament
-pr:
+pr: #6028
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T11:29:17.436Z
