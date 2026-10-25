@@ -36,7 +36,7 @@ import {
 import { flowWeights, fundOf } from "../counted-money";
 import { getRow, putRow, REACH_B_MODULE_ID, rowsOf } from "./group-b-store";
 import { appliedTo, lawApplied, type AppliedTarget } from "./applied";
-import { registerLinePayments } from "../budgets-treasury";
+import { fundFederalStanding, registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
 export const source = (api: CoreAPI, citation: string): Source => ({
@@ -435,6 +435,16 @@ export function reconcileObligations(
       ...(input.line ? { line: input.line } : {}),
     } satisfies BenefitRow);
   }
+  // The federal treasury, which borrows any day, covers its new shares from
+  // tomorrow; a state's or a town's pays from what it holds.
+  if (
+    [...want.keys()].some(
+      (pair) =>
+        governments(api).find((g) => g.id === pair.split("|")[0])?.level ===
+        "federal",
+    )
+  )
+    fundFederalStanding(api);
 }
 
 /** An assistance work requirement in force: who it reaches and how long they may draw. */

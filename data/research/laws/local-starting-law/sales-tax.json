@@ -1440,7 +1440,7 @@
       "stateRate": 6.625,
       "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
       "stateRateOfficialChecked": false,
-      "localAllowed": true,
+      "localAllowed": false,
       "avgLocalRate": -0.02,
       "avgLocalRateEstimate": true,
       "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
@@ -1474,7 +1474,7 @@
       "retrievedDate": "2026-10-12",
       "estimate": false,
       "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
-      "note": "Salem County 3.3125% in lieu of state rate; TF average local shown as negative (-0.02)."
+      "note": "Salem County 3.3125% in lieu of state rate; TF average local shown as negative (-0.02). No general local sales tax is levied: the negative average is the state rate cut in Salem County and in Urban Enterprise Zones, whose sellers collect half the state rate (3.3125%). TF footnote (d), fetched 2026-10-24: \"Salem County, N.J., is not subject to the statewide sales tax rate and collects a local rate of 3.3125%.\" \"New Jersey's local score is represented as a negative.\" So localAllowed is false and no local-average row is built; the reduced rates are SG-WORLD-salem-county-sales-rate."
     },
     "US-NM": {
       "name": "New Mexico",
