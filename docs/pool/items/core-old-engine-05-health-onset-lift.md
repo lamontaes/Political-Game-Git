@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: core-old-engine-04-opening-population-no-throwaway-world
-blocked-on:
+blocked-on: play-first-freeze
 source: "docs/reports/repo-audit-2026-10-19.md section A (health condition pack) and G2 step 7"
 ---
 
@@ -22,3 +22,5 @@ source: "docs/reports/repo-audit-2026-10-19.md section A (health condition pack)
 **Files.** src/core2/condition-pack.ts, src/core2/health-hazard.ts, src/core2/modules/health.ts, tests/fixtures/synthetic-cohort.ts, tests/mortality-calibration.test.ts, scripts/dev-lab/expected-deaths.ts, src/simulation/crisis/condition-pack.ts, src/simulation/crisis/mortality.ts
 
 **Notes.** The audit's pool row `core-port-onset-day`; this id replaces it. Parent: core-delete-old-engine.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

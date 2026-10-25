@@ -44,7 +44,12 @@ import {
   participationShift,
   type LaborFacts,
 } from "../jobs-web";
-import { residentFacts, residentsRuntime } from "./residents";
+import {
+  countedHouseholdJobChanged,
+  keepCalendar,
+  residentFacts,
+  residentsRuntime,
+} from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -278,21 +283,20 @@ function record(
     tradingId?: string;
   },
 ): void {
+  // The people the change stands for when it happens (a counted worker's
+  // household weight, one for a full person), kept on the change so a later
+  // fill-in doesn't rewrite it.
+  const heads = headsOf(core(api), { id: row.jobId, personId: row.personId });
   // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
   if (row.kind === "quit" || row.kind === "left-work")
-    noteLeaver(
-      api,
-      row.organizationId,
-      row.jobId,
-      row.personId,
-      headsOf(core(api), { id: row.jobId, personId: row.personId }),
-    );
+    noteLeaver(api, row.organizationId, row.jobId, row.personId, heads);
   store(api)
     .table("changes")
     .put({
       id: `job-change:${api.state.date}:${row.jobId}:${row.kind}`,
       date: api.state.date,
       ...row,
+      heads,
       values: { ...(row.values ?? {}) },
     });
 }
@@ -2082,7 +2086,10 @@ function hireCounted(
     personId: seeker.personId,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily: hours,
     wageDailyMinor: Math.round(position.hourlyMinor * hours),
@@ -2092,7 +2099,37 @@ function hireCounted(
     ? countedJobOfPerson(c, seeker.personId)
     : undefined;
   if (previous?.organizationId === position.organizationId) return false;
-  if (!addCountedJob(c, job, template.id)) return false;
+  // The role's schedule and payday, as a full hire takes them, kept with the
+  // household so the worker is on that payroll the day they are met.
+  const role = roleTemplate(c, { ...position, templateJobId: template.id });
+  // A founded firm hires from another employer's role: its hire is paid on the
+  // firm's own calendar with that role's payday, one per firm and role, as a
+  // full hire's calendar names its own employer (hire, below).
+  const calendar: WorkPayrollCalendarInput | undefined =
+    role &&
+    (role.calendar.organizationId === position.organizationId
+      ? role.calendar
+      : {
+          ...role.calendar,
+          id: `${role.calendar.id}:at:${position.organizationId}`,
+          organizationId: position.organizationId,
+        });
+  const commitment: WorkCommitmentInput | undefined = role && {
+    ...role.commitment,
+    organizationId: position.organizationId,
+    id: `work-commitment:${jobId}`,
+    jobId,
+    personId: seeker.personId,
+    payrollCalendarId: calendar!.id,
+    startsAt: addDays(makeIsoDate(api.state.date), 1),
+    endsAt: undefined,
+    hourlyMinor: position.hourlyMinor,
+    scheduleTemplateJobId: role.template.id,
+    paySource: job.source,
+    scheduleSource: job.source,
+  };
+  if (!addCountedJob(c, job, template.id, commitment)) return false;
+  if (calendar) keepCalendar(c, calendar);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
@@ -2979,7 +3016,10 @@ function hire(
     personId: person.id,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily,
     wageDailyMinor: Math.round(position.hourlyMinor * hoursDaily),
@@ -3136,8 +3176,11 @@ export const JOBS_MODULE: CoreModule = {
       // Only jobs named by this closure ended because of it. A same-day quit did not.
       // Looking for another job does not keep this job alive after closure.
       // The job ends with the employer today; its wage flow stops paying at its next date.
-      if (!job.endsAt && !endCountedJob(core(api), job.id))
-        rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
+      if (!job.endsAt && !endCountedJob(core(api), job.id)) {
+        const ended = { ...job, endsAt: api.state.date };
+        rt!.jobs.set(job.id, ended);
+        countedHouseholdJobChanged(core(api), ended);
+      }
       const person = residentFacts(core(api), job.personId);
       if (!person) continue;
       record(api, {

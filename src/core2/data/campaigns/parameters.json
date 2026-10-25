@@ -49,10 +49,10 @@
       "spread": [0.05, 0.3]
     },
     "secondhandWeight": {
-      "value": 0.3,
+      "value": 0.28,
       "tag": "TUNABLE",
-      "source": "Share of a first-hand impression that a retelling passes on to family and friends before the teller's personality, which multiplies it by 1 plus the calibrated campaigns.retell weight times their lean (a town average of 1.65 times). Set to 0.5 divided by that average so the town's mean second-hand reach stays where Katz and Lazarsfeld 1955 and Nickerson 2008 (60% of a canvassing turnout effect passed to housemates) put it.",
-      "spread": [0.18, 0.42]
+      "source": "Share of a first-hand impression that a retelling passes on to family and friends before the teller's personality, which multiplies it by 1 plus the calibrated campaigns.retell weight times their lean (a town average of 1.77 times at the retell weight of 5.8, Newfane, Vermont, seed c1, adults at the opening; 1.65 at the earlier 4.9). Set to 0.5 divided by that average so the town's mean second-hand reach stays where Katz and Lazarsfeld 1955 and Nickerson 2008 (60% of a canvassing turnout effect passed to housemates) put it.",
+      "spread": [0.17, 0.39]
     },
     "donationShareOfCashPerWarmth": {
       "value": 0.01,

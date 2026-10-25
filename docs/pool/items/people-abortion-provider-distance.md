@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5749
 blocked-on:
@@ -30,3 +30,11 @@ Sent back 2026-10-22 from PR #5749 (branch claude/provider-distance): The inheri
 Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): The earlier test repairs are present, but data/research/people/abortion-provider-distance.json:18-30 tags the Alaska row SOURCED while its quote only defines distance_origintodest; it contains none of the reported 64.6/121.1-mile means or 1.6/230.3/565.5 bounds. The same definition-only quote is used in all 51 SOURCED rows. The note says these are weighted means and 10th/90th percentiles computed from county data, with alternate population weights in two states; these are not numbers quoted from the cited guide, and this diff contains no reproducible aggregation to audit them. Supply numeric source evidence and reproducible input/weight/aggregation provenance for derived values, or label estimates accurately with their source and spread; do not present derived intervals as published ones. The 56-place release-note count matches the 56 rows, but that does not establish their values. No local gate pass is claimed for this source review.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): provenance repair is present, but the carried unplanned-pregnancy feature covers only full people and its only tier-gap registry row is resolved; include the counted implementation or register the remaining gap as open and bound the scope; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): carried unplanned decision/travel TUNABLEs have unmeasured spreads and point to a resolved owner-decision row; check their sensitivity or register and mark the exact remaining calibration gap with open follow-up; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): five-weight calibration repair is present, but renewalTravelCostPerMileMinor still has an unmeasured estimated spread linked to the resolved owner-decision row; source its numeric range or register/mark this exact sixth cost estimate and its follow-up; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): checked b015eda19d, ordinary generated-world test renewal.test.ts:176 failed on fresh base 537cf8a8ef0da50d with zero natural unplanned plans in twelve 365-day worlds; mandatory isolated same-input repeat reproduced all twelve zero-plan results (1081.920s then 1069.351s), while paid-trip and player-exclusion checks passed; retain accepted IRS range/calibration/tier-gap repairs and repair the ordinary nonempty producer proof without seeded exposure or weaker assertions; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): checked 9bcddffe94 fixes the zero-plan proof, but fresh root e5578114fa35ac74 reproduces a paid-trip historical-law mismatch in East Kapolei at renewal.test.ts:72/261 (opening rule expected, 2025-02-05 HB 7 reread); isolated same-input repeat fails too, and decideUnplanned ignores asOf for the law while the fixture can pick an earlier natural pregnancy; preserve the law/miles and positive journal assertions and accepted prior repairs; finish on that branch, merge main into it first.

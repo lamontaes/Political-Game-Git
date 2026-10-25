@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/traits-civic
 pr: #5657
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 2026-10-24T16:12:41.027Z
 ---
 
 **What.** This is one bounded family of the trait wiring audit (`traits-wiring-audit`, reopened Oct 24). Every decision in the civic life and news family: voting turnout, telling news, meetings, parties, interest groups, press contact, believing a claim, persuasion and trust must run in a played year and weigh the person's traits at a size taken from research. A decision with no study keeps the owner's general weight of 1 only with a gap row that says why. Twins with traits flat or mirrored must show the decisions turning, at the rate the research gives, never at overwhelming odds.
@@ -21,3 +22,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** src/core2/trait-decisions.ts, src/core2/modules/voting.ts, src/core2/modules/news.ts, src/core2/modules/parties.ts, src/core2/data/parameters.json
 
 **Notes.** Split Oct 24 by the CTO from `traits-wiring-audit` (order `docs/work-orders/lead-traits-2026-10-24.md`). PR #5657 (branch claude/traits-civic) holds it and has conflicted with main since Oct 21. After #5745 merged, the Mondak-calibrated weights must be rescaled by each trait's own standard deviation (openness and emotional stability 1.1, extraversion 1.3) or recalibrated with `scripts/traits/trait-calibrate.ts`. A PR for this family names this item on line 1 (`Pool item: traits-wire-civic`) and `Lead: traits` in its body; a bare `traits-wiring-audit` on line 1 marked the audit done on merge, which is the auto-done bug.
+
+Sent back 2026-10-24 from PR #5657 (branch claude/traits-civic): family acceptance requires positive calls and rate evidence for every decision, but ballot-measures.vote and employer-join have zero calls in both years and seven decisions lack pick rates; complete that evidence or bound the delivered subset while retaining the family open; finish on that branch, merge main into it first.

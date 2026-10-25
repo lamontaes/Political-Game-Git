@@ -36,15 +36,27 @@
   "pastUndatedLawAgeYearsLow": {
     "value": 1,
     "tag": "ESTIMATED",
-    "citation": "A law in force at the opening whose research records no enactment date was passed at least this many years before day one.",
-    "estimatedFrom": "The starting-law research reads the law in force on the calibration date, not its enactment; most such answers describe settled law.",
+    "citation": "A law in force at the opening whose research records no enactment date was passed at least this many years before day one. In two policy families with per-state dates, the youngest law in force on January 20, 2025 was 1.14 years old (Medicaid expansion, North Carolina, December 1, 2023) and 8.05 years (right-to-work, Kentucky, 2017): Wikipedia, 'Medicaid expansion' (https://en.wikipedia.org/wiki/Medicaid_expansion) and 'Right-to-work law' (https://en.wikipedia.org/wiki/Right-to-work_law), read October 23, 2026 (data/research/core/state-law-adoption-dates-2025.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "The starting-law research reads the law in force on the calibration date, not its enactment. One year is kept as the floor: the youngest sourced law in force is 1.14 years old. Secondary pages, because the Kaiser Family Foundation tracker gives its dates only as images and the National Right to Work Committee timeline sits behind a bot check.",
+    "spread": {
+      "low": 1.14,
+      "high": 8.05,
+      "unit": "years before day one",
+      "citation": "Youngest law in force at day one in each sourced family: Medicaid expansion 1.14 years, right-to-work 8.05 years (data/research/core/state-law-adoption-dates-2025.json)."
+    },
     "stopgapId": "SG-CORE-past-undated-law-age"
   },
   "pastUndatedLawAgeYearsHigh": {
     "value": 20,
     "tag": "ESTIMATED",
-    "citation": "A law in force at the opening whose research records no enactment date was passed at most this many years before day one.",
-    "estimatedFrom": "The starting-law research reads the law in force on the calibration date, not its enactment; twenty years covers most state policy answers' adoption (NCSL policy trackers).",
+    "citation": "A law in force at the opening whose research records no enactment date was passed at most this many years before day one. In the two sourced policy families, the 67 laws in force on January 20, 2025 were passed a median 11.05 years before it (the seeded draw from 1 to 20 has median 10.5), the oldest Medicaid expansion 11.05 years and the oldest right-to-work law 81.05 years (Florida, 1944): Wikipedia, 'Medicaid expansion' and 'Right-to-work law', read October 23, 2026 (data/research/core/state-law-adoption-dates-2025.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "Twenty years matches the pooled median of the sourced laws but leaves out settled law: 22 of the 26 right-to-work laws are older than 20 years. A wider uniform draw would make every recent policy wave look old, so the value stays until each policy answer reads its own enactment year.",
+    "spread": {
+      "low": 11.05,
+      "high": 81.05,
+      "unit": "years before day one",
+      "citation": "Oldest law in force at day one in each sourced family: Medicaid expansion 11.05 years (2014), right-to-work 81.05 years (1944) (data/research/core/state-law-adoption-dates-2025.json)."
+    },
     "stopgapId": "SG-CORE-past-undated-law-age"
   },
   "pastWinnerShareSpread": {
