@@ -2,7 +2,8 @@
  * Price and sales-tax laws follow their money to the people it reached, in a
  * played world: each law's applied rows (full households, counted groups,
  * sellers and treasuries), the journal posts that cite it, the outcome-web
- * month that read it, and its repeal.
+ * month that read it, and its repeal. The ban on new gas hookups, whose money
+ * moves only when a builder starts a project, is followed in its own case.
  */
 import { randomBytes } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
@@ -32,6 +33,7 @@ const BOTTLE = `${P}environment-energy.bottle-deposit`;
 const CARBON = `${P}environment-energy.price-carbon`;
 const CANNABIS = `${P}business-commerce.legalize-cannabis-sales`;
 const GROCERIES = `${P}fiscal.exempt-groceries-from-sales-tax`;
+const GAS_BAN = `${P}environment-energy.ban-new-gas-hookups`;
 const SALES_TAX = "sales-tax";
 const LOCAL_AVERAGE = "local-sales-tax-average";
 
@@ -53,6 +55,15 @@ const YES_LAWS = [...PRICE_LAWS.map((l) => l.key), CANNABIS, GROCERIES];
 /** A year and a month of play: past the longest lag a researched link of these laws has that a year can show (litter, emissions: 12 months). */
 const PLAYED_DAYS = 375;
 const REPEAL_DAYS = 35;
+/**
+ * The ban's money moves when a builder starts a project, which a small town
+ * does less than once a year (the audit towns' first starts came at 440 and 745
+ * days): the case plays up to the longest wait a labor law's run uses, a month
+ * at a time, and draws another place where no builder started one.
+ */
+const GAS_WINDOW_DAYS = 760;
+const GAS_STEP_DAYS = 30;
+const GAS_DRAWS = 3;
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
@@ -572,5 +583,147 @@ function run(
   );
   void tried;
   void payers;
+  return true;
+}
+
+describe("the ban on new gas hookups reaches a builder and the cost of its project", () => {
+  afterAll(() => setJournalTrace(null));
+
+  it("is followed to the builder's applied row and its first payment", () => {
+    setBookkeeping(false);
+    const tried: string[] = [];
+    try {
+      // A builder starting a project is the ban's subject: where none started
+      // in the window, draw again (every place tried is named on failure).
+      let ran = false;
+      for (let attempt = 0; attempt < GAS_DRAWS && !ran; attempt += 1) {
+        const drawn = drawPlace(seed, `law-wiring-prices-gas:${attempt}`);
+        tried.push(`${drawn.key} (${drawn.state}, seed ${drawn.seed})`);
+        ran = runGasBan(drawn);
+      }
+      expect(
+        ran,
+        `no drawn place had a builder start a project in ${GAS_WINDOW_DAYS} days under the ban; tried ${tried.join("; ")}`,
+      ).toBe(true);
+    } finally {
+      setJournalTrace(null);
+      setBookkeeping(true);
+    }
+  }, 1_800_000); // up to three places of 760 days each
+});
+
+interface ProjectRow {
+  id: string;
+  kind: string;
+  startedAt: string;
+  payerId: string;
+  builderId: string;
+  monthlyCostMinor: number;
+  lawIds?: { allElectric?: string };
+}
+
+/** Enact the ban at the town's level and play until a builder starts a project under it; false where none did. */
+function runGasBan(drawn: ReturnType<typeof drawPlace>): boolean {
+  const where = `seed ${drawn.seed}, place ${drawn.key} ${drawn.name}`;
+  const { core } = buildBenchWorld(drawn.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: drawn.key,
+  });
+  const api = coreAPI(core);
+  // The first journal entry of each project's monthly payment, by project id
+  // (a payment's source id is "construction:<project id>:<date>").
+  const firstPayment = new Map<string, string>();
+  setJournalTrace((input) => {
+    const id = input.sourceRef.id;
+    if (!id.startsWith("construction:project:")) return;
+    const project = id.slice("construction:".length, id.lastIndexOf(":"));
+    if (!firstPayment.has(project))
+      firstPayment.set(project, `${input.id} (${id})`);
+  });
+
+  // Phase 0: the ban starts repealed where the starting law has it in force.
+  if (inForceNow(api, GAS_BAN)) {
+    setAll(api, GAS_BAN, 0, "off");
+    advanceCore(core, addDays(makeIsoDate(core.date), REPEAL_DAYS));
+    expect(
+      open(applied(core, GAS_BAN)),
+      `${where}: ${GAS_BAN} applied with the law off`,
+    ).toHaveLength(0);
+  }
+
+  // Phase 1: the town's own body enacts it.
+  const town = (["city", "county", "state"] as const)
+    .map((level) => lawChain(api).levels.find((l) => l.level === level))
+    .find((l) => l);
+  expect(town, `${where}: a level that can enact the ban`).toBeDefined();
+  enactLaw(api, {
+    jurisdiction: town!.jurisdiction,
+    level: town!.level,
+    series: GAS_BAN,
+    value: 1,
+    effectiveDate: api.state.date,
+    measureId: "test:gas-ban:on",
+    citation: "Controlled law case in a generated year.",
+  });
+  const governing = lawInForce(api, GAS_BAN).governing;
+  expect(governing, `${where}: the ban in force`).toBeTruthy();
+  const lawId = governing!.id;
+  const enactedOn = core.date;
+
+  const projects = () =>
+    api
+      .moduleState("housing")
+      .table("projects")
+      .rows() as unknown as ProjectRow[];
+  let project: ProjectRow | undefined;
+  for (
+    let played = 0;
+    played < GAS_WINDOW_DAYS && !project;
+    played += GAS_STEP_DAYS
+  ) {
+    advanceCore(core, addDays(makeIsoDate(core.date), GAS_STEP_DAYS));
+    project = projects().find(
+      (p) => p.lawIds?.allElectric === lawId && p.startedAt >= enactedOn,
+    );
+  }
+  if (!project) return false;
+
+  // The builder who started it is on an applied row that records the cost the
+  // code changed, and its first payment is on the journal.
+  const rows = current(applied(core, GAS_BAN), enactedOn).filter(
+    (r) => r.lawId === lawId,
+  );
+  const row = rows.find((r) => r.targetId === project!.payerId);
+  expect(
+    row,
+    `${where}: no applied row names ${project.payerId}, who started ${project.id} under ${lawId} (rows ${rows.map((r) => r.id).join(", ")})`,
+  ).toBeDefined();
+  expect(row!.target, `${where}: ${row!.id}`).toBe("organization");
+  expect(row!.engine, `${where}: ${row!.id}`).toBe("housing");
+  expect(
+    row!.amountMinor,
+    `${where}: ${row!.id} records what the code changed in ${project.id}`,
+  ).not.toBe(0);
+  const journal = firstPayment.get(project.id);
+  expect(
+    journal,
+    `${where}: a journal entry of ${project.id}'s first payment`,
+  ).toBeDefined();
+  console.info(
+    `gas hookup ban evidence, ${where}, ${project.kind} project started ${project.startedAt}\n${JSON.stringify(
+      {
+        [GAS_BAN]: {
+          applied: row!.id,
+          journal,
+          reached: project.payerId,
+          builder: project.builderId,
+          amountMinor: row!.amountMinor,
+          project: project.id,
+        },
+      },
+      null,
+      1,
+    )}`,
+  );
   return true;
 }
