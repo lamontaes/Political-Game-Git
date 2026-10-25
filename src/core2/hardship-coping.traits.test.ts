@@ -5,7 +5,8 @@
  * its case, with a sign (stress pulls toward the coping option), a size that
  * slides with the stress (no step, no roll) and a size from a study
  * (hardshipWeight* in parameters.json, rows `outcome.hardship-coping` in
- * data/research/trait-effect-sizes.json). A missed payment weighs as a layoff.
+ * data/research/trait-effect-sizes.json). A missed payment weighs as a change in
+ * financial state.
  */
 import { describe, expect, it } from "vitest";
 import { appraiseEvent } from "./emotion";
@@ -125,7 +126,7 @@ describe("stress a hardship left", () => {
     expect(hardshipStress(core, { affect: eased })).toBeCloseTo(0.1, 9);
   });
 
-  it("weighs a missed payment as a layoff by the same Holmes and Rahe rule", () => {
+  it("weighs a missed payment as a change in financial state, by the layoff's Holmes and Rahe rule", () => {
     const core = world();
     const api = coreAPI(core);
     const layoff = severityImpulse(api, DEFAULT_HEALTH_DATA.jobLossSeverity);
@@ -133,8 +134,8 @@ describe("stress a hardship left", () => {
       api,
       DEFAULT_HEALTH_DATA.missedPaymentSeverity,
     );
-    expect(missed).toEqual(layoff);
-    expect(missed.stressImpulse).toBeCloseTo(0.47, 9);
+    expect(missed.stressImpulse).toBeCloseTo(0.38, 9);
+    expect(missed.stressImpulse).toBeLessThan(layoff.stressImpulse);
     // And the person's own appraisal scales it the same way (emotion.ts).
     const person = core.people.get("person:3")!;
     const event = (kind: string) => ({

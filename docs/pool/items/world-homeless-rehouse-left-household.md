@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/homeless-rehouse-left-household
 pr: #5772
 blocked-on:

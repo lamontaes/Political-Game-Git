@@ -151,7 +151,7 @@ describe("household loans", () => {
     expect(money(core)).toBe(total);
   });
 
-  it("a missed payment is a hardship of a layoff's size to the borrower, and a payment made in full is not", () => {
+  it("a missed payment is a hardship to the borrower at a change in financial state's size, and a payment made in full is not", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
         modules: [MACRO_MODULE, CREDIT_MODULE],
@@ -198,10 +198,12 @@ describe("household loans", () => {
         ),
         row.id,
       ).toBe(row.paidMinor < row.dueMinor);
-    // It reached the borrower at the layoff's Holmes and Rahe size (47 of 100
-    // units, an average temperament): their stress stood that far above rest.
+    // It reached the borrower at a change in financial state's Holmes and Rahe
+    // size (38 of 100 units, an average temperament): their stress stood that
+    // far above rest.
     expect(left[0]).toBeCloseTo(
-      api.parameter("srrsFiredAtWork") / api.parameter("srrsMaximumUnits"),
+      api.parameter("srrsChangeInFinancialState") /
+        api.parameter("srrsMaximumUnits"),
       6,
     );
   });
