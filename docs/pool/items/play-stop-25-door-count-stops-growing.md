@@ -5,14 +5,14 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/play-stop-25-door-count
+status: open
+claimed-by:
 pr: #6065
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T21:21:25.084Z
+claimed-at:
 ---
 
 **What.** On the v0.22.10 release I pressed Knock on doors every week from February 2025 to October 2026. Each time the status said "KNOCK ON DOORS · 36 DOORS · 6 REACHED", but Politics → Campaigns stayed at "1080 doors" and "Doors 172 · +105 · −67" from September 2, 2025 until election day, 14 months later. Late in the campaign Knock on doors and Ask for an interview were grayed with no reason. I expected the count to grow each week or the screen to say why my knocking no longer counted.
@@ -32,3 +32,5 @@ claimed-at: 2026-10-25T21:21:25.084Z
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:12, 16:28; screenshots 61, 68. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
 
 Sent back 2026-10-25 from PR #6065 (branch claude/play-stop-25-door-count): primary Done-when requires reached count to grow with each knock, but supplied evidence admits zero-reach weeks and months-long stalls; follow-up does not fulfill that row; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #6065 (branch claude/play-stop-25-door-count): corrective reached-count rule passes own integrated gates, 6 tests and 97.0-to-100.3s speed; affected browser buttons pass, inherited HUD overlap confirmed on clean base; held for declared owner full-window screenshot approval and automatic-review-blocked plain integration push, no new code defect alleged; finish on that branch, merge main into it first.
