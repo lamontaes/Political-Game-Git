@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/web-matrix-unrun-links
-pr:
+pr: #6008
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T09:41:46.355Z
