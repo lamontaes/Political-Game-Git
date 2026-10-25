@@ -9,7 +9,9 @@
  */
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import type { Fact } from "./render";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
@@ -17,6 +19,8 @@ import {
   composeSceneTalk,
   type PurposeType,
   type SceneTalk,
+  type TreeNode,
+  type TreeReply,
 } from "./scene-talk";
 import { spoken } from "./words";
 
@@ -157,4 +161,64 @@ export function purposeScene(
       talk: result.talk,
     },
   };
+}
+
+/**
+ * The player's reply in a scene with a purpose, by its path through the tree
+ * (the index of each reply chosen, from the first). The reply is a record of
+ * what they said to whom, and the core's own writer reads it: the time
+ * together reaches their tie with the asker, citing the record, as a talk's
+ * lines do. Returns the record's id (the same one if the reply was already
+ * said), or null when the path is not a reply the scene offers.
+ */
+export function replyInScene(
+  core: CoreState,
+  director: Director,
+  personId: PersonId,
+  entry: ScheduleEntry,
+  path: readonly number[],
+  options: { includeHeld?: boolean } = {},
+): string | null {
+  const result = purposeScene(core, director, personId, entry, options);
+  if (result?.kind !== "composed" || !path.length) return null;
+  const { scene } = result;
+  let node: TreeNode | null = scene.talk.tree;
+  let reply: TreeReply | undefined;
+  for (const index of path) {
+    reply = node?.replies[index];
+    if (!reply) return null;
+    node = reply.next;
+  }
+  const line = reply!.line;
+  const id = `scene-reply:${entry.momentId}:${path.join(".")}`;
+  // Said once: the same reply again (a page reloaded) keeps the record.
+  if (core.eventIds.has(id)) return id;
+  applyCoreEvent(core, {
+    id,
+    date: core.date,
+    kind: "scene.reply",
+    personIds: [scene.askedId, scene.askerId],
+    placeId: core.people.get(scene.askedId)!.placeId,
+    facts: {
+      typeKey: scene.typeKey,
+      causeId: scene.cause.id,
+      move: line.move,
+      line: line.text,
+    },
+    source: {
+      tag: "SOURCED",
+      citation: "Recorded scene: the reply the player chose to say.",
+      asOf: core.date,
+    },
+  });
+  // Talking is time together, recorded through the core's own writer.
+  coreAPI(core).relationship(
+    scene.askedId,
+    scene.askerId,
+    "contact",
+    conversationRules.minutesPerExchange / P.minutesPerHour,
+    undefined,
+    { cause: "scene-reply", sourceId: id },
+  );
+  return id;
 }

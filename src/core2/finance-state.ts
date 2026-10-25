@@ -1,3 +1,4 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import {
   countedWagesEarned,
@@ -13,6 +14,7 @@ import { webFactorFor } from "./outcome-web-reach";
 import {
   settleFinanceContractJournal,
   transferFinanceCreditJournal,
+  transferWageFlowCreditJournal,
 } from "./finance-cash";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -1321,6 +1323,24 @@ export function transferCredit(
   );
 }
 
+/** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+export function transferWageFlowCredit(
+  core: CoreState,
+  api: CoreAPI,
+  facilityId: string,
+  requested: number,
+  flowId: string,
+): CreditReceipt {
+  policy(api);
+  return transferWageFlowCreditJournal(
+    core,
+    api,
+    facilityId,
+    requested,
+    flowId,
+  );
+}
+
 export function settleFinanceContract(
   core: CoreState,
   api: CoreAPI,
@@ -1779,6 +1799,7 @@ function windDownEmployer(
   for (const jobId of endedJobIds) {
     const job = core.jobs.get(jobId)!;
     job.endsAt = core.date;
+    refreshOfficeStaff(core, job.organizationId);
     const actor = core.people.get(job.personId)!;
     if (actor.jobId === jobId) delete actor.jobId;
     for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??

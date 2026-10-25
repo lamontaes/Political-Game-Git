@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/office-before-it-exists
 pr: #5952
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T14:56:01.343Z
+claimed-at: 2026-10-24T18:17:14.755Z
 ---
 
 **What.** stateOffices in src/core2/offices-state.ts seats a holder in every executive office data/research/offices/state-offices.json lists, including a lieutenant governor's office whose research row says it is first elected in 2026 and takes office in January 2027 (a 2022 constitutional amendment created it). The game opens on January 20, 2025, so a person holds an office that does not yet exist, takes the governor's party through the ticket rule in unrecordedParty, and can act in the line of succession two years early. Found by research-gov-sourced-parameters while reading which holders the rosters leave unrecorded.
@@ -21,4 +21,8 @@ claimed-at: 2026-10-24T14:56:01.343Z
 
 **Files.** src/core2/offices-state.ts, data/research/offices/state-offices.json, src/core2/modules/officials.ts
 
-**Notes.** TODO
+**Notes.** October 24, 2026, claude/office-before-it-exists. The research row now carries the office's first-term start (`firstTermStart`, read in src/core2/offices-state.ts for every place). openOffices puts the office but seats no one and writes no past before that date. Its seat's first contest is the last regular election before the start (2026-11-03 for the Arizona row), with no incumbent. An empty first race used to resolve as a holdover with no one to hold over; resolveEmptyRace in src/core2/modules/voting.ts now treats a seat no one holds as vacant, so the office's vacancy rule fills it. Measured: Crystal Beach, Arizona (seed 1c33e639a46693d9) elected `term:seat:US-AZ:lieutenant-governor:2027-01-04:elected`; Pirtleville, Arizona (seed officelater01) had nobody file and filled `vacancy:seat:US-AZ:lieutenant-governor:2027-01-04` by appointment. Nobody filing for an open statewide seat is gov-wider-race-counted-candidates.
+
+Sent back 2026-10-24 from PR #5952 (branch claude/office-before-it-exists): a generated Pirtleville opening on 2027-01-04 (seed officelater01) still invents 2019 and 2023 lieutenant-governor terms and serviceStart2019 because pastTerms ignores firstTermStart; clamp history/service to creation and add the boundary-opening regression on that branch, merge main into it first.
+
+Recheck 2026-10-24: #5952 corrected the earlier history boundary and merged at 7be3a12b680e with pinned head 1d2fdc8d42; own gate and nine tests passed, and original Pirtleville/officelater01 opening now has zero pre-creation terms. Item is done; the earlier return above is historical.
