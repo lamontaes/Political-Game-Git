@@ -572,6 +572,12 @@ const lawLevelLabel = (law, level) =>
   ]
     .filter(Boolean)
     .join(" · ");
+/** A law's later phase as a level row, with the government its level names. */
+const pendingLevel = (law, row) => ({
+  level: row.level,
+  row,
+  government: law.levels.find((l) => l.level === row.level)?.government,
+});
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -3425,7 +3431,7 @@ const sheets = {
               ),
             ...law.pending.map((row) =>
               el("div", {
-                textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
+                textContent: `${lawLevelLabel(law, pendingLevel(law, row))} · ${row.effectiveDate} → ${amount(row.value, row.unit)}`,
               }),
             ),
           ),
@@ -3957,7 +3963,7 @@ const sheets = {
               for (const pending of law.pending)
                 detail.append(
                   row(
-                    pending.effectiveDate,
+                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${pending.effectiveDate}`,
                     amount(pending.value, pending.unit),
                   ),
                 );
