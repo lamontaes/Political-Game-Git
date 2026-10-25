@@ -5905,15 +5905,15 @@
     }
   },
   "traitWeightLegislatureMemberPosition": {
-    "value": 0.6,
+    "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.member-position decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): 0.6 gives an odds ratio of 2.22 of a yes position between the third of 21,901 member positions leaning most toward yes and the third leaning least, against the target of 2.24 (the default personality-behavior study for a single occasion). The places fit alone at 0.7 and 0.55. Before officials carried every trait it was fitted at 0.2 in Ely, Nevada, when a state or federal official's nine faint traits barely moved their positions.",
-    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
+    "citation": "The trait weight of the legislature.member-position decision, set by the party discipline a member's position must keep once officials carry a level on every trait (pool item officials-carry-every-trait). With every trait, a member's taste for change is a standing lean on every bill, so at 0.6 (fitted to the generic single-occasion personality target of 2.24) the two independent senators in the world drawn from seed 3e556e7e162eca8baf7052af5494da02 (Fenwick, West Virginia) voted with their caucus on 55 of 90 party votes, against about 90% for the real independents (Voteview, the caucus weight's check). At 0.1 the independents of four drawn worlds vote with their caucus on 0.80, 0.98, 0.90 and 0.95 of party votes (mean 0.91; seeds 3e556e7e162eca8baf7052af5494da02, caucusA1, caucusB2, caucusC3), and party members' pooled unity on party-splitting votes is 0.943 over four drawn places (src/core2/party-loyalty.test.ts, seed loyalty01, against its 0.85 to 0.98 band from CQ Vote Studies). The generic target is not used here: a legislator's roll call is dominated by party, and no study found gives personality's size per roll call.",
+    "estimatedFrom": "The independents' caucus unity (about 90%, Voteview 118th to 119th Congress, as the officials roster's caucus weight cites) and party unity (about 90%, CQ Vote Studies, the party-loyalty band), read in drawn worlds at weights 0.05 to 0.6.",
     "spread": {
-      "low": 0.55,
-      "high": 0.7,
+      "low": 0.05,
+      "high": 0.15,
       "unit": "weight",
-      "citation": "The two places' own fits."
+      "citation": "At 0.15 the Fenwick world's independents vote with their caucus on 70 of 92 party votes (0.76) and the four worlds' mean is 0.89; at 0.05, 0.79 and 0.91."
     }
   },
   "traitWeightLegislatureHoldHearing": {
