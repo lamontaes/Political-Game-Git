@@ -5,6 +5,8 @@ import {
   condenseCircleDecisions,
   queueDecisionDetail,
 } from "./decision-detail";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import { parameter } from "./parameters";
 import { generatedOpening } from "./tooling/generated-world";
@@ -72,5 +74,49 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
     expect(kept.reasonKey).toBeDefined();
     expect(kept.actorId).toBe(core.playerId);
     expect(recent.some((row) => row.decision!.scores !== undefined)).toBe(true);
+  }, 300_000);
+
+  it("drops a circle member's weighed choices and other routine entries after circleActRetentionMonths, keeping the player's own", () => {
+    // Every module installed, so drives, campaigns and the news write the
+    // circle's weighed choices and entries as in play.
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      placeKey: place.key,
+      twoLevel: true,
+      settings: { population: 1500 },
+    });
+    advanceCore(core, daysAfterStart(120));
+    const player = core.playerId!;
+    const routine = [...core.durableLog.values()].filter(
+      (row) =>
+        row.visibility === "circle" &&
+        !row.publicRecord &&
+        !row.news &&
+        row.actorId !== player &&
+        !row.personIds.includes(player),
+    );
+    const weighed = routine.filter((row) => row.kind === "person.weighed");
+    const entries = routine.filter((row) => !row.decision);
+    const own = [...core.durableLog.values()].filter(
+      (row) => row.actorId === player || row.personIds.includes(player),
+    );
+    expect(weighed.length, "weighed choices by the circle").toBeGreaterThan(0);
+    expect(entries.length, "circle entries without a decision").toBeGreaterThan(
+      0,
+    );
+    expect(own.length, "the player's own entries").toBeGreaterThan(0);
+    const day = new Date(`${core.date}T00:00:00Z`);
+    day.setUTCMonth(
+      day.getUTCMonth() + parameter("circleActRetentionMonths") + 1,
+    );
+    core.date = day.toISOString().slice(0, 10);
+    condenseCircleDecisions(core);
+    for (const row of [...weighed, ...entries]) {
+      expect(core.durableLog.has(row.id), row.id).toBe(false);
+      expect(core.logByKind.get(row.kind)?.has(row.id) ?? false, row.id).toBe(
+        false,
+      );
+    }
+    for (const row of own)
+      expect(core.durableLog.has(row.id), row.id).toBe(true);
   }, 300_000);
 });

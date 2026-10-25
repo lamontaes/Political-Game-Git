@@ -15,9 +15,12 @@ import { forgetOldExperiences } from "./knowledge-retention";
 
 const queues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-queue", queues);
-/** Condensed circle acts, to drop once older than circleActRetentionMonths. */
+/** Condensed circle decisions, to drop once older than circleActRetentionMonths. */
 const dropQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-drop-queue", dropQueues);
+/** The circle's other routine entries (no decision to condense), dropped on the same schedule. */
+const entryQueues = new WeakMap<CoreState, [string, string][]>();
+registerWorldMapPart("core2-decision-detail-entry-queue", entryQueues);
 
 /** The player's own routine acts, with their full scores, to condense once a year old. */
 const playerQueues = new WeakMap<CoreState, [string, string][]>();
@@ -74,6 +77,17 @@ export function keptDecision(
 }
 
 /** A kept act record with full reasons, to condense once it ages out. */
+/** A circle member's entry with no decision, kept until circleActRetentionMonths. */
+export function queueCircleEntry(
+  core: CoreState,
+  date: string,
+  id: string,
+): void {
+  let queue = entryQueues.get(core);
+  if (!queue) entryQueues.set(core, (queue = []));
+  queue.push([date, id]);
+}
+
 export function queueDecisionDetail(
   core: CoreState,
   date: string,
@@ -126,7 +140,10 @@ export function condenseCircleDecisions(core: CoreState): void {
   forgetOldExperiences(core);
   condensePlayerDecisions(core);
   const queue = queues.get(core);
-  if (!queue?.length) return dropOldCircleActs(core);
+  if (!queue?.length) {
+    dropOldCircleActs(core, dropQueues);
+    return dropOldCircleActs(core, entryQueues);
+  }
   const before = daysAgo(
     core,
     parameter("circleDecisionDetailDays", core.data.parameters),
@@ -153,14 +170,15 @@ export function condenseCircleDecisions(core: CoreState): void {
     }
     if (row.decision && row.decision.actorId !== core.playerId)
       condenseDecision(core, row.id);
-    if (row.kind === "person.acted" && !row.publicRecord && !row.news) {
+    if (!row.publicRecord && !row.news) {
       let drops = dropQueues.get(core);
       if (!drops) dropQueues.set(core, (drops = []));
       drops.push([row.date, row.id]);
     }
   }
   if (done) queue.splice(0, done);
-  dropOldCircleActs(core);
+  dropOldCircleActs(core, dropQueues);
+  dropOldCircleActs(core, entryQueues);
 }
 
 /** The player's own routine decisions keep their summary and reasons after a year, not every option's score. */
@@ -180,12 +198,16 @@ function condensePlayerDecisions(core: CoreState): void {
 }
 
 /**
- * A circle member's routine act is dropped after circleActRetentionMonths:
- * the people and relationships it changed keep their state; only the old
- * entry goes (the player's own acts, public records and news stay).
+ * A circle member's routine entry (an act, a choice they weighed, a cause
+ * they shared or heard) is dropped after circleActRetentionMonths: the
+ * people and relationships it changed keep their state; only the old entry
+ * goes (the player's own entries, public records and news stay).
  */
-function dropOldCircleActs(core: CoreState): void {
-  const drops = dropQueues.get(core);
+function dropOldCircleActs(
+  core: CoreState,
+  queues: WeakMap<CoreState, [string, string][]>,
+): void {
+  const drops = queues.get(core);
   if (!drops?.length) return;
   const cutoff = new Date(`${core.date}T00:00:00Z`);
   cutoff.setUTCMonth(
