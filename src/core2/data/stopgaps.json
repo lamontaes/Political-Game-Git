@@ -1586,6 +1586,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-REACH-A-election-cost-estimates",
+    "kind": "assumed-data",
+    "file": "src/core2/law-reach/group-a-voting.ts",
+    "line": 463,
+    "whatItFakes": "Each election law's administration cost is one national unit cost per voter served, the same in every state and county: mailBallotCostMinor, photoIdIssueCostMinor, automaticRegistrationCostMinor and sameDayRegistrationCostMinor in src/core2/data/laws/reach-group-a-parameters.json, each ESTIMATED with its spread. The county or city that runs the election pays them from its administration line instead of what its own election office spends.",
+    "why": "No place's election office budget or vendor costs are in the game's data; the sources (Pew 2016, GAO-15-19, the Brennan Center 2019, Demos 2014) give national ranges, not each place's cost.",
+    "addedBy": "claude/law-wiring-government (laws lead)",
+    "addedAt": "2026-10-25",
+    "replacement": "Each place's election administration cost per voter served, from its state election office or county auditor reports where they are published and the national range where they are not, read at the same moment the charge is made.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-REACH-B-territory-residents",
     "kind": "missing-data",
     "file": "src/core2/law-reach/group-b-money.ts",

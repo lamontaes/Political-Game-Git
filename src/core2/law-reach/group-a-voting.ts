@@ -459,6 +459,10 @@ export function applyElectionLaws(
     const servedKey = `${spec.key}:${moment}`;
     const served = today.served.get(servedKey) ?? new Map<string, number>();
     today.served.set(servedKey, served);
+    // A national unit cost per voter served, the same in every place.
+    // stopgapId: SG-GOV-REACH-A-election-cost-estimates
+    if (spec.paidAt === moment)
+      api.stopgap("SG-GOV-REACH-A-election-cost-estimates");
     const unit = spec.paidAt === moment ? reachParameter(spec.cost) : 0;
     const planned = roll.map((v) => {
       const before = served.get(v.id) ?? 0;
