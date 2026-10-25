@@ -5,13 +5,14 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/play-stop-20-siblings
+pr: #6080
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T17:44:18.745Z
 ---
 
 **What.** I made Bo Snider, born February 3, 2007, in Anson, Texas on the v0.22.10 release. My sister Madison Stein lives in the same household and was born February 10, 2007, seven days later; she is not listed as a twin. On the first night she is a teenager in a letterman jacket; by December 2025, at 18 with no college shown, she is "Public Works Director · CITY OF ANSON treasury", a department head filed under the treasury. When she came to see me she said only "How's John?" about our father, by his first name, with him standing in the room. I expected siblings born at least months apart, a department head with experience, and a sister who calls our father Dad.

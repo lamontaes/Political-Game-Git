@@ -5,13 +5,14 @@ area: art
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-first-16-title-adds-lincoln-night
+pr: #6109
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T20:33:26.964Z
 ---
 
 **What.** The owner's title ruling (Oct 8) names recognizable national scenes: the White House at night, the Lincoln Memorial, a rally, the convention. A Firefly painting of the Lincoln Memorial at night waits in art/incoming/firefly (title-lincoln-night-a__215378c3.jpg), and the title's scene list (src/bench/title.ts TITLE_SCENES) has no Lincoln Memorial. This item imports the painting through the asset pipeline and adds it to the title's rotation.

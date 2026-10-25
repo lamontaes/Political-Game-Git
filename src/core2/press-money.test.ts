@@ -16,6 +16,7 @@ import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import {
   followersOf,
+  outletMonthlyCostMinor,
   outletsHere,
   pressParameter,
   PRESS_MODULE_ID,
@@ -72,6 +73,31 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
       ),
       where,
     ).toEqual([]);
+    // An outlet's cost is its own staff's scheduled pay: someone scheduled
+    // 56 hours a week costs 56 of them, not a 40-hour year, or the wider
+    // audience pays too little and a full-attendance month drains its cash.
+    for (const outlet of outletsHere(api).filter((o) => o.tier === "local")) {
+      let scheduled = 0;
+      for (const id of core.finance.jobsByOrganization.get(
+        outlet.organizationId,
+      ) ?? []) {
+        const job = core.jobs.get(id);
+        if (!job || job.endsAt !== undefined) continue;
+        for (const commitmentId of core.work.commitmentsByPerson.get(
+          job.personId,
+        ) ?? []) {
+          const row = core.work.commitments.get(commitmentId);
+          if (row?.jobId === job.id && row.endsAt === undefined)
+            scheduled +=
+              ((row.hourlyMinor * row.expectedWeeklyMinutes) / 60) *
+              (pressParameter("weeksPerYear") / 12);
+        }
+      }
+      expect(
+        outletMonthlyCostMinor(api, outlet),
+        `${where}: ${outlet.id}'s month covers its staff's scheduled pay`,
+      ).toBeGreaterThanOrEqual(scheduled - 1);
+    }
     for (const { homes } of papers)
       for (const id of homes)
         for (const member of core.households.get(id)?.memberIds ?? [])

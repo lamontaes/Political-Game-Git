@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/counted-change-expected-events
-pr:
+pr: #6068
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T17:36:29.709Z

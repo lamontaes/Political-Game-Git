@@ -7,12 +7,13 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #6058
 blocked-on:
 after: play-stop-02-developer-text-on-play-screens-a
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 
 ---
 
 **What.** On the v0.22.10 release Politics listed council members as "1999-01-01 – 2027-01-01 · in office at the opening · 2022-11-08 60%" and my party as "Views fit 0.91". After I filed, the city secretary's line was the status code "on-ballot". This part replaces those with plain record data under control names ("Term ends January 1, 2027", "Won in 2022") and an English-engine line for the clerk.
@@ -30,3 +31,5 @@ milestone: play-first
 **Files.** src/bench/government.ts, src/bench/filing.ts, src/bench/play.mjs, src/bench/data/controls.json
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-02-developer-text-on-play-screens (Oct 24, lane). The Campaigns heading ("ON-BALLOT · COUNCIL 0") is play-first-13-campaign-screen-to-mock-a. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Sent back 2026-10-25 ~21:45 UTC from PR #6058 (branch claude/quirky-ride-vrwwz4-play-stop-02, head f7303a8135 with main merged in): all three body screenshots are wrapped in backticks so none render as images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
