@@ -639,7 +639,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-formal-employment"
+      "stopgap": "SG-LABOR-pretrial-employment"
     },
     {
       "key": "release-lower-level-to-larceny",
@@ -1071,7 +1071,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-earnings-at-30"
+      "stopgap": "SG-LABOR-person-exposure"
     },
     {
       "key": "water-violations-to-infant-health",
@@ -1806,7 +1806,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-employment-rate"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "job-loss-to-death-risk",
@@ -2499,7 +2499,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-earnings-at-28"
+      "stopgap": "SG-LABOR-person-exposure"
     },
     {
       "key": "class-size-to-scores",
@@ -2699,7 +2699,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-adult-earnings"
+      "stopgap": "SG-LABOR-person-exposure"
     },
     {
       "key": "homicide-nearby-to-scores",
@@ -3146,7 +3146,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-earnings"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "graduation-to-incarceration",
@@ -3769,7 +3769,7 @@
         }
       },
       "wiredPoints": 1,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "broadband-to-employment",
@@ -3818,7 +3818,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-employment-rate"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "broadband-to-married-women-work",
@@ -4011,7 +4011,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-labor-deal-industry-jobs"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "incentive-deal-to-broad-growth",
@@ -4155,7 +4155,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-labor-undocumented-employment"
+      "stopgap": "SG-LABOR-no-legal-status"
     },
     {
       "key": "enforcement-to-us-born-employment",
@@ -4203,7 +4203,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-labor-us-born-employment"
+      "stopgap": "SG-LABOR-no-legal-status"
     },
     {
       "key": "child-tax-credit-to-births",
@@ -6940,7 +6940,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-workforce"
+      "stopgap": "SG-LABOR-unsized-links"
     },
     {
       "key": "universal-prek-to-math-proficiency",
