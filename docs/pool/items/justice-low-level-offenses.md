@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/justice-low-level-offenses
-pr:
+pr: #6056
 blocked-on:
 source: laws lead, Oct 24, from the owner's ruling
 claimed-at: 2026-10-25T13:30:06.748Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T13:30:06.748Z
 **Files.** src/core2/public-safety.ts, src/core2/modules/crime.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/outcome-web.json
 
 **Notes.** Filed by the laws lead on Oct 24 from the owner's ruling. Research already on file (laws lead, Oct 24): `data/research/outcome-web/unsized-links-source-checks-2026-10-05.json`, row police-to-low-level-arrests, from https://pmc.ncbi.nlm.nih.gov/articles/PMC10062144/: 7 to 22 additional quality-of-life arrests a year per additional full-time sworn officer (range across two instrumental-variable strategies; 242 large U.S. cities, 1981 to 2018), checked but not admitted to runtime because the game kept no low-level arrest measure. Use it before searching.
+
+In PR #6056 (Oct 25, laws lead): built by a helper, stacked on #6012; owner question on drug possession flagged.

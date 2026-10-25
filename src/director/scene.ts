@@ -2,39 +2,23 @@ import { ADDRESS_FACT } from "./opening-facts";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
+import { relationPhrase } from "../english/journal-words";
 import {
-  renderGroundedEnglish,
-  type AuthoredEnglishBank,
-  type GroundedEnglishKnowledge,
-  type GroundedEnglishPacket,
-} from "../english/grounded-english";
-import { JOURNAL_DATA } from "./journal";
+  sceneNameList,
+  sceneParagraph,
+  wordSceneLine,
+  type Fact,
+  type SceneLine,
+  type NarrationMove,
+  type SceneWords,
+} from "../english/scene-words";
 import type { Director } from "./ledger";
 import type { SceneBinding, ScheduleEntry } from "./scheduling";
-import { sceneWordsFromBank } from "./mined/scene-bank";
 import { properName, spoken } from "./words";
 
 const zero = P.zero;
 const one = P.one;
 
-interface Variant {
-  key: string;
-  text: string;
-  stages?: string[];
-}
-export interface SceneWords {
-  version: string;
-  and: string;
-  settings: Readonly<Record<string, Variant[]>>;
-  present: Variant[];
-  /** The day, as the narrator opens: "It's a Tuesday in March." */
-  frame: Variant[];
-  /** What is happening, by the staged situation's type. */
-  leads: readonly { typeKey: string; variants: Variant[] }[];
-  causes: readonly { labelPrefix: string; variants: Variant[] }[];
-  /** How the scene's first move opens it, by that move ("tell", "farewell"). */
-  openings?: Readonly<Record<string, Variant[]>>;
-}
 /** `data/scene-rows.json`: the scene's structure, holding no sentences. */
 export interface SceneRows {
   version: string;
@@ -45,18 +29,7 @@ export interface SceneRows {
   /** The moves that open a scene, each narrated by the bank's opening sentences. */
   openings?: readonly string[];
 }
-/** The default words are the mined bank's. */
-export const SCENE_WORDS: SceneWords = sceneWordsFromBank();
-
-interface Fact {
-  text: string;
-  sourceRecordIds: readonly string[];
-}
-
-export interface SceneLine {
-  text: string;
-  sourceRecordIds: readonly string[];
-}
+export type { SceneLine };
 
 export interface Scene {
   momentId: string;
@@ -82,7 +55,7 @@ export function composeScene(
   director: Director,
   personId: PersonId,
   entry: ScheduleEntry,
-  words: SceneWords = SCENE_WORDS,
+  words?: SceneWords,
 ): Scene | null {
   const book = director.ledger.people.get(personId);
   const moment = book?.momentsById.get(entry.momentId);
@@ -114,13 +87,10 @@ export function composeScene(
     const row = core.people.get(id);
     if (!row) return null;
     const kin = relation.get(id);
-    const forms = kin ? JOURNAL_DATA.relationWords[kin.relation] : undefined;
-    const word = forms?.[row.looks?.gender ?? "other"] ?? forms?.other;
-    if (kin && word)
-      return {
-        text: `${JOURNAL_DATA.possessive.scene} ${word}`,
-        sourceRecordIds: [kin.factId],
-      };
+    const phrase = kin
+      ? relationPhrase(kin.relation, row.looks?.gender ?? "other", "scene")
+      : undefined;
+    if (kin && phrase) return { text: phrase, sourceRecordIds: [kin.factId] };
     if (!person.knownIds.has(id)) return null;
     const first = !named.has(id);
     named.add(id);
@@ -134,47 +104,24 @@ export function composeScene(
     return row ? { text: spoken(row), sourceRecordIds: [id] } : null;
   };
 
+  // The narrator's lines are the English engine's: the director says which
+  // line it is and what the records give it.
   const render = (
-    key: string,
-    rows: readonly Variant[] | undefined,
-    facts: Record<string, Fact>,
+    move: NarrationMove,
+    facts: Record<string, Fact> | (() => Record<string, Fact>),
     momentKey: string,
-    stage = "default",
-  ): SceneLine | null => {
-    if (!rows?.length) return null;
-    const bank: AuthoredEnglishBank = {
-      key,
-      version: words.version,
-      surface: "scene",
-      variants: rows.map((row) => ({ ...row, kind: "template" as const })),
-    };
-    const ids = [
-      ...new Set(Object.values(facts).flatMap((row) => row.sourceRecordIds)),
-    ];
-    const result = renderGroundedEnglish(
-      {
-        surface: "scene",
-        momentKey,
-        worldSeed: core.seed,
-        bankVersion: words.version,
-        stage,
-        sourceRecordIds: ids.length ? ids : [moment.causeId],
-        facts,
-        viewer: { personId, traits: {} },
-        knowledge: Object.entries(facts).map(([factKey, fact]) => ({
-          personId,
-          factKey,
-          sourceRecordIds: fact.sourceRecordIds,
-        })) as unknown as GroundedEnglishKnowledge[],
-      } as unknown as GroundedEnglishPacket,
-      bank,
-    );
-    if (result.kind !== "rendered") return null;
-    return {
-      text: result.text.charAt(zero).toUpperCase() + result.text.slice(one),
-      sourceRecordIds: result.sourceRecordIds,
-    };
-  };
+    stage?: (facts: Record<string, Fact>) => string,
+  ): SceneLine | null =>
+    wordSceneLine({
+      seed: core.seed,
+      move,
+      viewerId: personId,
+      facts,
+      ...(stage ? { stage } : {}),
+      momentKey,
+      fallbackSourceId: moment.causeId,
+      ...(words ? { words } : {}),
+    });
 
   // Where you are, from the setting's record.
   const { kind, recordId } = binding.setting;
@@ -205,8 +152,7 @@ export function composeScene(
   const sentences: SceneLine[] = [];
   const dayAt = new Date(`${moment.date}T00:00:00Z`);
   const frame = render(
-    "scene-frame",
-    words.frame,
+    { part: "frame" },
     {
       weekday: {
         text: dayAt.toLocaleString("en-US", {
@@ -227,8 +173,7 @@ export function composeScene(
   );
   if (frame) sentences.push(frame);
   const setting = render(
-    `scene-setting:${kind}`,
-    words.settings[kind],
+    { part: "setting", kind },
     settingFacts,
     `${moment.id}:setting`,
   );
@@ -262,22 +207,19 @@ export function composeScene(
     )
     .filter((row): row is Fact => row !== null);
   if (present.length) {
-    const names = present.map((row) => row.text);
-    const joined =
-      names.length === one
-        ? names[zero]!
-        : `${names.slice(zero, -one).join(", ")} ${words.and} ${names.at(-one)!}`;
     const line = render(
-      "scene-present",
-      words.present,
+      { part: "present" },
       {
         who: {
-          text: joined,
+          text: sceneNameList(
+            present.map((row) => row.text),
+            words,
+          ),
           sourceRecordIds: present.flatMap((row) => row.sourceRecordIds),
         },
       },
       `${moment.id}:present`,
-      present.length === one ? "one" : "many",
+      () => (present.length === one ? "one" : "many"),
     );
     if (line) sentences.push(line);
   }
@@ -287,29 +229,27 @@ export function composeScene(
   const talkToId =
     opener?.personIds.find((id) => id !== personId) ??
     moment.counterpartIds.find((id) => binding.presentIds.includes(id));
-  const lead = words.leads.find((row) => row.typeKey === binding.typeKey);
-  if (lead) {
-    const facts: Record<string, Fact> = {};
-    const other = talkToId ? who(talkToId) : null;
-    if (other) facts.other = other;
-    const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-    const org = job ? core.organizations.get(job.organizationId) : undefined;
-    if (org)
-      facts.employer = {
-        text: properName(org.name),
-        sourceRecordIds: [org.id],
-      };
-    const town = place(person.placeId);
-    if (town) facts.place = town;
-    const line = render(
-      `scene-lead:${lead.typeKey}`,
-      lead.variants,
-      facts,
-      `${moment.id}:lead`,
-      other ? "other" : "alone",
-    );
-    if (line) sentences.push(line);
-  }
+  const lead = render(
+    { part: "lead", typeKey: binding.typeKey },
+    () => {
+      const facts: Record<string, Fact> = {};
+      const other = talkToId ? who(talkToId) : null;
+      if (other) facts.other = other;
+      const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+      const org = job ? core.organizations.get(job.organizationId) : undefined;
+      if (org)
+        facts.employer = {
+          text: properName(org.name),
+          sourceRecordIds: [org.id],
+        };
+      const town = place(person.placeId);
+      if (town) facts.place = town;
+      return facts;
+    },
+    `${moment.id}:lead`,
+    (facts) => (facts.other ? "other" : "alone"),
+  );
+  if (lead) sentences.push(lead);
 
   // How the scene opens, from its first move: the one who opens it and
   // what they came to do ("Your mother has something to tell you.").
@@ -318,8 +258,7 @@ export function composeScene(
   const opening =
     binding.opening && openerFact
       ? render(
-          `scene-opening:${binding.opening}`,
-          words.openings?.[binding.opening],
+          { part: "opening", move: binding.opening },
           { who: openerFact },
           `${moment.id}:opening`,
         )
@@ -327,45 +266,45 @@ export function composeScene(
 
   // What led here, from the moment's cause, about someone else or the
   // player. News the opener is about to tell is left to them to tell.
-  const cause = words.causes.find((row) =>
-    moment.label.startsWith(row.labelPrefix),
-  );
   const toTell = opening !== null && binding.opening === "tell";
-  if (cause && !toTell) {
-    const facts: Record<string, Fact> = {};
-    const otherId = moment.counterpartIds[zero];
-    const other = otherId ? who(otherId) : null;
-    if (other) facts.other = other;
-    const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-    const org = core.jobs.get(moment.causeId)
-      ? core.organizations.get(core.jobs.get(moment.causeId)!.organizationId)
-      : job
-        ? core.organizations.get(job.organizationId)
-        : undefined;
-    if (org)
-      facts.employer = {
-        text: properName(org.name),
-        sourceRecordIds: [org.id],
-      };
-    const town = place(person.placeId);
-    if (town) facts.place = town;
-    const line = render(
-      `scene-cause:${cause.labelPrefix}`,
-      cause.variants,
-      facts,
-      `${moment.id}:cause`,
-      other && otherId !== personId ? "other" : "self",
-    );
-    if (line) sentences.push(line);
-  }
+  const otherId = moment.counterpartIds[zero];
+  const cause = toTell
+    ? null
+    : render(
+        { part: "cause", label: moment.label },
+        () => {
+          const facts: Record<string, Fact> = {};
+          const other = otherId ? who(otherId) : null;
+          if (other) facts.other = other;
+          const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+          const org = core.jobs.get(moment.causeId)
+            ? core.organizations.get(
+                core.jobs.get(moment.causeId)!.organizationId,
+              )
+            : job
+              ? core.organizations.get(job.organizationId)
+              : undefined;
+          if (org)
+            facts.employer = {
+              text: properName(org.name),
+              sourceRecordIds: [org.id],
+            };
+          const town = place(person.placeId);
+          if (town) facts.place = town;
+          return facts;
+        },
+        `${moment.id}:cause`,
+        (facts) => (facts.other && otherId !== personId ? "other" : "self"),
+      );
+  if (cause) sentences.push(cause);
   if (opening) sentences.push(opening);
 
   // The sentences are one paragraph, so the narrator sets the scene before
-  // anyone speaks (owner, Oct 15: two short lines do not set a scene).
+  // anyone speaks.
   const narration: SceneLine[] = sentences.length
     ? [
         {
-          text: sentences.map((line) => line.text).join(" "),
+          text: sceneParagraph(sentences),
           // A sitting that took in a later cause the same day cites it too.
           sourceRecordIds: [
             ...new Set([

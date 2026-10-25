@@ -1254,6 +1254,11 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "bill-amendment",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "executive-action",
       "channel": "cause",
       "impactParameter": "directorExecutiveActionImpact"

@@ -5,7 +5,7 @@ area: office
 kind: wiring
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5588
 blocked-on:
