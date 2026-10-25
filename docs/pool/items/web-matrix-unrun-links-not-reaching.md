@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/web-matrix-unrun-links
+status: open
+claimed-by:
 pr: #6008
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T09:41:46.355Z
+claimed-at:
 ---
 
 **What.** scripts/outcome-web/effect-matrix.ts grades a link's reach point as pass when an engine reads its outcome, even when the web does not run the link and nothing carries it (coverage.json lists it under waiting). About a dozen links grade as reaching this way, for example coverage-to-mortality-55-64 (its cause is each person's own coverage), marriage-equality-to-coverage (no engine records its cause), disaster-to-out-migration, rent-burden-to-homelessness and defense-contracts-to-earnings. None can move a record, so they inflate the count of links that reach people and are missing from the unwired list. Grade a waiting, uncarried link as not reaching, give it its specific reason and stopgap, and regenerate the unwired list.

@@ -4,7 +4,8 @@
  * and the listeners' views cite the speech (owner, Oct 15, evening). A random
  * place from all 56; the place and seed are in every failure message. A first
  * speech can draw nobody (no one in town leans to come to a new candidate's
- * talk), so places are drawn in turn until one draws a crowd.
+ * talk), so the town's best-connected adults try in turn, and places are
+ * drawn in turn, until a speech draws a crowd.
  */
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
@@ -30,6 +31,8 @@ const runSeed =
   createHash("sha256").update(`speech-screen:${Date.now()}`).digest("hex");
 
 const ATTEMPTS = 4;
+/** How many of the town's best-connected adults try a speech in each place. */
+const CANDIDATES = 8;
 
 /** One drawn place: why nobody came to the speech, or null once its listeners' views cite it. */
 const run = (drawSeed: string): string | null => {
@@ -63,65 +66,84 @@ const run = (drawSeed: string): string | null => {
         b.liquidMinor - a.liquidMinor ||
         a.id.localeCompare(b.id),
     );
+  // Each of them in turn files where a contest accepts it and gives the
+  // speech, until one draws a crowd.
+  const empty: string[] = [];
   let filing: { id: string; personId: string } | null = null;
-  for (const candidate of adults.slice(0, 8)) {
+  let build: ReturnType<typeof speechBegin> | null = null;
+  let given: ReturnType<typeof speechGive> | null = null;
+  for (const candidate of adults.slice(0, CANDIDATES)) {
+    let filed: { id: string; personId: string } | null = null;
     for (const contest of openContests(api)) {
-      const filed = fileCandidacy(api, {
+      const result = fileCandidacy(api, {
         personId: candidate.id,
         contestId: contest.id,
         platform: [],
       });
-      if (filed.status !== "refused" && filed.filing.status === "on-ballot") {
-        filing = filed.filing;
+      if (result.status !== "refused" && result.filing.status === "on-ballot") {
+        filed = result.filing;
         break;
       }
     }
-    if (filing) break;
-  }
-  expect(filing, `nobody could file: ${where}`).not.toBeNull();
-  const personId = filing!.personId;
+    if (!filed) continue;
+    const speakerId = filed.personId;
 
-  // Four stages, up to four parts on offer at each, the player picking by key.
-  let build = speechBegin(core, personId);
-  for (const stage of SPEECH_STAGES) {
-    const view = speechView(build);
-    expect(view.choices.length, `${stage}: ${where}`).toBeGreaterThan(0);
-    expect(view.choices.length, where).toBeLessThanOrEqual(4);
-    expect(() => speechPick(core, build, "no-such-part"), where).toThrow();
-    // A stand at the core where one is offered, so the speech moves views.
-    const pick =
-      build.choices.find((row) => row.stand && stage === "core") ??
-      build.choices[0]!;
-    build = speechPick(core, build, pick.key);
-  }
-  expect(build.done, where).toBe(true);
-  expect(() => speechPick(core, build, "anything"), where).toThrow();
-  const stands = build.picked.filter((row) => row.stand);
-  expect(stands.length, `a stand was offered: ${where}`).toBeGreaterThan(0);
+    // Four stages, up to four parts on offer at each, the player picking by key.
+    let speech = speechBegin(core, speakerId);
+    for (const stage of SPEECH_STAGES) {
+      const view = speechView(speech);
+      expect(view.choices.length, `${stage}: ${where}`).toBeGreaterThan(0);
+      expect(view.choices.length, where).toBeLessThanOrEqual(4);
+      expect(() => speechPick(core, speech, "no-such-part"), where).toThrow();
+      // A stand at the core where one is offered, so the speech moves views.
+      const pick =
+        speech.choices.find((row) => row.stand && stage === "core") ??
+        speech.choices[0]!;
+      speech = speechPick(core, speech, pick.key);
+    }
+    expect(speech.done, where).toBe(true);
+    expect(() => speechPick(core, speech, "anything"), where).toThrow();
+    expect(
+      speech.picked.filter((row) => row.stand).length,
+      `a stand was offered: ${where}`,
+    ).toBeGreaterThan(0);
 
-  // Someone else cannot give it.
-  expect(
-    () =>
-      speechGive(core, "someone-else", build, {
-        filingId: filing!.id,
-        venue: scenePlaces.speechPlaces[0]!,
-      }),
-    where,
-  ).toThrow();
+    // Someone else cannot give it.
+    expect(
+      () =>
+        speechGive(core, "someone-else", speech, {
+          filingId: filed!.id,
+          venue: scenePlaces.speechPlaces[0]!,
+        }),
+      where,
+    ).toThrow();
 
-  const given = speechGive(core, personId, build, {
-    filingId: filing!.id,
-    venue: scenePlaces.speechPlaces[0]!,
-  });
-  expect(given.text, where).toBe(build.picked.map((row) => row.text).join(" "));
-  expect(given.scene.place, where).toBe(scenePlaces.speechPlaces[0]);
-  if (!given.reached) {
-    const speaker = core.people.get(personId)!;
+    const said = speechGive(core, speakerId, speech, {
+      filingId: filed.id,
+      venue: scenePlaces.speechPlaces[0]!,
+    });
+    expect(said.text, where).toBe(
+      speech.picked.map((row) => row.text).join(" "),
+    );
+    expect(said.scene.place, where).toBe(scenePlaces.speechPlaces[0]);
+    if (said.reached) {
+      filing = filed;
+      build = speech;
+      given = said;
+      break;
+    }
+    const speaker = core.people.get(speakerId)!;
     const knows = [...speaker.familyIds, ...speaker.knownIds].filter(
       (id) => core.people.get(id)?.placeId === town,
     ).length;
-    return `${where}: nobody came (the candidate knows ${knows} people in town, and none leaned to come)`;
+    empty.push(`${speakerId} knows ${knows} people in town`);
   }
+  if (!filing)
+    return empty.length
+      ? `${where}: nobody came to ${empty.length} candidates' speeches, and none leaned to come (${empty.join("; ")})`
+      : `${where}: nobody could file`;
+  const { personId, id: filingId } = filing;
+  const stands = build!.picked.filter((row) => row.stand);
 
   // The speech engine moved the listeners' views, citing the speech record.
   const speechIds = new Set(
@@ -131,7 +153,7 @@ const run = (drawSeed: string): string | null => {
         (index ? `:${index}` : ""),
     ),
   );
-  const heard = given.causes
+  const heard = given!.causes
     .map((cause) => cause.voterId)
     .filter((id) =>
       stancesOf(api, id).some((stance) =>
@@ -142,9 +164,12 @@ const run = (drawSeed: string): string | null => {
 
   // The campaign screen reads the promise the speech recorded.
   const view = campaignView(core, personId).campaigns.find(
-    (c) => c.filing.id === filing!.id,
+    (c) => c.filing.id === filingId,
   )!;
   expect(view.campaign.platform.length, where).toBeGreaterThan(0);
+  console.log(
+    `SPEECH ${where}: ${personId} drew ${given!.causes.length}; ${heard.length} views cite ${[...speechIds].join(", ")}`,
+  );
   return null;
 };
 

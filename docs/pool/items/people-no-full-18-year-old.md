@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-full-18
-pr:
+pr: #{"message":"GitHub
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T15:52:46.374Z

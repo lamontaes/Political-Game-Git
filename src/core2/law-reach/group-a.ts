@@ -21,16 +21,16 @@ import { publicBargaining } from "./group-a-bargaining";
 
 const records: PolicyHandler = (api, change) =>
   applyRecords(api, change.key, change.lawId, change.inForce);
-// The mechanics' files import engines (elections, budgets, voting, jobs)
-// that load this registry back through law reach, so under some import orders
-// a handler is still unset when this file loads (the grading bench's staged
-// world found the paid-leave premium's undefined). Each is read when a law
-// takes effect, not when this file loads.
-const late =
-  (read: () => PolicyHandler): PolicyHandler =>
-  (api, change) =>
-    read()(api, change);
-const voting = late(() => votingLaw);
+// The voting file imports the elections, budgets and voting engines, which
+// load this registry back through law reach; read its handler when a law
+// takes effect, not when this file loads, so no import order leaves it unset.
+const voting: PolicyHandler = (api, change) => votingLaw(api, change);
+// The money file reaches the treasury and budget engines, which load this
+// registry back the same way; its handlers are read when a law takes effect.
+const leave: PolicyHandler = (api, change) => paidLeave(api, change);
+const parks: PolicyHandler = (api, change) => parksFunding(api, change);
+const housingLine: PolicyHandler = (api, change) =>
+  housingLineMeasure(api, change);
 
 /** Each mechanic's handler, by the mechanic name a policy's data row gives. */
 const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
@@ -48,16 +48,16 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   // The public-safety engine reads these laws where it decides a case, a
   // sale or a cost, and records whom it applied them to (public-safety.ts).
   "public-safety": [],
-  "federal-minimum-wage": [records, late(() => federalMinimumWage)],
-  "raise-minimum-wage": [records, late(() => raiseMinimumWage)],
-  "local-wage-authority": [records, late(() => localWageAuthority)],
-  "paid-leave-premium": [late(() => paidLeave)],
-  "parks-funding": [late(() => parksFunding)],
+  "federal-minimum-wage": [records, federalMinimumWage],
+  "raise-minimum-wage": [records, raiseMinimumWage],
+  "local-wage-authority": [records, localWageAuthority],
+  "paid-leave-premium": [leave],
+  "parks-funding": [parks],
   // The housing engine pays the assistance monthly (housing-assistance.ts), citing the measure kept here.
-  "housing-assistance": [late(() => housingLineMeasure)],
-  staffing: [late(() => staffing)],
-  "public-bargaining": [records, late(() => publicBargaining)],
-  "right-to-work": [records, late(() => rightToWork)],
+  "housing-assistance": [housingLine],
+  staffing: [staffing],
+  "public-bargaining": [records, publicBargaining],
+  "right-to-work": [records, rightToWork],
   voting: [voting],
   "office-limits": [voting],
 };

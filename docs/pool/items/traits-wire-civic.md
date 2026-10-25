@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr: #5657
+pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at:
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-24 from PR #5657 (branch claude/traits-civic): family acceptance requires positive calls and rate evidence for every decision, but ballot-measures.vote and employer-join have zero calls in both years and seven decisions lack pick rates; complete that evidence or bound the delivered subset while retaining the family open; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5657 (branch claude/traits-civic): corrected employer/ballot proof still leaves zero ballot calls in one audit year and overwhelming reported odds versus research targets; non-Words branch also edits director conversation reader; repair or bound acceptance and route director seam through Words; finish on that branch, merge main into it first.
+
+Oct 25 (traits lead): PR #5657's completed slice (believing a story, party meetings, joining a group and passing on news at their study sizes, with a gap row for every other civic decision) moved to `traits-civic-shared-rule`, and the PR's director change moved to the Words line as `words-director-claims-shared-rule`. This item stays open for the rest: the ballot-measure vote in both audit years, and backing the incumbent, telling an exit pollster, holding a town hall, joining a party, a lobbyist speaking up, accepting an interview and taking part at a meeting at their research rates. Each one's gap row names its cause and numbers.
