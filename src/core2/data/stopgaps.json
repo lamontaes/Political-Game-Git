@@ -4601,6 +4601,18 @@
     "status": "open"
   },
   {
+    "id": "SG-PLAY-town-count-estimate",
+    "kind": "estimated-data",
+    "file": "src/bench/creator.ts",
+    "line": 193,
+    "whatItFakes": "A town the Census Vintage 2025 estimates and the ACS 2020-2024 table hold no count for (34 of 32,508 places, mostly military posts and merged places) shows its state's median town count, marked as an estimate in the creator's list.",
+    "why": "The records name the place but hold no count for it; the creator must show a number (estimate, never unknown) and the real count needs research per place.",
+    "addedBy": "claude/quirky-ride-vrwwz4-play-stop-14",
+    "addedAt": "2026-10-25",
+    "replacement": "A sourced count for each of the 34 places (Census 2020 decennial or the base's own published figure), after which the estimate branch is deleted.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-official-attendance",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/legislature.ts",
