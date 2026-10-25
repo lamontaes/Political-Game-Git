@@ -917,6 +917,12 @@ export function coreAPI(core: CoreState): CoreAPI {
     observe(personId, fact) {
       const known = core.knowledgeByPerson.get(personId);
       if (!known) throw new Error(`Knowledge recipient is absent: ${personId}`);
+      // Play keeps the caller's fact (each is a new object); bookkeeping checks
+      // its date and keeps a copy, so a later write by the caller cannot reach it.
+      if (!bookkeeping()) {
+        known.set(fact.key, fact);
+        return;
+      }
       makeIsoDate(fact.learnedAt);
       if (fact.learnedAt > core.date)
         throw new Error("Cannot learn a future fact.");
