@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** data/municipal-elections/92O-national-state-baseline.json, src/core2/gov-rules/municipal-ballot-rules.ts, src/core2/recalls.test.ts, data/research/core/recall-timing-statutes-2026.json
 
-**Notes.** TODO
+**Notes.** 2026-10-25 (claude/recall-rule-statutes): South Dakota read from SDCL 9-13-29 to 9-13-35 (sdlegislature.gov): grounds required and listed, 15% of registered voters, 60 days, the officer runs against challengers. Wyoming read from W.S. 15-4-110 in the official Title 15 PDF (wyoleg.gov): commission-form only, 25% of registered electors, a general statement of grounds; 15-1-1101 is quasi-municipal districts; HB0022 failed in the Senate Committee of the Whole on 2026-03-03. Mississippi: the code text could not be fetched (the Legislature's site returned 503, Justia 403); its row rests on WLBT's January 13, 2023 report and the 25-5 section titles, and is flagged in the pack and the timing file to re-read. The resolver now uses a form-conditional state's statutory default (Maine, Ohio, Oklahoma, Rhode Island, Texas and now Wyoming default to no recall) instead of the national estimate.

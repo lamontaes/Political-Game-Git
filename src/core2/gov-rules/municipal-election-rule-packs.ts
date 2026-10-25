@@ -35,6 +35,11 @@ export interface MunicipalRulePack {
   readonly recallGroundsRequired: PackRule<boolean>;
   readonly recallPetitionThreshold: PackRule<PetitionThreshold>;
   readonly recallCirculationWindowDays: PackRule<number>;
+  /** Which places' offices the state's recall reaches, as the pack reads the law; null where it does not say. */
+  readonly recallScope: string | null;
+  /** The grounds a petition must state, where the law sets them. */
+  readonly recallGrounds: string | null;
+  readonly recallCitation: string | null;
 }
 
 /**
@@ -92,6 +97,12 @@ const FORM_CONDITIONAL_RECALL: Readonly<
     ],
     statutoryDefault: "prohibited",
   },
+  // Commission-form cities and towns only (Wyo. Stat. 15-4-110); a town
+  // under another form has none.
+  WY: {
+    options: ["simultaneous-incumbent-replacement", "prohibited"],
+    statutoryDefault: "prohibited",
+  },
 };
 
 /**
@@ -128,6 +139,24 @@ function compileElectionTiming(
 function compileRecall(
   row: CorpusRow,
 ): Omit<MunicipalRulePack, "electionTiming"> {
+  const text = row as CorpusRow & {
+    recallScope?: string | null;
+    recallGrounds?: string | null;
+  };
+  return {
+    recallScope: text.recallScope ?? null,
+    recallGrounds: text.recallGrounds ?? null,
+    recallCitation: row.recallCitation ?? null,
+    ...compileRecallRules(row),
+  };
+}
+
+function compileRecallRules(
+  row: CorpusRow,
+): Omit<
+  MunicipalRulePack,
+  "electionTiming" | "recallScope" | "recallGrounds" | "recallCitation"
+> {
   const conditional = FORM_CONDITIONAL_RECALL[row.usps];
   if (conditional)
     return {
