@@ -117,7 +117,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - A docs/pool item with sections pasted twice.
 
    **The play-first lane** (`docs/play-first/README.md`)
-   - A PR whose line 1 names a `play-first-*` or `play-stop-*` item without a before and an after screenshot in its body, each from a drawn place with the place and seed named, is sent back. A look that changed needs the owner's yes on the screenshot ("OWNER SCREENSHOT NEEDED" at the top of the body): leave it, comment, and name it in your table for the CTO.
+   - A PR whose line 1 names a `play-first-*` or `play-stop-*` item without a before and an after screenshot in its body, each from a drawn place with the place and seed named, is sent back. A plain link to the PNG on the PR's branch satisfies the rule (acting CTO, Oct 25): open it. Embedding is preferred, not required; a backticked link is a writer defect the fixer corrects in the body, never a send-back reason on its own. A look that changed needs the owner's yes on the screenshot ("OWNER SCREENSHOT NEEDED" at the top of the body): leave it, comment, and name it in your table for the CTO.
    - Lane PRs come first (`MERGE-FIRST.md`, line 1). Never send a lane PR back for director or English edits (`Review: words`) or for `data/english` lines flipped to shippable.
 
    **Missing paperwork**
