@@ -1,3 +1,4 @@
+import { ADDRESS_FACT } from "./opening-facts";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
@@ -69,6 +70,11 @@ export interface Scene {
   narration: SceneLine[];
   /** The person who opens the scene and whom the conversation is with. */
   talkToId?: PersonId;
+  /**
+   * A speech the scene is about, in the words its record kept (the address
+   * the English engine composed): the speaker gives it in the scene.
+   */
+  speech?: SceneLine & { speakerId: PersonId };
 }
 
 export function composeScene(
@@ -360,12 +366,25 @@ export function composeScene(
     ? [
         {
           text: sentences.map((line) => line.text).join(" "),
+          // A sitting that took in a later cause the same day cites it too.
           sourceRecordIds: [
-            ...new Set(sentences.flatMap((line) => line.sourceRecordIds)),
+            ...new Set([
+              ...sentences.flatMap((line) => line.sourceRecordIds),
+              ...(binding.joined ?? []).map((row) => row.causeId),
+            ]),
           ],
         },
       ]
     : [];
+  // A speech's own words, when its record kept them and the person gave it.
+  const record = core.durableLog.get(moment.causeId);
+  const speechText = record?.facts?.[ADDRESS_FACT.text];
+  const speech =
+    typeof speechText === "string" &&
+    speechText &&
+    record?.facts?.[ADDRESS_FACT.president] === personId
+      ? { speakerId: personId, text: speechText, sourceRecordIds: [record.id] }
+      : undefined;
   return {
     momentId: moment.id,
     typeKey: binding.typeKey,
@@ -373,5 +392,6 @@ export function composeScene(
     presentIds: binding.presentIds,
     narration,
     ...(talkToId ? { talkToId } : {}),
+    ...(speech ? { speech } : {}),
   };
 }

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #5971
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:36 to 16:42; screenshots 83-dec-needs-7, 83-dec-needs-9, 84, 86, 87, 88, 89, 90. Pause id player:person_fe9956e2c35fa4e5:707. Stopper 3 of 3; this one ends play. Lead: m0-m2 (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
 
 Sent back 2026-10-24 from PR #5971 (branch play-first/play-stop-23-job-offer-hold-locks-the-game): New play.mjs:684-686 and916-917 contain dated owner notes forbidden by the merger morning check; retain technical comments but move ruling attributions to docs/PR. Functional/browser gate and explicitly required owner screenshot yes remain unclaimed; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #5971 (branch play-first/play-stop-23-job-offer-hold-locks-the-game): fresh visual inspection at supported 1024x768 shows shared player-card/menu overlap despite passing pointer contracts; integrate the shared card repair and rerun pointer/keyboard visuals; owner screenshot yes and installed-build replay remain unverified; finish on that branch, merge main into it first.
