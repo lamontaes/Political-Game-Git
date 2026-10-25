@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-play-stop-02
+pr: #6058
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T17:51:53.551Z
 ---
 
 **What.** On the v0.22.10 release every talk box carried a Mark gap button, and pressing it sent a gap note in the background with nothing on screen. Mark gap is a developer control (src/bench/play.html line 672, `/api/talk/gap`). This item takes it off the player's screen; it stays only where dev mode is on.

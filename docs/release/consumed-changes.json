@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.26.1",
+      "releasedOn": "2026-10-25",
+      "revision": "8d0dd8f295b83d6f63cd421004fda1feaf37ef05",
+      "changeIds": ["release-package-build-heap"]
+    },
+    {
       "version": "0.26.0",
       "releasedOn": "2026-10-25",
       "revision": "cd27a2a370cf83fea4e78be031500d7dc549323d",
