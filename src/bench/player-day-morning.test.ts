@@ -33,15 +33,18 @@ const minutes = (a: PlayerMomentV1, b: PlayerMomentV1) =>
 function openWorld(index: number) {
   const place = drawPlace(runSeed, `play-stop-07:${index}`);
   const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
-  const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
+  const { core, director, playerId } = buildBenchWorld(
+    place.seed,
+    gameStartDate(),
+    { twoLevel: true, placeKey: place.key },
+  );
+  // Named before play, so a failure anywhere below says where it happened.
+  console.log(`world ${index}: ${where}`);
   const startYear = Number(core.date.slice(0, 4));
   const adults = [...core.people.values()]
     .filter((p) => p.alive && startYear - Number(p.birthDate.slice(0, 4)) >= 35)
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
-  return { core: core as CoreState, director, adults, where };
+  return { core: core as CoreState, director, adults, where, playerId };
 }
 
 /** A local filing (never federal or state) by an adult who holds no seat, from the records. */
@@ -89,11 +92,12 @@ it(
   "Day lands on the next morning and Week on the same morning a week on",
   { timeout: 600_000 },
   () => {
-    const { core, director, adults, where } = openWorld(0);
+    // The drawn player, as the play screen drives them.
+    const { core, director, where, playerId } = openWorld(0);
     const start = parameter("playerDayStartMinute", core.data.parameters);
     expect(start, where).toBeGreaterThan(0);
     const player = new BenchPlayer(core, director);
-    player.select(adults[0]!.id);
+    player.select(playerId!);
     const run = (r: Parameters<typeof settle>[1]) => settle(player, r, where);
 
     // Day from the cold start lands on a morning, not midnight.
