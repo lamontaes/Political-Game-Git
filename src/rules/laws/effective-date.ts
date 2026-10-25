@@ -114,7 +114,12 @@ export function stateStatuteOperativeAt(
             )
           : operative;
       };
-      const sessionEnd = nearest(context.sessionEnds?.(year) ?? [], enactedAt);
+      // The session the act passed in, in its year of passage.
+      const passedAt = context.finalPassageAt?.() ?? enactedAt;
+      const sessionEnd = endOfSessionPassedIn(
+        context.sessionEnds?.(yearOf(passedAt)) ?? [],
+        passedAt,
+      );
       const operative = sessionEnd ? counted(sessionEnd) : null;
       return operative && operative > enactedAt
         ? operative
@@ -256,15 +261,17 @@ function dayInYear(year: number, day: YearlyDay): DateValue {
   return addDays(dateFromParts(year, day.month, date), day.plusDays ?? 0);
 }
 
-function nearest(dates: readonly DateValue[], to: DateValue): DateValue | null {
-  let best: DateValue | null = null;
-  for (const date of dates)
-    if (
-      best === null ||
-      Math.abs(daysBetween(date, to)) < Math.abs(daysBetween(best, to))
-    )
-      best = date;
-  return best;
+/**
+ * The end of the session an act passed in: the first end on or after its
+ * final passage (a regular session, or a special session that sat after it),
+ * else the last end before it, for an act passed after the year's sessions.
+ */
+function endOfSessionPassedIn(
+  ends: readonly DateValue[],
+  passedAt: DateValue,
+): DateValue | null {
+  const sorted = [...ends].sort();
+  return sorted.find((end) => end >= passedAt) ?? sorted.at(-1) ?? null;
 }
 
 function addMonths(date: DateValue, months: number): DateValue {
@@ -296,14 +303,6 @@ function addDays(date: DateValue, days: number): DateValue {
   const parsed = new Date(`${date}T00:00:00.000Z`);
   parsed.setUTCDate(parsed.getUTCDate() + days);
   return parsed.toISOString().slice(0, 10);
-}
-
-function daysBetween(a: DateValue, b: DateValue): number {
-  return Math.round(
-    (new Date(`${b}T00:00:00.000Z`).getTime() -
-      new Date(`${a}T00:00:00.000Z`).getTime()) /
-      86_400_000,
-  );
 }
 
 function yearOf(date: DateValue): number {

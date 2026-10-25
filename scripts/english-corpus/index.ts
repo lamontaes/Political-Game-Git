@@ -4,7 +4,7 @@
  * one import:
  *
  *   import { MINED_WORDS } from "../../scripts/english-corpus";
- *   composeJournal(core, director, personId, { data: MINED_WORDS.journal });
+ *   composeJournal(core, director, personId, { words: MINED_WORDS.journal });
  *   composeScene(core, director, personId, entry, MINED_WORDS.scene);
  *   bringItUp(core, speakerId, listenerId, MINED_WORDS.bringItUp);
  *   MINED_WORDS.openingSpeech.composeOpeningSpeech(packet, "state-of-the-union");
@@ -12,17 +12,17 @@
  * OPUS-WORDS owns the banks and these adapters; OPUS-PEOPLE owns the engine.
  */
 import { addressMoves, composeTurn } from "./address-bank";
-import { MINED_CONVERSATION } from "../../src/director/mined/conversation-bank";
-import { filingWordsFromBank } from "../../src/director/mined/filing-bank";
-import { journalDataFromBank } from "../../src/director/mined/journal-bank";
+import { MINED_CONVERSATION } from "../../src/english/mined/conversation-bank";
+import { filingWordsFromBank } from "../../src/english/mined/filing-bank";
+import { journalDataFromBank } from "../../src/english/mined/journal-bank";
 import { benchControlNames, stanceWords } from "./choice-names-bank";
 import { composeCounterVisit } from "./counter-bank";
 import { composeNewsStory } from "./newscast-bank";
 import { composeOpeningSpeech, openingSpeechKind } from "./opening-speech-bank";
 import {
-  bringDataFromBank,
+  bringWordsFromBank,
   sceneWordsFromBank,
-} from "../../src/director/mined/scene-bank";
+} from "../../src/english/mined/scene-bank";
 
 export const MINED_WORDS = {
   /** Every wording of every choice; the renderer's stable pick chooses one per moment. */
@@ -30,7 +30,7 @@ export const MINED_WORDS = {
   journal: journalDataFromBank(),
   filingVisit: filingWordsFromBank(),
   scene: sceneWordsFromBank(),
-  bringItUp: bringDataFromBank(),
+  bringItUp: { words: bringWordsFromBank() },
   address: { addressMoves, composeTurn },
   /** The President's address that opens the game, section by section. */
   openingSpeech: { composeOpeningSpeech, openingSpeechKind },
