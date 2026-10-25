@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/weight-release-heads
 pr: #5866
 blocked-on:
