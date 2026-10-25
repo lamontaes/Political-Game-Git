@@ -133,8 +133,6 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
     owner: "OPUS-GOV (candidacy)",
     byTown: true,
   },
-  // Alive in some towns; others still leave a home unpriced.
-  "homes have values and rents": { owner: "FIXER-ECONOMY", byTown: true },
   "pay reaches a spendable account": { owner: "FIXER-ECONOMY", byTown: true },
   "a new business's loan fits its founder": {
     owner: "FIXER-ECONOMY",
@@ -794,8 +792,12 @@ function playWorld(seed: string) {
 
   // Break 16: homes have prices.
   const dwellings = rowsOf(core, "housing", "dwellings");
+  // A former home (evicted, foreclosed or sold) keeps the last rent or value
+  // of how the household held it (src/core2/housing-former-home.ts).
   const unpriced = dwellings.filter((d) =>
-    d.tenure === "rent" ? !Number(d.rentMinor) : !Number(d.valueMinor),
+    d.tenure === "rent" || d.formerTenure === "rent"
+      ? !Number(d.rentMinor)
+      : !Number(d.valueMinor),
   );
   const renters = dwellings.filter((d) => d.tenure === "rent");
   verdicts["homes have values and rents"] =
