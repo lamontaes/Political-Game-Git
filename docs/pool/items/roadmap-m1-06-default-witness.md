@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: blocked
 claimed-by:
 pr: #6032
-blocked-on:
+blocked-on: roadmap-m1-06-mortgage-and-line-clauses
 after: roadmap-m1-economy-commands
 source: added with npm run pool -- add
 claimed-at:
