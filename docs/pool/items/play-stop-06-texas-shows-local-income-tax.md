@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/issues-tax-levels
 pr:
-blocked-on:
+blocked-on: politics-issues-taxes-named-by-level
 source: added with npm run pool -- add
 lead: effects
 milestone: play-first
