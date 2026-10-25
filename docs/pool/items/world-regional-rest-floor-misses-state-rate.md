@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/regional-model.ts
 
 **Notes.** TODO
+
+2026-10-25 (claude/regional-rest-state-rate): in the 2024-12 opening no state with a rest region leaves it a non-positive rate (measured from regions.json); the states off their rate were the all-metro ones, D.C. (2.9% against 5.6%) and Rhode Island (4.2% against 4.5%), whose only region took its metro area's cross-state LAUS rate. Fixed by one shared factor on every region of such a state, which also covers a rest left at zero or below.
