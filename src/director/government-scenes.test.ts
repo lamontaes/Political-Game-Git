@@ -26,6 +26,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 // A drawn place may have no seat held by a full person, or a chamber that does
 // not vote in the run; draw again, a bounded number of times, and fail if none does.
 const ATTEMPTS = 8;
+const WEEK = 7;
 
 /** One drawn place: whether its bill was voted, and whether an executive's signature or veto on it was checked. */
 const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
@@ -85,10 +86,16 @@ const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
     provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
   });
   scheduleVote(api, bill.id);
-  advanceCore(
-    core,
-    addDays(makeIsoDate(core.date), seat!.office.level === "state" ? 400 : 120),
+  // Played a week at a time until the executive acts, so the vote and the
+  // act are read within weeks of happening: a watched resident's older
+  // moments fold into the director's summaries (its memory window; the
+  // player keeps all of theirs).
+  const end = addDays(
+    makeIsoDate(core.date),
+    seat!.office.level === "state" ? 400 : 120,
   );
+  while (core.date < end && !core.durableLog.has(`executive-action:${bill.id}`))
+    advanceCore(core, [addDays(makeIsoDate(core.date), WEEK), end].sort()[0]!);
 
   const scenesOf = (personId: string, cause: string) =>
     (director.ledger.people.get(personId)?.schedule ?? [])
