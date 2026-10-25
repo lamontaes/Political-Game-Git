@@ -3084,7 +3084,8 @@
       "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
       "to": "justice.pretrial-detained",
       "range": [-0.44, -0.14],
-      "notes": "Not hooked by design: the justice code already decides each defendant's detention from the bail law in force, so a pretrial-detained place rate would count the law twice."
+      "notes": "Not hooked by design: the justice code already decides each defendant's detention from the bail law in force, so a pretrial-detained place rate would count the law twice.",
+      "carriedBy": "the justice engine's pretrial decision (decidePretrial in src/core2/justice-pretrial.ts, called from src/core2/modules/justice.ts), which reads the end-cash-bail law in force and the defendant's cash when each charged defendant waits for trial: where the law has ended cash bail nobody is held for want of money (released-no-bail-law), elsewhere they are held or post bail"
     },
     {
       "key": "mandatory-minimums-to-incarceration",
@@ -3770,8 +3771,7 @@
           "quote": "Table 8 Panel A: Female Sample, T - C: 1.08 (0.36). Panel B: Male Sample, T - C: 1.22 (0.38). \"The main result is that for all three models and for both men and women, the estimated difference in CDFs between the 1938, 1939, and 1940 cohorts, and the 1937 cohort, is mostly negative.\""
         }
       ],
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers.",
-      "carriedBy": "the jobs engine's retirement onset (retirementOnsetYears in src/core2/modules/jobs.ts), which reads the earliest Social Security claim age under the law in force when each worker decides whether to keep working"
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers. The jobs engine reads this link's factor in participationShift (src/core2/jobs-web.ts), on the retire, leave and enter choices of people from 62 to 66, weighted by jobsOlderWorkWebWeight."
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
@@ -4340,7 +4340,8 @@
       "floor": 0.25,
       "ceiling": 3,
       "readFrom": "crime.violent-victimization-index",
-      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure.",
+      "carriedBy": "the victimization records themselves: the index this link reads (crime months.violentIndex, src/core2/modules/crime.ts) is robbery and assault per person 12 and older, so every move in it is already these offenses' own; scaling them by it again would count each move twice and feed the next month's index one for one, a loop that grows without end"
     },
     {
       "key": "crime-level-to-assault",
@@ -4364,7 +4365,8 @@
       "floor": 0.25,
       "ceiling": 3,
       "readFrom": "crime.violent-victimization-index",
-      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure.",
+      "carriedBy": "the victimization records themselves: the index this link reads (crime months.violentIndex, src/core2/modules/crime.ts) is robbery and assault per person 12 and older, so every move in it is already these offenses' own; scaling them by it again would count each move twice and feed the next month's index one for one, a loop that grows without end"
     },
     {
       "key": "crime-level-to-vandalism",
