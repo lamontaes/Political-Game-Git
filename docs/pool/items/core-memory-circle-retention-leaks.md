@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/committee-heap
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T16:44:16.717Z
 ---
 
 **What.** Found while measuring the drawn two-year committee world (Gastonia, North Carolina, seed 93678d3573d46855). A circle member's weighed choices, the causes they shared or heard and their other entries without a decision never left the durable log; only their acts were dropped after circleActRetentionMonths. With bookkeeping on, forgetOldExperiences never ran, and keepsWhy kept every person's reasons (withholding records, campaign causes, ballot and stance reasons, staff work rows, drive why facts), so a test world held about 30 percent more than play.
