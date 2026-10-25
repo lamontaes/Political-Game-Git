@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-play-stop-17
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T17:42:47.213Z
 ---
 
 **What.** On the v0.22.10 release the News panel, the person card and every menu screen (Calendar, Who you are, People, Politics) are drawn over the scene with the scene showing through. On the first evening the living room, its ceiling fan and four people sit behind the news text and the Politics lists, which makes small text hard to read. I expected a solid panel when I open a screen to read it.
