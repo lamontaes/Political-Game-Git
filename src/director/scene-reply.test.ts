@@ -25,9 +25,10 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // scene fires, the player picks a reply, and the reply's record reaches their
 // tie with the asker through the relationship writer, citing the record.
 // Places are drawn in turn until one has a race open for filing within the
-// year that takes the player's filing; many places elect only in even years.
+// year that takes the player's filing; many places elect only in even years
+// (most drawn places do), so up to 32 are drawn.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const ATTEMPTS = 8;
+const ATTEMPTS = 32;
 const YEAR = 365;
 const TRIED = 12;
 
