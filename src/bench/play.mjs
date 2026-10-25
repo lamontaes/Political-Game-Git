@@ -1312,6 +1312,8 @@ async function campaignRows() {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
       );
+      // The outing's hours moved the clock: the card shows the new time.
+      if (result.packet) renderPacket(result.packet);
       campaignResult = [
         controls.campaignOutings[outing],
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
