@@ -391,11 +391,14 @@ try {
         .catch(() => {});
       await page.waitForTimeout(2000);
     }
-    // A scene still playing covers the menu: wait it out, don't touch the calendar.
+    // A scene still playing covers the menu: wait it out fully, don't touch the calendar.
     if (await page.locator("#game.cinema").count()) {
-      console.log("Stop: cinema scene playing, waiting");
-      await page.waitForTimeout(5000);
-      continue;
+      console.log("Stop: cinema scene playing, waiting it out");
+      await page
+        .locator("#game.cinema")
+        .waitFor({ state: "detached", timeout: 90000 })
+        .catch(() => {});
+      await page.waitForTimeout(1000);
     }
     // Run the clock again from the calendar.
     await page
@@ -433,8 +436,28 @@ try {
         .isVisible()
         .catch(() => false))
     ) {
-      console.log("Day 3 hidden behind a scene; waiting");
-      await page.waitForTimeout(5000);
+      const cover = await day3
+        .first()
+        .evaluate((e) => {
+          const r = e.getBoundingClientRect();
+          const t = document.elementFromPoint(
+            r.x + r.width / 2,
+            r.y + r.height / 2,
+          );
+          return t
+            ? `${t.tagName}#${t.id}.${t.className}`.slice(0, 120)
+            : "none";
+        })
+        .catch(() => "?");
+      console.log("Day 3 hidden; covering element:", cover);
+      await page.screenshot({
+        path: "docs/reports/ballot-pages-2026-10-24/covered.png",
+      });
+      // A scene may be ending: wait it out fully, then retry next leg.
+      await page
+        .locator("#game.cinema")
+        .waitFor({ state: "detached", timeout: 90000 })
+        .catch(() => {});
       continue;
     }
     await day3.first().click();
