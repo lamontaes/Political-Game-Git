@@ -55,6 +55,11 @@ export interface ResponseRow extends ActionDefinition {
   requires: readonly string[];
   fitParameter: string;
   baselineParameter?: string;
+  /**
+   * A response that takes years to pay back (retraining, a new business):
+   * the person's capacity for it falls smoothly with age around the center.
+   */
+  capacityFades?: { centerParameter: string; widthParameter: string };
 }
 
 export interface DrivesData {
@@ -720,6 +725,14 @@ export function respond(
           (row.baselineParameter ? p(row.baselineParameter) : p("zero")) +
           pressure *
             (row.driveKind ? agency : p("one")) *
+            (row.capacityFades
+              ? p("one") /
+                (p("one") +
+                  Math.exp(
+                    (age - p(row.capacityFades.centerParameter)) /
+                      p(row.capacityFades.widthParameter),
+                  ))
+              : p("one")) *
             Math.max(p("zero"), fit + p("responseTraitLeanGain") * lean),
       };
     });
