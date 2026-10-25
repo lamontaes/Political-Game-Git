@@ -15,7 +15,7 @@ import { placeReferencePopulation } from "./gov-rules/place-population";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { realLocalities } from "./places";
-import { residentCounts, residentsRuntime } from "./modules/residents";
+import { residentCounts } from "./modules/residents";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -40,7 +40,6 @@ function perResident(countScale?: number) {
     placeKey: place.key,
     ...(countScale !== undefined ? { countScale } : {}),
   });
-  const rt = residentsRuntime(core)!;
   const residents = core.people.size + residentCounts(core)[0]!.people;
   const snap = () => {
     let sales = 0;
@@ -60,22 +59,13 @@ function perResident(countScale?: number) {
     advanceCore(core, date);
   }
   const after = snap();
-  const weightOf = (id: string) => {
-    if (core.people.has(id)) return 1;
-    const member = rt.store.countedMember(id);
-    return member === undefined
-      ? 1
-      : rt.store.weightOf(rt.store.households[rt.store.household[member]!]!);
-  };
+  // A draw on the books is what the journal moved: a counted owner's group
+  // receives the whole draw (business.ts), so it is not weighted again.
   const draws = coreAPI(core)
     .moduleState("business")
     .table("draws")
     .rows()
-    .reduce(
-      (n, row) =>
-        n + Number(row.drawnMinor ?? 0) * weightOf(String(row.ownerId)),
-      0,
-    );
+    .reduce((n, row) => n + Number(row.drawnMinor ?? 0), 0);
   return {
     residents,
     sales: (after.sales - before.sales) / residents,
