@@ -8,13 +8,13 @@
  * the opening day where it has room, else anywhere that keeps a minor a
  * minor and a grown child grown.
  */
+import type { IsoDate } from "./kernel/brands";
 import {
   addDays,
   ageOnDate,
   daysBetween,
   isoDateFromParts,
   makeIsoDate,
-  type IsoDate,
 } from "./kernel/dates";
 import { parameter as p } from "./parameters";
 
@@ -44,7 +44,7 @@ export function spacedSiblingBirths(
   on: string,
   births: readonly string[],
   fixed: readonly string[] = [],
-): string[] {
+): IsoDate[] {
   const start = makeIsoDate(on);
   const gap = p("siblingBirthGapDays");
   const adultAge = p("benchmarkAdultMinimumAge");
@@ -57,7 +57,7 @@ export function spacedSiblingBirths(
     [drawn, ...placed.flatMap((other) => [other - gap, other + gap])]
       .filter((day) => day >= low && day <= high && clear(day))
       .sort((a, b) => Math.abs(a - drawn) - Math.abs(b - drawn) || a - b)[0];
-  const out = [...births];
+  const out = births.map(makeIsoDate);
   const order = births
     .map((date, index) => ({ date, index }))
     .sort((a, b) => a.date.localeCompare(b.date) || a.index - b.index);
