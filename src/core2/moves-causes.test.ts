@@ -24,7 +24,7 @@ import {
   watchDepartures,
 } from "./modules/moves";
 import { coreAPI } from "./state";
-import type { CoreState, PersonId, PersonState } from "./types";
+import type { CoreState, PersonId } from "./types";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const YEAR_DAYS = 365;
@@ -32,6 +32,8 @@ const DRAWS = 6;
 const GONE = ["movesMinimumAge", "movesKinHoldCap", "movesHousingCostShareCap"];
 /** Older than any place's age of majority in the research table. */
 const GROWN = 22;
+/** The tier of people the moves engine no longer counts in town. */
+const INACTIVE = "husk";
 /** One draw's budget: building and playing a year of a drawn town. */
 const DRAW_MS = 600_000;
 
@@ -46,20 +48,22 @@ it("reads no cap or cutoff parameter", () => {
   }
 });
 
-/** Grown relatives of a person living in town: older than any place's age of majority, so the kin hold counts each one. */
-function grownRelativesInTown(
+/** Grown people still in town life (not husks): older than any place's age of majority, so the kin hold counts each one. */
+function grownInTown(
   core: CoreState,
-  person: PersonState,
+  town: string,
+  besides: PersonId,
 ): PersonId[] {
-  return [...person.familyIds]
-    .filter((id) => {
-      const other = core.people.get(id);
-      return (
-        other?.alive &&
-        other.placeId === person.placeId &&
-        ageOnDate(other.birthDate, core.date) >= GROWN
-      );
-    })
+  return [...core.people.values()]
+    .filter(
+      (other) =>
+        other.id !== besides &&
+        other.placeId === town &&
+        other.alive &&
+        other.tier !== INACTIVE &&
+        ageOnDate(other.birthDate, core.date) >= GROWN,
+    )
+    .map((other) => other.id)
     .sort();
 }
 
@@ -91,26 +95,32 @@ it(
       watchDepartures(core);
       advanceCore(core, addDays(makeIsoDate(core.date), YEAR_DAYS));
       const api = coreAPI(core);
+      // The town the player lives in, whose residents the moves engine weighs.
+      const town = core.people.get(core.playerId!)!.placeId;
       const living = [...core.people.values()]
-        .filter((p) => p.alive)
+        .filter((p) => p.alive && p.placeId === town)
         .sort((a, b) => a.id.localeCompare(b.id));
-      // Someone with five grown relatives in town, read with and without the fifth.
-      const big = living.find((p) => grownRelativesInTown(core, p).length >= 5);
+      // A grown resident, read with five and then four of the town's grown
+      // residents as kin in town (a two-level town's families are small, so
+      // few have five grown relatives there).
+      const big = living.find(
+        (p) =>
+          p.tier !== INACTIVE && ageOnDate(p.birthDate, core.date) >= GROWN,
+      );
       // A household with a home to pay for and no income, read from its records.
       const unpaid = living
         .filter((p) => noIncome(core, p.householdId))
         .map((p) => ({ p, push: pushesOf(api, p) }))
         .find(({ push }) => push.parts.housingCost !== undefined);
-      if (!big || !unpaid) {
+      const grown = big ? grownInTown(core, town, big.id) : [];
+      if (!big || grown.length < 5 || !unpaid) {
         tried.push(
-          `${where}: ${big ? "" : "nobody with five grown relatives in town; "}${unpaid ? "" : "no household with a home and no income"}`,
+          `${where}: ${big && grown.length >= 5 ? "" : "fewer than six grown residents; "}${unpaid ? "" : "no household with a home and no income"}`,
         );
         continue;
       }
-      const grown = grownRelativesInTown(core, big);
-      const elsewhere = [...big.familyIds].filter((id) => !grown.includes(id));
       const kinWith = (relatives: readonly PersonId[]) =>
-        holdsOf(api, { ...big, familyIds: [...elsewhere, ...relatives] }).kin!;
+        holdsOf(api, { ...big, familyIds: [...relatives] }).kin!;
       const withFive = kinWith(grown.slice(0, 5));
       const withFour = kinWith(grown.slice(0, 4));
       const accounts = api.accounts();
