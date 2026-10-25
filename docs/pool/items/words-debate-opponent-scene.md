@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/debate-opponent-scene
-pr:
+pr: #5975
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T18:57:23.918Z

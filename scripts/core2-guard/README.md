@@ -12,7 +12,7 @@ unchanged by these tools.
   Receipts also record the actual checked-out source revision.
 - Performance: `node --import tsx scripts/core2-guard/paired.mjs --base BASE --head HEAD --output /tmp/core2-paired.json`.
   Start with a clean registered checkout. The tool switches revisions
-  sequentially, then restores the original branch or detached commit.
+  in turn, then restores the original branch or detached commit.
 - Detector tests: `node --import tsx --test tests/golden-path/runner.node-test.mjs scripts/core2-guard/compare.node-test.mjs scripts/core2-guard/paired.node-test.mjs`.
   Run heavy commands through the repository storage wrapper in the cloud.
 
@@ -43,14 +43,27 @@ every module the bench installs (`buildBenchWorld`, opening October 12, 2026),
 the same path as `tests/golden-path/played-world.node-test.ts`. A revision
 whose bench can't hand over its opening input falls back to the generated
 opening; `settings.playedWorld` records which path ran.
-One warmup and three independent measured processes run per revision, one
-process at a time. The same seed, place, opening-input hash, settings, host,
-and month horizon must match; incomparable runs fail explicitly. Median
-simulation milliseconds per day determine the ratio. Initialization and opening
-phases are reported separately. A ratio above 1.20 is red. A failed opening-input budget is also red,
-independently of timing. Valid measurements still report both components when
-the baseline already exceeds an input budget. The relative year
-estimate uses the matched month; it is not a full-year two-minute proof.
+One warmup and up to three independent measured processes run per revision,
+one process at a time, base and head alternating so the machine's drift falls
+on both. Each warmup plays `warmupDays`; from the warmups' time a game day and
+their fixed time (process start, opening, modules), the measured runs play the
+longest span up to `measuredDays` (a whole year) whose three pairs and two
+profiles fit the time left with `runTimeMargin`, never shorter than a warmup.
+A small town plays its whole year; a large drawn town plays the part of the
+year that fits, so a town whose month fits compares three pairs instead of
+failing on time; a town too slow for even that measures as many pairs as fit.
+After the first measured pair, another starts only while the last pair's time
+times `runTimeMargin` still fits, and each profile (the head's first) only
+while its last run's time times `profileTimeMargin` does, in case the year's
+later days run slower; the summary names the span and the pairs. The same
+seed, place, opening-input hash, settings, host, and span must match;
+incomparable runs fail explicitly. Median simulation milliseconds per day (the
+mean of the middle two for two pairs) determine the ratio. Initialization and
+opening phases are reported separately. A ratio above 1.20 is red. A failed
+opening-input budget is also red, independently of timing. Valid measurements
+still report both components when the baseline already exceeds an input
+budget. The relative year estimate uses the matched span; it is not a
+full-year two-minute proof.
 
 Peak RSS includes the whole process. The core's existing opening-input byte
 and Source-share budgets are enforced directly. No new RSS ceiling is invented.
