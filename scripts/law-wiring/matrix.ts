@@ -353,6 +353,8 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
       ? [{ place, o: { targets: o.targets, ...picked } }]
       : [];
   });
+  // Lead with the run whose reached targets most often got the payment.
+  own.sort((a, b) => b.o.paid / b.o.targets - a.o.paid / a.o.targets);
   if (direct.length || cited.length || controlCited.length || own.length) {
     const ev = [
       ...direct

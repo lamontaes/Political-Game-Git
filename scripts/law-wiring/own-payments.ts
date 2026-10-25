@@ -196,20 +196,28 @@ export interface OwnPair {
 /**
  * Which payment is the law's own. Among the kinds and directions shared by
  * enough targets (ownLeast) and by at least half as many as the most shared,
- * the one that moved the most money: the law's payment itself (a raise's
- * paycheck, a premium) moves more than what follows from it (the spending a
- * raise allows, the tax withheld from it) or drift (a deposit's interest).
+ * the law's own payment comes first after the law reaches them: a raise's
+ * paycheck, a premium, an employer's tax share, before the spending a raise
+ * allows or a deposit moved later. Of those that began within a week of the
+ * first, the one most targets got, then the one that moved the most money.
  */
 export function pickOwn(targets: number, pairs: readonly OwnPair[]) {
   const most = Math.max(0, ...pairs.map((p) => p.targets));
-  const top = pairs
-    .filter((p) => p.targets >= ownLeast(targets) && p.targets * 2 >= most)
-    .sort(
-      (a, b) =>
-        b.moved - a.moved ||
-        a.earliest.localeCompare(b.earliest) ||
-        a.kind.localeCompare(b.kind),
-    )[0];
+  const enough = pairs.filter(
+    (p) => p.targets >= ownLeast(targets) && p.targets * 2 >= most,
+  );
+  const first = enough.map((p) => p.earliest).sort()[0];
+  const top = first
+    ? enough
+        .filter((p) => p.earliest <= plusDays(first, 7))
+        .sort(
+          (a, b) =>
+            b.targets - a.targets ||
+            b.moved - a.moved ||
+            a.earliest.localeCompare(b.earliest) ||
+            a.kind.localeCompare(b.kind),
+        )[0]
+    : undefined;
   return {
     paid: top?.targets ?? 0,
     pick: top ? `${top.kind}|${top.way}` : null,
