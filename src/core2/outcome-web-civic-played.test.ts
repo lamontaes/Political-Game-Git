@@ -189,16 +189,18 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
         `${where}: ballots of ${result.contestId} kept with their reasons (${ballots.length})`,
       ).toBeGreaterThan(0);
       // Each weighed ballot's standing for a moved candidate is that
-      // candidate's standing in the race record, economy term included (less
-      // the record's part where the voter weighed the incumbent's record
-      // themselves), and differs from the same standing with the economy term
-      // taken out: dropping the economy from appeal fails here.
+      // candidate's standing in the race record, economy term included, with
+      // its local standing (less the record's part where the voter weighed
+      // the incumbent's record themselves), and differs from the same
+      // standing with the economy term taken out: dropping the economy from
+      // appeal fails here.
       for (const b of weighed)
         for (const r of moved) {
           const parts = b.appeal![r.id];
           if (!parts) continue;
-          const full = appealOfShare(r.total);
-          const ownRecord = appealOfShare(r.total - r.record);
+          // A town's own voter weighs the candidate's local standing too.
+          const full = appealOfShare(r.total) + appealOfShare(r.local);
+          const ownRecord = full - appealOfShare(r.record);
           const at = `${where}: ${b.id} on ${r.id}`;
           expect(
             Math.min(
@@ -208,8 +210,8 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
             `${at}: standing ${parts.standing} against the record's ${full}`,
           ).toBeLessThan(1e-9);
           const withoutEconomy = [
-            appealOfShare(r.total - r.economy),
-            appealOfShare(r.total - r.record - r.economy),
+            full - appealOfShare(r.economy),
+            ownRecord - appealOfShare(r.economy),
           ];
           for (const other of withoutEconomy)
             expect(
