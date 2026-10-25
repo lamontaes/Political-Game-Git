@@ -3203,7 +3203,9 @@
     "addedBy": "claude (split from SG-PW8-counted-arrivals)",
     "addedAt": "2026-10-17",
     "replacement": "A counted baby inherits from its counted parents' packed traits through the same family model a full person's child uses.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-25",
+    "resolution": "A counted baby's temperament is drawn by the same rule as every child (temperamentOf in src/core2/opening-personality.ts), from each counted parent's inherited part read back from their kept levels (inheritedPartOf: heritability times their score net of age and sex, plus the spread that leaves). Shown in src/core2/births-counted.test.ts (pool item people-counted-newborn-inherits-temperament)."
   },
   {
     "id": "SG-PW3-counted-engagement-copy",
@@ -3822,7 +3824,7 @@
     "id": "SG-PEOPLE-press-outlet-other-costs",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/press.ts",
-    "line": 733,
+    "line": 754,
     "whatItFakes": "An outlet's books carry its people's pay and no other costs: no printing, broadcast, rent or supplier contracts.",
     "why": "The press records an outlet's staff; its nonpayroll costs have no data yet.",
     "addedBy": "claude/press-outlet-revenue",
@@ -5112,7 +5114,7 @@
     "kind": "missing-data",
     "file": "src/core2/data/laws/outcome-research-gaps.json",
     "line": 7,
-    "whatItFakes": "27 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
+    "whatItFakes": "17 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
     "why": "data/research/outcome-web/links.json has no link from these laws or their measures; the laws' reach, engine reads and money are wired, but an outcome link needs a researched strength, shape and lag before the web can move anything.",
     "addedBy": "claude/law-wiring-audit",
     "addedAt": "2026-10-20",
@@ -5147,9 +5149,9 @@
     "id": "SG-EW-HEALTH-condition-record",
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
-    "line": 1,
-    "whatItFakes": "Child asthma, teen cannabis use and Medicare out-of-pocket drug cost (gas hookup ban, cannabis sales, drug price negotiation) move only the web's number.",
-    "why": "No condition, use or prescription record exists for a child's asthma, a teen's cannabis use or an enrollee's drug spending; condition-pack.ts holds adult chronic conditions only.",
+    "line": 76,
+    "whatItFakes": "Child asthma (gas-hookup-ban-to-child-asthma), teen cannabis use (cannabis-sales-to-youth-use), Medicare out-of-pocket drug cost (drug-negotiation-to-out-of-pocket) and low birth weight from drinking-water violations (water-violations-to-infant-health) move only the web's number.",
+    "why": "No condition, use, prescription or birth-weight record exists for a child's asthma, a teen's cannabis use, an enrollee's drug spending or a newborn; condition-pack.ts holds adult chronic conditions only.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
     "replacement": "A childhood asthma condition, a teen substance-use record and Part D spending on the household's books, each decided from the engine's own records times the web's factor.",
@@ -5159,9 +5161,9 @@
     "id": "SG-EW-HEALTH-unsized-links",
     "kind": "missing-data",
     "file": "src/core2/health-web.ts",
-    "line": 1,
-    "whatItFakes": "Congestion to premature births, heat to deaths, education to mortality and eviction to hospital visits have no researched size, so nothing moves.",
-    "why": "The links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits.",
+    "line": 77,
+    "whatItFakes": "Congestion to premature births (congestion-to-premature-births), heat to deaths (heat-to-deaths), education to mortality (education-to-mortality) and eviction to hospital visits (eviction-to-hospital-visits) have no researched size, and coverage to blood pressure (coverage-to-blood-pressure) and a recession to total mortality (recession-to-total-mortality) find about zero, so nothing moves.",
+    "why": "Four links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits; the two about-zero links run at size 0.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
     "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones.",
@@ -5171,8 +5173,8 @@
     "id": "SG-EW-HEALTH-person-level",
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
-    "line": 1,
-    "whatItFakes": "Coverage to catastrophic bills, medical debt, depression and mortality; job loss to death risk; long hours to heart disease; childhood food stamps to adult health; the earned income credit to low birth weight are person-level links with no cause recorded on the person.",
+    "line": 78,
+    "whatItFakes": "Coverage to catastrophic bills (coverage-to-catastrophic-bills) and depression (coverage-to-depression); job loss to death risk (job-loss-to-death-risk); long hours to heart disease (long-hours-to-heart-and-stroke); childhood food stamps to adult health (child-food-stamps-to-adult-health); the earned income credit to low birth weight (eitc-to-low-birthweight) are person-level links with no cause recorded on the person.",
     "why": "A person's coverage history, displacement, weekly hours, childhood benefit years and a birth weight are not stored.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
@@ -5802,8 +5804,8 @@
     "why": "no measure: the web does not keep health.premature-births and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records health.premature-births for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-labor-earnings-at-30",
@@ -5826,8 +5828,8 @@
     "why": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns health.low-birthweight multiplies its own person, household or organization rate by webReach(api, placeId, \"health.low-birthweight\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Superseded by SG-EW-HEALTH-condition-record, SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on those stopgaps instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-health-heat-deaths",
@@ -5838,8 +5840,8 @@
     "why": "no measure: the web does not keep health.heat-deaths and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records health.heat-deaths for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-housing-ac-share",
