@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/m1-06-default-witness
-pr:
+pr: #6032
 blocked-on:
 after: roadmap-m1-economy-commands
 source: added with npm run pool -- add
