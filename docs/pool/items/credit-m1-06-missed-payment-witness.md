@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/m1-06-default-witness
-pr:
+pr: #6032
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T20:09:14.485Z
