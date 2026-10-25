@@ -240,7 +240,7 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
       ];
       if (!stories.length) expect(scandals).toEqual([]);
       // Ballot by ballot: a voter who had heard a story about a candidate by
-      // the race's day carries a scandal term for them that is not positive,
+      // the race's day carries a negative scandal term for them,
       // and a nonzero scandal term only ever sits with a voter who had.
       const dayOf = new Map(
         run.results.map((row) => [row.contestId, row.date]),
@@ -264,7 +264,7 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
             expect(
               parts.scandal,
               `${where}: ${b.id} heard a story about ${candidateId}`,
-            ).toBeLessThanOrEqual(0);
+            ).toBeLessThan(0);
           } else
             expect(
               parts.scandal,
@@ -275,14 +275,14 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
 
       const one = weighed.find((b) => b.choice) ?? weighed[0]!;
       const r = moved[0]!;
-      console.log(
+      process.stdout.write(
         [
           `civic played: ${where}; played to ${run.date}; ${run.results.length} race results`,
           `economy: ${result.id} on ${result.date}: ${moved.map((m) => `${m.id} (${m.party}) economy ${m.economy.toFixed(5)}, standing ${m.total.toFixed(5)}`).join("; ")}`,
           `the national economy read: unemployment ${economy!.unemploymentChange.toFixed(3)} points and inflation ${economy!.inflationChange.toFixed(3)} points from macro-month:${run.macro?.openingMonth} to macro-month:${run.macro?.latestMonth}`,
           `ballots: ${weighed.length} of ${ballots.length} kept ballots weighed it, e.g. ${one.id} chose ${one.choice ?? "no one"}; standing of ${r.id} there ${one.appeal![r.id]!.standing.toFixed(5)}, total appeal ${one.appeal![r.id]!.total.toFixed(5)}`,
           `scandals: ${stories.length ? stories.join(", ") : "no scandal story about a candidate"}; ${heardBallots} ballot-candidate pairs whose voter had heard a story; ${scandals.length} kept ballots carry a scandal term${scandals[0] ? `, e.g. ${scandals[0].ballot} on ${scandals[0].candidateId} (${scandals[0].parts.scandal})` : ""}; corruption chain: ${JSON.stringify(run.corruption)}`,
-        ].join("\n"),
+        ].join("\n") + "\n",
       );
     } finally {
       setBookkeeping(priorBookkeeping);
