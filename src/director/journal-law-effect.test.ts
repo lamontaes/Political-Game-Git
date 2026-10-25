@@ -36,10 +36,11 @@ it(`a resident's journal names the law they learned changed what they pay, seed 
         placeKey: drawn.key,
       });
       const api = coreAPI(core);
-      // The state body the town's member sits in drafts the bill.
+      // The state legislature the town's member sits in drafts the bill.
       const seat = townSeats(api).find(
         (row) =>
           row.office.level === "state" &&
+          row.office.kind.startsWith("legislature-") &&
           row.holder?.personId &&
           bodyOf(api, row.office.id),
       );
@@ -53,25 +54,29 @@ it(`a resident's journal names the law they learned changed what they pay, seed 
       const bill = draftBill(api, {
         bodyOfficeId: seat.office.id,
         sponsorId: seat.holder!.personId!,
-        provisions: [
-          provisionFor({ policyId: policy.id, operation: "enact" }),
-        ],
+        provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
       });
       const title = billTitleOf(billOf(api, bill.id))?.title;
       expect(title, `${where}: ${bill.id} has a name`).toBeDefined();
-      for (const level of lawChain(api).levels)
-        enactLaw(api, {
-          jurisdiction: level.jurisdiction,
-          level: level.level,
-          series: question,
-          value: 1,
-          effectiveDate: core.date,
-          measureId: bill.id,
-          citation: `Enacted by ${bill.id} in a generated town.`,
-          terms: { enactedByBill: bill.id },
-        });
+      const state = lawChain(api).levels.find((row) => row.level === "state");
+      const law = state
+        ? enactLaw(api, {
+            jurisdiction: state.jurisdiction,
+            level: "state",
+            series: question,
+            value: 1,
+            effectiveDate: core.date,
+            measureId: bill.id,
+            citation: `Enacted by ${bill.id} in a generated town.`,
+            terms: { enactedByBill: bill.id },
+          })
+        : undefined;
+      // A town's own law on the question governs over the state's.
       const lawId = lawInForce(api, question).governing?.id;
-      expect(lawId, `${where}: no law governs`).toBeDefined();
+      if (!law || lawId !== law.id) {
+        tried.push(`${where}: the state's law does not govern the town`);
+        continue;
+      }
       const town = lawChain(api).townPlaceId;
       const residents = [...core.people.values()]
         .filter((p) => p.alive && p.placeId === town && p.tier !== "husk")
@@ -114,9 +119,10 @@ it(`a resident's journal names the law they learned changed what they pay, seed 
             row.sourceRecordIds.includes(String(event.id)),
           );
           expect(
-            line?.text,
-            `${where}: ${personId}'s journal on ${core.date}: ${lines.map((row) => row.text).join(" | ")}`,
-          ).toContain(`the ${title}`);
+            line,
+            `${where}: no line cites ${String(event.id)} in ${personId}'s journal on ${core.date}: ${lines.map((row) => row.text).join(" | ") || "(empty)"}`,
+          ).toBeDefined();
+          expect(line!.text).toContain(`the ${title}`);
           expect(line!.sourceRecordIds).toEqual(
             expect.arrayContaining([String(event.id), lawId, bill.id]),
           );
