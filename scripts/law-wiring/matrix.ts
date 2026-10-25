@@ -350,10 +350,15 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
     if (!o) return [];
     const picked = o.pairs ? pickOwn(o.targets, o.pairs) : o;
     return picked.paid > 0 && picked.paid >= ownLeast(o.targets)
-      ? [{ place, o: { targets: o.targets, ...picked } }]
+      ? [{ place, r, o: { targets: o.targets, ...picked } }]
       : [];
   });
-  // Lead with the run whose reached targets most often got the payment.
+  // Where a run enacted the law, its payments are the law's; a repeal of a
+  // law in force at the opening stops money only where the law pays as it
+  // goes, so the repeal runs count only when no run enacted it. Lead with the
+  // run whose reached targets most often got the payment.
+  const enacted = own.filter(({ r }) => !r.inForceAtOpening);
+  if (enacted.length) own.splice(0, own.length, ...enacted);
   own.sort((a, b) => b.o.paid / b.o.targets - a.o.paid / a.o.targets);
   if (direct.length || cited.length || controlCited.length || own.length) {
     const ev = [

@@ -2406,7 +2406,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open (full 3, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|unemployment-weekly-maximum|person_7578dae5b41b45d0; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. applied|unemployment-weekly-maximum|counted-claimants:person_23062fa91ecdf07d",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 2 open (full 2, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|unemployment-weekly-maximum|person_7578dae5b41b45d0; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 3 open (full 0, counted groups 3/3 people, households 0, orgs 0, govts 0) e.g. applied|unemployment-weekly-maximum|counted-claimants:person_23062fa91ecdf07d",
           "why": ""
         },
         "systems": {
@@ -2416,7 +2416,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing unemployment-weekly-maximum: 2602300 (journal:2025-05-12:30710)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing unemployment-weekly-maximum: 2356800 (journal:2025-05-12:30707); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing unemployment-weekly-maximum: 496000 (journal:2025-12-01:83925); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 2 reached, the payments that changed first: 2 accounts.transfer paid in (src/core2/world-transfer.ts:40; e.g. person_7578dae5b41b45d0 on 2025-05-12: 44600 in the control world, 49100 here, journal:2025-05-12:30707)",
           "why": ""
         },
         "web": {
@@ -2431,7 +2431,7 @@
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 2 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 3 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
@@ -3109,7 +3109,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Cambridge Springs, Pennsylvania, US-PA (seed 8a0a30a37a505): of 70 reached, the payments that changed first: 19 work-payroll paid in (src/core2/work-payroll-cash.ts:2386; e.g. person_4827a24b37f835aa on 2025-01-31: 22390 in the control world, 23963 here, journal:2025-01-31:1833); 19 budgets:withholding paid out (src/core2/modules/budgets.ts:1571; e.g. person_4827a24b37f835aa on 2025-01-31: -2400 in the control world, -2569 here, journal:2025-01-31:1834); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 30 reached, the payments that changed first: 3 accounts.transfer paid out (src/core2/world-transfer.ts:40; e.g. person_a66a51fc6585ef0a on 2025-02-03: -708 in the control world, 0 here, journal:2025-02-03:7493)",
+          "evidence": "Cambridge Springs, Pennsylvania, US-PA (seed 8a0a30a37a505): of 70 reached, the payments that changed first: 19 work-payroll paid in (src/core2/work-payroll-cash.ts:2386; e.g. person_4827a24b37f835aa on 2025-01-31: 22390 in the control world, 23963 here, journal:2025-01-31:1833); 19 budgets:withholding paid out (src/core2/modules/budgets.ts:1571; e.g. person_4827a24b37f835aa on 2025-01-31: -2400 in the control world, -2569 here, journal:2025-01-31:1834)",
           "why": ""
         },
         "web": {
@@ -4920,7 +4920,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:government-operations.independent-redistricting: 3409292 (journal:2025-02-01:1822); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:government-operations.independent-redistricting: 17238780 (journal:2025-02-01:1887); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 reached, the payments that changed first: 1 accounts.transfer paid out (src/core2/budgets-treasury.ts:306; e.g. US-MI on 2025-02-01: -4309695 in the control world, 0 here, journal:2025-02-01:1887); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 reached, the payments that changed first: 1 accounts.transfer paid out (src/core2/budgets-treasury.ts:306; e.g. US-NE on 2025-02-01: 0 in the control world, -852323 here, journal:2025-02-01:1822)",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:government-operations.independent-redistricting: 3409292 (journal:2025-02-01:1822); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:government-operations.independent-redistricting: 17238780 (journal:2025-02-01:1887); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 reached, the payments that changed first: 1 accounts.transfer paid out (src/core2/budgets-treasury.ts:306; e.g. US-NE on 2025-02-01: 0 in the control world, -852323 here, journal:2025-02-01:1822)",
           "why": ""
         },
         "web": {
@@ -6229,7 +6229,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 4 open (full 3, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. applied|unemployment-insurance|counted-claimants:person_56cdad056fceb659; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 8 open (full 5, counted groups 3/3 people, households 0, orgs 0, govts 0) e.g. applied|unemployment-insurance|counted-claimants:person_23062fa91ecdf07d",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 4 open (full 3, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. applied|unemployment-insurance|counted-claimants:person_56cdad056fceb659; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 10 open (full 5, counted groups 5/5 people, households 0, orgs 0, govts 0) e.g. applied|unemployment-insurance|counted-claimants:person_23062fa91ecdf07d",
           "why": ""
         },
         "systems": {
@@ -6239,7 +6239,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing unemployment-insurance: 2363800 (journal:2025-05-12:30710); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing unemployment-insurance: 2131648 (journal:2025-07-21:48314)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing unemployment-insurance: 2631400 (journal:2025-05-12:30707); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing unemployment-insurance: 2004824 (journal:2025-07-21:48488)",
           "why": ""
         },
         "web": {
@@ -6254,7 +6254,7 @@
         },
         "repeal": {
           "status": "n/a",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 4 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 8 open under the changed row -> after the old amount is put back 1 still cite it",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 4 open under the changed row -> after the old amount is put back 2 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 10 open under the changed row -> after the old amount is put back 2 still cite it",
           "why": "A claimant's benefit rights are determined when the claim is established and benefits are payable during the benefit year (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2021, chapter 3, Monetary Entitlement: \"An individual's benefit rights are determined using wages and employment from a specific period of time called a base-period. Once a claim is established, benefits are payable during a period of time called the benefit year.\"). Putting the old terms back governs the claims filed after it; a claim already filed keeps being paid, and recorded, on the terms it was filed under."
         },
         "allPlaces": {
