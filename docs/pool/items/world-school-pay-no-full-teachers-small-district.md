@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/school-pay-small-district
-pr:
+pr: #6000
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T08:05:37.774Z
