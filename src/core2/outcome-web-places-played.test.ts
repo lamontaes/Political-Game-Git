@@ -320,11 +320,21 @@ describe(`transit and road laws reach people's money on the web's own lags in a 
             ).toBe(0);
         if (row.to === SERVICE) {
           // The price engine's settle that reads that month takes the
-          // ridership factor for every household's trips.
-          const settle = settles.find((s) => s.rowId === after!.id);
+          // ridership factor for every household's trips. It settles on the
+          // 3rd from the latest month row, and a law that takes effect just
+          // before can have the web write the next month's row first, so the
+          // settle may read a later month the link runs in.
+          const settle = settles.find((s) => {
+            const read = rows.find((r) => r.id === s.rowId);
+            return (
+              read !== undefined &&
+              read.month >= after!.month &&
+              chained.some((link) => (read.effects[link.key] ?? 0) !== 0)
+            );
+          });
           expect(
             settle,
-            `${where}: a price settle read ${after!.id}`,
+            `${where}: a price settle read ${after!.id} or a later month ${chained.map((link) => link.key).join(", ")} runs in`,
           ).toBeDefined();
           expect(
             settle!.ridership,
