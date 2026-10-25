@@ -8,7 +8,8 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { composeJournal, JOURNAL_DATA } from "./journal";
+import { composeJournal } from "./journal";
+import { JOURNAL_WORDS } from "../english/journal-words";
 
 // The journal as a memoir with hindsight (pool item words-main-line): a moment
 // that weighed little then, told or not, that a later record of the same
@@ -21,7 +22,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const interrupt =
   DEFAULT_DIRECTOR_DATA.parameters.directorInterruptImpact!.value;
 const revisions = new Set(
-  (JOURNAL_DATA.memoir?.revise ?? []).map((row) => row.text),
+  (JOURNAL_WORDS.memoir?.revise ?? []).map((row) => row.text),
 );
 
 it(`a journal revises an early entry only when a later record changed what it meant (seed ${seed})`, () => {
