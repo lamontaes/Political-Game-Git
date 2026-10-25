@@ -5866,12 +5866,12 @@
   "traitWeightStaffHire": {
     "value": 0.2,
     "tag": "ESTIMATED",
-    "citation": "Kardaslar, Kritikos and Menkhoff 2026, Personality Traits of Entrepreneurs and the Size of Their Firms, DIW Discussion Paper 2173, Table 6: openness changes the odds of running a business alone rather than with at least one employee by a factor of 0.776 per standard deviation (SOEP 2019, 2,473 entrepreneurs; row staff.hire in data/research/trait-effect-sizes.json, a proxy: a first employee, not an official's staff; extraversion 1.162 and conscientiousness 1.138 point toward hiring). Carried to the thirds (2.18 standard deviations apart), a log odds gap of 0.55 (odds ratio 1.74). An official's case varies only with the office's budget, so the thirds' odds in play are set by temperament alone at any weight; the weight is the study's log odds gap over the gap in lean between the thirds of officials weighing it: 0.876 in Jerry City, Ohio (72 calls) and 0.826 in New Britain, Connecticut (25 calls), giving 0.63 and 0.67.",
+    "citation": "Kardaslar, Kritikos and Menkhoff 2026, Personality Traits of Entrepreneurs and the Size of Their Firms, DIW Discussion Paper 2173, Table 6: openness changes the odds of running a business alone rather than with at least one employee by a factor of 0.776 per standard deviation (SOEP 2019, 2,473 entrepreneurs; row staff.hire in data/research/trait-effect-sizes.json, a proxy: a first employee, not an official's staff). Carried to the thirds, an odds ratio of 1.74. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.2, where office budgets differ, Blakely, Georgia (1308536, a458468e363e) reaches 2.17 over 35 officials; where every office can afford an aide, as in Stockbridge, Georgia (1373704, bde29897f271), temperament turns none (1.00), the gap row's subject (gov-official-staff-allowance-by-office).",
     "spread": {
-      "low": 0.28,
-      "high": 1.02,
+      "low": 0.15,
+      "high": 0.3,
       "unit": "weight",
-      "citation": "Weight scales with the log odds: the study's interval for openness, 0.673 to 0.895 per standard deviation, gives 0.28 to 1.02."
+      "citation": "The crossed fit's neighbors in Blakely: 0.15 gives 1.71 and 0.3 gives 4.11."
     }
   },
   "traitWeightInterestGroupsMemberJoin": {
@@ -5972,34 +5972,34 @@
   "traitWeightConstituentCasesBringCase": {
     "value": 0.045,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator by 0.92 across the trait's range (row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact), a log odds gap of 0.52 between thirds (odds ratio 1.68). A resident's case now carries the problem's severity and their interest in politics against the effort, so it is fitted by the net odds between the thirds pooled over five played years of drawn places (Louisiana place 2377765, seed 35fd76d836c6; Barrigada, Guam, 59f99c7f10c3; Oregon place 3542740, bb4dfdd3575a; Missouri place 2952418, 1d02d2eb8f70; Washington, District of Columbia, 9596c58bc725): 8,447 weighings, 6.2% brought; 0.02 reaches 1.39 and 0.05 reaches 2.13, so 0.035.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator by 0.92 across the trait's range (row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact), a log odds gap of 0.52 between thirds (odds ratio 1.68). A resident's case carries the problem's severity and their interest in politics against the effort. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.045, one played year each, every module: Blakely, Georgia (place key 1308536, seed a458468e363e) 1.62 over 366 residents; Stockbridge, Georgia (1373704, bde29897f271) 2.87 over 845.",
     "spread": {
-      "low": 0.02,
-      "high": 0.05,
+      "low": 0.03,
+      "high": 0.06,
       "unit": "weight",
-      "citation": "The pooled fit's neighbors: 0.02 gives net odds 1.39 and 0.05 gives 2.13, around the target 1.68."
+      "citation": "The crossed fit's neighbors in the same years: 0.03 gives 1.36 to 2.16 and 0.06 about 1.9 to 3.6."
     }
   },
   "traitWeightConstituentCasesHandleCase": {
     "value": 0.02,
     "tag": "ESTIMATED",
-    "citation": "Barrick and Mount 1991, The Big Five personality dimensions and job performance, Personnel Psychology 44(1): conscientiousness correlates about 0.22 with job performance, an odds ratio of 2.44 between thirds (row constituent-cases.handle-case in data/research/trait-effect-sizes.json, a proxy: an official's diligence with a case as job performance). Fitted with the case's own circumstances (severity, closeness to the resident, the office's open load) pooled over five played years of drawn places (Louisiana place 2377765, seed 35fd76d836c6; Barrigada, Guam, 59f99c7f10c3; Oregon place 3542740, bb4dfdd3575a; Missouri place 2952418, 1d02d2eb8f70; Washington, District of Columbia, 9596c58bc725): at 0.5, with the help base at -0.38, 80% of 582 cases are helped and the net odds ratio between the thirds is 2.15.",
+    "citation": "Barrick and Mount 1991, The Big Five personality dimensions and job performance, Personnel Psychology 44(1): conscientiousness correlates about 0.22 with job performance, an odds ratio of 2.44 between thirds (row constituent-cases.handle-case in data/research/trait-effect-sizes.json, a proxy: an official's diligence with a case as job performance). The official weighs the case's own circumstances (severity, closeness to the resident, the office's open load); nearly every case is helped, so a small weight already turns the few that sit near the line. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.02, one played year each, every module: Blakely, Georgia (1308536, a458468e363e) 3.02 over 10 officials; Stockbridge, Georgia (1373704, bde29897f271) 2.51 over 8.",
     "spread": {
-      "low": 0.3,
-      "high": 0.75,
+      "low": 0.01,
+      "high": 0.025,
       "unit": "weight",
-      "citation": "The pooled fit's neighbors: 0.5 reaches 2.09 to 2.15 at shares of 78 to 82%; 0.75 overshoots to 3.6."
+      "citation": "The crossed fit's neighbors: 0.01 gives about 1 to 1.9 and 0.025 about 5, where the cases near the line all turn."
     }
   },
   "traitWeightStaffFollowThrough": {
     "value": 0.2,
     "tag": "ESTIMATED",
-    "citation": "Barrick and Mount 1991 (as for constituent-cases.handle-case): conscientiousness and job performance, an odds ratio of 2.44 between thirds (row staff.follow-through in data/research/trait-effect-sizes.json). Fitted with the staffer's work quality and the office's open load pooled over five played years of drawn places (Louisiana place 2377765, seed 35fd76d836c6; Barrigada, Guam, 59f99c7f10c3; Oregon place 3542740, bb4dfdd3575a; Missouri place 2952418, 1d02d2eb8f70; Washington, District of Columbia, 9596c58bc725): at 1.0, with the follow-through bar at 0.6, 81% of 385 helped cases are seen through and the net odds ratio is 2.51.",
+    "citation": "Barrick and Mount 1991 (as for constituent-cases.handle-case): conscientiousness and job performance, an odds ratio of 2.44 between thirds (row staff.follow-through in data/research/trait-effect-sizes.json). A staffer weighs their work quality against the follow-through bar and the office's open load. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.2, one played year each, every module: Blakely, Georgia (1308536, a458468e363e) 1.38 over 10 staffers; Stockbridge, Georgia (1373704, bde29897f271) 2.95 over 10.",
     "spread": {
-      "low": 0.75,
-      "high": 1.0,
+      "low": 0.15,
+      "high": 0.25,
       "unit": "weight",
-      "citation": "The pooled fit's neighbors: 0.75 reaches 2.08 and 1.0 reaches 2.51 at an 81% share."
+      "citation": "The crossed fit's neighbors: 0.15 gives 1.07 to 2.76 and 0.25 gives 1.92 to 3.42."
     }
   },
   "traitWeightJobsBenefitsFileClaim": {
