@@ -145,6 +145,17 @@
       "entry": "setting"
     },
     {
+      "kindPrefix": "event:law.effect-learned",
+      "turn": false,
+      "eventFacts": {
+        "law": {
+          "fact": "lawId",
+          "format": "lawName"
+        }
+      },
+      "entry": "story"
+    },
+    {
       "kindPrefix": "event:life.death",
       "turn": true,
       "title": [
