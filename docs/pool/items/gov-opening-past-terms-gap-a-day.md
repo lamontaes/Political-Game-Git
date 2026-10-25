@@ -5,9 +5,9 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/past-terms-gap
-pr:
+pr: #5974
 blocked-on:
 after:
 source: added by EFFECT-WEB-WIRING
