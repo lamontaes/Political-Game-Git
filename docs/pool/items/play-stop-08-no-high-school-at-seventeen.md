@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: blocked
 claimed-by: claude/play-stop-08-high-school
 pr: #6038
-blocked-on:
+blocked-on: owner-installed-build-acceptance
 source: added with npm run pool -- add
 lead: m0-m2
 milestone: play-first
