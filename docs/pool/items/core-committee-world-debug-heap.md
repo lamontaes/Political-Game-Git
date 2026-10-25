@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T08:33:33.800Z
 **Files.** src/core2/legislature-committees.test.ts, src/core2/bookkeeping.ts, src/core2/state.ts
 
 **Notes.** Found during Merger 1 review of #5981 on October 24, 2026. Main resource failure is separate from the undefined occupationClassification producer bug.
+
+Split Oct 25: the three retention leaks found while measuring this world are `core-memory-circle-retention-leaks`. With them the Gastonia world's heap at day 660 (November 11, 2026) falls from 4,169 MB to 3,489 MB, and the unchanged test runs to 5,754 seconds instead of 4,492, but it still runs out of its 5 GiB heap (4,772 MB live after the last full collection). What remains is the fall 2026 election: the player's circle grows to 358 people, each focused person weighs up to 55 drive responses a day, and every witnessed event copies its facts into each witness's knowledge (1.6 million of 2.2 million known facts belong to focused people at day 660). Under the Oct 12 memory ruling ("summarize or drop old detail"), the next cuts are one shared copy of an event's facts instead of one per witness, and old focus that the player no longer deals with leaving the circle.
