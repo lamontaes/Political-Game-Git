@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/speed-observe-in-play
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T11:35:27.498Z
+claimed-at:
 ---
 
 **What.** The core API's observe (src/core2/state.ts) runs for every fact anyone learns: each story heard and each of its facts, each conversation, each event a person perceives. In play it still parses the fact's learned-at date, refuses a fact dated after today, and stores a copy of the fact rather than the fact. Its own time is 1.36 s of Long Hill, Connecticut's profiled year (seed m7b), and every caller passes a new object literal, so the copy guards nothing. Run the date checks and the copy only with bookkeeping on, as the owner's rule says, and store the caller's fact in play.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T11:35:27.498Z
 **Files.** src/core2/state.ts
 
 **Notes.** Filed Oct 25 by the speed lead; all 39 callers outside tests pass an object literal (grep of api.observe).
+
+Built and measured Oct 25 (speed lead), not shipped: branch `claude/speed-observe-in-play` at b34c71d947 is exact (deep fingerprints identical: Long Hill year one `3350c66a3805f1e8`; Stanardsville years one to three `176370fb6d3c2ba1`, `3ccb0a9002236aa5`, `4be9e9254da3aaf3`), but in a profiled pair of Long Hill's year (152.8 against 150.8 s, 0.987) `observe` falls only from 1.7 to 1.4 s (18 percent), short of this item's third. Most of its time is the write into each person's knowledge map, not the checks or the copy. Recommend dropping the item; claim released.
