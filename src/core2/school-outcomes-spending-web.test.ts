@@ -45,8 +45,8 @@ const MEASURE = SCHOOL_MEASURE.graduation;
 const RAISE = 0.1;
 /** Eight times the line: by June the web's twelve-year mean of the cause gives an effect of about 0.1 to 0.3. */
 const FAR_RAISE = 8;
-/** From late January through the last day of school. */
-const DAYS = 165;
+/** A full played year, including the graduation records from its school year. */
+const DAYS = 365;
 const ATTEMPTS = 5;
 
 interface World {
@@ -114,7 +114,7 @@ function raiseSchoolsLine(core: CoreState, placeId: string, raise: number) {
   };
 }
 
-/** Plays the world from the game start to the end of the school year; null where the amended world gives no signal. */
+/** Plays the world for a full year from the game start; null where the amended world gives no signal. */
 function play(
   drawn: Drawn,
   how: { amend?: number },
@@ -148,6 +148,7 @@ function play(
       if (!signal) return { skipped: "the raise left the budget in force" };
     }
   }
+  expect(core.date, `${drawn.name}: full-year boundary`).toBe(end);
   return { core, placeId: built.placeId, amended };
 }
 

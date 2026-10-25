@@ -49,8 +49,8 @@ const CARRIERS = [
 ] as const;
 /** Many times the researched sizes, so a small town's students can show the read. */
 const SHIFT = 0.3;
-/** From late January through the last day of school. */
-const DAYS = 165;
+/** A full played year, including the graduation records from its school year. */
+const DAYS = 365;
 const ATTEMPTS = 5;
 
 type Drawn = ReturnType<typeof drawPlace>;
@@ -61,7 +61,7 @@ const rows = <T>(core: CoreState, name: string) =>
     .table(name)
     .rows() as unknown as T[];
 
-/** Plays from the game start to the end of the school year, the twin with one link's effect on every month row. */
+/** Plays a full year from the game start, the twin with one link's effect on every month row. */
 function play(drawn: Drawn, link?: string) {
   const opening = gameStartDate();
   const built = buildBenchWorld(drawn.seed, opening, {
@@ -88,6 +88,7 @@ function play(drawn: Drawn, link?: string) {
             effects: { ...row.effects, [link]: SHIFT },
           } as never);
   }
+  expect(core.date, `${drawn.name}: full-year boundary`).toBe(end);
   return { core, placeId: built.placeId };
 }
 
@@ -199,5 +200,5 @@ describe(`the carried school links reach students through their carriers (seed $
     console.log(
       `school carriers: ${where}, test seed ${seed}${tried.length ? `; drawn again after ${tried.join("; ")}` : ""}.\n${lines.join("\n")}`,
     );
-  }, 3_600_000); // four played half-years in one town, one after the other
+  }, 3_600_000); // four played years in one town, one after the other
 });
