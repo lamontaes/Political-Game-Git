@@ -5154,9 +5154,20 @@
     }
   },
   "truthDefaultPull": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "How strongly a hearer leans toward believing a claim they cannot check, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest. With traitLeanScale, only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a lie.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "scaled trait lean",
+      "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
+    }
+  },
+  "believeStrangerPull": {
     "value": 0.1,
     "tag": "TUNABLE",
-    "citation": "How strongly a hearer leans toward believing a claim from a stranger with nothing to go on, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest, so a stranger's bare word sits a little above even. With the decision's weight (traitWeightConversationBelieveClaim), only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a stranger's claim; a teller the hearer is close to (believeClosenessWeight) and a claim that fits where the hearer already leans (believeFitWeight) add to it, so about 95% of the stories and speeches heard in a played election-window year (Halfway, Missouri, seed 3e9ed70a5fb7) are taken in.",
+    "citation": "How strongly a hearer leans toward believing a story or speech from a stranger with nothing to go on, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest, so a stranger's bare word sits a little above even. With the decision's weight (traitWeightConversationBelieveClaim), only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a stranger's claim; a teller the hearer is close to (believeClosenessWeight) and a claim that fits where the hearer already leans (believeFitWeight) add to it, so about 95% of the stories and speeches heard in a played election-window year (Halfway, Missouri, seed 3e9ed70a5fb7) are taken in. The player's own claims in a conversation are still read by the director's doubtsClaim at truthDefaultPull (SG-TRAITS-director-claims-reader).",
     "spread": {
       "low": 0,
       "high": 0.3,

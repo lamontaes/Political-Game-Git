@@ -2,121 +2,121 @@
   "version": 1,
   "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
   "formulaSiteAliases": {
-    "src/core2/modules/jobs.ts:2026": "jobs.counted-retire",
-    "src/core2/modules/jobs.ts:2167": "jobs.counted-look",
-    "src/core2/modules/jobs.ts:2237": "jobs.counted-look",
-    "src/core2/modules/business.ts:1513": "business.counted-found"
+    "src/core2/modules/jobs.ts:2262": "jobs.counted-retire",
+    "src/core2/modules/jobs.ts:2517": "jobs.counted-look",
+    "src/core2/modules/jobs.ts:2587": "jobs.counted-look",
+    "src/core2/modules/business.ts:1542": "business.counted-found"
   },
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
-      "why": "Runs about 4 times a year (a lobbyist's first meeting with a member on a bill with employer costs, src/core2/modules/interest-groups.ts:372); the yes score never beats corruptionHonestPull 3, so every offer is declined and the trait never turns one.",
-      "fix": "Weigh the stake against the official's own money need and calibrate the honesty pull from the honesty-humility effect size."
+      "why": "Ran 4,407 times in the election-window audit (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03): at a lobbyist's first meeting with a member on a bill with employer costs (src/core2/modules/interest-groups.ts:396) and at contract awards (src/core2/modules/contracts.ts:150). Every offer was declined in the drawn, flat and mirrored worlds: the yes score never beats corruptionHonestPull 3 (src/core2/modules/corruption.ts:322), so personality never turns one.",
+      "fix": "Weigh the stake against the official's own money need and calibrate the honesty pull from the honesty-humility effect size (pool item people-corruption-honest-pull-calibrated)."
     },
     "corruption.take": {
       "class": "trigger needs a record nobody writes",
-      "why": "Runs only after an offer says yes (src/core2/modules/corruption.ts:177); no offer did.",
-      "fix": "Same as corruption.offer."
+      "why": "Weighed only after an offer says yes (src/core2/modules/corruption.ts:187). None of the 4,407 offers in the election window did; a declined offer returns at :220 before any crime row is written.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "corruption.tell": {
       "class": "trigger needs a record nobody writes",
-      "why": "Needs a taken bribe's crime row (src/core2/modules/corruption.ts:215); none was written.",
-      "fix": "Same as corruption.offer."
+      "why": "Weighed only for a taken bribe: when a party's closeness to the other falls (src/core2/modules/corruption.ts:363, from onRelationshipChange) and when a told listener weighs going to the press (:437). Both need a crime row with taken true, and none was written.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "justice.report": {
       "class": "trigger needs a record nobody writes",
-      "why": "Needs a crime row from corruption (src/core2/modules/justice.ts:250); ran twice from other crimes.",
-      "fix": "Same as corruption.offer."
+      "why": "Justice's only source of crimes is the corruption table: the daily intake reads refused offers (src/core2/modules/justice.ts:250-260) and onTold reads a party's telling (:1465-1475). A declined offer writes no crime row (src/core2/modules/corruption.ts:220), so none arrived; the report's reasons are read at justice.ts:283.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "justice.prosecute": {
       "class": "trigger needs a record nobody writes",
-      "why": "Follows a report (src/core2/modules/justice.ts:300).",
-      "fix": "Same as corruption.offer."
+      "why": "Follows a report (src/core2/modules/justice.ts:371).",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "justice.plea": {
       "class": "trigger needs a record nobody writes",
-      "why": "Follows a charge (src/core2/modules/justice.ts:549).",
-      "fix": "Same as corruption.offer."
+      "why": "Follows a charge (src/core2/modules/justice.ts:573).",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "press.tip": {
       "class": "trigger needs a record nobody writes",
-      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts:2049).",
-      "fix": "Same as corruption.offer."
+      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts:275, :2081); the tip is weighed at :2144. leakToReporter (:2245) is the player's own leak.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "recalls.organize": {
       "class": "no trigger",
-      "why": "Only a county or city ordinance taking effect starts one, and only where the state allows recall without grounds (src/core2/modules/recalls.ts:159, :190); most places have no petition recall or require grounds.",
-      "fix": "Let a reported scandal or crime start a for-cause recall where the state requires grounds."
+      "why": "Only a city or county ordinance taking effect starts one (src/core2/modules/recalls.ts:83 onEvent, :349 weighOrdinance), and it returns before weighing anyone where the state's municipal doctrine allows no petition recall (:338, recallRule is null) and where the state requires grounds (:368). Over the 56 places (resolveMunicipalRecallRule), 14 allow a recall without grounds, 8 only for cause and 34 not at all (17 whose state prohibits it, 15 with no state row that take the national estimate of prohibited, 2 judicial-trial states). The election-window place is one of the 15, so no organizer was ever weighed.",
+      "fix": "Let a reported scandal or crime start a for-cause recall where the state requires grounds, and read each of the 34 places' own rule instead of the national estimate of prohibited (pool item gov-recall-for-cause-start)."
     },
     "recalls.sign": {
       "class": "no trigger",
-      "why": "Follows an organizer (src/core2/modules/recalls.ts:299).",
-      "fix": "Same as recalls.organize."
+      "why": "Follows an organizer: startRecall (src/core2/modules/recalls.ts:480) weighs each signer at :502.",
+      "fix": "Same as recalls.organize (pool item gov-recall-for-cause-start)."
     },
     "recalls.vote": {
       "class": "no trigger",
-      "why": "Needs a recall on the ballot (src/core2/modules/recalls.ts:380).",
-      "fix": "Same as recalls.organize."
+      "why": "Needs a recall on the ballot after a petition with enough signatures (src/core2/modules/recalls.ts:565-616).",
+      "fix": "Same as recalls.organize (pool item gov-recall-for-cause-start)."
     },
     "ballot-measures.vote": {
       "class": "no study number",
-      "why": "Runs on a measure's election day: 123 and 0 voters weighed it in the two election-window years (the place's own next race, TRAIT_AUDIT_ELECTION=1). No study gives a size, so the general weight of 1 stands, and at weight 1 the trait term settles the vote: the third leaning most toward change backed the measure 0.80 of the time and the third leaning least 0.00 in Halfway, Missouri (2929962, seed 3e9ed70a5fb7) (flat 0.78 and 0.61), an overwhelming odds ratio.",
-      "fix": "Calibrate to the single-decision range (1.1 to 1.3 per standard deviation) once the vote weighs more of the voter's own circumstances than their view of the question."
+      "why": "Runs on a measure's election date, so only in an election-window year (TRAIT_AUDIT_ELECTION=1): 123 voters weighed it in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026), none in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026), whose calendar holds no measure that year; main's audit found 277 in Parkway, Missouri (seed e6ff0d60d6bc). No study gives a size, so the general weight of 1 stands, and at weight 1 the trait term settles the vote: in Halfway the third leaning most toward change backed the measure 0.80 of the time and the third leaning least 0.00 (flat 0.78 and 0.61), net odds about 148.",
+      "fix": "Weigh more of the voter's own circumstances than their view of the question, then calibrate to a cited size (traits-wire-civic)."
     },
     "voting.turnout": {
-      "class": "runs only where a race falls in the year",
-      "why": "The default audit year (January 20, 2025 to January 20, 2026) holds a race in few places; with TRAIT_AUDIT_ELECTION=1 the audit plays the year around the drawn place's own next race and turnout ran 594 and 1349 times in the two places. Its weight is cited to Mondak et al. 2010.",
-      "fix": "Run the audit with TRAIT_AUDIT_ELECTION=1."
+      "class": "runs only in an election window",
+      "why": "Runs on an election day; most places hold none in the default audit year. With TRAIT_AUDIT_ELECTION=1 it ran 594 times in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 1,349 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026) (2,681 in Parkway, Missouri, seed e6ff0d60d6bc). Its weight (0.79) is cited to Mondak et al. 2010 (odds ratio 1.98): net odds 2.12 in Halfway and 3.77 in Marblehead.",
+      "fix": "Audit the place's own election window (TRAIT_AUDIT_ELECTION=1); Marblehead's high odds stay open under traits-wire-civic."
     },
     "voting.back-incumbent": {
       "class": "no study number",
-      "why": "Runs where a race with an incumbent falls in the played year (TRAIT_AUDIT_ELECTION=1; 3413 and 4712 appeals weighed in the two years). No study gives a size either, so the general weight of 1 stands. At weight 1 the third leaning most toward the incumbent backs them 0.71 of the time and the third leaning least 0.64 (flat 0.50 and 0.59).",
-      "fix": "Calibrate when a study gives the size."
+      "why": "Runs where a race with an incumbent falls in the played year (TRAIT_AUDIT_ELECTION=1): 3,413 appeals in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 4,712 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026). No study gives a size, so the general weight of 1 stands. In Halfway the third leaning most toward the incumbent backs them 0.71 of the time and the third leaning least 0.64 (flat 0.50 and 0.59), net 1.98; in Marblehead 1.00 and 0.79 (flat 0.92 and 0.93), net about 378.",
+      "fix": "Calibrate when a study gives the size, at the single-decision range meanwhile (traits-wire-civic)."
     },
     "voting.exit-poll": {
-      "class": "runs only where a race falls in the year",
-      "why": "Runs after a race in the played year (TRAIT_AUDIT_ELECTION=1; 94 and 12 voters told or declined in the two places). No study gives a size, so the general weight of 1 stands; at weight 1 the third leaning most toward telling told 1.00 of the time and the third leaning least 0.65 in Halfway, Missouri (2929962, seed 3e9ed70a5fb7).",
-      "fix": "Calibrate when a study gives the size."
+      "class": "no study number",
+      "why": "Runs after a race in the played year (TRAIT_AUDIT_ELECTION=1): 94 voters told or declined in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 12 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026). The case without temperament is below zero in every call, so temperament decides each one (turned 88% and 100%). No study gives a size, so the general weight of 1 stands; in Halfway the third leaning most toward telling told 1.00 of the time and the third leaning least 0.65, net 35.",
+      "fix": "Give the case the voter's own reasons to tell or decline, then calibrate to a survey-response size (traits-wire-civic)."
     },
     "campaigns.answer-poll": {
-      "class": "rare by nature",
-      "why": "Needs a campaign that has set aside enough for a poll (src/core2/modules/campaigns.ts, pollFund against pollMinimumInterviews); no local campaign in four played places did.",
-      "fix": "Weight calibrated from the adults of a drawn town (campaigns.traits.test.ts); the call-time path runs when a state or federal campaign raises enough."
+      "class": "runs only in an election window",
+      "why": "Runs once a campaign has set aside enough for a poll (src/core2/modules/campaigns.ts, pollFund against pollMinimumInterviews). With TRAIT_AUDIT_ELECTION=1 it ran 12,215 times (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-06-25); no local campaign in four default-year places raised enough.",
+      "fix": "Weight calibrated from the adults of a drawn town (campaigns.traits.test.ts); audit the place's own election window (TRAIT_AUDIT_ELECTION=1)."
     },
     "offices.accept-appointment": {
       "class": "rare",
-      "why": "Runs only when a serving local official dies or moves away and the post fills by appointment (src/core2/modules/offices.ts:1067).",
-      "fix": "Add resignation as a vacancy cause."
+      "why": "Weighed only when a city, county or township seat falls vacant and the post fills by appointment: fillVacancy's appoint (src/core2/modules/offices.ts:1135, decision read at :1162) offers the post only to a city, county or township seat, only under a vacancy rule that appoints (successor, appointment, or appointment-then-special, called at :1216, :1218 and :1238), and only when no named successor is given first (:1190). A vacancy needs the serving official to die or move away; none did in the election window.",
+      "fix": "Audit a drawn year that holds a local vacancy filled by appointment (traits-accept-appointment-vacancy-proof)."
     },
     "constituent-cases.handle-case": {
-      "class": "no trigger (staff takes the case first)",
-      "why": "A staffer's decision is tried first (src/core2/modules/constituent-cases.ts:451), so the official's own read never runs where an official has staff.",
-      "fix": "Let the official's own lean set what the staffer is told."
+      "class": "rare (staff takes the case first)",
+      "why": "The official's own read (src/core2/modules/constituent-cases.ts:437, ownCaseDecision) runs only for an official with no staffer: officeHandles hands every case to a staffer first (:451). Ran 2 times in one election-window run (first 2026-01-09) and none in a later one.",
+      "fix": "The official decides every case first and the staffer carries it out (traits-wire-integrity, PR 5715); its circumstances vary with traits-integrity-cases-vary."
     },
     "conversation.reply-reach": {
       "class": "no trigger (player only)",
-      "why": "Read only in a conversation the player opens.",
+      "why": "Read only to rank the replies offered to the player in a conversation the player opens (src/director/conversation.ts:2003, :2036) and in the player's speech builder (src/director/speech-builder.ts:281, from src/bench/campaign.ts).",
       "fix": "Player-only by design; covered by the player's conversations."
     },
     "bring-it-up.blame": {
       "class": "no trigger (player only)",
-      "why": "Read only in a conversation the player opens (src/director/bring-it-up.ts:105).",
+      "why": "Read only when a person raises a change in a conversation the player opens: leansToBlame (src/director/bring-it-up.ts:125, decision read at :133) is reached from believedCause (:141), which bringItUp (:206) calls from the bench handler (src/bench/handler.ts:382) and the grading tool.",
       "fix": "Player-only by design."
     },
     "press.dig": {
-      "class": "runs only on a date outside the year",
-      "why": "Follows an interview answer that contradicts a record (src/core2/modules/press.ts:1753).",
-      "fix": "Same as voting.turnout."
+      "class": "no trigger (player only)",
+      "why": "Two routes. An interview answer whose move is a lie schedules the reporter's check (src/core2/modules/press.ts:1773-1780, read at :1845), but candidateAnswers gives every candidate who is not the player the move 'plain' (:1929, :1935), so only the player's interview can lie: 168 interviews were accepted in the election window and none dug. A tipped crime reaches the dig at :2166, which needs a taken bribe.",
+      "fix": "Let a simulated candidate whose stated position contradicts their recorded vote answer with the lie move, from their own honesty, ties and the record; the reporter's check then runs from the press engine's own rule (pool item press-world-candidates-answer-from-record)."
     },
     "estates.will": {
       "class": "rare",
-      "why": "Runs when someone with an estate dies (src/core2/estates.ts:283).",
-      "fix": "None needed; rare by nature."
+      "why": "Runs when someone with an estate dies (src/core2/estates.ts:159). Ran 3 times in the election window (first 2026-10-08).",
+      "fix": "The calls run, but a retained decision or owning estate record witness remains unproved; capture and verify it in the audit without adding production history for the wider population (pool item traits-audit-will-record-proof)."
     },
     "office-day-state.clemency": {
-      "class": "rare",
-      "why": "A weekly clemency petition for a governor who is not the player is in review on another branch.",
-      "fix": "In flight elsewhere."
+      "class": "no trigger (no prisoner)",
+      "why": "Weighed on a governor's weekly review day (src/core2/office-day-state.ts:422-427, read at :761-770) only when clemencyDue (:468) finds a state prisoner in custody (src/core2/modules/justice.ts:1305). Custody comes only from a sentence (justice.ts:932, imprison), and justice's only source of crimes is the corruption table, which wrote none, so no governor had a petition to review.",
+      "fix": "Same as corruption.offer: once any crime reaches a sentence, the governor's review has someone to weigh (pool item people-corruption-honest-pull-calibrated)."
     },
     "housing.buy-home": {
       "class": "weight too small",
@@ -158,35 +158,85 @@
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
     },
+    "voting.stand-again": {
+      "class": "dead while candidacy is installed",
+      "why": "standsAgain (src/core2/modules/voting.ts:319) is read only from fileStandingCandidates (:1126), which returns at :1132 whenever the candidacy module is installed, and candidacy owns every incumbent's decision to run or stay out (its own decision, candidacy.run). Every played world installs candidacy, so the call at :1196 is never reached, in the election window as in the default year.",
+      "fix": "Fold the age term (standAgainReason, voting.ts:334) into candidacy's reasons for an incumbent and delete standsAgain and the stand-in branch, or measure the decision only in a world built without candidacy (pool item elections-stand-again-dead-with-candidacy)."
+    },
+    "appointments.weigh": {
+      "class": "runs only at the opening and on a vacancy",
+      "why": "The appointer's loyalty against merit (src/core2/appointments.ts:56) is read whenever a post is filled. The town's department heads and the state's cabinet are filled when the executive module opens (src/core2/modules/executive.ts:151-152), before the audit's probe is on; afterward only a department head who dies or moves away (executive.ts:1168-1172) or a newly seated governor (:1197) fills one, and neither happened in the election window.",
+      "fix": "Count the opening's calls apart from the played year, with an appointment's record id (traits-audit-opening-appointments)."
+    },
+    "housing.settle-arrears": {
+      "class": "no trigger (fill-in only)",
+      "why": "Runs only when a counted household with an open eviction case is filled in (src/core2/modules/housing.ts:2041 onFillIn, :2057), which happens when the player meets or clicks one of its members. The other engines' fill-ins (staff.ts:677, candidacy.ts:730, constituent-cases.ts:275, campaigns.ts:806, press.ts:2563, housing-homeless.ts:508, housing-foreclosure.ts:331) reached no such household.",
+      "fix": "A household behind on rent settles what it can each month from its spare cash, full and counted by the same rule, so a fill-in only carries the record (traits-wire-money, PR 5587: 20 and 5 weighings in its two drawn towns)."
+    },
+    "legislature.poison-pill": {
+      "class": "rare",
+      "why": "movesPill (src/core2/modules/legislature.ts:3335) is asked only after floorAmendments (:3145) finds a bill that would pass (:3283), an opponent, and a section of the opponent's own that a majority of the roll would adopt and that leaves fewer than the votes needed (:3294-3319). No bill got that far in the election window; which of the guards held was not measured.",
+      "fix": "Measure which guard holds across a session; if the section search is too narrow (pillCandidates), widen it so a contested bill reaches the member's own decision (pool item gov-poison-pill-guards-measured)."
+    },
+    "relationships.fall-out": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Runs when a relationship change carries negative hours (src/core2/state.ts:1068, src/core2/closeness.ts:259). Two engines write them: a grudge drive's confrontation (src/core2/modules/drives.ts:1809), offered only against a living person (:1583) while the drive's target is the employer, landlord or closed business it blames (src/core2/data/drives.json:685-694), so no confrontation was offered; and a taken bribe the official voted against (src/core2/modules/corruption.ts:545), which needs a taken bribe.",
+      "fix": "Let a grudge drive name the person behind the organization (the manager who fired, the landlord who evicted) so a confrontation can be offered; the bribe route follows corruption.offer (pool item people-grudge-confront-person)."
+    },
     "interest-groups.employer-join": {
       "class": "no study number",
       "why": "Runs when a bill before the council costs the town's employers (src/core2/modules/interest-groups.ts, employerStakes) and the employer's owner is a person: most owners are counted until met, and they now weigh joining through the same formula as a named owner. 3 and 2 employers weighed joining in the two played years. No study gives a size, so the general weight of 1 stands.",
-      "fix": "Calibrate when a study gives the odds of an owner joining a trade association by trait."
+      "fix": "Calibrate when a study gives the odds of an owner joining a trade association by trait (traits-wire-civic)."
     },
     "jobs-benefits.file-claim": {
       "class": "too few calls to fit",
       "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds), but only 6 and 14 eligible people weighed filing in a played year, so trait-calibrate has too few calls and the general weight of 1 stands. Temperament turned 1 of 6 and 1 of 14 of them.",
-      "fix": "Calibrate when a run weighs 30 or more claims (several places pooled, or a year with layoffs)."
+      "fix": "Calibrate when a run weighs 30 or more claims (several places pooled, or a year with layoffs) (research-unemployment-claim-take-up)."
     },
     "press.follow-news": {
       "class": "size, not a choice",
       "why": "Sindermann 2021 gives extraversion r 0.16 with the number of news sources a person uses (odds ratio 1.90 between the thirds). The decision is a habit score added to the person's engagement, a size, not a yes or no, so trait-calibrate cannot fit it from the audit's kept calls and the general weight of 1 stands. At weight 1 the third leaning most toward following over the third leaning least differs by a shift of +1.26 habit-score units and a shift of +1.15 habit-score units net of flat (the trait term is larger than the whole spread of engagement between people) (26 and 103 people).",
-      "fix": "Fit the weight from the kept outcomes (the matrix's outcome thirds) once the calibration script can fit a size."
+      "fix": "Fit the weight from the kept outcomes (the matrix's outcome thirds) once the calibration script can fit a size (traits-research-weights-civic-money)."
     },
     "speech.retell": {
       "class": "circumstances saturate the choice",
       "why": "Hibbing, Ritchie and Anderson 2011 give conscientiousness 0.63 on talking about local politics with family (odds ratio 1.49 between the thirds). The listener keeps a fixed reason to stay quiet (0.6) against a retelling reason of 0.01 to 0.04 for how far the speech moved them, so temperament alone sorts who retells: the third leaning most toward retelling retold 0.26 and the third leaning least 0.00 at weight 1, and no weight up to 0.2 in steps of 0.005 comes near the study (trait-calibrate cannot reach it). The general weight of 1 stands.",
-      "fix": "Give the retelling its own circumstances (how close the household members are, how much the speech matters to them), then calibrate to the study."
+      "fix": "Give the retelling its own circumstances (how close the household members are, how much the speech matters to them), then calibrate to the study (traits-retell-circumstances)."
     },
     "views.persuasion": {
       "class": "size, not a choice",
       "why": "Hibbing, Ritchie and Anderson 2011 give openness 0.66 of the full range on being moved toward a discussion partner's view (odds ratio 1.37 between the thirds). The decision scales how far an argument moves a view, a size, so trait-calibrate cannot fit it and the general weight of 1 stands (stopgap SG-TRAITS-persuasion-size). At weight 1 the move is larger in the third leaning most toward yielding by a factor of 2.76 and a factor of 2.53 net of flat, within a factor of 3 of the study.",
-      "fix": "Fit the weight from the kept outcomes once the calibration script can fit a size."
+      "fix": "Fit the weight from the kept outcomes once the calibration script can fit a size (traits-research-weights-civic-money)."
     },
     "views.trust": {
       "class": "size, not a choice",
       "why": "Sindermann 2021 gives agreeableness r 0.20 with general trust (odds ratio 2.24 between the thirds). The decision scales a speaker's standing with the hearer, a size, so trait-calibrate cannot fit it and the general weight of 1 stands (stopgap SG-TRAITS-persuasion-size). At weight 1 the standing differs between the thirds by a factor of 1.63 and a factor of 1.38 net of flat.",
-      "fix": "Fit the weight from the kept outcomes once the calibration script can fit a size."
+      "fix": "Fit the weight from the kept outcomes once the calibration script can fit a size (traits-research-weights-civic-money)."
+    },
+    "parties.join": {
+      "class": "circumstances saturate the choice",
+      "why": "The case is a fixed base (partiesJoinBase 0.5, src/core2/modules/parties.ts:340 and :751), so it is above zero in every call and temperament turns only the few who lean hardest against joining: 12 of 13 joined in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) (1 turned) and 65 of 66 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026) (1 turned). The thirds' net odds come to 3.14 in Marblehead against the study's 2.11 at weight 0.75; Halfway's 13 calls are too few to split.",
+      "fix": "Weigh what joining costs and brings the person (dues, time, friends already in the party) so the case sits near even for some, then refit the weight (traits-wire-civic)."
+    },
+    "interest-groups.lobbyist": {
+      "class": "circumstances saturate the choice",
+      "why": "The case is the log of what the bill costs the member's employer against the group's dues (src/core2/modules/interest-groups.ts:482 and :500), above zero in every call: 517 of 518 said yes in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 1,057 of 1,059 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026), temperament turning 1 and 2. The thirds' net odds come to 3.02 and 5.03 against the study's 1.86 at weight 0.3.",
+      "fix": "Weigh what speaking for the group costs the member (their hours, their standing with the official) against the stake, then refit the weight (traits-wire-civic)."
+    },
+    "meetings.take-part": {
+      "class": "size, not a choice",
+      "why": "Temperament scales a resident's drive to stand up at a meeting (src/core2/modules/meetings.ts:159), a size: the drive with temperament is 1.16 times the drive without it between the thirds in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 1.17 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026), at weight 0.16. The study's 2.97 is an odds ratio for attending, and the audit does not yet measure who stood up by thirds.",
+      "fix": "Measure who stood up at each meeting by thirds of lean against the study's odds, then refit the weight (traits-wire-civic)."
+    },
+    "meetings.hold-town-hall": {
+      "class": "few deciders",
+      "why": "An official weighs a town hall against its cause and effort (src/core2/modules/meetings.ts:802): 82 weighings by 13 officials in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 95 by 15 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026). With so few deciders the thirds compare four or five people, and temperament turned 37% and 23% of the calls. Net odds 104 and 24 (crossed over every weighing and every official's lean, 112 and 47) against the study's 2.97 at weight 0.79.",
+      "fix": "Spread the cause so the case sits away from zero for most weighings, then refit the weight on the crossed measure (traits-wire-civic)."
+    },
+    "press.accept-interview": {
+      "class": "circumstances saturate the choice",
+      "why": "The case is closeness to the reporter less any grudge less interviewShyness, which is -1 (src/core2/modules/press.ts:2821), so it is at least 1 for every candidate without a grudge: all 120 accepted in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and all 70 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026), and temperament turned none.",
+      "fix": "Set interviewShyness from how often candidates decline interviews, so the case sits near even for a stranger reporter, then refit the weight (traits-wire-civic)."
     }
   }
 }

@@ -5,14 +5,14 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/play-stop-09-jobs-here
+status: blocked
+claimed-by:
 pr: #6037
-blocked-on:
+blocked-on: owner-installed-build-acceptance
 source: added with npm run pool -- add
 lead: m0-m2
 milestone: play-first
-claimed-at: 2026-10-25T12:50:24.971Z
+claimed-at:
 ---
 
 **What.** Six days into a life in Anson, Texas (2,570 people on the town list) on the v0.22.10 release, News shows "JOBS HERE 2036 employed · 23 looking · 0 open". That is 79 percent of every resident, children and retirees included, at work, and not one open job in the town. The same screen gives the region's unemployment as 4.4 percent. I expected a job count that fits the town and at least a few openings a new 18-year-old could take.
@@ -24,3 +24,7 @@ claimed-at: 2026-10-25T12:50:24.971Z
 **Files.** src/bench/economy.ts, src/bench/jobs.ts, src/core2/modules/jobs.ts, src/core2/modules/residents.ts
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:02; screenshot 39. Lead: m0-m2 (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+
+Sent back 2026-10-25 from PR #6037 (branch claude/play-stop-09-jobs-here): Done-when requires installed-build drawn-place screenshot/owner replay; body provides bench screenshots and defers installed proof to nextrelease; supply it or boundimplementationwhilekeepingplaystopacceptanceopen; finish on that branch, merge main into it first.
+
+Oct 25, 16:25 UTC (speed lead): the fix is in PR 6037 under `play-jobs-here-counts-the-town`, with bench screenshots and tests, as Merger 1 suggested on PR 6037. This item stays open, blocked on the owner's steps on the next installed build (its done-when); close it when the owner confirms.

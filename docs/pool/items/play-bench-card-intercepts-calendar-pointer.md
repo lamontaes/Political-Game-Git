@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/play.css, src/bench/play.html, src/bench/play.mjs
 
 **Notes.** Merger 1 discovered 2026-10-24 while checking #5869; unrelated to its docs-only diff. Playwright log: section#card.panel.me intercepts pointer events on #rings [data-tab=calendar].
+
+Merger 3, Oct25: fresh #5971 review at code dcde7bf145, Brookside Delaware, seed 1efe077a-1d53-4ff3-a932-f94aeda0b7c5, reproduces the shared card collapsing to132px at1024x768 with text/time controls over menu icons; desktop minWidth is960 and .me max-width calc(50vw - 380px) is unchanged on main. Native screenshot: https://github.com/lamontaes/Political-Game-Git/blob/ac759eed0ad786c96938696b988e40451886a5d5/docs/reports/job-offer-hold-2026-10-25/merger-held-1024x768.png. Keep normal hit testing and include narrow supported windows in the repair.

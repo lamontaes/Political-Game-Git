@@ -1,10 +1,12 @@
 /**
  * Whether a hearer takes in a claim they cannot check: the usual benefit of
- * the doubt (truth-default, `truthDefaultPull`), more for a teller they are
+ * the doubt (truth-default, `believeStrangerPull`), more for a teller they are
  * close to and for a claim that fits where they already stand, against every
  * trait's lean toward doubting, through the shared two-way formula. One rule
- * wherever a claim reaches someone: the player's line in a conversation, a
- * story a neighbor passes on, a speech a listener retells at home.
+ * wherever one resident's claim reaches another: a story a neighbor passes
+ * on, a speech a listener retells at home. The player's own line in a
+ * conversation is still read by the director's `doubtsClaim` until the Words
+ * line routes it here.
  *
  * The case differs from one hearing to the next (who told it, how close the
  * two are today, whether it argues the way the hearer already leans), so a
@@ -28,6 +30,7 @@ export interface HeardClaim {
   readonly fit?: number;
 }
 
+// stopgapId: SG-TRAITS-director-claims-reader
 export function believesClaim(
   core: Pick<CoreState, "data" | "date" | "relationships">,
   hearer: Pick<PersonState, "traits"> & { id?: string },
@@ -44,7 +47,7 @@ export function believesClaim(
     "conversation.believe-claim",
     "believe",
     "doubt",
-    p("truthDefaultPull") +
+    p("believeStrangerPull") +
       p("believeClosenessWeight") * closeness +
       p("believeFitWeight") * (claim.fit ?? p("zero")),
   );
