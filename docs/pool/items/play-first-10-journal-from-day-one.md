@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: words/play-first-10-journal
-pr:
+status: open
+claimed-by:
+pr: #6093
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T19:26:23.684Z
+claimed-at:
 ---
 
 **What.** On the v0.22.10 release the Journal was blank for the first three weeks. The owner ruled Oct 14 that the player's own context (parents, their relationship, siblings, where the family came from and a few remembered moments) is rendered from day one, and Oct 24 that people's histories are simulated and the journal runs from day one. This item writes the opening chapter of the memoir from the player's deep past.
@@ -30,3 +30,9 @@ claimed-at: 2026-10-25T19:26:23.684Z
 **Files.** src/director/journal.ts, src/core2/deep-past.ts, src/bench/story.ts
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Journal words are the Words lead's (`needs-from: words`); the lane builds the screen side. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Sent back 2026-10-25 from PR #6093 (branch words/play-first-10-journal): 23 new journal bank pieces are origin authored with shippable true and no grading evidence for their keys; route through permitted admission before claiming shippable opening text; finish on that branch, merge main into it first.
+
+2026-10-25 Merger 1 correction: the authored-only send-back is withdrawn after verifying the newer Oct 24 owner ruling releasing that hold. Bank shippable flags are checked against the grade ledger; authored origin alone is not a blocker. Current Words claim and in-pr status are preserved; local gate resumes after the fresh main-integration window. GitHub comment 6404004843 records the correction.
+
+Sent back 2026-10-25 from PR #6093 (branch words/play-first-10-journal): own main-integrated static gates, opening-world proof, 113 bank checks and East Douglas first-evening screenshot pass; three journal failures reproduced identically on clean base and do not block; plain integration push rejected by automatic approval review, explicit user authorization needed, no author source fix requested and authored-origin objection remains withdrawn; finish on that branch, merge main into it first.

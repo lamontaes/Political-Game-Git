@@ -5845,12 +5845,14 @@
     }
   },
   "traitWeightCampaignsEndorse": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.endorse decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2 (rows campaigns.endorse in data/research/trait-effect-sizes.json: openness and extraversion on having tried to convince people to vote for or against a candidate, a proxy for an endorsement), carried to the thirds as an odds ratio of 2.70. Fitted with scripts/traits/trait-calibrate.ts on played years (buildBenchWorld, every module, January 20, 2025 to January 20, 2026): Haledon, New Jersey (place key 3429070, seed fc8bf1311d0f) fits 0.2 on 1,053 calls and Kenvir, Kentucky (2142112, seed 32bb83941552) fits 0.1 on 62. At 0.15 Haledon's thirds reach 2.12, or 2.76 with every case crossed with every decider's lean; at the general weight of 1 they ran at 269.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "The two towns' own fits."
     }
   },
   "traitWeightCampaignsOpenDoor": {
@@ -5959,39 +5961,39 @@
     }
   },
   "traitWeightLegislatureMemberPosition": {
-    "value": 0.2,
+    "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.member-position decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 0.2 gives an odds ratio of 2.19 of a yes vote between the third of 10,336 member positions leaning most toward yes and the third leaning least, net of the same gap with personality off, against the target of 2.24. No study of legislators' roll-call votes by personality was retrievable (Dietrich et al. 2012 could not be read), so the target is the default personality-behavior study scaled for a single occasion to r = .2: Fleeson & Gallagher 2009, average-level r = .42 to .56, single-decision r = .1 to .3. Party, district and record still decide most votes.",
-    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
+    "citation": "The trait weight of the legislature.member-position decision, set by the party discipline a member's position must keep once officials carry a level on every trait (pool item officials-carry-every-trait). With every trait, a member's taste for change is a standing lean on every bill, so at 0.6 (fitted to the generic single-occasion personality target of 2.24) the two independent senators in the world drawn from seed 3e556e7e162eca8baf7052af5494da02 (Fenwick, West Virginia) voted with their caucus on 55 of 90 party votes, against about 90% for the real independents (Voteview, the caucus weight's check). At 0.1 the independents of four drawn worlds vote with their caucus on 0.80, 0.98, 0.90 and 0.95 of party votes (mean 0.91; seeds 3e556e7e162eca8baf7052af5494da02, caucusA1, caucusB2, caucusC3), and party members' pooled unity on party-splitting votes is 0.943 over four drawn places (src/core2/party-loyalty.test.ts, seed loyalty01, against its 0.85 to 0.98 band from CQ Vote Studies). The generic target is not used here: a legislator's roll call is dominated by party, and no study found gives personality's size per roll call.",
+    "estimatedFrom": "The independents' caucus unity (about 90%, Voteview 118th to 119th Congress, as the officials roster's caucus weight cites) and party unity (about 90%, CQ Vote Studies, the party-loyalty band), read in drawn worlds at weights 0.05 to 0.6.",
     "spread": {
-      "low": 0.1,
-      "high": 0.3,
+      "low": 0.05,
+      "high": 0.15,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "At 0.15 the Fenwick world's independents vote with their caucus on 70 of 92 party votes (0.76) and the four worlds' mean is 0.89; at 0.05, 0.79 and 0.91."
     }
   },
   "traitWeightLegislatureHoldHearing": {
-    "value": 1.35,
+    "value": 0.65,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.hold-hearing decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 1.35 gives an odds ratio of 2.01 of holding the hearing between the thirds of 78 chair decisions, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2). Few calls, so the weight is noisy.",
+    "citation": "The trait weight of the legislature.hold-hearing decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): 0.65 gives an odds ratio of 2.32 of holding the hearing between the thirds of 172 chair decisions, against the target of 2.24. The places fit alone at 0.1 (77 decisions) and 1.0 (95). It was 1.35 when fitted in Ely, Nevada on 78 decisions while officials carried nine faint traits.",
     "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "low": 0.675,
-      "high": 2.025,
+      "low": 0.1,
+      "high": 1.0,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "The two places' own fits, each on fewer than 100 chair decisions."
     }
   },
   "traitWeightLegislatureSignOrVeto": {
-    "value": 0.2,
+    "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.sign-or-veto decision. Only 29 desk decisions ran in the audit year, too few for scripts/traits/trait-calibrate.ts (30 needed), so this carries the weight calibrated for legislature.member-position, the same legislators weighing a bill against the same record, with the same default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "citation": "The trait weight of the legislature.sign-or-veto decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): the 59 desk decisions saturate (the odds ratio between the thirds is 78 at weight 1), and 0.1 comes closest to the target of 2.24 (2.62). The second place alone fits 0.3 on 31 decisions.",
     "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2), calibrated on 10,336 calls; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
       "low": 0.1,
       "high": 0.3,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "The pooled and the second place's fits."
     }
   },
   "traitWeightLegislatureBudgetPriorities": {
@@ -6186,7 +6188,7 @@
   "traitWeightLegislatureAttendSitting": {
     "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.attend-sitting decision. Salgado (2002), 'The Big Five personality dimensions and counterproductive behaviors' (Int. J. Selection and Assessment 10), found no Big Five trait significantly predicting absenteeism, so the trait share is the smallest in this family: half the 0.2 of legislature.member-position, which is r = .1 against r = .2. scripts/traits/trait-calibrate.ts could not fit it, because with a seat, session and close-vote duty most gated sittings are attended whatever the temperament (a miss rate near 1 percent leaves no gap between the thirds), so the weight is set by that ratio and checked by how many sittings personality turns (about 8 of 100 gated sittings, down from 96 of 100 when personality was the only reason).",
+    "citation": "The trait weight of the legislature.attend-sitting decision. Salgado (2002), 'The Big Five personality dimensions and counterproductive behaviors' (Int. J. Selection and Assessment 10), found no Big Five trait significantly predicting absenteeism, so the trait share is the smallest in this family: half the 0.2 of legislature.member-position, which is r = .1 against r = .2. scripts/traits/trait-calibrate.ts could not fit it, because with a seat, session and close-vote duty most gated sittings are attended whatever the temperament (a miss rate near 1 percent leaves no gap between the thirds), so the weight is set by that ratio and checked by how many sittings personality turns (about 8 of 100 gated sittings, down from 96 of 100 when personality was the only reason). Pooled over 1,916 sittings in two played years after officials carry every trait (Pomona, New Jersey, seed 7628f7fcf9e0; seed f9a9cd8421fe), the choice saturates: a member's case for attending barely varies, so even a small trait term decides it (odds ratio 6,551 at weight 1), and no weight reaches the target; it stays the smallest in the family.",
     "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2) halved for r = .1; Salgado 2002 found no significant Big Five predictor of absenteeism.",
     "spread": {
       "low": 0.05,
@@ -6220,15 +6222,15 @@
     }
   },
   "traitWeightOfficeDayStateLeaderRequest": {
-    "value": 0.2,
+    "value": 1.7,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the office-day-state.leader-request decision. Replaces the hand-set leaderRequestTraitWeight of 0.4. scripts/traits/trait-calibrate.ts cannot fit it on the audit year's 49 requests: the leader's party term (a same-party request is granted, an other-party one refused) outweighs temperament, so personality turned none of them, which is how party leaders schedule. Carries the weight calibrated for legislature.member-position (0.2), with the default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "citation": "The trait weight of the office-day-state.leader-request decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): 1.7 gives an odds ratio of 2.49 between the thirds of 106 requests, against the target of 2.24. Each place alone saturates (fits of 1.65 and 2.15 that cannot reach the target). It was 0.2, the single-occasion default, before officials carried every trait.",
     "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2).",
     "spread": {
-      "low": 0.1,
-      "high": 0.3,
+      "low": 1.65,
+      "high": 2.15,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "The two places' own best weights."
     }
   },
   "traitWeightAppointmentsWeigh": {
