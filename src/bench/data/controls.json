@@ -290,7 +290,22 @@
     "increase": "Increase",
     "decrease": "Decrease",
     "stateFilter": "State",
-    "ownState": "Your state"
+    "ownState": "Your state",
+    "guide": {
+      "government": "Who holds each seat over you, from your town to the nation, and when each term ends.",
+      "issues": "The laws in force where you live, and who can change them.",
+      "parties": "The parties here, what each stands for, and how close each is to you.",
+      "campaigns": "Your race once you file: money, volunteers, ads, and how the vote leans.",
+      "runHere": "How you could run here",
+      "race": "Next race",
+      "filesWith": "Files with",
+      "filingOpens": "Filing opens",
+      "filingDeadline": "Filing deadline",
+      "primary": "Primary",
+      "election": "Election day",
+      "estimated": "These dates are estimates; no calendar on record names them.",
+      "noRace": "No race here is open for filing yet."
+    }
   },
   "results": {
     "turnout": "Turnout",

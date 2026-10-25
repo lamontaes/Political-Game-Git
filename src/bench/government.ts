@@ -15,6 +15,7 @@ import {
   fileCandidacy,
   filingOfficeFor,
   openContests,
+  type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
 import {
@@ -180,7 +181,44 @@ export function governmentView(core: CoreState, personId: string) {
         : [],
     })),
     filings,
+    nextFiling: nextFiling(core),
     party: partyView(core, personId),
+  };
+}
+
+/**
+ * The race a player could next file for here: the open filing with the
+ * soonest deadline, or else the filing that opens soonest, with the office
+ * that takes it. The Politics guide reads it.
+ */
+function nextFiling(core: CoreState) {
+  const api = coreAPI(core);
+  const today = core.date;
+  const opensOn = (c: ContestRow) =>
+    c.filingOpens && c.filingOpens > today ? c.filingOpens : today;
+  const next = (
+    api
+      .moduleState(ELECTIONS)
+      .table("contests")
+      .rows() as unknown as ContestRow[]
+  )
+    .filter((c) => c.filingDeadline >= today)
+    .sort(
+      (a, b) =>
+        opensOn(a).localeCompare(opensOn(b)) ||
+        a.filingDeadline.localeCompare(b.filingDeadline),
+    )[0];
+  if (!next) return null;
+  return {
+    contestId: next.id,
+    title: next.title,
+    filedWith: filingOfficeFor(api, next.id).filedWith,
+    filingOpens: opensOn(next),
+    filingDeadline: next.filingDeadline,
+    primaryDate: next.primaryDate,
+    electionDate: next.electionDate,
+    // Dates read from no law or official calendar are shown as estimates.
+    estimated: next.basis !== "read",
   };
 }
 

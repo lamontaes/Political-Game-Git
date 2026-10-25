@@ -2442,3 +2442,15 @@ body.dev .dev-ring {
 #talk-gap.marked {
   opacity: 0.55;
 }
+
+/* Politics' guide: one tab's purpose a page, then the race a player could file for. */
+.politics-guide-page {
+  max-width: 640px;
+}
+.politics-guide-page .guide-fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
+}

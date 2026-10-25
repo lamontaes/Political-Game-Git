@@ -3453,6 +3453,98 @@ const sheets = {
       ),
     ];
   },
+  /**
+   * Politics' own guide: what each tab is for, a page each, then how a
+   * player could run here, from the filing records: the race, the office
+   * that takes filings, and the dates.
+   */
+  async politicsGuide() {
+    const labels = controls.politics.guide;
+    const [government, terms] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
+    ]);
+    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
+    const row = (label, value) =>
+      el(
+        "div",
+        { className: "guide-fact" },
+        el("span", { className: "label", textContent: label }),
+        el("strong", { textContent: value }),
+      );
+    const page = (heading, ...body) =>
+      el(
+        "section",
+        { className: "politics-guide-page" },
+        el("h3", { textContent: heading }),
+        ...body,
+      );
+    const pages = ["government", "issues", "parties", "campaigns"].map((tab) =>
+      page(titles[tab], el("p", { textContent: labels[tab] })),
+    );
+    const next = government.nextFiling;
+    pages.push(
+      page(
+        labels.runHere,
+        ...(next
+          ? [
+              row(labels.race, next.title),
+              row(labels.filesWith, next.filedWith),
+              row(labels.filingOpens, proseDate(next.filingOpens)),
+              row(labels.filingDeadline, proseDate(next.filingDeadline)),
+              ...(deadlineTerm
+                ? [
+                    el("p", {
+                      className: "small",
+                      textContent: deadlineTerm.short,
+                    }),
+                  ]
+                : []),
+              ...(next.primaryDate
+                ? [row(labels.primary, proseDate(next.primaryDate))]
+                : []),
+              row(labels.election, proseDate(next.electionDate)),
+              ...(next.estimated
+                ? [
+                    el("p", {
+                      className: "small",
+                      textContent: labels.estimated,
+                    }),
+                  ]
+                : []),
+            ]
+          : [el("p", { textContent: labels.noRace })]),
+      ),
+    );
+    let at = 0;
+    const box = el("div", { className: "politics-guide" });
+    const draw = () => {
+      const back = el("button", {
+        type: "button",
+        textContent: controls.politics.back,
+        disabled: at === 0,
+      });
+      const forward = el("button", {
+        type: "button",
+        textContent: controls.politics.next,
+        disabled: at === pages.length - 1,
+      });
+      back.onclick = () => {
+        at--;
+        draw();
+      };
+      forward.onclick = () => {
+        at++;
+        draw();
+      };
+      box.replaceChildren(
+        pages[at],
+        el("nav", { className: "record-pager" }, back, forward),
+      );
+    };
+    draw();
+    return [box];
+  },
   async guide() {
     const search = el("input", {
       type: "search",
@@ -3989,6 +4081,7 @@ const titles = {
   travel: "Travel",
   options: "Options",
   guide: "Guide",
+  politicsGuide: "Guide",
   changes: "What changed",
   law: "Law here",
   handoff: "Carry on as",
@@ -4004,6 +4097,7 @@ const groups = {
     "parties",
     "issues",
     "budgets",
+    "politicsGuide",
   ],
   people: ["people", "family"],
 };
