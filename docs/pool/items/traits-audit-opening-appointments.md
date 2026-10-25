@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/traits-audit-opening-appointments
+pr: #6031
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T12:25:13.884Z
 ---
 
 **What.** appointments.weigh (the appointer's loyalty against merit, src/core2/appointments.ts) runs when the executive module fills the town's department heads and the state's cabinet at the opening (src/core2/modules/executive.ts), before scripts/traits/trait-wiring-audit.ts switches its probe on, and afterward only on a vacancy or a new governor's swearing-in, which a one-year window rarely holds. So the audit reports it silent although every world runs it. Count the opening's calls separately (probe on through the build, kept apart from the played year), so the matrix shows its calls and a decision record id.

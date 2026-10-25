@@ -2,16 +2,6 @@
   "about": "Law reach, group A (labor, business, housing, justice, rights, technology and government menus): what each catalog policy does once it's law, through the engine that owns the thing it changes. Each policy names the named people, organizations, officeholders and counted groups it reaches (a selector over their own records), the kind of effect (a rule with its enforcer and penalty, an eligibility, a right, a price or a compliance duty), and the mechanic that moves pay, money, staff, budgets or election costs where one runs. Read by src/core2/law-reach/group-a.ts. Numbers live in reach-group-a-parameters.json. A stopgapId names what another engine must provide before the effect is complete.",
   "estimate": true,
   "selectors": {
-    "publicEmployers": [
-      "service:police",
-      "service:fire",
-      "service:public-health",
-      "service:municipal-government",
-      "service:public-school",
-      "service:corrections",
-      "sector:local-government-office",
-      "sector:state-government-office"
-    ],
     "businesses": ["enterprise:"],
     "builders": ["enterprise:construction", "enterprise:real-estate"],
     "retailers": ["enterprise:retail"],
@@ -377,22 +367,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the police department with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the police department when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -407,22 +381,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the fire department with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the fire department when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -437,22 +395,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the jail with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the jail when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -467,22 +409,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the city or county offices with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the city or county offices when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -729,132 +655,37 @@
     "us-policy-positions:government-operations.all-mail-voting": {
       "source": "All-mail elections (Colorado, Oregon, Utah and Washington; Gerber, Huber and Hill, Political Science Research and Methods, 2013).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is mailed a ballot for every election",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is mailed a ballot for every election",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.automatic-voter-registration": {
       "source": "Automatic voter registration (Brennan Center for Justice, AVR Impact on State Voter Registration, 2019).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is registered to vote when they deal with a state agency unless they opt out",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is registered to vote when they deal with a state agency unless they opt out",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.independent-redistricting": {
       "source": "Independent redistricting commissions (National Conference of State Legislatures, Redistricting Commissions, 2024).",
-      "mechanic": "none",
+      "mechanic": "voting",
       "stopgapId": "SG-GOV-REACH-A-redistricting",
       "reaches": [
         {
-          "id": "legislators",
-          "target": "officeholders",
-          "select": {
-            "group": "legislators"
-          },
-          "kind": "rule",
-          "what": "no longer draws the district lines; an independent commission does",
-          "enforcer": "the redistricting commission",
-          "penalty": "the court redraws lines that break the rules"
+          "id": "commission",
+          "target": "mechanic",
+          "kind": "service",
+          "what": "pays its independent redistricting commission each month",
+          "enforcer": "the state treasury",
+          "penalty": "none: an appropriation"
         }
       ]
     },
     "us-policy-positions:government-operations.require-photo-id-to-vote": {
       "source": "Strict photo ID laws (National Conference of State Legislatures, Voter ID Laws, 2024; GAO-15-19, 2014).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "rule",
-          "what": "must show a photo ID to vote",
-          "enforcer": "the board of elections",
-          "penalty": "a provisional ballot that counts only if they show ID later"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "rule",
-          "what": "must show a photo ID to vote",
-          "enforcer": "the board of elections",
-          "penalty": "a provisional ballot that counts only if they show ID later"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.same-day-voter-registration": {
       "source": "Same-day voter registration (Grumbach and Hill, Journal of Politics, 2022).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "may register and vote on the same day",
-          "enforcer": "the board of elections",
-          "penalty": "none: a right"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "may register and vote on the same day",
-          "enforcer": "the board of elections",
-          "penalty": "none: a right"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.ban-lobbying-after-office": {
       "source": "Revolving-door limits on former officials lobbying (National Conference of State Legislatures, Revolving Door Prohibitions, 2024).",
@@ -904,22 +735,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the public schools with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the public schools when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     }
