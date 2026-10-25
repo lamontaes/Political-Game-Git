@@ -203,7 +203,10 @@ export const officeHost: OfficeActHost = {
 registerOfficeActs(localOfficeKit(officeHost));
 
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
-  registerLegislatureHooks({ beforeVote: ownVote, onDesk: deskArrived });
+  registerLegislatureHooks({
+    beforeVote: { name: "own-vote", run: ownVote },
+    onDesk: deskArrived,
+  });
   const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
   const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
   for (const kit of officeActKits()) {

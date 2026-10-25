@@ -12,7 +12,12 @@ import {
 import { dirname, relative, resolve, sep } from "node:path";
 import { performance } from "node:perf_hooks";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  daysBetweenText,
+} from "../kernel/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION } from "../data";
 import { createLifeCore } from "../life";
 import { createOpeningFinance } from "../opening-finance";
@@ -187,10 +192,7 @@ function runOne(
   });
   const completed = performance.now();
   const after = memorySample();
-  const expectedDays = daysBetween(
-    makeIsoDate(input.startedAt),
-    makeIsoDate(throughDate),
-  );
+  const expectedDays = daysBetweenText(input.startedAt, throughDate);
   if (captured.receipt.simulatedDays !== expectedDays)
     throw new Error("The run did not complete its specified calendar window.");
   const finance = snapshots.at(-p("one"))!;

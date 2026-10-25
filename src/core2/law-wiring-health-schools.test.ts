@@ -37,7 +37,10 @@ const QUESTIONS = [EXPAND, MEDICAID_WORK, ASSIST_WORK, PRESCHOOL, VOUCHER];
 const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const TRIES = 12;
 const ENACTED_DAYS = 40;
-const HELD_MONTHS = 8;
+// The slowest link lags six months and reads the law as it stood that long ago
+// on the web's own row day, so a hold needs the lag plus three rows to show it
+// whatever day of the month the law changed.
+const HELD_MONTHS = 9;
 const DAYS_PER_MONTH = 30;
 
 interface Taken {
@@ -282,7 +285,6 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     ["medicaid-expansion-to-coverage"],
     ["medicaid-expansion-to-medical-debt"],
     ["work-requirement-to-coverage"],
-    ["snap-work-requirement-to-participation"],
   ];
   for (const [link] of lags)
     expect(
@@ -291,6 +293,12 @@ function tryPlace(where: string, seed: string, key: string): string | null {
         `the web link ${link} never fired (baseline yes: ${JSON.stringify([...baselineYes])}; last month ${JSON.stringify(webMonths(api).at(-1)?.values)}; date ${api.state.date})`,
       ),
     ).toBeTruthy();
+  // The assistance work requirement is the SNAP benefit's own (read above, for
+  // each person it reaches), so the web does not also cut SNAP receipt for it.
+  expect(
+    firedIn(api, "snap-work-requirement-to-participation"),
+    say("the web ran the SNAP work requirement link the benefit carries"),
+  ).toBeUndefined();
 
   // Repeal ends every payment and every applied row.
   for (const q of QUESTIONS) repeal(api, q, "off");
@@ -314,7 +322,15 @@ it("health, assistance and school laws reach people, move money and move outcome
   const tried: string[] = [];
   try {
     for (let n = 0; n < TRIES; n += 1) {
-      const draw = drawPlace(SEED, `law-wiring-health-schools-${n}`);
+      // GOLDEN_PATH_PLACE_KEY and GOLDEN_PATH_WORLD_SEED pin one place's world.
+      const draw = process.env.GOLDEN_PATH_PLACE_KEY
+        ? {
+            name: "pinned place",
+            state: "pinned",
+            key: process.env.GOLDEN_PATH_PLACE_KEY,
+            seed: process.env.GOLDEN_PATH_WORLD_SEED ?? SEED,
+          }
+        : drawPlace(SEED, `law-wiring-health-schools-${n}`);
       const where = `${draw.name} (${draw.state}, ${draw.key}), seed ${draw.seed}`;
       const why = tryPlace(where, draw.seed, draw.key);
       if (why === null) return;

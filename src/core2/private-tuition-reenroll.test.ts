@@ -8,6 +8,7 @@ import tuition from "./data/opening-private-tuition.json";
 import { gameStartDate } from "./game-start";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { privateShareOf } from "./opening-private-tuition";
 import {
   reenrollPrivateTuition,
   tuitionPlans,
@@ -72,7 +73,9 @@ it(`a family that fell below the cutoff stops paying tuition and one that rose a
       .reduce((sum, home) => sum + (family(home.id)?.children ?? 0), 0);
     const quota = Math.max(
       1,
-      Math.round(townChildren * api.parameter("openingPrivateSchoolShare")),
+      Math.round(
+        townChildren * privateShareOf(town, state.placeMetadata?.placeKey),
+      ),
     );
     const other = [...state.households.values()].find(
       (home) =>

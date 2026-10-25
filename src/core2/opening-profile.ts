@@ -101,7 +101,7 @@ export function profileFor(
   startedAt: string,
 ): Profile | null {
   stopgap(DATA.stopgapId);
-  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(startedAt));
+  const age = ageOnDate(person.birthDate, startedAt);
   if (age < d("minimumAdultAge")) return null;
   const place = corePlaceByJurisdictionId(person.placeId as never);
   const key = place?.stateJurisdictionKey;

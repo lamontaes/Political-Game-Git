@@ -12,7 +12,11 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { ALLOW_MARKER, exemptionFor } from "./american-english-scope";
+import {
+  ALLOW_MARKER,
+  exemptionFor,
+  properNameAllowed,
+} from "./american-english-scope";
 import {
   britishSpellings,
   DAY_FIRST_DATE,
@@ -59,6 +63,7 @@ for (const file of files) {
     let fixed = "";
     let at = 0;
     for (const found of britishSpellings(prose)) {
+      if (properNameAllowed(file, found.british)) continue;
       findings.push(
         `${file}:${lineOf(range.start + found.index)} "${found.british}" → "${found.american}"`,
       );

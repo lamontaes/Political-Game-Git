@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5633
 blocked-on:
@@ -27,3 +27,9 @@ claimed-at:
 Oct 20 (claude, claimed and released, nothing built). The premise above is out of date: in the two-level pipeline (`src/bench/world.ts` and `src/core2/tooling/generated-world.ts`) `withPrivateTuition` runs on the whole town before `collapseToTwoLevels`, and the collapse folds each counted household's tuition contract into the merged purchase flows and keeps it on the household's record for fill-in (`src/core2/residents.ts`, the purchase-group block). So counted families already pay private tuition at the opening. What is missing is only the yearly re-ranking for them: a counted family's means cannot start or end a seat, because its contract is inside a merged flow. That is part 1's rule (`core-private-tuition-yearly-reenrollment`, claimed by `claude/tuition-reenroll`) applied to the counted tier, so this item should wait for part 1 and then read its ranking per counted group, editing the household's share of the merged flow (`amountByContract`) and its record contract on the August review.
 
 Sent back 2026-10-20 from PR #5633 (branch claude/tuition-counted): src/core2/data/stopgaps.json adds the dated session note Resolved Oct 20 in SG-CORE-private-tuition-counted-reenroll; describe the replacement without that date note. More importantly, docs/pool/items/core-private-tuition-counted.md:21 requires a full and counted household with the same cash per child to enroll or stay out together in a one-year played world. The new test compares medians only among counted families and never proves that named full-versus-counted pair or cites the tuition journal record id. Add those required proofs.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5633 (branch claude/tuition-counted): src/core2/private-tuition-counted.test.ts:47 advances only to the day after the August ranking, then line 178 advances another 45 days and returns. With the named 2025 start and September 16 receipt this is 239 played days, not the one-year world required by docs/pool/items/core-private-tuition-counted.md:21 and the previous send-back. The new real full/counted enrollment, purchase-flow and fill-in assertions improve the proof, but keep them through a complete 365-day run, add an exact equal-cash-per-child pair rather than only nearest pairs with gaps, and report the final record ids. Keep the date-note repair. No local gate pass is claimed.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5633 (branch claude/tuition-counted): own annual test fails at line 214 in Red Hook USVI, seed 80dddb78461f9a08, with no enrolled counted family retained at year end for the mandatory fill-in witness; preserve the positive annual proof and repair the root; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5633 recheck (branch claude/tuition-counted): the closed-school case is classified, but private-tuition-counted.test.ts:199-202 cites the school latest journal entry without matching the tuition flow or its counted payer debit / school credit; require the actual tuition settlement journal identity while keeping the complete year and positive fill-in; finish on that branch, merge main into it first.

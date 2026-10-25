@@ -10,7 +10,8 @@ import data from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { jobsAt } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
-import { lawInForce } from "./modules/laws";
+import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { LawLevelName } from "./laws-starting";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -24,6 +25,42 @@ const EMPLOYER_LEVELS = data.employerLevels as Readonly<
 export const PUBLIC_EMPLOYER_CLASSES: readonly string[] =
   Object.keys(EMPLOYER_LEVELS);
 const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
+
+/**
+ * The level of government a public employer belongs to: by its class, or, for
+ * a government's own treasury (the employer of its aides and appointed heads,
+ * which has no class), by the government it is the treasury of.
+ */
+function levelOf(
+  api: CoreAPI,
+  organizationId: string,
+): LawLevelName | undefined {
+  const core = api.state as CoreState;
+  const org = core.organizations.get(organizationId);
+  const byClass = EMPLOYER_LEVELS[org?.classification ?? ""];
+  if (byClass) return byClass;
+  if (
+    org?.kind !== "government-treasury" ||
+    !core.modules.has(BUDGETS_MODULE_ID)
+  )
+    return undefined;
+  return governments(api).find((row) => row.organizationId === organizationId)
+    ?.level;
+}
+
+/** Jobs a government's treasury pays directly (its aides and appointed heads), here in town. */
+function treasuryJobs(api: CoreAPI) {
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  return [...core.jobs.values()].filter((job) => {
+    const org = core.organizations.get(job.organizationId);
+    return (
+      job.endsAt === undefined &&
+      org?.kind === "government-treasury" &&
+      org.placeId === town
+    );
+  });
+}
 
 /** The floor binding each level's employers today, with the law row that sets it. */
 function floorsByLevel(api: CoreAPI) {
@@ -51,10 +88,9 @@ export function publicPayFloorHourly(
   organizationId: string,
   job: { readonly hourlyMinor?: number; readonly wageDailyMinor: number },
 ): number {
-  const classification =
-    (api.state as CoreState).organizations.get(organizationId)
-      ?.classification ?? "";
-  const level = EMPLOYER_LEVELS[classification];
+  // A world without the law engine has no floor to hold a hire to.
+  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return 0;
+  const level = levelOf(api, organizationId);
   if (!level) return 0;
   const floor = floorsByLevel(api).get(level);
   const hourly = job.hourlyMinor ?? 0;
@@ -83,10 +119,12 @@ export function holdPublicPay(
   if (!floors.size) return [];
   const core = api.state as CoreState;
   const raised = [];
-  for (const job of jobsAt(api, PUBLIC_EMPLOYER_CLASSES)) {
-    const classification =
-      core.organizations.get(job.organizationId)?.classification ?? "";
-    const floor = floors.get(EMPLOYER_LEVELS[classification]!);
+  for (const job of [
+    ...jobsAt(api, PUBLIC_EMPLOYER_CLASSES),
+    ...treasuryJobs(api),
+  ]) {
+    const level = levelOf(api, job.organizationId);
+    const floor = level ? floors.get(level) : undefined;
     if (!floor) continue;
     const floorDaily =
       (floor.dollars * reachParameter("centsPerDollar")) /

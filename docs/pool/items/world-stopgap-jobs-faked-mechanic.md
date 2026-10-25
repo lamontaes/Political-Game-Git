@@ -5,10 +5,10 @@ area: world
 kind: stopgap
 priority: 2
 size: L
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: world-jobs-counted-choices-one-rule,world-jobs-opening-seekers-row,world-jobs-offer-deadline-held
 after: world-jobs-opening-seekers
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/jobs.ts, kind faked-mechanic"

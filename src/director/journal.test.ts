@@ -561,8 +561,11 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       corePlaceByJurisdictionId(mover.placeId as never)!.displayName,
     );
     expect(named.some((line) => /^I /.test(line))).toBe(false);
-    // A place with no name leaves nothing to say.
-    expect(told("jurisdiction_unnamed")).toEqual([]);
+    // A place with no name leaves nothing to say about the move (the
+    // journal's other lines, where the family came from, still stand).
+    expect(
+      told("jurisdiction_unnamed").filter((line) => /^We /.test(line)),
+    ).toEqual([]);
   });
 
   it("never titles a chapter by a school, and remembers a schoolmate who matters later", () => {

@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by: claude/pool-cash-journal
 pr:
-blocked-on: journal-owner-design-batch-postings-per-day
+blocked-on: design: batching postings per day needs the cash journal owner's design (see Notes); journal-owner-design-batch-postings-per-day was never an item
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:43:25.293Z
 ---

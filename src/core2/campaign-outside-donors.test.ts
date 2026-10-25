@@ -107,6 +107,19 @@ it("a wider race raises from donors outside the town, under the limit, and buys 
     if (!gifts.length) continue;
     const limit = contributionLimit(api, contest.id).minor;
     expect(limit === null || limit > 0, where).toBe(true);
+    // An outside place's row stands for its donors: a whole count of at least
+    // one, and the limit read per person, the row's total over its donors.
+    for (const gift of gifts) {
+      expect(Number.isInteger(gift.donors), `${where}: ${gift.donorId}`).toBe(
+        true,
+      );
+      expect(gift.donors!, `${where}: ${gift.donorId}`).toBeGreaterThan(0);
+      if (limit !== null)
+        expect(
+          gift.totalMinor / gift.donors!,
+          `${where}: ${gift.donorId} per person`,
+        ).toBeLessThanOrEqual(limit);
+    }
     expect(
       campaign.raisedMinor,
       `${where}: a wider race raises past a town's gifts`,

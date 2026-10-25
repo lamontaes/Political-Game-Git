@@ -195,6 +195,43 @@ export function withdrawSavings(
   return input.amountMinor - left;
 }
 
+/**
+ * A business's savings are its own money: when its cash falls short of a
+ * payment due, it draws what it needs from the deposits it holds at a local
+ * bank, before the payment goes unpaid and the firm fails with money in the
+ * bank. Returns the amount drawn.
+ */
+export function drawSavingsToCover(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    id: string;
+    holderId: string;
+    owedMinor: number;
+    asOf: IsoDate;
+    reason: string;
+  },
+): number {
+  const held = depositsHeld(core, input.holderId);
+  if (held <= 0 || !core.finance.businesses.has(input.holderId)) return 0;
+  const account = api.accounts().main(input.holderId);
+  const cash = balanceOf(core, account);
+  if (cash >= input.owedMinor) return 0;
+  return withdrawSavings(core, api, {
+    id: input.id,
+    holderId: input.holderId,
+    customerAccountId: account,
+    amountMinor: Math.min(held, Math.ceil(input.owedMinor - cash)),
+    source: {
+      tag: "ESTIMATED",
+      asOf: input.asOf,
+      citation:
+        "A business's deposits are its own money; it draws them when its cash falls short of a payment due (JPMorgan Chase Institute, Cash is King: Flows, Balances, and Buffer Days, 2016).",
+      estimatedFrom: input.reason,
+    },
+  });
+}
+
 export function depositsAtBank(
   core: CoreState,
   bankId: string,

@@ -10,10 +10,12 @@
  * law enacted in play changes the next claim; a filed claim keeps the terms
  * it was filed under and cites the law row.
  */
+import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleTable } from "./module-state";
+import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
-import { residentPerson, residentsRuntime } from "./modules/residents";
+import { residentFacts, residentsRuntime } from "./modules/residents";
 import { decisionLean } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, JobInput, Source } from "./types";
@@ -153,11 +155,11 @@ export function fileClaim(
 ): ClaimRow | undefined {
   const c = api.state as CoreState;
   const full = c.people.get(job.personId);
-  const placeId = (full ?? residentPerson(c, job.personId))?.placeId;
+  const placeId = (full ?? residentFacts(c, job.personId))?.placeId;
   if (!placeId) return undefined;
   // An eligible worker files unless their traits lean hard toward skipping;
   // the record's traits are the full person's or the counted worker's own.
-  const filer = full ?? residentPerson(c, job.personId);
+  const filer = full ?? residentFacts(c, job.personId);
   if (
     filer &&
     api.parameter("benefitsFileBase") +
@@ -203,16 +205,20 @@ export function fileClaim(
   return row;
 }
 
-/** Pays every open claim due by today from the state's fund outside the town. */
+/** Pays every open claim due by today from the state's unemployment fund: its treasury. */
 export function payClaims(api: CoreAPI, table: ModuleTable): void {
   const c = api.state as CoreState;
   for (const row of table.query("open", [true]) as unknown as ClaimRow[]) {
     if (row.nextPayAt > c.date) continue;
-    // stopgapId: SG-WORLD-jobs-benefits (paid from the town's outside account, not a state fund)
-    api.stopgap("SG-WORLD-jobs-benefits");
-    const fund = [...c.organizations.values()].find(
-      (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-    );
+    // The state's unemployment fund is its treasury, which the employers'
+    // state unemployment tax pays into (employer-taxes); a world with no
+    // state treasury open pays from the town's outside account.
+    const state = c.modules.has(BUDGETS_MODULE_ID)
+      ? governments(api).find((g) => g.level === "state")
+      : undefined;
+    const fund = state
+      ? c.organizations.get(state.organizationId)
+      : townOutsideOf(c.organizations.values(), row.placeId);
     if (!fund) {
       table.put({
         ...row,
@@ -236,17 +242,37 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       });
       continue;
     }
-    const paid = transferCash(
+    const source = row.source ?? unemploymentTerms(api).source;
+    const payee = c.people.has(row.personId)
+      ? row.personId
+      : row.payeeAccountOwnerId;
+    let paid = transferCash(
       api,
       `unemployment-benefit:${row.personId}:${c.date}`,
       fund.id,
       // A claimant filled in since filing is paid as a full person; a counted
       // one lands in their own household's group account.
-      c.people.has(row.personId) ? row.personId : row.payeeAccountOwnerId,
+      payee,
       row.weeklyMinor,
-      row.source ?? unemploymentTerms(api).source,
+      source,
       { personId: row.personId },
     );
+    // A state fund that cannot cover the week borrows the rest from outside
+    // the town, as a state borrows from the federal government when its fund
+    // runs short (26 U.S.C. 1201, Title XII advances).
+    if (state && paid < row.weeklyMinor) {
+      const advance = townOutsideOf(c.organizations.values(), row.placeId);
+      if (advance)
+        paid += transferCash(
+          api,
+          `unemployment-advance:${row.personId}:${c.date}`,
+          advance.id,
+          payee,
+          row.weeklyMinor - paid,
+          source,
+          { personId: row.personId },
+        );
+    }
     const weeksLeft = row.weeksLeft - 1;
     table.put({
       ...row,

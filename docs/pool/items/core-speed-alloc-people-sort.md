@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/people-sort-alloc
 pr: #5400
 blocked-on:

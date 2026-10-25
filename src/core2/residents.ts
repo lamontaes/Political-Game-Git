@@ -269,9 +269,9 @@ export function fullPeople(input: CoreInput): Set<PersonId> {
  */
 export interface CollapseOptions {
   keep?: ReadonlySet<PersonId>;
-  /** Stand-in (SG-CORE-outside-living-costs): living costs not bought locally leave the town. Off when a housing/outside-spending engine is installed. */
+  /** The part of a counted household's living cost not bought locally (a labeled CEX and HUD estimate) leaves the town. Off when an outside-spending engine is installed. */
   outsideLivingCosts?: boolean;
-  /** Stand-in (SG-CORE-unplaced-workers-income): pay for workers the opening couldn't place. Off when a jobs engine places them. */
+  /** Pay for counted workers the opening couldn't place (a labeled ACS median-earnings estimate). Off when a jobs engine places them. */
   unplacedWorkerIncome?: boolean;
   /** Real households each counted household of a place stands for (see `ResidentsInput.weights`). */
   weights?: Readonly<Record<PlaceId, number>>;
@@ -695,7 +695,7 @@ export function collapseToTwoLevels(
     citation:
       "Each household's assigned living cost (BLS CEX basket plus HUD Fair Market Rent) less what it buys from recorded local sellers.",
     estimatedFrom:
-      "Paid on the 1st to landlords, lenders and sellers outside the town; no local landlord or housing market is modeled yet.",
+      "Paid on the 1st to landlords, lenders and sellers outside the town.",
   };
   const countedOutside = new Map<
     PlaceId,
@@ -706,7 +706,6 @@ export function collapseToTwoLevels(
     : input.households) {
     const members = home.memberIds.map((id) => peopleById.get(id)!);
     const payer = members.find((row) => row.livingCostDailyMinor > 0);
-    stopgap("SG-CORE-outside-living-costs");
     if (!payer) continue;
     const assigned = Math.round(
       (sum(members.map((row) => row.livingCostDailyMinor)) * DAYS_PER_YEAR) /
@@ -785,7 +784,6 @@ export function collapseToTwoLevels(
     accountByPlace.size
   ) {
     const placeId = [...accountByPlace.keys()][0]!;
-    stopgap("SG-CORE-unplaced-workers-income");
     // The sampled households stand for as many as the place's weight says,
     // so the workers they leave unplaced, and what those workers are paid, do.
     const weight = options.weights?.[placeId] ?? 1;
@@ -812,7 +810,7 @@ export function collapseToTwoLevels(
         citation: placeEarnings
           ? `Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the place's median earnings. ${PLACE_EARNINGS.citation}`
           : "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
-        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; stopgap SG-CORE-unplaced-workers-income.`,
+        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; a labeled estimate for the modeled wider population.`,
       },
     });
   }

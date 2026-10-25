@@ -111,9 +111,9 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyRecordGapWeight": {
-    "value": 1,
+    "value": 2,
     "tag": "TUNABLE",
-    "citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challenge them. Policy disagreement with the officeholder is a leading reason challengers give for running (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96; Lawless and Fox 2010, ch. 4). Spread 0.5 to 2.",
+    "citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challenge them. Policy disagreement with the officeholder is a leading reason challengers give for running (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96; Lawless and Fox 2010, ch. 4). Spread 0.5 to 2. Set at 2, the top of its spread, with the counted adults weighing a seat by the same standing and record terms as named people: in played towns (buildBenchWorld, 400 days, local seats whose filing had closed, specials left out; places drawn with drawPlace('unc-batch:<n>', 'unc') for n = 100 to 127, 18 towns with such seats), 91 of 121 local seats (75 percent, 95% interval 68 to 83) had no more than one candidate, against 85 to 92 percent at 1 and Ballotpedia's 58 to 75. At 2 the fixture town of named adults still draws under 2 percent of its adults for one seat (candidacy.test.ts).",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyMeansRunwayDays": {

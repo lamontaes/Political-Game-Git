@@ -7,7 +7,6 @@
  * outside account per place, so every such dollar is reported outside money.
  */
 import { makeIsoDate } from "./kernel/dates";
-import { stopgap } from "./stopgaps";
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
 import type { ResidentFlowInput, ResidentsInput } from "./residents";
 import type { CoreInput, OrganizationInput, Source } from "./types";
@@ -23,7 +22,6 @@ export interface OutsideMarketShare {
 
 export interface OutsideMarketData {
   version: string;
-  stopgapId: string;
   note?: string;
   weeksPerYear: number;
   cadenceDays: number;
@@ -32,6 +30,25 @@ export interface OutsideMarketData {
 }
 
 export const OUTSIDE_MARKET_KIND = "outside-market";
+
+/**
+ * The outside account a place's engines settle with: its outside market, else
+ * (a world built without one) the first other outside-flow account there. A
+ * public employer's pay authority also has an outside account
+ * (opening-public-pay.ts); it carries that government's wages only, so
+ * engines that merely need "the outside" never take it while a market exists.
+ */
+export function townOutsideOf<
+  T extends { kind?: string; placeId?: string; outsideFlow?: unknown },
+>(orgs: Iterable<T>, placeId: string | undefined): T | undefined {
+  let other: T | undefined;
+  for (const org of orgs) {
+    if (org.placeId !== placeId || org.outsideFlow === undefined) continue;
+    if (org.kind === OUTSIDE_MARKET_KIND) return org;
+    other ??= org;
+  }
+  return other;
+}
 
 /** The one outside account per place: buyers and sellers outside the town. */
 export function outsideMarketAccount(
@@ -87,7 +104,6 @@ export function addOutsideMarket(
   input: CoreInput,
   data: OutsideMarketData = outsideMarket as OutsideMarketData,
 ): CoreInput {
-  stopgap(data.stopgapId);
   const start = makeIsoDate(input.startedAt);
   const organizations = new Map(input.organizations.map((o) => [o.id, o]));
   const accounts = new Map<string, OrganizationInput>();

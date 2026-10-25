@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr: #5540
 blocked-on: core: the opening still builds from the old World history tables, so a core port of town employment needs core records for those first (old-core-retirement-map); sent back on 5540 for importing them
@@ -33,3 +33,5 @@ Sent back 2026-10-20 from PR #5540 (branch claude/port-town-employment): new src
 Looked at Oct 20 (claude/political-game-pool-3xfqef-17), released unbuilt. The send-back on #5540 (branch claude/port-town-employment, commit bd62c320d2) says `src/core2/town-labor.ts` imports old runtime queries and types. Reading the file, the import list is the smaller problem: `laborStatus`, `townOrganizationsOf`, `townResidents` and `activeWorkers` all take the old engine's `World` and read `world.history` (workRelationships, workStatuses, educationEnrollments, householdMemberships, partnerships, personDeaths), `world.people`, `world.personOrder`, `organizationProfileAt` and the care and education queries. Porting the types and queries into core would only move the old `World` shape into core. The real port rewrites these four functions to read core records (`CoreState` people, households, jobs, organizations, and the education and care records the core holds), which depends on how `population.ts` supplies the opening's circumstances (the item `core-remaining-port-the-opening-town-builder-population` and `core-old-imports-population`). A builder starts from `core-old-imports-population` (the opening population builder reading core character history and traits) and ports `town-labor.ts` against the core's records once those exist; the 12-file branch is a useful move of the code but not the finished port.
 
 Sent back 2026-10-20 from PR #5540 (branch claude/port-town-employment): the new src/core2/town-labor.ts imports life-queries and World types from src/simulation; core code must not import the old engine; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5100 (branch claude/town-employment-mix): The EntityId import and merge-conflict fixes address the earlier review. The linked item Done when still requires a drawn one-year before/after comparison of jobs by organization record id, with population.ts and opening-employment.ts no longer importing the old town-employment files. This body explicitly delivers only the sourced-mix half and leaves laborStatus, townResidents, activeWorkers, ensureTownEmployment and fillTownJobs on the parent item; comparing 810 static mix values is not that jobs/year proof. Track the completed mix move under a bounded item while leaving the job-writing port open, or complete the named acceptance before marking this umbrella done.; finish on that branch, merge main into it first.

@@ -1049,6 +1049,7 @@ $("talk-leave").addEventListener("click", async () => {
     await post("/api/filing/leave");
     filing = undefined;
     show("filing-overlay", false);
+    $("game").classList.remove("filing-open");
     delete $("filing-title").dataset.contest;
     show("talk", false);
     await refresh();
@@ -1106,16 +1107,20 @@ function renderFiling(value) {
 /** The named office's rules from its records, with the platform and party to file under. */
 function renderFilingOverlay(value) {
   const overlay = value?.overlay;
-  show("filing-overlay", Boolean(overlay && !value.result));
+  const open = Boolean(overlay && !value.result);
+  show("filing-overlay", open);
+  // The news card sits where the overlay does; it waits until the counter closes.
+  $("game").classList.toggle("filing-open", open);
   if (!overlay || $("filing-title").dataset.contest === overlay.contestId)
     return;
   $("filing-title").dataset.contest = overlay.contestId;
   $("filing-title").textContent = overlay.title;
+  // Each rule by its control name; the filing deadline is one of the rules.
+  const ruleNames = controls.filing?.rules ?? {};
   $("filing-checks").replaceChildren(
-    row("Deadline", overlay.filingDeadline),
     ...overlay.checks.map((check) => {
       const line = row(
-        check.rule,
+        ruleNames[check.rule] ?? words(check.rule),
         `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
@@ -1396,6 +1401,26 @@ async function campaignRows() {
           button("Ad", "ad", { amountMinor: "5000" }),
           button("Poll", "poll", { sampleSize: "50" }),
         ),
+        // The player's own money into the campaign: the amount is theirs to set.
+        (() => {
+          const dollarsIn = el("input", {
+            type: "number",
+            min: "0",
+            step: "1",
+            value: "0",
+            ariaLabel: controls.campaignContribute.dollars,
+          });
+          const give = el("button", {
+            type: "button",
+            textContent: controls.campaignContribute.give,
+          });
+          give.addEventListener("click", () =>
+            act("contribute", {
+              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+            }),
+          );
+          return el("div", {}, dollarsIn, give);
+        })(),
         speechPanel(filing, venue),
         // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
         ...(debates ?? []).map((debate) => debatePanel(debate)),
@@ -3647,7 +3672,7 @@ const sheets = {
               el("h3", { textContent: first.title }),
               el("p", {
                 className: "government-place",
-                textContent: first.government ?? "",
+                textContent: first.body ?? first.government ?? "",
               }),
             );
             if (first.presentation?.chamberUrl)

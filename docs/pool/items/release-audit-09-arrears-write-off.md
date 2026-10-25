@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
+status: done
 claimed-by:
 pr: #5524
 blocked-on:

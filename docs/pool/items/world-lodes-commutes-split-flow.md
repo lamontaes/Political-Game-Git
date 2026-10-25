@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/lodes-split-flow
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:34:29.879Z
+claimed-at:
 ---
 
 **What.** world-lodes-commutes is really three jobs. First, split the one residents:unplaced-wages flow per place into two flows with the same finance kind: workers in the town's missing industries (health care, education, government), and commuters, sized by 1 minus the place's live-work share in data/source/lodes-commuting/place-commuting.json (src/core2/commuting-shares.ts), each commuter flow paid from a recorded commute-destination account. Second, make something read the commuter flow: the nonresident local income tax (world-withholding-nonresident-local) and the law-reach counts that already read unplacedWorkers. Third, put town firms in the missing industries. Do the first two together; the third is separate.
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T05:34:29.879Z
 
 **Files.** src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/counted-demotion.ts, src/core2/commuting-shares.ts
 
-**Notes.** Found Oct 20 (claude/political-game-pool-yucp92-vv) while claiming world-lodes-commutes. The consumers of the unplaced flow are in src/core2/modules/residents.ts (lines near 308, 524, 583, 1706), counted-moves.ts, counted-money.ts, counted-demotion.ts and law-reach/group-b-people.ts; the flow is matched by finance kind in most and by id prefix in counted-weight-unplaced.test.ts. The LODES file keeps only live-work, live-out and work-in totals, not destination places, so the commute destination is a recorded account, not a named town, until the origin-destination matrix is kept.
+**Notes.** Found Oct 20 (claude/political-game-pool-yucp92-vv) while claiming world-lodes-commutes. The consumers of the unplaced flow are in src/core2/modules/residents.ts (lines near 308, 524, 583, 1706), counted-moves.ts, counted-money.ts, counted-demotion.ts and law-reach/group-b-people.ts; the flow is matched by finance kind in most and by id prefix in counted-weight-unplaced.test.ts. The LODES file keeps only live-work, live-out and work-in totals, not destination places, so the commute destination is a recorded account, not a named town, until the origin-destination matrix is kept. Claim released Oct 23: branch gone.

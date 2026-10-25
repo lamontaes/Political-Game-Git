@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/territory-powers
 pr: #5576
 blocked-on:

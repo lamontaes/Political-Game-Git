@@ -27,7 +27,7 @@ A sent-back PR is usually one small fix away from merging. Finish it on its own 
    - never loosen, skip or early-return a test;
    - never raise a timeout without a measured reason;
    - tests draw places from all 56 with bounded retries and fail when the retries run out.
-4. Run the changed-file checks on the merged result (`local-gate`).
+4. Run the self-check from `session-start` ("Self-check before the PR") on the merged result. A send-back for missing proof means every done-when line, not only the one the merger quoted: fill the PR body's **Done when** table with the evidence for each. Then run the changed-file checks (`local-gate`).
 5. Push with a plain push. Comment once on the PR: `Fixer: fixed <what>, at <sha>. Checks run here: <list>, all passed.` The merger compares that commit's time with its send-back.
 6. Set the item back to `in-pr` with the PR number.
 

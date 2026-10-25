@@ -2,6 +2,7 @@ import { coreAPI } from "../core2/state";
 import {
   askForDonation,
   askForEndorsement,
+  contributeOwnMoney,
   askToVolunteer,
   campaignFor,
   commissionPoll,
@@ -213,6 +214,20 @@ export function campaignAct(
           personId: id,
           givenMinor: askForDonation(api, input.filingId, id),
         })),
+      };
+    case "contribute":
+      // The player's own money, the amount they chose.
+      return {
+        answers: [
+          {
+            personId,
+            givenMinor: contributeOwnMoney(
+              api,
+              input.filingId,
+              input.amountMinor ?? 0,
+            ),
+          },
+        ],
       };
     case "endorsement":
       return {

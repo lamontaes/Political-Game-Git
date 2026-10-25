@@ -9,6 +9,8 @@ import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { residentCounts, residentPerson } from "./modules/residents";
 import { coreAPI, personOrFillIn } from "./state";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { pairKey } from "./kernel/ids";
+import { currentCloseness } from "./closeness";
 import type { CoreInput, CoreState } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -37,9 +39,23 @@ describe(`counted population drift in ${place.name} (seed ${seed})`, () => {
   let start: number;
   let rows: CountsRow[];
   let opening: number;
+  let untied: string[];
+  let counted: number;
   beforeAll(() => {
     input = generatedOpening(place, { twoLevel: true });
     core = createRenewalCore(input);
+    // Each full person's relatives in the counts, and whether the opening
+    // gave the tie a closeness record a death notice can be grieved from.
+    untied = [];
+    counted = 0;
+    for (const person of core.people.values())
+      for (const id of person.familyIds) {
+        if (!core.husks.has(id)) continue;
+        counted += 1;
+        const tie = core.relationships.get(pairKey(person.id, id));
+        if (!tie || !(currentCloseness(core, tie) > 0))
+          untied.push(`${person.id}:${id}`);
+      }
     start = residentCounts(core).reduce((n, row) => n + row.people, 0);
     opening = cash(core);
     // Through two firsts of the month.
@@ -49,6 +65,11 @@ describe(`counted population drift in ${place.name} (seed ${seed})`, () => {
       .table("counts")
       .rows() as unknown as CountsRow[];
   }, 600_000);
+
+  it("opens every tie between a full person and a counted relative with recorded closeness", () => {
+    expect(counted, "full people with counted relatives").toBeGreaterThan(0);
+    expect(untied, `${place.name}: ties without closeness`).toEqual([]);
+  });
 
   it("records each month's flows, and the counts equal the start plus them", () => {
     expect(rows.length).toBeGreaterThanOrEqual(2);

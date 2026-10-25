@@ -242,6 +242,10 @@ export function bringItUp(
       facts,
       momentKey: `${speakerId}:${listenerId}:${change.eventId}:${core.date}:${part}`,
       fallbackSourceId: change.eventId,
+      voice: {
+        traits: core.people.get(speakerId)?.traits ?? {},
+        register: "conversation",
+      },
     });
   const lines = [];
   const topic = words.story ? storyTopic(change) : null;

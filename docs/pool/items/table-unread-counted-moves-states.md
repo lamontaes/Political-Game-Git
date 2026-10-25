@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/moves-unread
 pr: #4978
 blocked-on:
@@ -27,3 +27,5 @@ Done Oct 17 (claude, PR 4897): the `states` table is deleted with its writer; th
 Sent back 2026-10-17 from PR #4978 (branch claude/counted-moves-unread-tables): The new bookkeeping-only move ledger breaks the counted-town regression now merged on main (#4877): counted-moves-town.test.ts explicitly disables bookkeeping, reads countedMoves(...), and requires a recorded departure. record() now returns before writing every such row. Update that ledger consumer to enable bookkeeping while preserving its departure assertions, and audit the other direct move-ledger consumers for the same mismatch before merging main and rerunning changed-file checks.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #4978 (branch claude/counted-moves-unread-tables): merging main still conflicts in src/core2/modules/counted-moves.ts; finish on that branch, merge main into it first.
+
+Oct 20 (claude, claude/counted-moves-unread-tables): merging main into PR #4978 conflicted because main already carries the decision this PR reversed. PR #4897 (merged) deleted `states` and kept `moves` and `pulls`, which answer why a counted household moved and what pulled its group (Ask why), with `one-model-proof.mjs` and the engine tests as readers. PR #4978 made the move ledger bookkeeping-only and deleted `pulls`, which contradicts that and the counted-town regression (#4877). I took main for `counted-moves.ts`, its tests and this file, so the branch now equals main and the PR has no change left. Recommend the CTO close #4978 and rule whether the table trace counts a proof script and tests as readers (the only open question from #4897). Nothing else to build here.

@@ -40,7 +40,7 @@ This section overrides anything heavier elsewhere in this file, in a skill or in
 1. **Start** (`session-start`): read this file, the item and its Notes, and the last rulings in `docs/coordination/OWNER-DECISIONS.md`. Install, then run the golden-path suite (`node --import tsx tests/golden-path/runner.mjs`) before changing anything.
 2. **Red main comes first** (owner, Oct 15). If the latest release run on main is red, claim `release-main-red`, fix it at the root on its own PR, then return to your item.
 3. **Build** one item at a time to its done-when, committing each meaningful unit with its tests passing.
-4. **Open the PR ready for review**, following `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is `Pool item: <id>`, then the gate line naming your changed-file checks and their results, then what changed for the player, what was removed, and any **OWNER DECISIONS NEEDED**. Set the item `in-pr`.
+4. **Open the PR ready for review**, following `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is `Pool item: <id>`, then the gate line naming your changed-file checks and their results, then what changed for the player, the **Done when** table (each line of the item's done-when with its evidence), what was removed, and any **OWNER DECISIONS NEEDED**. Before opening it, run the self-check in `session-start`: a done-when line without evidence means the item isn't done. Set the item `in-pr`.
 5. **Done means it works in play:** another engine reads what it wrote in a played world (`played-world-proof`), the guards pass, and the owner can play it.
 
 ## Placeholders
@@ -67,7 +67,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **Look before you ask (owner, Oct 14).** Before any question goes to the owner, and before the CTO rules in his place, read the decision register and `OWNER-DECISIONS.md` and search `docs/`. Most of what looks open was decided; quote the decision instead of asking.
 - **Ask why (owner, Oct 14).** Every proof answers why, by record. Nobody attributes a change to a law unless they learned of it (news received, a conversation, a notice, an ad), and the stance cites that source. See `ask-why`.
 - **Owner decisions are flagged, never waited on (owner, Oct 14).** Build the simplest version that follows this file, register a stopgap of kind `owner-decision`, and write the question under **OWNER DECISIONS NEEDED** in the PR body and in `OWNER-DECISIONS.md`. The CTO brings the open list to the owner in one sitting.
-- **No hand-written player text.** Words come from the English engine; screens show record data and control names. Authored bank pieces stay `shippable: false` until graded (`words-engine`).
+- **No hand-written player text.** Words come from the English engine; screens show record data and control names. Every bank piece plays unless the owner's grades reject it; a grade run sets every bank at once, and nothing waits on his grading (owner, Oct 24; `words-engine`).
 - **Research before building.** Real data checks the simulation and never decides an outcome by itself. See `research-habit`.
 - **Speed.** A town's game year must run in under two minutes (`npm run speed:year`). No change may make a year more than 20% slower than its base, measured on the same base and machine, one process at a time. Never scan the whole world or history every day; use indexes or act on the day something changed.
 - **Saves don't matter** until early-access preparation, when a versioned save format is built.

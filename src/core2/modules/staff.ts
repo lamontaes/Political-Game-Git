@@ -41,7 +41,7 @@ import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
@@ -95,14 +95,18 @@ export interface StafferRow {
     readonly missed: number;
   };
   /** Why the official let the aide go: the share of scheduled days missed since the last look and the reasons weighed. */
-  readonly dismissed?: {
-    readonly on: string;
-    readonly absentShare: number;
-    readonly lean: number;
-    readonly workedDays: number;
-    readonly missedDays: number;
-    readonly jobId: string;
-  };
+  readonly dismissed?: Dismissal;
+  /** The official's decision to let the aide go, made after the aide's day's work; the post's job ends before their next. */
+  readonly dismissing?: Dismissal;
+}
+
+export interface Dismissal {
+  readonly on: string;
+  readonly absentShare: number;
+  readonly lean: number;
+  readonly workedDays: number;
+  readonly missedDays: number;
+  readonly jobId: string;
 }
 
 export interface WorkRecord {
@@ -129,11 +133,16 @@ export const STAFF_MODULE: CoreModule = {
       work: { indexes: { byStaffer: { fields: ["stafferId"] } } },
     },
   },
-  onCalendarWork: (api, work) => staffReview(api, work),
+  onCalendarWork: (api, work) => {
+    if (work.kind === "staff-dismiss") dismissDue(api, work);
+    else staffReview(api, work);
+  },
 };
 
 export function openStaff(core: CoreState): void {
-  registerLegislatureHooks({ beforeVote: briefBeforeVote });
+  registerLegislatureHooks({
+    beforeVote: { name: "staff-brief", run: briefBeforeVote },
+  });
   if (core.modules.has(STAFF_MODULE_ID)) return;
   registerModule(core, STAFF_MODULE);
   scheduleReview(coreAPI(core), core.date);
@@ -293,6 +302,68 @@ function familyLinkOf(api: CoreAPI, a: string, b: string): string | undefined {
 }
 
 /**
+ * What one review reads about a person, the same for every official it
+ * considers: whether they could take a post now (alive, out of custody, of
+ * age, not already worked today), their working-age weight and their best
+ * current hourly pay. Shared across the officials of one review; a person
+ * hired during it leaves through the staff table.
+ */
+interface ReviewFacts {
+  readonly people: Map<
+    string,
+    {
+      readonly open: boolean;
+      readonly workingAge: number;
+      readonly pay: number;
+    }
+  >;
+  /** The town's full residents in id order. */
+  town?: PersonState[];
+  /** A resident's row as an applicant to an office at a site, by site and person. */
+  readonly applicants: Map<string, StaffCandidate>;
+}
+
+function personFacts(
+  api: CoreAPI,
+  person: PersonState,
+  minimum: number,
+  review?: ReviewFacts,
+): {
+  readonly open: boolean;
+  readonly workingAge: number;
+  readonly pay: number;
+} {
+  const held = review?.people.get(person.id);
+  if (held) return held;
+  const state = api.state as CoreState;
+  const date = api.state.date;
+  const age = ageOn(person, date);
+  const open =
+    person.alive &&
+    !inCustody(api, person.id) &&
+    age >= minimum &&
+    // Their old job ends with the new post, which cannot be today's.
+    !workedToday(state, person);
+  const facts = {
+    open,
+    workingAge: open ? workingAgeWeight(age) : 0,
+    pay: open ? currentPay(state, person.id) : 0,
+  };
+  review?.people.set(person.id, facts);
+  return facts;
+}
+
+/** A person's best hourly pay among their open work commitments. */
+function currentPay(state: CoreState, personId: string): number {
+  let pay = 0;
+  for (const id of state.work.commitmentsByPerson.get(personId) ?? []) {
+    const c = state.work.commitments.get(id);
+    if (c && c.endsAt === undefined) pay = Math.max(pay, c.hourlyMinor);
+  }
+  return pay;
+}
+
+/**
  * Who an official can hire: people they know, and applicants (town adults
  * out of work, or whose current pay is under the post's, and the town's
  * counted adults with no work in the records). Each is someone the records
@@ -303,13 +374,13 @@ function familyLinkOf(api: CoreAPI, a: string, b: string): string | undefined {
 export function staffCandidates(
   api: CoreAPI,
   officialId: string,
+  review?: ReviewFacts,
 ): readonly StaffCandidate[] {
   const official = api.state.people.get(officialId);
   if (!official) return [];
   const state = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
   const site = officeSiteOf(api, officialId);
-  const date = api.state.date;
   const minimum = campaignParameter("staffMinimumAge");
   const hired = new Set(
     (table(api, "staff").rows() as unknown as StafferRow[]).map(
@@ -318,27 +389,20 @@ export function staffCandidates(
   );
   const postHourly = campaignParameter("staffHourlyMinor");
   const out: StaffCandidate[] = [];
-  for (const person of peopleInOrder(state)) {
-    if (
-      !person.alive ||
-      person.id === officialId ||
-      hired.has(person.id) ||
-      inCustody(api, person.id) ||
-      ageOn(person, date) < minimum ||
-      // Their old job ends with the new post, which cannot be today's.
-      workedToday(state, person)
-    )
-      continue;
+  for (const person of reachablePeople(state, official, town, review)) {
+    if (person.id === officialId || hired.has(person.id)) continue;
+    const facts = personFacts(api, person, minimum, review);
+    if (!facts.open) continue;
     if (person.tier === HUSK_TIER) {
       // stopgapId: SG-WORLD-staff-husk-work
       api.stopgap("SG-WORLD-staff-husk-work");
       continue;
     }
-    const placed = {
+    const placed = () => ({
       ...reachOf(site, person.placeId, homeCounties(person.countyId)),
-      workingAge: workingAgeWeight(ageOn(person, date)),
+      workingAge: facts.workingAge,
       traits: person.traits,
-    };
+    });
     if (official.knownIds.has(person.id) || official.familyIds.has(person.id)) {
       const link = official.familyIds.has(person.id)
         ? familyLinkOf(api, officialId, person.id)
@@ -346,18 +410,14 @@ export function staffCandidates(
       out.push({
         personId: person.id,
         from: "known",
-        ...placed,
+        ...placed(),
         ...(link ? { familyLinkId: link } : {}),
       });
       continue;
     }
     if (person.placeId !== town) continue;
-    const pay = [...(state.work.commitmentsByPerson.get(person.id) ?? [])]
-      .map((id) => state.work.commitments.get(id))
-      .filter((c) => c && c.endsAt === undefined)
-      .reduce((max, c) => Math.max(max, c!.hourlyMinor), 0);
-    if (pay < postHourly)
-      out.push({ personId: person.id, from: "applicant", ...placed });
+    if (facts.pay < postHourly)
+      out.push(applicantRow(site, person, placed, review));
   }
   // The town's counted adults who earn less than the post pays apply too.
   for (const voter of countedPool(api, town, minimum)) {
@@ -489,25 +549,80 @@ function countedPool(api: CoreAPI, town: string, minimum: number) {
   return rows;
 }
 
-const ordered = new WeakMap<
-  CoreState,
-  {
-    readonly date: string;
-    readonly size: number;
-    readonly rows: readonly PersonState[];
+/**
+ * The full people a review can reach, in id order: the official's own known
+ * people and family wherever they live, and the town's residents (the place
+ * index), instead of every person in the world.
+ */
+function reachablePeople(
+  state: CoreState,
+  official: PersonState,
+  town: string,
+  review?: ReviewFacts,
+): PersonState[] {
+  const residents = townResidents(state, town, review);
+  const own: PersonState[] = [];
+  for (const id of new Set([...official.knownIds, ...official.familyIds])) {
+    const person = state.people.get(id);
+    if (person) own.push(person);
   }
->();
+  own.sort(byId);
+  // The two lists in one id order, each person once.
+  const out: PersonState[] = [];
+  let i = 0,
+    j = 0;
+  while (i < residents.length || j < own.length) {
+    const a = residents[i],
+      b = own[j];
+    const order = !a ? 1 : !b ? -1 : a.id.localeCompare(b.id);
+    if (order <= 0) {
+      out.push(a!);
+      i += 1;
+      if (order === 0) j += 1;
+    } else {
+      out.push(b!);
+      j += 1;
+    }
+  }
+  return out;
+}
 
-/** Full people in id order, sorted once a day (or when someone is filled in). */
-function peopleInOrder(state: CoreState): readonly PersonState[] {
-  const held = ordered.get(state);
-  if (held?.date === state.date && held.size === state.people.size)
-    return held.rows.map((row) => state.people.get(row.id) ?? row);
-  const rows = [...state.people.values()].sort((a, b) =>
-    a.id.localeCompare(b.id),
-  );
-  ordered.set(state, { date: state.date, size: state.people.size, rows });
-  return rows;
+const byId = (a: PersonState, b: PersonState) => a.id.localeCompare(b.id);
+
+/** The town's full residents in id order, read once a review. */
+function townResidents(
+  state: CoreState,
+  town: string,
+  review?: ReviewFacts,
+): PersonState[] {
+  if (review?.town) return review.town;
+  const out: PersonState[] = [];
+  for (const id of state.peopleByPlace.get(town) ?? []) {
+    const person = state.people.get(id);
+    if (person) out.push(person);
+  }
+  out.sort(byId);
+  if (review) review.town = out;
+  return out;
+}
+
+/** A resident's applicant row for an office at a site, the same for every official there in one review. */
+function applicantRow(
+  site: OfficeSite,
+  person: PersonState,
+  placed: () => Omit<StaffCandidate, "personId" | "from">,
+  review?: ReviewFacts,
+): StaffCandidate {
+  const key = `${site.placeId}|${person.id}`;
+  const held = review?.applicants.get(key);
+  if (held) return held;
+  const row: StaffCandidate = {
+    personId: person.id,
+    from: "applicant",
+    ...placed(),
+  };
+  review?.applicants.set(key, row);
+  return row;
 }
 
 /** How well a new hire would do the work, from their traits alone (no tasks done yet). */
@@ -939,10 +1054,11 @@ function reviewAttendance(
   api: CoreAPI,
   officialId: string,
   official: Readonly<PersonState>,
+  source: ModuleCalendarWork["source"],
 ): void {
   const state = api.state as CoreState;
   for (const row of servingStaffOf(api, officialId)) {
-    if (!row.jobId) continue;
+    if (!row.jobId || row.dismissing) continue;
     const totals = state.work.totalsByJob.get(row.jobId);
     const worked = totals?.workedDays ?? 0;
     const missed = totals?.missedDays ?? 0;
@@ -965,27 +1081,77 @@ function reviewAttendance(
         campaignParameter("staffAbsenceTolerance") *
           (1 - parameter("traitDecisionWeight") * lean)
     ) {
-      api.endJob(
-        row.jobId,
-        `staff:dismissed-absent:${row.id}:${api.state.date}`,
-      );
-      table(api, "staff").put({
-        ...row,
-        dismissed: {
-          on: api.state.date,
-          absentShare,
-          lean,
-          workedDays: worked - since.worked,
-          missedDays: missed - since.missed,
-          jobId: row.jobId,
-        },
-      } as unknown as ModuleRow);
+      const decision: Dismissal = {
+        on: api.state.date,
+        absentShare,
+        lean,
+        workedDays: worked - since.worked,
+        missedDays: missed - since.missed,
+        jobId: row.jobId,
+      };
+      if (workedToday(state, { jobId: row.jobId }))
+        awaitDismissal(api, { ...row, dismissing: decision }, source);
+      else dismiss(api, row, decision);
     } else
       table(api, "staff").put({
         ...row,
         reviewed: { on: api.state.date, worked, missed },
       } as unknown as ModuleRow);
   }
+}
+
+function settle(api: CoreAPI, row: StafferRow, decision: Dismissal): void {
+  const settled: { -readonly [K in keyof StafferRow]: StafferRow[K] } = {
+    ...row,
+    dismissed: decision,
+  };
+  delete settled.dismissing;
+  table(api, "staff").put(settled as unknown as ModuleRow);
+}
+
+function dismiss(api: CoreAPI, row: StafferRow, decision: Dismissal): void {
+  api.endJob(decision.jobId, `staff:dismissed-absent:${row.id}:${decision.on}`);
+  settle(api, row, decision);
+}
+
+/**
+ * An aide let go after their day's work (the controlled character plays their
+ * day before the calendar runs) has the post's job end in the next day's
+ * calendar work, which runs before that day's work; until then it is not the
+ * job they work, so no shift is offered.
+ */
+function awaitDismissal(
+  api: CoreAPI,
+  row: StafferRow,
+  source: ModuleCalendarWork["source"],
+): void {
+  table(api, "staff").put(row as unknown as ModuleRow);
+  if (api.state.people.get(row.personId)?.jobId === row.dismissing!.jobId)
+    api.updatePerson(row.personId, { jobId: undefined });
+  const date = addDays(makeIsoDate(api.state.date), 1);
+  api.moduleCalendar(STAFF_MODULE_ID).schedule({
+    key: `staff-dismiss:${row.id}:${date}`,
+    date,
+    kind: "staff-dismiss",
+    source,
+    sourceRecordIds: [row.id],
+  });
+}
+
+function dismissDue(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const row = table(api, "staff").get(work.sourceRecordIds[0]!) as unknown as
+    StafferRow | undefined;
+  if (!row?.dismissing) return;
+  const decision = row.dismissing;
+  const state = api.state as CoreState;
+  if (state.jobs.get(decision.jobId)?.endsAt !== undefined) {
+    // The post ended another way first (a death, another job): the decision stands on record.
+    settle(api, row, decision);
+    return;
+  }
+  if (workedToday(state, { jobId: decision.jobId }))
+    awaitDismissal(api, row, work.source);
+  else dismiss(api, row, decision);
 }
 
 /**
@@ -1005,7 +1171,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     spendLivingCost(
       api,
       row.personId,
-      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+      daysBetweenText(row.livedThrough, api.state.date),
     );
     table(api, "staff").put({
       ...row,
@@ -1021,10 +1187,11 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         .filter((id): id is string => !!id && id !== state.playerId),
     ),
   ].sort();
+  const review: ReviewFacts = { people: new Map(), applicants: new Map() };
   for (const officialId of officials) {
     const official = api.state.people.get(officialId);
     if (!official?.alive) continue;
-    reviewAttendance(api, officialId, official);
+    reviewAttendance(api, officialId, official, work.source);
     if (
       servingStaffOf(api, officialId).length >=
       campaignParameter("staffPerOfficial")
@@ -1040,14 +1207,12 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       continue;
     // Anyone the post pays more than they earn now would apply, an employed
     // one leaving their job for it (`startPublicJob` ends it).
-    const choice = staffCandidates(api, officialId)
-      .filter((c) => {
-        const pay = [...(state.work.commitmentsByPerson.get(c.personId) ?? [])]
-          .map((id) => state.work.commitments.get(id))
-          .filter((row) => row && row.endsAt === undefined)
-          .reduce((max, row) => Math.max(max, row!.hourlyMinor), 0);
-        return pay < postHourly;
-      })
+    const choice = staffCandidates(api, officialId, review)
+      .filter(
+        (c) =>
+          (review.people.get(c.personId)?.pay ??
+            currentPay(state, c.personId)) < postHourly,
+      )
       .map((c) => ({ ...c, score: hireReasons(c).score }))
       .sort(
         (a, b) => b.score - a.score || a.personId.localeCompare(b.personId),
