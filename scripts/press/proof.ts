@@ -40,7 +40,7 @@ import {
   openContests,
 } from "../../src/core2/modules/elections";
 import {
-  BRING_IT_UP_DATA,
+  BRING_IT_UP_ROWS,
   believedCause,
   changesKnownTo,
 } from "../../src/director/bring-it-up";
@@ -58,11 +58,10 @@ const name = (core: CoreState, id: string | null | undefined) => {
 const PRINTED_ROW = {
   eventKind: "news.read",
   institutionFact: { prefix: "printed:", suffix: ":story" },
-  line: [],
 };
 const data = {
-  ...BRING_IT_UP_DATA,
-  changes: [PRINTED_ROW, ...BRING_IT_UP_DATA.changes],
+  ...BRING_IT_UP_ROWS,
+  changes: [PRINTED_ROW, ...BRING_IT_UP_ROWS.changes],
 };
 
 let draws = 0;
