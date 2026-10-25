@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/drives-cause-acts-pull-less
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T14:23:59.869Z
 ---
 
 **What.** In Bedford, Wyoming (key 5606045, seed 9a4dd331ace7) on main 01f5cd4715, the third played year: 63 of 1,643 full adults volunteer for a cause (3.8 percent), 187 sessions each, about 408 hours, where real formal volunteers number 23 to 30 percent of adults and give a median of 24 to 40 hours a year (CEV 2017 to 2023). 44 people donate to a cause 241 times each, and 61 approach an office 19 times each, where 7.0 to 9.4 percent of adults donate to a political cause and 8.7 to 11.4 percent contact an official at least once a year. The drives engine scores the same cause act afresh each day with the same pull, so a holder repeats it near daily, and few people outside the holders ever act. Make each further act of a kind pull less as the holder's time and money go to it and what they gave recently, so the totals land in the bands.
