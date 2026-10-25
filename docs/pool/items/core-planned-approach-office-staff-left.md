@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/approach-staff-left
+pr: #6016
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T10:12:32.415Z
 ---
 
 **What.** The free-time planner plans an approach to a known office days ahead, offered only while the office has staff (the known-office provider in src/core2/modules/life.ts). Since the office's staff follow its jobs (refreshOfficeStaff, Oct 24), the clerk can leave before the planned day. performPlanned re-checks only the action's prerequisites, so the approach runs and throws 'An official approach requires a recorded staff member.', which stops the day. Seen on clean main 4670cb768a: Springboro, Pennsylvania (place 4272872, drawn by drawPlace('86a32c18ca95db77:1', 'purpose-scenes')) throws on 2025-02-22 with nothing but the year running.

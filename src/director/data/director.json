@@ -481,7 +481,7 @@
     "directorElectionResultImpact": {
       "value": 0.28,
       "tag": "ESTIMATED",
-      "citation": "Winning or losing one's own race, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same item filing to run uses; the owner rules that running, winning and losing are journal entries (Oct 14).",
+      "citation": "Winning or losing one's own race, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same item filing to run uses, and giving an inaugural address; the owner rules that running, winning and losing are journal entries (Oct 14).",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
     },
     "directorChoicesPerTurn": {
@@ -1038,7 +1038,7 @@
     "directorOfficeActImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
-      "citation": "An officeholder introducing a bill or casting a vote on one. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized like hearing back from a town office (0.15), below filing to run (0.28), so it reaches the member's journal without interrupting play (interrupt line 0.5). Checked by the vote and the introduction appearing as journal lines in a played year.",
+      "citation": "An officeholder introducing a bill, casting a vote on one, or signing or vetoing one, the sponsor whose bill was signed or vetoed, and an officeholder holding a town hall. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized like hearing back from a town office (0.15), below filing to run (0.28), so it reaches the member's journal without interrupting play (interrupt line 0.5). Checked by the vote and the introduction appearing as journal lines in a played year.",
       "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
     }
   },
@@ -1282,6 +1282,26 @@
       "eventKind": "public-comment",
       "channel": "cause",
       "impactParameter": "directorPublicCommentImpact"
+    },
+    {
+      "eventKind": "president.address",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "town-hall",
+      "channel": "cause",
+      "impactParameter": "directorOfficeActImpact"
+    },
+    {
+      "eventKind": "official-appointed",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "executive-action",
+      "channel": "cause",
+      "impactParameter": "directorOfficeActImpact"
     },
     {
       "eventKind": "office.voted",

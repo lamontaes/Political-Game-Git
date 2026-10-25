@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
-claimed-by: words/narrative-seam
+status: open
+claimed-by:
 pr: #5358
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-23T20:29:14.812Z
+claimed-at:
 ---
 
 **What.** The CTO's Oct 19 seam ruling has the director say what happens and why by record, and the English engine say how it is said. words-narrative-seam's first step (#5614) moved conversation fitting; the rest is #5358. It moves scene-talk piece-picking into src/english/scene-talk-words.ts and the mined bank adapters from src/director/mined to src/english/mined. The director also stops reading a worded line's text: the English engine reports whether a line asks a question or hands the floor over.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-23T20:29:14.812Z
 **Files.** src/director/scene-talk.ts, src/english/scene-talk-words.ts, src/english/mined/, src/english/bank-line.ts, src/director/conversation.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-25 UTC from PR #5358 (branch words/narrative-seam): corrective 228d6a3f64 conflicts with main in bring-it-up-press.test.ts, scene-talk.ts, school-answers.test.ts, speech-builder.ts and the held-first.test.ts rename/add placement; the first Done-when row also admits five director callers of moved adapters remain, contrary to the unchanged acceptance; finish on that branch, merge main into it first.
