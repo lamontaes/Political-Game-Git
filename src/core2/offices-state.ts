@@ -88,6 +88,8 @@ interface ResearchExecutive {
   readonly title: string;
   readonly termYears?: number;
   readonly nextRegularElectionYear?: number;
+  /** The first day of the office's first term, for an office created after the game opens. */
+  readonly firstTermStart?: string;
   readonly vacancyRule?: ResearchVacancy;
   readonly source?: string;
   readonly citation?: string;
@@ -528,6 +530,9 @@ export function stateOffices(
         elected: true,
         districted: false,
         coversTown: true,
+        ...(executive.firstTermStart
+          ? { firstTermStart: executive.firstTermStart }
+          : {}),
         source: [executive.citation, executive.source]
           .filter(Boolean)
           .join(" "),
