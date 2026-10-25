@@ -443,8 +443,9 @@ export function composeJournal(
   let chapter: (typeof chapters)[number] | undefined;
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
-  // The entries told so far, and those a later entry has already revised.
-  const toldMoments = new Map<string, JournalMoment>();
+  // Every moment of the person's so far, told or not, and those a later
+  // entry has already revised.
+  const momentsById = new Map(moments.map((moment) => [moment.id, moment]));
   const revisedAlready = new Set<string>();
   // How each closing line (a hard time, a look-back) ends, its last two
   // words, so none is said twice in one journal.
@@ -686,15 +687,16 @@ export function composeJournal(
           next.kindPrefix !== row.kindPrefix
         );
       });
-    // Revised by what came after:
-    // an entry told as small, and since grown by the same person coming back,
-    // is looked back on in the entry that echoes it. Only when the record
-    // shows it: the earlier entry's weight then, against its weight now.
-    // Time has passed since: an eighth of a year at least, never the same season's
-    // entries revising each other.
+    // Revised by what came after, as a memoir with hindsight: a moment that
+    // weighed little then, told or not ("an uneventful high school chapter
+    // gains 'except for one person' twenty years on"), and since grown by the
+    // same person coming back, is looked back on in the entry that echoes it.
+    // Only when the record shows it: the earlier moment's weight then, against
+    // its weight now. Time has passed since: an eighth of a year at least,
+    // never the same season's moments revising each other.
     const changed = moment.echoes
       .filter((link) => link.earlierKind === "moment")
-      .map((link) => toldMoments.get(link.earlierId))
+      .map((link) => momentsById.get(link.earlierId))
       .filter(
         (earlier): earlier is JournalMoment =>
           !!earlier &&
@@ -753,7 +755,6 @@ export function composeJournal(
       ],
       ...(changed && revision ? { revises: [changed.id] } : {}),
     });
-    toldMoments.set(moment.id, moment);
     chapter!.through = moment.date;
   }
 
