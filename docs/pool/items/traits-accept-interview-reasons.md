@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-accept-interview
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T23:27:56.806Z
 ---
 
 **What.** press.accept-interview's case is closeness to the reporter less any grudge less interviewShyness (-1), so it is at least 1 for every candidate with no grudge: all 120 asks were accepted in Halfway, Missouri and all 70 in Marblehead, Ohio (gap row 'circumstances saturate the choice'). Real candidates answer about half of such requests: the League of Women Voters' VOTE411 2024 report gives a national median candidate response rate of 51%, and incumbents respond less than challengers. Weigh what the interview brings the candidate: the coverage they still need (less the more of the town already knows them, so an incumbent needs it least), their standing with the reporter and any grudge, with temperament at the study's size.
