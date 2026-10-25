@@ -1097,7 +1097,7 @@ export function composeSceneTalk(
     // A question the asker just asked is always answerable: the menu stays
     // open with what fits rather than the talk ending on it.
     const asked = /\?$/.test(lastAsker?.text ?? "");
-    // Owner rules (Oct 16): a confront or a threat is answered in kind (the menu
+    // A confrontation or a threat is answered in kind (the menu
     // can mirror it), and a scene that asks, offers or tells a decision lets the
     // player ask back at the root.
     const unmirrored =
