@@ -590,8 +590,10 @@ try {
   assert.notDeepEqual(page2, page1, "Continue did not turn the ballot page");
   console.log("PASS ballot: Continue turns the pages");
   // Page on until the player's own race (candidate "Test Voter") shows.
+  // The pager hides (not disables) its ends, so stop at a hidden Continue.
   let found = false;
-  for (let p = 0; p < 15; p += 1) {
+  for (let p = 0; p < 20; p += 1) {
+    console.log(`Ballot page ${p + 1}:`, (await titles()).join(" | "));
     if (
       await page
         .locator("#ballot-races .race:not(.paged-out) button", {
@@ -603,7 +605,7 @@ try {
       break;
     }
     const next = page.locator("#ballot-pager button").nth(1);
-    if (!(await next.count()) || (await next.isDisabled().catch(() => true)))
+    if (!(await next.count()) || !(await next.isVisible().catch(() => false)))
       break;
     await next.evaluate((e) => e.click());
     await page.waitForTimeout(1500);
