@@ -29,9 +29,10 @@ import { purposeScene } from "./purpose-scene";
 // something back: about the bill, when there is one. In the played world a
 // resident files for a race counted within the year, watched from the day
 // they file as a player is, and campaigns to the count. Places are drawn in
-// turn until a race there takes the filing.
+// turn until a race there takes the filing; most elect only in even years
+// (eight in a row in one CI run), so up to 32 are drawn.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const ATTEMPTS = 8;
+const ATTEMPTS = 32;
 const YEAR = 365;
 const TRIED = 12;
 /** How many bills are pending before the body as the campaign starts. */
