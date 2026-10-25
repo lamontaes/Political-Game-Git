@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/law-checker-own-payment-rules
-pr:
+pr: #6098
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** scripts/law-wiring/own-payments.ts, scripts/law-wiring/check.ts, scripts/law-wiring/matrix.ts, docs/reports/law-wiring/families/
 
 **Notes.** Laws lead, Oct 25. Branch `claude/law-checker-own-payment-rules`, cut from main after #5589 merged.
+
+Laws lead, Oct 25, 20:10: PR #6098 opened at 7c8655e13d. The three rule fixes with tests, the ten labor and government run files redone, every labor and government law wired or not applicable.
