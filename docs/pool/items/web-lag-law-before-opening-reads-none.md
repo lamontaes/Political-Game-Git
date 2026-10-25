@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/web-reach-health-played
+pr: #6006
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T15:19:59.748Z
 ---
 
 **What.** The outcome web reads a law's value lagMonths back (lawValue in src/core2/modules/outcome-web.ts:145, used by effectOf). A starting policy-question row is dated at the opening (src/core2/modules/laws.ts:194, the earlier of today and the answers' date), so for any month before the opening the web reads no law. When a law in force at the opening is repealed, its lagged value reads as none, not yes, and the repeal's full effect shows in the first month instead of after the lag. Seen in the laws lead's checker run: right-to-work-to-turnout (lag 12 months) at 0.031 in Uehling, Nebraska (seed 5e27b0c4196fd3a8) in 2025-01, the month right-to-work was repealed.
@@ -20,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/outcome-web.ts, src/core2/modules/laws.ts
 
-**Notes.** TODO
+**Notes.** Fixed by #6006 (`web-reach-health`), effects lead, Oct 25: the web now reads a date before the calibration date as the law stood on that date (`causeAt` in `src/core2/modules/outcome-web.ts`). Its played test repeals the Medicaid expansion in Magas Arriba, Puerto Rico (seed `cd8115b11913aa3f`); the 12-month mortality link stays at no effect until `web:jurisdiction_2e69284a5d5f9738:2026-02`, and the break-it check with the old reading fails at once.
