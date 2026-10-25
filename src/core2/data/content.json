@@ -178,6 +178,9 @@
       "effect": "approach",
       "prerequisites": [
         {
+          "operation": "office-staffed"
+        },
+        {
           "operation": "has-drive"
         },
         {
