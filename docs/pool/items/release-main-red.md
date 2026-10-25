@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: merger3/release-typecheck-heap-2026-10-25
-pr:
+pr: #6035
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T13:08:00.000Z
