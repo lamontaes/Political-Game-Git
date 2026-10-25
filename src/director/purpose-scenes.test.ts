@@ -168,6 +168,7 @@ const run = (drawSeed: string): string | null => {
     `${where}: ${contest.id} has no winner`,
   ).toBeTruthy();
   let counted = 0;
+  let alone = 0;
   for (const filing of filings) {
     const filer = filing.personId as PersonId;
     const here = `${where}: ${filing.id}`;
@@ -178,6 +179,19 @@ const run = (drawSeed: string): string | null => {
       );
     expect(entry, `${here}: the count fired no scene`).toBeTruthy();
     const won = result!.winnerId === filer;
+    // A filer who lives alone by the count (their household moved out or
+    // died) has the race's own scene: nobody is at home to meet them.
+    const home = (
+      core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? []
+    ).some((id) => id !== filer && core.people.get(id)?.alive);
+    if (!home) {
+      expect(
+        entry!.bindings.map((row) => row.typeKey),
+        here,
+      ).toContain(won ? "race-won" : "race-lost");
+      alone += 1;
+      continue;
+    }
     expect(
       entry!.bindings.map((row) => row.typeKey),
       here,
@@ -196,7 +210,10 @@ const run = (drawSeed: string): string | null => {
       `${scene.scene.cause.id} (${won ? "won" : "lost"}): "${scene.scene.talk.state.text}"`,
     );
   }
-  expect(counted, `${where}: result scenes`).toBe(filings.length);
+  // Every filer's count is a scene: the household's for each who still
+  // lives with someone, and there is at least one.
+  expect(counted + alone, `${where}: result scenes`).toBe(filings.length);
+  if (!counted) return `${where}: every filer lived alone by the count`;
   // The rest of the year plays out.
   advanceCore(core, end);
   console.log(`PURPOSE SCENES ${where}\n${told.join("\n")}`);
