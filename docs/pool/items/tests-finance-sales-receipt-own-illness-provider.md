@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5987
 blocked-on:
@@ -23,4 +23,6 @@ claimed-at:
 
 **Notes.** Merger 3 reproduced both cases on checked PR 5907 head 5f0ed17187 and clean main c3c03bc19a with GOLDEN_PATH_SEED=c79c39c75d74bbb891f40bbeffc197dd; isolated baseline: 13 pass, 2 fail in 8.11s. #5829/core-finance-writer-own-illness-provider-red fixed finance-writer-contract.test.ts, not this receipt fixture.
 
-Sent back 2026-10-25 from PR #5987 (branch claude/receipt-own-illness-provider): own local checks and all15receipt cases pass at570896f316, but newer main release40205834226 fails desktop builds at the explicit4GB heap; release-main-red is actively claimed by claude/release-package-heap; resume after that repair lands and recheck locally, with no code defect alleged; finish on that branch, merge main into it first.
+Oct 25, 2026 (claude/receipt-own-illness-provider): the fixtures now install `WORK_MODULE` beside `LIFE_MODULE`, as `finance-writer-contract.test.ts` does since f2440f163a; all 15 cases pass.
+
+Sent back 2026-10-25 from PR #5987 (branch claude/receipt-own-illness-provider): own local checks and all15receipt cases pass at570896f316, but newer main release40205834226 fails desktop builds at the explicit4GB heap; release-main-red is actively claimed by claude/release-package-heap; resume after that repair lands and recheck locally, with no code defect alleged; finish on that branch, merge main into it first. Resumed the same day: lamontaes/Political-Game-Git#6049 merged the desktop build's 5 GB heap at 17:19 UTC, and main is merged into this branch.

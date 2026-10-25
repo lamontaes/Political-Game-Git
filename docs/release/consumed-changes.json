@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.26.2",
+      "releasedOn": "2026-10-25",
+      "revision": "932cf9637dbd0d36f45bc26a70df1b5d0b72f919",
+      "changeIds": [
+        "cto-play-first-lane",
+        "gov-press-outlet-cost-scheduled-hours",
+        "release-playtest-report-lead-commit-hash",
+        "words-speech-screen-no-crowd",
+        "world-school-pay-no-full-teachers-small-district"
+      ]
+    },
+    {
       "version": "0.26.1",
       "releasedOn": "2026-10-25",
       "revision": "8d0dd8f295b83d6f63cd421004fda1feaf37ef05",

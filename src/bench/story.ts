@@ -1,10 +1,7 @@
 import { composeScene } from "../director/scene";
 import { purposeScene, replyInScene } from "../director/purpose-scene";
-import {
-  shipped,
-  type SceneTalkLine,
-  type TreeNode,
-} from "../director/scene-talk";
+import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
+import { shipped } from "../english/scene-talk-words";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { backdropFile, homeOf, orgPlace, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
