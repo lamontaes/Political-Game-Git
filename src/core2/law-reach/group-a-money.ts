@@ -29,6 +29,7 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { lawChain } from "../modules/laws";
+import { registerLineAdditions } from "../budgets-treasury";
 import { onReachPayroll } from "./reach-workers";
 import {
   applyRecords,
@@ -251,7 +252,6 @@ function lineAddition(input: {
       });
     }
     if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
-    const added = new Map<string, number>();
     for (const level of yes) {
       const id = `${input.key}:${level.level}`;
       const gov = governments(api).find((g) => g.level === level.level);
@@ -282,9 +282,10 @@ function lineAddition(input: {
           lawId: level.lawId,
         },
       });
-      added.set(id, delta);
     }
-    // The treasury pays the line; record each level that says yes under its own law row.
+    // The treasury pays the line (budgets-treasury.ts records whom the law's
+    // share of each payment reached); record each level that says yes under
+    // its own law row.
     for (const row of reachTable(api, "mechanics").query("byKey", [
       input.key,
     ]) as unknown as {
@@ -303,7 +304,6 @@ function lineAddition(input: {
         target: "government",
         engine: BUDGETS_MODULE_ID,
         what: input.what,
-        amountMinor: added.get(row.id) ?? 0,
       });
       // The residents the line serves are one counted group, read like a full person.
       lawApplied(api, {
@@ -319,20 +319,46 @@ function lineAddition(input: {
   };
 }
 
-export const parksFunding = lineAddition({
+const PARKS_LINE = {
   key: PARKS_KEY,
   line: "parks",
   share: "parksDedicatedShare",
   what: "parks-line-funded",
+  paid: "parks-line-paid",
   records: true,
-});
-
-export const facialRecognition = lineAddition({
+} as const;
+const FACIAL_LINE = {
   key: FACIAL_KEY,
   line: "police",
   share: "facialRecognitionOversightShare",
   what: "police-oversight-funded",
+  paid: "police-oversight-paid",
   records: true,
+} as const;
+
+export const parksFunding = lineAddition(PARKS_LINE);
+export const facialRecognition = lineAddition(FACIAL_LINE);
+
+// The treasury pays these lines at its monthly close and records whom the
+// added share of each payment reached (budgets-treasury.ts).
+registerLineAdditions({
+  keys: [PARKS_LINE.key, FACIAL_LINE.key],
+  additions: (api, gov) =>
+    [PARKS_LINE, FACIAL_LINE].flatMap((law) => {
+      const row = mechanicRow(api, `${law.key}:${gov.level}`);
+      if (!row?.active || row.facts.governmentId !== gov.id) return [];
+      // Each fiscal year's budget starts without it: only this year's counts.
+      if (budgetToday(api, gov)?.id !== row.facts.budgetId) return [];
+      return [
+        {
+          line: law.line,
+          key: law.key,
+          lawId: String(row.facts.lawId),
+          annualMinor: Number(row.facts.deltaMinor),
+          what: law.paid,
+        },
+      ];
+    }),
 });
 
 // --- housing spending --------------------------------------------------------------

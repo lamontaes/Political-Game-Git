@@ -252,12 +252,13 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         `${(farm && ownerOf(api, farm.targetId)) ?? "no person"} / ${farm?.targetId}`,
       );
 
-      // A law that adds to a budget line: the treasury pays the line; the government and its residents are reached.
+      // A law that adds to a budget line: the treasury pays the line, its share under the law's own payment, to the firm that won the work and to the town's outside market; the government and its residents are reached.
       const line = (
         label: string,
         key: string,
         budgetLine: string,
         what: string,
+        paidWhat?: string,
       ) => {
         const govRow = rowsOn(key, what).find((r) => r.target === "government");
         const group = rowsOn(key, what).find((r) => r.target === "group");
@@ -265,15 +266,23 @@ it("names, for each law, the record, the journal entry and who it reached", () =
           group?.count ?? 0,
           `${where}: ${label} residents`,
         ).toBeGreaterThan(0);
+        // What the law added is paid on its own row; a move between lines is recorded on the government's.
+        const paid = paidWhat
+          ? rowsOn(key, paidWhat).find((r) => r.amountMinor > 0)
+          : govRow;
         expect(
-          govRow?.amountMinor ?? 0,
+          paid?.amountMinor ?? 0,
           `${where}: ${label} money`,
         ).toBeGreaterThan(0);
         note(
           label,
-          govRow?.id,
-          govRow && postWith(`:${govRow.targetId}:${budgetLine}:`)?.id,
-          `${personOf(key, rowsOn(key)) ?? "no person"} / ${govRow?.targetId} / ${group?.targetId}`,
+          paid?.id,
+          paid &&
+            (paidWhat
+              ? postWith(paid.lawId, `:${govRow?.targetId}:${budgetLine}:`)
+              : postWith(`:${paid.targetId}:${budgetLine}:`)
+            )?.id,
+          `${personOf(key, rowsOn(key)) ?? "no person"} / ${govRow?.targetId} / ${group?.targetId}${paid && paidWhat ? ` / ${paid.targetId}` : ""}`,
         );
       };
       line(
@@ -281,12 +290,14 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         KEYS.parksFunding,
         "parks",
         "parks-line-funded",
+        "parks-line-paid",
       );
       line(
         "facial recognition limit",
         KEYS.facial,
         "police",
         "police-oversight-funded",
+        "police-oversight-paid",
       );
       line(
         "shift highway funds to transit",

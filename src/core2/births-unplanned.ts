@@ -112,6 +112,8 @@ export interface UnplannedDecision {
   lawId: string | null;
   miles: number;
   travelMinor: number;
+  /** The share of the trip that the restriction added: none where the law in force does not restrict. */
+  lawShare: number;
   /** The household's cash she weighed the trip against, the day she decided. */
   cashMinor: number;
   scores: { continue: number; end: number };
@@ -140,6 +142,21 @@ export function decideUnplanned(
     api.state.placeMetadata?.placeKey,
   );
   const travelMinor = Math.round(miles * p("renewalTravelCostPerMileMinor"));
+  // What the law added to the trip: the miles with it against the miles the
+  // same place would have without it.
+  const lawShare =
+    law.restricted && miles > 0
+      ? Math.max(
+          0,
+          1 -
+            providerMiles(
+              mother.placeId,
+              false,
+              api.state.placeMetadata?.placeKey,
+            ).miles /
+              miles,
+        )
+      : 0;
   const cash = api.state.households
     .get(mother.householdId)!
     .memberIds.map((id) => api.state.people.get(id)!)
@@ -166,6 +183,7 @@ export function decideUnplanned(
     lawId: law.lawId,
     miles,
     travelMinor,
+    lawShare,
     cashMinor: cash,
     scores: { continue: carry, end },
     reasons,
