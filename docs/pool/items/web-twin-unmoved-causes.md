@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/web-twin-unmoved-causes
-pr:
+pr: #6045
 blocked-on:
 after:
 source: added by EFFECT-WEB-WIRING
