@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/door-answer-age-gradient
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T17:54:48.149Z
 ---
 
 **What.** In Anson, Texas with the playtest's seed, a candidate who knocks 49 doors every Sunday from January 2025 reaches 49, 49, 45, 34 and 9 people in the first five weeks, then nobody at all from week 5 to week 22, while the door count keeps growing. The campaign walks the oldest households first (SG-GOV-campaign-walk-order), and only older residents score above zero on the door-opening rule, so every opener in town is used up early. Once every door has been knocked the walk goes round again (play-campaign-doors-go-round-again) and the same pattern repeats: 30 to 49 reached for three weeks, then none for weeks 30 to 40 and 52 to 60. The playtest on v0.22.10, before the eldest-first walk, saw 5 or 6 reached every week.
