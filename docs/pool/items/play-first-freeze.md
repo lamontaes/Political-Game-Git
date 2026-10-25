@@ -5,10 +5,10 @@ area: release
 kind: cleanup
 priority: 1
 size: S
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: owner: plays the game
+blocked-on:
 source: added with npm run pool -- add
 ---
 
@@ -20,4 +20,6 @@ source: added with npm run pool -- add
 
 **Files.** docs/work-orders/play-first-2026-10-24.md, docs/coordination/MERGE-FIRST.md, docs/pool/items/play-first-freeze.md
 
-**Notes.** CTO, Oct 24. Exceptions kept unblocked: play-stop-*, jobs-counted-hire-other-employer-calendar, release-* (main-red type), laws-nine-links-*, traits-wire-*, web-reach-* already in a PR, words-scene-talk-in-play (the route for play-stop-01), and any item already claimed or in a PR.
+**Notes.** CTO, Oct 24. Exceptions kept unblocked: play-stop-_, jobs-counted-hire-other-employer-calendar, release-_ (main-red type), laws-nine-links-_, traits-wire-_, web-reach-* already in a PR, words-scene-talk-in-play (the route for play-stop-01), and any item already claimed or in a PR.
+
+Lifted by the owner Oct 25 ("get everything moving again, not this lane but everything"). Play-first items stay the first claim for their leads; nothing else is held.
