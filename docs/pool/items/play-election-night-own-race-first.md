@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-play-stop-22
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T15:41:37.664Z
 ---
 
 **What.** A bounded slice of play-stop-22-election-win-never-shown (which stays open for the journal and the installed-build screenshot). Four bench causes: new results opened the Campaigns sheet and the results sheet sorted only by date and stopped at eight races (src/bench/play.mjs); News lists only public records, and the kept log marks a record naming the player or their circle as circle, so the player's own result never showed (src/bench/calendar.ts newsItems); a filing kept reading on-ballot after its race was decided; and nothing showed who won a seat between the count and the day they take office (src/bench/government.ts).
