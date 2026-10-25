@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #6058
 blocked-on:
@@ -13,6 +13,7 @@ after: play-stop-02-developer-text-on-play-screens-a
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 
 ---
 
 **What.** On the v0.22.10 release Politics listed council members as "1999-01-01 – 2027-01-01 · in office at the opening · 2022-11-08 60%" and my party as "Views fit 0.91". After I filed, the city secretary's line was the status code "on-ballot". This part replaces those with plain record data under control names ("Term ends January 1, 2027", "Won in 2022") and an English-engine line for the clerk.
