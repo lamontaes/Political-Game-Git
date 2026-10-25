@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/release-package-heap
-pr:
+pr: #6049
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:07:19.351Z
