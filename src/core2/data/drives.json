@@ -142,6 +142,10 @@
       "driveKind": "status-ambition",
       "requires": [],
       "fitParameter": "responseAmbitionFit",
+      "capacityFades": {
+        "centerParameter": "responseRetrainAgeCenter",
+        "widthParameter": "responseRetrainAgeWidthYears"
+      },
       "actKinds": ["self-interest", "take-risk", "engage", "change"],
       "goalKinds": ["respond:prove-oneself"],
       "need": "money",

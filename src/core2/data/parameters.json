@@ -4691,6 +4691,30 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "responseRetrainAgeCenter": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Age at which a displaced worker's capacity to retrain or start over is half of a young adult's, falling smoothly (logistic) around it. Jacobson, LaLonde and Sullivan 2005 (Journal of Econometrics; Chicago Fed WP 2003-25): of displaced workers, 16.8% of men under 35 against 10.9% at 35 and over, and 23.5% of women under 35 against 17.2%, completed community-college credit, so the older group retrains at about 0.65 to 0.73 of the younger group's rate. See data/research/drives/economic-losses.json. With a width of 10 years the fall between a 28-year-old and a 45-year-old is 0.69.",
+    "estimatedFrom": "The under-35 and 35-and-over completion rates in Jacobson, LaLonde and Sullivan 2005, read at the groups' typical ages (28 and 45); the paper gives two age groups, not a curve.",
+    "spread": {
+      "low": 45,
+      "high": 60,
+      "unit": "years of age",
+      "citation": "45 gives a 0.58 ratio between 28 and 45; 60 gives 0.83, which brackets the paper's 0.65 to 0.73."
+    }
+  },
+  "responseRetrainAgeWidthYears": {
+    "value": 10,
+    "tag": "ESTIMATED",
+    "citation": "Width in years of the smooth fall in capacity to retrain or start over around responseRetrainAgeCenter. Jacobson, LaLonde and Sullivan 2005 report two age groups (under 35, 35 and over), not a curve; a width of 10 years reproduces their ratio of about 0.7 between workers near 28 and near 45.",
+    "estimatedFrom": "The same two age groups, read at typical ages 28 and 45; spread 8 to 14 years keeps the ratio between 0.6 and 0.78.",
+    "spread": {
+      "low": 8,
+      "high": 14,
+      "unit": "years",
+      "citation": "From a sharper to a gentler fall that still matches the two-group ratio."
+    }
+  },
   "responseCarryOnBaseline": {
     "value": 1,
     "tag": "TUNABLE",
@@ -4794,9 +4818,9 @@
     }
   },
   "responseAmbitionFit": {
-    "value": 1.5,
+    "value": 1.85,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois.",
+    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois. Recalibrated Oct 25 (M0-M2 lead) with the retraining age fade (responseRetrainAgeCenter): North Canton, Ohio read 35.1% at 1.5 because 77 of its 103 job losses came from one wholesale employer and its full workers leaned toward ambition; with the age fade, 1.75 read 19.1% there and 7.8% in Steamboat Springs, Colorado.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "measured",
