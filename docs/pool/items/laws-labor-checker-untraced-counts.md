@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** scripts/law-wiring/check.ts, scripts/law-wiring/matrix.ts, src/core2/question-wages.ts, src/core2/law-reach/group-a-records.ts
 
 **Notes.** TODO
+
+Laws lead, Oct 25, 19:55: on the checker at 878c4dc4e1 (labor head 160d33ac25), the minimum wage's own payment in Prescott is a bigger paycheck for 11 of the 20 workers it paid over the year; in a 100-day run, 8 of the 9 raised by then got one, and `person_d1c82dce42074b2e`, raised on February 26, 2025, was paid less on March 3 ($392.00 against $404.54). Why the other nine of the year's twenty show no bigger paycheck, and why that one was paid less, is not traced. The six-to-fourteen-fold raises are filed as `gov-town-officers-paid-under-minimum-wage`.
