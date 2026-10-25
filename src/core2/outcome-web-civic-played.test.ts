@@ -18,12 +18,13 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
-import { nationalEconomyChange } from "./electorate-inputs";
+import { appealOfShare, nationalEconomyChange } from "./electorate-inputs";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { CORRUPTION_MODULE_ID } from "./modules/corruption";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
+import { newsKey } from "./modules/news";
 import { scandalStoriesOf, VOTING_MODULE_ID } from "./modules/voting";
 import { coreAPI } from "./state";
 import type { CandidateReasons } from "./electorate-inputs";
@@ -187,6 +188,35 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
         weighed.length,
         `${where}: ballots of ${result.contestId} kept with their reasons (${ballots.length})`,
       ).toBeGreaterThan(0);
+      // Each weighed ballot's standing for a moved candidate is that
+      // candidate's standing in the race record, economy term included (less
+      // the record's part where the voter weighed the incumbent's record
+      // themselves), and differs from the same standing with the economy term
+      // taken out: dropping the economy from appeal fails here.
+      for (const b of weighed)
+        for (const r of moved) {
+          const parts = b.appeal![r.id];
+          if (!parts) continue;
+          const full = appealOfShare(r.total);
+          const ownRecord = appealOfShare(r.total - r.record);
+          const at = `${where}: ${b.id} on ${r.id}`;
+          expect(
+            Math.min(
+              Math.abs(parts.standing - full),
+              Math.abs(parts.standing - ownRecord),
+            ),
+            `${at}: standing ${parts.standing} against the record's ${full}`,
+          ).toBeLessThan(1e-9);
+          const withoutEconomy = [
+            appealOfShare(r.total - r.economy),
+            appealOfShare(r.total - r.record - r.economy),
+          ];
+          for (const other of withoutEconomy)
+            expect(
+              Math.abs(parts.standing - other),
+              `${at}: standing without the economy term`,
+            ).toBeGreaterThan(1e-12);
+        }
 
       // A scandal reaches a voter only through a real route: every kept
       // ballot whose voter heard a scandal story about a candidate carries
@@ -207,6 +237,39 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
         ),
       ];
       if (!stories.length) expect(scandals).toEqual([]);
+      // Ballot by ballot: a voter who had heard a story about a candidate by
+      // the race's day carries a scandal term for them that is not positive,
+      // and a nonzero scandal term only ever sits with a voter who had.
+      const dayOf = new Map(
+        run.results.map((row) => [row.contestId, row.date]),
+      );
+      let heardBallots = 0;
+      for (const b of kept) {
+        const day = dayOf.get(b.contestId);
+        expect(
+          day,
+          `${where}: ${b.id} belongs to a decided race`,
+        ).toBeDefined();
+        for (const [candidateId, parts] of Object.entries(b.appeal!)) {
+          const heard = scandalStoriesOf(api, candidateId, day!).some(
+            (storyId) => {
+              const fact = api.knows(b.voterId, newsKey(storyId));
+              return !!fact && fact.learnedAt <= day!;
+            },
+          );
+          if (heard) {
+            heardBallots += 1;
+            expect(
+              parts.scandal,
+              `${where}: ${b.id} heard a story about ${candidateId}`,
+            ).toBeLessThanOrEqual(0);
+          } else
+            expect(
+              parts.scandal,
+              `${where}: ${b.id} heard no story about ${candidateId}`,
+            ).toBe(0);
+        }
+      }
 
       const one = weighed.find((b) => b.choice) ?? weighed[0]!;
       const r = moved[0]!;
@@ -216,7 +279,7 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
           `economy: ${result.id} on ${result.date}: ${moved.map((m) => `${m.id} (${m.party}) economy ${m.economy.toFixed(5)}, standing ${m.total.toFixed(5)}`).join("; ")}`,
           `the national economy read: unemployment ${economy!.unemploymentChange.toFixed(3)} points and inflation ${economy!.inflationChange.toFixed(3)} points from macro-month:${run.macro?.openingMonth} to macro-month:${run.macro?.latestMonth}`,
           `ballots: ${weighed.length} of ${ballots.length} kept ballots weighed it, e.g. ${one.id} chose ${one.choice ?? "no one"}; standing of ${r.id} there ${one.appeal![r.id]!.standing.toFixed(5)}, total appeal ${one.appeal![r.id]!.total.toFixed(5)}`,
-          `scandals: ${stories.length ? stories.join(", ") : "no scandal story about a candidate"}; ${scandals.length} kept ballots carry a scandal term${scandals[0] ? `, e.g. ${scandals[0].ballot} on ${scandals[0].candidateId} (${scandals[0].parts.scandal})` : ""}; corruption chain: ${JSON.stringify(run.corruption)}`,
+          `scandals: ${stories.length ? stories.join(", ") : "no scandal story about a candidate"}; ${heardBallots} ballot-candidate pairs whose voter had heard a story; ${scandals.length} kept ballots carry a scandal term${scandals[0] ? `, e.g. ${scandals[0].ballot} on ${scandals[0].candidateId} (${scandals[0].parts.scandal})` : ""}; corruption chain: ${JSON.stringify(run.corruption)}`,
         ].join("\n"),
       );
     } finally {
