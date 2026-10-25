@@ -1,5 +1,6 @@
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
+import { BUDGETS_MODULE_ID, governments } from "../core2/modules/budgets";
 import { keyPeopleOf } from "../core2/opening-key-people";
 import {
   officesOfState,
@@ -115,6 +116,12 @@ export function governmentView(core: CoreState, personId: string) {
     .moduleState(ELECTIONS)
     .table("filings")
     .query("byPerson", [personId]) as unknown as FilingRow[];
+  // Each level's government by name, so a rate says who sets it.
+  const governmentOf = new Map(
+    core.modules.has(BUDGETS_MODULE_ID)
+      ? governments(api).map((row) => [row.level as string, readable(row.name)])
+      : [],
+  );
   return {
     date: core.date,
     law: lawHere(api).map((row) => ({
@@ -123,7 +130,10 @@ export function governmentView(core: CoreState, personId: string) {
       unit: row.unit,
       estimate: row.estimate,
       governing: row.governing,
-      levels: row.levels,
+      levels: row.levels.map((level) => ({
+        ...level,
+        government: governmentOf.get(level.level) ?? null,
+      })),
       pending: row.pending,
     })),
     seats: townSeats(api).map(({ office, seat, holder }) => ({
@@ -182,6 +192,20 @@ export function governmentView(core: CoreState, personId: string) {
     filings,
     party: partyView(core, personId),
   };
+}
+
+/** A record's name set in capitals ("TOWN OF CONCRETE") as a title reads. */
+function readable(name: string): string {
+  if (name !== name.toUpperCase()) return name;
+  return name
+    .toLowerCase()
+    .split(" ")
+    .map((word, i) =>
+      i > 0 && ["of", "the", "and"].includes(word)
+        ? word
+        : word.charAt(0).toUpperCase() + word.slice(1),
+    )
+    .join(" ");
 }
 
 export function fileForOffice(

@@ -561,6 +561,23 @@ const amount = (value, unit) => {
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
+/**
+ * A law by a name no level owns ("Income tax rate"), and each rate by the
+ * government that sets it; a level with none (a state with no income tax)
+ * is left out.
+ */
+const lawSeriesName = (series) =>
+  controls.politics.seriesNames?.[series] ?? policyLabel(series);
+const lawSetBy = (law) => law.levels.filter((l) => l.row && l.row.value);
+const lawGovernment = (level) =>
+  level.government ?? controls.levels?.[level.level] ?? words(level.level);
+const lawHeadline = (law) =>
+  lawSetBy(law)
+    .map(
+      (level) =>
+        `${lawGovernment(level)} ${amount(level.row.value, level.row.unit)}`,
+    )
+    .join(" · ") || controls.politics.noneHere;
 const controlsReady = api("/api/controls").then((value) => {
   controls = value;
   $("week").textContent = controls.time?.week ?? "";
@@ -3397,18 +3414,16 @@ const sheets = {
         el(
           "div",
           { className: "row narrative" },
-          termLabel(policyLabel(law.series)),
-          ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
+          termLabel(lawSeriesName(law.series)),
+          ` ${lawHeadline(law)}`,
           el(
             "div",
             {},
-            ...law.levels
-              .filter((level) => level.row)
-              .map((level) =>
-                el("div", {
-                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
-                }),
-              ),
+            ...lawSetBy(law).map((level) =>
+              el("div", {
+                textContent: `${lawGovernment(level)} · ${amount(level.row.value, level.row.unit)} · ${proseDate(level.row.effectiveDate)}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+              }),
+            ),
             ...law.pending.map((row) =>
               el("div", {
                 textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
@@ -3915,7 +3930,7 @@ const sheets = {
         menuPages(
           v.law
             .filter((l) =>
-              policyLabel(l.series)
+              lawSeriesName(l.series)
                 .toLowerCase()
                 .includes(search.value.toLowerCase()),
             )
@@ -3926,18 +3941,18 @@ const sheets = {
                 el(
                   "summary",
                   {},
-                  el("h3", { textContent: policyLabel(law.series) }),
+                  el("h3", { textContent: lawSeriesName(law.series) }),
                   el("strong", {
                     className: "law-value",
-                    textContent: law.text ?? amount(law.value, law.unit),
+                    textContent: law.text ?? lawHeadline(law),
                   }),
                 ),
               );
-              for (const level of law.levels.filter((l) => l.row))
+              for (const level of lawSetBy(law))
                 detail.append(
                   row(
-                    controls.levels?.[level.level] ?? words(level.level),
-                    `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
+                    lawGovernment(level),
+                    `${amount(level.row.value, level.row.unit)} · ${proseDate(level.row.effectiveDate)}`,
                   ),
                 );
               for (const pending of law.pending)
