@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by: claude/traits-fill-in-tenure
+status: done
+claimed-by:
 pr: #6024
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T10:51:44.355Z
+claimed-at:
 ---
 
 **What.** When a counted worker is filled in (src/core2/state.ts, the fill-in's work commitments), their work commitment starts on the day of the fill-in, and tenureYears (src/core2/modules/jobs.ts) reads that start. Their tenure drops from what countedTenureYears gave them the day before to zero. Layoffs (tenure plus how they work) and the yearly raise's tenure part both read it, so a filled-in worker is laid off first and is raised on the tenure profile's steepest year. A filled-in person must match what the records already say (AGENTS.md, two-level population). Found Oct 25 by the traits lead's pay-growth helper.

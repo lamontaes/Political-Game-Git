@@ -6,10 +6,11 @@ kind: wiring
 priority: 1
 size: M
 status: open
-claimed-by: claude/laws-nine-links-justice
+claimed-by:
 pr: #6012
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 
 ---
 
 **What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the justice family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): budget-line:police, civilian-oversight-of-police, partner-with-federal-immigration-enforcement, end-cash-bail, budget-line:corrections, restore-voting-after-sentence, raise-juvenile-court-age, child-access-prevention, permit-to-carry-concealed, raise-handgun-purchase-age, stand-your-ground and budget-line:fire.
