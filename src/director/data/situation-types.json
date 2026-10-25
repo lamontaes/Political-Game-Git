@@ -3453,18 +3453,28 @@
       "causes": [
         {
           "match": {
-            "label": "cause:event:executive-action",
-            "causeFacts": [
-              {
-                "key": "executiveId",
-                "is": "subject"
-              }
-            ]
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
           },
           "causeEngine": "legislature",
-          "causeRecord": "executive-action",
+          "causeRecord": "bill-presented",
           "bind": {
             "aide": "staff",
+            "you": "subject"
+          },
+          "opener": "aide"
+        },
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "aide": "clerk",
             "you": "subject"
           },
           "opener": "aide"
