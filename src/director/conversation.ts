@@ -843,6 +843,9 @@ export function subjectsBetween(
     });
   }
   // The speaker's relatives the listener has not met, named by relation.
+  // A relative the two share is neither introduced nor asked after: "my
+  // father", "your father" or "How's John?" is not how a brother and sister
+  // speak of their own father (owner's playtest, Oct 24, play-stop-20).
   const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
@@ -851,6 +854,7 @@ export function subjectsBetween(
       !relative?.alive ||
       !row ||
       listener.knownIds.has(id) ||
+      listener.familyIds.has(id) ||
       id === listenerId
     )
       continue;
@@ -875,7 +879,8 @@ export function subjectsBetween(
     const relative = core.people.get(id);
     const row = relationOf.get(id);
     if (!relative?.alive || !row || !listener.knownIds.has(id)) continue;
-    if (id === listenerId || !happened(id)) continue;
+    if (id === listenerId || listener.familyIds.has(id) || !happened(id))
+      continue;
     const words = JOURNAL_DATA.relationWords[row.relation];
     const word = words?.[relative.looks?.gender ?? "other"] ?? words?.other;
     if (!word) continue;
@@ -899,7 +904,8 @@ export function subjectsBetween(
     const relative = core.people.get(id);
     const row = theirRelation.get(id);
     if (!relative?.alive || !row || !speaker.knownIds.has(id)) continue;
-    if (id === speakerId || !happened(id)) continue;
+    if (id === speakerId || speaker.familyIds.has(id) || !happened(id))
+      continue;
     const words = JOURNAL_DATA.relationWords[row.relation];
     const word = words?.[relative.looks?.gender ?? "other"] ?? words?.other;
     if (!word) continue;

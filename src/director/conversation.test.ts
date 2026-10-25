@@ -469,6 +469,51 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(kin.length).toBeGreaterThan(0);
   });
+  it("never asks one relative after another they share, by first name or as 'your father' (play-stop-20)", () => {
+    const asked = ["kin", "family", "their-family"];
+    let shared = 0;
+    for (const id of me.familyIds) {
+      const relative = core.people.get(id);
+      if (!relative?.alive) continue;
+      const both = [...relative.familyIds].filter(
+        (other) => me.familyIds.has(other) && core.people.get(other)?.alive,
+      );
+      if (!both.length) continue;
+      shared += both.length;
+      // Something recorded happened to each relative they share (a lost
+      // job), so either of the two could talk of them.
+      const ledger = {
+        people: new Map(
+          both.map((other) => [
+            other,
+            {
+              moments: [
+                {
+                  date: core.date,
+                  label: "money:job-lost",
+                  causeId: other,
+                  counterpartIds: [],
+                },
+              ],
+            },
+          ]),
+        ),
+      };
+      const recent = { ledger } as unknown as Parameters<
+        typeof subjectsBetween
+      >[3];
+      for (const [from, to] of [
+        [me.id, id],
+        [id, me.id],
+      ] as const)
+        for (const row of subjectsBetween(core, from, to, recent))
+          if (asked.includes(row.kind))
+            expect(both, `${from} to ${to}: ${row.id}`).not.toContain(
+              row.aboutId,
+            );
+    }
+    expect(shared, "relatives who share a relative").toBeGreaterThan(0);
+  });
   it("remembers the last talk's topic and opens the next one with something else", () => {
     // Any topic a talk keeps to is remembered by the listener: the next talk
     // with the same person opens on another (a shared school is not an opener).
@@ -545,11 +590,16 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
           hours: 1,
         });
     };
+    // Relatives only one side has: a brother is not asked "How's your
+    // father?" about their own (play-stop-20).
     const pairs = others.slice(0, 15).flatMap((otherId) => {
       const other = core.people.get(otherId)!;
-      const mine = [...me.familyIds].find((id) => id !== otherId && alive(id));
+      const mine = [...me.familyIds].find(
+        (id) => id !== otherId && alive(id) && !other.familyIds.has(id),
+      );
       const theirs = [...other.familyIds].find(
-        (id) => id !== me.id && id !== mine && alive(id),
+        (id) =>
+          id !== me.id && id !== mine && alive(id) && !me.familyIds.has(id),
       );
       if (!mine || !theirs) return [];
       introduce(otherId, mine);
@@ -640,7 +690,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       turned += 1;
     }
     // A player who carries talk on sees the turned question among their four
-    // replies; one who keeps it short sees plain answers first.
+    // replies; one who keeps it short sees plain answers first. A question
+    // turns back only to a relative of the neighbor's whom something recorded
+    // happened to, as the player knows it; one the two share is never asked
+    // after (play-stop-20), so a world with no other has none to turn to.
+    const backable = pairs.some((pair) =>
+      subjectsBetween(core, player.id, pair.otherId, director).some(
+        (row) => row.kind === "their-family",
+      ),
+    );
     const carriesOn =
       decisionLean(
         core,
@@ -649,7 +707,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         "carry-on",
         "keep-short",
       ) >= 0;
-    if (carriesOn) expect(turned).toBeGreaterThan(0);
+    if (carriesOn && backable) expect(turned).toBeGreaterThan(0);
   });
   it("tells a job the worker chose to leave apart from a lost one, by the end's own record", () => {
     // Last: it ends the player's job. A quit (hired elsewhere) is a job left,
