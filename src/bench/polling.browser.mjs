@@ -180,8 +180,8 @@ try {
         const texts = [];
         for (let c = 0; c < n; c += 1)
           texts.push(await choices.nth(c).innerText());
-        if (!texts.some((t) => /2026/i.test(t))) {
-          console.log("No 2026 race here, moving on");
+        if (!texts.some((t) => /20\d\d/i.test(t))) {
+          console.log("No dated race here, moving on");
           await page
             .locator("#talk-leave")
             .click()
@@ -190,15 +190,19 @@ try {
         }
         const order = [...Array(n).keys()].sort((a, b) => {
           const rank = (t) =>
-            /council.*2026/i.test(t)
+            /council.*2025/i.test(t)
               ? 0
-              : /2026/i.test(t)
+              : /council/i.test(t)
                 ? 1
-                : /mayor/i.test(t)
+                : /mayor.*2025/i.test(t)
                   ? 2
-                  : /I want to run for/i.test(t)
+                  : /mayor/i.test(t)
                     ? 3
-                    : 4;
+                    : /2025/i.test(t)
+                      ? 4
+                      : /I want to run for/i.test(t)
+                        ? 5
+                        : 6;
           return rank(texts[a]) - rank(texts[b]);
         });
         let acted = false;
@@ -257,6 +261,19 @@ try {
   }
   assert.ok(filed, "could not file for a seat through the UI");
   console.log("PASS filed:", filed);
+  // The target election comes from the filed contest, not a fixed date.
+  const targetDate = filedContest.split(":").pop();
+  const [ty, tm, td] = targetDate.split("-").map(Number);
+  const targetMonth = new Date(ty, tm - 1, 1).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
+  const targetClock = new Date(ty, tm - 1, td).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  console.log("Target election:", targetDate, targetMonth, targetClock);
   // Run the clock to election day with the calendar's skip-forward.
   await page
     .locator('[data-tab="calendar"]')
@@ -271,7 +288,7 @@ try {
       .locator(".calendar-heading h3")
       .innerText()
       .catch(() => "?");
-    if (/November 2026/.test(heading)) break;
+    if (heading.includes(targetMonth)) break;
     await page.getByRole("button", { name: "Next month", exact: true }).click();
     await page.waitForTimeout(600);
   }
@@ -287,8 +304,8 @@ try {
     .first()
     .waitFor({ timeout: 15000 })
     .catch(() => {});
-  const day3 = page.locator('.month button.day[data-date="2026-11-03"]');
-  assert.ok(await day3.count(), "no day 3 in November 2026 view");
+  const day3 = page.locator(`.month button.day[data-date="${targetDate}"]`);
+  assert.ok(await day3.count(), "no target day in view");
   await day3.first().click();
   await page.waitForTimeout(1000);
   console.log(
@@ -314,19 +331,19 @@ try {
         .locator("#card-clock")
         .innerText()
         .catch(() => "?");
-      if (/2026/.test(clock)) break;
+      if (clock.includes(String(ty))) break;
       // An earlier election's ballot: leave it honestly and keep skipping.
       console.log("Earlier ballot at", clock, "— leaving it");
       await page.locator("#ballot-leave").click();
       await page.waitForTimeout(2000);
     }
     if (
-      /November 3, 2026/.test(
+      (
         await page
           .locator("#card-clock")
           .innerText()
-          .catch(() => "?"),
-      )
+          .catch(() => "?")
+      ).includes(targetClock)
     )
       break;
     // Answer whatever stop is open.
@@ -394,7 +411,7 @@ try {
         .locator(".calendar-heading h3")
         .innerText()
         .catch(() => "?");
-      if (/November 2026/.test(heading)) break;
+      if (heading.includes(targetMonth)) break;
       await page
         .getByRole("button", { name: "Next month", exact: true })
         .click();
@@ -405,7 +422,7 @@ try {
       .first()
       .waitFor({ timeout: 15000 })
       .catch(() => {});
-    const day3 = page.locator('.month button.day[data-date="2026-11-03"]');
+    const day3 = page.locator(`.month button.day[data-date="${targetDate}"]`);
     if (!(await day3.count())) {
       console.log("No day 3 in view; skipping leg");
       continue;
