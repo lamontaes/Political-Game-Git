@@ -1,0 +1,23 @@
+---
+id: tests-journal-child-birth-red-on-seed-071e-parma
+title: "The journal's child-at-birth test fails on main in Parma, Missouri"
+area: words
+kind: bug
+priority: 2
+size: S
+status: open
+claimed-by:
+pr:
+blocked-on:
+source: added with npm run pool -- add
+---
+
+**What.** With GOLDEN_PATH_SEED=071e6c46e10b194175b55a10bad86c1feaef2a2f, src/director/journal.test.ts draws Parma, Missouri, and 'names a child at birth, and says no look-back that points at nothing' fails on main (fa3c412d4b) at line 383: no journal line says a child was born. The test assumes the drawn household has a child born on record whose birth reaches a watched person's journal, which this place does not give. CI draws a random seed, so any PR that runs the journal tests can go red on it.
+
+**Rules.** One rule, all 56 places: a test that draws a place must pass in every place it can draw, drawing again or choosing the household that holds the record it checks. Ask why: name the record that is missing in Parma, not a flake.
+
+**Done when.** journal.test.ts passes on seed 071e6c46e10b194175b55a10bad86c1feaef2a2f (Parma, Missouri) and on two fresh seeds named in the PR body, each naming the birth record id the line cites; the birth-line assertion is not weakened.
+
+**Files.** src/director/journal.test.ts
+
+**Notes.** TODO

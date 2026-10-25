@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: claimed
 claimed-by: claude/counted-change-expected-events
 pr: #6068
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T17:36:29.709Z
+claimed-at: 2026-10-25T23:46:25.296Z
 ---
 
 **What.** The played-world check 'the counted population changes' (tests/golden-path/played-world.node-test.ts, break 12) fails when the counted population's change, counted births and counted moves are all zero. In Warm River, Idaho (place 1685420, seed 5425839f30ad0ba268c9a7f86dfd1025a407f96e31e7e8fba692ee4f5be473fe, drawn by golden-path-year from commit 2084c96f1c) only 3 people are counted, and none was born, died or moved in the year, so the check reports BROKEN. Clean main 9309c337ce fails the same place and seed the same way, and it turned the word pack's golden-path-year red.
