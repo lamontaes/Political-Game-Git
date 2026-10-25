@@ -131,6 +131,7 @@ function expandCountyCounts(): ResidentEmploymentData["countyCounts"] {
 export const DEFAULT_RESIDENT_EMPLOYMENT: ResidentEmploymentData = {
   ...residentData,
   countySource: countyEmployment.source,
+  countySources: countyEmployment.sources,
   countyCounts: {
     ...residentData.countyCounts,
     ...expandCountyCounts(),

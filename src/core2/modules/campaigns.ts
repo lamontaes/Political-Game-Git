@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import { customPolitics, registerElectorate } from "../electorate";
 import { partySide } from "../appointments";
@@ -26,6 +27,7 @@ import {
   leanedYes,
   termOfLean,
 } from "../trait-decisions";
+import { campaignDayChoices, takeCampaignDayChoice } from "../campaign-day";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import unitPrices from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -61,6 +63,8 @@ import {
 import { agreementWith, VIEWS_SPEAKER_KEY } from "./views";
 import { recordAppeal } from "./record";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { answerInterview, candidateAnswers } from "./press";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -609,6 +613,8 @@ interface Address {
   readonly id: string;
   /** Still counted (two-level population): no full person lives here yet. */
   readonly counted: boolean;
+  /** Birth date of the household's oldest member: what a walk list sorts by. */
+  readonly eldest: string;
 }
 const addressCache = new WeakMap<
   object,
@@ -616,8 +622,11 @@ const addressCache = new WeakMap<
 >();
 
 /**
- * The town's addresses, full households and counted ones alike, in the order
- * they stand (by id), with how many counted adults live in them. Rebuilt
+ * The town's addresses, full households and counted ones alike, with how many
+ * counted adults live in them, in the order a campaign's walk list stands:
+ * households with the oldest member first (older residents answer a knock
+ * most, by the door-opening rule below), then by id. The walk order is the
+ * owner's call (SG-GOV-campaign-walk-order). Rebuilt
  * only when a household is added, filled in or leaves.
  */
 function townAddresses(api: CoreAPI): {
@@ -631,11 +640,24 @@ function townAddresses(api: CoreAPI): {
   const key = `${core.households.size}|${named?.size ?? 0}|${rt?.store.version ?? 0}|${rt?.filledIn.size ?? 0}`;
   const held = addressCache.get(core);
   if (held?.key === key) return held;
-  const ids = new Map<string, boolean>();
+  // stopgapId: SG-GOV-campaign-walk-order
+  api.stopgap("SG-GOV-campaign-walk-order");
+  const ids = new Map<string, { counted: boolean; eldest: string }>();
   for (const id of named ?? []) {
     const person = core.people.get(id);
-    if (person?.alive && core.households.has(person.householdId))
-      ids.set(person.householdId, false);
+    if (
+      person?.alive &&
+      core.households.has(person.householdId) &&
+      !ids.has(person.householdId)
+    ) {
+      let eldest = person.birthDate;
+      for (const m of core.households.get(person.householdId)!.memberIds) {
+        const member = core.people.get(m);
+        if (member?.alive && member.birthDate < eldest)
+          eldest = member.birthDate;
+      }
+      ids.set(person.householdId, { counted: false, eldest });
+    }
   }
   let countedAdults = 0;
   const date = api.state.date;
@@ -643,14 +665,19 @@ function townAddresses(api: CoreAPI): {
   for (const h of rt?.store.liveHouseholds() ?? []) {
     if (h.placeId !== town || ids.has(h.id)) continue;
     if (core.households.has(h.id)) continue;
-    ids.set(h.id, true);
-    for (const m of rt!.store.countedMembers(h))
-      if (ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18)
-        countedAdults += 1;
+    let eldest = "9999-12-31";
+    for (const m of rt!.store.countedMembers(h)) {
+      const born = rt!.store.born[m]!;
+      if (born < eldest) eldest = born;
+      if (ageOn({ birthDate: born }, date) >= 18) countedAdults += 1;
+    }
+    ids.set(h.id, { counted: true, eldest });
   }
   const list = [...ids]
-    .map(([id, counted]) => ({ id, counted }))
-    .sort((a, b) => a.id.localeCompare(b.id));
+    .map(([id, v]) => ({ id, counted: v.counted, eldest: v.eldest }))
+    .sort(
+      (a, b) => a.eldest.localeCompare(b.eldest) || a.id.localeCompare(b.id),
+    );
   const built = { key, list, countedAdults };
   addressCache.set(core, built);
   return built;
@@ -1331,9 +1358,9 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
   const { places } = basePlaces(api, contest);
   if (!places.length) return 0;
   const core = api.state as CoreState;
-  const outside = [...core.organizations.values()].find(
-    (o) =>
-      o.placeId === townRow(api).townPlaceId && o.outsideFlow !== undefined,
+  const outside = townOutsideOf(
+    core.organizations.values(),
+    townRow(api).townPlaceId,
   );
   if (!outside) return 0;
   const side = partySide(filing.party ?? null);
@@ -2324,6 +2351,139 @@ export interface CampaignTurnResult {
   readonly mailReached: number;
   readonly eventAudience: number;
   readonly polled: number;
+  /** The whole act the candidate's day was built around (an event or an interview), if any. */
+  readonly dayAct: "event" | "interview" | null;
+}
+
+/** The day a world candidate chose: a whole act, if any, and hours for the hour-based acts. */
+export interface RivalDay {
+  readonly callHours: number;
+  readonly doorHours: number;
+  /** A whole act (an evening event or a press interview) the day is built around, or null. */
+  readonly act: "event" | "interview" | null;
+  readonly actHours: number;
+}
+
+/**
+ * How a world candidate spends their campaign day: a scored pass over the
+ * player's own day choices (`campaignDayChoices`), by their money, standing
+ * and traits. Every available act gets a score on one scale and nothing
+ * flips at a line:
+ * - call time for money rises as the bank empties and as they get better
+ *   known (donors are easier to reach);
+ * - doors rise as they are less known and as they are more sociable;
+ * - an event rises with the bank (venue money in hand) and sociability;
+ * - an interview rises with how known they are and with holding the seat.
+ * The hours their own day leaves (a job takes most of it, rest takes its
+ * lean) are split between calls and doors by score share. A whole act
+ * (event, interview) is taken when it is the best-scored act of the day,
+ * and then takes its share of the day's hours. Ads, mail, staff and polls
+ * are bought from the money in `campaignTurn`.
+ */
+export function rivalDay(
+  api: CoreAPI,
+  filingId: string,
+  candidate: Readonly<PersonState>,
+  town: string,
+): RivalDay {
+  const day = campaignDayChoices(api, filingId, true);
+  const offered = (kind: string) =>
+    day.find((c) => c.kind === kind)?.available ?? false;
+  const calls = offered("raise-money");
+  const doors = candidate.placeId === town && offered("canvass");
+  const campaign = campaignFor(api, filingId);
+  const cash =
+    api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
+  const richness = cash / (cash + unitPrice("event-venue"));
+  const known = Math.min(1, campaignRecognition(api, filingId));
+  const sociable = Math.max(
+    0,
+    candidate.traits["people-mind-v1:sociability"] ?? 0,
+  );
+  const wTrait = campaignParameter("spendTraitWeight");
+  const callScore =
+    1 +
+    campaignParameter("rivalCallNeedWeight") * (1 - richness) +
+    campaignParameter("rivalCallStandingWeight") * known;
+  const doorScore =
+    1 +
+    campaignParameter("rivalDoorUnknownWeight") * (1 - known) +
+    wTrait * sociable;
+  const holdsSeat = holdsTheSeat(api, filingId, candidate.id) ? 1 : 0;
+  const eventScore =
+    campaignParameter("rivalActBaseScore") +
+    campaignParameter("rivalEventRichWeight") * richness +
+    wTrait * sociable;
+  const interviewScore =
+    campaignParameter("rivalActBaseScore") +
+    campaignParameter("rivalInterviewKnownWeight") * known +
+    campaignParameter("rivalInterviewIncumbentWeight") * holdsSeat;
+  const bestHourly = Math.max(calls ? callScore : 0, doors ? doorScore : 0);
+  const canEvent = offered("event") && eventScore > bestHourly;
+  const canInterview = offered("interview") && interviewScore > bestHourly;
+  const act: RivalDay["act"] =
+    canEvent && (!canInterview || eventScore >= interviewScore)
+      ? "event"
+      : canInterview
+        ? "interview"
+        : null;
+  const actHours = act ? (day.find((c) => c.kind === act)?.hours ?? 0) : 0;
+  const ownHours =
+    (candidate.jobId
+      ? campaignParameter("rivalHoursWithJob")
+      : campaignParameter("rivalHoursWithoutJob")) *
+    // Personality slides the hours between (1 - share) and (1 + share) of
+    // the base: even the least campaign-minded candidate walks some doors.
+    (1 +
+      campaignParameter("rivalHoursLeanShare") *
+        termOfLean(
+          api.state,
+          candidate,
+          "campaigns.rival-hours",
+          decisionLean(
+            api.state,
+            candidate,
+            "campaigns.rival-hours",
+            "campaign",
+            "rest",
+          ),
+          0,
+        ));
+  // A whole act takes its share of the day; the rest is split by score.
+  const hours =
+    actHours > 0 ? (ownHours * ownHours) / (ownHours + actHours) : ownHours;
+  const total = (calls ? callScore : 0) + (doors ? doorScore : 0);
+  return {
+    callHours: calls ? (hours * callScore) / total : 0,
+    doorHours: doors ? (hours * doorScore) / total : 0,
+    act,
+    actHours,
+  };
+}
+
+/** Whether this candidate holds the seat the contest is for (the incumbent running again). */
+function holdsTheSeat(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  const filing = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  const contest = filing
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow | undefined)
+    : undefined;
+  if (!contest?.incumbentTermId || !api.state.modules.has(OFFICES_MODULE_ID))
+    return false;
+  const term = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
+  return term?.status === "serving" && term.personId === personId;
 }
 
 /**
@@ -2345,53 +2505,50 @@ export function campaignTurn(
   const startSpent = campaign.spentMinor;
   const candidate = api.state.people.get(campaign.candidateId);
   const town = townRow(api).townPlaceId;
-  // Money: the next people in the campaign's list.
   // The candidate backs their own campaign first, by the same reasons.
   if (candidate?.alive) askForDonation(api, filingId, candidate.id);
-  // The controlled person's money moves only by their own choice (owner,
-  // Oct 14: the engine offers, the player decides), so a world campaign's
-  // asks skip them; an ask that reaches them is a request they answer.
-  const playerId = (api.state as CoreState).playerId;
-  const pool = reachablePeople(api, campaign).filter((id) => id !== playerId);
-  const asks = Math.min(pool.length, campaignParameter("donorAsksPerTurn"));
-  const from = pool.length ? (campaign.askCursor ?? 0) % pool.length : 0;
-  for (let i = 0; i < asks; i += 1)
-    askForDonation(api, filingId, pool[(from + i) % pool.length]!);
-  save(api, {
-    ...campaignFor(api, filingId),
-    askCursor: pool.length ? (from + asks) % pool.length : 0,
-  });
+  // The rest of the candidate's turn is a campaign day taken through the
+  // player's own choices, chosen among by the candidate's money, standing and
+  // traits. The controlled person's money moves only by their own choice, so
+  // asks skip them.
   askOutsideDonors(api, filingId);
-  // Doors: a candidate who lives here walks for the hours their day leaves.
   let doors = 0;
-  if (candidate?.alive && candidate.placeId === town) {
-    const hours =
-      (candidate.jobId
-        ? campaignParameter("rivalHoursWithJob")
-        : campaignParameter("rivalHoursWithoutJob")) *
-      Math.max(
-        0,
-        1 +
-          termOfLean(
-            api.state,
-            candidate,
-            "campaigns.rival-hours",
-            decisionLean(
-              api.state,
-              candidate,
-              "campaigns.rival-hours",
-              "campaign",
-              "rest",
-            ),
-            1,
-          ),
-      );
-    doors = knockDoors(api, {
-      filingId,
-      canvasserId: candidate.id,
-      hours,
-      fillCounted: false,
-    }).length;
+  let asks = 0;
+  let dayAct: CampaignTurnResult["dayAct"] = null;
+  if (candidate?.alive) {
+    const day = rivalDay(api, filingId, candidate, town);
+    if (day.act === "event") {
+      takeCampaignDayChoice(api, filingId, "event", { world: true });
+      dayAct = "event";
+    } else if (day.act === "interview") {
+      // Ask the outlet; a yes comes with its questions, which they answer
+      // from their platform, their own view and their party.
+      const row = takeCampaignDayChoice(api, filingId, "interview", {
+        world: true,
+      }).interview;
+      if (row?.status === "invited") {
+        const filing = api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .get(filingId) as unknown as FilingRow;
+        answerInterview(
+          api,
+          row.id,
+          candidateAnswers(api, row.questions, filing),
+        );
+      }
+      dayAct = "interview";
+    }
+    if (day.callHours > 0)
+      asks = takeCampaignDayChoice(api, filingId, "raise-money", {
+        world: true,
+        hours: day.callHours,
+      }).asked;
+    if (day.doorHours > 0)
+      doors = takeCampaignDayChoice(api, filingId, "canvass", {
+        world: true,
+        hours: day.doorHours,
+      }).doorsKnocked;
   }
   // Spending: the share of what's free that keeps an even pace to election day.
   campaign = campaignFor(api, filingId);
@@ -2495,6 +2652,7 @@ export function campaignTurn(
     mailReached,
     eventAudience,
     polled,
+    dayAct,
   };
 }
 

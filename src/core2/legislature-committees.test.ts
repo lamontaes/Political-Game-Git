@@ -31,6 +31,11 @@ function playUntilMarkupTrade() {
       .update(`${base}:${attempt}`)
       .digest("hex");
     const place = drawPlace(seed, "committee-markup");
+    // Named before the build, written straight to stdout so a world that
+    // fails to build (or a worker that dies building it) still names its place.
+    process.stdout.write(
+      `legislature-committees: ${place.name} (${place.key}), GOLDEN_PATH_SEED=${base} attempt ${attempt}\n`,
+    );
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       placeKey: place.key,
       twoLevel: true,

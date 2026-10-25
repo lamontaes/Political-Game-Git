@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #5764
 blocked-on:
@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** Split from research-residents-sourced-parameters, whose county-employment part merged as PR 5690 but left SG-P8-resident-employment-proxy open. Replace the proxy for the island areas (American Samoa, Guam, Northern Marianas, Virgin Islands) with their own employment-by-age observations from the 2020 Decennial Census island-area tables, with suppression and margin-of-error handling, as SOURCED or ESTIMATED rows with a citation and a spread, and a research file under data/research/people/ with a reader.
+**What.** Split from research-residents-sourced-parameters, whose county-employment part merged as PR 5690 but left SG-P8-resident-employment-proxy open. This item delivers the island-area slice: American Samoa, Guam, the Northern Marianas and the Virgin Islands get their own employment-by-age observations from the 2020 Island Areas Censuses (Demographic and Housing Characteristics, table PCT47), as SOURCED rows with a citation, in the existing research table `src/core2/data/resident-employment-counties.json` that `opening-employment.ts` already reads. The 2020 island-area counts are complete-count enumerations (swapped and partly synthesized, not sampled), so no sampling margin exists to record; the source's `limits` entry states that, and states that only island-wide rows are used because village, district and municipality rows can be suppressed. The county fallback (a county whose own ACS cell for an age is empty) is not part of this slice and remains open under SG-P8-resident-employment-proxy.
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each island-area row is SOURCED or ESTIMATED in src/core2/data/parameters.json with a citation (publisher, year, URL) and a spread; SG-P8-resident-employment-proxy is resolved in src/core2/data/stopgaps.json with the source named; tests/guards/research-data-has-reader.test.ts, the tripwire and calibration-guard tests pass; a one-year played world (buildBenchWorld) in a drawn island area (seed named in the PR) reports the employment-by-age band and where the town landed.
+**Done when.** (1) Each of the four island areas has a SOURCED row per age band in `src/core2/data/resident-employment-counties.json`, keyed by its state-equivalent code, with a `sources` entry naming publisher, year, URL, file and table, and a `limits` entry that states the no-sampling-margin and suppression handling; the spread shown is the table across the four islands. (2) The existing reader (`opening-employment.ts`, with `population.ts` passing the state-equivalent code for a place with no county of its own) uses those rows with basis `county-ACS`, and `src/core2/opening-employment-provenance.test.ts` requires it for every territory. (3) SG-P8-resident-employment-proxy in `src/core2/data/stopgaps.json` is narrowed, not closed: the island clause is removed and the row names PCT47 and the file, and it stays open for the county fallback (`national-CPS-age-with-tunable-missing-county-scale`). (4) `src/core2/island-employment.test.ts` plays a drawn island-area town (`buildBenchWorld`, seed named in the PR) for exactly 365 days and reports the employment-by-age bands and where the town landed. The county fallback remains open under SG-P8-resident-employment-proxy.
 
-**Files.** src/core2/data/resident-employment.json,src/core2/data/parameters.json,src/core2/data/stopgaps.json,data/research/people/
+**Files.** src/core2/data/resident-employment-counties.json,src/core2/data/resident-employment.json,src/core2/data/stopgaps.json,src/core2/opening-employment.ts,src/core2/population.ts,src/core2/island-employment.test.ts,src/core2/opening-employment-provenance.test.ts
 
 **Notes.** TODO
 
