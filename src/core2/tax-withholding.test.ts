@@ -171,3 +171,35 @@ describe("pay to a worker who lives outside the town (audit 12, 13)", () => {
     throw new Error(`no employed worker found in forty draws (seed ${seed})`);
   });
 });
+
+describe("a state rate changed without a new table", () => {
+  it("scales every bracket of the schedule to the row's top rate, and marks the tax graduated", () => {
+    const graduated = (value: number) =>
+      income([
+        {
+          level: "state",
+          row: {
+            value,
+            unit: "percent-top-rate",
+            terms: {
+              schedules: {
+                single: {
+                  standardDeduction: 0,
+                  brackets: [
+                    { over: 0, rate: 2 },
+                    { over: 10_000, rate: 4 },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      ]);
+    const asWritten = pay(graduated(4))[0]!;
+    const raised = pay(graduated(4.4))[0]!;
+    expect(asWritten.graduated).toBe(true);
+    // A 10% higher top rate raises each bracket's rate by 10%.
+    expect(raised.minor).toBeCloseTo(asWritten.minor * 1.1, -1);
+    expect(raised.minor).toBeGreaterThan(asWritten.minor);
+  });
+});
