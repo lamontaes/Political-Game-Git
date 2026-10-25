@@ -65,7 +65,9 @@ interface Result {
     controlCited?: { token: string; gross: number; ids: string[] }[];
     /** The law's own payments to whom it reached, against the control world (older result files have none). */
     own?: {
+      /** Whom the payment was looked for among: those the law's records say it paid or charged, else everyone it reached (older result files: reached). */
       targets: number;
+      among?: "paid" | "reached";
       paid: number;
       /** Each kind and direction of payment the targets got (newer result files). */
       pairs?: OwnPair[];
@@ -350,7 +352,7 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
     if (!o) return [];
     const picked = o.pairs ? pickOwn(o.targets, o.pairs) : o;
     return picked.paid > 0 && picked.paid >= ownLeast(o.targets)
-      ? [{ place, r, o: { targets: o.targets, ...picked } }]
+      ? [{ place, r, o: { targets: o.targets, among: o.among, ...picked } }]
       : [];
   });
   // Where a run enacted the law, its payments are the law's; a repeal of a
@@ -398,7 +400,9 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
             (n) =>
               `${n.targets} ${n.kind.split(" @ ")[0]} paid ${n.way} (${n.kind.split(" @ ")[1] ?? ""}; e.g. ${n.first?.target} on ${n.first?.date}: ${n.first?.control} in the control world, ${n.first?.treatment} here, ${n.first?.journal})`,
           );
-        return `${place}: of ${o.targets} reached, the payments that changed first: ${pays.join("; ")}`;
+        const among =
+          o.among === "paid" ? "the law paid or charged" : "reached";
+        return `${place}: of ${o.targets} ${among}, the payments that changed first: ${pays.join("; ")}`;
       }),
     ].join("; ");
     return { status: "wired", evidence: ev, why: "" };
