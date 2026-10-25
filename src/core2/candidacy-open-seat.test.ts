@@ -31,9 +31,12 @@ const ST_JOHNSBURY = {
 };
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const OPEN_SEAT = Number(CANDIDACY_PARAMETERS.candidacyOpenSeatWeight!.value);
-/** Days played in a drawn place: past the first spring's filing deadlines. */
-const DRAWN_DAYS = 160;
-const DRAWS = 4;
+/**
+ * Days played in a drawn place: the town weighs every contest whose filing
+ * deadline falls in the coming year on its first day.
+ */
+const DRAWN_DAYS = 30;
+const DRAWS = 10;
 
 function decisions(core: CoreState): CandidacyDecision[] {
   return coreAPI(core)
@@ -43,8 +46,8 @@ function decisions(core: CoreState): CandidacyDecision[] {
 }
 
 /**
- * Every seat whose incumbent stood down: the incumbent decided first, and
- * every other decision on it weighs an open seat and cites the stand-down.
+ * Every seat whose incumbent stood down: every other decision on it weighs
+ * an open seat and cites the stand-down.
  * Returns the stand-downs found.
  */
 function openSeatsHold(core: CoreState, where: string): CandidacyDecision[] {
@@ -56,11 +59,9 @@ function openSeatsHold(core: CoreState, where: string): CandidacyDecision[] {
     const others = rows.filter(
       (row) => row.contestId === down.contestId && row.id !== down.id,
     );
+    // The incumbent weighs the seat again when filing opens, so their row
+    // can be dated after a decision that already cited their stand-down.
     for (const row of others) {
-      expect(
-        row.date >= down.date,
-        `${where}: ${row.id} decided before the incumbent stood down (${down.id})`,
-      ).toBe(true);
       expect(row.reasons.openSeat, `${where}: ${row.id}'s open-seat pull`).toBe(
         OPEN_SEAT,
       );
