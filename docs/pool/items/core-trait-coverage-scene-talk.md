@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-scene-talk-table
 pr: #5997
 blocked-on:
