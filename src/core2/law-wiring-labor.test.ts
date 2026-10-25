@@ -402,6 +402,22 @@ function run(specId: string) {
     );
   const ui = reached("unemployment-insurance");
   need(filed.full !== "" || filed.counted !== "", "no claim could be filed");
+  // A claimant who moves away before the first benefit ends the claim unpaid
+  // (Lebanon, Kansas, seed 382de6b9...: a counted claimant left on day 21):
+  // the town then has no claimant to follow.
+  for (const c of claims.rows() as unknown as {
+    personId: string;
+    paidMinor: number;
+    endReason?: string;
+  }[])
+    if (
+      (c.personId === filed.full || c.personId === filed.counted) &&
+      c.paidMinor === 0 &&
+      c.endReason === "left"
+    )
+      throw new NoSubject(
+        `the claimant ${c.personId} left before the first benefit`,
+      );
   for (const who of [filed.full, filed.counted].filter(Boolean))
     need(
       ui.some(
@@ -413,8 +429,9 @@ function run(specId: string) {
       `unemployment-insurance: no benefit paid to ${who}`,
     );
   // A counted claimant's benefit is paid times the people the claim stands
-  // for, the way counted wages are: the row's money is the claim's paid
-  // benefit times its count.
+  // for, the way counted wages are, at the count of each payday: a group's
+  // count changes as its households do. The row's money is what the journal
+  // paid for that claim, within a cent a payment for rounding.
   {
     const claim = (
       claims.rows() as unknown as { personId: string; paidMinor: number }[]
@@ -422,12 +439,26 @@ function run(specId: string) {
     const row = ui.find(
       (r) => r.targetId === `counted-claimants:${filed.counted}`,
     );
+    const paydays = entries.filter(
+      (e) =>
+        e.sourceId.startsWith(`unemployment-benefit:${filed.counted}:`) ||
+        e.sourceId.startsWith(`unemployment-advance:${filed.counted}:`),
+    );
+    const journal = paydays.reduce(
+      (total, e) =>
+        total +
+        e.postings.reduce(
+          (n, p) => n + (p.deltaMinor > 0 ? p.deltaMinor : 0),
+          0,
+        ),
+      0,
+    );
     need(
       claim &&
         row &&
         claim.paidMinor > 0 &&
-        row.amountMinor === claim.paidMinor * row.count,
-      `unemployment-insurance: counted claimant ${filed.counted} paid ${claim?.paidMinor} but row says ${row?.amountMinor} for ${row?.count} people`,
+        Math.abs(row.amountMinor - journal) <= paydays.length,
+      `unemployment-insurance: counted claimant ${filed.counted} paid ${claim?.paidMinor} a claim, ${journal} in the journal over ${paydays.length} paydays, but the row says ${row?.amountMinor} for ${row?.count} people`,
     );
   }
   need(
