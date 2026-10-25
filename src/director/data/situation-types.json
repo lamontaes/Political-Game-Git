@@ -1969,6 +1969,7 @@
     },
     {
       "key": "floor-vote",
+      "eachCause": true,
       "roles": [
         {
           "key": "chair",

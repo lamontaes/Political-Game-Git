@@ -84,6 +84,12 @@ export interface SituationType {
    * pace however strongly it was felt (an invitation to a cause meeting).
    */
   waits?: boolean;
+  /**
+   * A scene about one record's own decision (a member's vote on one bill):
+   * each cause stages its own, never taken into another sitting or held back
+   * by the repeat window.
+   */
+  eachCause?: boolean;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
   /**
@@ -600,7 +606,11 @@ export function scheduleMoment(
   const wanted = allowed
     ? staged.filter((row) => allowed.has(row.typeKey))
     : staged;
-  const bindings = wanted.filter((row) => !sittingToday.has(castOf(row)));
+  const eachCause = (row: SceneBinding) =>
+    library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
+  const bindings = wanted.filter(
+    (row) => eachCause(row) || !sittingToday.has(castOf(row)),
+  );
   // The day's own sitting takes this cause in, so its scene cites both
   // records. A sitting on an earlier day within the repeat window does not:
   // that scene has been played.
@@ -617,6 +627,7 @@ export function scheduleMoment(
       ),
   );
   for (const row of wanted) {
+    if (eachCause(row)) continue;
     const sitting = sittings.get(castOf(row));
     if (!sitting) continue;
     sitting.joined ??= [];

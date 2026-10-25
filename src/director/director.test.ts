@@ -709,6 +709,56 @@ describe("story director on the new core", () => {
     expect(staged.joined).toHaveLength(1);
   });
 
+  it("stages every cause of a scene about one record's own decision, the same day and within the repeat window", () => {
+    // A member's vote on one bill is a scene of its own, however many votes
+    // the same chamber takes that day or that month (eachCause).
+    expect(
+      SITUATION_LIBRARY.types.find((row) => row.key === "floor-vote")
+        ?.eachCause,
+    ).toBe(true);
+    const { core, director } = run("place:director-fixture", true);
+    const book = director.ledger.people.get("person:worker")!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    const sitting = book.schedule.find((row) => row.momentId === moment.id)!;
+    const staged = sitting.bindings.find(
+      (row) => row.typeKey === "news-arrives",
+    )!;
+    // Edge case by hand: the fixture's news scene marked as one per cause.
+    const library = {
+      ...SITUATION_LIBRARY,
+      types: SITUATION_LIBRARY.types.map((row) =>
+        row.key === "news-arrives" ? { ...row, eachCause: true } : row,
+      ),
+    };
+    const options = { mode: "live" as const, interruptImpact: 0.5 };
+    const again = {
+      ...moment,
+      id: `${moment.id}:again`,
+      causeId: `${moment.causeId}:again`,
+    };
+    // The same day: its own scene, not taken into the day's sitting.
+    expect(
+      scheduleMoment(core, book, again, options, library).bindings.map(
+        (row) => row.typeKey,
+      ),
+    ).toContain("news-arrives");
+    expect(staged.joined).toBeUndefined();
+    // Two days later, within the repeat window: its own scene again.
+    const later = {
+      ...moment,
+      id: `${moment.id}:later`,
+      causeId: `${moment.causeId}:later`,
+      date: makeIsoDate("2021-01-12"),
+    };
+    expect(
+      scheduleMoment(core, book, later, options, library).bindings.map(
+        (row) => row.typeKey,
+      ),
+    ).toContain("news-arrives");
+  });
+
   it("keeps a scene kind the player filtered out from interrupting them", () => {
     const filtered = createDirector({ watch: ["person:worker"] });
     const core = createLifeCore(town("place:director-fixture"), {
