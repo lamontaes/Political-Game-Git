@@ -119,7 +119,7 @@ for (const record of core.durableLog.values()) {
 const buildSeconds = (performance.now() - t0) / 1000;
 
 /**
- * With TRAIT_AUDIT_RECORDS=1, a sample of the town's named adults is put in
+ * With TRAIT_AUDIT_RECORDS=1, a sample of the town's named people is put in
  * focus, as the people a player deals with are, so the choices they weigh
  * keep a `person.weighed` record (choice.ts, trait-decisions.ts) that the
  * examples below cite by id. Off by default: focus keeps reasons the plain

@@ -1,0 +1,31 @@
+{
+  "about": "Government and elections family: links a law lacks by its own terms (scripts/law-wiring/matrix.ts reads every file here). Each why says what in the statute makes it so.",
+  "laws": {
+    "us-policy-positions:government-operations.ban-lobbying-after-office": {
+      "reach": {
+        "status": "n/a",
+        "why": "the ban binds former officeholders (a cooling-off period before they may lobby), and every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence"
+      },
+      "money": {
+        "status": "n/a",
+        "why": "the ban bars former officeholders from lobbying for a cooling-off period; it charges, pays and taxes no one by its own terms, so no money flows because of it (what it changes is who a group hires to lobby, read by the interest-groups engine)"
+      }
+    },
+    "us-policy-positions:government-operations.legislative-term-limits": {
+      "reach": {
+        "status": "n/a",
+        "why": "term limits bind legislators at the filing check, and every officeholder and candidate is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence"
+      },
+      "money": {
+        "status": "n/a",
+        "why": "term limits bar a legislator who has served the limit from filing again; the statute charges, pays and taxes no one, so no money flows because of it"
+      }
+    },
+    "us-policy-positions:government-operations.broaden-local-authority": {
+      "money": {
+        "status": "n/a",
+        "why": "home rule grants a local body the power to legislate on questions the state has not settled; the grant itself charges, pays and taxes no one, and any money moves through the ordinances the body then passes, each graded as its own law"
+      }
+    }
+  }
+}

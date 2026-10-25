@@ -10,7 +10,7 @@ claimed-by:
 pr: #5715
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** This is one bounded family of the trait wiring audit (`traits-wiring-audit`, reopened Oct 24). Every decision in the corruption, recalls, appointments and cases family: justice, reporters' tips, recalls, constituent cases, what staff are told, and whether a bribe is taken must run in a played year and weigh the person's traits at a size taken from research. A decision with no study keeps the owner's general weight of 1 only with a gap row that says why. Twins with traits flat or mirrored must show the decisions turning, at the rate the research gives, never at overwhelming odds.
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split Oct 24 by the CTO from `traits-wiring-audit` (order `docs/work-orders/lead-traits-2026-10-24.md`). PR #5715 (branch claude/traits-integrity) holds the reads and has conflicted with main since Oct 21. Bribes: every offer was declined on Oct 20 because the honest pull of 3 never loses (`src/core2/modules/corruption.ts`); `people-corruption-honest-pull-calibrated` (in review) calibrates it. Land it with this family. A PR for this family names this item on line 1 (`Pool item: traits-wire-integrity`) and `Lead: traits` in its body; a bare `traits-wiring-audit` on line 1 marked the audit done on merge, which is the auto-done bug.
 
 Sent back 2026-10-24 from PR #5715 (branch claude/traits-integrity): Six of sixteen family decisions have zero calls in both audit years despite all-positive-call acceptance, and case/help calibration remains saturated or overwhelmingly lopsided while the whole family is completion-routed; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #5715 (branch claude/traits-integrity): corrective head c1c006b6ce has a current-main conflict in data/content/trait-decision-gaps.json in addition to stopgaps.json; reconcile the trait-gap rows and preserve every stopgap ID before the family gate; finish on that branch, merge main into it first.
