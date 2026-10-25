@@ -62,10 +62,11 @@
     ]
   },
   "numbers": {
-    "about": "How the opening says its numbers: a figure to one decimal place (\"4.2 percent\"), and jobs in the thousands the payroll series counts and in millions past a million (\"1.9 million\"). Writing conventions, not estimates (AP Stylebook, numerals).",
+    "about": "How the opening says its numbers: a figure to one decimal place (\"4.2 percent\"), and jobs in the thousands the payroll series counts and in millions past a million (\"1.9 million\"), and a change over the year as a percent of where it stood (\"up 3.9 percent\"). Writing conventions, not estimates (AP Stylebook, numerals).",
     "decimals": 1,
     "jobsPerSeriesUnit": 1000,
-    "jobsPerMillion": 1000000
+    "jobsPerMillion": 1000000,
+    "percentPerRatio": 100
   },
   "speechTitles": {
     "about": "The address's own title, the topic the anchor's lead-in names (\"We begin with {topic}.\"): the names the U.S. Constitution (Art. II, sec. 3) and the inauguration record give these addresses. A title, like an office's, not composed prose.",
