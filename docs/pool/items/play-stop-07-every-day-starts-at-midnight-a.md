@@ -5,13 +5,14 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-play-stop-07
+pr: #6059
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T17:44:43.825Z
 ---
 
 **What.** On the v0.22.10 release Day went from Monday 8:30 PM to Wednesday 12:00 AM, skipping Tuesday, and every later Day and Week landed at midnight. Knock on doors said 3 hours but the clock did not move. This part makes an advance land on the next morning and makes an act spend its hours on the player's clock.
