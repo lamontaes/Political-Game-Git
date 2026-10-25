@@ -15,8 +15,6 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { JOBS_MODULE_ID, hirePay, type PositionRow } from "./modules/jobs";
 import { lawInForce } from "./modules/laws";
-import { residentPerson } from "./modules/residents";
-import { PROFILE_FACT_KINDS, profileFor } from "./opening-profile";
 import { coreAPI } from "./state";
 
 const seed = process.env.SCHOOLING_PAY_SEED ?? randomBytes(8).toString("hex");
@@ -29,7 +27,7 @@ it("hires into one position pay differ by their own schooling, full and counted 
   const tried: string[] = [];
   for (let draw = 0; draw < 12; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "schooling-pay");
-    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const where = `${place.name} (${place.key}), seed ${place.seed}, SCHOOLING_PAY_SEED=${seed}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
@@ -50,21 +48,29 @@ it("hires into one position pay differ by their own schooling, full and counted 
         jobId: string;
         personId: string;
         kind: string;
-        values: { hourlyMinor: number; counted?: number };
+        values: {
+          hourlyMinor: number;
+          counted?: number;
+          schoolingWeekly?: number;
+        };
       }[]
     )
       .filter((row) => row.kind === "hire")
       .map((row) => {
-        const person =
-          core.people.get(row.personId) ?? residentPerson(core, row.personId);
         const positionId = row.jobId
           .slice("job:".length)
           .slice(0, -(row.personId.length + 1));
+        // The schooling the hire's pay read, as the hire recorded it (a
+        // counted worker filled in later may gain a record the hire never saw).
+        const weekly = row.values.schoolingWeekly ?? 0;
         const level =
-          person?.pastFacts?.find(
-            (fact) => fact.kind === PROFILE_FACT_KINDS.education,
-          )?.facts?.level ??
-          (person ? profileFor(person, core.seed, core.date)?.education : "");
+          weekly === api.parameter("jobsWeeklyEarningsCollege")
+            ? "college"
+            : weekly === api.parameter("jobsWeeklyEarningsSomeCollege")
+              ? "some-college"
+              : weekly === api.parameter("jobsWeeklyEarningsNoCollege")
+                ? "no-college"
+                : "";
         return {
           jobId: row.jobId,
           level: level ?? "",

@@ -2071,6 +2071,49 @@ export function moveLabel(
 }
 
 /**
+ * The schooling a person held on `date`: a senior year decided in play by
+ * then (a graduate holds a high school diploma, a senior who did not
+ * graduate holds none), else their education record, or the profile it is
+ * drawn from. Undefined for a person with no schooling record (a child).
+ */
+export function schoolingOn(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): string | undefined {
+  const c = core(api);
+  const person = c.people.get(personId) ?? residentPerson(c, personId);
+  if (!person) return undefined;
+  const graduation = api.state.modules.has(SCHOOL_MODULE_ID)
+    ? graduationOf(api, personId, person.birthDate)
+    : undefined;
+  if (graduation && graduation.date <= date)
+    return graduation.passed ? "no-college" : "less-than-high-school";
+  return (
+    (person.pastFacts?.find((row) => row.kind === PROFILE_FACT_KINDS.education)
+      ?.facts?.level as string | undefined) ??
+    profileFor(person, c.seed, makeIsoDate(date))?.education
+  );
+}
+
+/** The BLS weekly earnings of the schooling a person holds today, which their hire pay reads; undefined with no schooling record. */
+export function schoolingWeekly(
+  api: CoreAPI,
+  personId: string,
+): number | undefined {
+  const level = schoolingOn(api, personId, core(api).date);
+  return level === "less-than-high-school"
+    ? api.parameter("jobsWeeklyEarningsLessThanHighSchool")
+    : level === "college"
+      ? api.parameter("jobsWeeklyEarningsCollege")
+      : level === "some-college"
+        ? api.parameter("jobsWeeklyEarningsSomeCollege")
+        : level === "no-college"
+          ? api.parameter("jobsWeeklyEarningsNoCollege")
+          : undefined;
+}
+
+/**
  * What a hire is paid per hour: the position's pay, moved by the person's own
  * schooling (their graduation record from a senior year in play, else their
  * education record, or the profile it is drawn from) by the
@@ -2084,30 +2127,7 @@ export function hirePay(
   personId: string,
 ): number {
   const c = core(api);
-  const person = c.people.get(personId) ?? residentPerson(c, personId);
-  if (!person) return position.hourlyMinor;
-  // A senior year decided in play is the person's schooling: a graduate
-  // holds a high school diploma, a senior who did not graduate holds none.
-  const graduation = api.state.modules.has(SCHOOL_MODULE_ID)
-    ? graduationOf(api, personId, person.birthDate)
-    : undefined;
-  const level = graduation
-    ? graduation.passed
-      ? "no-college"
-      : "less-than-high-school"
-    : (person.pastFacts?.find(
-        (row) => row.kind === PROFILE_FACT_KINDS.education,
-      )?.facts?.level ?? profileFor(person, c.seed, c.date)?.education);
-  const weekly =
-    level === "less-than-high-school"
-      ? api.parameter("jobsWeeklyEarningsLessThanHighSchool")
-      : level === "college"
-        ? api.parameter("jobsWeeklyEarningsCollege")
-        : level === "some-college"
-          ? api.parameter("jobsWeeklyEarningsSomeCollege")
-          : level === "no-college"
-            ? api.parameter("jobsWeeklyEarningsNoCollege")
-            : undefined;
+  const weekly = schoolingWeekly(api, personId);
   if (weekly === undefined) return position.hourlyMinor;
   const gap = weekly / api.parameter("jobsWeeklyEarningsAllWorkers") - 1;
   // stopgapId: SG-WORLD-jobs-schooling-pay-share (the within-role share of the schooling pay gap is assumed)
@@ -2244,6 +2264,8 @@ function hireCounted(
       fit,
       referral: referralStanding(api, seeker.personId),
       hourlyMinor: pay,
+      // The schooling the pay was read from, as its weekly earnings.
+      schoolingWeekly: schoolingWeekly(api, seeker.personId) ?? 0,
       counted: 1,
     },
   });
@@ -3163,6 +3185,8 @@ function hire(
       fit,
       referral: referralStanding(api, seeker.personId),
       hourlyMinor: pay,
+      // The schooling the pay was read from, as its weekly earnings.
+      schoolingWeekly: schoolingWeekly(api, person.id) ?? 0,
     },
   });
 }
