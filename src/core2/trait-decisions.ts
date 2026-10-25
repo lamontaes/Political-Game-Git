@@ -105,7 +105,10 @@ export function decisionLean(
       decisionKinds(decisionId, towardOptionId),
       decisionKinds(decisionId, overOptionId),
     );
-    probe.formula({ decisionId, lean });
+    // The person, where the reader passed a whole one, so the audit can
+    // name who weighed it and the records they got that day.
+    const actorId = (person as { id?: string }).id;
+    probe.formula({ decisionId, lean, ...(actorId ? { actorId } : {}) });
     return lean;
   } finally {
     probingDecision = false;
