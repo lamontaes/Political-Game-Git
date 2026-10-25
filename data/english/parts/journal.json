@@ -6264,6 +6264,627 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.home-line-parents-met-hometown.my-parents-both-came-from-place",
+      "move": "home-line-parents-met-hometown",
+      "kind": "spoken",
+      "text": "My parents both came from {place}.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-hometown",
+          "subject": "home",
+          "role": "parents-met-hometown",
+          "choice": "parents-met-hometown",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:hometown",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-hometown.my-parents-were-both-from-place",
+      "move": "home-line-parents-met-hometown",
+      "kind": "spoken",
+      "text": "My parents were both from {place}.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-hometown",
+          "subject": "home",
+          "role": "parents-met-hometown",
+          "choice": "parents-met-hometown",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:hometown",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-hometown.my-parents-grew-up-in-place",
+      "move": "home-line-parents-met-hometown",
+      "kind": "spoken",
+      "text": "My parents grew up in {place}.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-hometown",
+          "subject": "home",
+          "role": "parents-met-hometown",
+          "choice": "parents-met-hometown",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:hometown",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met.my-parents-met-in-place",
+      "move": "home-line-parents-met",
+      "kind": "spoken",
+      "text": "My parents met in {place}.",
+      "uses": [
+        {
+          "move": "home-line-parents-met",
+          "subject": "home",
+          "role": "parents-met",
+          "choice": "parents-met",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:where-they-lived",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met.my-parents-found-each-other-in-place",
+      "move": "home-line-parents-met",
+      "kind": "spoken",
+      "text": "My parents found each other in {place}.",
+      "uses": [
+        {
+          "move": "home-line-parents-met",
+          "subject": "home",
+          "role": "parents-met",
+          "choice": "parents-met",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:where-they-lived",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met.my-parents-first-met-in-place",
+      "move": "home-line-parents-met",
+      "kind": "spoken",
+      "text": "My parents first met in {place}.",
+      "uses": [
+        {
+          "move": "home-line-parents-met",
+          "subject": "home",
+          "role": "parents-met",
+          "choice": "parents-met",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:where-they-lived",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-school.my-parents-met-in-school",
+      "move": "home-line-parents-met-school",
+      "kind": "spoken",
+      "text": "My parents met in school.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-school",
+          "subject": "home",
+          "role": "parents-met-school",
+          "choice": "parents-met-school",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:school",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-school.my-parents-met-at-school",
+      "move": "home-line-parents-met-school",
+      "kind": "spoken",
+      "text": "My parents met at school.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-school",
+          "subject": "home",
+          "role": "parents-met-school",
+          "choice": "parents-met-school",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:school",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-school.my-parents-knew-each-other-from-school",
+      "move": "home-line-parents-met-school",
+      "kind": "spoken",
+      "text": "My parents knew each other from school.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-school",
+          "subject": "home",
+          "role": "parents-met-school",
+          "choice": "parents-met-school",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:school",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-raised-by.named-raised-me",
+      "move": "home-line-raised-by",
+      "kind": "spoken",
+      "text": "{named} raised me.",
+      "uses": [
+        {
+          "move": "home-line-raised-by",
+          "subject": "home",
+          "role": "raised-by",
+          "choice": "raised-by",
+          "journal": [
+            {
+              "kindPrefix": "household:raised-by",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-raised-by.i-grew-up-with-named",
+      "move": "home-line-raised-by",
+      "kind": "spoken",
+      "text": "I grew up with {named}.",
+      "uses": [
+        {
+          "move": "home-line-raised-by",
+          "subject": "home",
+          "role": "raised-by",
+          "choice": "raised-by",
+          "journal": [
+            {
+              "kindPrefix": "household:raised-by",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-raised-by.i-was-raised-by-named",
+      "move": "home-line-raised-by",
+      "kind": "spoken",
+      "text": "I was raised by {named}.",
+      "uses": [
+        {
+          "move": "home-line-raised-by",
+          "subject": "home",
+          "role": "raised-by",
+          "choice": "raised-by",
+          "journal": [
+            {
+              "kindPrefix": "household:raised-by",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.named-lived-apart-from-us",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "{named} lived apart from us.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "parent-apart",
+          "choice": "parent-apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.named-lived-somewhere-else",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "{named} lived somewhere else.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "parent-apart",
+          "choice": "parent-apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.named-did-not-live-with-us",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "{named} did not live with us.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "parent-apart",
+          "choice": "parent-apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-older.named-was-born-before-me",
+      "move": "home-line-sibling-older",
+      "kind": "spoken",
+      "text": "{named} was born before me.",
+      "uses": [
+        {
+          "move": "home-line-sibling-older",
+          "subject": "home",
+          "role": "sibling-older",
+          "choice": "sibling-older",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-older.named-is-older-than-i-am",
+      "move": "home-line-sibling-older",
+      "kind": "spoken",
+      "text": "{named} is older than I am.",
+      "uses": [
+        {
+          "move": "home-line-sibling-older",
+          "subject": "home",
+          "role": "sibling-older",
+          "choice": "sibling-older",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-older.named-came-before-me",
+      "move": "home-line-sibling-older",
+      "kind": "spoken",
+      "text": "{named} came before me.",
+      "uses": [
+        {
+          "move": "home-line-sibling-older",
+          "subject": "home",
+          "role": "sibling-older",
+          "choice": "sibling-older",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-twin.named-and-i-are-twins",
+      "move": "home-line-sibling-twin",
+      "kind": "spoken",
+      "text": "{named} and I are twins.",
+      "uses": [
+        {
+          "move": "home-line-sibling-twin",
+          "subject": "home",
+          "role": "sibling-twin",
+          "choice": "sibling-twin",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-twin",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-twin.named-and-i-were-born-the-same-day",
+      "move": "home-line-sibling-twin",
+      "kind": "spoken",
+      "text": "{named} and I were born the same day.",
+      "uses": [
+        {
+          "move": "home-line-sibling-twin",
+          "subject": "home",
+          "role": "sibling-twin",
+          "choice": "sibling-twin",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-twin",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-born.named-was-born-after-me",
+      "move": "home-line-sibling-born",
+      "kind": "spoken",
+      "text": "{named} was born after me.",
+      "uses": [
+        {
+          "move": "home-line-sibling-born",
+          "subject": "home",
+          "role": "sibling-born",
+          "choice": "sibling-born",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-born.named-joined-the-family",
+      "move": "home-line-sibling-born",
+      "kind": "spoken",
+      "text": "{named} joined the family.",
+      "uses": [
+        {
+          "move": "home-line-sibling-born",
+          "subject": "home",
+          "role": "sibling-born",
+          "choice": "sibling-born",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-born.then-named-was-born",
+      "move": "home-line-sibling-born",
+      "kind": "spoken",
+      "text": "Then {named} was born.",
+      "uses": [
+        {
+          "move": "home-line-sibling-born",
+          "subject": "home",
+          "role": "sibling-born",
+          "choice": "sibling-born",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
