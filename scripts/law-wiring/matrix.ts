@@ -9,6 +9,7 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
+import { ownLeast, pickOwn, type OwnPair } from "./own-payments";
 import {
   allLaws,
   changeInData,
@@ -62,6 +63,25 @@ interface Result {
     cited: { token: string; gross: number; ids: string[] }[];
     /** Posts citing a law in force at the opening in the control world, where it stays in force (older result files have none). */
     controlCited?: { token: string; gross: number; ids: string[] }[];
+    /** The law's own payments to whom it reached, against the control world (older result files have none). */
+    own?: {
+      /** Whom the payment was looked for among: those the law's records say it paid or charged, else everyone it reached (older result files: reached). */
+      targets: number;
+      among?: "paid" | "reached";
+      paid: number;
+      /** Each kind and direction of payment the targets got (newer result files). */
+      pairs?: OwnPair[];
+      sample: {
+        target: string;
+        row: string;
+        date: string;
+        kind: string;
+        way?: "in" | "out";
+        treatment: number;
+        control: number;
+        journal: string;
+      }[];
+    };
   };
   web: {
     links: { key: string; status: string; to: string }[];
@@ -325,7 +345,24 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
       .filter((c) => c.gross > 0)
       .map((c) => ({ place, c })),
   );
-  if (direct.length || cited.length || controlCited.length) {
+  // The law's own payment, picked by the same rule the checker uses from
+  // every kind its targets got (older result files carry only the pick).
+  const own = runs.flatMap(({ place, r }) => {
+    const o = r.money?.own;
+    if (!o) return [];
+    const picked = o.pairs ? pickOwn(o.targets, o.pairs) : o;
+    return picked.paid > 0 && picked.paid >= ownLeast(o.targets)
+      ? [{ place, r, o: { targets: o.targets, among: o.among, ...picked } }]
+      : [];
+  });
+  // Where a run enacted the law, its payments are the law's; a repeal of a
+  // law in force at the opening stops money only where the law pays as it
+  // goes, so the repeal runs count only when no run enacted it. Lead with the
+  // run whose reached targets most often got the payment.
+  const enacted = own.filter(({ r }) => !r.inForceAtOpening);
+  if (enacted.length) own.splice(0, own.length, ...enacted);
+  own.sort((a, b) => b.o.paid / b.o.targets - a.o.paid / a.o.targets);
+  if (direct.length || cited.length || controlCited.length || own.length) {
     const ev = [
       ...direct
         .slice(0, 3)
@@ -345,16 +382,40 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
           ({ place, c }) =>
             `${place}: in force in the control world, posts citing ${c.token}: ${c.gross} (${c.ids[0]})`,
         ),
+      ...own.slice(0, 2).map(({ place, o }) => {
+        const pays = (
+          "near" in o && o.near?.length
+            ? o.near
+            : [
+                {
+                  kind: o.sample[0]!.kind,
+                  way: o.sample[0]!.way ?? "in",
+                  targets: o.paid,
+                  first: o.sample[0],
+                },
+              ]
+        )
+          .slice(0, 3)
+          .map(
+            (n) =>
+              `${n.targets} ${n.kind.split(" @ ")[0]} paid ${n.way} (${n.kind.split(" @ ")[1] ?? ""}; e.g. ${n.first?.target} on ${n.first?.date}: ${n.first?.control} in the control world, ${n.first?.treatment} here, ${n.first?.journal})`,
+          );
+        const among =
+          o.among === "paid" ? "the law paid or charged" : "reached";
+        return `${place}: of ${o.targets} ${among}, the payments that changed first: ${pays.join("; ")}`;
+      }),
     ].join("; ");
     return { status: "wired", evidence: ev, why: "" };
   }
   const any = runs.flatMap(({ place, r }) =>
     (r.money?.diff ?? []).map((d) => ({ place, d })),
   );
-  // The control enacted a null law the same day, so a post that differs is this law's.
+  // Money differs from the control world, but no post is the law's own: not by
+  // a file that read it, not citing it, not to anyone it reached. The twin
+  // worlds drift apart over a year, so such a difference is not the law's chain.
   if (any.length)
     return {
-      status: "wired",
+      status: "partial",
       evidence: any
         .slice(0, 3)
         .map(
@@ -362,7 +423,7 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
             `${place}: ${d.kind} ${d.control} -> ${d.treatment} (${d.ids[0] ?? ""})`,
         )
         .join("; "),
-      why: "",
+      why: "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
       untraced: true,
     };
   return {
