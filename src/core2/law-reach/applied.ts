@@ -21,6 +21,7 @@ export interface LawAppliedRow {
   /** The policy key (a question, a series, or "budget-line:<line>"). */
   readonly key: string;
   readonly lawId: string;
+  /** Whom: a person, household or organization by id, or a counted group by its own id, the id its fund is named by (so the journal's postings on the fund are the group's own money). */
   readonly targetId: string;
   readonly target: AppliedTarget;
   /** The people a counted group stands for; 1 for anyone else. */

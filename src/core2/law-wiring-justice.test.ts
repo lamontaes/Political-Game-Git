@@ -29,6 +29,8 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { enactLaw, lawChain, LAWS_MODULE_ID } from "./modules/laws";
+import { countedHouseholdOf, residentsRuntime } from "./modules/residents";
+import { reachParameter } from "./law-reach/group-a-records";
 import type { LawRowInput } from "./laws-starting";
 import {
   CARRY_PERMIT,
@@ -121,8 +123,10 @@ interface Attempt {
   readonly where: string;
   readonly rows: Map<string, LawAppliedRow[]>;
   readonly posts: Map<string, number>;
-  /** The first journal entry of each kind of public-safety money. */
-  readonly postIds: Map<string, string>;
+  /** Each law's evidence: the applied row, the journal entry on the account of the target that row names, and who that is. */
+  readonly evidence: Map<string, Evidence>;
+  /** For a law with no evidence, what its rows' targets held. */
+  readonly unfound: Map<string, string>;
   readonly web: Map<string, number[]>;
   readonly after: Map<string, LawAppliedRow[]>;
   readonly monthsRun: SafetyMonth[];
@@ -130,6 +134,110 @@ interface Attempt {
   readonly missing: string[];
   /** Questions that were not law when the town opened. */
   readonly startedNo: Set<string>;
+}
+
+/** One posting the journal made, kept to follow a target's money. */
+interface Posted {
+  readonly journal: string;
+  readonly sourceId: string;
+  readonly deltaMinor: number;
+}
+interface Evidence {
+  readonly applied: string;
+  readonly journal: string;
+  readonly source: string;
+  /** The account the entry posted on. */
+  readonly account: string;
+  /** Whom the row names: a person, household, organization, government or counted group. */
+  readonly reached: string;
+  readonly count: number;
+}
+
+/**
+ * The accounts a target a law's row names holds its money in: a person's or an
+ * organization's own, a household's members', a government's treasury, and a
+ * counted group's fund (a counted worker's is their household's group's).
+ */
+function accountsOf(api: CoreAPI, row: LawAppliedRow): string[] {
+  const core = api.state as CoreState;
+  const held = (owner: string | undefined) => [
+    ...(owner ? (core.cashJournal.accountsByOwner.get(owner) ?? []) : []),
+  ];
+  if (row.target === "person" || row.target === "organization")
+    return held(row.targetId);
+  if (row.target === "household")
+    return (core.households.get(row.targetId)?.memberIds ?? []).flatMap(held);
+  if (row.target === "government")
+    return held(
+      governments(api).find((g) => g.id === row.targetId)?.organizationId,
+    );
+  if (row.target !== "group" || row.targetId.endsWith(":under-age")) return [];
+  // A counted worker a line hired is paid into their household's group's fund.
+  const household = countedHouseholdOf(core, row.targetId);
+  const group = household
+    ? residentsRuntime(core)?.store.groups[household.group]?.id
+    : row.targetId;
+  return group ? [`fund:${group}`] : [];
+}
+
+/**
+ * Whether a posting's source cites the law where its engine cites it: the
+ * public-safety engine names its money by kind, a line's hires are paid under
+ * a job whose id names the line, and a treasury pays a line under its name.
+ */
+/** A line's own money: a hire's paycheck, paid under a job whose id names the line, or its treasury's monthly payment, which names the line and the day. */
+const underLine = (line: string) => (id: string) =>
+  id.includes(line) ||
+  new RegExp(
+    `^treasury-[a-z]+:[a-z-]+:.+:${line.slice("budget-line:".length)}:\\d{4}-\\d{2}-\\d{2}$`,
+  ).test(id);
+const CITES: Record<string, (sourceId: string) => boolean> = {
+  [OVERSIGHT]: (id) => id.startsWith("public-safety:oversight:"),
+  [IMMIGRATION]: (id) => id.startsWith("public-safety:detainer:"),
+  [CASH_BAIL]: (id) => id.startsWith("public-safety:jail:"),
+  [JUVENILE_AGE]: (id) => id.startsWith("public-safety:court:"),
+  [CHILD_ACCESS]: (id) => id.startsWith("public-safety:storage:"),
+  [CARRY_PERMIT]: (id) => id.startsWith("public-safety:permit-fee:"),
+  [HANDGUN_AGE]: (id) => id.startsWith("public-safety:handgun-sales:"),
+  [STAND_GROUND]: (id) => id.startsWith("public-safety:court:"),
+  [POLICE_LINE]: underLine(POLICE_LINE),
+  [FIRE_LINE]: (id) =>
+    id.startsWith("public-safety:fire-loss:") || underLine(FIRE_LINE)(id),
+  [CORRECTIONS_LINE]: underLine(CORRECTIONS_LINE),
+};
+
+/**
+ * A law's evidence: of the rows its engine recorded (those that name money
+ * first), the first whose target holds an account with a posting whose source
+ * cites the law where the engine cites it. Null where no row has one.
+ */
+function evidenceOf(
+  api: CoreAPI,
+  key: string,
+  rows: readonly LawAppliedRow[],
+  byAccount: ReadonlyMap<string, readonly Posted[]>,
+): Evidence | null {
+  const cites = CITES[key]!;
+  const ordered = [
+    ...rows.filter((r) => r.amountMinor !== 0),
+    ...rows.filter((r) => r.amountMinor === 0),
+  ];
+  for (const row of ordered)
+    for (const account of accountsOf(api, row)) {
+      const posted = (byAccount.get(account) ?? []).find((p) =>
+        cites(p.sourceId),
+      );
+      if (posted)
+        return {
+          applied: row.id,
+          journal: posted.journal,
+          source: posted.sourceId,
+          account,
+          reached: row.targetId,
+          count: row.count,
+        };
+    }
+  return null;
 }
 
 function attempt(trySeed: string, index: number): Attempt {
@@ -142,9 +250,15 @@ function attempt(trySeed: string, index: number): Attempt {
   const core = world.core;
   const api = coreAPI(core);
   const posts = new Map<string, number>();
-  const postIds = new Map<string, string>();
+  const byAccount = new Map<string, Posted[]>();
   setJournalTrace((input) => {
     const id = input.sourceRef.id;
+    // Every posting by its account, to follow a target's own money.
+    for (const p of input.postings) {
+      const list = byAccount.get(p.accountId) ?? [];
+      list.push({ journal: input.id, sourceId: id, deltaMinor: p.deltaMinor });
+      byAccount.set(p.accountId, list);
+    }
     if (!id.startsWith("public-safety:")) return;
     const kind = id.split(":")[1]!;
     const gross = input.postings.reduce(
@@ -152,9 +266,10 @@ function attempt(trySeed: string, index: number): Attempt {
       0,
     );
     posts.set(kind, (posts.get(kind) ?? 0) + gross);
-    if (gross > 0 && !postIds.has(kind)) postIds.set(kind, input.id);
   });
   const rows = new Map<string, LawAppliedRow[]>();
+  const evidence = new Map<string, Evidence>();
+  const unfound = new Map<string, string>();
   const after = new Map<string, LawAppliedRow[]>();
   const web = new Map<string, number[]>();
   const cutService: number[] = [];
@@ -162,22 +277,29 @@ function attempt(trySeed: string, index: number): Attempt {
   const lines = [POLICE_LINE, FIRE_LINE, CORRECTIONS_LINE];
   const startedNo = new Set(keys.filter((key) => !inForceHere(api, key)));
   try {
-    // The three service lines are raised a tenth by a measure of their own, so
+    // The three service lines are raised by a measure of their own, so
     // the departments' service has a statute to stand on.
     const lineGov =
       governments(api).find((g) => g.level === "city") ??
       governments(api).find((g) => g.level === "county") ??
       governments(api).find((g) => g.level === "state")!;
-    for (const line of ["police", "fire", "corrections"])
+    // Each line is raised by as much as it holds or by three positions' pay,
+    // whichever is more, so the department it funds posts openings (a tenth of
+    // a small department's staff is not half a position) and the government
+    // pays the positions of a line with no department in the town.
+    const originalLine = new Map<string, number>();
+    for (const line of ["police", "fire", "corrections"]) {
+      originalLine.set(line, lineAmount(api, lineGov, line));
       amendBudget(api, {
         governmentId: lineGov.id,
         line,
         deltaMinor: Math.max(
-          1_000_000,
-          Math.round(lineAmount(api, lineGov, line) * 0.1),
+          3 * reachParameter("publicPositionAnnualMinor"),
+          originalLine.get(line)!,
         ),
         measureId: `test:${line}:raise`,
       });
+    }
     // Phase one: the age limit on handgun sales is not law, so young adults buy.
     setQuestion(api, HANDGUN_AGE, 0);
     for (const key of QUESTIONS) setQuestion(api, key, 1);
@@ -189,8 +311,6 @@ function attempt(trySeed: string, index: number): Attempt {
     for (const key of [...keys, ...lines])
       rows.set(key, [...appliedOn(api, key)]);
     for (const [kind, gross] of noLimit) posts.set(`first:${kind}`, gross);
-    for (const kind of noLimit.keys())
-      if (postIds.has(kind)) postIds.set(`first:${kind}`, postIds.get(kind)!);
     // The outcome web's month rows for the measures the engine reads.
     const webTable = api
       .moduleState("core2-outcome-web-v1")
@@ -207,12 +327,15 @@ function attempt(trySeed: string, index: number): Attempt {
       governments(api).find((g) => g.level === "city") ??
       governments(api).find((g) => g.level === "county") ??
       governments(api).find((g) => g.level === "state")!;
-    const base = lineAmount(api, gov, "police");
+    // The line is cut to three fifths of what it began the year at.
+    const cutBy =
+      lineAmount(api, gov, "police") -
+      Math.round(originalLine.get("police")! * 0.6);
     const monthsBefore = months(api).length;
     amendBudget(api, {
       governmentId: gov.id,
       line: "police",
-      deltaMinor: -Math.round(base * 0.4),
+      deltaMinor: -cutBy,
       measureId: "test:police:cut",
     });
     run(core, 35);
@@ -220,7 +343,7 @@ function attempt(trySeed: string, index: number): Attempt {
     amendBudget(api, {
       governmentId: gov.id,
       line: "police",
-      deltaMinor: Math.round(base * 0.4),
+      deltaMinor: cutBy,
       measureId: "test:police:restore",
     });
     run(core, 35);
@@ -256,11 +379,39 @@ function attempt(trySeed: string, index: number): Attempt {
         .filter(([key, what]) => !refusedOrPaid(key, what))
         .map(([key]) => `${key} (counted groups above one)`),
     ];
+    // Each law's evidence, from the rows it recorded before the repeal and
+    // every posting the run made (a line's hires are paid weeks after they start).
+    for (const key of [...keys, ...lines]) {
+      const found = evidenceOf(api, key, rows.get(key) ?? [], byAccount);
+      if (found) evidence.set(key, found);
+      else
+        unfound.set(
+          key,
+          [...(rows.get(key) ?? [])]
+            .sort(
+              (x, y) =>
+                Number(x.target === "group") - Number(y.target === "group"),
+            )
+            .slice(0, 4)
+            .map((r) => {
+              const accounts = accountsOf(api, r);
+              const posted = accounts.flatMap((id) => byAccount.get(id) ?? []);
+              return `${r.target} ${r.targetId} ${r.what} since ${r.since} amount ${r.amountMinor}: ${accounts.length} accounts, ${posted.length} postings, e.g. ${posted
+                .slice(0, 5)
+                .map((p) => p.sourceId)
+                .join(
+                  " | ",
+                )}; job ${(api.state as CoreState).people.get(r.targetId)?.jobId ?? "none"}`;
+            })
+            .join("; "),
+        );
+    }
     return {
       where,
       rows,
       posts,
-      postIds,
+      evidence,
+      unfound,
       web,
       after,
       monthsRun: months(api),
@@ -417,47 +568,40 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
           `${a.where}: ${line} groups`,
         ).toBe(true);
 
-      // Each law by record id: the applied row, the journal entry of its
-      // money, and who it reached (a named person or household where the
-      // engine reached one, else the counted group, which stands for its
-      // households).
-      const moneyKind: Record<string, string> = {
-        [OVERSIGHT]: "oversight",
-        [IMMIGRATION]: "detainer",
-        [CASH_BAIL]: "jail",
-        [JUVENILE_AGE]: "court",
-        [CHILD_ACCESS]: "storage",
-        [CARRY_PERMIT]: "permit-fee",
-        [HANDGUN_AGE]: "first:handgun-sales",
-        [STAND_GROUND]: "court",
-        [POLICE_LINE]: "court",
-        [FIRE_LINE]: "fire-loss",
-        [CORRECTIONS_LINE]: "jail",
-      };
-      const evidence = Object.entries(moneyKind).map(([key, kind]) => {
-        const rows = a.rows.get(key) ?? [];
-        const row = rows.find((r) => r.amountMinor !== 0) ?? rows[0]!;
-        const named = rows.find((r) => r.target === "person");
-        return {
-          law: key.replace(/^.*[.:]/, ""),
-          applied: row.id,
-          journal: a.postIds.get(kind) ?? "none",
-          reached: (named ?? row).targetId,
-          count: (named ?? row).count,
-        };
-      });
+      // Each law by record id: the applied row, the journal entry on the
+      // account of the target that row names (a household's members', a
+      // counted group's fund) whose source cites the law where its engine
+      // cites it, and who that is. A law with no such entry is not followed.
+      const evidence = [
+        ...QUESTIONS,
+        HANDGUN_AGE,
+        POLICE_LINE,
+        FIRE_LINE,
+        CORRECTIONS_LINE,
+      ].map((key) => ({
+        key,
+        law: key.replace(/^.*[.:]/, ""),
+        found: a.evidence.get(key),
+      }));
       console.log(
         `law-wiring-justice evidence in ${a.where}:\n${evidence
           .map(
             (e) =>
-              `  ${e.law}: ${e.applied} | ${e.journal} | ${e.reached} x${e.count}`,
+              `  ${e.law}: ${e.found ? `${e.found.applied} | ${e.found.journal} (${e.found.source}) on ${e.found.account} | reached ${e.found.reached} x${e.found.count}` : "none"}`,
           )
           .join("\n")}`,
       );
       for (const e of evidence) {
-        expect(e.applied, `${a.where}: ${e.law} applied row`).toBeTruthy();
-        expect(e.journal, `${a.where}: ${e.law} journal entry`).not.toBe(
-          "none",
+        expect(
+          e.found,
+          `${a.where}: ${e.law} has no journal entry on the account of a target its applied rows name, citing it (${a.unfound.get(e.key)})`,
+        ).toBeTruthy();
+        expect(
+          e.found!.applied,
+          `${a.where}: ${e.law} applied row`,
+        ).toBeTruthy();
+        expect(e.found!.journal, `${a.where}: ${e.law} journal entry`).toMatch(
+          /^journal:/,
         );
       }
     } finally {
