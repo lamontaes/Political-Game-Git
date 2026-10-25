@@ -6092,15 +6092,15 @@
     "why": "no measure: the web does not keep health.hospital-visits and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records health.hospital-visits for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-labor-unemployment-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
     "line": 272,
-    "whatItFakes": "transit-loss-to-unemployment moves labor.unemployment-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "whatItFakes": "transit-loss-to-unemployment, social-security-tax-to-unemployment, medicare-tax-to-unemployment, federal-unemployment-tax-to-unemployment, state-unemployment-tax-to-unemployment move labor.unemployment-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
@@ -6308,8 +6308,8 @@
     "why": "engine doesn't read the factor: health.youth-cannabis-use moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns health.youth-cannabis-use multiplies its own person, household or organization rate by webReach(api, placeId, \"health.youth-cannabis-use\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Superseded by SG-EW-HEALTH-condition-record: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-finance-high-cost-loans",
@@ -6392,8 +6392,8 @@
     "why": "engine doesn't read the factor: health.drug-out-of-pocket moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns health.drug-out-of-pocket multiplies its own person, household or organization rate by webReach(api, placeId, \"health.drug-out-of-pocket\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Superseded by SG-EW-HEALTH-condition-record: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-labor-workforce",
@@ -6428,8 +6428,8 @@
     "why": "engine doesn't read the factor: health.child-asthma-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns health.child-asthma-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"health.child-asthma-pct\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Superseded by SG-EW-HEALTH-condition-record: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-school-college-completion-pct",
@@ -6440,7 +6440,7 @@
     "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research finds no effect (about zero), so an engine would multiply by one",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "replacement": "Superseded by SG-SCHOOL-links-not-running: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
     "status": "resolved"
   },
   {
