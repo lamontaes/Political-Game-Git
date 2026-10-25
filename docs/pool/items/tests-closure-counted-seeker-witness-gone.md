@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/closure-counted-seeker-finite.test.ts
 
-**Notes.** TODO
+**Notes.** 2026-10-25 (claude/closure-seeker-witness): natural uncoded counted hires are rare (none in 12 months in Cleona PA, Washington DC, Bayshore NC or Chickamauga GA, measured), so the test now opens one position on a drawn town's press outlet staff job, as the engine does when a reporter leaves, and the weekly round fills it from the counts within a week.
