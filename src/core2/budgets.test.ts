@@ -30,6 +30,10 @@ import { billPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
 import { residentsRuntime } from "./modules/residents";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { setKeepEveryonesWhy } from "./why-kept";
+
+// Reads every paycheck's withholding record for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 const START = "2026-01-05";
 const seed =
