@@ -294,4 +294,32 @@ describe("a law's own payments", () => {
       control: 48_141,
     });
   });
+
+  it("takes the paycheck over the spending it allows when both reach as many", () => {
+    // Every raised worker's household spends more the day after payday, and
+    // spends more than the raise: the paycheck came first and is the law's.
+    const ids = ["person_a", "person_b", "person_c"];
+    const treated: Record<string, Posting[]> = {};
+    const control: Record<string, Posting[]> = {};
+    for (const [i, id] of ids.entries()) {
+      treated[id] = [
+        ["2025-01-31", "work-payroll", 1_100, `journal:p${i}`],
+        ["2025-02-01", "cost-of-living", -1_500, `journal:s${i}`],
+      ];
+      control[id] = [
+        ["2025-01-31", "work-payroll", 1_000, `journal:p${i}`],
+        ["2025-02-01", "cost-of-living", -1_300, `journal:s${i}`],
+      ];
+    }
+    const own = ownPayments(
+      none,
+      ids.map((id) => reached(id)),
+      world(treated),
+      world(control),
+      false,
+      "2025-01-02",
+    );
+    expect(own.pick).toBe("work-payroll|in");
+    expect(own.paid).toBe(3);
+  });
 });

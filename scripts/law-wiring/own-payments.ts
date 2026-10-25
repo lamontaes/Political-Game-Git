@@ -237,7 +237,9 @@ export interface OwnPair {
  * the law's own payment comes first after the law reaches them: a raise's
  * paycheck, a premium, an employer's tax share, before the spending a raise
  * allows or a deposit moved later. Of those that began within a week of the
- * first, the one most targets got, then the one that moved the most money.
+ * first, the one most targets got; among equals, the one that began first (a
+ * raise's paycheck the day before the household spends it), then the one that
+ * moved the most money (the paycheck over the tax withheld from it).
  */
 export function pickOwn(targets: number, pairs: readonly OwnPair[]) {
   const most = Math.max(0, ...pairs.map((p) => p.targets));
@@ -251,8 +253,8 @@ export function pickOwn(targets: number, pairs: readonly OwnPair[]) {
   const top = [...near].sort(
     (a, b) =>
       b.targets - a.targets ||
-      b.moved - a.moved ||
       a.earliest.localeCompare(b.earliest) ||
+      b.moved - a.moved ||
       a.kind.localeCompare(b.kind),
   )[0];
   return {
