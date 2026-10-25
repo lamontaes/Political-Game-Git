@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/counted-births-weight-bookkeeping
-pr:
+pr: #5993
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T07:06:39.559Z

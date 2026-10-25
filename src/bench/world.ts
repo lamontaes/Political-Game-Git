@@ -54,6 +54,9 @@ import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
+import { OPENING_KIN } from "../core2/opening-kin";
+import { scaleFirmsToCensus } from "../core2/census-firms";
+import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
@@ -69,7 +72,6 @@ import { recordOpeningStory } from "../director/opening-story";
 import {
   applyOpeningSettings as applyWorldSettings,
   checkSettings as checkWorldSettings,
-  scaleBusinessCash,
   scaleOutsideSales,
   type WorldSettings,
 } from "../core2/world-settings";
@@ -217,6 +219,20 @@ export async function buildBenchWorldInStages(
   }
 }
 
+/** Real people per sampled person: the place's Census count over the people generated, one where the sample is the whole town. */
+function censusScale(
+  place: { sourceGeoid?: string },
+  population: CoreInput,
+): number {
+  const real = place.sourceGeoid
+    ? placeReferencePopulation(place.sourceGeoid)?.value
+    : undefined;
+  const sample = population.people.filter(
+    (person) => person.tier !== OPENING_KIN.kinTier,
+  ).length;
+  return real !== undefined && real > sample ? real / sample : 1;
+}
+
 function* benchWorldStages(
   seed: string,
   date: string,
@@ -265,6 +281,12 @@ function* benchWorldStages(
     // buyers by industry), light terms for counted households, two levels and
     // the counted voter groups.
     playerId = entrantOf(input, place.context.jurisdiction.id);
+    // A town opens at its real Census size: the sample is the
+    // people generated, and each counted household stands for as many real
+    // households as the Census count is over the sample, unless asked for.
+    const countScale =
+      options.countScale ??
+      (minimumPeople ? 1 : censusScale(place, population));
     let withPlayer: CoreInput = {
       ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
       playerId,
@@ -289,37 +311,37 @@ function* benchWorldStages(
         .filter((home) => !home.memberIds.some((id) => kept.has(id)))
         .map((home) => home.id),
     );
+    // The firms are sized to the weighted town before the outside market is
+    // derived from their books, so its buyers and suppliers follow them.
     const economy: CoreInput = addOutsideMarket(
       withPrivateTuition(
-        buildOpeningEconomy(withPlayer, {
-          finance: { countedHouseholdIds },
-          customers: { countedHouseholdIds },
-        }).input,
+        scaleFirmsToCensus(
+          buildOpeningEconomy(withPlayer, {
+            finance: { countedHouseholdIds },
+            customers: { countedHouseholdIds },
+          }).input,
+          place.context.jurisdiction.id,
+          countScale,
+        ),
       ),
     );
     // The world economy goes on after the collapse, as on the core's
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
-    // A town opened at a multiple of its sample pays that multiple of wages
-    // (its counted workers stand for several), so its outside buyers buy that
-    // multiple too: sales and payroll scale together, as the people do.
-    opening = scaleBusinessCash(
-      options.countScale ?? 1,
-      scaleOutsideSales(
-        (settings.economy?.outsideDemand ?? 1) * (options.countScale ?? 1),
-        withWorldEconomy(
-          collapseToTwoLevels(economy, {
-            keep: kept,
-            ...(options.countScale && options.countScale !== 1
-              ? {
-                  weights: {
-                    [place.context.jurisdiction.id]: options.countScale,
-                  },
-                }
-              : {}),
-          }),
-        ),
+    opening = scaleOutsideSales(
+      settings.economy?.outsideDemand ?? 1,
+      withWorldEconomy(
+        collapseToTwoLevels(economy, {
+          keep: kept,
+          ...(countScale !== 1
+            ? {
+                weights: {
+                  [place.context.jurisdiction.id]: countScale,
+                },
+              }
+            : {}),
+        }),
       ),
     );
     releaseRecentHistory();
