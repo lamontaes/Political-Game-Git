@@ -5539,14 +5539,14 @@
   },
   {
     "id": "SG-TRAITS-pay-growth-by-performance",
-    "kind": "owner-decision",
+    "kind": "missing-mechanic",
     "file": "src/core2/modules/jobs.ts",
     "line": 1247,
     "whatItFakes": "A worker's pay is the rate their job was posted at, so temperament changes earnings only through who is hired first and who is let go last; nobody's pay grows with their tenure or how they work.",
-    "why": "Real pay grows with tenure and performance (Gensowski 2018: about 16.7 percent of lifetime earnings per standard deviation of conscientiousness), but a raise or promotion is a new step in a worker's life, which the standing rules leave to the owner. OWNER-DECISIONS.md rules only on raising an unfilled opening's pay (Oct 16).",
+    "why": "Real pay grows with tenure and performance (Gensowski 2018: about 16.7 percent of lifetime earnings per standard deviation of conscientiousness). The owner ruled on Oct 24 that it is built, not asked: pay moves with tenure and the worker's record at the employer, calibrated from BLS/ECI tenure-wage research, no fixed step (OWNER-DECISIONS.md, Oct 24).",
     "addedBy": "claude/traits-outcome-job-performance",
     "addedAt": "2026-10-24",
-    "replacement": "The owner's ruling on owner-pay-growth-by-performance (docs/coordination/OWNER-DECISIONS.md): on yes, raises and promotions read from the worker's record and temperament; on no, earnings graded read through hiring and layoffs alone and this row resolved.",
+    "replacement": "Pay growth by tenure and the worker's record, built by owner-pay-growth-by-performance; this row resolves when it lands.",
     "status": "open"
   }
 ]

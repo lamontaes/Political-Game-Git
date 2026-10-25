@@ -1244,7 +1244,8 @@ function reviewEmployers(api: CoreAPI): void {
  * A new opening's pay: the role's own rate, moved with the region's pay level
  * since it was set, never under the wage floor in force; the median of whoever
  * holds the role plays no part (owner, Oct 14). Pay does not grow with tenure
- * or how one works: the owner's call (SG-TRAITS-pay-growth-by-performance).
+ * or how one works yet: ruled to be built (owner-pay-growth-by-performance,
+ * SG-TRAITS-pay-growth-by-performance).
  */
 function payFor(
   api: CoreAPI,
