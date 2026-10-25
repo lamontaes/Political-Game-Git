@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/school-pay-small-district
-pr:
+pr: #6000
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T08:05:37.774Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-25T08:05:37.774Z
 
 **Files.** src/core2/school-pay.test.ts
 
-**Notes.** TODO
+**Notes.** Oct 25, 2026 (claude/school-pay-small-district): Lamar had one named teacher, person_0de29db7226d1f6a, paid in full (627,696 cents) until she left work by her own choice on April 1, 2025 (job-change:2025-04-01:job:public-schools:person_0de29db7226d1f6a:left-work). The test only checked teachers still teaching; it now checks every full teacher owed pay in the window.
