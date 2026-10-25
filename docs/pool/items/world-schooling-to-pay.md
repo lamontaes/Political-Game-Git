@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: in-pr
+status: done
 source: effect-web-poverty; stopgap SG-WEB-poverty-graduation-no-engine
 claimed-by:
 claimed-at:
