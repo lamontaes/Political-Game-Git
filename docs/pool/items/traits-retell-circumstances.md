@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-retell-circumstances
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T12:58:48.926Z
 ---
 
 **What.** A listener retells a speech (src/core2/modules/speech.ts, speech-reception) when how far it moved them, 0.01 to 0.04, outweighs a fixed pull to keep quiet of 0.6. That leaves temperament alone deciding: at the general weight the third leaning most toward retelling retold 26% and the third leaning least none, and in Lookeba, Oklahoma (place key 4044000, seed f20e6549007c) temperament turned 1,121 of 5,652 choices. A listener with nobody at home outside the audience still weighs it. Give the retelling its own circumstances, then fit the weight to Hibbing, Ritchie and Anderson 2011 (odds ratio 1.49 between the thirds).

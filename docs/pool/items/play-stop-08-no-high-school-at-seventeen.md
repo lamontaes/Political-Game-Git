@@ -5,13 +5,14 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/play-stop-08-high-school
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
 milestone: play-first
+claimed-at: 2026-10-25T14:00:23.897Z
 ---
 
 **What.** I started a life as Bo Snider, age 17, in Anson, Texas on the v0.22.10 release. Who you are lists SCHOOL as "Anson Middle" and "Anson El", and Jobs and study says "No current job" with Study "2018 Anson Middle, 2012 Anson El". No high school appears, and I am not enrolled anywhere in my senior year. "Anson El" is a cut-off name. I expected Anson High School, current, and a school day to happen.
