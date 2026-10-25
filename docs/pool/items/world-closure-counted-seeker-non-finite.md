@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/closure-seeker-finite
-pr:
+pr: #5981
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T20:03:46.873Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T20:03:46.873Z
 **Files.** src/core2/modules/jobs.ts, src/core2/legislature-committees.test.ts
 
 **Notes.** Found by the laws lead's gate on Oct 24.
+
+Oct 24, 2026 (claude/closure-seeker-finite): the field was `occupationClassification`, not a number. A counted hire copies it from its position's template (`src/core2/modules/jobs.ts`, `hireCounted`), and a press outlet's staff job has none (`startPublicJob`), so the counted job held the key with the value undefined, which module data refuses with the same message. Reproduced in Traskwood, Arkansas (draw seed `c2-b`, purpose `committee-markup`): `job:position:organization:press:radio:0:jurisdiction_03b63710264691a8:2027-01-01:1:person_b0b6ea54fc4dbc6f`. Fixed there, in the full hire and in the opening's population builder.

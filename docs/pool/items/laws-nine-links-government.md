@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/law-wiring-government
 pr: #5582
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
@@ -30,3 +30,13 @@ Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Annual
 Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Prior annual and day-loop money returns fixed; own7-file gate35pass1fail: budget-bill-carry.test.ts:105-110 in Milan MO2948062, worldseed813de60a5b6a98fd8a1ae48c7f3c4a678865467f7907f157a23499dfb45181cf expects100000000 administration carry, reads-1218048401. Fix failing carry proof/root and log draw root; update stale body annual pointers; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): annual windows and generic day-loop exclusion are now supplied, but four new ESTIMATED election costs lack registered stopgap coverage/reader markers and the Done-when body still cites removed 35/300-day reports; register the estimates and refresh annual evidence references on that branch, merge main into it first.
+
+Laws lead, Oct 24 20:50: back for recheck at 6466e7b5df on #5582. Merger 3's send-back is fixed (the day loop's money), with the treasury test fixes and a load-order fix for the law-reach registry.
+
+Sent back 2026-10-24 UTC from PR #5582 (branch claude/law-wiring-government): corrective head 6466e7b5df still lacks registered stopgap row and reader markers for four nationwide ESTIMATED election costs, the unresolved Merger 0 17:31 return; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Annual body and carry-proof source repaired; four ESTIMATED election costs at reach-group-a-parameters.json:125-147 and group-a-voting.ts:233-271 still have no registered stopgap row or reader marker, as already returned at17:31; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 at 21:08 UTC from PR #5582 (branch claude/law-wiring-government), corrective head 6466e7b5df: four ESTIMATED election-cost parameters still have no matching canonical stopgap row/replacement or consuming code marker; register that stand-in and finish on that branch, merge main into it first. The stale short-window filenames in the earlier return are fixed and that objection is withdrawn; no complete new green gate claimed.
+
+Laws lead, Oct 25 06:30: the election-cost stand-ins are registered (SG-GOV-REACH-A-election-cost-estimates, marked at group-a-voting.ts:463); back for recheck at 712804a556.
