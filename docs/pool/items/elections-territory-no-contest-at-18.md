@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/territory-board-contests
-pr:
+pr: #6107
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T20:41:04.433Z
