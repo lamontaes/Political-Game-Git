@@ -26,3 +26,15 @@ claimed-at:
 Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Annual family evidence still missing on corrective c64f3feaf9: committed runs use 35/300-day windows and after10, while current checker now uses after31; rerun full annual two-town evidence and refresh matrix/table; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Annual windows now supplied, but check.ts:1053-1061 falsely credits generic life.ts day-loop transfers as direct money for unrelated laws (already filed as laws-checker-day-loop-money-counted-as-reader); repair attribution and refresh annual reports/matrix plus the stale 35/300-day body evidence before claiming all nine links; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Prior annual and day-loop money returns fixed; own7-file gate35pass1fail: budget-bill-carry.test.ts:105-110 in Milan MO2948062, worldseed813de60a5b6a98fd8a1ae48c7f3c4a678865467f7907f157a23499dfb45181cf expects100000000 administration carry, reads-1218048401. Fix failing carry proof/root and log draw root; update stale body annual pointers; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): annual windows and generic day-loop exclusion are now supplied, but four new ESTIMATED election costs lack registered stopgap coverage/reader markers and the Done-when body still cites removed 35/300-day reports; register the estimates and refresh annual evidence references on that branch, merge main into it first.
+
+Laws lead, Oct 24 20:50: back for recheck at 6466e7b5df on #5582. Merger 3's send-back is fixed (the day loop's money), with the treasury test fixes and a load-order fix for the law-reach registry.
+
+Sent back 2026-10-24 UTC from PR #5582 (branch claude/law-wiring-government): corrective head 6466e7b5df still lacks registered stopgap row and reader markers for four nationwide ESTIMATED election costs, the unresolved Merger 0 17:31 return; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Annual body and carry-proof source repaired; four ESTIMATED election costs at reach-group-a-parameters.json:125-147 and group-a-voting.ts:233-271 still have no registered stopgap row or reader marker, as already returned at17:31; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 at 21:08 UTC from PR #5582 (branch claude/law-wiring-government), corrective head 6466e7b5df: four ESTIMATED election-cost parameters still have no matching canonical stopgap row/replacement or consuming code marker; register that stand-in and finish on that branch, merge main into it first. The stale short-window filenames in the earlier return are fixed and that objection is withdrawn; no complete new green gate claimed.
