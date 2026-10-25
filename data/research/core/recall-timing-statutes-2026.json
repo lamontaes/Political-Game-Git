@@ -184,8 +184,14 @@
     },
     "MS": {
       "localRecall": false,
-      "tag": "unread",
-      "reason": "Mississippi's recall (Miss. Code Ann. 25-5-1 et seq.) reaches elective county officials by petition to the governor, not a town's offices: WLBT, January 13, 2023, on HB 370, which would \"give citizens the ability to petition the governor to remove municipal elected leaders, which they currently cannot do under Mississippi code\" (the bill was tabled). The code text could not be fetched on October 25, 2026 (the Legislature's site returned 503); re-read it when it can be. The 2026 bill SB 2350 (https://legiscan.com/MS/text/SB2350/2026) would add a municipal recall; it is not law. No municipal timing bar applies."
+      "tag": "SOURCED",
+      "statute": "Miss. Code Ann. 25-5-3 (2025 Code text)",
+      "url": "https://law.justia.com/codes/mississippi/title-25/chapter-5/section-25-5-3/",
+      "retrievedOn": "2026-10-25",
+      "quotes": [
+        "The Governor is hereby empowered, in accordance with the provisions of Section 139 of the Mississippi Constitution of 1890, through the procedure and under the regulations prescribed in Sections 25-5-3 through 25-5-37 and for the reasons and causes set forth, to remove any elective county officer in this state; and every elective officer of any county in this state may be removed from office by the Governor at any time when done in compliance with the regulations hereinafter set forth."
+      ],
+      "note": "The published statute empowers the Governor to remove elective county officers; it does not authorize municipal recall. Text also verified at https://codes.findlaw.com/ms/title-25-public-officers-and-employees-public-records/ms-code-sect-25-5-3/. The 2026 municipal-recall bill SB 2350 died in committee on February 3, 2026 (https://legiscan.com/MS/bill/SB2350/2026). No municipal timing bar applies."
     },
     "MO": {
       "localRecall": false,

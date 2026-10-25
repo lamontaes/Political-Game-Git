@@ -10,6 +10,7 @@
  * available, and unaudited.
  */
 import corpus from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
+import conditionalRecall from "../data/elections/recall-form-conditional.json" with { type: "json" };
 import unresolvedRecall from "../data/elections/recall-threshold-unresolved.json" with { type: "json" };
 import type {
   MunicipalElectionTiming,
@@ -47,63 +48,13 @@ export interface MunicipalRulePack {
  * the corpus resolves for no town: the options each may take, and the one
  * state law gives a town until it adopts another.
  */
-const FORM_CONDITIONAL_RECALL: Readonly<
-  Record<
-    string,
-    {
-      readonly options: readonly MunicipalRecallDoctrine[];
-      readonly statutoryDefault: MunicipalRecallDoctrine | null;
-    }
-  >
-> = {
-  AR: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: null,
-  },
-  HI: { options: ["yes-no-retention", "prohibited"], statutoryDefault: null },
-  ME: {
-    options: ["yes-no-retention", "prohibited"],
-    statutoryDefault: "prohibited",
-  },
-  MO: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: null,
-  },
-  NM: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: null,
-  },
-  OH: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: "prohibited",
-  },
-  OK: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: "prohibited",
-  },
-  RI: {
-    options: ["yes-no-retention", "prohibited"],
-    statutoryDefault: "prohibited",
-  },
-  TN: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: null,
-  },
-  TX: {
-    options: [
-      "two-question-standalone",
-      "simultaneous-incumbent-replacement",
-      "prohibited",
-    ],
-    statutoryDefault: "prohibited",
-  },
-  // Commission-form cities and towns only (Wyo. Stat. 15-4-110); a town
-  // under another form has none.
-  WY: {
-    options: ["simultaneous-incumbent-replacement", "prohibited"],
-    statutoryDefault: "prohibited",
-  },
-};
+interface FormConditionalRecall {
+  readonly options: readonly MunicipalRecallDoctrine[];
+  readonly statutoryDefault: MunicipalRecallDoctrine | null;
+}
+const FORM_CONDITIONAL_RECALL = conditionalRecall.states as Readonly<
+  Record<string, FormConditionalRecall>
+>;
 
 /**
  * States with a statewide recall whose signature requirement is tiered,
