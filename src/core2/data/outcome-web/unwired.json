@@ -576,6 +576,30 @@
       "outcome": "parks.access-to-exercise",
       "reason": "engine doesn't read the factor: parks.access-to-exercise moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-parks-access-to-exercise"
+    },
+    {
+      "link": "social-security-tax-to-unemployment",
+      "outcome": "labor.unemployment-pct",
+      "reason": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
+      "stopgapId": "SG-WEB-unread-labor-unemployment-pct"
+    },
+    {
+      "link": "medicare-tax-to-unemployment",
+      "outcome": "labor.unemployment-pct",
+      "reason": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
+      "stopgapId": "SG-WEB-unread-labor-unemployment-pct"
+    },
+    {
+      "link": "federal-unemployment-tax-to-unemployment",
+      "outcome": "labor.unemployment-pct",
+      "reason": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
+      "stopgapId": "SG-WEB-unread-labor-unemployment-pct"
+    },
+    {
+      "link": "state-unemployment-tax-to-unemployment",
+      "outcome": "labor.unemployment-pct",
+      "reason": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
+      "stopgapId": "SG-WEB-unread-labor-unemployment-pct"
     }
   ]
 }
