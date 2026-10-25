@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #6021
 blocked-on:
@@ -23,6 +23,8 @@ claimed-at:
 
 **Notes.** From the laws lead, Oct 24, reviewing the laws end-to-end proof's Burr, Nebraska chain.
 
-Sent back 2026-10-25 from PR #6021 (branch claude/session-calendar-2025): Maine2025row omits published June25special-session adjournment; own April15/June18reader returns June20 instead of September24; associate acts with their data-defined session and add independent special-session regression; finish on that branch, merge main into it first.
+2026-10-25 (claude/session-calendar-2025): 2025 adjournments added for 16 places from fetched pages (NCSL's December 22, 2025 calendar, the Kansas, Kentucky and Maine legislatures, two news pages); Missouri keeps its law's May 30 limit (its rule then gives August 28). The core reader (src/core2/state-effective-date.ts) now falls back to a place's limit, then the labeled median, as the old engine did, instead of counting from passage. D.C., Michigan, North Carolina and American Samoa have no published 2025 end and take the median.
 
-Sent back 2026-10-25 from PR #6021 (branch claude/session-calendar-2025): special-session repair now present, but core passes signature as finalPassageAt; March20regular bill signedMarch26 wrongly getsSeptember24insteadJune20; propagate actual passage/session and add delayed-signature regression; finish on that branch, merge main into it first.
+Sent back 2026-10-25 from PR #6021 (branch claude/session-calendar-2025): Maine2025row omits published June25special-session adjournment; own April15/June18reader returns June20 instead of September24; associate acts with their data-defined session and add independent special-session regression; finish on that branch, merge main into it first. Fixed the same day: Maine's 2025 row carries both adjournments, and an act counts from the end of the session it passed in (src/rules/laws/effective-date.ts).
+
+Sent back 2026-10-25 from PR #6021 (branch claude/session-calendar-2025): special-session repair now present, but core passes signature as finalPassageAt; March20regular bill signedMarch26 wrongly getsSeptember24insteadJune20; propagate actual passage/session and add delayed-signature regression; finish on that branch, merge main into it first. Fixed the same day: a bill records the day it passed its last vote, and the session-end rule counts from that, not the signing day.
