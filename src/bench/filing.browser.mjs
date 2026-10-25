@@ -1,4 +1,4 @@
-/* global process, console, document, URL */
+/* global process, console, document, URL, URLSearchParams */
 // The filing counter in a real browser, on the bench (npm run bench): a new
 // life in a place drawn from all 56, Travel to the first office that takes
 // filings, name each office there. The choices must read differently, the
@@ -13,10 +13,11 @@ const browser = await chromium.launch({
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(60000);
 const errors = [];
+const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 page.on("pageerror", (e) => errors.push(e.message));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
+  await page.goto(`${base}/play`);
   await ready;
   const made = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/newlife",
@@ -24,8 +25,9 @@ try {
   );
   await page.locator("#new-life").click();
   await page.locator("#new-world").click();
-  const response = await made;
-  console.log("Seed:", new URL(response.url()).searchParams.get("seed"));
+  const asked = new URL((await made).url()).searchParams;
+  const world = { seed: asked.get("seed"), date: asked.get("date") };
+  console.log("Seed:", world.seed);
   await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
   await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "Skip opening", exact: true }).click();
@@ -40,9 +42,7 @@ try {
     .evaluate((e) => e.click());
   const go = page.locator("#sheet-body button", { hasText: /Go/ });
   await go.first().waitFor();
-  const controlsResponse = await page.request.get(
-    "http://localhost:3000/api/controls",
-  );
+  const controlsResponse = await page.request.get(`${base}/api/controls`);
   assert.ok(controlsResponse.ok(), "the controls data did not load");
   const controls = await controlsResponse.json();
   let opened = false;
@@ -110,8 +110,102 @@ try {
     .locator("#filing-overlay")
     .waitFor({ state: "hidden", timeout: 10000 })
     .catch(() => assert.fail("the overlay stays after leaving"));
+  // A grown resident of the same world joins a party, picks two stands with
+  // the mouse and files: the filing keeps exactly that party and those stands.
+  const person = JSON.stringify({
+    givenName: "Pat",
+    familyName: "Candidate",
+    gender: "nonbinary",
+    birthYear: 1980,
+    birthMonth: 6,
+    birthDay: 15,
+  });
+  const adult = await page.request.post(
+    `${base}/api/newlife?${new URLSearchParams({ ...world, person })}`,
+    { timeout: 600000 },
+  );
+  assert.equal(adult.status(), 200);
+  await page.reload();
+  await page.locator("#front-continue").click();
+  await page.waitForFunction(() =>
+    document.getElementById("card-name").textContent.trim(),
+  );
+  // Join a party on Politics, as a player does; the form then starts on it.
+  await page
+    .locator('[data-tab="politics"]')
+    .first()
+    .evaluate((e) => e.click());
+  const join = page.locator("#sheet-body button", { hasText: /^Join / });
+  await join.first().waitFor();
+  const joined = (await join.first().innerText()).replace(/^Join /, "");
+  const joining = page.waitForResponse(
+    (r) => new URL(r.url()).pathname === "/api/party/join",
+  );
+  await join.first().click();
+  await joining;
+  console.log("Joined:", joined);
+  await page
+    .locator('[data-tab="travel"]')
+    .first()
+    .evaluate((e) => e.click());
+  const goAgain = page.locator("#sheet-body button", { hasText: /Go/ });
+  await goAgain.first().waitFor();
+  let atCounter = false;
+  for (let i = 0; i < (await goAgain.count()) && !atCounter; i++) {
+    await goAgain.nth(i).click();
+    atCounter = await page
+      .locator("#talk:not([hidden])")
+      .waitFor({ timeout: 5000 })
+      .then(() => true)
+      .catch(() => false);
+  }
+  assert.ok(atCounter, "no place in Travel takes filings");
+  await page.locator("#talk-choices button").first().click();
+  await page.locator("#filing-overlay:not([hidden])").waitFor();
+  // The party the form starts on: the one the resident belongs to, or none
+  // (an independent); filing under a party they never joined is refused.
+  const party = await page.locator("#filing-party").inputValue();
+  assert.equal(party, joined, "the form does not start on the party joined");
+  const stands = page.locator("#filing-platform select");
+  const picked = [];
+  for (const [i, value] of [
+    [0, "1"],
+    [1, "-1"],
+  ]) {
+    if (i >= (await stands.count())) break;
+    const stand = stands.nth(i);
+    await stand.scrollIntoViewIfNeeded();
+    await stand.selectOption(value);
+    picked.push(`${await stand.getAttribute("name")}=${value}`);
+  }
+  const filed = page.waitForResponse(
+    (r) => new URL(r.url()).pathname === "/api/filing/choose",
+  );
+  await page.locator("#talk-choices button").first().click();
+  const result = (await (await filed).json()).result;
+  console.log(
+    "Filed:",
+    JSON.stringify({
+      party: result?.filing?.party,
+      platform: result?.filing?.platform,
+      picked: { party, stands: picked },
+    }),
+  );
+  assert.equal(
+    result?.filing?.status,
+    "on-ballot",
+    `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
+  );
+  assert.equal(result.filing.party ?? "", party, "the filed party differs");
+  assert.deepEqual(
+    [...result.filing.platform].sort(),
+    [...picked].sort(),
+    "the filed platform differs from the stands picked",
+  );
   assert.deepEqual(errors, []);
-  console.log("PASS the filing counter's choices, rules, fit and news card");
+  console.log(
+    "PASS the filing counter's choices, rules, fit and news card; the filing keeps the party and stands picked",
+  );
 } finally {
   await browser.close();
 }
