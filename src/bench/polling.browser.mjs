@@ -194,6 +194,7 @@ try {
   console.log("PASS filed:", filed);
   // Run the clock to election day with the calendar's skip-forward.
   await page.locator('[data-tab="calendar"]').first().evaluate((e) => e.click());
+  await page.locator(".calendar-heading h3").waitFor({ timeout: 15000 }).catch(() => {});
   for (let m = 0; m < 30; m += 1) {
     const heading = await page.locator(".calendar-heading h3").innerText().catch(() => "?");
     if (/November 2026/.test(heading)) break;
@@ -201,7 +202,9 @@ try {
     await page.waitForTimeout(600);
   }
   console.log("Calendar:", await page.locator(".calendar-heading h3").innerText().catch(() => "?"));
+  await page.locator(".month .day").first().waitFor({ timeout: 15000 }).catch(() => {});
   const day3 = page.locator(".month .day", { hasText: /^3$/ });
+  assert.ok(await day3.count(), "no day 3 in November 2026 view");
   await day3.first().click();
   await page.waitForTimeout(1000);
   console.log("Clock:", await page.locator("#card-clock").innerText().catch(() => "?"));
@@ -241,13 +244,20 @@ try {
     }
     // Run the clock again from the calendar.
     await page.locator('[data-tab="calendar"]').first().evaluate((e) => e.click());
+    await page.locator(".calendar-heading h3").waitFor({ timeout: 15000 }).catch(() => {});
     for (let m = 0; m < 30; m += 1) {
       const heading = await page.locator(".calendar-heading h3").innerText().catch(() => "?");
       if (/November 2026/.test(heading)) break;
       await page.getByRole("button", { name: "Next month", exact: true }).click();
       await page.waitForTimeout(500);
     }
-    await page.locator(".month .day", { hasText: /^3$/ }).first().click();
+    await page.locator(".month .day").first().waitFor({ timeout: 15000 }).catch(() => {});
+    const day3 = page.locator(".month .day", { hasText: /^3$/ });
+    if (!(await day3.count())) {
+      console.log("No day 3 in view; days:", await page.locator(".month .day").allInnerTexts().catch(() => []));
+      continue;
+    }
+    await day3.first().click();
     await page.waitForTimeout(1000);
     const skip2 = page.locator(".calendar-details .skip-forward");
     if (await skip2.count()) {
