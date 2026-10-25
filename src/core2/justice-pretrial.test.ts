@@ -142,6 +142,12 @@ describe(`pretrial bail, ${where}`, () => {
       freed += 1;
     }
     expect(freed, `${where}: no defendant freed`).toBeGreaterThan(0);
+    const freedRow = (
+      table("pretrial").rows() as unknown as PretrialRow[]
+    ).find((row) => row.decision === "released-no-bail-law")!;
+    console.log(
+      `justice pretrial: ${where}: held ${held[0]!.id} (no law), freed ${freedRow.id} under ${freedRow.lawId}`,
+    );
   }, 1_200_000);
 
   it("holds posted bail in a court escrow the treasury cannot spend and returns all of it when the case is heard", () => {
