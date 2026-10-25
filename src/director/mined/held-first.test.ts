@@ -1,39 +1,77 @@
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { bringDataFromBank, sceneWordsFromBank } from "./scene-bank";
-import { journalDataFromBank } from "./journal-bank";
+import { heldByGrades } from "../../english/english-grades";
+import {
+  BRING_BANK,
+  bringDataFromBank,
+  SCENE_BANK,
+  sceneWordsFromBank,
+} from "./scene-bank";
+import { JOURNAL_BANK, journalDataFromBank } from "./journal-bank";
 
 /**
- * The grading-only `heldFirst` switch: play never offers a line held until the owner grades it, and the
- * grading view offers the held ones wherever one fits, so each can be read
- * where play would say it.
+ * The grading-only `heldFirst` switch. Every bank piece plays unless the
+ * owner's grades reject it (words-engine, Oct 24): a rejected piece is never
+ * offered, in play or on a grading page. A piece not yet released (not
+ * shippable, and not rejected) plays only on a grading page, wherever one
+ * fits, so the owner reads it where play would say it.
  */
-const heldKeys = (bank: string) =>
-  (
-    JSON.parse(readFileSync(`data/english/parts/${bank}`, "utf8")) as {
-      parts: { key: string; shippable?: boolean }[];
+type Bank = { parts: { key: string; shippable?: boolean }[] };
+type Words = (bank?: never, rows?: undefined, heldFirst?: boolean) => unknown;
+
+/** The part keys a set of words offers: every variant (a key with its text). */
+const offered = (data: unknown): Set<string> => {
+  const keys = new Set<string>();
+  const walk = (value: unknown): void => {
+    if (Array.isArray(value)) value.forEach(walk);
+    else if (value && typeof value === "object") {
+      const row = value as { key?: unknown; text?: unknown };
+      if (typeof row.key === "string" && typeof row.text === "string")
+        keys.add(row.key);
+      Object.values(value).forEach(walk);
     }
-  ).parts
-    .filter((part) => part.shippable !== true)
-    .map((part) => part.key);
-const offered = (data: unknown, keys: readonly string[]) => {
-  const text = JSON.stringify(data);
-  return keys.filter((key) => text.includes(`"${key}"`));
+  };
+  walk(data);
+  return keys;
 };
 
 describe("the held-first switch", () => {
-  for (const [bank, words] of [
-    ["scene-words.json", sceneWordsFromBank],
-    ["journal.json", journalDataFromBank],
-    ["bring-it-up.json", bringDataFromBank],
-  ] as const) {
-    it(`keeps every held line of ${bank} out of play, and offers them to grading`, () => {
-      const held = heldKeys(bank);
-      expect(held.length).toBeGreaterThan(0);
-      expect(offered(words(), held)).toEqual([]);
+  for (const [name, bank, words] of [
+    ["scene-words.json", SCENE_BANK, sceneWordsFromBank],
+    ["journal.json", JOURNAL_BANK, journalDataFromBank],
+    ["bring-it-up.json", BRING_BANK, bringDataFromBank],
+  ] as unknown as [string, Bank, Words][]) {
+    it(`never offers a piece of ${name} the owner's grades reject, in play or grading`, () => {
+      const play = offered(words());
+      const grading = offered(words(undefined, undefined, true));
+      expect(play.size, name).toBeGreaterThan(0);
+      const rejected = bank.parts
+        .map((part) => part.key)
+        .filter((key) => heldByGrades(key));
       expect(
-        offered(words(undefined, undefined, true), held).length,
-      ).toBeGreaterThan(0);
+        rejected.filter((key) => play.has(key) || grading.has(key)),
+        name,
+      ).toEqual([]);
+    });
+
+    it(`plays an unreleased piece of ${name} only on a grading page`, () => {
+      // A piece play offers today, made unreleased: play stops offering it
+      // and the grading page offers it where it fits.
+      const play = offered(words());
+      const parts = new Set(bank.parts.map((part) => part.key));
+      const key = [...play].filter((row) => parts.has(row)).sort()[0]!;
+      const unreleased = {
+        ...bank,
+        parts: bank.parts.map((part) =>
+          part.key === key ? { ...part, shippable: false } : part,
+        ),
+      } as never;
+      expect(offered(words(unreleased)).has(key), `${name}: ${key}`).toBe(
+        false,
+      );
+      expect(
+        offered(words(unreleased, undefined, true)).has(key),
+        `${name}: ${key}`,
+      ).toBe(true);
     });
   }
 });
