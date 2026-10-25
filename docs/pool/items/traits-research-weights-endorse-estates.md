@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-research-weights
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T15:41:22.525Z
 ---
 
 **What.** The bounded first pass of traits-research-weights-21, delivered on PR 6009: campaigns.endorse gets a weight fitted to Mondak et al. 2010; estates.will and estates.trust read their own weight through the shared yes-or-no rule; renewal.plan-child, estates.will, estates.trust and contracts.award get their study rows in data/research/trait-effect-sizes.json and gap rows with the numbers that keep each from a weight. The 21-decision acceptance stays open on traits-research-weights-21 until every traits family is merged.
