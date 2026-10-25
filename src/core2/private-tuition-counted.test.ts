@@ -5,6 +5,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import tuition from "./data/opening-private-tuition.json";
 import { gameStartDate } from "./game-start";
+import { setJournalTrace } from "./journal-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
@@ -188,18 +189,56 @@ it(`counted families are ranked with full ones each August, pay the school as a 
         row.financeKind === tuition.contractKind &&
         !row.endedAt,
     )!;
+    // Every journal entry this tuition flow's settlements post in the year.
+    const settlements: {
+      journalId: string;
+      postings: { accountId: string; deltaMinor: number }[];
+    }[] = [];
+    setJournalTrace((entry) => {
+      if (entry.sourceRef.id.startsWith(`${flow.id}@`))
+        settlements.push({
+          journalId: entry.id,
+          postings: [...entry.postings],
+        });
+    });
     // The rest of the year, a day at a time as the game runs it: 365 days from the start.
-    advanceCore(core, addDays(makeIsoDate(startDate), 365));
+    try {
+      advanceCore(core, addDays(makeIsoDate(startDate), 365));
+    } finally {
+      setJournalTrace(null);
+    }
     expect(core.date, where).toBe(addDays(makeIsoDate(startDate), 365));
     expect(
       flow.lastPaidMinor ?? 0,
       `${where}: ${flow.id} was paid`,
     ).toBeGreaterThan(0);
-    // The tuition reached the school's account as a journal record.
-    const record0 = state.cashJournal.latestByOwner.get(school);
-    expect(record0, `${where}: the school's journal record`).toBeDefined();
+    // The tuition reached the school as a journal entry of this flow's own
+    // settlement: a debit from a counted group's fund and a credit to the
+    // school's account.
+    const funds = new Set(rt.funds.values());
+    const schoolAccount = state.cashJournal.residualAccountByOwner.get(school);
+    expect(schoolAccount, `${where}: the school's account`).toBeDefined();
+    const paid = settlements.find(
+      (entry) =>
+        entry.postings.some(
+          (line) => funds.has(line.accountId) && line.deltaMinor < 0,
+        ) &&
+        entry.postings.some(
+          (line) => line.accountId === schoolAccount && line.deltaMinor > 0,
+        ),
+    );
+    expect(
+      paid,
+      `${where}: a settlement of ${flow.id} debiting a counted fund and crediting the school (${settlements.length} settlement entries)`,
+    ).toBeDefined();
+    const fundLine = paid!.postings.find(
+      (line) => funds.has(line.accountId) && line.deltaMinor < 0,
+    )!;
+    const schoolLine = paid!.postings.find(
+      (line) => line.accountId === schoolAccount && line.deltaMinor > 0,
+    )!;
     process.stdout.write(
-      `${where}: ${flow.id} paid school ${school}, journal record ${record0!.id}\n`,
+      `${where}: ${flow.id} paid school ${school} in journal ${paid!.journalId}: ${-fundLine.deltaMinor} from fund ${fundLine.accountId}, ${schoolLine.deltaMinor} to ${schoolAccount}\n`,
     );
     // Filling a family in leaves its enrollment and its tuition as they were.
     const plansNow = countedTuitionPlans(
