@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.28.1",
+      "releasedOn": "2026-10-25",
+      "revision": "ff43c50d9245e0c1124dabb61f3b57f5704d4d2f",
+      "changeIds": [
+        "core-speed-news-telling-sorted",
+        "credit-m1-06-missed-payment-witness",
+        "gov-recall-rule-pack-doctrine-statutes",
+        "politics-issues-taxes-named-by-level",
+        "world-unemployment-rate-names-its-area"
+      ]
+    },
+    {
       "version": "0.28.0",
       "releasedOn": "2026-10-25",
       "revision": "2432b123aed7aa4e61452351be582ae6f2bc4d43",
