@@ -47,6 +47,8 @@ import {
 import {
   countedHouseholdJobChanged,
   keepCalendar,
+  countedHouseholdOf,
+  householdCash,
   residentFacts,
   residentsRuntime,
 } from "./residents";
@@ -1702,22 +1704,40 @@ function lastPay(api: CoreAPI, personId: string): number {
 }
 
 /**
- * How much an unemployed full person needs work: the base need shrunk by how
- * many months their household's money covers its costs, so a person with a
- * long runway applies less eagerly than one a month from the rent.
+ * How much an unemployed person needs work: the base need shrunk by how many
+ * months their household's money covers its costs, so a person with a long
+ * runway applies less eagerly than one a month from the rent. A full person's
+ * household is its members' records; a counted person's is its counted
+ * household's share of its group's money (its columns where groups hold none), which is what a
+ * fill-in hands its members, so filling one in leaves the need as it was.
  */
 export function unemployedNeed(api: CoreAPI, personId: string): number {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const person = c.people.get(personId);
-  const household = person ? c.households.get(person.householdId) : undefined;
   let liquid = 0,
     cost = 0;
-  for (const memberId of household?.memberIds ?? [personId]) {
-    const member = c.people.get(memberId);
-    if (!member?.alive) continue;
-    liquid += member.liquidMinor;
-    cost += member.livingCostDailyMinor;
+  if (person) {
+    const household = c.households.get(person.householdId);
+    for (const memberId of household?.memberIds ?? [personId]) {
+      const member = c.people.get(memberId);
+      if (!member?.alive) continue;
+      liquid += member.liquidMinor;
+      cost += member.livingCostDailyMinor;
+    }
+  } else {
+    const counted = countedHouseholdOf(c, personId);
+    const rt = residentsRuntime(c);
+    if (counted && rt) {
+      // Its money is its share of its group's account, which a fill-in hands
+      // its members; a world whose groups hold no money keeps it in the
+      // members' columns.
+      for (const member of rt.store.factsOfHousehold(counted)) {
+        if (!rt.funded) liquid += member.liquidMinor;
+        cost += member.livingCostDailyMinor;
+      }
+      if (rt.funded) liquid += householdCash(rt, counted);
+    }
   }
   const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
   return (
@@ -1820,12 +1840,14 @@ function runWeek(api: CoreAPI): void {
       (traitLean(c, person, jobsData.actions.apply.actKinds) -
         traitLean(c, person, jobsData.actions.wait.actKinds));
     const reference = seeker.referenceHourlyMinor;
+    // The same runway-scaled need a full person weighs.
+    const need = seeker.employed ? 0 : unemployedNeed(api, seeker.personId);
     for (const position of byPlace.get(seeker.placeId) ?? [])
       if (
         p("jobsRateWeight") *
           (p("jobsApplyPayWeight") *
             (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
-            (seeker.employed ? 0 : p("jobsUnemployedNeedWeight"))) +
+            (seeker.employed ? 0 : need)) +
           traitTerm >
         0
       )
