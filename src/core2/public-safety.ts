@@ -197,7 +197,7 @@ function serviceOf(
 
 // ---- the town's people, both tiers ------------------------------------------
 
-interface FullPerson {
+export interface FullPerson {
   readonly id: PersonId;
   readonly householdId: string;
   readonly age: number;
@@ -207,7 +207,7 @@ interface FullPerson {
   readonly childHome: boolean;
 }
 
-interface GroupCensus {
+export interface GroupCensus {
   readonly index: number;
   readonly id: string;
   /** People 12 and older by age band. */
@@ -226,7 +226,7 @@ interface GroupCensus {
   readonly cash: number;
 }
 
-interface Census {
+export interface Census {
   readonly placeId: string;
   readonly stateKey: string;
   readonly gunRate: number;
@@ -243,7 +243,8 @@ const bandOf = (age: number): number => {
   return BANDS.length - 1;
 };
 
-function takeCensus(api: CoreAPI): Census {
+/** The town as the engine reads it each month: its named people and counted groups, by the facts the laws select on. */
+export function takeCensus(api: CoreAPI): Census {
   const core = api.state as CoreState;
   const chain = lawChain(api);
   const placeId = chain.townPlaceId;

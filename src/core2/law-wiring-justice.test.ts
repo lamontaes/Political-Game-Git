@@ -45,14 +45,17 @@ import {
   POLICE_LINE,
   PUBLIC_SAFETY_MODULE_ID,
   STAND_GROUND,
+  takeCensus,
+  type GroupCensus,
   type SafetyMonth,
 } from "./public-safety";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-// A place with no subject for a law in the window (no police department for
-// oversight, no noncitizen arrested for a detainer) is redrawn: five draws.
+// A place whose opening records give a law nobody to act on (no police
+// department for oversight, no counted noncitizens for a detainer) is redrawn
+// before anything is played: five draws.
 const TRIES = 5;
 const QUESTIONS = [
   OVERSIGHT,
@@ -133,6 +136,7 @@ interface Attempt {
   readonly after: Map<string, LawAppliedRow[]>;
   readonly monthsRun: SafetyMonth[];
   readonly cutService: number[];
+  /** Laws with no applied record after play, in a place that had a subject for each. */
   readonly missing: string[];
   /** Questions that were not law when the town opened. */
   readonly startedNo: Set<string>;
@@ -242,14 +246,55 @@ function evidenceOf(
   return null;
 }
 
-function attempt(trySeed: string, index: number): Attempt {
+/**
+ * The subjects a drawn town lacks, read from its opening records before
+ * anything is played, through the public safety engine's own census: a
+ * police department for oversight, counted groups for bail and their
+ * noncitizens for the detainers, and counted gun homes standing for more than
+ * one household with a child, adult of 21 and over or adult of 18 to 20. A
+ * town lacking none must show every law applied after play.
+ */
+function lacking(api: CoreAPI): string[] {
+  const census = takeCensus(api);
+  const gunGroups = (of: (g: GroupCensus) => number) =>
+    census.groups.some((g) => Math.round(of(g) * census.gunRate) > 1);
+  const needs: [string, boolean][] = [
+    [
+      "a police department",
+      [...api.state.organizations.values()].some(
+        (o) =>
+          o.placeId === census.placeId &&
+          (o.classification ?? "").startsWith("service:police"),
+      ),
+    ],
+    ["counted groups", census.groups.some((g) => g.band.some((n) => n > 0))],
+    [
+      "counted noncitizens",
+      census.groups.some((g) => g.nonCitizen.some((n) => n > 0)),
+    ],
+    ["counted gun homes with a child", gunGroups((g) => g.childHouseholds)],
+    ["counted gun owners 21 and over", gunGroups((g) => g.adults21)],
+    ["counted gun buyers 18 to 20", gunGroups((g) => g.adults18to20)],
+  ];
+  return needs.filter(([, has]) => !has).map(([what]) => what);
+}
+
+/** Builds a drawn town and reads, from its opening records, what subjects it lacks. */
+function draw(
+  trySeed: string,
+  index: number,
+): { where: string; core: CoreState; lacks: string[] } {
   const drawn = drawPlace(trySeed, `law-wiring-justice:${index}`);
   const where = `${drawn.name} (${drawn.key}), seed ${trySeed}`;
   const world = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: drawn.key,
   });
-  const core = world.core;
+  return { where, core: world.core, lacks: lacking(coreAPI(world.core)) };
+}
+
+/** Plays an eligible town: the lines raised, the laws in force, the cut, the repeal. */
+function play(where: string, core: CoreState): Attempt {
   const api = coreAPI(core);
   const posts = new Map<string, number>();
   const byAccount = new Map<string, Posted[]>();
@@ -431,18 +476,24 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
     setBookkeeping(false);
     try {
       const tried: string[] = [];
-      let found: Attempt | null = null;
-      for (let i = 0; i < TRIES && !found; i++) {
-        const a = attempt(seed, i);
-        tried.push(`${a.where}: no rows for ${a.missing.join(", ") || "none"}`);
-        // A place with nobody to reach (no gun homes, no noncitizens) redraws.
-        if (!a.missing.length) found = a;
+      let eligible: ReturnType<typeof draw> | null = null;
+      for (let i = 0; i < TRIES && !eligible; i++) {
+        const d = draw(seed, i);
+        tried.push(`${d.where}: lacks ${d.lacks.join(", ") || "nothing"}`);
+        // A town whose opening records give a law nobody to act on (no gun
+        // homes, no noncitizens) is redrawn before play.
+        if (!d.lacks.length) eligible = d;
       }
       expect(
-        found,
+        eligible,
         `no drawn place had a subject for every law: ${tried}`,
       ).not.toBeNull();
-      const a = found!;
+      const a = play(eligible!.where, eligible!.core);
+      // The town had a subject for every law, so each must have applied it.
+      expect(
+        a.missing,
+        `${a.where}: laws with no applied record after play`,
+      ).toEqual([]);
       console.log(
         `law-wiring-justice passed in ${a.where}; tried ${tried.length}`,
       );
@@ -609,7 +660,7 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
     } finally {
       setBookkeeping(true);
     }
-    // Up to five draws of about 90 seconds each, then the year's checks.
+    // Up to five towns built, one played, then the year's checks.
   }, 900_000);
 
   it("restoring the vote after a sentence changes who the electorate counts as barred", () => {
