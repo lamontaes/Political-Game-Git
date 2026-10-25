@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/tuition-continuing
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T12:59:03.103Z
+claimed-at:
 ---
 
 **What.** SG-CORE-private-tuition-average still fakes enrollment: after PR 5667 the opening ranks families by cash per child scaled by their faith's affinity for private schooling, but enrollment is fixed at the opening, ignores which schools stand nearby or what the child needs, and the affinity is by faith only. Move each child's enrollment from the family's income, beliefs and the schools in reach, re-decided as those change (a job loss, a closing, a move), and close the stopgap row with the reader named. Look at docs/coordination/OWNER-DECISIONS.md first: the owner ruled on private school (#5483) on Oct 20.
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T12:59:03.103Z
 
 **Files.** src/core2/opening-private-tuition.ts,src/core2/private-tuition-reenroll.ts,src/core2/private-tuition-choice.ts,src/core2/data/stopgaps.json
 
-**Notes.** TODO
+**Notes.** Reopened Oct 23: blocked with no blocked-on and the claimed branch claude/tuition-continuing is gone.

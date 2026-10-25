@@ -23,11 +23,12 @@ import {
 import { openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
 import {
-  breakElectionTie,
   countedBallotsOf,
   openVoting,
   resultOf,
+  secondElection,
 } from "./modules/voting";
+import { breakElectionTie } from "./election-ties";
 import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { countedChoice, countedResidents } from "./electorate";
@@ -142,7 +143,10 @@ describe("elections in the two-level world", () => {
       if (contest.family === "statewideExecutive") {
         const real = 1 - presidential.get(state.slice(3))!;
         // The state's result follows the state, not the town's sample.
-        expect(Math.abs(share - real), contest.title).toBeLessThan(0.15);
+        expect(
+          Math.abs(share - real),
+          `${contest.title}: ${state} ${key}, seed ${seed}, share ${share.toFixed(3)} against the state's ${real.toFixed(3)}`,
+        ).toBeLessThan(0.15);
       }
       report.push(
         `${contest.title}: R ${share.toFixed(3)} of ${r + d} (counted ${result.countedTurnout}/${result.countedEligible}, named ${result.namedTurnout}/${result.namedEligible})`,
@@ -204,7 +208,7 @@ describe("elections in the two-level world", () => {
                 contest.family === "municipalOffice"
               ? "localTie"
               : "generalElectionTie";
-      const winner = breakElectionTie(api, contest, tied);
+      const winner = breakElectionTie(api, contest, tied, secondElection);
       const method = rules[field]?.method ?? "lot";
       if (winner === null)
         expect(

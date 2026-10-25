@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/bargaining-premium-source
 pr: #5201
 blocked-on:

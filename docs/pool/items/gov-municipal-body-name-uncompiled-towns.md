@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/municipal-body-names
 pr: #5840
 blocked-on:

@@ -297,6 +297,13 @@ export interface CountedFieldEntry {
    * names (`ballot-order.ts`).
    */
   readonly ballotCues?: readonly number[];
+  /**
+   * Where the race's public standing already carries the average incumbency
+   * advantage (a partisan state or federal race), the town's average
+   * incumbent side of its adults' traits: each voter's own is read against
+   * it, so their traits move them around that advantage, not on top of it.
+   */
+  readonly incumbentLeanCenter?: number;
 }
 
 /** One counted voter's appeal for a candidate, with its parts. */
@@ -347,7 +354,9 @@ export function countedAppeal(
         (campaignParameter("countedRecognitionWeight") +
           groupAgreement(lean, entry.platform, where.profile))
       : 0;
-    const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
+    const incumbent = entry.isIncumbent
+      ? where.incumbentLean - (entry.incumbentLeanCenter ?? 0)
+      : 0;
     const cues = entry.ballotCues ?? [];
     const ballot = cues.length
       ? cues[(where.ballotForm ?? 0) % cues.length]!

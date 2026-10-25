@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/counted-causes
 pr: #5816
 blocked-on:

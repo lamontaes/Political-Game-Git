@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/pr-homeless-rent
+status: open
+claimed-by:
 pr: #5792
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T10:05:57.453Z
+claimed-at:
 ---
 
 **What.** housing-calibration.test.ts fails on main in place 7237336 (Puerto Rico, world seed 63ef211a72f7f8d3519652d91152eaf5cda51a871ae2bed4e9221c537c7bd2f8): after a played year 110 of 2,253 people are homeless (488 per 10,000) against HUD's 6.5 per 10,000 for Puerto Rico, and every renter household starts above the 32 percent rent-burden line (188 of 188), 93 of them taken to court. Either the territory's rents or incomes are off by a large factor, or the eviction path has no brake there.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-21T10:05:57.453Z
 **Files.** src/core2/modules/housing.ts, src/core2/housing-homeless.ts, src/core2/modules/residents.ts, src/core2/housing-calibration.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5792 (branch claude/pr-homeless-rent): the Done-when table explicitly leaves the renter-burden requirement Not met (72 percent versus the cited 37.5 percent); track the completed geographic-fallback slice separately while preserving the income/calibration acceptance as open; finish on that branch, merge main into it first.

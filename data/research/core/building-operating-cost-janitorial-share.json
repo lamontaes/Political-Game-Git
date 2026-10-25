@@ -1,0 +1,33 @@
+{
+  "id": "building-operating-cost-janitorial-share",
+  "publisher": "International Facility Management Association (reported by FMLink); BOMA International (reported by Building Design+Construction)",
+  "vintage": "IFMA Operations and Maintenance Benchmarks, spring and summer 2000; BOMA Experience Exchange Report, 2012 data",
+  "table": "Median janitorial and total operating cost per square foot (IFMA); average total operating expenses and the change in cleaning spending per square foot (BOMA)",
+  "title": "Cleaning as a share of an office building's operating cost",
+  "universe": "IFMA North American professional members' facilities; BOMA U.S. office properties (cleaning figure: private-sector office buildings)",
+  "geography": "United States (IFMA: North America)",
+  "sourceUrl": "https://www.fmlink.com/?p=13268",
+  "retrievedOn": "2026-10-23",
+  "limits": "Both are office-building benchmarks, not public-building spending; neither publisher's full report is public. IFMA's operating cost is janitorial plus utility plus maintenance medians; BOMA's total operating expenses also include security, roads and grounds and administration, closer to the Census current-operations scope. The BOMA cleaning level is derived from a rounded change ($0.06, 4.0 percent), so it carries rounding error of about plus or minus 10 percent.",
+  "rows": [
+    {
+      "key": "ifma-2000",
+      "sourceUrl": "https://www.fmlink.com/?p=13268",
+      "quote": "The median cost per square foot for cleaning offices, other work areas, restrooms and common support space is $1.08",
+      "quote2": "These three cost categories—janitorial, utility and maintenance—were added together to determine the median cost of operations—$5.59 per rentable square foot",
+      "janitorialUsdPerSquareFoot": 1.08,
+      "operatingUsdPerSquareFoot": 5.59,
+      "janitorialShare": 0.193
+    },
+    {
+      "key": "boma-2012",
+      "sourceUrl": "https://bdcnetwork.com/energy-efficiency-measures-paying-commercial-building-owners-says-boma-study?page=11",
+      "quote": "properties in the United States reduced total operating expenses from $8.18 to $7.86 per square foot (psf) on average from 2011 to 2012",
+      "quote2": "private sector office buildings spent $0.06 (4.0 percent) less per square foot on cleaning in 2012",
+      "derivation": "cleaning 2011 = 0.06 / 0.040 = $1.50; 2012 = $1.44; 1.44 / 7.86",
+      "janitorialUsdPerSquareFoot": 1.44,
+      "operatingUsdPerSquareFoot": 7.86,
+      "janitorialShare": 0.183
+    }
+  ]
+}

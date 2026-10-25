@@ -52,6 +52,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "appointer",
   "press",
   "supporters",
+  "volunteers",
   "executive",
   "audience",
 ]);
@@ -140,6 +141,25 @@ export function civicFill(
           ...(campaign?.staffIds ?? []),
         ]),
       );
+    }
+    case "volunteers": {
+      // The volunteers of a campaign the candidate is running now, from the
+      // contests under way (a stop's speech names no contest).
+      if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return [];
+      const state = api.moduleState(CAMPAIGNS_MODULE_ID);
+      for (const race of state.table("races").rows() as unknown as {
+        id: string;
+        electionDate: string;
+      }[]) {
+        if (race.electionDate < moment.date) continue;
+        const campaign = (
+          state
+            .table("campaigns")
+            .query("byContest", [race.id]) as unknown as CampaignRow[]
+        ).find((row) => row.candidateId === moment.personId);
+        if (campaign) return free(living(core, [...campaign.volunteerIds]));
+      }
+      return [];
     }
     case "audience": {
       // The people a speech was given to: its recorded listeners.

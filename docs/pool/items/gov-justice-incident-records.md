@@ -4,7 +4,7 @@ title: "Police stops, complaints, self-defense claims and concealed-weapon appli
 area: gov
 kind: feature
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/justice-incidents
 pr: #5088
 blocked-on: gov-justice-carry-permit

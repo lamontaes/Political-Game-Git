@@ -5,7 +5,7 @@ area: release
 kind: research
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/pool-data-access
 pr: #5282
 blocked-on:

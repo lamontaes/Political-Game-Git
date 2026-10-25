@@ -5,12 +5,12 @@ area: office
 kind: research
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/research-offices
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from office-stopgap-offices-estimated-calendar, office-stopgap-offices-state-assumed-data"
-claimed-at: 2026-10-20T02:19:01.637Z
+claimed-at:
 ---
 
 **What.** Source the numbers behind offices and statewide parties. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 2 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/office/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -20,10 +20,12 @@ claimed-at: 2026-10-20T02:19:01.637Z
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/modules/offices.ts, src/core2/offices-state.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/office/
 
-**Notes.** Folded from: office-stopgap-offices-estimated-calendar, office-stopgap-offices-state-assumed-data. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+**Notes.** Folded from: office-stopgap-offices-estimated-calendar, office-stopgap-offices-state-assumed-data. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read. Claim released Oct 23: branch gone.
 
 Looked at Oct 20 (claude/political-game-pool-b6g0dl), not built. SG-GOV-term-end-estimate is mostly replaced already: `termEnd` in src/core2/modules/offices.ts reads the office's own election calendar (`electionInYear`, `staggeredSeatElection`, `termStartAfter`) first, and only falls back to the office's `termStarts` (default 01-01) where no calendar row exists, so what is left to source is which offices still reach that fallback, found by counting them in a played world across drawn places, before any state's start rule is researched. SG-GOV-statewide-parties-unverified is 60 rows to check one by one against Ballotpedia or state records, which needs an agent with page access for each state; a web search summary is not enough to resolve a row.
+
+Oct 24, 2026: split. PR 5859 (item research-offices-term-starts-statewide-parties) delivers governors' and legislators' term-start rows for all 56 places and the live-page check of 60 statewide parties, which resolves SG-GOV-statewide-parties-unverified. Still open here: SG-GOV-term-end-estimate for town offices and county offices with no county calendar row, which start on the table's default of January 1 because their start day is each charter's or the state's municipal law's. Eight governor rows and ten legislature rows stay ESTIMATED because the start day is not read from the text. Bug gov-officeholder-parties-opening-date records that the rosters hold October 2026 holders, not those of January 20, 2025.

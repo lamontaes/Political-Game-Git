@@ -8,7 +8,7 @@ size: S
 status: blocked
 claimed-by:
 pr:
-blocked-on: core-old-engine-01-zero-dice-guard-repoint (PR #5832 adds six of the seven allowlist entries this item removes)
+blocked-on: core-old-engine-01-zero-dice-guard-repoint (PR 5832 adds six of the seven allowlist entries this item removes)
 source: added with npm run pool -- add
 ---
 

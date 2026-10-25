@@ -5,7 +5,7 @@ area: laws
 kind: stopgap
 priority: 3
 size: L
-status: in-pr
+status: done
 claimed-by: claude/split-reach-group-b
 pr: #5296
 blocked-on: laws-reach-b-price-proofs

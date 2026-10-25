@@ -69,6 +69,7 @@ import {
   specialContestFor,
   ELECTIONS_MODULE_ID,
   ballot,
+  registerWardResidency,
   type ContestRow,
   type FilingRow,
 } from "./elections";
@@ -353,6 +354,7 @@ export function standAgainReason(
 export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   const api = coreAPI(core);
+  registerWardResidency(candidateInWard);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
   // A vacancy's special election runs as a real race.
@@ -768,6 +770,11 @@ function contestView(
       recognition: townShareKnowing(api, named.length, heard, f.id),
       platform: facts.platform,
       ballotCues: cues.get(f.personId) ?? [],
+      // The race's standing carries the average incumbency advantage: the
+      // town's average incumbent lean is what each voter's own is read against.
+      ...(standing && facts.isIncumbent
+        ? { incumbentLeanCenter: townIncumbentLean(api) }
+        : {}),
       // A reported scandal as far as its story reached the town's people.
       scandal: scandalAppeal(api, f.personId, named),
     };
@@ -920,6 +927,29 @@ const adultsByDay = new WeakMap<
   object,
   { date: string; size: number; rows: readonly PersonState[] }
 >();
+
+const incumbentLeanByDay = new WeakMap<
+  object,
+  { readonly date: string; readonly mean: number }
+>();
+
+/** The town's adults' average incumbent side of their traits, each counted record weighed by the people it stands for. */
+function townIncumbentLean(api: CoreAPI): number {
+  const held = incumbentLeanByDay.get(api.state);
+  if (held?.date === api.state.date) return held.mean;
+  const { townPlaceId } = town(api);
+  let sum = 0,
+    weight = 0;
+  for (const voter of countedResidents(api.state as CoreState)) {
+    if (voter.placeId !== townPlaceId || ageOn(voter, api.state.date) < 18)
+      continue;
+    sum += incumbentLeanOf(api, voter) * voter.weight;
+    weight += voter.weight;
+  }
+  const mean = weight > 0 ? sum / weight : 0;
+  incumbentLeanByDay.set(api.state, { date: api.state.date, mean });
+  return mean;
+}
 
 /** The incumbent's side of a voter's traits: stay with the known or try someone new. */
 function incumbentLeanOf(
@@ -1752,7 +1782,7 @@ function atThePolls(
 }
 
 /** A second election between the tied candidates, a tunable number of weeks on. */
-function secondElection(
+export function secondElection(
   api: CoreAPI,
   contest: ContestRow,
   tied: readonly string[],
@@ -1825,6 +1855,9 @@ const PLACES_SOURCE =
  * voters need at the national count of voters per voting location, each in
  * the town government's building where the records hold one.
  */
+/** The classification a town's own government is recorded under. */
+const MUNICIPAL_GOVERNMENT = "service:municipal-government";
+
 export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
   const rows = table(api, "pollingPlaces");
   if (rows.size)
@@ -1839,16 +1872,14 @@ export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
     Math.ceil(voters / electionsParameter("votersPerVotingLocation")),
   );
   const core = api.state as CoreState;
+  // The town's own government, recorded as the disasters engine and the law
+  // reach read it; a place with none on record has no building yet.
   const building =
     [...core.organizations.values()]
       .filter(
         (o) =>
           o.placeId === townPlaceId &&
-          ((o as { classification?: string }).classification?.startsWith(
-            "government:",
-          ) ||
-            o.kind === "government" ||
-            o.kind === "local-government"),
+          o.classification === MUNICIPAL_GOVERNMENT,
       )
       .map((o) => o.id)
       .sort()[0] ?? null;
@@ -1948,6 +1979,30 @@ function inWard(
       ? memo.map
       : wardMap(api, wards);
   return (map.get(home) ?? 1) === ward;
+}
+
+/**
+ * The ward a contest's seat represents and the ward a would-be candidate's
+ * household lives in; null for an at-large seat, or for a person whose
+ * household the town's wards do not place.
+ */
+function candidateInWard(
+  api: CoreAPI,
+  contest: ContestRow,
+  person: Readonly<PersonState>,
+): { readonly seatWard: number; readonly homeWard: number } | null {
+  const wards = wardsOf(api, contest);
+  if (!wards) return null;
+  const home = (person as { householdId?: string }).householdId ?? person.id;
+  const memo = wardMemo.get(api.state);
+  const map =
+    memo?.date === api.state.date && memo.wards === wards
+      ? memo.map
+      : wardMap(api, wards);
+  const ward = map.get(home);
+  return ward === undefined
+    ? null
+    : { seatWard: Number(contest.district), homeWard: ward };
 }
 
 /** Every town household's ward, once a day. */
@@ -2463,8 +2518,18 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(contest.officeId) as unknown as OfficeInput;
+  // A holdover needs someone to hold over: a seat no one holds (an office
+  // its law created since the last election) is vacant.
+  const method =
+    row.method === "holdover" &&
+    !api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [contest.seatId, "serving"]).length
+      ? "vacancy"
+      : row.method;
   const vacancy =
-    row.method === "vacancy"
+    method === "vacancy"
       ? unfilledTerm(
           api,
           contest.seatId,
@@ -2483,6 +2548,7 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
       : null;
   table(api, "emptyRaces").put({
     ...row,
+    method,
     status: "resolved",
     resolvedOn: api.state.date,
     vacancyId: vacancy?.id ?? repeated?.id ?? null,

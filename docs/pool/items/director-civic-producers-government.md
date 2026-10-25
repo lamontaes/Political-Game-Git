@@ -5,13 +5,13 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/fs11vb-director-producers
+status: open
+claimed-by:
 pr: #4600
 blocked-on:
 after: director-civic-roles
 source: "director-civic-producers, found building it"
-claimed-at: 2026-10-20T03:00:28.244Z
+claimed-at:
 ---
 
 **What.** Bill signing, veto, hearings, floor votes, recalls, scandals, appointments and a law reaching a person fire as scenes. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks. Finish it on the existing branch claude/director-civic-producers-government, after merging main into it with a plain merge.
@@ -22,7 +22,7 @@ claimed-at: 2026-10-20T03:00:28.244Z
 
 **Files.** docs/pool/items/director-civic-producers-government.md and the files that pull request #4600 changes on claude/director-civic-producers-government
 
-**Notes.** Needs director-civic-roles for the chair, members and press. Some of these records are decisions, not events, so the legislature may need to emit an event first, which belongs to the government area. Split out of director-civic-producers.
+**Notes.** Needs director-civic-roles for the chair, members and press. Some of these records are decisions, not events, so the legislature may need to emit an event first, which belongs to the government area. Split out of director-civic-producers. PR #4600 closed unmerged (Oct 23); reopened by reconcile.
 
 Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
 

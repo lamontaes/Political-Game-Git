@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: blocked
+status: open
 claimed-by: claude/press-staff-exit
 pr: #5353
-blocked-on: "people-press-turnover-no-leavers-no-openings"
+blocked-on:
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
 claimed-at: 2026-10-21T02:25:41.551Z
 ---
@@ -21,7 +21,7 @@ claimed-at: 2026-10-21T02:25:41.551Z
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/press.ts, src/core2/press-staff.ts
 
-**Notes.** Oct 20: PR #5197 sent back because src/core2/press-staff-departures.test.ts failed in Cedar Point, Kansas (seed 0d0a23928d417025f62bb7f9a47b432362025a7f11d46086fd8df377c5f99d6c): 4 staff left on 2025-02-24 (expected <= 3).
+**Notes.** Oct 20: PR #5197 sent back because src/core2/press-staff-departures.test.ts failed in Cedar Point, Kansas (seed 0d0a23928d417025f62bb7f9a47b432362025a7f11d46086fd8df377c5f99d6c): 4 staff left on 2025-02-24 (expected <= 3). Unblocked Oct 23: people-press-turnover-no-leavers-no-openings is done (#4972).
 
 Traced (Oct 16): it is not a date artifact. The jobs engine's monthly worker review (reviewWorkers in jobs.ts) first ran on December 1, 2026 and each of ten press staff chose to leave work, deciding on strain (time need plus health need) with a savings buffer of zero months. Press staff are generated people with no household life: living costs are 0, their liquid cash just piles up, and their time need sits at about 0.43 against about 0.06 for other working people, so the review reads them all as strained and without savings. The cause is the missing household for the press people, which is gov-stopgap-press-staff-missing-record (give each press person a household drawn the way the opening draws one, with rent, living costs and kin); this item closes when that one does and the proof shows departures spread over the year. Original note:
 

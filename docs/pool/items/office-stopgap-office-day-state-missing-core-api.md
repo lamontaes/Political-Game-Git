@@ -4,13 +4,13 @@ title: "Stopgaps in office-day-state (missing-core-api): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/pool-state-seat-person-2
+status: open
+claimed-by:
 pr: #5247
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-state.ts, kind missing-core-api"
-claimed-at: 2026-10-21T16:20:25.140Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open missing-core-api stopgap row(s) in src/core2/office-day-state.ts: SG-STATE-dev-seat-player. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -25,3 +25,5 @@ claimed-at: 2026-10-21T16:20:25.140Z
 Sent back 2026-10-20 from PR #5247 (branch claude/pool-state-seat-person-2): Morning check failed because stopgap row SG-STATE-dev-seat-player was deleted from stopgaps.json instead of marked resolved; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5247 (branch claude/pool-state-seat-person-2): src/core2/data/stopgaps.json deletes SG-STATE-dev-seat-player, as the body also states. The merger rule forbids deleting registered stopgap rows: retain the row, mark it resolved, name seatPerson and its reader in the resolution, and remove only the obsolete code marker. Rerun changed-file checks after merging main.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5247 (branch claude/pool-state-seat-person-2): The opening-only seating test omits the required one-year downstream-consumer proof and conditionally skips replaced-term assertions; add positive records and the missing Done-when evidence table, and correct the retained-row claim; finish on that branch, merge main into it first.
