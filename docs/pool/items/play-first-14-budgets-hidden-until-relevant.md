@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-first-14-budgets-hidden-until-relevant
-pr:
+pr: #6097
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
