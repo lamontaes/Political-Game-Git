@@ -4,7 +4,8 @@
  * for the web's equalized-funding effect on graduation, raised in the web
  * month rows as the school-outcomes twins do. A senior who graduates only in
  * the raised world holds a high school diploma there and none in the other;
- * hired to the same position in both, they are paid the diploma's premium
+ * hired to the same position in both, or to one posted at the same pay for
+ * the same occupation, they are paid the diploma's premium
  * where they graduated, and their household's income carries it. A place is
  * drawn from all 56 on a seed nobody chose (GRADUATION_PAY_SEED pins one);
  * a place where no such senior is hired within the year is drawn again.
@@ -119,19 +120,55 @@ function incomeOf(
   };
 }
 
-/** Hires of seniors who graduated only where raised, to a job they also hold in the base world. */
+/** Each world's openings by id: the pay each was posted at, and its occupation. */
+const postingsOf = (core: CoreState) =>
+  new Map(
+    (
+      coreAPI(core)
+        .moduleState(JOBS_MODULE_ID)
+        .table("positions")
+        .rows() as unknown as {
+        id: string;
+        hourlyMinor: number;
+        occupation: string;
+      }[]
+    ).map((row) => [row.id, row] as const),
+  );
+/** The opening a hire filled: a hire's job id is `job:<position id>:<person id>`. */
+const postingOf = (postings: ReturnType<typeof postingsOf>, hire: Hire) =>
+  postings.get(hire.jobId.slice("job:".length, -(hire.personId.length + 1)));
+
+/**
+ * Hires of seniors who graduated only where raised, paired with the same
+ * person's hire in the base world to the same position, or to one posted at
+ * the same pay for the same occupation: either way only the diploma moves
+ * the pay.
+ */
 function pairsOf(
   base: CoreState,
   raised: CoreState,
   flipped: ReadonlyMap<string, string>,
 ) {
   const hiresA = hiresOf(base);
+  const postsA = postingsOf(base),
+    postsB = postingsOf(raised);
   return hiresOf(raised).flatMap((hb) => {
     const graduated = flipped.get(hb.personId);
     if (!graduated || hb.date < graduated) return [];
-    // The same position: its pay is set when it is posted, so the day each
-    // world filled it does not matter.
-    const ha = hiresA.find((h) => h.jobId === hb.jobId);
+    const pb = postingOf(postsB, hb);
+    // A position's pay is set when it is posted, so the day each world
+    // filled it does not matter.
+    const ha = hiresA.find((h) => {
+      if (h.personId !== hb.personId) return false;
+      if (h.jobId === hb.jobId) return true;
+      const pa = postingOf(postsA, h);
+      return (
+        !!pa &&
+        !!pb &&
+        pa.hourlyMinor === pb.hourlyMinor &&
+        pa.occupation === pb.occupation
+      );
+    });
     return ha ? [{ personId: hb.personId, ha, hb }] : [];
   });
 }
@@ -176,7 +213,7 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
     );
     if (!pairs.length) {
       tried.push(
-        `${where}: ${flipped?.size ?? 0} graduated only where raised, none hired to a job they also hold in the base world by ${day}`,
+        `${where}: ${flipped?.size ?? 0} graduated only where raised, none hired in both worlds to one position, or to one posted at the same pay for the same occupation, by ${day}`,
       );
       continue;
     }
@@ -202,6 +239,6 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
     return;
   }
   throw new Error(
-    `No drawn place had a senior graduate only where graduation was raised and be hired in both worlds: ${tried.join("; ")}`,
+    `No drawn place had a senior graduate only where graduation was raised and be hired in both worlds (GRADUATION_PAY_SEED=${seed}): ${tried.join("; ")}`,
   );
 }, 3_600_000);
