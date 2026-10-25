@@ -9,6 +9,12 @@
  * school engine's records for the carrier's measure follow: each income
  * fifth's factor carries the carrier's part, and each full student's result
  * reads the shifted month row.
+ *
+ * The web writes a month's rows on its day and again whenever a law takes
+ * effect, within that day's step, so a shift laid between days can be gone
+ * before a reader reads. The twin lays it at the moment of each read instead,
+ * through the module tables' debug trace, so whatever the school engine reads
+ * carries it.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -17,6 +23,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { setTableTrace } from "./module-state";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { subjectWeight } from "./outcome-web-reach";
 import { linkCoverage, WEB_LINKS, WIRED_INTO } from "./outcome-web-model";
@@ -74,20 +81,45 @@ function play(drawn: Drawn, link?: string) {
     .table("months");
   let day = makeIsoDate(opening);
   const end = addDays(day, DAYS);
-  while (day < end) {
-    day = addDays(day, 1);
-    advanceCore(core, day);
-    // The web writes its month on the 3rd, and writes it again whenever a law
-    // takes effect, which drops a shift laid earlier; from the 3rd on, the
-    // twin lays the effect again in any of the month's rows without it.
-    if (link && Number(core.date.slice(8)) >= 3)
+  // The twin's effect goes on every row without it at the first read after
+  // the web writes a row, so a row the web rewrote earlier in the day is
+  // shifted again before it is read; the laying's own reads and writes pass
+  // through.
+  let laying = false;
+  let written = true;
+  const lay = (shifted: string) => {
+    laying = true;
+    try {
       for (const row of months.rows() as unknown as WebMonth[])
-        if (row.month === core.date.slice(0, 7) && row.effects[link] !== SHIFT)
+        if (row.effects[shifted] !== SHIFT)
           months.put({
             ...row,
-            effects: { ...row.effects, [link]: SHIFT },
+            effects: { ...row.effects, [shifted]: SHIFT },
           } as never);
+    } finally {
+      laying = false;
+    }
+  };
+  if (link)
+    setTableTrace((moduleId, table, op) => {
+      if (laying || moduleId !== OUTCOME_WEB_MODULE_ID || table !== "months")
+        return;
+      if (op === "put" || op === "remove") written = true;
+      else if (written) {
+        written = false;
+        lay(link);
+      }
+    });
+  try {
+    while (day < end) {
+      day = addDays(day, 1);
+      advanceCore(core, day);
+    }
+  } finally {
+    setTableTrace(null);
   }
+  // A row the web rewrote after its last read is shifted back to what was read.
+  if (link) lay(link);
   expect(core.date, `${drawn.name}: full-year boundary`).toBe(end);
   return { core, placeId: built.placeId };
 }
