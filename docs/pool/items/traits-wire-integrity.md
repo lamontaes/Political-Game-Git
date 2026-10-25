@@ -10,7 +10,7 @@ claimed-by:
 pr: #5715
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** This is one bounded family of the trait wiring audit (`traits-wiring-audit`, reopened Oct 24). Every decision in the corruption, recalls, appointments and cases family: justice, reporters' tips, recalls, constituent cases, what staff are told, and whether a bribe is taken must run in a played year and weigh the person's traits at a size taken from research. A decision with no study keeps the owner's general weight of 1 only with a gap row that says why. Twins with traits flat or mirrored must show the decisions turning, at the rate the research gives, never at overwhelming odds.
