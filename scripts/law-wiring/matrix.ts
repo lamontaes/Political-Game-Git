@@ -9,6 +9,7 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
+import { ownLeast } from "./own-payments";
 import {
   allLaws,
   changeInData,
@@ -342,7 +343,11 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
       .map((c) => ({ place, c })),
   );
   const own = runs.flatMap(({ place, r }) =>
-    r.money?.own && r.money.own.paid > 0 ? [{ place, o: r.money.own }] : [],
+    r.money?.own &&
+    r.money.own.paid > 0 &&
+    r.money.own.paid >= ownLeast(r.money.own.targets)
+      ? [{ place, o: r.money.own }]
+      : [],
   );
   if (direct.length || cited.length || controlCited.length || own.length) {
     const ev = [

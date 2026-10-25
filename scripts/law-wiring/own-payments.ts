@@ -40,8 +40,14 @@ function accountIndex(
 
 /** How long after a law reaches a target its own payment shows: past it, the twin worlds' drift does. */
 export const OWN_WINDOW_DAYS = 92;
-/** The share of reached targets that must get a payment of one kind and direction for it to be the law's. */
-export const OWN_MIN_SHARE = 0.05;
+/**
+ * How many reached targets must get a payment of one kind and direction for
+ * it to be the law's: one in twenty, and two wherever two or more were
+ * reached (one target of many may be drift).
+ */
+export function ownLeast(targets: number): number {
+  return Math.max(Math.min(2, targets), Math.ceil(targets * 0.05));
+}
 
 const plusDays = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
@@ -152,8 +158,7 @@ export function ownPayments(
       earliest.get(a[0])!.localeCompare(earliest.get(b[0])!) ||
       a[0].localeCompare(b[0]),
   );
-  // A payment one target of many got is not the law's: at least one in twenty share it.
-  const least = Math.max(1, Math.ceil(targets.length * OWN_MIN_SHARE));
+  const least = ownLeast(targets.length);
   const top = (order[0]?.[1] ?? 0) >= least ? order[0]![0] : undefined;
   const found = top
     ? byTarget
