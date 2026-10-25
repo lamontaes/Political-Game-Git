@@ -17,6 +17,39 @@ try {
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(process.env.BENCH_URL ?? "http://localhost:3000/play");
+  // Every dimmed entry says why, in visible text from the controls data.
+  const dimmedReasons = async (panel) => {
+    await page.waitForFunction(
+      (id) =>
+        [...document.querySelectorAll(`#${id} button:disabled`)].every((b) =>
+          b.querySelector(".reason")?.textContent.trim(),
+        ),
+      panel,
+    );
+    const rows = await page
+      .locator(`#${panel} button:disabled`)
+      .evaluateAll((buttons) =>
+        buttons
+          .filter((b) => b.offsetParent !== null)
+          .map((b) => {
+            const reason = b.querySelector(".reason");
+            return {
+              id: b.id,
+              reason: reason?.textContent.trim() ?? "",
+              shown: Boolean(reason && reason.offsetParent !== null),
+            };
+          }),
+      );
+    for (const row of rows) {
+      assert.ok(row.reason && row.shown, `${row.id} is dimmed with no reason`);
+      console.log(`  ${row.id}: ${row.reason}`);
+    }
+    return rows;
+  };
+  const dimmed = await dimmedReasons("front-main");
+  assert.ok(dimmed.length >= 2, "the title has dimmed entries to explain");
+  console.log("PASS every dimmed title entry says why");
+  if (shots) await page.screenshot({ path: `${shots}/after-title.png` });
   await page.locator("#new-life").click();
 
   // The New game menu: every visible control, in order.
@@ -59,6 +92,11 @@ try {
   await advanced.waitFor();
   for (const id of worldModes)
     assert.equal(await advanced.locator(`#${id}`).isVisible(), true, id);
+  const watch = await dimmedReasons("front-advanced");
+  assert.ok(
+    watch.some((r) => r.id === "front-watch"),
+    "Watch says why",
+  );
   assert.equal(await page.locator("#new-start").isVisible(), false);
   console.log("PASS Advanced holds Custom world, New world, Watch the world");
   if (shots) await page.screenshot({ path: `${shots}/after-advanced.png` });

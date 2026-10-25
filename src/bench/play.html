@@ -95,7 +95,12 @@
             data-testid="continue"
             disabled
           >
-            <b>Continue</b><small id="front-continue-life"></small>
+            <b>Continue</b
+            ><small
+              class="reason"
+              data-label="titleUnavailable.continue"
+            ></small
+            ><small id="front-continue-life"></small>
           </button>
           <button
             id="front-saves"
@@ -104,7 +109,8 @@
             data-testid="open-saves"
             disabled
           >
-            <b>Saved games</b>
+            <b>Saved games</b
+            ><small class="reason" data-label="titleUnavailable.saves"></small>
           </button>
           <button
             id="front-options"
@@ -121,7 +127,11 @@
             data-testid="title-patch-notes"
             disabled
           >
-            <b>Patch notes</b>
+            <b>Patch notes</b
+            ><small
+              class="reason"
+              data-label="titleUnavailable.patchNotes"
+            ></small>
           </button>
           <!-- Quit is the desktop's; a browser tab has none to offer. -->
           <button
@@ -190,7 +200,8 @@
             data-testid="watch-world"
             disabled
           >
-            <b>Watch the world</b>
+            <b>Watch the world</b
+            ><small class="reason" data-label="titleUnavailable.watch"></small>
           </button>
           <button
             id="advanced-back"

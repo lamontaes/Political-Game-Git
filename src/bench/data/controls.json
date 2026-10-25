@@ -184,6 +184,7 @@
     "advanced": "Advanced"
   },
   "titleUnavailable": {
+    "continue": "No life in progress yet. Start a life first.",
     "watch": "Watching the world without a player is not on the new core yet.",
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."

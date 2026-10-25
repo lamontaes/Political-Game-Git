@@ -746,6 +746,13 @@ input[type="range"]::-moz-range-thumb {
   font-size: 22px;
   color: #fff;
 }
+/* A dimmed title entry says why; an enabled one shows no reason. */
+.item .reason {
+  color: var(--text-3);
+}
+.item:not(:disabled) .reason {
+  display: none;
+}
 .item.link {
   color: var(--text-2);
   font: 400 13px var(--ui);
