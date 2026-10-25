@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: A founded cause group carries a structured key in its name field instead of a name.
 
 Sent back 2026-10-20 from PR #5287 (branch claude/association-names): data/english/parts/association-names.json adds eight origin authored entries with shippable true. The morning check refuses authored pieces marked shippable before grading. Keep them held until graded, and make the release claim accurately reflect what can ship; this pool-session change also edits Words-owned src/english, src/director and data/english paths, which must be owned by the Words session.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5287 (branch claude/association-names): Held names do not meet the resolved-row and one-year downstream-read acceptance; route a bounded preparation slice with its evidence table, add the missing release declaration, and address Words ownership; finish on that branch, merge main into it first.

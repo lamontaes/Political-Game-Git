@@ -14,13 +14,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** A young adult who lives with their parents never moves out of the household in play, so the town's households keep their opening shape and no new renter household forms from them. Leaving should follow from the person's own record: work and pay, savings against the rent of a place of their own, and the housing on offer in town. PR #4959 builds the decision in the partnerships engine (src/core2/modules/partnerships.ts) with a new household and its lease when the young adult goes.
 
-**Rules.** TODO
+**Rules.** No dice: a young adult leaves home from their own work, money and the rents on offer, never from a monthly chance. Wire to the world: the move ends one household membership, starts a household and its lease, and moves rent on the journal.
 
-**Done when.** TODO
+**Done when.** In an ordinary buildBenchWorld played year in a drawn place (place and seed named in the PR body), with the module installed through the play modules and not by the test, at least one young adult leaves their parents' household, shown by the departure, the new household and its lease record ids.
 
-**Files.** TODO
+**Files.** src/core2/modules/partnerships.ts, src/core2/modules/moves.ts, src/core2/home-leaving.test.ts, src/director/play-modules.ts (installation, through the Words line)
 
 **Notes.** TODO
 

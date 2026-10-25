@@ -4,13 +4,13 @@ title: "Order 3: mine the empty cells of the coverage table"
 area: words
 kind: research
 priority: 2
-status: in-pr
+status: claimed
 claimed-by: claude/political-game-pool-yucp92-bm
 pr: #5701
 blocked-on:
 milestone:
 source: "words-and-director order 3"
-claimed-at: 2026-10-20T13:48:50.832Z
+claimed-at: 2026-10-23T18:09:10.131Z
 ---
 
 **What.** The coverage table (`docs/grading/coverage.md`, built by `npm run words:coverage`) has empty or thin cells in golden-path order, meaning situations the records fire that have no words. For each, add a shape in `scripts/english-corpus/shapes/`, run the mining, write the bank script and its test. First targets: a town body's words to its chair, a chair's hearing questions, what a body says of an official's service, boasts, threats and alarms, a wedding and a pork-barrel ask. The player would notice those moments being spoken instead of silent or generic.
@@ -25,3 +25,5 @@ claimed-at: 2026-10-20T13:48:50.832Z
 Sent back 2026-10-20 from PR #5187 (branch claude/political-game-pool-g08lgv): Parts in data/english/parts/meeting.json and hearing.json have origin: authored and shippable: true; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5187 (branch claude/political-game-pool-g08lgv): with the authored parts held (shippable false) the body-bank tests find no part and fail; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5701 (branch claude/political-game-pool-yucp92-bm): The date-note repair is present and the new authored parts remain held, which is correct. However, words-mine-empty-cells Done when requires before/after coverage counts, a drawn whole exchange using each new bank, and the owner being able to attend a council meeting and hear it. The body explicitly says nothing can reach play yet and supplies no before/after counts or full drawn place/seed. Keep these held parts, but track their bounded preparatory work separately or finish the named acceptance; add the required Done when evidence table. No local gate pass is claimed here.; finish on that branch, merge main into it first.

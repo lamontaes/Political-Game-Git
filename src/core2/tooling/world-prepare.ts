@@ -1,5 +1,5 @@
 /** The guard's world preparation (scripts/core2-guard/month.mjs), with a chosen start date. */
-import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { ageOnDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { buildDeepPast } from "../deep-past";
 import { initialFocusPeople } from "../focus";
@@ -27,10 +27,8 @@ export function prepareWorldAt(options: {
       (person) =>
         person.countyId &&
         person.jobId &&
-        ageOnDate(
-          makeIsoDate(person.birthDate),
-          makeIsoDate(input.startedAt),
-        ) >= parameter("benchmarkAdultMinimumAge"),
+        ageOnDate(person.birthDate, input.startedAt) >=
+          parameter("benchmarkAdultMinimumAge"),
     )
     .sort((a, b) => a.id.localeCompare(b.id))[0];
   if (!player)

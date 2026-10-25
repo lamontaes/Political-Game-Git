@@ -8,6 +8,7 @@
  */
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
 import { registerModule } from "../state";
 import type {
   CoreAPI,
@@ -17,9 +18,7 @@ import type {
   PersonState,
 } from "../types";
 import type { ModuleRow } from "../module-data";
-import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
-import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { reachOf } from "../counted-reach";
 import { isNoncitizen } from "../citizenship";
 import { citizenShareOf } from "../electorate-places";
@@ -28,6 +27,8 @@ import {
   householdOwnsFirearm,
 } from "../firearm-ownership";
 import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
+import { residentsRuntime } from "../modules/residents";
+import { countedWeight } from "./pay-reach";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
 import type { LawRowInput } from "../laws-starting";
 
@@ -128,30 +129,19 @@ export function reachParameter(key: string): number {
   return row.value;
 }
 
+const PUBLIC_EMPLOYERS: readonly string[] = Object.keys(
+  publicPayFloor.employerLevels,
+);
+
 export function selectorGroup(name: string): readonly string[] {
+  // The public employers are the classes the public pay mechanics raise pay at.
+  if (name === "publicEmployers") return PUBLIC_EMPLOYERS;
   return data.selectors[name] ?? data.extraSelectors[name] ?? [];
 }
 
 // --- the module --------------------------------------------------------------
 
-type CalendarWorker = (
-  api: CoreAPI,
-  work: Readonly<ModuleCalendarWork>,
-) => void;
-type PayrollWorker = (
-  api: CoreAPI,
-  receipt: Readonly<WorkPayrollJournalReceipt>,
-) => void;
-const calendarWorkers = new Map<string, CalendarWorker>();
-const payrollWorkers: PayrollWorker[] = [];
-/** A mechanic's dated work (a hire, a layoff) runs on the module's calendar. */
-export function onReachCalendar(kind: string, worker: CalendarWorker): void {
-  calendarWorkers.set(kind, worker);
-}
-/** A mechanic that acts on each payday (a payroll premium). */
-export function onReachPayroll(worker: PayrollWorker): void {
-  if (!payrollWorkers.includes(worker)) payrollWorkers.push(worker);
-}
+import { runReachCalendar, runReachPayroll } from "./reach-workers";
 
 interface PremiumRecord {
   readonly id: string;
@@ -207,16 +197,15 @@ export const REACH_A_MODULE: CoreModule = {
       },
       mechanics: { indexes: { byKey: { fields: ["key"] } } },
       premiums: { indexes: { byPerson: { fields: ["personId"] } } },
-      payments: { indexes: { byKey: { fields: ["key", "endedOn"] } } },
       staffing: {},
     },
   },
   journalSourceProviders: {
     [PREMIUM_KIND]: (api, reference) => premiumSlot(api, reference.id),
   },
-  onCalendarWork: (api, work) => calendarWorkers.get(work.kind)?.(api, work),
+  onCalendarWork: (api, work) => runReachCalendar(api, work),
   onWorkPayroll: (api, receipt) => {
-    for (const worker of payrollWorkers) worker(api, receipt);
+    runReachPayroll(api, receipt);
   },
 };
 
@@ -421,6 +410,20 @@ export interface Target {
   readonly count: number | null;
 }
 
+/** The people the counted jobs at these employers stand for. */
+function countedStaff(api: CoreAPI, employers: ReadonlySet<string>): number {
+  const core = api.state as CoreState;
+  let people = 0;
+  for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+    if (
+      job.endsAt === undefined &&
+      !core.jobs.has(job.id) &&
+      employers.has(job.organizationId)
+    )
+      people += countedWeight(core, job.personId);
+  return people;
+}
+
 function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
   const select = spec.select ?? {};
   switch (spec.target) {
@@ -444,11 +447,17 @@ function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
       );
     case "staff": {
       const out: Target[] = [];
-      for (const org of townOrganizations(api, select.group ?? ""))
+      const orgs = townOrganizations(api, select.group ?? "");
+      for (const org of orgs)
         for (const s of currentStaff(api, org.id))
           if (api.state.people.has(s.personId))
             out.push({ id: s.personId, personId: s.personId, count: null });
-      return out;
+      // One rule, both tiers: the counted staff of the same employers, as
+      // one count (each counted job stands for the people its household does).
+      const counted = countedStaff(api, new Set(orgs.map((o) => o.id)));
+      return counted
+        ? [...out, { id: `counted:${spec.id}`, personId: null, count: counted }]
+        : out;
     }
     case "counted": {
       const count = countedReach(api, select);
@@ -554,14 +563,19 @@ export function writeRows(
   );
   for (const target of targets) {
     const held = holding.get(target.id);
-    // A group's count follows its records; a person or organization's row stands.
-    if (held && (held.count === target.count || target.count === null))
+    // A group's count follows its records; a person or organization's row
+    // stands, cited to the law row now applying it.
+    if (
+      held &&
+      (held.count === target.count || target.count === null) &&
+      held.lawId === lawId
+    )
       continue;
     const row: ReachRow = {
       id: held?.id ?? `reach:${lawId}:${spec.id}:${target.id}:${date}`,
       key,
       spec: spec.id,
-      lawId: held?.lawId ?? lawId,
+      lawId,
       target: spec.target,
       targetId: target.id,
       kind: spec.kind,

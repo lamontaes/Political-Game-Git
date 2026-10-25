@@ -1,0 +1,78 @@
+{
+  "schema": "director-scene-talk-rules/1",
+  "note": "How a scene with a purpose picks the player's path. Moves only, no sentence. `moveActs` maps each reply move to the act kinds the trait engine scores (data/content/trait-act-pulls.json): a reply move is leaned toward when the player's traits pull toward its acts. Nothing here is a roll; a tie goes to the stable hash of the scene.",
+  "moveActs": {
+    "agree": ["cooperate", "commit"],
+    "accept": ["concede", "cooperate"],
+    "relent": ["concede"],
+    "refuse": ["refuse", "confront"],
+    "decline": ["refuse", "play-safe"],
+    "withdraw": ["withdraw", "play-safe"],
+    "bargain": ["engage", "self-interest"],
+    "stall": ["delay", "play-safe"],
+    "deflect": ["delay", "stay-quiet"],
+    "ask": ["engage"],
+    "request": ["engage", "self-interest"],
+    "answer": ["speak-out", "trust"],
+    "tell": ["speak-out", "trust"],
+    "thank": ["cooperate"],
+    "promise": ["commit", "cooperate"],
+    "offer": ["help-others", "engage"],
+    "comfort": ["help-others"],
+    "apologize": ["concede", "help-others"],
+    "blame": ["confront", "self-interest"],
+    "disagree": ["confront", "speak-out"],
+    "confront": ["confront", "take-risk"],
+    "boast": ["speak-out", "take-risk"],
+    "press": ["confront", "engage"],
+    "plea": ["engage", "help-others"],
+    "threaten": ["confront", "self-interest"],
+    "warn": ["confront", "speak-out"]
+  },
+  "terminalFollow": ["thank", "accept"],
+  "tree": {
+    "about": "Owner, Oct 15, night: a scene is a tree, a branch for each thing the player might say. The bounds keep a page readable: past maxNodes only the branch the player's traits lean toward is kept.",
+    "maxReplies": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "spread": [3, 6],
+      "checkedAgainst": "The owner's four dynamic choices a turn (OWNER-DECISIONS, Oct 14) plus the lie, which he asked for as a fifth reply on the purposes that allow one (Oct 15, night); three read thin, six crowd a page."
+    },
+    "maxNodes": {
+      "value": 600,
+      "tag": "TUNABLE",
+      "spread": [300, 1000],
+      "checkedAgainst": "The review page plays one scene at a time, one path at a time, so every branch must be whole: a pruned branch is a button that leads nowhere. Six hundred nodes holds a five-wide tree five deep with its lie branches."
+    }
+  },
+  "grounds": {
+    "about": "A request needs its ground on record (owner, Oct 15, night). A donor leans on you only above this share of the money a campaign raised; below it the donor scene is not staged.",
+    "donorShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.33, 0.67],
+      "checkedAgainst": "'Most of' is more than half; a third is the least a donor could claim as 'a lot of what you raised'."
+    },
+    "donorFloorMinor": {
+      "value": 50000,
+      "tag": "TUNABLE",
+      "spread": [25000, 250000],
+      "checkedAgainst": "A gift big enough that leaning on it reads as pressure, not a joke. Under it the donor is 'one of your donors', with no amount said."
+    }
+  },
+  "screens": {
+    "about": "The game screens a scene's ending can hand the player to, by the key the game screen uses.",
+    "desk": "The desk: sign or veto the bill.",
+    "filing": "The filing office: file to run.",
+    "office": "Your office: bills, cases and staff.",
+    "meeting": "The meeting: the vote on the floor.",
+    "campaigns": "Campaigns: the campaign's week."
+  },
+  "bluntGreeting": {
+    "about": "So scenes do not all open the same way: an asker whose sociability is at or below minus this level skips the greeting and opens on why they came; trait levels run from -2 to 2.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "spread": [0.5, 1.5],
+    "checkedAgainst": "Batch 20: about one asker in six opens without a greeting, the share of adults a full level or more below the middle on the opening temperament's 10/20/40/20/10 cut."
+  }
+}

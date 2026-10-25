@@ -9,6 +9,8 @@ import {
   type BirthCouple,
 } from "../births-plan";
 import { buildNewborn } from "../births-people";
+import { decideUnplanned, unplannedExposure } from "../births-unplanned";
+import { transferCash } from "../world-transfer";
 import { applyCountedFlows } from "../births-counted";
 import { nextMonthDay } from "../residents";
 import type { CoreAPI, CoreModule, Source } from "../types";
@@ -146,12 +148,194 @@ function review(
       source: planSource,
       facts: { pregnancyId, planId, dueDate, conceivedAt: asOf },
     });
-  } else if (!opening)
+  } else if (!opening) {
+    conceiveUnplanned(api, row, parents[0]!.placeId);
     scheduleReview(
       api,
       row,
       dateAfter(api, renewalParameter(api, "renewalReviewDays")),
     );
+  }
+}
+
+/**
+ * What a couple carries at its first review: the exposure its waiting has
+ * built since it formed, or since its youngest child was born, at today's
+ * rate per review, less the whole units that were past pregnancies. Read from
+ * the couple's own records, so a world opened mid-life does not start every
+ * couple at nothing.
+ */
+function pastCarry(api: CoreAPI, row: BirthCouple, exposure: number): number {
+  let since = row.startedAt;
+  for (const id of row.childIds) {
+    const born = api.state.people.get(id)?.birthDate;
+    if (born && born > since) since = born;
+  }
+  const reviews =
+    Math.max(0, daysBetween(makeIsoDate(since), makeIsoDate(api.state.date))) /
+    renewalParameter(api, "renewalReviewDays");
+  const built = exposure * reviews;
+  return built - Math.floor(built);
+}
+
+/**
+ * A couple that chose to wait still carries exposure each review; a whole unit
+ * is an unplanned pregnancy, and the mother decides what to do with it from
+ * her records, the law in force where she lives and the trip to a provider.
+ * The player's own character and household are left out: unplanned pregnancies
+ * happen to the people in the background, from their own records and the law
+ * where they live, and nothing here is shown to the player.
+ */
+function conceiveUnplanned(
+  api: CoreAPI,
+  row: BirthCouple,
+  placeId: string,
+): void {
+  const playerHome = api.state.playerId
+    ? api.state.people.get(api.state.playerId)?.householdId
+    : undefined;
+  if (
+    playerHome &&
+    api.state.people.get(row.motherId)?.householdId === playerHome
+  )
+    return;
+  // Full couples only: the counted households do not carry exposure yet.
+  api.stopgap("SG-PEOPLE-unplanned-counted-tier");
+
+  const carryRow = table(api, "exposure").get(row.id);
+  const exposure = unplannedExposure(api, row, api.state.date);
+  const carry =
+    (carryRow ? Number(carryRow.carry) : pastCarry(api, row, exposure)) +
+    exposure;
+  if (carry < renewalParameter(api, "one")) {
+    table(api, "exposure").put({ id: row.id, carry });
+    return;
+  }
+  table(api, "exposure").put({
+    id: row.id,
+    carry: carry - renewalParameter(api, "one"),
+  });
+  const decision = decideUnplanned(api, row, api.state.date);
+  const planId = `${row.id}:unplanned:${api.state.date}`;
+  const planSource: Source = {
+    tag: "ESTIMATED",
+    asOf: api.state.date,
+    citation:
+      "Unplanned pregnancy from the couple's exposure and the mother's own weighing of it.",
+    estimatedFrom:
+      "Household cushion and the mother's age curve; the restriction law in force and the trip to a provider from the place's sourced table. SG-PEOPLE-unplanned-pregnancy.",
+  };
+  table(api, "plans").put({
+    id: planId,
+    coupleId: row.id,
+    date: api.state.date,
+    recordedAt: api.state.date,
+    opening: false,
+    unplanned: true,
+    motherId: row.motherId,
+    otherParentId: row.otherParentId,
+    agreed: decision.continues,
+    decisions: [decision] as unknown as ModuleRow["decisions"],
+    lawId: decision.lawId,
+    source: planSource as unknown as ModuleRow["source"],
+  });
+  const pregnancyId = `${planId}:pregnancy`;
+  const facts = {
+    pregnancyId,
+    planId,
+    unplanned: "true",
+    restricted: String(decision.restricted),
+    lawId: decision.lawId ?? "none recorded",
+    miles: String(decision.miles),
+  };
+  if (!decision.continues) {
+    // The trip is paid from the household's cash, largest balance first, to
+    // the place's outside account (the provider is outside the town's books).
+    const payee = [...api.state.organizations.values()].find(
+      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
+    )?.id;
+    let paidMinor = 0;
+    if (payee)
+      for (const personId of [
+        ...api.state.households.get(
+          api.state.people.get(row.motherId)!.householdId,
+        )!.memberIds,
+      ]
+        .filter((id) => api.state.people.get(id)?.alive)
+        .sort(
+          (a, b) =>
+            api.state.people.get(b)!.liquidMinor -
+            api.state.people.get(a)!.liquidMinor,
+        )) {
+        if (paidMinor >= decision.travelMinor) break;
+        paidMinor += transferCash(
+          api,
+          `${pregnancyId}:trip:${personId}`,
+          personId,
+          payee,
+          decision.travelMinor - paidMinor,
+          planSource,
+        );
+      }
+    table(api, "pregnancies").put({
+      id: pregnancyId,
+      planId,
+      coupleId: row.id,
+      motherId: row.motherId,
+      otherParentId: row.otherParentId,
+      conceivedAt: api.state.date,
+      opening: false,
+      unplanned: true,
+      status: "ended",
+      paidMinor,
+      lawId: decision.lawId,
+      source: planSource as unknown as ModuleRow["source"],
+    });
+    api.emit({
+      id: `${pregnancyId}:ended`,
+      date: api.state.date,
+      kind: "pregnancy-ended",
+      personIds: [row.motherId, row.otherParentId],
+      placeId,
+      source: planSource,
+      facts: { ...facts, paidMinor: String(paidMinor) },
+    });
+    return;
+  }
+  const dueDate = addDays(
+    makeIsoDate(api.state.date),
+    renewalParameter(api, "renewalGestationDays"),
+  );
+  table(api, "pregnancies").put({
+    id: pregnancyId,
+    planId,
+    coupleId: row.id,
+    motherId: row.motherId,
+    otherParentId: row.otherParentId,
+    conceivedAt: api.state.date,
+    opening: false,
+    unplanned: true,
+    dueDate,
+    status: "pregnant",
+    lawId: decision.lawId,
+    source: planSource as unknown as ModuleRow["source"],
+  });
+  api.moduleCalendar(RENEWAL_MODULE_ID).schedule({
+    key: `${pregnancyId}:delivery`,
+    date: dueDate,
+    kind: "delivery",
+    source: planSource,
+    sourceRecordIds: [pregnancyId],
+  });
+  api.emit({
+    id: `${pregnancyId}:recorded`,
+    date: api.state.date,
+    kind: "pregnancy-recorded",
+    personIds: [row.motherId, row.otherParentId],
+    placeId,
+    source: planSource,
+    facts: { ...facts, dueDate, conceivedAt: api.state.date },
+  });
 }
 
 /** The counted population's flows run on the first of each month. */
@@ -255,9 +439,8 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
   );
 }
 
-/** One opening index build; subsequent reviews read one candidate, never the world/history. */
-function initialize(api: CoreAPI): void {
-  scheduleCounted(api);
+/** Each parent's children, from the parent-child links. */
+function childrenByParent(api: CoreAPI): Map<string, string[]> {
   const children = new Map<string, string[]>();
   for (const link of api.state.familyLinks.values())
     if (link.kind === "parent-child") {
@@ -265,35 +448,54 @@ function initialize(api: CoreAPI): void {
       ids.push(link.personIds[1]);
       children.set(link.personIds[0], ids);
     }
-  // stopgapId: SG-TRAITS-partnerships-no-engine (couples come only from the opening; nobody partners or separates in play, so no temperament read decides it)
+  return children;
+}
+
+/**
+ * The couple a partner link makes for the births engine: a living pair in one
+ * household, one of whom is a mother. Absent for any other pair.
+ */
+function coupleFromLink(
+  api: CoreAPI,
+  link: { readonly id: string; readonly personIds: readonly [string, string] },
+  children: ReadonlyMap<string, readonly string[]>,
+): BirthCouple | undefined {
+  const people = link.personIds.map((id) => api.state.people.get(id)!);
+  const mother = people.find((person) => person.looks?.gender === "female");
+  if (
+    !mother ||
+    people.some((person) => !person.alive) ||
+    people[0]!.householdId !== people[1]!.householdId
+  )
+    return undefined;
+  const other = people.find((person) => person.id !== mother.id)!;
+  const partnerFact = mother.pastFacts?.find(
+    (fact) =>
+      fact.kind === "family:partner" && fact.facts?.otherPersonId === other.id,
+  );
+  return {
+    id: link.id,
+    motherId: mother.id,
+    otherParentId: other.id,
+    startedAt: partnerFact?.date ?? api.state.startedAt,
+    childIds: [
+      ...new Set([
+        ...(children.get(mother.id) ?? []),
+        ...(children.get(other.id) ?? []),
+      ]),
+    ],
+  };
+}
+
+/** One opening index build; subsequent reviews read one candidate, never the world/history. */
+function initialize(api: CoreAPI): void {
+  scheduleCounted(api);
+  const children = childrenByParent(api);
+  // stopgapId: SG-TRAITS-partnerships-no-engine (couples come from the opening and from links a core call makes; no engine decides in play who partners or separates, so no temperament read decides it)
   for (const link of api.state.familyLinks.values()) {
     if (link.kind !== "partner") continue;
-    const people = link.personIds.map((id) => api.state.people.get(id)!);
-    const mother = people.find((person) => person.looks?.gender === "female");
-    if (
-      !mother ||
-      people.some((person) => !person.alive) ||
-      people[0]!.householdId !== people[1]!.householdId
-    )
-      continue;
-    const other = people.find((person) => person.id !== mother.id)!;
-    const partnerFact = mother.pastFacts?.find(
-      (fact) =>
-        fact.kind === "family:partner" &&
-        fact.facts?.otherPersonId === other.id,
-    );
-    const row: BirthCouple = {
-      id: link.id,
-      motherId: mother.id,
-      otherParentId: other.id,
-      startedAt: partnerFact?.date ?? api.state.startedAt,
-      childIds: [
-        ...new Set([
-          ...(children.get(mother.id) ?? []),
-          ...(children.get(other.id) ?? []),
-        ]),
-      ],
-    };
+    const row = coupleFromLink(api, link, children);
+    if (!row) continue;
     table(api, "couples").put({
       ...row,
       childIds: [...row.childIds],
@@ -366,6 +568,8 @@ export const RENEWAL_MODULE: CoreModule = {
           byParent: { fields: ["motherId"] },
         },
       },
+      /** Exposure a waiting couple has carried toward an unplanned pregnancy. */
+      exposure: {},
       countedIllness: {
         indexes: { byPlace: { fields: ["placeId"] } },
       },
@@ -401,6 +605,23 @@ export const RENEWAL_MODULE: CoreModule = {
         sourceIds: [row.id, actor.id, actor.householdId],
       };
     },
+  },
+  eventKinds: ["family.partnered"],
+  // A couple formed in play has its births reviewed from that day.
+  onEvent(api, event) {
+    if (event.kind !== "family.partnered" || !initialized.has(api.state))
+      return;
+    const link = api.state.familyLinks.get(String(event.facts?.linkId));
+    const row = link
+      ? coupleFromLink(api, link, childrenByParent(api))
+      : undefined;
+    if (!row) return;
+    table(api, "couples").put({
+      ...row,
+      childIds: [...row.childIds],
+      status: "active",
+    });
+    review(api, row);
   },
   onDay(api) {
     if (!initialized.has(api.state)) {

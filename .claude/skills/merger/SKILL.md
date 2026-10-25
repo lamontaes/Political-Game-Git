@@ -5,7 +5,9 @@ description: Merges and validates pull requests for Our Civic Duty: changed-file
 
 # Merger
 
-You are the CTO's merger. The CTO never merges or reads diffs; you do, and return a table. Read `AGENTS.md` ("Process", "Checks stay light") first. Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks, no messages to other sessions.
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: lane PRs first; the lane may edit director and English files with Words review; held-to-shippable lines are never a send-back; "sessions never message each other")
+
+You are the CTO's merger. The CTO never merges or reads diffs; you do, and return a table. Read `AGENTS.md` ("Process") first, then `docs/coordination/MERGE-FIRST.md` (the CTO's order; its lines come before your share) and the CTO section of `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`). Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks, no messages to other sessions: a PR comment is your only voice, and the pool item's Notes.
 
 Never: merge a PR you authored, delete anything, close a PR, force-push, rebase, amend, or run the full suite.
 
@@ -38,7 +40,7 @@ At the start of every run, before listing PRs, read the latest release workflow 
 
 ## 1. Your share, and other mergers
 
-Several mergers may run at once. Your prompt gives your share (for example PR number mod 4, even or odd, or one list) and an order (oldest or newest first). Stay in it.
+Several mergers run at once: four by PR number mod 4 (`<N>` is 0, 1, 2 or 3) and one recheck merger whose share is the recheck list in `MERGE-FIRST.md`. Your prompt gives your share and an order (oldest or newest first). Stay in it, after `MERGE-FIRST.md`: a `MERGE-FIRST.md` line in nobody's share is anyone's; a line in your share is yours first.
 
 - Skip any PR that got a commit merging main, or a comment from another merger, in the last 45 minutes: someone is on it.
 - Merge with the head pinned: `gh api -X PUT repos/lamontaes/Political-Game-Git/pulls/N/merge -f merge_method=merge -f sha=<the head you checked>`. HTTP 409 means the branch moved: re-check it or move on.
@@ -51,6 +53,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 
 1. **Base.** Merge into main only a PR whose base is main.
    - A PR whose base is another open PR's branch is a fixer for that PR. If the parent is in your share, gate the fixer the same way, merge it into the parent's branch, and comment on the parent: "fixer #N merged into this branch; it fixes the send-back." Never flip a pool item for a fixer.
+   - A PR stacked on another open PR (its own pool item, building on the parent rather than fixing the parent's send-back) is not a fixer: leave it until its base PR has merged into main, then retarget it to main and handle it normally. Its item is done only when it reaches main.
    - If the base branch's PR is merged or closed, retarget to main (`gh api -X PATCH repos/lamontaes/Political-Game-Git/pulls/N -f base=main`) and handle it normally.
 2. **Send-backs.** If a merger sent this PR back, merge it only when a commit pushed after that comment (by the author or a merged fixer) fixes what was raised. Compare the commit times to the comment.
 3. **Fetch and merge main.** `git fetch origin <branch> main`, check out the branch, `git merge origin/main` (plain merge).
@@ -80,6 +83,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 
    **Done-when not met**
    - The item's done-when is found with `grep -l "pr: #N" docs/pool/items/*.md` or the item id in the PR body. Every proof it names must be in the PR: a played world built with `buildBenchWorld`, a browser check, a named test, a seed in the body. Name the missing proof.
+   - The PR body's **Done when** table (from the PR template) has one row per done-when line with its evidence. A missing table, or a row whose evidence is not in the diff or the body, is a send-back naming that row. Builders run this same list on themselves first (`session-start`, "Self-check before the PR").
 
    **Claims that don't match the diff**
    - The title, body or release note claims something the diff doesn't do.
@@ -105,12 +109,16 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - A stand-in without a row in `src/core2/data/stopgaps.json` and a code marker, or a stopgap row deleted.
    - A state, city or GEOID named in logic.
    - A feature that writes a record nothing reads, or new functions or parameters nothing calls, unless the body names the PR that will use them.
-   - Hand-written player text in code or data (`origin: "authored"` with `shippable: true`).
+   - Hand-written player text in code (a sentence typed into a screen or an engine instead of a bank). A bank part's `shippable` must match the grade ledger (`tests/english-parts-banks.test.ts`): authored bank parts are English engine pieces and play unless graded out (owner, Oct 24).
    - Code in `src/core2` importing from `src/simulation`.
    - Owner names or dated owner notes in code or shipped data.
-   - Edits under `src/director/`, `src/english/` or `data/english/` by a session that is not the Words session.
+   - Edits under `src/director/`, `src/english/` or `data/english/` by a session that is not the Words session, **except a play-first lane PR** (line 1 names a `play-first-*` or `play-stop-*` item; owner, Oct 24): the lane may edit them with `Review: words` in the body, and that is never a send-back reason. Leave a lane PR with director or English edits for the Words session's review comment before merging only if `MERGE-FIRST.md` says so; otherwise merge on green.
    - British spellings.
    - A docs/pool item with sections pasted twice.
+
+   **The play-first lane** (`docs/play-first/README.md`)
+   - A PR whose line 1 names a `play-first-*` or `play-stop-*` item without a before and an after screenshot in its body, each from a drawn place with the place and seed named, is sent back. A look that changed needs the owner's yes on the screenshot ("OWNER SCREENSHOT NEEDED" at the top of the body): leave it, comment, and name it in your table for the CTO.
+   - Lane PRs come first (`MERGE-FIRST.md`, line 1). Never send a lane PR back for director or English edits (`Review: words`) or for `data/english` lines flipped to shippable.
 
    **Missing paperwork**
    - No release declaration in `docs/release/changes/`. Impact none carries only id and impact; patch and minor also need a section and a title.
@@ -126,3 +134,12 @@ GitHub runs are never waited on. If the Actions queue holds runs from superseded
 ## 4. Report
 
 End each batch with a table: `PR | merged / sent back / left | reason`.
+
+## The prompt
+
+> Read AGENTS.md and .agents/skills/merger/SKILL.md in lamontaes/Political-Game-Git, then docs/coordination/MERGE-FIRST.md and the CTO section of docs/coordination/LEADS-2026-10-24.md.
+> You are merger <N>: your share is open PRs whose number mod 4 equals <N> (the recheck merger's share is the recheck list in MERGE-FIRST.md), <oldest | newest> first, after every MERGE-FIRST line you can take. Start every comment with "Merger <N>:".
+> For each PR: merge main into it, run the changed-file checks in your own environment (never the full suite, never wait on GitHub), apply the morning check, merge on green with the head pinned or comment once with the exact reason and set the item open with the reason in Notes.
+> Play-first lane PRs first; send one back only for missing before/after screenshots, never for director or English edits or held lines flipped to shippable.
+> Never merge a PR you authored, never force-push, never run the full suite. If the latest release run on main is red, claim release-main-red and fix it at the root first. End with a table.
+> In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

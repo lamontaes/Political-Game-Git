@@ -5,12 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/laws-civil-tech
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T21:53:46.962Z
+claimed-at:
 ---
 
 **What.** Six group A policies in src/core2/data/laws/reach-group-a.json still have mechanic `none`: the housing and work discrimination ban, the abortion restriction, social-media age verification, the limit on government facial recognition, the consumer data privacy law and independent redistricting, each with its own SG-GOV-REACH-A stopgap. Each needs a real reader in the engine that owns the decision, or a registered reason it cannot have one yet. Most already have their own build items (world-hiring-discrimination-ban-refusal and justice-discrimination-complaint for the ban, gov-justice-facial-recognition, the gov-redistricting parts, the data-privacy business charge), so this item is the roll-up: wire whichever are reachable now, replace the `none` handler with that reader, and point each remaining stopgap row at the item that will close it.
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T21:53:46.962Z
 
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/data/stopgaps.json, src/core2/law-reach-balance.test.ts
 
-**Notes.** Oct 20 (pool feeder): write-up filled from the six SG-GOV-REACH-A rows (discrimination, abortion, age-verification, facial-recognition, data-privacy, redistricting). Related open PR: #5474 (data privacy cost read by the business engine).
+**Notes.** Oct 20 (pool feeder): write-up filled from the six SG-GOV-REACH-A rows (discrimination, abortion, age-verification, facial-recognition, data-privacy, redistricting). Related open PR: #5474 (data privacy cost read by the business engine). Claim released Oct 23: branch gone.

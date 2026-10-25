@@ -234,8 +234,19 @@ const ALLOWED_PHRASES: readonly {
       "the title of a real journal (Labour Economics, Elsevier), quoted in a research citation",
   },
   {
+    pattern:
+      /\bThe effect of public sector employment on local labour markets\b/g,
+    reason:
+      "the title of a real paper (Faggio and Overman 2014, Journal of Urban Economics), quoted in a research citation",
+  },
+  {
     pattern: /\bLabour Party\b/g,
     reason: "a real party name, if one is ever quoted",
+  },
+  {
+    pattern: /\bBribes in the analysed cases\b/g,
+    reason:
+      "a summary of the OECD Foreign Bribery Report (2014), quoted verbatim in the corruption research",
   },
   {
     pattern:
@@ -258,7 +269,7 @@ const ALLOWED_PHRASES: readonly {
   { pattern: /\bsales tax holidays?\b/gi, reason: "an American tax term" },
   {
     pattern:
-      /\b(?:(?:majority|two-thirds|one-third|three-fifths|quorum|number|2\/3) of (?:all )?(?:the )?elected members?|elected members? (?:of|in) (?:each|the|a|that|all) (?:house|houses|chamber|senate|respective)|newly elected members?)\b/gi,
+      /\b(?:(?:majority|two-thirds|one-third|three-fifths|quorum|number|2\/3)(?: vote)? of (?:all )?(?:the )?elected members?|elected members? (?:of|in) (?:each|the|a|that|all) (?:house|houses|chamber|senate|respective)|newly elected members?)\b/gi,
     reason:
       "state constitutions and chamber rules, quoted: 'a majority of the elected members' is the legal term of art for counting members net of vacancies",
   },
@@ -270,6 +281,11 @@ const ALLOWED_PHRASES: readonly {
     pattern: /\btown-wards\b/g,
     reason:
       "the legacy town-wards.ts module name and its persisted event key (identifiers keep their spelling); player text says the place's recorded seat type",
+  },
+  {
+    pattern: /\bSG-GOV-ward-residency\b/g,
+    reason:
+      "the registered stopgap id the residency citation names (identifiers keep their spelling); the citation's own words say district seats",
   },
 ];
 
@@ -317,6 +333,11 @@ const ALLOWED_FILES: readonly {
       "real names of schools, hospitals, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
   },
   {
+    file: /^data\/research\/world\/hud-hic-2025-beds-by-city\.json$/,
+    words: /^centre$/i,
+    reason: "HUD's city names as published: Rockville Centre, New York",
+  },
+  {
     file: /^src\/simulation\/municipal-seat-identity\.ts$/,
     words: /^wards?$/i,
     reason:
@@ -359,10 +380,16 @@ const ALLOWED_FILES: readonly {
       "researched stopgap values quote real places and statutes: Ward County, Texas, and Nebraska's precinct or ward primary unit",
   },
   {
-    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
+    file: /^data\/research\/stopgaps-oct19\/census\/[A-Za-z0-9.-]+\.json$/,
+    words: /^(?:wards?|centre|grey)$/i,
+    reason:
+      "census place and county names as published (Sauk Centre, Grey Eagle, Ward County), and quotes of D.C.'s wards",
+  },
+  {
+    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026|ballot-order-2026|eavs-2024-polling-places)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
     words: /^wards?$/i,
     reason:
-      "research facts about real charters and statutes: D.C.'s eight wards, and the municipal filing rules whose recorded seat type is ward; never deleted",
+      "research facts about real charters and statutes: D.C.'s eight wards, the municipal filing rules whose recorded seat type is ward, and a polling-place count quoted verbatim ('one precinct or ward'); never deleted",
   },
 ];
 

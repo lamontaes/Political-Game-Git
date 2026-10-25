@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: New people are met only on a visit (the host's household) and on joining a group (its other members); the first tie holds the act's hours. Meetings at an organized meeting wait for attendance, and new coworkers for jobs
 
 Sent back 2026-10-20 from PR #5265 (branch claude/pool-encounters-meetings): The body explicitly leaves SG-P15-encounters open for public-comment/council meetings, neighbors and first-tie-hours evidence. The linked item Done when requires its rows resolved and a one-year played-world downstream read by record id. A town-hall-only unit proof does not complete it. Split the completed bounded town-hall change from the remaining explicit open work, or finish the original acceptance before marking that item done.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5265 (branch claude/pool-encounters-meetings): The town-hall regression does not require any attendee who was previously unknown to the host, so its new met-fact and first-tie assertions can all be skipped.; finish on that branch, merge main into it first.

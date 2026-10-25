@@ -11,7 +11,7 @@ blocked-on:
 after: research-content-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind uncalibrated-tunable"
-claimed-at: 2026-10-19T23:36:18.581Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open uncalibrated-tunable stopgap row(s) in src/core2/data/content.json: SG-P8-civic-progress. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

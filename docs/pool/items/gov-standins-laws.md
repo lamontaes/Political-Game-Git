@@ -5,7 +5,7 @@ area: laws
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/standins-laws
 pr: #5173
 blocked-on:

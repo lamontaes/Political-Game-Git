@@ -29,6 +29,7 @@
       "actionId": "approach-office"
     }
   ],
+  "closureEventKind": "organization.closed",
   "factKeys": {
     "responsible": "responsible",
     "drive": "drive",
@@ -41,7 +42,10 @@
     "strengthAdded": "strength-added",
     "response": "response",
     "role": "role",
-    "originEvent": "origin-event"
+    "originEvent": "origin-event",
+    "countedSubject": "counted-subject",
+    "countedPerceivers": "counted-perceivers",
+    "countedHousehold": "counted-household"
   },
   "driveKinds": [
     {
@@ -395,8 +399,27 @@
       ]
     },
     {
+      "id": "bereavement-counted",
+      "eventKind": "residents.member-died",
+      "roles": ["family", "household", "acquaintance"],
+      "channels": ["loss", "others-distress"],
+      "responses": [
+        "take-up-cause",
+        "guard-family",
+        "answer-calling",
+        "carry-on"
+      ]
+    },
+    {
       "id": "serious-illness",
       "eventKind": "health.serious-illness",
+      "roles": ["subject", "family", "household"],
+      "channels": ["threat", "loss"],
+      "responses": ["take-up-cause", "guard-family", "carry-on"]
+    },
+    {
+      "id": "serious-illness-counted",
+      "eventKind": "residents.member-fell-ill",
       "roles": ["subject", "family", "household"],
       "channels": ["threat", "loss"],
       "responses": ["take-up-cause", "guard-family", "carry-on"]

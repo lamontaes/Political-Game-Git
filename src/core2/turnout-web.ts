@@ -111,5 +111,4 @@ export function turnoutWeb(
 
 // stopgapId: SG-WEB-voting-graduation-cause (the graduation link's cause is the web's own ledger number)
 // stopgapId: SG-WEB-voting-newspaper-closure (no outlet closes, so there is no cause to read)
-// stopgapId: SG-WEB-voting-corruption-reelection (the voting engine already reads scandals into the appeal)
-// stopgapId: SG-WEB-voting-relief-approval (no relief dollars or approval series is recorded)
+// stopgapId: SG-WEB-voting-relief-approval (no relief dollars are recorded)

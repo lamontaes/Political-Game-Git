@@ -1,6 +1,6 @@
 import { runModuleCalendar } from "./module-calendar";
 /** Process-local controlled clock. Client IDs select saved offers, never amounts or motives. */
-import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { advanceDate, duePeople } from "./calendar";
 import type { DuePerson } from "./calendar";
 import { chooseAct } from "./choice";
@@ -430,6 +430,8 @@ function readyChoice(
       s.personId,
       prepared.offers,
       prepared.context,
+      false,
+      false,
     );
     s.decisions++;
     return publishChoice(
@@ -468,7 +470,7 @@ function readyChoice(
     day.discretionaryOffered = true;
     return;
   }
-  const decision = chooseAct(core, s.personId, offers);
+  const decision = chooseAct(core, s.personId, offers, undefined, false, false);
   s.decisions++;
   const actual = core.people.get(s.personId),
     date = core.date;
@@ -507,9 +509,9 @@ function finishIntents(core: CoreState, s: Session, day: Day): void {
     try {
       if (intent.offer.definition.stopgapId)
         s.api.stopgap(intent.offer.definition.stopgapId);
-      const days = daysBetween(
-        makeIsoDate(core.people.get(s.personId)!.lastActDate),
-        makeIsoDate(core.date),
+      const days = daysBetweenText(
+        core.people.get(s.personId)!.lastActDate,
+        core.date,
       );
       const result = effect(
         s.api,
@@ -548,7 +550,7 @@ function closeDay(core: CoreState, s: Session, day: Day): void {
           throw new Error(
             "A module attempted an autonomous controlled choice.",
           );
-        return chooseAct(core, actorId, offers, context);
+        return chooseAct(core, actorId, offers, context, false, false);
       };
       const refresh = (
         actor: Parameters<typeof refreshNeeds>[2],

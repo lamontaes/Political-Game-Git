@@ -5,14 +5,14 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/ward-residency
 pr: #4859
 after: gov-council-election-method
 blocked-on:
 milestone:
 source: "found by gov-council-election-method"
-claimed-at:
+claimed-at: 2026-10-21T01:07:41.240Z
 ---
 
 **What.** Voters of a ward seat are now limited to their ward, but a resident of any part of town can still file for the seat. Where the charter or the state's law requires a district candidate to live in the district (`data/research/local-government/governing-body-seat-qualification.json`), the filing check refuses a resident of another part, with the recorded reason.
@@ -30,3 +30,5 @@ Sent back 2026-10-17 from PR #4859 (branch claude/gov-council-ward-residency): M
 Sent back 2026-10-20 from PR #4859 (branch claude/gov-council-ward-residency): Code conflict with main in src/core2/modules/elections.ts; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #4859 (branch claude/gov-council-ward-residency): Merging current origin/main conflicts in src/core2/modules/elections.ts. Resolve that code conflict on this branch, preserving current filing qualifications and the ward-residency rule/recorded refusal, then rerun the changed-file checks and the positive inside-ward/outside-ward drawn-place test. The stopgap register merged cleanly and is not the blocker.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #4859 (branch claude/gov-council-ward-residency): The latest merge retains the ward-residency facts and the body supplies inside/outside-ward proof. It still has no Done when evidence table required by .agents/skills/merger/SKILL.md section 2.5. Map every item acceptance line to the qualification/refusal assertions, positive inside-ward filings, drawn place and full seed, and downstream ballot evidence. Keep the current filing qualifications and factual ward-number refusal fields. No local gate pass is claimed here.; finish on that branch, merge main into it first.

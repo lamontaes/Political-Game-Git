@@ -1,0 +1,30 @@
+{
+  "id": "neo-pi-r-facet-correlations-1992",
+  "publisher": "Psychological Assessment Resources (NEO-PI-R manual), as transcribed in the psychTools R package 2.6.4 dataset neo",
+  "vintage": "NEO-PI-R normative sample (Costa and McCrae 1992)",
+  "table": "Facet intercorrelations, 30 x 30",
+  "title": "NEO correlation matrix from the NEO_PI_R manual",
+  "universe": "1,000 adults in the manual's normative sample",
+  "geography": "United States",
+  "sourceUrl": "https://cran.r-project.org/package=psychTools",
+  "retrievedOn": "2026-10-24",
+  "limits": "Read from data/neo.rda in psychTools_2.6.4.tar.gz; only the two cells the game uses are kept. Facet correlations stand in for the five temperament dimensions, which have no norms of their own.",
+  "sampleSize": 1000,
+  "pairs": [
+    {
+      "first": "E2 Gregariousness",
+      "second": "E5 Excitement-Seeking",
+      "r": 0.34,
+      "parameter": "personalitySociabilityRiskCorrelation",
+      "sign": 1
+    },
+    {
+      "first": "C3 Dutifulness",
+      "second": "C6 Deliberation",
+      "r": 0.45,
+      "parameter": "personalityReliabilityImpulseCorrelation",
+      "sign": -1
+    }
+  ],
+  "use": "The two personality correlation rows in src/core2/data/parameters.json, with Fisher 95% intervals for N = 1,000 as their spreads (checked by scripts/research/people-parameters-check.ts)."
+}
