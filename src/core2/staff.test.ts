@@ -31,6 +31,7 @@ import {
   workingAgeWeight,
 } from "./modules/staff";
 import { governmentUnitsForPlace } from "./reference/government-units";
+import { postPayCapDaily } from "./budgets-treasury";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -175,10 +176,29 @@ describe("M3-06 staff", () => {
       // The aide is on the payroll of the government the official serves,
       // and paydays have paid them from its treasury.
       // An aide the official let go for not coming is replaced: read an aide who has been paid.
+      const staffJob = (personId: string) => {
+        const job = core.people.get(personId)?.jobId;
+        return job?.startsWith("job:public:staff:") ? job : undefined;
+      };
       const paidAide = servingStaffOf(api, official).find((row) => {
-        const job = core.people.get(row.personId)?.jobId;
+        const job = staffJob(row.personId);
         return job ? core.work.latestPayrollByJob.has(job) : false;
       });
+      const townGov = governments(api).find((g) =>
+        ["city", "county"].includes(g.level),
+      );
+      // An aide is paid what the post's budget line can carry, as a town's
+      // department heads are: a line with no room left holds the post unpaid.
+      if (
+        !paidAide &&
+        townGov &&
+        postPayCapDaily(api, townGov.organizationId, `staff:${official}`, 1) ===
+          0
+      ) {
+        for (const row of servingStaffOf(api, official))
+          expect(staffJob(row.personId), `${key}: ${row.id}`).toBeUndefined();
+        continue;
+      }
       if (!paidAide) {
         // Nobody paid yet is only right after the official let the first aides go for absence (the share
         // missed on record) and hired replacements who have not had a payday.
