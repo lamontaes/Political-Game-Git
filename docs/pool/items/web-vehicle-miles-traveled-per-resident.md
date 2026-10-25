@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/web-vehicle-miles-traveled-per-resident
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T16:32:07.552Z
 ---
 
 **What.** The mileage fee that replaces the fuel tax has no outcome-web link because the web keeps no measure of vehicle miles traveled or fuel use; it is the one law in the prices family whose web link is only a stopgap row in src/core2/data/laws/outcome-research-gaps.json under SG-LAW-outcome-link-unresearched. Searches found no source that sizes a revenue-neutral per-mile fee on fuel use or emissions (CBO 2011 and the Oregon and Washington pilot reports cover funding and design, not driving), so the link cannot be attached to env.emissions. Add the place outcome traffic.vehicle-miles (vehicle miles traveled per resident a year) to data/research/outcome-web/place-outcome-bases-2024.json for all 56 places, from FHWA Highway Statistics Table VM-2 over the Census population estimate, with the five territories at the median of the sourced places tagged ESTIMATED. Then add the researched link from the mileage-fee law to it, sized by a fuel-price elasticity of vehicle miles applied to the change in the average vehicle's cost per mile, with its spread, and read the web's factor in the place-prices engine where the vehicle-miles rule charges the fee.
