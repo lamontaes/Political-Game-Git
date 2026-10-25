@@ -5938,7 +5938,7 @@
       "group": "place",
       "owner": "GOV",
       "evidence": "about-zero",
-      "anchor": "\"public sector employment has no identifiable effect on total private sector employment\": each public job creates 0.5 jobs in non-tradables and crowds out 0.4 in tradables (English local authorities, 2003 to 2007).",
+      "anchor": "\"public sector employment has no identifiable effect on total private sector employment\": each public job creates 0.5 jobs in non-tradables and crowds out 0.4 in tradables (local government areas in England, 2003 to 2007).",
       "source": "Faggio and Overman 2014, The effect of public sector employment on local labour markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/",
       "notes": "Carried by the engine: the administration line funds positions at the town's government employer (src/core2/law-reach/group-a-staffing.ts), which posts openings that the jobs engine fills from named and counted seekers (postFundedOpenings, src/core2/modules/jobs.ts); each hire leaves the unemployed and the unemployment measure counts it. The research puts the spillover on private jobs at about zero, so the web adds nothing on top. Over 1999 to 2007 the paper finds some crowding out of private jobs; the 2003 to 2007 estimate is the one it leads with.",
       "carriedBy": "src/core2/modules/jobs.ts fills the openings the line funds (postFundedOpenings, posted by src/core2/law-reach/group-a-staffing.ts) from named and counted seekers, and the unemployment measure counts each hire",
