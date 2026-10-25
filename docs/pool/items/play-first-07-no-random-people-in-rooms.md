@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-first-07-no-random-people-in-rooms
-pr:
+pr: #6084
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

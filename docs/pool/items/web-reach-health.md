@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/web-reach-health-played
+status: open
+claimed-by:
 pr: #6006
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-25T08:15:29.176Z
+claimed-at:
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the health family: 20 unwired links, 9 where the owning engine does not read the factor and 11 where nothing keeps the outcome. Their outcomes: health.mortality-all, health.low-birthweight, health.premature-births, health.depression, health.blood-pressure, health.stroke-and-heart-deaths, health.heat-deaths, health.uninsured-pct, health.catastrophic-medical-bills, health.hospital-visits and the rest. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T08:15:29.176Z
 **Files.** src/core2/modules/health.ts, src/core2/death-causes.ts, src/core2/outcome-web-reach.ts
 
 **Notes.** Split Oct 24 by the CTO from the effect-web audit (order `docs/work-orders/lead-effects-2026-10-24.md`). Counts from the capstone branch's unwired list on Oct 23 (effect-web-integration). Coverage reads are `web-coverage-reads` (in review, conflicting); land it inside this family. A PR names this item on line 1 and `Lead: effects` in its body.
+
+Sent back 2026-10-25 from PR #6006 (branch claude/web-reach-health-played): Done-when evidence counts three coverage reads on still-open #5661, while this test checks only web values and those links have no specific unwired rows; land/prove the consumer or accurately register the remaining links, or route the bounded lag fix separately while health-family stays open; finish on that branch, merge main into it first.
