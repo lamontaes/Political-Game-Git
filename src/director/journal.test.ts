@@ -306,7 +306,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     ).toBe(true);
   });
 
-  it("keeps a relative's lost race as a moment and tells no hand-written line about it", () => {
+  it("tells a relative's race by the record's result, never the other way", () => {
     const me = core.people.get(player.id)!;
     const relativeId = [...me.familyIds].find(
       (id) => core.people.get(id)?.alive && id !== player.id,
@@ -337,20 +337,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       .filter((line) =>
         line.sourceRecordIds.includes("election-result:fixture-loss"),
       );
-    // The director keeps the count as a moment in the watcher's book. The
-    // journal sentence for it is hand-written and held until
-    // graded (pool item words-journal-relative-race), so the journal says
-    // nothing about it, and never a line that gets the result wrong.
-    const book = director.ledger.people.get(player.id)!;
-    expect(
-      book.moments.some(
-        (row) => row.causeId === "election-result:fixture-loss",
-      ),
-    ).toBe(true);
-    expect(told).toEqual([]);
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) expect(line.text).not.toMatch(/\b(won|elected)\b/);
+    // The office is named: what was lost, not only that it was.
+    for (const line of told)
+      expect(line.text).toContain("City Council, Seat 3");
   });
 
-  it("keeps a relative's win as a moment and tells no hand-written line about it", () => {
+  it("names the office a relative was elected to, from the count's own record", () => {
     const me = core.people.get(player.id)!;
     const relativeId = [...me.familyIds].find(
       (id) => core.people.get(id)?.alive && id !== player.id,
@@ -377,13 +371,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       .filter((line) =>
         line.sourceRecordIds.includes("election-result:fixture-win"),
       );
-    // The count is a moment in the book; its journal sentence is hand-written
-    // and held (pool item words-journal-relative-race), so none is told.
-    const book = director.ledger.people.get(player.id)!;
-    expect(
-      book.moments.some((row) => row.causeId === "election-result:fixture-win"),
-    ).toBe(true);
-    expect(told).toEqual([]);
+    expect(told.length).toBeGreaterThan(0);
+    // "My father was elected to Mayor": never the bare "was elected".
+    for (const line of told) expect(line.text).toContain("Mayor");
   });
 
   it("names a child at birth, and says no look-back that points at nothing", () => {
@@ -410,7 +400,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     }
   });
 
-  it("keeps a relative moving away as a moment and tells no hand-written line about it", () => {
+  it("writes a relative moving away, as the moves engine records it", () => {
     // A watched person with a relative in town (a grown child moving out, a
     // sibling across town).
     const inTown = (id: string) => {
@@ -432,9 +422,8 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     )!;
     const relative = core.people.get(relativeId)!;
     // The shape src/core2/modules/moves.ts emits when someone leaves town.
-    const movedId = `person.moved-away:${relativeId}:${core.date}`;
     applyCoreEvent(core, {
-      id: movedId,
+      id: `person.moved-away:${relativeId}:${core.date}`,
       date: core.date,
       kind: "person.moved-away",
       personIds: [relativeId],
@@ -456,12 +445,12 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     );
     // The engine words it from the move record: who moved, by relation, and
     // the line cites the record it came from.
-    // The move is a moment in the book; the journal sentence for it is
-    // hand-written and held until graded (pool item
-    // words-journal-relative-moved-away), so none is told.
-    const book = director.ledger.people.get(watcherId)!;
-    expect(book.moments.some((row) => row.causeId === movedId)).toBe(true);
-    expect(lines.filter((line) => /moved away/.test(line.text))).toEqual([]);
+    const told = lines.filter((line) => /moved away/.test(line.text));
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) {
+      expect(line.text).toMatch(/^My \w+( \w+)? moved away\.$/);
+      expect(line.sourceRecordIds.length).toBeGreaterThan(0);
+    }
   });
 
   it("writes a household move as the person's own move, never as their family leaving them", () => {
@@ -572,8 +561,11 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       corePlaceByJurisdictionId(mover.placeId as never)!.displayName,
     );
     expect(named.some((line) => /^I /.test(line))).toBe(false);
-    // A place with no name leaves nothing to say.
-    expect(told("jurisdiction_unnamed")).toEqual([]);
+    // A place with no name leaves nothing to say about the move (the
+    // journal's other lines, where the family came from, still stand).
+    expect(
+      told("jurisdiction_unnamed").filter((line) => /^We /.test(line)),
+    ).toEqual([]);
   });
 
   it("never titles a chapter by a school, and remembers a schoolmate who matters later", () => {

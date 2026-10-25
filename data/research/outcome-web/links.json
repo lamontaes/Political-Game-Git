@@ -3738,8 +3738,7 @@
           "quote": "Table 8 Panel A: Female Sample, T - C: 1.08 (0.36). Panel B: Male Sample, T - C: 1.22 (0.38). \"The main result is that for all three models and for both men and women, the estimated difference in CDFs between the 1938, 1939, and 1940 cohorts, and the 1937 cohort, is mostly negative.\""
         }
       ],
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers.",
-      "carriedBy": "the jobs engine's retirement onset (retirementOnsetYears in src/core2/modules/jobs.ts), which reads the earliest Social Security claim age under the law in force when each worker decides whether to keep working"
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers. The jobs engine reads this link's factor in participationShift (src/core2/jobs-web.ts), on the retire, leave and enter choices of people from 62 to 66, weighted by jobsOlderWorkWebWeight."
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
