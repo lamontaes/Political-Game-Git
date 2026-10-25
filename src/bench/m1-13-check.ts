@@ -20,6 +20,7 @@ import { REGIONAL_MODULE_ID } from "../core2/modules/regional";
 import { countedMoves } from "../core2/modules/counted-moves";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { RegionMonth } from "../core2/regional-model";
+import stats from "../../data/research/regional/series/stats.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m1-13-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
@@ -90,11 +91,27 @@ check(
     .join(", ")})`,
 );
 
-// 2. Within real ranges: the repo has no sourced range of a region's or a
-// state's one-year population change (data/research/regional holds jobs,
-// pay and unemployment, not population), so the clause cannot be checked.
-failures.push(
-  `${where}: no sourced range for a place's one-year population change in data/research/regional, so "within real ranges" is unchecked`,
+// 2. Within real ranges: each region's change over the year against the 5th
+// to 95th percentile of the real one-year state change (Census Bureau state
+// estimates, data/research/regional/series/stats.json). A tenth of real
+// state-years fall outside that band, so no more than a tenth of the regions
+// may.
+const band = stats.stateOneYearPopulationChangePct;
+const changes = [...opening].flatMap(([id, before]) => {
+  const after = year.get(id);
+  return after && before.population
+    ? [{ id, pct: (after.population / before.population - 1) * 100 }]
+    : [];
+});
+const outside = changes.filter(
+  (row) => row.pct < band.p05 || row.pct > band.p95,
+);
+check(
+  changes.length > 0 && outside.length <= changes.length * 0.1,
+  `${where}: ${outside.length} of ${changes.length} regions' one-year population change sit outside the real ${band.p05.toFixed(2)}% to ${band.p95.toFixed(2)}% (${band.window}): ${outside
+    .slice(0, 5)
+    .map((row) => `${row.id} ${row.pct.toFixed(2)}%`)
+    .join(", ")}`,
 );
 // 3. Other places' voters' views: no engine keeps views for places outside
 // the town (the views engine holds the town's people only).
@@ -126,6 +143,12 @@ console.log(
       from: openingMonth,
       through: stepped,
       changed,
+      populationBand: [band.p05, band.p95],
+      regionsOutsideBand: outside.length,
+      widestChange: changes.reduce(
+        (top, row) => (Math.abs(row.pct) > Math.abs(top.pct) ? row : top),
+        changes[0] ?? { id: "", pct: 0 },
+      ),
       countedMoves: moves.length,
       sampleMove: moves.at(-1)
         ? `${moves.at(-1)!.id}: ${Object.keys(moves.at(-1)!.reasons).join(", ")}`

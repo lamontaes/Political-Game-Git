@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/research/regional/series/stats.json, src/bench/m1-13-check.ts
 
 **Notes.** Found by the M0-M2 lead writing M1-13's command, Oct 24. Blocks roadmap M1-13.
+
+2026-10-25 (claude/regional-population-range): the range is computed by data/research/regional/population_change.py from the Census Bureau's three state estimate files (intercensal 2000-2010, Vintage 2020, Vintage 2024), July 1 over July 1 within each vintage, the 50 states and D.C. (1,224 state-years): 5th percentile -0.20%, 95th 2.02%. The state files carry no metros (metro totals are a separate Census file, not fetched here), so metro regions are checked against the state range. M1-13 clause 2 lets no more than a tenth of regions fall outside the band, the share real state-years do.

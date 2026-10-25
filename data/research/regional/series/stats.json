@@ -107,5 +107,13 @@
     "p95": 6.914922202087108,
     "n": 930,
     "window": "December over December, 2008-2025, CES state total private average hourly earnings (NSA)"
+  },
+  "stateOneYearPopulationChangePct": {
+    "p05": -0.20479548154609617,
+    "p95": 2.0203115621273136,
+    "n": 1224,
+    "window": "July 1 over July 1, 2000-2024, the 50 states and D.C., within each vintage (Census Bureau intercensal 2000-2010, Vintage 2020, Vintage 2024 state population estimates)",
+    "source": "U.S. Census Bureau, Population Estimates Program, state population totals: https://www2.census.gov/programs-surveys/popest/datasets/",
+    "tag": "SOURCED"
   }
 }
