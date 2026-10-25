@@ -64,7 +64,10 @@ describe("the minor offenses' starting rate, in all 56 places", () => {
         (n, o) => n + o.ratePer100k,
         0,
       );
-      expect(place.per1000, key).toBeCloseTo(sum / 100, 3);
+      // Each offense's rate is kept to two decimals and the place's to three.
+      expect(Math.abs(place.per1000 - sum / 100), key).toBeLessThanOrEqual(
+        0.0005 + 1e-9,
+      );
       expect(baseOf(LOW_LEVEL_MEASURE, key).value, key).toBe(place.per1000);
       for (const offense of Object.values(place.byOffense))
         expect(offense.months, key).toBe(12);
@@ -169,6 +172,12 @@ const run = (core: CoreState, days: number) =>
 
 const safety = (api: CoreAPI) => api.moduleState(PUBLIC_SAFETY_MODULE_ID);
 
+/** The month before a "YYYY-MM" month. */
+function monthBefore(month: string): string {
+  const total = Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7)) - 2;
+  return `${Math.floor(total / 12)}-${String((total % 12) + 1).padStart(2, "0")}`;
+}
+
 function monthRows(api: CoreAPI): SafetyMonth[] {
   return (safety(api).table("months").rows() as unknown as SafetyMonth[])
     .slice()
@@ -189,7 +198,13 @@ function policeLine(api: CoreAPI): { id: string; amount: number } {
 interface Phase {
   readonly month: SafetyMonth;
   readonly web: WebMonth;
-  /** The safety month row whose officers per 1,000 the web read for this month. */
+  /**
+   * The web month before it: an outcome feeds the links that start from it
+   * the month after it moves, so this month's effect stands on that month's
+   * reading of the officers.
+   */
+  readonly earlier: WebMonth;
+  /** The safety month row whose officers per 1,000 that earlier web month read. */
   readonly officersRow: SafetyMonth;
   readonly cases: CaseRow[];
   readonly expectedRate: number;
@@ -244,7 +259,17 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
             .table("months")
             .get(month.lowLevelWebId) as unknown as WebMonth;
           expect(web, `${where}: web row ${month.lowLevelWebId}`).toBeDefined();
-          const sourceId = web.engineSources["police.officers-per-1000"]!;
+          const earlier = api
+            .moduleState(OUTCOME_WEB_MODULE_ID)
+            .table("months")
+            .get(
+              `web:${web.placeId}:${monthBefore(web.month)}`,
+            ) as unknown as WebMonth;
+          expect(
+            earlier,
+            `${where}: the web month before ${web.id}`,
+          ).toBeDefined();
+          const sourceId = earlier.engineSources["police.officers-per-1000"]!;
           const officersRow = safety(api)
             .table("months")
             .get(sourceId) as unknown as SafetyMonth;
@@ -260,6 +285,7 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
           return {
             month,
             web,
+            earlier,
             officersRow,
             cases,
             expectedRate,
@@ -276,7 +302,9 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
           deltaMinor: Math.max(1_000_000, Math.round(line.amount * 0.5)),
           measureId: "test:police:raise-low-level",
         });
-        run(core, 75);
+        // The officers are read into the web a month later, and the link's
+        // effect stands on that reading a month after that.
+        run(core, 120);
         const raised = read();
         // Phase three: the line is cut to well under where it began.
         const now = policeLine(api).amount;
@@ -286,7 +314,7 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
           deltaMinor: -Math.round(now - line.amount * 0.5),
           measureId: "test:police:cut-low-level",
         });
-        run(core, 75);
+        run(core, 120);
         const cut = read();
 
         const phases = { began, raised, cut };
@@ -342,7 +370,7 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
           began.month.lowLevelArrests,
         );
         console.log(
-          `justice-low-level in ${where}: court costs ${raised.court?.id}; state rate ${base}/1,000; began ${began.month.id} -> ${began.web.id} (${began.cases[0]!.id}) rate ${began.month.lowLevelRatePer1000.toFixed(4)}; raised ${raised.month.id} -> ${raised.web.id} (${raised.cases[0]!.id}) officers ${raised.officersRow.id} ${raised.officersRow.officersPer1000.toFixed(3)} rate ${raised.month.lowLevelRatePer1000.toFixed(4)} arrests ${raised.month.lowLevelArrests.toFixed(3)}; cut ${cut.month.id} -> ${cut.web.id} (${cut.cases[0]!.id}) officers ${cut.officersRow.id} ${cut.officersRow.officersPer1000.toFixed(3)} rate ${cut.month.lowLevelRatePer1000.toFixed(4)} arrests ${cut.month.lowLevelArrests.toFixed(3)}`,
+          `justice-low-level in ${where}: court costs ${raised.court?.id}; state rate ${base}/1,000; began ${began.month.id} -> ${began.web.id} (${began.cases[0]!.id}) rate ${began.month.lowLevelRatePer1000.toFixed(4)}; raised ${raised.month.id} -> ${raised.web.id} (${raised.cases[0]!.id}) officers ${raised.officersRow.id} ${raised.officersRow.officersPer1000.toFixed(3)} (read into ${raised.earlier.id}) rate ${raised.month.lowLevelRatePer1000.toFixed(4)} arrests ${raised.month.lowLevelArrests.toFixed(3)}; cut ${cut.month.id} -> ${cut.web.id} (${cut.cases[0]!.id}) officers ${cut.officersRow.id} ${cut.officersRow.officersPer1000.toFixed(3)} (read into ${cut.earlier.id}) rate ${cut.month.lowLevelRatePer1000.toFixed(4)} arrests ${cut.month.lowLevelArrests.toFixed(3)}`,
         );
         return;
       }
