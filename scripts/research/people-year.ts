@@ -4,7 +4,8 @@
  * from its parameter table, or the research file's figure) and where the
  * town landed, counted from records and naming record ids. Rows whose outcome
  * one played year cannot show say so.
- * Run: node --import tsx scripts/research/people-year.ts [seed]
+ * Run: node --import tsx scripts/research/people-year.ts [seed] [placeKey]
+ * (the place is drawn from all 56 jurisdictions from the seed unless a key is given).
  */
 import { randomBytes } from "node:crypto";
 import { buildBenchWorld } from "../../src/bench/world";
@@ -22,7 +23,12 @@ import {
 import { RENEWAL_MODULE_ID } from "../../src/core2/modules/renewal";
 import { countedHouseholdsByPlace } from "../../src/core2/modules/residents";
 import { countedHeadsOf } from "../../src/core2/residents-economy";
-import { drivesReport } from "../../src/core2/modules/drives";
+import {
+  DEFAULT_DRIVES_DATA,
+  drivesReport,
+} from "../../src/core2/modules/drives";
+import { setTraitProbe } from "../../src/core2/trait-probe";
+import { drawPlace } from "../../tests/golden-path/place";
 import { viewOf } from "../../src/core2/modules/views";
 import { hudRentRowFor } from "../../src/core2/hud-rents";
 import { coreStateName } from "../../src/core2/place-lookup";
@@ -36,6 +42,10 @@ import areaNames from "../../data/research/renewal/area-names.json" with { type:
 import interpregnancy from "../../data/research/people/nchs-db240-interpregnancy-2014.json" with { type: "json" };
 import atus from "../../data/research/people/atus-2025-volunteering.json" with { type: "json" };
 import trajectories from "../../data/research/people/trauma-trajectories-2018.json" with { type: "json" };
+import spousal from "../../data/research/people/bonanno-bereavement-patterns-2002.json" with { type: "json" };
+import termination from "../../data/research/people/termination-claims-1998.json" with { type: "json" };
+import firings from "../../data/research/people/nelp-yougov-firings-2022.json" with { type: "json" };
+import forgiveness from "../../data/research/people/fehr-forgiveness-correlates-2010.json" with { type: "json" };
 import parentNear from "../../data/research/people/pew-parent-proximity-2005.json" with { type: "json" };
 import kinNear from "../../data/research/people/pew-extended-family-proximity-2021.json" with { type: "json" };
 import partisanship from "../../data/research/people/pew-partisanship-community-type-2023.json" with { type: "json" };
@@ -59,7 +69,11 @@ const median = (xs: readonly number[]) => {
 
 setBookkeeping(false);
 const seed = process.argv[2] ?? randomBytes(6).toString("hex");
-const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
+const placeKey = process.argv[3] || drawPlace(seed, "people-year").key;
+const world = buildBenchWorld(seed, gameStartDate(), {
+  twoLevel: true,
+  placeKey,
+});
 const core = world.core;
 const api = coreAPI(core);
 const started = core.date;
@@ -70,7 +84,7 @@ const stateName =
   coreStateName(usps) ??
   usps;
 console.log(
-  `${world.place.displayName}, seed ${seed}, ${core.people.size} people on record at the opening ${started}`,
+  `${world.place.displayName} (key ${placeKey}), seed ${seed}, ${core.people.size} people on record at the opening ${started}`,
 );
 
 // What the year emits that the bands count.
@@ -80,6 +94,62 @@ registerModule(core, {
   eventKinds: ["cause.volunteered"],
   onEvent: (_api, event) => {
     volunteered.push({ id: event.id, actor: event.personIds?.[0] ?? "" });
+  },
+});
+
+// Grudges acted on: each confrontation and the closeness it cost, and how
+// many temperament-weighed calls the year made (the trait probe, a debug
+// switch that is off in play).
+const confrontations: {
+  id: string;
+  actor: string;
+  target: string;
+  date: string;
+}[] = [];
+const closenessDrops: {
+  relationshipId: string;
+  actor: string;
+  other: string;
+  date: string;
+  before: number;
+  after: number;
+}[] = [];
+registerModule(core, {
+  id: "research-people:fall-out",
+  eventKinds: [DEFAULT_DRIVES_DATA.eventKinds.confronted],
+  onEvent: (_api, event) => {
+    confrontations.push({
+      id: event.id,
+      actor: event.personIds[0] ?? "",
+      target: event.witnessIds?.[0] ?? "",
+      date: event.date,
+    });
+  },
+  relationshipKinds: ["*"],
+  onRelationshipChange: (_api, notice) => {
+    const level = notice.changes.find((row) => row.measure === "level");
+    if (level && level.after < level.before)
+      closenessDrops.push({
+        relationshipId: notice.relationshipId,
+        actor: notice.actorId,
+        other: notice.otherId,
+        date: notice.date,
+        before: level.before,
+        after: level.after,
+      });
+  },
+});
+const probed = {
+  respond: { calls: 0, turned: 0, drive: 0 },
+  fallOut: 0,
+};
+setTraitProbe({
+  formula(row) {
+    if (row.decisionId === "drives.respond") {
+      probed.respond.calls += 1;
+      if (row.turned) probed.respond.turned += 1;
+      if (row.yes) probed.respond.drive += 1;
+    } else if (row.decisionId === "relationships.fall-out") probed.fallOut += 1;
   },
 });
 
@@ -202,6 +272,7 @@ const dev = new DevMode(
 const end = addDays(makeIsoDate(core.date), 365);
 const t0 = Date.now();
 while (core.date < end) dev.advance(addDays(makeIsoDate(core.date), 1));
+setTraitProbe(undefined);
 console.log(
   `played to ${core.date} in ${((Date.now() - t0) / 60000).toFixed(1)} minutes`,
 );
@@ -315,24 +386,108 @@ console.log(
 // ── Drives ──────────────────────────────────────────────────────────────
 const report = drivesReport(core);
 const byRule = report.responsesByRule as Record<string, number>;
-const bereaved = Object.entries(byRule).filter(([key]) =>
-  key.startsWith("bereavement"),
-);
-const bereavedTotal = bereaved.reduce((s, [, n]) => s + n, 0);
-const carryOn = bereaved
-  .filter(([key]) => key.endsWith(":carry-on"))
-  .reduce((s, [, n]) => s + n, 0);
+const byRole = report.responsesByRole as Record<string, number>;
+/** The share with a 95% Wilson interval, and whether a band holds it. */
+const shareOf = (k: number, n: number, low?: number, high?: number) => {
+  if (!n) return "n/a";
+  const z = 1.96;
+  const share = k / n;
+  const centre = share + (z * z) / (2 * n);
+  const half = z * Math.sqrt((share * (1 - share)) / n + (z * z) / (4 * n * n));
+  const spread = 1 + (z * z) / n;
+  const interval = `${((100 * (centre - half)) / spread).toFixed(1)} to ${((100 * (centre + half)) / spread).toFixed(1)}`;
+  const lowEdge = (100 * (centre - half)) / spread;
+  const highEdge = (100 * (centre + half)) / spread;
+  const inside =
+    low === undefined || high === undefined
+      ? ""
+      : 100 * share >= low && 100 * share <= high
+        ? ", inside the band"
+        : lowEdge <= high && highEdge >= low
+          ? `, outside the band but the interval reaches it (${n} is too few to say)`
+          : ", OUTSIDE the band";
+  return `${((100 * k) / n).toFixed(1)}% (95% interval ${interval} over ${n}${inside})`;
+};
+const countWhere = (
+  table: Record<string, number>,
+  test: (parts: string[]) => boolean,
+) =>
+  Object.entries(table)
+    .filter(([key]) => test(key.split(":")))
+    .reduce((sum, [, n]) => sum + n, 0);
 const resilience = trajectories.trajectories.find(
   (row) => row.id === "resilience",
 )!;
+// The bereaved are the family and household of the person who died, old
+// enough to form a drive of their own (a child carries on by construction);
+// the acquaintances who heard of it are counted beside them, not among them.
+const isBereaved = (parts: string[]) =>
+  parts[0]!.startsWith("bereavement") &&
+  (parts[1] === "family" || parts[1] === "household") &&
+  parts[2] === "grown";
+const bereavedAll = countWhere(byRole, isBereaved);
+const bereavedCarry = countWhere(
+  byRole,
+  (parts) => isBereaved(parts) && parts[3] === "carry-on",
+);
+const heardAll = countWhere(byRule, (parts) =>
+  parts[0]!.startsWith("bereavement"),
+);
+const heardCarry = countWhere(
+  byRule,
+  (parts) => parts[0]!.startsWith("bereavement") && parts[1] === "carry-on",
+);
 const bereavementIds = report.decisions
-  .filter((row) => row.ruleId.startsWith("bereavement"))
+  .filter(
+    (row) =>
+      row.ruleId.startsWith("bereavement") &&
+      (row.role === "family" || row.role === "household"),
+  )
   .map((row) => `${row.eventId}:${row.personId}`);
 console.log(
   "\n## Drives (SG-P10-response-model, SG-P10-perception-model, SG-P10-drive-acts)",
 );
 console.log(
-  `Carry on after a loss: band ${resilience.low} to ${resilience.high}% resilient (Galatzer-Levy and others 2018). World (the town and the people other places keep on record): ${carryOn} of ${bereavedTotal} bereavement responses carried on, ${pct(carryOn, bereavedTotal)} (${JSON.stringify(Object.fromEntries(bereaved))}). Records: ${sample(bereavementIds)}.`,
+  `Carry on after a loss: band ${resilience.low} to ${resilience.high}% resilient (Galatzer-Levy and others 2018; the spousal-loss cohort alone was ${spousal.patterns.find((row) => row.id === "resilient")!.percent}%, Bonanno and others 2002). World (the town and the people other places keep on record), the bereaved, meaning family and household of the person who died who are old enough to form a drive of their own: ${shareOf(bereavedCarry, bereavedAll, resilience.low, resilience.high)} carried on. Everyone who heard of a death, acquaintances included: ${shareOf(heardCarry, heardAll)}. Records: ${sample(bereavementIds)}.`,
+);
+// A grudge after a layoff or a closure.
+const lossRules = ["job-loss", "closure"];
+const lossAll = countWhere(byRule, (parts) => lossRules.includes(parts[0]!));
+const lossGrudge = countWhere(
+  byRule,
+  (parts) => lossRules.includes(parts[0]!) && parts[1] === "hold-grudge",
+);
+const grudgesAnywhere = countWhere(
+  byRule,
+  (parts) => parts[1] === "hold-grudge",
+);
+const grudgeBand = termination.bandPercent;
+const ceiling = firings.ofThoseFired.find(
+  (row) => row.id === "no-reason-or-unfair-reason",
+)!.percent;
+const grudges = report.drives.filter((row) => row.kind === "grudge");
+const againstPeople = grudges.filter(
+  (row) => row.targetId && core.people.get(row.targetId)?.alive,
+);
+console.log(
+  `Grudge after a layoff or a closure: band ${grudgeBand.low} to ${grudgeBand.high}% (the share of the terminated who filed a claim, Greenberg, Lind and others 1998), under the ${ceiling}% who report an unfair firing (NELP and YouGov 2022). World: ${shareOf(lossGrudge, lossAll, grudgeBand.low, grudgeBand.high)} of layoff and closure responses held a grudge (${lossAll} responses; ${grudgesAnywhere} grudge responses to any event). Full people holding a grudge: ${grudges.length}, of which ${againstPeople.length} name a living person. Records: ${sample(againstPeople.map((row) => `${row.id} (held by ${row.personId} against ${row.targetId}, from ${row.sourceEventId})`))}.`,
+);
+const sinceConfront = confrontations.filter((row) => row.target);
+const fallOuts = sinceConfront.flatMap((row) =>
+  closenessDrops
+    .filter(
+      (drop) =>
+        drop.date === row.date &&
+        [drop.actor, drop.other].sort().join() ===
+          [row.actor, row.target].sort().join(),
+    )
+    .map((drop) => ({ ...row, drop })),
+);
+console.log(
+  `Fall-out (relationships.fall-out read ${probed.fallOut} temperaments in the year, two for each falling-out): ${sinceConfront.length} confrontations by grudge holders, ${fallOuts.length} cost a tie its closeness. Records: ${sample(fallOuts.map((row) => `${row.id} -> relationship ${row.drop.relationshipId} ${row.drop.before.toFixed(3)} to ${row.drop.after.toFixed(3)}`))}.`,
+);
+console.log(
+  `Personality (drives.respond): temperament turned ${probed.respond.turned} of ${probed.respond.calls} responses (${pct(probed.respond.turned, probed.respond.calls)}); ${probed.respond.drive} formed a drive. Trait effect checked against: agreeableness r = ${forgiveness.dispositional.find((row) => row.id === "agreeableness")!.weightedMeanR} with forgiving one offender (Fehr and others 2010), so low agreeableness leans toward the grudge.`,
 );
 console.log(
   `Perception channels: no convertible source; ${report.perceived ?? 0} perceptions weighed in the year.`,

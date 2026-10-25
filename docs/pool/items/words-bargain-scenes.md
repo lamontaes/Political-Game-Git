@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5949
 blocked-on:
 after: words-scenes-fire-in-play
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The owner, Oct 24: passing along his bargaining votes and comments, make it happen, at least behind the scenes; the code is already there. The legislature already records a vote trade (bill-amendment, kind trade-amendment) when a sponsor gives a holdout a section for their vote, but the director sized no moment from it and the vote-asked and section-bargain scene types waited on producers that never came. This item sizes the record, fires both scenes from it with the right cast, stages them in the chamber the record names and gives their talk the bill and section.
@@ -22,3 +23,7 @@ source: added with npm run pool -- add
 **Files.** src/director/data/situation-types.json, src/director/data/director.json, src/director/scheduling.ts, src/director/purpose-scene.ts, src/core2/modules/legislature.ts, src/director/bargain-scenes.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5949 (branch words/bargain-scenes): new bargain-scenes.test.ts:14 and carried purpose-scene.ts:2 / purpose-scenes.test.ts:22 embed dated owner instructions forbidden by the merger morning check; retain the quotes in docs and remove the dated source notes; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5949 (branch words/bargain-scenes): dated-owner-note repair accepted, but corrective 0c03e8a017 explicitly carries substantive parent features #5914 and #5942, both checked live open/unmerged; wait for their reviewed main delivery rather than merging them through this later scene PR, then finish on this branch, merge main into it first. No completed local gate or new runtime defect claimed.

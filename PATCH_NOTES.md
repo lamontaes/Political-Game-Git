@@ -296,6 +296,663 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.28.0
+
+_Released October 25, 2026._
+
+### Improved
+
+- **State and federal officials have a full personality, like the people of your
+  town.** Every governor, legislator and member of Congress now has a level on
+  every personality trait, drawn the way a resident's is, and still leans more
+  outgoing, dutiful and driven than the average person. Their personality now
+  weighs in their choices as fully as a neighbor's does in theirs, where before
+  most of it was missing.
+
+### Fixed
+
+- **A resident you meet keeps the years they have worked their job** When the
+  game fills in a resident from the wider population, they keep the time they
+  have held their job, so an employer no longer treats them as its newest hire
+  when it lets workers go or gives raises.
+
+- **News's jobs line counts your own town.** The "Jobs here" line in News now
+  counts the people of your town who are at work, including those who work
+  outside it, and those looking for work, and the openings its own employers
+  have posted. It used to add every job held by an official or other named
+  person anywhere in the country, so a town of 2,570 showed 2,036 employed.
+
+- **The creator lists every town in a state** Choosing where you are from now
+  lists every town in the state, not the first 400. Each town shows its
+  population, marked "about" where the records hold no count, and towns that
+  share a name show their county.
+
+- **State laws passed in 2025 take effect the set time after the session ends.**
+  In the 18 places whose new laws take effect a set time after the legislature
+  adjourns, a law passed in 2025 counted that time from the day it passed,
+  because the game had no 2025 adjournment dates. It now counts from each
+  legislature's real 2025 adjournment. An act passed in a special session counts
+  from that session's end. Where a place has none, it counts from the end its
+  law sets, or from a labeled estimate.
+
+- **An employer can raise the pay on a job nobody takes** An employer reading
+  whether it can afford to raise an unfilled job's pay no longer counts its
+  wages and compliance costs twice, so a business with money left after its
+  month's costs can offer more for a job that has gone unfilled, as intended.
+
+## PRE-ALPHA 0.27.0
+
+_Released October 25, 2026._
+
+### Added
+
+- **A vote trade is a scene for both legislators** When a bill's sponsor wins a
+  holdout's vote by adding a section the holdout wants, the holdout is asked for
+  their vote by the sponsor, and the sponsor bargains with the holdout over the
+  section. Both scenes name the bill and the section from the trade's own record
+  and are staged in the chamber it was made in.
+
+- **A bill on your desk is a scene** When a bill the council or legislature
+  passed is presented to you as mayor, county executive, governor or president,
+  an aide you hired brings it to you to sign or veto. A mayor or county
+  executive with no aide gets it from the town's or county's clerk. The
+  presentment is on the record, and the scene names the bill as a clerk reads it
+  ("Ordinance 2025-1").
+
+### Improved
+
+- **Pay and payroll laws reach workers** When a minimum wage, a union law or a
+  payroll tax changes, the game now names the workers, worker groups and
+  employers it reached and how much money moved. A minimum wage raise names each
+  worker it raised and the act that set the wage, and the raise-the-minimum-wage
+  question raises pay. A town's low-wage job count now follows its minimum wage.
+  A household's income now counts the unemployment benefit it is owed, so the
+  poverty rate falls while a claim pays.
+
+- **Babies born in town take after their parents.** A baby born to a family you
+  have not met yet now inherits its temperament from its parents, the same way a
+  baby in a family you know does. Meet the family later and the child resembles
+  them.
+
+- **People answer a death in the family, and a layoff, the way research says
+  people do** About two in three people carry on after a death in the family, as
+  grief research finds; the rest take up a cause, resolve to protect their
+  family or answer a calling. A worker who is laid off can now hold a grudge
+  against the person who let them go, and may confront them, which costs the two
+  of them their closeness. Whether a person carries on or holds on still follows
+  their own temperament: agreeable people let it go, and people who hold on to a
+  quarrel do not.
+
+### Fixed
+
+- **A state that adopts a death tax by setting only a rate no longer stops the
+  year** When a state with no estate or inheritance tax adopts one by a bill
+  that sets only a rate, the next estate pays that rate on the whole amount
+  instead of the year stopping.
+
+### Changed
+
+- **Sitting officials decide whether to run again** A serving official now
+  decides whether to run again by their age and temperament in every played
+  world, including a member a special election seated. A newcomer's case for
+  running no longer carries a bonus for holding the seat, and its personality
+  weight is refitted among newcomers.
+
+- **Endorsements weigh temperament at the size research finds** Whether a
+  resident publicly backs a candidate now turns on their temperament at the size
+  a study of political persuasion finds, rather than at a general size that made
+  temperament decide most endorsements. Wills and trusts now read their own
+  temperament weight, unchanged for now.
+
+## PRE-ALPHA 0.26.2
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **A town's radio station or paper no longer runs out of money when its
+  reporter works every scheduled day.** An outlet's cost, which its wider
+  audience helps pay, was counted at a 40-hour week for each of its people, so a
+  reporter scheduled longer cost more than it took in and a station could close.
+  Its cost now follows its own staff's scheduled hours.
+
+## PRE-ALPHA 0.26.1
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Desktop packaging has room to build the full word pack** The desktop package
+  build now gives its typecheck the same 5 GB Node heap as release validation.
+  With 4 GB it ran out of memory on macOS and Windows, so no desktop update
+  could be published.
+
+## PRE-ALPHA 0.26.0
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Gun laws change how many people die of firearm homicide, and violent crime
+  no longer feeds on itself** When a state adopts stand-your-ground or requires
+  a permit to carry a concealed gun, the town's firearm homicides follow. The
+  people you meet and the wider population both die of firearm homicide more or
+  less often, at every age, as the research on those laws finds, and the cause
+  recorded for each death follows. A town's robberies and assaults no longer
+  climb month after month on their own. They used to be scaled by an index made
+  of themselves, so any rise counted twice and grew without end; burglary and
+  vandalism still rise with the town's violent crime.
+
+## PRE-ALPHA 0.25.0
+
+_Released October 25, 2026._
+
+### Added
+
+- **Your family reacts when you file for office, and when the votes are
+  counted** The day you file to run for office, someone at home is waiting for
+  you: a partner who asks "So you're really doing this?", a parent who wants to
+  know why you didn't tell them. You answer from a set of replies, and each one
+  takes the talk somewhere different. The night your race is counted, your
+  household meets you with the win or the loss. These scenes come from the
+  filing and the count themselves, so they happen to anyone who runs. What you
+  say is kept: the time you spend talking it through counts toward how close you
+  are.
+
+### Improved
+
+- **Jobless neighbors apply for work by how long their savings last** People
+  without work now press harder to apply when their household's money is running
+  out and take their time when it will last, so job seekers in a town no longer
+  all act alike.
+
+### Fixed
+
+- **The federal share of Medicaid reaches the people it covers** Where Medicaid
+  expansion is law, the federal government's share of each covered adult's care
+  is now paid every month alongside the state's. The federal treasury borrows
+  for the program payments falling due in the month, not only for its budget
+  lines, so it no longer runs dry before they come due.
+
+### Changed
+
+- **New standing people, and the creator dresses you in them** Everyone you meet
+  is now drawn from a new set of standing figures, in everyday clothes, work
+  clothes or a blazer depending on who they are and where. The old figures, some
+  caught mid-gesture with their arms out, are gone. The character creator now
+  offers the same figures the game draws, chosen by build and clothes, and the
+  look you pick is the one you wear in every room.
+
+- **Big towns open at their real Census size.** A town of more than 10,000
+  people now opens at its real Census size: the people you meet are drawn from a
+  10,000-person sample, and every count in town (jobs, homes, voters, money) is
+  scaled to the real population. A game year in the largest towns takes about as
+  long as before: measured on one machine, Washington, D.C. about 17 percent
+  less and New York about 11 percent more, and the two-minute year for the
+  largest town is still open.
+
+## PRE-ALPHA 0.24.3
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Schooling now affects the pay you are hired at** Adults with more schooling
+  are now hired at somewhat higher pay than adults with less for the same job,
+  and a job offer shows the pay that person would actually get. A teenager who
+  finishes high school is hired at a diploma's pay, and one who does not is paid
+  as a worker without one, so a town that raises its graduation rate sees it in
+  its households' pay.
+
+## PRE-ALPHA 0.24.2
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Every family weighs private school the same way** In the town's yearly
+  private-school enrollment, families you have not met are now ranked with the
+  ones you have, by what they hold per child. The best-off enroll until the
+  town's private share is reached, and their tuition goes to the school.
+
+- **Estimated travel to an abortion provider follows where people live** When
+  someone in town has an unplanned pregnancy, the distance to the nearest
+  abortion provider now comes from where they live, before and after a
+  restriction there, for all 56 places. The trip's cost, which their household
+  pays, and whether they carry or end the pregnancy both follow from that
+  distance.
+
+- **Some pregnancies in town are unplanned, and each woman decides from her own
+  life and the law where she lives** People in town now sometimes have an
+  unplanned pregnancy. Whether she carries it or ends it comes from her own
+  health, money, household and views and from the law in force where she lives;
+  when she ends it, her household pays the trip, and a carried one becomes a
+  birth in the family.
+
+## PRE-ALPHA 0.24.1
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Election and government laws reach people and cost money** Mail voting,
+  automatic registration, same-day registration and photo ID now reach every
+  voter in town, named or counted, and the county or city that runs the election
+  pays for ballots, registrations and IDs out of its administration budget. A
+  treasury short of cash owes the rest and pays it as cash arrives, even after
+  the law is repealed. When a council raises a staffing line (administration,
+  police, fire, jail, schools), the employer posts the new jobs and any job
+  seeker in town can be hired, and a cut lets the line's own hires go first.
+  Local news now covers a budget line a council changes. A ban on lobbying after
+  office keeps former officials from being hired as lobbyists and makes a
+  council seat a little less attractive to newcomers. Term limits are applied
+  when someone files, home rule when a council drafts a bill, and a state with
+  an independent redistricting commission pays it every month. A public pay
+  floor raises every public worker in town paid under it, and payroll pays them
+  the raised rate; repealing it keeps the raises.
+
+### Fixed
+
+- **A town no longer stops when a resident goes to an office whose clerk has
+  just left.** A resident who planned to bring their cause to a public office no
+  longer stops the town's day if the office's only staff member left the job
+  before the visit. The visit is called off, and the resident can plan another.
+
+- **Release validation has room to check the full word pack** Release validation
+  now gives its existing build and typecheck a 5 GB Node heap. The full word
+  pack exceeded Node's default 4 GB heap, stopping candidate validation before
+  an update could be published.
+
+### Changed
+
+- **Rival candidates campaign through the same choices you do.** A rival's
+  campaign day is now a choice among the same acts your day offers (call time,
+  doors, an event, an interview), by their money, how well known they are,
+  whether they hold the seat and their temperament: a rich candidate holds
+  events and buys ads, a poor one works calls and doors, a known incumbent sits
+  for the press, and an unknown one builds a name on doors.
+
+- **Scenes with a purpose sound like real people and keep moving** A reporter
+  changes the angle instead of repeating the question; a vote counter asks what
+  would change your mind; a volunteer opens with something from the rally and
+  your character answers first. After the first exchange the replies offer new
+  moves, including a way out, and a lie can be owned with an edge. Every branch
+  of a scene ends with the other person's closing line, never on an unanswered
+  question. The lines are calibrated on real interviews, oral histories and
+  casework reports, studied, not copied. People say "have to", not "must"; a
+  complaint says why the change hurts; a good argument keeps going instead of
+  ending on a jab; and someone can storm off, told as a reaction rather than a
+  "Good night." Filing for office happens at the place's own filing office,
+  where the clerk mentions the rival who filed first. A friend who comes by
+  after a baby is born asks how you're actually doing. An officeholder's own
+  records now bring scenes: signing or vetoing a bill brings the reporters who
+  cover it and the aide who carried it to the desk, the sponsor hears from the
+  executive who signed or vetoed, a town hall puts the residents who asked in
+  front of its host, and a town post's appointer tells the appointee. Five bills
+  signed in one afternoon are one press availability, not five. The narrator
+  speaks between lines ("A second reporter drifts over, then a third."), and
+  someone who keeps to themself skips the hello and says why they came. The
+  director can compose the President's address as a scene at the seat of
+  government, with the speech the English engine wrote. Some scene endings name
+  a destination screen: the desk, the filing office, your office, the meeting or
+  the campaign. Showing those exchanges and speech fields and opening their
+  destinations on the play screen require a separate play-screen integration. A
+  remark at a council meeting is no longer mistaken for a campaign event, and an
+  aide bringing a bill to the desk talks about what it costs and who voted for
+  it instead of inventing changes nobody made.
+
+## PRE-ALPHA 0.24.0
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Government charges and fees record their payers separately from the outside
+  revenue lump** A government's charges and fees are now paid by named payers
+  (the town's households and the people elsewhere who use its services) instead
+  of riding the monthly outside lump; the amounts each treasury receives are the
+  same.
+
+- **A law that raises the full retirement age now keeps more people from 62 to
+  66 at work.** Raising the age for full Social Security benefits used to change
+  nothing about who works. Now people from 62 to 66 weigh it when they decide
+  whether to retire or look for work, and a two-year rise keeps about a tenth
+  more of them on the job, as the research finds. Nothing changes while no such
+  law is in force.
+
+- **New Jersey no longer starts with a local sales tax below zero** New Jersey
+  levies no general local sales tax, but its starting law carried an average
+  local rate below zero, taken from a table that folds Salem County's and the
+  Urban Enterprise Zones' half state rate into it. New Jersey now has no local
+  rate, like the other states without local sales taxes, and its sales carry the
+  state rate.
+
+### Changed
+
+- **All the dialogue is in the game, and only the lines you rejected stay out**
+  Scenes, conversations, the journal and the news now use every line the English
+  engine has, not only the few that were graded. People with a reason to talk to
+  you say it in ordinary play, and the campaign speech screen offers its four
+  choices at every stage again. A line you graded bad is left out everywhere at
+  once, and each new round of grades reaches the whole game.
+
+## PRE-ALPHA 0.23.5
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A town's clerk now shows up on the town office's staff, and a newly hired
+  clerk replaces one who left.** Towns record their government under the
+  municipal-government classification, which the public-office list did not
+  recognize, so a town's clerk was left off the office staff while a county's
+  clerk was listed. The town office is now built from the same recorded
+  government facts as the county office, with its clerk on the staff. An
+  office's staff now follow its jobs: a clerk hired during play joins the list
+  and one who leaves comes off it.
+
+- **A business short of cash on payday now draws its credit line to pay its
+  workers.** An employer with an approved credit line now draws on it when its
+  cash runs short on payday, instead of leaving its workers' pay unpaid. A
+  business with credit room no longer piles up unpaid wages and closes over
+  them.
+
+- **Households in the wider population now carry living costs they could not
+  pay.** A group of counted households that cannot pay its living cost on the
+  first of the month is asked again each day until money arrives, as a full
+  household already is.
+
+## PRE-ALPHA 0.23.4
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A retiree in the town's wider population takes their Social Security with
+  them when they move away** When a household from the town's wider population
+  moved away, a Social Security award one of its members had claimed during play
+  kept paying into the town they left. It now ends the day they leave.
+
+## PRE-ALPHA 0.23.3
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A town's year no longer stops when you meet a new firm's worker** A year no
+  longer stops partway when you meet someone a newly founded business hired, as
+  it did in Long Hill, Connecticut in October. Their paycheck now comes on their
+  own employer's payday.
+
+## PRE-ALPHA 0.23.2
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A governor who takes office mid-year starts the job the next office day**
+  When a governor left office during the year, the successor could sit in the
+  seat as a name only until some other part of the game happened to look at the
+  seat: weeks, or in Guam five months, with no clemency petitions taken up. Now
+  the successor becomes a full person on the governor's next office day and
+  takes up the weekly petitions from then on.
+
+## PRE-ALPHA 0.23.1
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Bail posted by the town's wider population is held by the court and
+  returned** When people in the town's wider population are charged and post
+  bail, the money now leaves their households' funds for the county court's
+  escrow and comes back when the case closes, as it already did for the people
+  you meet.
+
+- **An office created after the opening has no holder before its first term** An
+  office its law creates after the game opens, such as a new lieutenant
+  governor, has no holder until its first term. Its first election fills it, and
+  if nobody wins, the office's vacancy rule does.
+
+## PRE-ALPHA 0.23.0
+
+_Released October 24, 2026._
+
+### Added
+
+- **Townspeople you haven't met react when serious illness strikes their home**
+  When someone in town falls seriously ill, they and the family they live with
+  now take it in as the people you know do: most carry on, and some take up a
+  cause, such as fighting that illness. If you meet one of them later, they
+  already carry that cause.
+
+### Improved
+
+- **Dev mode can follow two residents and show why each made the same choice
+  differently** In dev mode you can follow a resident and then read each
+  decision they made, with every option offered and the reasons behind each, the
+  trait reason first.
+
+- **Island towns open with their own employment by age** Towns in Guam, American
+  Samoa, the Northern Mariana Islands and the U.S. Virgin Islands now open with
+  the share of each age group at work that the 2020 Census recorded for their
+  island, instead of a stateside average.
+
+- **People you deal with keep why they said yes or no** When the player or
+  someone they deal with weighs a yes-or-no choice, such as opening the door to
+  a canvasser or giving to a campaign, the game now keeps a record of the
+  reasons, including their temperament, whether they said yes or no. A played
+  year shows two residents with opposite temperaments, in the same situation,
+  giving opposite reasons at the same decisions and ending the year with
+  different friendships, money, civic acts and moods.
+
+- **Reading that the town's rent, jobs or crime changed firms up people's
+  views** When the local paper reports that rent rose, unemployment rose or
+  crime rose, the people who read it lean a little harder toward the side they
+  already took: on rent stabilization for rent, on spending for the jobless for
+  unemployment, and on police spending for crime. Only readers move, each by how
+  far they trust the reporter, and each remembers which story moved them, so
+  they can bring it up later.
+
+- **A household that is burglarized, robbed or assaulted feels it in its views**
+  When someone's home is broken into, or they are robbed or assaulted, they lean
+  a little harder toward the side they already took on police spending, the way
+  a reader of a story about crime does. Only the people it happened to move, and
+  each one's view remembers the break-in that moved it.
+
+- **Conversations drop the lines that read wrong, and keep the ones that
+  landed** People no longer open a talk with "Do you remember" and the name of
+  your old school, or close one with "Talk to you soon." The President's address
+  says "Thank you very much" rather than "Thank you so much." The lines that
+  read best in review, such as "You'll need friends after this vote. I won't be
+  one.", are ready for the scenes where colleagues ask for your vote.
+
+### Fixed
+
+- **Unincorporated towns with a county office can be played** A new game in an
+  unincorporated town whose county runs an office there (Bayou Blue, Louisiana
+  and its parish's public works department) no longer stops while the town is
+  being built.
+
+- **People vote at their town hall** A town's polling places are now in its own
+  government's building. Before, the lookup looked for a kind of record the game
+  never writes, so every precinct voted at a polling place with no building,
+  even in towns with a town government on record.
+
+- **Someone who decides to run for office stays in the race until filing day** A
+  resident who decided early in the year to run for a local seat could drift
+  back into the town's counts before the filing day came, and then never filed:
+  in one Puerto Rico town, ten people who meant to run never reached the ballot.
+  Someone who has decided to run now stays a full person until their race is
+  decided, and anyone who still cannot file on the day is recorded as refused,
+  with the rules they no longer meet.
+
+- **No official at the opening was first seated under the minimum age** An
+  official holding a seat when the game opens no longer has a term that began
+  before they were old enough to serve. A county board member born in 2001, for
+  one, was shown as elected in 2020 to a six-year term; a holder too young to
+  have begun the current term that far back now took the seat when the game
+  opens.
+
+- **No official started serving below the minimum age** An official too young
+  for the office when its current term began now came to the seat partway
+  through the term, on the day they reached the minimum age, instead of
+  appearing to have served from age 20.
+
+- **Territory workers are no longer taxed twice after their legislature changes
+  the income tax** Workers in a U.S. territory pay the territory's own income
+  tax in place of the federal one. When the territory's legislature changed its
+  income tax, for one a flat tax in place of the graduated one, paychecks there
+  started withholding the federal income tax as well. Now the territory's tax
+  still stands in place of the federal one, whatever rate its legislature sets.
+
+- **Couples without savings or steady income have fewer babies** Couples weigh
+  their money more when deciding whether to have a child: a couple with no
+  savings or no job now leans against it, and living together no longer counts
+  in favor of every couple. The savings and partnership terms now weigh the
+  couple's circumstances rather than always adding a push toward having a child.
+
+- **Fewer laid-off workers set out to prove themselves** When a business closes,
+  fewer of its workers set out to prove themselves (retraining or a business of
+  their own): about one in six instead of nearly one in three, back inside what
+  studies of displaced workers find. Most carry on.
+
+- **The filing counter reads clearly** At the filing office the overlay names
+  each rule in words (Filing deadline, Filed before, Age, Residency) instead of
+  its record id, no longer lists the deadline twice, fits the screen with its
+  platform questions scrolling inside it, and is no longer covered by the news
+  card. Two offices with the same title now read differently: by the year of
+  their election (U.S. Senator (2026) and U.S. Senator (2030)), and seats
+  elected at large on the same day by their place in the list.
+
+- **Campaigns reach people in small towns** Campaigns reach people in small
+  towns: a candidate who is least inclined to campaign still walks half the base
+  door hours instead of none, and a campaign's door list starts with the
+  households of its oldest residents, who answer a knock most, so a few dozen
+  doors in a small town reach someone.
+
+- **Retirees back in the wider population are paid as counted** A retiree whose
+  household has gone back into the town's wider population after a long while
+  out of the player's life no longer has their Social Security award paid to
+  them as if they were still a full person. Their award, whether claimed before
+  or after they went back, is paid into their neighborhood's pooled income, and
+  it is paid to them again once the player meets them.
+
+- **A household back in the counts brings its commuter's place among the town's
+  unplaced workers** When a household the player had lost touch with went back
+  to the town's counts, its commuter's pay went back to the town's pool of
+  unplaced workers, but the commuter often did not: the household was counted
+  with no unplaced workers, so meeting it again found no one to take an outside
+  job. It now counts as many unplaced workers as the pay it brought back, at the
+  town's pay per unplaced worker.
+
+- **The paper's archive again says when each law took effect.** The stories from
+  the year before day one about a law taking effect or becoming law were left
+  without words once hand-written lines started waiting for grading. They now
+  use sentences from the Federal Register, so the archive names the law and the
+  day it took effect or became law.
+
+- **A year no longer stops when a homeless household's last living member had
+  already left it.** A household without a home that gets back on its feet is
+  rehoused only from the members who are alive and still in it, so a year no
+  longer stops on a lease with nobody to pay it.
+
+- **A household met again after returning to the counts no longer stops the
+  year** A household the player has lost touch with returns to the town's
+  counts. If one of its members had a serious illness due and died after the
+  household returned, meeting the household again (to hire a staffer from it, or
+  when it inherited) stopped the year. Now a person back in the counts is
+  counted: the counts decide their illness and death, their record follows, and
+  meeting the household again brings back only its living members.
+
+### Changed
+
+- **Later years of a town run faster.** Someone with a cause now chooses whom to
+  visit from the week's shortlist of the people they have drifted furthest from,
+  instead of weighing everyone they know every day, so a town's later years slow
+  down less as its activists make more friends.
+
+- **A town's paper is paid by its readers and by the businesses that advertise
+  in it.** A local paper's readers now pay its subscription out of their
+  household's living costs, and the town's businesses buy ads from their own
+  costs, less when they are short of cash. Stations and the paper split the ad
+  money by how many people follow each, so an outlet's revenue rises and falls
+  with its audience. Where a small town's readers and advertisers pay less than
+  its staff cost, the outlet's wider audience still covers the rest.
+
+- **Local recalls now follow twelve more places' own filing dates, seven of them
+  closely estimated.** In twelve more places, a petition to recall a council
+  member or mayor now waits for the dates that place's own law sets, instead of
+  one national rule that no recall may start in a term's first six months. Five
+  of these dates are read straight from the law. Seven are close estimates. In
+  Florida the law waits for a quarter of the term, and the game waits a few
+  months too long when a term is three years. In North Dakota and Washington the
+  law counts from an election. In Louisiana, Montana, Nebraska and Nevada the
+  law counts in months, and the game counts a fixed number of days, which can be
+  off by a day or two. Nebraska's bar in the months before the incumbent filing
+  deadline is not applied yet.
+
+- **Evictions follow more places' own law, and one more territory's home prices
+  follow its own price index.** In 21 more states and territories, the eviction
+  notice, the right to pay what is owed and stay, the wait for a hearing and the
+  days before removal now come from that place's own statute, so a renter behind
+  on rent gets about the time to pay the law there gives, or none where the law
+  gives none. The game counts every period in calendar days, so where a statute
+  counts business days, court days or days without Sundays and holidays (ten of
+  the new readings) the game's period is a little shorter than the law's. Puerto
+  Rico's home prices now follow its own house price index instead of general
+  prices.
+
+- **The President's opening address is different in every world** The address
+  that opens the game now speaks in the President's own voice. A combative
+  President leans on urgent, fighting lines and a warm one on hopeful and
+  consoling ones, drawn from their recorded personality. The address also asks
+  Congress and the states for what that President actually wants, from their own
+  views and signature issues, so two worlds open with two different speeches.
+
+## PRE-ALPHA 0.22.11
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Playing an aide, the game no longer stops on the day your official lets you
+  go.** When the official you work for reviews your attendance and lets you go
+  after you have already put in that day's shift, the job now ends the next
+  morning before any more work, and the post is filled again. Before, the game
+  stopped that evening and could not go on.
+
+### Changed
+
+- **More places now follow their own election law for filing and ballot order.**
+  Town races in Guam and Puerto Rico now close filing on the date each place's
+  election law sets instead of an estimate, and New York's party date is read
+  from its law (independents' later window is not yet wired, so New York stays
+  an estimate). Candidates for the U.S. House no longer have to be registered
+  voters to file, as the Constitution asks only age, citizenship and residence.
+  In the Virgin Islands and the Northern Mariana Islands, candidates' places on
+  the ballot are now drawn by lot, as their election offices do. Vermont's
+  legislature takes candidates from age 18.
+
+- **Governors and legislators start their terms on the day their state's
+  constitution or law sets.** Every state and territory now starts a new
+  governor's term, and a new legislator's, on the day its own constitution or
+  election law names: the first Monday in December for California's legislature,
+  the fifth Tuesday after the vote for Kentucky's governor (Florida's, Hawaii's
+  and Tennessee's legislatures start on election day itself, which the game
+  still sets a day late). Before, every legislator and the governors of 24
+  places started on January 1. The party of 60 statewide officials at the start
+  was checked against their offices' pages: Guam's attorney general is now
+  elected without a party label, the Northern Mariana Islands' lieutenant
+  governor at the start is an independent, and the Virgin Islands' boards of
+  education and elections carry party labels.
+
+- **People you meet on a trip to another town now have an age, job and wage that
+  town's workforce shows** A person a president or member of Congress meets on a
+  trip to another town is now drawn from that town's own workforce: an age from
+  its county's employed by age, a job from its industry mix, and the wage that
+  job pays there.
+
 ## PRE-ALPHA 0.22.10
 
 _Released October 24, 2026._
