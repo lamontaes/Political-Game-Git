@@ -551,6 +551,13 @@ function townLevel(
  * independent redistricting commission draws a state's lines (a town draws
  * only its own ward lines, and most towns have none).
  */
+/**
+ * `--at <level>` enacts every law of the run at that level: a law a town
+ * cannot pass where it is drawn (a state's own minimum wage question, where
+ * the state preempts local wages) is enacted where it can be. The general
+ * rule is `laws-checker-enacts-where-no-power`.
+ */
+const AT = arg("at");
 const ENACT_AT: Readonly<Record<string, readonly string[]>> = {
   "us-policy-positions:government-operations.independent-redistricting": [
     "state",
@@ -615,7 +622,10 @@ function setQuestion(
     }
     return `repealed at ${levels.join(", ") || "no level"} effective ${date}`;
   }
-  const at = townLevel(api, ENACT_AT[law.key] ?? law.catalog?.levels ?? null);
+  const at = townLevel(
+    api,
+    AT ? [AT] : (ENACT_AT[law.key] ?? law.catalog?.levels ?? null),
+  );
   if (!at) return "no level of the town's chain may enact it";
   const row = enactLaw(api, {
     ...at,
@@ -729,7 +739,7 @@ function changeAmount(
   const g = now.governing as LawRowInput | null | undefined;
   const at = g
     ? { level: g.level, jurisdiction: g.jurisdiction }
-    : townLevel(api, law.catalog?.levels ?? null);
+    : townLevel(api, AT ? [AT] : (law.catalog?.levels ?? null));
   if (!at)
     return {
       lawIds: ids,
