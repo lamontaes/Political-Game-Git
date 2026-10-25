@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+after: traits-decisions-never-run
 source: Merger 2 Done-when review of PR #5886
 ---
 

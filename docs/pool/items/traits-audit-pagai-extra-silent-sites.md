@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+after: traits-decisions-never-run
 source: Merger 2 independent audit of PR #5886, October 25
 ---
 
