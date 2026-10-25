@@ -4,10 +4,12 @@
 // gets (`buildBenchWorld`, every module) and plays a year with the ordinary
 // producers (nothing is injected), keeping every response the drives engine
 // records to a job loss, an eviction or a closure. Then:
-// (1) job losses or closures happened and were answered; a kind that never
-//     happened in the year (often evictions in a small town) is named in the
-//     output as not exercised, and the clauses below hold for every event
-//     that did happen;
+// (1) job losses or closures happened, and every event the producers emitted
+//     that named someone was answered. Whether a kind happened is read from
+//     the producers' own events, never from the responses: a kind no producer
+//     emitted in the year (often evictions in a small town) is named in the
+//     output as not exercised; one that happened but lost its responses fails,
+//     and an event that named no one is listed by its id;
 // (2) displaced workers (job losses and closures) take up an ambition at the
 //     displaced-worker rate and most carry on, the band the engine's own test
 //     uses (data/research/drives/economic-losses.json: retraining 10 to 16
@@ -17,7 +19,8 @@
 //     (src/bench/m1-11-named.ts);
 // (4) every drive formed from these events that aims at someone aims at the
 //     party the event names as responsible, and that party is a record.
-// Exits nonzero naming each failed clause.
+// Exits nonzero naming each failed clause. M1_11_DROP_RESPONSES_OF=<kind>
+// drops that kind's responses as they are recorded, to show the check fails.
 // Usage: node --max-old-space-size=8192 --import tsx src/bench/m1-11-check.ts
 import { buildBenchWorld } from "./world";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -30,7 +33,9 @@ import {
   type FormationTrace,
 } from "../core2/modules/drives";
 import { residentsRuntime } from "../core2/modules/residents";
+import { coreAPI } from "../core2/state";
 import { answeredByNamed } from "./m1-11-named";
+import { occurrence, type OccurredEvent } from "./m1-11-occurred";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m1-11-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
@@ -68,11 +73,36 @@ const closureWorkers = (eventId: string) => {
     return personId ? [personId] : [];
   });
 };
+const { factKeys: driveFacts } = DEFAULT_DRIVES_DATA as unknown as {
+  factKeys: { countedSubject: string; countedPerceivers: string };
+};
+// Every event of these kinds the producers emit, with the people it named
+// then: full people, and the counted people its records name (its counted
+// subject and perceivers, and the counted workers a closure ended).
+const occurred: OccurredEvent[] = [];
+coreAPI(core).subscribeEvents("m1-11-check", [...KINDS], (_api, event) => {
+  const facts = (event.facts ?? {}) as Record<string, string | undefined>;
+  const perceivers = facts[driveFacts.countedPerceivers];
+  const counted = [
+    facts[driveFacts.countedSubject],
+    ...(perceivers ? (JSON.parse(perceivers) as string[]) : []),
+  ].filter((id): id is string => !!id);
+  occurred.push({
+    id: event.id,
+    kind: event.kind,
+    named: [
+      ...(event.personIds ?? []).filter((id) => core.people.has(id as never)),
+      ...counted,
+      ...(event.kind === "organization.closed" ? closureWorkers(event.id) : []),
+    ],
+  });
+});
+const dropped = process.env.M1_11_DROP_RESPONSES_OF;
 const kept = drivesReport(core).decisions;
 const push = kept.push.bind(kept);
 kept.push = (...rows: FormationTrace[]) => {
   for (const row of rows) {
-    if (!KINDS.has(row.eventKind)) continue;
+    if (!KINDS.has(row.eventKind) || row.eventKind === dropped) continue;
     answers.push(row);
     if (
       row.eventKind === "organization.closed" &&
@@ -92,17 +122,32 @@ for (const row of answers)
 const byKind = (kind: string) =>
   [...events.values()].filter((e) => e.kind === kind).length;
 const losses = answers.filter((row) => LOSS.has(row.eventKind));
-// A kind that never happened in this town's year is named, not failed: a
-// small town can go a year without an eviction, and the clauses below hold
-// for every event that did happen. A year with no job loss or closure at
-// all checks nothing, so it fails.
-const notExercised = [...KINDS].filter(
-  (kind) => !answers.some((row) => row.eventKind === kind),
+// Read from the producers' events: a kind that never happened in this town's
+// year is named, not failed (a small town can go a year without an
+// eviction); an event that happened and named someone must have been
+// answered. A year with no job loss or closure at all checks nothing, so it
+// fails.
+const report = occurrence(
+  KINDS,
+  occurred,
+  new Set(answers.map((row) => row.eventId)),
 );
+const { notExercised } = report;
 check(
-  answers.some((row) => LOSS.has(row.eventKind)),
-  `${where}: no job loss or closure was answered in a year, so the check ran on nothing`,
+  occurred.some((event) => LOSS.has(event.kind)) &&
+    answers.some((row) => LOSS.has(row.eventKind)),
+  `${where}: no job loss or closure happened and was answered in a year, so the check ran on nothing`,
 );
+for (const kind of KINDS) {
+  const lost = report.unanswered.filter((event) => event.kind === kind);
+  check(
+    lost.length === 0,
+    `${where}: ${lost.length} ${kind} events named someone and drew no response (${lost
+      .slice(0, 3)
+      .map((event) => event.id)
+      .join(", ")})`,
+  );
+}
 
 // (2) The displaced-worker rate.
 const share = (id: string) =>
@@ -137,9 +182,6 @@ for (const link of core.familyLinks.values()) {
   kin.set(a, (kin.get(a) ?? new Set()).add(b));
   kin.set(b, (kin.get(b) ?? new Set()).add(a));
 }
-const { factKeys: driveFacts } = DEFAULT_DRIVES_DATA as unknown as {
-  factKeys: { countedSubject: string; countedPerceivers: string };
-};
 const lookups = {
   householdOf: (id: string) =>
     core.people.get(id as never)?.householdId ??
@@ -227,6 +269,8 @@ console.log(
         evictions: byKind("housing.eviction"),
       },
       notExercised,
+      occurred: occurred.length,
+      namedNoOne: report.namedNoOne.slice(0, 5).map((event) => event.id),
       answers: answers.length,
       countedAnswers: answers.filter((row) => row.counted).length,
       countedSample: answers
