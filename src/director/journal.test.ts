@@ -297,9 +297,17 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       row.lines.map((line) => line.text),
     );
     // A death in the family is a hard time; running begins with deciding to.
-    expect(text.some((line) => /^My \w+ (died|passed away)\./.test(line))).toBe(
-      true,
-    );
+    // The relative is named by relation, or by their given name when another
+    // relative already holds the relation (two sons are not both "my son").
+    const relative = core.people.get(relativeId)!;
+    expect(
+      text.some((line) =>
+        new RegExp(
+          `^(My \\w+|${relative.givenName}) (died|passed away)\\.`,
+        ).test(line),
+      ),
+      text.join(" | "),
+    ).toBe(true);
     expect(
       text.some((line) =>
         /^(I ran for City Council, Seat 2\.|So I ran\.)/.test(line),
@@ -572,22 +580,31 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
   it("never titles a chapter by a school, and remembers a schoolmate who matters later", () => {
     // Owner, Oct 14: school years are not entries unless something happened;
     // a schoolmate who becomes important is remembered as their story.
-    const person = core.people.get(player.id)!;
-    const mate = (person.pastFacts ?? []).find(
-      (fact) =>
-        fact.kind === "social:generated-school-acquaintance" &&
-        fact.facts?.contextFactId &&
-        person.knownIds.has(fact.facts?.otherPersonId ?? ""),
-    )!;
+    // A watched person who remembers a schoolmate: the player, or another
+    // the story follows (a player grown up long since may have none recorded).
+    const remembers = (id: string) =>
+      (core.people.get(id)?.pastFacts ?? []).find(
+        (fact) =>
+          fact.kind === "social:generated-school-acquaintance" &&
+          fact.facts?.contextFactId &&
+          core.people.get(id)!.knownIds.has(fact.facts?.otherPersonId ?? ""),
+      );
+    const holderId = [
+      player.id,
+      ...[...director.ledger.people.keys()].sort(),
+    ].find((id) => remembers(id))!;
+    expect(holderId, "nobody watched remembers a schoolmate").toBeDefined();
+    const person = core.people.get(holderId)!;
+    const mate = remembers(holderId)!;
     const school = (person.pastFacts ?? []).find(
       (fact) => fact.id === mate.facts!.contextFactId,
     )!;
     const moment: Moment = {
-      id: `${player.id}:${school.date}:past:${school.id}:${school.kind}`,
-      personId: player.id,
+      id: `${holderId}:${school.date}:past:${school.id}:${school.kind}`,
+      personId: holderId,
       date: makeIsoDate(school.date),
       label: `past:${school.kind}`,
-      causeId: player.id,
+      causeId: holderId,
       causeFactId: school.id,
       causeKind: school.kind,
       counterpartIds: [],
@@ -597,22 +614,22 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       hindsightAt: makeIsoDate(school.date),
       echoes: [],
     };
-    const book = director.ledger.people.get(player.id)!;
+    const book = director.ledger.people.get(holderId)!;
     const fixture = {
       ...director,
       ledger: {
         ...director.ledger,
-        people: new Map([[player.id, { ...book, moments: [moment] }]]),
+        people: new Map([[holderId, { ...book, moments: [moment] }]]),
       },
     } as Director;
     // Nothing happened there, and nobody from it holds office: no chapter.
     expect(
-      composeJournal(core, fixture, player.id, { officeOf: () => undefined }),
+      composeJournal(core, fixture, holderId, { officeOf: () => undefined }),
     ).toEqual([]);
     // Years later the schoolmate holds office: they are remembered, in a
     // chapter the school does not title.
     const mayor = { text: "Mayor", sourceRecordIds: ["fixture-term"] };
-    const chapters = composeJournal(core, fixture, player.id, {
+    const chapters = composeJournal(core, fixture, holderId, {
       officeOf: (id) => (id === mate.facts!.otherPersonId ? mayor : undefined),
     });
     const schoolName = String(school.facts?.schoolName ?? "");

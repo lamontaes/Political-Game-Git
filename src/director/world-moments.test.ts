@@ -133,7 +133,20 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
             core.people.get(mover)!.familyIds.has(id),
           ),
       );
-      for (const id of relatives) expect(momentsCiting(event.id)).toContain(id);
+      // The relative has the move's moment, or, someone other than the
+      // player keeping only their strongest older moments, its month's
+      // summary of moves (the director's memory, ledger.ts forget).
+      const month = event.date.slice(0, "YYYY-MM".length);
+      for (const id of relatives)
+        expect(
+          momentsCiting(event.id).includes(id) ||
+            [...(director.ledger.people.get(id)?.summaries.keys() ?? [])].some(
+              (key) =>
+                key.startsWith(`${month}|`) &&
+                key.endsWith(`:event:${event.kind}`),
+            ),
+          `${event.id}: ${id}`,
+        ).toBe(true);
     }
   });
 
