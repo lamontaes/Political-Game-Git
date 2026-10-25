@@ -238,6 +238,22 @@ function reportLeaned(
 }
 
 /**
+ * Today's weighed records for one core, by their base id (the day, the
+ * decision, the person): the score last kept and the suffix the next record
+ * takes. A decision weighed again the same day to the same score (a
+ * candidate's party firmness, read for every voter who weighs them) says
+ * nothing new and keeps no second record; a new score takes the next id
+ * without searching the log for a free one.
+ */
+const weighedToday = new WeakMap<
+  CoreState,
+  {
+    date: string;
+    byBase: Map<string, { bare: number; term: number; next: number }>;
+  }
+>();
+
+/**
  * The player and the people in focus keep a record of every two-way decision
  * they weigh, yes or no (why-kept: the player and the people they deal with),
  * as their acts do: the case without personality as the module reason and
@@ -269,8 +285,17 @@ function keepWeighing(
   });
   const yes = bare + term > zero;
   const base = `weighed:${c.date}:${decisionId}:${id}`;
-  let recordId = base;
-  for (let n = 2; c.durableLog.has(recordId); n++) recordId = `${base}:${n}`;
+  let day = weighedToday.get(c);
+  if (day?.date !== c.date) {
+    day = { date: c.date, byBase: new Map() };
+    weighedToday.set(c, day);
+  }
+  const prior = day.byBase.get(base);
+  if (prior && prior.bare === bare && prior.term === term) return;
+  let next = prior?.next ?? parameter("two", c.data.parameters);
+  let recordId = prior ? `${base}:${next++}` : base;
+  while (c.durableLog.has(recordId)) recordId = `${base}:${next++}`;
+  day.byBase.set(base, { bare, term, next });
   retainLog(c, {
     id: recordId,
     date: c.date,
