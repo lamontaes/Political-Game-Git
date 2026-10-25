@@ -350,7 +350,9 @@ function contestFor(
       termEnd,
       onDate,
     });
-  let dates = at(holder?.endDate ?? null);
+  // An office its law creates later is first filled at the last election
+  // before its first term, as a term ending then would be.
+  let dates = at(holder?.endDate ?? office.firstTermStart ?? null);
   // A holder whose seat's election passed with no one elected holds over;
   // the seat's next election comes a full term on.
   if (

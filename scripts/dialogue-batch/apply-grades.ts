@@ -640,9 +640,7 @@ function without(
 export const PARTS_DIR = "data/english/parts";
 
 /**
- * Every bank's part plays unless the owner's grades hold it (owner, Oct 24:
- * "Quit worrying about my grades ... Get the English engine in the game.
- * That should make every single piece of dialogue available."). A grade run
+ * Every bank's part plays unless the owner's grades hold it. A grade run
  * sets the flag across every bank at once, so a batch's grades reach the
  * whole game: a part graded bad or fix stops playing everywhere, and every
  * other part plays.
