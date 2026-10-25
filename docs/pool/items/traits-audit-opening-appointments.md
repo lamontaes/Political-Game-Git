@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-audit-opening-appointments
-pr:
+pr: #6031
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T12:25:13.884Z
