@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/held-first-fix
-pr:
+pr: #6048
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:02:36.920Z
@@ -19,6 +19,6 @@ claimed-at: 2026-10-25T16:02:36.920Z
 
 **Done when.** held-first.test.ts passes on main with assertions that match the Oct 24 rule, each naming the bank part keys it checks, and a break-it shows each assertion failing when the switch is removed.
 
-**Files.** src/director/mined/held-first.test.ts, src/director/mined/scene-bank.ts, src/director/mined/journal-bank.ts
+**Files.** src/english/mined/held-first.test.ts, src/english/mined/scene-bank.ts, src/english/mined/journal-bank.ts
 
 **Notes.** TODO

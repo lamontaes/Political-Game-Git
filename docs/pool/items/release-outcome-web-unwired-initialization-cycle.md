@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/law-reach-money-handlers-lazy
+pr: #6054
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T17:33:39.821Z
 ---
 
 **What.** The ordinary outcome-web unwired generator fails before writing its output on clean main 0c2f781daf. In the cloud on Node 24.19.0, node --import tsx scripts/outcome-web/write-unwired.ts reports Cannot access paidLeave before initialization at src/core2/law-reach/group-a.ts:48. The same error occurs on the main-integrated crime-family PR #5892, so it is a baseline failure.

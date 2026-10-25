@@ -5,9 +5,9 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-bribes-played-measured
-pr:
+pr: #6053
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T15:28:51.689Z
