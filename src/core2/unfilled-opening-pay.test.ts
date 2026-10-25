@@ -37,7 +37,8 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
       });
       const core = world.core;
       const api = coreAPI(core);
-      advanceCore(core, addDays(makeIsoDate(gameStartDate()), 120));
+      // A full played year, so the employer's books are a year's trading.
+      advanceCore(core, addDays(makeIsoDate(gameStartDate()), 365));
       const positions = api.moduleState(JOBS_MODULE_ID).table("positions");
       const rows = positions.rows() as unknown as PositionRow[];
       // An employer with a living owner and a month of trading it can carry a raise from: sales above the month's costs, which already hold its wages and compliance. One whose margin is smaller than its wages comes first, since counting the wages twice would leave it no room at all.
