@@ -1300,14 +1300,16 @@ function wageFloor(api: CoreAPI): number {
   return lawInForce(api, "minimum-wage").value ?? api.parameter("zero");
 }
 
-function tenureYears(api: CoreAPI, job: JobInput): number {
+/** Years a worker has held their job: a counted worker by their counted record, a full person by their work commitment (or the job they held before a fill-in). */
+export function tenureYears(api: CoreAPI, job: JobInput): number {
   if (isCounted(api, job.personId)) return countedTenureYears(api, job);
   const commitment = [
     ...(core(api).work.commitmentsByPerson.get(job.personId) ?? []),
   ]
     .map((id) => core(api).work.commitments.get(id)!)
     .find((row) => row.jobId === job.id);
-  const since = commitment?.startsAt ?? api.state.startedAt;
+  const since =
+    commitment?.heldSince ?? commitment?.startsAt ?? api.state.startedAt;
   return (
     daysBetweenText(since, api.state.date) / api.parameter("jobsDaysPerYear")
   );

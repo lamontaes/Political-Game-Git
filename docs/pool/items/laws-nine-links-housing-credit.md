@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/laws-nine-links-housing-credit
-pr:
+pr: #6011
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 ---
@@ -21,3 +21,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** src/core2/modules/housing.ts, src/core2/housing-occupancy.ts, src/core2/modules/credit.ts, src/core2/law-reach/group-a.ts
 
 **Notes.** Split Oct 24 by the CTO from `laws-wiring-every-law` (the lead order: `docs/work-orders/lead-laws-2026-10-24.md`). Family PR state on Oct 23: merged, #5688; its follow-up `laws-wiring-housing-followup` (no Pool item line, a typecheck clean-up) is open. A PR for this family names this item on line 1 (`Pool item: laws-nine-links-housing-credit`) and `Lead: laws` in its body, never the umbrella: family PRs looped because the umbrella's done-when is one no single family can meet, and a bare umbrella id on line 1 closes the umbrella on merge. Merged does not mean nine links: rebuild the matrix on main and finish what the rows still show missing, partial or stopgapped.
+
+Laws lead, Oct 25 10:10: PR #6011 opened at 353dddd61e. 5 of 6 graded wired; right to counsel partly (no hearing outside Prescott); loan cap money is a registered stopgap pending the owner's small-lender question; money cells rest on untraced payments (laws-checker-pass-through-poster, laws-checker-file-reads-many-laws). Merge after #5582.
