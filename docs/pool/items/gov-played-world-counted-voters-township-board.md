@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/township-counted-votes
-pr:
+pr: #6055
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:20:20.012Z

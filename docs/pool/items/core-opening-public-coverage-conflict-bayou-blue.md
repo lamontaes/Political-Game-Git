@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-24 from PR #5944 (branch claude/quirky-ride-vrwwz4-coverage): the fix is already on main through #5899 and the PR has zero remaining diff, but its table explicitly leaves exhaustive multi-coverage-locality acceptance unmet; reconcile that clause or an explicit bounded split on that branch, merge main into it first.
+
+Oct 25 (Merger 0): PR #5944 now delivers only the bounded per-jurisdiction regression under core-county-governed-openings-per-jurisdiction. It does not complete the exhaustive all-localities acceptance; that remains here and neither original item is finished by this merge.
