@@ -19,7 +19,7 @@ claimed-at: 2026-10-23T18:09:13.946Z
 
 **Done when.** In a buildBenchWorld played world in a drawn place (seed named in the PR body), a person card shows a public figure's record worded by the English engine and the news shows a year-before archive item worded the same way, by record id, with src/bench/card-public.test.ts passing.
 
-**Files.** data/english/parts/public-figure.json, src/director/mined/public-bank.ts, src/bench/card.ts, src/bench/card-public.test.ts
+**Files.** data/english/parts/public-figure.json, src/english/mined/public-bank.ts, src/bench/card.ts, src/bench/card-public.test.ts
 
 **Notes.** TODO
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { renderLine, type Fact } from "../render";
+import { renderLine, type Fact } from "../bank-line";
 import { FILING_BANK, filingWordsFromBank } from "./filing-bank";
 
 /**
