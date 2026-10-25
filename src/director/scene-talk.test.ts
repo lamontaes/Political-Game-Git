@@ -273,8 +273,11 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     // The asker's answer reads each move's act kinds in the shared decision
     // table (`scene-talk.move`), as every other decision does, never a pull
     // sum of its own. Two adults of this town, with their own traits, ask the
-    // player the same thing; the player's reply is the same, so where their
-    // answers part, each took the move their own traits lean toward more.
+    // player the same thing. The answers written for a reply line are the same
+    // whoever answers it, so where the player gives both the same first-round
+    // line and their answers part, each took the move their own traits lean
+    // toward more. Later rounds are not compared: the two talks reach them by
+    // different words, and each line has its own answers written for it.
     const lean = (id: string, move: string) =>
       traitLean(
         core,
@@ -288,7 +291,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     expect(tilt(pushy!)).toBeGreaterThan(tilt(yielding!));
     let parted = 0;
     for (const type of types) {
-      const talkOf = (id: string) => {
+      const treeOf = (id: string) => {
         const result = composeSceneTalk(
           core,
           director,
@@ -298,31 +301,32 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
           {},
           HELD,
         );
-        // From the asker's statement on: an asker may open with a greeting the
-        // other does not give, which would shift every later line.
-        const lines = result.kind === "composed" ? result.talk.lines : [];
-        return lines.slice(
-          Math.max(
-            0,
-            lines.findIndex((line) => line.step === "state"),
-          ),
-        );
+        return result.kind === "composed" ? result.talk.tree : undefined;
       };
-      const first = talkOf(pushy!);
-      const second = talkOf(yielding!);
-      for (let k = 0; k < Math.min(first.length, second.length); k += 1) {
-        const [a, b] = [first[k]!, second[k]!];
-        if (a.move === b.move) continue;
-        if (a.role === "asker" && a.step === "follow" && b.step === "follow") {
-          parted += 1;
-          expect(lean(pushy!, a.move), type.key).toBeGreaterThanOrEqual(
-            lean(pushy!, b.move),
-          );
-          expect(lean(yielding!, b.move), type.key).toBeGreaterThanOrEqual(
-            lean(yielding!, a.move),
-          );
-        }
-        break;
+      const first = treeOf(pushy!);
+      const second = treeOf(yielding!);
+      if (!first || !second) continue;
+      // The same lines before the first replies (an unprompted line and its
+      // answer), so neither asker has said a piece the other could still say.
+      const before = (node: NonNullable<typeof first>) =>
+        node.lines.map((line) => line.parts[0]).join("|");
+      if (before(first) !== before(second)) continue;
+      const answerTo = (node: NonNullable<typeof first>, piece?: string) =>
+        node.replies.find((reply) => reply.line.parts[0] === piece)?.next
+          ?.lines[0];
+      for (const reply of first.replies) {
+        const a = answerTo(first, reply.line.parts[0]);
+        const b = answerTo(second, reply.line.parts[0]);
+        if (!a || !b || a.move === b.move) continue;
+        if (a.step !== "follow" || b.step !== "follow") continue;
+        parted += 1;
+        const said = `${type.key} after "${reply.line.text}"`;
+        expect(lean(pushy!, a.move), said).toBeGreaterThanOrEqual(
+          lean(pushy!, b.move),
+        );
+        expect(lean(yielding!, b.move), said).toBeGreaterThanOrEqual(
+          lean(yielding!, a.move),
+        );
       }
     }
     expect(parted).toBeGreaterThan(0);
