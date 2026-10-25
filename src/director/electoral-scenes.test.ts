@@ -246,8 +246,8 @@ it(
         tried.push(shown);
         continue;
       }
-      console.log(
-        `FILING ${drawn.name} (${drawn.key}) ${drawSeed} stops ${shown.stops}\n${shown.lines.join("\n")}`,
+      process.stdout.write(
+        `FILING ${drawn.name} (${drawn.key}) ${drawSeed} stops ${shown.stops}${tried.length ? ` after ${tried.join("; ")}` : ""}\n${shown.lines.join("\n")}\n`,
       );
       expect(shown.stops).toBeGreaterThan(0);
       return;
