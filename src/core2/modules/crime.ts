@@ -47,7 +47,8 @@ const TYPES = data.types as Record<
 >;
 const PER_THOUSAND = 1000;
 /** The crimes that are violent (a person's), as opposed to a household's. */
-const VIOLENT: readonly CrimeType[] = ["robbery", "assault"];
+/** The offenses the violent index counts. */
+export const VIOLENT: readonly CrimeType[] = ["robbery", "assault"];
 const PROPERTY: readonly CrimeType[] = ["burglary", "other-property"];
 
 export interface TypeMonth {
@@ -471,8 +472,6 @@ function run(api: CoreAPI): void {
   api.stopgap("SG-CORE-crime-arrests");
   // stopgapId: SG-CORE-crime-vandalism
   api.stopgap("SG-CORE-crime-vandalism");
-  // stopgapId: SG-CORE-crime-firearm-homicide
-  api.stopgap("SG-CORE-crime-firearm-homicide");
   // The places the web has a month for; the rest have no factor to read.
   const places = new Set<string>();
   const web = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
