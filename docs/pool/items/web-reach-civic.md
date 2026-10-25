@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr: #5927
+pr: #6020
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at:

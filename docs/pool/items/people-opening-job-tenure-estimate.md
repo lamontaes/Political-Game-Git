@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/traits-opening-job-tenure
+pr: #6043
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T14:29:32.493Z
 ---
 
 **What.** The opening records no start date for anyone's job: src/core2/deep-past.ts:599 keeps tenure only from a supplied start, so every worker's tenure counts from the game's first day. Measured Oct 24 by the traits lead, tenure within a firm spans about five days after one to three months of play in three drawn places (Puapua, American Samoa; Melville, Rhode Island; Middleborough Center, Massachusetts). Tenure is a reason in who an employer lets go (src/core2/modules/jobs.ts, layOff) and in who quits, so how a person works decided all 121 layoffs in six months in Oak Grove, Oregon. Estimate, never UNKNOWN: start each opening job's tenure from the real distribution by age (BLS Employee Tenure, median 3.9 years, jobsTypicalTenureYears), drawn per world and marked as an estimate with its source.

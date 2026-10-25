@@ -154,6 +154,11 @@
       "tag": "SOURCED",
       "source": "Full-time year used by BLS to turn an hourly wage into an annual one (40 hours times 52 weeks)."
     },
+    "weeksPerYear": {
+      "value": 52,
+      "tag": "SOURCED",
+      "source": "The weeks in the full-time year BLS uses to turn an hourly wage into an annual one (40 hours times 52 weeks)."
+    },
     "newspaperRevenuePerFollowerYear": {
       "value": 15000,
       "tag": "ESTIMATED",
