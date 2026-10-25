@@ -1644,7 +1644,7 @@
       "kind": "written",
       "text": "An Ordinance concerning {title}",
       "billsUsing": 1,
-      "shippable": false,
+      "shippable": true,
       "source": {
         "document": "Baltimore City Council Bill 24-0501, Ordinance concerning vacant structures",
         "date": "2024-03-04",
@@ -1662,7 +1662,7 @@
       "kind": "written",
       "text": "Section {number}. Be it ordained by the {body}, That {text}",
       "billsUsing": 1,
-      "shippable": false,
+      "shippable": true,
       "source": {
         "document": "Baltimore City Council Bill 24-0501, Ordinance concerning vacant structures",
         "date": "2024-03-04",
@@ -1680,7 +1680,7 @@
       "kind": "written",
       "text": "Section {number}. And be it further ordained, That {text}",
       "billsUsing": 1,
-      "shippable": false,
+      "shippable": true,
       "source": {
         "document": "Baltimore City Council Bill 24-0501, Ordinance concerning vacant structures",
         "date": "2024-03-04",

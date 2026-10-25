@@ -240,6 +240,15 @@ it(
       for (const { couple } of ending)
         renewal.table("exposure").put({ id: couple.id, carry: 1 });
       const ids = new Set(ending.map((x) => String(x.couple.id)));
+      // Only a pregnancy begun after the fixture: one of these couples may
+      // have ended a natural one earlier, before their households were in
+      // focus, so its trip left no journal receipts to read.
+      const before = new Set(
+        renewal
+          .table("pregnancies")
+          .rows()
+          .map((row) => String(row.id)),
+      );
       const endedNow = () =>
         renewal
           .table("pregnancies")
@@ -248,7 +257,8 @@ it(
             (row) =>
               row.unplanned === true &&
               row.status === "ended" &&
-              ids.has(String(row.coupleId)),
+              ids.has(String(row.coupleId)) &&
+              !before.has(String(row.id)),
           );
       for (let day = 0; day < 100 && !endedNow(); day += 1)
         advanceCore(core, addDays(makeIsoDate(core.date), 1));

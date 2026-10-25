@@ -9,7 +9,6 @@ import type { CoreAPI } from "./types";
 
 export const ABORTION_LAW_SERIES =
   "us-policy-positions:civil-family-community.restrict-abortion";
-export const UNPLANNED_STOPGAP = "SG-PEOPLE-unplanned-pregnancy";
 
 interface MilesRow {
   readonly miles: number;
@@ -51,14 +50,17 @@ export function providerMiles(
   };
 }
 
-/** The restriction law in force where she lives: its record id, or none recorded. */
-export function restrictionRead(api: CoreAPI): {
+/** The restriction law in force where she lives on a day: its record id, or none recorded. */
+export function restrictionRead(
+  api: CoreAPI,
+  asOf: string = api.state.date,
+): {
   restricted: boolean;
   lawId: string | null;
 } {
   let answer;
   try {
-    answer = lawInForce(api, ABORTION_LAW_SERIES);
+    answer = lawInForce(api, ABORTION_LAW_SERIES, asOf);
   } catch {
     // No laws engine in this world: nothing restricts, and no record is cited.
     return { restricted: false, lawId: null };
@@ -132,7 +134,7 @@ export function weighUnplanned(
 ): UnplannedDecision {
   const p = (key: string) => renewalParameter(api, key);
   const raising = Object.values(circumstances).reduce((sum, v) => sum + v, 0);
-  const law = restrictionRead(api);
+  const law = restrictionRead(api, asOf);
   const { miles } = providerMiles(
     placeId,
     law.restricted,

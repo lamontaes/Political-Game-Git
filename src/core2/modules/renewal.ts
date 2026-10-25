@@ -159,6 +159,26 @@ function review(
 }
 
 /**
+ * What a couple carries at its first review: the exposure its waiting has
+ * built since it formed, or since its youngest child was born, at today's
+ * rate per review, less the whole units that were past pregnancies. Read from
+ * the couple's own records, so a world opened mid-life does not start every
+ * couple at nothing.
+ */
+function pastCarry(api: CoreAPI, row: BirthCouple, exposure: number): number {
+  let since = row.startedAt;
+  for (const id of row.childIds) {
+    const born = api.state.people.get(id)?.birthDate;
+    if (born && born > since) since = born;
+  }
+  const reviews =
+    Math.max(0, daysBetween(makeIsoDate(since), makeIsoDate(api.state.date))) /
+    renewalParameter(api, "renewalReviewDays");
+  const built = exposure * reviews;
+  return built - Math.floor(built);
+}
+
+/**
  * A couple that chose to wait still carries exposure each review; a whole unit
  * is an unplanned pregnancy, and the mother decides what to do with it from
  * her records, the law in force where she lives and the trip to a provider.
@@ -181,8 +201,10 @@ function conceiveUnplanned(
     return;
 
   const carryRow = table(api, "exposure").get(row.id);
+  const exposure = unplannedExposure(api, row, api.state.date);
   const carry =
-    Number(carryRow?.carry ?? 0) + unplannedExposure(api, row, api.state.date);
+    (carryRow ? Number(carryRow.carry) : pastCarry(api, row, exposure)) +
+    exposure;
   if (carry < renewalParameter(api, "one")) {
     table(api, "exposure").put({ id: row.id, carry });
     return;
