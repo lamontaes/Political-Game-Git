@@ -990,7 +990,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
-  $("talk-gap").classList.remove("marked");
+  gapButton.classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1029,10 +1029,18 @@ async function talkTo(otherId, momentId) {
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
 // A line that does not read right is marked where it is said; no time passes.
-$("talk-gap").addEventListener("click", async () => {
+// Mark gap is a developer control: it joins the talk box only while dev
+// mode is on, and is never in the player's markup.
+const gapButton = el("button", {
+  id: "talk-gap",
+  className: "action small",
+  type: "button",
+  textContent: "Mark gap",
+});
+gapButton.addEventListener("click", async () => {
   if (!talk) return;
   await post("/api/gap");
-  $("talk-gap").classList.add("marked");
+  gapButton.classList.add("marked");
 });
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
@@ -1092,11 +1100,12 @@ function renderFiling(value) {
       renderFiling(await post(`/api/filing/choose?${params}`));
     }),
   );
-  // The filing's record once it is made: its status.
+  // The filing's record once it is made: its status, shown as the record's
+  // label under the talk, not as words in the clerk's mouth.
   if (value.result)
     $("talk-lines").append(
       el("li", {
-        className: "speech",
+        className: "label",
         textContent: value.result.filing
           ? (controls.filing?.status?.[value.result.status] ??
             words(value.result.status))
@@ -4196,9 +4205,11 @@ function worldSettings() {
 }
 $("front-options").addEventListener("click", () => openSheet("options"));
 // The bench's developer controls sit behind one faint ring, off by default.
-$("dev-toggle").addEventListener("click", () =>
-  document.body.classList.toggle("dev"),
-);
+$("dev-toggle").addEventListener("click", () => {
+  const dev = document.body.classList.toggle("dev");
+  if (dev) $("talk-silent").before(gapButton);
+  else gapButton.remove();
+});
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
