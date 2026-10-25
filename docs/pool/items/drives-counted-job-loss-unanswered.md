@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-drives-counted-loss
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T08:16:11.735Z
 ---
 
 **What.** In a played year the drives engine answers most job losses, but some counted workers' job-loss events draw no response at all, though the worker is still in the counts when the event is emitted. These are the work.job-lost events whose job id ends ':counted:<date>' (a counted hire's job ended on the day it is dated), all dated on the year's last day in the observed run. src/bench/m1-11-check.ts now reads every event the producers emit (subscribeEvents) and fails any event that named someone able to answer and drew no response, so M1-11 cannot pass until they are answered. Find why respond in src/core2/modules/drives.ts yields nothing for them (countedSubjects, countedPersonOf, perceive or the event's facts) and make the same rule answer them as any other counted job loss.
