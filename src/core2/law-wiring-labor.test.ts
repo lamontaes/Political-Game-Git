@@ -251,13 +251,16 @@ function run(specId: string) {
     });
     return council.office.id;
   };
-  // The state's grant as the law series itself (the council reads it the day after).
+  // The state's grant as the law series itself, taking effect the day after
+  // the day-0 repeals do: where the authority question started yes, its repeal
+  // and a grant on the same day tie, and the repeal's enactment wins the tie
+  // (laws-same-day-authority-tiebreak). The council reads the grant on day 2.
   const seriesGrant = enactLaw(api, {
     jurisdiction: lawChain(api).stateKey,
     level: "state",
     series: "local-minimum-wage-authority",
     value: 1,
-    effectiveDate: addDays(makeIsoDate(api.state.date), 1),
+    effectiveDate: addDays(makeIsoDate(api.state.date), 2),
     measureId: "labor-authority-series",
     citation: "Labor law-wiring test",
   });
