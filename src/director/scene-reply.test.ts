@@ -4,11 +4,17 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { pairKey } from "../core2/kernel/ids";
 import { advanceCore } from "../core2/life";
-import { fileCandidacy, openContests } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  fileCandidacy,
+  openContests,
+  type ContestRow,
+} from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { lawChain } from "../core2/modules/laws";
 import type { PersonId } from "../core2/types";
 import { coreAPI } from "../core2/state";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -19,9 +25,9 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // scene fires, the player picks a reply, and the reply's record reaches their
 // tie with the asker through the relationship writer, citing the record.
 // Places are drawn in turn until one has a race open for filing within the
-// year that takes the player's filing.
+// year that takes the player's filing; many places elect only in even years.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const ATTEMPTS = 4;
+const ATTEMPTS = 8;
 const YEAR = 365;
 const TRIED = 12;
 
@@ -37,6 +43,23 @@ it(`a reply chosen in a scene is a record the relationship writer reads (seed ${
     });
     const api = coreAPI(core);
     const end = addDays(makeIsoDate(core.date), YEAR);
+    // The elections engine holds each seat's next contest from the start: a
+    // place with none counted within the year is passed over now.
+    if (
+      !(
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .rows() as unknown as ContestRow[]
+      ).some(
+        (race) =>
+          race.filingDeadline >= core.date &&
+          addDays(makeIsoDate(race.electionDate), 2) <= end,
+      )
+    ) {
+      tried.push(`${place.name} (no race counted in the year)`);
+      continue;
+    }
     // Play until a race is open for filing (and counted within the year).
     const open = () =>
       [...openContests(api)]
@@ -58,6 +81,8 @@ it(`a reply chosen in a scene is a record the relationship writer reads (seed ${
             (p) =>
               p.alive &&
               p.id !== clerkId &&
+              p.placeId === lawChain(api).townPlaceId &&
+              ageOnDate(p.birthDate, core.date) >= 18 &&
               (core.households.get(p.householdId)?.memberIds ?? []).some(
                 (id) => id !== p.id && core.people.get(id)?.alive,
               ),
