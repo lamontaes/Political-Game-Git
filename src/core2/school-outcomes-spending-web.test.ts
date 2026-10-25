@@ -282,7 +282,7 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
 
     // 4. The far-raised twin shows the same read at a size a small town can
     // show: each fifth's factor is the read month's, with a larger part from
-    // this link, so every fifth's factor and expected count rise, and
+    // this link, so every fifth's factor and expected share rise, and
     // graduates are added, by person record where a full senior is.
     const shiftedGroups = groupsOf(shifted.core, placeId);
     const shiftedMeasure = measureOf(shifted.core, placeId)!;
@@ -293,7 +293,15 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
       graduationWeb.effects[LINK]!,
     );
     expect(baseWebRow.effects[LINK]).toBeCloseTo(0, 9);
-    for (const group of shiftedGroups) {
+    // A fifth with students in only one of the two worlds has nothing to
+    // compare; every fifth in both is compared.
+    const compared = shiftedGroups.filter((group) =>
+      baseGroups.some((g) => g.id === group.id),
+    );
+    expect(compared.length, `${where}: fifths in both worlds`).toBeGreaterThan(
+      0,
+    );
+    for (const group of compared) {
       const before = baseGroups.find((g) => g.id === group.id)!;
       expect(group.factor, group.id).toBeCloseTo(
         factorOf(shiftedWeb, group.incomeFifth),
@@ -306,7 +314,15 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
       expect(group.factor, group.id).toBeGreaterThan(
         factorOf(shiftedWeb, group.incomeFifth, LINK),
       );
-      expect(group.expected, group.id).toBeGreaterThan(before.expected);
+      // The far raise moves household incomes too, so a fifth can hold
+      // different students in the two worlds: compare the expected share of
+      // each fifth's students, which can rise no further once all graduate.
+      if (group.students > 0 && before.students > 0) {
+        const share = group.expected / group.students;
+        const baseShare = before.expected / before.students;
+        expect(share, group.id).toBeGreaterThanOrEqual(baseShare);
+        if (share < 1) expect(share, group.id).toBeGreaterThan(baseShare);
+      }
     }
     const passed = (groups: SchoolGroupRow[]) =>
       groups.reduce((n, g) => n + g.passed, 0);
