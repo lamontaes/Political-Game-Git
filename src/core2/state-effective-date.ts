@@ -2,13 +2,18 @@
  * When a state act with no date of its own takes effect: each state's
  * researched default rule (`data/research/laws/local-starting-law/state-effective-dates.json`,
  * from constitutions and codes) through the lifted `stateStatuteOperativeAt`,
- * counting from the session's recorded end where the rule does
- * (`data/research/laws/state-session-calendars.json`).
+ * counting from the session's end where the rule does
+ * (`data/research/laws/state-session-calendars.json`): the published
+ * adjournment for the year, else the limit the place's law sets, else the
+ * median last day of the places read that year, labeled as an estimate.
  */
 import rules from "../../data/research/laws/local-starting-law/state-effective-dates.json" with { type: "json" };
 import sessions from "../../data/research/laws/state-session-calendars.json" with { type: "json" };
 import {
+  knownSessionEnds,
+  medianSessionEnd,
   stateStatuteOperativeAt,
+  type SessionEndRow,
   type StatuteEffectiveRule,
 } from "../rules/laws/effective-date";
 
@@ -24,10 +29,14 @@ const sessionEnds = (
   sessions as unknown as {
     sessionEnds: Record<
       string,
-      { adjourned?: Record<string, { dates: string[] }> }
+      Omit<SessionEndRow, "estimated"> & { estimated?: string }
     >;
   }
 ).sessionEnds;
+const sessionEndRows = Object.values(sessionEnds).map((row): SessionEndRow => ({
+  ...row,
+  estimated: !!row.estimated,
+}));
 
 const SUPPORTED = new Set([
   "days-after-enactment",
@@ -48,10 +57,29 @@ export function stateActEffectiveDate(
   const row = ruleByState[stateKey];
   const rule = row?.gameRule;
   if (!rule || !SUPPORTED.has(rule.kind)) return null;
+  const end = sessionEnds[stateKey];
+  let estimate: string | undefined;
   const date = stateStatuteOperativeAt(rule, enactedAt, {
-    sessionEnds: (year) =>
-      sessionEnds[stateKey]?.adjourned?.[String(year)]?.dates ?? [],
+    sessionEnds: (year) => {
+      if (!end) return [];
+      const known = knownSessionEnds(
+        { ...end, estimated: !!end.estimated },
+        year,
+      );
+      if (known) return known;
+      estimate = end.estimated;
+      return medianSessionEnd(sessionEndRows, year);
+    },
     finalPassageAt: () => enactedAt,
   });
-  return date ? { date, cite: row.cite ?? "state effective-date rule" } : null;
+  const cite = row.cite ?? "state effective-date rule";
+  return date
+    ? {
+        date,
+        cite:
+          rule.kind === "days-after-session-end" && estimate
+            ? `${cite}; session end ${estimate}`
+            : cite,
+      }
+    : null;
 }

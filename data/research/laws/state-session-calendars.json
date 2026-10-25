@@ -2994,6 +2994,12 @@
       "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
       "note": "Its rule was not read in days after a session, so its session end was not read either.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-05-14"],
+          "sourceUrl": "https://stateandfed.com/?p=58523",
+          "quote": "The Alabama Legislature adjourned sine die May 14 amid a lengthy filibuster.",
+          "readAt": "2026-10-25"
+        },
         "2026": {
           "dates": ["2026-04-09"],
           "sourceUrl": "https://www.legislature.state.al.us/",
@@ -3029,6 +3035,13 @@
       "source": "https://codes.findlaw.com/ar/arkansas-constitution-of-1874/ar-const-art-5-sect-17/",
       "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-05-05"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "may reconvene for veto overrides anytime before sine die 5/5/25",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-04-29"],
           "sourceUrl": "https://www.arkleg.state.ar.us/",
@@ -3088,6 +3101,13 @@
       "source": "https://www.azleg.gov/const/4/3.p2.htm",
       "note": "Sets only the opening day; no limit on length (2025 ran 169 days).",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-06-27"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Arizona Jan. 13 June 27",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-06-13"],
           "sourceUrl": "https://www.azleg.gov/alispdfs/57leg/2R/House/SummaryComplete.pdf",
@@ -3129,6 +3149,13 @@
       "source": "https://www.flsenate.gov/Laws/Constitution",
       "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-06-16"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Florida Mar. 4 June 16",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-03-13"],
           "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2026/2026-sj-bound-vII.pdf",
@@ -3141,6 +3168,13 @@
       "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
       "note": "Its rule was not read in days after a session, so its session end was not read either.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-05-02"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Hawaii Jan. 15 May 2",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-05-08"],
           "sourceUrl": "https://www.capitol.hawaii.gov/sessions/session2026/OrderOfTheDay/SOD_05-08-26_.HTM",
@@ -3155,6 +3189,13 @@
       "source": "https://legislature.idaho.gov/statutesrules/idconst/ArtIII/Sect8/",
       "note": "Sets only the opening day; no limit on length was found.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-04-04"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Idaho Jan. 6 April 4",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-04-02"],
           "sourceUrl": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/sinedie.pdf",
@@ -3167,6 +3208,12 @@
       "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
       "note": "Its rule was not read in days after a session, so its session end was not read either.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-04-11"],
+          "sourceUrl": "https://kssos.org/publications/sessionlaws/2025/Chapter-138-HCR-5018.html",
+          "quote": "That the Legislature shall adjourn sine die at the close of business of the daily session convened on April 11, 2025",
+          "readAt": "2026-10-25"
+        },
         "2026": {
           "dates": ["2026-04-10"],
           "sourceUrl": "https://www.kslegislature.gov/b2025_26/bills/download/?apn=b2025_26/year2/ready_for_publication/journal/daily_journal_house_20260410135117.pdf",
@@ -3198,6 +3245,12 @@
       "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
       "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-03-28"],
+          "sourceUrl": "https://apps.legislature.ky.gov/RECORD/25rs/HCR92.html",
+          "quote": "adjourning the 2025 Regular Session of the General Assembly sine die",
+          "readAt": "2026-10-25"
+        },
         "2026": {
           "dates": ["2026-04-15"],
           "sourceUrl": "https://apps.legislature.ky.gov/record/26rs/record.html",
@@ -3231,6 +3284,12 @@
       "source": "https://legislature.maine.gov/statutes/3/title3sec2.html",
       "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-03-21"],
+          "sourceUrl": "https://legislature.maine.gov/house/",
+          "quote": "The First Regular Session of the 132nd Legislature adjourned SINE DIE on Friday, March 21, 2025 at 12:26 AM.",
+          "readAt": "2026-10-25"
+        },
         "2026": {
           "dates": ["2026-04-29"],
           "sourceUrl": "https://legislature.maine.gov/house/",
@@ -3280,6 +3339,13 @@
       "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
       "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2).",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-06-02"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Nebraska Jan. 8 June 2",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-04-17"],
           "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Journal/r2day60.pdf",
@@ -3315,6 +3381,13 @@
       "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-5/",
       "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22).",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-03-22"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "New Mexico Jan. 21 March 22",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-02-19"],
           "sourceUrl": "https://www.nmlegis.gov/Publications/Session_Dates.pdf",
@@ -3348,6 +3421,12 @@
       "source": "https://law.justia.com/constitution/oklahoma/V-26.html",
       "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-05-30"],
+          "sourceUrl": "https://www.kjrh.com/news/local-news/sine-die-oklahoma-legislature-wraps-up-for-2025",
+          "quote": "The 2025 Oklahoma legislative session ended in the early morning hours of May 30.",
+          "readAt": "2026-10-25"
+        },
         "2026": {
           "dates": ["2026-05-14"],
           "sourceUrl": "https://oksenate.gov/sites/default/files/2026-08/sj20260514.pdf",
@@ -3371,7 +3450,16 @@
       "evenYear": [],
       "cite": "Tex. Const. art. III, § 24(b); Tex. Gov't Code § 301.001",
       "source": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.3.htm",
-      "note": "The regular session opens on the second Tuesday in January of odd years and may not exceed 140 days (2025: January 14 to June 2). Even years hold no regular session."
+      "note": "The regular session opens on the second Tuesday in January of odd years and may not exceed 140 days (2025: January 14 to June 2). Even years hold no regular session.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-06-02"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Texas Jan. 14 June 2",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        }
+      }
     },
     "US-UT": {
       "oddYear": [
@@ -3402,6 +3490,13 @@
       "source": "https://le.utah.gov/xcode/ArticleVI/UC_AVI_1800010118000101.pdf",
       "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7).",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-03-07"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Utah Jan. 21 March 7",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-03-06"],
           "sourceUrl": "https://le.utah.gov/",
@@ -3437,6 +3532,13 @@
       "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=44.04.010",
       "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12).",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-04-27"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Washington Jan. 13 April 27",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-03-12"],
           "sourceUrl": "https://leg.wa.gov/",
@@ -3451,6 +3553,13 @@
       "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
       "note": "The limit is 40 legislative working days a year, which are not calendar days.",
       "adjourned": {
+        "2025": {
+          "dates": ["2025-03-06"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Wyoming Jan. 14 March 6",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
         "2026": {
           "dates": ["2026-03-11"],
           "sourceUrl": "https://wyoleg.gov/MediaRoomDocs/2026%20End%20of%20Session%20Release_03.11.26.pdf",

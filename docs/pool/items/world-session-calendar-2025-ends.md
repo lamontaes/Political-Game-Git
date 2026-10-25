@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/research/laws/state-session-calendars.json, src/rules/laws/effective-date.ts
 
 **Notes.** From the laws lead, Oct 24, reviewing the laws end-to-end proof's Burr, Nebraska chain.
+
+2026-10-25 (claude/session-calendar-2025): 2025 adjournments added for 16 places from fetched pages (NCSL's December 22, 2025 calendar, the Kansas, Kentucky and Maine legislatures, two news pages); Missouri keeps its law's May 30 limit (its 2025 acts took effect August 28). The core reader (src/core2/state-effective-date.ts) now falls back to a place's limit, then the labeled median, as the old engine did, instead of counting from passage. D.C., Michigan, North Carolina and American Samoa have no published 2025 end and take the median.
