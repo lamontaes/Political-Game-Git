@@ -1,10 +1,8 @@
-// Standing people (owner, Oct 24: "I want the current people completely
-// removed from the game ... I just want people to just be standing,
-// generated"): one cut-out per person from the Codex people-engine v2 set
-// (art/people-engine/v2, #5123), picked from their record (sex, age, role at
-// the place), placed on the backdrop's staging spot by depth and turned to face
-// the room. The v2 set paints adults only, in six outfits and three builds;
-// a child has no figure and is listed as unplaced.
+// Standing people: one cut-out per person from the Codex people-engine v2
+// set, picked from their record (sex, age and role at the place), placed on
+// the backdrop's staging spot by depth and turned to face the room. The set
+// paints adults only, in six outfits and three builds; a child has no figure
+// and is listed as unplaced.
 import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";

@@ -313,7 +313,7 @@ export async function benchRequest(
         request.method === "GET" &&
         /^\/art\/people-engine\/v2\/figures\/[\w.-]+\.png$/.test(url.pathname)
       ) {
-        // Standing people: the v2 figures (owner, Oct 24), served as they are.
+        // Standing people: the v2 figures, served as they are.
         const content = await readFile(
           new URL(`../..${url.pathname}`, import.meta.url),
         );

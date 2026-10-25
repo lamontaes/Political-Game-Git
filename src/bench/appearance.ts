@@ -2,8 +2,7 @@ import { readFileSync } from "node:fs";
 import { lookFigures, type Figure } from "./whole-figures";
 
 /**
- * The creator's appearance step (owner, Oct 24: "The character creator should
- * just be whatever people are being used currently"): the same standing v2
+ * The creator's appearance step uses the same standing v2
  * figures the game draws (whole-figures.ts), chosen by body, build and
  * clothes, with the figure itself as the portrait. The look chosen here is the
  * player's figure in every scene.

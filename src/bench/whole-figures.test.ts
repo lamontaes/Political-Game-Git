@@ -143,7 +143,7 @@ describe("choosing each person's look", () => {
   });
 });
 
-describe("the people the game draws (owner, Oct 24)", () => {
+describe("the people the game draws", () => {
   it("loads no whole-figure person from art/people-whole anywhere in the bench", () => {
     const old = ["art", "people-whole"].join("/");
     const here = new URL("./", import.meta.url);
