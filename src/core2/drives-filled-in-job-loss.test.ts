@@ -1,0 +1,74 @@
+/**
+ * Pool item drives-counted-job-loss-unanswered: a layoff of a job that lives
+ * in the counted books used to name its worker only as the event's counted
+ * subject, even when the worker had been filled in since the hire. The
+ * drives engine answers a counted subject only while they are counted, and a
+ * full person only when the event names them (so they learn of it), so such
+ * a worker's job loss drew no response at all. The layoff now names a full
+ * worker as a person. Steamboat Springs, Colorado, the M1-11 runner draw
+ * where eleven such job losses on January 1, 2026 went unanswered.
+ */
+import { expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { advanceCore } from "./life";
+import { drivesReport, type FormationTrace } from "./modules/drives";
+import { coreAPI } from "./state";
+
+const PLACE = {
+  seed: "2fed679e253cf36aec36b937cf2d408b729b11e382abb5ea7600a670f788f4d7",
+  key: "0873825",
+  name: "Steamboat Springs, Colorado",
+};
+const REPORTED =
+  "event:work.job-lost:2026-01-01:job:position:organization_b0eef0bdf7979a4c:2025-11-01:4:person_ba5ccd780f702e60:counted:2026-01-01";
+
+it("every job loss draws its worker's response once, a filled-in worker's counted job included", () => {
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(PLACE.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: PLACE.key,
+  });
+  const where = `${PLACE.name} (${PLACE.key}) seed ${PLACE.seed}`;
+  // Every response the engine records, kept whole (its own list is bounded).
+  const answers: FormationTrace[] = [];
+  const kept = drivesReport(core).decisions;
+  const push = kept.push.bind(kept);
+  kept.push = (...rows: FormationTrace[]) => {
+    answers.push(...rows);
+    return push(...rows);
+  };
+  // Each job loss's worker, as the event names them, and whether they were
+  // full while the job they lost lived in the counted books.
+  const losses: { id: string; personId: string; filledIn: boolean }[] = [];
+  coreAPI(core).subscribeEvents(
+    "filled-in-job-loss",
+    ["work.job-lost"],
+    (_api, event) => {
+      const personId = event.personIds[0] ?? event.facts?.["counted-subject"];
+      if (!personId) return;
+      losses.push({
+        id: event.id,
+        personId,
+        filledIn:
+          core.people.has(personId as never) && event.id.includes(":counted:"),
+      });
+    },
+  );
+  advanceCore(core, "2026-01-02");
+  expect(
+    losses.some((row) => row.filledIn),
+    `${where}: no filled-in worker lost a counted job`,
+  ).toBe(true);
+  expect(losses.map((row) => row.id)).toContain(REPORTED);
+  for (const row of losses) {
+    const theirs = answers.filter(
+      (a) =>
+        a.eventId === row.id &&
+        a.personId === row.personId &&
+        a.role === "subject",
+    );
+    expect(theirs.length, `${where}: ${row.id} (${row.personId})`).toBe(1);
+  }
+}, 900_000);
