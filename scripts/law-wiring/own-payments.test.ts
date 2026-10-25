@@ -175,9 +175,9 @@ describe("a law's own payments", () => {
     expect(own.paid).toBe(0);
   });
 
-  it("takes the paycheck over the spending it allows, by the money each moved", () => {
-    // Four raised workers spend a little more; three of their paychecks have
-    // come in the window. The paycheck moved more money: it is the law's.
+  it("takes the paycheck that came first over the spending it allows", () => {
+    // Four raised workers spend a little more from the 1st; three of their
+    // paychecks came a week before. The paycheck came first: it is the law's.
     const ids = ["person_a", "person_b", "person_c", "person_d"];
     const treated: Record<string, Posting[]> = {};
     const control: Record<string, Posting[]> = {};
