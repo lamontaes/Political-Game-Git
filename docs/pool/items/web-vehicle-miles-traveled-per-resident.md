@@ -24,3 +24,5 @@ claimed-at: 2026-10-25T16:32:07.552Z
 **Notes.** Found by the prices family helper (branch claude/laws-nine-links-prices), filed by the laws lead.
 
 Laws lead, Oct 25: folded into the prices family PR #5986 (branch claude/laws-nine-links-prices); done when #5986 merges.
+
+Acting CTO, Oct 25 23:45 UTC: accepted as the per-mile gap the laws lead asked about (the prices family reads a fuel-tax effect per mile driven through this measure); no separate item. Closes with #5986.
