@@ -2,9 +2,9 @@
   "version": 1,
   "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
   "formulaSiteAliases": {
-    "src/core2/modules/jobs.ts:2258": "jobs.counted-retire",
-    "src/core2/modules/jobs.ts:2513": "jobs.counted-look",
-    "src/core2/modules/jobs.ts:2583": "jobs.counted-look",
+    "src/core2/modules/jobs.ts:2262": "jobs.counted-retire",
+    "src/core2/modules/jobs.ts:2517": "jobs.counted-look",
+    "src/core2/modules/jobs.ts:2587": "jobs.counted-look",
     "src/core2/modules/business.ts:1542": "business.counted-found"
   },
   "gaps": {
