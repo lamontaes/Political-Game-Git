@@ -296,6 +296,70 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.26.0
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Gun laws change how many people die of firearm homicide, and violent crime
+  no longer feeds on itself** When a state adopts stand-your-ground or requires
+  a permit to carry a concealed gun, the town's firearm homicides follow. The
+  people you meet and the wider population both die of firearm homicide more or
+  less often, at every age, as the research on those laws finds, and the cause
+  recorded for each death follows. A town's robberies and assaults no longer
+  climb month after month on their own. They used to be scaled by an index made
+  of themselves, so any rise counted twice and grew without end; burglary and
+  vandalism still rise with the town's violent crime.
+
+## PRE-ALPHA 0.25.0
+
+_Released October 25, 2026._
+
+### Added
+
+- **Your family reacts when you file for office, and when the votes are
+  counted** The day you file to run for office, someone at home is waiting for
+  you: a partner who asks "So you're really doing this?", a parent who wants to
+  know why you didn't tell them. You answer from a set of replies, and each one
+  takes the talk somewhere different. The night your race is counted, your
+  household meets you with the win or the loss. These scenes come from the
+  filing and the count themselves, so they happen to anyone who runs. What you
+  say is kept: the time you spend talking it through counts toward how close you
+  are.
+
+### Improved
+
+- **Jobless neighbors apply for work by how long their savings last** People
+  without work now press harder to apply when their household's money is running
+  out and take their time when it will last, so job seekers in a town no longer
+  all act alike.
+
+### Fixed
+
+- **The federal share of Medicaid reaches the people it covers** Where Medicaid
+  expansion is law, the federal government's share of each covered adult's care
+  is now paid every month alongside the state's. The federal treasury borrows
+  for the program payments falling due in the month, not only for its budget
+  lines, so it no longer runs dry before they come due.
+
+### Changed
+
+- **New standing people, and the creator dresses you in them** Everyone you meet
+  is now drawn from a new set of standing figures, in everyday clothes, work
+  clothes or a blazer depending on who they are and where. The old figures, some
+  caught mid-gesture with their arms out, are gone. The character creator now
+  offers the same figures the game draws, chosen by build and clothes, and the
+  look you pick is the one you wear in every room.
+
+- **Big towns open at their real Census size.** A town of more than 10,000
+  people now opens at its real Census size: the people you meet are drawn from a
+  10,000-person sample, and every count in town (jobs, homes, voters, money) is
+  scaled to the real population. A game year in the largest towns takes about as
+  long as before: measured on one machine, Washington, D.C. about 17 percent
+  less and New York about 11 percent more, and the two-minute year for the
+  largest town is still open.
+
 ## PRE-ALPHA 0.24.3
 
 _Released October 25, 2026._

@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/journal-revision
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T17:06:22.811Z
 ---
 
 **What.** On clean main (cbe562fd49) with GOLDEN_PATH_SEED=b41188c9f661356873b5bc20796fc875943ffdaa, src/director/journal-revision.test.ts plays a year in each of four drawn places, watching every full person, and no journal revises an early entry in any of them: Washington, District of Columbia; Agingan, Northern Mariana Islands; Cortland, Nebraska; Clayton, Delaware. The run took 605 seconds. CI drew the same seed on PR 5914 and failed the same way, so the test goes red by draw. Find which record a revision reads and why none reached a watched journal in those four places, and fix it at the root: the revision rule, the producer of the later record, or the test's draw.

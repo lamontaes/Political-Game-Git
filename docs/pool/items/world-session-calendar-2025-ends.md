@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** From the laws lead, Oct 24, reviewing the laws end-to-end proof's Burr, Nebraska chain.
 
 Sent back 2026-10-25 from PR #6021 (branch claude/session-calendar-2025): Maine2025row omits published June25special-session adjournment; own April15/June18reader returns June20 instead of September24; associate acts with their data-defined session and add independent special-session regression; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #6021 (branch claude/session-calendar-2025): special-session repair now present, but core passes signature as finalPassageAt; March20regular bill signedMarch26 wrongly getsSeptember24insteadJune20; propagate actual passage/session and add delayed-signature regression; finish on that branch, merge main into it first.
