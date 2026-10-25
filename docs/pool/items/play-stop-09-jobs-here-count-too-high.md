@@ -5,13 +5,14 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/play-stop-09-jobs-here
+pr: #6037
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
 milestone: play-first
+claimed-at: 2026-10-25T12:50:24.971Z
 ---
 
 **What.** Six days into a life in Anson, Texas (2,570 people on the town list) on the v0.22.10 release, News shows "JOBS HERE 2036 employed · 23 looking · 0 open". That is 79 percent of every resident, children and retirees included, at work, and not one open job in the town. The same screen gives the region's unemployment as 4.4 percent. I expected a job count that fits the town and at least a few openings a new 18-year-old could take.

@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/counted-births-weight-bookkeeping
-pr:
+pr: #5993
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T07:06:39.559Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T07:06:39.559Z
 
 **Rules.** Bookkeeping is a debug switch: the record stays kept only with bookkeeping on; the test, which reads it, turns bookkeeping on. One rule, all 56 places: the test keeps drawing its town from all 56.
 
-**Done when.** counted-births-weight.test.ts passes on main with the fix and fails without it, the drawn place and seed named in the PR.
+**Done when.** `src/core2/counted-births-weight.test.ts` passes on main with the fix and fails on the same main without it, the drawn place and seed it played named in the PR from the test's own output line.
 
 **Files.** src/core2/counted-births-weight.test.ts
 
