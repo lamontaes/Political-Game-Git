@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: play-first/play-stop-16-identical-council-seat-choices
+status: open
+claimed-by:
 pr: #6101
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T20:14:36.885Z
+claimed-at:
 ---
 
 **What.** At the city secretary on the v0.22.10 release, Eden Rivera asks "What can I do for you?" and lists "I want to run for Council member." five times and "I want to run for Mayor." once. Nothing tells the five council lines apart (place number, who holds the seat, election date), and nothing says what filing needs before I choose. I picked the first and learned only afterward that it is for November 3, 2026, 21 months away. I expected each seat named with its election date and incumbent.
