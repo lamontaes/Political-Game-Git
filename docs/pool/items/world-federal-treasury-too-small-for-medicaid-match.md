@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-23 from PR #5780 (branch claude/federal-medicaid-match): federal-medicaid-match.test.ts advances only 360 days and checks cumulative paidMinor plus the final receipt after the loop; an early missed month followed by a final full payment still passes, so assert every due payment through the actual year target; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5780 (branch claude/federal-medicaid-match): federal-medicaid-match.test.ts:31-47 and :151-175 check the first payment and observed amounts but not every recurring due date; the actual checker accepts Jan21 and Mar21 with February missing, or only Jan21 through year end; assert middle/trailing monthly payments from cadence and active interval and correct the body date-check claim; finish on that branch, merge main into it first.
