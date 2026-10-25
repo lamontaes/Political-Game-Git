@@ -18,13 +18,26 @@
  *     (the cash the bank read is on the payment record), a loan is late only
  *     after such a payment, and a loan is charged off only after the days
  *     past due the credit parameters set, with the cause it records
- *     (no roll: the borrower's cash, job and payment record decide).
+ *     (no roll: the borrower's cash, job and payment record decide);
+ * (6) a missed payment changes something, shown by record id in the first
+ *     place where a payment falls short (the runner's, else up to four more
+ *     drawn from all 56, each named): the borrower's credit (the payment and
+ *     the loan go late, and a household whose loan is charged off gets no new
+ *     loan), the lender's books (the bank is paid only what the borrower
+ *     paid, and the loan's balance keeps the rest) and the collection (the
+ *     next bill carries the unpaid amount).
  * Exits nonzero naming each failed clause.
  */
 import { setJournalTrace } from "../journal-state";
 import { advanceCore } from "../life";
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
-import { buildPlayedWorld, playYear } from "./m1-played-year";
+import { createHash } from "node:crypto";
+import { drawPlace } from "../../../scripts/core2-year/place";
+import { buildBenchWorld } from "../../bench/world";
+import { gameStartDate } from "../game-start";
+import { coreAPI } from "../state";
+import type { CoreAPI } from "../types";
+import { buildPlayedWorld, playYear, type PlayedYear } from "./m1-played-year";
 
 const world = buildPlayedWorld();
 const { api, core } = world;
@@ -75,10 +88,12 @@ const credit = api.moduleState("credit");
 interface Loan {
   id: string;
   kind: "personal" | "startup" | "mortgage";
+  householdId: string;
   borrowerId: string;
   lenderId: string;
   principalMinor: number;
   balanceMinor: number;
+  paymentMinor: number;
   annualRate: number;
   openedAt: string;
   standing: "current" | "late" | "charged-off" | "paid";
@@ -309,6 +324,132 @@ for (const loan of loans) {
 }
 if (!loans.length) fail("no loan was made in the year");
 
+// (6) What a missed payment changes, by record id.
+interface Witness {
+  where: string;
+  payment: string;
+  loan: string;
+  shortMinor: number;
+  standing: string;
+  paidToLenderMinor: number;
+  /** The balance replayed from the record after the short payment; clause 3 holds the loan record to the replay. */
+  balanceAfterMinor: number | null;
+  nextBill: string | null;
+  nextDueMinor: number | null;
+  chargedOffHouseholds: number;
+}
+function missedPayments(
+  read: CoreAPI,
+  where: string,
+): { witness: Witness | null; problems: string[]; short: number } {
+  const store = read.moduleState("credit");
+  const book = store.table("loans").rows() as unknown as Loan[];
+  const bills = [
+    ...(store.table("payments").rows() as unknown as Payment[]),
+  ].sort((a, b) => a.date.localeCompare(b.date));
+  const byLoan = new Map<string, typeof bills>();
+  for (const row of bills)
+    byLoan.set(row.loanId, [...(byLoan.get(row.loanId) ?? []), row]);
+  const problems: string[] = [];
+  let witness: Witness | null = null,
+    short = 0;
+  for (const loan of book) {
+    const rows = byLoan.get(loan.id) ?? [];
+    let balance = loan.principalMinor;
+    rows.forEach((bill, i) => {
+      const interest = (balance * loan.annualRate) / months;
+      balance = Math.round(Math.max(0, balance + interest - bill.paidMinor));
+      const unpaid = bill.dueMinor - bill.paidMinor;
+      if (unpaid <= 1) return;
+      short += 1;
+      // The borrower's credit: the payment is on the record as late (or the
+      // loan charged off), never current.
+      if (bill.standing === "current")
+        problems.push(
+          `${where}: ${bill.id} paid ${bill.paidMinor} of ${bill.dueMinor} and still reads current`,
+        );
+      // The collection: the next bill is the regular payment plus what was
+      // not paid, never more than the loan then owes.
+      const next = rows[i + 1];
+      const owed = balance + (balance * loan.annualRate) / months;
+      const want = Math.min(owed, loan.paymentMinor + unpaid);
+      if (next && next.dueMinor < want - 1)
+        problems.push(
+          `${where}: ${next.id} bills ${next.dueMinor}, not the regular ${loan.paymentMinor} plus the ${unpaid} left unpaid on ${bill.id}`,
+        );
+      // The lender's books: the journal paid the lender only what the
+      // borrower paid (clause 2), and the loan's balance keeps the rest, which
+      // the replay holds the record to (clause 3).
+      witness ??= {
+        where,
+        payment: bill.id,
+        loan: loan.id,
+        shortMinor: unpaid,
+        standing: bill.standing,
+        paidToLenderMinor: bill.paidMinor,
+        balanceAfterMinor: balance,
+        nextBill: next?.id ?? null,
+        nextDueMinor: next?.dueMinor ?? null,
+        chargedOffHouseholds: 0,
+      };
+    });
+  }
+  // A charge-off stays on the household's credit report: no new loan after it.
+  const offs = book.filter(
+    (loan) => loan.standing === "charged-off" && loan.chargedOffAt,
+  );
+  for (const off of offs)
+    for (const later of book)
+      if (
+        later.householdId === off.householdId &&
+        later.openedAt > off.chargedOffAt!
+      )
+        problems.push(
+          `${where}: ${later.id} lent to ${off.householdId} after ${off.id} was charged off on ${off.chargedOffAt}`,
+        );
+  if (witness) (witness as Witness).chargedOffHouseholds = offs.length;
+  return { witness, problems, short };
+}
+
+const witnessTried: string[] = [];
+let witnessed = missedPayments(api, `${world.placeName}, seed ${world.seed}`);
+if (!witnessed.short)
+  witnessTried.push(`${world.placeName}: no payment fell short`);
+for (let draw = 0; draw < 4 && !witnessed.short; draw += 1) {
+  const place = drawPlace(
+    createHash("sha256")
+      .update(`${world.seed}:M1-06-default:${draw}`)
+      .digest("hex"),
+    "M1-06-default",
+  );
+  const built = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const other: PlayedYear = {
+    seed: place.seed,
+    placeKey: place.key,
+    placeName: built.place.displayName,
+    placeId: built.placeId,
+    stateKey: built.place.stateJurisdictionKey ?? "",
+    core: built.core,
+    api: coreAPI(built.core),
+    start: built.core.date,
+  };
+  playYear(other);
+  witnessed = missedPayments(
+    other.api,
+    `${other.placeName} (${place.key}), seed ${place.seed}`,
+  );
+  if (!witnessed.short)
+    witnessTried.push(`${other.placeName}: no payment fell short`);
+}
+for (const problem of witnessed.problems) fail(problem);
+if (!witnessed.witness)
+  fail(
+    `no payment fell short in the runner's place or four more drawn: ${witnessTried.join("; ")}`,
+  );
+
 console.log(
   JSON.stringify({
     place: world.placeName,
@@ -331,6 +472,8 @@ console.log(
     loansLate: late,
     loansChargedOff: chargedOff,
     defaultsObserved: late + chargedOff > 0,
+    missedPayment: witnessed.witness,
+    missedPaymentPassedOver: witnessTried,
     sampleLoanIds: loans.slice(0, 5).map((loan) => loan.id),
     chargeOffDaysParameter: chargeOffDays,
   }),
