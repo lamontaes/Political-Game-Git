@@ -36,6 +36,8 @@ import {
   LAW_APPLIED_TABLE,
   type LawAppliedRow,
 } from "./law-reach/applied";
+import { housingLineMeasureId } from "./law-reach/group-a-money";
+import { mechanicRow } from "./law-reach/group-a-records";
 import { LAW_REACH_HOST_ID } from "./law-reach/host";
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI, CoreState } from "./types";
@@ -657,6 +659,12 @@ function play(
       carry: true,
     });
     step(core, HELPED_DAYS);
+    // Rent help is paid under the measure that last changed the paying line, so
+    // this government's help carries this law; another government whose line
+    // stands above its own base pays under its own (a state budget, say).
+    const lineLaw = String(
+      mechanicRow(api, housingLineMeasureId(gov.id))?.facts.lawId ?? "",
+    );
     const help = rowsOn(api, KEYS.housing);
     check("housing", help.length > 0, "the line reached no household");
     check(
@@ -726,12 +734,18 @@ function play(
       paid.some((p) => p.date <= addDays(makeIsoDate(raisedOn), 40)),
       "the treasury paid nothing within forty days",
     );
-    const full = help.find(
-      (r) => r.target === "household" && r.amountMinor > 0,
-    );
-    const post = full
-      ? paid.find((p) => owner(p) === full.targetId && p.gross > 0)
-      : undefined;
+    // A full household's applied row under this line's law, and that household's own payment.
+    let full: LawAppliedRow | undefined;
+    let post: Post | undefined;
+    for (const r of help) {
+      if (r.target !== "household" || r.amountMinor <= 0) continue;
+      if (r.lawId !== lineLaw) continue;
+      post = paid.find((p) => owner(p) === r.targetId && p.gross > 0);
+      if (post) {
+        full = r;
+        break;
+      }
+    }
     if (full && post)
       trails.housing = {
         appliedId: full.id,
@@ -764,18 +778,32 @@ function play(
       carry: true,
     });
     step(core, 40);
+    check("rentHelp.cut", lineLaw !== "", "the raised line names no measure");
     check(
       "rentHelp.cut",
       !posts.some(
-        (p) => p.ref.startsWith("rent-assistance:") && p.date > cutOn,
+        (p) =>
+          p.ref.startsWith("rent-assistance:") &&
+          p.date > cutOn &&
+          p.accounts.some((a) => a.includes(gov.organizationId)),
       ),
-      "assistance was paid after the line was cut",
+      "this government paid assistance after its line was cut",
     );
+    const open = appliedOn(api, KEYS.housing);
+    const left = open.filter((r) => r.lawId === lineLaw);
     check(
       "rentHelp.cut",
-      appliedOn(api, KEYS.housing).length === 0,
-      `${appliedOn(api, KEYS.housing).length} housing rows are still open after the cut`,
+      left.length === 0,
+      `${left.length} housing rows under the cut line are still open`,
     );
+    // Help another government pays from its own line above its base goes on.
+    const others = [...new Set(open.map((r) => r.lawId))].filter(
+      (id) => id !== lineLaw,
+    );
+    if (others.length)
+      console.log(
+        `${where}: ${open.length - left.length} rent help rows stay open under other governments' lines: ${others.join(", ")}`,
+      );
   }
 
   // Repeal ends every row.
