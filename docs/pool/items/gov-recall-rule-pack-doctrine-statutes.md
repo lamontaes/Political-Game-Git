@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by: claude/recall-rule-statutes
 pr: #6036
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T12:57:41.175Z
 **Files.** data/municipal-elections/92O-national-state-baseline.json, src/core2/gov-rules/municipal-ballot-rules.ts, src/core2/recalls.test.ts, data/research/core/recall-timing-statutes-2026.json
 
 **Notes.** TODO
+
+Sent back 2026-10-25 from PR #6036 (branch claude/recall-rule-statutes): gov-rules.test.ts adds a new src/core2 import from src/simulation/municipal-election-rule-packs, contrary to the engine boundary; retain the positive statute and parity/default coverage through existing interfaces or core-owned fixture data without that new legacy bridge; finish on that branch, merge main into it first. No completed local green gate or external statute verification was claimed.
