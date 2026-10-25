@@ -6,5 +6,6 @@ The handoff log. Newest first. Every agent adds one line before it stops, in the
 
 ## Log
 
+- 2026-10-25 17:58 · speed lead/Claude Opus · play-stop-25-door-count-stops-growing · claude/play-stop-25-door-count · see the PR head · PR opened #6065 · a merger checks #6065 (fix item play-campaign-doors-go-round-again rides with it); the owner's yes on after-dix.png, since the grayed campaign buttons now say why (LAW section 1, a screen's look) · none
 - 2026-10-24 18:32 · CTO subagent/Claude Opus · lane built (LAW, README, ORDER, 61 items, skill, pool check) · cto/play-first-lane · see the PR head · PR opened #5963 · the CTO merges #5963; then the next agent takes line 1 of ORDER.md (play-stop-23-job-offer-hold-locks-the-game) · none
 - 2026-10-24 18:04 · CTO/Claude Opus · lane opened · cto/play-first-lane · see the PR · PR opened · the next agent takes item 1 of ORDER.md (play-stop-23-job-offer-hold-locks-the-game) · none
