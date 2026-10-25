@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by: claude/m1-06-default-witness
 pr: #6032
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-25T12:13:35.969Z
 **Files.** src/core2/tooling/m1-06-check.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-25 from PR #6032 (branch claude/m1-06-default-witness): a redrawn default world is not checked against its own lender journal or actual loan balance, and a witness may have no next collection bill; require those positive consequences in the witness world and keep the unfinished passes-true/screenshot acceptance open or give a completed checker-only slice its own item; finish on that branch, merge main into it first.
