@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-cost-schedule
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T07:38:22.931Z
 ---
 
 **What.** The press engine sizes an outlet's monthly cost, which the wider audience's weekly payment covers, from each of its head's and reporters' current jobs at a 40-hour year (fullTimeHoursPerYear). In Washington, D.C. (seed dc-closures-a) a radio station's one reporter is scheduled 56 hours a week and paid 221,088 every two weeks, so in months the reporter works every scheduled day the station spends about 45,000 more than it takes in. At the Census size the reporter worked them all and the station closed on December 8, 2025 with its cash and credit exhausted, while at the sample size the reporter missed days and it stayed open.
