@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/drives-cause-acts-pull-less
-pr:
+pr: #6082
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T14:23:59.869Z
