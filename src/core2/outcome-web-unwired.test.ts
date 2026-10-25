@@ -9,11 +9,25 @@ import { describe, expect, it } from "vitest";
 import data from "./data/outcome-web/unwired.json" with { type: "json" };
 import stopgaps from "./data/stopgaps.json" with { type: "json" };
 import { unwiredRows } from "../../scripts/outcome-web/write-unwired";
+import { linkCoverage, WEB_LINKS } from "./outcome-web-model";
 
 describe("the outcome web's unwired links", () => {
   it("match the effect matrix, each with its reason", () => {
     expect(data.links).toEqual(unwiredRows());
     for (const row of data.links) expect(row.reason.length).toBeGreaterThan(20);
+  });
+
+  it("include every link the web does not run and no engine carries", () => {
+    // An engine reading the outcome is not enough: a link the web does not
+    // run moves nothing, so it stays on the list until it runs or is carried.
+    const listed = new Set(data.links.map((row) => row.link));
+    const unrun = WEB_LINKS.filter((link) => {
+      const coverage = linkCoverage(link);
+      return !coverage.wired && !("carriedBy" in coverage);
+    });
+    expect(unrun.length).toBeGreaterThan(0);
+    for (const link of unrun)
+      expect(listed.has(link.key), `${link.key} is not run`).toBe(true);
   });
 
   it("each name an open stopgap row", () => {
