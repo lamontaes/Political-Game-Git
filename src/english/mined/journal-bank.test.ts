@@ -6,8 +6,8 @@ import { initialFocusPeople } from "../../core2/focus";
 import { advanceCore, createLifeCore } from "../../core2/life";
 import { buildPopulation } from "../../core2/population";
 import type { CoreState } from "../../core2/types";
-import { composeJournal } from "../journal";
-import { createDirector } from "../ledger";
+import { composeJournal } from "../../director/journal";
+import { createDirector } from "../../director/ledger";
 import { JOURNAL_BANK, journalDataFromBank } from "./journal-bank";
 
 /**
@@ -44,7 +44,7 @@ const core = createLifeCore(input, { modules: [director.module] });
 director.start(core);
 advanceCore(core, addDays(makeIsoDate(core.date), 31));
 const chapters = composeJournal(core, director, player.id, {
-  data: journalDataFromBank(),
+  words: journalDataFromBank(),
 });
 
 const minedPatterns = JOURNAL_BANK.parts.map(

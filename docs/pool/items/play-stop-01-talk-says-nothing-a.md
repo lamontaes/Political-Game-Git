@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/play-stop-01-talk-a
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T18:15:07.367Z
 ---
 
 **What.** On the v0.22.10 release, Talk with my father, my mother or a sibling gave one closing line ("Talk to you soon.", "See you later.") and no replies at all. The owner's rulings say a talk starts from the place and the occasion, then from the biggest recorded event of either person, and always offers four replies ranked by the engine. This part makes the talk box show the opener and the four replies the conversation engine returns, and makes each reply change what the player sees next.

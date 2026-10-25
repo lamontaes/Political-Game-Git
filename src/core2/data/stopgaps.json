@@ -3203,7 +3203,9 @@
     "addedBy": "claude (split from SG-PW8-counted-arrivals)",
     "addedAt": "2026-10-17",
     "replacement": "A counted baby inherits from its counted parents' packed traits through the same family model a full person's child uses.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-25",
+    "resolution": "A counted baby's temperament is drawn by the same rule as every child (temperamentOf in src/core2/opening-personality.ts), from each counted parent's inherited part read back from their kept levels (inheritedPartOf: heritability times their score net of age and sex, plus the spread that leaves). Shown in src/core2/births-counted.test.ts (pool item people-counted-newborn-inherits-temperament)."
   },
   {
     "id": "SG-PW3-counted-engagement-copy",
@@ -3822,7 +3824,7 @@
     "id": "SG-PEOPLE-press-outlet-other-costs",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/press.ts",
-    "line": 733,
+    "line": 754,
     "whatItFakes": "An outlet's books carry its people's pay and no other costs: no printing, broadcast, rent or supplier contracts.",
     "why": "The press records an outlet's staff; its nonpayroll costs have no data yet.",
     "addedBy": "claude/press-outlet-revenue",
@@ -5112,7 +5114,7 @@
     "kind": "missing-data",
     "file": "src/core2/data/laws/outcome-research-gaps.json",
     "line": 7,
-    "whatItFakes": "27 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
+    "whatItFakes": "17 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
     "why": "data/research/outcome-web/links.json has no link from these laws or their measures; the laws' reach, engine reads and money are wired, but an outcome link needs a researched strength, shape and lag before the web can move anything.",
     "addedBy": "claude/law-wiring-audit",
     "addedAt": "2026-10-20",
