@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/unemployment-scope
-pr:
+pr: #6046
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T15:35:27.209Z
