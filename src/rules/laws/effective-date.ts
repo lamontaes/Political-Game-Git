@@ -57,10 +57,7 @@ export interface StatuteDateContext {
 }
 
 export type EffectiveDateBasis =
-  | "enacted-date"
-  | "state-rule"
-  | "estimated-state-rule"
-  | "game-default";
+  "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
 
 export interface EnactmentDateFacts {
   readonly resolvedAt: DateValue;
