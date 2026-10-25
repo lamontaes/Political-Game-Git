@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/poverty-record-date
+pr: #6110
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T21:01:54.133Z
 ---
 
 **What.** With WEB_POVERTY_SEED=cbf93743a0a0ec90 the test draws Chamizal, New Mexico and plays 100 days. The latest world-metrics poverty record is from April 2, 2025 (share 0.044, 2 of 45 people), but the test compares it with povertyByPlace on day 100, after full households lost their jobs between April 10 and 20 (10 of 46 people, share 0.217). It fails the same way on clean main; it is red by draw, not by a change.
