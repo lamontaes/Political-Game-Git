@@ -7,7 +7,7 @@ import { settleEstate, heirsOf } from "../core2/estates";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { coreAPI } from "../core2/state";
+import { coreAPI, personOrFillIn } from "../core2/state";
 import { composeScene } from "./scene";
 
 // A person who learns that a law took money from them has a moment the
@@ -38,7 +38,12 @@ it(`an heir told by an estate notice has the scene alone, with no teller invente
     )
     .sort((a, b) => a.id.localeCompare(b.id))[0];
   expect(decedent, `${where}: no one with living kin`).toBeDefined();
-  for (const heir of heirsOf(api, decedent!).heirs) director.watch(core, heir);
+  // An heir the story follows is a full person: one still in the counts is
+  // filled in from the records first, as play fills in someone it meets.
+  for (const heir of heirsOf(api, decedent!).heirs) {
+    personOrFillIn(core, heir);
+    director.watch(core, heir);
+  }
   // An estate of $20 million, so the estate tax in force applies (an edge
   // case a played town rarely holds).
   api.updatePerson(decedent!.id, { liquidMinor: 20_000_000_00 });
