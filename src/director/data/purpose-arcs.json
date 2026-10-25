@@ -1,18 +1,12 @@
 {
   "schema": "director-purpose-arcs/1",
-  "note": "How a scene with a purpose plays (owner, Oct 15, evening: a setup, a person with a purpose, stakes, and an exchange that plays to resolved or refused). Moves only: no sentence is here; the English engine words each move from data/english/parts/scene-talk.json. A purpose names what the asker states and the player's four reply moves; `follow` is how the asker answers each reply move, chosen by the asker's traits (each candidate's pulls, summed over the asker's trait levels; the highest wins, so no roll decides it); `again` is the player's four replies to that answer; `close` ends the exchange by its outcome. A yes or a no never ends a talk: the asker answers it, and the exchange closes only when the purpose is resolved or refused. A purpose may carry its own `follow` and `again`; the engine reads them before the shared ones, so a family talk never borrows a vote's answers.",
+  "note": "How a scene with a purpose plays (owner, Oct 15, evening: a setup, a person with a purpose, stakes, and an exchange that plays to resolved or refused). Moves only: no sentence is here; the English engine words each move from data/english/parts/scene-talk.json. A purpose names what the asker states and the player's four reply moves; `follow` is how the asker answers each reply move, chosen by the asker's traits through the shared decision table (each move's act kinds in `scene-talk.move`, data/content/trait-decisions.json, read by the trait engine's lean, the same lean every other decision reads; the highest wins, a tie by the stable hash, so no roll decides it); `again` is the player's four replies to that answer; `close` ends the exchange by its outcome. A yes or a no never ends a talk: the asker answers it, and the exchange closes only when the purpose is resolved or refused. A purpose may carry its own `follow` and `again`; the engine reads them before the shared ones, so a family talk never borrows a vote's answers.",
   "parameters": {
     "rounds": {
       "value": 5,
       "tag": "TUNABLE",
       "spread": [3, 6],
       "checkedAgainst": "Player replies before the exchange must close; the owner asked for multi-exchange scenes (Oct 15, night), and five rounds let a bargain, a push-back and a lie play out on the bench."
-    },
-    "baseWeight": {
-      "value": 1,
-      "tag": "TUNABLE",
-      "spread": [0.5, 2],
-      "checkedAgainst": "A follow-up move's weight before trait pulls, so a move with no pulling traits can still be chosen."
     }
   },
   "purposes": {
@@ -53,56 +47,10 @@
       "state": "ask",
       "replies": ["answer", "deflect", "refuse", "lie"],
       "follow": {
-        "answer": [
-          {
-            "move": "ask",
-            "pulls": {
-              "personality-v1:facet-skeptical": 0.5,
-              "personality-v1:facet-persistent": 0.3
-            }
-          },
-          {
-            "move": "thank",
-            "pulls": {
-              "personality-v1:facet-polite": 0.4
-            }
-          }
-        ],
-        "deflect": [
-          {
-            "move": "press",
-            "pulls": {
-              "personality-v1:facet-persistent": 0.5
-            }
-          },
-          {
-            "move": "accept",
-            "pulls": {
-              "personality-v1:facet-polite": 0.3
-            }
-          }
-        ],
-        "refuse": [
-          {
-            "move": "press",
-            "pulls": {
-              "personality-v1:facet-persistent": 0.5,
-              "personality-v1:facet-argumentative": 0.3
-            }
-          },
-          {
-            "move": "accept",
-            "pulls": {
-              "personality-v1:facet-polite": 0.4
-            }
-          }
-        ],
-        "confront": [
-          {
-            "move": "answer",
-            "pulls": {}
-          }
-        ]
+        "answer": ["ask", "thank"],
+        "deflect": ["press", "accept"],
+        "refuse": ["press", "accept"],
+        "confront": ["answer"]
       },
       "again": {
         "ask": ["answer", "deflect", "refuse"],
@@ -114,52 +62,10 @@
       "state": "request",
       "replies": ["promise", "ask", "decline", "offer", "lie"],
       "follow": {
-        "promise": [
-          {
-            "move": "thank",
-            "pulls": {}
-          },
-          {
-            "move": "press",
-            "pulls": {
-              "personality-v1:facet-skeptical": 0.5,
-              "personality-v1:initial-trust": -0.4
-            }
-          }
-        ],
-        "ask": [
-          {
-            "move": "answer",
-            "pulls": {}
-          }
-        ],
-        "decline": [
-          {
-            "move": "plea",
-            "pulls": {
-              "personality-v1:facet-sensitive": 0.4,
-              "personality-v1:facet-persistent": 0.3
-            }
-          },
-          {
-            "move": "accept",
-            "pulls": {
-              "personality-v1:facet-polite": 0.4
-            }
-          }
-        ],
-        "offer": [
-          {
-            "move": "thank",
-            "pulls": {}
-          },
-          {
-            "move": "press",
-            "pulls": {
-              "personality-v1:facet-skeptical": 0.5
-            }
-          }
-        ]
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "decline": ["plea", "accept"],
+        "offer": ["thank", "press"]
       },
       "again": {
         "answer": ["promise", "offer", "decline"],
@@ -171,88 +77,14 @@
       "state": "ask",
       "replies": ["tell", "request", "deflect", "comfort"],
       "follow": {
-        "tell": [
-          {
-            "move": "comfort",
-            "pulls": {
-              "personality-v1:facet-supportive": 0.5,
-              "personality-v1:facet-affectionate": 0.4
-            }
-          },
-          {
-            "move": "ask",
-            "pulls": {
-              "personality-v1:facet-curious": 0.4,
-              "personality-v1:facet-sensitive": 0.3
-            }
-          },
-          {
-            "move": "disagree",
-            "pulls": {
-              "personality-v1:facet-argumentative": 0.4,
-              "personality-v1:facet-defensive": 0.3
-            }
-          }
-        ],
-        "request": [
-          {
-            "move": "promise",
-            "pulls": {
-              "personality-v1:facet-supportive": 0.5,
-              "personality-v1:facet-generous": 0.3
-            }
-          },
-          {
-            "move": "decline",
-            "pulls": {
-              "personality-v1:facet-guarded": 0.5
-            }
-          }
-        ],
-        "deflect": [
-          {
-            "move": "press",
-            "pulls": {
-              "personality-v1:facet-persistent": 0.5
-            }
-          },
-          {
-            "move": "plea",
-            "pulls": {
-              "personality-v1:facet-sensitive": 0.4
-            }
-          }
-        ],
-        "comfort": [
-          {
-            "move": "thank",
-            "pulls": {}
-          }
-        ],
-        "apologize": [
-          {
-            "move": "accept",
-            "pulls": {}
-          }
-        ],
-        "promise": [
-          {
-            "move": "thank",
-            "pulls": {}
-          }
-        ],
-        "thank": [
-          {
-            "move": "thank",
-            "pulls": {}
-          }
-        ],
-        "accept": [
-          {
-            "move": "accept",
-            "pulls": {}
-          }
-        ]
+        "tell": ["comfort", "ask", "disagree"],
+        "request": ["promise", "decline"],
+        "deflect": ["press", "plea"],
+        "comfort": ["thank"],
+        "apologize": ["accept"],
+        "promise": ["thank"],
+        "thank": ["thank"],
+        "accept": ["accept"]
       },
       "again": {
         "ask": ["tell", "apologize", "request"],
@@ -274,50 +106,11 @@
       "state": "congratulate",
       "replies": ["thank", "promise", "boast", "tell"],
       "follow": {
-        "thank": [
-          {
-            "move": "promise",
-            "pulls": {}
-          }
-        ],
-        "promise": [
-          {
-            "move": "thank",
-            "pulls": {}
-          },
-          {
-            "move": "press",
-            "pulls": {
-              "personality-v1:facet-sensitive": 0.4
-            }
-          }
-        ],
-        "boast": [
-          {
-            "move": "confront",
-            "pulls": {}
-          }
-        ],
-        "tell": [
-          {
-            "move": "ask",
-            "pulls": {
-              "personality-v1:facet-curious": 0.5
-            }
-          },
-          {
-            "move": "promise",
-            "pulls": {
-              "personality-v1:facet-affectionate": 0.4
-            }
-          }
-        ],
-        "apologize": [
-          {
-            "move": "thank",
-            "pulls": {}
-          }
-        ]
+        "thank": ["promise"],
+        "promise": ["thank", "press"],
+        "boast": ["confront"],
+        "tell": ["ask", "promise"],
+        "apologize": ["thank"]
       },
       "again": {
         "promise": ["thank", "promise"],
@@ -330,53 +123,11 @@
       "state": "comfort",
       "replies": ["thank", "blame", "deflect", "promise"],
       "follow": {
-        "thank": [
-          {
-            "move": "thank",
-            "pulls": {}
-          }
-        ],
-        "blame": [
-          {
-            "move": "comfort",
-            "pulls": {
-              "personality-v1:facet-comforting": 0.6,
-              "personality-v1:facet-gentle": 0.4
-            }
-          },
-          {
-            "move": "disagree",
-            "pulls": {
-              "personality-v1:facet-argumentative": 0.3
-            }
-          }
-        ],
-        "deflect": [
-          {
-            "move": "plea",
-            "pulls": {}
-          }
-        ],
-        "promise": [
-          {
-            "move": "ask",
-            "pulls": {
-              "personality-v1:facet-sensitive": 0.4
-            }
-          },
-          {
-            "move": "thank",
-            "pulls": {
-              "personality-v1:facet-supportive": 0.4
-            }
-          }
-        ],
-        "tell": [
-          {
-            "move": "comfort",
-            "pulls": {}
-          }
-        ]
+        "thank": ["thank"],
+        "blame": ["comfort", "disagree"],
+        "deflect": ["plea"],
+        "promise": ["ask", "thank"],
+        "tell": ["comfort"]
       },
       "again": {
         "comfort": ["thank", "tell", "promise"],
@@ -389,64 +140,10 @@
       "state": "confront",
       "replies": ["apologize", "promise", "deflect", "blame", "lie"],
       "follow": {
-        "apologize": [
-          {
-            "move": "accept",
-            "pulls": {
-              "personality-v1:facet-forgiving": 0.6
-            }
-          },
-          {
-            "move": "press",
-            "pulls": {
-              "personality-v1:facet-persistent": 0.4,
-              "personality-v1:facet-vindictive": 0.4
-            }
-          }
-        ],
-        "promise": [
-          {
-            "move": "accept",
-            "pulls": {
-              "personality-v1:facet-forgiving": 0.5,
-              "personality-v1:initial-trust": 0.4
-            }
-          },
-          {
-            "move": "press",
-            "pulls": {
-              "personality-v1:facet-skeptical": 0.5
-            }
-          }
-        ],
-        "deflect": [
-          {
-            "move": "press",
-            "pulls": {
-              "personality-v1:facet-persistent": 0.5
-            }
-          },
-          {
-            "move": "plea",
-            "pulls": {
-              "personality-v1:facet-sensitive": 0.4
-            }
-          }
-        ],
-        "blame": [
-          {
-            "move": "disagree",
-            "pulls": {
-              "personality-v1:facet-argumentative": 0.5
-            }
-          },
-          {
-            "move": "plea",
-            "pulls": {
-              "personality-v1:facet-sensitive": 0.4
-            }
-          }
-        ]
+        "apologize": ["accept", "press"],
+        "promise": ["accept", "press"],
+        "deflect": ["press", "plea"],
+        "blame": ["disagree", "plea"]
       },
       "again": {
         "press": ["promise", "apologize", "blame"],
@@ -458,30 +155,10 @@
       "state": "request",
       "replies": ["promise", "request", "thank", "deflect"],
       "follow": {
-        "promise": [
-          {
-            "move": "thank",
-            "pulls": {}
-          }
-        ],
-        "request": [
-          {
-            "move": "promise",
-            "pulls": {}
-          }
-        ],
-        "thank": [
-          {
-            "move": "ask",
-            "pulls": {}
-          }
-        ],
-        "deflect": [
-          {
-            "move": "press",
-            "pulls": {}
-          }
-        ]
+        "promise": ["thank"],
+        "request": ["promise"],
+        "thank": ["ask"],
+        "deflect": ["press"]
       },
       "again": {
         "ask": ["request", "promise"],
@@ -493,43 +170,10 @@
       "state": "confront",
       "replies": ["disagree", "deflect", "confront", "boast", "lie"],
       "follow": {
-        "disagree": [
-          {
-            "move": "confront",
-            "pulls": {}
-          }
-        ],
-        "deflect": [
-          {
-            "move": "confront",
-            "pulls": {}
-          },
-          {
-            "move": "boast",
-            "pulls": {
-              "personality-v1:facet-cocky": 0.5,
-              "personality-v1:facet-smug": 0.4
-            }
-          }
-        ],
-        "confront": [
-          {
-            "move": "confront",
-            "pulls": {}
-          },
-          {
-            "move": "boast",
-            "pulls": {
-              "personality-v1:facet-cocky": 0.5
-            }
-          }
-        ],
-        "boast": [
-          {
-            "move": "confront",
-            "pulls": {}
-          }
-        ]
+        "disagree": ["confront"],
+        "deflect": ["confront", "boast"],
+        "confront": ["confront", "boast"],
+        "boast": ["confront"]
       },
       "again": {
         "confront": ["disagree", "boast", "deflect"],
@@ -540,30 +184,10 @@
       "state": "deliver-news",
       "replies": ["agree", "refuse", "ask", "stall"],
       "follow": {
-        "agree": [
-          {
-            "move": "accept",
-            "pulls": {}
-          }
-        ],
-        "refuse": [
-          {
-            "move": "accept",
-            "pulls": {}
-          }
-        ],
-        "ask": [
-          {
-            "move": "answer",
-            "pulls": {}
-          }
-        ],
-        "stall": [
-          {
-            "move": "press",
-            "pulls": {}
-          }
-        ]
+        "agree": ["accept"],
+        "refuse": ["accept"],
+        "ask": ["answer"],
+        "stall": ["press"]
       },
       "again": {
         "answer": ["agree", "refuse", "ask", "stall"],
@@ -574,48 +198,13 @@
       "state": "deliver-news",
       "replies": ["ask", "blame", "accept", "deflect", "lie"],
       "follow": {
-        "ask": [
-          {
-            "move": "answer",
-            "pulls": {}
-          }
-        ],
-        "blame": [
-          {
-            "move": "promise",
-            "pulls": {}
-          }
-        ],
-        "accept": [
-          {
-            "move": "offer",
-            "pulls": {}
-          }
-        ],
-        "deflect": [
-          {
-            "move": "press",
-            "pulls": {}
-          }
-        ],
-        "agree": [
-          {
-            "move": "thank",
-            "pulls": {}
-          }
-        ],
-        "refuse": [
-          {
-            "move": "press",
-            "pulls": {}
-          }
-        ],
-        "thank": [
-          {
-            "move": "thank",
-            "pulls": {}
-          }
-        ]
+        "ask": ["answer"],
+        "blame": ["promise"],
+        "accept": ["offer"],
+        "deflect": ["press"],
+        "agree": ["thank"],
+        "refuse": ["press"],
+        "thank": ["thank"]
       },
       "again": {
         "answer": ["ask", "blame", "accept"],
@@ -657,250 +246,28 @@
     ]
   },
   "follow": {
-    "agree": [
-      {
-        "move": "thank",
-        "pulls": {}
-      }
-    ],
-    "promise": [
-      {
-        "move": "thank",
-        "pulls": {}
-      },
-      {
-        "move": "press",
-        "pulls": {
-          "personality-v1:facet-skeptical": 0.6,
-          "personality-v1:initial-trust": -0.5
-        }
-      }
-    ],
-    "relent": [
-      {
-        "move": "thank",
-        "pulls": {}
-      }
-    ],
-    "refuse": [
-      {
-        "move": "plea",
-        "pulls": {
-          "personality-v1:facet-affectionate": 0.5,
-          "personality-v1:facet-sincere": 0.4,
-          "personality-v1:facet-sensitive": 0.3
-        }
-      },
-      {
-        "move": "press",
-        "pulls": {
-          "personality-v1:facet-persistent": 0.6,
-          "personality-v1:facet-argumentative": 0.5,
-          "personality-v1:facet-assertive": 0.4
-        }
-      },
-      {
-        "move": "threaten",
-        "pulls": {
-          "personality-v1:facet-hostile": 0.6,
-          "personality-v1:facet-vindictive": 0.6,
-          "personality-v1:facet-manipulative": 0.4
-        }
-      },
-      {
-        "move": "accept",
-        "pulls": {
-          "personality-v1:facet-forgiving": 0.5,
-          "personality-v1:facet-polite": 0.4,
-          "personality-v1:facet-calm": 0.3
-        }
-      }
-    ],
+    "agree": ["thank"],
+    "promise": ["thank", "press"],
+    "relent": ["thank"],
+    "refuse": ["plea", "press", "threaten", "accept"],
     "decline": "refuse",
     "withdraw": "refuse",
-    "bargain": [
-      {
-        "move": "accept",
-        "pulls": {
-          "personality-v1:facet-mediating": 0.5,
-          "personality-v1:facet-generous": 0.4
-        }
-      },
-      {
-        "move": "bargain",
-        "pulls": {
-          "personality-v1:facet-competitive": 0.5,
-          "personality-v1:facet-opportunistic": 0.5
-        }
-      },
-      {
-        "move": "refuse",
-        "pulls": {
-          "personality-v1:facet-persistent": 0.3,
-          "personality-v1:facet-defensive": 0.4
-        }
-      }
-    ],
-    "stall": [
-      {
-        "move": "press",
-        "pulls": {
-          "personality-v1:facet-persistent": 0.5,
-          "personality-v1:facet-restless": 0.4
-        }
-      },
-      {
-        "move": "plea",
-        "pulls": {
-          "personality-v1:facet-affectionate": 0.4,
-          "personality-v1:facet-sensitive": 0.3
-        }
-      }
-    ],
+    "bargain": ["accept", "bargain", "refuse"],
+    "stall": ["press", "plea"],
     "deflect": "stall",
-    "ask": [
-      {
-        "move": "answer",
-        "pulls": {}
-      }
-    ],
-    "request": [
-      {
-        "move": "promise",
-        "pulls": {
-          "personality-v1:facet-generous": 0.4,
-          "personality-v1:facet-supportive": 0.4
-        }
-      },
-      {
-        "move": "decline",
-        "pulls": {
-          "personality-v1:facet-guarded": 0.5
-        }
-      }
-    ],
-    "blame": [
-      {
-        "move": "disagree",
-        "pulls": {
-          "personality-v1:facet-argumentative": 0.5,
-          "personality-v1:facet-defensive": 0.4
-        }
-      },
-      {
-        "move": "comfort",
-        "pulls": {
-          "personality-v1:facet-comforting": 0.6,
-          "personality-v1:facet-gentle": 0.4
-        }
-      }
-    ],
-    "confront": [
-      {
-        "move": "confront",
-        "pulls": {
-          "personality-v1:facet-hot-headed": 0.6,
-          "personality-v1:facet-argumentative": 0.4
-        }
-      },
-      {
-        "move": "deflect",
-        "pulls": {
-          "personality-v1:facet-tactful": 0.5,
-          "personality-v1:facet-guarded": 0.3
-        }
-      }
-    ],
+    "ask": ["answer"],
+    "request": ["promise", "decline"],
+    "blame": ["disagree", "comfort"],
+    "confront": ["confront", "deflect"],
     "disagree": "confront",
-    "boast": [
-      {
-        "move": "confront",
-        "pulls": {
-          "personality-v1:facet-competitive": 0.5,
-          "personality-v1:facet-sassy": 0.4
-        }
-      },
-      {
-        "move": "accept",
-        "pulls": {
-          "personality-v1:facet-humble": 0.4
-        }
-      }
-    ],
-    "tell": [
-      {
-        "move": "ask",
-        "pulls": {
-          "personality-v1:facet-curious": 0.5
-        }
-      },
-      {
-        "move": "comfort",
-        "pulls": {
-          "personality-v1:facet-supportive": 0.5
-        }
-      }
-    ],
-    "thank": [
-      {
-        "move": "promise",
-        "pulls": {}
-      }
-    ],
-    "comfort": [
-      {
-        "move": "thank",
-        "pulls": {}
-      }
-    ],
-    "apologize": [
-      {
-        "move": "accept",
-        "pulls": {
-          "personality-v1:facet-forgiving": 0.6
-        }
-      },
-      {
-        "move": "press",
-        "pulls": {
-          "personality-v1:facet-vindictive": 0.4,
-          "personality-v1:facet-persistent": 0.3
-        }
-      }
-    ],
-    "offer": [
-      {
-        "move": "thank",
-        "pulls": {}
-      },
-      {
-        "move": "press",
-        "pulls": {
-          "personality-v1:facet-persistent": 0.4
-        }
-      }
-    ],
-    "answer": [
-      {
-        "move": "ask",
-        "pulls": {
-          "personality-v1:facet-skeptical": 0.5,
-          "personality-v1:facet-persistent": 0.3
-        }
-      },
-      {
-        "move": "thank",
-        "pulls": {
-          "personality-v1:facet-polite": 0.4
-        }
-      }
-    ],
-    "accept": [
-      {
-        "move": "promise",
-        "pulls": {}
-      }
-    ]
+    "boast": ["confront", "accept"],
+    "tell": ["ask", "comfort"],
+    "thank": ["promise"],
+    "comfort": ["thank"],
+    "apologize": ["accept", "press"],
+    "offer": ["thank", "press"],
+    "answer": ["ask", "thank"],
+    "accept": ["promise"]
   },
   "again": {
     "note": "The player's four replies to the asker's answer, by that answer's move.",

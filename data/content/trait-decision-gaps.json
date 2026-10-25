@@ -103,6 +103,11 @@
       "why": "Read only in a conversation the player opens.",
       "fix": "Player-only by design; covered by the player's conversations."
     },
+    "scene-talk.move": {
+      "class": "no trigger (player only)",
+      "why": "Read only when the director composes a scene with a purpose for the player (src/director/scene-talk.ts): the asker's answer and the reply the player's character leans toward.",
+      "fix": "Player-only by design; covered by scene-talk.test.ts on a generated town."
+    },
     "bring-it-up.blame": {
       "class": "no trigger (player only)",
       "why": "Read only in a conversation the player opens (src/director/bring-it-up.ts:105).",

@@ -10,6 +10,8 @@ import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import type { Fact } from "./render";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
+import { traitLean } from "../core2/choice";
+import { decisionKinds } from "../core2/trait-decisions";
 
 // Scenes with a purpose (owner, Oct 15, evening): a setup, a person with a
 // purpose, stakes, and an exchange that plays to resolved or refused, worded
@@ -236,5 +238,55 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(new Set(numbers).size).toBe(numbers.length);
       void lies;
     }
+  });
+  it("answers by the same lean every decision reads: two of the town's people with opposite leans answer the same reply each by their own", () => {
+    // The asker's answer reads each move's act kinds in the shared decision
+    // table (`scene-talk.move`), as every other decision does, never a pull
+    // sum of its own. Two adults of this town, with their own traits, ask the
+    // player the same thing; the player's reply is the same, so where their
+    // answers part, each took the move their own traits lean toward more.
+    const lean = (id: string, move: string) =>
+      traitLean(
+        core,
+        core.people.get(id)!,
+        decisionKinds("scene-talk.move", move),
+      );
+    const tilt = (id: string) => lean(id, "press") - lean(id, "accept");
+    const pool = adults.slice(1, 120).map((person) => person.id);
+    const [pushy] = [...pool].sort((a, b) => tilt(b) - tilt(a));
+    const [yielding] = [...pool].sort((a, b) => tilt(a) - tilt(b));
+    expect(tilt(pushy!)).toBeGreaterThan(tilt(yielding!));
+    let parted = 0;
+    for (const type of types) {
+      const talkOf = (id: string) => {
+        const result = composeSceneTalk(
+          core,
+          director,
+          { askerId: id, askedId },
+          type,
+          facts,
+          {},
+          HELD,
+        );
+        return result.kind === "composed" ? result.talk.lines : [];
+      };
+      const first = talkOf(pushy!);
+      const second = talkOf(yielding!);
+      for (let k = 0; k < Math.min(first.length, second.length); k += 1) {
+        const [a, b] = [first[k]!, second[k]!];
+        if (a.move === b.move) continue;
+        if (a.role === "asker" && a.step === "follow" && b.step === "follow") {
+          parted += 1;
+          expect(lean(pushy!, a.move), type.key).toBeGreaterThanOrEqual(
+            lean(pushy!, b.move),
+          );
+          expect(lean(yielding!, b.move), type.key).toBeGreaterThanOrEqual(
+            lean(yielding!, a.move),
+          );
+        }
+        break;
+      }
+    }
+    expect(parted).toBeGreaterThan(0);
   });
 });
