@@ -594,6 +594,18 @@
       "outcome": "parks.access-to-exercise",
       "reason": "engine doesn't read the factor: parks.access-to-exercise moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-parks-access-to-exercise"
+    },
+    {
+      "link": "snap-maximum-to-food-insecurity",
+      "outcome": "household.food-insecurity",
+      "reason": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.snap-maximum-change-pct",
+      "stopgapId": "SG-WEB-unread-household-food-insecurity"
+    },
+    {
+      "link": "higher-education-spending-to-college-completion",
+      "outcome": "school.college-completion-pct",
+      "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
+      "stopgapId": "SG-WEB-unread-school-college-completion-pct"
     }
   ]
 }

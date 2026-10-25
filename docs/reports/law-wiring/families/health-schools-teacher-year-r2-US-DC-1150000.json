@@ -6,7 +6,7 @@
   "name": "Washington, District of Columbia",
   "state": "US-DC"
  },
- "window": 120,
+ "window": 365,
  "after": 31,
  "results": [
   {
@@ -14,10 +14,10 @@
    "kind": "question",
    "family": "education",
    "inForceAtOpening": false,
-   "change": "enacted at city (law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at city effective 2025-05-22",
+   "change": "enacted at city (law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at city effective 2026-01-22",
    "lawIds": [
     "law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
-    "law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-05-22:law-wiring-8f723f97-b"
+    "law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2026-01-22:law-wiring-8f723f97-b"
    ],
    "openingReach": {
     "fullPeople": 0,
@@ -34,7 +34,7 @@
    "reach": {
     "fullPeople": 3,
     "countedGroups": 1,
-    "countedPeople": 74,
+    "countedPeople": 76,
     "households": 0,
     "organizations": 0,
     "governments": 0,
@@ -49,119 +49,37 @@
     ]
    },
    "reachAtEnd": {
-    "fullPeople": 3,
+    "fullPeople": 1,
     "countedGroups": 1,
-    "countedPeople": 74,
+    "countedPeople": 71,
     "households": 0,
     "organizations": 0,
     "governments": 0,
     "other": 0,
-    "open": 4,
+    "open": 2,
     "ended": 0,
     "sample": [
      "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_8c4efc7c59907476",
-     "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_c4932b55e8f4034c",
-     "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_f21e87ed64586aee",
      "applied|us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_7691c6e3ae48f824:counted-teachers"
     ]
    },
    "inPlay": [],
    "readers": {
-    "src/core2/modules/outcome-web.ts:172": 54,
-    "src/core2/law-reach/group-b-money.ts:88 <- src/core2/public-pay-floor.ts:46": 20,
-    "src/core2/modules/world-legislating.ts:183": 8,
+    "src/core2/modules/outcome-web.ts:172": 198,
+    "src/core2/law-reach/group-b-money.ts:88 <- src/core2/public-pay-floor.ts:46": 52,
+    "src/core2/modules/world-legislating.ts:183": 16,
     "src/core2/life.ts:556": 5,
-    "src/core2/modules/legislature.ts:2094": 2,
-    "src/core2/modules/world-legislating.ts:333": 2
+    "src/core2/modules/legislature.ts:2094": 4,
+    "src/core2/modules/world-legislating.ts:333": 4
    },
    "openingRow": "law:US-DC:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
    "money": {
     "direct": [],
     "diff": [
      {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-      "treatment": 14708810171,
-      "control": 14695173112,
-      "ids": [
-       "journal:2025-01-21:1504",
-       "journal:2025-01-21:1505",
-       "journal:2025-01-21:1506"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
-      "treatment": 8632097333,
-      "control": 8626732094,
-      "ids": [
-       "journal:2025-02-01:2456",
-       "journal:2025-02-01:2457",
-       "journal:2025-02-01:2458"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
-      "treatment": 63242681150170,
-      "control": 63242683130623,
-      "ids": [
-       "journal:2025-02-01:1632",
-       "journal:2025-02-01:1633",
-       "journal:2025-02-01:1634"
-      ]
-     },
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 337033479,
-      "control": 335916363,
-      "ids": [
-       "journal:2025-01-27:1552",
-       "journal:2025-01-29:1597",
-       "journal:2025-01-31:1615"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:342",
-      "treatment": 66993910,
-      "control": 66057019,
-      "ids": [
-       "journal:2025-02-01:1760",
-       "journal:2025-02-01:1761",
-       "journal:2025-02-01:1762"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:915",
-      "treatment": 234114242093571,
-      "control": 234114241283803,
-      "ids": [
-       "journal:2025-02-01:1642",
-       "journal:2025-02-01:1643",
-       "journal:2025-02-01:1644"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
-      "treatment": 411206819,
-      "control": 410684868,
-      "ids": [
-       "journal:2025-02-01:1739",
-       "journal:2025-02-01:1740",
-       "journal:2025-02-01:1741"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-      "treatment": 1962015894,
-      "control": 1961518292,
-      "ids": [
-       "journal:2025-02-01:1793",
-       "journal:2025-02-01:1794",
-       "journal:2025-02-01:1795"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
-      "treatment": 5781849593,
-      "control": 5781353910,
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1240",
+      "treatment": 12502704714,
+      "control": 12379748116,
       "ids": [
        "journal:2025-01-21:1456",
        "journal:2025-01-21:1457",
@@ -169,37 +87,117 @@
       ]
      },
      {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1222",
+      "treatment": 11422884585,
+      "control": 11537647493,
+      "ids": [
+       "journal:2025-02-01:5551",
+       "journal:2025-02-01:5552",
+       "journal:2025-02-01:5553"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 47393338716,
+      "control": 47345887151,
+      "ids": [
+       "journal:2025-01-21:1494",
+       "journal:2025-01-21:1495",
+       "journal:2025-01-21:1496"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+      "treatment": 27854188960,
+      "control": 27820316139,
+      "ids": [
+       "journal:2025-02-01:2444",
+       "journal:2025-02-01:2445",
+       "journal:2025-02-01:2446"
+      ]
+     },
+     {
       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 28500933576,
-      "control": 28500735569,
+      "treatment": 87749065539,
+      "control": 87742863505,
       "ids": [
-       "journal:2025-01-21:1489",
-       "journal:2025-01-21:1490",
-       "journal:2025-01-21:1491"
+       "journal:2025-01-21:1479",
+       "journal:2025-01-21:1480",
+       "journal:2025-01-21:1481"
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
-      "treatment": 71969769,
-      "control": 72137239,
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+      "treatment": 1631083721,
+      "control": 1628060826,
       "ids": [
-       "journal:2025-02-19:13371",
-       "journal:2025-02-19:13372",
-       "journal:2025-02-19:13373"
+       "journal:2025-01-27:1552",
+       "journal:2025-01-29:1587",
+       "journal:2025-01-31:1605"
       ]
      },
      {
-      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-      "treatment": 206336466,
-      "control": 206221154,
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 12423366393,
+      "control": 12425767741,
       "ids": [
-       "journal:2025-02-01:1851",
-       "journal:2025-02-01:1853",
-       "journal:2025-02-01:1855"
+       "journal:2025-02-01:1731",
+       "journal:2025-02-01:1733",
+       "journal:2025-02-01:1735"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 6725210137,
+      "control": 6722843187,
+      "ids": [
+       "journal:2025-02-01:1781",
+       "journal:2025-02-01:1782",
+       "journal:2025-02-01:1783"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:2635",
+      "treatment": 68385734,
+      "control": 66722871,
+      "ids": [
+       "journal:2025-02-01:5634",
+       "journal:2025-02-01:5635",
+       "journal:2025-02-01:5636"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 1508407952,
+      "control": 1506934791,
+      "ids": [
+       "journal:2025-02-01:1728",
+       "journal:2025-02-01:1729",
+       "journal:2025-02-01:1730"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:955",
+      "treatment": 701889589885929,
+      "control": 701889588482898,
+      "ids": [
+       "journal:2025-02-01:1632",
+       "journal:2025-02-01:1633",
+       "journal:2025-02-01:1634"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1825",
+      "treatment": 102110802,
+      "control": 100914849,
+      "ids": [
+       "journal:2025-02-19:13358",
+       "journal:2025-02-19:13359",
+       "journal:2025-02-19:13360"
       ]
      }
     ],
-    "diffKinds": 24,
+    "diffKinds": 38,
     "cited": [],
     "controlCited": []
    },
@@ -213,7 +211,7 @@
     ],
     "fired": [],
     "firedCount": 0,
-    "windowDays": 120,
+    "windowDays": 365,
     "cause": [
      {
       "id": "web:jurisdiction_7691c6e3ae48f824:2025-01",
@@ -259,6 +257,69 @@
       "lagMonths": 24,
       "treated": 1,
       "control": 0
+     },
+     {
+      "id": "web:jurisdiction_7691c6e3ae48f824:2025-06",
+      "month": "2025-06",
+      "link": "teacher-minimum-salary-to-graduation",
+      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+      "lagMonths": 24,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_7691c6e3ae48f824:2025-07",
+      "month": "2025-07",
+      "link": "teacher-minimum-salary-to-graduation",
+      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+      "lagMonths": 24,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_7691c6e3ae48f824:2025-08",
+      "month": "2025-08",
+      "link": "teacher-minimum-salary-to-graduation",
+      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+      "lagMonths": 24,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_7691c6e3ae48f824:2025-09",
+      "month": "2025-09",
+      "link": "teacher-minimum-salary-to-graduation",
+      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+      "lagMonths": 24,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_7691c6e3ae48f824:2025-10",
+      "month": "2025-10",
+      "link": "teacher-minimum-salary-to-graduation",
+      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+      "lagMonths": 24,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_7691c6e3ae48f824:2025-11",
+      "month": "2025-11",
+      "link": "teacher-minimum-salary-to-graduation",
+      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+      "lagMonths": 24,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_7691c6e3ae48f824:2025-12",
+      "month": "2025-12",
+      "link": "teacher-minimum-salary-to-graduation",
+      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+      "lagMonths": 24,
+      "treated": 1,
+      "control": 0
      }
     ],
     "reenacted": null
@@ -295,7 +356,7 @@
     "ended": 0,
     "sample": []
    },
-   "seconds": 131
+   "seconds": 263
   }
  ]
 }

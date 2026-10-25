@@ -20,12 +20,18 @@ import { setJournalTrace } from "./journal-state";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn, appliedTo, type LawAppliedRow } from "./law-reach/applied";
-import { jobsAt } from "./law-reach/group-b-money";
+import { jobsAt, source } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
 import { rowsOf, type PersonReach } from "./law-reach/group-b-store";
 import { advanceCore } from "./life";
 import { amendBudget, budgetsOf, governments } from "./modules/budgets";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  recordPublicPay,
+} from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
 import type { LawRowInput } from "./laws-starting";
@@ -382,7 +388,12 @@ function tryPlace(where: string, seed: string, key: string): string | null {
   ).toBeGreaterThan(0);
 
   // The teacher minimum: the pay floor engine raised every covered teacher
-  // paid under it, and every covered teacher is on its record.
+  // paid under it, and every covered teacher is on its record: a teacher with
+  // a job record by name, the others (counted jobs) as one group per district.
+  // The record is as of the last monthly review, and a counted teacher who
+  // left or was hired since differs by one, so the engine's own review job
+  // runs for today before the live teachers are read against it.
+  recordPublicPay(api, source(api, "Teacher minimum salary review"));
   const covers = teachers();
   const raisedJobs = covers.filter(
     (j) => (j.hourlyMinor ?? 0) > (teachersBefore.get(j.id) ?? 0),
@@ -394,7 +405,7 @@ function tryPlace(where: string, seed: string, key: string): string | null {
       say(`${job.id} is paid under the teacher minimum`),
     ).toBeGreaterThanOrEqual(Math.floor(floorDaily));
   const teacherRows = appliedOn(api, TEACHER);
-  for (const job of covers.filter((j) => core.people.has(j.personId)))
+  for (const job of covers.filter((j) => core.jobs.has(j.id)))
     expect(
       teacherRows.some(
         (r) => r.target === "person" && r.targetId === job.personId,
@@ -406,7 +417,7 @@ function tryPlace(where: string, seed: string, key: string): string | null {
       .filter((r) => r.target === "group")
       .reduce((n, r) => n + r.count, 0),
     say("counted teachers covered"),
-  ).toBe(covers.filter((j) => !core.people.has(j.personId)).length);
+  ).toBe(covers.filter((j) => !core.jobs.has(j.id)).length);
 
   // The record of each law: the applied record that names whom it reached,
   // and the journal entry of the money, by id. Taken now, while the laws
