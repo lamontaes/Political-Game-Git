@@ -27,10 +27,26 @@ let parties: PartyRow[];
 // Building and playing a drawn town 120 days takes about 30 seconds, inside
 // the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnRaceWorld((attempt) => {
-    const seed = `${SEED}:${attempt}`;
-    return { seed, place: drawPlace(seed, "trait-wiring") };
-  }, 120));
+  ({ core, api } = drawnRaceWorld(
+    (attempt) => {
+      const seed = `${SEED}:${attempt}`;
+      return { seed, place: drawPlace(seed, "trait-wiring") };
+    },
+    120,
+    undefined,
+    2,
+    // A place where nobody is tied to a party (a territory whose races carry
+    // no party labels), or where every tied person chose alike, gives the
+    // joining test no two choices to compare.
+    (world) => {
+      const { joined, notJoined } = tiedChoices(world.core, world.api);
+      if (joined.length + notJoined.length === 0)
+        return "nobody tied to a party";
+      if (joined.length === 0) return "nobody tied to a party joined it";
+      if (notJoined.length === 0) return "everyone tied to a party joined it";
+      return null;
+    },
+  ));
   parties = api
     .moduleState(PARTIES_MODULE_ID)
     .table("parties")
@@ -39,6 +55,42 @@ beforeAll(() => {
 }, 600_000);
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+
+/** The lean toward joining of each full person tied to a party, split by whether they joined it. */
+function tiedChoices(
+  core: CoreState,
+  api: CoreAPI,
+): { joined: number[]; notJoined: number[] } {
+  const ties = api
+    .moduleState(PARTIES_MODULE_ID)
+    .table("ties")
+    .rows() as unknown as { personId: string; partyId: string | null }[];
+  const organizationOf = new Map(
+    (
+      api
+        .moduleState(PARTIES_MODULE_ID)
+        .table("parties")
+        .rows() as unknown as PartyRow[]
+    ).map((p) => [p.id, p.organizationId]),
+  );
+  const joined: number[] = [];
+  const notJoined: number[] = [];
+  for (const tie of ties) {
+    if (!tie.partyId || !core.people.has(tie.personId)) continue;
+    const lean = decisionLean(
+      core,
+      core.people.get(tie.personId)!,
+      "parties.join",
+      "join",
+      "stay-out",
+    );
+    (core.memberships.has(`${tie.personId}:${organizationOf.get(tie.partyId)}`)
+      ? joined
+      : notJoined
+    ).push(lean);
+  }
+  return { joined, notJoined };
+}
 
 describe("parties.attend weighs the member's free time and distance", () => {
   const attended = () => {
@@ -90,31 +142,7 @@ describe("parties.attend weighs the member's free time and distance", () => {
 
 describe("parties.join reads the person's calibrated lean toward joining", () => {
   it("the people tied to a party who did not join it lean away from joining more than those who did", () => {
-    const ties = api
-      .moduleState(PARTIES_MODULE_ID)
-      .table("ties")
-      .rows() as unknown as { personId: string; partyId: string | null }[];
-    const organizationOf = new Map(
-      parties.map((p) => [p.id, p.organizationId]),
-    );
-    const joined: number[] = [];
-    const notJoined: number[] = [];
-    for (const tie of ties) {
-      if (!tie.partyId || !core.people.has(tie.personId)) continue;
-      const lean = decisionLean(
-        core,
-        core.people.get(tie.personId)!,
-        "parties.join",
-        "join",
-        "stay-out",
-      );
-      (core.memberships.has(
-        `${tie.personId}:${organizationOf.get(tie.partyId)}`,
-      )
-        ? joined
-        : notJoined
-      ).push(lean);
-    }
+    const { joined, notJoined } = tiedChoices(core, api);
     console.log(
       `party joining: ${joined.length} joined (mean lean ${mean(joined).toFixed(3)}), ${notJoined.length} did not (${notJoined.length ? mean(notJoined).toFixed(3) : "-"})`,
     );
