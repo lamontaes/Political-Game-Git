@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-press-town-adults
-pr:
+pr: #6075
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T08:51:28.947Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T08:51:28.947Z
 **Files.** src/core2/modules/press.ts, src/core2/electorate.ts
 
 **Notes.** Filed Oct 25 by the speed lead from the profiled pair of core-speed-api-parameter-once.
+
+Ready Oct 25 (speed lead), not opened while the play-first freeze holds: branch `claude/speed-press-town-adults` at f95abc8db6 (base main 16df65ad60, no code change from 01f5cd4715). `countedResidents` and the new `countedResidentsOf(core, place)` take who is still counted from one rule (`eachCountedResident`); the press reads only the town's residents, sorted by id as before. Exact: deep fingerprints identical (Long Hill year one `3350c66a3805f1e8`; Stanardsville years one to three `176370fb6d3c2ba1`, `3ccb0a9002236aa5`, `4be9e9254da3aaf3`). Profiled pair 140.8 to 136.3 s (0.968): `townAdultsByBand` 2.3 to 0.7 s, `pressWeek` 4.2 to 2.8 s. Plain pair 125.9 to 114.6 s (0.911). Press, electorate and voting tests pass (press 3, electorate 4, electorate-weight, electorate-inputs 2, electorate-house-side, press-played, press-money, press-asks, press-owners 3, press-public-facts, voting, voting-winner-person); `press-turnover`'s second case runs its test worker out of its 2 GB heap on main too (same run, both checkouts). Typecheck, release check and zero-dice are clean.

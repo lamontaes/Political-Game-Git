@@ -5,7 +5,7 @@
  * that one cause, shifted in the record the web reads it from. After the
  * links' lags, every engine record kind is compared between the twins: which
  * record kinds moved, and how much the movement varies across places and
- * people. A twin pair built with no shift must match exactly, or the checker
+ * people, with up to three ids of the records that differ in each. A twin pair built with no shift must match exactly, or the checker
  * proves nothing.
  *
  * It writes its findings to the effect matrix
@@ -81,10 +81,7 @@ function leaves(value: unknown, into: { sum: number; text: number }): void {
   if (typeof value === "number") {
     if (Number.isFinite(value)) into.sum += value;
   } else if (typeof value === "string") {
-    let h = 0;
-    for (let i = 0; i < value.length; i += 1)
-      h = (Math.imul(h, 31) + value.charCodeAt(i)) >>> 0;
-    into.text = (into.text + h) % 2 ** 32;
+    into.text = (into.text + hashText(value)) % 2 ** 32;
   } else if (Array.isArray(value)) {
     for (const item of value) leaves(item, into);
   } else if (value && typeof value === "object") {
@@ -219,6 +216,78 @@ function play(cause: Shift | null) {
   return { core, touched };
 }
 
+/** A hash of a record's text, so a world's records can be compared without keeping the world. */
+function hashText(text: string): number {
+  let h = 0;
+  for (let i = 0; i < text.length; i += 1)
+    h = (Math.imul(h, 31) + text.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+/**
+ * One kind of record in a played world, by id: a module table's rows with a
+ * hash of each row's content, or a core map's keys.
+ */
+function recordsOf(core: CoreState, kind: string): Map<string, number> | null {
+  if (kind.startsWith("core:")) {
+    const map = (core as unknown as Record<string, Map<string, unknown>>)[
+      kind.slice("core:".length)
+    ];
+    return new Map([...(map?.keys() ?? [])].map((key) => [String(key), 0]));
+  }
+  if (!kind.includes("/")) return null;
+  const [module, table] = kind.split("/") as [string, string];
+  return new Map(
+    (
+      coreAPI(core).moduleState(module).table(table).rows() as unknown as {
+        id?: unknown;
+      }[]
+    ).map((row) => [String(row.id), hashText(JSON.stringify(row))]),
+  );
+}
+
+/** Every kind of record the twin check compares, by id, from the control world. */
+function digest(core: CoreState): Map<string, Map<string, number>> {
+  const out = new Map<string, Map<string, number>>();
+  for (const [name, value] of Object.entries(core))
+    if (value instanceof Map)
+      out.set(`core:${name}`, recordsOf(core, `core:${name}`)!);
+  for (const id of core.modules.keys()) {
+    if (id === OUTCOME_WEB_MODULE_ID) continue;
+    for (const table of Object.keys(core.modules.get(id)!.state?.tables ?? {}))
+      out.set(`${id}/${table}`, recordsOf(core, `${id}/${table}`)!);
+  }
+  return out;
+}
+
+/**
+ * Up to three ids of the records that differ between the twins, for each
+ * module table and core map that moved: a row changed, added or gone (for a
+ * core map, an entry added or gone).
+ */
+function changedIds(
+  control: ReadonlyMap<string, ReadonlyMap<string, number>>,
+  b: CoreState,
+  moved: readonly { record: string }[],
+): Record<string, string[]> {
+  const out: Record<string, string[]> = {};
+  const kinds = new Set(
+    moved.map((m) => m.record.replace(/:(rows|sum|text)$/, "")),
+  );
+  for (const kind of kinds) {
+    const y = recordsOf(b, kind);
+    if (!y) continue;
+    const x = control.get(kind) ?? new Map<string, number>();
+    const ids: string[] = [];
+    for (const id of new Set([...x.keys(), ...y.keys()])) {
+      if (x.get(id) !== y.get(id)) ids.push(id);
+      if (ids.length >= 3) break;
+    }
+    if (ids.length) out[kind] = ids;
+  }
+  return out;
+}
+
 function diff(a: Map<string, number>, b: Map<string, number>) {
   const moved: { record: string; control: number; shifted: number }[] = [];
   for (const key of new Set([...a.keys(), ...b.keys()])) {
@@ -231,50 +300,61 @@ function diff(a: Map<string, number>, b: Map<string, number>) {
 }
 
 describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${seed})`, () => {
-  it("shifts each running cause and reports which engine records moved", () => {
-    const started = Date.now();
-    const control = fingerprint(play(null).core);
-    const again = fingerprint(play(null).core);
-    // The checker needs twins that match exactly when nothing is shifted.
-    const noise = diff(control, again);
-    expect(noise, "unshifted twins differ").toEqual([]);
-    const results = [];
-    for (const cause of CAUSES) {
-      const shifted = play(cause);
-      expect(shifted.touched.length, cause.measure).toBeGreaterThan(0);
-      const moved = diff(control, fingerprint(shifted.core));
-      const links = WEB_LINKS.filter(
-        (link) =>
-          (derivedOf(link.from)?.measure ?? link.from) === cause.measure,
-      ).map((link) => link.key);
-      results.push({
-        cause: cause.measure,
-        shiftedBy: cause.by ?? `${(cause.relative ?? 0) * 100}% of its level`,
-        shiftedRecords: shifted.touched.slice(0, 3),
-        links,
-        movedRecordKinds: moved,
-      });
-    }
-    const twins = {
-      seed,
-      place: `${place.name}, ${place.state} (${place.key})`,
-      months: MONTHS,
-      seconds: Math.round((Date.now() - started) / 1000),
-      results,
-    };
-    if (process.env.EFFECT_TWINS_WRITE) {
-      const matrix = JSON.parse(readFileSync(MATRIX, "utf8"));
-      writeFileSync(
-        MATRIX,
-        `${JSON.stringify({ ...matrix, twins }, null, 2)}\n`,
-      );
-    }
-    if (process.env.EFFECT_TWINS_OUT)
-      writeFileSync(
-        process.env.EFFECT_TWINS_OUT,
-        `${JSON.stringify(twins, null, 2)}\n`,
-      );
-    console.log(JSON.stringify(twins, null, 2));
-    expect(results.length).toBeGreaterThan(0);
-  }, 3_600_000);
+  it(
+    "shifts each running cause and reports which engine records moved",
+    () => {
+      const started = Date.now();
+      // The control world is kept as counts, sums and a hash per record, so
+      // only one world is held at a time.
+      const { control, controlRecords } = (() => {
+        const core = play(null).core;
+        return { control: fingerprint(core), controlRecords: digest(core) };
+      })();
+      const again = fingerprint(play(null).core);
+      // The checker needs twins that match exactly when nothing is shifted.
+      const noise = diff(control, again);
+      expect(noise, "unshifted twins differ").toEqual([]);
+      const results = [];
+      for (const cause of CAUSES) {
+        const shifted = play(cause);
+        expect(shifted.touched.length, cause.measure).toBeGreaterThan(0);
+        const moved = diff(control, fingerprint(shifted.core));
+        const movedRecords = changedIds(controlRecords, shifted.core, moved);
+        const links = WEB_LINKS.filter(
+          (link) =>
+            (derivedOf(link.from)?.measure ?? link.from) === cause.measure,
+        ).map((link) => link.key);
+        results.push({
+          cause: cause.measure,
+          shiftedBy: cause.by ?? `${(cause.relative ?? 0) * 100}% of its level`,
+          shiftedRecords: shifted.touched.slice(0, 3),
+          links,
+          movedRecordKinds: moved,
+          movedRecords,
+        });
+      }
+      const twins = {
+        seed,
+        place: `${place.name}, ${place.state} (${place.key})`,
+        months: MONTHS,
+        seconds: Math.round((Date.now() - started) / 1000),
+        results,
+      };
+      if (process.env.EFFECT_TWINS_WRITE) {
+        const matrix = JSON.parse(readFileSync(MATRIX, "utf8"));
+        writeFileSync(
+          MATRIX,
+          `${JSON.stringify({ ...matrix, twins }, null, 2)}\n`,
+        );
+      }
+      if (process.env.EFFECT_TWINS_OUT)
+        writeFileSync(
+          process.env.EFFECT_TWINS_OUT,
+          `${JSON.stringify(twins, null, 2)}\n`,
+        );
+      console.log(JSON.stringify(twins, null, 2));
+      expect(results.length).toBeGreaterThan(0);
+    },
+    Math.max(3_600_000, MONTHS * 1_200_000),
+  ); // about 20 minutes a played month for the twins of every cause
 });

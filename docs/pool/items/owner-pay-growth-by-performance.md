@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-pay-growth
-pr:
+pr: #6010
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T07:34:58.920Z
