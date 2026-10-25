@@ -524,6 +524,18 @@
       "stopgapId": "SG-WEB-unread-government-member-market-returns"
     },
     {
+      "link": "farmland-easements-to-farmland-lost",
+      "outcome": "farmland.developed-acres",
+      "reason": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts) reads this law and cuts the town's single-family starts by its own land elasticity, not this row's size and five-year lag, and no engine keeps the acres converted",
+      "stopgapId": "SG-WEB-unread-farmland-developed-acres"
+    },
+    {
+      "link": "groundwater-limits-to-irrigation-pumping",
+      "outcome": "water.irrigation-groundwater",
+      "reason": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts) reads this law and cuts each farm's water by its own estimated share the day the law takes effect, not this row's size and one-year lag, and no engine keeps the groundwater pumped",
+      "stopgapId": "SG-WEB-unread-water-irrigation-groundwater"
+    },
+    {
       "link": "farm-payments-cut-to-land-values",
       "outcome": "farmland.value-per-acre",
       "reason": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",

@@ -51,6 +51,12 @@ export interface WebLink {
   readonly group: string;
   /** Names what carries this effect through an engine's records; the link then does not run. */
   readonly carriedBy?: string;
+  /**
+   * Where an engine reads the same cause by its own mechanic, not this row's
+   * size and lag, so the link still reaches no one: the matrix names it in
+   * the link's reason for staying on the unwired list.
+   */
+  readonly engineGap?: string;
   readonly evidence: string;
   readonly source: string;
   readonly moderator?: {
