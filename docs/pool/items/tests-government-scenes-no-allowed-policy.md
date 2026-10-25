@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/government-scenes.test.ts, src/core2/bill-catalog.ts, src/core2/policy-authority.ts
 
 **Notes.** Merger 3 during #5923: branch afe7bb5d59 and clean main b5b2c6b995 both throw Cannot read properties of undefined (reading id) at policy.id before scene checks. First draw is Black Sands, Hawaii (1502832), root319d8189f5b49a57542adaf502d2373781ad2d16:0, place seed1dbcd75523e21cf37fb98aa3dfdd6de09c1cae6b1890e8e8b1bcfe369109a2b4.
+
+Merger 2, 2026-10-25: independently reproduced while gating #4626 at dca644d5e3 and on clean main 8db0350da1, root 11b6c4b9f69cfa7676303361923c0836e06a4c33, Lowes, Kentucky (2148234), draw :1, place seed ba17de83e80d19c12cbb9d05e7a98d3a617c1f44053d38a8923a4c2fdc67f01c: policy.id throws before bill drafting on both. Bayfield draw :0 checks its floor vote first. A separate Monticello, Arkansas run at b02a226dc11d52be90d8fafc8bf8c1e4a6dfbce6 passes the PR government-scenes case, four floor witnesses and a signing.
