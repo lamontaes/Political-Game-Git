@@ -32,6 +32,7 @@ import type { CoreState } from "./types";
 const seed = process.env.CIVIC_PLAYED_SEED || randomBytes(8).toString("hex");
 /** The November 2026 general election is the first partisan race in most places. */
 const UNTIL = process.env.CIVIC_PLAYED_UNTIL || "2026-11-30";
+const DRAWS = 3;
 
 interface Result {
   readonly id: string;
@@ -116,12 +117,31 @@ function play(drawSeed: string) {
   };
 }
 
+/** A partisan race had a candidate of the president's party: one whose standing carries the midterm or economy term. */
+const hasPresidentsParty = (run: ReturnType<typeof play>) =>
+  run.results.some((row) =>
+    (row.electorateReasons ?? []).some(
+      (r) => r.midterm !== 0 || r.economy !== 0,
+    ),
+  );
+
 describe(`the voting engine weighs the economy and scandals in a played race (seed ${seed})`, () => {
   it("a partisan race's record carries the economy term from the national economy's records, and the ballots chose from it", () => {
     const priorBookkeeping = setBookkeeping(false);
     try {
-      const run = play(seed);
-      const where = `${run.place.name}, ${run.place.state}, seed ${seed}`;
+      // The economy term weighs only the president's party's candidates in
+      // partisan state and federal races; a place with no such candidate on
+      // its ballot by the end date (Washington, D.C., for one) is drawn
+      // again, a bounded number of times.
+      const tried: string[] = [];
+      let drawSeed = seed;
+      let run = play(drawSeed);
+      for (let draw = 1; draw < DRAWS && !hasPresidentsParty(run); draw += 1) {
+        tried.push(`${run.place.name}, ${run.place.state} (${drawSeed})`);
+        drawSeed = `${seed}-${draw}`;
+        run = play(drawSeed);
+      }
+      const where = `${run.place.name}, ${run.place.state}, seed ${drawSeed}${tried.length ? ` (drawn again after ${tried.join("; ")}: no candidate of the president's party in a partisan race)` : ""}`;
       const api = coreAPI(run.core);
       expect(
         run.result,
