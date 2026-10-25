@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/play-stop-09-jobs-here
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T15:57:27.496Z
 ---
 
 **What.** The implementation half of play-stop-09-jobs-here-count-too-high, so it can merge on bench evidence while the play-stop item waits for the owner's steps on the next installed build. News's Jobs here line (src/bench/economy.ts economyView, from turnoverPanel in src/core2/modules/world-panels.ts) added every open job of every full person in the country to one per counted job record, so Anson, Texas (2,570 people) showed 2,036 employed. It must count the town's residents at work and looking, each counted resident for its household's weight, and the open positions its own employers have posted.
