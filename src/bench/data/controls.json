@@ -293,7 +293,7 @@
     "ownState": "Your state"
   },
   "results": {
-    "turnout": "Turnout",
+    "cast": "Ballots cast",
     "exitPoll": "Exit poll",
     "wonIn": "Where it was won",
     "you": "You",
