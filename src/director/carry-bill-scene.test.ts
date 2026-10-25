@@ -72,9 +72,23 @@ it(`an executive's ask to carry a bill is the member's carry-bill scene, with th
       const askerId = String(ask.facts!.askerId);
       const here = `${where}: ${ask.id}`;
       const book = director.ledger.people.get(memberId)!;
-      const entry = book.schedule.find(
+      const own = book.schedule.find(
         (row) => book.momentsById.get(row.momentId)?.causeId === ask.id,
       );
+      // One sitting covers a day (scheduling.ts): a second ask by the same
+      // asker that day is taken into the first one's scene, which cites it.
+      const sitting = own?.bindings.some((row) => row.typeKey === "bill-carry")
+        ? undefined
+        : book.schedule.find(
+            (row) =>
+              row.date === ask.date &&
+              row.bindings.some(
+                (other) =>
+                  other.typeKey === "bill-carry" &&
+                  other.joined?.some((row) => row.causeId === ask.id),
+              ),
+          );
+      const entry = sitting ?? own;
       const binding = entry?.bindings.find(
         (row) => row.typeKey === "bill-carry",
       );
@@ -83,6 +97,8 @@ it(`an executive's ask to carry a bill is the member's carry-bill scene, with th
         binding!.roles.find((row) => row.role === "member")!.personIds,
         here,
       ).toEqual([askerId]);
+      // The sitting's own ask is talked of when its turn comes.
+      if (sitting) continue;
       // The asker asks about the bill, in the lines that play, as ordinary
       // play says them, and the talk stands on the record.
       const result = purposeScene(core, director, memberId, entry!);
