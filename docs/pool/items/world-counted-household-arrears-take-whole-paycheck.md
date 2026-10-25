@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/residents.ts, src/core2/counted-groups.ts, tests/golden-path/played-world.node-test.ts
 
 **Notes.** Found Oct 24 by the M0-13 lead's helper, from the cash-journal trail of the seven people (probe run, not committed). Not yet traced: how outsideLiving.amount (residents.ts:1856) is sized for a filled-in household versus the group's column, and whether the arrears were already in the group's books at fill-in. The test's brokeWorkers read (played-world.node-test.ts:793) counts a person who moved out of the town; whether to skip departed people is the spec owner's call.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).
