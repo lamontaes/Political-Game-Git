@@ -220,7 +220,13 @@
   "party": {
     "join": "Join",
     "member": "Your party",
-    "agreement": "Views fit"
+    "agreement": "Views fit",
+    "fit": [
+      { "atLeast": 0.6, "label": "Close" },
+      { "atLeast": 0.2, "label": "Mostly" },
+      { "atLeast": -0.2, "label": "Mixed" },
+      { "atLeast": -1, "label": "Far apart" }
+    ]
   },
   "leanWords": {
     "veryLiberal": "Very liberal",

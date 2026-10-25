@@ -1183,7 +1183,9 @@ function partyRows(party) {
     const m = party.member;
     const line = row(
       words.member,
-      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+      // How well their views fit the party's, in words: the first band the
+      // record's agreement (-1 to 1) reaches.
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)?.label ?? "")}`,
     );
     // The tie's record, for the checks that read it.
     line.dataset.tieId = m.tieId;

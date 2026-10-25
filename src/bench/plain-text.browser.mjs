@@ -21,6 +21,7 @@ const tells = [
   ["a status code", /\b[a-z]+(?:-[a-z]+)+\b/],
   ["a status code", /\b[A-Z]+(?:-[A-Z]+)+\b/],
   ["a record kind", /\b[A-Z][a-z]+\.[a-z]+\b/],
+  ["a bare fraction", /(?<![$\d.])\b0\.\d+\b(?!\s*%)/],
   ["the Mark gap button", /\bMark gap\b/],
 ];
 // Hyphenated American English words that are not codes.
