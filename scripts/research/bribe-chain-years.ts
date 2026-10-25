@@ -6,10 +6,13 @@
  * offer (a lobbyist's first meeting with a member on a bill, and each contract
  * a body's members vote on), then bribes offered, taken, surfaced (a party told
  * someone) and reported to the press, per place-year and by the body the
- * official sat on. The band is the state and local officials charged a year in
- * 2014 to 2023, per general-purpose local government and per state-level place
- * (data/research/corruption/doj-pin-2023-local-state-prosecutions.json): a
- * floor on what surfaces, since states prosecute too. One run, one number.
+ * official sat on. Beside them it prints, as an exploratory proxy only, the
+ * state and local officials charged a year in 2014 to 2023 with federal public
+ * corruption, per general-purpose local government and per state-level place
+ * (data/research/corruption/doj-pin-2023-local-state-prosecutions.json). That
+ * series counts officials, not bribe incidents, and every corruption offense
+ * (bribery, extortion, fraud and others), so it is neither a floor nor a band
+ * for bribes and no count here is judged against it. One run, one number.
  * Run: node --import tsx scripts/research/bribe-chain-years.ts [--months 24] seed...
  */
 import { randomBytes } from "node:crypto";
@@ -34,7 +37,7 @@ import corruptionRows from "../../src/core2/data/corruption/parameters.json" wit
 const args = process.argv.slice(2);
 const at = args.indexOf("--months");
 const months = at >= 0 ? Number(args[at + 1]) : 24;
-const given = args.filter((arg, i) => i !== at && i !== at + 1);
+const given = at >= 0 ? args.filter((_, i) => i !== at && i !== at + 1) : args;
 const seeds = given.length
   ? given
   : Array.from({ length: 4 }, () => randomBytes(8).toString("hex"));
@@ -42,7 +45,7 @@ const seeds = given.length
 const perYear = (counts: readonly number[], over: number) =>
   `${(Math.min(...counts) / over).toFixed(4)} to ${(Math.max(...counts) / over).toFixed(4)}`;
 console.log(
-  `band, ${pin.years[0]} to ${pin.years.at(-1)}: local officials charged a year per general-purpose local government ${perYear(pin.localOfficials.charged, pin.governments2022.generalPurpose)}; state officials charged a year per state-level place ${perYear(pin.stateOfficials.charged, pin.stateLevelPlaces)} (federal prosecutions only, a floor)`,
+  `proxy, not a band, ${pin.years[0]} to ${pin.years.at(-1)}: local officials charged a year per general-purpose local government ${perYear(pin.localOfficials.charged, pin.governments2022.generalPurpose)}; state officials charged a year per state-level place ${perYear(pin.stateOfficials.charged, pin.stateLevelPlaces)} (federal prosecutions only, every corruption offense, officials not incidents)`,
 );
 
 const rowsOf = <T>(api: CoreAPI, module: string, name: string): T[] =>
