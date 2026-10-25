@@ -53,7 +53,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | right to work                                | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | SG    | yes  | yes     | NO     | NO        | partly     |
-| ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | part  | yes  | yes     | yes    | yes       | partly     |
+| ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | clean electricity standard                   | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | clean air plan for polluted counties         | energy-environment | yes    | yes    | NO    | yes     | NO    | NO   | yes     | NO     | NO        | partly     |
 | Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | part  | SG   | NO      | yes    | yes       | partly     |
@@ -338,10 +338,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-consumer-credit)
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
-
-**ban new gas hookups** (`us-policy-positions:environment-energy.ban-new-gas-hookups`)
-
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 
 **clean air plan for polluted counties** (`us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties`)
 

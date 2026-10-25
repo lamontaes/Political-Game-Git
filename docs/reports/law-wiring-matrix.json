@@ -34,8 +34,8 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 34,
-    "partly": 52,
+    "wired": 35,
+    "partly": 51,
     "stopgapped": 3,
     "byLink": {
       "exists": {
@@ -67,8 +67,8 @@
         "n/a": 0
       },
       "money": {
-        "wired": 31,
-        "partial": 23,
+        "wired": 32,
+        "partial": 22,
         "missing": 17,
         "stopgap": 13,
         "n/a": 5
@@ -3520,7 +3520,7 @@
       "family": "energy-environment",
       "reachGroup": "B",
       "mechanic": "housing-construction",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -3534,7 +3534,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization:landlord:jurisdiction_971998ff58477430; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization:landlord:jurisdiction_45a3b3ebe97fe71d",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 2 open (full 0, counted groups 0/0 people, households 0, orgs 2, govts 0) e.g. applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_382d8545c99fb7e3; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 2 open (full 0, counted groups 0/0 people, households 0, orgs 2, govts 0) e.g. applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization_34499ee6d84b7b89",
           "why": ""
         },
         "systems": {
@@ -3543,10 +3543,9 @@
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/world-transfer.ts:40 294035897 -> 292881101 (journal:2025-02-01:1872); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/press-money.ts:374 36880422 -> 36875356 (journal:2025-01-27:1585); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/credit-deposits.ts:159 339091331 -> 339091713 (journal:2025-01-21:1530)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid in (src/core2/world-transfer.ts:40; e.g. organization_382d8545c99fb7e3 on 2026-04-06: -876034 in the control world, -860266 here, journal:2026-04-06:125000); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid in (src/core2/world-transfer.ts:40; e.g. organization_34499ee6d84b7b89 on 2027-02-06: -1183256 in the control world, -1161957 here, journal:2027-02-06:226518)",
+          "why": ""
         },
         "web": {
           "status": "wired",
@@ -3560,7 +3559,7 @@
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open -> after repeal 0 open, 0 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 2 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 2 open -> after repeal 0 open, 0 ended",
           "why": ""
         },
         "allPlaces": {
@@ -3572,12 +3571,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9) effective 2025-01-21; then repealed at city effective 2027-07-11",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9) effective 2025-01-21; then repealed at city effective 2027-07-11",
           "inForceAtOpening": false
         }
       ],
