@@ -3,7 +3,7 @@ import { wordArchiveStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import type { ContestRow } from "../core2/modules/elections";
-import type { CoreState } from "../core2/types";
+import type { CoreState, LogRecord } from "../core2/types";
 import { storiesHeard } from "../core2/modules/news";
 
 const ELECTIONS = "core2-elections-v1";
@@ -103,16 +103,31 @@ function staffingNews(
   return { employer: organization.name, jobsLost, salesMinor, costsMinor };
 }
 
+/**
+ * The visibility a kept record has as news. A record that names the player or
+ * their circle is kept as "circle", but a public record or a news event stays
+ * public for everyone, the people it names included (their own race's result).
+ */
+function newsVisibility(core: CoreState, row: LogRecord) {
+  if (row.visibility !== "circle") return row.visibility;
+  if (row.publicRecord && core.visiblePlaceIds.has(row.placeId))
+    return "public";
+  return row.news ? "news" : undefined;
+}
+
 /** Public records and news the player can know, newest first. */
 export function newsItems(core: CoreState) {
   return [...core.durableLog.values()]
-    .filter((row) => row.visibility === "public" || row.visibility === "news")
+    .map((row) => ({ row, visibility: newsVisibility(core, row) }))
+    .filter(
+      ({ visibility }) => visibility === "public" || visibility === "news",
+    )
     .reverse()
-    .map((row) => ({
+    .map(({ row, visibility }) => ({
       id: row.id,
       date: row.date,
       kind: row.kind,
-      visibility: row.visibility,
+      visibility,
       facts: (row as { facts?: Record<string, unknown> }).facts ?? {},
       staffing: staffingNews(
         core,

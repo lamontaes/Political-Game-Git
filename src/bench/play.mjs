@@ -614,7 +614,7 @@ async function refresh() {
       $("backdrop").src = night.backdrop.url;
       drawPeople(night.people);
     }
-    await openSheet("campaigns");
+    await openSheet("results");
     return;
   }
   // A law that took effect: what changed in town.
@@ -2652,10 +2652,21 @@ const sheets = {
     const labels = controls.results;
     seenResults = races.length;
     const number = (n) => n.toLocaleString("en-US");
-    return races.slice(0, 8).map((race) =>
+    // The newest night in full, your own race first; earlier nights' races after.
+    const night = races.filter((race) => race.date === races[0]?.date);
+    const earlier = races.slice(night.length, night.length + 8);
+    return [...night, ...earlier].map((race) =>
       el(
         "div",
-        { className: "row race" },
+        { className: `row race${race.mine ? " own" : ""}` },
+        race.mine
+          ? el(
+              "div",
+              { className: "mine" },
+              el("b", { textContent: `${labels.yourRace} ` }),
+              race.mine.won ? labels.won : labels.lost,
+            )
+          : "",
         el("b", {
           textContent: `${race.title} · ${race.date}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
         }),
@@ -3588,9 +3599,25 @@ const sheets = {
   },
   async campaigns() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    // A filing whose race has been decided reads as won or lost.
+    const decided = new Map(
+      (await api(`/api/results?id=${encodeURIComponent(me.id)}`))
+        .filter((race) => race.mine)
+        .map((race) => [race.contestId, race.mine.won]),
+    );
+    const labels = controls.results;
     return [
       ...(await campaignRows()),
-      ...v.filings.map((f) => row(words(f.status), f.filedWith)),
+      ...v.filings.map((f) =>
+        row(
+          decided.has(f.contestId)
+            ? decided.get(f.contestId)
+              ? labels.won
+              : labels.lost
+            : words(f.status),
+          f.filedWith,
+        ),
+      ),
       ...(await sheets.results()),
     ];
   },
@@ -3713,6 +3740,15 @@ const sheets = {
                 history.dataset.term = s.holder.termId;
                 if (won) history.dataset.election = won.termId;
                 line.append(history);
+              }
+              // Elected and not yet seated: who won the seat, and when they take office.
+              if (s.elect) {
+                const elect = el("div", {
+                  className: "row elect",
+                  textContent: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${s.elect.takesOffice}`,
+                });
+                elect.dataset.contest = s.elect.contestId;
+                line.append(elect);
               }
               if (s.holder?.personId) {
                 const b = el("button", {
