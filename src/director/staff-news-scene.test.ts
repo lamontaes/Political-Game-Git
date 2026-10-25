@@ -27,9 +27,12 @@ import { purposeScene } from "./purpose-scene";
 // review gets around to hiring, so each watched official with no aide hires
 // one on the first day through the staff module's own hiring (the candidate
 // its review ranks first), as the electoral test's candidates ask people to
-// volunteer.
+// volunteer. Each loss is read within a week of it, as play reads the news on
+// its day: a watched official keeps only their strongest moments older than
+// the director's memory window, so a loss read months later may have folded.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DAYS = 150;
+const WEEK = 7;
 const ATTEMPTS = 8;
 
 it(`a bill that loses its vote is the sponsor's staff-news scene, about that bill (seed ${seed})`, () => {
@@ -62,57 +65,66 @@ it(`a bill that loses its vote is the sponsor's staff-news scene, about that bil
           choice,
         );
     }
-    advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
-    // The losses of watched sponsors with an aide who was hired before that
-    // day and still serves.
-    const losses = [...core.durableLog.values()].filter((row) => {
-      if (row.kind !== "bill-failed") return false;
-      const sponsorId = String(row.facts?.sponsorId);
-      return (
-        director.ledger.people.has(sponsorId as PersonId) &&
-        servingStaffOf(api, sponsorId).some((aide) => aide.hiredOn < row.date)
+    const end = addDays(makeIsoDate(core.date), DAYS);
+    const read = new Set<string>();
+    while (core.date < end) {
+      advanceCore(
+        core,
+        [addDays(makeIsoDate(core.date), WEEK), end].sort()[0]!,
       );
-    });
-    if (!losses.length) {
-      tried.push(place.name);
-      continue;
+      // The week's losses of watched sponsors with an aide who was hired
+      // before that day and still serves.
+      const losses = [...core.durableLog.values()].filter((row) => {
+        if (row.kind !== "bill-failed" || read.has(row.id)) return false;
+        const sponsorId = String(row.facts?.sponsorId);
+        return (
+          director.ledger.people.has(sponsorId as PersonId) &&
+          servingStaffOf(api, sponsorId).some((aide) => aide.hiredOn < row.date)
+        );
+      });
+      for (const loss of losses) {
+        read.add(loss.id);
+        const sponsorId = String(loss.facts!.sponsorId) as PersonId;
+        const here = `${where}: ${loss.id}`;
+        const book = director.ledger.people.get(sponsorId)!;
+        const entry = book.schedule.find((row) =>
+          row.momentId.includes(loss.id),
+        );
+        const binding = entry?.bindings.find(
+          (row) => row.typeKey === "staff-news",
+        );
+        expect(binding, `${here}: no staff-news scene`).toBeTruthy();
+        const aides = staffOf(api, sponsorId).map((row) => row.personId);
+        const aide = binding!.roles.find((row) => row.role === "aide")!;
+        expect(aide.personIds.length, here).toBe(1);
+        expect(
+          aides,
+          `${here}: the aide is one of the sponsor's staff`,
+        ).toContain(aide.personIds[0]);
+        // The aide says the bill lost, in the lines that play, as ordinary
+        // play says them, and the talk stands on the loss.
+        const result = purposeScene(core, director, sponsorId, entry!);
+        expect(result?.kind, here).toBe("composed");
+        if (result?.kind !== "composed") continue;
+        expect(result.scene.cause.id, here).toBe(loss.id);
+        expect(
+          result.scene.facts.find((row) => row.key === "bill-lost")?.recordIds,
+          here,
+        ).toContain(loss.id);
+        const tally = `${loss.facts!.no} to ${loss.facts!.yes}`;
+        const said = result.scene.talk.state.text;
+        expect(said, here).toMatch(
+          /lost|went down|voted down|out of committee/,
+        );
+        // The bill and the count are the record's own.
+        const bill = result.scene.facts.find((row) => row.key === "bill")!;
+        expect(bill.recordIds, here).toContain(loss.id);
+        expect(said, here).toContain(bill.text);
+        expect(said, here).toContain(tally);
+      }
     }
-    for (const loss of losses) {
-      const sponsorId = String(loss.facts!.sponsorId) as PersonId;
-      const here = `${where}: ${loss.id}`;
-      const book = director.ledger.people.get(sponsorId)!;
-      const entry = book.schedule.find((row) => row.momentId.includes(loss.id));
-      const binding = entry?.bindings.find(
-        (row) => row.typeKey === "staff-news",
-      );
-      expect(binding, `${here}: no staff-news scene`).toBeTruthy();
-      const aides = staffOf(api, sponsorId).map((row) => row.personId);
-      const aide = binding!.roles.find((row) => row.role === "aide")!;
-      expect(aide.personIds.length, here).toBe(1);
-      expect(
-        aides,
-        `${here}: the aide is one of the sponsor's staff`,
-      ).toContain(aide.personIds[0]);
-      // The aide says the bill lost, in the lines that play, as ordinary
-      // play says them, and the talk stands on the loss.
-      const result = purposeScene(core, director, sponsorId, entry!);
-      expect(result?.kind, here).toBe("composed");
-      if (result?.kind !== "composed") continue;
-      expect(result.scene.cause.id, here).toBe(loss.id);
-      expect(
-        result.scene.facts.find((row) => row.key === "bill-lost")?.recordIds,
-        here,
-      ).toContain(loss.id);
-      const tally = `${loss.facts!.no} to ${loss.facts!.yes}`;
-      const said = result.scene.talk.state.text;
-      expect(said, here).toMatch(/lost|went down|voted down|out of committee/);
-      // The bill and the count are the record's own.
-      const bill = result.scene.facts.find((row) => row.key === "bill")!;
-      expect(bill.recordIds, here).toContain(loss.id);
-      expect(said, here).toContain(bill.text);
-      expect(said, here).toContain(tally);
-    }
-    return;
+    if (read.size) return;
+    tried.push(place.name);
   }
   throw new Error(
     `no watched sponsor with an aide lost a vote in ${DAYS} days in ${tried.join("; ")} (seed ${seed})`,
