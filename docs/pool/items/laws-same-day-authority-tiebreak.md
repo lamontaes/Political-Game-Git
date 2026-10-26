@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/same-day-authority
 pr: #6120
 blocked-on:
