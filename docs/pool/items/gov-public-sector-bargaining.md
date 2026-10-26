@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** No dice; one model, two tiers; an effect is a read (the budget and the payroll read the contract); read the register for the unions ruling.
 
-**Done when.** In a one-year run of a drawn place, a named public worker's pay changes at a contract date by record id, the employer's budget line pays it, and a repeal of the law stops the next contract.
+**Done when.** In a one-year run of a drawn place, a named public worker's pay changes at a contract date by record id, the employer's budget line pays it, and a repeal of the law stops the next contract. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** a new `src/core2/modules/` engine or the staff engine, `src/core2/law-reach/group-a.ts`, `src/core2/data/`.
 

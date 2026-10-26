@@ -17,7 +17,7 @@ claimed-at: 2026-10-18T00:57:39.244Z
 
 **Rules.** An effect is a read: the close reads the funded employers' jobs. One rule, all 56 places: a state's treasury carries its own jurisdiction from the place data. Every dollar balances. Replace, never layer: `notePublicPay` and the funding loop in `openBudgets` use the one matching function.
 
-**Done when.** In a drawn place and a seed the builder did not choose (named in the PR body), `src/core2/treasury-government-match.test.ts` shows a treasury's reserve covering the wages of a funded employer with staff, and the state and national treasuries carrying the jurisdiction ids the matching function reads.
+**Done when.** In a drawn place and a seed the builder did not choose (named in the PR body), `src/core2/treasury-government-match.test.ts` shows a treasury's reserve covering the wages of a funded employer with staff, and the state and national treasuries carrying the jurisdiction ids the matching function reads. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/government-jurisdictions.ts, src/core2/data/government-jurisdictions.json
 

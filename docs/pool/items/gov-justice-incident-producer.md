@@ -3,7 +3,7 @@ id: gov-justice-incident-producer
 title: "Stops, fights and carried weapons arise as incident records from causes already in the world"
 area: gov
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-20T04:53:20.573Z
 **Notes.** Closes the incident prerequisite of the five SG-GOV-REACH-A rows in src/core2/data/stopgaps.json only when the engine reads the law, never by deleting the row. Check docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md before adding any player-facing step. Remainder of gov-justice-incident-records.
 
 Oct 20: Switched from blocked to the automatic after: gate on world-police-patrol-and-grievance-causes, so it opens by itself the moment those items are done.
+
+Deferred Oct 25: nothing on screen reads it yet.

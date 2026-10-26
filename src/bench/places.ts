@@ -187,7 +187,11 @@ export function visitPlace(
   ).filter((id) => id !== playerId);
   const ids = [playerId, ...present].map((id) => {
     const row = core.people.get(id)!;
-    return { id, name: `${row.givenName} ${row.familyName}` };
+    return {
+      id,
+      name: `${row.givenName} ${row.familyName}`,
+      reason: id === playerId ? ("you" as const) : ("coworker" as const),
+    };
   });
   return {
     organizationId,

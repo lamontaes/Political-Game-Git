@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #5318
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 PR #5318 sent back: Merge conflict with main in src/core2/electorate-weight.test.ts.
 
 Sent back 2026-10-23 from PR #5318 (branch claude/red-electorate-weight): Superseded by changes already on main; preserve the Oct 20 04:40 returned-open status instead of the older in-pr claim; no new implementation remains to merge; finish on that branch, merge main into it first.
+
+Found on main at 2a524c1757 by the Oct 25 audit: the merger found the test fixed by changes already on main (Oct 23 send-back of PR #5318); nothing left to merge.
