@@ -4606,8 +4606,8 @@
     "id": "SG-PLAY-town-count-estimate",
     "kind": "estimated-data",
     "file": "src/bench/creator.ts",
-    "line": 193,
-    "whatItFakes": "A town the Census Vintage 2025 estimates and the ACS 2020-2024 table hold no count for (34 of 32,508 places, mostly military posts and merged places) shows its state's median town count, marked as an estimate in the creator's list.",
+    "line": 183,
+    "whatItFakes": "A town the Census Vintage 2025 estimates and the ACS 2020-2024 table hold no count for (34 of 32,508 places, mostly military posts and merged places) opens at the model's own size (targetPopulation), and the creator's list shows that size, marked as an estimate, so the list and the opened world agree.",
     "why": "The records name the place but hold no count for it; the creator must show a number (estimate, never unknown) and the real count needs research per place.",
     "addedBy": "claude/quirky-ride-vrwwz4-play-stop-14",
     "addedAt": "2026-10-25",
@@ -5298,8 +5298,8 @@
     "why": "The counted groups store holds no per-group plan, and a counted premium is a purchase flow with an insurer payee that fill-in must take back contract by contract (opening-customers.ts, residents.ts).",
     "addedBy": "claude/fs11vb-coverage-record",
     "addedAt": "2026-10-20",
-    "replacement": "A coverage share per counted group, read by the same rule as a full person times the group's weight, and a premium flow per covered counted household (pool item people-coverage-counted).",
-    "status": "open"
+    "replacement": "Counted households are ranked with full people by the same employer size and pay, hold a counted-coverage record on their policyholder, and pay the same premium once for each real household the record stands for (countedPayment). A household filled in is handed its counted record the same day, as full records on the same plan, policyholder and premium (onFillIn). All in src/core2/modules/coverage.ts, proved by src/core2/health-coverage-counted.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-housing-links-unsized",

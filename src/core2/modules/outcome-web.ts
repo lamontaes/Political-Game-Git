@@ -294,12 +294,17 @@ function rowAt(r: Reading, index: number): WebMonth | undefined {
 
 /** A cause's value as it stood in month `index` (today's date shifted back for a law). */
 function causeAt(r: Reading, measure: string, index: number): number | null {
-  if (isLaw(measure))
+  if (isLaw(measure)) {
+    // The starting law rows take effect on the calibration date, so a date
+    // before it reads the law as it stood then, not as absent: a place that
+    // repeals a law it began with feels the repeal a lag later.
+    const date = dateMonthsBefore(r.api.state.date, r.index - index);
     return lawValue(
       r.api,
       measure.slice(LAW_PREFIX.length),
-      dateMonthsBefore(r.api.state.date, r.index - index),
+      date < CALIBRATED_AT ? CALIBRATED_AT : date,
     );
+  }
   const derived = derivedOf(measure);
   const kept = derived?.measure ?? measure;
   if (index >= r.index && !keptOutcome(kept)) return r.values[measure] ?? null;
