@@ -36,6 +36,7 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { appliedOn } from "./law-reach/applied";
+import { outsideAccountOf } from "./budgets-treasury";
 import { openLawReach } from "./law-reach/host";
 import { selectorGroup } from "./law-reach/group-a-records";
 import {
@@ -579,6 +580,23 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     const share = reachParameter("parksDedicatedShare");
     enact(key, "city", 1);
     const first = budgetToday(api, gov)!;
+    // A treasury with no cash pays nothing, and then nothing is paid under the law (a small town's may hold none): this town's gets a year of its lines, an edge fixture, so the first close pays.
+    const accounts = api.accounts();
+    accounts.transfer({
+      id: `fixture:parks-levy-cash:${api.state.date}`,
+      from: accounts.main(outsideAccountOf(api)!),
+      to: accounts.main(gov.organizationId),
+      amountMinor: Object.values(first.spendingMinor).reduce(
+        (sum, minor) => sum + minor,
+        0,
+      ),
+      reasonKey: "fixture",
+      source: {
+        tag: "SOURCED",
+        citation: "Test fixture: cash for the treasury's first close.",
+        asOf: api.state.date,
+      },
+    });
     // The treasury's first close pays the levy's share of the line under the law's own payment, and records whom it reached.
     advanceCore(core, after(api.state.date, 35));
     const paid = appliedOn(api, key).filter(
