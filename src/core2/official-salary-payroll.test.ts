@@ -18,6 +18,10 @@ import { governments, withholdingOf } from "./modules/budgets";
 import { lawChain } from "./modules/laws";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./modules/officials";
 import { OFFICIAL_PAY_MODULE_ID, officialSalary } from "./modules/official-pay";
+import { setKeepEveryonesWhy } from "./why-kept";
+
+// Reads each official's withholding record for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "official-salary-payroll");

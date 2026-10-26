@@ -1062,7 +1062,9 @@ export function partyProspects(
             (check) => !check.met,
           ),
       )
-      // stopgapId: SG-P15-party-ask-order
+      // Inroads first, then standing (owner, Oct 15: "The party asks someone
+      // to run only with some inroads on record"; Oct 14: a high-standing
+      // member may be propositioned).
       .map((person) => ({
         person,
         closeness: closenessBetween(api.state, person.id, chairId),

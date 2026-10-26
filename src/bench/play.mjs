@@ -1123,7 +1123,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
-  $("talk-gap").classList.remove("marked");
+  gapButton.classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1162,10 +1162,18 @@ async function talkTo(otherId, momentId) {
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
 // A line that does not read right is marked where it is said; no time passes.
-$("talk-gap").addEventListener("click", async () => {
+// Mark gap is a developer control: it joins the talk box only while dev
+// mode is on, and is never in the player's markup.
+const gapButton = el("button", {
+  id: "talk-gap",
+  className: "action small",
+  type: "button",
+  textContent: "Mark gap",
+});
+gapButton.addEventListener("click", async () => {
   if (!talk) return;
   await post("/api/gap");
-  $("talk-gap").classList.add("marked");
+  gapButton.classList.add("marked");
 });
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
@@ -1243,14 +1251,20 @@ function renderFiling(value) {
     );
   });
   $("talk-choices").replaceChildren(...buttons);
-  // The filing's record once it is made: its status.
+  // The filing's record once it is made: its status, shown as the record's
+  // label under the talk, not as words in the clerk's mouth.
   if (value.result)
     $("talk-lines").append(
       el("li", {
-        className: "speech",
+        className: "label",
         textContent: value.result.filing
-          ? value.result.status
-          : `${value.result.status} · ${(value.result.unmet ?? []).map((u) => u.rule).join(", ")}`,
+          ? (controls.filing?.status?.[value.result.status] ??
+            words(value.result.status))
+          : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
+              value.result.unmet ?? []
+            )
+              .map((u) => controls.filing?.rules?.[u.rule] ?? words(u.rule))
+              .join(", ")}`,
       }),
     );
   setScales({ available: false });
@@ -1272,7 +1286,7 @@ function renderFilingOverlay(value) {
     ...overlay.checks.map((check) => {
       const line = row(
         ruleNames[check.rule] ?? words(check.rule),
-        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
+        `${dateOrValue(check.actual ?? "")}${check.required ? ` / ${dateOrValue(check.required)}` : ""}${check.metOn ? ` · ${controls.filing?.metOn ?? ""} ${proseDate(check.metOn)}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
       return line;
@@ -1320,7 +1334,9 @@ function partyRows(party) {
     const m = party.member;
     const line = row(
       words.member,
-      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+      // How well their views fit the party's, in words: the first band the
+      // record's agreement (-1 to 1) reaches.
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)?.label ?? "")}`,
     );
     // The tie's record, for the checks that read it.
     line.dataset.tieId = m.tieId;
@@ -1447,6 +1463,7 @@ async function campaignRows() {
   const rows = [];
   for (const {
     filing,
+    contest,
     campaign,
     polls,
     outings,
@@ -1525,7 +1542,13 @@ async function campaignRows() {
         "div",
         { className: "row campaign" },
         el("b", {
-          textContent: `${filing.status} · ${filing.contestId.split(":").slice(-3).join(" ")}`,
+          textContent: [
+            contest?.title,
+            contest ? proseDate(contest.electionDate) : null,
+            controls.filing?.status?.[filing.status] ?? words(filing.status),
+          ]
+            .filter(Boolean)
+            .join(" · "),
         }),
         `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${campaign.volunteers} volunteers · ${campaign.doors} doors`,
         el(
@@ -2140,7 +2163,7 @@ async function seatRows() {
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
 const kindName = (kind) => {
-  const name = kind.split(":").pop();
+  const name = kind.split(/[:.]/).pop();
   return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
 };
 
@@ -2244,7 +2267,31 @@ const sheets = {
         ],
       });
     }
-    const people = [...records.values()];
+    // Who joined or left the player's five closest this year, each with the
+    // record that changed the tie; one who left and is no longer among the
+    // card's ties is still drawn, marked.
+    const circle = me.card.circle ?? { joined: [], left: [] };
+    const dateText = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    const change = new Map([
+      ...circle.joined.map((c) => [c.personId, { ...c, mark: "joined" }]),
+      ...circle.left.map((c) => [c.personId, { ...c, mark: "left" }]),
+    ]);
+    for (const c of circle.left)
+      if (!records.has(c.personId))
+        records.set(c.personId, {
+          personId: c.personId,
+          name: c.name,
+          groups: [],
+        });
+    // Changed ties first, so the first page shows them.
+    const people = [...records.values()].sort(
+      (a, b) => Number(change.has(b.personId)) - Number(change.has(a.personId)),
+    );
     let group = "all";
     let selected;
     let page = 0;
@@ -2332,7 +2379,8 @@ const sheets = {
           selected = p.personId;
           draw();
         });
-        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`;
+        const changed = change.get(p.personId);
+        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
         node.setAttribute("aria-pressed", String(selected === p.personId));
         node.setAttribute("aria-label", p.name);
         node.style.left = `${x}%`;
@@ -2342,17 +2390,46 @@ const sheets = {
           el("b", { textContent: p.name }),
           el("span", { textContent: p.relation ?? "" }),
         );
+        if (changed)
+          node.append(
+            el("em", {
+              className: "circle-mark",
+              textContent:
+                changed.mark === "joined" ? labels.joined : labels.left,
+            }),
+          );
         canvas.append(node);
       });
       const person = people.find((p) => p.personId === selected);
       detail.replaceChildren();
+      // Nothing changed in the five closest this year: said, never an empty box.
+      if (!change.size)
+        detail.append(
+          el("span", {
+            className: "circle-none",
+            textContent: labels.noChange,
+          }),
+        );
       if (person) {
+        const changed = change.get(person.personId);
         detail.append(
           el("span", {
             textContent: [person.name, person.relation]
               .filter(Boolean)
               .join(" · "),
           }),
+          ...(changed
+            ? [
+                el("span", {
+                  className: "circle-why",
+                  textContent: [
+                    changed.mark === "joined" ? labels.joined : labels.left,
+                    labels.causes?.[changed.cause] ?? words(changed.cause),
+                    dateText(changed.date),
+                  ].join(" · "),
+                }),
+              ]
+            : []),
           button(labels.card, () => {
             closeSheet();
             showPerson(person);
@@ -2864,7 +2941,10 @@ const sheets = {
     );
   },
   async results() {
-    const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
+    const [races, nation] = await Promise.all([
+      api(`/api/results?id=${encodeURIComponent(me.id)}`),
+      api("/api/results/nation"),
+    ]);
     await controlsReady;
     const labels = controls.results;
     seenResults = races.length;
@@ -2872,7 +2952,29 @@ const sheets = {
     // The newest night in full, your own race first; earlier nights' races after.
     const night = races.filter((race) => race.date === races[0]?.date);
     const earlier = races.slice(night.length, night.length + 8);
-    return [...night, ...earlier].map((race) =>
+    // After your own night's races, every other state's governor race that
+    // night, from the world's race records: who won and by how much.
+    const nationBlock = el(
+      "div",
+      { className: "row race nation" },
+      el("b", { textContent: labels.nation }),
+      nation.length
+        ? el(
+            "div",
+            { className: "nation-grid" },
+            ...nation.map((race) => {
+              const line = row(
+                race.state,
+                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints.toFixed(1)} ${labels.points}`,
+              );
+              line.classList.add("nation-race");
+              line.dataset.race = race.id;
+              return line;
+            }),
+          )
+        : el("div", { className: "label", textContent: labels.noNation }),
+    );
+    const rows = [...night, ...earlier].map((race) =>
       el(
         "div",
         { className: `row race${race.mine ? " own" : ""}` },
@@ -2893,11 +2995,13 @@ const sheets = {
             textContent: `${c.name}${c.party ? ` (${c.party})` : ""} · ${number(c.votes)}`,
           }),
         ),
+        // One total for the race: every ballot cast in it, the town's and
+        // the rest of the electorate's.
         el(
           "div",
           {},
-          el("b", { textContent: `${labels.turnout} ` }),
-          `${number(race.namedTurnout)} / ${number(race.namedEligible)}`,
+          el("b", { textContent: `${labels.cast} ` }),
+          number(race.electorate),
         ),
         el(
           "div",
@@ -2914,7 +3018,7 @@ const sheets = {
               el("b", { textContent: `${labels.wonIn} ` }),
               race.places
                 .slice(0, 6)
-                .map((p) => `${p.name} ${p.leader ?? ""} · ${number(p.cast)}`)
+                .map((p) => `${p.name} ${p.leader ?? ""}`)
                 .join(" · "),
             )
           : "",
@@ -2928,6 +3032,11 @@ const sheets = {
           : "",
       ),
     );
+    return [
+      ...rows.slice(0, night.length),
+      nationBlock,
+      ...rows.slice(night.length),
+    ];
   },
   async map() {
     const m = await api("/api/map");
@@ -3039,7 +3148,10 @@ const sheets = {
       const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
       content.append(
         el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
-        el("p", { className: "label", textContent: latest.adoptedOn }),
+        el("p", {
+          className: "label",
+          textContent: `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+        }),
       );
       const summary = el("div", { className: "budget-summary" });
       for (const [label, value] of [
@@ -3438,7 +3550,12 @@ const sheets = {
             el("h4", {
               textContent: record.staffing
                 ? record.staffing.employer
-                : kindName(record.kind),
+                : kindName(
+                    // A story the press archived is named by the record it tells of.
+                    record.kind === "press.archived"
+                      ? (record.facts?.recordKind ?? record.kind)
+                      : record.kind,
+                  ),
             }),
             el("p", {
               textContent: record.staffing
@@ -3844,10 +3961,11 @@ const sheets = {
     let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
-    // Another state's legislature: every sitting member, by chamber.
+    // Another state's members at this level, its legislature or its members
+    // of Congress: every sitting member, by chamber.
     const drawOtherState = async () => {
       const other = await api(
-        `/api/government/state?${new URLSearchParams({ state: otherState })}`,
+        `/api/government/state?${new URLSearchParams({ state: otherState, level })}`,
       );
       const chambers = new Map();
       for (const s of other.legislators) {
@@ -3884,8 +4002,8 @@ const sheets = {
     };
     const statePick = el("select", { className: "government-state" });
     const draw = () => {
-      statePick.hidden = level !== "state";
-      if (level === "state" && otherState) {
+      statePick.hidden = level === "local";
+      if (level !== "local" && otherState) {
         drawOtherState();
         for (const b of picker.querySelectorAll("button"))
           b.classList.toggle("on", b.dataset.level === level);
@@ -3943,9 +4061,11 @@ const sheets = {
                 const history = el("div", {
                   className: "row",
                   textContent: [
-                    `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
-                    s.holder.reached,
-                    won ? `${won.date} ${Math.round(won.share * 100)}%` : null,
+                    `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
+                    labels.reached?.[s.holder.reached] ?? s.holder.reached,
+                    won
+                      ? `${labels.electedOn} ${proseDate(won.date)} · ${Math.round(won.share * 100)}% ${labels.ofVote}`
+                      : null,
                   ]
                     .filter(Boolean)
                     .join(" · "),
@@ -4029,9 +4149,18 @@ const sheets = {
     });
     picker.append(statePick);
     draw();
-    // The key people the opening names: one list for both screens.
-    const keyPeople = v.keyPeople.map((k) => {
-      const line = row(k.officeTitle, k.name);
+    // The key people: the player's own members first, then the President,
+    // the Vice President and each chamber's leader by post and chamber (a
+    // leader from another state names the state they serve). Every other
+    // member is behind the State and Federal filters.
+    const keyLine = (k) => {
+      const line =
+        k.post && !k.own
+          ? row(`${words(k.post)}, ${k.chamber ?? k.officeTitle}`, k.name)
+          : row(k.officeTitle, k.name);
+      for (const text of [k.own && k.post ? words(k.post) : null, k.stateName])
+        if (text)
+          line.append(el("span", { className: "label", textContent: text }));
       // The President and Vice President a territory's voters do not choose.
       if (k.chosenByHere === false)
         line.append(
@@ -4051,7 +4180,23 @@ const sheets = {
         line.append(b);
       }
       return line;
-    });
+    };
+    const own = v.keyPeople.filter((k) => k.own);
+    const leaders = v.keyPeople.filter((k) => !k.own);
+    // Each group stays in one column with its heading.
+    const keyPeople = [
+      [labels.yourMembers, own],
+      [labels.leaders, leaders],
+    ]
+      .filter(([, rows]) => rows.length)
+      .map(([title, rows]) =>
+        el(
+          "section",
+          { className: "key-people" },
+          el("h3", { textContent: title }),
+          ...rows.map(keyLine),
+        ),
+      );
     // The party the player belongs to, with the tie's record and how their
     // views fit it; the parties they could join otherwise. Never joined: files
     // unaffiliated.
@@ -4328,6 +4473,12 @@ $("front-continue").addEventListener("click", async () => {
   if (life.packet) renderPacket(life.packet);
   await refresh();
   await openOfferMoment();
+  // Still the opening evening: the night's paper is back on the table, read
+  // from the kept opening, until living on clears it.
+  const opening = await api(
+    `/api/opening?id=${encodeURIComponent(life.personId)}`,
+  );
+  if (opening?.home?.date === life.date) showNewsSurface(opening.news);
 });
 // The desktop window closes (and the app quits); a browser tab has no Quit.
 if (window.location.protocol === "app:") {
@@ -4372,9 +4523,11 @@ function worldSettings() {
 }
 $("front-options").addEventListener("click", () => openSheet("options"));
 // The bench's developer controls sit behind one faint ring, off by default.
-$("dev-toggle").addEventListener("click", () =>
-  document.body.classList.toggle("dev"),
-);
+$("dev-toggle").addEventListener("click", () => {
+  const dev = document.body.classList.toggle("dev");
+  if (dev) $("talk-silent").before(gapButton);
+  else gapButton.remove();
+});
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
@@ -4410,13 +4563,18 @@ const MONTHS = Array.from({ length: 12 }, (_, i) =>
     timeZone: "UTC",
   }),
 );
-const proseDate = (iso) =>
-  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
+/** A record value as the player reads it: an ISO date in words, else as kept. */
+function dateOrValue(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? proseDate(value) : value;
+}
+function proseDate(iso) {
+  return new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC",
   });
+}
 const genderName = (g) =>
   document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
