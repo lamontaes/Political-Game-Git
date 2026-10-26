@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T17:08:18.851Z
 
 **Rules.** Never loosen the test: the kin rules hold. No dice: who is born to whom follows the kin rules and the place's records. One rule, all 56 places: find the cause in the kin generation, not by skipping a place.
 
-**Done when.** src/core2/m0-life-at-18.test.ts passes with that seed and place key and on two fresh seeds named in the PR body, and the PR names by file and line why a 14-year-old parent was generated in Rand.
+**Done when.** src/core2/m0-life-at-18.test.ts passes with that seed and place key and on two fresh seeds named in the PR body, and the PR names by file and line why a 14-year-old parent was generated in Rand. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/m0-life-at-18.test.ts, src/core2/population.ts
 

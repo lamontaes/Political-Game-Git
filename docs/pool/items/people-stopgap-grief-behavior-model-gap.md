@@ -4,7 +4,7 @@ title: "Stopgaps in grief (behavior-model-gap): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Grief starts at the closeness to the person who died and halves every personal half-life; the half-life spread is solved from two Bonanno et al. (2002) pattern shares with 'little grief' set at a quarter of the starting
 
 Oct 20 (pool feeder): spec written; saves do not matter until early-access preparation, so persisting the losses means a typed event on the world's record, not a save format. The Bonanno shares (45.9 percent resilient, 15.6 percent chronic) are already in grief.json; what is missing is the behavior check.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

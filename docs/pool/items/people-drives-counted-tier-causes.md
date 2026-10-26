@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted group forms causes by the same rule as a full person, times its count, and a member filled in carries a consistent cause. No dice: who in a group forms one comes from the group's traits and the event, never a roll. Sliding scales and causes: the share rises with the event's reach and attention.
 
-**Done when.** In a one-year played world built with buildBenchWorld in a drawn place (seed named), counted groups hold cause records formed from named events by record id, their share per adult is within the named adults' share by a stated spread, a counted adult filled in carries one, and the candidacy engine reads it (people-counted-causes-for-candidacy).
+**Done when.** In a one-year played world built with buildBenchWorld in a drawn place (seed named), counted groups hold cause records formed from named events by record id, their share per adult is within the named adults' share by a stated spread, a counted adult filled in carries one, and the candidacy engine reads it (people-counted-causes-for-candidacy). **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/modules/drives.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts
 
