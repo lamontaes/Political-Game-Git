@@ -135,8 +135,8 @@
     },
     "jobs.apply": {
       "class": "no study number",
-      "why": "Kanfer et al. 2001 give only the range of correlations across all antecedents of job search behavior (-.15 to .46; the abstract has no per-trait number), so the target is assumed (an odds ratio of 1.49 between the thirds, 1.2 per standard deviation). A seeker's push to apply now eases with the weeks looked (applyNeed, src/core2/modules/jobs.ts), so some applications sit near waiting; the weight fit 0.2, 0.7 and 0.4 in three runs of Holualoa's year (about 1,400 calls each) and 0.35 in a third town (658 calls), so 0.7, the top of the fits, stands. In small places (Peacham, 142 calls; 137 calls in a second drawn town) too few calls sit near waiting to fit, and at lower weights none turned.",
-      "fix": "A study that reports a per-trait size for job search intensity."
+      "why": "Kanfer et al. 2001 give only the range of correlations across all antecedents of job search behavior (-.15 to .46; the abstract has no per-trait number), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study). A seeker's push to apply eases with the weeks looked (applyNeed, src/core2/modules/jobs.ts), so some applications sit near waiting and temperament turns some of them.",
+      "fix": "Read Kanfer et al.'s per-trait correlations from the paper's tables and fit the weight to them (research-jobs-apply-kanfer-per-trait)."
     },
     "drives.respond": {
       "class": "circumstances saturate the choice",
@@ -205,13 +205,48 @@
     },
     "business.owner-draw": {
       "class": "no study number",
-      "why": "No study of owners' draws by personality has a number, so the target is assumed (an odds ratio of 1.49 between the thirds). An owner now weighs the business's cash against a month of everything it pays out, not only payroll (a firm with no payroll had no cushion, so all its cash looked spare and every owner drew), so 40 to 50 percent of weighings sit within a point of keeping. The weight fits 0.15 to 0.35 across four draws (Holualoa 192 and 221 weighings, Peacham 196, a third town 199; odds ratios 1.6 to 1.7), and 0.35, the top of the fits, stands because at 0.15 almost nothing turned in a small town (206 weighings).",
+      "why": "No study of owners' draws by personality has a number, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study). An owner weighs the business's cash against a month of everything it pays out, not only payroll, so 40 to 50 percent of weighings sit within a point of keeping, and temperament turns some of them.",
       "fix": "A study that reports owners' withdrawals by trait."
     },
     "jobs.raise-for-opening": {
       "class": "a size, not a choice",
       "why": "How much of the affordable raise an owner gives an unfilled seat is a share (open-handedness times what the seat can carry), not a two-way choice, so scripts/traits/trait-calibrate.ts cannot fit it. Thielmann, Spadaro and Balliet 2020 (Psychological Bulletin 146(1), Table 8) give the nearest size: agreeableness .08 and honesty-humility .09 with what an ultimatum proposer offers (data/research/trait-effect-sizes.json, jobs.raise-for-opening), a lab game with students, so the general weight of 1 stands.",
       "fix": "A study of employers' wage offers by trait, or a fit of the share against the correlation of .08."
+    },
+    "jobs.review-worker": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (conscientiousness and agreeableness best predict actual turnover), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.start-looking": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (emotional stability best predicts intentions to quit), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.accept-offer": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read and Kanfer et al. 2001 (Journal of Applied Psychology 86(5)) give only the range of correlations across all antecedents of job search behavior (-.15 to .46) in the abstract read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.counted-retire": {
+      "class": "no study number",
+      "why": "No retirement-timing study with a number by trait was found, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.counted-look": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (emotional stability best predicts intentions to quit), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.counted-apply": {
+      "class": "no study number",
+      "why": "Kanfer et al. 2001 (Journal of Applied Psychology 86(5)) give only the range of correlations across all antecedents of job search behavior (-.15 to .46) in the abstract read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-apply-kanfer-per-trait)."
+    },
+    "jobs.counted-accept": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
     }
   }
 }
