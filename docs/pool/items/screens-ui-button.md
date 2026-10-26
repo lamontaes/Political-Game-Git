@@ -5,13 +5,14 @@ area: play
 kind: cleanup
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/screens-ui-button
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: screens
 milestone: play-first
+claimed-at: 2026-10-26T20:16:55.830Z
 ---
 
 **What.** The owner ruled on Oct 26 that the play screen's controls come from one shared set. This is the second part: the button. Today play.mjs builds buttons by hand in 36 places with its own element builder, and play.html hand-writes the Back and Continue pager four times. They move to src/bench/ui/button.mjs and src/bench/ui/dom.mjs, and the old copies are deleted. Looks and behavior do not change.
