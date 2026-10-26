@@ -5,6 +5,8 @@ description: Explains how Our Civic Duty's English engine and story director wor
 
 # The words engine and the director: the handoff
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The standard is Wildermyth (`OWNER-DECISIONS.md`, Oct 26): a scene advances the story and hands the player back to the game with something changed; people are varied, with pasts from the world's records that surface in scenes. Every grading batch and bank item is SMART with a time box. Before any owner question, do the full reading (`OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/`, `LAW.md`, a `docs/` search) and end it with the reading line. Research into real speech and records is allowed and expected.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: scenes like Wildermyth; the hold on hand-written lines is released; grading by scenes with voice notes, not batches; the play-first lane may edit director and English files with this session's review)
 
 Any session, on any model, can take this line over from this file (the owner runs it on Opus at medium effort). Read `AGENTS.md` first. Then this file. Then the Words section and the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`: sessions never message each other; your status goes in your section every two hours), `docs/play-first/LAW.md` sections 3, 4, 5 and 7, and `docs/coordination/OWNER-DECISIONS.md` (search "Oct 24", "Scenes like Wildermyth", "Grading").

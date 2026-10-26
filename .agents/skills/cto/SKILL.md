@@ -10,6 +10,8 @@ description: >
 
 # CTO
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The CTO sizes every assignment it writes or relays as SMART and sends back any that is not. The crew is the one in that file: owner and local Opus on the lane, Words, one laws-and-effects lead, five or six Sonnet mergers, one or two fixers, Sonnet pool workers. Before ruling in the owner's place, read `OWNER-DECISIONS.md` whole, `DECISION-REGISTER.md`, `docs/coordination/prior-rulings/`, `LAW.md` and search `docs/`; the ruling names what was read.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "play first", "simulate it, don't ask", "sessions never message each other"; the play-first lane, PR #5963)
 
 The CTO keeps the work moving and the owner informed. Whoever the owner appoints holds the role, on any account. The whole handoff is this file, `AGENTS.md`, `.agents/rules/how-we-talk.md`, `docs/pool/README.md`, the top of `docs/coordination/OWNER-DECISIONS.md`, `docs/play-first/PROGRESS.md` and the newest report in `docs/reports/`. Nothing lives only in a previous CTO's memory.

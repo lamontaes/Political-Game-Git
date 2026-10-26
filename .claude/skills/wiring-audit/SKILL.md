@@ -10,6 +10,8 @@ description: >
 
 # Wiring audit
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Each per-family fix PR and each row's `Needs` line is SMART with a time box. Laws and effects share one checker and one matrix; traits rows live in the effects matrix.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 20: Opus leads with Sonnet helpers; owner, Oct 24: at most two helpers per lead, status on the channel every two hours; the lead role itself is `lead-session`)
 
 "Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.

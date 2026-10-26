@@ -10,6 +10,8 @@ description: >
 
 # Session start: the pool worker loop
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** An item without a time box and a measurable done-when goes back to its writer, not built. Before any owner question or `owner-decision` stopgap, read `OWNER-DECISIONS.md` whole, `DECISION-REGISTER.md`, `docs/coordination/prior-rulings/` for your area, `docs/play-first/LAW.md`, and search `docs/` for the subject; end the question with the reading line. Research first is allowed and expected. Every stopgap you register has its id as a marker in the code it fakes.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: play first; the lane owns `src/bench`; "simulate it, don't ask"; "sessions never message each other")
 
 Copy this checklist and keep it current:
