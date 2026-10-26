@@ -4,7 +4,7 @@ title: "Stopgaps in drives (counted-giving): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at:
 
 **Notes.** CTO, Oct 14: groups raise from the counted population as well as from full people, by the same rule times the count. Acting CTO ruling (Oct 20): under "One model, two tiers" the counted gift is the full person's gift rule on the counted group's own income and cash, times the count, not the mean of full members' gifts. First row's old text: counted adults who give to a cause group give the mean of what the group's full members' own gift rule gives, once a month.
 Oct 20 (pool feeder): spec written; counted households already hold funds and living cost, but no per-topic concern for a counted group exists yet, so the builder derives it from the packed traits through the same drive-forming rule (counted-person views are being retired in other items, core-counted-views-delete).
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: core-old-engine-05-health-onset-lift
-blocked-on: play-first-freeze
+blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A (jobs the two-jobs list missed) and G2 step 8"
 ---
 
@@ -17,10 +17,8 @@ source: "docs/reports/repo-audit-2026-10-19.md section A (jobs the two-jobs list
 
 **Rules.** Replace, never layer: each re-homed file deletes its old-core original and the exporters' old output paths in the same PR, counted in the body. The new core is the engine: no script writes into `src/simulation`. One rule, all 56 places: rule packs and seats of government stay per-state data read by core2, not branches on a state name. Recheck the present import graph and existing pool claims before removing or moving any path; preserve current consumers, guards and provenance.
 
-**Done when.** `grep -rn "simulation/" src/core2/tooling/ data/tables/ scripts/source/ scripts/world/ scripts/english-corpus/ scripts/prose-corpus/` returns nothing; each of the eight scripts runs to its new output path; `tests/data-tables.test.ts`, `tests/seat-of-government-places.test.ts` and `tests/starting-law-term-completeness.test.ts` pass against the new homes; a drawn place from `buildBenchWorld` resolves its seat of government and rule pack from `src/core2/reference/`.
+**Done when.** `grep -rn "simulation/" src/core2/tooling/ data/tables/ scripts/source/ scripts/world/ scripts/english-corpus/ scripts/prose-corpus/` returns nothing; each of the eight scripts runs to its new output path; `tests/data-tables.test.ts`, `tests/seat-of-government-places.test.ts` and `tests/starting-law-term-completeness.test.ts` pass against the new homes; a drawn place from `buildBenchWorld` resolves its seat of government and rule pack from `src/core2/reference/`. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/tooling/build-place-lookup-data.ts, src/core2/tooling/build-opening-schools.ts, data/tables/index.ts, scripts/source/export-data-tables.ts, scripts/source/export-town-council-profile-inputs.ts, scripts/source/executive-authority-r3h-reconciliation.ts, scripts/source/school-name-patterns.ts, scripts/source/regional-money/export-office-pay.ts, scripts/world/compile-area-residents.ts, scripts/english-corpus/grading-batch-speech.ts, scripts/prose-corpus/sources/episodes.ts, src/core2/reference/
 
 **Notes.** Covers the audit's pool rows `core-old-imports-tooling` (change) and `core-rehome-old-exporters` (new). Draft #5032 carries the place-lookup part; finish on that branch. Parent: core-delete-old-engine.
-
-Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

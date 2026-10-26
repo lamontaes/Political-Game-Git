@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: a counted group is read by every engine with the same rule as a full person, times its count; a rule or data shape that differs by tier is an unregistered placeholder. No dice.
 
-**Done when.** In North Canton, Ohio and Steamboat Springs, Colorado (seeds above) and two more drawn places, full and counted displaced workers choose prove-oneself at rates within two standard errors of each other, named with counts, and full and counted people's trait maps hold the same keys; src/core2/drives-economy.test.ts passes unchanged.
+**Done when.** In North Canton, Ohio and Steamboat Springs, Colorado (seeds above) and two more drawn places, full and counted displaced workers choose prove-oneself at rates within two standard errors of each other, named with counts, and full and counted people's trait maps hold the same keys; src/core2/drives-economy.test.ts passes unchanged. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/choice.ts, src/core2/person-state.ts, src/core2/modules/residents.ts
 
