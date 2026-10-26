@@ -2,17 +2,6 @@
   "about": "Firefly paintings the CTO moved from the owner's old Adobe account on Oct 13, 2026, for the LOCATIONS session (docs/coordination/locations.md). Each file is the full-size Firefly output as JPEG. status: new-place (a place the game has no painting of), new-variant (a new time or weather for a place the game has; gamePlace names it), campus-variant (morning/night/rain/winter of a campus in art/campuses), capitol-variant (a capitol light the manifest lacks). Firefly cut the names short, so place is a best reading; check each image. Delete a file in the PR that imports it.",
   "images": [
     {
-      "file": "title-lincoln-night-a__215378c3.jpg",
-      "assetId": "urn:aaid:sc:US:215378c3-1143-4686-9d9f-94c894bfdc37",
-      "key": "title-lincoln-night-a",
-      "status": "new-place",
-      "place": "title-lincoln-night-a",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-12",
-      "fireflyName": "[title-lincoln-night-a] Paint a  135540 vBE.ffgenimg"
-    },
-    {
       "file": "place-white-house-exterior__mor__e3e03aa1.jpg",
       "assetId": "urn:aaid:sc:US:e3e03aa1-9d98-4c09-9354-1b74ba858850",
       "key": "place-white-house-exterior__mor",

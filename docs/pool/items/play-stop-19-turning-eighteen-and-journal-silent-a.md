@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: play-first/play-stop-19-turning-eighteen-and-journal-silent-a
+status: open
+claimed-by:
 pr: #6108
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T20:33:20.498Z
+claimed-at:
 ---
 
 **What.** I started at 17 with a February 3 birthday on the v0.22.10 release. Coming up listed three family birthdays and not mine, and pressing Week across February 3 showed nothing. Turning 18 is golden-path step 1. This part puts the player's own birthday under Coming up and marks the day on screen.
