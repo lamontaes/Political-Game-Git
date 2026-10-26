@@ -6,13 +6,13 @@ kind: bug
 priority: 1
 size: S
 status: in-pr
-claimed-by: claude/quirky-ride-vrwwz4-play-stop-12
+claimed-by:
 pr: #6051
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-26T02:24:57.687Z
+claimed-at:
 ---
 
 **What.** On the v0.22.10 release, after Knock on doors the status card bottom left adds "KNOCK ON DOORS · 36 DOORS · 5 REACHED", grows taller, squeezes my name to "Bo / Snider" and covers the six menu icons. Clicking where the Politics icon shows lands on the card, so no menu can be opened in the door-knocking scene; only Day or Week gets out. Once the campaign panel also stayed open after Knock on doors and hid Day and Week until I pressed ×. I expected the icons to stay clickable.
@@ -32,3 +32,5 @@ claimed-at: 2026-10-26T02:24:57.687Z
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:05, 16:12; screenshots 49, 61. Related to play-stop-card-covers-rings (priority 3), which saw the same overlap at a pending stop. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
 
 Sent back 2026-10-25 ~22:05 UTC from PR #6051 (branch claude/quirky-ride-vrwwz4-play-stop-12, head 1d51fa6ef9 with main merged in): the body screenshot is wrapped in backticks so it renders as code, not an image, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tag and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #6051 (branch claude/quirky-ride-vrwwz4-play-stop-12): Current-main integration conflicts in src/bench/card.browser.mjs and three card PNGs; reconcile the additional check/evidence with the dock layout already landed through #5971 and keep the separate #6083 wage port distinct, preserving installed-build acceptance as open.; finish on that branch, merge main into it first.
