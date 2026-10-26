@@ -45,6 +45,8 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { townDistrict } from "../offices-state";
 import { basePlaces } from "../race-places";
+import { logistic } from "../kernel/deterministic-math";
+import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
 import { medianTransactionBalance } from "../starting-cash";
 import {
@@ -88,6 +90,8 @@ export interface CampaignRow {
   readonly staffIds: readonly string[];
   /** How many households its doors have reached (each kept in the doors table). */
   readonly doorsKnockedCount?: number;
+  /** What its evenings of knocking owe toward the next door that opens (a share of one). */
+  readonly doorAnswerCarry?: number;
   readonly raisedMinor: number;
   readonly spentMinor: number;
   /** Where the next turn's asks for money start in the campaign's list of people it can reach. */
@@ -451,7 +455,7 @@ export function impressionOf(
  * A cause is the "why" behind one voter's warmth. The voter's running count
  * of contacts lives on their impression row, which the votes read; the cause
  * row itself is kept for the player's circle, for candidates the player
- * runs against, and when bookkeeping is on.
+ * runs against, and everyone's under the keep-everyone's-why switch.
  */
 function keepCause(api: CoreAPI, cause: CauseRow): void {
   if (keepsWhy(api.state as CoreState, cause.voterId, cause.candidateId))
@@ -726,37 +730,71 @@ function adultsAt(
 
 /**
  * Walk the town's doors for some hours, full households and counted ones
- * alike, skipping those already walked: at each door the most willing adult
- * home at that minute opens, or no one does. Yields each opener's id (a
- * counted resident is filled in by the caller); `done` gains every door.
+ * alike, those not yet walked first. At each door the most willing adult home
+ * at that minute is the one who might open; the evening opens as many doors
+ * as their readiness adds up to, at the homes that owe an opening most.
+ * Yields each opener's id in walk order (a counted resident is filled in by
+ * the caller); `done` and `walked` gain every door knocked, `carries` each
+ * knocked home's carry and `owed` the campaign's.
  */
 function* walkDoors(
   api: CoreAPI,
   input: {
     readonly done: Set<string>;
+    /** When each door already walked was last knocked. */
+    readonly lastKnocked: ReadonlyMap<string, string>;
+    /** What each home's knocks so far owe it toward its next opening. */
+    readonly carries: Map<string, number>;
+    /** What the campaign's evenings so far owe toward its next opening. */
+    readonly owed: { carry: number };
+    readonly walked: string[];
     readonly doors: number;
     readonly hours: number;
   },
 ): Generator<string> {
   const doors = input.doors;
   const done = input.done;
+  const list = townAddresses(api).list;
   const homes: { id: string; adults: ReturnType<typeof adultsAt> }[] = [];
-  for (const address of townAddresses(api).list) {
+  for (const address of list) {
     if (homes.length >= doors) break;
     if (done.has(address.id)) continue;
     homes.push({ id: address.id, adults: adultsAt(api, address) });
   }
+  // With every door in town walked, the canvass goes round again, the doors
+  // knocked longest ago first, as a field campaign walks its turf again
+  // before election day (the same walk order, SG-GOV-campaign-walk-order).
+  if (homes.length < doors) {
+    const again = list
+      .map((address, at) => ({
+        address,
+        at,
+        last: input.lastKnocked.get(address.id),
+      }))
+      .filter((row) => row.last !== undefined)
+      .sort((a, b) => a.last!.localeCompare(b.last!) || a.at - b.at);
+    for (const { address } of again) {
+      if (homes.length >= doors) break;
+      homes.push({ id: address.id, adults: adultsAt(api, address) });
+    }
+  }
   const perHour = Math.max(1, doors / Math.max(1, input.hours));
   const start = campaignParameter("canvassStartHour") * 60;
+  const knocks: {
+    readonly home: string;
+    readonly opener: string;
+    readonly share: number;
+    readonly owed: number;
+  }[] = [];
   for (const [index, home] of homes.entries()) {
     done.add(home.id);
+    input.walked.push(home.id);
     // Who's home at the minute of the knock: not at a scheduled shift.
     const minute = start + Math.floor((index * 60) / perHour);
     const athome = home.adults.filter(
       (a) => !a.slots.some((c) => atWork(c!, api.state.date, minute)),
     );
-    // The one home whose traits lean most toward opening answers a stranger
-    // if they're willing.
+    // The one home whose traits lean most toward opening answers a stranger.
     // Older residents answer more (contact rates rise with age in field
     // experiments; Green and Gerber 2019).
     // Each adult's readiness past the threshold, weighed once.
@@ -775,17 +813,40 @@ function* walkDoors(
         ),
       }))
       .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
-    const opener = weighed.find((a) => a.score > 0);
+    const opener = weighed[0];
     if (!opener) continue;
-    yield opener.id;
+    // Their readiness slides to the share of knocks they open, a ready home
+    // most times and a reluctant one now and then; each knock adds it to
+    // what the home is owed (starting even).
+    const share = logistic(opener.score / campaignParameter("doorAnswerScale"));
+    const owed = (input.carries.get(home.id) ?? OPENING_CARRY) + share;
+    knocks.push({ home: home.id, opener: opener.id, share, owed });
+  }
+  // The evening opens as many doors as the shares add up to, with what the
+  // campaign's earlier evenings carried, so a street of reluctant homes still
+  // opens a few. The homes owed most open them, each spending an opening.
+  const due = knocks.reduce((sum, k) => sum + k.share, input.owed.carry);
+  const opens = Math.floor(due);
+  input.owed.carry = due - opens;
+  const opening = new Set(
+    [...knocks]
+      .sort((a, b) => b.owed - a.owed || a.home.localeCompare(b.home))
+      .slice(0, opens)
+      .map((k) => k.home),
+  );
+  for (const k of knocks) {
+    const opened = opening.has(k.home);
+    input.carries.set(k.home, opened ? k.owed - 1 : k.owed);
+    if (opened) yield k.opener;
   }
 }
 
 /**
  * Knock on doors for some hours: the montage. Households not yet visited, in
- * the order they stand. At each door the most outgoing adult answers, if
- * anyone in the house is willing to open to a stranger; they talk with the
- * canvasser, and tell their household. Returns everyone met at a door, in
+ * the order they stand, then (once every door has been knocked) those knocked
+ * longest ago. At each door the most outgoing adult home answers, in the
+ * share of knocks their readiness to open to a stranger says; they talk with
+ * the canvasser, and tell their household. Returns everyone met at a door, in
  * order, so the screen can stop on a porch.
  */
 export function knockDoors(
@@ -817,11 +878,31 @@ export function knockDoors(
     citation: `Campaign ${campaign.id}`,
     asOf: api.state.date,
   });
-  const done = new Set(doorsKnockedOf(api, campaign.id));
-  const before = done.size;
+  const knocked = doorRowsOf(api, campaign.id);
+  const done = new Set(knocked.map((row) => row.householdId));
+  const lastKnocked = new Map(
+    knocked.map((row) => [row.householdId, row.lastDate ?? row.date]),
+  );
+  const carries = new Map(
+    knocked.flatMap((row) =>
+      row.answerCarry === undefined
+        ? []
+        : [[row.householdId, row.answerCarry] as const],
+    ),
+  );
+  const owed = { carry: campaign.doorAnswerCarry ?? OPENING_CARRY };
+  const walked: string[] = [];
   const core = api.state as CoreState;
   const met: CauseRow[] = [];
-  for (const openerId of walkDoors(api, { done, doors, hours: input.hours })) {
+  for (const openerId of walkDoors(api, {
+    done,
+    lastKnocked,
+    carries,
+    owed,
+    walked,
+    doors,
+    hours: input.hours,
+  })) {
     // A counted household is filled in when the player's campaign opens its
     // door (the owner's on-meet design): the person who answers is a full
     // person from then on. A world candidate's door counts them as reached.
@@ -852,22 +933,51 @@ export function knockDoors(
     met.push(cause);
     retell(api, campaign, answers, cause);
   }
+  // One row a household: the day its door was first knocked, the last, how
+  // many times, and what its knocks owe toward the next opening.
   const doorRows = table(api, "doors");
-  for (const household of done)
-    if (!doorRows.get(`${campaign.id}|${household}`))
-      doorRows.put({
-        id: `${campaign.id}|${household}`,
-        campaignId: campaign.id,
-        householdId: household,
-        date: api.state.date,
-      } as unknown as ModuleRow);
+  for (const household of walked) {
+    const id = `${campaign.id}|${household}`;
+    const prior = doorRows.get(id) as unknown as DoorRow | undefined;
+    doorRows.put({
+      id,
+      campaignId: campaign.id,
+      householdId: household,
+      date: prior?.date ?? api.state.date,
+      lastDate: api.state.date,
+      knocks: (prior?.knocks ?? (prior ? 1 : 0)) + 1,
+      ...(carries.has(household)
+        ? { answerCarry: carries.get(household) }
+        : {}),
+    } as unknown as ModuleRow);
+  }
   campaign = campaignFor(api, input.filingId);
+  // The campaign's door count is every door knocked, a second pass included.
   save(api, {
     ...campaign,
-    doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + done.size - before,
+    doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + walked.length,
+    doorAnswerCarry: owed.carry,
     countedReached: (campaign.countedReached ?? 0) + counted,
   });
   return met;
+}
+
+interface DoorRow {
+  readonly id: string;
+  readonly campaignId: string;
+  readonly householdId: string;
+  /** The day the door was first knocked. */
+  readonly date: string;
+  readonly lastDate?: string;
+  readonly knocks?: number;
+  /** What the home's knocks owe it toward its next opening (a share of one). */
+  readonly answerCarry?: number;
+}
+
+function doorRowsOf(api: CoreAPI, campaignId: string): readonly DoorRow[] {
+  return table(api, "doors").query("byCampaign", [
+    campaignId,
+  ]) as unknown as DoorRow[];
 }
 
 /** The households a campaign's doors have reached. */
@@ -875,11 +985,7 @@ export function doorsKnockedOf(
   api: CoreAPI,
   campaignId: string,
 ): readonly string[] {
-  return (
-    table(api, "doors").query("byCampaign", [campaignId]) as unknown as {
-      householdId: string;
-    }[]
-  ).map((row) => row.householdId);
+  return doorRowsOf(api, campaignId).map((row) => row.householdId);
 }
 
 /**

@@ -4,73 +4,73 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 | Law                                          | Family             | exists | change | reach | systems | money | web | knowing | repeal | allPlaces | Overall    |
 | -------------------------------------------- | ------------------ | ------ | ------ | ----- | ------- | ----- | --- | ------- | ------ | --------- | ---------- |
-| Spending: highways                           | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
+| Spending: highways                           | infrastructure     | yes    | yes    | yes   | yes     | part  | SG  | NO      | yes    | yes       | partly     |
 | fare free transit                            | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | mileage fee replaces fuel tax                | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | public broadband                             | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
-| shift highway funds to transit               | infrastructure     | yes    | yes    | part  | part    | yes   | NO  | yes     | yes    | part      | partly     |
-| Medicare tax rate                            | healthcare         | yes    | yes    | NO    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
+| shift highway funds to transit               | infrastructure     | yes    | yes    | part  | part    | part  | NO  | yes     | yes    | part      | partly     |
+| Medicare tax rate                            | healthcare         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | Medicaid federal match                       | healthcare         | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
 | expand medicaid eligibility                  | healthcare         | yes    | yes    | yes   | part    | SG    | yes | yes     | yes    | yes       | partly     |
 | medicaid work requirement                    | healthcare         | yes    | yes    | yes   | part    | SG    | SG  | yes     | yes    | yes       | partly     |
 | work requirement for assistance              | healthcare         | yes    | yes    | SG    | SG      | SG    | SG  | yes     | NO     | NO        | partly     |
-| Spending: healthAndHospitals                 | healthcare         | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
+| Spending: healthAndHospitals                 | healthcare         | yes    | yes    | yes   | yes     | part  | SG  | NO      | yes    | yes       | partly     |
 | universal preschool                          | education          | yes    | yes    | yes   | part    | SG    | SG  | yes     | yes    | yes       | partly     |
-| Spending: schools                            | education          | yes    | yes    | yes   | yes     | yes   | NO  | NO      | yes    | yes       | partly     |
-| public funds for private schooling           | education          | yes    | yes    | yes   | part    | yes   | SG  | yes     | yes    | yes       | partly     |
+| Spending: schools                            | education          | yes    | yes    | yes   | yes     | part  | NO  | NO      | yes    | yes       | partly     |
+| public funds for private schooling           | education          | yes    | yes    | yes   | part    | part  | SG  | yes     | yes    | yes       | partly     |
 | raise teacher minimum salary                 | education          | yes    | yes    | yes   | part    | NO    | NO  | yes     | yes    | yes       | partly     |
-| Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
-| Local income tax rate                        | taxes-finance      | yes    | yes    | yes   | yes     | NO    | SG  | yes     | NO     | yes       | partly     |
-| Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | NO     | yes       | partly     |
-| Property tax rate                            | taxes-finance      | yes    | yes    | NO    | yes     | yes   | NO  | yes     | NO     | NO        | partly     |
-| Corporate income tax rate                    | taxes-finance      | yes    | yes    | NO    | NO      | NO    | NO  | yes     | NO     | NO        | partly     |
-| Estate tax rate                              | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
-| Inheritance tax rate                         | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
-| adopt income tax                             | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a | yes     | NO     | NO        | partly     |
-| cap property tax growth                      | taxes-finance      | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
+| Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | part  | SG  | NO      | yes    | yes       | partly     |
+| Income tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| Sales tax rate                               | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | NO     | yes       | partly     |
+| Property tax rate                            | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| Corporate income tax rate                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| Estate tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | part  | n/a | yes     | yes    | yes       | partly     |
+| Inheritance tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
+| adopt income tax                             | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| cap property tax growth                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | NO    | NO  | yes     | yes    | yes       | partly     |
-| graduated income tax                         | taxes-finance      | yes    | yes    | part  | part    | yes   | n/a | yes     | yes    | part      | partly     |
-| balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | part    | NO    | yes | yes     | yes    | yes       | partly     |
-| fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | part    | yes   | yes | yes     | yes    | yes       | partly     |
-| minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | part    | yes   | yes | yes     | yes    | yes       | partly     |
+| graduated income tax                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | SNAP maximum benefit                         | assistance         | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
-| Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
-| Federal unemployment tax rate                | assistance         | yes    | yes    | NO    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
-| State unemployment tax rate                  | assistance         | yes    | yes    | NO    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
-| Unemployment weekly maximum                  | assistance         | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
-| Social Security tax rate                     | assistance         | yes    | yes    | NO    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
+| Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | part  | SG  | NO      | yes    | yes       | partly     |
+| Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
+| State unemployment tax rate                  | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
+| Unemployment weekly maximum                  | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| Social Security tax rate                     | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | allow multifamily in single family zones     | housing            | yes    | yes    | SG    | yes     | SG    | SG  | yes     | NO     | NO        | partly     |
-| Spending: housing                            | housing            | yes    | yes    | part  | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
-| inclusionary requirement                     | housing            | yes    | yes    | SG    | yes     | yes   | n/a | yes     | NO     | NO        | partly     |
+| Spending: housing                            | housing            | yes    | yes    | part  | yes     | part  | SG  | NO      | yes    | yes       | partly     |
+| inclusionary requirement                     | housing            | yes    | yes    | SG    | yes     | part  | n/a | yes     | NO     | NO        | partly     |
 | rent stabilization                           | housing            | yes    | yes    | SG    | SG      | SG    | yes | yes     | NO     | NO        | partly     |
 | right to counsel in eviction                 | housing            | yes    | yes    | SG    | SG      | SG    | SG  | yes     | NO     | NO        | partly     |
-| Minimum wage                                 | labor              | yes    | yes    | NO    | NO      | yes   | NO  | yes     | NO     | NO        | partly     |
-| raise federal minimum wage                   | labor              | yes    | yes    | yes   | NO      | yes   | NO  | yes     | yes    | yes       | partly     |
-| local minimum wage authority                 | labor              | yes    | yes    | yes   | yes     | NO    | yes | yes     | yes    | yes       | partly     |
-| raise minimum wage                           | labor              | yes    | yes    | yes   | NO      | NO    | NO  | yes     | yes    | yes       | partly     |
-| paid family leave                            | labor              | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| public sector collective bargaining          | labor              | yes    | yes    | part  | SG      | SG    | yes | yes     | yes    | yes       | partly     |
-| right to work                                | labor              | yes    | yes    | yes   | SG      | yes   | yes | yes     | yes    | yes       | stopgapped |
+| Minimum wage                                 | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| raise federal minimum wage                   | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| local minimum wage authority                 | labor              | yes    | yes    | yes   | yes     | n/a   | yes | yes     | yes    | yes       | wired      |
+| raise minimum wage                           | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| paid family leave                            | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| public sector collective bargaining          | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| right to work                                | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | SG    | yes | yes     | NO     | NO        | partly     |
-| ban new gas hookups                          | energy-environment | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
+| ban new gas hookups                          | energy-environment | yes    | yes    | SG    | yes     | part  | SG  | yes     | NO     | NO        | partly     |
 | clean electricity standard                   | energy-environment | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
 | clean air plan for polluted counties         | energy-environment | yes    | yes    | NO    | yes     | NO    | NO  | yes     | NO     | NO        | partly     |
-| Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
+| Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | part  | SG  | NO      | yes    | yes       | partly     |
 | bottle deposit                               | energy-environment | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
 | price carbon                                 | energy-environment | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
-| Spending: police                             | justice            | yes    | yes    | part  | yes     | yes   | NO  | yes     | NO     | yes       | partly     |
-| civilian oversight of police                 | justice            | yes    | yes    | part  | NO      | yes   | NO  | yes     | yes    | yes       | partly     |
-| partner with federal immigration enforcement | justice            | yes    | yes    | yes   | NO      | yes   | yes | yes     | yes    | yes       | partly     |
-| end cash bail                                | justice            | yes    | yes    | yes   | NO      | NO    | yes | yes     | yes    | yes       | partly     |
-| Spending: corrections                        | justice            | yes    | yes    | part  | yes     | yes   | n/a | NO      | NO     | part      | partly     |
-| restore voting after sentence                | justice            | yes    | yes    | yes   | part    | SG    | SG  | yes     | yes    | yes       | partly     |
-| raise juvenile court age                     | justice            | yes    | yes    | part  | NO      | NO    | n/a | yes     | yes    | yes       | partly     |
-| child access prevention                      | justice            | yes    | yes    | yes   | NO      | NO    | yes | yes     | yes    | yes       | partly     |
-| permit to carry concealed                    | justice            | yes    | yes    | yes   | NO      | NO    | yes | yes     | yes    | yes       | partly     |
-| raise handgun purchase age                   | justice            | yes    | yes    | yes   | NO      | NO    | yes | yes     | yes    | yes       | partly     |
-| stand your ground                            | justice            | yes    | yes    | yes   | NO      | NO    | yes | yes     | yes    | yes       | partly     |
-| Spending: fire                               | justice            | yes    | yes    | part  | yes     | yes   | SG  | yes     | NO     | yes       | partly     |
+| Spending: police                             | justice            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| civilian oversight of police                 | justice            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| partner with federal immigration enforcement | justice            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| end cash bail                                | justice            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| Spending: corrections                        | justice            | yes    | yes    | yes   | yes     | part  | n/a | yes     | yes    | yes       | partly     |
+| restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | n/a   | SG  | yes     | yes    | yes       | stopgapped |
+| raise juvenile court age                     | justice            | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
+| child access prevention                      | justice            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| permit to carry concealed                    | justice            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| raise handgun purchase age                   | justice            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| stand your ground                            | justice            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| Spending: fire                               | justice            | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | all mail voting                              | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | automatic voter registration                 | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | independent redistricting                    | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
@@ -82,22 +82,23 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | broaden local authority                      | government         | yes    | yes    | yes   | yes     | n/a   | yes | yes     | yes    | yes       | wired      |
 | legislative term limits                      | government         | yes    | yes    | n/a   | yes     | n/a   | n/a | yes     | yes    | yes       | wired      |
 | ban discrimination in housing and work       | rights             | yes    | yes    | yes   | SG      | SG    | n/a | yes     | yes    | yes       | stopgapped |
-| dedicated parks funding                      | rights             | yes    | yes    | yes   | NO      | yes   | SG  | yes     | yes    | yes       | partly     |
+| dedicated parks funding                      | rights             | yes    | yes    | yes   | NO      | part  | SG  | yes     | yes    | yes       | partly     |
 | restrict abortion                            | rights             | yes    | yes    | yes   | SG      | SG    | yes | yes     | yes    | yes       | stopgapped |
 | age verification for social media            | technology         | yes    | yes    | yes   | SG      | SG    | SG  | yes     | yes    | yes       | stopgapped |
 | restrict government facial recognition       | technology         | yes    | yes    | part  | SG      | SG    | SG  | yes     | yes    | yes       | partly     |
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
-| limit groundwater withdrawal                 | agriculture        | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
-| protect farmland from development            | agriculture        | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
-| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | NO     | yes       | partly     |
-| local-income-tax-authority                   | starting law       | yes    | NO     | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
-| local-minimum-wage-authority                 | starting law       | yes    | yes    | NO    | yes     | NO    | yes | yes     | NO     | NO        | partly     |
-| unemployment-insurance                       | starting law       | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
+| limit groundwater withdrawal                 | agriculture        | yes    | yes    | SG    | yes     | part  | yes | yes     | NO     | NO        | partly     |
+| protect farmland from development            | agriculture        | yes    | yes    | SG    | yes     | part  | yes | yes     | NO     | NO        | partly     |
+| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | part  | SG  | yes     | NO     | yes       | partly     |
+| local-income-tax-authority                   | starting law       | yes    | NO     | yes   | yes     | n/a   | n/a | yes     | yes    | yes       | partly     |
+| local-minimum-wage-authority                 | starting law       | yes    | yes    | yes   | yes     | n/a   | yes | yes     | yes    | yes       | wired      |
+| unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | yes | yes     | n/a    | yes       | wired      |
 
 ## Why each link is missing
 
 **Spending: highways** (`budget-line:highways`)
 
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: every link is unbuilt: size-not-set (registered SG-GOV-REACH-B-road-condition)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
@@ -126,15 +127,13 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - reach: reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)
 - systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
 - allPlaces: reached people in one drawn place and not the other
 
 **Medicare tax rate** (`medicare-tax`)
 
-- reach: no law-reach row: nothing records who it applies to
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **Medicaid federal match** (`medicaid-match`)
 
@@ -167,6 +166,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: healthAndHospitals** (`budget-line:healthAndHospitals`)
 
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure hospital access and uninsured care (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
@@ -178,12 +178,14 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: schools** (`budget-line:schools`)
 
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: every link is unbuilt: person-level
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
 **public funds for private schooling** (`us-policy-positions:education.public-funds-for-private-schooling`)
 
 - systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-voucher-payment)
 
 **raise teacher minimum salary** (`us-policy-positions:education.raise-teacher-minimum-salary`)
@@ -194,93 +196,28 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: higherEducation** (`budget-line:higherEducation`)
 
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure college enrollment and completion (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
-**Local income tax rate** (`income-tax`)
-
-- money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household income after tax and out-migration (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
-
-**Local sales tax rate** (`sales-tax`)
+**Sales tax rate** (`sales-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household prices and local retail sales (SG-LAW-outcome-link-unresearched)
 - repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
-**Property tax rate** (`property-tax`)
-
-- reach: no law-reach row: nothing records who it applies to
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**Corporate income tax rate** (`corporate-income-tax`)
-
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
 **Estate tax rate** (`estate-tax`)
 
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers and charitable giving (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **Inheritance tax rate** (`inheritance-tax`)
 
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers to heirs (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**adopt income tax** (`us-policy-positions:fiscal.adopt-income-tax`)
-
-- reach: handler registered (group B, mechanic income-tax-adopt) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**cap property tax growth** (`us-policy-positions:fiscal.cap-property-tax-growth`)
-
-- reach: handler registered (group B, mechanic property-assessment) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-property-tax-bills)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **exempt groceries from sales tax** (`us-policy-positions:fiscal.exempt-groceries-from-sales-tax`)
 
 - money: no money flow: nobody pays or receives anything because of it
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-
-**graduated income tax** (`us-policy-positions:fiscal.graduated-income-tax`)
-
-- reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- allPlaces: reached people in one drawn place and not the other
-
-**balanced operating budget** (`us-policy-positions:fiscal.balanced-operating-budget`)
-
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- money: no money flow: nobody pays or receives anything because of it
-
-**fund pensions to schedule** (`us-policy-positions:fiscal.fund-pensions-to-schedule`)
-
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-
-**minimum reserve balance** (`us-policy-positions:fiscal.minimum-reserve-balance`)
-
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
 
 **SNAP maximum benefit** (`snap-maximum`)
 
@@ -293,38 +230,21 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: welfareAndMedicaid** (`budget-line:welfareAndMedicaid`)
 
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure poverty and coverage (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
 **Federal unemployment tax rate** (`federal-unemployment-tax`)
 
-- reach: no law-reach row: nothing records who it applies to
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **State unemployment tax rate** (`state-unemployment-tax`)
 
-- reach: no law-reach row: nothing records who it applies to
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**Unemployment weekly maximum** (`unemployment-weekly-maximum`)
-
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **Social Security tax rate** (`social-security-tax`)
 
-- reach: no law-reach row: nothing records who it applies to
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **allow multifamily in single family zones** (`us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones`)
 
@@ -337,12 +257,14 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **Spending: housing** (`budget-line:housing`)
 
 - reach: full people only: no counted group is reached (one model, two tiers)
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure homelessness and rent burden (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
 **inclusionary requirement** (`us-policy-positions:housing-land-use.inclusionary-requirement`)
 
 - reach: law-reach row (group A, mechanic housing-construction) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-affordable-units)
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
@@ -364,42 +286,9 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
-**Minimum wage** (`minimum-wage`)
-
-- reach: law-reach row (group A, mechanic none) has no handler registered: the mechanic list is empty, so no reach record is written
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**raise federal minimum wage** (`us-federal-positions:labor-commerce.raise-federal-minimum-wage`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-
 **local minimum wage authority** (`us-policy-positions:labor-workforce.local-minimum-wage-authority`)
 
-- money: no money flow: nobody pays or receives anything because of it
-
-**raise minimum wage** (`us-policy-positions:labor-workforce.raise-minimum-wage`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-
-**paid family leave** (`us-policy-positions:labor-workforce.paid-family-leave`)
-
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-leave-claims)
-
-**public sector collective bargaining** (`us-policy-positions:labor-workforce.public-sector-collective-bargaining`)
-
-- reach: full people only: no counted group is reached (one model, two tiers)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-bargaining)
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-bargaining)
-
-**right to work** (`us-policy-positions:labor-workforce.right-to-work`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-union-dues)
+- money: the law grants a local government the power to set its own minimum wage; the grant itself charges, pays and taxes no one, and any money moves through the wage a council then enacts, graded as the minimum wage law's money
 
 **cap consumer loan rates** (`us-policy-positions:business-commerce.cap-consumer-loan-rates`)
 
@@ -411,6 +300,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **ban new gas hookups** (`us-policy-positions:environment-energy.ban-new-gas-hookups`)
 
 - reach: handler registered (group B, mechanic housing-construction) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-building-cost)
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-building-cost)
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
@@ -431,6 +321,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: naturalResources** (`budget-line:naturalResources`)
 
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure land conservation and park visits (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
@@ -447,73 +338,23 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
-**Spending: police** (`budget-line:police`)
-
-- reach: full people only: no counted group is reached (one model, two tiers)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
-
-**civilian oversight of police** (`us-policy-positions:justice-public-safety.civilian-oversight-of-police`)
-
-- reach: full people only: no counted group is reached (one model, two tiers)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-
-**partner with federal immigration enforcement** (`us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-
-**end cash bail** (`us-policy-positions:justice-public-safety.end-cash-bail`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-
 **Spending: corrections** (`budget-line:corrections`)
 
-- reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- knowing: nobody heard of it: the change is not a news story anyone receives
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
-- allPlaces: reached people in one drawn place and not the other
 
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)
 
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-convictions)
+- money: the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it (what it changes is who may vote, read by the board of elections when it builds the roll)
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-convictions)
 
 **raise juvenile court age** (`us-policy-positions:justice-public-safety.raise-juvenile-court-age`)
 
-- reach: full people only: no counted group is reached (one model, two tiers)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-
-**child access prevention** (`us-policy-positions:justice-public-safety.child-access-prevention`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-
-**permit to carry concealed** (`us-policy-positions:justice-public-safety.permit-to-carry-concealed`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-
-**raise handgun purchase age** (`us-policy-positions:justice-public-safety.raise-handgun-purchase-age`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-
-**stand your ground** (`us-policy-positions:justice-public-safety.stand-your-ground`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
 
 **Spending: fire** (`budget-line:fire`)
 
-- reach: full people only: no counted group is reached (one model, two tiers)
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure fire deaths and property loss (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **require photo id to vote** (`us-policy-positions:government-operations.require-photo-id-to-vote`)
 
@@ -543,6 +384,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **dedicated parks funding** (`us-policy-positions:civil-family-community.dedicated-parks-funding`)
 
 - systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure park access and exercise (SG-LAW-outcome-link-unresearched)
 
 **restrict abortion** (`us-policy-positions:civil-family-community.restrict-abortion`)
@@ -570,42 +412,33 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **limit groundwater withdrawal** (`us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal`)
 
 - reach: handler registered (group B, mechanic farm-output) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-business-cost)
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
 **protect farmland from development** (`us-policy-positions:agriculture-natural-resources.protect-farmland-from-development`)
 
 - reach: handler registered (group B, mechanic housing-construction) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-land-use)
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
 **Spending: parks** (`budget-line:parks`)
 
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-park-use)
 - repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
 **local-income-tax-authority** (`local-income-tax-authority`)
 
 - change: no bill catalog policy and no series-powers row: no body can propose, enact or repeal it
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure local income tax adoption (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- money: the law only grants or withholds a power: a state's permission for its localities to levy an income tax; the grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)
+- web: The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own.
 
 **local-minimum-wage-authority** (`local-minimum-wage-authority`)
 
-- reach: no law-reach row: nothing records who it applies to
-- money: no money flow: nobody pays or receives anything because of it
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- money: the law grants a local government the power to set its own minimum wage; the grant itself charges, pays and taxes no one, and any money moves through the wage a council then enacts, graded as the minimum wage law's money
 
 **unemployment-insurance** (`unemployment-insurance`)
 
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- repeal: A claimant's benefit rights are determined when the claim is established and benefits are payable during the benefit year (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2021, chapter 3, Monetary Entitlement: "An individual's benefit rights are determined using wages and employment from a specific period of time called a base-period. Once a claim is established, benefits are payable during a period of time called the benefit year."). Putting the old terms back governs the claims filed after it; a claim already filed keeps being paid, and recorded, on the terms it was filed under.

@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/regional-rest-state-rate
 pr: #6019
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T10:19:06.986Z
 
 **Rules.** Estimate, never UNKNOWN: a state's opening unemployment must equal its published LAUS rate, so the rest-of-state share is solved from the metros' people and rates, never floored at the state's rate.
 
-**Done when.** node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-03-check.ts shows no state's opening unemployment off its published rate for this cause, in the runner's drawn place and two more drawn places named with seeds; the cause is named by line in the PR.
+**Done when.** node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-03-check.ts shows no state's opening unemployment off its published rate for this cause, in the runner's drawn place and two more drawn places named with seeds; the cause is named by line in the PR. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/regional-model.ts
 

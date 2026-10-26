@@ -18,7 +18,7 @@ claimed-at: 2026-10-23T21:30:20.833Z
 
 **Rules.** One model, two tiers (a counted group is read by every engine with the same rule as a full person, times its count); no dice; one rule, all 56 places; an effect is a read; speed (a year under two minutes, no more than 20% slower than base); replace, never layer.
 
-**Done when.** A town above 10,000 opens at its Census count; the largest town's year runs under two minutes and no town runs more than 20% slower than base, measured on the same machine. The old cap code and its stopgap row are deleted (replace, never layer).
+**Done when.** A town above 10,000 opens at its Census count; the largest town's year runs under two minutes and no town runs more than 20% slower than base, measured on the same machine. The old cap code and its stopgap row are deleted (replace, never layer). **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/population.ts, src/core2/data/parameters.json
 
@@ -29,3 +29,5 @@ Measured Oct 17 (claude session), with PR 4862 (unplaced workers' pay and the gr
 Sent back 2026-10-23 from PR #5295 (branch claude/uncap): Normal main integration conflicts in src/bench/world.ts; resolve the code conflict and rerun changed-file checks and the named large-town proof; finish on that branch, merge main into it first.
 
 Oct 23 (claude/sleepy-carson-f8omzd, after the PR 5295 send-back): the conflict is resolved and the opening at Census scale is split out as core-census-opens-at-census-scale, which PR 5295 now carries. Measured on the 4-core container, one process at a time: Washington, D.C. models 688,313 of its 693,645 (clean main 10,000) and plays its year in 176.6 s against main's 213.6 s; New York, the largest town, plays its year in 371.7 s against main's 335.2 s (10.9 percent slower). The two-minute line cannot be met by that PR while main's own New York year is 335.2 s, so this item waits on core-speed-year-over-limit-dense-town. The cap line is not met as written: `Math.min(target, real)` now sets the sample size, and the town reaches its Census size through the counted households' weight; the CTO decides whether that closes it.
+
+Oct 25 audit: From the dropped core-town-size-census: it also waited on world-census-weight-owner-draws; check that item before closing.

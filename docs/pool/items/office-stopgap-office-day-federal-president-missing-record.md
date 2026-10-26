@@ -3,7 +3,7 @@ id: office-stopgap-office-day-federal-president-missing-record
 title: "Stopgaps in office-day-federal-president (missing-record): 2 open"
 area: office
 kind: stopgap
-priority: 2
+priority: 3
 status: open
 claimed-by:
 pr: #5124
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: The people a traveler meets in a town other than the player's are recorded identities of that place (drawn from the world's seed and the town), with no household, job or other records there beyond the meeting.
 
 Oct 20 (cto): PR #5124 merged. SG-OFFICE-FED-situation-room resolved (situation room opens on FEMA disaster records, daily brief observes crisis). SG-OFFICE-FED-trip-residents remains open.
+
+Deferred Oct 25: nothing on screen reads it yet.

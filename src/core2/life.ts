@@ -53,6 +53,7 @@ import {
   coreAPI,
   createCore,
   resolveOperation,
+  openOpeningPeerTies,
 } from "./state";
 import type {
   ActOffer,
@@ -174,6 +175,10 @@ export function createLifeCore(
       ...(options.modules ?? []),
     ],
   });
+  // Townspeople open tied to the classmates and coworkers the records name.
+  const opening = coreAPI(core);
+  for (const actor of core.people.values())
+    openOpeningPeerTies(core, opening, actor);
   if (input.residents) admitResidents(core, input.residents);
   if (payroll?.estimates.length)
     coreAPI(core).stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP);
