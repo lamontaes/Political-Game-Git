@@ -5497,12 +5497,14 @@
     "citation": "Social Security Act sec. 1811 (42 U.S.C. 1395c): Medicare Part A eligibility begins at age 65."
   },
   "traitWeightLifeDailyAct": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the life.daily-act decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.45,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the life.daily-act chooser: every trait's pull toward each act the day offers, added to the act's own score. Newton, Pladevall-Guyer, Gonzalez and Smith (2018, Health and Retirement Study 2012, N = 5,484) give extraversion an odds ratio of 1.41 per point of a 1-to-4 scale (standard deviation 0.57) on socializing with someone other than a partner on a given day: a log odds gap of 0.43 between the thirds (Rohrer and Lucas 2018 find more in German diaries, 0.73). Fitted on every pick that offered a visit to a known person in two drawn places' played days, replayed at each weight from the picks' own scores (they reproduce the real choices exactly at weight 1): Franktown, Virginia (204 picks) and Haddam, Kansas (933), seed dailyfit1, net log odds 0.46 and 0.50 at 0.5, 0.14 and 0.35 at 0.3, 1.42 and 0.70 at the general weight of 1. At 1 temperament had moved the share of picks that are visits from 29% and 19% to 38% and 24%.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.3,
+      "high": 0.6,
+      "unit": "weight",
+      "citation": "The study's 95% interval for the odds ratio, 1.26 to 1.58, carried the same way."
     }
   },
   "traitWeightWorkAttendShift": {
