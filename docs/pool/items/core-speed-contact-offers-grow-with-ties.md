@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/speed-score-offers-per-kind
+status: open
+claimed-by:
 pr: #6133
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T15:39:41.671Z
+claimed-at:
 ---
 
 **What.** In Bedford, Wyoming (key 5606045, seed 9a4dd331ace7), on main 122c3217c5 merged with #5994 and people-drives-cause-acts-pull-less (branch claude/drives-cause-acts-pull-less), the years run 36.9, 69.0 and 75.6 s (main alone: 39.2, 82.3 and 101.8 s). Two things grow. The people chosen for each day: 11,952 activations in year one, 18,403 in year two and 28,013 in year three, because the focus set goes from 20 to 74 in year two when the player joins cause groups and meets every member (met-in-group ties, owner Oct 10), and focus people choose every day. And the offers each choice scores: 11.9, 21.1 and 42.1, now mostly the cause acts' own offers (join-cause-group 8.7, donate-to-cause 8.0, volunteer-for-cause 4.8, share-cause 3.9 a choice in year three), one per known group or place for each drive a person holds; the contact offers stay near 9 to 15 a choice thanks to the weekly shortlist. Make a later year cost about what the first does with the same choices: score each holder's cause-act offers without the per-group, per-drive repeat, and find whether daily choices for a growing focus set can be priced by what changed.
