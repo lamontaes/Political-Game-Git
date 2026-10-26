@@ -1,4 +1,10 @@
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildDeepPast } from "./deep-past";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { OPENING_KIN } from "./opening-kin";
+import { buildPopulation } from "./population";
 import {
   drawAdultAge,
   partnerAgedHousehold,
@@ -124,11 +130,13 @@ describe("opening household ages", () => {
           i,
         ).skeleton.members,
     );
-    // Single parents older than the old 52-year cap, and every child born when the parent was 15 or older.
+    // Single parents older than the old 52-year cap, and every child born when
+    // the parent was 15 or older: whole ages at least 16 apart, as two
+    // birthdays anywhere in their years can fall up to a year closer.
     expect(parents.some(([parent]) => parent!.age > 52)).toBe(true);
     for (const [parent, child] of parents) {
       expect(child!.age).toBeLessThan(18);
-      expect(parent!.age - child!.age).toBeGreaterThanOrEqual(15);
+      expect(parent!.age - child!.age).toBeGreaterThanOrEqual(16);
     }
     const housemates = range.map((i) =>
       age(
@@ -152,11 +160,48 @@ describe("opening household ages", () => {
     for (const row of related) {
       const [parent, child] = row.skeleton.members;
       expect(child!.age).toBeGreaterThanOrEqual(18);
-      expect(parent!.age - child!.age).toBeGreaterThanOrEqual(15);
+      expect(parent!.age - child!.age).toBeGreaterThanOrEqual(16);
       expect(row.people[1]!.familyName).toBe(row.people[0]!.familyName);
     }
     expect(related.some((row) => row.skeleton.members[0]!.age >= 65)).toBe(
       true,
     );
   });
+});
+
+describe("parents in a drawn town's homes", () => {
+  const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+  const place = drawPlace(seed, "opening-parent-age");
+  it(`were the youngest parent's age on the day each child was born, in ${place.name} (${place.key}), seed ${seed}`, () => {
+    const input = buildDeepPast(
+      buildPopulation({
+        seed: place.seed,
+        placeKey: place.key,
+        startedAt: "2021-01-01",
+        minimumPeople: 1000,
+      }),
+    );
+    const byId = new Map(input.people.map((person) => [person.id, person]));
+    const minAge = OPENING_KIN.fertilityByAge.rows[0]!.minAge;
+    let pairs = 0;
+    for (const child of input.people)
+      for (const fact of child.pastFacts ?? []) {
+        if (fact.kind !== "family:parent") continue;
+        const parent = byId.get(fact.facts!.otherPersonId!);
+        // A parent who lives with their child (the home's own members).
+        if (!parent || parent.householdId !== child.householdId) continue;
+        pairs += 1;
+        expect(
+          ageOnDate(
+            makeIsoDate(parent.birthDate),
+            makeIsoDate(child.birthDate),
+          ),
+          `${parent.id} (born ${parent.birthDate}) at ${child.id}'s birth (${child.birthDate})`,
+        ).toBeGreaterThanOrEqual(minAge);
+      }
+    expect(pairs, "parents living with their children").toBeGreaterThan(0);
+    process.stdout.write(
+      `parent ages: ${place.name} (${place.key}), seed ${seed}: ${pairs} parent and child pairs at home\n`,
+    );
+  }, 300_000);
 });

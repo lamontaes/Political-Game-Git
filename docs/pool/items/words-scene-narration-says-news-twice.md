@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/scene-narration-news-twice
 pr: #6129
 blocked-on:
