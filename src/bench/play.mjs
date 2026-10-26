@@ -3844,10 +3844,11 @@ const sheets = {
     let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
-    // Another state's legislature: every sitting member, by chamber.
+    // Another state's members at this level, its legislature or its members
+    // of Congress: every sitting member, by chamber.
     const drawOtherState = async () => {
       const other = await api(
-        `/api/government/state?${new URLSearchParams({ state: otherState })}`,
+        `/api/government/state?${new URLSearchParams({ state: otherState, level })}`,
       );
       const chambers = new Map();
       for (const s of other.legislators) {
@@ -3884,8 +3885,8 @@ const sheets = {
     };
     const statePick = el("select", { className: "government-state" });
     const draw = () => {
-      statePick.hidden = level !== "state";
-      if (level === "state" && otherState) {
+      statePick.hidden = level === "local";
+      if (level !== "local" && otherState) {
         drawOtherState();
         for (const b of picker.querySelectorAll("button"))
           b.classList.toggle("on", b.dataset.level === level);
@@ -4029,9 +4030,18 @@ const sheets = {
     });
     picker.append(statePick);
     draw();
-    // The key people the opening names: one list for both screens.
-    const keyPeople = v.keyPeople.map((k) => {
-      const line = row(k.officeTitle, k.name);
+    // The key people: the player's own members first, then the President,
+    // the Vice President and each chamber's leader by post and chamber (a
+    // leader from another state names the state they serve). Every other
+    // member is behind the State and Federal filters.
+    const keyLine = (k) => {
+      const line =
+        k.post && !k.own
+          ? row(`${words(k.post)}, ${k.chamber ?? k.officeTitle}`, k.name)
+          : row(k.officeTitle, k.name);
+      for (const text of [k.own && k.post ? words(k.post) : null, k.stateName])
+        if (text)
+          line.append(el("span", { className: "label", textContent: text }));
       // The President and Vice President a territory's voters do not choose.
       if (k.chosenByHere === false)
         line.append(
@@ -4051,7 +4061,23 @@ const sheets = {
         line.append(b);
       }
       return line;
-    });
+    };
+    const own = v.keyPeople.filter((k) => k.own);
+    const leaders = v.keyPeople.filter((k) => !k.own);
+    // Each group stays in one column with its heading.
+    const keyPeople = [
+      [labels.yourMembers, own],
+      [labels.leaders, leaders],
+    ]
+      .filter(([, rows]) => rows.length)
+      .map(([title, rows]) =>
+        el(
+          "section",
+          { className: "key-people" },
+          el("h3", { textContent: title }),
+          ...rows.map(keyLine),
+        ),
+      );
     // The party the player belongs to, with the tie's record and how their
     // views fit it; the parties they could join otherwise. Never joined: files
     // unaffiliated.
