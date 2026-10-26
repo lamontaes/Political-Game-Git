@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/tests-m2-07-race-draw
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T02:57:09.395Z
 ---
 
 **What.** The golden-path runner gives src/core2/voting.test.ts (M2-07) the place it draws for the head commit, and the test used that place as is. Ivan, Arkansas (place key 0534540, seed 8204cf02c98b04d40207d6a46ee6d70f291c3712872130e95c5e24b207debf76) holds no local or state race that two residents can file for on January 5, 2026, so the spec failed with no open local or state race. It fails the same way on clean main at 3e4f57237f, and it turned the golden-path check red on #5979, whose merge commit drew Ivan.
