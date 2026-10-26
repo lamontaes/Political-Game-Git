@@ -3,7 +3,7 @@ id: research-views-metro-answer-keys
 title: "M1-10 asks for metro answer keys for views; only state and national keys exist, and territories fall back to national"
 area: people
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/research/views/, src/core2/modules/views.ts, src/bench/m1-10-check.ts
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.

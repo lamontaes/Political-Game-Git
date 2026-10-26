@@ -2443,3 +2443,11 @@ body.dev .dev-ring {
 #talk-gap.marked {
   opacity: 0.55;
 }
+
+/* A race at the filing counter, told apart under its choice. */
+#talk-choices .reply .reply-facts {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.85em;
+  opacity: 0.8;
+}

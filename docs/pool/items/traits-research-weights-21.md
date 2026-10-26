@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Research before building: every row quotes the fetched page and each weight cites its row; a proxy outcome says so. No dice: the weight sizes a weighed reason, never a roll. Never loosen a check: a decision whose calibration the played year cannot fit keeps its gap row with the numbers.
 
-**Done when.** In one year of buildBenchWorld in each of two places drawn from all 56, seeds named, with every traits family merged, scripts/traits/trait-calibrate.ts gives each of the 21 decisions a weight from its new row or names why it cannot (too few calls, a size not a choice); src/core2/data/parameters.json carries each fitted weight tagged ESTIMATED with its row's citation, and scripts/traits/trait-wiring-matrix.ts shows the count of research-weighted decisions rising from 36.
+**Done when.** In one year of buildBenchWorld in each of two places drawn from all 56, seeds named, with every traits family merged, scripts/traits/trait-calibrate.ts gives each of the 21 decisions a weight from its new row or names why it cannot (too few calls, a size not a choice); src/core2/data/parameters.json carries each fitted weight tagged ESTIMATED with its row's citation, and scripts/traits/trait-wiring-matrix.ts shows the count of research-weighted decisions rising from 36. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** data/research/trait-effect-sizes.json, src/core2/data/parameters.json, data/content/trait-decision-gaps.json
 
