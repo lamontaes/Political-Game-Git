@@ -5,13 +5,14 @@ area: play
 kind: cleanup
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/screens-ui-talk-box
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: screens
 milestone: play-first
+claimed-at: 2026-10-26T21:20:31.995Z
 ---
 
 **What.** The owner ruled on Oct 26 that the play screen's controls come from one shared set. This is the seventh part: the talk box. Today play.mjs fills the talk box's lines and replies by hand in five places (a conversation, the filing counter, a scene's narration, a played exchange, the filing status label) and keeps its own line builder, reply builder and number-key handler. They move to src/bench/ui/talk-box.mjs, and the hand-written code is deleted. Looks and behavior do not change.
