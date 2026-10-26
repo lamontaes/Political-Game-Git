@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: fix/main-red-2026-10-26-work-order-declaration
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T17:56:07.449Z
 ---
 
 **What.** Release run 40371694575 fails exact incoming-range declaration enforcement for docs/work-orders/lead-laws-effects-2026-10-26.md. The work order was written directly to main without its declaration. Add an explicit none-impact declaration for this documentation-only change.
