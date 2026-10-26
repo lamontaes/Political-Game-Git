@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** An effect is a read, not a record. The chain is the acceptance: a dollar followed to whom it reached, by journal id, against the control world.
 
-**Done when.** In the justice family's year runs in the two audit towns, `scripts/law-wiring/matrix.ts` grades budget-line:corrections money wired, naming the line's transfer by journal id with treatment and control amounts, and `scripts/law-wiring/own-payments.test.ts` (or a new checker test) has a case that fails without the change.
+**Done when.** In the justice family's year runs in the two audit towns, `scripts/law-wiring/matrix.ts` grades budget-line:corrections money wired, naming the line's transfer by journal id with treatment and control amounts, and `scripts/law-wiring/own-payments.test.ts` (or a new checker test) has a case that fails without the change. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/law-wiring/check.ts, scripts/law-wiring/matrix.ts
 

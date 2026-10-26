@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** Research calibrates, never decides one actor's outcome; a pass-through share is a sourced parameter with its spread. One rule for all 56 places. Replace, never layer: the tax-inclusive split is changed, not run beside a second price path.
 
-**Done when.** A sourced pass-through parameter (SOURCED or ESTIMATED, with quotes) sets how a sales tax change moves the price a buyer pays in the price engine. In a played year (`buildBenchWorld`, a drawn place and seed named) with the grocery exemption enacted, named buyers' grocery spending falls beside a control world by about that share of the exempted tax, named by journal id, and the sellers' remittances fall by the full exempted tax. `src/core2/law-wiring-prices.test.ts` and `src/core2/prices-web.test.ts` pass.
+**Done when.** A sourced pass-through parameter (SOURCED or ESTIMATED, with quotes) sets how a sales tax change moves the price a buyer pays in the price engine. In a played year (`buildBenchWorld`, a drawn place and seed named) with the grocery exemption enacted, named buyers' grocery spending falls beside a control world by about that share of the exempted tax, named by journal id, and the sellers' remittances fall by the full exempted tax. `src/core2/law-wiring-prices.test.ts` and `src/core2/prices-web.test.ts` pass. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/purchase-tax.ts, src/core2/data/laws/reach-group-b-parameters.json
 

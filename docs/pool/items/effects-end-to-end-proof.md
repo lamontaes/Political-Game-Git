@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/effects-end-to-end
+status: open
+claimed-by:
 pr: #5912
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-24T09:04:14.536Z
+claimed-at:
 ---
 
 **What.** This is the effects lead's acceptance. Pick one researched outcome-web link that reaches people, for example unemployment to rent arrears or dirtier air to infant deaths, and follow it in a played year. The cause is a real engine record, the owning engine reads the factor and a named person's record changes, the person learns of the change or lives it, their view or choice moves with that as the cited reason, and the director stages a scene or the journal says so. Every step is named by record id.

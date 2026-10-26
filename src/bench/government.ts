@@ -1,3 +1,5 @@
+import { ageOnDate } from "../core2/kernel/dates";
+import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import { keyPeopleOf } from "../core2/opening-key-people";
@@ -189,8 +191,17 @@ export function governmentView(core: CoreState, personId: string) {
         : [],
     })),
     filings,
+    ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
   };
+}
+
+/** Whether the person is old enough to vote today. */
+function ofVotingAge(core: CoreState, personId: string): boolean {
+  const person = core.people.get(personId);
+  return Boolean(
+    person && ageOnDate(person.birthDate, core.date) >= parameter("votingAge"),
+  );
 }
 
 export function fileForOffice(
