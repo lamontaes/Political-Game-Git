@@ -296,6 +296,25 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.39.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **An official's card shows the colleagues in office they know.** Clicking an
+  officeholder now shows a Knows block. It lists the people in office they're
+  tied to, closest first, each with their office and how they know them. An
+  official who knows no one in office yet says so.
+
+### Fixed
+
+- **A business owner no longer loses Medicaid for working no hours** The
+  Medicaid work requirement read a person's hours only from their job records,
+  so someone who owns and runs a business, such as a town newspaper's owner,
+  counted as working no hours and lost coverage. An owner's hours at their own
+  business now count, at the average for the self-employed.
+
 ## PRE-ALPHA 0.38.0
 
 _Released October 26, 2026._

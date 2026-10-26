@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "version": "0.39.0",
+      "releasedOn": "2026-10-26",
+      "revision": "50327e6868cc362bbc447f725f18a0e93a81d60c",
+      "changeIds": [
+        "core-speed-counted-renewal-pass",
+        "cto-smart-assignments-oct-26",
+        "elections-incumbents-stand-again-above-band",
+        "laws-work-requirement-counts-owners-as-idle",
+        "play-official-ties-on-screen",
+        "skills-scene-screen-text-oct-26"
+      ]
+    },
+    {
       "version": "0.38.0",
       "releasedOn": "2026-10-26",
       "revision": "bf9d6382f50b46d230cf256ab518400bced18e90",
