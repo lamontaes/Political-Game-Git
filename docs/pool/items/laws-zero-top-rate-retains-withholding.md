@@ -2,6 +2,7 @@
 id: laws-zero-top-rate-retains-withholding
 title: "A zero top income-tax rate must stop collecting a retained graduated schedule"
 area: laws
+lead: laws
 kind: bug
 priority: 2
 size: S
