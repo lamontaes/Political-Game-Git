@@ -375,15 +375,28 @@ function lawStance(
   return { question: map.question, position: direction * map.raiseIs };
 }
 
-/** Every law row's history, with the members' votes on it. */
+/** A starting policy answer of no: the research says the place has no such law. */
+export function noSuchLaw(row: LawRowInput): boolean {
+  return (
+    row.id.endsWith(":starting") &&
+    !!POLICY_QUESTIONS[row.series] &&
+    (row.value ?? 0) <= 0
+  );
+}
+
+/** Every law row's history but a no answer's, with the members' votes on it. */
 export function buildLawHistories(
   api: CoreAPI,
   town: PastTown,
 ): { histories: readonly LawHistoryRow[]; votes: number } {
-  const laws = api
-    .moduleState(LAWS_MODULE_ID)
-    .table("laws")
-    .rows() as unknown as LawRowInput[];
+  // A starting answer of no means the place has no such law: nothing passed,
+  // so there is no enactment, roll call or signer to record.
+  const laws = (
+    api
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .rows() as unknown as LawRowInput[]
+  ).filter((row) => !noSuchLaw(row));
   const chambers = chambersOf(api);
   const offices = townOffices(api);
   const chambersFor = (level: string): readonly Chamber[] =>

@@ -17,6 +17,8 @@ import type { PastClosureRow } from "./past-business";
 import { businessesIn, stateExitShare } from "./modules/business";
 import { publicKnowledgeOf } from "./past-public";
 import { openThePast } from "./past";
+import { noSuchLaw } from "./past-laws";
+import type { LawRowInput } from "./laws-starting";
 import { coreAPI } from "./state";
 
 // The world has a past (owner, Oct 14, 2026), in the world the owner plays:
@@ -35,8 +37,21 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
   it("gives every law in force a history passed before day one", () => {
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws").rows();
     expect(laws.length).toBeGreaterThan(0);
+    const histories = rows<{ id: string; lawIds: string[] }>("laws");
+    const noAnswers: string[] = [];
     for (const law of laws) {
       const history = lawHistory(api, law.id as string);
+      // A starting answer of no: the place has no such law, so nothing
+      // records its passage, a roll call or a signer.
+      if (noSuchLaw(law as unknown as LawRowInput)) {
+        expect(history, law.id as string).toBeUndefined();
+        expect(
+          histories.some((h) => h.lawIds.includes(law.id as string)),
+          law.id as string,
+        ).toBe(false);
+        noAnswers.push(law.id as string);
+        continue;
+      }
       if (!history) {
         // Rows of one enactment share the history of its first row.
         const shared = rows<{ lawIds: string[] }>("laws").some((h) =>
@@ -50,6 +65,11 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
       for (const call of history.rollCalls)
         expect(call.yes, `${history.id} ${call.body}`).toBeGreaterThan(call.no);
     }
+    // Every state answers some policy questions no.
+    expect(noAnswers.length).toBeGreaterThan(0);
+    process.stdout.write(
+      `past laws: ${noAnswers.length} starting answers of no, none with a history (for example ${noAnswers.slice(0, 2).join(", ")})\n`,
+    );
   });
 
   it("seats every elected officeholder by an election with votes that add up", () => {
