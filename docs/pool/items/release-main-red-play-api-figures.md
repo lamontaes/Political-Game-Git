@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/bench/handler.ts
 
 **Notes.** Found by the speed lead while confirming #6049's release run.
+
+Merger 0, Oct 26: PR #6071 lands the bounded local repair release-play-api-figure-staging-local after an exact-main bundle failure, corrected bundle and HTTP figure-byte proof in the merger environment. This parent stays open for its unchanged next-platform-staging Done when; no queued or green GitHub badge substitutes for the local gate. The newer failed Release 40253254777 also stops at this route, Windows job 121352482445 reporting the outside-repository path.
