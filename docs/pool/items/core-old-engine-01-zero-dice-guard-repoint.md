@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5832
 after:

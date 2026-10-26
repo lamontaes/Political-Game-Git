@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,11 @@ after: world-jobs-counted-chooser,world-counted-chooser-business-credit
 Split from world-stopgap-jobs-faked-mechanic (an L item) on Oct 19; row SG-WORLD-jobs-counted-choices.
 
 Claude, Oct 19: counted retire, quit and look already score with the same reasons and trait lean as a full person (jobs.ts countedSeekers and strongestPulls apportion by the summed pull). What is left is a design call: whether that apportionment counts as the 'aggregate chooser' the stopgap names, or counted workers must run the per-person chooser. Needs the CTO's ruling before building; the retire path no longer uses the place average (PR #5224).
+
+Sent back 2026-10-24 from PR #5767 (branch claude/counted-job-choices): New counted choices test stops on the first retirement/search and returns before completing the required one-year run; retain witnesses and finish/assert all 365 days; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5767 (branch claude/counted-job-choices): Already-seeking full people are skipped by reviewJobless while counted seekers are re-evaluated and may lose seeker/claim state; resolved counted-choices stopgap still leaves a tier exception; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5767 (branch claude/counted-job-choices): Shared settlement repaired; regression retains historical seekers without current-row preconditions, and counted worker strain remains zero without its own open registered gap; finish on that branch, merge main into it first.
+
+Duplicate of world-jobs-counted-choices-one-rule (Oct 25 audit). The roll-up names the same change; the business and credit half stays as world-counted-chooser-business-credit.

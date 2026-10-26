@@ -25,8 +25,11 @@ import partyCounts from "../../../data/research/offices/legislature-party-counts
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import stateResearchJson from "../../../data/research/offices/state-offices.json" with { type: "json" };
+import holderParties from "../../../data/research/offices/unrecorded-holder-parties-2026.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { makeIsoDate } from "../kernel/dates";
+import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
 import { legislativeDistrictResult } from "../legislative-district-results";
@@ -315,12 +318,30 @@ function nextEven(date: string): number {
   return year % 2 ? year + 1 : year;
 }
 
+const HOLDER_PARTIES = holderParties as unknown as {
+  places: Record<
+    string,
+    {
+      seats: Record<
+        string,
+        {
+          party: string | null;
+          appliesTo: "office" | "opening";
+          sourceId: string;
+        }
+      >;
+    }
+  >;
+};
+
 /**
  * The party of a holder the roster doesn't record (a statewide executive, a
- * seat whose roster row is missing): the governor's, for a lieutenant
- * governor elected on the governor's ticket; otherwise the party that carried
- * the state in 2024, as an estimate until the roster is read (stopgap
- * SG-OFFICIALS-unrecorded-party).
+ * seat whose roster row is missing): the party the research reads for that
+ * seat (data/research/offices/unrecorded-holder-parties-2026.json: none for
+ * an office elected without party labels; the opening holder's otherwise);
+ * the governor's, for a lieutenant governor elected on the governor's
+ * ticket; otherwise the party that carried the state in 2024, as an estimate
+ * until the seat is read (stopgap SG-OFFICIALS-unrecorded-party).
  */
 function unrecordedParty(
   api: CoreAPI,
@@ -329,6 +350,16 @@ function unrecordedParty(
   stateKey: string,
 ): { party: string | null; partySource?: string } {
   if (term.party) return { party: term.party };
+  const read =
+    HOLDER_PARTIES.places[term.identity.homeState]?.seats[term.seatId];
+  if (
+    read &&
+    (read.appliesTo === "office" || term.reached === "in office at the opening")
+  )
+    return {
+      party: read.party,
+      partySource: `unrecorded-holder-parties-2026 ${read.sourceId}`,
+    };
   const executives =
     (
       stateResearch.places[stateKey] as
@@ -655,6 +686,10 @@ function seatAll(
     const roster = opening
       ? OFFICIALS_DATA.independents.caucus[spec.seatId]
       : undefined;
+    const identity = identities.get(spec.key)!;
+    const personId = spec.term
+      ? `official:${spec.term.id}`
+      : `official:${spec.key}`;
     const drawn = drawOfficial({
       seed,
       key: spec.key,
@@ -667,11 +702,8 @@ function seatAll(
       districtLean: lean.lean,
       leader: roles.has(spec.key),
       ...(roster ? { caucus: roster } : {}),
+      temperament: temperamentOf(api.state as CoreState, personId, identity),
     });
-    const identity = identities.get(spec.key)!;
-    const personId = spec.term
-      ? `official:${spec.term.id}`
-      : `official:${spec.key}`;
     fillInIdentity(api.state as CoreState, {
       id: personId,
       givenName: identity.givenName,
@@ -1346,6 +1378,13 @@ export function officialCandidate(
   // The newcomer: someone with no office who could run, drawn once from the
   // world's seed for this contest and party.
   const newcomerId = `official:candidate:${contest.id}:${partyKey(party)}`;
+  const newcomer = drawOfficialIdentity({
+    worldSeed: facts.seed,
+    seatKey: newcomerId,
+    stateUsps: facts.stateKey.slice(3),
+    role: "state-executive-challenger",
+    referenceDate: api.state.date,
+  });
   const drawn = drawOfficial({
     seed: facts.seed,
     key: newcomerId,
@@ -1354,6 +1393,7 @@ export function officialCandidate(
     districtZ: 0,
     districtLean: seatLeanNow,
     leader: false,
+    temperament: temperamentOf(api.state as CoreState, newcomerId, newcomer),
   });
   let best: {
     id: string;
@@ -1380,13 +1420,7 @@ export function officialCandidate(
       best = { id: row.id, row, parts };
   }
   if (!best.row) {
-    const identity = drawOfficialIdentity({
-      worldSeed: facts.seed,
-      seatKey: newcomerId,
-      stateUsps: facts.stateKey.slice(3),
-      role: "state-executive-challenger",
-      referenceDate: api.state.date,
-    });
+    const identity = newcomer;
     fillInIdentity(api.state as CoreState, {
       id: newcomerId,
       givenName: identity.givenName,
@@ -1541,4 +1575,30 @@ export function votesAreTownNews(api: CoreAPI, personId: string): boolean {
     .table("seats")
     .get(row.seatId) as unknown as { coversTown?: boolean } | undefined;
   return seat?.coversTown === true;
+}
+
+/**
+ * An official's level on every trait from the residents' temperament model,
+ * drawn from the world's seed and their id as any filled-in identity's is
+ * (src/core2/state.ts, fillInIdentity), so the same official comes back the
+ * same every time; the roster adds its selection shift (`drawOfficial`).
+ */
+function temperamentOf(
+  core: CoreState,
+  personId: string,
+  identity: { readonly birthDate: string; readonly gender?: string },
+): Record<string, number> {
+  return (
+    openingTemperaments(
+      [
+        {
+          id: personId,
+          birthDate: makeIsoDate(identity.birthDate),
+          ...(identity.gender ? { gender: identity.gender } : {}),
+          parents: [],
+        },
+      ],
+      { seed: core.seed, startedAt: makeIsoDate(core.startedAt) },
+    ).get(personId) ?? {}
+  );
 }

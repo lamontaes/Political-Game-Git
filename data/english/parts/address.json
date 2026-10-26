@@ -1317,7 +1317,7 @@
         "ncua": 2,
         "ntia": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Biden-Harris Administration Approves Mississippi and South Dakota’s “Internet for All” Initial Proposal",
         "date": "2024-08-29",
@@ -3705,7 +3705,7 @@
         "hearings": 18,
         "nasa": 3
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at the Shield of the Americas Summit in Miami, Florida",
         "date": "2026-03-07",
@@ -4141,7 +4141,7 @@
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "hearings": 3
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "2023 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2023_Annual_Meeting_Transcript_508.pdf)",
         "date": "2023-04-26",
@@ -4864,7 +4864,7 @@
         "briefing": 2,
         "dcpd": 5
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "On-the-Record Press Gaggle by NSC Senior Director for Europe Amanda Sloat Previewing the President’s Trip to Northern Ireland",
         "date": "2023-04-12",
@@ -9136,7 +9136,7 @@
           "choice": "self"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9158,7 +9158,7 @@
           "choice": "self"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9180,7 +9180,7 @@
           "choice": "self"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9202,7 +9202,7 @@
           "choice": "self"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9224,7 +9224,7 @@
           "choice": "issue"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9246,7 +9246,7 @@
           "choice": "issue"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9268,7 +9268,7 @@
           "choice": "issue"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9291,7 +9291,7 @@
           "requiresFacts": ["issue-prices"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9314,7 +9314,7 @@
           "requiresFacts": ["issue-jobs"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9337,7 +9337,7 @@
           "requiresFacts": ["issue-children"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9359,7 +9359,7 @@
           "choice": "contrast"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9381,7 +9381,7 @@
           "choice": "contrast"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -9403,7 +9403,7 @@
           "choice": "contrast"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
