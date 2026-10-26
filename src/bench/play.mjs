@@ -1,6 +1,8 @@
 /* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
+import { show, mountCloseButtons } from "./ui/panel.mjs";
+mountCloseButtons();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
@@ -187,9 +189,6 @@ function screenArtwork({ portraitUrl, backgroundUrl, name }) {
     img.addEventListener("error", () => img.remove(), { once: true });
     media.append(img);
   }
-}
-function show(id, on) {
-  $(id).hidden = !on;
 }
 
 /** Soft contact shadows on the floor at each person's feet, under everyone. */
