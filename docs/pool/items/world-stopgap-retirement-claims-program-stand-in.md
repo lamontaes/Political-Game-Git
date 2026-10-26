@@ -4,7 +4,7 @@ title: "Stopgaps in retirement-claims (program-stand-in): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: People who reach their claim age during play, full or counted, start a Social Security award sized like the opening's (a participant-average amount scaled by modeled covered months), paid monthly by the place's outside p
 
 Oct 20 (pool feeder): spec written; the row replacement ('GOV's Social Security program') had no existing item; earnings are not recorded anywhere in core2 today, so a record comes first. Split into two parts.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

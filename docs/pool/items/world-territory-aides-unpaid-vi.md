@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: blocked
+status: done
 claimed-by:
 pr: #5724
 blocked-on: PR 5712 (staff-paid-territory-no-payroll-template) fixes the same cause in the same file; merge it, then the CTO can close PR 5724 and drop this item
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split from release-merge-audit-oct20-morning-fixes fix 5. Found Oct 20 by claude/political-game-pool-yucp92-as.
 
 Sent back 2026-10-20 from PR #5724 (branch claude/political-game-pool-yucp92-bx): merging main conflicts in src/core2/public-payroll.ts (#5668 changed the schedule template order there); finish on that branch, merge main into it first.
+
+Found on main at 2a524c1757 by the Oct 25 audit: PR #5712 (territory payroll) merged Oct 23 and fixes the same cause in the same file.

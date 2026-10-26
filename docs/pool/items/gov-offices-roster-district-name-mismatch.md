@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/roster-district-names
-pr:
+pr: #6116
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T22:03:41.628Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T22:03:41.628Z
 
 **Rules.** One rule, all 56 places: the matcher must normalize every place's district names by one rule in data or code (subdistrict words, leading zeros, hyphens against commas and 'and', compass words), never a fix for one state, and a chamber's seat count must equal its legal size from the research.
 
-**Done when.** In buildBenchWorld for a drawn place and in a test over all 56 places, every legislative chamber's seat count from stateOffices equals the size in data/research/offices/state-offices.json and every roster member sits in exactly one seat, checked by a test in src/core2/offices-state.test.ts naming the place and seat ids.
+**Done when.** In buildBenchWorld for a drawn place and in a test over all 56 places, every legislative chamber's seat count from stateOffices equals the size in data/research/offices/state-offices.json and every roster member sits in exactly one seat, checked by a test in src/core2/offices-state.test.ts naming the place and seat ids. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/offices-state.ts, data/research/offices/legislature-party-counts-2026.json, data/research/offices/state-offices.json
 

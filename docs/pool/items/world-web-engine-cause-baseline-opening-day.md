@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Replace, never layer: one baseline rule for every engine-measure cause, read from the law in force the day before the web opened, replacing the per-measure readers; an effect is a read, not a record.
 
-**Done when.** Every engine-measure cause's baseline is the value the day before the web opened, through one code path in src/core2/modules/outcome-web.ts; a test changes a cause on the web's opening day and shows the web moving, for at least three causes, in a drawn place named with its seed.
+**Done when.** Every engine-measure cause's baseline is the value the day before the web opened, through one code path in src/core2/modules/outcome-web.ts; a test changes a cause on the web's opening day and shows the web moving, for at least three causes, in a drawn place named with its seed. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/outcome-web.ts
 

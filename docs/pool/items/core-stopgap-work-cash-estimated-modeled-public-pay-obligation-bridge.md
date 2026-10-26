@@ -4,7 +4,7 @@ title: "Stopgaps in work-cash (estimated-modeled-public-pay-obligation-bridge): 
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: A proposed source-owned public-payroll bridge would use saved estimated hourly work/pay terms and an explicitly linked modeled paying authority to fund only each genuine current attended-work obligation; it would not cla
 
 Oct 20 (pool feeder): spec written; the treasury link and the shortfall record are already built (api.fundPublicPay, publicPayShortfallMinor); what is missing is the budget line the authority spends under, and deductions and pension. Sizes: data/research/stopgaps-oct19/B-people-behavior-2.json (ASPEP). Overlaps gov-outside-revenue-retire-plug only on the federal side; do not touch its plug.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

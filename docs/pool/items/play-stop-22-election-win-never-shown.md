@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
 pr: #6041
 blocked-on: play-stop-22-election-win-never-shown-a, play-stop-22-election-win-never-shown-b
@@ -28,3 +28,5 @@ claimed-at:
 Sent back 2026-10-25 from PR #6041 (branch claude/quirky-ride-vrwwz4-play-stop-22): installed-build screenshot remains waiting and actualKellyunopposedwinhasnojournalline; completeordinaryresultchainandinstalledprooforbounddeliverywhilekeepingplaystopopen; routenonWordsdirectorjournaleditthroughWords; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 21:15 UTC from PR #6041 (branch claude/quirky-ride-vrwwz4-play-stop-22, head 91fc067ebc with main merged in): body screenshots are wrapped in backticks so they render as code, not images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it merges once the owner says yes; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #6041 (branch claude/quirky-ride-vrwwz4-play-stop-22): journal screenshot places own County Commissioner loss under mother’s Coroner heading; repair own-contest chapter attribution and show corrected drawn-world journal; finish on that branch, merge main into it first.

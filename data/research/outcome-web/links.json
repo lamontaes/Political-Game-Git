@@ -262,6 +262,26 @@
       "evidence": "about-zero"
     },
     {
+      "key": "fire-spending-to-fire-deaths",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "to": "fire.civilian-casualties",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percent added to the fire line",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "O",
+      "anchor": "Insignificant correlations: civilian casualties v. response time",
+      "source": "Jennings 2002 (Memphis, 4,990 residential fires); Shoffner 2023",
+      "from": "budget.fire-added-pct",
+      "evidence": "about-zero",
+      "notes": "Fetched Oct 24, 2026. Jennings, \"A Conceptual Model for Measurement of Fire Service Equivalency under NFPA 1710\" (Second International Conference on Fire Service Deployment, 2002; https://christianregenhardcenter.org/wp-content/uploads/2019/09/Jennings.pdf), three years of Memphis residential structure fires: \"Insignificant Correlations » Civilian Casualties v. RT\"; for dollar loss, \"Each additional minute of response time adds ~$500 to loss\" in one- and two-family dwellings and \"~$900\" in apartments, and \"Given the current magnitude of coefficients for time of day, and smoke detector status, we do not expect staffing level to be a major determinant.\" Shoffner, \"Firefighter Staffing Model Implications on Fire Casualties and Fire Loss\" (PhD dissertation, Liberty University, 2023; https://digitalcommons.liberty.edu/doctoral/4559), career departments in the United States and Canada, three- against four-person engines and ladders: \"it is questionable if staffing levels impact fire loss and human casualties.\" Neither source sizes deaths from spending or staffing, and both find no significant effect, so the link is about zero. Property loss rises a few hundred dollars per fire per minute of response time (Jennings), a small share of a fire's loss; the web keeps no fire-loss measure, so that link is not built."
+    },
+    {
       "key": "pretrial-detention-to-future-crime",
       "status": "about-zero",
       "unsupportedReason": null,
@@ -2114,17 +2134,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": 0.35,
-      "per": "workers bear 30-35% of the tax",
+      "size": -0.039,
+      "per": "percentage point of the state's top corporate income tax rate, in dollars of average hourly earnings of private employees",
       "lagMonths": 0,
       "group": "workers",
       "owner": "B",
-      "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%",
-      "source": "Suarez Serrato and Zidar 2016 (AER)",
+      "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%: workers bear about a third of the tax, which a point of the state rate spreads over the hours private employees work",
+      "source": "Suarez Serrato and Zidar 2016 (AER 106(9)), NBER w20289, abstract; state corporation net income tax collections, U.S. Census Bureau via FRED USCORPINCTX; private employment and hours, BLS CES via FRED USPRIV and AWHAETP",
       "from": "tax.state-corporate-rate",
       "evidence": "researched",
-      "range": [0, 0.7],
-      "notes": "Sized, with its cause recorded and its outcome missing: each place's top corporate income tax rate is now a place outcome (Tax Foundation, 2026), but wages by this key are not a kept place outcome (median earnings is a different measure), so the link moves nothing until one is produced. Varied by sex and age from Fuest, Peichl and Siegloch 2018 Table 5 (German local business tax; the US incidence size above is Suarez Serrato and Zidar). Skill is not a subject, so the finding that high-skilled workers bear none is not applied.",
+      "range": [-0.045, -0.031],
+      "notes": "Re-sized Oct 24, 2026 so the link can run on the law. The earlier size, +0.35, was the workers' share of the tax read as dollars an hour per point: forty times too large, and positive, which would have raised pay when the tax rose. The cause is now read from the state corporate rate in force (the laws module's row, src/core2/modules/outcome-web.ts reader state-corporate-rate), against the rate at the web's opening; the jobs engine reads the labor.wages factor when it sets new pay (src/core2/modules/jobs.ts payLevel). The estimate assumes collections scale with the statutory top rate; a real base shifts with apportionment and credits (ESTIMATED). Varied by sex and age from Fuest, Peichl and Siegloch 2018 Table 5 (German local business tax; the US incidence share above is Suarez Serrato and Zidar). Skill is not a subject, so the finding that high-skilled workers bear none is not applied.",
       "varies": [
         {
           "by": "sex",
@@ -2170,7 +2190,9 @@
           "quote": "Age: Young -0.516, Medium -0.420, Old -0.419 (all workers). \"we do not find strong evidence for different effects by age\"",
           "estimatedFrom": "The paper does not give its age cutoffs; they are set here at under 30, 30 to 49 and 50 and over. Shares are the 2025 CPS employed by age with the 25-34 and 45-54 bands split evenly. The paper also finds no negative wage effect for high-skilled workers (-0.011 against -0.431 medium and -0.454 low), which is not applied because a worker's skill is not a subject the engines carry."
         }
-      ]
+      ],
+      "rangeSource": "Derived Oct 24, 2026 from fetched figures. Workers' share of the incidence: the 2016 paper's text, \"the estimated share of the burden for workers is only 28%\", and its abstract, \"workers and landowners bear 30-35% and 25-30%\"; the authors' 2023 update (\"Further Results\", AEA Papers and Proceedings) finds \"firm owners bear roughly half of the incidence\" with workers and landowners at \"25-40 percent\". So 0.28 to 0.40 with 0.35 central. Tax per point: 2023 state corporation net income tax collections of $153,665,988 thousand (Census via FRED USCORPINCTX) over the 5.8-point mean top rate of the 56 places (place-outcome-bases-2024.json) is about $26.5 billion a point. Hours: 133,766 thousand private employees (FRED USPRIV, December 2023) times 34.4 weekly hours (FRED AWHAETP) times 52 weeks is about 239.3 billion hours a year. So a point costs workers 0.35 x $26.5 billion / 239.3 billion hours = $0.039 an hour (a 0.28 share gives $0.031 and 0.40 gives $0.044; the range is rounded out to $0.045). The sign is negative: a higher rate lowers pay.",
+      "readFrom": "tax.state-corporate-rate-in-force"
     },
     {
       "key": "incentive-deal-to-industry-jobs",
@@ -2529,9 +2551,9 @@
       "who": "Parents of eligible enrolled young children whose care constraint changes; the cited maternal estimate is not all women or every household.",
       "lagWhy": "The existing12-month lag represents enrollment and labor response. Verify the D.C./Quebec study time window and whether the effect is percentage points or a relative participation change.",
       "aboutZero": false,
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Baker, Gruber and Milligan (NBER w11832) estimate one labor supply elasticity (0.236) for mothers in two-parent families (their sample) and report no split by income, age or household kind.",
       "range": [0.1125, 0.1875],
-      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Malik 2018 gives about 10 points on a base near 65% (D.C. mothers 65% in 2008, 76.4% in 2016); Baker, Gruber and Milligan report no interval retrieved here.",
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Baker, Gruber and Milligan (NBER w11832) estimate one labor supply elasticity (0.236) for mothers in two-parent families (their sample) and report no split by income, age or household kind."
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Malik 2018 gives about 10 points on a base near 65% (D.C. mothers 65% in 2008, 76.4% in 2016); Baker, Gruber and Milligan report no interval retrieved here."
     },
     {
       "key": "voter-id-to-turnout",
@@ -5445,6 +5467,72 @@
       "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
+      "key": "income-tax-rate-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:income-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the income tax rate in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"for the general population, there is no significant tax-migration effect\": Table 2, Model 3 (all filers, the income tax rate at the median) gives +0.014 with a standard error of 0.020 per percentage point; millionaires respond (-0.077, standard error 0.037), but \"outside of Florida, differences in tax rates between states have no effect on elite migration.\"",
+      "source": "Young, Varner, Lurie and Prisinzano 2016, Millionaire Migration and Taxation of the Elite: Evidence from Administrative Data, American Sociological Review 81(3):421-446 (doi 10.1177/0003122416639625); full text read at https://eml.berkeley.edu/~saez/course/Millionaire_Migration_and_the_Taxtion_of_the_Elite.pdf (Table 2, Models 2 to 4; the Results and Implied Optimal Tax Rates sections)",
+      "range": [-0.053, 0.025],
+      "rangeSource": "ESTIMATED from Young et al. 2016, Table 2, Model 3: the coefficient on the destination-minus-origin income tax rate difference is +0.014 with a standard error of 0.020, a 95% interval (coefficient plus or minus 1.96 standard errors) of -0.025 to +0.053 per percentage point. A place that raises its own rate lowers that difference for the flows leaving it, so the response of its out-migration is the reverse, -0.053 to +0.025, as a proportional change per percentage point. The interval holds zero.",
+      "notes": "About zero for the population, kept at zero. This is the rate series (a change in the rate in force) where income-tax-to-out-migration and graduated-income-tax-to-out-migration are the adopt and graduated questions; the same paper measures rates: it regresses state-to-state migration counts on the difference in top income tax rates between each pair of states, and for all filers at all income levels, with the income tax rate at the median, finds \"no significant tax-migration effect\" (Model 3, +0.014, standard error 0.020). The response it does find is among millionaires (Model 2, -0.077, standard error 0.037; \"a 10 percent increase in the top tax rate leads to a 1 percent loss of millionaire population\"), and Model 4 shows it comes from Florida: \"outside of Florida, differences in tax rates between states have no effect on elite migration.\" Millionaires also move less than everyone else: \"The annual millionaire migration rate is 2.4 percent, which is lower than the migration rate of the general population (2.9 percent).\" The engines already carry the researched response from their own records, by wage: counted-moves.ts (stateIncomeTax and pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, so a web read on the same rate would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). Limits: the paper measures state rates; the series also carries local and federal rows, and this research pass did not look for a study of local rates, so the zero for a local rate is the paper's reading carried over, not a local measurement. The web's law cause reads what a law says on a yes-or-no question (lawValue in modules/outcome-web.ts); a built link on a rate would need a rate measure the way property-tax-rate has one (ENGINE_READERS), and at a size of zero nothing is read. No moderator rows: a weight on a size of zero moves nothing."
+    },
+    {
+      "key": "estate-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:estate-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the estate tax rate in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"a one percentage point increase in the wealth-class-specific effective state EI average tax rate is associated with 1.4 percent to 2.7 percent decline in the number of federal estate tax returns filed in the state\": the response is among the few estates large enough to file, and \"just 0.20 percent of adults who died left an estate large enough to be taxed\" in 2016.",
+      "source": "Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Moretti and Wilson 2023, Taxing Billionaires: Estate Taxes and the Geographical Location of the Ultra-Wealthy, American Economic Journal: Economic Policy 15(2):424-466; text read from NBER Working Paper 26387 (revised September 2020) at https://www.nber.org/papers/w26387.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403)",
+      "range": [0, 0.019],
+      "rangeSource": "ESTIMATED ceiling, not a sampled interval: 0.02 (the generous ceiling on the share of adults who die with an estate that owes a death tax, ITEP) x 0.027 (Bakija and Slemrod's largest all-estates response per point) = 0.00054 of residents per point, divided by the 2.9 percent annual moving rate of the general population (Young et al. 2016) = 0.019 of one year's out-migration. The lower end is zero, the null of Brulhart and Parchet, who also report that Conway and Rork \"detected no statistically significant evidence of a link between bequest tax burdens and migration flows of elderly residents.\"",
+      "notes": "About zero for the place's population, kept at zero. Bakija and Slemrod (federal estate tax returns by state and wealth class, 1965 to 1998): \"high state inheritance and estate taxes and sales taxes have statistically significant, but modest, negative impacts on the number of federal estate tax returns filed in a state\"; one point of the combined estate and inheritance rate cuts the filers in a state by 1.4 to 2.7 percent, and by \"3.9 percent\" for estates over $5 million. They read it as \"consistent with the notion that wealthy elderly people change their real (or reported) state of residence\", \"although it could partly reflect other modes of tax avoidance as well.\" Brulhart and Parchet (Swiss cantons, 36 years): \"the relevant tax base, high-income retirees, to be relatively inelastic with respect to tax rates\"; the elasticities of the tax base run from -0.026 to -0.223 and \"we can never reject the hypothesis of a zero elasticity but always reject the hypothesis of a unit elasticity.\" They add that in later work Conway and Rork \"detected no statistically significant evidence of a link between bequest tax burdens and migration flows of elderly residents.\" Moretti and Wilson (the Forbes 400 list): \"the number of Forbes 400 individuals in estate tax states fell by 35% after 2001 compared to non-estate tax states\", a semi-elasticity of -0.33 for estate tax status, a response that is large and belongs to 400 people. Ceiling, ESTIMATED: at most about 2 percent of adults who die leave an estate that owes a death tax. ITEP: when the federal exemption rose to $1 million in 2002 \"the percentage of deaths resulting in federal estate tax liability was cut in about half, dropping from about 2 percent to around 1 percent\", and \"In 2016, just 0.20 percent of adults who died left an estate large enough to be taxed.\" Oregon's $1,000,000 is the lowest exemption in data/research/money/death-taxes-2026.json, so 2 percent is a generous ceiling. Bakija and Slemrod's largest all-estates response is 2.7 percent fewer filers per point, so one point of the rate moves at most 0.02 x 0.027 = 0.00054 of a place's residents, against an annual moving rate of 2.9 percent for the general population (Young et al. 2016): at most 0.019 of one year's out-migration per point, and about a tenth of that at today's 0.2 percent. That is an upper bound reached only if the whole response came in one year; the size stays at zero and the bound is recorded as the range. The response is real for the wealthy elderly and for billionaires; it is a few people in a place, so the place's out-migration rate does not move. No engine gives a full person an estate-tax pull (nothing reads the estate-tax series in moves.ts or counted-moves.ts); whether the game should is the owner's question (a game, not a spreadsheet): the mechanic would act on the few estates above the exemption, by their own wealth and age. The outcome the gap file named, wealth transfers and charitable giving, is not a measure the web keeps. No moderator rows: a weight on a size of zero moves nothing."
+    },
+    {
+      "key": "inheritance-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:inheritance-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the inheritance tax rate in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"we fail to uncover a statistically significant within-sample relationship between bequest tax rates and the relevant tax base, high-income elderly individuals\": Swiss bequest taxes \"are levied on inheritances\", and the tax base \"to be relatively inelastic with respect to tax rates\".",
+      "source": "Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403)",
+      "range": [0, 0.019],
+      "rangeSource": "ESTIMATED ceiling, not a sampled interval, the same arithmetic as estate-tax-to-out-migration: 0.02 (the generous ceiling on the share of adults who die with an estate that owes a death tax, ITEP) x 0.027 (Bakija and Slemrod's largest all-estates response per point of the estate and inheritance rate) = 0.00054 of residents per point, divided by the 2.9 percent annual moving rate of the general population (Young et al. 2016) = 0.019 of one year's out-migration. The lower end is zero, the null of Brulhart and Parchet, who also report that Conway and Rork \"detected no statistically significant evidence of a link between bequest tax burdens and migration flows of elderly residents.\"",
+      "notes": "About zero for the place's population, kept at zero. Brulhart and Parchet's setting is an inheritance tax: \"In most cases, bequest taxes are levied on inheritances, such that tax rates vary in two main dimensions: the amount inherited (progressive taxation) and family ties with the deceased\"; with panel data over several reforms they \"fail to uncover a statistically significant within-sample relationship between bequest tax rates and the relevant tax base, high-income elderly individuals\", and cannot reject a zero elasticity (point estimates -0.026 to -0.223). Bakija and Slemrod's rate is the combined estate and inheritance (EI) rate: one point cuts the filers in a state by 1.4 to 2.7 percent, \"statistically significant, but modest\", among the wealthy elderly. Ceiling, ESTIMATED: at most about 2 percent of adults who die leave an estate that owes a death tax. ITEP: when the federal exemption rose to $1 million in 2002 \"the percentage of deaths resulting in federal estate tax liability was cut in about half, dropping from about 2 percent to around 1 percent\", and \"In 2016, just 0.20 percent of adults who died left an estate large enough to be taxed.\" Oregon's $1,000,000 is the lowest exemption in data/research/money/death-taxes-2026.json, so 2 percent is a generous ceiling. Bakija and Slemrod's largest all-estates response is 2.7 percent fewer filers per point, so one point of the rate moves at most 0.02 x 0.027 = 0.00054 of a place's residents, against an annual moving rate of 2.9 percent for the general population (Young et al. 2016): at most 0.019 of one year's out-migration per point, and about a tenth of that at today's 0.2 percent. That is an upper bound reached only if the whole response came in one year; the size stays at zero and the bound is recorded as the range. Scope limit: both studies follow high-income estates. Pennsylvania's inheritance tax in data/research/money/death-taxes-2026.json takes 4.5 percent of what a child inherits from the first dollar, so it reaches heirs of modest estates that no study here follows; this research pass found no study of how they move, so the zero is the studies' reading carried over, and the web adds nothing on top. No engine gives a full person an inheritance-tax pull (nothing reads the inheritance-tax series in moves.ts or counted-moves.ts); whether the game should is the owner's question. No moderator rows: a weight on a size of zero moves nothing."
+    },
+    {
       "key": "balanced-budget-to-borrowing-cost",
       "status": "built",
       "unsupportedReason": null,
@@ -5603,9 +5691,9 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": true,
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried.",
       "range": [0, 0],
-      "rangeSource": "Jia, Jin and Wagman 2021; Janssen et al. 2022 (NBER w30028): the cost falls on a small share of workers, too few to move median earnings. No interval was retrieved; range [0, 0] records the null.",
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried."
+      "rangeSource": "Jia, Jin and Wagman 2021; Janssen et al. 2022 (NBER w30028): the cost falls on a small share of workers, too few to move median earnings. No interval was retrieved; range [0, 0] records the null."
     },
     {
       "key": "library-materials-to-reading",
@@ -5878,6 +5966,29 @@
       "anchor": "Across the 50 states and D.C., each doubling of state and local parks spending per resident goes with 0.9 points more of residents near a park or recreation facility, with a 95% range of -1.6 to +3.3 points, once the rural share is held fixed: about zero, a cross-section fit and not a causal estimate (Research 1, from County Health Rankings 2025 and Census 2022 finances). A one percent rise in spending is 0.0144 of a doubling, 0.0129 points, 0.0157% of the median 82.25%, so the size is 0.000157 for each percent, and the range -0.000279 to +0.000575. A dedication adds about $9.26 a resident to a place that spends about $136, 6.8%, so access moves about 0.1% either way. The lag is the year a parks agency needs to spend new money on sites and hours, judged, not measured.",
       "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)",
       "range": [-0.000279, 0.000575]
+    },
+    {
+      "key": "income-tax-rate-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:income-tax",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the income tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "The official poverty measure counts money income before taxes, so an income tax rate cannot move it",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html)",
+      "range": [0, 0],
+      "rangeSource": "Census official poverty definition (fetched Oct 24, 2026): \"The official poverty definition uses money income before taxes and does not include capital gains or noncash benefits.\" A tax rate has no path to the official poverty rate by definition, so the range [0, 0] is the definitional zero, not a sampled interval.",
+      "notes": "Carried by definition: the poverty measure counts income before taxes. What a higher rate does to a household's take-home pay is paid by the withholding engine on each payday (src/core2/modules/budgets.ts, src/core2/counted-money.ts), by named worker and counted group, not by the web.",
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
     },
     {
       "key": "social-security-tax-to-unemployment",
