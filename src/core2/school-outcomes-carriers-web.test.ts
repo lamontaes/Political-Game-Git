@@ -17,8 +17,9 @@
  * carries it.
  */
 import { randomBytes } from "node:crypto";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -177,6 +178,17 @@ const webRow = (core: CoreState, id: string) =>
     .get(id) as unknown as WebMonth | undefined;
 
 describe(`the carried school links reach students through their carriers (seed ${seed})`, () => {
+  // Four played years: bookkeeping's checks (tracing, re-validation, copying)
+  // are a debug switch, off in play (AGENTS.md), and only ever throw on a
+  // broken invariant, so the worlds play as the game plays them.
+  let bookkeepingBefore = true;
+  beforeAll(() => {
+    bookkeepingBefore = setBookkeeping(false);
+  });
+  afterAll(() => {
+    setBookkeeping(bookkeepingBefore);
+  });
+
   it("names each carrier, and each carrier moves its measure's school records", () => {
     for (const c of CARRIERS) {
       const carried = WEB_LINKS.find((row) => row.key === c.carried)!;
