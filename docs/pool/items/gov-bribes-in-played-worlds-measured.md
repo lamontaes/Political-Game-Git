@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #6053
 blocked-on:
