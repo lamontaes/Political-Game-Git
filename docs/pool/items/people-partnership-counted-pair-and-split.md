@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: people-partnership-forms,people-partnership-ends,people-partnership-counted-leave-home,people-orientation-record
@@ -23,3 +23,5 @@ source: split from people-partnership-counted by pool feeder Oct 20
 **Files.** src/core2/modules/partnerships.ts, src/core2/counted-groups.ts, src/core2/modules/counted-moves.ts, src/core2/data/partnerships/parameters.json, src/core2/counted-partnering.test.ts
 
 **Notes.** Split from people-partnership-counted Oct 20.
+
+Folded into people-partnership-counted (Oct 25 audit).

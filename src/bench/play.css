@@ -770,6 +770,15 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-2);
   margin-top: 2px;
 }
+/* A town in the creator's list reads in the state buttons' own font. */
+.item.town span,
+.item.town small {
+  display: block;
+  font: inherit;
+}
+.item.town small {
+  color: var(--text-2);
+}
 /* The creator (the Oct 12 SetupScreen's steps). */
 #front:has(#cr-character:not([hidden])),
 #front:has(#cr-place:not([hidden])),
@@ -1528,7 +1537,8 @@ body.dev .dev-ring {
   min-height: 0;
   overflow-y: auto;
 }
-#game.filing-open #news-surface {
+#game.filing-open #news-surface,
+#game.filing-open #journal-note {
   visibility: hidden;
 }
 #filing-overlay .name {
@@ -2441,4 +2451,12 @@ body.dev .dev-ring {
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
   opacity: 0.55;
+}
+
+/* A race at the filing counter, told apart under its choice. */
+#talk-choices .reply .reply-facts {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.85em;
+  opacity: 0.8;
 }

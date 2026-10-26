@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: a tie's strength comes from the years two officials served together, as the delegation ties already do. One model, two tiers: officials are full people, and their ties are read by the same engines as any person's.
 
-**Done when.** The M1-12 command in Kagman IV, Northern Mariana Islands (seed above) and a second place drawn from all 56 shows every serving official with at least one relationship, by record id in the PR body, and a test fails when a chamber's members get no ties.
+**Done when.** The M1-12 command in Kagman IV, Northern Mariana Islands (seed above) and a second place drawn from all 56 shows every serving official with at least one relationship, by record id in the PR body, and a test fails when a chamber's members get no ties. **On screen.** Nothing yet: filed play-official-ties-on-screen, which puts it on a person card.
 
 **Files.** src/core2/modules/officials.ts
 

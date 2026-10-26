@@ -17,7 +17,7 @@ claimed-at: 2026-10-21T14:23:42.401Z
 
 **Rules.** An effect is a read: a raise that funds positions must produce hires or a recorded reason none could be made. One rule, all 56 places. No dice.
 
-**Done when.** With the seed above pinned, the three cases pass with a hire named by job record id, or the staffing row records why none could be made; the unpinned test still draws places from all 56.
+**Done when.** With the seed above pinned, the three cases pass with a hire named by job record id, or the staffing row records why none could be made; the unpinned test still draws places from all 56. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-a-staffing.ts,src/core2/law-reach-group-a.test.ts
 
