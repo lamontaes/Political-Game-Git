@@ -28,6 +28,7 @@ import {
 } from "./conversation";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { REGISTER_CARDS } from "../english/speech-registers";
+import { relationPhrase } from "../english/journal-words";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
 // every turn, each answering the last line from real records; talking is
@@ -591,19 +592,49 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         });
     };
     // Relatives only one side has: a brother is not asked "How's your
-    // father?" about their own (play-stop-20).
+    // father?" about their own (play-stop-20). Each is one their own family
+    // record names by a relation with a word, which a question after them
+    // cites and says.
+    const recorded = (personId: string, id: string) => {
+      const fact = core.people
+        .get(personId)!
+        .pastFacts?.find(
+          (row) =>
+            row.kind.startsWith("family:") && row.facts?.otherPersonId === id,
+        );
+      return (
+        !!fact &&
+        !!relationPhrase(
+          fact.kind.slice("family:".length),
+          core.people.get(id)!.looks?.gender ?? "other",
+          "scene",
+        )
+      );
+    };
     const pairs = others.slice(0, 15).flatMap((otherId) => {
       const other = core.people.get(otherId)!;
       const mine = [...me.familyIds].find(
-        (id) => id !== otherId && alive(id) && !other.familyIds.has(id),
+        (id) =>
+          id !== otherId &&
+          alive(id) &&
+          !other.familyIds.has(id) &&
+          recorded(me.id, id),
       );
       const theirs = [...other.familyIds].find(
         (id) =>
-          id !== me.id && id !== mine && alive(id) && !me.familyIds.has(id),
+          id !== me.id &&
+          id !== mine &&
+          alive(id) &&
+          !me.familyIds.has(id) &&
+          recorded(otherId, id),
       );
       if (!mine || !theirs) return [];
       introduce(otherId, mine);
       introduce(me.id, theirs);
+      // The player clicks into the neighbor's relative, so the director
+      // watches them and keeps what happens to them; a relative nobody
+      // watches is director-neighbor-relative-happening-unseen.
+      director.watch(core, theirs);
       return [{ otherId, mine, theirs }];
     });
     expect(
@@ -689,16 +720,18 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       if (word) expect(word).toBe(gender === "male" ? "he" : "she");
       turned += 1;
     }
+    // A question turns back only to a relative of the neighbor's whom
+    // something recorded happened to, as the player knows it, and never to
+    // one the two share (play-stop-20); every pair above has such a relative.
+    for (const pair of pairs)
+      expect(
+        subjectsBetween(core, player.id, pair.otherId, director).map(
+          (row) => row.id,
+        ),
+        pair.otherId,
+      ).toContain(`their-family:${pair.theirs}`);
     // A player who carries talk on sees the turned question among their four
-    // replies; one who keeps it short sees plain answers first. A question
-    // turns back only to a relative of the neighbor's whom something recorded
-    // happened to, as the player knows it; one the two share is never asked
-    // after (play-stop-20), so a world with no other has none to turn to.
-    const backable = pairs.some((pair) =>
-      subjectsBetween(core, player.id, pair.otherId, director).some(
-        (row) => row.kind === "their-family",
-      ),
-    );
+    // replies; one who keeps it short sees plain answers first.
     const carriesOn =
       decisionLean(
         core,
@@ -707,7 +740,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         "carry-on",
         "keep-short",
       ) >= 0;
-    if (carriesOn && backable) expect(turned).toBeGreaterThan(0);
+    if (carriesOn) expect(turned).toBeGreaterThan(0);
   });
   it("tells a job the worker chose to leave apart from a lost one, by the end's own record", () => {
     // Last: it ends the player's job. A quit (hired elsewhere) is a job left,

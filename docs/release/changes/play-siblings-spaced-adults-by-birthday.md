@@ -1,5 +1,5 @@
 ---
-id: play-stop-20-sister-born-a-week-apart-runs-public-works
+id: play-siblings-spaced-adults-by-birthday
 impact: patch
 section: Fixed
 title: Brothers and sisters are born months apart, and no 17-year-old runs a city department
