@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T22:03:41.628Z
 **Files.** src/core2/offices-state.ts, data/research/offices/legislature-party-counts-2026.json, data/research/offices/state-offices.json
 
 **Notes.** TODO
+
+Merger 0: Sent back 2026-10-26 from PR #6116 (branch claude/roster-district-names): legal-size assertions skip four unresolved chambers despite the all-chambers acceptance; complete the proof or assign an accurate bounded item and retain the broad item open; finish on that branch, merge main into it first.
