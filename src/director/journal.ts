@@ -107,11 +107,22 @@ function relatives(person: PersonState) {
 /**
  * The household's own story, read from the dated facts the family history
  * keeps on a person (`core2/past-family.ts`): where they met their partner,
- * where their family came from, and a parent's new job they remember. Each
+ * how their parents met, where their family came from, a parent's new job
+ * they remember, and each parent and sibling the family records name. Each
  * moment cites its fact's record id; the place is named from the place
  * records, and a person only the writer knows by name is skipped.
  */
-function householdMoments(person: PersonState): JournalMoment[] {
+function householdMoments(
+  core: Readonly<CoreState>,
+  person: PersonState,
+): JournalMoment[] {
+  // Each relative once, from the first family fact that names them.
+  const toldOf = new Set<string>();
+  // The day the past records the birth, which the family facts are dated by
+  // (a creator's chosen age keeps the drawn past: SG-PLAY-creator-age-keeps-past).
+  const bornOn =
+    (person.pastFacts ?? []).find((fact) => fact.kind === "birth-date")?.date ??
+    person.birthDate;
   return (person.pastFacts ?? []).flatMap((fact): JournalMoment[] => {
     const base = {
       id: fact.id,
@@ -141,6 +152,55 @@ function householdMoments(person: PersonState): JournalMoment[] {
             },
           ]
         : [];
+    }
+    // How their parents met, on the day they met, by where their records put
+    // them then: the hometown they share, the place they lived, or school.
+    if (fact.kind === "household:parents-met") {
+      const setting = fact.facts?.setting;
+      const actFacts = setting === "school" ? {} : place(fact.facts?.placeId);
+      return setting && (setting === "school" || actFacts.place)
+        ? [
+            {
+              ...base,
+              date: (fact.facts?.metOn ?? fact.date) as IsoDate,
+              causeKind: `${fact.kind}:${setting}`,
+              counterpartIds: [],
+              actFacts,
+            },
+          ]
+        : [];
+    }
+    // Each parent from the day the person was born: the one who raised them
+    // at home, or the one who lived apart, by the household each is in.
+    // Each sibling by their birth against the person's own.
+    const otherId = fact.facts?.otherPersonId;
+    const relative = otherId ? core.people.get(otherId) : undefined;
+    const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
+    if (
+      relative?.alive &&
+      (parent || fact.kind === "family:sibling") &&
+      !toldOf.has(relative.id)
+    ) {
+      toldOf.add(relative.id);
+      const sibling = relative.birthDate.localeCompare(person.birthDate);
+      return [
+        {
+          ...base,
+          date: (sibling > zero && relative.birthDate > bornOn
+            ? relative.birthDate
+            : bornOn) as IsoDate,
+          causeKind: parent
+            ? relative.householdId === person.householdId
+              ? "household:raised-by"
+              : "household:parent-apart"
+            : sibling > zero
+              ? "household:sibling-born"
+              : sibling < zero
+                ? "household:sibling-older"
+                : "household:sibling-twin",
+          counterpartIds: [relative.id],
+        },
+      ];
     }
     if (fact.kind === "household:roots") {
       const first = (fact.facts?.parentBirthplaces ?? "")
@@ -416,13 +476,26 @@ export function composeJournal(
     });
 
   const through = options.through ?? core.date;
+  // Moments of one day are told in the order the rows give: where the family
+  // came from, then who raised the person, then their brothers and sisters.
+  const rank = (moment: JournalMoment) => {
+    const at = rows.findIndex((entry) =>
+      moment.causeKind.startsWith(entry.kindPrefix),
+    );
+    return at < zero ? rows.length : at;
+  };
   const moments: JournalMoment[] = [
     ...book.moments,
     ...officeActMoments(core, personId, words),
-    ...householdMoments(person),
+    ...householdMoments(core, person),
   ]
     .filter((moment) => moment.date <= through)
-    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+    .sort(
+      (a, b) =>
+        a.date.localeCompare(b.date) ||
+        rank(a) - rank(b) ||
+        a.id.localeCompare(b.id),
+    );
   const rowOf = (moment: JournalMoment) =>
     rows.find((entry) => moment.causeKind.startsWith(entry.kindPrefix));
   const ageAt = (date: IsoDate) =>

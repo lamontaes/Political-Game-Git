@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5866
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted job stands for the same jobs every reader counts, and the town's people stay counted. No dice. Every dollar balances.
 
-**Done when.** In Washington, D.C. at its Census size (seed dc-closures-a) and one more drawn place above 100,000, built with buildBenchWorld and played a year, an employer's counted heads per record move only when it hires, lays off or a worker leaves, and its staff at year end is within its sales staff the way the sample-size run's is, named by organization and record ids in a test in src/core2.
+**Done when.** In Washington, D.C. at its Census size (seed dc-closures-a) and one more drawn place above 100,000, built with buildBenchWorld and played a year, an employer's counted heads per record move only when it hires, lays off or a worker leaves, and its staff at year end is within its sales staff the way the sample-size run's is, named by organization and record ids in a test in src/core2. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/counted-groups.ts, src/core2/modules/jobs.ts, src/core2/residents-economy.ts
 

@@ -296,6 +296,90 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.29.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **The Journal opens on the first evening with your family** On the first
+  evening, the Journal's first chapter tells where your family came from, how
+  your parents met, the parent who raised you and the one who lived apart, and
+  each brother and sister by name, older or younger. Before, it had one line
+  about where the family came from.
+
+- **A town's aides are paid only what its budget can carry** An official's aides
+  are now paid from the same budget line as the town's department heads, and
+  only what that line can still carry. A small town whose council members hired
+  full-time aides it could not afford no longer leaves its police chief and
+  other staff unpaid for months.
+
+## PRE-ALPHA 0.29.2
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Knocking on doors keeps counting after every door in town has been knocked,
+  and reaches someone every evening** Once a campaign had knocked on every door
+  in town, Knock on doors stopped adding to its door count and then grayed out
+  with no reason. The canvass now goes round again, the doors knocked longest
+  ago first, and every door knocked counts. Every evening of knocking also
+  reaches someone: a home opens in the share of knocks its readiness says, so a
+  street of younger, reluctant homes still opens a few doors, and a quarter to a
+  third of the doors knocked open over a campaign. A grayed campaign action
+  (Hold an event, Ask for an interview or Call donors) now says why on its
+  button.
+
+## PRE-ALPHA 0.29.1
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Only people with a reason stand in a room** A room now shows only people the
+  records give a reason to be there: you, your household at home, coworkers at
+  work, the person you went to see, the people a moment is about, the clerk at
+  the counter and the voters you reach. Scenes no longer open by announcing that
+  someone "is with you" or "is here".
+
+## PRE-ALPHA 0.29.0
+
+_Released October 25, 2026._
+
+### Improved
+
+- **People who were burglarized, robbed or attacked can tell the people close to
+  them** When a household is burglarized or someone is robbed or attacked, the
+  people it happened to now remember it. In a talk with a housemate, the victim
+  can bring it up and say what happened.
+
+### Changed
+
+- **People answer in a scene the way they decide everywhere else** In a scene
+  with a purpose, the person asking now answers each of your replies by the same
+  temperament read every other decision in the game uses, so someone who presses
+  in a negotiation presses in talk too. The lines your character leads with
+  follow the same read, a lie included.
+
+## PRE-ALPHA 0.28.2
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **A journal looks back on someone who turned out to matter, even if it never
+  wrote about them then** A journal now revises an early moment that seemed
+  small and later grew ("I did not know then what Robert would mean to me."),
+  whether or not the journal wrote about it at the time. Before, it needed both
+  moments written down, and almost no journal ever revised.
+
+- **Playing as a neighbor whose out-of-town job never started no longer stops
+  the clock** A neighbor who was given a job out of town and then went back into
+  the town's counts the same day kept a schedule that ended before it began.
+  Playing as them stopped the day from moving. That job now simply never starts,
+  and the clock moves.
+
 ## PRE-ALPHA 0.28.1
 
 _Released October 25, 2026._

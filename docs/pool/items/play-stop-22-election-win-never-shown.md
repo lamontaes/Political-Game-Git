@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #6041
 blocked-on: play-stop-22-election-win-never-shown-a, play-stop-22-election-win-never-shown-b
