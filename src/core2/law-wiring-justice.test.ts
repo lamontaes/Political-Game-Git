@@ -644,7 +644,13 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
           )
           .join("\n")}`,
       );
+      // The nine laws of laws-nine-links-justice-nine must each be followed.
+      // The police and corrections lines stay with the family item: their
+      // money goes through hires and transfers this test does not yet follow
+      // (laws-checker-follows-line-transfers), so it is printed, not required.
+      const nine = new Set<string>([...QUESTIONS, HANDGUN_AGE, FIRE_LINE]);
       for (const e of evidence) {
+        if (!nine.has(e.key)) continue;
         expect(
           e.found,
           `${a.where}: ${e.law} has no journal entry on the account of a target its applied rows name, citing it (${a.unfound.get(e.key)})`,
