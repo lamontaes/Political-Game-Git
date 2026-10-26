@@ -153,6 +153,19 @@
       },
       {
         "level": "federal",
+        "series": "public-pay-floor",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "1985-02-19",
+        "endDate": null,
+        "source": "29 U.S.C. 203(e)(2) and (x) (https://www.law.cornell.edu/uscode/text/29/203): the Fair Labor Standards Act's minimum wage covers 'any individual employed by a State, political subdivision of a State, or an interstate governmental agency' and 'any individual employed by the Government of the United States'; Garcia v. San Antonio Metropolitan Transit Authority, 469 U.S. 528 (February 19, 1985) (https://www.law.cornell.edu/supremecourt/text/469/528), upheld 'affording SAMTA employees the protections of the wage and hour provisions of the FLSA'; 5 U.S.C. 5332(a)(1) (https://www.law.cornell.edu/uscode/text/5/5332): 'Each employee to whom this subchapter applies is entitled to basic pay in accordance with the General Schedule', a schedule for federal staff only.",
+        "retrieved": "2026-10-24",
+        "estimate": false,
+        "unit": "dollars/year",
+        "note": "No law sets one salary floor for every public job at a level and the levels under it; 0 means none."
+      },
+      {
+        "level": "federal",
         "series": "income-tax",
         "tier": "general",
         "value": 37.0,
@@ -13502,24 +13515,7 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" },
-        "note": "Salem County 3.3125% in lieu of state rate; TF average local shown as negative (-0.02)."
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": -0.02,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.313,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
+        "note": "Salem County 3.3125% in lieu of state rate; TF average local shown as negative (-0.02). No general local sales tax is levied: the negative average is the state rate cut in Salem County and in Urban Enterprise Zones, whose sellers collect half the state rate (3.3125%). TF footnote (d), fetched 2026-10-24: \"Salem County, N.J., is not subject to the statewide sales tax rate and collects a local rate of 3.3125%.\" \"New Jersey's local score is represented as a negative.\" So localAllowed is false and no local-average row is built; the reduced rates are SG-WORLD-salem-county-sales-rate."
       },
       {
         "level": "federal",
@@ -13698,23 +13694,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": -0.024,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.313,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",

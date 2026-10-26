@@ -6,19 +6,21 @@ kind: bug
 priority: 2
 size: S
 status: in-pr
-claimed-by: claude/scandal-term
+claimed-by:
 pr: #5529
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:05:22.354Z
+claimed-at:
 ---
 
 **What.** src/core2/scandal-term.test.ts builds a drawn town with bookkeeping on and had no timeout of its own, so in a large town the build alone passes the suite's 30 second default and the test fails with 'Test timed out in 30000ms' while passing in a smaller town. It failed in two runs of the s-to-w sweep and in one of three standalone reruns on clean main. The assertions are not at fault.
 
 **Rules.** Tests draw a random place from all 56 and name place and seed; a test that builds a world sets its own timeout like its neighbors.
 
-**Done when.** src/core2/scandal-term.test.ts sets a 600 second timeout as src/core2/player-money-year.test.ts does, and passes in six consecutive random draws by npx vitest run, with the place and seed named in any failure.
+**Done when.** src/core2/scandal-term.test.ts sets a 600 second timeout as src/core2/player-money-year.test.ts does, and passes in six consecutive random draws by npx vitest run, with the place and seed named in any failure. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/scandal-term.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-25 from PR #5529 (branch claude/scandal-term): earlier superseded label inaccurate: main300s differs fromrequested600s; currentmainmergeconflictsinscandal-term.test.ts; reconciletestandmeasuredtimeoutandaddDonewhentablewithsixdrawproof; finish on that branch, merge main into it first.

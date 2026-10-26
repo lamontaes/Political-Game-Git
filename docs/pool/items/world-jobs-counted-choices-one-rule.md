@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted worker decides by the same rule as a full person, times their count. No dice: the decision follows from the record's reasons, never a roll. Replace, never layer: the summed-pull path and its stopgap marker go in the same change.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) a counted worker's retirement and a counted job search each appear with the chooser's recorded reasons by record id, the jobs tests pass, and the tripwire test shows SG-WORLD-jobs-counted-choices resolved.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) a counted worker's retirement and a counted job search each appear with the chooser's recorded reasons by record id, the jobs tests pass, and the tripwire test shows SG-WORLD-jobs-counted-choices resolved. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/data/stopgaps.json, src/core2/jobs.test.ts
 

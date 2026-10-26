@@ -4,7 +4,7 @@ title: "Stopgaps in housing (missing-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Vacancy moves rents at renewal, but no household moves in to fill a vacant home: new apartments stay vacant.
 
 Oct 20 (pool feeder): spec written; the 'new apartments stay vacant' part of the row is already fixed (occupyCompletedRentals admits households); the marker in housing-occupancy.ts remains for the existing stock. The unit's landlord is the owner that world-housing-landlord-owners adds.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

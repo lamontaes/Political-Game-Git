@@ -1,6 +1,6 @@
 /**
- * One played year in a drawn place: every law that took effect during it
- * (passed by a body in play, at any level), with the people and
+ * One played year in a drawn place: every law enacted during it (passed by
+ * a body in play, at any level; a repeal is not counted), with the people and
  * organizations it reached, the money the engines that applied it recorded,
  * and the outcome-web measures its links moved. The before-and-after counts
  * at the top of the law-wiring report come from this.
@@ -165,7 +165,9 @@ function main(): void {
     (r) =>
       r.effectiveDate > start &&
       r.effectiveDate <= core.date &&
-      r.terms?.enactedBy,
+      r.terms?.enactedBy &&
+      // A repeal (a policy set back to no) applies to no one by design.
+      r.value !== 0,
   );
   const webRows = has(core, "core2-outcome-web-v1")
     ? (api

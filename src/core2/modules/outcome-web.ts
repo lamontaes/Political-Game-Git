@@ -39,9 +39,17 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
+import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 import { monthEvent } from "../outcome-news";
+
+/** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
+const SCHOOL_MEASURED = new Set([
+  "school.math-proficient-pct",
+  "school.reading-proficient-pct",
+  "school.graduation-pct",
+]);
 
 export { OUTCOME_WEB_MODULE_ID };
 const STATE_ID = "outcome-web:state";
@@ -268,12 +276,17 @@ function rowAt(r: Reading, index: number): WebMonth | undefined {
 
 /** A cause's value as it stood in month `index` (today's date shifted back for a law). */
 function causeAt(r: Reading, measure: string, index: number): number | null {
-  if (isLaw(measure))
+  if (isLaw(measure)) {
+    // The starting law rows take effect on the calibration date, so a date
+    // before it reads the law as it stood then, not as absent: a place that
+    // repeals a law it began with feels the repeal a lag later.
+    const date = dateMonthsBefore(r.api.state.date, r.index - index);
     return lawValue(
       r.api,
       measure.slice(LAW_PREFIX.length),
-      dateMonthsBefore(r.api.state.date, r.index - index),
+      date < CALIBRATED_AT ? CALIBRATED_AT : date,
     );
+  }
   const derived = derivedOf(measure);
   const kept = derived?.measure ?? measure;
   if (index >= r.index && !keptOutcome(kept)) return r.values[measure] ?? null;
@@ -431,6 +444,15 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     }
     bases[outcome] = base;
     r.values[outcome] = level ? base + added : base * product;
+    // An outcome the school engine measures stands on its records: the share
+    // its students reached last school year, citing that record.
+    const measured = SCHOOL_MEASURED.has(outcome)
+      ? schoolMeasure(api, placeId, outcome)
+      : null;
+    if (measured) {
+      r.values[outcome] = measured.value;
+      engineSources[outcome] = measured.recordId;
+    }
   }
   const row: WebMonth = {
     id: `web:${placeId}:${month}`,
@@ -464,7 +486,7 @@ function run(api: CoreAPI, announced = false): void {
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
   api.stopgap("SG-WEB-outcome-drift");
-  // No engine keeps SNAP receipt or food insecurity; they stay ledger numbers.
+  // No field counts the SNAP benefit's recipients into SNAP receipt, and no engine keeps food insecurity; both stay ledger numbers.
   api.stopgap("SG-WEB-snap-receipt-ledger");
   api.stopgap("SG-WEB-food-insecurity-ledger");
   // Causes of poverty that reach no incomes yet (poverty itself is the engine's).
@@ -566,6 +588,9 @@ export function placeOutcome(
       engineRecordId: string | null;
     }
   | undefined {
+  // A world without the web (a small test world) has no conditions to read.
+  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
+    return undefined;
   const rows = store(api)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[];

@@ -49,6 +49,7 @@ import type { CoreAPI, CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
 import type { BenchPlayer } from "./player";
 import { budgetView } from "./budget";
+import { decisionPanels, type WhyPanel } from "./dev-why";
 import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
 
@@ -110,6 +111,37 @@ const median = (values: number[]) => {
 };
 
 const has = (core: CoreState, id: string) => core.modules.has(id);
+
+/**
+ * Residents dev mode put in focus, per world, so "stop following" takes back
+ * only what dev mode added and never someone the player deals with.
+ */
+const devFollowed = new WeakMap<CoreState, Set<string>>();
+
+/** How a person comes to be in focus: dev mode followed them, the player deals with them, or neither. */
+export type FollowStatus = "dev-mode" | "player-circle" | "none";
+
+export interface FollowView {
+  readonly personId: string;
+  readonly name: string;
+  readonly status: FollowStatus;
+  /** The person's schedule tier; a followed person acts daily whatever it is (calendar.ts). */
+  readonly tier: string;
+}
+
+/** The player, and the people the player is related to, knows or lives with. */
+function inPlayersCircle(core: CoreState, personId: string): boolean {
+  const player = core.playerId ? core.people.get(core.playerId) : undefined;
+  if (!player) return false;
+  return (
+    player.id === personId ||
+    player.familyIds.has(personId) ||
+    player.knownIds.has(personId) ||
+    (core.households.get(player.householdId)?.memberIds ?? []).includes(
+      personId,
+    )
+  );
+}
 // A screen length, not a model value.
 const BODIES_SHOWN = 30;
 
@@ -454,6 +486,64 @@ export class DevMode {
         };
       }),
     };
+  }
+
+  /**
+   * Where a person stands: followed by dev mode, in the player's circle, or
+   * neither. Reads only; it fills in no one and writes nothing.
+   */
+  followStatus(personId: string): FollowView {
+    const person = this.core.people.get(personId);
+    if (!person) throw new Error("No such person.");
+    const added = devFollowed.get(this.core)?.has(personId) === true;
+    const inFocus =
+      this.core.focusPersonIds.has(personId) || personId === this.core.playerId;
+    return {
+      personId,
+      name: `${person.givenName} ${person.familyName}`,
+      tier: person.tier,
+      status: !inFocus ? "none" : added ? "dev-mode" : "player-circle",
+    };
+  }
+
+  /**
+   * Put a resident in focus, as the people a player deals with are, so each
+   * act from now on keeps every option's reasons (why-kept). Focus also
+   * gives a person the daily schedule the player's circle has; nothing here
+   * picks, scores or changes any decision, spends game time or writes a
+   * record.
+   */
+  follow(personId: string): FollowView {
+    if (!personOrFillIn(this.core, personId))
+      throw new Error("No such person.");
+    if (!this.core.focusPersonIds.has(personId)) {
+      this.core.focusPersonIds.add(personId);
+      const added = devFollowed.get(this.core) ?? new Set<string>();
+      added.add(personId);
+      devFollowed.set(this.core, added);
+    }
+    return this.followStatus(personId);
+  }
+
+  /**
+   * Take a resident dev mode followed out of focus. Someone the player now
+   * deals with stays in focus: their reasons are the player's to read.
+   */
+  unfollow(personId: string): FollowView {
+    const added = devFollowed.get(this.core);
+    if (added?.delete(personId) && !inPlayersCircle(this.core, personId))
+      this.core.focusPersonIds.delete(personId);
+    return this.followStatus(personId);
+  }
+
+  /** The residents dev mode follows, each with their decisions panel. */
+  followed(): { view: FollowView; decisions: WhyPanel }[] {
+    return [...(devFollowed.get(this.core) ?? [])]
+      .filter((id) => this.core.people.has(id))
+      .map((id) => ({
+        view: this.followStatus(id),
+        decisions: decisionPanels(this.core, id)[0]!,
+      }));
   }
 
   /** Make an offered choice the person's next decision (the core's controller hook). */

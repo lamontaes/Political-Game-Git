@@ -11,6 +11,7 @@
  *   The housing line pays its rent assistance in the housing engine (housing-assistance.ts).
  */
 import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
+import { lawApplied } from "./applied";
 import type { CoreAPI, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
@@ -18,7 +19,7 @@ import type { PolicyHandler } from "./host";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
-  adoptedLine,
+  lineWithoutBills,
   budgetsOf,
   governments,
   type BudgetRow,
@@ -73,14 +74,18 @@ export function budgetToday(
   );
 }
 
-/** A line's amount before any amendment this year: the line as adopted. */
+/**
+ * A line's amount with no budget bill passed and no act amending it: a raise
+ * a bill carries into the adopted lines is still a change the line's service
+ * carries, this year and every later year it stays.
+ */
 export function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ): number {
-  return adoptedLine(api, gov, budget.fiscalYear, line);
+  return lineWithoutBills(api, gov, budget.fiscalYear, line);
 }
 
 // --- paid family leave -------------------------------------------------------------
@@ -145,6 +150,15 @@ function leavePremium(
     ],
   };
   reachTable(api, "premiums").put(record as unknown as ModuleRow);
+  lawApplied(api, {
+    key: LEAVE_KEY,
+    lawId: program.lawId,
+    targetId: receipt.personId,
+    target: "person",
+    engine: REACH_A_MODULE_ID,
+    what: "leave-premium-withheld",
+    amountMinor: premium,
+  });
   const state = api.state as CoreState;
   api.postJournal({
     id: `journal:${api.state.date}:${state.cashJournal.nextSequence}`,

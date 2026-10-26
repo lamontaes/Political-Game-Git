@@ -91,6 +91,22 @@ function pageWhenChanged(box, pager) {
 }
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+const compactWords = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  compactDisplay: "long",
+  maximumFractionDigits: 1,
+});
+/**
+ * A government's sum in a readable unit: "$5.2 trillion", or whole dollars
+ * to three figures below a million ("$48,300", "$12").
+ */
+const roundedDollars = (minor) => {
+  const whole = Math.round(Math.abs(minor / 100));
+  const sign = minor < 0 && whole > 0 ? "−" : "";
+  return whole >= 1e6
+    ? `${sign}$${compactWords.format(whole)}`
+    : `${sign}$${Math.round(Number(whole.toPrecision(3))).toLocaleString("en-US")}`;
+};
 /** The player card's date, and the time under it: the only place either appears. */
 function setClock(at) {
   const day = new Date(`${at.date}T12:00:00`).toLocaleDateString("en-US", {
@@ -558,6 +574,26 @@ const amount = (value, unit) => {
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
+/**
+ * Who sets a level's rate: the level and the government its seats name
+ * ("State · Texas"). A stand-in row from another series (a state's average
+ * local sales tax where the town records none) says what it is instead.
+ */
+const lawLevelLabel = (law, level) =>
+  [
+    controls.levels?.[level.level] ?? words(level.level),
+    level.row.series !== law.series
+      ? `${words(level.row.series)}${level.row.estimate ? ` · ${words("estimate")}` : ""}`
+      : level.government,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+/** A law's later phase as a level row, with the government its level names. */
+const pendingLevel = (law, row) => ({
+  level: row.level,
+  row,
+  government: law.levels.find((l) => l.level === row.level)?.government,
+});
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -614,7 +650,7 @@ async function refresh() {
       $("backdrop").src = night.backdrop.url;
       drawPeople(night.people);
     }
-    await openSheet("campaigns");
+    await openSheet("results");
     return;
   }
   // A law that took effect: what changed in town.
@@ -960,7 +996,7 @@ function replies(choices, onPick) {
   return choices.map((choice) => {
     const b = el("button", {
       type: "button",
-      className: `reply${choice.lie ? " lying" : ""}`,
+      className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
       // Filing is a control of its own, never worded like acknowledging a refusal.
       textContent:
         choice.control === "file"
@@ -1049,6 +1085,7 @@ $("talk-leave").addEventListener("click", async () => {
     await post("/api/filing/leave");
     filing = undefined;
     show("filing-overlay", false);
+    $("game").classList.remove("filing-open");
     delete $("filing-title").dataset.contest;
     show("talk", false);
     await refresh();
@@ -1078,19 +1115,37 @@ function renderFiling(value) {
   }));
   $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
   renderFilingOverlay(value);
-  $("talk-choices").replaceChildren(
-    ...replies(value.visit.choices.slice(0, 6), async (choice) => {
-      // Filing carries the platform and party chosen on the overlay.
-      const params = new URLSearchParams({ key: choice.key });
-      if (choice.action.kind === "file") {
-        for (const select of $("filing-platform").querySelectorAll("select"))
-          if (select.value)
-            params.append("stance", `${select.name}=${select.value}`);
-        params.set("party", $("filing-party").value);
-      }
-      renderFiling(await post(`/api/filing/choose?${params}`));
-    }),
-  );
+  const choices = value.visit.choices.slice(0, 6);
+  const buttons = replies(choices, async (choice) => {
+    // Filing carries the platform and party chosen on the overlay.
+    const params = new URLSearchParams({ key: choice.key });
+    if (choice.action.kind === "file") {
+      for (const select of $("filing-platform").querySelectorAll("select"))
+        if (select.value)
+          params.append("stance", `${select.name}=${select.value}`);
+      params.set("party", $("filing-party").value);
+    }
+    renderFiling(await post(`/api/filing/choose?${params}`));
+  });
+  // Each race told apart before the pick: its seat, its election day and
+  // who holds the seat now, from the contest's records.
+  const counter = controls.filing;
+  choices.forEach((choice, i) => {
+    const seat =
+      choice.action.kind === "pick" && value.seats?.[choice.action.contestId];
+    if (!seat) return;
+    buttons[i].append(
+      el("small", {
+        className: "reply-facts",
+        textContent: [
+          ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
+          proseDate(seat.electionDate),
+          seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
+        ].join(" · "),
+      }),
+    );
+  });
+  $("talk-choices").replaceChildren(...buttons);
   // The filing's record once it is made: its status.
   if (value.result)
     $("talk-lines").append(
@@ -1106,16 +1161,20 @@ function renderFiling(value) {
 /** The named office's rules from its records, with the platform and party to file under. */
 function renderFilingOverlay(value) {
   const overlay = value?.overlay;
-  show("filing-overlay", Boolean(overlay && !value.result));
+  const open = Boolean(overlay && !value.result);
+  show("filing-overlay", open);
+  // The news card sits where the overlay does; it waits until the counter closes.
+  $("game").classList.toggle("filing-open", open);
   if (!overlay || $("filing-title").dataset.contest === overlay.contestId)
     return;
   $("filing-title").dataset.contest = overlay.contestId;
   $("filing-title").textContent = overlay.title;
+  // Each rule by its control name; the filing deadline is one of the rules.
+  const ruleNames = controls.filing?.rules ?? {};
   $("filing-checks").replaceChildren(
-    row("Deadline", overlay.filingDeadline),
     ...overlay.checks.map((check) => {
       const line = row(
-        check.rule,
+        ruleNames[check.rule] ?? words(check.rule),
         `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
@@ -1376,10 +1435,17 @@ async function campaignRows() {
           "div",
           {},
           ...(outings ?? []).map((choice) => {
+            // A grayed outing says why, from the records.
+            const why = choice.why
+              ? (controls.campaignUnavailable[choice.why.key] ?? "")
+                  .replace("{price}", dollars(choice.why.priceMinor ?? 0))
+                  .replace("{cash}", dollars(choice.why.cashMinor ?? 0))
+              : "";
             const b = el("button", {
               type: "button",
-              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
+              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
               disabled: !choice.available,
+              title: why,
             });
             b.addEventListener("click", () =>
               goOut(choice.outing, choice.outletId),
@@ -1447,9 +1513,22 @@ async function campaignRows() {
 }
 
 // ---- A big moment, staged when it stops the clock ----
+// The grading view (/play?held=1): a scene may say lines still held until the
+// owner grades them, each marked, with the record that fired it.
+const HELD_VIEW =
+  new URLSearchParams(window.location.search).get("held") === "1";
+/** Why a scene is happening: its cause record and the facts it may say, by record. */
+function whyRows(why) {
+  return [
+    `${why.cause.kind} · ${why.cause.date} · ${why.cause.id}`,
+    ...why.facts.map(
+      (row) => `${row.key}: ${row.text} (${row.recordIds.join(", ")})`,
+    ),
+  ].map((text) => el("li", { className: "why", textContent: text }));
+}
 async function showStory(momentId) {
   const story = await api(
-    `/api/story?momentId=${encodeURIComponent(momentId)}`,
+    `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
   );
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
@@ -1459,17 +1538,63 @@ async function showStory(momentId) {
   $("talk-name").textContent = "";
   $("talk-lines").replaceChildren(
     ...story.narration.map((line) =>
-      el("li", { className: "speech narration", textContent: line.text }),
+      el("li", {
+        className: `speech narration${line.held ? " held" : ""}`,
+        textContent: line.text,
+      }),
     ),
+    ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
   );
+  // A scene with a purpose is its own exchange; any other opens a talk.
+  const withId = story.talk?.askerId ?? story.talkToId;
   $("talk-choices").replaceChildren(
-    ...(story.talkToId
-      ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId, momentId),
+    ...(withId
+      ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
+          story.talk ? playExchange(story) : talkTo(withId, momentId),
         )
       : []),
   );
   setScales({ available: false });
+}
+/** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
+function playExchange(story) {
+  const { talk } = story;
+  setWho(talk.askerId, story.names[talk.askerId]);
+  const said = [...talk.opening];
+  const lineOf = (line) =>
+    el("li", {
+      className: `${line.role === "asked" ? "said" : "speech"}${line.held ? " held" : ""}`,
+      textContent: line.text,
+    });
+  // The path is the index of each reply chosen, from the first.
+  const play = (node, path) => {
+    said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
+    $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+    $("talk-choices").replaceChildren(
+      ...replies(
+        node.replies.map((reply, index) => ({
+          text: reply.line.text,
+          held: reply.line.held,
+          reply,
+          index,
+        })),
+        ({ reply, index }) => {
+          const chosen = [...path, index];
+          // The reply is the player's: the game keeps it (purpose-scene.ts
+          // replyInScene).
+          api(
+            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
+            "POST",
+          );
+          said.push(reply.line);
+          if (reply.next) play(reply.next, chosen);
+          else $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+          if (!reply.next) $("talk-choices").replaceChildren();
+        },
+      ),
+    );
+  };
+  play(talk.tree, []);
 }
 function storyStop(value) {
   return value?.kind === "stop"
@@ -2647,12 +2772,23 @@ const sheets = {
     const labels = controls.results;
     seenResults = races.length;
     const number = (n) => n.toLocaleString("en-US");
-    return races.slice(0, 8).map((race) =>
+    // The newest night in full, your own race first; earlier nights' races after.
+    const night = races.filter((race) => race.date === races[0]?.date);
+    const earlier = races.slice(night.length, night.length + 8);
+    return [...night, ...earlier].map((race) =>
       el(
         "div",
-        { className: "row race" },
+        { className: `row race${race.mine ? " own" : ""}` },
+        race.mine
+          ? el(
+              "div",
+              { className: "mine" },
+              el("b", { textContent: `${labels.yourRace} ` }),
+              race.mine.won ? labels.won : labels.lost,
+            )
+          : "",
         el("b", {
-          textContent: `${race.title} · ${race.date}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
+          textContent: `${race.title} · ${proseDate(race.date)}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
         }),
         ...race.candidates.map((c) =>
           el("div", {
@@ -2821,7 +2957,7 @@ const sheets = {
             el("span", { className: "label", textContent: label }),
             el("strong", {
               className: "record-total",
-              textContent: dollars(value),
+              textContent: roundedDollars(value),
             }),
           ),
         );
@@ -2834,7 +2970,7 @@ const sheets = {
         const chart = comparison(
           lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
           label,
-          dollars,
+          roundedDollars,
         );
         const rows = [...chart.children];
         if (gov.youAreExecutive && label === labels.spending)
@@ -3068,13 +3204,10 @@ const sheets = {
           ),
           ...(e.region
             ? [
+                // The region's rate under the area it covers, beside the nation's.
                 row(
-                  `Region · ${e.region.month ?? ""}`,
-                  Object.entries(e.region)
-                    .filter(([, v]) => typeof v === "number")
-                    .slice(0, 4)
-                    .map(([k, v]) => `${k} ${Number(v).toFixed(1)}`)
-                    .join(" · "),
+                  `${(e.region.name ?? "").replace(/^./, (c) => c.toUpperCase())} · ${e.region.month ?? ""}`,
+                  `Unemployment ${pct(e.region.unemploymentPct)}`,
                 ),
               ]
             : []),
@@ -3342,12 +3475,12 @@ const sheets = {
               .filter((level) => level.row)
               .map((level) =>
                 el("div", {
-                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+                  textContent: `${lawLevelLabel(law, level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
                 }),
               ),
             ...law.pending.map((row) =>
               el("div", {
-                textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
+                textContent: `${lawLevelLabel(law, pendingLevel(law, row))} · ${row.effectiveDate} → ${amount(row.value, row.unit)}`,
               }),
             ),
           ),
@@ -3583,9 +3716,25 @@ const sheets = {
   },
   async campaigns() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    // A filing whose race has been decided reads as won or lost.
+    const decided = new Map(
+      (await api(`/api/results?id=${encodeURIComponent(me.id)}`))
+        .filter((race) => race.mine)
+        .map((race) => [race.contestId, race.mine.won]),
+    );
+    const labels = controls.results;
     return [
       ...(await campaignRows()),
-      ...v.filings.map((f) => row(words(f.status), f.filedWith)),
+      ...v.filings.map((f) =>
+        row(
+          decided.has(f.contestId)
+            ? decided.get(f.contestId)
+              ? labels.won
+              : labels.lost
+            : words(f.status),
+          f.filedWith,
+        ),
+      ),
       ...(await sheets.results()),
     ];
   },
@@ -3708,6 +3857,15 @@ const sheets = {
                 history.dataset.term = s.holder.termId;
                 if (won) history.dataset.election = won.termId;
                 line.append(history);
+              }
+              // Elected and not yet seated: who won the seat, and when they take office.
+              if (s.elect) {
+                const elect = el("div", {
+                  className: "row elect",
+                  textContent: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${proseDate(s.elect.takesOffice)}`,
+                });
+                elect.dataset.contest = s.elect.contestId;
+                line.append(elect);
               }
               if (s.holder?.personId) {
                 const b = el("button", {
@@ -3872,14 +4030,14 @@ const sheets = {
               for (const level of law.levels.filter((l) => l.row))
                 detail.append(
                   row(
-                    controls.levels?.[level.level] ?? words(level.level),
+                    lawLevelLabel(law, level),
                     `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
                   ),
                 );
               for (const pending of law.pending)
                 detail.append(
                   row(
-                    pending.effectiveDate,
+                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${pending.effectiveDate}`,
                     amount(pending.value, pending.unit),
                   ),
                 );
@@ -3952,11 +4110,11 @@ async function openSheet(tab) {
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
-  const holdsOffice =
-    group === "politics" &&
-    (await api(`/api/government?id=${encodeURIComponent(me.id)}`)).seats.some(
-      (s) => s.holder?.personId === me.id,
-    );
+  const politics =
+    group === "politics"
+      ? await api(`/api/government?id=${encodeURIComponent(me.id)}`)
+      : { seats: [], filings: [], ofVotingAge: false };
+  const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
@@ -3965,7 +4123,13 @@ async function openSheet(tab) {
       .filter(
         (name) =>
           (name !== "results" || seenResults > 0) &&
-          (name !== "office" || holdsOffice),
+          (name !== "office" || holdsOffice) &&
+          // Budgets wait until they are the player's business: an office, a
+          // filing, or the age to vote.
+          (name !== "budgets" ||
+            holdsOffice ||
+            politics.filings.length > 0 ||
+            politics.ofVotingAge),
       )
       .map((name) => {
         const b = el("button", {
@@ -4326,19 +4490,18 @@ async function listTowns() {
   );
   if (ask !== townAsk) return;
   const count = new Intl.NumberFormat("en-US");
+  const words = controls.creator ?? {};
   $("cr-towns").replaceChildren(
     ...towns.map((t) => {
+      const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
       const b = el(
         "button",
-        { type: "button", className: "item" },
-        el("b", { textContent: t.name }),
-        ...(t.population
-          ? [
-              el("small", {
-                textContent: `${count.format(t.population)} people`,
-              }),
-            ]
-          : []),
+        // In the state buttons' font, name and count alike.
+        { type: "button", className: "item town" },
+        el("span", { textContent: t.name }),
+        el("small", {
+          textContent: t.county ? `${t.county}, ${size}` : size,
+        }),
       );
       b.addEventListener("click", () => {
         setup.town = t;

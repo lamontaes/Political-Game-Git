@@ -3,12 +3,12 @@ id: research-world-sourced-parameters
 title: "Research: sourced parameters for opening finance, business compliance cost and credit"
 area: world
 kind: research
-priority: 2
+priority: 3
 size: M
-status: blocked
+status: open
 claimed-by: claude/political-game-pool-yucp92-bk
 pr: #5419
-blocked-on: researcher: the 2005 PACE report tables by industry (epa.gov and census.gov PDFs) cannot be fetched from the cloud network (certificate error and 503); the minimum-loan row is done in 5419, and the national 0.4 percent of output is already the compliance parameter's source
+blocked-on:
 source: "collapsed Oct 19, 2026 from world-stopgap-opening-finance-uncalibrated-opening-finance-calendar, world-stopgap-parameters-assumed-data, world-stopgap-parameters-uncalibrated-tunable"
 claimed-at: 2026-10-20T13:46:26.832Z
 ---
@@ -21,8 +21,12 @@ claimed-at: 2026-10-20T13:46:26.832Z
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/data/business/parameters.json, src/core2/data/credit/parameters.json, src/core2/data/opening-finance.json, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/world/
 
 **Notes.** Folded from: world-stopgap-opening-finance-uncalibrated-opening-finance-calendar, world-stopgap-parameters-assumed-data, world-stopgap-parameters-uncalibrated-tunable. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Deferred Oct 25: nothing on screen reads it yet.
+
+Oct 25 audit: set open; its block was a free-text note, not an item or an owner question (the note stays in Notes).

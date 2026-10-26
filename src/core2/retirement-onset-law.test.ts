@@ -1,9 +1,11 @@
 /**
  * The age retiring starts to pull on a worker is the earliest Social Security
- * claim age under the law in force (pool item web-calibrate-choice-terms,
- * the outcome web's retirement-age link): the jobs engine reads the law when
- * it weighs a worker's retiring, so a law that raises it keeps people at work
- * longer. A place is drawn from all 56 (RETIRE_ONSET_SEED pins the run).
+ * claim age under the law in force (pool item web-calibrate-choice-terms):
+ * the jobs engine reads the law when it weighs a worker's retiring, so a law
+ * that raises it keeps people at work longer. A law that raises the full
+ * retirement age reaches them through the outcome web's retirement-age link
+ * instead (jobs-older-work-web.test.ts). A place is drawn from all 56
+ * (RETIRE_ONSET_SEED pins the run).
  */
 import { randomBytes } from "node:crypto";
 import { expect, it, vi } from "vitest";

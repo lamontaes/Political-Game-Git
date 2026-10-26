@@ -7,6 +7,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
+  checkEligibility,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
@@ -149,6 +150,10 @@ it(`filing is a scene with the office's clerk and a campaign speech is a stop wi
   for (const person of town) {
     if (filings.length >= 3) break;
     if (person.id === clerk.personId) continue;
+    // Only a resident who can file is watched: each one watched is followed
+    // to election day, and most of a town cannot run for its offices.
+    if (checkEligibility(api, person.id, contest.id, null).some((c) => !c.met))
+      continue;
     director.watch(core, person.id);
     const result = fileCandidacy(api, {
       personId: person.id,
