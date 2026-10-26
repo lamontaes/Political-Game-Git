@@ -5,13 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-governor-races-on-screen
+pr: #6159
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from gov-world-races-run-no-governors)
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-26T07:56:34.497Z
 ---
 
 **What.** Thirty-five states elect a governor in November 2026, and gov-world-races-run-no-governors makes the world run them. Election night shows the player's own races and nothing of the country. After the player's own contests, add a Nation page with each governor race's winner, party and margin, read from the race records, so the night feels like a national election.

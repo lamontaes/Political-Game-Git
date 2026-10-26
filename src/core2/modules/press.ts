@@ -32,7 +32,7 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
-import { countedResidents } from "../electorate";
+import { countedResidentsOf } from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -999,8 +999,7 @@ function townAdultsByBand(api: CoreAPI): ReadonlyMap<Band, number> {
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
   const adults = new Map<Band, number>();
-  for (const voter of countedResidents(api.state as CoreState)) {
-    if (voter.placeId !== town) continue;
+  for (const voter of countedResidentsOf(api.state as CoreState, town)) {
     const age = ageOn(voter, date);
     if (age < 18) continue;
     const band = bandOf(age);

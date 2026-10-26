@@ -54,6 +54,26 @@
       <section id="desk" class="panel" hidden>
         <div id="desk-items"></div>
       </section>
+      <section id="job-offer" class="panel" data-testid="job-offer" hidden>
+        <h2 id="job-offer-title" class="heading"></h2>
+        <p id="job-offer-employer"></p>
+        <div id="job-offer-facts"></div>
+        <div class="acts">
+          <button
+            id="job-offer-take"
+            class="action primary"
+            type="button"
+          ></button>
+          <button id="job-offer-turn" class="action" type="button"></button>
+          <button
+            id="job-offer-wait"
+            class="action small"
+            type="button"
+            hidden
+          ></button>
+        </div>
+        <p id="job-offer-status" role="status"></p>
+      </section>
       <section id="news-reader" class="panel" hidden>
         <div class="news-reader-main">
           <h2 id="news-reader-headline" class="heading"></h2>
@@ -139,7 +159,7 @@
             data-testid="title-version"
           ></small>
         </div>
-        <!-- New game: Start a life is the way in; the world modes sit under one Advanced link (owner, Oct 24). -->
+        <!-- New game: Start a life is the way in; the world modes sit under one Advanced link. -->
         <div id="front-new" data-testid="new-game-choice" hidden>
           <button
             id="new-start"
@@ -356,18 +376,20 @@
           </div>
           <fieldset class="group" data-testid="creator-birthday">
             <legend class="label">Birthday</legend>
-            <label class="field"
-              >Month
-              <select id="cr-month" data-testid="start-birth-month"></select
-            ></label>
-            <label class="field"
-              >Day
-              <select id="cr-day" data-testid="start-birth-day"></select
-            ></label>
-            <label class="field"
-              >Year
-              <select id="cr-year" data-testid="start-birth-year"></select
-            ></label>
+            <div class="date-row">
+              <label class="field"
+                >Month
+                <select id="cr-month" data-testid="start-birth-month"></select
+              ></label>
+              <label class="field"
+                >Day
+                <select id="cr-day" data-testid="start-birth-day"></select
+              ></label>
+              <label class="field"
+                >Year
+                <select id="cr-year" data-testid="start-birth-year"></select
+              ></label>
+            </div>
             <button
               id="cr-random-birthday"
               class="action small"
@@ -558,83 +580,6 @@
         </button>
       </nav>
 
-      <nav id="rings" hidden>
-        <button
-          type="button"
-          class="ring"
-          data-tab="journal"
-          aria-label="Journal"
-        >
-          <svg viewBox="0 0 24 24">
-            <path d="M4 5h16v11H9l-5 4z" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="ring"
-          data-tab="calendar"
-          aria-label="Calendar"
-        >
-          <svg viewBox="0 0 24 24">
-            <rect x="3.5" y="5" width="17" height="15" rx="1.2" />
-            <path
-              d="M3.5 9.5h17M8 3v4M16 3v4M7.5 13h.01M12 13h.01M16.5 13h.01M7.5 16.5h.01M12 16.5h.01M16.5 16.5h.01"
-            />
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="ring"
-          data-tab="money"
-          aria-label="Money and property"
-        >
-          <svg viewBox="0 0 24 24">
-            <ellipse cx="12" cy="6.5" rx="6" ry="2.6" />
-            <path
-              d="M6 6.5v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6V6.5M6 10.1v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6M6 13.7v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6"
-            />
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="ring"
-          data-tab="politics"
-          aria-label="Politics"
-        >
-          <svg viewBox="0 0 24 24">
-            <path d="M12 4.2v14.8M8 19h8M4.6 6.8h14.8" />
-            <path d="M4.6 6.8l-2.3 5.1h4.6zM19.4 6.8l-2.3 5.1h4.6z" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="ring"
-          data-tab="people"
-          aria-label="People"
-        >
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="7.5" r="3.2" />
-            <circle cx="5.8" cy="9.5" r="2.3" />
-            <circle cx="18.2" cy="9.5" r="2.3" />
-            <path
-              d="M6.5 19c.5-3.6 2.6-5.4 5.5-5.4s5 1.8 5.5 5.4zM1.8 17c.3-2.4 1.7-3.8 4-4M22.2 17c-.3-2.4-1.7-3.8-4-4"
-            />
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="ring"
-          data-tab="travel"
-          aria-label="Travel"
-        >
-          <svg viewBox="0 0 24 24">
-            <path
-              d="M3.5 6.5l5-2 7 2 5-2v13l-5 2-7-2-5 2zM8.5 4.5v13M15.5 6.5v13"
-            />
-          </svg>
-        </button>
-      </nav>
-
       <section id="sheet" class="panel" data-testid="sheet" hidden>
         <header class="sheet-head">
           <h2 id="sheet-title" class="heading"></h2>
@@ -754,24 +699,103 @@
         <p id="journal-line" class="prose"></p>
       </section>
 
-      <section id="card" class="panel me" hidden>
-        <div id="card-bust" class="bust"></div>
-        <div>
-          <h2 id="card-name" class="name"></h2>
-          <p id="card-place" class="role"></p>
-          <p id="card-clock" class="when"></p>
-        </div>
-        <div class="time">
-          <p id="card-why" class="label"></p>
-          <div class="acts">
-            <button id="day" class="action primary" type="button">Day</button>
-            <button id="week" class="action primary" type="button"></button>
-            <button id="continue" class="action primary" type="button" hidden>
-              Continue
-            </button>
+      <!-- The menu icons stand on the card: one column, so the card never grows into them. -->
+      <div id="dock">
+        <nav id="rings" hidden>
+          <button
+            type="button"
+            class="ring"
+            data-tab="journal"
+            aria-label="Journal"
+          >
+            <svg viewBox="0 0 24 24">
+              <path d="M4 5h16v11H9l-5 4z" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="ring"
+            data-tab="calendar"
+            aria-label="Calendar"
+          >
+            <svg viewBox="0 0 24 24">
+              <rect x="3.5" y="5" width="17" height="15" rx="1.2" />
+              <path
+                d="M3.5 9.5h17M8 3v4M16 3v4M7.5 13h.01M12 13h.01M16.5 13h.01M7.5 16.5h.01M12 16.5h.01M16.5 16.5h.01"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="ring"
+            data-tab="money"
+            aria-label="Money and property"
+          >
+            <svg viewBox="0 0 24 24">
+              <ellipse cx="12" cy="6.5" rx="6" ry="2.6" />
+              <path
+                d="M6 6.5v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6V6.5M6 10.1v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6M6 13.7v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="ring"
+            data-tab="politics"
+            aria-label="Politics"
+          >
+            <svg viewBox="0 0 24 24">
+              <path d="M12 4.2v14.8M8 19h8M4.6 6.8h14.8" />
+              <path d="M4.6 6.8l-2.3 5.1h4.6zM19.4 6.8l-2.3 5.1h4.6z" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="ring"
+            data-tab="people"
+            aria-label="People"
+          >
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="7.5" r="3.2" />
+              <circle cx="5.8" cy="9.5" r="2.3" />
+              <circle cx="18.2" cy="9.5" r="2.3" />
+              <path
+                d="M6.5 19c.5-3.6 2.6-5.4 5.5-5.4s5 1.8 5.5 5.4zM1.8 17c.3-2.4 1.7-3.8 4-4M22.2 17c-.3-2.4-1.7-3.8-4-4"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="ring"
+            data-tab="travel"
+            aria-label="Travel"
+          >
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M3.5 6.5l5-2 7 2 5-2v13l-5 2-7-2-5 2zM8.5 4.5v13M15.5 6.5v13"
+              />
+            </svg>
+          </button>
+        </nav>
+        <section id="card" class="panel me" hidden>
+          <div id="card-bust" class="bust"></div>
+          <div>
+            <h2 id="card-name" class="name"></h2>
+            <p id="card-place" class="role"></p>
+            <p id="card-clock" class="when"></p>
           </div>
-        </div>
-      </section>
+          <div class="time">
+            <p id="card-why" class="label"></p>
+            <div class="acts">
+              <button id="day" class="action primary" type="button">Day</button>
+              <button id="week" class="action primary" type="button"></button>
+              <button id="continue" class="action primary" type="button" hidden>
+                Continue
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <aside id="tip" class="panel" hidden>
         <p id="tip-term" class="label"></p>
