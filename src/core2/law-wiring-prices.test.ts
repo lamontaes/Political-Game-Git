@@ -463,10 +463,20 @@ function run(
         // A law back where the place began moves nothing; a lag past the
         // elapsed months has not yet shown.
         if (baselineYes) {
-          expect(
-            last.effects[link.key] ?? 0,
-            `${where}: ${link.key} at baseline`,
-          ).toBe(0);
+          // A link phased in over months still averages the month or two
+          // that phase 0 held the law off (35 days spans at most two month
+          // rows), so it is off by at most that share of its size.
+          const months = Math.max(1, link.phaseInMonths ?? 1);
+          const effect = last.effects[link.key] ?? 0;
+          if (months === 1)
+            expect(effect, `${where}: ${link.key} at baseline`).toBe(0);
+          else
+            expect(
+              Math.abs(effect),
+              `${where}: ${link.key} at baseline, phased over ${months} months`,
+            ).toBeLessThanOrEqual(
+              (Math.abs(link.size ?? 0) * 2) / months + 1e-12,
+            );
           continue;
         }
         if (link.lagMonths > elapsedMonths) {
