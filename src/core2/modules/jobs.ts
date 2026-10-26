@@ -920,16 +920,11 @@ export function raiseUnfilledPay(
   if (openHanded <= 0) return;
   const monthDays = api.parameter("jobsDaysPerYear") / 12;
   const perMonth = monthDays / trading.days;
-  // What the last month left after wages, purchases and compliance, in a month's days, less raises already given this review.
-  let room =
-    (trading.salesMinor -
-      trading.payrollMinor -
-      trading.costsMinor -
-      trading.complianceMinor) *
-    perMonth;
-  // What one head's seat can carry in a month: sales less purchases and compliance, shared across the heads.
+  // What the last month left after wages, purchases and compliance, in a month's days, less raises already given this review. The trading month's costs already hold all three.
+  let room = (trading.salesMinor - trading.costsMinor) * perMonth;
+  // What one head's seat can carry in a month: sales less purchases and compliance (the costs less the wages they hold), shared across the heads.
   const carriesMonthly =
-    ((trading.salesMinor - trading.costsMinor - trading.complianceMinor) *
+    ((trading.salesMinor - trading.costsMinor + trading.payrollMinor) *
       perMonth) /
     heads;
   if (carriesMonthly <= 0) return;
@@ -1286,14 +1281,22 @@ function wageFloor(api: CoreAPI): number {
   return lawInForce(api, "minimum-wage").value ?? api.parameter("zero");
 }
 
-function tenureYears(api: CoreAPI, job: JobInput): number {
+/** Years a worker has held their job: a counted worker by their counted record, a full person by their work commitment (or the job they held before a fill-in). */
+export function tenureYears(api: CoreAPI, job: JobInput): number {
   if (isCounted(api, job.personId)) return countedTenureYears(api, job);
   const commitment = [
     ...(core(api).work.commitmentsByPerson.get(job.personId) ?? []),
   ]
     .map((id) => core(api).work.commitments.get(id)!)
     .find((row) => row.jobId === job.id);
-  const since = commitment?.startsAt ?? api.state.startedAt;
+  // A counted worker's hire here dates their job, as it did before they were
+  // filled in (countedTenureYears); a full hire keeps no such date.
+  const since =
+    (store(api).table("pay").get(job.id) as { since?: string } | undefined)
+      ?.since ??
+    commitment?.heldSince ??
+    commitment?.startsAt ??
+    api.state.startedAt;
   return (
     daysBetweenText(since, api.state.date) / api.parameter("jobsDaysPerYear")
   );
@@ -2280,6 +2283,8 @@ function hireCounted(
     personId: seeker.personId,
     payrollCalendarId: calendar!.id,
     startsAt: addDays(makeIsoDate(api.state.date), 1),
+    // A new hire's own: a filled-in template's earlier tenure is not copied.
+    heldSince: undefined,
     endsAt: undefined,
     hourlyMinor: position.hourlyMinor,
     scheduleTemplateJobId: role.template.id,
@@ -3215,6 +3220,7 @@ function hire(
       personId: person.id,
       payrollCalendarId: newCalendar.id,
       startsAt,
+      heldSince: undefined,
       endsAt: undefined,
       hourlyMinor: pay,
       scheduleTemplateJobId: template.id,

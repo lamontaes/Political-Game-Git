@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: who runs follows each resident's own reasons (drives, money, traits, standing, the seat), never a fixed share; the real share checks the town's total and never decides one person. One rule, all 56 places: the check draws its places from all 56 and names each place and seed. Sliding scales and causes: nothing flips at a cutoff. Research before building: the Ballotpedia counts are the check and carry their year and URL.
 
-**Done when.** In a played world (buildBenchWorld) in at least six places drawn from all 56, named with their seeds, the share of local contests with no more candidates than seats falls between 50 and 80 percent across the places taken together, shown by contest record ids and a count of filings per contest, with each filing tracing to a candidacy decision; a test in src/core2/who-runs.test.ts or a new calibration test reports the share and the places.
+**Done when.** In a played world (buildBenchWorld) in at least six places drawn from all 56, named with their seeds, the share of local contests with no more candidates than seats falls between 50 and 80 percent across the places taken together, shown by contest record ids and a count of filings per contest, with each filing tracing to a candidacy decision; a test in src/core2/who-runs.test.ts or a new calibration test reports the share and the places. **On screen.** Nothing yet: filed play-local-races-on-screen, which puts it on Politics → Campaigns.
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/data/candidacy/parameters.json, src/core2/who-runs.test.ts
 
@@ -32,3 +32,5 @@ Sent back 2026-10-23 from PR #5592 (branch claude/pool-elections-local-races-too
 Sent back 2026-10-23 from PR #5804 (branch claude/local-races-closeout): The calibration test omits contest IDs, filing counts and candidacy-decision traces, permits 85 percent versus the required 80-percent ceiling, and lacks a row-per-acceptance evidence table; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): unrelated housing scope removed, but pooled calibration share and contest-to-filing decision proof remain explicitly NOT MET; finish acceptance or supply a valid bounded reporting specification; finish on that branch, merge main into it first.
+
+Oct 25 audit: From the dropped elections-local-races-share-above-band: pooled 94 of 111 local seats uncontested (85 percent) on Oct 20; try the staying-out pull at 3.8.

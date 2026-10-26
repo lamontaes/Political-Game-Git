@@ -24,6 +24,10 @@
     "speak": "Spoke",
     "state-of-the-city": "State of the city"
   },
+  "creator": {
+    "people": "people",
+    "about": "about"
+  },
   "endedBy": {
     "start": "Shift starts",
     "end": "Shift ends",
@@ -70,6 +74,17 @@
     "event": "Hold an event",
     "interview": "Ask for an interview",
     "hours": "hours"
+  },
+  "campaignUnavailable": {
+    "noHouseholds": "No households in town",
+    "noPlatform": "Choose your platform first",
+    "eventMoney": "Hall {price} · campaign {cash}",
+    "noOutlet": "No paper or station here",
+    "interviewed": "Every outlet here has interviewed you",
+    "outletsFull": "No outlet has room this week",
+    "notKnown": "Not known enough for television yet",
+    "nobodyReached": "Nobody you can reach yet",
+    "allGave": "Everyone you can reach has given"
   },
   "campaignContribute": {
     "give": "Put in your own money",
