@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: merger3/candidacy-sample-comment-oct26
-pr:
+pr: #6150
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T06:54:43.036Z
