@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: the plan stays a weighed choice. Never loosen a check: the births rate the opening and the year are checked against stays the target. Sliding scales: the waiting side's shift is a parameter, not a cutoff. Research before building: the weight comes from the rows in data/research/trait-effect-sizes.json.
 
-**Done when.** In one year of buildBenchWorld in two places drawn from all 56, seeds named, renewal.plan-child reaches net odds from 1.2 to 3.9 between the thirds, the share of reviews that plan a child is within 10% of the same place's share at the general weight, and births in the year stay inside their checked band.
+**Done when.** In one year of buildBenchWorld in two places drawn from all 56, seeds named, renewal.plan-child reaches net odds from 1.2 to 3.9 between the thirds, the share of reviews that plan a child is within 10% of the same place's share at the general weight, and births in the year stay inside their checked band. **On screen.** Nothing yet: it would show on the People web and the Journal, and nothing there reads it.
 
 **Files.** src/core2/births-plan.ts, src/core2/data/parameters.json, data/content/trait-decision-gaps.json
 

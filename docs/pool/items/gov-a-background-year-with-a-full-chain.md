@@ -3,7 +3,7 @@ id: gov-a-background-year-with-a-full-chain
 title: "A background year with a full chain."
 area: gov
 kind: feature
-priority: 2
+priority: 3
 status: open
 claimed-by:
 pr: #5665
@@ -35,3 +35,5 @@ Measured Oct 20 (claude/pool-background-chain), plain year (the player proposes 
 So the premise (only the player's minimum-wage bill starts the chain) is out of date: background bodies pass 58 to 78 bills a year, employers' groups form on their own from policies that bind employers (`employerStakes` reads any policy-question provision, not only the wage floor), and those groups meet the members who vote. The break is the next link. `offerBribe` (`interest-groups.ts`) runs on each first meeting, but `considerBribe` (`corruption.ts`) writes a record to the `crimes` table only when the lobbyist offers, and in 4 draws and 11 to 93 meetings none did, so a refusal leaves nothing: its reasons (`record.reasons.offer`) are built and thrown away. What is left to build: keep a refusal with its reasons where an engine reads it (the bench's why view, the director), and decide from the offer decision's traits and stake why no lobbyist offers (the parameters `corruptionTraitWeight`, `bribeShareOfStake`, the stake against a year of the lobbyist's living costs). Not built: whether zero offers in a year is the realistic rate is the owner's call (a bribe attempt is rare), so the done-when's "at least one offer or refusal" is met by recording refusals, not by raising the offer rate.
 
 Sent back 2026-10-23 from PR #5665 (branch claude/background-chain-refusals): the lobby meeting bribe field has no reader; implement the required downstream chain and its played-world proof; existing merger return still applies with no corrective source commit; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

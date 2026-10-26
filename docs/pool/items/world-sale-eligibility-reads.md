@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: the engine must read the law when it decides, not log it afterward. No dice: refusal comes from the law in force and the applicant's own record. This is a game, not a spreadsheet: the player sees a refusal as a story, never a form. One rule, all 56 places: each place's law comes from data.
 
-**Done when.** In a test in src/core2/jobs.test.ts, in a drawn place (buildBenchWorld, seed named in the PR body), a refused applicant's job-change record carries the law reason and a complaint record id reaches justice. The owner plays it: Hiring reads the discrimination ban.
+**Done when.** In a test in src/core2/jobs.test.ts, in a drawn place (buildBenchWorld, seed named in the PR body), a refused applicant's job-change record carries the law reason and a complaint record id reaches justice. The owner plays it: Hiring reads the discrimination ban. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/modules/justice.ts, src/core2/data/stopgaps.json
 

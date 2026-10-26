@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T11:34:29.958Z
 
 **Rules.** One rule, all 56 places: the test judges a law where the drawn town has its subject, read from the town's own records, and names the place when it has none. No dice: nothing about the law's reach changes; the test only reads the town.
 
-**Done when.** `recordRoundTrip` checks the law's mechanic instead of its reach (the existing `mayBeEmpty` path) when the drawn town has no resident or counted group in any of the law's selected ages and no organization in its selected groups, logging the place and which selectors found nobody; the test passes on seed 4fbd5b9fb2634ed13ab0c0251ffacef17651e45390b4c2b358c7d86e96055bc3 (Monowi, Nebraska) and on a fresh seed named in the PR, and still fails if the age check's handler is switched off in a town that has teenagers.
+**Done when.** `recordRoundTrip` checks the law's mechanic instead of its reach (the existing `mayBeEmpty` path) when the drawn town has no resident or counted group in any of the law's selected ages and no organization in its selected groups, logging the place and which selectors found nobody; the test passes on seed 4fbd5b9fb2634ed13ab0c0251ffacef17651e45390b4c2b358c7d86e96055bc3 (Monowi, Nebraska) and on a fresh seed named in the PR, and still fails if the age check's handler is switched off in a town that has teenagers. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/law-reach-group-a.test.ts
 
