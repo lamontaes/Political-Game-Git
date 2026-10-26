@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-05-politics-lists-wrong-officials-a
-pr:
+pr: #6127
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
