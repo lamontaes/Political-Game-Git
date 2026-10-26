@@ -21,7 +21,16 @@ import { advanceCore } from "./life";
 import { appliedOn, type LawAppliedRow } from "./law-reach/applied";
 import { inForceHere, reachedBy } from "./law-reach/host";
 import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";
+import { townFacts } from "./law-reach/group-b-people";
 import { ownerOf } from "./modules/business";
+import { ageBiasAt } from "./jobs-age-bias";
+import { reachOf } from "./counted-reach";
+import {
+  currentStaff,
+  reachParameter,
+  townPeople,
+} from "./law-reach/group-a-records";
+import { countedStaffOf } from "./modules/residents";
 import { enactLaw, lawChain } from "./modules/laws";
 import { amendBudget, governments } from "./modules/budgets";
 import { corePlaceByKey } from "./place-lookup";
@@ -46,6 +55,8 @@ const KEYS = {
   shift: `${P}transportation-infrastructure.shift-highway-funds-to-transit`,
 };
 const LINES = ["parks", "naturalResources", "highways"] as const;
+/** How many towns are drawn, in the seeded order, before one with a subject for every law is found. */
+const TRIES = 12;
 
 function countyOf(key: string): string | undefined {
   const geoid = corePlaceByKey(key)?.sourceGeoid ?? "";
@@ -91,43 +102,128 @@ function setLaw(core: CoreState, api: CoreAPI, series: string, value: number) {
 const step = (core: CoreState, days: number) =>
   advanceCore(core, addDays(makeIsoDate(core.date), days));
 
-/** A generated world that has every subject the laws bind, or null (the place is named in `tried`). */
-function subjectWorld(placeKey: string, tried: string[]) {
-  const { core } = buildBenchWorld(seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey,
-  });
-  const api = coreAPI(core);
-  tried.push(placeKey);
+/**
+ * The subjects a drawn town lacks, read from its opening records before
+ * anything is played: the organizations the laws bind (emitters, farms,
+ * platforms, employers, builders), the residents they reach (named and
+ * counted), the town's budget, and, through the engine's own rule, the
+ * employers the age penalty can bind. A town lacking none plays, and a law
+ * with no applied record after play then fails the test; it is never a
+ * reason to redraw. A hire made over the age penalty and a builder starting a
+ * project on farmland are the jobs and housing engines' own choices upstream
+ * of the laws, so a town with the employers, the seekers and the builder
+ * stands in for them.
+ */
+function lacking(core: CoreState, api: CoreAPI): string[] {
   const town = lawChain(api).townPlaceId;
   const orgs = [...core.organizations.values()].filter(
     (o) => o.placeId === town,
   );
   const has = (c: string) => orgs.some((o) => o.classification === c);
-  step(core, 5);
-  const emitters = orgs.filter((o) =>
-    ["enterprise:manufacturing", "enterprise:mining"].includes(
-      o.classification ?? "",
-    ),
-  );
-  // Age verification binds an online platform with a cost base (business.ts readBusinessDuty).
-  const platform = orgs.some(
-    (o) =>
-      o.classification === "enterprise:telecommunications" &&
-      (core.finance.businesses.get(o.id)?.annualOtherCostsMinor ?? 0) > 0,
-  );
+  const staffOf = (id: string) =>
+    currentStaff(api, id).length + countedStaffOf(core, id);
+  const facts = townFacts(api, town);
+  const date = core.date;
+  const born = (birthDate: string) =>
+    Number(date.slice(0, 4)) -
+    Number(birthDate.slice(0, 4)) -
+    (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+  const from = reachParameter("reproductiveAgeFrom");
+  const below = reachParameter("reproductiveAgeBelow");
+  const women = townPeople(api).filter((p) => {
+    const age = born(p.birthDate);
+    return p.looks?.gender === "female" && age >= from && age < below;
+  });
+  const countedWomen = reachOf(core, town, {
+    ageFrom: from,
+    ageBelow: below,
+    gender: "female",
+  }).counted.people;
+  const seekers = facts.residents.filter((r) => !r.employed);
+  // The ages where the penalty starts and where it is whole: a younger seeker and an older one make a pick the penalty can change.
+  const penaltyFrom = api.parameter("jobsAgeBiasFromAge");
+  const needs: [string, boolean][] = [
+    // The clean air plan binds stationary emitters (a county that misses a standard is drawn first, in candidates()).
+    [
+      "a stationary emitter (manufacturing or mining)",
+      has("enterprise:manufacturing") || has("enterprise:mining"),
+    ],
+    ["a farm", has("enterprise:agriculture")],
+    // Age verification binds an online platform with a cost base (business.ts readBusinessDuty).
+    [
+      "an online platform with a cost base",
+      orgs.some(
+        (o) =>
+          o.classification === "enterprise:telecommunications" &&
+          (core.finance.businesses.get(o.id)?.annualOtherCostsMinor ?? 0) > 0,
+      ),
+    ],
+    [
+      "an employing business",
+      orgs.some(
+        (o) =>
+          (o.classification ?? "").startsWith("enterprise:") &&
+          staffOf(o.id) > 0,
+      ),
+    ],
+    [
+      "a small employer the age penalty can bind",
+      orgs.some(
+        (o) =>
+          (o.classification ?? "").startsWith("enterprise:") &&
+          ageBiasAt(api, town, staffOf(o.id)) !== null,
+      ),
+    ],
+    [
+      "seekers of work, older and younger",
+      seekers.some((r) => r.age >= api.parameter("jobsAgeBiasFullAge")) &&
+        seekers.some((r) => r.age < penaltyFrom),
+    ],
+    ["a construction business", has("enterprise:construction")],
+    ["a named woman of childbearing age", women.length > 0],
+    ["counted women of childbearing age", countedWomen > 0],
+    ["a named resident", facts.residents.some((r) => r.named)],
+    [
+      "a city government's budget",
+      !!governments(api).find((g) => g.level === "city"),
+    ],
+  ];
+  return needs.filter(([, ok]) => !ok).map(([what]) => what);
+}
+
+/** Builds a drawn town and reads what subjects it lacks from its opening records; nothing is played. */
+function draw(placeKey: string, tried: string[]) {
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey,
+  });
+  const api = coreAPI(core);
+  const lacks = lacking(core, api);
+  tried.push(`${placeKey}: lacks ${lacks.join(", ") || "nothing"}`);
   const gov = governments(api).find((g) => g.level === "city");
-  if (!emitters.length || !has("enterprise:agriculture") || !platform || !gov)
-    return null;
   return {
     core,
     api,
     gov,
-    town,
+    lacks,
+    town: lawChain(api).townPlaceId,
     where: `seed ${seed}, ${core.placeMetadata.placeName} [${placeKey}]`,
   };
 }
-type World = NonNullable<ReturnType<typeof subjectWorld>>;
+type World = ReturnType<typeof draw> & {
+  readonly gov: NonNullable<ReturnType<typeof draw>["gov"]>;
+};
+
+/** The first town in the seeded order that has a subject for every law, by its opening records; every town tried is named when none does. */
+function eligibleTown(tried: string[]): World {
+  for (const placeKey of candidates().slice(0, TRIES)) {
+    const d = draw(placeKey, tried);
+    if (!d.lacks.length && d.gov) return d as World;
+  }
+  throw new Error(
+    `no drawn town had a subject for every law; tried ${tried.join("; ")} (seed ${seed})`,
+  );
+}
 
 /** Repeal what stood (setting 0 over any starting yes), so every law is then enacted as new. */
 function repealAll(w: World) {
@@ -169,236 +265,251 @@ it("names, for each law, the record, the journal entry and who it reached", () =
   const tried: string[] = [];
   const posts: Post[] = [];
   try {
-    for (const placeKey of candidates().slice(0, 6)) {
-      posts.length = 0;
-      const w = subjectWorld(placeKey, tried);
-      if (!w) continue;
-      const { api, core, gov, where } = w;
-      const { lawKeys } = repealAll(w);
-      // The first weeks are kept whole; after them only the entries that name a person the ban put in work.
-      let recordAll = true;
-      const watch = new Set<string>();
-      setJournalTrace((input) => {
-        if (
-          recordAll ||
-          [...watch].some((id) => input.sourceRef.id.includes(id))
-        )
-          posts.push({ id: input.id, ref: input.sourceRef.id });
-      });
-      for (const key of lawKeys) setLaw(core, api, key, 1);
-      fixtureLines(w);
-      step(core, 40);
+    // The first town with a subject for every law, by its opening records, plays; none is redrawn after play.
+    const w = eligibleTown(tried);
+    const { api, core, gov, where } = w;
+    const { lawKeys } = repealAll(w);
+    // The first weeks are kept whole; after them only the entries that name a person the ban put in work.
+    let recordAll = true;
+    const watch = new Set<string>();
+    setJournalTrace((input) => {
+      if (recordAll || [...watch].some((id) => input.sourceRef.id.includes(id)))
+        posts.push({ id: input.id, ref: input.sourceRef.id });
+    });
+    for (const key of lawKeys) setLaw(core, api, key, 1);
+    fixtureLines(w);
+    step(core, 40);
 
-      const postWith = (...needles: string[]) =>
-        posts.find((p) =>
-          needles.every((n) => p.ref.includes(n) || p.id.includes(n)),
-        );
-      const rowsOn = (key: string, what?: string) =>
-        appliedOn(api, key).filter((r) => !what || r.what === what);
-      const personOf = (key: string, rows: readonly LawAppliedRow[]) =>
-        [...new Set(rows.map((r) => r.lawId))]
-          .flatMap((lawId) => reachedBy(api, key, lawId))
-          .find((r) => api.state.people.has(r.personId))?.personId;
-      const chains: Chain[] = [];
-      const note = (
-        law: string,
-        applied: string | undefined,
-        journal: string | undefined,
-        reached: string | undefined,
-      ) => {
-        expect(applied, `${where}: ${law} record`).toBeTruthy();
-        expect(journal, `${where}: ${law} journal entry`).toBeTruthy();
-        expect(reached, `${where}: ${law} reached`).toBeTruthy();
-        chains.push({
-          law,
-          applied: applied!,
-          journal: journal!,
-          reached: reached!,
-        });
-      };
-
-      // A duty on businesses: the organization pays on the journal; the people the law protects, or its owner, are named.
-      const duty = (label: string, key: string, cause: string) => {
-        const row = rowsOn(key).find(
-          (r) => r.target === "organization" && r.amountMinor < 0,
-        );
-        const post = row && postWith(`compliance:cost:${row.targetId}:`, cause);
-        const person =
-          personOf(key, rowsOn(key)) ??
-          (row ? ownerOf(api, row.targetId) : undefined);
-        note(
-          label,
-          row?.id,
-          post?.id,
-          `${person ?? "no person"} / ${row?.targetId}`,
-        );
-      };
-      duty("clean air plan", KEYS.cleanAir, "clean-air");
-      duty(
-        "age verification",
-        KEYS.ageVerification,
-        `law:${KEYS.ageVerification}`,
+    const postWith = (...needles: string[]) =>
+      posts.find((p) =>
+        needles.every((n) => p.ref.includes(n) || p.id.includes(n)),
       );
-      duty("consumer data privacy", KEYS.privacy, `law:${KEYS.privacy}`);
+    const rowsOn = (key: string, what?: string) =>
+      appliedOn(api, key).filter((r) => !what || r.what === what);
+    // Every law whose producer acts in the first weeks has applied it by now: the town had a subject for each, so a law with no record fails here and is never redrawn.
+    const reachB = api.moduleState(REACH_B_MODULE_ID).table("people");
+    const absent = [
+      KEYS.cleanAir,
+      KEYS.ageVerification,
+      KEYS.privacy,
+      KEYS.groundwater,
+      KEYS.facial,
+      KEYS.parksFunding,
+      KEYS.shift,
+      KEYS.abortion,
+    ]
+      .filter((key) => !rowsOn(key).length)
+      .concat(
+        LINES.map((line) => `budget-line:${line}`).filter(
+          (key) => !reachB.query("byKey", [key, null]).length,
+        ),
+      );
+    expect(
+      absent,
+      `${where}: laws with no applied record after 40 days`,
+    ).toEqual([]);
+    const personOf = (key: string, rows: readonly LawAppliedRow[]) =>
+      [...new Set(rows.map((r) => r.lawId))]
+        .flatMap((lawId) => reachedBy(api, key, lawId))
+        .find((r) => api.state.people.has(r.personId))?.personId;
+    const chains: Chain[] = [];
+    const note = (
+      law: string,
+      applied: string | undefined,
+      journal: string | undefined,
+      reached: string | undefined,
+    ) => {
+      expect(applied, `${where}: ${law} record`).toBeTruthy();
+      expect(journal, `${where}: ${law} journal entry`).toBeTruthy();
+      expect(reached, `${where}: ${law} reached`).toBeTruthy();
+      chains.push({
+        law,
+        applied: applied!,
+        journal: journal!,
+        reached: reached!,
+      });
+    };
 
-      // A cap on a farm's water: the farm sells less outside the town; its own books are on the journal.
-      const farm = rowsOn(KEYS.groundwater).find(
+    // A duty on businesses: the organization pays on the journal; the people the law protects, or its owner, are named.
+    const duty = (label: string, key: string, cause: string) => {
+      const row = rowsOn(key).find(
         (r) => r.target === "organization" && r.amountMinor < 0,
       );
+      const post = row && postWith(`compliance:cost:${row.targetId}:`, cause);
+      const person =
+        personOf(key, rowsOn(key)) ??
+        (row ? ownerOf(api, row.targetId) : undefined);
       note(
-        "groundwater limit",
-        farm?.id,
-        farm && postWith(farm.targetId)?.id,
-        `${(farm && ownerOf(api, farm.targetId)) ?? "no person"} / ${farm?.targetId}`,
+        label,
+        row?.id,
+        post?.id,
+        `${person ?? "no person"} / ${row?.targetId}`,
       );
-
-      // A law that adds to a budget line: the treasury pays the line, its share under the law's own payment, to the firm that won the work and to the town's outside market; the government and its residents are reached.
-      const line = (
-        label: string,
-        key: string,
-        budgetLine: string,
-        what: string,
-        paidWhat?: string,
-      ) => {
-        const govRow = rowsOn(key, what).find((r) => r.target === "government");
-        const group = rowsOn(key, what).find((r) => r.target === "group");
-        expect(
-          group?.count ?? 0,
-          `${where}: ${label} residents`,
-        ).toBeGreaterThan(0);
-        // What the law added is paid on its own row; a move between lines is recorded on the government's.
-        const paid = paidWhat
-          ? rowsOn(key, paidWhat).find((r) => r.amountMinor > 0)
-          : govRow;
-        expect(
-          paid?.amountMinor ?? 0,
-          `${where}: ${label} money`,
-        ).toBeGreaterThan(0);
-        note(
-          label,
-          paid?.id,
-          paid &&
-            (paidWhat
-              ? postWith(paid.lawId, `:${govRow?.targetId}:${budgetLine}:`)
-              : postWith(`:${paid.targetId}:${budgetLine}:`)
-            )?.id,
-          `${personOf(key, rowsOn(key)) ?? "no person"} / ${govRow?.targetId} / ${group?.targetId}${paid && paidWhat ? ` / ${paid.targetId}` : ""}`,
-        );
-      };
-      line(
-        "dedicated parks funding",
-        KEYS.parksFunding,
-        "parks",
-        "parks-line-funded",
-        "parks-line-paid",
-      );
-      line(
-        "facial recognition limit",
-        KEYS.facial,
-        "police",
-        "police-oversight-funded",
-        "police-oversight-paid",
-      );
-      line(
-        "shift highway funds to transit",
-        KEYS.shift,
-        "transit",
-        "highway-money-moved-to-transit",
-      );
-
-      // A budget line a measure changed: the people it reached by name, and the money on the line.
-      const reachB = api.moduleState(REACH_B_MODULE_ID).table("people");
-      for (const budgetLine of LINES) {
-        const key = `budget-line:${budgetLine}`;
-        const reached = (
-          reachB.query("byKey", [key, null]) as unknown as {
-            id: string;
-            personId: string;
-          }[]
-        ).find((r) => api.state.people.has(r.personId));
-        note(
-          `budget line ${budgetLine}`,
-          reached?.id,
-          (budgetLine === "highways"
-            ? postWith("law-reach:budget-line:highways")
-            : undefined
-          )?.id ?? postWith(`:${gov.id}:${budgetLine}:`)?.id,
-          reached?.personId,
-        );
-      }
-
-      // Counted women of childbearing age: the law moves births, and no journal entry cites it, so the money named is a reached woman's own household's.
-      const women = rowsOn(KEYS.abortion).find((r) => r.target === "group");
-      expect(women?.count ?? 0, `${where}: women`).toBeGreaterThan(0);
-      const reachedWomen = [
-        ...new Set(rowsOn(KEYS.abortion).map((r) => r.lawId)),
-      ]
-        .flatMap((lawId) => reachedBy(api, KEYS.abortion, lawId))
-        .map((r) => r.personId)
-        .filter((id) => api.state.people.has(id));
-      const homeOf = (id: string) => api.state.people.get(id)?.householdId;
-      const entryOf = (id: string) =>
-        postWith(id) ?? (homeOf(id) ? postWith(homeOf(id)!) : undefined);
-      const woman = reachedWomen.find((id) => entryOf(id));
-      note(
-        "restriction on abortion",
-        women?.id,
-        woman && entryOf(woman)?.id,
-        `${woman} / ${women?.targetId}`,
-      );
-
-      // Two chains take weeks: a hire made over the age penalty, and a builder the farmland rule restricts. Keep stepping, up to a year, until both are on the journal.
-      const hired = () =>
-        rowsOn(KEYS.discrimination, "hired-over-age-penalty").find((r) =>
-          postWith(r.targetId.replace("hired:", ""), "work-payroll"),
-        );
-      const restricted = () =>
-        rowsOn(KEYS.farmland).find((r) => postWith(r.targetId));
-      recordAll = false;
-      for (let days = 0; days < 360 && !(hired() && restricted()); days += 30) {
-        for (const r of rowsOn(KEYS.discrimination, "hired-over-age-penalty"))
-          watch.add(r.targetId.replace("hired:", ""));
-        for (const r of rowsOn(KEYS.farmland)) watch.add(r.targetId);
-        step(core, 30);
-      }
-      setJournalTrace(null);
-      const hire = hired();
-      const land = restricted();
-      if (!hire || !land) continue;
-      expect(
-        rowsOn(KEYS.discrimination, "hiring-bound-by-ban").length,
-        `${where}: small employers bound`,
-      ).toBeGreaterThan(0);
-      const hiredId = hire.targetId.replace("hired:", "");
-      note(
-        "ban on discrimination",
-        hire.id,
-        postWith(hiredId, "work-payroll")?.id,
-        hiredId,
-      );
-      // Builders barred from farmland: the housing engine records the builder it applied the law to.
-      note(
-        "farmland protection",
-        land.id,
-        postWith(land.targetId)?.id,
-        land.targetId,
-      );
-
-      expect(chains.length, `${where}: a chain for each of 13 laws`).toBe(13);
-      for (const c of chains)
-        expect(
-          posts.some((p) => p.id === c.journal),
-          `${where}: ${c.law} journal entry ${c.journal} is on the journal`,
-        ).toBe(true);
-      expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
-        core.cashJournal.totals.grossCreditMinor,
-      );
-      govReport("law-wiring-rights-env", JSON.stringify({ where, chains }));
-      return;
-    }
-    throw new Error(
-      `no place with every subject; tried ${tried.join(", ")} (seed ${seed})`,
+    };
+    duty("clean air plan", KEYS.cleanAir, "clean-air");
+    duty(
+      "age verification",
+      KEYS.ageVerification,
+      `law:${KEYS.ageVerification}`,
     );
+    duty("consumer data privacy", KEYS.privacy, `law:${KEYS.privacy}`);
+
+    // A cap on a farm's water: the farm sells less outside the town; its own books are on the journal.
+    const farm = rowsOn(KEYS.groundwater).find(
+      (r) => r.target === "organization" && r.amountMinor < 0,
+    );
+    note(
+      "groundwater limit",
+      farm?.id,
+      farm && postWith(farm.targetId)?.id,
+      `${(farm && ownerOf(api, farm.targetId)) ?? "no person"} / ${farm?.targetId}`,
+    );
+
+    // A law that adds to a budget line: the treasury pays the line, its share under the law's own payment, to the firm that won the work and to the town's outside market; the government and its residents are reached.
+    const line = (
+      label: string,
+      key: string,
+      budgetLine: string,
+      what: string,
+      paidWhat?: string,
+    ) => {
+      const govRow = rowsOn(key, what).find((r) => r.target === "government");
+      const group = rowsOn(key, what).find((r) => r.target === "group");
+      expect(group?.count ?? 0, `${where}: ${label} residents`).toBeGreaterThan(
+        0,
+      );
+      // What the law added is paid on its own row; a move between lines is recorded on the government's.
+      const paid = paidWhat
+        ? rowsOn(key, paidWhat).find((r) => r.amountMinor > 0)
+        : govRow;
+      expect(
+        paid?.amountMinor ?? 0,
+        `${where}: ${label} money`,
+      ).toBeGreaterThan(0);
+      note(
+        label,
+        paid?.id,
+        paid &&
+          (paidWhat
+            ? postWith(paid.lawId, `:${govRow?.targetId}:${budgetLine}:`)
+            : postWith(`:${paid.targetId}:${budgetLine}:`)
+          )?.id,
+        `${personOf(key, rowsOn(key)) ?? "no person"} / ${govRow?.targetId} / ${group?.targetId}${paid && paidWhat ? ` / ${paid.targetId}` : ""}`,
+      );
+    };
+    line(
+      "dedicated parks funding",
+      KEYS.parksFunding,
+      "parks",
+      "parks-line-funded",
+      "parks-line-paid",
+    );
+    line(
+      "facial recognition limit",
+      KEYS.facial,
+      "police",
+      "police-oversight-funded",
+      "police-oversight-paid",
+    );
+    line(
+      "shift highway funds to transit",
+      KEYS.shift,
+      "transit",
+      "highway-money-moved-to-transit",
+    );
+
+    // A budget line a measure changed: the people it reached by name, and the money on the line.
+    for (const budgetLine of LINES) {
+      const key = `budget-line:${budgetLine}`;
+      const reached = (
+        reachB.query("byKey", [key, null]) as unknown as {
+          id: string;
+          personId: string;
+        }[]
+      ).find((r) => api.state.people.has(r.personId));
+      note(
+        `budget line ${budgetLine}`,
+        reached?.id,
+        (budgetLine === "highways"
+          ? postWith("law-reach:budget-line:highways")
+          : undefined
+        )?.id ?? postWith(`:${gov.id}:${budgetLine}:`)?.id,
+        reached?.personId,
+      );
+    }
+
+    // Counted women of childbearing age: the law moves births, and no journal entry cites it, so the money named is a reached woman's own household's.
+    const women = rowsOn(KEYS.abortion).find((r) => r.target === "group");
+    expect(women?.count ?? 0, `${where}: women`).toBeGreaterThan(0);
+    const reachedWomen = [...new Set(rowsOn(KEYS.abortion).map((r) => r.lawId))]
+      .flatMap((lawId) => reachedBy(api, KEYS.abortion, lawId))
+      .map((r) => r.personId)
+      .filter((id) => api.state.people.has(id));
+    const homeOf = (id: string) => api.state.people.get(id)?.householdId;
+    const entryOf = (id: string) =>
+      postWith(id) ?? (homeOf(id) ? postWith(homeOf(id)!) : undefined);
+    const woman = reachedWomen.find((id) => entryOf(id));
+    note(
+      "restriction on abortion",
+      women?.id,
+      woman && entryOf(woman)?.id,
+      `${woman} / ${women?.targetId}`,
+    );
+
+    // Two chains take weeks: a hire made over the age penalty, and a builder the farmland rule restricts. Keep stepping, up to a year, until both are on the journal.
+    const hired = () =>
+      rowsOn(KEYS.discrimination, "hired-over-age-penalty").find((r) =>
+        postWith(r.targetId.replace("hired:", ""), "work-payroll"),
+      );
+    const restricted = () =>
+      rowsOn(KEYS.farmland).find((r) => postWith(r.targetId));
+    recordAll = false;
+    for (let days = 0; days < 360 && !(hired() && restricted()); days += 30) {
+      for (const r of rowsOn(KEYS.discrimination, "hired-over-age-penalty"))
+        watch.add(r.targetId.replace("hired:", ""));
+      for (const r of rowsOn(KEYS.farmland)) watch.add(r.targetId);
+      step(core, 30);
+    }
+    setJournalTrace(null);
+    const hire = hired();
+    const land = restricted();
+    // The town had the employers, the seekers and the builder, so each law applied by now or the test fails.
+    const lateAbsent = [
+      ...(rowsOn(KEYS.discrimination, "hiring-bound-by-ban").length
+        ? []
+        : [`${KEYS.discrimination}: no small employer bound`]),
+      ...(hire ? [] : [`${KEYS.discrimination}: no hire over the age penalty`]),
+      ...(land ? [] : [`${KEYS.farmland}: no builder restricted`]),
+    ];
+    expect(
+      lateAbsent,
+      `${where}: laws with no applied record after a year`,
+    ).toEqual([]);
+    const hiredId = hire.targetId.replace("hired:", "");
+    note(
+      "ban on discrimination",
+      hire.id,
+      postWith(hiredId, "work-payroll")?.id,
+      hiredId,
+    );
+    // Builders barred from farmland: the housing engine records the builder it applied the law to.
+    note(
+      "farmland protection",
+      land.id,
+      postWith(land.targetId)?.id,
+      land.targetId,
+    );
+
+    expect(chains.length, `${where}: a chain for each of 13 laws`).toBe(13);
+    for (const c of chains)
+      expect(
+        posts.some((p) => p.id === c.journal),
+        `${where}: ${c.law} journal entry ${c.journal} is on the journal`,
+      ).toBe(true);
+    expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
+      core.cashJournal.totals.grossCreditMinor,
+    );
+    govReport("law-wiring-rights-env", JSON.stringify({ where, chains }));
   } finally {
     setJournalTrace(null);
     setBookkeeping(true);
@@ -409,75 +520,68 @@ it("moves the outcome web's measures after their lags and ends every record on r
   setBookkeeping(false);
   const tried: string[] = [];
   try {
-    for (const placeKey of candidates().slice(0, 6)) {
-      const w = subjectWorld(placeKey, tried);
-      if (!w) continue;
-      const { api, core, town, where } = w;
-      const { lawKeys, startedYes } = repealAll(w);
-      for (const key of lawKeys) setLaw(core, api, key, 1);
-      fixtureLines(w);
-      step(core, 40);
+    const w = eligibleTown(tried);
+    const { api, core, town, where } = w;
+    const { lawKeys, startedYes } = repealAll(w);
+    for (const key of lawKeys) setLaw(core, api, key, 1);
+    fixtureLines(w);
+    step(core, 40);
 
-      // The outcome web moves each measure after its lag.
-      step(core, 365);
-      const months = api
-        .moduleState("core2-outcome-web-v1")
-        .table("months")
-        .query("byPlace", [town]) as unknown as {
-        id: string;
-        effects: Record<string, number>;
-      }[];
-      const moved = (link: string) =>
-        months.find((m) => (m.effects[link] ?? 0) !== 0);
-      // The web reads each law as a cause every month; a link moves its
-      // measure when the law differs from the one the place really had (the
-      // research's base levels already include that law).
-      const lastRow = months
-        .slice()
-        .sort((x, y) => x.id.localeCompare(y.id))
-        .at(-1)! as unknown as {
-        values: Record<string, number>;
-        effects: Record<string, number>;
-      };
-      for (const [link, key] of [
-        ["abortion-ban-to-births", KEYS.abortion],
-        ["emission-rules-to-particulates", KEYS.cleanAir],
-        ["groundwater-limits-to-irrigation-pumping", KEYS.groundwater],
-        ["facial-recognition-limit-to-crime", KEYS.facial],
-      ] as const) {
-        expect(lastRow.values[`law:${key}`], `${where}: web reads ${key}`).toBe(
-          1,
-        );
-        if (!startedYes.get(key))
-          expect(
-            moved(link),
-            `${where}: web link ${link} (law began as no)`,
-          ).toBeDefined();
-      }
-      // The shift's link has a two-year lag: the web reads the law this year, and moves its measure after.
-      expect(
-        lastRow.values[`law:${KEYS.shift}`],
-        `${where}: web reads ${KEYS.shift}`,
-      ).toBe(1);
-      // The parks line's added percent is the measure its link reads.
-      expect(
-        lastRow.values["budget.parks-added-pct"],
-        `${where}: the web reads the parks line`,
-      ).toBeGreaterThan(0);
-
-      // Repeal: every row ends.
-      for (const key of lawKeys) setLaw(core, api, key, 0);
-      step(core, 40);
-      for (const key of lawKeys)
+    // The outcome web moves each measure after its lag.
+    step(core, 365);
+    const months = api
+      .moduleState("core2-outcome-web-v1")
+      .table("months")
+      .query("byPlace", [town]) as unknown as {
+      id: string;
+      effects: Record<string, number>;
+    }[];
+    const moved = (link: string) =>
+      months.find((m) => (m.effects[link] ?? 0) !== 0);
+    // The web reads each law as a cause every month; a link moves its
+    // measure when the law differs from the one the place really had (the
+    // research's base levels already include that law).
+    const lastRow = months
+      .slice()
+      .sort((x, y) => x.id.localeCompare(y.id))
+      .at(-1)! as unknown as {
+      values: Record<string, number>;
+      effects: Record<string, number>;
+    };
+    for (const [link, key] of [
+      ["abortion-ban-to-births", KEYS.abortion],
+      ["emission-rules-to-particulates", KEYS.cleanAir],
+      ["groundwater-limits-to-irrigation-pumping", KEYS.groundwater],
+      ["facial-recognition-limit-to-crime", KEYS.facial],
+    ] as const) {
+      expect(lastRow.values[`law:${key}`], `${where}: web reads ${key}`).toBe(
+        1,
+      );
+      if (!startedYes.get(key))
         expect(
-          appliedOn(api, key).filter((r) => r.target !== "person"),
-          `${where}: ${key} after repeal`,
-        ).toHaveLength(0);
-      return;
+          moved(link),
+          `${where}: web link ${link} (law began as no)`,
+        ).toBeDefined();
     }
-    throw new Error(
-      `no place with every subject; tried ${tried.join(", ")} (seed ${seed})`,
-    );
+    // The shift's link has a two-year lag: the web reads the law this year, and moves its measure after.
+    expect(
+      lastRow.values[`law:${KEYS.shift}`],
+      `${where}: web reads ${KEYS.shift}`,
+    ).toBe(1);
+    // The parks line's added percent is the measure its link reads.
+    expect(
+      lastRow.values["budget.parks-added-pct"],
+      `${where}: the web reads the parks line`,
+    ).toBeGreaterThan(0);
+
+    // Repeal: every row ends.
+    for (const key of lawKeys) setLaw(core, api, key, 0);
+    step(core, 40);
+    for (const key of lawKeys)
+      expect(
+        appliedOn(api, key).filter((r) => r.target !== "person"),
+        `${where}: ${key} after repeal`,
+      ).toHaveLength(0);
   } finally {
     setBookkeeping(true);
   }
