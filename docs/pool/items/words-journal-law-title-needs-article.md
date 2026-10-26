@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #6112
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The journal row for a vote names the law with the bill's short title (billName in src/director/journal.ts), and the graded line is "I voted for {law}.". A short title is always a name and its form word, such as "Bottle Deposit Act", so the rendered line reads "I voted for Bottle Deposit Act." without "the". Found by the laws lead while building the journal line for a learned law effect (laws-end-to-end-proof), whose authored lines say "the {law}" for this reason.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, data/english/parts/journal.json
 
 **Notes.** TODO
+
+Merger 0: Sent back 2026-10-26 from PR #6112 (branch words/journal-law-title-article): journal-bill-names.test.ts 103 makes all vote evidence conditional, allowing the vote Done-when row to go untested; finish on that branch, merge main into it first.

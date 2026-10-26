@@ -1,6 +1,11 @@
 /* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
+import { el } from "./ui/dom.mjs";
+import { makeButton, mountPagers } from "./ui/button.mjs";
+import { show, mountCloseButtons } from "./ui/panel.mjs";
+mountCloseButtons();
+mountPagers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
@@ -91,6 +96,22 @@ function pageWhenChanged(box, pager) {
 }
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+const compactWords = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  compactDisplay: "long",
+  maximumFractionDigits: 1,
+});
+/**
+ * A government's sum in a readable unit: "$5.2 trillion", or whole dollars
+ * to three figures below a million ("$48,300", "$12").
+ */
+const roundedDollars = (minor) => {
+  const whole = Math.round(Math.abs(minor / 100));
+  const sign = minor < 0 && whole > 0 ? "−" : "";
+  return whole >= 1e6
+    ? `${sign}$${compactWords.format(whole)}`
+    : `${sign}$${Math.round(Number(whole.toPrecision(3))).toLocaleString("en-US")}`;
+};
 /** The player card's date, and the time under it: the only place either appears. */
 function setClock(at) {
   const day = new Date(`${at.date}T12:00:00`).toLocaleDateString("en-US", {
@@ -111,12 +132,6 @@ function setClock(at) {
 /** A figure cropped to head and shoulders (Kit 12's bust). */
 function setBust(id, url) {
   $(id).style.backgroundImage = url ? `url("${url}")` : "";
-}
-function el(tag, props = {}, ...children) {
-  const node = document.createElement(tag);
-  Object.assign(node, props);
-  node.append(...children);
-  return node;
 }
 // A record id as the bench stores it (person_<hex>, official:term:seat:...).
 const RECORD_ID =
@@ -171,9 +186,6 @@ function screenArtwork({ portraitUrl, backgroundUrl, name }) {
     img.addEventListener("error", () => img.remove(), { once: true });
     media.append(img);
   }
-}
-function show(id, on) {
-  $(id).hidden = !on;
 }
 
 /** Soft contact shadows on the floor at each person's feet, under everyone. */
@@ -558,6 +570,26 @@ const amount = (value, unit) => {
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
+/**
+ * Who sets a level's rate: the level and the government its seats name
+ * ("State · Texas"). A stand-in row from another series (a state's average
+ * local sales tax where the town records none) says what it is instead.
+ */
+const lawLevelLabel = (law, level) =>
+  [
+    controls.levels?.[level.level] ?? words(level.level),
+    level.row.series !== law.series
+      ? `${words(level.row.series)}${level.row.estimate ? ` · ${words("estimate")}` : ""}`
+      : level.government,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+/** A law's later phase as a level row, with the government its level names. */
+const pendingLevel = (law, row) => ({
+  level: row.level,
+  row,
+  government: law.levels.find((l) => l.level === row.level)?.government,
+});
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -614,7 +646,7 @@ async function refresh() {
       $("backdrop").src = night.backdrop.url;
       drawPeople(night.people);
     }
-    await openSheet("campaigns");
+    await openSheet("results");
     return;
   }
   // A law that took effect: what changed in town.
@@ -653,6 +685,17 @@ async function act(path) {
         `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
       );
     }
+    // A job offer holds the clock: the offer itself, then the day goes on.
+    const offerStop = jobOfferStop(result.packet);
+    if (offerStop) {
+      const answered = await atTheOffer(offerStop);
+      if (answered) {
+        busy = false;
+        return act(
+          `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
+        );
+      }
+    }
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
   } catch (error) {
@@ -668,6 +711,18 @@ async function act(path) {
 function officeStop(value) {
   return value?.kind === "stop"
     ? value.stop.modules.find((row) => row.moduleId === "core2-office-day-v1")
+    : undefined;
+}
+/** A stop the jobs engine holds: an employer's offer to the player, when it
+ * arrives and again at its deadline. Every hold reason answers here, the
+ * offer-deadline kind included. */
+function jobOfferStop(value) {
+  return value?.kind === "stop"
+    ? value.stop.modules.find(
+        (row) =>
+          row.moduleId === "jobs" &&
+          (row.reasonKey === "job-offered" || row.kind === "offer-deadline"),
+      )
     : undefined;
 }
 const voteWords = () => controls.meeting ?? {};
@@ -727,9 +782,8 @@ function inMeeting() {
               ? []
               : [
                   ...["for", "against"].map((position) => {
-                    const b = el("button", {
+                    const b = makeButton({
                       className: "action",
-                      type: "button",
                       textContent:
                         words[
                           position === "for" ? "speakFor" : "speakAgainst"
@@ -745,9 +799,8 @@ function inMeeting() {
                     return b;
                   }),
                   ...["yes", "no", "abstain", "own"].map((vote) => {
-                    const b = el("button", {
+                    const b = makeButton({
                       className: "action",
-                      type: "button",
                       textContent: words[vote] ?? vote,
                     });
                     b.addEventListener("click", async () =>
@@ -791,9 +844,8 @@ function atDesk() {
           billBlock(
             item,
             ["sign", "veto", "own"].map((how) => {
-              const b = el("button", {
+              const b = makeButton({
                 className: "action",
-                type: "button",
                 textContent: words[how] ?? how,
               });
               b.addEventListener("click", async () =>
@@ -843,9 +895,8 @@ function atThePolls(scene) {
           };
           const chosen = contest.marked;
           const button = (text, candidateId) => {
-            const node = el("button", {
+            const node = makeButton({
               className: "action",
-              type: "button",
               textContent: text,
             });
             if (chosen) {
@@ -888,6 +939,80 @@ function atThePolls(scene) {
     draw(scene);
     show("ballot", true);
   });
+}
+// ---- A job offer (jobs): the hold is the offer itself ----
+// The employer, the job and the pay with Take it and Turn it down: the
+// engine offers, the player decides. Either answer releases the
+// hold and the day goes on; before the deadline the offer can also wait,
+// answerable at the Jobs tab, until the deadline holds the clock.
+async function atTheOffer(stopRow) {
+  const labels = controls.jobs ?? {};
+  const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`).catch(
+    () => ({ offers: [] }),
+  );
+  const offer = (view.offers ?? []).find((row) =>
+    stopRow.recordId.startsWith(`${row.id}:`),
+  );
+  if (!offer) return false;
+  $("job-offer-title").textContent = offer.title;
+  $("job-offer-employer").textContent = offer.employer;
+  $("job-offer-facts").replaceChildren(
+    row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
+    row(labels.deadline, proseDate(offer.deadline)),
+  );
+  $("job-offer-take").textContent = labels.accept ?? "";
+  $("job-offer-turn").textContent = labels.decline ?? "";
+  $("job-offer-wait").textContent = labels.notNow ?? "";
+  $("job-offer-status").textContent = "";
+  // The deadline holds the clock: answering is the only way out. An offer
+  // that just arrived can wait.
+  $("job-offer-wait").hidden = Boolean(stopRow.hold);
+  return await new Promise((resolve) => {
+    const close = (answered) => {
+      show("job-offer", false);
+      resolve(answered);
+    };
+    const answer = async (kind) => {
+      for (const button of $("job-offer").querySelectorAll("button"))
+        button.disabled = true;
+      try {
+        const result = await post(
+          `/api/jobs/answer?${new URLSearchParams({
+            offerId: offer.id,
+            answer: kind,
+          })}`,
+        );
+        if (result.answered) close(true);
+        else {
+          // The employer withdrew it while the moment stood open.
+          $("job-offer-status").textContent = labels.unavailable ?? "";
+          setTimeout(() => close(false), 1500);
+        }
+      } catch {
+        $("job-offer-status").textContent = labels.failed ?? "";
+        for (const button of $("job-offer").querySelectorAll("button"))
+          button.disabled = false;
+      }
+    };
+    $("job-offer-take").onclick = () => answer("accept");
+    $("job-offer-turn").onclick = () => answer("decline");
+    $("job-offer-wait").onclick = () => close(false);
+    // A later offer's moment must not inherit an answered one's disabled buttons.
+    for (const button of $("job-offer").querySelectorAll("button"))
+      button.disabled = false;
+    show("job-offer", true);
+    $("job-offer-take").focus();
+  });
+}
+/** The offer moment for a hold already open when the page loads. */
+async function openOfferMoment() {
+  const stopRow = jobOfferStop(packet);
+  if (!stopRow) return;
+  const answered = await atTheOffer(stopRow);
+  if (answered)
+    await act(
+      `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: packet.pauseId })}`,
+    );
 }
 // Day and Week run the world forward (owner, Oct 15, 2026); a calendar day
 // runs it to that day. A scene the director fires stops any of them there.
@@ -958,9 +1083,8 @@ function spokenLines(lines, speakerOf) {
 /** Numbered replies; a key press of the number says it. */
 function replies(choices, onPick) {
   return choices.map((choice) => {
-    const b = el("button", {
-      type: "button",
-      className: `reply${choice.lie ? " lying" : ""}`,
+    const b = makeButton({
+      className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
       // Filing is a control of its own, never worded like acknowledging a refusal.
       textContent:
         choice.control === "file"
@@ -990,7 +1114,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
-  $("talk-gap").classList.remove("marked");
+  gapButton.classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1029,10 +1153,17 @@ async function talkTo(otherId, momentId) {
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
 // A line that does not read right is marked where it is said; no time passes.
-$("talk-gap").addEventListener("click", async () => {
+// Mark gap is a developer control: it joins the talk box only while dev
+// mode is on, and is never in the player's markup.
+const gapButton = makeButton({
+  id: "talk-gap",
+  className: "action small",
+  textContent: "Mark gap",
+});
+gapButton.addEventListener("click", async () => {
   if (!talk) return;
   await post("/api/gap");
-  $("talk-gap").classList.add("marked");
+  gapButton.classList.add("marked");
 });
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
@@ -1049,6 +1180,7 @@ $("talk-leave").addEventListener("click", async () => {
     await post("/api/filing/leave");
     filing = undefined;
     show("filing-overlay", false);
+    $("game").classList.remove("filing-open");
     delete $("filing-title").dataset.contest;
     show("talk", false);
     await refresh();
@@ -1078,27 +1210,51 @@ function renderFiling(value) {
   }));
   $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
   renderFilingOverlay(value);
-  $("talk-choices").replaceChildren(
-    ...replies(value.visit.choices.slice(0, 6), async (choice) => {
-      // Filing carries the platform and party chosen on the overlay.
-      const params = new URLSearchParams({ key: choice.key });
-      if (choice.action.kind === "file") {
-        for (const select of $("filing-platform").querySelectorAll("select"))
-          if (select.value)
-            params.append("stance", `${select.name}=${select.value}`);
-        params.set("party", $("filing-party").value);
-      }
-      renderFiling(await post(`/api/filing/choose?${params}`));
-    }),
-  );
-  // The filing's record once it is made: its status.
+  const choices = value.visit.choices.slice(0, 6);
+  const buttons = replies(choices, async (choice) => {
+    // Filing carries the platform and party chosen on the overlay.
+    const params = new URLSearchParams({ key: choice.key });
+    if (choice.action.kind === "file") {
+      for (const select of $("filing-platform").querySelectorAll("select"))
+        if (select.value)
+          params.append("stance", `${select.name}=${select.value}`);
+      params.set("party", $("filing-party").value);
+    }
+    renderFiling(await post(`/api/filing/choose?${params}`));
+  });
+  // Each race told apart before the pick: its seat, its election day and
+  // who holds the seat now, from the contest's records.
+  const counter = controls.filing;
+  choices.forEach((choice, i) => {
+    const seat =
+      choice.action.kind === "pick" && value.seats?.[choice.action.contestId];
+    if (!seat) return;
+    buttons[i].append(
+      el("small", {
+        className: "reply-facts",
+        textContent: [
+          ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
+          proseDate(seat.electionDate),
+          seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
+        ].join(" · "),
+      }),
+    );
+  });
+  $("talk-choices").replaceChildren(...buttons);
+  // The filing's record once it is made: its status, shown as the record's
+  // label under the talk, not as words in the clerk's mouth.
   if (value.result)
     $("talk-lines").append(
       el("li", {
-        className: "speech",
+        className: "label",
         textContent: value.result.filing
-          ? value.result.status
-          : `${value.result.status} · ${(value.result.unmet ?? []).map((u) => u.rule).join(", ")}`,
+          ? (controls.filing?.status?.[value.result.status] ??
+            words(value.result.status))
+          : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
+              value.result.unmet ?? []
+            )
+              .map((u) => controls.filing?.rules?.[u.rule] ?? words(u.rule))
+              .join(", ")}`,
       }),
     );
   setScales({ available: false });
@@ -1106,17 +1262,21 @@ function renderFiling(value) {
 /** The named office's rules from its records, with the platform and party to file under. */
 function renderFilingOverlay(value) {
   const overlay = value?.overlay;
-  show("filing-overlay", Boolean(overlay && !value.result));
+  const open = Boolean(overlay && !value.result);
+  show("filing-overlay", open);
+  // The news card sits where the overlay does; it waits until the counter closes.
+  $("game").classList.toggle("filing-open", open);
   if (!overlay || $("filing-title").dataset.contest === overlay.contestId)
     return;
   $("filing-title").dataset.contest = overlay.contestId;
   $("filing-title").textContent = overlay.title;
+  // Each rule by its control name; the filing deadline is one of the rules.
+  const ruleNames = controls.filing?.rules ?? {};
   $("filing-checks").replaceChildren(
-    row("Deadline", overlay.filingDeadline),
     ...overlay.checks.map((check) => {
       const line = row(
-        check.rule,
-        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
+        ruleNames[check.rule] ?? words(check.rule),
+        `${dateOrValue(check.actual ?? "")}${check.required ? ` / ${dateOrValue(check.required)}` : ""}${check.metOn ? ` · ${controls.filing?.metOn ?? ""} ${proseDate(check.metOn)}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
       return line;
@@ -1164,7 +1324,9 @@ function partyRows(party) {
     const m = party.member;
     const line = row(
       words.member,
-      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+      // How well their views fit the party's, in words: the first band the
+      // record's agreement (-1 to 1) reaches.
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)?.label ?? "")}`,
     );
     // The tie's record, for the checks that read it.
     line.dataset.tieId = m.tieId;
@@ -1172,8 +1334,7 @@ function partyRows(party) {
     return [line];
   }
   return party.parties.map((p) => {
-    const b = el("button", {
-      type: "button",
+    const b = makeButton({
       textContent: `${words.join} ${p.name}`,
     });
     b.addEventListener("click", async () => {
@@ -1207,8 +1368,7 @@ function debatePanel(debate) {
     ...picks.map(({ question, pick }) =>
       el("label", {}, ` ${policyLabel(question)} `, pick),
     ),
-    el("button", {
-      type: "button",
+    makeButton({
       textContent: words.answer,
       onclick: async () => {
         await post(
@@ -1233,8 +1393,7 @@ function speechPanel(filing, venue) {
     return el(
       "div",
       {},
-      el("button", {
-        type: "button",
+      makeButton({
         textContent: controls.speech.begin,
         onclick: async () => {
           speechState = await post("/api/campaign/speech/begin");
@@ -1251,8 +1410,7 @@ function speechPanel(filing, venue) {
       {},
       ...said,
       el("label", { textContent: controls.speech.venue }, venue),
-      el("button", {
-        type: "button",
+      makeButton({
         textContent: controls.speech.give,
         onclick: async () => {
           const result = await post(
@@ -1273,8 +1431,7 @@ function speechPanel(filing, venue) {
     {},
     ...said,
     ...speechState.choices.map((choice) =>
-      el("button", {
-        type: "button",
+      makeButton({
         textContent: choice.text,
         onclick: async () => {
           speechState = await post(
@@ -1291,6 +1448,7 @@ async function campaignRows() {
   const rows = [];
   for (const {
     filing,
+    contest,
     campaign,
     polls,
     outings,
@@ -1358,7 +1516,7 @@ async function campaignRows() {
       ),
     );
     const button = (label, kind, extra) => {
-      const b = el("button", { type: "button", textContent: label });
+      const b = makeButton({ textContent: label });
       b.addEventListener("click", () =>
         act(kind, typeof extra === "function" ? extra() : extra),
       );
@@ -1369,17 +1527,29 @@ async function campaignRows() {
         "div",
         { className: "row campaign" },
         el("b", {
-          textContent: `${filing.status} · ${filing.contestId.split(":").slice(-3).join(" ")}`,
+          textContent: [
+            contest?.title,
+            contest ? proseDate(contest.electionDate) : null,
+            controls.filing?.status?.[filing.status] ?? words(filing.status),
+          ]
+            .filter(Boolean)
+            .join(" · "),
         }),
         `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${campaign.volunteers} volunteers · ${campaign.doors} doors`,
         el(
           "div",
           {},
           ...(outings ?? []).map((choice) => {
-            const b = el("button", {
-              type: "button",
-              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
+            // A grayed outing says why, from the records.
+            const why = choice.why
+              ? (controls.campaignUnavailable[choice.why.key] ?? "")
+                  .replace("{price}", dollars(choice.why.priceMinor ?? 0))
+                  .replace("{cash}", dollars(choice.why.cashMinor ?? 0))
+              : "";
+            const b = makeButton({
+              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
               disabled: !choice.available,
+              title: why,
             });
             b.addEventListener("click", () =>
               goOut(choice.outing, choice.outletId),
@@ -1405,8 +1575,7 @@ async function campaignRows() {
             value: "0",
             ariaLabel: controls.campaignContribute.dollars,
           });
-          const give = el("button", {
-            type: "button",
+          const give = makeButton({
             textContent: controls.campaignContribute.give,
           });
           give.addEventListener("click", () =>
@@ -1447,9 +1616,22 @@ async function campaignRows() {
 }
 
 // ---- A big moment, staged when it stops the clock ----
+// The grading view (/play?held=1): a scene may say lines still held until the
+// owner grades them, each marked, with the record that fired it.
+const HELD_VIEW =
+  new URLSearchParams(window.location.search).get("held") === "1";
+/** Why a scene is happening: its cause record and the facts it may say, by record. */
+function whyRows(why) {
+  return [
+    `${why.cause.kind} · ${why.cause.date} · ${why.cause.id}`,
+    ...why.facts.map(
+      (row) => `${row.key}: ${row.text} (${row.recordIds.join(", ")})`,
+    ),
+  ].map((text) => el("li", { className: "why", textContent: text }));
+}
 async function showStory(momentId) {
   const story = await api(
-    `/api/story?momentId=${encodeURIComponent(momentId)}`,
+    `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
   );
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
@@ -1459,17 +1641,63 @@ async function showStory(momentId) {
   $("talk-name").textContent = "";
   $("talk-lines").replaceChildren(
     ...story.narration.map((line) =>
-      el("li", { className: "speech narration", textContent: line.text }),
+      el("li", {
+        className: `speech narration${line.held ? " held" : ""}`,
+        textContent: line.text,
+      }),
     ),
+    ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
   );
+  // A scene with a purpose is its own exchange; any other opens a talk.
+  const withId = story.talk?.askerId ?? story.talkToId;
   $("talk-choices").replaceChildren(
-    ...(story.talkToId
-      ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId, momentId),
+    ...(withId
+      ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
+          story.talk ? playExchange(story) : talkTo(withId, momentId),
         )
       : []),
   );
   setScales({ available: false });
+}
+/** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
+function playExchange(story) {
+  const { talk } = story;
+  setWho(talk.askerId, story.names[talk.askerId]);
+  const said = [...talk.opening];
+  const lineOf = (line) =>
+    el("li", {
+      className: `${line.role === "asked" ? "said" : "speech"}${line.held ? " held" : ""}`,
+      textContent: line.text,
+    });
+  // The path is the index of each reply chosen, from the first.
+  const play = (node, path) => {
+    said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
+    $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+    $("talk-choices").replaceChildren(
+      ...replies(
+        node.replies.map((reply, index) => ({
+          text: reply.line.text,
+          held: reply.line.held,
+          reply,
+          index,
+        })),
+        ({ reply, index }) => {
+          const chosen = [...path, index];
+          // The reply is the player's: the game keeps it (purpose-scene.ts
+          // replyInScene).
+          api(
+            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
+            "POST",
+          );
+          said.push(reply.line);
+          if (reply.next) play(reply.next, chosen);
+          else $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+          if (!reply.next) $("talk-choices").replaceChildren();
+        },
+      ),
+    );
+  };
+  play(talk.tree, []);
 }
 function storyStop(value) {
   return value?.kind === "stop"
@@ -1843,7 +2071,7 @@ async function seatRows() {
       value: "0",
       style: "width: 90px",
     });
-    const draft = el("button", { type: "button", textContent: "Draft" });
+    const draft = makeButton({ textContent: "Draft" });
     draft.addEventListener("click", () => {
       const [kind, key] = [
         pick.value.slice(0, pick.value.indexOf(":")),
@@ -1918,7 +2146,7 @@ async function seatRows() {
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
 const kindName = (kind) => {
-  const name = kind.split(":").pop();
+  const name = kind.split(/[:.]/).pop();
   return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
 };
 
@@ -1939,13 +2167,11 @@ function menuPages(items, size = 5) {
   let at = 0;
   const box = el("div", { className: "record-pages" });
   const draw = () => {
-    const back = el("button", {
-      type: "button",
+    const back = makeButton({
       textContent: controls.politics.back,
       disabled: at === 0,
     });
-    const next = el("button", {
-      type: "button",
+    const next = makeButton({
       textContent: controls.politics.next,
       disabled: (at + 1) * size >= items.length,
     });
@@ -2022,7 +2248,31 @@ const sheets = {
         ],
       });
     }
-    const people = [...records.values()];
+    // Who joined or left the player's five closest this year, each with the
+    // record that changed the tie; one who left and is no longer among the
+    // card's ties is still drawn, marked.
+    const circle = me.card.circle ?? { joined: [], left: [] };
+    const dateText = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    const change = new Map([
+      ...circle.joined.map((c) => [c.personId, { ...c, mark: "joined" }]),
+      ...circle.left.map((c) => [c.personId, { ...c, mark: "left" }]),
+    ]);
+    for (const c of circle.left)
+      if (!records.has(c.personId))
+        records.set(c.personId, {
+          personId: c.personId,
+          name: c.name,
+          groups: [],
+        });
+    // Changed ties first, so the first page shows them.
+    const people = [...records.values()].sort(
+      (a, b) => Number(change.has(b.personId)) - Number(change.has(a.personId)),
+    );
     let group = "all";
     let selected;
     let page = 0;
@@ -2038,7 +2288,7 @@ const sheets = {
     const detail = el("div", { className: "people-selection" });
     const pager = el("nav", { className: "people-pager" });
     const button = (text, fn) => {
-      const b = el("button", { type: "button", textContent: text });
+      const b = makeButton({ textContent: text });
       b.addEventListener("click", fn);
       return b;
     };
@@ -2110,7 +2360,8 @@ const sheets = {
           selected = p.personId;
           draw();
         });
-        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`;
+        const changed = change.get(p.personId);
+        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
         node.setAttribute("aria-pressed", String(selected === p.personId));
         node.setAttribute("aria-label", p.name);
         node.style.left = `${x}%`;
@@ -2120,17 +2371,46 @@ const sheets = {
           el("b", { textContent: p.name }),
           el("span", { textContent: p.relation ?? "" }),
         );
+        if (changed)
+          node.append(
+            el("em", {
+              className: "circle-mark",
+              textContent:
+                changed.mark === "joined" ? labels.joined : labels.left,
+            }),
+          );
         canvas.append(node);
       });
       const person = people.find((p) => p.personId === selected);
       detail.replaceChildren();
+      // Nothing changed in the five closest this year: said, never an empty box.
+      if (!change.size)
+        detail.append(
+          el("span", {
+            className: "circle-none",
+            textContent: labels.noChange,
+          }),
+        );
       if (person) {
+        const changed = change.get(person.personId);
         detail.append(
           el("span", {
             textContent: [person.name, person.relation]
               .filter(Boolean)
               .join(" · "),
           }),
+          ...(changed
+            ? [
+                el("span", {
+                  className: "circle-why",
+                  textContent: [
+                    changed.mark === "joined" ? labels.joined : labels.left,
+                    labels.causes?.[changed.cause] ?? words(changed.cause),
+                    dateText(changed.date),
+                  ].join(" · "),
+                }),
+              ]
+            : []),
           button(labels.card, () => {
             closeSheet();
             showPerson(person);
@@ -2205,8 +2485,7 @@ const sheets = {
       { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
     );
     const personLink = (member) => {
-      const button = el("button", {
-        type: "button",
+      const button = makeButton({
         className: "character-person",
         textContent: member.name,
       });
@@ -2588,7 +2867,7 @@ const sheets = {
         ["accept", labels.accept],
         ["decline", labels.decline],
       ]) {
-        const button = el("button", { type: "button", textContent: label });
+        const button = makeButton({ textContent: label });
         button.onclick = async () => {
           for (const b of actions.children) b.disabled = true;
           try {
@@ -2642,17 +2921,53 @@ const sheets = {
     );
   },
   async results() {
-    const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
+    const [races, nation] = await Promise.all([
+      api(`/api/results?id=${encodeURIComponent(me.id)}`),
+      api("/api/results/nation"),
+    ]);
     await controlsReady;
     const labels = controls.results;
     seenResults = races.length;
     const number = (n) => n.toLocaleString("en-US");
-    return races.slice(0, 8).map((race) =>
+    // The newest night in full, your own race first; earlier nights' races after.
+    const night = races.filter((race) => race.date === races[0]?.date);
+    const earlier = races.slice(night.length, night.length + 8);
+    // After your own night's races, every other state's governor race that
+    // night, from the world's race records: who won and by how much.
+    const nationBlock = el(
+      "div",
+      { className: "row race nation" },
+      el("b", { textContent: labels.nation }),
+      nation.length
+        ? el(
+            "div",
+            { className: "nation-grid" },
+            ...nation.map((race) => {
+              const line = row(
+                race.state,
+                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints.toFixed(1)} ${labels.points}`,
+              );
+              line.classList.add("nation-race");
+              line.dataset.race = race.id;
+              return line;
+            }),
+          )
+        : el("div", { className: "label", textContent: labels.noNation }),
+    );
+    const rows = [...night, ...earlier].map((race) =>
       el(
         "div",
-        { className: "row race" },
+        { className: `row race${race.mine ? " own" : ""}` },
+        race.mine
+          ? el(
+              "div",
+              { className: "mine" },
+              el("b", { textContent: `${labels.yourRace} ` }),
+              race.mine.won ? labels.won : labels.lost,
+            )
+          : "",
         el("b", {
-          textContent: `${race.title} · ${race.date}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
+          textContent: `${race.title} · ${proseDate(race.date)}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
         }),
         ...race.candidates.map((c) =>
           el("div", {
@@ -2660,11 +2975,13 @@ const sheets = {
             textContent: `${c.name}${c.party ? ` (${c.party})` : ""} · ${number(c.votes)}`,
           }),
         ),
+        // One total for the race: every ballot cast in it, the town's and
+        // the rest of the electorate's.
         el(
           "div",
           {},
-          el("b", { textContent: `${labels.turnout} ` }),
-          `${number(race.namedTurnout)} / ${number(race.namedEligible)}`,
+          el("b", { textContent: `${labels.cast} ` }),
+          number(race.electorate),
         ),
         el(
           "div",
@@ -2681,7 +2998,7 @@ const sheets = {
               el("b", { textContent: `${labels.wonIn} ` }),
               race.places
                 .slice(0, 6)
-                .map((p) => `${p.name} ${p.leader ?? ""} · ${number(p.cast)}`)
+                .map((p) => `${p.name} ${p.leader ?? ""}`)
                 .join(" · "),
             )
           : "",
@@ -2695,6 +3012,11 @@ const sheets = {
           : "",
       ),
     );
+    return [
+      ...rows.slice(0, night.length),
+      nationBlock,
+      ...rows.slice(night.length),
+    ];
   },
   async map() {
     const m = await api("/api/map");
@@ -2751,7 +3073,7 @@ const sheets = {
       row(me.card.name, "†"),
       ...people.map((p) => {
         const line = row(p.name, `${p.why} `);
-        const b = el("button", { type: "button", textContent: "Play" });
+        const b = makeButton({ textContent: "Play" });
         b.addEventListener("click", () => playAs(p.id));
         line.append(b);
         return line;
@@ -2806,7 +3128,10 @@ const sheets = {
       const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
       content.append(
         el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
-        el("p", { className: "label", textContent: latest.adoptedOn }),
+        el("p", {
+          className: "label",
+          textContent: `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+        }),
       );
       const summary = el("div", { className: "budget-summary" });
       for (const [label, value] of [
@@ -2821,7 +3146,7 @@ const sheets = {
             el("span", { className: "label", textContent: label }),
             el("strong", {
               className: "record-total",
-              textContent: dollars(value),
+              textContent: roundedDollars(value),
             }),
           ),
         );
@@ -2834,7 +3159,7 @@ const sheets = {
         const chart = comparison(
           lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
           label,
-          dollars,
+          roundedDollars,
         );
         const rows = [...chart.children];
         if (gov.youAreExecutive && label === labels.spending)
@@ -2844,8 +3169,7 @@ const sheets = {
               [labels.decrease, -1],
               [labels.increase, 1],
             ]) {
-              const b = el("button", {
-                type: "button",
+              const b = makeButton({
                 textContent: sign > 0 ? "+" : "−",
                 title: name,
               });
@@ -2915,7 +3239,7 @@ const sheets = {
     const details = el("section", { className: "calendar-details" });
     const upcoming = el("section", { className: "calendar-upcoming" });
     const button = (label, fn) => {
-      const b = el("button", { type: "button", textContent: label });
+      const b = makeButton({ textContent: label });
       b.addEventListener("click", fn);
       return b;
     };
@@ -2930,7 +3254,7 @@ const sheets = {
         path.setAttribute("d", d);
         svg.append(path);
       }
-      const b = el("button", { type: "button", className: "skip-forward" });
+      const b = makeButton({ className: "skip-forward" });
       b.setAttribute("aria-label", name);
       b.append(svg);
       b.addEventListener("click", fn);
@@ -3060,20 +3384,46 @@ const sheets = {
     // The nation, region and job numbers above the paper, from the economy's records.
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
+    const econ = controls.news?.economy ?? {};
+    // A month of record ("2025-01") as a reader says it: January 2025.
+    const monthWords = (month) =>
+      /^\d{4}-\d{2}$/.test(String(month))
+        ? new Date(`${month}-15T12:00:00Z`).toLocaleDateString("en-US", {
+            month: "long",
+            year: "numeric",
+            timeZone: "UTC",
+          })
+        : "";
+    // A region's series by its control name and unit; a series with no
+    // control name is not shown.
+    const count = new Intl.NumberFormat("en-US");
+    const value = (unit, v) =>
+      unit === "percent"
+        ? `${v.toFixed(1)}%`
+        : unit === "thousands"
+          ? count.format(Math.round(v * 1000))
+          : unit === "dollars"
+            ? dollars(Math.round(v * 100))
+            : v.toFixed(1);
     const economy = e.nation
       ? [
           row(
-            `Nation · ${e.nation.month}`,
-            `Unemployment ${pct(e.nation.unemploymentPct)} · Inflation ${pct(e.nation.inflationPct)} · Policy rate ${pct(e.nation.policyRatePct)} · Mortgage ${pct(e.nation.mortgage30Pct)}`,
+            `${econ.nation} · ${monthWords(e.nation.month)}`,
+            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
           ),
           ...(e.region
             ? [
+                // The region's rate under the area it covers, beside the nation's.
                 row(
-                  `Region · ${e.region.month ?? ""}`,
+                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
                   Object.entries(e.region)
-                    .filter(([, v]) => typeof v === "number")
-                    .slice(0, 4)
-                    .map(([k, v]) => `${k} ${Number(v).toFixed(1)}`)
+                    .filter(
+                      ([k, v]) => typeof v === "number" && econ.series?.[k],
+                    )
+                    .map(
+                      ([k, v]) =>
+                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
+                    )
                     .join(" · "),
                 ),
               ]
@@ -3081,8 +3431,8 @@ const sheets = {
           ...(e.jobs
             ? [
                 row(
-                  "Jobs here",
-                  `${e.jobs.employed} employed · ${e.jobs.seekers} looking · ${e.jobs.openPositions} open`,
+                  econ.jobsHere,
+                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
                 ),
               ]
             : []),
@@ -3121,7 +3471,7 @@ const sheets = {
     const paper = el("section", { className: "paper" });
     const outletPicker = el("nav", { className: "outlet-picker" });
     const button = (label, fn) => {
-      const b = el("button", { type: "button", textContent: label });
+      const b = makeButton({ textContent: label });
       b.onclick = fn;
       return b;
     };
@@ -3208,7 +3558,12 @@ const sheets = {
             el("h4", {
               textContent: record.staffing
                 ? record.staffing.employer
-                : kindName(record.kind),
+                : kindName(
+                    // A story the press archived is named by the record it tells of.
+                    record.kind === "press.archived"
+                      ? (record.facts?.recordKind ?? record.kind)
+                      : record.kind,
+                  ),
             }),
             el("p", {
               textContent: record.staffing
@@ -3225,11 +3580,37 @@ const sheets = {
                         ]
                       : []),
                   ].join(" · ")
-                : [
+                : // Who the record is about, each by their role in it.
+                  [
                     ...new Set(
-                      Object.values(record.facts ?? {})
-                        .filter((v) => typeof v === "string" && me.names?.[v])
-                        .map((v) => me.names[v]),
+                      Object.entries(record.facts ?? {}).flatMap(
+                        ([role, v]) => {
+                          // The record's kind is the heading already.
+                          if (typeof v !== "string" || role === "recordKind")
+                            return [];
+                          const label = words(role.replace(/Id$/, ""));
+                          const name = record.names?.[v] ?? me.names?.[v];
+                          // A person by name, a date in words, a plain value
+                          // by its label; record ids are never shown.
+                          if (name) return [`${label} ${name}`];
+                          // A yes-or-no fact reads as its label when true.
+                          if (v === "true") return [label];
+                          if (v === "false") return [];
+                          if (/^\d{4}-\d{2}-\d{2}$/.test(v))
+                            return [`${label} ${proseDate(v)}`];
+                          // A code with no name (a jurisdiction key, a
+                          // status) is never shown.
+                          if (
+                            /[:_]/.test(v) ||
+                            !v.trim() ||
+                            /^[A-Z0-9]+(?:-[A-Z0-9]+)+$/.test(v) ||
+                            /^[a-z]+(?:\.[a-z-]+)+$/.test(v)
+                          )
+                            return [];
+                          // A proper name keeps its own capitals.
+                          return [`${label} ${/[A-Z]/.test(v) ? v : words(v)}`];
+                        },
+                      ),
                     ),
                   ].join(" · "),
             }),
@@ -3342,12 +3723,12 @@ const sheets = {
               .filter((level) => level.row)
               .map((level) =>
                 el("div", {
-                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+                  textContent: `${lawLevelLabel(law, level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
                 }),
               ),
             ...law.pending.map((row) =>
               el("div", {
-                textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
+                textContent: `${lawLevelLabel(law, pendingLevel(law, row))} · ${row.effectiveDate} → ${amount(row.value, row.unit)}`,
               }),
             ),
           ),
@@ -3462,15 +3843,13 @@ const sheets = {
       );
     }
     const actions = el("div", { className: "acts options-actions" });
-    const resume = el("button", {
-      type: "button",
+    const resume = makeButton({
       textContent: labels.continue,
     });
     resume.addEventListener("click", closeSheet);
     actions.append(resume);
     if (skipOpening) {
-      const skip = el("button", {
-        type: "button",
+      const skip = makeButton({
         textContent: labels.skipOpening,
       });
       skip.addEventListener("click", () => {
@@ -3479,8 +3858,7 @@ const sheets = {
       });
       actions.append(skip);
     }
-    const quit = el("button", {
-      type: "button",
+    const quit = makeButton({
       textContent: labels.quitToTitle,
     });
     quit.dataset.testid = "quit-to-title";
@@ -3536,15 +3914,14 @@ const sheets = {
               ].join(" · "),
             }),
           );
-        const go = el("button", { type: "button", textContent: labels.go });
+        const go = makeButton({ textContent: labels.go });
         go.setAttribute("aria-label", `${labels.go}: ${p.name}`);
         go.onclick = () =>
           p.filing ? openFiling(p.name) : visit(p.organizationId);
         card.append(info, go);
         return card;
       });
-      const back = el("button", {
-        type: "button",
+      const back = makeButton({
         textContent: labels.back,
         disabled: page === 0,
       });
@@ -3552,8 +3929,7 @@ const sheets = {
         page--;
         draw();
       };
-      const next = el("button", {
-        type: "button",
+      const next = makeButton({
         textContent: labels.next,
         disabled: (page + 1) * 5 >= found.length,
       });
@@ -3583,9 +3959,25 @@ const sheets = {
   },
   async campaigns() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    // A filing whose race has been decided reads as won or lost.
+    const decided = new Map(
+      (await api(`/api/results?id=${encodeURIComponent(me.id)}`))
+        .filter((race) => race.mine)
+        .map((race) => [race.contestId, race.mine.won]),
+    );
+    const labels = controls.results;
     return [
       ...(await campaignRows()),
-      ...v.filings.map((f) => row(words(f.status), f.filedWith)),
+      ...v.filings.map((f) =>
+        row(
+          decided.has(f.contestId)
+            ? decided.get(f.contestId)
+              ? labels.won
+              : labels.lost
+            : words(f.status),
+          f.filedWith,
+        ),
+      ),
       ...(await sheets.results()),
     ];
   },
@@ -3598,10 +3990,11 @@ const sheets = {
     let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
-    // Another state's legislature: every sitting member, by chamber.
+    // Another state's members at this level, its legislature or its members
+    // of Congress: every sitting member, by chamber.
     const drawOtherState = async () => {
       const other = await api(
-        `/api/government/state?${new URLSearchParams({ state: otherState })}`,
+        `/api/government/state?${new URLSearchParams({ state: otherState, level })}`,
       );
       const chambers = new Map();
       for (const s of other.legislators) {
@@ -3638,8 +4031,8 @@ const sheets = {
     };
     const statePick = el("select", { className: "government-state" });
     const draw = () => {
-      statePick.hidden = level !== "state";
-      if (level === "state" && otherState) {
+      statePick.hidden = level === "local";
+      if (level !== "local" && otherState) {
         drawOtherState();
         for (const b of picker.querySelectorAll("button"))
           b.classList.toggle("on", b.dataset.level === level);
@@ -3697,9 +4090,11 @@ const sheets = {
                 const history = el("div", {
                   className: "row",
                   textContent: [
-                    `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
-                    s.holder.reached,
-                    won ? `${won.date} ${Math.round(won.share * 100)}%` : null,
+                    `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
+                    labels.reached?.[s.holder.reached] ?? s.holder.reached,
+                    won
+                      ? `${labels.electedOn} ${proseDate(won.date)} · ${Math.round(won.share * 100)}% ${labels.ofVote}`
+                      : null,
                   ]
                     .filter(Boolean)
                     .join(" · "),
@@ -3709,9 +4104,17 @@ const sheets = {
                 if (won) history.dataset.election = won.termId;
                 line.append(history);
               }
+              // Elected and not yet seated: who won the seat, and when they take office.
+              if (s.elect) {
+                const elect = el("div", {
+                  className: "row elect",
+                  textContent: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${proseDate(s.elect.takesOffice)}`,
+                });
+                elect.dataset.contest = s.elect.contestId;
+                line.append(elect);
+              }
               if (s.holder?.personId) {
-                const b = el("button", {
-                  type: "button",
+                const b = makeButton({
                   className: "member-name",
                   textContent: name,
                 });
@@ -3747,8 +4150,7 @@ const sheets = {
         b.classList.toggle("on", b.dataset.level === level);
     };
     for (const key of ["local", "state", "federal"]) {
-      const b = el("button", {
-        type: "button",
+      const b = makeButton({
         className: "tab",
         textContent: controls.levels?.[key] ?? words(key),
       });
@@ -3774,9 +4176,18 @@ const sheets = {
     });
     picker.append(statePick);
     draw();
-    // The key people the opening names: one list for both screens.
-    const keyPeople = v.keyPeople.map((k) => {
-      const line = row(k.officeTitle, k.name);
+    // The key people: the player's own members first, then the President,
+    // the Vice President and each chamber's leader by post and chamber (a
+    // leader from another state names the state they serve). Every other
+    // member is behind the State and Federal filters.
+    const keyLine = (k) => {
+      const line =
+        k.post && !k.own
+          ? row(`${words(k.post)}, ${k.chamber ?? k.officeTitle}`, k.name)
+          : row(k.officeTitle, k.name);
+      for (const text of [k.own && k.post ? words(k.post) : null, k.stateName])
+        if (text)
+          line.append(el("span", { className: "label", textContent: text }));
       // The President and Vice President a territory's voters do not choose.
       if (k.chosenByHere === false)
         line.append(
@@ -3787,8 +4198,7 @@ const sheets = {
         );
       // Play anyone: a resident officeholder can be taken over (bench only).
       if (k.resident && k.personId !== me.id) {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: "dev-only",
           textContent: "Play",
         });
@@ -3796,7 +4206,23 @@ const sheets = {
         line.append(b);
       }
       return line;
-    });
+    };
+    const own = v.keyPeople.filter((k) => k.own);
+    const leaders = v.keyPeople.filter((k) => !k.own);
+    // Each group stays in one column with its heading.
+    const keyPeople = [
+      [labels.yourMembers, own],
+      [labels.leaders, leaders],
+    ]
+      .filter(([, rows]) => rows.length)
+      .map(([title, rows]) =>
+        el(
+          "section",
+          { className: "key-people" },
+          el("h3", { textContent: title }),
+          ...rows.map(keyLine),
+        ),
+      );
     // The party the player belongs to, with the tie's record and how their
     // views fit it; the parties they could join otherwise. Never joined: files
     // unaffiliated.
@@ -3872,14 +4298,14 @@ const sheets = {
               for (const level of law.levels.filter((l) => l.row))
                 detail.append(
                   row(
-                    controls.levels?.[level.level] ?? words(level.level),
+                    lawLevelLabel(law, level),
                     `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
                   ),
                 );
               for (const pending of law.pending)
                 detail.append(
                   row(
-                    pending.effectiveDate,
+                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${pending.effectiveDate}`,
                     amount(pending.value, pending.unit),
                   ),
                 );
@@ -3952,11 +4378,11 @@ async function openSheet(tab) {
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
-  const holdsOffice =
-    group === "politics" &&
-    (await api(`/api/government?id=${encodeURIComponent(me.id)}`)).seats.some(
-      (s) => s.holder?.personId === me.id,
-    );
+  const politics =
+    group === "politics"
+      ? await api(`/api/government?id=${encodeURIComponent(me.id)}`)
+      : { seats: [], filings: [], ofVotingAge: false };
+  const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
@@ -3965,11 +4391,16 @@ async function openSheet(tab) {
       .filter(
         (name) =>
           (name !== "results" || seenResults > 0) &&
-          (name !== "office" || holdsOffice),
+          (name !== "office" || holdsOffice) &&
+          // Budgets wait until they are the player's business: an office, a
+          // filing, or the age to vote.
+          (name !== "budgets" ||
+            holdsOffice ||
+            politics.filings.length > 0 ||
+            politics.ofVotingAge),
       )
       .map((name) => {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: `tab${name === tab ? " on" : ""}`,
           textContent: titles[name],
         });
@@ -4066,6 +4497,13 @@ $("front-continue").addEventListener("click", async () => {
   $("game").classList.add("in-play");
   if (life.packet) renderPacket(life.packet);
   await refresh();
+  await openOfferMoment();
+  // Still the opening evening: the night's paper is back on the table, read
+  // from the kept opening, until living on clears it.
+  const opening = await api(
+    `/api/opening?id=${encodeURIComponent(life.personId)}`,
+  );
+  if (opening?.home?.date === life.date) showNewsSurface(opening.news);
 });
 // The desktop window closes (and the app quits); a browser tab has no Quit.
 if (window.location.protocol === "app:") {
@@ -4110,9 +4548,11 @@ function worldSettings() {
 }
 $("front-options").addEventListener("click", () => openSheet("options"));
 // The bench's developer controls sit behind one faint ring, off by default.
-$("dev-toggle").addEventListener("click", () =>
-  document.body.classList.toggle("dev"),
-);
+$("dev-toggle").addEventListener("click", () => {
+  const dev = document.body.classList.toggle("dev");
+  if (dev) $("talk-silent").before(gapButton);
+  else gapButton.remove();
+});
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
@@ -4148,13 +4588,18 @@ const MONTHS = Array.from({ length: 12 }, (_, i) =>
     timeZone: "UTC",
   }),
 );
-const proseDate = (iso) =>
-  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
+/** A record value as the player reads it: an ISO date in words, else as kept. */
+function dateOrValue(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? proseDate(value) : value;
+}
+function proseDate(iso) {
+  return new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC",
   });
+}
 const genderName = (g) =>
   document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
@@ -4296,8 +4741,7 @@ function listStates() {
     ...states
       .filter((s) => s.name.toLowerCase().includes(q))
       .map((s) => {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: "item",
           textContent: s.name,
         });
@@ -4326,19 +4770,18 @@ async function listTowns() {
   );
   if (ask !== townAsk) return;
   const count = new Intl.NumberFormat("en-US");
+  const words = controls.creator ?? {};
   $("cr-towns").replaceChildren(
     ...towns.map((t) => {
+      const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
       const b = el(
         "button",
-        { type: "button", className: "item" },
-        el("b", { textContent: t.name }),
-        ...(t.population
-          ? [
-              el("small", {
-                textContent: `${count.format(t.population)} people`,
-              }),
-            ]
-          : []),
+        // In the state buttons' font, name and count alike.
+        { type: "button", className: "item town" },
+        el("span", { textContent: t.name }),
+        el("small", {
+          textContent: t.county ? `${t.county}, ${size}` : size,
+        }),
       );
       b.addEventListener("click", () => {
         setup.town = t;
@@ -4358,8 +4801,7 @@ function showLook(view) {
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) => {
       const arrow = (by, glyph) => {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: "action small",
           textContent: glyph,
         });
@@ -4558,6 +5000,7 @@ async function startLife({ custom = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();
+    await openOfferMoment();
     showNewsSurface(opening?.news);
     coachFirstChoices();
   } catch (error) {

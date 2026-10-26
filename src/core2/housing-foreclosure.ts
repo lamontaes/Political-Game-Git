@@ -13,6 +13,7 @@
  * housing arrears say how many of the group's owners are behind, the ones
  * with the least income first.
  */
+import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import foreclosureData from "./data/housing/foreclosure.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
@@ -20,6 +21,7 @@ import { transferCash } from "./world-transfer";
 import { endFlowPart } from "./residents-economy";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
+import { formerHome } from "./housing-former-home";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -211,10 +213,9 @@ export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
   const price = salePrice(api, row.householdId);
   const owed = mortgage.balanceMinor;
   // The town's outside market stands for the buyer at the sale.
-  const buyer = [...c.organizations.values()].find(
-    (org) =>
-      org.outsideFlow !== undefined &&
-      org.placeId === c.households.get(row.householdId)?.placeId,
+  const buyer = townOutsideOf(
+    c.organizations.values(),
+    c.households.get(row.householdId)?.placeId,
   );
   const source = {
     tag: "ESTIMATED" as const,
@@ -312,17 +313,19 @@ export function foreclosureRemoval(api: CoreAPI, caseId: string): boolean {
     stage: "removed",
     removedAt: c.date,
   } as unknown as ModuleRow);
-  const dwelling = table(api, "dwellings").get(
-    `dwelling:${row.householdId}`,
-  ) as { kind?: string } | undefined;
-  table(api, "dwellings").put({
-    id: `dwelling:${row.householdId}`,
-    householdId: row.householdId,
-    tenure: "removed",
-    kind: dwelling?.kind ?? "house",
-    since: c.date,
-    basis: "foreclosure",
-  });
+  table(api, "dwellings").put(
+    formerHome(
+      table(api, "dwellings").get(`dwelling:${row.householdId}`) as Parameters<
+        typeof formerHome
+      >[0],
+      {
+        householdId: row.householdId,
+        tenure: "removed",
+        basis: "foreclosure",
+        date: c.date,
+      },
+    ) as unknown as ModuleRow,
+  );
   if (row.counted) {
     const rt = residentsRuntime(c);
     const ix = rt?.store.householdOf.get(row.householdId);
