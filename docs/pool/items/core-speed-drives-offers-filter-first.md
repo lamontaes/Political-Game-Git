@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-drives-nearby-groups
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T05:07:48.273Z
 ---
 
 **What.** In Johnstown, Ohio (key 3939340, drawn from all 56 by seed band-2026-10-26), on main with every open speed change, the drives engine's offers (src/core2/modules/drives.ts) grow from 0.32 s of year one to 5.83 s of year three, with groupKnown alone 3.54 s, as drives and cause groups pile up: part of that town's third year running 1.27 times its first. For each drive a holder serves, the known-cause-group and volunteer-place offers copy and sort every group the world has founded on the topic, then check each one's knowledge fact or membership before checking it meets nearby; known-public-figure copies and sorts everyone the person knows once per drive. Test the cheap nearby check first, sort only what passes, and work out a person's known figures once per call.
