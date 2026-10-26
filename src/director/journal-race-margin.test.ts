@@ -6,6 +6,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { corePlaceByKey } from "../core2/place-lookup";
 import {
   ELECTIONS_MODULE_ID,
   type ContestRow,
@@ -23,6 +24,8 @@ import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 // next election, every candidate who is a full person is watched, and each
 // line about their own race is checked against the result's totals.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// A place to replay first, as the golden-path runner binds one.
+const pinned = process.env.GOLDEN_PATH_PLACE_KEY;
 const { journalRaceCloseMargin, journalRaceWideMargin } =
   DEFAULT_DIRECTOR_DATA.parameters;
 
@@ -32,7 +35,14 @@ it(`a candidate's journal claims only the margin their result shows, seed ${seed
   const tried: string[] = [];
   try {
     for (let attempt = 0; attempt < 4 && !told.length; attempt += 1) {
-      const place = drawPlace(seed, `journal-race-margin:${attempt}`);
+      const place =
+        attempt === 0 && pinned
+          ? {
+              key: pinned,
+              seed,
+              name: corePlaceByKey(pinned)?.displayName ?? pinned,
+            }
+          : drawPlace(seed, `journal-race-margin:${attempt}`);
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
       const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
