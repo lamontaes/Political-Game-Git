@@ -2,6 +2,7 @@
 id: laws-checker-web-cell-needs-reader
 title: "The law matrix grades a law's outcome-web link wired only when an engine reads the outcome it moves"
 area: laws
+lead: laws-effects
 kind: wiring
 priority: 2
 size: S
@@ -17,6 +18,8 @@ source: laws-effects lead, Oct 26 (Merger 2's send-back on #6026)
 **Rules.** An effect is a read, not a record (owner, Oct 13): a web cell is wired only when a different engine reads the outcome at the moment it decides or pays. One checker for laws and effects (owner, Oct 26): the law matrix reads the effect matrix's own verdict, unwired.json, instead of judging reach a second way.
 
 **Done when.** In scripts/law-wiring/matrix.ts, a fired or lagged web link whose link id is listed in src/core2/data/outcome-web/unwired.json no longer counts toward a wired web cell; a law whose every such link is listed grades its web cell stopgap, naming the listed stopgap id. A test in scripts/law-wiring (own-payments.test.ts or a new matrix test) fails without the change on a synthetic run where only an unread link fired. The matrix regenerated on main with node --import tsx scripts/law-wiring/matrix.ts docs/reports/law-wiring/US-*.json docs/reports/law-wiring/families/*.json lists, in the PR body, every law whose overall grade changed and the new count of laws wired of 89.
+
+**Time box.** 3 hours, Sonnet, no helpers; it builds against nothing and waits only for #6011 to merge.
 
 **Files.** scripts/law-wiring/matrix.ts, src/core2/data/outcome-web/unwired.json, docs/reports/law-wiring-matrix.json, docs/reports/law-wiring-table.md
 
