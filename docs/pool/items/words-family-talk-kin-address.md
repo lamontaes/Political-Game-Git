@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
-claimed-by: play-first/words-family-talk-kin-address
-pr:
+status: open
+claimed-by:
+pr: #6156
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T07:21:36.214Z
+claimed-at:
 ---
 
 **What.** The playtest (Oct 24) heard a sister ask 'How's John?' about their own father. play-stop-20 stops two relatives from asking after a relative they share, since the banks name a relative only by first name or as 'your father'. The owner expected 'a sister who calls our father Dad'. The banks have no kin address words (Dad, Mom, Grandma), so a brother and sister who live apart cannot ask after their parent at all.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T07:21:36.214Z
 **Files.** data/english/parts/conversation.json, src/director/conversation.ts, src/director/data/journal-rows.json
 
 **Notes.** Split from play-stop-20 by the speed lead (Oct 25); the shared-relative skip is on that PR.
+
+Merger 0: Sent back 2026-10-26 from PR #6156 (branch play-first/words-family-talk-kin-address): own merged-tree validation blocked by this merger workspace's invalid GH_TOKEN/HTTP401, preventing real-head fetch and main integration/push; no code defect claimed. Status/Notes updated through connected GitHub because the pool CLI cannot authenticate. Finish validation on that branch with working checkout credentials, merge main into it first.

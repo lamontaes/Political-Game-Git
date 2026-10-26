@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: claimed
 claimed-by: claude/speed-score-offers-per-kind
 pr: #6133
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T15:39:41.671Z
+claimed-at: 2026-10-26T08:39:07.376Z
 ---
 
 **What.** In Bedford, Wyoming (key 5606045, seed 9a4dd331ace7), on main 122c3217c5 merged with #5994 and people-drives-cause-acts-pull-less (branch claude/drives-cause-acts-pull-less), the years run 36.9, 69.0 and 75.6 s (main alone: 39.2, 82.3 and 101.8 s). Two things grow. The people chosen for each day: 11,952 activations in year one, 18,403 in year two and 28,013 in year three, because the focus set goes from 20 to 74 in year two when the player joins cause groups and meets every member (met-in-group ties, owner Oct 10), and focus people choose every day. And the offers each choice scores: 11.9, 21.1 and 42.1, now mostly the cause acts' own offers (join-cause-group 8.7, donate-to-cause 8.0, volunteer-for-cause 4.8, share-cause 3.9 a choice in year three), one per known group or place for each drive a person holds; the contact offers stay near 9 to 15 a choice thanks to the weekly shortlist. Make a later year cost about what the first does with the same choices: score each holder's cause-act offers without the per-group, per-drive repeat, and find whether daily choices for a growing focus set can be priced by what changed.
@@ -32,3 +32,5 @@ Oct 25, 16:05 UTC (speed lead), what sets the band. Bedford on main with the dri
 Oct 25, 16:10 UTC (speed lead), an option measured for the CTO (prototype, not built): a focus person outside the player's family chooses daily only while their tie with the player had contact in the last 30 days, and otherwise at their own tier's cadence (calendar.ts hasDailyFocus). On main with the drives change, Bedford runs 32.4, 55.4 and 41.6 s: year three is 1.28 times year one (2.05 without it), activations 9,587, 10,958 and 10,480 (flat), the focus set unchanged at 78. Year two's 55 s is the November 2026 election season (core-speed-campaign-season-kept-whys). The rest of the band would come from that item and the scoring cut. The window is a scheduling cadence, like the tiers themselves, not a behavior; the CTO decides whether it fits "sliding scales and causes".
 
 Oct 25 audit: From the dropped core-later-years-slower-drive-holders-offers: its owner question (who a holder contacts) is ruled under "simulate it, don't ask": a holder offers acts only to people whose tie pull can top the day. Its giving finding stands: real donors give a few times a year where the model has them give about 80 (scripts/core2-year/giving-proof.ts).
+
+Sent back 2026-10-26 from PR #6133 (branch claude/speed-score-offers-per-kind): own checked integration 89fce386c37a passes type/static/choice checks, but exclusive same-machine Long Hill year is126.1s versus main100.6s (+25.3%), exceeding120s and+20% limits with matching summary hash; diagnose measured regression and finish on that branch, merge main first.

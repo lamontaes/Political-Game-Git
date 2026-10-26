@@ -7,6 +7,7 @@
     "unemployment-to-assault",
     "police-to-violent-crime",
     "police-to-property-crime",
+    "police-to-low-level-arrests",
     "child-access-law-to-youth-gun-deaths",
     "stand-your-ground-to-homicide",
     "min-age-to-youth-gun-suicide",
@@ -126,10 +127,6 @@
     "parks-spending-to-exercise-access"
   ],
   "waiting": {
-    "police-to-low-level-arrests": {
-      "waitingOn": ["justice.low-level-arrests"],
-      "needsSize": true
-    },
     "summer-jobs-to-youth-violence": {
       "waitingOn": ["program.summer-jobs-slots", "crime.youth-violent-arrests"],
       "needsSize": true
@@ -786,10 +783,6 @@
       "links": 1
     },
     "justice.incarceration-risk": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "justice.low-level-arrests": {
       "owner": "OPUS-GOV",
       "links": 1
     },
