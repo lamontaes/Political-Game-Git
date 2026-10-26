@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-daily-act
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T05:19:40.765Z
 ---
 
 **What.** The daily chooser (life.daily-act) weighs every trait's pull on each act at the general weight of 1, and the audit found personality turned 14.8% of 29,520 picks with no study to compare. Newton, Pladevall-Guyer, Gonzalez and Smith (2018, Health and Retirement Study 2012, N = 5,484) give extraversion an odds ratio of 1.41 per point of a 1-to-4 scale (standard deviation 0.57) on socializing with someone other than a partner on a given day, a log odds gap of 0.43 between the thirds; Rohrer and Lucas (2018) find a larger r of 0.18 in German diaries, and both find extraversion unrelated to how long people socialize.
