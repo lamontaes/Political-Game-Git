@@ -361,16 +361,11 @@ function readWorld(place: Place): {
   // title, numbered sections with the body's enacting words, effective date.
   for (const bill of localBills.slice(0, 40)) {
     const form = billForm(api, bill);
-    // A grading batch words the rows the owner has not graded yet too: that
-    // is how they reach him (play withholds them).
-    const made = composeBill(
-      {
-        ...bill,
-        effective: form.effectiveSection,
-        before: form.sections.map((section) => section.before),
-      },
-      { ungraded: true },
-    );
+    const made = composeBill({
+      ...bill,
+      effective: form.effectiveSection,
+      before: form.sections.map((section) => section.before),
+    });
     if (!made) continue;
     const body = bodyName(bill.bodyOfficeId);
     const context = `${bill.number} (${bill.status}), introduced ${longDate(bill.introduced)} before the ${body}: its text, worded from its own provision record (${made.keys.join(", ")}).`;

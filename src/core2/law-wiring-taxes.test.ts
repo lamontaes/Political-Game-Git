@@ -31,7 +31,6 @@ import {
   removeCountedPerson,
   residentsRuntime,
 } from "./modules/residents";
-import { billCatalog } from "./bill-catalog";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { ownerOf } from "./modules/business";
 import { ownedHomes } from "./modules/housing";
@@ -582,16 +581,10 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         expect(authority[0]!.lawId, where).toBe(bill.authority[0]!.source);
         expect(authority[0]!.target, where).toBe("organization");
         expect(LEGISLATURE_MODULE_ID).toBe(authority[0]!.engine);
-        // The grant can be changed by bill: the state's catalog offers it, and
-        // the row a bill enacts replaces the one in force, so the same body's
-        // next draft is allowed or barred by the new row.
-        const offered = billCatalog(api, "state")
-          .flatMap((menu) => menu.topics.flatMap((topic) => topic.policies))
-          .find((policy) => policy.id === "law:local-income-tax-authority");
-        expect(
-          offered,
-          `${where}: state catalog offers the grant`,
-        ).toBeDefined();
+        // A state row that changes the grant replaces the one in force, so the
+        // same body's next draft is allowed or barred by the new row. No bill
+        // offers the grant until the Words line words it
+        // (SG-LAW-local-income-tax-authority-change), so the test enacts the row.
         const granted = authority[0]!.what === "local-tax-allowed";
         const flipped = enactLaw(api, {
           jurisdiction: lawChain(api).stateKey,

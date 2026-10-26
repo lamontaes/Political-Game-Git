@@ -4,7 +4,7 @@
  * reads the catalog's words itself.
  */
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
-import { BILL_SECTIONS, shipsAsWords } from "../english/bill-sections";
+import billSections from "../../data/english/bill-sections.json" with { type: "json" };
 
 interface Policy {
   question?: string;
@@ -19,12 +19,18 @@ const subjects = (
 /**
  * What a story is about: the catalog's topic for a policy question, or the
  * authored subject of a law's amount ("the minimum wage"), whose stories
- * carry the series as their topic. Null where neither names it, or where the
- * amount's words are authored and not yet graded (`shippable: false`).
+ * carry the series as their topic. Null where neither names it.
  */
 export function storyTopicName(topic: string): string | null {
-  const row = BILL_SECTIONS.amounts[topic];
-  return questionTopic(topic) ?? (shipsAsWords(row) ? row!.subject : null);
+  return (
+    questionTopic(topic) ??
+    (
+      billSections as unknown as {
+        amounts: Record<string, { subject: string }>;
+      }
+    ).amounts[topic]?.subject ??
+    null
+  );
 }
 
 /** A question's name as the bill catalog records it ("raise minimum wage"). */

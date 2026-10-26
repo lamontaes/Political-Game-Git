@@ -922,7 +922,8 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
   ) {
     // The state's grant of local income-tax authority is the row in force
     // today (a later row withdraws what an earlier one granted); a local sales
-    // tax needs only that the state records one.
+    // tax needs only that the state records one. No bill offers the grant yet
+    // (stopgapId: SG-LAW-local-income-tax-authority-change).
     const rows =
       provision.series === "income-tax"
         ? lawInForce(api, "local-income-tax-authority")

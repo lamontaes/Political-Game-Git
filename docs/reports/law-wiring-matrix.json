@@ -46,8 +46,8 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 37,
-    "partly": 49,
+    "wired": 36,
+    "partly": 50,
     "stopgapped": 3,
     "byLink": {
       "exists": {
@@ -58,9 +58,9 @@
         "n/a": 0
       },
       "change": {
-        "wired": 89,
+        "wired": 88,
         "partial": 0,
-        "missing": 0,
+        "missing": 1,
         "stopgap": 0,
         "n/a": 0
       },
@@ -1228,7 +1228,7 @@
     },
     {
       "key": "income-tax",
-      "name": "Local income tax rate",
+      "name": "Income tax rate",
       "kind": "amount",
       "family": "taxes-finance",
       "reachGroup": "B",
@@ -1297,7 +1297,7 @@
     },
     {
       "key": "sales-tax",
-      "name": "Local sales tax rate",
+      "name": "Sales tax rate",
       "kind": "amount",
       "family": "taxes-finance",
       "reachGroup": null,
@@ -1646,76 +1646,6 @@
         {
           "place": "Scissors, Texas, US-TX (seed c887792099075f8c)",
           "change": "inheritance-tax 0 -> 1 at state (law:US-TX:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d) effective 2025-01-21",
-          "inForceAtOpening": false
-        }
-      ],
-      "errors": []
-    },
-    {
-      "key": "local-income-tax-authority",
-      "name": "Local income tax authority",
-      "kind": "amount",
-      "family": "taxes-finance",
-      "reachGroup": null,
-      "mechanic": null,
-      "overall": "wired",
-      "links": {
-        "exists": {
-          "status": "wired",
-          "evidence": "56/56 places (state 50); src/core2/data/laws/starting-law.json jurisdictions; elsewhere none: D.C. and the territories have no local governments below them that could levy an income tax (one level of government); drawn place row law:US-MI:state:local-income-tax-authority:general:2026-01-01:from-start",
-          "why": ""
-        },
-        "change": {
-          "status": "wired",
-          "evidence": "bill-catalog law:local-income-tax-authority: raise/lower at state",
-          "why": ""
-        },
-        "reach": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|local-income-tax-authority|office:gus2025:166779:council; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|local-income-tax-authority|office:gus2025:130224:council",
-          "why": ""
-        },
-        "systems": {
-          "status": "wired",
-          "evidence": "src/core2/modules/legislature.ts:926",
-          "why": ""
-        },
-        "money": {
-          "status": "n/a",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 373201924 -> 360073809 (journal:2025-01-27:1666); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:574 348934695 -> 352551593 (journal:2025-01-23:1639); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:927 710208788552157 -> 710208791770786 (journal:2025-02-01:1741)",
-          "why": "the law only grants or withholds a power: a state's permission for its localities to levy an income tax; the grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)",
-          "untraced": true
-        },
-        "web": {
-          "status": "n/a",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own."
-        },
-        "knowing": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 71 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 69 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc)",
-          "why": ""
-        },
-        "repeal": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open under the changed row -> after the old amount is put back 0 still cite it",
-          "why": ""
-        },
-        "allPlaces": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": ""
-        }
-      },
-      "runs": [
-        {
-          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "local-income-tax-authority 1 -> 2 at state (law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc) effective 2025-01-21",
-          "inForceAtOpening": false
-        },
-        {
-          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "local-income-tax-authority 0 -> 1 at state (law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc) effective 2025-01-21",
           "inForceAtOpening": false
         }
       ],
@@ -6175,6 +6105,76 @@
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "change": "place:3149425 parks 3599296 -> 13599296 by law-wiring-17ac6c1b",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "local-income-tax-authority",
+      "name": "local-income-tax-authority",
+      "kind": "amount",
+      "family": "starting law",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 50); src/core2/data/laws/starting-law.json jurisdictions; elsewhere none: D.C. and the territories have no local governments below them that could levy an income tax (one level of government); drawn place row law:US-MI:state:local-income-tax-authority:general:2026-01-01:from-start",
+          "why": ""
+        },
+        "change": {
+          "status": "missing",
+          "evidence": "src/core2/data/legislature/bill-catalog.json",
+          "why": "no bill catalog policy and no series-powers row: no body can propose, enact or repeal it"
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|local-income-tax-authority|office:gus2025:166779:council; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|local-income-tax-authority|office:gus2025:130224:council",
+          "why": ""
+        },
+        "systems": {
+          "status": "wired",
+          "evidence": "src/core2/modules/legislature.ts:926",
+          "why": ""
+        },
+        "money": {
+          "status": "n/a",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 373201924 -> 360073809 (journal:2025-01-27:1666); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:574 348934695 -> 352551593 (journal:2025-01-23:1639); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:927 710208788552157 -> 710208791770786 (journal:2025-02-01:1741)",
+          "why": "the law only grants or withholds a power: a state's permission for its localities to levy an income tax; the grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)",
+          "untraced": true
+        },
+        "web": {
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own."
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 71 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 69 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "local-income-tax-authority 1 -> 2 at state (law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "local-income-tax-authority 0 -> 1 at state (law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc) effective 2025-01-21",
           "inForceAtOpening": false
         }
       ],

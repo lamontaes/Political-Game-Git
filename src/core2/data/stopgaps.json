@@ -6627,16 +6627,13 @@
     "id": "SG-LAW-local-income-tax-authority-change",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/legislature.ts",
-    "line": 1638,
-    "whatItFakes": "The state's grant of local income-tax authority is read and recorded when a local body drafts an income-tax bill, but no body can propose, enact or repeal the grant or its withdrawal.",
-    "why": "The bill catalog has no policy for a state to grant or withdraw local income-tax authority, and the bill-section words for it belong to the Words line.",
+    "line": 926,
+    "whatItFakes": "The state's grant of local income-tax authority is read and recorded when a local body drafts an income-tax bill, and a state law row can grant or withdraw it, but no body can propose, enact or repeal the grant by bill.",
+    "why": "A series a body can draft needs its bill-section words, which belong to the Words line (words-bill-section-local-income-tax-authority); the laws branch's own words were returned by Merger 2 on Oct 26.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
-    "replacement": "A bill-catalog grant/withdraw policy for local-income-tax-authority at the state level, with its section words from the Words line, enacted through the series-powers rows.",
-    "status": "resolved",
-    "resolvedBy": "claude/law-wiring-taxes",
-    "resolvedAt": "2026-10-24",
-    "resolution": "The bill catalog has a state-level policy for the grant (law:local-income-tax-authority, built by scripts/research/build-bill-catalog.py, with its section words in data/english/bill-sections.json and its power in series-powers.json), so a state legislature can grant or withdraw local income-tax authority and a body's draft reads the grant in force."
+    "replacement": "The Words line's bill-section row for local-income-tax-authority, then a state-level grant/withdraw policy in the bill catalog (scripts/research/build-bill-catalog.py) and its power in series-powers.json.",
+    "status": "open"
   },
   {
     "id": "SG-LAW-death-tax-no-schedule",
