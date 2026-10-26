@@ -2514,3 +2514,16 @@ body.dev .dev-ring {
   font-size: 0.85em;
   opacity: 0.8;
 }
+
+.people-node .circle-mark {
+  font: 600 12px var(--ui);
+  font-style: normal;
+  color: var(--gold);
+}
+.people-node.circle-left {
+  opacity: 0.7;
+}
+.people-selection .circle-why,
+.people-selection .circle-none {
+  color: var(--gold);
+}
