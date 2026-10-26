@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/web-reach-health-played
 pr: #6006
 blocked-on:
