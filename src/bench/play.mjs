@@ -3037,15 +3037,35 @@ const sheets = {
       if (!gov?.latest) return;
       const latest = gov.latest;
       const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
+      // What the treasury actually took in and paid out, from its journal,
+      // beside the plan: a treasury gone wrong shows here.
+      const books = gov.books;
       content.append(
         el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
-        el("p", { className: "label", textContent: latest.adoptedOn }),
+        el("p", {
+          className: "label",
+          textContent: [
+            proseDate(latest.adoptedOn),
+            books
+              ? `${labels.booksSince} ${proseDate(books.since)}`
+              : labels.noBooks,
+          ].join(" · "),
+        }),
       );
-      const summary = el("div", { className: "budget-summary" });
+      const summary = el("div", {
+        className: `budget-summary${books ? " with-books" : ""}`,
+      });
       for (const [label, value] of [
         [labels.revenue, total(latest.revenue)],
         [labels.spending, total(latest.spending)],
         [labels.balance, total(latest.revenue) - total(latest.spending)],
+        ...(books
+          ? [
+              [labels.takenIn, books.takenInMinor],
+              [labels.paidOut, books.paidOutMinor],
+              [labels.cashOnHand, books.cashMinor],
+            ]
+          : []),
       ])
         summary.append(
           el(
@@ -3059,46 +3079,13 @@ const sheets = {
           ),
         );
       content.append(summary);
-      // What the treasury actually took in and paid out, from its journal,
-      // beside the plan: a treasury gone wrong shows here.
-      const books = gov.books;
-      if (!books)
-        content.append(
-          el("p", { className: "label", textContent: labels.noBooks }),
-        );
-      else {
-        const actual = el("div", { className: "budget-summary budget-books" });
-        for (const [label, value] of [
-          [labels.takenIn, books.takenInMinor],
-          [labels.paidOut, books.paidOutMinor],
-          [labels.cashOnHand, books.cashMinor],
-        ])
-          actual.append(
-            el(
-              "div",
-              {},
-              el("span", { className: "label", textContent: label }),
-              el("strong", {
-                className: "record-total",
-                textContent: roundedDollars(value),
-              }),
-            ),
-          );
+      if (books && books.paidOutMinor > total(latest.spending))
         content.append(
           el("p", {
-            className: "label",
-            textContent: `${labels.booksSince} ${proseDate(books.since)}`,
+            className: "budget-warning",
+            textContent: labels.overBudget,
           }),
-          actual,
         );
-        if (books.paidOutMinor > total(latest.spending))
-          content.append(
-            el("p", {
-              className: "budget-warning",
-              textContent: labels.overBudget,
-            }),
-          );
-      }
       const columns = el("div", { className: "budget-columns" });
       for (const [label, lines] of [
         [labels.revenue, latest.revenue],
