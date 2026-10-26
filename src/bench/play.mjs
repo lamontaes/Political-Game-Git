@@ -1044,7 +1044,8 @@ let seenChanges = { ahead: 0, took: 0 };
 let seenNews = 0;
 async function newsCount() {
   const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
-  return rows.filter((r) => r.headline || r.lede).length;
+  // Every row News lists (its public records), the same rows its screen draws.
+  return rows.length;
 }
 async function markNews(read) {
   const count = await newsCount();
@@ -4588,7 +4589,6 @@ $("front-continue").addEventListener("click", async () => {
     portrait: life.portrait,
   };
   seenChanges = await changeCount();
-  seenNews = await newsCount();
   show("front", false);
   for (const id of ["rings", "card", "journal-note"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5088,7 +5088,6 @@ async function startLife({ custom = false, placeKey, person }) {
     };
     // What was already law at the start isn't news; only what changes after.
     seenChanges = await changeCount();
-    seenNews = await newsCount();
     show("front", false);
     await playOpening();
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
