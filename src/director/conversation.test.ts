@@ -472,15 +472,36 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
   it("never asks one relative after another they share, by first name or as 'your father' (play-stop-20)", () => {
     const asked = ["kin", "family", "their-family"];
-    let shared = 0;
-    for (const id of me.familyIds) {
-      const relative = core.people.get(id);
-      if (!relative?.alive) continue;
-      const both = [...relative.familyIds].filter(
-        (other) => me.familyIds.has(other) && core.people.get(other)?.alive,
-      );
-      if (!both.length) continue;
-      shared += both.length;
+    // Two relatives and the living relatives they have in common, from the
+    // opening's family records: the player's own first, then the town's by
+    // id, so a drawn world whose player has none still has some to check.
+    const actors = [
+      me,
+      ...[...core.people.values()]
+        .filter((row) => row.id !== me.id)
+        .sort((a, b) => a.id.localeCompare(b.id)),
+    ];
+    const seen = new Set<string>();
+    const pairs = actors
+      .filter((row) => row.alive)
+      .flatMap((actor) =>
+        [...actor.familyIds].sort().flatMap((id) => {
+          const relative = core.people.get(id);
+          const key = [actor.id, id].sort().join("|");
+          if (!relative?.alive || seen.has(key)) return [];
+          seen.add(key);
+          const both = [...relative.familyIds].filter(
+            (other) =>
+              other !== actor.id &&
+              actor.familyIds.has(other) &&
+              core.people.get(other)?.alive,
+          );
+          return both.length ? [{ from: actor.id, to: id, both }] : [];
+        }),
+      )
+      .slice(0, 20);
+    expect(pairs.length, "relatives who share a relative").toBeGreaterThan(0);
+    for (const { from: a, to: b, both } of pairs) {
       // Something recorded happened to each relative they share (a lost
       // job), so either of the two could talk of them.
       const ledger = {
@@ -504,8 +525,8 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         typeof subjectsBetween
       >[3];
       for (const [from, to] of [
-        [me.id, id],
-        [id, me.id],
+        [a, b],
+        [b, a],
       ] as const)
         for (const row of subjectsBetween(core, from, to, recent))
           if (asked.includes(row.kind))
@@ -513,7 +534,6 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
               row.aboutId,
             );
     }
-    expect(shared, "relatives who share a relative").toBeGreaterThan(0);
   });
   it("remembers the last talk's topic and opens the next one with something else", () => {
     // Any topic a talk keeps to is remembered by the listener: the next talk
