@@ -1,6 +1,5 @@
 /**
- * The first evening at home (owner, Oct 24 playtest: "nothing says who these
- * people are to me"): after the anchor's lead-in, the narrator says who lives
+ * The first evening at home: after the anchor's lead-in, the narrator says who lives
  * under the player's roof and how each is family, from the household record
  * and the player's `family:<relation>` facts. A surname different from the
  * player's is explained by a record tying that person to a parent, or reported

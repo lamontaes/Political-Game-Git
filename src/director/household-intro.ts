@@ -1,10 +1,9 @@
 /**
- * The first evening at home, said by the narrator (owner, Oct 24 playtest:
- * "nothing says who these people are to me"): who lives under the player's
+ * The first evening at home, said by the narrator: who lives under the player's
  * roof and how each is the player's family, from the household record and the
  * player's `family:<relation>` past facts. A member whose surname differs from
  * the player's is explained only by a record that ties them to one of the
- * player's parents (a grandparent, aunt or uncle, half sibling); where no
+ * player's parents (a grandparent, aunt or uncle); where no
  * record does, the line gives the relation alone and the member is reported in
  * `unexplained`, never given an invented reason.
  *
