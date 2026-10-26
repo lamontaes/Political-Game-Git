@@ -6132,6 +6132,17 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
+  "traitWeightPressShadeAnswer": {
+    "value": 1.09,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the press.shade-answer decision. Heck, Thielmann, Moshagen and Hilbig (2018), Judgment and Decision Making 13(4):356-371: honesty-humility lowers the odds of lying for gain, odds ratio 0.53 per standard deviation (\"The results show a medium to large effect of HH (odds ratio = 0.53)\"; \"The odds ratio for a z-standardized predictor\"), as the proxy for shading an answer about one's own vote toward the town: target log odds 1.38 between the top and bottom thirds (2.18 standard deviations apart). The gap between the vote and where the town stands is the only circumstance and the target is set on the latent-logit scale, as for press.accept-interview: the target divided by the gap between the top and bottom third's mean lean toward shading over owning (1.27 to 1.28, scaled and clamped as the formula reads it) across the adults of 16 towns drawn from all 56 places (seeds shadefit1 and shadefit2). Town by town the fitted weight runs 1.03 to 1.13 (measured across the 16 towns, separate from the study's own uncertainty).",
+    "spread": {
+      "low": 0.877,
+      "high": 1.296,
+      "unit": "weight",
+      "citation": "The weight scales with the log odds ratio: the study's 95% Bayesian credibility interval for the odds ratio is 0.47 to 0.60 (Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2: 0.53, 2.5% 0.47, 97.5% 0.60)."
+    }
+  },
   "traitWeightPressTip": {
     "value": 1,
     "tag": "TUNABLE",

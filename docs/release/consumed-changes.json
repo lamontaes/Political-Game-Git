@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.33.3",
+      "releasedOn": "2026-10-26",
+      "revision": "984e3ee8fdd9ddf6db3ec347f1f2e118aa381529",
+      "changeIds": ["play-first-03-creator-date-fields-aligned"]
+    },
+    {
       "version": "0.33.2",
       "releasedOn": "2026-10-26",
       "revision": "229b7bad809937b5b166e89c67826368e758269e",
