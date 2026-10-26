@@ -5,14 +5,14 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/play-stop-20-siblings
+status: open
+claimed-by:
 pr: #6080
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T17:44:18.745Z
+claimed-at:
 ---
 
 **What.** I made Bo Snider, born February 3, 2007, in Anson, Texas on the v0.22.10 release. My sister Madison Stein lives in the same household and was born February 10, 2007, seven days later; she is not listed as a twin. On the first night she is a teenager in a letterman jacket; by December 2025, at 18 with no college shown, she is "Public Works Director · CITY OF ANSON treasury", a department head filed under the treasury. When she came to see me she said only "How's John?" about our father, by his first name, with him standing in the room. I expected siblings born at least months apart, a department head with experience, and a sister who calls our father Dad.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-25T17:44:18.745Z
 **Files.** src/core2/town-households.ts, src/core2/opening-employment.ts, src/core2/modules/jobs.ts, src/bench/family.ts
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:19, 16:20; screenshot 63. Madison's card: person_fe994fe2c35f9900. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
+
+Oct 26 (speed lead, on Merger 0's send-back of #6080): the finished corrections (siblings born months apart, only residents who have turned 18 weighed for town posts, no asking after a shared relative) are their own item, `play-siblings-spaced-adults-by-birthday`, which #6080 now closes. This umbrella stays open on `gov-department-head-qualified-by-record` (an 18-year-old with no related work or schooling can still be weighed above older residents) and `words-family-talk-kin-address` (a sister names their shared father as Dad).

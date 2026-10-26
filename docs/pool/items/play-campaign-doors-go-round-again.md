@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/play-stop-25-door-count
 pr: #6065
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-25T23:50:41.528Z
 ---
 
 **What.** A campaign's canvass walked only doors it had never knocked, so once every household in town had been knocked the door count stopped and Knock on doors grayed out with no reason. In Anson, Texas with the playtest's seed, a player knocking every week reached all 1,136 households by the end of June 2025, then the button stayed gray to election day. The other grayed campaign actions (Hold an event, Ask for an interview, Call donors) never said why either. This is the bounded fix for play-stop-25-door-count-stops-growing, proven on the bench.

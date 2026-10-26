@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: a counted teacher counts toward the district's staff with the same rule in the engine and in the test, times its count. One rule, all 56 places: the base is taken the same way in every drawn town.
 
-**Done when.** The test passes in Fairport, New York (draw 3 of seed fd3206c32c6734df, reproduced by starting the draw loop at 3) and on a fresh seed, in a world from `buildBenchWorld`. The fix names which teacher the two counts disagreed on, by person or counted-job id.
+**Done when.** The test passes in Fairport, New York (draw 3 of seed fd3206c32c6734df, reproduced by starting the draw loop at 3) and on a fresh seed, in a world from `buildBenchWorld`. The fix names which teacher the two counts disagreed on, by person or counted-job id. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/budget-line-schools-staffing.test.ts, src/core2/law-reach/group-a-staffing.ts
 

@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places. Replace, never layer: the precedence rule changes in the law-in-force answer, not in each engine. No dice.
 
-**Done when.** In a played world (`buildBenchWorld`, a drawn place and seed named), a state income tax rate a legislature changes in 2025 is still in force on February 1, 2026, named by law id. A scheduled 2026 row for a series nobody changed still takes effect on January 1, 2026. The taxes and labor family tests pass.
+**Done when.** In a played world (`buildBenchWorld`, a drawn place and seed named), a state income tax rate a legislature changes in 2025 is still in force on February 1, 2026, named by law id. A scheduled 2026 row for a series nobody changed still takes effect on January 1, 2026. The taxes and labor family tests pass. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/laws-in-force.ts, src/core2/modules/laws.ts
 
