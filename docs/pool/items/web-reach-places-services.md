@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/web-reach-places-services
 pr: #6042
 blocked-on:
