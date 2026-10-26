@@ -1197,8 +1197,9 @@ function reviewEmployers(api: CoreAPI): void {
         },
         trading?.id,
       );
-      // The next worker to go stands for more jobs than the staff is over by: wait.
-      if (laid === "over") break;
+      // The next worker to go stands for more jobs than the staff is over by,
+      // or worked today already: wait for the next review.
+      if (laid === "over" || laid === undefined) break;
       if (laid?.id) jobChangeIds.push(laid.id);
       need += laid?.heads ?? 1;
     }
@@ -1339,6 +1340,14 @@ function layOff(
     (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
   )[0];
   if (!job) return;
+  // A job ends before its day's work. The worker the business chose played
+  // their day before this review ran (the controlled character): the same
+  // choice is made at the next review, before that day's work.
+  if (
+    c.jobs.has(job.id) &&
+    c.work.lastAttendanceByJob.get(job.id)?.date === c.date
+  )
+    return;
   // The jobs this record stands for may not exceed what the staff is over by.
   const heads = headsOf(c, job);
   if (heads > budget + 1e-9) return "over";
