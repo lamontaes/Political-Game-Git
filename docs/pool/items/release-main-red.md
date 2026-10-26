@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: fix/main-red-2026-10-26-work-order-declaration
-pr: #6165
+pr: #6168
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T17:55:32.519Z
@@ -34,3 +34,5 @@ Merger 2, October 26 15:36 UTC: Ready bounded repair PR #6165 at93bf50847d1b5524
 Merger 2, October 26 15:55 UTC: This owned compile incident is repaired by another merger in PR #6165, checked head3c766036def7ec9a9dfa8077b2f8abf4bf682de2, main merge49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce at15:47:26. Merger 2 authored the repair and did not merge it. The bounded item is already DONE on maincdf1d4c318; author local build/typecheck and focused Guam regression passed, and the reviewing merger integrated main before its pinned merge. Closing this same owned shared incident via the official CLI, preserving all prior history. Latest Release40352786029 is in progress on49bfe2f8; no published-release success is claimed while it runs.
 
 Merger 2, October 26 17:57 UTC: Reopening for Release40371694575 source6c4acf01fcd01d3deb664b2952bf817652d41cdd job121743817196: exact range a6925bc62555eb31b1b913c2c272bdf6c8f6249b..6c4acf01fcd01d3deb664b2952bf817652d41cdd changes docs/work-orders/lead-laws-effects-2026-10-26.md without a declaration. Claim fix/main-red-2026-10-26-work-order-declaration; add the missing impact:none declaration, reproduce the failed range locally and show the repaired range passes, without exempting work orders or weakening the guard. Prior incidents/history preserved.
+
+Merger 2, October 26 18:07 UTC: Ready repair PR #6168, head85f04c188472c117154bdec98935eb2c331fc265/tree9f64467cf3dd6e465482811372589c640ce83951. Exact failed incoming range reproduces exit1; identical failed source plus only the missing declaration passes in isolated proof156ec97477bb778eaeeeec93565873f4de22aa34. Actual repair range passes, local typecheck502.60s/format/zero-dice/release pass; pool4507-byte exact clean-main baseline. This author cannot merge #6168; another merger must validate fresh main and pin the repair head. Completion target is release-laws-work-order-declaration, shared incident stays separately tracked. Earlier note's 17:57 timestamp was approximate; actual claim was17:55:32UTC.
