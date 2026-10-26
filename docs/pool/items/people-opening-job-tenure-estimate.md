@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T14:29:32.493Z
 
 **Rules.** Estimate, never UNKNOWN: the start date is an estimate from the BLS distribution with a per-world spread, marked with its source. No dice: who exists and when they started may be drawn at generation; no later decision is a roll. One model, two tiers: counted workers carry the same tenure estimate as full ones.
 
-**Done when.** In one year of buildBenchWorld in a place drawn from all 56, seed named, tenure within firms at the start spreads like the BLS distribution (median within a factor of 1.5 of 3.9 years), and the played year has layoff records decided by tenure and others decided by how the worker works (the workDecided value on the job-change record), both named by record id.
+**Done when.** In one year of buildBenchWorld in a place drawn from all 56, seed named, tenure within firms at the start spreads like the BLS distribution (median within a factor of 1.5 of 3.9 years), and the played year has layoff records decided by tenure and others decided by how the worker works (the workDecided value on the job-change record), both named by record id. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/deep-past.ts, src/core2/modules/jobs.ts, src/core2/data/jobs/parameters.json
 
