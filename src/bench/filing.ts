@@ -12,6 +12,7 @@ import {
   partyTie,
 } from "../core2/modules/parties";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { seatHolder } from "../core2/modules/voting";
 import {
   openFilingVisit,
   pickContest,
@@ -47,9 +48,21 @@ export interface BenchFilingVisit {
   backdrop: ReturnType<typeof backdropFile>;
   people: ReturnType<typeof stagePeople>["people"];
   names: Record<string, string>;
+  /**
+   * Each offered race told apart before the player picks, from its records:
+   * the seat (its district, or its place among the body's seats up that
+   * day), the election date and who holds the seat now.
+   */
+  seats: Record<string, SeatFacts>;
   /** What the counter shows once an office is named: its rules and the choices made with the filing. */
   overlay?: FilingOverlay;
   result?: unknown;
+}
+
+export interface SeatFacts {
+  seat: string | null;
+  electionDate: string;
+  holder: string | null;
 }
 
 export interface FilingOverlay {
@@ -120,6 +133,32 @@ export function openBenchFilingVisit(
       sourceIds: row.sources,
     };
   });
+  const seats = Object.fromEntries(
+    open.map((row, i) => {
+      const sameDay = titled.flatMap((t, j) =>
+        t === titled[i] && open[j]!.electionDate === row.electionDate
+          ? [j]
+          : [],
+      );
+      const holder = seatHolder(api, row);
+      return [
+        row.id,
+        {
+          // Seats sharing a district (at large) are numbered among themselves.
+          seat:
+            sameDay.length > 1
+              ? [row.district, String(sameDay.indexOf(i) + 1)]
+                  .filter(Boolean)
+                  .join(" ")
+              : row.district,
+          electionDate: row.electionDate,
+          holder: holder
+            ? `${holder.identity.givenName} ${holder.identity.familyName}`
+            : null,
+        },
+      ];
+    }),
+  );
   if (!contests.length) throw new Error("No open contest files there.");
   // The clerk the contest's filing office records name (none for a state or federal counter).
   const clerk = filingClerkFor(api, contests[0]!.id)?.personId;
@@ -148,6 +187,7 @@ export function openBenchFilingVisit(
     backdrop: backdropFile(place, minuteOfDay),
     people: stagePeople(core, place, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
+    seats,
   };
 }
 

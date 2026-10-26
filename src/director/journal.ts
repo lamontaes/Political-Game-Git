@@ -140,11 +140,22 @@ function relatives(person: PersonState) {
 /**
  * The household's own story, read from the dated facts the family history
  * keeps on a person (`core2/past-family.ts`): where they met their partner,
- * where their family came from, and a parent's new job they remember. Each
+ * how their parents met, where their family came from, a parent's new job
+ * they remember, and each parent and sibling the family records name. Each
  * moment cites its fact's record id; the place is named from the place
  * records, and a person only the writer knows by name is skipped.
  */
-function householdMoments(person: PersonState): JournalMoment[] {
+function householdMoments(
+  core: Readonly<CoreState>,
+  person: PersonState,
+): JournalMoment[] {
+  // Each relative once, from the first family fact that names them.
+  const toldOf = new Set<string>();
+  // The day the past records the birth, which the family facts are dated by
+  // (a creator's chosen age keeps the drawn past: SG-PLAY-creator-age-keeps-past).
+  const bornOn =
+    (person.pastFacts ?? []).find((fact) => fact.kind === "birth-date")?.date ??
+    person.birthDate;
   return (person.pastFacts ?? []).flatMap((fact): JournalMoment[] => {
     const base = {
       id: fact.id,
@@ -174,6 +185,55 @@ function householdMoments(person: PersonState): JournalMoment[] {
             },
           ]
         : [];
+    }
+    // How their parents met, on the day they met, by where their records put
+    // them then: the hometown they share, the place they lived, or school.
+    if (fact.kind === "household:parents-met") {
+      const setting = fact.facts?.setting;
+      const actFacts = setting === "school" ? {} : place(fact.facts?.placeId);
+      return setting && (setting === "school" || actFacts.place)
+        ? [
+            {
+              ...base,
+              date: (fact.facts?.metOn ?? fact.date) as IsoDate,
+              causeKind: `${fact.kind}:${setting}`,
+              counterpartIds: [],
+              actFacts,
+            },
+          ]
+        : [];
+    }
+    // Each parent from the day the person was born: the one who raised them
+    // at home, or the one who lived apart, by the household each is in.
+    // Each sibling by their birth against the person's own.
+    const otherId = fact.facts?.otherPersonId;
+    const relative = otherId ? core.people.get(otherId) : undefined;
+    const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
+    if (
+      relative?.alive &&
+      (parent || fact.kind === "family:sibling") &&
+      !toldOf.has(relative.id)
+    ) {
+      toldOf.add(relative.id);
+      const sibling = relative.birthDate.localeCompare(person.birthDate);
+      return [
+        {
+          ...base,
+          date: (sibling > zero && relative.birthDate > bornOn
+            ? relative.birthDate
+            : bornOn) as IsoDate,
+          causeKind: parent
+            ? relative.householdId === person.householdId
+              ? "household:raised-by"
+              : "household:parent-apart"
+            : sibling > zero
+              ? "household:sibling-born"
+              : sibling < zero
+                ? "household:sibling-older"
+                : "household:sibling-twin",
+          counterpartIds: [relative.id],
+        },
+      ];
     }
     if (fact.kind === "household:roots") {
       const first = (fact.facts?.parentBirthplaces ?? "")
@@ -374,6 +434,7 @@ export function composeJournal(
             : [moment.causeId],
       };
     }
+    const hasOwnLine = Boolean(row?.hasOwnLine);
     const otherId =
       moment.counterpartIds[zero] ??
       (moment.causeKind === "family:child"
@@ -381,7 +442,9 @@ export function composeJournal(
         : undefined);
     if (otherId) {
       const said = other(otherId);
-      if (!said) return null;
+      // One's own race is told without a rival the person never knew by
+      // name: its own lines say only how it went.
+      if (!said) return moment.selfNamed && hasOwnLine ? facts : null;
       const row = core.people.get(otherId);
       // A child is born with a name: "My daughter Jane was born." (owner,
       // Oct 15). A second child already said by name keeps it alone.
@@ -449,13 +512,26 @@ export function composeJournal(
     });
 
   const through = options.through ?? core.date;
+  // Moments of one day are told in the order the rows give: where the family
+  // came from, then who raised the person, then their brothers and sisters.
+  const rank = (moment: JournalMoment) => {
+    const at = rows.findIndex((entry) =>
+      moment.causeKind.startsWith(entry.kindPrefix),
+    );
+    return at < zero ? rows.length : at;
+  };
   const moments: JournalMoment[] = [
     ...book.moments,
     ...officeActMoments(core, personId, words),
-    ...householdMoments(person),
+    ...householdMoments(core, person),
   ]
     .filter((moment) => moment.date <= through)
-    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+    .sort(
+      (a, b) =>
+        a.date.localeCompare(b.date) ||
+        rank(a) - rank(b) ||
+        a.id.localeCompare(b.id),
+    );
   const rowOf = (moment: JournalMoment) =>
     rows.find((entry) => moment.causeKind.startsWith(entry.kindPrefix));
   const ageAt = (date: IsoDate) =>
@@ -471,6 +547,10 @@ export function composeJournal(
   const settingFactIds: string[] = [];
   const employerIds: string[] = [];
   let chapter: (typeof chapters)[number] | undefined;
+  // The chapter a race's turn opened, by contest record id: the race's result
+  // is told there, never under whatever chapter another person's race (a
+  // relative's, on the same day) opened last.
+  const chapterOfContest = new Map<string, (typeof chapters)[number]>();
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
   // Every moment of the person's so far, told or not, and those a later
@@ -586,6 +666,13 @@ export function composeJournal(
         );
       open(moment.id, title?.text ?? "", moment.date);
     }
+    const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
+    if (typeof contestId === "string" && row.turn)
+      chapterOfContest.set(contestId, chapter!);
+    const told =
+      (typeof contestId === "string" && !row.turn
+        ? chapterOfContest.get(contestId)
+        : undefined) ?? chapter!;
     // The scene: the event itself, worded for whose it was.
     const own =
       !!selfCount ||
@@ -775,7 +862,7 @@ export function composeJournal(
         parts.push(hook);
       }
     }
-    chapter!.lines.push({
+    told.lines.push({
       id: moment.id,
       date: moment.date,
       text: journalEntry(parts),
@@ -785,7 +872,7 @@ export function composeJournal(
       ],
       ...(changed && revision ? { revises: [changed.id] } : {}),
     });
-    chapter!.through = moment.date;
+    if (moment.date > told.through) told.through = moment.date;
   }
 
   // Revised as life goes on: a schoolmate or a co-worker who now holds office

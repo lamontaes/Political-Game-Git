@@ -5,14 +5,15 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/words-scene-family-absence
 pr:
 blocked-on:
 after:
 source: added by the acting CTO, Oct 25 (owner ruling)
 lead: words
 milestone: play-first
+claimed-at: 2026-10-26T02:28:40.241Z
 ---
 
 **What.** The owner ruled Oct 25 that a family member's absence is told to the player as a scene when a record explains it: moved away, in the hospital, jailed, died. Today a household member who leaves simply stops appearing, and the player learns nothing. The scene reads the record that took them (a move event, a hospital admission, a justice case's custody, a death record) and stages one moment in the house or by message from a kin member who says what happened, with the player's reply from controls and the result in the journal. Where no record explains the absence, nothing is said; the engine never invents a reason, and an absence with no record is a defect to file, not a line to fill.

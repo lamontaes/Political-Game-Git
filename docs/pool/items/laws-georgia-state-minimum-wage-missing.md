@@ -21,4 +21,4 @@ claimed-at: 2026-10-25T18:37:27.225Z
 
 **Files.** src/core2/modules/laws.ts, data/laws/
 
-**Notes.** TODO
+**Notes.** Oct 26 (speed lead): the same failure drew Irwinton, Georgia (place 1341400, seed 1dc85eb3951c974b6ed80230a8efdccdee28ffcb59209fd8e1242ee71792c1fe) in #6065's golden-path run, and it reproduces on main be6137ae1b with that seed and place: `laws.test.ts:200` expects the state minimum wage 515 and reads no state-level row.
