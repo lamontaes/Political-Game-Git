@@ -296,6 +296,19 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.33.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Bottle deposits and carbon prices follow what people return and emit** In a
+  state with a bottle deposit, how much of the deposit a household loses depends
+  on how many containers the state's people bring back, and that share climbs
+  once a new deposit has been law for about half a year. A carbon price is owed
+  on the tons a household emits, so it eases a little as the state's emissions
+  fall. The families you meet and the wider population pay by the same rule.
+
 ## PRE-ALPHA 0.32.9
 
 _Released October 26, 2026._

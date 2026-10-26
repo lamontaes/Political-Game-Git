@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.33.0",
+      "releasedOn": "2026-10-26",
+      "revision": "b1ff38918ef1def92311a07d215b6ebb70ef0cee",
+      "changeIds": [
+        "audit-fix4-campaigns-browser-check",
+        "web-reach-environment"
+      ]
+    },
+    {
       "version": "0.32.9",
       "releasedOn": "2026-10-26",
       "revision": "68b293f55772eafae977a086a20f0d4a4208e0f8",
