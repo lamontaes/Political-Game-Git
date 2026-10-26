@@ -1093,6 +1093,7 @@ export async function benchRequest(
           legislators: stateLegislators(
             requireCore(),
             url.searchParams.get("state") ?? "",
+            url.searchParams.get("level") === "federal" ? "federal" : "state",
           ),
         });
         return;

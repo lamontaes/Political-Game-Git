@@ -12,7 +12,10 @@ interface Policy {
 }
 const subjects = (
   billCatalog as unknown as {
-    subjects: { topics: { name: string; policies?: Policy[] }[] }[];
+    subjects: {
+      id: string;
+      topics: { name: string; policies?: Policy[] }[];
+    }[];
   }
 ).subjects;
 
@@ -36,6 +39,15 @@ export function storyTopicName(topic: string): string | null {
 /** A question's name as the bill catalog records it ("raise minimum wage"). */
 export function questionName(question: string): string | null {
   return questionRow(question)?.policy ?? null;
+}
+
+/** The catalog's subject a question sits under, by its id ("labor"). */
+export function questionSubject(question: string): string | null {
+  for (const subject of subjects)
+    for (const topic of subject.topics)
+      if ((topic.policies ?? []).some((policy) => policy.question === question))
+        return subject.id;
+  return null;
 }
 
 /** The catalog's topic for a question ("Wages and working hours"). */
