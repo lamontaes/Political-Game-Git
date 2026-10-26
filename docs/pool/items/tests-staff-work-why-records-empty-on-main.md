@@ -14,7 +14,7 @@ source: added with npm run pool -- add
 
 **What.** On clean main a53dd0ba22428d89712ebfbd06c050e35ed6b93b, staff.test.ts:150 expects workOf(api, aide.id).length to be five but receives zero. It reproduces at GOLDEN_PATH_SEED=196612b7b9cc3d9b7c955d1fdc5446b2 in an isolated one-worker run, and on PR5769 with both that seed and an independent draw. The five briefing results exist, but the fixture does not request retention for an aide outside the player circle under the current keepsWhy rule.
 
-**Rules.** Keep it simple: save why only for the player and the people they deal with, and use the explicit debug switch when a test needs other reasons. Never loosen a check: preserve the five positive briefing/work assertions and the separate ordinary-play task-count behavior instead of restoring global retention or skipping assertions.
+**Rules.** Ask why: when the test asserts a retained work record, explicitly arrange the player-circle focus or the dedicated keep-everyone’s-why debug scope that justifies retaining it. Keep why only for the player and the people they deal with in ordinary play; preserve all positive briefing, experience, quality and task-count assertions rather than restoring global retention or skipping checks.
 
 **Done when.** The named seed and an independent drawn staff.test.ts case pass at one worker on current main, with the fixture explicitly arranging the required focus or debug retention and restoring it for ordinary-play checks. Name the positive staff/work/payroll record ids, keep task experience and quality assertions, and show that unfocused play still omits the why rows while counting tasks.
 
