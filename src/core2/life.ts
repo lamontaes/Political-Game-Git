@@ -39,7 +39,6 @@ import { withGrief } from "./grief";
 import { FINANCE_MODULE } from "./modules/finance";
 import { RESIDENTS_MODULE, admitResidents } from "./modules/residents";
 import { ACCOUNTS_MODULE } from "./accounts";
-import { COUNTED_DRIFT_MODULE } from "./modules/counted-drift";
 import { COUNTED_MOVES_MODULE } from "./modules/counted-moves";
 import { COUNTED_DEMOTION_MODULE } from "./modules/counted-demotion";
 import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
@@ -54,6 +53,7 @@ import {
   coreAPI,
   createCore,
   resolveOperation,
+  openOpeningPeerTies,
 } from "./state";
 import type {
   ActOffer,
@@ -85,7 +85,6 @@ declareSnapshotCovered(
   PURCHASE_TAX_MODULE.id,
   RESIDENTS_MODULE.id,
   RETIREMENT_CLAIMS_MODULE.id,
-  COUNTED_DRIFT_MODULE.id,
   COUNTED_MOVES_MODULE.id,
   COUNTED_DEMOTION_MODULE.id,
   // Installed on first use: the journal's cash writers.
@@ -167,7 +166,6 @@ export function createLifeCore(
         ? [
             RESIDENTS_MODULE,
             RETIREMENT_CLAIMS_MODULE,
-            COUNTED_DRIFT_MODULE,
             // Counted people move between places from causes (one model, two tiers).
             COUNTED_MOVES_MODULE,
             // Filled-in people long out of the player's life return to the counts.
@@ -177,6 +175,10 @@ export function createLifeCore(
       ...(options.modules ?? []),
     ],
   });
+  // Townspeople open tied to the classmates and coworkers the records name.
+  const opening = coreAPI(core);
+  for (const actor of core.people.values())
+    openOpeningPeerTies(core, opening, actor);
   if (input.residents) admitResidents(core, input.residents);
   if (payroll?.estimates.length)
     coreAPI(core).stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP);
@@ -418,7 +420,14 @@ export function activate(
       : offer,
   );
   const scored = scoreOffers(core, personId, offers);
-  const decision = decisionFromScores(core, personId, scored, !!controller);
+  // The act's own record keeps these reasons (recordAct).
+  const decision = decisionFromScores(
+    core,
+    personId,
+    scored,
+    !!controller,
+    false,
+  );
   const retainFullScores =
     core.observer ||
     actor.id === core.playerId ||
@@ -553,7 +562,9 @@ export function advanceCore(
     for (const module of core.modules.values()) {
       const committed = module.onDay?.(
         api,
-        (actorId, offers, context) => chooseAct(core, actorId, offers, context),
+        // A module commits what this picks as an act, whose record keeps the reasons.
+        (actorId, offers, context) =>
+          chooseAct(core, actorId, offers, context, false, false),
         (actor, needIds) => {
           if (needIds) return projectWorkNeeds(core, api, actor, needIds);
           refreshNeeds(core, api, actor);

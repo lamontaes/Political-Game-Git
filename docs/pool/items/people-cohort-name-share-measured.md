@@ -5,12 +5,12 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/cohort-name-share
+pr: #5082
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T18:24:54.224Z
 ---
 
 **What.** `COHORT_GIVEN_NAME_SHARE` in `src/core2/gov-rules/given-name-cohorts.ts` is 0.6: only that share of generated people take a name drawn from their birth year's top 100; the rest keep the ordinary draw's name. The comment on it says the value is authored, not measured. The real share is how many births in a decade the top 100 names account for, which differs by decade and sex, and the SSA decade pages publish it. Replace the one number with a per-decade, per-sex share from those pages, in the data file beside the name tables, with its citation.
@@ -24,5 +24,9 @@ claimed-at:
 **Notes.** Found 2026-10-16 while porting the name draw into core (people-port-names, PR #4638), which carried the constant over unchanged so names would stay identical. The Social Security Administration publishes the decade pages at ssa.gov; the working environment could not reach it when the table was first built.
 
 Tried Oct 17 (claude session), not built: `https://www.ssa.gov/oact/babynames/decades/names1980s.html` returns HTTP 403 to the web fetch tool in this environment, so the decade pages cannot be read here. The share per decade and sex is the sum of a decade's top-100 counts divided by that decade's births by sex (`numberUSbirths.html`); either source works for a session that can reach ssa.gov, or from the SSA's national-names zip (names by year) if a mirror is allowed.
+
+Oct 19 (claude/cohort-name-share): built. Share read per decade and sex from src/core2/data/names/given-name-top-share.json (numerator: SSA decade top-100 counts already in the repo; denominator: SSA applicants by year and sex from the babynames package, because ssa.gov returns 403 here). The 2010s denominator is a yearly mean times ten (data ends 2017) and the 2020s hold the 2010s share, both marked ESTIMATED in the file.
+
+Historical branch notes from Oct 17 (PR #4955; current status and acceptance above govern):
 
 Tried Oct 17 (claude): from this environment www.ssa.gov and the SSA names zip answer 403, but a GitHub mirror, `https://raw.githubusercontent.com/hadley/data-baby-names/master/baby-names.csv` (year, name, percent of that year's births by sex, top 1,000 names per year), is reachable. It ends in 2008, so it gives the share for the 1920s to 2000s decades (sum of the decade's top-100 names' percents, by year and sex, averaged over the decade) but not the 2010s and 2020s that the opening's children need. Not built: a half-measured share would leave the youngest cohorts on the authored 0.6. A session that can reach ssa.gov (or a mirror to 2023) can finish it with the method above.

@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-time-plan): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-core-parameters-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind uncalibrated-time-plan"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind unca
 **Files.** src/core2/data/parameters.json
 
 **Notes.** First row: Reserves guessed sleep hours and gives waking recovery a separate guessed duration.
+
+Folded into research-core-parameters-sourced-parameters (CTO, Oct 19, 2026).

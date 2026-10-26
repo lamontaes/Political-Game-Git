@@ -34,6 +34,7 @@ import {
 } from "./modules/executive";
 import { answerIn } from "./modules/world-legislating";
 import { governments, openBudgets } from "./modules/budgets";
+import { postPayCapDaily } from "./budgets-treasury";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -135,8 +136,24 @@ describe("the executive's desk", () => {
       (s) => s.office.kind === "governor" && s.holder,
     );
     if (governor) expect(cabinet.length, where).toBeGreaterThan(0);
-    for (const row of cabinet)
+    for (const row of cabinet) {
       expect(row.identity?.familyName.length).toBeGreaterThan(0);
+      // A cabinet member the governor picked is a person on the state's payroll.
+      const job = core.jobs.get(core.people.get(row.holderId)?.jobId ?? "");
+      const stateGov = governments(api).find((g) => g.level === "state");
+      // A post whose budget line carries no wages is held unpaid (public payroll).
+      if (
+        !job &&
+        stateGov &&
+        !(postPayCapDaily(api, stateGov.organizationId, row.post, 1) ?? 1)
+      )
+        continue;
+      if (governments(api).some((g) => g.level === "state"))
+        expect(
+          governments(api).find((g) => g.level === "state")?.organizationId,
+          `${where} ${row.title}: ${row.holderId}`,
+        ).toBe(job?.organizationId);
+    }
     // The form follows the mayor's real powers.
     const veto = mayorVeto(api);
     if (form !== "council-manager")

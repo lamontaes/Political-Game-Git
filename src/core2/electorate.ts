@@ -11,7 +11,8 @@
  */
 import {
   campaignParameter,
-  platformAgreement,
+  groupAgreement,
+  type StanceProfile,
   registerCountedPeople,
   registerViewLeans,
   type Stance,
@@ -19,6 +20,7 @@ import {
 import { electorateParameter } from "./electorate-inputs";
 import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
+import { stateOfPlaceKey } from "./places";
 import { residentsRuntime } from "./modules/residents";
 import { isDemoted } from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
@@ -31,14 +33,36 @@ export interface CountedVoter {
   readonly id: string;
   readonly birthDate: string;
   readonly placeId: string;
+  /** The household they belong to (their faith and education are read from it). */
+  readonly householdId: string;
   readonly traits: Readonly<Record<string, number>>;
   /** Scheduled weekly work, from their recorded commitments. */
   readonly weeklyMinutes: number;
+  /** The highest hourly pay of their open work commitments; zero with no work. */
+  readonly hourlyMinor: number;
   /** Real voters this record stands for (its household's weight; one where the town opened at its own count). */
   readonly weight: number;
 }
 
 const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
+
+/** The state key of the world's own town ("US-MA"), the home of its counted people. */
+function townStateKey(core: CoreState): string {
+  return stateOfPlaceKey(core.placeMetadata?.placeKey ?? "") ?? "";
+}
+
+/** A counted resident's survey cell (see `surveyCell`): their state's, falling back to the nation's where the survey has no state sample. */
+export function countedSurveyCell(
+  core: CoreState,
+  voter: Pick<CountedVoter, "placeId" | "birthDate">,
+) {
+  return surveyCell(
+    voter.placeId,
+    voter.birthDate,
+    core.startedAt,
+    townStateKey(core),
+  );
+}
 
 /** Every counted resident still counted (not filled in), with their record's facts. */
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
@@ -54,12 +78,18 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
     const store = rt.store;
     for (const h of store.liveHouseholds()) {
       const minutes = new Map<string, number>();
-      for (const c of h.workCommitments)
-        if (c.endsAt === undefined || c.endsAt > core.date)
-          minutes.set(
-            c.personId,
-            (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
-          );
+      const hourly = new Map<string, number>();
+      for (const c of h.workCommitments) {
+        if (c.endsAt !== undefined && c.endsAt <= core.date) continue;
+        minutes.set(
+          c.personId,
+          (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
+        );
+        hourly.set(
+          c.personId,
+          Math.max(hourly.get(c.personId) ?? 0, c.hourlyMinor),
+        );
+      }
       for (const m of store.countedMembers(h)) {
         const id = store.ids[m]!;
         // A full person returned to the counts votes as counted.
@@ -69,8 +99,10 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
           id,
           birthDate: store.born[m]!,
           placeId: store.text(store.placeIx[m]!)!,
+          householdId: h.id,
           traits: store.packedTraits(m),
           weeklyMinutes: minutes.get(id) ?? 0,
+          hourlyMinor: hourly.get(id) ?? 0,
           weight: store.weightOf(h),
         });
       }
@@ -147,7 +179,12 @@ export function registerElectorate(core: CoreState): void {
       for (const row of countedResidents(core)) counted.set(row.id, row);
     const row = counted.get(person.id);
     if (!row) return 0;
-    const cell = surveyCell(row.placeId, row.birthDate, core.startedAt);
+    const cell = surveyCell(
+      row.placeId,
+      row.birthDate,
+      core.startedAt,
+      townStateKey(core),
+    );
     return cell.mean + cell.sd * z;
   });
 }
@@ -168,8 +205,13 @@ function surveyCell(
   placeId: string,
   birthDate: string,
   date: string,
+  townState: string,
 ): { mean: number; sd: number; engagement?: number } {
-  const key = corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey;
+  // The town's own counted households keep their governing unit's place id,
+  // which the place lookup may not know: they are the town's people, in its state.
+  const key =
+    corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey ??
+    townState;
   const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
   const age =
     Number(date.slice(0, 4)) -
@@ -212,7 +254,12 @@ export function engagementOf(
   if (core.people.has(voter.id))
     return viewOf(coreAPI(core), voter.id)?.engagement ?? null;
   if (!voter.birthDate || !voter.placeId) return null;
-  const cell = surveyCell(voter.placeId, voter.birthDate, core.startedAt) as {
+  const cell = surveyCell(
+    voter.placeId,
+    voter.birthDate,
+    core.startedAt,
+    townStateKey(core),
+  ) as {
     engagement?: number;
   };
   return cell.engagement ?? VIEWS_KEYS.national.engagement ?? null;
@@ -250,6 +297,13 @@ export interface CountedFieldEntry {
    * names (`ballot-order.ts`).
    */
   readonly ballotCues?: readonly number[];
+  /**
+   * Where the race's public standing already carries the average incumbency
+   * advantage (a partisan state or federal race), the town's average
+   * incumbent side of its adults' traits: each voter's own is read against
+   * it, so their traits move them around that advantage, not on top of it.
+   */
+  readonly incumbentLeanCenter?: number;
 }
 
 /** One counted voter's appeal for a candidate, with its parts. */
@@ -287,6 +341,8 @@ export function countedAppeal(
     readonly trust?: number;
     /** Which form of the ballot the voter holds (their precinct's place in a rotation). */
     readonly ballotForm?: number;
+    /** Their faith and degree, which move their stance on the questions the survey asked. */
+    readonly profile?: StanceProfile | null;
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
@@ -296,9 +352,11 @@ export function countedAppeal(
     const recognition = where.inTown
       ? entry.recognition *
         (campaignParameter("countedRecognitionWeight") +
-          platformAgreement(lean, entry.platform))
+          groupAgreement(lean, entry.platform, where.profile))
       : 0;
-    const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
+    const incumbent = entry.isIncumbent
+      ? where.incumbentLean - (entry.incumbentLeanCenter ?? 0)
+      : 0;
     const cues = entry.ballotCues ?? [];
     const ballot = cues.length
       ? cues[(where.ballotForm ?? 0) % cues.length]!

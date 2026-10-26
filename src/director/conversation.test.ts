@@ -4,6 +4,10 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
+import {
+  CONVERSATION_WORDS,
+  heldConversationWords,
+} from "../english/conversation-words";
 import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -14,6 +18,7 @@ import {
   beliefsModule,
   beliefsOf,
   CONVERSATION_DATA,
+  CONVERSATION_RULES,
   doubtsClaim,
   openConversation,
   say,
@@ -22,7 +27,6 @@ import {
   type Conversation,
 } from "./conversation";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { MINED_CONVERSATION } from "./mined/conversation-bank";
 import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
@@ -119,11 +123,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        // Four replies, always (owner, Oct 14), each saying something else.
+        // Four replies, always, each saying something else.
         const texts = talk.choices.map((row) => row.text);
         // An acknowledgment ("Okay.", "All right.") takes in a statement; it
         // is never a reply to a question, which every reply moves on
-        // (owner, Oct 15). Where a question has fewer than four real
+        //. Where a question has fewer than four real
         // wordings in its stage ("Where did you go to school?"), it gets
         // fewer, never a filler.
         const questioned = last.act === "ask" || /\?$/.test(last.text);
@@ -156,7 +160,9 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         turns += 1;
       }
     }
-    expect(turns).toBeGreaterThan(15);
+    // Relatives talk personal subjects only and often have nothing to say
+    //, so fewer turns run than before.
+    expect(turns).toBeGreaterThan(8);
   });
 
   it("lets the player say nothing, and the other person carries on or the talk ends", () => {
@@ -216,7 +222,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const texts = talk.lies.map((row) => row.text);
     expect(new Set(texts).size).toBe(texts.length);
     // A lie about work is a denial or a believable false alternative; a lie
-    // about where the player is from always names another place (owner, Oct 15).
+    // about where the player is from always names another place.
     const kinds = new Set(talk.lies.map((row) => row.key.split(":")[2]));
     if (opening(talk).kind.startsWith("own-work")) expect(kinds.size).toBe(2);
     else expect([...kinds]).toEqual(["elsewhere"]);
@@ -230,6 +236,29 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       expect(lie.wording?.parts.length).toBeGreaterThan(0);
       expect(talk.choices.map((row) => row.text)).not.toContain(lie.text);
     }
+  });
+
+  it("talks personal subjects only between relatives: no work, school, home or mutual friends", () => {
+    const dropped = CONVERSATION_RULES.familyTalk.dropped;
+    const kin = [...me.familyIds].filter((id) => core.people.get(id)?.alive);
+    expect(kin.length).toBeGreaterThan(0);
+    for (const id of kin) {
+      for (const [from, to] of [
+        [me.id, id],
+        [id, me.id],
+      ] as const)
+        for (const row of subjectsBetween(core, from, to))
+          expect(dropped).not.toContain(row.kind);
+      const talk = openConversation(core, me.id, id);
+      for (const line of talk.lines)
+        expect(line.text).not.toMatch(/Have you talked to|Where do you work/);
+    }
+    // Outside the family the same subjects are still there.
+    expect(
+      strangers
+        .flatMap((row) => subjectsBetween(core, me.id, row.id))
+        .some((row) => dropped.includes(row.kind)),
+    ).toBe(true);
   });
 
   it("names another place when the player lies about where they are from, and says no calendar date", () => {
@@ -390,23 +419,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(closed).toBeGreaterThan(0);
   });
-  it("opens a reunion scene's talk on what the two share, ahead of any other event", () => {
+  it("opens a reunion scene's talk on a school or workplace the two once shared only when decades have passed and the record shows it (owner, Oct 15, evening)", () => {
     const book = director.ledger.people.get(player.id)!;
     const template = book.moments[0]!;
     let checked = 0;
     for (const otherId of others) {
-      // Not one whose last talk with the player was already about it.
-      const remembered = core.knowledgeByPerson
-        .get(otherId)
-        ?.get(`talk:${player.id}:topic`)?.value;
-      if (
-        !subjectsBetween(core, player.id, otherId, director).some(
-          (row) =>
-            (row.kind === "shared-school" || row.kind === "shared-work") &&
-            row.id !== remembered,
-        )
-      )
-        continue;
+      const shared = subjectsBetween(core, player.id, otherId, director).filter(
+        (row) => row.kind === "shared-school" || row.kind === "shared-work",
+      );
+      if (!shared.length) continue;
       // Edge case by hand: a re-entry moment whose cause no subject is about.
       const occasion = {
         ...template,
@@ -420,7 +441,17 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         occasionId: occasion.id,
       });
       book.momentsById.delete(occasion.id);
-      expect(talk.topics[0], otherId).toMatch(/(?:^|>)shared-(?:school|work):/);
+      // "Do you remember <school>?" opens nothing unless a record says
+      // something happened to it or decades have passed.
+      for (const line of talk.lines) {
+        const about = shared.find((row) => line.subjectId.includes(row.id));
+        if (about)
+          expect(
+            about.facts["long-ago"],
+            `${otherId}: ${line.text}`,
+          ).toBeTruthy();
+        else expect(line.text, otherId).not.toMatch(/\bremember\b/i);
+      }
       checked += 1;
       if (checked >= 3) break;
     }
@@ -439,6 +470,8 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(kin.length).toBeGreaterThan(0);
   });
   it("remembers the last talk's topic and opens the next one with something else", () => {
+    // Any topic a talk keeps to is remembered by the listener: the next talk
+    // with the same person opens on another (a shared school is not an opener).
     let checked = 0;
     for (const otherId of others.slice(0, 15)) {
       const first = openConversation(core, player.id, otherId, { director });
@@ -447,9 +480,56 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       const next = openConversation(core, player.id, otherId, { director });
       if (next.topics[0]) expect(next.topics[0]).not.toBe(first.topics[0]);
       checked += 1;
+      if (checked >= 5) break;
     }
     expect(checked).toBeGreaterThan(0);
   });
+  it("never opens on a school or an old job without a reason, and a question answered is followed up, not answered with goodbye", () => {
+    // 15 talks in a drawn place. Owner, Oct 15, evening (batch 12 rejected).
+    const reason = /remember|go to school|work at|work for/i;
+    let talks = 0;
+    let checkedPairs = 0;
+    for (const otherId of others.slice(0, 15)) {
+      const talk = openConversation(core, player.id, otherId, { director });
+      talks += 1;
+      // Rule 1: a shared school or workplace is raised only with a reason.
+      const subjects = subjectsBetween(core, player.id, otherId, director);
+      for (const row of subjects)
+        if (row.kind === "shared-school" || row.kind === "shared-work") {
+          const long = !!row.facts["long-ago"];
+          const said = talk.lines.some((line) =>
+            line.subjectId.includes(row.id),
+          );
+          if (said) expect(long).toBe(true);
+        }
+      for (let turn = 0; turn < 5 && talk.choices.length; turn += 1) {
+        // A yes or no (or any reply) to the other person's question.
+        const choice =
+          talk.choices.find((row) => /^(yes|no|yeah|nope)\b/i.test(row.text)) ??
+          talk.choices[0]!;
+        say(core, talk, choice.key);
+        void reason;
+      }
+      // Rule 2 and 3: a farewell is never the next thing said after the
+      // other person's own question was answered (an ack may sit between).
+      talk.lines.forEach((line, at) => {
+        if (line.kind !== "farewell") return;
+        let back = at - 1;
+        while (back >= 0 && talk.lines[back]!.kind === "ack") back -= 1;
+        const answer = talk.lines[back];
+        const asked = talk.lines[back - 1];
+        if (answer && answer.speakerId === player.id && asked) {
+          checkedPairs += 1;
+          expect(
+            asked.speakerId === talk.otherId && /\?$/.test(asked.text.trim()),
+          ).toBe(false);
+        }
+      });
+    }
+    expect(talks).toBe(Math.min(15, others.length));
+    expect(checkedPairs).toBeGreaterThan(0);
+  });
+
   it("answers a question about the player's relative, and may ask back about theirs", () => {
     // Neighbors who know one of the player's relatives and have a relative
     // the player knows, the two relatives being different people (a
@@ -514,11 +594,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
     }
     // A talk the neighbor opens by asking after the player's relative: the
-    // player's answer may turn it back, and the neighbor answers in turn.
+    // player's answer may turn it back, and the neighbor answers in turn. The
+    // family answers that turn a talk back are hand-written and held until
+    // graded, so this reads them the way a grading batch does.
+    const held = heldConversationWords();
     let turned = 0;
     for (const pair of pairs) {
       const talk = openConversation(core, player.id, pair.otherId, {
         director,
+        data: held,
       });
       if (talk.lines.find((row) => row.kind !== "greet")?.kind !== "family")
         continue;
@@ -532,7 +616,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       expect(aboutId).not.toBe(asked);
       expect(core.people.get(pair.otherId)!.familyIds.has(aboutId)).toBe(true);
       const before = talk.lines.length;
-      say(core, talk, back.key);
+      say(core, talk, back.key, held);
       const [said, reply] = talk.lines.slice(before);
       expect(said!.speakerId).toBe(player.id);
       expect(reply!.speakerId).toBe(pair.otherId);
@@ -597,7 +681,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
 
 describe("the answers to a question fit it", () => {
   it('never answers "Where did you go to school?" with "It\'s okay."', () => {
-    const school = MINED_CONVERSATION.subjects.school!;
+    const school = CONVERSATION_WORDS.subjects.school!;
     const keys = new Set((school.answers ?? []).map((move) => move.key));
     // Where, or that they are done: nothing about how it is going.
     expect([...keys].sort()).toEqual(["at", "done"]);
@@ -605,7 +689,7 @@ describe("the answers to a question fit it", () => {
       expect(move.text).not.toMatch(/^It'?s (okay|fine|good|hard|going well)/);
     // The reply to the same question, from their own record, is where.
     expect(
-      (MINED_CONVERSATION.subjects["school-reply"]?.reply ?? []).every(
+      (CONVERSATION_WORDS.subjects["school-reply"]?.reply ?? []).every(
         (move) => move.key === "at",
       ),
     ).toBe(true);

@@ -7,7 +7,7 @@ priority: 3
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5076
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -22,3 +22,15 @@ claimed-at:
 **Files.** scripts/audit/research-data-unread-baseline.json, scripts/audit/research-data-allowlist.json, tests/guards/research-data-has-reader.test.ts, data/research/
 
 **Notes.** From PR 4681 (tests-research-data-reader-allowlist-red). The largest groups: core-figures/P0-12 declarations (56 files, one per place), roadmap-r* research outputs, business roadmap-r8 tables. Take one folder per session.
+
+Sent back 2026-10-17 from PR #4953 (branch claude/business-entry-exit-check-v2): Merging current main (d3d2b3ec1a) conflicts in docs/pool/items/world-business-entry-below-bds.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4926 (branch claude/research-data-roadmap-triage): Merging current main (e99e4a0436) conflicts in docs/pool/items/core-research-data-unread-triage.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4949 (branch claude/research-triage-starting-law): Merging current main (f20f3700e5) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4950 (branch claude/research-triage-evidence): Merging current main (f359364281) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4951 (branch claude/fhfa-growth-check): Merging current main (ca0832d084) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #4926 (branch claude/research-data-roadmap-triage): rawSource bypass additions clear a red reader guard despite missing consumers; preserve awaiting-reader ownership or add real readers, and supply the missing Done-when evidence table; finish on that branch, merge main into it first.

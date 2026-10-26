@@ -1,5 +1,7 @@
 # OPUS-PEOPLE
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 ## Press
 
 Branch `people/press-and-reporters`, draft PR #4180 to main. Owner's ask (October 14): press and interviews, a press member the player befriends or fights, a paper the player can influence. One builder (Opus, high); no sub-agents ran on the code, one Sonnet research helper read the payroll and money paths.

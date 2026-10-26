@@ -3,7 +3,7 @@ id: words-bench-datapoints
 title: "Every line the bench composes is a data point, deduped, in batch-12.json"
 area: words
 kind: feature
-priority: 1
+priority: 2
 size: M
 status: open
 claimed-by:
@@ -11,6 +11,7 @@ pr:
 blocked-on:
 after: words-bench-compose
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Make every composed line a data point and drop repeats. For each line record: move, register, bearing, key, the speaker's traits, lie or not, length in words, sentence count, the ids of the pieces used, and the record ids that filled the slots. Write `data/english/batches/batch-12.json`, one row per line grouped by item, with the item's situation type, cast record ids, profile and the cause record that fired it. Dedupe: no two items share (situation type, cast, pieces used); a profile that reads identically to another on one scene is dropped; no two choice sets share the same four replies; a situation type appears at most 3 times per profile (`--max-per-type`); a phrase appears once; the bench prints the count dropped under each rule.
@@ -21,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** scripts/dialogue-batch/grading-bench.ts, data/english/batches/batch-12.json (new), scripts/dialogue-batch/repetition-guard.ts
 
-**Notes.** Part of words-grading-bench. Takes composed scenes from words-bench-compose.
+**Notes.** Part of words-grading-bench. Takes composed scenes from words-bench-compose. Claim released Oct 23: branch gone.

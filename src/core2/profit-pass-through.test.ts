@@ -6,6 +6,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { residentsRuntime } from "./modules/residents";
 import { BUDGETS_MODULE_ID } from "./modules/budgets";
 import { EMPLOYER_TAXES_MODULE_ID } from "./modules/employer-taxes";
 import { coreAPI } from "./state";
@@ -104,7 +105,15 @@ it(`a business a counted resident owns passes its profit to the owner group's in
     }
     for (const row of paid) {
       const where = `${place.name}, seed ${seed}:counted:${life}, ${row.id}`;
-      expect(core.people.has(row.ownerId), where).toBe(false);
+      // The tax was paid while the owner was counted; since then the owner may
+      // have been filled in as a full person, and then their household is on
+      // the runtime's filled-in list.
+      const owner = core.people.get(row.ownerId);
+      if (owner)
+        expect(
+          residentsRuntime(core)!.filledIn.has(owner.householdId),
+          `${where}: the owner is a full person but their household was not filled in from the counts`,
+        ).toBe(true);
       expect(row.taxPaidMinor!, where).toBeLessThanOrEqual(row.profitMinor);
     }
     return;

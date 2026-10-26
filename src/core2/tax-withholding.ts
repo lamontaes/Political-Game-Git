@@ -15,7 +15,7 @@ import type { LawInForceAnswer } from "./laws-in-force";
 import type { LawRowInput } from "./laws-starting";
 
 export interface WithholdingLine {
-  readonly level: "federal" | "state" | "county" | "city";
+  readonly level: "federal" | "state" | "county" | "township" | "city";
   readonly jurisdiction: string;
   readonly tax: "income" | "social-security" | "medicare";
   readonly minor: number;

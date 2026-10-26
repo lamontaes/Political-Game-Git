@@ -114,7 +114,12 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
         continue;
       }
       const seat = seats.find((s) => s.seat.id === contest.seatId)!;
-      const runner = [...core.people.values()]
+      const holder = seat.holder;
+      // Run against the holder: the other major party's label, which takes
+      // membership in it, else as an independent.
+      const against =
+        partySide(holder?.party) > 0 ? "Democratic" : "Republican";
+      const wealthiest = [...core.people.values()]
         .filter(
           (p) =>
             p.alive &&
@@ -122,18 +127,19 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
         )
         .sort(
           (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-        )
-        .find((p) =>
-          checkEligibility(api, p.id, contest.id, "party").every((c) => c.met),
         );
+      const qualified = (label: string | null) =>
+        wealthiest.find((p) =>
+          checkEligibility(api, p.id, contest.id, label).every((c) => c.met),
+        );
+      const member = qualified(against);
+      const runner = member ?? qualified(null);
+      const party = member ? against : null;
       if (!runner) {
         tried.push("no resident qualifies");
         continue;
       }
       core.playerId = runner.id;
-      const holder = seat.holder;
-      // Run against the holder: the other major party.
-      const party = partySide(holder?.party) > 0 ? "Democratic" : "Republican";
       const filed = fileCandidacy(api, {
         personId: runner.id,
         contestId: contest.id,

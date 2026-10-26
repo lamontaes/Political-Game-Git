@@ -1,8 +1,9 @@
 ---
 name: ask-why
 description: >
-  Use before sending any report or proof: answer why for each odd number or
-  pattern, with a cause named by file and line, or "not found".
+  Checks a report or proof for odd numbers and patterns and names each one's
+  cause by file and line, or "not found". Use before sending any report,
+  proof or PR body that quotes results.
 ---
 
 # Ask why
@@ -37,4 +38,4 @@ Run this checklist over every result before it goes out. Each hit needs a cause,
 - Mark each claim measured or inferred.
 - A cause that is a seeded roll or fixed percentage deciding one actor's outcome breaks `no-dice`.
 - Nobody attributes a change to a law unless they learned of it; cite the source (news, conversation, notice).
-- Put findings in the PR body or progress file, in plain American English, per `civic-reports`. Run `npm run report:check -- <file>`.
+- Put findings in the PR body, your channel section or `docs/play-first/PROGRESS.md`, in plain American English, per `civic-reports`. Run `npm run report:check -- <file>`.

@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
 pr: #4626
 blocked-on:
@@ -25,3 +25,14 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-16 from PR #4626 (branch words/word-pack): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-17 from PR #4626 (branch words/word-pack): The top of the PR body has no named in-session changed-file checks and result. Move the existing check results to the top, then request another merger pass.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-19 from PR #4626 (branch words/word-pack): No in-session changed-file gate result near the top of the PR body; finish on that branch, merge main into it first.
+Sent back 2026-10-19 from PR #4626 (branch words/word-pack): same conflicts as words-batch-15; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #4626 (branch words/word-pack): Morning check: scene-talk.test.ts:133-136 now permits a final reply question and drops the missing-close gap assertion, while line 225 lowers minimum depth from 2 to 1; restore the closing and branch coverage and satisfy it; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #4626 (branch words/word-pack): law-reached-scenes.test.ts:58-70 skips cast/cause assertions for a bindingless effect based on any same-day scene, while scheduling.ts only discards duplicate bindings rather than associating both causes; prove the recipient and both cause record IDs or preserve distinct scenes; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #4626 (branch words/word-pack): after5942 reached main, corrective99a52b11dd conflicts in src/director/government-scenes.test.ts; preserve both main government-scene assertions and restored causal checks on integration; finish on that branch, merge main into it first.

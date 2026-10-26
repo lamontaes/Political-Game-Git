@@ -1,10 +1,7 @@
 /** Opening-only import of existing generated schedules. Runtime work never imports World. */
 import { addDays, makeIsoDate } from "./kernel/dates";
-import {
-  WORK_PATTERNS,
-  workSchedulesFor,
-  type WorkPatternKey,
-} from "../simulation/living-world/work-schedules";
+import { workSchedulesFor } from "../simulation/living-world/work-schedules";
+import { WORK_PATTERNS, type WorkPatternKey } from "./work-patterns";
 import type { EntityId, World } from "../simulation/types";
 import { parameter as p } from "./parameters";
 import type { OpeningSchedule } from "./modules/work";

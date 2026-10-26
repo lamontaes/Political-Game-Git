@@ -19,12 +19,14 @@ import {
   CALIBRATED_AT,
   derivedOf,
   engineMeasure,
+  engineOwned,
   fixedBaseline,
   isLaw,
   KEPT_OUTCOMES,
   keptOutcome,
   LAW_PREFIX,
   linkEffect,
+  OUTCOME_WEB_MODULE_ID,
   moderatorScale,
   scaleOf,
   sizeIn,
@@ -37,9 +39,19 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
+import { schoolMeasure } from "../school-measures";
+import { propertyTaxRateInForce } from "../housing-property-tax";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
+import { monthEvent } from "../outcome-news";
 
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
+/** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
+const SCHOOL_MEASURED = new Set([
+  "school.math-proficient-pct",
+  "school.reading-proficient-pct",
+  "school.graduation-pct",
+]);
+
+export { OUTCOME_WEB_MODULE_ID };
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;
@@ -169,6 +181,22 @@ export function lawValue(
   return [...latest.values()].some((row) => Number(row.value) === 1) ? 1 : 0;
 }
 
+/** Engine records outside the economy's monthly rows, read by name: the engine's own table. */
+const ENGINE_READERS: Readonly<
+  Record<
+    string,
+    (
+      api: CoreAPI,
+      placeId: string,
+    ) => { value: number; recordId: string | null } | null
+  >
+> = {
+  "property-tax-rate": (api, placeId) => {
+    const rate = propertyTaxRateInForce(api, placeId);
+    return rate ? { value: rate.share, recordId: rate.recordId } : null;
+  },
+};
+
 /** An engine's record for a measure in a place today, or null where it keeps none. */
 function readEngine(
   api: CoreAPI,
@@ -177,12 +205,19 @@ function readEngine(
 ): { value: number; recordId: string | null } | null {
   const definition = engineMeasure(measure);
   if (!definition) return null;
-  // Engine measures are read from the economy's monthly rows (world-metrics).
-  if (!(api.state as CoreState).modules.has(WORLD_METRICS_MODULE_ID))
-    return null;
+  if (definition.reader) {
+    const read = ENGINE_READERS[definition.reader]?.(api, placeId);
+    return read
+      ? { value: read.value * definition.unitScale, recordId: read.recordId }
+      : null;
+  }
+  // Engine measures are read from the economy's monthly rows (world-metrics),
+  // or from the month rows of the engine that owns them.
+  const owner = definition.module ?? WORLD_METRICS_MODULE_ID;
+  if (!(api.state as CoreState).modules.has(owner)) return null;
   const recorded = api
-    .moduleState(WORLD_METRICS_MODULE_ID)
-    .table("months")
+    .moduleState(owner)
+    .table(definition.table ?? "months")
     .query("byPlace", [placeId]) as unknown as readonly ({
     date: string;
     id: string;
@@ -241,12 +276,17 @@ function rowAt(r: Reading, index: number): WebMonth | undefined {
 
 /** A cause's value as it stood in month `index` (today's date shifted back for a law). */
 function causeAt(r: Reading, measure: string, index: number): number | null {
-  if (isLaw(measure))
+  if (isLaw(measure)) {
+    // The starting law rows take effect on the calibration date, so a date
+    // before it reads the law as it stood then, not as absent: a place that
+    // repeals a law it began with feels the repeal a lag later.
+    const date = dateMonthsBefore(r.api.state.date, r.index - index);
     return lawValue(
       r.api,
       measure.slice(LAW_PREFIX.length),
-      dateMonthsBefore(r.api.state.date, r.index - index),
+      date < CALIBRATED_AT ? CALIBRATED_AT : date,
     );
+  }
   const derived = derivedOf(measure);
   const kept = derived?.measure ?? measure;
   if (index >= r.index && !keptOutcome(kept)) return r.values[measure] ?? null;
@@ -294,12 +334,24 @@ function baselineOf(r: Reading, measure: string): number | undefined {
   );
 }
 
+/** The cause a link reads: as it stood after the lag, averaged over the link's phase-in months. */
+function phasedCause(r: Reading, link: WebLink, index: number): number | null {
+  const months = Math.max(1, link.phaseInMonths ?? 1);
+  let sum = 0;
+  for (let k = 0; k < months; k += 1) {
+    const value = causeAt(r, link.from, index - k);
+    if (value === null) return k ? sum / k : null;
+    sum += value;
+  }
+  return sum / months;
+}
+
 /** One link's effect this month, or null when its cause can't be read. */
 function effectOf(r: Reading, link: WebLink): number | null {
   // An outcome feeds the links from it the month after it moves.
   const chained = keptOutcome(derivedOf(link.from)?.measure ?? link.from);
   const index = r.index - Math.max(link.lagMonths, chained ? 1 : 0);
-  const value = causeAt(r, link.from, index);
+  const value = phasedCause(r, link, index);
   const baseline = baselineOf(r, link.from);
   if (value === null || baseline === undefined) return null;
   // A lagged law effect does not outlast the law: once the law is back where
@@ -375,6 +427,11 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   const effects: Record<string, number> = {};
   for (const outcome of KEPT_OUTCOMES) {
     const base = baseOf(outcome, state.stateKey).value;
+    // An engine's own record of the outcome stands as read (poverty).
+    if (engineOwned(outcome) && r.values[outcome] !== undefined) {
+      bases[outcome] = base;
+      continue;
+    }
     const level = scaleOf(outcome) === "level";
     let product = 1,
       added = 0;
@@ -387,6 +444,15 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     }
     bases[outcome] = base;
     r.values[outcome] = level ? base + added : base * product;
+    // An outcome the school engine measures stands on its records: the share
+    // its students reached last school year, citing that record.
+    const measured = SCHOOL_MEASURED.has(outcome)
+      ? schoolMeasure(api, placeId, outcome)
+      : null;
+    if (measured) {
+      r.values[outcome] = measured.value;
+      engineSources[outcome] = measured.recordId;
+    }
   }
   const row: WebMonth = {
     id: `web:${placeId}:${month}`,
@@ -404,12 +470,34 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   return row;
 }
 
-function run(api: CoreAPI): void {
+/** The month's one public record for a place: what moved since the month before (the town hears it through the press and the news). */
+function announce(api: CoreAPI, row: WebMonth): void {
+  const before = monthRow(
+    api,
+    row.placeId,
+    monthKey(monthIndex(row.month) - 1),
+  );
+  const made = monthEvent(api, row, before?.values ?? {});
+  if (made) api.emit(made.event);
+}
+
+function run(api: CoreAPI, announced = false): void {
   const state = webState(api);
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
   api.stopgap("SG-WEB-outcome-drift");
-  for (const placeId of placesOf(api)) recordMonth(api, placeId, state);
+  // No field counts the SNAP benefit's recipients into SNAP receipt, and no engine keeps food insecurity; both stay ledger numbers.
+  api.stopgap("SG-WEB-snap-receipt-ledger");
+  api.stopgap("SG-WEB-food-insecurity-ledger");
+  // Causes of poverty that reach no incomes yet (poverty itself is the engine's).
+  api.stopgap("SG-WEB-poverty-licensing-no-engine");
+  api.stopgap("SG-WEB-poverty-graduation-no-engine");
+  api.stopgap("SG-WEB-housing-links-unsized");
+  api.stopgap("SG-WEB-disaster-severity");
+  for (const placeId of placesOf(api)) {
+    const row = recordMonth(api, placeId, state);
+    if (announced) announce(api, row);
+  }
 }
 
 function schedule(api: CoreAPI): void {
@@ -467,7 +555,7 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
   },
   onCalendarWork(api, work) {
     if (work.kind !== RUN_KIND) return;
-    run(api);
+    run(api, true);
     schedule(api);
   },
   onDay(api) {
@@ -500,6 +588,9 @@ export function placeOutcome(
       engineRecordId: string | null;
     }
   | undefined {
+  // A world without the web (a small test world) has no conditions to read.
+  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
+    return undefined;
   const rows = store(api)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[];

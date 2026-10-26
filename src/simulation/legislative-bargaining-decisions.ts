@@ -1,4 +1,4 @@
-import type { DecisionDeclaration } from "./trait-packs";
+import type { DecisionDeclaration } from "../core2/trait-packs";
 
 /**
  * What a member answering at a bargaining sitting is choosing between,

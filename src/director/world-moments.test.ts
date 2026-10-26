@@ -133,7 +133,25 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
             core.people.get(mover)!.familyIds.has(id),
           ),
       );
-      for (const id of relatives) expect(momentsCiting(event.id)).toContain(id);
+      // The relative has the move's moment, or, someone other than the
+      // player keeping only their strongest older moments, its month's
+      // summary of moves (the director's memory, ledger.ts forget) that
+      // names this mover among the moments it folded in.
+      const month = event.date.slice(0, "YYYY-MM".length);
+      const summarized = (id: string) =>
+        [...(director.ledger.people.get(id)?.summaries.values() ?? [])].some(
+          (summary) =>
+            summary.month === month &&
+            summary.label.endsWith(`:event:${event.kind}`) &&
+            event.personIds.some((mover) =>
+              summary.counterpartIds.includes(mover),
+            ),
+        );
+      for (const id of relatives)
+        expect(
+          momentsCiting(event.id).includes(id) || summarized(id),
+          `${event.id}: ${id}`,
+        ).toBe(true);
     }
   });
 
@@ -166,9 +184,14 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
         const text = composeJournal(core, director, parentId).flatMap(
           (chapter) => chapter.lines.map((line) => line.text),
         );
+        // The line carries the child's name (owner, Oct 15, evening: "My
+        // daughter Jane was born.").
         expect(
-          text.some((line) =>
-            /^My (son|daughter|child)( [^.]+)? was born\./.test(line),
+          text.some(
+            (line) =>
+              /\b[Mm]y (son|daughter|child) [A-Z][\w'-]*( was born| came along)?\.$/.test(
+                line,
+              ) || /^My (son|daughter|child)( [^.]+)? was born\./.test(line),
           ),
         ).toBe(true);
       }

@@ -212,6 +212,17 @@
       "citation": "BLS CPS participation by age, 2015-2019."
     }
   },
+  "jobsOlderWorkWebWeight": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "How strongly the outcome web's factor on older workers' employment (labor.older-employment) pulls people from the earliest to the full retirement age to stay at work or start looking: the weight times the log of the factor, on the retire, leave and enter choices. Checked against the retirement-age link's researched size, a 10 percent rise in the employment share at 62 to 66 for a two-year rise in the full retirement age (range 4 to 22 percent; Mastrobuoni 2009, Journal of Public Economics), in one played year of twin bench worlds.",
+    "spread": {
+      "low": 3.5,
+      "high": 9,
+      "unit": "score per log factor",
+      "citation": "The weights that put the year's move near the ends of the link's range, 4 and 22 percent, in the fitting runs: Sparks, Nevada (1.8 percent at 1, 13.6 at 6), Dakota Dunes, South Dakota (5.3 at 4, 8.6 at 5) and Hudson, New Hampshire."
+    }
+  },
   "jobsOnTheJobSearchMonths": {
     "value": 3,
     "tag": "TUNABLE",
@@ -422,26 +433,69 @@
       "citation": "A referral helps while the search is live; the median unemployment spell is about ten weeks (Bureau of Labor Statistics, Current Population Survey)."
     }
   },
-  "jobsRaiseAfterDays": {
-    "value": 60,
-    "tag": "TUNABLE",
-    "citation": "How long an opening stands unfilled before its employer weighs raising the pay. No series gives this directly; calibrated by checking that the resulting pay growth on long-open postings stays inside the range of the Atlanta Fed Wage Growth Tracker (job switchers against stayers) and the Indeed Hiring Lab posted-wage tracker, which are checks on the totals and not coefficients here.",
+  "jobsMotherYoungChildYears": {
+    "value": 5,
+    "tag": "SOURCED",
+    "citation": "Malik 2018 (Center for American Progress), mothers with children under 5, the group the D.C. universal pre-K result is measured on."
+  },
+  "jobsAdultAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Age of majority; a household's children are its members under 18 (Census household definitions)."
+  },
+  "jobsFullRetirementAge": {
+    "value": 67,
+    "tag": "SOURCED",
+    "citation": "42 U.S.C. 416(l): the full Social Security retirement age is 67 for those born in 1960 or later; the upper end of the 62 to 67 group the older-employment outcome covers."
+  },
+  "jobsLowWageLineHourlyMinor": {
+    "value": 1500,
+    "tag": "SOURCED",
+    "citation": "$15 an hour in cents: the line of the labor.low-wage-jobs outcome (Economic Policy Institute: 15 percent of workers paid under $15 an hour in 2022)."
+  },
+  "jobsWeeklyEarningsAllWorkers": {
+    "value": 1268,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: median usual weekly earnings, all workers, $1,268."
+  },
+  "jobsWeeklyEarningsLessThanHighSchool": {
+    "value": 770,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: less than a high school diploma, $770."
+  },
+  "jobsWeeklyEarningsNoCollege": {
+    "value": 966,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: high school diploma, $966 (less than a high school diploma $770)."
+  },
+  "jobsWeeklyEarningsSomeCollege": {
+    "value": 1100,
+    "tag": "ESTIMATED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: some college no degree $1,062, associate's degree $1,135.",
+    "estimatedFrom": "Midpoint of the two rows the survey's 'some college' answer spans (CES some-college covers both).",
     "spread": {
-      "low": 30,
-      "high": 120,
-      "unit": "days an opening stands before its pay is reviewed",
-      "citation": "One to four months, the usual span over which a posting is called hard to fill."
+      "low": 1062,
+      "high": 1135,
+      "unit": "dollars a week",
+      "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: some college no degree $1,062 and associate's degree $1,135."
     }
   },
-  "jobsRaiseStepShare": {
-    "value": 0.03,
-    "tag": "TUNABLE",
-    "citation": "The most an employer raises an unfilled opening's pay in one review, as a share of its offered pay, for an employer that is fully open-handed; one that holds its pay raises nothing, and between the two it follows its owner's traits. Calibrated against posted-wage growth on long-open postings (Atlanta Fed Wage Growth Tracker; Indeed Hiring Lab wage tracker) as a check on totals.",
+  "jobsWeeklyEarningsCollege": {
+    "value": 1578,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: bachelor's degree, $1,578 (master's $1,876, professional $2,294, doctoral $2,307)."
+  },
+  "jobsSchoolingPayShare": {
+    "value": 0.4,
+    "tag": "ESTIMATED",
+    "stopgapId": "SG-WORLD-jobs-schooling-pay-share",
+    "citation": "The share of the raw earnings gap between education levels that remains within one occupation and employer: positions are already priced for their occupation, which carries part of the schooling premium (a degree opens higher-paid roles).",
+    "estimatedFrom": "Assumed share; no source measuring the within-occupation schooling premium was fetched, so it is an estimate with a wide spread, to be researched.",
     "spread": {
-      "low": 0.01,
-      "high": 0.06,
-      "unit": "share of offered hourly pay per review",
-      "citation": "Annual wage growth for job switchers has run about three to six percent; a review every two months at the top of the range stays inside it."
+      "low": 0.2,
+      "high": 0.7,
+      "unit": "share of the raw weekly-earnings gap",
+      "citation": "Assumed range around a middle value; unmeasured."
     }
   }
 }

@@ -1,4 +1,4 @@
-import type { DecisionDeclaration } from "../trait-packs";
+import type { DecisionDeclaration } from "../../core2/trait-packs";
 
 /**
  * Whether somebody holding an office runs for it again, published for the

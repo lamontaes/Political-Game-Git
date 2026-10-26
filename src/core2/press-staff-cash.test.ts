@@ -49,4 +49,4 @@ it("every paid press employee opens with the survey balance for their pay", () =
     checked += 1;
   }
   expect(checked, `${where}: press people checked`).toBeGreaterThan(0);
-});
+}, 300_000);

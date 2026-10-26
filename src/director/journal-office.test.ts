@@ -20,28 +20,51 @@ const seed = process.env.JOURNAL_OFFICE_SEED ?? randomBytes(8).toString("hex");
 
 describe("the officeholder's journal", () => {
   it("tells taking office, a vote, a town hall and an interview, each citing its record", () => {
-    const place = drawPlace(seed, "journal-office");
+    // A place with no town council, county board or township board (the
+    // Virgin Islands have no local government) has no body to vote in: draw
+    // the next place, and fail by name if none of eight has one.
+    const tried: string[] = [];
+    let found:
+      | {
+          place: ReturnType<typeof drawPlace>;
+          world: ReturnType<typeof buildBenchWorld>;
+          body: { id: string };
+        }
+      | undefined;
+    for (let n = 0; n < 8 && !found; n += 1) {
+      const place = drawPlace(n ? `${seed}:${n}` : seed, "journal-office");
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const body = (
+        coreAPI(world.core)
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .rows() as unknown as {
+          id: string;
+          kind: string;
+          coversTown: boolean;
+        }[]
+      ).find(
+        (o) =>
+          o.coversTown &&
+          /^(council|county-board|township-board)$/.test(o.kind),
+      );
+      if (body) found = { place, world, body };
+      else tried.push(`${place.name} (${place.key})`);
+    }
+    if (!found)
+      throw new Error(
+        `seed ${seed}: no town body to vote in, in ${tried.join("; ")}`,
+      );
+    const { place, world, body } = found;
     const where = `seed ${seed}, ${place.name} (${place.key})`;
-    const world = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
     const { core, director } = world;
     const api = coreAPI(core);
     const playerId = world.playerId!;
-    const body = (
-      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
-        id: string;
-        kind: string;
-        coversTown: boolean;
-      }[]
-    ).find(
-      (o) =>
-        o.coversTown && /^(council|county-board|township-board)$/.test(o.kind),
-    );
-    expect(body, where).toBeTruthy();
     const bill = draftBill(api, {
-      bodyOfficeId: body!.id,
+      bodyOfficeId: body.id,
       sponsorId: playerId,
       provisions: [
         {

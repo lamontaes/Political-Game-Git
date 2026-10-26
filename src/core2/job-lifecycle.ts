@@ -6,6 +6,8 @@
  */
 import { makeIsoDate } from "./kernel/dates";
 import { financeIndex } from "./finance-state";
+import { refreshOfficeStaff } from "./civic-inputs";
+import { admitPublicPayAuthority } from "./public-work-pay";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
 import type {
   CoreAPI,
@@ -39,11 +41,30 @@ export function startRecordedJob(
     makeIsoDate(commitment.startsAt) < core.date
   )
     throw new Error("A job start's commitment and calendar must be its own.");
+  // A hire at a public employer joins the employer's public pay authority:
+  // its due pay is resolved only for the commitments the authority owns.
+  const employer = core.organizations.get(job.organizationId)!;
+  const authority = employer.publicPayAuthority;
+  if (commitment.publicPayAuthorityId !== undefined) {
+    if (authority?.id !== commitment.publicPayAuthorityId)
+      throw new Error(
+        "A job start's public pay authority must be its employer's.",
+      );
+    if (!authority.workCommitmentIds.includes(commitment.id))
+      employer.publicPayAuthority = admitPublicPayAuthority(
+        {
+          ...authority,
+          workCommitmentIds: [...authority.workCommitmentIds, commitment.id],
+        },
+        core.date,
+      );
+  }
   core.jobs.set(job.id, { ...job });
   financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
   api.updatePerson(actor.id, { jobId: job.id });
   api.addWorkCommitment(commitment);
   api.addWorkPayrollCalendar(calendar);
+  refreshOfficeStaff(core, job.organizationId);
 }
 
 /**
@@ -72,6 +93,23 @@ export function startSalariedPost(
   core.jobs.set(job.id, { ...job });
   financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
   api.updatePerson(actor.id, { jobId: job.id });
+  refreshOfficeStaff(core, job.organizationId);
+}
+
+/**
+ * Whether the person already worked today: a job ends before its day's work
+ * (calendar work runs first on the world's clock, but after the day on the
+ * player's), so someone who has worked today cannot leave theirs for a new
+ * post until tomorrow.
+ */
+export function workedToday(
+  core: CoreState,
+  person: Readonly<{ jobId?: string }>,
+): boolean {
+  return (
+    !!person.jobId &&
+    core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
+  );
 }
 
 export function endRecordedJob(
@@ -91,11 +129,17 @@ export function endRecordedJob(
     throw new Error("A job ends before its day's work, from calendar work.");
   job.endsAt = core.date;
   if (actor.jobId === jobId) delete actor.jobId;
+  refreshOfficeStaff(core, job.organizationId);
   for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??
     []) {
     const commitment = core.work.commitments.get(commitmentId)!;
     if (commitment.jobId !== jobId || commitment.endsAt !== undefined) continue;
-    commitment.endsAt = core.date;
+    // A job that ends before its first day (a commuter job starts the day
+    // after a fill-in, and a return to the counts can end it the same day)
+    // ends its commitment on that first day, never before it starts; the
+    // job's own end, today, still comes first, so it is never worked.
+    commitment.endsAt =
+      commitment.startsAt > core.date ? commitment.startsAt : core.date;
     const residues = core.work.byPeriodResidue.get(commitment.periodDays);
     for (const [residue, ids] of residues ?? []) {
       ids.delete(commitmentId);

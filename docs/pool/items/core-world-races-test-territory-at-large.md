@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/world-races-test-territory-s5
 pr: #4879
 blocked-on:

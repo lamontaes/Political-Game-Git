@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/career-test-party-member-s5
 pr: #4892
 blocked-on:

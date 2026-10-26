@@ -23,7 +23,7 @@
  * Children hold their parents' story from when they were old enough to be
  * told it (September 29 ruling: family knows what such a person would know).
  */
-import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { ageOnDate } from "./kernel/dates";
 import {
   pastParameter,
   seededBetween,
@@ -160,10 +160,7 @@ export function addFamilyHistories(
       const placeB = birthplace(b);
       const schoolA = whereOn(a, met);
       const schoolB = whereOn(b, met);
-      const youngAge = ageOnDate(
-        makeIsoDate(younger.birthDate),
-        makeIsoDate(met),
-      );
+      const youngAge = ageOnDate(younger.birthDate, met);
       const setting =
         placeA && placeA === placeB
           ? "hometown"

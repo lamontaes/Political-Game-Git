@@ -4,9 +4,9 @@ title: "Jobs."
 area: world
 kind: feature
 priority: 2
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4904
 blocked-on:
 milestone:
 source: "docs/coordination/world.md line 50 (unchecked checklist line)"

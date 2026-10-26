@@ -1,4 +1,4 @@
-import type { TraitPack } from "../trait-packs";
+import type { TraitPack } from "../../core2/trait-packs";
 
 /**
  * An effect-only pack: the people pack owns sociability, and this reader says

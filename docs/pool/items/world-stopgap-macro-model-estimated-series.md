@@ -4,10 +4,10 @@ title: "Stopgaps in macro-model (estimated-series): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-macro-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/macro-model.ts, kind estimated-series"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/macro-model.ts, kind estimated-
 **Files.** src/core2/macro-model.ts
 
 **Notes.** First row: Opening 30-year mortgage rates after April 2019 are the 10-year Treasury plus the 1990-2019 mean FHFA spread, not a published monthly rate.
+
+Folded into research-macro-sourced-parameters (CTO, Oct 19, 2026).

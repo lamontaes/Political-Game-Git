@@ -5,7 +5,7 @@ import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import {
-  BRING_IT_UP_DATA,
+  BRING_IT_UP_ROWS,
   leansToBlame,
   believedCause,
   bringItUp,
@@ -101,10 +101,10 @@ describe(`people bring it up in ${input.placeMetadata?.placeName} (seed ${seed})
     applyCoreEvent(core, {
       id: "fixture-heard-only",
       date: core.date,
-      kind: BRING_IT_UP_DATA.toldEvent,
+      kind: BRING_IT_UP_ROWS.toldEvent,
       personIds: [blamer.id],
       placeId: blamer.placeId,
-      facts: { [`${BRING_IT_UP_DATA.heardKey}:${closureId}`]: org },
+      facts: { [`${BRING_IT_UP_ROWS.heardKey}:${closureId}`]: org },
       source: {
         tag: "SOURCED",
         citation: "Fixture: heard it closed.",

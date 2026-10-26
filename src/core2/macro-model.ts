@@ -86,7 +86,7 @@ function mortgageAt(
 ): number {
   const published = rows.get(month)?.mortgage30Pct;
   if (published !== undefined) return published;
-  // Past the published survey (Freddie Mac PMMS through its latest month): the 10-year plus its measured spread.
+  // Past FHFA's published rate (its MIRS Transition Index, two months behind its release): the 10-year plus its measured spread.
   return (
     field(rows, month, "treasury10Pct", p) +
     p("macroMortgageSpreadOverTreasuryPct")
@@ -176,6 +176,10 @@ export function stepMacroMonth(
   const month = shiftMonth(previous.month, one, p);
   const realRate = previous.policyRatePct - previous.inflationPct;
   // One town is its share of the nation: its own income growth over the trend.
+  // Public budgets reach the national step only here, as the wages, benefits
+  // and business receipts actually paid in town (no implicit
+  // multiplier; the federal-dollar report checks the response against
+  // macroFederalOutlayResponseBand).
   const town =
     townIncomeGrowthPct === undefined
       ? p("zero")

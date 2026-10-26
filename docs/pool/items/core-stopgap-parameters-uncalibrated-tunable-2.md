@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-core-parameters-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/speech/parameters.json, kind uncalibrated-tunable"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/speech/parameters.json, ki
 **Files.** src/core2/data/speech/parameters.json
 
 **Notes.** First row: How much a speech moves listeners and who retells it; retelling reaches only the listener's household.
+
+Folded into research-core-parameters-sourced-parameters (CTO, Oct 19, 2026).

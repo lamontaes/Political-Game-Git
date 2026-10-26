@@ -16,14 +16,7 @@
     "donate-to-cause": ["@home"],
     "volunteer-for-cause": ["@target", "community-room"],
     "confront-grudge-target": ["main-street"],
-    "seek-standing": ["city-hall-hallway"],
-    "testify-at-hearing": [
-      "hearing-room-paneled",
-      "committee-hearing-room",
-      "public-meeting-room"
-    ],
-    "run-for-office": ["county-clerk-office-urban", "clerk-counter"],
-    "lobby-legislator": ["capitol-hallway", "city-hall-hallway"]
+    "seek-standing": ["city-hall-hallway"]
   },
   "organizationKinds": {
     "service:municipal-government": "city-hall",
@@ -213,6 +206,14 @@
     "courthouse-steps",
     "courthouse-square"
   ],
+  "doorKnockingPlaces": {
+    "house": "door-knocking-suburban",
+    "rowhouse": "door-knocking-urban",
+    "apartment": "door-knocking-urban",
+    "mobile-home": "door-knocking-rural",
+    "farmhouse": "door-knocking-rural"
+  },
+  "phoneBankPlace": "phone-bank-room",
   "dwellingPlaces": {
     "about": "The home pictures for each kind of dwelling OPUS-WORLD's housing records (dwellingKind), by room and by the household's third among the town's homes of the same kind (value for owners, rent for renters). Each household gets one picture per room from its own id, so the same home always looks the same; a state's regional house styles join every third of 'house'. A list may name pictures still to be painted: the first painted ones are used.",
     "house": {

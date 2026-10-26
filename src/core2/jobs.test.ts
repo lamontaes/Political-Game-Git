@@ -437,9 +437,21 @@ describe("jobs", () => {
     expect(layoffs.length).toBeGreaterThan(0);
     expect(layoffs[0]).toMatchObject({
       reasonKey: "demand-below-staff",
-      decidedBy: employer,
       personId: "w1",
     });
+    // No owner is recorded, so a worker still on the staff decided it: the
+    // best paid of those staying, ties by id; never the firm as a person.
+    const staying = ["w2", "w3"]
+      .map((id) => core.people.get(id)!)
+      .map((person) => ({ id: person.id, job: core.jobs.get(person.jobId!)! }))
+      .sort(
+        (a, b) =>
+          (b.job.hourlyMinor ?? 0) - (a.job.hourlyMinor ?? 0) ||
+          a.id.localeCompare(b.id),
+      );
+    const decider = staying[0]!.id;
+    expect(layoffs[0]).toMatchObject({ decidedBy: decider });
+    expect(decider).not.toBe(employer);
     expect(
       core.eventIds.has(`event:work.job-lost:${layoffs[0]!.date}:job:w1`),
     ).toBe(true);
@@ -447,7 +459,7 @@ describe("jobs", () => {
     expect(
       core.durableLog.get(`event:work.job-lost:${layoffs[0]!.date}:job:w1`)
         ?.facts,
-    ).toEqual({ decidedBy: employer, organizationId: employer });
+    ).toEqual({ decidedBy: decider, organizationId: employer });
     expect(api.moduleState("jobs").table("seekers").get("w1")).toBeTruthy();
     expect(money(core)).toBe(total);
   });

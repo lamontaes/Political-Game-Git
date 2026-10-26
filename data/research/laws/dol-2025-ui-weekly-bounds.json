@@ -1,0 +1,390 @@
+{
+  "id": "dol-2025-ui-weekly-bounds",
+  "publisher": "U.S. Department of Labor, Employment and Training Administration, Office of Unemployment Insurance",
+  "vintage": "2025-01",
+  "table": "Significant Provisions of State Unemployment Insurance Laws, Effective January 2025: Weekly Benefit Amount, minimum and maximum",
+  "title": "Significant Provisions of State Unemployment Insurance Laws, Effective January 2025",
+  "universe": "Regular state unemployment insurance weekly benefit amounts (USD/week)",
+  "geography": "50 states, the District of Columbia, Puerto Rico and the U.S. Virgin Islands, keyed by postal code",
+  "sourceUrl": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2025.pdf",
+  "retrievedOn": "2026-10-23",
+  "limits": [
+    "When a range is shown, the higher figure includes the dependents allowance for the most dependents, or (footnote 6) is the figure based on total base-period wages; each place's range basis is the same as in the January 2026 edition (data/research/laws/local-starting-law/unemployment-weekly-bounds.json), checked by the number of figures.",
+    "American Samoa, Guam and the Northern Mariana Islands are not in the DOL table, as in 2026.",
+    "Program terms other than the weekly bounds (base earnings, formula, weeks) are not taken from this edition.",
+    "U.S. government work (17 U.S.C. 105)."
+  ],
+  "places": {
+    "US-AL": {
+      "minimumPublished": [45],
+      "maximumPublished": [275],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "AL weekly benefit amount: minimum $45; maximum $275"
+    },
+    "US-AK": {
+      "minimumPublished": [56, 128],
+      "maximumPublished": [370, 442],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "AK weekly benefit amount: minimum $56 - $128; maximum $370 - $442"
+    },
+    "US-AZ": {
+      "minimumPublished": [224],
+      "maximumPublished": [320],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "AZ weekly benefit amount: minimum $224; maximum $320"
+    },
+    "US-AR": {
+      "minimumPublished": [81],
+      "maximumPublished": [451],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "AR weekly benefit amount: minimum $81; maximum $451"
+    },
+    "US-CA": {
+      "minimumPublished": [40],
+      "maximumPublished": [450],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "CA weekly benefit amount: minimum $40; maximum $450"
+    },
+    "US-CO": {
+      "minimumPublished": [25],
+      "maximumPublished": [735, 809],
+      "rangeBasis": "alternative-earnings-calculation",
+      "dependentAllowanceUncapped": false,
+      "quote": "CO weekly benefit amount: minimum $25; maximum \"$735 or $809\" with footnote 6 joined to the second figure"
+    },
+    "US-CT": {
+      "minimumPublished": [42, 84],
+      "maximumPublished": [721, 796],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "CT weekly benefit amount: minimum $42 - $84; maximum $721 - $796"
+    },
+    "US-DE": {
+      "minimumPublished": [20],
+      "maximumPublished": [450],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "DE weekly benefit amount: minimum $20; maximum $450"
+    },
+    "US-DC": {
+      "minimumPublished": [50],
+      "maximumPublished": [444],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "DC weekly benefit amount: minimum $50; maximum $444"
+    },
+    "US-FL": {
+      "minimumPublished": [32],
+      "maximumPublished": [275],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "FL weekly benefit amount: minimum $32; maximum $275"
+    },
+    "US-GA": {
+      "minimumPublished": [55],
+      "maximumPublished": [365],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "GA weekly benefit amount: minimum $55; maximum $365"
+    },
+    "US-HI": {
+      "minimumPublished": [5],
+      "maximumPublished": [835],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "HI weekly benefit amount: minimum $5; maximum $835"
+    },
+    "US-ID": {
+      "minimumPublished": [72],
+      "maximumPublished": [590],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "ID weekly benefit amount: minimum $72; maximum $590"
+    },
+    "US-IL": {
+      "minimumPublished": [51, 77],
+      "maximumPublished": [605, 827],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "IL weekly benefit amount: minimum $51 - $77; maximum $605 - $827"
+    },
+    "US-IN": {
+      "minimumPublished": [37],
+      "maximumPublished": [390],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "IN weekly benefit amount: minimum $37; maximum $390"
+    },
+    "US-IA": {
+      "minimumPublished": [90, 108],
+      "maximumPublished": [602, 739],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "IA weekly benefit amount: minimum $90 - $108; maximum $602 - $739"
+    },
+    "US-KS": {
+      "minimumPublished": [153],
+      "maximumPublished": [612],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "KS weekly benefit amount: minimum $153; maximum $612"
+    },
+    "US-KY": {
+      "minimumPublished": [39],
+      "maximumPublished": [694],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "KY weekly benefit amount: minimum $39; maximum $694"
+    },
+    "US-LA": {
+      "minimumPublished": [35],
+      "maximumPublished": [275],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "LA weekly benefit amount: minimum $35; maximum $275"
+    },
+    "US-ME": {
+      "minimumPublished": [104, 182],
+      "maximumPublished": [595, 1041],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "ME weekly benefit amount: minimum $104 - $182; maximum $595 - $1041"
+    },
+    "US-MD": {
+      "minimumPublished": [50, 90],
+      "maximumPublished": [430],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "MD weekly benefit amount: minimum $50 - $90; maximum $430"
+    },
+    "US-MA": {
+      "minimumPublished": [60],
+      "maximumPublished": [1051],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": true,
+      "quote": "MA weekly benefit amount: minimum $60; maximum $1051"
+    },
+    "US-MI": {
+      "minimumPublished": [167, 230],
+      "maximumPublished": [446],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "MI weekly benefit amount: minimum $167 - $230; maximum $446"
+    },
+    "US-MN": {
+      "minimumPublished": [36],
+      "maximumPublished": [589, 914],
+      "rangeBasis": "alternative-earnings-calculation",
+      "dependentAllowanceUncapped": false,
+      "quote": "MN weekly benefit amount: minimum $36; maximum \"$589 or $914\" with footnote 6 joined to the second figure"
+    },
+    "US-MS": {
+      "minimumPublished": [30],
+      "maximumPublished": [235],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "MS weekly benefit amount: minimum $30; maximum $235"
+    },
+    "US-MO": {
+      "minimumPublished": [35],
+      "maximumPublished": [320],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "MO weekly benefit amount: minimum $35; maximum $320"
+    },
+    "US-MT": {
+      "minimumPublished": [217],
+      "maximumPublished": [732],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "MT weekly benefit amount: minimum $217; maximum $732"
+    },
+    "US-NE": {
+      "minimumPublished": [70],
+      "maximumPublished": [564],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "NE weekly benefit amount: minimum $70; maximum $564"
+    },
+    "US-NV": {
+      "minimumPublished": [16],
+      "maximumPublished": [604],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "NV weekly benefit amount: minimum $16; maximum $604"
+    },
+    "US-NH": {
+      "minimumPublished": [32],
+      "maximumPublished": [427],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "NH weekly benefit amount: minimum $32; maximum $427"
+    },
+    "US-NJ": {
+      "minimumPublished": [181, 208],
+      "maximumPublished": [875],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "NJ weekly benefit amount: minimum $181 - $208; maximum $875"
+    },
+    "US-NM": {
+      "minimumPublished": [111, 161],
+      "maximumPublished": [598, 648],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "NM weekly benefit amount: minimum $111 - $161; maximum $598 - $648"
+    },
+    "US-NY": {
+      "minimumPublished": [136],
+      "maximumPublished": [504],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "NY weekly benefit amount: minimum $136; maximum $504"
+    },
+    "US-NC": {
+      "minimumPublished": [15],
+      "maximumPublished": [350],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "NC weekly benefit amount: minimum $15; maximum $350"
+    },
+    "US-ND": {
+      "minimumPublished": [43],
+      "maximumPublished": [786],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "ND weekly benefit amount: minimum $43; maximum $786"
+    },
+    "US-OH": {
+      "minimumPublished": [169],
+      "maximumPublished": [600, 810],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "OH weekly benefit amount: minimum $169; maximum \"$600 - $810\" split over two lines"
+    },
+    "US-OK": {
+      "minimumPublished": [16],
+      "maximumPublished": [541],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "OK weekly benefit amount: minimum $16; maximum $541"
+    },
+    "US-OR": {
+      "minimumPublished": [196],
+      "maximumPublished": [836],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "OR weekly benefit amount: minimum $196; maximum $836"
+    },
+    "US-PA": {
+      "minimumPublished": [68, 76],
+      "maximumPublished": [605, 613],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "PA weekly benefit amount: minimum $68 - $76; maximum $605 - $613"
+    },
+    "US-PR": {
+      "minimumPublished": [60],
+      "maximumPublished": [240],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "PR weekly benefit amount: minimum $60; maximum $240"
+    },
+    "US-RI": {
+      "minimumPublished": [77, 127],
+      "maximumPublished": [723, 903],
+      "rangeBasis": "dependents-allowance",
+      "dependentAllowanceUncapped": false,
+      "quote": "RI weekly benefit amount: minimum $77 - $127; maximum $723 - $903"
+    },
+    "US-SC": {
+      "minimumPublished": [42],
+      "maximumPublished": [326],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "SC weekly benefit amount: minimum $42; maximum $326"
+    },
+    "US-SD": {
+      "minimumPublished": [28],
+      "maximumPublished": [532],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "SD weekly benefit amount: minimum $28; maximum $532"
+    },
+    "US-TN": {
+      "minimumPublished": [55],
+      "maximumPublished": [325],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "TN weekly benefit amount: minimum $55; maximum $325"
+    },
+    "US-TX": {
+      "minimumPublished": [74],
+      "maximumPublished": [591],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "TX weekly benefit amount: minimum $74; maximum $591"
+    },
+    "US-UT": {
+      "minimumPublished": [45],
+      "maximumPublished": [777],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "UT weekly benefit amount: minimum $45; maximum $777"
+    },
+    "US-VT": {
+      "minimumPublished": [90],
+      "maximumPublished": [729],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "VT weekly benefit amount: minimum $90; maximum $729"
+    },
+    "US-VA": {
+      "minimumPublished": [60],
+      "maximumPublished": [378],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "VA weekly benefit amount: minimum $60; maximum $378"
+    },
+    "US-VI": {
+      "minimumPublished": [33],
+      "maximumPublished": [648],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "VI weekly benefit amount: minimum $33; maximum $648"
+    },
+    "US-WA": {
+      "minimumPublished": [342],
+      "maximumPublished": [1079],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "WA weekly benefit amount: minimum $342; maximum $1079"
+    },
+    "US-WV": {
+      "minimumPublished": [24],
+      "maximumPublished": [662],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "WV weekly benefit amount: minimum $24; maximum $662"
+    },
+    "US-WI": {
+      "minimumPublished": [54],
+      "maximumPublished": [370],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "WI weekly benefit amount: minimum $54; maximum $370"
+    },
+    "US-WY": {
+      "minimumPublished": [45],
+      "maximumPublished": [624],
+      "rangeBasis": "single-published-bound",
+      "dependentAllowanceUncapped": false,
+      "quote": "WY weekly benefit amount: minimum $45; maximum $624"
+    }
+  }
+}

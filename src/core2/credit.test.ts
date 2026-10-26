@@ -218,6 +218,52 @@ it("prices consumer credit under the law in force and leaves market pricing when
   );
 });
 
+it("a firm with no recorded owner is run by its best-paid worker, who decides whether it borrows", () => {
+  const core = createLifeCore(input(), {
+    data: worldCoreData(),
+    modules: [MACRO_MODULE, CREDIT_MODULE],
+    scheduledWork: false,
+  });
+  const api = coreAPI(core);
+  const payroll = 4 * 12_000 * 260;
+  core.finance.businesses.set("organization:shop", {
+    organizationId: "organization:shop",
+    kindId: "retail",
+    annualPayrollMinor: payroll,
+    annualDemandMinor: payroll * 4,
+    capacityMinor: payroll * 4,
+    annualOtherCostsMinor: 0,
+    openingTownIncomeMinor: 0,
+    price: 1,
+    costContractIds: [],
+    source: src,
+    lastReviewedAt: start,
+    reachedIncomeRatio: 1,
+    anchorAnnualDemandMinor: payroll * 4,
+    anchorAnnualOtherCostsMinor: 0,
+    anchorPrice: 1,
+    lastGeneralPriceFactor: 1,
+    lastWagePriceFactor: 1,
+    nextReviewedAt: "2099-01-01",
+    receivedMinor: 0,
+    salesReceivedMinor: 0,
+    operatingPaidMinor: 0,
+    wagesRequestedMinor: 0,
+    wagesPaidMinor: 0,
+    wagesUnpaidMinor: 0,
+  } as never);
+  advanceCore(core, "2026-11-02");
+  const applications = api
+    .moduleState("credit")
+    .table("applications")
+    .rows()
+    .filter((row) => row.organizationId === "organization:shop");
+  // No owner is recorded for the shop; its only worker decides, and the
+  // application names them. A firm with nobody to decide would not apply.
+  expect(applications.length).toBeGreaterThan(0);
+  for (const row of applications) expect(row.decidedBy).toBe("earner");
+});
+
 it("keeps the full chooser's borrowing answer when common utility terms cancel", () => {
   const core = createLifeCore(input(), {
     data: worldCoreData(),

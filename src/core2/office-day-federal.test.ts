@@ -19,6 +19,8 @@ import { buildBenchWorld } from "../bench/world";
 import { BenchPlayer } from "../bench/player";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
+import { coarsePlace } from "./coarse-place";
+import { ageOn } from "./counted-groups";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./modules/offices";
 import {
   billOf,
@@ -31,9 +33,12 @@ import {
 } from "./modules/legislature";
 import { lawInForce } from "./modules/laws";
 import {
+  clearPrepared,
   deskWaiting,
   leaveDeskToCharacter,
   officeActsOf,
+  prepareAct,
+  preparedFor,
   setStops,
 } from "./modules/office-day";
 import {
@@ -46,6 +51,7 @@ import {
 import {
   chooseWeek,
   federalSeatOf,
+  OFFICE_DAY_FEDERAL_MODULE_ID,
   heldFederal,
   releaseFederal,
   voteOnFloor,
@@ -208,6 +214,21 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     }
   });
 
+  it("keeps what the player prepares for a federal act in the engine's own table, and spends it when the act is taken", () => {
+    // The federal day has no table of its own for it (SG-OFFICE-FED-prepared).
+    expect(() =>
+      api.moduleState(OFFICE_DAY_FEDERAL_MODULE_ID).table("prepared"),
+    ).toThrow();
+    const prepared = {
+      platform: [{ question: "local-policy:paid-family-leave", position: 1 }],
+      changes: { education: 100 },
+    };
+    prepareAct(api, president, "federal-file", prepared);
+    expect(preparedFor(api, president, "federal-file")).toMatchObject(prepared);
+    clearPrepared(api, president, "federal-file");
+    expect(preparedFor(api, president, "federal-file")).toBeNull();
+  });
+
   it("meets people in a town drawn at random, and has the brief each working day", () => {
     const town = drawPlace(`${seed}:trip`, "office-federal-trip");
     const tripId = travelToTown(api, president, town.key);
@@ -221,6 +242,32 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     expect(met.length).toBeGreaterThan(0);
     for (const p of met)
       expect(core.people.get(president)!.knownIds.has(p.id)).toBe(true);
+    // Each is a worker of the town's coarse population: a job its counts show
+    // and the age that job is open at.
+    const counts = coarsePlace(town.key);
+    for (const p of met) {
+      const work = p.pastFacts?.find((f) => f.kind === "identity:work");
+      const where = `${town.name} (${town.key}), seed ${seed}, ${p.id}`;
+      if (!counts) {
+        expect(work, where).toBeUndefined();
+        continue;
+      }
+      expect(work, where).toBeDefined();
+      const row = counts.jobs.find(
+        (j) =>
+          j.workplace === work!.facts?.workplace &&
+          j.title === work!.facts?.title,
+      );
+      expect(row, where).toBeDefined();
+      expect(ageOn(p.birthDate, core.date), where).toBeGreaterThanOrEqual(
+        row!.minAge,
+      );
+    }
+    const first = met[0]!;
+    const work = first.pastFacts?.find((f) => f.kind === "identity:work");
+    process.stdout.write(
+      `TRIP RESIDENT ${town.name} (${town.key}), seed ${seed}: ${first.id}, age ${ageOn(first.birthDate, core.date)}, ${work ? `${work.id}: ${work.facts?.title} at ${work.facts?.workplace}` : "no counts for this place"}\n`,
+    );
     expect(
       officeActsOf(api, president).filter((a) => a.kind === "daily-brief")
         .length,
@@ -301,7 +348,14 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
   });
 
   it("casts and records the vote of a senator the player controls on a House bill", () => {
-    const seat = townSeats(api).find((s) => s.office.kind === "us-senate")!;
+    const seat = townSeats(api).find((s) => s.office.kind === "us-senate");
+    // A territory and D.C. have no senators: their towns have no Senate seat to play.
+    if (!seat) {
+      expect(place.state, `${place.name}, seed ${seed}`).toMatch(
+        /^US-(AS|DC|GU|MP|PR|VI)$/,
+      );
+      return;
+    }
     const senator = holderOf(seat.seat.id)!;
     expect(senator, "the town's state has a sitting senator").toBeTruthy();
     // A bill filed in the House reaches the Senate in the same count; the

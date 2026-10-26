@@ -9,10 +9,17 @@
  * closeness changes only when people spend time together or time passes.
  */
 import data from "./data/closeness.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import { parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
-import type { CoreState, IsoDate, PersonId, Relationship } from "./types";
+import { decisionLean, decisionTraitWeight } from "./trait-decisions";
+import type {
+  CoreState,
+  IsoDate,
+  PersonId,
+  PersonState,
+  Relationship,
+} from "./types";
 
 export const CLOSENESS = data;
 
@@ -49,7 +56,7 @@ function faded(p: Lookup, hours: number, days: number, kind: string): number {
 }
 
 function elapsed(p: Lookup, from: IsoDate, to: IsoDate): number {
-  return Math.max(daysBetween(makeIsoDate(from), makeIsoDate(to)), p("zero"));
+  return Math.max(daysBetweenText(from, to), p("zero"));
 }
 
 /** Closeness today: the closeness at the last contact, faded since. */
@@ -197,8 +204,7 @@ export function openingClosenessHours(
 
   // Childhood at home together, then the years apart since the elder left.
   const adultDays = p("benchmarkAdultMinimumAge") * p("daysPerMeanYear");
-  const age = (birthDate: IsoDate) =>
-    daysBetween(makeIsoDate(birthDate), makeIsoDate(core.date));
+  const age = (birthDate: IsoDate) => daysBetweenText(birthDate, core.date);
   let together = p("zero"),
     apart = p("zero");
   if (tie.sharedChildhood === "parent" || tie.sharedChildhood === "child") {
@@ -226,4 +232,73 @@ export function openingClosenessHours(
   return together > p("zero")
     ? towardSteady(p, atParting, rate, apart, kind)
     : steadyHours(p, rate, kind);
+}
+
+/**
+ * Opening closeness between two people the records say shared a school class
+ * or a workgroup (the opening peer circles), in hours of time together: the
+ * hours it takes to become a casual friend, faded since the day the shared
+ * context began. Zero when no recorded peer fact joins them. Read the same
+ * for a full person and a counted one: only the recorded facts decide.
+ */
+export function openingPeerHours(
+  core: Pick<CoreState, "data" | "date">,
+  actor: Pick<PersonState, "pastFacts">,
+  otherId: PersonId,
+): number {
+  stopgap(data.stopgapId);
+  const p = lookup(core);
+  let hours = p("zero");
+  for (const fact of actor.pastFacts ?? []) {
+    if (
+      fact.facts?.otherPersonId !== otherId ||
+      !data.peerTies.factKinds.includes(fact.kind)
+    )
+      continue;
+    hours = Math.max(
+      hours,
+      faded(
+        p,
+        p(data.peerTies.hoursParameter),
+        elapsed(p, fact.date, core.date),
+        data.peerTies.kind,
+      ),
+    );
+  }
+  return hours;
+}
+
+/**
+ * The hours a contact counts for, by the two people's temperaments: time
+ * together builds closeness faster between warm, outgoing people and slower
+ * between reserved ones (relationships.warm-to), and a falling-out (negative
+ * hours) costs more between people who hold on to a quarrel than between
+ * people who let it go (relationships.fall-out). The pair's mean lean, less
+ * the population's, scales the hours by its weight's exponential, so a pair
+ * one standard deviation warmer gains the studied ratio and the average pair
+ * keeps the closeness model's hours.
+ */
+export function temperedHours(
+  core: Pick<CoreState, "data">,
+  actor: { traits?: PersonState["traits"] } | undefined,
+  other: { traits?: PersonState["traits"] } | undefined,
+  hours: number,
+): number {
+  const p = lookup(core);
+  // A husk (someone not yet filled in) carries no traits: their time counts as recorded.
+  const a = actor?.traits,
+    b = other?.traits;
+  if (!a || !b || hours === p("zero")) return hours;
+  const warm = hours > p("zero");
+  const id = warm ? "relationships.warm-to" : "relationships.fall-out";
+  const toward = warm ? "warm" : "hold-on",
+    over = warm ? "cool" : "let-go";
+  const lean =
+    (decisionLean(core, { traits: a }, id, toward, over) +
+      decisionLean(core, { traits: b }, id, toward, over)) /
+    p("two");
+  const center = p(
+    warm ? "relationshipsWarmToLeanCenter" : "relationshipsFallOutLeanCenter",
+  );
+  return hours * Math.exp(decisionTraitWeight(core, id) * (lean - center));
 }

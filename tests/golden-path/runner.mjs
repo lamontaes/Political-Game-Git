@@ -113,15 +113,24 @@ export async function runSuite({
   budget,
   drawPlace,
   mode = "pr",
+  only = "all",
   execute = runCommand,
 }) {
-  const features = validateFeatures(document),
+  // "quick" leaves out the long-running specs (a played year), which run as
+  // their own job with their own budget ("long"); "all" runs both.
+  const features = validateFeatures(document).filter(
+      (r) => only === "all" || (only === "long") === (r.longRunning === true),
+    ),
     started = performance.now(),
     results = [],
     batchRows = features.filter((r) => r.command && vitestBatch(r.command));
   let batch = null;
+  // Accepted specs first; within each group the long ones (a played year)
+  // last, so one of them cannot spend the budget the quick specs need.
   for (const row of [...features].sort(
-    (a, b) => Number(b.passes) - Number(a.passes),
+    (a, b) =>
+      Number(b.passes) - Number(a.passes) ||
+      Number(a.longRunning === true) - Number(b.longRunning === true),
   )) {
     const batched = batchRows.length > 1 && batchRows.includes(row),
       place = drawPlace(commit, batched ? "vitest-batch" : row.id);
@@ -196,6 +205,11 @@ export function summary(receipt) {
 export async function main() {
   const args = process.argv.slice(2),
     mode = args.includes("--nightly") ? "nightly" : "pr",
+    only = args.includes("--only-long")
+      ? "long"
+      : args.includes("--skip-long")
+        ? "quick"
+        : "all",
     value = (flag) => args[args.indexOf(flag) + 1];
   const cwd = process.cwd(),
     commit = args.includes("--commit")
@@ -216,7 +230,11 @@ export async function main() {
     commit,
     drawPlace,
     mode,
-    budget: policies[`${mode}Milliseconds`],
+    only,
+    budget:
+      only === "long"
+        ? policies.longRunningMilliseconds
+        : policies[`${mode}Milliseconds`],
   });
   receipt.sourceRevision = execFileSync("git", ["rev-parse", "HEAD"], {
     encoding: "utf8",

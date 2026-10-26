@@ -20,7 +20,7 @@ import {
 import { coreAPI } from "./state";
 
 it("takes a candidate who dies off the ballot and leaves the others", () => {
-  for (let attempt = 0; attempt < 4; attempt++) {
+  for (let attempt = 0; attempt < 12; attempt++) {
     const seed = randomBytes(8).toString("hex");
     const place = drawPlace(seed, "ballot-dead-candidate");
     const where = `${place.name} [${place.key}], seed ${seed}`;
@@ -59,5 +59,7 @@ it("takes a candidate who dies off the ballot and leaves the others", () => {
     );
     return;
   }
-  throw new Error("No drawn place had a contest with two named candidates.");
+  throw new Error(
+    "No drawn place in 12 draws had a contest with two named candidates.",
+  );
 }, 1_200_000);

@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/candidacy-test-empty-race-s5
 pr: #4884
 blocked-on:

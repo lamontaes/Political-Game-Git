@@ -4,10 +4,10 @@ title: "Stopgaps in legislature (estimated-rule): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-legislature-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/legislature.ts, kind estimated-rule"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/legislature.ts, kind es
 **Files.** src/core2/modules/legislature.ts
 
 **Notes.** First row: Committee seats go to each party's most senior members by the chamber's party ratio; real committees are appointed by the presiding officer or a committee on committees. Committee size is now sourced (about 11 members, 5
+
+Folded into research-legislature-sourced-parameters (CTO, Oct 19, 2026).

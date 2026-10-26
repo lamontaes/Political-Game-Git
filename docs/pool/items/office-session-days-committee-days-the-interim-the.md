@@ -4,12 +4,13 @@ title: "Session days, committee days, the interim, the district week and the Sta
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/political-game-pool-l9cym2-b
+pr: #5172
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 18 (unchecked checklist line)"
+claimed-at: 2026-10-19T21:39:17.567Z
 ---
 
 **What.** Checked against main on Oct 16: PARTLY. Session windows for all 56 places are data (`state-session-calendar.ts`) and `sessionOn` drives capital, district and interim days. But the district week and the committee day are one global estimate (`state-parameters.json`: `sessionWeek`, `interimCommitteeDayOfMonth`), not per state. Next: Per-state district week and committee day rows, read in place of the global default. The player would notice the act on the politics screen as a choice among people, never a form.

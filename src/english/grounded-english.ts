@@ -1,4 +1,10 @@
 import { tagEngineText } from "./runtime-text-origin";
+import {
+  bearingFactor,
+  lengthFactor,
+  pieceFactor,
+  wordCount,
+} from "./calibration";
 import { stableHash } from "../core2/kernel/ids";
 import type { EntityId } from "../core2/kernel/brands";
 
@@ -43,6 +49,16 @@ export interface GroundedEnglishPacket {
   readonly speaker?: GroundedEnglishPerson;
   readonly viewer?: GroundedEnglishPerson;
   readonly knowledge: readonly GroundedEnglishKnowledge[];
+  /**
+   * Whose voice the line is in: the speaking person's trait levels (-2 to 2)
+   * and the register, so the calibration table's weights pull the pick
+   * toward the length and bearing that person favors. Absent, the pick is
+   * the plain stable pick.
+   */
+  readonly voice?: {
+    readonly traits: Readonly<Record<string, number>>;
+    readonly register?: string;
+  };
 }
 
 export type EnglishHolder = "speaker" | "viewer";
@@ -66,6 +82,10 @@ interface EnglishVariantBase {
   readonly requiresFacts?: readonly string[];
   readonly requiresKnowledge?: readonly EnglishKnowledgeRequirement[];
   readonly requiresTraits?: readonly EnglishTraitRequirement[];
+  /** The bearing the wording carries (tender, guarded, ...), for a speaker's trait pulls. */
+  readonly bearing?: string;
+  /** The bank part the wording comes from, for its running grade. */
+  readonly pieceKey?: string;
 }
 
 export type AuthoredEnglishVariant = EnglishVariantBase &
@@ -140,13 +160,14 @@ export function renderGroundedEnglish(
   const hash = stableHash(
     `${packet.worldSeed}:${packet.momentKey}:${bank.key}:${bank.version}`,
   );
+  const weightOf = voicedWeights(packet, usable);
   const totalWeight = usable.reduce(
-    (total, row) => total + (row.variant.weight ?? 1),
+    (total, row) => total + weightOf(row.variant),
     0,
   );
   let draw = Number(BigInt(`0x${hash}`) % BigInt(totalWeight));
   const { variant, factKeys } = usable.find((row) => {
-    draw -= row.variant.weight ?? 1;
+    draw -= weightOf(row.variant);
     return draw < 0;
   })!;
   const text =
@@ -187,6 +208,37 @@ export function renderGroundedEnglish(
     usedFactKeys: factKeys,
     sourceRecordIds: [...sourceRecordIds],
   };
+}
+
+/** Shares a voice's weight is scaled to, so the stable pick stays an integer draw. */
+const VOICE_SHARES = 1000;
+
+/**
+ * Each eligible variant's weight in the stable pick. Without a voice it is the
+ * authored weight. With one, the calibration table moves it: the speaker's
+ * trait pulls toward a length and a bearing, and the piece's running grade
+ * (`src/english/calibration.ts`). Weights only: the table names no scene,
+ * person or place, and the draw is still the stable hash, never a roll.
+ */
+function voicedWeights(
+  packet: GroundedEnglishPacket,
+  usable: readonly { variant: AuthoredEnglishVariant }[],
+): (variant: AuthoredEnglishVariant) => number {
+  const voice = packet.voice;
+  if (!voice) return (variant) => variant.weight ?? 1;
+  const weights = new Map<string, number>();
+  for (const { variant } of usable) {
+    const text = variant.kind === "template" ? variant.text : "";
+    const factor =
+      lengthFactor(voice.register, wordCount(text), voice.traits) *
+      bearingFactor(variant.bearing, voice.traits) *
+      pieceFactor([variant.pieceKey ?? variant.key]);
+    weights.set(
+      variant.key,
+      Math.max(1, Math.round((variant.weight ?? 1) * VOICE_SHARES * factor)),
+    );
+  }
+  return (variant) => weights.get(variant.key) ?? 1;
 }
 
 function packetProblems(

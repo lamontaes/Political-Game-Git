@@ -17,8 +17,16 @@ import { FEDERAL_SENATE, members } from "./modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
 
-it("names a governor by the president's choice and the Senate's vote, with the reasons on the record", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "board-appointer");
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex");
+
+/**
+ * One drawn place's year. Returns false when no governor's seat was filled: a
+ * Senate that confirms none of the president's candidates leaves each member
+ * in place (the Federal Reserve Act's holdover), which is a real outcome, so
+ * the test draws another place and fails only if none fills a seat.
+ */
+function playPlace(attempt: number): boolean {
+  const draw = drawPlace(`${seed}:${attempt}`, "board-appointer");
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
   setBookkeeping(false);
   const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
@@ -46,7 +54,7 @@ it("names a governor by the president's choice and the Senate's vote, with the r
     id.startsWith("event:economy.board-appointment:"),
   );
   const governors = events.filter((id) => /:governor:\d+$/.test(id));
-  expect(governors.length, where).toBeGreaterThan(0);
+  if (!governors.length) return false;
 
   const president = (
     api
@@ -86,4 +94,13 @@ it("names a governor by the president's choice and the Senate's vote, with the r
       6,
     );
   }
-}, 900_000);
+  return true;
+}
+
+it("names a governor by the president's choice and the Senate's vote, with the reasons on the record", () => {
+  for (let attempt = 0; attempt < 6; attempt += 1)
+    if (playPlace(attempt)) return;
+  throw new Error(
+    `no drawn place filled a governor's seat in 6 draws (seed ${seed})`,
+  );
+}, 3_600_000);

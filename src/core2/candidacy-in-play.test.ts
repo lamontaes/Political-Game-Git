@@ -14,6 +14,7 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { coreAPI } from "./state";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { campaignParameter, questionAxis } from "./campaign-views";
 import {
   VOTING_MODULE_ID,
@@ -76,7 +77,21 @@ describe(`who runs in the played world: ${world.place.key} ${world.place.context
           (row) => row.contestId === c.id && row.personId === personId,
         )!;
         expect(d).toBeDefined();
-        expect(Object.keys(d.reasons).length).toBeGreaterThan(5);
+        // Someone serving the seat on the day they decided, by any term on
+        // it (a special election's winner included), weighs standing again
+        // (voting.stand-again); everyone else, including someone who decided
+        // before they took the seat, weighs entering the race on its several
+        // reasons.
+        const servingThen = rows<TermRow>(OFFICES_MODULE_ID, "terms").some(
+          (t) =>
+            t.seatId === c.seatId &&
+            t.personId === personId &&
+            t.startDate <= d.date &&
+            (t.status === "serving" ||
+              (t.endDate !== null && t.endDate > d.date)),
+        );
+        if (servingThen) expect(Object.keys(d.reasons)).toEqual(["standAgain"]);
+        else expect(Object.keys(d.reasons).length).toBeGreaterThan(5);
         expect(d.run).toBe(w!.runIds.includes(personId));
       }
     }
@@ -110,6 +125,12 @@ describe(`votes in the played world: ${world.place.key} (seed ${seed})`, () => {
     for (const result of results) {
       const contest = contests().find((c) => c.id === result.contestId);
       if (!contest || !local(contest) || !result.countedEligible) continue;
+      // A seat nobody filed for has no name on its ballot: everyone who
+      // turned out left it blank, and no one wins it.
+      if (!Object.keys(result.totals).length) {
+        expect(result.winnerId, result.id).toBeNull();
+        continue;
+      }
       const namedBallots = ballots.filter(
         (b) => b.contestId === result.contestId && b.voted && b.choice,
       ).length;

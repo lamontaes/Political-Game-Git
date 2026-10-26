@@ -162,11 +162,20 @@ describe("fill-in from a recorded identity (officials)", () => {
     expect(core.households.get(person.householdId)!.memberIds).toEqual([
       identity.id,
     ]);
-    expect(person.pastFacts?.map((fact) => fact.kind)).toEqual([
+    const kinds = person.pastFacts?.map((fact) => fact.kind) ?? [];
+    expect(kinds.slice(0, 3)).toEqual([
       "identity:party",
       "identity:seat",
       "identity:nativity",
     ]);
+    // A named person is filled in whole: a childhood, schools and an era too.
+    for (const kind of [
+      "birth-date",
+      "school:cohort-estimate",
+      "era:public-context",
+      "household:moment",
+    ])
+      expect(kinds, kind).toContain(kind);
     expect(fillInIdentity(core, identity)).toBe(person);
     // Traits come from the seeded temperament model: filled, and the same
     // person in a fresh world with the same seed.

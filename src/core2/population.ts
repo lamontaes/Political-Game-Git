@@ -1,7 +1,15 @@
 import { resolveLawInForce } from "./laws-in-force";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
-import { openingEmploymentFromRecordedRoles } from "./opening-employment";
+import {
+  DEFAULT_RESIDENT_EMPLOYMENT,
+  openingEmploymentFromRecordedRoles,
+} from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
+import {
+  departmentGovernment,
+  departmentLinkSource,
+  departmentOwnersOf,
+} from "./opening-department-pay";
 import { openingHistoricalCountyOwnerFacts } from "./opening-public-owner";
 import {
   prepareOpeningPublicPayAuthorities,
@@ -16,7 +24,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
   type CharacterHistoryContextPersonInput,
-} from "../simulation/character-history";
+} from "./opening-people";
 import {
   ageOnDate,
   daysBetween,
@@ -33,7 +41,7 @@ import {
   type HouseholdMix,
   type HouseholdShape,
 } from "./household-mix";
-import { createStableId, stableHash } from "./kernel/ids";
+import { createStableId, pairKey, stableHash } from "./kernel/ids";
 import {
   corePlaceByKey,
   corePlaceByJurisdictionId,
@@ -45,9 +53,9 @@ import {
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
 } from "./reference/living-costs-data";
-import { organizationProfileAt } from "../simulation/life-queries";
+import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
-import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
+import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
   townJobRate,
@@ -65,7 +73,6 @@ import {
 } from "./town-households";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { placeReferencePopulation } from "./gov-rules/place-population";
-import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
 import { PEOPLE_MIND_VERSION, PEOPLE_TRAITS } from "./people-mind";
 import {
   upbringingCoreValueFrom,
@@ -77,8 +84,9 @@ import {
   upbringingQualities,
 } from "../simulation/people-traits";
 import { medianTransactionBalance } from "./starting-cash";
-import { traitRegistryFor } from "../simulation/trait-registry";
-import { isOneSided, type RegisteredTrait } from "../simulation/trait-packs";
+import { seedableTraits } from "./opening-trait-table";
+import { PERSONALITY_PACK } from "./personality-catalogue";
+import { isOneSided, type RegisteredTrait } from "./trait-packs";
 import type {
   EntityId,
   Household,
@@ -826,7 +834,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       personId: relationship.personId,
       organizationId: relationship.organizationId,
       title: role.title,
-      occupationClassification: role.occupationClassification ?? undefined,
+      ...(role.occupationClassification
+        ? { occupationClassification: role.occupationClassification }
+        : {}),
       hoursDaily,
       hourlyMinor: Math.round(hourlyMinor),
       wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
@@ -840,13 +850,20 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     jobByPerson.set(job.personId, job);
   }
   const countyGeoidByPerson = new Map<string, string>();
+  // A place with no county of its own (an island area's) reads its
+  // state-equivalent's row of the employment table, where the table has one.
+  const stateEquivalent = place.sourceGeoid?.slice(0, 2);
+  const stateEquivalentRow =
+    stateEquivalent &&
+    stateEquivalent in DEFAULT_RESIDENT_EMPLOYMENT.countyCounts
+      ? stateEquivalent
+      : undefined;
   for (const plan of plans) {
     const county = counties.find(
       (row) => row.place.context.jurisdiction.id === plan.countyId,
     );
-    if (county?.place.sourceGeoid)
-      for (const id of plan.ids)
-        countyGeoidByPerson.set(id, county.place.sourceGeoid);
+    const geoid = county?.place.sourceGeoid ?? stateEquivalentRow;
+    if (geoid) for (const id of plan.ids) countyGeoidByPerson.set(id, geoid);
   }
   const openingAllocation =
     options.openingEmployment === false
@@ -882,10 +899,12 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       "Opening employment uses national CPS age priors with tunable missing-county scaling; no sourced local or territorial employment rate is claimed.",
     );
   const publicPayIdentities: OpeningPublicEmployerIdentity[] = [];
+  const departmentOwners = departmentOwnersOf(place);
   const historicalCountyPayingOwnerIds: Record<string, string> = {};
+  const profiles = openingOrganizationProfiles(world);
   const organizations: OrganizationInput[] = world.history.organizations.map(
     (organization) => {
-      const profile = organizationProfileAt(world, organization.id)!;
+      const profile = profiles.get(organization.id)!;
       const publicOwner = openingHistoricalCountyOwnerFacts({
         organizationId: organization.id,
         organizationStableKey: organization.stableKey,
@@ -896,6 +915,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         startedAt,
       });
       for (const gap of publicOwner.gaps) gaps.add(gap);
+      const department = publicOwner.governmentFacts
+        ? undefined
+        : departmentGovernment(profile.classification, departmentOwners);
       if (publicOwner.governmentFacts && publicOwner.identitySource) {
         const governmentKey = publicOwner.governmentFacts.governmentKey!;
         const priorOwnerId = historicalCountyPayingOwnerIds[governmentKey];
@@ -917,6 +939,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           ],
           source: publicOwner.identitySource,
         });
+      } else if (!profile.publicGovernmentIdentity && department) {
+        stopgap("SG-WORLD-department-government");
+        publicPayIdentities.push({
+          organizationId: organization.id,
+          identity: department.identity,
+          basisRecordIds: [profile.id],
+          source: departmentLinkSource(employmentSource, profile.id),
+        });
       } else if (profile.publicGovernmentIdentity) {
         publicPayIdentities.push({
           organizationId: organization.id,
@@ -936,6 +966,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         classification: profile.classification,
         governmentFacts:
           publicOwner.governmentFacts ??
+          department?.governmentFacts ??
           (profile.publicGovernmentIdentity
             ? {
                 governmentKind: profile.publicGovernmentIdentity.kind,
@@ -1089,7 +1120,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         recordFamilyPast(
           child,
           sibling,
-          `${plan.stableKey}:sibling:${[child, sibling].sort().join(":")}`,
+          `${plan.stableKey}:sibling:${pairKey(child, sibling)}`,
           born[p("one")]!,
           "sibling",
         );
@@ -1138,7 +1169,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const planByPerson = new Map(
     plans.flatMap((plan) => plan.ids.map((id) => [id, plan] as const)),
   );
-  const registry = [...traitRegistryFor(world).traits.values()];
+  const registry = seedableTraits();
   const people: PersonInput[] = world.personOrder.map((id) => {
     const person = world.people[id]!;
     const plan = planByPerson.get(id)!;
@@ -1218,6 +1249,25 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       openingAllocation.templateJobIdByJob,
     ),
   );
+  // A job states the week its schedule runs: the hourly rate (the occupation's
+  // market rate) is paid for those minutes, so the stated hours and daily pay
+  // follow them, and a hire that copies the job copies the same week.
+  const scheduledMinutes = new Map(
+    plannedCommitments.map((row) => [row.jobId, row.expectedWeeklyMinutes]),
+  );
+  for (const [index, job] of jobs.entries()) {
+    const minutes = scheduledMinutes.get(job.id);
+    if (minutes === undefined || !(minutes > p("zero"))) continue;
+    const hoursDaily = minutes / p("minutesPerHour") / p("daysPerWeek");
+    if (hoursDaily === job.hoursDaily) continue;
+    const hourlyMinor =
+      job.hourlyMinor ?? Math.round(job.wageDailyMinor / job.hoursDaily);
+    jobs[index] = {
+      ...job,
+      hoursDaily,
+      wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
+    };
+  }
   const openingCapital = createOpeningEmployerCapital(
     {
       seed: options.seed,

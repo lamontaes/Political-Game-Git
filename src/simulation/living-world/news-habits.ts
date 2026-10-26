@@ -7,7 +7,7 @@ import { mediaOutlets } from "../press/outlets";
 import { personTrait } from "../people-traits";
 import { homeStateUsps } from "../nationwide-world/state-executives";
 import { mediaOutletKey } from "../press/records";
-import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
+import { SYNTHETIC_MIND_IDS } from "../../core2/mind-catalog";
 import { latestPersonalityTendency } from "../queries";
 
 export interface NewsHabit {

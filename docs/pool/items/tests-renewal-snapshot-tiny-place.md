@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/renewal-snapshot-tiny-place-s5
 pr: #4875
 blocked-on:

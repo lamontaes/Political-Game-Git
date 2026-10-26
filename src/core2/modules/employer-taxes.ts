@@ -21,8 +21,10 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
 import { lawChain, lawInForce } from "./laws";
+import { lawApplied } from "../law-reach/applied";
 import { ownerOf } from "./business";
-import { residentPerson, residentsRuntime } from "./residents";
+import { residentFacts, residentsRuntime } from "./residents";
+import { countedHeadsOf } from "../residents-economy";
 import { countedPayment, paydayLaw } from "../counted-money";
 import { withholdingFor } from "../tax-withholding";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
@@ -210,7 +212,7 @@ function payProfitTaxes(api: CoreAPI): void {
       passThrough(api, id, owner, total - last.minor);
       continue;
     }
-    if (owner && residentPerson(core, owner)) {
+    if (owner && residentFacts(core, owner)) {
       passThroughCounted(api, id, owner, total - last.minor);
       continue;
     }
@@ -325,11 +327,15 @@ function passThroughCounted(
   const id = `pass-through:${businessId}:${api.state.date}`;
   if (table(api, "passThroughs").get(id)) return;
   const core = api.state as CoreState;
-  const owner = residentPerson(core, ownerId);
+  const owner = residentFacts(core, ownerId);
   const law = paydayLaw(api);
   if (!owner || !law) return;
+  // The profit is the business's, already at the town's weight, and a counted
+  // payment multiplies by the owner's household weight: the withholding is
+  // for one household's part of the profit.
+  const heads = countedHeadsOf(core, ownerId);
   const lines = withholdingFor({
-    paidMinor: profitMinor,
+    paidMinor: profitMinor / heads,
     periodDays: QUARTER_DAYS_COUNT,
     yearToDateMinor: 0,
     incomeTax: law.incomeTax,
@@ -413,6 +419,45 @@ export function employerShareOf(
 }
 
 /**
+ * The share of a worker's yearly wage an employer pays in payroll taxes under
+ * the law in force today: Social Security and Medicare (each to its wage
+ * base) and the federal and state unemployment taxes, read from the same law
+ * rows `payEmployerShare` reads on each payday. A business sizes what its
+ * revenue must cover from this.
+ */
+export function employerTaxShareOfWage(
+  api: CoreAPI,
+  annualWageMinor: number,
+): number {
+  if (annualWageMinor <= 0) return 0;
+  const rate = (row: {
+    value: number | null;
+    terms?: Record<string, unknown>;
+  }) =>
+    typeof row.terms?.employerRate === "number"
+      ? row.terms.employerRate
+      : (row.value ?? 0);
+  const upTo = (row: { terms?: Record<string, unknown> }) =>
+    Math.min(
+      annualWageMinor,
+      Math.round(Number(row.terms?.wageBase ?? Infinity) * 100),
+    );
+  let minor = 0;
+  const ss = lawInForce(api, "social-security-tax").governing;
+  if (ss?.value) minor += (upTo(ss) * rate(ss)) / 100;
+  const med = lawInForce(api, "medicare-tax").governing;
+  if (med?.value) minor += (annualWageMinor * rate(med)) / 100;
+  for (const series of ["federal-unemployment-tax", "state-unemployment-tax"]) {
+    const row = lawInForce(api, series).governing;
+    if (!row?.value) continue;
+    const notCovered = (row.terms?.notCovered as string[] | undefined) ?? [];
+    if (notCovered.includes(lawChain(api).stateKey)) continue;
+    minor += (upTo(row) * row.value) / 100;
+  }
+  return minor / annualWageMinor;
+}
+
+/**
  * One payday's employer share. `wages` is the whole payday, `workers` the
  * people it pays (one for a paycheck, the counted workers of a flow, each on
  * the same wages), so the law's rates and wage bases are read per worker and
@@ -462,6 +507,7 @@ function payEmployerShare(
       ? row.terms.employerRate
       : (row.value ?? 0);
   const lawIds: string[] = [];
+  const reached: { key: string; id: string; minor: number }[] = [];
   let socialSecurity = 0,
     medicare = 0,
     estimate = false;
@@ -472,12 +518,18 @@ function payEmployerShare(
     socialSecurity = Math.round((workers * taxable * rate(ss)) / 100);
     lawIds.push(ss.id);
     estimate ||= ss.estimate === true;
+    reached.push({
+      key: "social-security-tax",
+      id: ss.id,
+      minor: socialSecurity,
+    });
   }
   const med = lawInForce(api, "medicare-tax").governing;
   if (med?.value) {
     medicare = Math.round((workers * wages * rate(med)) / 100);
     lawIds.push(med.id);
     estimate ||= med.estimate === true;
+    reached.push({ key: "medicare-tax", id: med.id, minor: medicare });
   }
   // Unemployment insurance taxes, each on its own wage base for the year.
   const ui = (series: string) => {
@@ -489,7 +541,9 @@ function payEmployerShare(
     const taxable = Math.max(0, Math.min(wages, base - ytd));
     lawIds.push(row.id);
     estimate ||= row.estimate === true;
-    return { minor: Math.round((workers * taxable * row.value) / 100), row };
+    const minor = Math.round((workers * taxable * row.value) / 100);
+    reached.push({ key: series, id: row.id, minor });
+    return { minor, row };
   };
   const federalUnemployment = ui("federal-unemployment-tax").minor;
   const stateTreasury = governments(api).find((g) => g.level === "state");
@@ -572,6 +626,22 @@ function payEmployerShare(
     },
   };
   table(api, "shares").put(record as unknown as ModuleRow);
+  // The employer's side, on the employer's own reach row (a counted employer's
+  // payroll stands for its workers: a group with their count).
+  for (const r of reached)
+    if (r.minor > 0)
+      lawApplied(api, {
+        key: r.key,
+        lawId: r.id,
+        targetId: pay.ytdKey
+          ? `counted-workers:${receipt.organizationId}`
+          : receipt.organizationId,
+        target: pay.ytdKey ? "group" : "organization",
+        engine: EMPLOYER_TAXES_MODULE_ID,
+        what: "employer-tax-owed",
+        ...(pay.ytdKey ? { count: workers } : {}),
+        amountMinor: r.minor,
+      });
   if (!postings.length) return;
   const state = api.state as CoreState;
   api.postJournal({

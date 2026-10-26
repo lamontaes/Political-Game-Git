@@ -27,7 +27,6 @@ const table = parameters as unknown as {
     string,
     { firstPerson: number; perAddedPerson: number }
   >;
-  jurisdictionResidents: { residents: Record<string, number> };
   graduatedSchedules: Record<
     "state" | "local",
     {
@@ -42,11 +41,6 @@ export function reachParameter(key: string): number {
   const row = table.parameters[key];
   if (!row) throw new Error(`Unknown law-reach parameter: ${key}`);
   return row.value;
-}
-
-/** Recorded residents of a state-level jurisdiction the budgets carry none for. */
-export function jurisdictionResidents(id: string): number | undefined {
-  return table.jurisdictionResidents.residents[id];
 }
 
 export function graduatedSchedule(scope: "state" | "local") {
@@ -88,6 +82,8 @@ export interface HouseholdFacts {
   readonly named: boolean;
   readonly size: number;
   readonly incomeDollars: number;
+  /** The part of `incomeDollars` that is retirement benefits, not wages. */
+  readonly retirementDollars?: number;
   readonly ages: readonly number[];
   /** Real households this counted row stands for (absent means one). */
   readonly scale?: number;
@@ -133,6 +129,23 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     for (const job of jobs) minor += job.wageDailyMinor * days;
     return minor / cents;
   };
+  const rt = residentsRuntime(core);
+  // A named retiree's award is a standing contract with them as recipient.
+  const retirementYearMinor = new Map<string, number>();
+  for (const contract of core.finance.contracts.values())
+    if (
+      !contract.endedAt &&
+      contract.recipientIncome &&
+      contract.kind === "income.retirement"
+    ) {
+      const id = contract.recipientIncome.personId;
+      retirementYearMinor.set(
+        id,
+        (retirementYearMinor.get(id) ?? 0) +
+          (contract.amountMinor * reachParameter("monthsPerYear")) /
+            Math.max(1, contract.periodMonths),
+      );
+    }
   // Named people: their own jobs and commitments.
   const commitments: WorkCommitmentInput[] = [];
   for (const id of core.peopleByPlace.get(townPlaceId) ?? [])
@@ -168,18 +181,23 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
         employed: working,
       });
     }
+    // A claimed retirement benefit is income the household lives on.
+    let retirementMinor = 0;
+    for (const id of ids) retirementMinor += retirementYearMinor.get(id) ?? 0;
     households.set(householdId, {
       id: householdId,
       named: true,
       size: ids.length,
-      incomeDollars: jobIncome(jobs),
+      incomeDollars: jobIncome(jobs) + retirementMinor / cents,
+      ...(retirementMinor
+        ? { retirementDollars: retirementMinor / cents }
+        : {}),
       ages,
     });
   }
   // Counted residents: their groups' members, read from the packed columns
   // (one model, two tiers). A working-age member without a recorded job
   // works by their household's share of the place's unplaced workers.
-  const rt = residentsRuntime(core);
   if (rt) {
     const store = rt.store;
     const from = countedParameter("countedWorkingAgeFrom"),
@@ -227,6 +245,9 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
             (h.unplacedWorkers * (rt.unplacedPerWorker.get(h.placeId) ?? 0)) /
               cents +
             h.retirementMinorYear / cents,
+          ...(h.retirementMinorYear
+            ? { retirementDollars: h.retirementMinorYear / cents }
+            : {}),
           ages,
           ...(scale !== 1 ? { scale } : {}),
         });

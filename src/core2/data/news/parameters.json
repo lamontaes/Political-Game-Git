@@ -1,20 +1,35 @@
 {
   "newsOutletDelayDays": {
     "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Days until a local outlet's report reaches someone who follows politics most of the time (engagement 1) and trusts the media as much as the average adult: the next day. Someone who follows less, or trusts the media less, hears later in proportion (delay = this / (engagement x trust / average trust)). The proportion is an assumption checked by how fast results spread. Spread 0.5 to 2.",
+    "tag": "ESTIMATED",
+    "citation": "The Media Insight Project (American Press Institute and AP-NORC), 'The Personal News Cycle', telephone survey of 1,492 adults, January 9 to February 16, 2014, https://apnorc.org/wp-content/uploads/2020/02/The_Personal_News_Cycle_Final.pdf: 76% of adults watch, read or hear the news daily, 14% several times per week, 10% weekly or less; Pew Research Center, 'How closely do Americans follow local news?', May 7, 2024, https://www.pewresearch.org/journalism/2024/05/07/attention-to-local-news/: 38% followed the news all or most of the time in 2022. Research files data/research/news/apnorc-2014-news-frequency.json and data/research/news/pew-2024-2025-news-habits.json, checked by scripts/research/gov-year.ts. Days until a local outlet's report reaches someone who follows politics most of the time (engagement 1) and trusts the media as much as the average adult: the next day. Someone who follows less, or trusts the media less, hears later in proportion (delay = this / (engagement x trust / average trust)); the proportion is an assumption checked by how fast stories spread.",
+    "estimatedFrom": "The reference reader follows public affairs most of the time; Pew's share who follow the news all or most of the time (38%, 2022) is half the share who get news daily (76%, AP-NORC 2014), so that reader is among the daily readers and sees a story printed today by the next day (1 day). The spread is the interval of the two most frequent bands a close follower can sit in, daily (1 day) to several times per week (about every second day, 2 days).",
+    "spread": {
+      "low": 1,
+      "high": 2,
+      "unit": "days",
+      "citation": "AP-NORC 2014 (The Personal News Cycle) frequency bands read as days between looks at the news: daily, 1 day; several times per week, about 2 days (data/research/news/apnorc-2014-news-frequency.json)."
+    },
     "stopgapId": "SG-P15-news-habits"
   },
   "newsMaxAgeDays": {
     "value": 30,
     "tag": "TUNABLE",
-    "citation": "Days a story stays news: after this no outlet or conversation carries it, so people whose habits would bring it later never hear it. Spread 14 to 60.",
+    "citation": "Days a story stays news: after this no outlet or conversation carries it, so people whose habits would bring it later never hear it. The engine reads it as a cutoff (a reader whose delay is longer never hears, and a story past it is never told), so it is not sourced: people-news-newsMaxAgeDays-as-cause asks the news builder to replace the cutoff with a cause. Engineering range 14 to 60 days.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Read as a cutoff, not a sliding amount, so no measured figure can stand for it (Sliding scales and causes); the replacement is the builder item people-news-newsMaxAgeDays-as-cause."
+    },
     "stopgapId": "SG-P15-news-habits"
   },
   "newsStoriesPerContact": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Stories one person passes to another at a contact: the newest the listener has not heard. Spread 1 to 3.",
+    "citation": "Stories one person passes to another at a contact: the newest the listener has not heard, scaled by the teller's lean toward passing a story on. No published count of stories passed per conversation exists to convert; the outcome it shapes, the share of adults word of mouth reaches, is checked against Pew Research Center's Local News Fact Sheet (December 2025: 93% of adults get local news from other residents at least hardly ever, 72% often or sometimes; https://www.pewresearch.org/journalism/fact-sheet/local-news/; data/research/news/pew-2024-2025-news-habits.json) by scripts/research/gov-year.ts. Engineering range 1 to 3.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No convertible source: Pew measures how often adults get local news from other residents, not how many stories pass at one contact; that share is the band scripts/research/gov-year.ts reports the played year against."
+    },
     "stopgapId": "SG-P15-news-habits"
   },
   "newsTrustLiberal": {

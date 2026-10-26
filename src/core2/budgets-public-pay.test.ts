@@ -1,3 +1,4 @@
+import { OUTSIDE_MARKET_KIND } from "./opening-outside-market";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -27,7 +28,8 @@ it(`an opening public employer's wages come out of its government's treasury in 
   const { core } = world;
   const api = coreAPI(core);
   const employers = [...core.organizations.values()].filter(
-    (row) => row.publicPayAuthority,
+    // A government's own employers; the outside account's authority is paid by no treasury.
+    (row) => row.publicPayAuthority && row.kind !== OUTSIDE_MARKET_KIND,
   );
   if (!employers.length) {
     console.log(`WIRED ${place.name} ${seed}: no opening public employer`);
@@ -74,9 +76,21 @@ it(`an opening public employer's wages come out of its government's treasury in 
     0,
   );
   const drawn = [...fromTreasury.values()].reduce((a, b) => a + b, 0);
+  // What a treasury couldn't cover on a payday, the authority paid and
+  // recorded against that payday's due (src/core2/public-work-pay.ts).
+  let short = 0;
+  for (const employer of employers)
+    for (const [due, row] of links.get(employer.publicPayAuthority!.id)!
+      .shortfalls) {
+      expect(
+        [...commitments.keys()].some((id) => due.includes(id)),
+        due,
+      ).toBe(true);
+      short += row.amountMinor;
+    }
   // A public worker may draw no pay in the window (the worker's own choice);
-  // whatever was paid came out of the treasury.
-  expect(drawn).toBe(paidByLedger);
+  // whatever was paid came out of the treasury or is a recorded shortfall.
+  expect(drawn + short).toBe(paidByLedger);
   const months = api
     .moduleState(BUDGETS_MODULE_ID)
     .table("treasuryMonths")
@@ -84,7 +98,10 @@ it(`an opening public employer's wages come out of its government's treasury in 
   expect(months.length).toBeGreaterThan(0);
   for (const row of months)
     expect(Number.isFinite(row.publicPayShortfallMinor)).toBe(true);
+  // The month's close carries what a treasury couldn't cover.
+  if (short)
+    expect(months.some((row) => row.publicPayShortfallMinor > 0)).toBe(true);
   console.log(
-    `WIRED ${place.name} ${seed}: ${links.size} authority, ${fromTreasury.size} payday entries, ${drawn} minor from the treasury`,
+    `WIRED ${place.name} ${seed}: ${links.size} authority, ${fromTreasury.size} payday entries, ${drawn} minor from the treasury, ${short} recorded short`,
   );
 }, 900_000);

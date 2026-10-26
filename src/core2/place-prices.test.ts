@@ -5,6 +5,7 @@ import { advanceCore, createLifeCore } from "./life";
 import {
   PLACE_PRICES_MODULE,
   adjustPrice,
+  businessEnergyCostYear,
   monthlyChange,
   setPlacePrice,
 } from "./modules/place-prices";
@@ -196,5 +197,25 @@ describe("prices a law sets", () => {
     );
     const flows = core.cashJournal.externalFlowsByOwner.get(outside);
     expect(flows?.netMinor).toBeLessThan(0);
+  });
+  it("a law that prices energy costs a business its energy share of the price change, and other laws set no energy price", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [PLACE_PRICES_MODULE],
+      }),
+      api = coreAPI(core);
+    const q =
+      "us-policy-positions:environment-energy.clean-electricity-standard";
+    const small = businessEnergyCostYear(api, q, 1_000_000)!;
+    const large = businessEnergyCostYear(api, q, 2_000_000)!;
+    expect(small).toBeGreaterThan(0);
+    expect(large).toBe(2 * small);
+    expect(
+      businessEnergyCostYear(
+        api,
+        "us-policy-positions:environment-energy.bottle-deposit",
+        1_000_000,
+      ),
+    ).toBeNull();
   });
 });

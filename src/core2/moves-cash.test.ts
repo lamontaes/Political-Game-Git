@@ -8,7 +8,7 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import type { Departure } from "./modules/moves";
+import { departuresSeen, watchDepartures } from "./modules/moves";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
@@ -21,17 +21,15 @@ describe("full movers' cash", { timeout: 900_000 }, () => {
         twoLevel: true,
       });
       const api = coreAPI(core);
+      watchDepartures(core);
       const sink = [...core.organizations.values()].find(
         (row) => row.kind === "outside-market",
       )!.id;
       const before = api.accounts().balance(api.accounts().main(sink));
       advanceCore(core, "2027-10-12");
-      const moved = (
-        api
-          .moduleState("moves")
-          .table("departures")
-          .rows() as unknown as Departure[]
-      ).filter((d) => d.cashLeftMinor !== undefined);
+      const moved = departuresSeen(core).filter(
+        (d) => d.cashLeftMinor !== undefined,
+      );
       if (!moved.length) continue;
       const left = moved.reduce((n, d) => n + d.cashLeftMinor!, 0);
       expect(left).toBeGreaterThan(0);

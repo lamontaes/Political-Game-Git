@@ -1,7 +1,7 @@
 /**
  * Bills go to subject committees (pool item gov-bills-go-to-subject-committees):
  * in a random place from all 56, the town as the player gets it, played a
- * year. The 14 October audit found every bill in the 'general' committee with
+ * year. The October 14 audit found every bill in the 'general' committee with
  * the same members and the same vote. Now bills reach several committees, and
  * the committees' members and votes differ from one bill to the next.
  */

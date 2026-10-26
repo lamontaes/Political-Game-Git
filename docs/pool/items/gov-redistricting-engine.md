@@ -9,8 +9,10 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+after: gov-redistricting-who-draws
 milestone:
 source: "split from laws-family-government-operations; stopgap SG-GOV-REACH-A-redistricting; owner D-6 (approved) and Sept 28 #8"
+claimed-at: 2026-10-19T23:51:06.707Z
 ---
 
 **What.** After a census the game recounts its people, seats shift between states, and the maps are redrawn: council wards, state legislative districts and U.S. House districts, by whoever the state's law names (legislature, independent commission, council). The independent-redistricting law decides who holds the pen. Neighborhood makeup comes from Census place data and is used the way courts use it under the Voting Rights Act; it is never a label on a person.
@@ -22,3 +24,5 @@ source: "split from laws-family-government-operations; stopgap SG-GOV-REACH-A-re
 **Files.** src/core2 (new districting engine), src/districts, src/core2/data/laws/reach-group-a.json.
 
 **Notes.** Spec: docs/codex/specs/bank/b16-redistricting-vra.md (old-core file references; port only what the golden path uses). Today no engine in src/core2 draws a district.
+
+Oct 20: Switched from blocked to the automatic after: gate on gov-redistricting-who-draws, so it opens by itself the moment those items are done.

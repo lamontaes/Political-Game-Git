@@ -32,84 +32,108 @@ import { heldFederal, releaseFederal } from "./office-day-federal";
 import { drawPlace } from "../../scripts/core2-year/place";
 
 const seed = process.env.OFFICE_DESK_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "office-desk");
-console.log(`office-day-desk: ${place.name} (${place.key}), seed ${seed}`);
-const world = buildBenchWorld(seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey: place.key,
-});
-const core = world.core;
-const api = coreAPI(core);
-const player = new BenchPlayer(core, world.director);
-const start = core.date;
-const seats = townSeats(api);
-const governor = seats.find((s) => s.office.kind === "governor")?.holder
-  ?.personId;
-const chamber = seats.find((s) => s.office.kind.startsWith("legislature-"));
 
-describe(`the governor's desk (${place.name}, seed ${seed})`, () => {
+describe(`the governor's desk (seed ${seed})`, () => {
   it("signs or vetoes a passed bill by the legislature's own executive lean", () => {
-    // Some territorial office data has no state chamber or governor to play.
-    if (!governor || !chamber) return;
-    player.select(governor);
-    // Control binds when the clock next advances.
-    for (let guard = 0; guard < 50 && core.date <= start; guard++) {
-      if (player.pollingPlace) player.leavePolls();
-      const packet = player.packet;
-      if (packet?.kind === "stop") {
-        for (const key of heldFederal(api)) releaseFederal(api, key);
-        player.resume({ kind: "stop", pauseId: packet.pauseId });
-      } else if (packet?.kind === "choice")
-        player.resume({ kind: "own-choice", pauseId: packet.pauseId });
-      else player.advance("day");
-    }
-    // A raise in the minimum wage, else a policy question the state may answer.
-    const floor = lawInForce(api, "minimum-wage").value ?? 0;
-    const candidates: Provision[] = [
-      {
-        kind: "law-amount",
-        series: "minimum-wage",
-        value: floor + 100,
-        unit: "minor/hour",
-      },
-      ...PLATFORM_QUESTIONS.map((question): Provision => ({
-        kind: "policy-question",
-        question,
-        value: 1,
-      })),
-    ];
-    // Every member of the state's chambers votes yes; a bill a committee
-    // chair will not hear never reaches the desk, so the next one is tried.
-    const members = seats.filter(
-      (s) => s.office.kind.startsWith("legislature-") && s.holder?.personId,
-    );
-    let bill: ReturnType<typeof draftBill> | undefined;
-    for (const provision of candidates.filter(
-      (p) => authorityFor(api, p).allowed,
-    )) {
-      const draft = draftBill(api, {
-        bodyOfficeId: chamber.office.id,
-        sponsorId: chamber.holder!.personId!,
-        provisions: [provision],
+    // Some territorial office data has no state chamber or governor to play,
+    // and some states' chairs hear no candidate bill: places are drawn in
+    // turn until a bill reaches the governor's desk.
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const place = drawPlace(
+        attempt ? `${seed}:${attempt}` : seed,
+        "office-desk",
+      );
+      console.log(
+        `office-day-desk: ${place.name} (${place.key}), seed ${seed}`,
+      );
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
       });
-      if (draft.status === "blocked") continue;
-      for (const seat of members)
-        castMemberVote(api, draft.id, seat.holder!.personId!, "yes");
-      holdVote(api, draft.id);
-      if (!deskWaiting(api).some((b) => b.id === draft.id)) continue;
-      bill = draft;
-      break;
+      const core = world.core;
+      const api = coreAPI(core);
+      const player = new BenchPlayer(core, world.director);
+      const start = core.date;
+      const seats = townSeats(api);
+      const governor = seats.find((s) => s.office.kind === "governor")?.holder
+        ?.personId;
+      const chamber = seats.find((s) =>
+        s.office.kind.startsWith("legislature-"),
+      );
+      const where = `${place.name} (${place.key})`;
+      if (!governor || !chamber) {
+        tried.push(`${where}: no governor or state chamber`);
+        continue;
+      }
+      player.select(governor);
+      // Control binds when the clock next advances.
+      for (let guard = 0; guard < 50 && core.date <= start; guard++) {
+        if (player.pollingPlace) player.leavePolls();
+        const packet = player.packet;
+        if (packet?.kind === "stop") {
+          for (const key of heldFederal(api)) releaseFederal(api, key);
+          player.resume({ kind: "stop", pauseId: packet.pauseId });
+        } else if (packet?.kind === "choice")
+          player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+        else player.advance("day");
+      }
+      // A raise in the minimum wage, else a policy question the state may answer.
+      const floor = lawInForce(api, "minimum-wage").value ?? 0;
+      const candidates: Provision[] = [
+        {
+          kind: "law-amount",
+          series: "minimum-wage",
+          value: floor + 100,
+          unit: "minor/hour",
+        },
+        ...PLATFORM_QUESTIONS.map((question): Provision => ({
+          kind: "policy-question",
+          question,
+          value: 1,
+        })),
+      ];
+      // Every member of the state's chambers votes yes; a bill a committee
+      // chair will not hear never reaches the desk, so the next one is tried.
+      const members = seats.filter(
+        (s) => s.office.kind.startsWith("legislature-") && s.holder?.personId,
+      );
+      let bill: ReturnType<typeof draftBill> | undefined;
+      for (const provision of candidates.filter(
+        (p) => authorityFor(api, p).allowed,
+      )) {
+        const draft = draftBill(api, {
+          bodyOfficeId: chamber.office.id,
+          sponsorId: chamber.holder!.personId!,
+          provisions: [provision],
+        });
+        if (draft.status === "blocked") continue;
+        for (const seat of members)
+          castMemberVote(api, draft.id, seat.holder!.personId!, "yes");
+        holdVote(api, draft.id);
+        if (!deskWaiting(api).some((b) => b.id === draft.id)) continue;
+        bill = draft;
+        break;
+      }
+      if (!bill) {
+        tried.push(`${where}: no candidate bill reached the desk`);
+        continue;
+      }
+      const expected = executiveLean(api, bill.id, governor);
+      leaveDeskToCharacter(api, bill.id);
+      const act = officeActsOf(api, governor).find(
+        (a) => a.recordId === bill.id && a.how === "own-choice",
+      )!;
+      expect(act.kind, where).toBe(expected.lean >= 0 ? "sign" : "veto");
+      expect(act.position, where).toBe(expected.lean);
+      const ended = billOf(api, bill.id).status;
+      if (expected.lean >= 0)
+        expect(["signed", "enacted"], where).toContain(ended);
+      else expect(["vetoed", "overridden"], where).toContain(ended);
+      return;
     }
-    if (!bill) return;
-    const expected = executiveLean(api, bill.id, governor);
-    leaveDeskToCharacter(api, bill.id);
-    const act = officeActsOf(api, governor).find(
-      (a) => a.recordId === bill.id && a.how === "own-choice",
-    )!;
-    expect(act.kind).toBe(expected.lean >= 0 ? "sign" : "veto");
-    expect(act.position).toBe(expected.lean);
-    const ended = billOf(api, bill.id).status;
-    if (expected.lean >= 0) expect(["signed", "enacted"]).toContain(ended);
-    else expect(["vetoed", "overridden"]).toContain(ended);
-  });
+    throw new Error(
+      `no drawn place put a bill on a governor's desk (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 900_000);
 });

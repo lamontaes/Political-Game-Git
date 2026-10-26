@@ -1,0 +1,16 @@
+[
+  {
+    "name": "OurCivicDuty-0.22.0-mac-arm64.zip",
+    "size": 692957033,
+    "sha512": "MNTJuw+SbO3z1Jn+t0d1VAuquyyN1Wj7MDSyS6iStd5h1/dy9+RPG1mWBKV9i+TJ5xV4ZwkZllllc5Cl8Opt+Q==",
+    "sha256": "243fb03f0319c9cff0a5a74466572623ddea109ddfd9f952c916408a5255708d",
+    "source": "https://github.com/lamontaes/Political-Game-Git/releases/download/v0.22.0/OurCivicDuty-0.22.0-mac-arm64.zip"
+  },
+  {
+    "name": "OurCivicDuty-Setup-0.22.0.exe",
+    "size": 672326395,
+    "sha512": "sWhh1ohhnu5EbvJQSqG0K2iH0c4OrowlEaql35EC4OE+KY2442rXGD8aEcPrKmrNMgQqsG3F0g0QpMZMMFkW7Q==",
+    "sha256": "54665ac3a4c68ca98d742d1c5a3199e88cb7f97a03e4475b6d8ce6bdada535a0",
+    "source": "https://github.com/lamontaes/Political-Game-Git/releases/download/v0.22.0/OurCivicDuty-Setup-0.22.0.exe"
+  }
+]
