@@ -2035,7 +2035,13 @@ export function candidateAnswers(
       };
     }
     const town = townStand(api, question);
-    return shadesAnswer(api, person, town, vote.stance.position)
+    // The candidate weighs the town's stand against how far towns stand at
+    // the furthest: a town that far reads as half way to an end.
+    const felt = Math.max(
+      -0.5,
+      Math.min(0.5, (town / pressParameter("townStandReach")) * 0.5),
+    );
+    return shadesAnswer(api, person, felt, vote.stance.position)
       ? { question, position: round(town), move: "lie", recordId: vote.id }
       : {
           question,
@@ -2049,9 +2055,10 @@ export function candidateAnswers(
 /**
  * Whether a candidate shades an answer about their own vote toward where the
  * town stands rather than owning the vote: the further apart the two stand
- * (half the distance, 0 to 1), the more the vote costs with the people
- * listening, and their own lean toward bending the truth over owning it
- * (every trait).
+ * (half the distance, 0 to 1; the town as the candidate weighs it, half way
+ * to an end at the furthest a town stands), the more the vote costs with the
+ * people listening, and their own lean toward bending the truth over owning
+ * it (every trait).
  */
 export function shadesAnswer(
   api: CoreAPI,

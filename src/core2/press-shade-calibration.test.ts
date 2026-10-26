@@ -57,8 +57,9 @@ it("about a quarter of adults would shade an answer about a vote the town oppose
         p.alive &&
         ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(input.startedAt)) >= 21,
     );
-    // A vote of -1; a town stands at most half way to either end, so a town
-    // at -0.5 agrees as fully as a town can and one at 0.5 opposes as fully.
+    // A vote of -1; a candidate reads a town standing as far as towns stand
+    // (townStandReach) as half way to an end, so a town read at -0.5 agrees as
+    // fully as a town can and one at 0.5 opposes as fully.
     for (const p of adults) {
       total += 1;
       if (shadesAnswer(api, p, -0.5, -1)) shares.agrees += 1;
