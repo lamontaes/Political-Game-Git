@@ -181,7 +181,7 @@ describe("normal play circle and tier scope", () => {
   });
 
   it("keeps a contact daily only while the player has seen them in the window, then at their tier's cadence until they meet again", () => {
-    // Acting CTO, Oct 25: daily focus only for people seen in the last
+    // Daily focus only for people seen in the last
     // focusDailyContactDays days, read from the tie, not a scan.
     const core = createLifeCore(input());
     const api = coreAPI(core);

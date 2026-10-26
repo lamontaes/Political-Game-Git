@@ -99,8 +99,8 @@ function hasDailyFocus(core: CoreState, actor: Readonly<PersonState>): boolean {
 }
 
 /**
- * A focus person chooses daily while the player sees them (acting CTO, Oct
- * 25): the player's family and household always, anyone else while their tie
+ * A focus person chooses daily while the player sees them: the player's
+ * family and household always, anyone else while their tie
  * with the player had contact in the last `focusDailyContactDays` days, read
  * from that one tie. Out of touch, they choose at their tier's cadence until
  * the two meet again. Someone in focus with no tie to the player (a coworker,
