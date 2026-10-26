@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
 pr: #6077
 blocked-on:
@@ -30,5 +30,7 @@ Ready Oct 25 (speed lead), not opened while the play-first freeze holds: branch 
 Oct 25 (CTO ruling): this calibration is the band for how often a cause-holder acts; the speed lead ships people-drives-cause-acts-pull-less against it. No owner question.
 
 Sent back 2026-10-25 from PR #6077 (branch claude/cause-activity-research): report treats unlike activities and age populations as calibrated bands: meeting organizing vs attendance, cause-only volunteering vs all volunteering, annual joins vs membership prevalence, 18+ vs source16+; finish on that branch, merge main into it first.
+
+Oct 25, after the send-back (speed lead, same branch, #6077): each survey measure is broader than the game act it sits beside (any organization, not only causes; attending a meeting, not organizing one; belonging to any group, not joining one this year), so the report now prints it as the nearest survey measure with how the two differ, and draws no in-band or out-of-band conclusion. The town's people are counted from age 16, the survey's universe, in the numerators and denominators alike. The sourced data is unchanged.
 
 Sent back 2026-10-26 from PR #6077 (branch claude/cause-activity-research): corrective report still includes15-year-olds in claimed16+ universe by subtracting years only; use birthday-aware age, and remove remaining unsupported upper-bound/broader-set claims for nonnested donations and selected full-person sample while retaining neutral proxy report; finish on that branch, merge main into it first.

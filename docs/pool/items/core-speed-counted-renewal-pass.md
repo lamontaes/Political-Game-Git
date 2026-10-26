@@ -6,11 +6,11 @@ kind: bug
 priority: 1
 size: S
 status: in-pr
-claimed-by: claude/speed-counted-renewal
+claimed-by:
 pr: #6072
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T23:59:49.117Z
+claimed-at:
 ---
 
 **What.** The renewal engine's monthly counted pass (applyCountedFlows in src/core2/births-counted.ts) takes 9.6 of 264 profiled seconds of Long Hill, Connecticut's played year (seed m7b). For every death it filters the whole town's counted people to find the household that outlives them, and checks each person against the month's deaths with an array search. It groups people into death cohorts by copying the cohort's whole array for each member it adds, and it builds every household's view again at the month's end only for a record that is kept with bookkeeping on. Read each household's own people, keep the month's deaths in a set, append to the cohort, and build the end-of-month counts only when the record is kept.
