@@ -1,0 +1,1064 @@
+{
+  "seed": "4632cb657577fc732248dc3de54c2ee2e0b2b049c1411855e250af4d5860d193",
+  "place": {
+    "seed": "0cc27324522edf2fb9f7222352cf908523b84815a0f255a728646b39489f244d",
+    "key": "2801260",
+    "name": "Amory, Mississippi",
+    "state": "US-MS"
+  },
+  "startDate": "2025-01-20",
+  "endDate": "2026-01-20",
+  "seconds": 65.727,
+  "fullPeople": 1720,
+  "declared": {
+    "core2-ballot-measures-v1": {
+      "hooks": ["onCalendarWork"],
+      "operations": {},
+      "eventKinds": [],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["measures", "votes", "results"],
+      "subscribedKinds": []
+    },
+    "core2-interest-groups-v1": {
+      "hooks": [],
+      "operations": {},
+      "eventKinds": [],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["groups", "meetings", "dues"],
+      "subscribedKinds": []
+    },
+    "core2-recalls-v1": {
+      "hooks": ["onCalendarWork", "onEvent"],
+      "operations": {},
+      "eventKinds": ["law-took-effect"],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["recalls"],
+      "subscribedKinds": ["law-took-effect"]
+    },
+    "core2-constituent-cases-v1": {
+      "hooks": ["onCalendarWork"],
+      "operations": {},
+      "eventKinds": [],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["cases"],
+      "subscribedKinds": []
+    },
+    "corruption": {
+      "hooks": ["onRelationshipChange"],
+      "operations": {
+        "reasonProviders": ["corruption-circumstances"]
+      },
+      "eventKinds": [],
+      "appraisalEventKinds": [],
+      "relationshipKinds": ["*"],
+      "tables": ["crimes", "surfaced"],
+      "subscribedKinds": []
+    },
+    "beliefs": {
+      "hooks": ["onRelationshipChange"],
+      "operations": {},
+      "eventKinds": [],
+      "appraisalEventKinds": [],
+      "relationshipKinds": ["*"],
+      "tables": ["beliefs"],
+      "subscribedKinds": []
+    },
+    "core2-law-effects-v1": {
+      "hooks": ["onEvent"],
+      "operations": {},
+      "eventKinds": ["law-took-effect", "budget-line-changed"],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["applied"],
+      "subscribedKinds": ["law-took-effect", "budget-line-changed"]
+    },
+    "core2-world-races-v1": {
+      "hooks": ["onCalendarWork"],
+      "operations": {},
+      "eventKinds": [],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["races", "seats", "blocks"],
+      "subscribedKinds": []
+    },
+    "core2-voting-v1": {
+      "hooks": ["onCalendarWork"],
+      "operations": {},
+      "eventKinds": [],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["chosen", "ballots", "results", "blocks"],
+      "subscribedKinds": []
+    },
+    "core2-press-v1": {
+      "hooks": ["onCalendarWork"],
+      "operations": {},
+      "eventKinds": [],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["outlets", "interviews"],
+      "subscribedKinds": []
+    },
+    "core2-meetings-v1": {
+      "hooks": ["onCalendarWork"],
+      "operations": {},
+      "eventKinds": [],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["remarks", "townHalls", "debates"],
+      "subscribedKinds": []
+    },
+    "core2-officials-v1": {
+      "hooks": ["onEvent"],
+      "operations": {},
+      "eventKinds": ["took-office"],
+      "appraisalEventKinds": [],
+      "relationshipKinds": [],
+      "tables": ["officials", "loaded", "candidates"],
+      "subscribedKinds": ["took-office"]
+    }
+  },
+  "summary": [
+    {
+      "id": "core2-ballot-measures-v1",
+      "installed": true,
+      "ran": false,
+      "changedTables": [],
+      "verdict": "neither",
+      "rowsStartEnd": {
+        "measures": "0 -> 0",
+        "votes": "0 -> 0",
+        "results": "0 -> 0"
+      },
+      "calls": {}
+    },
+    {
+      "id": "core2-interest-groups-v1",
+      "installed": true,
+      "ran": false,
+      "changedTables": ["groups", "meetings"],
+      "verdict": "changed records without a counted call",
+      "rowsStartEnd": {
+        "groups": "0 -> 6",
+        "meetings": "0 -> 240",
+        "dues": "0 -> 0"
+      },
+      "calls": {}
+    },
+    {
+      "id": "core2-recalls-v1",
+      "installed": true,
+      "ran": true,
+      "changedTables": ["recalls"],
+      "verdict": "ran and changed records",
+      "rowsStartEnd": {
+        "recalls": "0 -> 7"
+      },
+      "calls": {
+        "event:law-took-effect": 30,
+        "onCalendarWork": 11
+      }
+    },
+    {
+      "id": "core2-constituent-cases-v1",
+      "installed": true,
+      "ran": true,
+      "changedTables": ["cases"],
+      "verdict": "ran and changed records",
+      "rowsStartEnd": {
+        "cases": "0 -> 2"
+      },
+      "calls": {
+        "onCalendarWork": 14
+      }
+    },
+    {
+      "id": "corruption",
+      "installed": true,
+      "ran": true,
+      "changedTables": [],
+      "verdict": "ran, changed nothing",
+      "rowsStartEnd": {
+        "crimes": "0 -> 0",
+        "surfaced": "0 -> 0"
+      },
+      "calls": {
+        "relationship-change": 17419
+      }
+    },
+    {
+      "id": "beliefs",
+      "installed": true,
+      "ran": true,
+      "changedTables": [],
+      "verdict": "ran, changed nothing",
+      "rowsStartEnd": {
+        "beliefs": "0 -> 0"
+      },
+      "calls": {
+        "relationship-change": 17419
+      }
+    },
+    {
+      "id": "core2-law-effects-v1",
+      "installed": true,
+      "ran": true,
+      "changedTables": [],
+      "verdict": "ran, changed nothing",
+      "rowsStartEnd": {
+        "applied": "0 -> 0"
+      },
+      "calls": {
+        "event:law-took-effect": 30,
+        "event:budget-line-changed": 42
+      }
+    },
+    {
+      "id": "core2-world-races-v1",
+      "installed": true,
+      "ran": false,
+      "changedTables": [],
+      "verdict": "neither",
+      "rowsStartEnd": {
+        "races": "0 -> 0",
+        "seats": "0 -> 0",
+        "blocks": "0 -> 0"
+      },
+      "calls": {}
+    },
+    {
+      "id": "core2-voting-v1",
+      "installed": true,
+      "ran": true,
+      "changedTables": [],
+      "verdict": "ran, changed nothing",
+      "rowsStartEnd": {
+        "chosen": "0 -> 0",
+        "ballots": "0 -> 0",
+        "results": "0 -> 0",
+        "blocks": "0 -> 0"
+      },
+      "calls": {
+        "onCalendarWork": 2
+      }
+    },
+    {
+      "id": "core2-press-v1",
+      "installed": true,
+      "ran": true,
+      "changedTables": [],
+      "verdict": "ran, changed nothing",
+      "rowsStartEnd": {
+        "outlets": "4 -> 4",
+        "interviews": "0 -> 0"
+      },
+      "calls": {
+        "onCalendarWork": 52
+      }
+    },
+    {
+      "id": "core2-meetings-v1",
+      "installed": true,
+      "ran": true,
+      "changedTables": ["remarks"],
+      "verdict": "ran and changed records",
+      "rowsStartEnd": {
+        "remarks": "0 -> 153",
+        "townHalls": "0 -> 0",
+        "debates": "0 -> 0"
+      },
+      "calls": {
+        "onCalendarWork": 52
+      }
+    },
+    {
+      "id": "core2-officials-v1",
+      "installed": true,
+      "ran": false,
+      "changedTables": ["officials", "candidates"],
+      "verdict": "changed records without a counted call",
+      "rowsStartEnd": {
+        "officials": "1572 -> 1575",
+        "loaded": "1 -> 1",
+        "candidates": "0 -> 2"
+      },
+      "calls": {}
+    }
+  ],
+  "startTables": {
+    "core2-ballot-measures-v1": {
+      "measures": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "votes": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "results": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-interest-groups-v1": {
+      "groups": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "meetings": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "dues": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-recalls-v1": {
+      "recalls": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-constituent-cases-v1": {
+      "cases": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "corruption": {
+      "crimes": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "surfaced": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "beliefs": {
+      "beliefs": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-law-effects-v1": {
+      "applied": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-world-races-v1": {
+      "races": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "seats": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "blocks": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-voting-v1": {
+      "chosen": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "ballots": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "results": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "blocks": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-press-v1": {
+      "outlets": {
+        "rows": 4,
+        "hash": "e6dbdb5a231b",
+        "sample": [
+          {
+            "id": "outlet:newspaper:0:jurisdiction_02e2700cebed794e",
+            "organizationId": "organization:press:newspaper:0:jurisdiction_02e2700cebed794e",
+            "kind": "newspaper",
+            "index": 0,
+            "placeId": "jurisdiction_02e2700cebed794e"
+          },
+          {
+            "id": "outlet:television:0:jurisdiction_02e2700cebed794e",
+            "organizationId": "organization:press:television:0:jurisdiction_02e2700cebed794e",
+            "kind": "television",
+            "index": 0,
+            "placeId": "jurisdiction_02e2700cebed794e"
+          }
+        ]
+      },
+      "interviews": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-meetings-v1": {
+      "remarks": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "townHalls": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "debates": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-officials-v1": {
+      "officials": {
+        "rows": 1572,
+        "hash": "80315b4062e2",
+        "sample": [
+          {
+            "id": "official:term:seat:US:president:2025-01-20",
+            "seatId": "seat:US:president",
+            "termId": "term:seat:US:president:2025-01-20",
+            "body": "US:president",
+            "bodyKind": "executive",
+            "officeKind": "president",
+            "stateKey": "US-MS",
+            "district": null,
+            "party": "Republican",
+            "partySource": "roster",
+            "ideal": 0.6051772183524514,
+            "wing": "mainstream",
+            "signature": [
+              {
+                "question": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+                "tilt": -0.23989855506477895
+              },
+              {
+                "question": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+                "tilt": -0.08528534306187417
+              },
+              {
+                "question": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+                "tilt": 0.6450008376876284
+              }
+            ],
+            "loyalty": 1.3963460409896062,
+            "ambition": 0.02784449714245115,
+            "independent": null,
+            "leadership": null,
+            "districtLean": 0.23145000000000004,
+            "leanSource": "state's 2024 presidential vote",
+            "stateLean": 0.23145000000000004,
+            "serviceStart": "2025-01-20",
+            "nextElectionYear": 2028,
+            "termYears": 4,
+            "standsFor": 1,
+            "ended": null
+          },
+          {
+            "id": "official:term:seat:US:vice-president:2025-01-20",
+            "seatId": "seat:US:vice-president",
+            "termId": "term:seat:US:vice-president:2025-01-20",
+            "body": "US:vice-president",
+            "bodyKind": "executive",
+            "officeKind": "vice-president",
+            "stateKey": "US-MS",
+            "district": null,
+            "party": "Republican",
+            "partySource": "roster",
+            "ideal": 0.39922255670703644,
+            "wing": "moderate",
+            "signature": [
+              {
+                "question": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+                "tilt": 0.1250588227414169
+              },
+              {
+                "question": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+                "tilt": 0.12203538026132654
+              },
+              {
+                "question": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+                "tilt": -0.18653744618419588
+              }
+            ],
+            "loyalty": 0.6254272102657654,
+            "ambition": 0.43457073136826874,
+            "independent": null,
+            "leadership": null,
+            "districtLean": 0.23145000000000004,
+            "leanSource": "state's 2024 presidential vote",
+            "stateLean": 0.23145000000000004,
+            "serviceStart": "2025-01-20",
+            "nextElectionYear": 2028,
+            "termYears": 4,
+            "standsFor": 1,
+            "ended": null
+          }
+        ]
+      },
+      "loaded": {
+        "rows": 1,
+        "hash": "c2402e5ecea3",
+        "sample": [
+          {
+            "id": "opening",
+            "officials": 1572
+          }
+        ]
+      },
+      "candidates": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    }
+  },
+  "endTables": {
+    "core2-ballot-measures-v1": {
+      "measures": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "votes": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "results": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-interest-groups-v1": {
+      "groups": {
+        "rows": 6,
+        "hash": "267b95912d06",
+        "sample": [
+          {
+            "id": "group:jurisdiction_02e2700cebed794e:us-policy-positions:civil-family-community.restrict-abortion:for",
+            "organizationId": "organization:group:jurisdiction_02e2700cebed794e:us-policy-positions:civil-family-community.restrict-abortion:for",
+            "interest": "us-policy-positions:civil-family-community.restrict-abortion",
+            "formedOn": "2025-12-15",
+            "formedOver": "2025-003",
+            "memberOrganizationIds": [],
+            "memberPersonIds": [
+              "person_06c5932fe058d303",
+              "person_06c5942fe058d4b6",
+              "person_06c5952fe058d669",
+              "person_1ca21e88efa0d43d",
+              "person_67a9aeb6bb86a4e9",
+              "person_8605b0521b0a2592",
+              "person_ec433724d5095585"
+            ],
+            "lobbyistId": "person_06c5942fe058d4b6"
+          },
+          {
+            "id": "group:jurisdiction_02e2700cebed794e:us-policy-positions:labor-workforce.right-to-work:for",
+            "organizationId": "organization:group:jurisdiction_02e2700cebed794e:us-policy-positions:labor-workforce.right-to-work:for",
+            "interest": "us-policy-positions:labor-workforce.right-to-work",
+            "formedOn": "2025-12-15",
+            "formedOver": "2025-022",
+            "memberOrganizationIds": [],
+            "memberPersonIds": [
+              "person_06c5932fe058d303",
+              "person_06c5942fe058d4b6",
+              "person_06c5952fe058d669",
+              "person_16bfcdb6ff1fbcee",
+              "person_16bfceb6ff1fbea1",
+              "person_1ca21e88efa0d43d",
+              "person_1d2a52e33a93d3a8",
+              "person_1d2a53e33a93d55b",
+              "person_51a59a459e4e6c06",
+              "person_53b840ee7d7fa4f2",
+              "person_53b841ee7d7fa6a5",
+              "person_5de97cf433abdb6e",
+              "person_67a9adb6bb86a336",
+              "person_67a9aeb6bb86a4e9",
+              "person_6f5b4045c4bc4ad5",
+              "person_8605b0521b0a2592",
+              "person_8605b1521b0a2745",
+              "person_a1ee7482a6acf501",
+              "person_ce5cc503fcdcd2d1",
+              "person_da66f9e92e2fadfa",
+              "person_ec433724d5095585"
+            ],
+            "lobbyistId": "person_06c5942fe058d4b6"
+          }
+        ]
+      },
+      "meetings": {
+        "rows": 240,
+        "hash": "b9fb8022016e",
+        "sample": [
+          {
+            "id": "lobby:group:jurisdiction_02e2700cebed794e:us-policy-positions:labor-workforce.raise-minimum-wage:against:bill:office:gus2025:107396:board:2025-03-06:person_b4f4c8463eb61af0:43:person_1ca21e88efa0d43d",
+            "groupId": "group:jurisdiction_02e2700cebed794e:us-policy-positions:labor-workforce.raise-minimum-wage:against",
+            "billId": "bill:office:gus2025:107396:board:2025-03-06:person_b4f4c8463eb61af0:43",
+            "memberId": "person_1ca21e88efa0d43d",
+            "lobbyistId": "person_06c5942fe058d4b6",
+            "date": "2025-03-06",
+            "annualCostMinor": 0,
+            "share": 0.3,
+            "side": -1
+          },
+          {
+            "id": "lobby:group:jurisdiction_02e2700cebed794e:us-policy-positions:labor-workforce.raise-minimum-wage:against:bill:office:gus2025:107396:board:2025-03-06:person_b4f4c8463eb61af0:43:person_67a9aeb6bb86a4e9",
+            "groupId": "group:jurisdiction_02e2700cebed794e:us-policy-positions:labor-workforce.raise-minimum-wage:against",
+            "billId": "bill:office:gus2025:107396:board:2025-03-06:person_b4f4c8463eb61af0:43",
+            "memberId": "person_67a9aeb6bb86a4e9",
+            "lobbyistId": "person_06c5942fe058d4b6",
+            "date": "2025-03-06",
+            "annualCostMinor": 0,
+            "share": 0.3,
+            "side": -1
+          }
+        ]
+      },
+      "dues": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-recalls-v1": {
+      "recalls": {
+        "rows": 7,
+        "hash": "6fe48841fbaf",
+        "sample": [
+          {
+            "id": "recall:term:seat:gus2025:107396:board:1:2025-01-20:2025-03-06",
+            "termId": "term:seat:gus2025:107396:board:1:2025-01-20",
+            "seatId": "seat:gus2025:107396:board:1",
+            "memberId": "person_67a9aeb6bb86a4e9",
+            "organizerId": "person_06c5952fe058d669",
+            "lawId": "law:place:2801260:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-03-06:2025-001",
+            "question": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+            "started": "2025-03-06",
+            "due": "2025-05-05",
+            "required": 882,
+            "signatures": 1143,
+            "namedSigners": [
+              "person_06c5952fe058d669",
+              "person_16bfcdb6ff1fbcee",
+              "person_16bfceb6ff1fbea1",
+              "person_1ca21d88efa0d28a",
+              "person_1ca21e88efa0d43d",
+              "person_1d2a53e33a93d55b",
+              "person_51a59b459e4e6db9",
+              "person_5de97cf433abdb6e",
+              "person_5f97376ef8ba48e9",
+              "person_8605b0521b0a2592",
+              "person_a1ee7482a6acf501",
+              "person_b4f4c8463eb61af0",
+              "person_da66f9e92e2fadfa",
+              "person_ec433724d5095585"
+            ],
+            "status": "removed",
+            "vote": {
+              "remove": 387,
+              "keep": 309
+            }
+          },
+          {
+            "id": "recall:term:seat:gus2025:107396:board:2:2025-01-20:2025-03-06",
+            "termId": "term:seat:gus2025:107396:board:2:2025-01-20",
+            "seatId": "seat:gus2025:107396:board:2",
+            "memberId": "person_6f5b3f45c4bc4922",
+            "organizerId": "person_06c5952fe058d669",
+            "lawId": "law:place:2801260:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-03-06:2025-001",
+            "question": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+            "started": "2025-03-06",
+            "due": "2025-05-05",
+            "required": 882,
+            "signatures": 1224,
+            "namedSigners": [
+              "person_06c5952fe058d669",
+              "person_16bfcdb6ff1fbcee",
+              "person_16bfceb6ff1fbea1",
+              "person_1ca21d88efa0d28a",
+              "person_1ca21e88efa0d43d",
+              "person_1d2a53e33a93d55b",
+              "person_51a59b459e4e6db9",
+              "person_5de97cf433abdb6e",
+              "person_5f97376ef8ba48e9",
+              "person_67a9aeb6bb86a4e9",
+              "person_8605b0521b0a2592",
+              "person_a1ee7482a6acf501",
+              "person_b4f4c8463eb61af0",
+              "person_da66f9e92e2fadfa",
+              "person_ec433724d5095585"
+            ],
+            "status": "removed",
+            "vote": {
+              "remove": 387,
+              "keep": 309
+            }
+          }
+        ]
+      }
+    },
+    "core2-constituent-cases-v1": {
+      "cases": {
+        "rows": 2,
+        "hash": "4402559170cc",
+        "sample": [
+          {
+            "id": "case:person_a1ee7482a6acf501:2025-02-19",
+            "personId": "person_a1ee7482a6acf501",
+            "officialId": "person_06c5942fe058d4b6",
+            "problem": "looking-for-work",
+            "severity": 0.8771687290538799,
+            "facts": {
+              "cushionMonths": 0.4
+            },
+            "opened": "2025-02-19",
+            "respondBy": "2025-02-26",
+            "status": "declined",
+            "handledBy": "staff",
+            "outcome": "turned-away",
+            "stafferId": "staffer:person_06c5942fe058d4b6:person_23be7f394f2b453c"
+          },
+          {
+            "id": "case:person_5de97df433abdd21:2025-06-19",
+            "personId": "person_5de97df433abdd21",
+            "officialId": "person_06c5942fe058d4b6",
+            "problem": "looking-for-work",
+            "severity": 1,
+            "facts": {
+              "cushionMonths": 0
+            },
+            "opened": "2025-06-19",
+            "respondBy": "2025-06-26",
+            "status": "declined",
+            "handledBy": "staff",
+            "outcome": "turned-away",
+            "stafferId": "staffer:person_06c5942fe058d4b6:person_23be7f394f2b453c"
+          }
+        ]
+      }
+    },
+    "corruption": {
+      "crimes": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "surfaced": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "beliefs": {
+      "beliefs": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-law-effects-v1": {
+      "applied": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-world-races-v1": {
+      "races": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "seats": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "blocks": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-voting-v1": {
+      "chosen": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "ballots": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "results": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "blocks": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-press-v1": {
+      "outlets": {
+        "rows": 4,
+        "hash": "e6dbdb5a231b",
+        "sample": [
+          {
+            "id": "outlet:newspaper:0:jurisdiction_02e2700cebed794e",
+            "organizationId": "organization:press:newspaper:0:jurisdiction_02e2700cebed794e",
+            "kind": "newspaper",
+            "index": 0,
+            "placeId": "jurisdiction_02e2700cebed794e"
+          },
+          {
+            "id": "outlet:television:0:jurisdiction_02e2700cebed794e",
+            "organizationId": "organization:press:television:0:jurisdiction_02e2700cebed794e",
+            "kind": "television",
+            "index": 0,
+            "placeId": "jurisdiction_02e2700cebed794e"
+          }
+        ]
+      },
+      "interviews": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-meetings-v1": {
+      "remarks": {
+        "rows": 153,
+        "hash": "952a5aa6ed7c",
+        "sample": [
+          {
+            "id": "remark:bill:office:gus2025:107396:board:2025-02-04:person_06c5952fe058d669:3:person_8605b0521b0a2592",
+            "billId": "bill:office:gus2025:107396:board:2025-02-04:person_06c5952fe058d669:3",
+            "personId": "person_8605b0521b0a2592",
+            "kind": "public-comment",
+            "question": "us-policy-positions:education.universal-preschool",
+            "position": -1,
+            "signedUp": false,
+            "date": "2025-02-04"
+          },
+          {
+            "id": "remark:bill:office:gus2025:107396:board:2025-02-04:person_06c5952fe058d669:3:person_06c5952fe058d669",
+            "billId": "bill:office:gus2025:107396:board:2025-02-04:person_06c5952fe058d669:3",
+            "personId": "person_06c5952fe058d669",
+            "kind": "public-comment",
+            "question": "us-policy-positions:education.universal-preschool",
+            "position": -1,
+            "signedUp": false,
+            "date": "2025-02-04"
+          }
+        ]
+      },
+      "townHalls": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      },
+      "debates": {
+        "rows": 0,
+        "hash": "97d170e1550e",
+        "sample": []
+      }
+    },
+    "core2-officials-v1": {
+      "officials": {
+        "rows": 1575,
+        "hash": "f1dda90cac79",
+        "sample": [
+          {
+            "id": "official:term:seat:US:president:2025-01-20",
+            "seatId": "seat:US:president",
+            "termId": "term:seat:US:president:2025-01-20",
+            "body": "US:president",
+            "bodyKind": "executive",
+            "officeKind": "president",
+            "stateKey": "US-MS",
+            "district": null,
+            "party": "Republican",
+            "partySource": "roster",
+            "ideal": 0.6051772183524514,
+            "wing": "mainstream",
+            "signature": [
+              {
+                "question": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+                "tilt": -0.23989855506477895
+              },
+              {
+                "question": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+                "tilt": -0.08528534306187417
+              },
+              {
+                "question": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+                "tilt": 0.6450008376876284
+              }
+            ],
+            "loyalty": 1.3963460409896062,
+            "ambition": 0.02784449714245115,
+            "independent": null,
+            "leadership": null,
+            "districtLean": 0.23145000000000004,
+            "leanSource": "state's 2024 presidential vote",
+            "stateLean": 0.23145000000000004,
+            "serviceStart": "2025-01-20",
+            "nextElectionYear": 2028,
+            "termYears": 4,
+            "standsFor": 1,
+            "ended": null
+          },
+          {
+            "id": "official:term:seat:US:vice-president:2025-01-20",
+            "seatId": "seat:US:vice-president",
+            "termId": "term:seat:US:vice-president:2025-01-20",
+            "body": "US:vice-president",
+            "bodyKind": "executive",
+            "officeKind": "vice-president",
+            "stateKey": "US-MS",
+            "district": null,
+            "party": "Republican",
+            "partySource": "roster",
+            "ideal": 0.39922255670703644,
+            "wing": "moderate",
+            "signature": [
+              {
+                "question": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+                "tilt": 0.1250588227414169
+              },
+              {
+                "question": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+                "tilt": 0.12203538026132654
+              },
+              {
+                "question": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+                "tilt": -0.18653744618419588
+              }
+            ],
+            "loyalty": 0.6254272102657654,
+            "ambition": 0.43457073136826874,
+            "independent": null,
+            "leadership": null,
+            "districtLean": 0.23145000000000004,
+            "leanSource": "state's 2024 presidential vote",
+            "stateLean": 0.23145000000000004,
+            "serviceStart": "2025-01-20",
+            "nextElectionYear": 2028,
+            "termYears": 4,
+            "standsFor": 1,
+            "ended": null
+          }
+        ]
+      },
+      "loaded": {
+        "rows": 1,
+        "hash": "c2402e5ecea3",
+        "sample": [
+          {
+            "id": "opening",
+            "officials": 1572
+          }
+        ]
+      },
+      "candidates": {
+        "rows": 2,
+        "hash": "1a82ac188ca5",
+        "sample": [
+          {
+            "id": "contest:seat:US-MS:us-senate:1:2026-11-03|democratic",
+            "personId": "official:candidate:contest:seat:US-MS:us-senate:1:2026-11-03:democratic",
+            "contestId": "contest:seat:US-MS:us-senate:1:2026-11-03",
+            "year": 2026,
+            "seatId": "seat:US-MS:us-senate:1",
+            "party": "Democratic",
+            "fromSeatId": null,
+            "ambition": 0.10904845231953968,
+            "fit": -0.9914182441824925,
+            "noRecord": -0.25,
+            "total": -1.1323697918629527,
+            "weighed": 0,
+            "drawn": {
+              "ideal": -0.44704014363676026,
+              "wing": "liberal",
+              "signature": [
+                {
+                  "question": "us-policy-positions:government-operations.all-mail-voting",
+                  "tilt": 0.09388339426504716
+                },
+                {
+                  "question": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+                  "tilt": 0.055744756103950535
+                },
+                {
+                  "question": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "tilt": -0.38718718609236374
+                }
+              ],
+              "loyalty": 1.219264133864344,
+              "ambition": 0.10904845231953968
+            }
+          },
+          {
+            "id": "contest:seat:US-MS:us-house:01:2026-11-03|democratic",
+            "personId": "official:term:seat:US-MS:lower:016:0:2025-01-20",
+            "contestId": "contest:seat:US-MS:us-house:01:2026-11-03",
+            "year": 2026,
+            "seatId": "seat:US-MS:us-house:01",
+            "party": "Democratic",
+            "fromSeatId": "seat:US-MS:lower:016:0",
+            "ambition": 0.7215261979393282,
+            "fit": -0.6910700407386294,
+            "noRecord": 0,
+            "total": 0.03045615720069872,
+            "weighed": 60,
+            "drawn": null
+          }
+        ]
+      }
+    }
+  }
+}

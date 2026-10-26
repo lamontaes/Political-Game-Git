@@ -21,7 +21,7 @@ const place = drawPlace(seed, "core2-year");
 const [{ createLifeCore, advanceCore }, { addDays, makeIsoDate }] =
   await Promise.all([
     moduleAt("src/core2/life.ts"),
-    moduleAt("src/simulation/dates.ts"),
+    moduleAt("src/core2/kernel/dates.ts"),
   ]);
 console.error(JSON.stringify({ drawn: place }));
 const prepStarted = performance.now();

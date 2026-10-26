@@ -6,7 +6,7 @@ import type {
   World,
   PublicProgramAppropriationRecord,
 } from "./types";
-import type { CensusRegion } from "./world-setup/census-regions";
+import type { CensusRegion } from "../core2/reference/census-regions";
 
 /**
  * The one registry of labels that may be persisted on a law-effect stamp.

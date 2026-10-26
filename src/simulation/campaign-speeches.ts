@@ -3,7 +3,7 @@ import {
   requireElectionContest,
 } from "./election-contests";
 import { personName } from "./people";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { recordWorldEvent } from "./world";
 import { recordRelationshipInteraction } from "./records";
 import { campaignForContest } from "./campaign-queries";

@@ -1,10 +1,11 @@
 {
   "schema": "people-whole-v1",
-  "note": "Whole-figure people: one image per person, outfit and pose drawn in one piece, cut out with Adobe background removal. Attributes per figure. Facing is the direction the body turns; the game mirrors to face the other way.",
+  "note": "Whole-figure people: one image per person, outfit and pose drawn in one piece, cut out with Adobe background removal. Attributes per figure. Facing is the direction the body turns; the game mirrors to face the other way. Family: the same person painted at different ages shares one family id (family-066 pairs the teen boy in the gray hoodie with the young man in the gray hoodie, family-009 the teen girl with braids with the young woman with braids, chosen by skin, hair and clothes until the CTO paints true adult versions); every other look is its own family.",
   "figures": [
     {
       "file": "look-001-slim-back.png",
       "look": "look-001",
+      "family": "family-001",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -24,6 +25,7 @@
     {
       "file": "look-001-average-back.png",
       "look": "look-001",
+      "family": "family-001",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -43,6 +45,7 @@
     {
       "file": "look-001-heavy-back.png",
       "look": "look-001",
+      "family": "family-001",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -62,6 +65,7 @@
     {
       "file": "look-001-slim-profile.png",
       "look": "look-001",
+      "family": "family-001",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -81,6 +85,7 @@
     {
       "file": "look-001-average-profile.png",
       "look": "look-001",
+      "family": "family-001",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -100,6 +105,7 @@
     {
       "file": "look-001-heavy-profile.png",
       "look": "look-001",
+      "family": "family-001",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -119,6 +125,7 @@
     {
       "file": "look-001__base__slim.png",
       "look": "look-001",
+      "family": "family-001",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -138,6 +145,7 @@
     {
       "file": "look-001__base__average.png",
       "look": "look-001",
+      "family": "family-001",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -157,6 +165,7 @@
     {
       "file": "look-001__base__heavy.png",
       "look": "look-001",
+      "family": "family-001",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -176,6 +185,7 @@
     {
       "file": "look-002-slim-back.png",
       "look": "look-002",
+      "family": "family-002",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -195,6 +205,7 @@
     {
       "file": "look-002-average-back.png",
       "look": "look-002",
+      "family": "family-002",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -214,6 +225,7 @@
     {
       "file": "look-002-heavy-back.png",
       "look": "look-002",
+      "family": "family-002",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -233,6 +245,7 @@
     {
       "file": "look-002-slim-profile.png",
       "look": "look-002",
+      "family": "family-002",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -252,6 +265,7 @@
     {
       "file": "look-002-average-profile.png",
       "look": "look-002",
+      "family": "family-002",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -271,6 +285,7 @@
     {
       "file": "look-002-heavy-profile.png",
       "look": "look-002",
+      "family": "family-002",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -290,6 +305,7 @@
     {
       "file": "look-002__base__slim.png",
       "look": "look-002",
+      "family": "family-002",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -309,6 +325,7 @@
     {
       "file": "look-002__base__average.png",
       "look": "look-002",
+      "family": "family-002",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -328,6 +345,7 @@
     {
       "file": "look-002__base__heavy.png",
       "look": "look-002",
+      "family": "family-002",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -347,6 +365,7 @@
     {
       "file": "look-003__base__slim.png",
       "look": "look-003",
+      "family": "family-003",
       "build": "slim",
       "sex": "female",
       "ageBand": "older",
@@ -366,6 +385,7 @@
     {
       "file": "look-003__base__average.png",
       "look": "look-003",
+      "family": "family-003",
       "build": "average",
       "sex": "female",
       "ageBand": "older",
@@ -385,6 +405,7 @@
     {
       "file": "look-003__base__heavy.png",
       "look": "look-003",
+      "family": "family-003",
       "build": "heavy",
       "sex": "female",
       "ageBand": "older",
@@ -404,6 +425,7 @@
     {
       "file": "look-004__base__slim.png",
       "look": "look-004",
+      "family": "family-066",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -423,6 +445,7 @@
     {
       "file": "look-004__base__average.png",
       "look": "look-004",
+      "family": "family-066",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -442,6 +465,7 @@
     {
       "file": "look-004__base__heavy.png",
       "look": "look-004",
+      "family": "family-066",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -461,6 +485,7 @@
     {
       "file": "look-005__base__slim.png",
       "look": "look-005",
+      "family": "family-005",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -480,6 +505,7 @@
     {
       "file": "look-005__base__average.png",
       "look": "look-005",
+      "family": "family-005",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -499,6 +525,7 @@
     {
       "file": "look-005__base__heavy.png",
       "look": "look-005",
+      "family": "family-005",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -518,6 +545,7 @@
     {
       "file": "look-006__base__slim.png",
       "look": "look-006",
+      "family": "family-006",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -537,6 +565,7 @@
     {
       "file": "look-006__base__average.png",
       "look": "look-006",
+      "family": "family-006",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -556,6 +585,7 @@
     {
       "file": "look-006__base__heavy.png",
       "look": "look-006",
+      "family": "family-006",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -575,6 +605,7 @@
     {
       "file": "look-007__base__slim.png",
       "look": "look-007",
+      "family": "family-007",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -594,6 +625,7 @@
     {
       "file": "look-007__base__average.png",
       "look": "look-007",
+      "family": "family-007",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -613,6 +645,7 @@
     {
       "file": "look-007__base__heavy.png",
       "look": "look-007",
+      "family": "family-007",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -632,6 +665,7 @@
     {
       "file": "look-008__base__slim.png",
       "look": "look-008",
+      "family": "family-008",
       "build": "slim",
       "sex": "male",
       "ageBand": "older",
@@ -651,6 +685,7 @@
     {
       "file": "look-008__base__average.png",
       "look": "look-008",
+      "family": "family-008",
       "build": "average",
       "sex": "male",
       "ageBand": "older",
@@ -670,6 +705,7 @@
     {
       "file": "look-008__base__heavy.png",
       "look": "look-008",
+      "family": "family-008",
       "build": "heavy",
       "sex": "male",
       "ageBand": "older",
@@ -689,6 +725,7 @@
     {
       "file": "look-009__base__slim.png",
       "look": "look-009",
+      "family": "family-009",
       "build": "slim",
       "sex": "female",
       "ageBand": "teen",
@@ -697,7 +734,7 @@
       "hair": "long-braids",
       "outfit": "hoodie-backpack",
       "activity": "walking",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 400,
@@ -708,6 +745,7 @@
     {
       "file": "look-009__base__average.png",
       "look": "look-009",
+      "family": "family-009",
       "build": "average",
       "sex": "female",
       "ageBand": "teen",
@@ -716,7 +754,7 @@
       "hair": "long-braids",
       "outfit": "hoodie-backpack",
       "activity": "walking",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 397,
@@ -727,6 +765,7 @@
     {
       "file": "look-009__base__heavy.png",
       "look": "look-009",
+      "family": "family-009",
       "build": "heavy",
       "sex": "female",
       "ageBand": "teen",
@@ -735,7 +774,7 @@
       "hair": "long-braids",
       "outfit": "hoodie-backpack",
       "activity": "walking",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 459,
@@ -746,6 +785,7 @@
     {
       "file": "look-010__base__slim.png",
       "look": "look-010",
+      "family": "family-010",
       "build": "slim",
       "sex": "male",
       "ageBand": "teen",
@@ -765,6 +805,7 @@
     {
       "file": "look-010__base__average.png",
       "look": "look-010",
+      "family": "family-010",
       "build": "average",
       "sex": "male",
       "ageBand": "teen",
@@ -784,6 +825,7 @@
     {
       "file": "look-010__base__heavy.png",
       "look": "look-010",
+      "family": "family-010",
       "build": "heavy",
       "sex": "male",
       "ageBand": "teen",
@@ -803,6 +845,7 @@
     {
       "file": "look-011__base__slim.png",
       "look": "look-011",
+      "family": "family-011",
       "build": "slim",
       "sex": "female",
       "ageBand": "child",
@@ -822,6 +865,7 @@
     {
       "file": "look-011__base__average.png",
       "look": "look-011",
+      "family": "family-011",
       "build": "average",
       "sex": "female",
       "ageBand": "child",
@@ -841,6 +885,7 @@
     {
       "file": "look-011__base__heavy.png",
       "look": "look-011",
+      "family": "family-011",
       "build": "heavy",
       "sex": "female",
       "ageBand": "child",
@@ -860,6 +905,7 @@
     {
       "file": "look-012__base__slim.png",
       "look": "look-012",
+      "family": "family-012",
       "build": "slim",
       "sex": "male",
       "ageBand": "child",
@@ -879,6 +925,7 @@
     {
       "file": "look-012__base__average.png",
       "look": "look-012",
+      "family": "family-012",
       "build": "average",
       "sex": "male",
       "ageBand": "child",
@@ -898,6 +945,7 @@
     {
       "file": "look-012__base__heavy.png",
       "look": "look-012",
+      "family": "family-012",
       "build": "heavy",
       "sex": "male",
       "ageBand": "child",
@@ -917,6 +965,7 @@
     {
       "file": "look-013__base__slim.png",
       "look": "look-013",
+      "family": "family-013",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -936,6 +985,7 @@
     {
       "file": "look-013__base__average.png",
       "look": "look-013",
+      "family": "family-013",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -955,6 +1005,7 @@
     {
       "file": "look-013__base__heavy.png",
       "look": "look-013",
+      "family": "family-013",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -974,6 +1025,7 @@
     {
       "file": "look-014__base__slim.png",
       "look": "look-014",
+      "family": "family-014",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -993,6 +1045,7 @@
     {
       "file": "look-014__base__average.png",
       "look": "look-014",
+      "family": "family-014",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -1012,6 +1065,7 @@
     {
       "file": "look-014__base__heavy.png",
       "look": "look-014",
+      "family": "family-014",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -1031,6 +1085,7 @@
     {
       "file": "look-015__base__slim.png",
       "look": "look-015",
+      "family": "family-015",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -1050,6 +1105,7 @@
     {
       "file": "look-015__base__average.png",
       "look": "look-015",
+      "family": "family-015",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -1069,6 +1125,7 @@
     {
       "file": "look-015__base__heavy.png",
       "look": "look-015",
+      "family": "family-015",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -1088,6 +1145,7 @@
     {
       "file": "look-016__base__slim.png",
       "look": "look-016",
+      "family": "family-016",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -1107,6 +1165,7 @@
     {
       "file": "look-016__base__average.png",
       "look": "look-016",
+      "family": "family-016",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -1126,6 +1185,7 @@
     {
       "file": "look-016__base__heavy.png",
       "look": "look-016",
+      "family": "family-016",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -1145,6 +1205,7 @@
     {
       "file": "look-017__base__slim.png",
       "look": "look-017",
+      "family": "family-017",
       "build": "slim",
       "sex": "male",
       "ageBand": "older",
@@ -1164,6 +1225,7 @@
     {
       "file": "look-017__base__average.png",
       "look": "look-017",
+      "family": "family-017",
       "build": "average",
       "sex": "male",
       "ageBand": "older",
@@ -1183,6 +1245,7 @@
     {
       "file": "look-017__base__heavy.png",
       "look": "look-017",
+      "family": "family-017",
       "build": "heavy",
       "sex": "male",
       "ageBand": "older",
@@ -1202,6 +1265,7 @@
     {
       "file": "look-018__base__slim.png",
       "look": "look-018",
+      "family": "family-018",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -1210,7 +1274,7 @@
       "hair": "headscarf",
       "outfit": "cardigan-casual",
       "activity": "carrying-groceries",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 338,
@@ -1221,6 +1285,7 @@
     {
       "file": "look-018__base__average.png",
       "look": "look-018",
+      "family": "family-018",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -1229,7 +1294,7 @@
       "hair": "headscarf",
       "outfit": "cardigan-casual",
       "activity": "carrying-groceries",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 384,
@@ -1240,6 +1305,7 @@
     {
       "file": "look-018__base__heavy.png",
       "look": "look-018",
+      "family": "family-018",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -1248,7 +1314,7 @@
       "hair": "headscarf",
       "outfit": "cardigan-casual",
       "activity": "carrying-groceries",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 441,
@@ -1259,6 +1325,7 @@
     {
       "file": "look-019__base__slim.png",
       "look": "look-019",
+      "family": "family-019",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -1278,6 +1345,7 @@
     {
       "file": "look-019__base__average.png",
       "look": "look-019",
+      "family": "family-019",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -1297,6 +1365,7 @@
     {
       "file": "look-019__base__heavy.png",
       "look": "look-019",
+      "family": "family-019",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -1316,6 +1385,7 @@
     {
       "file": "look-020__base__slim.png",
       "look": "look-020",
+      "family": "family-020",
       "build": "slim",
       "sex": "female",
       "ageBand": "older",
@@ -1335,6 +1405,7 @@
     {
       "file": "look-020__base__average.png",
       "look": "look-020",
+      "family": "family-020",
       "build": "average",
       "sex": "female",
       "ageBand": "older",
@@ -1354,6 +1425,7 @@
     {
       "file": "look-020__base__heavy.png",
       "look": "look-020",
+      "family": "family-020",
       "build": "heavy",
       "sex": "female",
       "ageBand": "older",
@@ -1373,6 +1445,7 @@
     {
       "file": "look-021__base__slim.png",
       "look": "look-021",
+      "family": "family-021",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -1392,6 +1465,7 @@
     {
       "file": "look-021__base__average.png",
       "look": "look-021",
+      "family": "family-021",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -1411,6 +1485,7 @@
     {
       "file": "look-021__base__heavy.png",
       "look": "look-021",
+      "family": "family-021",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -1430,6 +1505,7 @@
     {
       "file": "look-022__base__slim.png",
       "look": "look-022",
+      "family": "family-009",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -1449,6 +1525,7 @@
     {
       "file": "look-022__base__average.png",
       "look": "look-022",
+      "family": "family-009",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -1468,6 +1545,7 @@
     {
       "file": "look-022__base__heavy.png",
       "look": "look-022",
+      "family": "family-009",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -1487,6 +1565,7 @@
     {
       "file": "look-023__base__slim.png",
       "look": "look-023",
+      "family": "family-023",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -1506,6 +1585,7 @@
     {
       "file": "look-023__base__average.png",
       "look": "look-023",
+      "family": "family-023",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -1525,6 +1605,7 @@
     {
       "file": "look-023__base__heavy.png",
       "look": "look-023",
+      "family": "family-023",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -1544,6 +1625,7 @@
     {
       "file": "look-024__base__slim.png",
       "look": "look-024",
+      "family": "family-024",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -1563,6 +1645,7 @@
     {
       "file": "look-024__base__average.png",
       "look": "look-024",
+      "family": "family-024",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -1582,6 +1665,7 @@
     {
       "file": "look-024__base__heavy.png",
       "look": "look-024",
+      "family": "family-024",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -1601,6 +1685,7 @@
     {
       "file": "look-025__base__slim.png",
       "look": "look-025",
+      "family": "family-025",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -1621,6 +1706,7 @@
     {
       "file": "look-025__base__average.png",
       "look": "look-025",
+      "family": "family-025",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -1641,6 +1727,7 @@
     {
       "file": "look-025__base__heavy.png",
       "look": "look-025",
+      "family": "family-025",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -1661,6 +1748,7 @@
     {
       "file": "look-027__base__slim.png",
       "look": "look-027",
+      "family": "family-027",
       "build": "slim",
       "sex": "male",
       "ageBand": "older",
@@ -1681,6 +1769,7 @@
     {
       "file": "look-027__base__average.png",
       "look": "look-027",
+      "family": "family-027",
       "build": "average",
       "sex": "male",
       "ageBand": "older",
@@ -1701,6 +1790,7 @@
     {
       "file": "look-027__base__heavy.png",
       "look": "look-027",
+      "family": "family-027",
       "build": "heavy",
       "sex": "male",
       "ageBand": "older",
@@ -1721,6 +1811,7 @@
     {
       "file": "look-028__base__slim.png",
       "look": "look-028",
+      "family": "family-028",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -1741,6 +1832,7 @@
     {
       "file": "look-028__base__average.png",
       "look": "look-028",
+      "family": "family-028",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -1761,6 +1853,7 @@
     {
       "file": "look-028__base__heavy.png",
       "look": "look-028",
+      "family": "family-028",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -1781,6 +1874,7 @@
     {
       "file": "look-029__base__slim.png",
       "look": "look-029",
+      "family": "family-029",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -1789,7 +1883,7 @@
       "hair": "short-black",
       "outfit": "business-suit-open-collar",
       "activity": "walking-briefcase",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 397,
@@ -1801,6 +1895,7 @@
     {
       "file": "look-029__base__average.png",
       "look": "look-029",
+      "family": "family-029",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -1809,7 +1904,7 @@
       "hair": "short-black",
       "outfit": "business-suit-open-collar",
       "activity": "walking-briefcase",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 395,
@@ -1821,6 +1916,7 @@
     {
       "file": "look-029__base__heavy.png",
       "look": "look-029",
+      "family": "family-029",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -1829,7 +1925,7 @@
       "hair": "short-black",
       "outfit": "business-suit-open-collar",
       "activity": "walking-briefcase",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 445,
@@ -1841,6 +1937,7 @@
     {
       "file": "look-030__base__slim.png",
       "look": "look-030",
+      "family": "family-030",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -1861,6 +1958,7 @@
     {
       "file": "look-030__base__average.png",
       "look": "look-030",
+      "family": "family-030",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -1881,6 +1979,7 @@
     {
       "file": "look-030__base__heavy.png",
       "look": "look-030",
+      "family": "family-030",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -1901,6 +2000,7 @@
     {
       "file": "look-031__base__slim.png",
       "look": "look-031",
+      "family": "family-031",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -1921,6 +2021,7 @@
     {
       "file": "look-031__base__average.png",
       "look": "look-031",
+      "family": "family-031",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -1941,6 +2042,7 @@
     {
       "file": "look-031__base__heavy.png",
       "look": "look-031",
+      "family": "family-031",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -1961,6 +2063,7 @@
     {
       "file": "look-032__base__slim.png",
       "look": "look-032",
+      "family": "family-032",
       "build": "slim",
       "sex": "female",
       "ageBand": "older",
@@ -1981,6 +2084,7 @@
     {
       "file": "look-032__base__average.png",
       "look": "look-032",
+      "family": "family-032",
       "build": "average",
       "sex": "female",
       "ageBand": "older",
@@ -2001,6 +2105,7 @@
     {
       "file": "look-032__base__heavy.png",
       "look": "look-032",
+      "family": "family-032",
       "build": "heavy",
       "sex": "female",
       "ageBand": "older",
@@ -2021,6 +2126,7 @@
     {
       "file": "look-033__base__slim.png",
       "look": "look-033",
+      "family": "family-033",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -2041,6 +2147,7 @@
     {
       "file": "look-033__base__average.png",
       "look": "look-033",
+      "family": "family-033",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -2061,6 +2168,7 @@
     {
       "file": "look-033__base__heavy.png",
       "look": "look-033",
+      "family": "family-033",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -2081,6 +2189,7 @@
     {
       "file": "look-034__base__slim.png",
       "look": "look-034",
+      "family": "family-034",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -2101,6 +2210,7 @@
     {
       "file": "look-034__base__average.png",
       "look": "look-034",
+      "family": "family-034",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -2121,6 +2231,7 @@
     {
       "file": "look-034__base__heavy.png",
       "look": "look-034",
+      "family": "family-034",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -2141,6 +2252,7 @@
     {
       "file": "look-035__base__slim.png",
       "look": "look-035",
+      "family": "family-035",
       "build": "slim",
       "sex": "male",
       "ageBand": "older",
@@ -2161,6 +2273,7 @@
     {
       "file": "look-035__base__average.png",
       "look": "look-035",
+      "family": "family-035",
       "build": "average",
       "sex": "male",
       "ageBand": "older",
@@ -2181,6 +2294,7 @@
     {
       "file": "look-035__base__heavy.png",
       "look": "look-035",
+      "family": "family-035",
       "build": "heavy",
       "sex": "male",
       "ageBand": "older",
@@ -2201,6 +2315,7 @@
     {
       "file": "look-036__base__slim.png",
       "look": "look-036",
+      "family": "family-036",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -2221,6 +2336,7 @@
     {
       "file": "look-036__base__average.png",
       "look": "look-036",
+      "family": "family-036",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -2241,6 +2357,7 @@
     {
       "file": "look-036__base__heavy.png",
       "look": "look-036",
+      "family": "family-036",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -2261,6 +2378,7 @@
     {
       "file": "look-037__base__slim.png",
       "look": "look-037",
+      "family": "family-037",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -2281,6 +2399,7 @@
     {
       "file": "look-037__base__average.png",
       "look": "look-037",
+      "family": "family-037",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -2301,6 +2420,7 @@
     {
       "file": "look-037__base__heavy.png",
       "look": "look-037",
+      "family": "family-037",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -2321,6 +2441,7 @@
     {
       "file": "look-038__base__slim.png",
       "look": "look-038",
+      "family": "family-038",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -2341,6 +2462,7 @@
     {
       "file": "look-038__base__average.png",
       "look": "look-038",
+      "family": "family-038",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -2361,6 +2483,7 @@
     {
       "file": "look-038__base__heavy.png",
       "look": "look-038",
+      "family": "family-038",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -2381,6 +2504,7 @@
     {
       "file": "look-039__base__slim.png",
       "look": "look-039",
+      "family": "family-039",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -2400,6 +2524,7 @@
     {
       "file": "look-039__base__average.png",
       "look": "look-039",
+      "family": "family-039",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -2419,6 +2544,7 @@
     {
       "file": "look-039__base__heavy.png",
       "look": "look-039",
+      "family": "family-039",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -2438,6 +2564,7 @@
     {
       "file": "look-040__base__slim.png",
       "look": "look-040",
+      "family": "family-040",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -2457,6 +2584,7 @@
     {
       "file": "look-040__base__average.png",
       "look": "look-040",
+      "family": "family-040",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -2476,6 +2604,7 @@
     {
       "file": "look-040__base__heavy.png",
       "look": "look-040",
+      "family": "family-040",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -2495,6 +2624,7 @@
     {
       "file": "look-041__base__slim.png",
       "look": "look-041",
+      "family": "family-041",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -2514,6 +2644,7 @@
     {
       "file": "look-041__base__average.png",
       "look": "look-041",
+      "family": "family-041",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -2533,6 +2664,7 @@
     {
       "file": "look-041__base__heavy.png",
       "look": "look-041",
+      "family": "family-041",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -2552,6 +2684,7 @@
     {
       "file": "look-042__base__slim.png",
       "look": "look-042",
+      "family": "family-042",
       "build": "slim",
       "sex": "male",
       "ageBand": "older",
@@ -2571,6 +2704,7 @@
     {
       "file": "look-042__base__average.png",
       "look": "look-042",
+      "family": "family-042",
       "build": "average",
       "sex": "male",
       "ageBand": "older",
@@ -2590,6 +2724,7 @@
     {
       "file": "look-042__base__heavy.png",
       "look": "look-042",
+      "family": "family-042",
       "build": "heavy",
       "sex": "male",
       "ageBand": "older",
@@ -2609,6 +2744,7 @@
     {
       "file": "look-045__base__slim.png",
       "look": "look-045",
+      "family": "family-045",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -2628,6 +2764,7 @@
     {
       "file": "look-045__base__average.png",
       "look": "look-045",
+      "family": "family-045",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -2647,6 +2784,7 @@
     {
       "file": "look-045__base__heavy.png",
       "look": "look-045",
+      "family": "family-045",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -2666,6 +2804,7 @@
     {
       "file": "look-046__base__slim.png",
       "look": "look-046",
+      "family": "family-046",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -2685,6 +2824,7 @@
     {
       "file": "look-046__base__average.png",
       "look": "look-046",
+      "family": "family-046",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -2704,6 +2844,7 @@
     {
       "file": "look-046__base__heavy.png",
       "look": "look-046",
+      "family": "family-046",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -2723,6 +2864,7 @@
     {
       "file": "look-047__base__slim.png",
       "look": "look-047",
+      "family": "family-047",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -2742,6 +2884,7 @@
     {
       "file": "look-047__base__average.png",
       "look": "look-047",
+      "family": "family-047",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -2761,6 +2904,7 @@
     {
       "file": "look-047__base__heavy.png",
       "look": "look-047",
+      "family": "family-047",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -2780,6 +2924,7 @@
     {
       "file": "look-048__base__slim.png",
       "look": "look-048",
+      "family": "family-048",
       "build": "slim",
       "sex": "male",
       "ageBand": "older",
@@ -2799,6 +2944,7 @@
     {
       "file": "look-048__base__average.png",
       "look": "look-048",
+      "family": "family-048",
       "build": "average",
       "sex": "male",
       "ageBand": "older",
@@ -2818,6 +2964,7 @@
     {
       "file": "look-048__base__heavy.png",
       "look": "look-048",
+      "family": "family-048",
       "build": "heavy",
       "sex": "male",
       "ageBand": "older",
@@ -2837,6 +2984,7 @@
     {
       "file": "look-059__base__slim.png",
       "look": "look-059",
+      "family": "family-059",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -2845,7 +2993,7 @@
       "hair": "braids-bun",
       "outfit": "lawyer-skirt-suit",
       "activity": "walking",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 380,
@@ -2856,6 +3004,7 @@
     {
       "file": "look-059__base__average.png",
       "look": "look-059",
+      "family": "family-059",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -2864,7 +3013,7 @@
       "hair": "braids-bun",
       "outfit": "lawyer-skirt-suit",
       "activity": "walking",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 398,
@@ -2875,6 +3024,7 @@
     {
       "file": "look-059__base__heavy.png",
       "look": "look-059",
+      "family": "family-059",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -2883,7 +3033,7 @@
       "hair": "braids-bun",
       "outfit": "lawyer-skirt-suit",
       "activity": "walking",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 437,
@@ -2894,6 +3044,7 @@
     {
       "file": "look-060__base__slim.png",
       "look": "look-060",
+      "family": "family-060",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -2913,6 +3064,7 @@
     {
       "file": "look-060__base__average.png",
       "look": "look-060",
+      "family": "family-060",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -2932,6 +3084,7 @@
     {
       "file": "look-060__base__heavy.png",
       "look": "look-060",
+      "family": "family-060",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -2951,6 +3104,7 @@
     {
       "file": "look-061__base__slim.png",
       "look": "look-061",
+      "family": "family-061",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -2970,6 +3124,7 @@
     {
       "file": "look-061__base__average.png",
       "look": "look-061",
+      "family": "family-061",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -2989,6 +3144,7 @@
     {
       "file": "look-061__base__heavy.png",
       "look": "look-061",
+      "family": "family-061",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -3008,6 +3164,7 @@
     {
       "file": "look-062__base__slim.png",
       "look": "look-062",
+      "family": "family-062",
       "build": "slim",
       "sex": "male",
       "ageBand": "adult",
@@ -3027,6 +3184,7 @@
     {
       "file": "look-062__base__average.png",
       "look": "look-062",
+      "family": "family-062",
       "build": "average",
       "sex": "male",
       "ageBand": "adult",
@@ -3046,6 +3204,7 @@
     {
       "file": "look-062__base__heavy.png",
       "look": "look-062",
+      "family": "family-062",
       "build": "heavy",
       "sex": "male",
       "ageBand": "adult",
@@ -3065,6 +3224,7 @@
     {
       "file": "look-063__base__slim.png",
       "look": "look-063",
+      "family": "family-063",
       "build": "slim",
       "sex": "female",
       "ageBand": "adult",
@@ -3084,6 +3244,7 @@
     {
       "file": "look-063__base__average.png",
       "look": "look-063",
+      "family": "family-063",
       "build": "average",
       "sex": "female",
       "ageBand": "adult",
@@ -3103,6 +3264,7 @@
     {
       "file": "look-063__base__heavy.png",
       "look": "look-063",
+      "family": "family-063",
       "build": "heavy",
       "sex": "female",
       "ageBand": "adult",
@@ -3122,6 +3284,7 @@
     {
       "file": "look-064__base__slim.png",
       "look": "look-064",
+      "family": "family-064",
       "build": "slim",
       "sex": "male",
       "ageBand": "older",
@@ -3141,6 +3304,7 @@
     {
       "file": "look-064__base__average.png",
       "look": "look-064",
+      "family": "family-064",
       "build": "average",
       "sex": "male",
       "ageBand": "older",
@@ -3160,6 +3324,7 @@
     {
       "file": "look-064__base__heavy.png",
       "look": "look-064",
+      "family": "family-064",
       "build": "heavy",
       "sex": "male",
       "ageBand": "older",
@@ -3179,6 +3344,7 @@
     {
       "file": "look-065__base__slim.png",
       "look": "look-065",
+      "family": "family-065",
       "build": "slim",
       "sex": "female",
       "ageBand": "teen",
@@ -3198,6 +3364,7 @@
     {
       "file": "look-065__base__average.png",
       "look": "look-065",
+      "family": "family-065",
       "build": "average",
       "sex": "female",
       "ageBand": "teen",
@@ -3217,6 +3384,7 @@
     {
       "file": "look-065__base__heavy.png",
       "look": "look-065",
+      "family": "family-065",
       "build": "heavy",
       "sex": "female",
       "ageBand": "teen",
@@ -3236,6 +3404,7 @@
     {
       "file": "look-066__base__slim.png",
       "look": "look-066",
+      "family": "family-066",
       "build": "slim",
       "sex": "male",
       "ageBand": "teen",
@@ -3244,7 +3413,7 @@
       "hair": "short-dark",
       "outfit": "teen-hoodie",
       "activity": "skateboard",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 390,
@@ -3255,6 +3424,7 @@
     {
       "file": "look-066__base__average.png",
       "look": "look-066",
+      "family": "family-066",
       "build": "average",
       "sex": "male",
       "ageBand": "teen",
@@ -3263,7 +3433,7 @@
       "hair": "short-dark",
       "outfit": "teen-hoodie",
       "activity": "skateboard",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 422,
@@ -3274,6 +3444,7 @@
     {
       "file": "look-066__base__heavy.png",
       "look": "look-066",
+      "family": "family-066",
       "build": "heavy",
       "sex": "male",
       "ageBand": "teen",
@@ -3282,7 +3453,7 @@
       "hair": "short-dark",
       "outfit": "teen-hoodie",
       "activity": "skateboard",
-      "facing": "right",
+      "facing": "left",
       "angle": "three-quarter",
       "view": "three-quarter",
       "width": 498,
@@ -3293,6 +3464,7 @@
     {
       "file": "look-067__base__slim.png",
       "look": "look-067",
+      "family": "family-067",
       "build": "slim",
       "sex": "female",
       "ageBand": "child",
@@ -3312,6 +3484,7 @@
     {
       "file": "look-067__base__average.png",
       "look": "look-067",
+      "family": "family-067",
       "build": "average",
       "sex": "female",
       "ageBand": "child",
@@ -3331,6 +3504,7 @@
     {
       "file": "look-067__base__heavy.png",
       "look": "look-067",
+      "family": "family-067",
       "build": "heavy",
       "sex": "female",
       "ageBand": "child",
@@ -3350,6 +3524,7 @@
     {
       "file": "look-068__base__slim.png",
       "look": "look-068",
+      "family": "family-068",
       "build": "slim",
       "sex": "male",
       "ageBand": "child",
@@ -3369,6 +3544,7 @@
     {
       "file": "look-068__base__average.png",
       "look": "look-068",
+      "family": "family-068",
       "build": "average",
       "sex": "male",
       "ageBand": "child",
@@ -3388,6 +3564,7 @@
     {
       "file": "look-068__base__heavy.png",
       "look": "look-068",
+      "family": "family-068",
       "build": "heavy",
       "sex": "male",
       "ageBand": "child",

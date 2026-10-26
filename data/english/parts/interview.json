@@ -124,6 +124,9 @@
         "granule": "CHRG-116hhrg35568",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg35568/html/CHRG-116hhrg35568.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank"
       }
     },
     {
@@ -152,6 +155,9 @@
         "granule": "DCPD-202500720",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500720/html/DCPD-202500720.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank"
       }
     },
     {
@@ -180,11 +186,14 @@
       },
       "shippable": true,
       "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting \u2014 transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
         "date": "2025-05-05",
         "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
         "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank"
       }
     },
     {
@@ -214,6 +223,9 @@
         "granule": "CHRG-118hhrg58136",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg58136/html/CHRG-118hhrg58136.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank"
       }
     },
     {
@@ -243,6 +255,9 @@
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank"
       }
     },
     {
@@ -273,6 +288,9 @@
         "granule": "WH-2024-12-11-press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the",
         "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/12/11/press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the-council-of-economic-advisers-jared-bernstein-2/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank"
       }
     },
     {
@@ -302,6 +320,9 @@
         "granule": "DCPD-202600380",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600380/html/DCPD-202600380.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -328,6 +349,9 @@
         "granule": "DCPD-202500771",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500771/html/DCPD-202500771.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -362,6 +386,9 @@
         "granule": "DCPD-202600518",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600518/html/DCPD-202600518.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -390,6 +417,9 @@
         "granule": "CHRG-119shrg60601",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60601/html/CHRG-119shrg60601.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "confront"
       }
     },
     {
@@ -418,6 +448,9 @@
         "granule": "DCPD-202500519",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500519/html/DCPD-202500519.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "confront"
       }
     },
     {
@@ -449,6 +482,9 @@
         "granule": "DCPD-202500626",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500626/html/DCPD-202500626.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "confront"
       }
     },
     {
@@ -477,6 +513,9 @@
         "granule": "DCPD-202600390",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600390/html/DCPD-202600390.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -505,6 +544,9 @@
         "granule": "DCPD-202600355",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600355/html/DCPD-202600355.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -533,6 +575,9 @@
         "granule": "DCPD-202600177",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600177/html/DCPD-202600177.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -561,6 +606,9 @@
         "granule": "WH-2021-06-07-press-briefing-by-press-secretary-jen-psaki-and-national-security-advi",
         "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2021/06/07/press-briefing-by-press-secretary-jen-psaki-and-national-security-advisor-jake-sullivan-june-7-2021/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -596,6 +644,9 @@
         "granule": "DCPD-202301104",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202301104/html/DCPD-202301104.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -624,6 +675,9 @@
         "granule": "DCPD-202600511",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600511/html/DCPD-202600511.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -651,6 +705,9 @@
         "granule": "WH-2023-10-30-press-briefing-by-press-secretary-karine-jean-pierre-and-nsc-coordinat",
         "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2023/10/30/press-briefing-by-press-secretary-karine-jean-pierre-and-nsc-coordinator-for-strategic-communications-john-kirby-24/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -680,6 +737,9 @@
         "granule": "CHRG-116jhrg41488",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-116jhrg41488/html/CHRG-116jhrg41488.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -707,6 +767,9 @@
         "granule": "CHRG-117hhrg48244",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg48244/html/CHRG-117hhrg48244.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -740,6 +803,9 @@
         "granule": "CHRG-119shrg62295",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62295/html/CHRG-119shrg62295.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -767,6 +833,9 @@
         "granule": "CHRG-118shrg55849",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg55849/html/CHRG-118shrg55849.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -794,6 +863,9 @@
         "granule": "CHRG-115shrg25889",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg25889/html/CHRG-115shrg25889.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -833,6 +905,9 @@
         "granule": "DCPD-202600518",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600518/html/DCPD-202600518.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -869,6 +944,9 @@
         "granule": "DCPD-202600262",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600262/html/DCPD-202600262.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -897,6 +975,9 @@
         "granule": "DCPD-202500644",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500644/html/DCPD-202500644.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -928,6 +1009,9 @@
         "granule": "DCPD-202600451",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600451/html/DCPD-202600451.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -957,6 +1041,9 @@
         "granule": "DCPD-202600303",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600303/html/DCPD-202600303.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -986,6 +1073,9 @@
         "granule": "DCPD-202500947",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500947/html/DCPD-202500947.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -1028,6 +1118,9 @@
         "granule": "DCPD-202600481",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600481/html/DCPD-202600481.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise"
       }
     },
     {
@@ -1060,6 +1153,9 @@
         "granule": "DCPD-202600213",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600213/html/DCPD-202600213.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise"
       }
     },
     {
@@ -1085,13 +1181,16 @@
         "hearings": 4,
         "nps": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks on the Situation in Israel and Iran and an Exchange With Reporters Aboard Air Force One En Route to Amsterdam, Netherlands",
         "date": "2025-06-24",
         "granule": "DCPD-202500717",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500717/html/DCPD-202500717.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise"
       }
     },
     {
@@ -1121,6 +1220,9 @@
         "granule": "CHRG-119shrg63039",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg63039/html/CHRG-119shrg63039.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise"
       }
     },
     {
@@ -1172,6 +1274,9 @@
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise"
       }
     },
     {
@@ -1236,6 +1341,9 @@
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise"
       }
     },
     {
@@ -1264,6 +1372,9 @@
         "granule": "epa-2023-10-24-biden-harris-administration-announces-nearly-3-2-million-for-7376b2a0",
         "url": "https://www.epa.gov/newsreleases/biden-harris-administration-announces-nearly-32-million-environmental-justice-projects",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise"
       }
     },
     {
@@ -1291,6 +1402,9 @@
         "granule": "DCPD-202400300",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202400300/html/DCPD-202400300.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise"
       }
     },
     {
@@ -1323,6 +1437,9 @@
         "granule": "CHRG-118hhrg51721",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg51721/html/CHRG-118hhrg51721.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1353,6 +1470,9 @@
         "granule": "DCPD-202300669",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202300669/html/DCPD-202300669.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1382,6 +1502,9 @@
         "granule": "DCPD-202600300",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600300/html/DCPD-202600300.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1409,6 +1532,9 @@
         "granule": "npgallery-051a85d6",
         "url": "https://npgallery.nps.gov/AssetDetail/051a85d6-e404-4cd7-be38-cea7b94c4523",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1441,6 +1567,9 @@
         "granule": "DCPD-202200725",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202200725/html/DCPD-202200725.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1468,6 +1597,9 @@
         "granule": "WH-2017-05-11-press-briefing-principal-deputy-press-secretary-sarah-sanders-homeland",
         "url": "https://trumpwhitehouse.archives.gov/briefings-statements/press-briefing-principal-deputy-press-secretary-sarah-sanders-homeland-security-advisor-tom-bossert-051117/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1495,6 +1627,9 @@
         "granule": "WH-2024-10-16-press-briefing-by-press-secretary-karine-jean-pierre-71",
         "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/16/press-briefing-by-press-secretary-karine-jean-pierre-71/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1517,11 +1652,14 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks in an Exchange With Reporters Prior to Departure From Sch\u00f6nefeld, Germany",
+        "document": "Remarks in an Exchange With Reporters Prior to Departure From Schönefeld, Germany",
         "date": "2024-10-18",
         "granule": "DCPD-202400927",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202400927/html/DCPD-202400927.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1548,6 +1686,9 @@
         "granule": "WH-2024-10-02-press-gaggle-by-press-secretary-karine-jean-pierre-and-secretary-of-ho",
         "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/02/press-gaggle-by-press-secretary-karine-jean-pierre-and-secretary-of-homeland-security-alejandro-mayorkas-en-route-greenville-sc/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1574,6 +1715,9 @@
         "granule": "WH-2024-09-13-press-briefing-by-press-secretary-karine-jean-pierre-68",
         "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1604,6 +1748,9 @@
         "granule": "DCPD-202500044",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500044/html/DCPD-202500044.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1634,6 +1781,9 @@
         "granule": "CHRG-119hhrg61405",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61405/html/CHRG-119hhrg61405.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1661,6 +1811,9 @@
         "granule": "WH-2017-06-19-press-gaggle-press-secretary-sean-spicer-061917",
         "url": "https://trumpwhitehouse.archives.gov/briefings-statements/press-gaggle-press-secretary-sean-spicer-061917/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1689,6 +1842,9 @@
         "granule": "DCPD-202500799",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500799/html/DCPD-202500799.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1727,6 +1883,9 @@
         "granule": "DCPD-202600550",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600550/html/DCPD-202600550.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1761,6 +1920,9 @@
         "granule": "DCPD-202600332",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600332/html/DCPD-202600332.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1788,6 +1950,9 @@
         "granule": "WH-2023-06-30-press-briefing-by-press-secretary-karine-jean-pierre-secretary-of-educ",
         "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2023/06/30/press-briefing-by-press-secretary-karine-jean-pierre-secretary-of-education-miguel-cardona-and-deputy-director-of-the-national-economic-council-bharat-ramamurti/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1815,6 +1980,9 @@
         "granule": "DCPD-201900105",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201900105/html/DCPD-201900105.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1841,6 +2009,9 @@
         "granule": "DCPD-202600575",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600575/html/DCPD-202600575.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1872,6 +2043,9 @@
         "granule": "CHRG-119shrg62655",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62655/html/CHRG-119shrg62655.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1901,6 +2075,9 @@
         "granule": "CHRG-119shrg61520",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg61520/html/CHRG-119shrg61520.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1944,6 +2121,9 @@
         "granule": "DCPD-202600423",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600423/html/DCPD-202600423.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -1974,6 +2154,9 @@
         "granule": "DCPD-202500885",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500885/html/DCPD-202500885.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -2015,6 +2198,9 @@
         "granule": "DCPD-202600594",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600594/html/DCPD-202600594.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2043,6 +2229,9 @@
         "granule": "CHRG-119hhrg60069",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60069/html/CHRG-119hhrg60069.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2079,6 +2268,9 @@
         "granule": "DCPD-202600278",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600278/html/DCPD-202600278.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2107,6 +2299,9 @@
         "granule": "DCPD-202500989",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500989/html/DCPD-202500989.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2137,6 +2332,9 @@
         "granule": "CHRG-118hhrg59634",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg59634/html/CHRG-118hhrg59634.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2174,6 +2372,10 @@
         "granule": "DCPD-202500654",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500654/html/DCPD-202500654.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
       }
     },
     {
@@ -2201,6 +2403,10 @@
         "granule": "DCPD-202400894",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202400894/html/DCPD-202400894.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
       }
     },
     {
@@ -2229,6 +2435,10 @@
         "granule": "DCPD-202500394",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500394/html/DCPD-202500394.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
       }
     },
     {
@@ -2259,6 +2469,10 @@
         "granule": "CHRG-118shrg58408",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg58408/html/CHRG-118shrg58408.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
       }
     },
     {
@@ -2287,6 +2501,10 @@
         "granule": "CHRG-118shrg60512",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60512/html/CHRG-118shrg60512.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
       }
     },
     {
@@ -2314,6 +2532,10 @@
         "granule": "CHRG-119hhrg59906",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg59906/html/CHRG-119hhrg59906.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
       }
     },
     {
@@ -2343,6 +2565,10 @@
         "granule": "CHRG-119shrg62655",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62655/html/CHRG-119shrg62655.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
       }
     },
     {
@@ -2370,6 +2596,10 @@
         "granule": "CHRG-118hhrg55952",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55952/html/CHRG-118hhrg55952.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
       }
     },
     {
@@ -2426,6 +2656,9 @@
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close"
       }
     },
     {
@@ -2460,6 +2693,9 @@
         "granule": "DCPD-202600547",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close"
       }
     },
     {
@@ -2491,6 +2727,9 @@
         "granule": "DCPD-202600314",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600314/html/DCPD-202600314.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close"
       }
     },
     {
@@ -2520,11 +2759,14 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close"
       }
     },
     {
@@ -2563,6 +2805,9 @@
         "granule": "DCPD-202500661",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500661/html/DCPD-202500661.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close"
       }
     },
     {
@@ -2593,6 +2838,9 @@
         "granule": "CHRG-118hhrg56227",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg56227/html/CHRG-118hhrg56227.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close"
       }
     },
     {
@@ -2622,6 +2870,9 @@
         "granule": "WH-2023-02-13-press-briefing-by-press-secretary-karine-jean-pierre-and-national-secu",
         "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2023/02/13/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-council-coordinator-for-strategic-communications-john-kirby-february-13-2023/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close"
       }
     },
     {
@@ -2649,6 +2900,9 @@
         "granule": "CHRG-114hhrg96204",
         "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg96204",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -2675,6 +2929,9 @@
         "granule": "CHRG-114hhrg93545",
         "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg93545",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask"
       }
     },
     {
@@ -2696,11 +2953,14 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks on the COVID\u201319 Response and National Vaccination Efforts and an Exchange With Reporters",
+        "document": "Remarks on the COVID–19 Response and National Vaccination Efforts and an Exchange With Reporters",
         "date": "2021-05-04",
         "granule": "DCPD-202100369",
         "url": "https://www.govinfo.gov/app/details/DCPD-202100369",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deflect"
       }
     },
     {
@@ -2727,6 +2987,10 @@
         "granule": "CHRG-118hhrg59863",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg59863",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
       }
     }
   ]

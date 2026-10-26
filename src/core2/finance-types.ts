@@ -1,38 +1,9 @@
+import type { LivingPlan } from "./cost-of-living";
 import type { IsoDate, PersonId, Source, WorkResult } from "./types";
 import type { CashJournalSourceRef } from "./journal";
 import type { CashJournalPostedMarker } from "./journal-state";
 import type { WorkPayrollJournalReceipt } from "./work-payroll-cash";
 
-export interface HouseholdPurchaseCalendarInput {
-  ruleId: string;
-  stopgapId: string;
-  householdId: string;
-  firstNominalDueAt: IsoDate;
-  openingBasisIds: readonly string[];
-  source: Source;
-}
-export interface HouseholdPurchaseCalendarBasis {
-  nominalDueAt: IsoDate;
-  effectiveDueAt: IsoDate;
-  mode: "opening" | "work" | "recipient-income" | "missing-income";
-  references: readonly {
-    id: string;
-    kind:
-      | "opening-basis"
-      | "job"
-      | "commitment"
-      | "payroll-calendar"
-      | "earned-pay-period"
-      | "payroll-receipt"
-      | "income-contract"
-      | "income-award";
-    source: Source;
-    paySource?: Source;
-  }[];
-  source: Source;
-}
-
-/** Standing terms describe obligations or a budget; they never supply cash. */
 export interface FinanceContractInput {
   id: string;
   householdId?: string;
@@ -60,16 +31,37 @@ export interface FinanceContractInput {
     householdId: string;
     kindId: string;
     sourceFactId: string;
+    /**
+     * A benefit level in force changed this award's amount from the date it
+     * names: the amount the saved award fact is checked against now, the
+     * measure behind it and the day it took effect.
+     */
+    adjustedMinor?: number;
+    adjustedBy?: string;
+    adjustedOn?: string;
+    /**
+     * The household the saved award names, kept when the person's home
+     * changes (`householdId` then names where they live now) and the day.
+     */
+    recordedHouseholdId?: string;
+    movedOn?: string;
   };
   externalInflow?: FinanceExternalInflow;
-  /** Generated household phase only; real supplied invoice dates omit this marker. */
-  householdPurchaseCalendar?: HouseholdPurchaseCalendarInput;
   source: Source;
 }
 
+/** A payer died or left the household and the obligation changed hands or ended, or a person joined the household and began paying it. */
+export interface PayerHandover {
+  readonly on: IsoDate;
+  /** The payer who died, left or joined. */
+  readonly from: string;
+  readonly to: readonly string[];
+  readonly outcome: "kept-by-co-payers" | "taken-over" | "ended" | "joined";
+}
+
 export interface FinanceContractState extends FinanceContractInput {
-  nominalDueAt?: IsoDate;
-  householdPurchaseCalendarBasis?: HouseholdPurchaseCalendarBasis;
+  /** Dated record of each payer who died, left or joined and what became of the obligation. */
+  payerHandovers?: readonly PayerHandover[];
   /** Original admission date; dueAt advances and cannot define source validity. */
   firstDueAt: IsoDate;
   billingDay: number;
@@ -98,10 +90,15 @@ export interface CreditFacilityState extends CreditFacilityInput {
   interestRemainderMinor: number;
   unbilledInterestMinor: number;
   lastAccruedAt: IsoDate;
-  /** Dated repricing (core2-api-v11): replaces the parameter rate from ratedAt on. */
+  /** Dated repricing: replaces the parameter rate from ratedAt on. */
   annualInterestRate?: number;
   ratedAt?: IsoDate;
   rateSource?: Source;
+  /** Set when the borrower closes: the line takes no draw, accrues nothing and is never repriced or billed again. */
+  closedAt?: IsoDate;
+  /** What the borrower's remaining cash repaid at closing, and what the lender wrote off. */
+  settledMinor?: number;
+  writtenOffMinor?: number;
 }
 
 /** Cash has one authority: OrganizationInput.liquidMinor, never a second book. */
@@ -126,7 +123,20 @@ export interface BusinessBooksState extends BusinessBooksInput {
   anchorAnnualOtherCostsMinor: number;
   anchorPrice: number;
   lastGeneralPriceFactor: number;
+  /** The outcome web's factor on household prices in the place at the last review (absent reads as one). */
+  lastWebPriceFactor?: number;
   lastWagePriceFactor: number;
+  /**
+   * Each current job's hourly pay at the last review, so the next review
+   * prices a raise in and leaves a hire's different pay out.
+   */
+  lastHourlyByJob?: Record<string, number>;
+  /**
+   * The town's measured income in the first full month the book saw, a
+   * year's worth: later months are read against it, so the opening's narrower
+   * payroll anchor never compares with income it didn't count.
+   */
+  incomeBasisMinor?: number;
   nextReviewedAt: IsoDate;
   receivedMinor: number;
   salesReceivedMinor: number;
@@ -166,8 +176,6 @@ export interface FinancePayment {
 }
 
 export interface FinanceReceipt {
-  householdPurchaseCalendarBasis?: HouseholdPurchaseCalendarBasis;
-  nextHouseholdPurchaseCalendarBasis?: HouseholdPurchaseCalendarBasis;
   id: string;
   contractId: string;
   date: IsoDate;
@@ -229,6 +237,15 @@ export interface EmployerClosure {
     | OwnerClosureChoice;
   endedJobIds: readonly string[];
   affectedPersonIds: readonly PersonId[];
+  /** Counted workers' jobs end with the firm too; they live in the residents' books, not in the full jobs table. */
+  endedCountedJobIds: readonly string[];
+  affectedCountedPersonIds: readonly string[];
+  /** Each credit line the firm held, as settled from its cash or written off by the lender. */
+  creditLines: readonly {
+    facilityId: string;
+    settledMinor: number;
+    writtenOffMinor: number;
+  }[];
   source: Source;
 }
 
@@ -321,6 +338,11 @@ export interface FinanceRuntime extends FinanceCashRuntimeFields {
   detailedReceipts: Map<string, FinanceReceipt>;
   closures: Map<string, EmployerClosure>;
   totalsByKind: Map<string, FinanceTotals>;
+  /** Each household's everyday spending (cost-of-living.ts), by household. */
+  livingPlans: Map<string, LivingPlan>;
+  livingDueAt: Map<IsoDate, Set<string>>;
+  /** A household's housing and other owed bills, kept back before everyday spending. */
+  obligationsByHousehold: Map<string, Set<string>>;
 }
 
 export interface FinancePolicyData {
@@ -440,11 +462,14 @@ export interface FinanceCashPolicy {
     visit: string;
     market: string;
     customerBudget: string;
+    /** A residents wage flow an employer's credit line paid on a short payday. */
+    wageFlow: string;
   };
   financeReceiptPrefix: string;
   creditReceiptPrefix: string;
   interestContractPrefix: string;
   standaloneDrawRequestPrefix: string;
+  wageFlowDrawRequestPrefix: string;
   externalInflowKinds: readonly string[];
   externalInflowContracts: readonly {
     inflowKind: string;

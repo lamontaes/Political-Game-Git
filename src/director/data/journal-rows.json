@@ -1,0 +1,406 @@
+{
+  "version": "words-journal-v1",
+  "about": "The structure of the My life journal: which moments it writes, which record facts each one reads, and the relation and count words. It holds no sentences; the sentences come from the mined bank (data/english/parts/journal.json) through src/english/mined/journal-bank.ts. A title is only a record name. A moment the mined bank has no sentence for is left out.",
+  "relationWords": {
+    "parent": {
+      "female": "mother",
+      "male": "father",
+      "other": "parent"
+    },
+    "other-parent": {
+      "female": "mother",
+      "male": "father",
+      "other": "parent"
+    },
+    "child": {
+      "female": "daughter",
+      "male": "son",
+      "other": "child"
+    },
+    "sibling": {
+      "female": "sister",
+      "male": "brother",
+      "other": "sibling"
+    },
+    "grandparent": {
+      "female": "grandmother",
+      "male": "grandfather",
+      "other": "grandparent"
+    },
+    "grandchild": {
+      "female": "granddaughter",
+      "male": "grandson",
+      "other": "grandchild"
+    },
+    "aunt-or-uncle": {
+      "female": "aunt",
+      "male": "uncle",
+      "other": "relative"
+    },
+    "niece-or-nephew": {
+      "female": "niece",
+      "male": "nephew",
+      "other": "relative"
+    },
+    "partner": {
+      "female": "partner",
+      "male": "partner",
+      "other": "partner"
+    }
+  },
+  "countWords": [
+    "",
+    "once",
+    "twice",
+    "three times",
+    "four times",
+    "five times",
+    "six times",
+    "seven times",
+    "eight times",
+    "nine times",
+    "ten times"
+  ],
+  "manyTimes": "many times",
+  "possessive": {
+    "journal": "my",
+    "scene": "your"
+  },
+  "possessivePronoun": {
+    "male": "his",
+    "female": "her",
+    "other": "their"
+  },
+  "lines": [
+    {
+      "kindPrefix": "school:",
+      "turn": false,
+      "oncePer": "school",
+      "entry": "setting"
+    },
+    {
+      "kindPrefix": "work:opening",
+      "turn": false,
+      "entry": "setting"
+    },
+    {
+      "kindPrefix": "job-started",
+      "turn": false,
+      "hasOtherLine": true,
+      "entry": "setting"
+    },
+    {
+      "kindPrefix": "job-ended",
+      "turn": false,
+      "hasOtherLine": true,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "family:child",
+      "turn": true,
+      "title": [
+        {
+          "key": "born",
+          "text": "{{other}}"
+        }
+      ],
+      "entry": "story",
+      "lookBack": "memorable"
+    },
+    {
+      "kindPrefix": "moved",
+      "turn": true,
+      "hasGroupLine": true,
+      "title": [
+        {
+          "key": "place",
+          "text": "{{place}}"
+        }
+      ],
+      "sameDay": "event:person.moved-away",
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "unpaid-wages",
+      "turn": false,
+      "entry": "setting"
+    },
+    {
+      "kindPrefix": "contact:",
+      "turn": false,
+      "hasRepeatLine": true,
+      "entry": "setting"
+    },
+    {
+      "kindPrefix": "event:pay-raised-to-minimum-wage",
+      "turn": false,
+      "eventFacts": {
+        "wage": {
+          "fact": "toMinor",
+          "format": "money"
+        }
+      },
+      "entry": "setting"
+    },
+    {
+      "kindPrefix": "event:life.death",
+      "turn": true,
+      "title": [
+        {
+          "key": "after",
+          "text": "{{name}}"
+        }
+      ],
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "event:housing.eviction",
+      "turn": false,
+      "hasOtherLine": true,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "event:housing.purchase",
+      "turn": false,
+      "hasOtherLine": true,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "event:organization.founded",
+      "turn": false,
+      "eventFacts": {
+        "business": {
+          "fact": "topic",
+          "format": "organization"
+        }
+      },
+      "hasOtherLine": true,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "event:person-birth",
+      "turn": true,
+      "title": [
+        {
+          "key": "born",
+          "text": "{{other}}"
+        }
+      ],
+      "wordsFrom": "family:child",
+      "entry": "story",
+      "framesAge": true,
+      "lookBack": "memorable"
+    },
+    {
+      "kindPrefix": "event:person.moved-away",
+      "turn": false,
+      "hasOtherLine": true,
+      "hasGroupLine": true,
+      "selfWhenNamed": true,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "event:health.serious-illness",
+      "turn": false,
+      "hasOtherLine": true,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "event:office.replied",
+      "turn": false,
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        }
+      },
+      "hasOtherLine": true,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "event:candidate-filed",
+      "turn": true,
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        }
+      },
+      "hasOtherLine": true,
+      "title": [
+        {
+          "key": "running",
+          "text": "{{office}}"
+        }
+      ],
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "event:election-result",
+      "turn": false,
+      "entry": "story",
+      "wordsFrom": "event:election",
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        },
+        "winner": {
+          "fact": "winnerId",
+          "format": "text"
+        }
+      },
+      "hasOtherLine": true,
+      "hasOwnLine": true
+    },
+    {
+      "kindPrefix": "event:office.voted",
+      "turn": false,
+      "entry": "story",
+      "stageFact": "vote",
+      "stageWords": {
+        "yes": "\\bvoted for\\b",
+        "no": "\\bvoted against\\b"
+      },
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billName"
+        }
+      }
+    },
+    {
+      "kindPrefix": "event:office.introduced",
+      "turn": false,
+      "entry": "story",
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billName"
+        }
+      }
+    },
+    {
+      "kindPrefix": "event:took-office",
+      "turn": true,
+      "entry": "story",
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        }
+      },
+      "title": [
+        {
+          "key": "office",
+          "text": "{{office}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "act:vote-yes",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "act:vote-no",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "act:town-hall",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "act:interview",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:partners-met",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:roots",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:moment:parent-new-job",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parents-met:hometown",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parents-met:where-they-lived",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parents-met:school",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:raised-by",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parent-apart",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:sibling-older",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:sibling-twin",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:sibling-born",
+      "turn": false,
+      "entry": "story"
+    }
+  ],
+  "firstTitle": [
+    {
+      "key": "start",
+      "text": "{{place}}"
+    }
+  ],
+  "backdropLines": [
+    {
+      "kind": "law-took-effect",
+      "stageFact": "series",
+      "stages": ["minimum-wage"]
+    }
+  ],
+  "lookBacks": {
+    "memorable": [
+      "journal.memoir-hook.ill-never-forget-it",
+      "journal.memoir-hook.ill-never-forget-that"
+    ],
+    "youngOnly": ["journal.memoir-hook.i-never-knew"],
+    "turning": ["journal.memoir-hook.that-was-a-turning-point"]
+  },
+  "billForms": {
+    "ordinance": "Ordinance"
+  }
+}

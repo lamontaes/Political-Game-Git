@@ -1,6 +1,6 @@
-import { addDays, daysBetween } from "./dates";
+import { addDays, daysBetween } from "../core2/kernel/dates";
 import { requireElectionContest } from "./election-contests";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { campaignStateJurisdictionKey } from "./campaign-compliance-rules";
 import { requireCampaign } from "./campaign-queries";

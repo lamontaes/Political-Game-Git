@@ -1,5 +1,5 @@
 import { coreAPI } from "../core2/state";
-import { townSeats } from "../core2/modules/offices";
+import { filingClerkFor } from "../core2/modules/filing-clerk";
 import {
   checkEligibility,
   filingOfficeFor,
@@ -12,12 +12,13 @@ import {
   partyTie,
 } from "../core2/modules/parties";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { seatHolder } from "../core2/modules/voting";
 import {
   openFilingVisit,
   pickContest,
   type FilingVisit,
 } from "../director/filing-visit";
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFile, stagePeople, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -47,9 +48,21 @@ export interface BenchFilingVisit {
   backdrop: ReturnType<typeof backdropFile>;
   people: ReturnType<typeof stagePeople>["people"];
   names: Record<string, string>;
+  /**
+   * Each offered race told apart before the player picks, from its records:
+   * the seat (its district, or its place among the body's seats up that
+   * day), the election date and who holds the seat now.
+   */
+  seats: Record<string, SeatFacts>;
   /** What the counter shows once an office is named: its rules and the choices made with the filing. */
   overlay?: FilingOverlay;
   result?: unknown;
+}
+
+export interface SeatFacts {
+  seat: string | null;
+  electionDate: string;
+  holder: string | null;
 }
 
 export interface FilingOverlay {
@@ -95,31 +108,77 @@ export function openBenchFilingVisit(
   minuteOfDay: number,
 ): BenchFilingVisit {
   const api = coreAPI(core);
-  const contests = openContests(api)
-    .filter((row) => filingOfficeFor(api, row.id).filedWith === filedWith)
-    .map((row) => ({
+  const open = openContests(api).filter(
+    (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
+  );
+  // Contests are told apart by their own records, in one parenthesis: a
+  // seat's district; the year of election, where seats of the same title
+  // are elected in different years (a state's two Senate seats); and the
+  // seat's place among those of its body elected the same day at large.
+  const titled = open.map((row) => `${row.title}|${row.district ?? ""}`);
+  const yearOf = (i: number) => open[i]!.electionDate.slice(0, 4);
+  const contests = open.map((row, i) => {
+    const same = titled.flatMap((t, j) => (t === titled[i] ? [j] : []));
+    const years = new Set(same.map(yearOf));
+    const sameYear = same.filter((j) => yearOf(j) === yearOf(i));
+    const parts = [
+      ...(row.district ? [row.district] : []),
+      ...(years.size > 1 ? [yearOf(i)] : []),
+      ...(sameYear.length > 1 ? [String(sameYear.indexOf(i) + 1)] : []),
+    ];
+    return {
       id: row.id,
-      // Seats elected by district are told apart by their district record.
-      title: row.district ? `${row.title} (${row.district})` : row.title,
+      title: parts.length ? `${row.title} (${parts.join(", ")})` : row.title,
       filingDeadline: row.filingDeadline,
       sourceIds: row.sources,
-    }));
+    };
+  });
+  const seats = Object.fromEntries(
+    open.map((row, i) => {
+      const sameDay = titled.flatMap((t, j) =>
+        t === titled[i] && open[j]!.electionDate === row.electionDate
+          ? [j]
+          : [],
+      );
+      const holder = seatHolder(api, row);
+      return [
+        row.id,
+        {
+          // Seats sharing a district (at large) are numbered among themselves.
+          seat:
+            sameDay.length > 1
+              ? [row.district, String(sameDay.indexOf(i) + 1)]
+                  .filter(Boolean)
+                  .join(" ")
+              : row.district,
+          electionDate: row.electionDate,
+          holder: holder
+            ? `${holder.identity.givenName} ${holder.identity.familyName}`
+            : null,
+        },
+      ];
+    }),
+  );
   if (!contests.length) throw new Error("No open contest files there.");
-  const clerk = townSeats(api).find(
-    (row) =>
-      scenePlaces.filingClerkOfficeKinds.includes(row.office.kind) &&
-      row.holder?.personId &&
-      core.people.get(row.holder.personId)?.alive,
-  )?.holder?.personId;
+  // The clerk the contest's filing office records name (none for a state or federal counter).
+  const clerk = filingClerkFor(api, contests[0]!.id)?.personId;
   const visit = openFilingVisit(core, playerId, contests, clerk ?? undefined);
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
-  const cast = [
-    { id: playerId, name: `${player.givenName} ${player.familyName}` },
+  const cast: { id: string; name: string; reason: StageReason }[] = [
+    {
+      id: playerId,
+      name: `${player.givenName} ${player.familyName}`,
+      reason: "you",
+    },
   ];
   if (clerk) {
     const row = core.people.get(clerk)!;
-    cast.push({ id: clerk, name: `${row.givenName} ${row.familyName}` });
+    cast.push({
+      id: clerk,
+      name: `${row.givenName} ${row.familyName}`,
+      reason: "clerk",
+    });
   }
   return {
     visit,
@@ -128,6 +187,7 @@ export function openBenchFilingVisit(
     backdrop: backdropFile(place, minuteOfDay),
     people: stagePeople(core, place, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
+    seats,
   };
 }
 
@@ -162,7 +222,6 @@ export function chooseAtCounter(
       core,
       state.visit.playerId,
       action.contestId,
-      action.payFee,
       filing,
     );
     state.visit.lines.push({

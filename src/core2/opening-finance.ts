@@ -1,15 +1,5 @@
-import {
-  defaultGeneratedHouseholdCatalogs,
-  defaultGeneratedHouseholdCalendarData,
-  generatedHouseholdSourceBasis,
-  compactGeneratedHouseholdSource,
-  mayCompactGeneratedHouseholdSources,
-  resolveGeneratedHouseholdSource,
-  type GeneratedHouseholdSourceOwners,
-} from "./generated-household-source";
-import { createHouseholdPurchaseCalendarMarker } from "./household-purchase-calendar";
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
-import { makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import {
   estimatedMonthlyHouseholdLivingCosts,
@@ -18,7 +8,6 @@ import {
   REPRESENTATIVE_LIVING_COSTS,
   type LivingCostsRegion,
 } from "./reference/living-costs-data";
-import { LIVING_COSTS_CATEGORY_SOURCES } from "./reference/living-costs-category-data";
 import type { EntityId } from "./kernel/brands";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -34,10 +23,6 @@ import type {
   FinanceInput,
 } from "./finance-types";
 import { parameter, PARAMETERS } from "./parameters";
-import {
-  createOpeningPurchaseCalendar,
-  type OpeningPurchaseCalendarData,
-} from "./opening-purchase-calendar";
 import { stopgap } from "./stopgaps";
 import type {
   CoreInput,
@@ -50,7 +35,6 @@ export interface OpeningFinanceData {
   version: string;
   periodMonthsParameter: string;
   cadenceStopgap: { stopgapId: string };
-  openingPurchaseCalendar: OpeningPurchaseCalendarData;
   marketAdjustedHouseholdBudgets: boolean;
   excludedOrganizationKinds: readonly string[];
   stopgapIds: readonly string[];
@@ -84,14 +68,6 @@ export interface OpeningFinanceData {
 
 export const DEFAULT_OPENING_FINANCE_DATA: OpeningFinanceData = dataJson;
 
-const cexGenerationPriorVintage = [
-  ...new Set(
-    Object.values(LIVING_COSTS_CATEGORY_SOURCES).map((row) => row.vintage),
-  ),
-].join("; ");
-const laterVintageGenerationPriorGap =
-  "opening-finance:later-vintage-generation-priors-are-not-date-available-actor-facts";
-
 export interface OpeningFinanceOptions {
   /** Two-level opening: counted households get light terms (see OpeningCustomerOptions). */
   countedHouseholdIds?: ReadonlySet<string>;
@@ -122,9 +98,6 @@ export function createOpeningFinance(
   const booksOptions = options.books ?? {};
   const bookData = booksOptions.data ?? DEFAULT_BUSINESS_BOOKS_DATA;
   const registry = booksOptions.parameters ?? PARAMETERS;
-  const compactDefaultHouseholdSources =
-    defaultGeneratedHouseholdCatalogs("category", data, registry, bookData) &&
-    defaultGeneratedHouseholdCalendarData(data.openingPurchaseCalendar);
   const p = (key: string) => parameter(key, registry);
   const zero = p("zero"),
     one = p("one");
@@ -198,7 +171,6 @@ export function createOpeningFinance(
     throw new Error(
       "Opening finance requires a positive whole calendar-month period.",
     );
-  const openingPurchaseCalendar = data.openingPurchaseCalendar;
 
   const conditions = [
     ...unique(
@@ -288,152 +260,6 @@ export function createOpeningFinance(
     [...(input.finance?.contracts ?? []), ...(options.recordedContracts ?? [])],
     "contract",
   );
-  // Optional compact provenance is checked against original owning rows before
-  // preserved household kinds can skip generation. This index is built once,
-  // only when an actual recorded Source declares the typed generated basis.
-  let generatedSourceOwners: GeneratedHouseholdSourceOwners | undefined;
-  const activeGeneratedSourceIds = new Set<string>();
-  const validatedGeneratedSourceIds = new Set<string>();
-  const validateRecordedGeneratedSource = (contract: FinanceContractInput) => {
-    const basis = contract.source.generatedHouseholdBasis;
-    if (basis === undefined || validatedGeneratedSourceIds.has(contract.id))
-      return;
-    if (activeGeneratedSourceIds.has(contract.id))
-      throw new Error(
-        `Cyclic generated household calendar Source: ${contract.id}`,
-      );
-    if (
-      Array.isArray(basis?.calendarBasisIds) &&
-      basis.calendarBasisIds.includes(contract.id)
-    )
-      throw new Error(
-        `Generated household Source cannot use its own contract as calendar evidence: ${contract.id}`,
-      );
-    activeGeneratedSourceIds.add(contract.id);
-    try {
-      if (!generatedSourceOwners) {
-        const calendarRecords = new Map<
-          string,
-          {
-            householdId: string;
-            householdIds?: ReadonlySet<string>;
-            sources: readonly Source[];
-          }
-        >();
-        const seenRecordIds = new Set<string>();
-        const addRecord = (
-          id: string,
-          householdId: string | undefined,
-          sources: readonly Source[],
-        ) => {
-          if (seenRecordIds.has(id)) {
-            // Ambiguous IDs remain absent even if a third matching row exists.
-            calendarRecords.delete(id);
-            return;
-          }
-          seenRecordIds.add(id);
-          if (householdId) calendarRecords.set(id, { householdId, sources });
-        };
-        for (const job of jobs.values())
-          addRecord(job.id, people.get(job.personId)?.householdId, [
-            job.source,
-          ]);
-        for (const row of input.workCommitments ?? [])
-          addRecord(row.id, people.get(row.personId)?.householdId, [
-            row.scheduleSource,
-            row.paySource,
-          ]);
-        for (const person of people.values())
-          for (const fact of person.pastFacts ?? [])
-            addRecord(fact.id, person.householdId, [fact.source]);
-        for (const row of [
-          ...(input.finance?.contracts ?? []),
-          ...(options.recordedContracts ?? []),
-        ])
-          addRecord(
-            row.id,
-            row.householdId ?? row.recipientIncome?.householdId,
-            [row.source],
-          );
-        // An employer's payday calendar serves every household with a worker on it.
-        for (const calendar of input.workPayrollCalendars ?? []) {
-          if (seenRecordIds.has(calendar.id)) {
-            calendarRecords.delete(calendar.id);
-            continue;
-          }
-          seenRecordIds.add(calendar.id);
-          const commitmentIds = new Set(calendar.workCommitmentIds);
-          const homes = new Set<string>();
-          for (const row of input.workCommitments ?? [])
-            if (commitmentIds.has(row.id)) {
-              const home = people.get(row.personId)?.householdId;
-              if (home) homes.add(home);
-            }
-          calendarRecords.set(calendar.id, {
-            householdId: calendar.organizationId,
-            householdIds: homes,
-            sources: [calendar.source],
-          });
-        }
-        generatedSourceOwners = {
-          households,
-          calendarRecords,
-          parameters: registry,
-        };
-      }
-      // Derived calendar Sources must resolve through their genuine original
-      // contract owner; successful rows are checked once, with active cycles denied.
-      for (const id of basis.calendarBasisIds) {
-        const record = generatedSourceOwners.calendarRecords.get(id);
-        if (
-          !record?.sources.some(
-            (source) => source.generatedHouseholdBasis !== undefined,
-          )
-        )
-          continue;
-        const owner = recordedContractOwners.get(id);
-        if (
-          !owner ||
-          record.sources.length !== one ||
-          record.sources[zero] !== owner.source
-        )
-          throw new Error(
-            `Generated calendar Source lacks its actual recorded contract owner: ${id}`,
-          );
-        validateRecordedGeneratedSource(owner);
-      }
-      const resolved = resolveGeneratedHouseholdSource(
-        contract.source,
-        generatedSourceOwners,
-      );
-      if (
-        basis.householdId !== contract.householdId ||
-        resolved.catalogRow.contractKind !== contract.kind
-      )
-        throw new Error(
-          `Generated household Source basis differs from its actual contract household or kind: ${contract.id}`,
-        );
-      const marker = contract.householdPurchaseCalendar;
-      if (
-        !marker ||
-        marker.householdId !== basis.householdId ||
-        marker.firstNominalDueAt !== basis.calendarDueAt ||
-        contract.dueAt !== basis.calendarDueAt ||
-        !Array.isArray(marker.openingBasisIds) ||
-        marker.openingBasisIds.length !== basis.calendarBasisIds.length ||
-        marker.openingBasisIds.some(
-          (id, index) => id !== basis.calendarBasisIds[index],
-        )
-      )
-        throw new Error(
-          `Generated household Source differs from its original calendar marker or due date: ${contract.id}`,
-        );
-      validatedGeneratedSourceIds.add(contract.id);
-    } finally {
-      activeGeneratedSourceIds.delete(contract.id);
-    }
-  };
-
   const contracts: FinanceContractInput[] = [
     ...recordedContractOwners.values(),
   ].map((contract) => {
@@ -488,26 +314,18 @@ export function createOpeningFinance(
       throw new Error(
         `Interest terms are owned by the recorded facility writer, not a second opening contract: ${contract.id}`,
       );
-    validateRecordedGeneratedSource(contract);
     return {
       ...contract,
       payerIds: [...contract.payerIds],
       source: { ...contract.source },
     };
   });
-  // Index only actual supplied terms, before any generated purchase can anchor itself.
-  if (!openingPurchaseCalendar)
-    throw new Error(
-      "Opening purchases require a registered, sourced estimated first-due rule.",
-    );
-  const purchaseCalendar = createOpeningPurchaseCalendar(
-    input,
-    contracts,
-    openingPurchaseCalendar,
-    registry,
+  // Businesses restock from the first simulated day; households spend on
+  // everyday living monthly from the first of the next month.
+  const dueAt = addDays(startedAt, one);
+  const livingDueAt = makeIsoDate(
+    `${addDays(makeIsoDate(`${startedAt.slice(0, 7)}-01`), 31).slice(0, 7)}-01`,
   );
-  const dueAt = purchaseCalendar.business.dueAt;
-  for (const gap of purchaseCalendar.business.gaps) gaps.add(gap);
   const contractIds = new Set(contracts.map((row) => row.id));
   const contractById = new Map(contracts.map((row) => [row.id, row]));
   const appendContract = (contract: FinanceContractInput) => {
@@ -1060,24 +878,21 @@ export function createOpeningFinance(
   }
   for (const row of data.categories) stopgap(row.stopgapId);
 
-  const countedSources = new Map<string, Source>();
-  const countedSource = (citation: string): Source => {
-    let source = countedSources.get(citation);
+  const livingSources = new Map<string, Source>();
+  const livingSource = (citation: string): Source => {
+    let source = livingSources.get(citation);
     if (!source) {
       source = {
         tag: "ESTIMATED",
         asOf: startedAt,
         citation: `${citation} ${LIVING_COSTS_SOURCE}`,
-        estimatedFrom:
-          "Counted household (two-level population): the same CEX category budget and supplier shares as a simulated household, without per-household evidence; merged into the residents' purchase flows.",
+        estimatedFrom: `BLS Consumer Expenditure Survey spending for the household's region and size, capped by its members' living-cost plans, at the town's sellers of each kind in shares by their capacity. Paid monthly from the first of the month after the opening. ${data.stopgapIds.join(", ")}`,
       };
-      countedSources.set(citation, source);
+      livingSources.set(citation, source);
     }
     return source;
   };
   for (const household of households.values()) {
-    const householdCalendar = purchaseCalendar.household(household);
-    for (const gap of householdCalendar.gaps) gaps.add(gap);
     const members = household.memberIds.map((id) => people.get(id)!);
     const payers = members.filter((row) => row.livingCostDailyMinor > zero);
     if (!members.length || !payers.length) {
@@ -1119,7 +934,9 @@ export function createOpeningFinance(
         ),
     );
     if (categories.length > zero && cexPriorPublishedAfterOpening)
-      gaps.add(laterVintageGenerationPriorGap);
+      gaps.add(
+        "opening-finance:later-vintage-generation-priors-are-not-date-available-actor-facts",
+      );
     const sourceMonthly = categories.reduce(
       (sum, row) =>
         sum + (row.annualMeanUsd * p("minorPerDollar")) / p("monthsPerYear"),
@@ -1149,7 +966,6 @@ export function createOpeningFinance(
         );
         continue;
       }
-      const counted = options.countedHouseholdIds?.has(household.id) === true;
       // A split category goes to each kind of seller in its sourced share;
       // a part with no seller in the place goes to the other part's sellers.
       const split = crosswalk.supplierSplit;
@@ -1193,30 +1009,8 @@ export function createOpeningFinance(
       );
       for (const share of shares) {
         if (share.amount <= zero) continue;
-        if (counted) {
-          // Same budget and supplier shares; light counted terms, merged later.
-          appendContract({
-            id: JSON.stringify([
-              "opening-household-purchase",
-              household.id,
-              budget.id,
-              share.id,
-            ]),
-            householdId: household.id,
-            payerIds: payers.map((row) => row.id),
-            payeeId: share.id,
-            kind: crosswalk.contractKind,
-            amountMinor: share.amount * periodMonths,
-            dueAt: householdCalendar.dueAt,
-            periodMonths,
-            accruesArrears: false,
-            salesReceipt: true,
-            marketAdjusted: data.marketAdjustedHouseholdBudgets,
-            source: countedSource(crosswalk.citation),
-          });
-          boundMonthly += share.amount;
-          continue;
-        }
+        // One monthly amount at this seller; the core folds a household's
+        // purchases into its everyday-living plan (cost-of-living.ts).
         appendContract({
           id: JSON.stringify([
             "opening-household-purchase",
@@ -1229,63 +1023,12 @@ export function createOpeningFinance(
           payeeId: share.id,
           kind: crosswalk.contractKind,
           amountMinor: share.amount * periodMonths,
-          householdPurchaseCalendar: createHouseholdPurchaseCalendarMarker(
-            household.id,
-            householdCalendar,
-            openingPurchaseCalendar,
-          ),
-          dueAt: householdCalendar.dueAt,
+          dueAt: livingDueAt,
           periodMonths,
           accruesArrears: false,
           salesReceipt: true,
           marketAdjusted: data.marketAdjustedHouseholdBudgets,
-          source:
-            compactDefaultHouseholdSources &&
-            mayCompactGeneratedHouseholdSources([
-              contractById.get(
-                JSON.stringify([
-                  "opening-household-purchase",
-                  household.id,
-                  budget.id,
-                  share.id,
-                ]),
-              )?.source,
-            ])
-              ? compactGeneratedHouseholdSource(
-                  generatedHouseholdSourceBasis({
-                    domain: "category",
-                    household,
-                    key: budget.id,
-                    region: basket.region,
-                    sizeColumn: basket.sizeColumn,
-                    parameterRefs: [
-                      data.periodMonthsParameter,
-                      "daysPerMeanYear",
-                      "monthsPerYear",
-                      "minorPerDollar",
-                    ],
-                    calendarDueAt: householdCalendar.dueAt,
-                    calendarBasisIds: householdCalendar.basisIds,
-                    missingIncome: householdCalendar.gaps.includes(
-                      `${openingPurchaseCalendar.missingIncomeGap}:${household.id}`,
-                    ),
-                  }),
-                  startedAt,
-                  `${cexGenerationPriorVintage}; ${householdCalendar.source.generationPriorVintage}`,
-                )
-              : {
-                  tag: "ESTIMATED",
-                  asOf: startedAt,
-                  generationPriorVintage: `${cexGenerationPriorVintage}; ${householdCalendar.source.generationPriorVintage}`,
-                  citation: `${household.source.citation} ${LIVING_COSTS_SOURCE} ${Object.values(
-                    LIVING_COSTS_CATEGORY_SOURCES,
-                  )
-                    .map((row) => row.url)
-                    .join(
-                      " ",
-                    )} ${crosswalk.citation} Calendar Source: DATA openingPurchaseCalendar.source.`,
-                  estimatedFrom: `Later-vintage CEX household-size/region category prior (${basket.sizeColumn}, ${basket.region}); capped by existing assigned livingCostDailyMinor after supplied terms. Opening standing counterparties use actual local classified firms weighted by projected payroll capacity, not observed customer choices. ${basket.uncertainty} ${data.stopgapIds.join(", ")} Calendar marker ${openingPurchaseCalendar.recurringHouseholdDueRule}; household ${household.id}; basis ${householdCalendar.basisIds.join(", ") || "none; missing income timing"}; result ${householdCalendar.dueAt}. ${openingPurchaseCalendar.stopgapId}${householdCalendar.gaps.includes(`${openingPurchaseCalendar.missingIncomeGap}:${household.id}`) ? ` Missing income timing: explicit calendar-only fallback; ${openingPurchaseCalendar.missingIncomeGap}:${household.id}.` : ""}`,
-                },
+          source: livingSource(crosswalk.citation),
         });
         boundMonthly += share.amount;
       }
@@ -1390,14 +1133,14 @@ export function createOpeningFinance(
           source: {
             tag: "ESTIMATED",
             asOf: startedAt,
-            generationPriorVintage: [
-              business.source.generationPriorVintage,
-              purchaseCalendar.business.source.generationPriorVintage,
-            ]
-              .filter(Boolean)
-              .join("; "),
-            citation: `${business.source.citation} ${rule.citation} ${purchaseCalendar.business.source.citation}`,
-            estimatedFrom: `Reference input-cost/revenue ratio from source sales-sensitive cost fraction ${kind.salesCostShareParameter}; suppressed-cost estimated flag is ${String(kind.salesCostEstimated)}. At settlement the ratio is applied only to the frozen pool of actual received sales since the prior cutoff. Only actual mapped non-self local suppliers are bound. No actual delivery, invoice, payment, or supplier capacity observation is asserted. ${rule.stopgapId} Calendar rule ${openingPurchaseCalendar.businessFirstDueRule}; result ${dueAt}; DATA openingPurchaseCalendar.source. ${openingPurchaseCalendar.stopgapId} ${openingPurchaseCalendar.source.estimatedFrom === DEFAULT_OPENING_FINANCE_DATA.openingPurchaseCalendar.source.estimatedFrom ? "" : purchaseCalendar.business.source.estimatedFrom}`,
+            ...(business.source.generationPriorVintage
+              ? {
+                  generationPriorVintage:
+                    business.source.generationPriorVintage,
+                }
+              : {}),
+            citation: `${business.source.citation} ${rule.citation}`,
+            estimatedFrom: `Reference input-cost/revenue ratio from source sales-sensitive cost fraction ${kind.salesCostShareParameter}; suppressed-cost estimated flag is ${String(kind.salesCostEstimated)}. At settlement the ratio is applied only to the frozen pool of actual received sales since the prior cutoff. Only actual mapped non-self local suppliers are bound. No actual delivery, invoice, payment, or supplier capacity observation is asserted. ${rule.stopgapId} First due on the first simulated day, ${dueAt}.`,
           },
         };
         appendContract(contract);

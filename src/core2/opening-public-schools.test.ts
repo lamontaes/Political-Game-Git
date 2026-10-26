@@ -8,6 +8,7 @@ import {
 } from "./opening-public-schools";
 import { parameter as p } from "./parameters";
 import { generatedOpening } from "./tooling/generated-world";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-public-schools");
@@ -41,6 +42,11 @@ describe(`the public school district in ${place.name}, ${place.state} (seed ${se
         p("openingPupilTeacherRatio"),
     );
     expect(receipt.teachers).toBe(Math.min(wanted, receipt.unplacedWorkers));
+    // A town the records show with no school-age children needs no teachers.
+    if (!receipt.schoolAgeChildren) {
+      expect(receipt.teachers).toBe(0);
+      return;
+    }
     expect(receipt.teachers).toBeGreaterThan(0);
     // Each teacher holds one job, with a timetable on the district's payday calendar.
     const people = new Map(input.people.map((row) => [row.id, row]));
@@ -65,7 +71,15 @@ describe(`the public school district in ${place.name}, ${place.state} (seed ${se
     const district = opened.organizations.find(
       (row) => row.classification === "service:school",
     );
-    if (!district) return;
+    // Only a town without a police department to pay through has no district.
+    if (!district) {
+      expect(
+        opened.organizations.some((row) =>
+          (row.classification ?? "").startsWith("service:police"),
+        ),
+      ).toBe(false);
+      return;
+    }
     // The same town without its district or any recorded teacher job.
     const districtJobs = new Set(
       opened.jobs
@@ -95,6 +109,10 @@ describe(`the public school district in ${place.name}, ${place.state} (seed ${se
       ),
     };
     const { input, receipt } = withPublicSchoolDistrict(bare);
+    if (!receipt?.schoolAgeChildren) {
+      expect(receipt?.teachers ?? 0).toBe(0);
+      return;
+    }
     expect(receipt?.teachers).toBeGreaterThan(0);
     const jobs = input.jobs.filter(
       (row) => row.organizationId === receipt!.organizationId,
@@ -108,7 +126,7 @@ describe(`the public school district in ${place.name}, ${place.state} (seed ${se
       expect(job.hourlyMinor).toBe(hourly);
     }
     const core = createLifeCore(input);
-    advanceCore(core, "2021-02-15");
+    advanceCore(core, daysAfterStart(45));
     const attended = [...core.work.lastAttendanceByJob.keys()].filter((id) =>
       jobs.some((job) => job.id === id),
     );

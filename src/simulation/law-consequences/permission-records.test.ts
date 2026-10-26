@@ -1,7 +1,7 @@
 import { createWorkItem } from "../time-work";
 import type { LawEffectContext } from "../law-effect-stamp";
 import { describe, expect, it } from "vitest";
-import { makeIsoDate, makeSimulationMoment } from "../dates";
+import { makeIsoDate, makeSimulationMoment } from "../../core2/kernel/dates";
 import { lawInForce } from "../governing/law-in-force";
 import { createHousehold, createOrganization } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
@@ -10,6 +10,7 @@ import { createProductionPolicyCatalog } from "../production-catalog";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {
   assertWorldIntegrity,
+  assertWorldIntegrityFully,
   createWorld,
   createWorldId,
   advanceWorld,
@@ -162,7 +163,7 @@ describe("saved law permission family", () => {
     const next = appendLawPermission(world, law, context, input);
     const row = next.history.lawPermissionRecords![0]!;
     expect(() =>
-      assertWorldIntegrity({
+      assertWorldIntegrityFully({
         ...next,
         history: {
           ...next.history,
@@ -173,7 +174,7 @@ describe("saved law permission family", () => {
       }),
     ).toThrow(/sequence/);
     expect(() =>
-      assertWorldIntegrity({
+      assertWorldIntegrityFully({
         ...next,
         history: {
           ...next.history,
@@ -182,7 +183,7 @@ describe("saved law permission family", () => {
       }),
     ).toThrow(/identity/);
     expect(() =>
-      assertWorldIntegrity({
+      assertWorldIntegrityFully({
         ...next,
         history: {
           ...next.history,

@@ -1,5 +1,5 @@
-import { ageOnDate } from "./dates";
-import { stableHash } from "./ids";
+import { ageOnDate } from "../core2/kernel/dates";
+import { stableHash } from "../core2/kernel/ids";
 import { spreadOf, type Spread } from "./sample-spread";
 import type { EntityId, World } from "./types";
 import censusFamilyEstimate from "../../data/research/family-shape/census-two-parent-share.json" with { type: "json" };

@@ -1,11 +1,12 @@
 {
   "schema": "english-parts/1",
   "register": "bring-it-up",
-  "description": "People bringing up a change and who they believe caused it: the change, the blame from the record, from what they were told or assumed, and the hearer's answer. Every part is a whole sentence said in public-domain federal transcripts, counted also against the WPA life histories. The facts are slots from the event and blame records.",
+  "description": "People bringing up a change and who they believe caused it: the change, the blame from the record, from what they were told or assumed, and the hearer's answer. Every part is a whole sentence said in public-domain federal transcripts, counted also against the WPA life histories. The facts are slots from the event and blame records. A part's bearing is the manner its wording carries; the speaker's traits pull toward the bearings they favor.",
   "slots": {
     "subject": "The place or business that changed, from the event record.",
     "whose": "Who made the change, with the possessive, from the event or blame record.",
-    "who": "Who made the change, by name, from the event or blame record."
+    "who": "Who made the change, by name, from the event or blame record.",
+    "topic": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record."
   },
   "maxWords": 10,
   "mining": {
@@ -91,6 +92,10 @@
         "granule": "CHRG-117hhrg47066",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg47066/html/CHRG-117hhrg47066.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
       }
     },
     {
@@ -117,6 +122,10 @@
         "granule": "CHRG-118hhrg55545",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55545/html/CHRG-118hhrg55545.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
       }
     },
     {
@@ -146,6 +155,10 @@
         "granule": "CHRG-118hhrg54742",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54742/html/CHRG-118hhrg54742.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
       }
     },
     {
@@ -177,7 +190,12 @@
         "granule": "DCPD-202600429",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600429/html/DCPD-202600429.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "bearing": "solemn"
     },
     {
       "key": "bring-it-up.blame-record-record.that-was-whose-doing",
@@ -204,7 +222,11 @@
         "granule": "hubble-space-telescope-rothenbergjr-9-27-16",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/03/rothenbergjr-9-27-16.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "calm"
     },
     {
       "key": "bring-it-up.blame-record-record.it-was-whose-decision",
@@ -232,7 +254,11 @@
         "granule": "CHRG-114jhrg23027",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-114jhrg23027/html/CHRG-114jhrg23027.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "calm"
     },
     {
       "key": "bring-it-up.blame-record-record.its-whose-fault",
@@ -259,7 +285,11 @@
         "granule": "DCPD-202500755",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500755/html/DCPD-202500755.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-record-record.thats-on-who",
@@ -285,7 +315,11 @@
         "granule": "DCPD-202600504",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600504/html/DCPD-202600504.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-record-record.who-did-that",
@@ -323,7 +357,11 @@
         "granule": "DCPD-202600446",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600446/html/DCPD-202600446.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-record-record.who-is-responsible",
@@ -350,7 +388,11 @@
         "granule": "DCPD-202400109",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202400109/html/DCPD-202400109.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "calm"
     },
     {
       "key": "bring-it-up.blame-record-record.who-is-to-blame",
@@ -377,7 +419,11 @@
         "granule": "DCPD-202500850",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500850/html/DCPD-202500850.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-assumed-assumed.i-think-it-was-who",
@@ -417,7 +463,11 @@
         "granule": "DCPD-202600487",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "nervous"
     },
     {
       "key": "bring-it-up.blame-assumed-assumed.it-must-have-been-who",
@@ -445,7 +495,11 @@
         "granule": "DCPD-202300291",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202300291/html/DCPD-202300291.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "curious"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.i-dont-know-who-did-it",
@@ -474,6 +528,9 @@
         "granule": "DCPD-201900352",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201900352/html/DCPD-201900352.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer"
       }
     },
     {
@@ -518,7 +575,11 @@
         "granule": "DCPD-202600199",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600199/html/DCPD-202600199.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "answer"
+      },
+      "bearing": "nervous"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.nobody-knows-why",
@@ -544,6 +605,9 @@
         "granule": "DCPD-202600434",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600434/html/DCPD-202600434.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer"
       }
     },
     {
@@ -580,7 +644,11 @@
         "granule": "DCPD-202600074",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600074/html/DCPD-202600074.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "answer"
+      },
+      "bearing": "nervous"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.nobody-knows",
@@ -611,7 +679,11 @@
         "granule": "DCPD-202600208",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600208/html/DCPD-202600208.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "answer"
+      },
+      "bearing": "guarded"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.i-have-no-idea",
@@ -654,7 +726,11 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "answer"
+      },
+      "bearing": "guarded"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.i-dont-know",
@@ -707,7 +783,11 @@
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "answer"
+      },
+      "bearing": "guarded"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.who-knows",
@@ -747,7 +827,11 @@
         "granule": "DCPD-202600568",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600568/html/DCPD-202600568.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "answer"
+      },
+      "bearing": "guarded"
     },
     {
       "key": "bring-it-up.blame-hearer-react.really",
@@ -795,7 +879,11 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "react"
+      },
+      "bearing": "curious"
     },
     {
       "key": "bring-it-up.blame-hearer-react.is-that-right",
@@ -841,7 +929,11 @@
         "granule": "DCPD-202600546",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600546/html/DCPD-202600546.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "react"
+      },
+      "bearing": "curious"
     },
     {
       "key": "bring-it-up.blame-hearer-react.thats-too-bad",
@@ -874,7 +966,11 @@
         "granule": "DCPD-202600518",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600518/html/DCPD-202600518.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "react"
+      },
+      "bearing": "tender"
     },
     {
       "key": "bring-it-up.blame-hearer-react.thats-a-shame",
@@ -906,7 +1002,11 @@
         "granule": "DCPD-202600153",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600153/html/DCPD-202600153.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "react"
+      },
+      "bearing": "tender"
     },
     {
       "key": "bring-it-up.blame-hearer-react.thats-terrible",
@@ -938,7 +1038,11 @@
         "granule": "DCPD-202600446",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600446/html/DCPD-202600446.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "react"
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-hearer-react.i-didnt-know-that",
@@ -982,7 +1086,11 @@
         "granule": "DCPD-202600487",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "react"
+      },
+      "bearing": "curious"
     },
     {
       "key": "bring-it-up.blame-hearer-react.i-hadnt-heard-that",
@@ -1012,6 +1120,9 @@
         "granule": "DCPD-202600211",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600211/html/DCPD-202600211.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "react"
       }
     },
     {
@@ -1039,6 +1150,9 @@
         "granule": "DCPD-202500864",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500864/html/DCPD-202500864.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "react"
       }
     },
     {
@@ -1068,6 +1182,9 @@
         "granule": "DCPD-202600517",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600517/html/DCPD-202600517.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "react"
       }
     },
     {
@@ -1097,7 +1214,99 @@
         "granule": "DCPD-202501018",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202501018/html/DCPD-202501018.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "react"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.i-read-in-subject-about-topic",
+      "move": "change-news.read-read",
+      "text": "I read in {subject} about {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.subject-had-a-story-about-topic",
+      "move": "change-news.read-read",
+      "text": "{subject} had a story about {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.i-saw-subject-ran-a-story-on-topic",
+      "move": "change-news.read-read",
+      "text": "I saw {subject} ran a story on {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.there-was-something-in-subject-about-top",
+      "move": "change-news.read-read",
+      "text": "There was something in {subject} about {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
     }
   ]
 }

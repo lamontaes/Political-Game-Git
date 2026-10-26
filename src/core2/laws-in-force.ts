@@ -26,6 +26,7 @@ export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
   "minimum-wage": "floor",
   "income-tax": "additive",
   "sales-tax": "additive",
+  "corporate-income-tax": "additive",
   "property-tax": "single",
   "snap-maximum": "single",
   "unemployment-weekly-maximum": "single",
@@ -111,7 +112,9 @@ function levelRow(
     }
   }
   // A statute enacted in play amends the level's law outright: from its
-  // effective date it replaces any older row, tiered or not.
+  // effective date it replaces any older row, tiered or not, and it stands
+  // against a row the data dated later (the seed is not a prewritten future
+  // that ignores what the town decided); only a later enactment replaces it.
   const enacted = rows
     .filter(
       (row) =>
@@ -121,9 +124,7 @@ function levelRow(
         inForceOn(row, date),
     )
     .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-  if (enacted && (!best || enacted.effectiveDate >= best.effectiveDate))
-    return enacted;
-  return best;
+  return enacted ?? best;
 }
 
 /** Whether the state lets its places set their own rule on a series. */
@@ -133,9 +134,14 @@ export function localAuthority(
   chain: LawChain,
   date: string,
 ): { allowed: boolean; measureId: string | null; preempts: boolean } {
-  const starting = authorityRows.find(
+  // A statute enacted in play amends the state's grant outright (`levelRow`'s
+  // rule): its row competes with the questions the state answered by date, as
+  // an enacted law; the research's row is the law in force at the start.
+  const inState = authorityRows.filter(
     (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
   );
+  const amended = inState.filter((row) => row.terms?.enactedBy !== undefined);
+  const starting = inState.find((row) => row.terms?.enactedBy === undefined);
   const candidate = (
     answer: "yes" | "no",
     measureId: string,
@@ -154,11 +160,31 @@ export function localAuthority(
     ...(preempts === undefined ? {} : { preempts }),
   });
   const law = lawInForceFromCandidates({
-    enacted: enacted
-      .filter((e) => e.jurisdiction === chain.stateKey && e.operativeAt <= date)
-      .map((e) =>
-        candidate(e.answer, e.measureId, e.operativeAt, "enacted", e.sequence),
+    enacted: [
+      ...enacted
+        .filter(
+          (e) => e.jurisdiction === chain.stateKey && e.operativeAt <= date,
+        )
+        .map((e) =>
+          candidate(
+            e.answer,
+            e.measureId,
+            e.operativeAt,
+            "enacted",
+            e.sequence,
+          ),
+        ),
+      ...amended.map((row) =>
+        candidate(
+          row.value === 1 ? "yes" : "no",
+          row.id,
+          row.effectiveDate,
+          "enacted",
+          Number(row.terms?.enactedSequence ?? 0),
+          row.terms?.preempts === true,
+        ),
       ),
+    ],
     starting: starting
       ? candidate(
           starting.value === 1 ? "yes" : "no",

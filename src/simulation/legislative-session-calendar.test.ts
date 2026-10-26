@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
-import stateSessionCalendar from "../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import stateSessionCalendar from "../../data/research/laws/state-session-calendars.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import {
   nextSessionCalendarDate,
@@ -17,7 +17,7 @@ import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./nationwide-world/state-executiv
 import { lifePlaceByKey, stateJurisdictionForKey } from "./life-places";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { createWorld } from "./world";
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 
 describe("one legislative session timetable", () => {
   it("schedules the DC body's existing fourteen-day row once without inventing a vote", () => {
@@ -231,11 +231,18 @@ describe("one legislative session timetable", () => {
     );
     const firstSession = (
       stateSessionCalendar as unknown as {
-        readonly regularSessions: Readonly<
-          Record<string, readonly { readonly conveneAt: string }[]>
+        readonly places: Readonly<
+          Record<
+            string,
+            {
+              readonly years: Readonly<
+                Record<string, { readonly sessions: { conveneAt: string }[] }>
+              >;
+            }
+          >
         >;
       }
-    ).regularSessions[`US-${placeKey}`]?.[0];
+    ).places[`US-${placeKey}`]?.years["2026"]?.sessions[0];
     expect(due.map((row) => row.dueAt)).toEqual([
       "2026-12-01",
       firstSession?.conveneAt ?? "2026-02-15",

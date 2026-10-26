@@ -1,8 +1,8 @@
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { lawInForce } from "./governing/law-in-force";
 import { stateJurisdictionForKey } from "./life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { activePartnershipsAt } from "./life-queries";
 import { scheduleFutureDueItem } from "./future-transitions";
 import type {

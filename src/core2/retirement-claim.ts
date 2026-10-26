@@ -6,11 +6,11 @@
  * shared trait table, when the caller supplies the lean).
  * No roll decides it: the same person always claims at the same age.
  */
-import ages from "./data/social-security-ages.json" with { type: "json" };
-import { stopgap } from "./stopgaps";
+import type { SocialSecurityAges } from "./social-security-law";
 
 export interface ClaimContext {
-  birthYear: number;
+  /** The law's ages for this person: from the law in force, or as enacted on day one. */
+  ages: SocialSecurityAges;
   /** Months the household's cash covers its living costs. */
   bufferMonths: number;
   /**
@@ -35,12 +35,26 @@ export interface ClaimWeights {
   fullBufferMonths: number;
 }
 
-/** The full retirement age, in months, for a birth year (Social Security Act §216(l)). */
-export function fullRetirementAgeMonths(birthYear: number): number {
-  stopgap(ages.stopgapId);
-  const row = ages.fullRetirementAge.find((r) => birthYear <= r.bornThrough);
-  if (!row) throw new Error(`No full retirement age for ${birthYear}`);
-  return row.ageMonths;
+/**
+ * The case for claiming after the full retirement age before personality, in
+ * units of patience: the anchor and the pull of thin savings, over the years
+ * one unit of patience moves the claim. Positive patience beyond it waits past
+ * the full retirement age, so the claim age is a two-way score at the
+ * decision's trait weight (`scripts/traits/trait-calibrate.ts` fits that
+ * weight against the study of claiming age).
+ */
+export function claimWaitCase(
+  bufferMonths: number,
+  weights: ClaimWeights,
+): number {
+  const need = Math.max(
+    0,
+    1 - Math.max(0, bufferMonths) / weights.fullBufferMonths,
+  );
+  return weights.traitPullYears > 0
+    ? (-weights.anchorYearsBeforeFull - need * weights.needPullYears) /
+        weights.traitPullYears
+    : 0;
 }
 
 /** The claim age in months, inside the law's bounds. */
@@ -48,7 +62,7 @@ export function retirementClaimAgeMonths(
   context: ClaimContext,
   weights: ClaimWeights,
 ): number {
-  const full = fullRetirementAgeMonths(context.birthYear);
+  const { earliestMonths, fullMonths: full, delayedMaxMonths } = context.ages;
   const patience =
     context.patience ??
     ((context.deliberation ?? 0) +
@@ -64,8 +78,5 @@ export function retirementClaimAgeMonths(
     patience * weights.traitPullYears -
     need * weights.needPullYears;
   const months = Math.round(full + years * 12);
-  return Math.max(
-    ages.earliestClaimAgeMonths,
-    Math.min(ages.latestCreditAgeMonths, months),
-  );
+  return Math.max(earliestMonths, Math.min(delayedMaxMonths, months));
 }

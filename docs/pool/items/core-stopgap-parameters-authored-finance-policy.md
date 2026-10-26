@@ -1,0 +1,31 @@
+---
+id: core-stopgap-parameters-authored-finance-policy
+title: "Stopgaps in parameters (authored-finance-policy): 1 open"
+area: core
+kind: stopgap
+priority: 3
+status: dropped
+claimed-by:
+pr: #5375
+after: core-delete-funding-plan-calculator
+blocked-on:
+milestone:
+source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind authored-finance-policy"
+claimed-at:
+---
+
+**What.** Replace or clear the 1 open authored-finance-policy stopgap row(s) in src/core2/data/parameters.json: SG-P8-business-books-credit-policy. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+
+**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+
+**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+
+**Files.** src/core2/data/parameters.json
+
+**Notes.** First row: Partial finite facility draws, cash-surplus repayment policy and primary binding-shortage labels. A plan's closing evidence is not an executed closure or loan approval.
+
+Oct 20 (claude/stopgap-finance-policy): partial. `planBusinessFunding` and its reason strings were an unused pure calculator (no caller outside its own tests) and are deleted. The row stays open because `finishFinanceDay` in src/core2/finance-state.ts still repays each borrower's facilities from half of its cash (`businessRepaymentShare`, TUNABLE); that authored policy needs a repayment decision from the firm's need, the lender's terms and claim priority.
+
+The unused-calculator cleanup is tracked separately in core-delete-funding-plan-calculator (PR #5375). This parent remains for the live repayment policy and keeps its original one-year acceptance. The cleanup gates it until the shared-branch change merges.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

@@ -9,8 +9,8 @@
  *   npx tsx src/director/tooling/grading-batch.ts --output <file.md> <seed> ...
  */
 import { writeFileSync } from "node:fs";
-import { addDays, ageOnDate, makeIsoDate } from "../../simulation/dates";
-import type { EngineTextOrigin } from "../../presentation/runtime-text-origin";
+import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
+import type { EngineTextOrigin } from "../../english/runtime-text-origin";
 import { enrichCivicInputs } from "../../core2/civic-inputs";
 import { buildDeepPast } from "../../core2/deep-past";
 import { initialFocusPeople } from "../../core2/focus";
@@ -100,8 +100,8 @@ for (const drawn of seeds) {
     if (n > 12) break;
     const talk = openConversation(core, player.id, otherId);
     for (let turn = 0; turn < 3 && talk.choices.length; turn += 1) {
-      if (talk.lie && !lied) {
-        say(core, talk, talk.lie.key);
+      if (talk.lies.length && !lied) {
+        say(core, talk, talk.lies[0]!.key);
         lied = true;
         break;
       }
@@ -118,9 +118,6 @@ for (const drawn of seeds) {
   };
   const terms = {
     filedWith: "City Clerk",
-    feeMinor: 2500,
-    signatures: 50,
-    feeInLieuOfSignatures: true,
     source: "fixture",
   };
   pickContest(

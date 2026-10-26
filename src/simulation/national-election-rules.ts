@@ -1,5 +1,8 @@
 import { STATES } from "./state-reference";
-import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
+import {
+  makeIsoDate,
+  simulationMomentAtLocalTime,
+} from "../core2/kernel/dates";
 
 /** Reviewed 2026-09-13. NARA expressly limits this allocation to 2024 and 2028. */
 export const NATIONAL_ELECTION_SOURCES = {

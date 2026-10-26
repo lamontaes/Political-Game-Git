@@ -35,7 +35,7 @@ import type { LawAmountUnit } from "./law-consequence-types";
 import { organizationProfileAt } from "./life-queries";
 import { measureAnswersAt } from "./vote-bundle";
 import { operativeDateForEnactment } from "./legislative-effective-date";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   statuteEffectiveDateEstimated,
   type StatuteDateContext,

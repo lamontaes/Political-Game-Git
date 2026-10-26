@@ -16,7 +16,8 @@
     "name": "A person, by name, from the records.",
     "whose": "A person's name with 's, from the records.",
     "votes": "A vote margin, from the results record.",
-    "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections)."
+    "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections).",
+    "named": "A relative by relation and given name (\"my daughter Jane\"), or a person by name, from the family record."
   },
   "maxWords": 10,
   "mining": {
@@ -100,6 +101,15 @@
         "usa-gov": 260
       },
       "note": "Moves added on the second run (a day, a law taking effect, a funeral, voting, results, filing, campaigning, taking office) were mined against the rebuilt corpus and merged into the first run's parts."
+    },
+    "memoir": {
+      "shapes": "scripts/english-corpus/shapes/journal.json (groups memoir-*)",
+      "read": {
+        "NASA oral histories": 981,
+        "U.S. House oral histories": 107,
+        "U.S. Senate oral histories": 7
+      },
+      "notAttested": 444
     }
   },
   "parts": [
@@ -152,6 +162,10 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -182,13 +196,17 @@
         "nasa2": 1,
         "nps": 4
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "DREAM DEFERRED: THE URGENT NEED TO PROTECT IMMIGRANT YOUTH",
         "date": "2024-05-08",
         "granule": "CHRG-118shrg60168",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60168/html/CHRG-118shrg60168.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -224,13 +242,17 @@
         "nps": 2,
         "wpa": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "NATIVE AMERICAN EDUCATION: EXAMINING FEDERAL PROGRAMS AT THE U.S. DEPARTMENT OF EDUCATION",
         "date": "2025-04-02",
         "granule": "CHRG-119shrg60554",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60554/html/CHRG-119shrg60554.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -268,13 +290,17 @@
         "nps": 14,
         "wpa": 5
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
         "granule": "DCPD-202600423",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600423/html/DCPD-202600423.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -302,13 +328,17 @@
         "hearings": 1,
         "wpa": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "NOMINATIONS OF THE HONORABLE",
         "date": "2022-03-02",
         "granule": "CHRG-117shrg50069",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg50069/html/CHRG-117shrg50069.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -354,6 +384,10 @@
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -384,13 +418,17 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "nasa": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "NASA JSC Oral History Project: David J. Homan (Engineer, Shuttle RMS, MPAD; Manager, Space Station Freedom Level II; Manager, Space Station Level III Functional Area for assembly; Critical Evaluation Task Force (following the Challenger accident); Manager, Manager, Virtual Reality Lab)",
         "date": "2023-06-14",
         "granule": "jsc-homand-6-14-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/homand-6-14-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -430,6 +468,10 @@
         "granule": "naca-domecg-2-19-15",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/domecg-2-19-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -485,6 +527,10 @@
         "granule": "DCPD-202400087",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202400087/html/DCPD-202400087.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -522,6 +568,10 @@
         "granule": "npgallery-c37bf8ab",
         "url": "https://npgallery.nps.gov/AssetDetail/c37bf8ab-dac6-4c47-9fb5-ede3de0238c1",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -559,6 +609,10 @@
         "granule": "discovery-and-new-frontiers-bartelsa-6-16-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/04/bartelsa-6-16-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -596,6 +650,10 @@
         "granule": "nara-staff-oral-history-interview-with-john-celardo",
         "url": "https://www.archives.gov/files/about/history/oral-history-interview-with-john-celardo.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -630,6 +688,10 @@
         "granule": "DCPD-202300667",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -655,90 +717,16 @@
       "bySource": {
         "house": 2
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
-        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001\u20132007",
+        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001–2007",
         "date": "2019-09-30",
         "granule": "house-oh-hart",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/hart-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "journal.family-line-born.other-was-born",
-      "move": "family-line-born",
-      "kind": "spoken",
-      "text": "{other} was born.",
-      "uses": [
-        {
-          "move": "family-line-born",
-          "subject": "family",
-          "role": "line",
-          "choice": "born",
-          "journal": [
-            {
-              "kindPrefix": "family:child",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 34,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "blm": 1,
-        "crec": 19,
-        "dcpd": 3,
-        "hearings": 1,
-        "nasa": 2,
-        "nasa2": 3,
-        "nps": 2,
-        "wpa": 2
       },
-      "shippable": true,
-      "source": {
-        "document": "Trails Center welcomes special guest, Yufna Soldier Wolf, on May 27",
-        "date": "2023-05-19",
-        "granule": "blm-2023-05-19-trails-center-welcomes-special-guest-yufna-soldier-wolf-on-m-f320494c",
-        "url": "https://www.blm.gov/press-release/trails-center-welcomes-special-guest-yufna-soldier-wolf-may-27",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "journal.family-line-born.relation-was-born",
-      "move": "family-line-born",
-      "kind": "spoken",
-      "text": "{relation} was born.",
-      "uses": [
-        {
-          "move": "family-line-born",
-          "subject": "family",
-          "role": "line",
-          "choice": "born",
-          "journal": [
-            {
-              "kindPrefix": "family:child",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 2,
-        "house": 1,
-        "nasa2": 1,
-        "nps": 3,
-        "wpa": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks at the National Republican Congressional Committee Annual Fundraising Dinner",
-        "date": "2026-03-25",
-        "granule": "DCPD-202600207",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600207/html/DCPD-202600207.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -771,6 +759,10 @@
         "granule": "CHRG-118shrg57241",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg57241/html/CHRG-118shrg57241.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -802,6 +794,10 @@
         "granule": "npgallery-67faf0d3",
         "url": "https://npgallery.nps.gov/AssetDetail/67faf0d3-31b0-44ae-9d50-06b018825613",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -843,6 +839,10 @@
         "granule": "CHRG-117shrg47697",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg47697/html/CHRG-117shrg47697.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -883,6 +883,10 @@
         "granule": "CHRG-119hhrg60446",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60446/html/CHRG-119hhrg60446.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -917,6 +921,10 @@
         "granule": "DCPD-202201007",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202201007/html/DCPD-202201007.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -951,6 +959,10 @@
         "granule": "CHRG-119shrg58614",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg58614/html/CHRG-119shrg58614.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -977,13 +989,17 @@
         "U.S. Senate Historical Office oral history": 1,
         "nasa2": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "John P. Andrews oral history (discovery-and-new-frontiers collection)",
         "date": "2023-09-29",
         "granule": "discovery-and-new-frontiers-andrewsjp-9-29-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/09/andrewsjp-9-29-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -1016,11 +1032,15 @@
       },
       "shippable": true,
       "source": {
-        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community\u2019s Vision and Support for Proposed National Park System Additions in Alabama",
+        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community’s Vision and Support for Proposed National Park System Additions in Alabama",
         "date": "2016-10-28",
         "granule": "doi-2016-10-28-secretary-jewell-national-park-service-director-jarvis-hear-98df7a13",
         "url": "https://www.doi.gov/pressreleases/secretary-jewell-national-park-service-director-jarvis-hear-communitys-vision-and",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -1057,13 +1077,17 @@
         "nps.gov": 1,
         "wpa": 7
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
         "date": "2020-04-05",
         "granule": "WH-2020-04-05-remarks-president-trump-vice-president-pence-members-coronavirus-task",
         "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-19/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -1097,6 +1121,9 @@
         "granule": "CHRG-117jhrg45176",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117jhrg45176/html/CHRG-117jhrg45176.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1138,6 +1165,9 @@
         "granule": "DCPD-202600481",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600481/html/DCPD-202600481.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1180,6 +1210,9 @@
         "granule": "DCPD-202600196",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600196/html/DCPD-202600196.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1213,6 +1246,9 @@
         "granule": "jsc-mcarthurws-5-29-18",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/mcarthurws-5-29-18.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1248,6 +1284,9 @@
         "granule": "CHRG-117shrg59798",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg59798/html/CHRG-117shrg59798.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1291,6 +1330,9 @@
         "granule": "DCPD-202600440",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600440/html/DCPD-202600440.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1329,6 +1371,9 @@
         "granule": "jsc-larsonh-myersd-1-29-20",
         "url": "https://www.nasa.gov/wp-content/uploads/2026/05/larsonh-myersd-1-29-20.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1369,6 +1414,10 @@
         "granule": "DCPD-202600192",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600192/html/DCPD-202600192.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1410,6 +1459,10 @@
         "granule": "DCPD-202400750",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202400750/html/DCPD-202400750.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1443,6 +1496,10 @@
         "granule": "CHRG-118hhrg54614",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54614/html/CHRG-118hhrg54614.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1480,6 +1537,10 @@
         "granule": "CREC-2019-12-04-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2019-12-04",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "threat"
       }
     },
     {
@@ -1515,6 +1576,10 @@
         "granule": "DCPD-202300576",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202300576/html/DCPD-202300576.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "threat"
       }
     },
     {
@@ -1549,6 +1614,10 @@
         "granule": "DCPD-202100350",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202100350/html/DCPD-202100350.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "threat"
       }
     },
     {
@@ -1568,6 +1637,18 @@
               "field": "line"
             }
           ]
+        },
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -1582,6 +1663,9 @@
         "granule": "CHRG-114hhrg94158",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg94158/html/CHRG-114hhrg94158.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1615,6 +1699,9 @@
         "granule": "DCPD-202600133",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600133/html/DCPD-202600133.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1648,6 +1735,9 @@
         "granule": "DCPD-202500925",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500925/html/DCPD-202500925.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1693,6 +1783,10 @@
         "granule": "DCPD-202501179",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202501179/html/DCPD-202501179.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1725,6 +1819,10 @@
         "granule": "CHRG-119shrg62164",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62164/html/CHRG-119shrg62164.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1753,6 +1851,10 @@
         "granule": "DCPD-202600392",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600392/html/DCPD-202600392.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1781,6 +1883,10 @@
         "granule": "DCPD-202600385",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600385/html/DCPD-202600385.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1809,6 +1915,10 @@
         "granule": "CREC-2025-01-21-house",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-01-21",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1838,6 +1948,10 @@
         "granule": "CHRG-116hhrg38182",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg38182/html/CHRG-116hhrg38182.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1867,6 +1981,10 @@
         "granule": "DCPD-201900719",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201900719/html/DCPD-201900719.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1913,6 +2031,9 @@
         "granule": "DCPD-202600281",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600281/html/DCPD-202600281.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -1955,6 +2076,9 @@
         "granule": "DCPD-202600594",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600594/html/DCPD-202600594.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -1990,6 +2114,9 @@
         "granule": "CHRG-114shrg21989",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-114shrg21989/html/CHRG-114shrg21989.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -2023,6 +2150,9 @@
         "granule": "CHRG-115hhrg27211",
         "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg27211",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2056,6 +2186,9 @@
         "granule": "DCPD-201900691",
         "url": "https://www.govinfo.gov/app/details/DCPD-201900691",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2090,6 +2223,9 @@
         "granule": "DCPD-202200544",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200544",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2125,6 +2261,9 @@
         "granule": "DCPD-202600281",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600281",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2160,6 +2299,9 @@
         "granule": "DCPD-202600015",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600015",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2195,6 +2337,9 @@
         "granule": "DCPD-202600178",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600178",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2229,6 +2374,9 @@
         "granule": "DCPD-202300299",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300299",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2265,6 +2413,9 @@
         "granule": "DCPD-202501102",
         "url": "https://www.govinfo.gov/app/details/DCPD-202501102",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2298,6 +2449,9 @@
         "granule": "lewiscr-6-7-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-7-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2335,6 +2489,9 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600590",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2367,6 +2524,9 @@
         "granule": "shadeel-8-22-18",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/shadeel-8-22-18.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2402,6 +2562,9 @@
         "granule": "DCPD-202600233",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600233",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2437,6 +2600,9 @@
         "granule": "CHRG-119shrg61814",
         "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61814",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2473,6 +2639,9 @@
         "granule": "DCPD-202500744",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500744",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2506,6 +2675,9 @@
         "granule": "geyerms-5-26-21",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-5-26-21.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2536,13 +2708,16 @@
         "chrg": 1,
         "senate": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Senate Budget Committee Mid-Session Hearings Fiscal Year 2016",
         "date": "2015-05-19",
         "granule": "CHRG-114shrg97728",
         "url": "https://www.govinfo.gov/app/details/CHRG-114shrg97728",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2579,6 +2754,9 @@
         "granule": "CHRG-118hhrg54185",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg54185",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2606,13 +2784,17 @@
         "nasa": 9,
         "senate": 2
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Concurrent Receipt Of Survivor",
         "date": "2015-12-09",
         "granule": "CHRG-114hhrg98279",
         "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg98279",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -2649,6 +2831,10 @@
         "granule": "DCPD-202500550",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500550",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -2682,6 +2868,10 @@
         "granule": "CHRG-114hhrg96204",
         "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg96204",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -2715,6 +2905,10 @@
         "granule": "CHRG-116hhrg37627",
         "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg37627",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -2752,6 +2946,9 @@
         "granule": "DCPD-202600518",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600518",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2789,6 +2986,9 @@
         "granule": "DCPD-202600165",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600165",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2826,13 +3026,16 @@
         "granule": "DCPD-202600165",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600165",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-won",
+      "key": "journal.election-other-result.other-won-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} won.",
+      "text": "{other} won the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2847,26 +3050,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 3,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
-        "date": "2025-09-02",
-        "granule": "DCPD-202500885",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500885",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-lost",
+      "key": "journal.election-other-result.other-lost-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} lost.",
+      "text": "{other} lost the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2881,26 +3077,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "dcpd": 5,
-        "news-nws": 1,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Public Information Statement from the National Weather Service Anchorage AK 625 AM AKDT Fri Oct 9 2026",
-        "date": "2026-10-09",
-        "granule": "PAFC-PNS-6e102237",
-        "url": "https://api.weather.gov/products/6e102237-2c3b-4b84-a4c9-5aad2d8979cd",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-was-elected",
+      "key": "journal.election-other-result.other-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} was elected.",
+      "text": "{other} was elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2915,27 +3104,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1,
-        "house": 1,
-        "nasa": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Department Of Defense Fiscal Year 2021 Budget",
-        "date": "2020-03-10",
-        "granule": "CHRG-116hhrg41368",
-        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41368",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-got-elected",
+      "key": "journal.election-other-result.other-got-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} got elected.",
+      "text": "{other} got elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2950,26 +3131,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 4,
-        "nasa": 1,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks at a Campaign Event for Democratic Presidential Nominee Vice President Kamala D. Harris in Pittsburgh, Pennsylvania",
-        "date": "2024-09-02",
-        "granule": "DCPD-202400742",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202400742",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.name-won",
+      "key": "journal.election-other-result.name-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} won.",
+      "text": "{name} was elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2984,26 +3158,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 3,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
-        "date": "2025-09-02",
-        "granule": "DCPD-202500885",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500885",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.name-lost",
+      "key": "journal.election-other-result.name-won-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} lost.",
+      "text": "{name} won the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3018,26 +3185,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "dcpd": 6,
-        "news-nws": 1,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Public Information Statement from the National Weather Service Anchorage AK 625 AM AKDT Fri Oct 9 2026",
-        "date": "2026-10-09",
-        "granule": "PAFC-PNS-6e102237",
-        "url": "https://api.weather.gov/products/6e102237-2c3b-4b84-a4c9-5aad2d8979cd",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.name-was-elected",
+      "key": "journal.election-other-result.name-lost-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} was elected.",
+      "text": "{name} lost the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3052,20 +3212,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1,
-        "house": 1,
-        "nasa": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Department Of Defense Fiscal Year 2021 Budget",
-        "date": "2020-03-10",
-        "granule": "CHRG-116hhrg41368",
-        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41368",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3101,6 +3253,10 @@
         "granule": "DCPD-202600423",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600423",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -3134,6 +3290,10 @@
         "granule": "DCPD-202600300",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600300",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -3166,6 +3326,10 @@
         "granule": "DCPD-202400486",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400486",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -3193,13 +3357,16 @@
         "dcpd": 4,
         "nasa": 3
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks Following a Document Signing Ceremony on Semiconductor Supply and Citizenship and Immigration and an Exchange With Reporters",
         "date": "2026-08-06",
         "granule": "DCPD-202600519",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600519",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3232,6 +3399,9 @@
         "granule": "DCPD-202500556",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500556",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3266,6 +3436,9 @@
         "granule": "geyerm-6-20-19",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerm-6-20-19.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3293,13 +3466,16 @@
         "house": 1,
         "nasa": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "The Family First Prevention Services Act: Successes, Roadblocks, And Opportunities For Improvement",
         "date": "2015-01-01",
         "granule": "CHRG-118shrg64369",
         "url": "https://www.govinfo.gov/app/details/CHRG-118shrg64369",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3315,7 +3491,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.introduced",
               "field": "line"
             }
           ]
@@ -3332,6 +3508,9 @@
         "granule": "CHRG-118hhrg58784",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg58784",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3347,7 +3526,11 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "act:vote-yes",
               "field": "line"
             }
           ]
@@ -3365,6 +3548,9 @@
         "granule": "biden-harris-administration-announces-43716000-water-infrastructure-alabama-through",
         "url": "https://www.epa.gov/newsreleases/biden-harris-administration-announces-43716000-water-infrastructure-alabama-through",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3380,7 +3566,11 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "act:vote-no",
               "field": "line"
             }
           ]
@@ -3397,6 +3587,9 @@
         "granule": "CHRG-115hhrg28970",
         "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg28970",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3412,7 +3605,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-yes",
               "field": "line"
             }
           ]
@@ -3430,6 +3623,9 @@
         "granule": "CHRG-118shrg56441",
         "url": "https://www.govinfo.gov/app/details/CHRG-118shrg56441",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3445,7 +3641,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-no",
               "field": "line"
             }
           ]
@@ -3463,6 +3659,171 @@
         "granule": "CHRG-119hhrg60986",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60986",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-office-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took office as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-office-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-my-seat-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took my seat as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-my-seat-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-held-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I held a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-held-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-hosted-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I hosted a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-hosted-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-gave-an-interview",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I gave an interview.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-gave-an-interview",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-sat-down-with-a-reporter",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I sat down with a reporter.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-sat-down-with-a-reporter",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3497,6 +3858,9 @@
         "granule": "DCPD-201800451",
         "url": "https://www.govinfo.gov/app/details/DCPD-201800451",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3529,6 +3893,2997 @@
         "granule": "DCPD-202600487",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600487",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-when-age.when-i-was-age",
+      "move": "memoir-when-age",
+      "kind": "spoken",
+      "text": "When I was {age}.",
+      "uses": [
+        {
+          "move": "memoir-when-age",
+          "subject": "memoir",
+          "role": "whenAge",
+          "choice": "when-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "whenAge"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "NASA oral histories": 5,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history hurstkj-9-19-22",
+        "date": "2022-09-19",
+        "granule": "nasa-hurstkj-9-19-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/07/hurstkj-9-19-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-when-age.when-i-was-age-years-old",
+      "move": "memoir-when-age",
+      "kind": "spoken",
+      "text": "When I was {age} years old.",
+      "uses": [
+        {
+          "move": "memoir-when-age",
+          "subject": "memoir",
+          "role": "whenAge",
+          "choice": "when-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "whenAge"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 2,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Donna F. Edwards",
+        "date": "2018-06-29",
+        "granule": "house-edwardsd-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/edwardsd-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-age-years-old",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was {age} years old.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 24,
+      "bySource": {
+        "NASA oral histories": 20,
+        "U.S. House oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lewiscr-6-7-22",
+        "date": "2022-06-07",
+        "granule": "nasa-lewiscr-6-7-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-7-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-age",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was {age}.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 32,
+      "bySource": {
+        "NASA oral histories": 22,
+        "U.S. House oral histories": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
+        "date": "2022-06-14",
+        "granule": "house-doyle-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-about-age-years-old",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was about {age} years old.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Donna F. Edwards",
+        "date": "2018-06-29",
+        "granule": "house-edwardsd-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/edwardsd-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-only-age",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was only {age}.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history weilerej-4-4-17",
+        "date": "2017-04-04",
+        "granule": "nasa-weilerej-4-4-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/weilerej-4-4-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-about-age",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was about {age}.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 2,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history griffink-11-13-19",
+        "date": "2019-11-13",
+        "granule": "nasa-griffink-11-13-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-young",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was young.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history bartelsa-6-30-23",
+        "date": "2023-06-30",
+        "granule": "nasa-bartelsa-6-30-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/04/bartelsa-6-30-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-kid",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a kid.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 12,
+      "bySource": {
+        "NASA oral histories": 10,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lawrencedj-1-12-24",
+        "date": "2024-01-12",
+        "granule": "nasa-lawrencedj-1-12-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/07/lawrencedj-1-12-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-child",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a child.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Jennice Fuentes",
+        "date": "2018-12-20",
+        "granule": "house-fuentes-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/fuentes-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-growing-up",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was growing up.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "NASA oral histories": 4,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Patricia Scott Schroeder",
+        "date": "2015-06-03",
+        "granule": "house-schroeder-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/schroeder-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.as-a-child",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "As a child.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history koosrh-8-22-23",
+        "date": "2023-08-22",
+        "granule": "nasa-koosrh-8-22-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-younger",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was younger.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history koosrh-8-24-23",
+        "date": "2023-08-24",
+        "granule": "nasa-koosrh-8-24-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-24-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-in-high-school",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was in high school.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "NASA oral histories": 4,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Barbara Bailey Kennelly",
+        "date": "2015-09-09",
+        "granule": "house-kennelly-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kennelly-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-little-kid",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a little kid.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history saltzmanej-2-17-15",
+        "date": "2015-02-17",
+        "granule": "nasa-saltzmanej-2-17-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/saltzmanej-2-17-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-senior-in-high-school",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a senior in high school.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lousmagk-7-10-19",
+        "date": "2019-07-10",
+        "granule": "nasa-lousmagk-7-10-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lousmagk-7-10-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-junior-in-high-school",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a junior in high school.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history weisskopfga-10-24-19",
+        "date": "2019-10-24",
+        "granule": "nasa-weisskopfga-10-24-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/weisskopfga-10-24-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-in-college",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was in college.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "NASA oral histories": 7,
+        "U.S. House oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history boruckiwj-3-20-24",
+        "date": "2024-03-20",
+        "granule": "nasa-boruckiwj-3-20-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/09/boruckiwj-3-20-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-didnt-know-it-at-the-time",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I didn't know it at the time.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "NASA oral histories": 4,
+        "U.S. House oral histories": 3
+      },
+      "shippable": false,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Tony Coelho",
+        "date": "2024-07-22",
+        "granule": "house-coelho-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/coelho-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.ill-never-forget-it",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I'll never forget it.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "NASA oral histories": 6,
+        "U.S. House oral histories": 3,
+        "U.S. Senate oral histories": 2
+      },
+      "shippable": false,
+      "source": {
+        "document": "U.S. House oral history: Brenda Countz",
+        "date": "2024-03-29",
+        "granule": "house-countz-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/countz-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.ill-never-forget-that",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I'll never forget that.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 12,
+      "bySource": {
+        "NASA oral histories": 8,
+        "U.S. House oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
+        "date": "2022-06-14",
+        "granule": "house-doyle-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-didnt-realize-it-at-the-time",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I didn't realize it at the time.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history curleyh-n-2-17-15",
+        "date": "2015-02-17",
+        "granule": "nasa-curleyh-n-2-17-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/curleyh-n-2-17-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-didnt-know-that-at-the-time",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I didn't know that at the time.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
+        "date": "2022-06-14",
+        "granule": "house-doyle-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-didnt-know-at-the-time",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I didn't know at the time.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history hillps-3-24-15",
+        "date": "2015-03-24",
+        "granule": "nasa-hillps-3-24-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hillps-3-24-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.name-was-a-good-friend",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "{name} was a good friend.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history staffordtp-4-23-15",
+        "date": "2015-04-23",
+        "granule": "nasa-staffordtp-4-23-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/staffordtp-4-23-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.name-was-a-friend-of-mine",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "{name} was a friend of mine.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history griffink-11-13-19",
+        "date": "2019-11-13",
+        "granule": "nasa-griffink-11-13-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.i-worked-with-name",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "I worked with {name}.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 34,
+      "bySource": {
+        "NASA oral histories": 29,
+        "U.S. House oral histories": 4,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history jenkinsj-6-18-24",
+        "date": "2024-06-18",
+        "granule": "nasa-jenkinsj-6-18-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/jenkinsj-6-18-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.name-and-i-were-good-friends",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "{name} and I were good friends.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Helen Delich Bentley",
+        "date": "2016-03-21",
+        "granule": "house-bentley-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/bentley-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.i-knew-name-from-school",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "I knew {name} from {school}.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lewiscr-7-6-22",
+        "date": "2022-07-06",
+        "granule": "nasa-lewiscr-7-6-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-7-6-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.we-worked-together",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "We worked together.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "NASA oral histories": 9,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history tersignij-7-12-18",
+        "date": "2018-07-12",
+        "granule": "nasa-tersignij-7-12-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/tersignij-7-12-18.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.we-were-friends",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "We were friends.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "NASA oral histories": 5,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history hirasakip-8-2-23",
+        "date": "2023-08-02",
+        "granule": "nasa-hirasakip-8-2-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hirasakip-8-2-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.we-became-friends",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "We became friends.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history newmh-2-23-22",
+        "date": "2022-02-23",
+        "granule": "nasa-newmh-2-23-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/newmh-2-23-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-decided.so-i-ran",
+      "move": "memoir-decided",
+      "kind": "spoken",
+      "text": "So I ran.",
+      "uses": [
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Sue W. Kelly",
+        "date": "2016-06-23",
+        "granule": "house-kellys-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-hard",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was hard.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 28,
+      "bySource": {
+        "NASA oral histories": 18,
+        "U.S. House oral histories": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lawrencedj-3-22-24",
+        "date": "2024-03-22",
+        "granule": "nasa-lawrencedj-3-22-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lawrencedj-3-22-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-a-tough-time",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was a tough time.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Sue Myrick",
+        "date": "2016-03-14",
+        "granule": "house-myrick-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/myrick-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-a-difficult-time",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was a difficult time.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history diazav-6-6-17",
+        "date": "2017-06-06",
+        "granule": "nasa-diazav-6-6-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/diazav-6-6-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-tough",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was tough.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 26,
+      "bySource": {
+        "NASA oral histories": 23,
+        "U.S. House oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lounsburyja-9-13-23",
+        "date": "2023-09-13",
+        "granule": "nasa-lounsburyja-9-13-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lounsburyja-9-13-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-difficult",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was difficult.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 16,
+      "bySource": {
+        "NASA oral histories": 10,
+        "U.S. House oral histories": 5,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lewiscr-6-28-22",
+        "date": "2022-06-28",
+        "granule": "nasa-lewiscr-6-28-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-28-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.we-got-through-it",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "We got through it.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history geyerms-12-3-20",
+        "date": "2020-12-03",
+        "granule": "nasa-geyerms-12-3-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-12-3-20.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.that-was-hard",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "That was hard.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "NASA oral histories": 13,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history sunshinej-2-25-25",
+        "date": "2025-02-25",
+        "granule": "nasa-sunshinej-2-25-25",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.that-was-tough",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "That was tough.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "NASA oral histories": 11
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history brekkem-8-17-17",
+        "date": "2017-08-17",
+        "granule": "nasa-brekkem-8-17-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/brekkem-8-17-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.that-was-difficult",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "That was difficult.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history saundersmp-5-11-22",
+        "date": "2022-05-11",
+        "granule": "nasa-saundersmp-5-11-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/saundersmp-5-11-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-very-difficult",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was very difficult.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "NASA oral histories": 10,
+        "U.S. House oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history sunshinej-2-25-25",
+        "date": "2025-02-25",
+        "granule": "nasa-sunshinej-2-25-25",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-a-very-difficult-time",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was a very difficult time.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history diazav-6-6-17",
+        "date": "2017-06-06",
+        "granule": "nasa-diazav-6-6-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/diazav-6-6-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-a-terrible-time",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was a terrible time.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Cokie Roberts",
+        "date": "2017-05-25",
+        "granule": "house-roberts-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/roberts-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-rough",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was rough.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history laurettads-8-12-24",
+        "date": "2024-08-12",
+        "granule": "nasa-laurettads-8-12-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/laurettads-8-12-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-really-tough",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was really tough.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history peddiecl-4-27-23",
+        "date": "2023-04-27",
+        "granule": "nasa-peddiecl-4-27-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/peddiecl-4-27-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-became.name-became-office",
+      "move": "memoir-became",
+      "kind": "spoken",
+      "text": "{name} became {office}.",
+      "uses": [
+        {
+          "move": "memoir-became",
+          "subject": "memoir",
+          "role": "became",
+          "choice": "became",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "became"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Shelley Berkley",
+        "date": "2019-07-22",
+        "granule": "house-berkley-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/berkley-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-became.he-later-became-office",
+      "move": "memoir-became",
+      "kind": "spoken",
+      "text": "He later became {office}.",
+      "uses": [
+        {
+          "move": "memoir-became",
+          "subject": "memoir",
+          "role": "became",
+          "choice": "became",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "became"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Gary Hymel",
+        "date": "2022-10-31",
+        "granule": "house-hymel-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.little-did-i-know-what-other-would-do",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "Little did I know what {other} would do next.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.moved-other-away.relation-moved-away",
+      "move": "moved-other-away",
+      "kind": "spoken",
+      "text": "{relation} moved away.",
+      "uses": [
+        {
+          "move": "moved-other-away",
+          "subject": "moved",
+          "role": "other",
+          "choice": "away",
+          "journal": [
+            {
+              "kindPrefix": "event:person.moved-away",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-household-move-line)",
+      "date": "2026-10-16",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.family-line-born.named-was-born",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{named} was born.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 34,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
+        "blm": 1,
+        "crec": 19,
+        "dcpd": 3,
+        "hearings": 1,
+        "nasa": 2,
+        "nasa2": 3,
+        "nps": 2,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Trails Center welcomes special guest, Yufna Soldier Wolf, on May 27",
+        "date": "2023-05-19",
+        "granule": "blm-2023-05-19-trails-center-welcomes-special-guest-yufna-soldier-wolf-on-m-f320494c",
+        "url": "https://www.blm.gov/press-release/trails-center-welcomes-special-guest-yufna-soldier-wolf-may-27",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.family-line-born.we-welcomed-named",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "We welcomed {named}.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ],
+          "subject": "family",
+          "role": "line",
+          "choice": "born"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.family-line-born.named-came-along",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{named} came along.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ],
+          "subject": "family",
+          "role": "line",
+          "choice": "born"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.that-wasn-t-the-last-i-d-see-of-name",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "That wasn't the last I'd see of {name}.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ],
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-would-see-a-lot-more-of-name-after-that",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I would see a lot more of {name} after that.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ],
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.name-would-come-back-into-my-life",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "{name} would come back into my life.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ],
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.i-did-not-know-then-what-name-would-mean-to-me",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "I did not know then what {name} would mean to me.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.i-thought-little-of-name-then",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "I thought little of {name} then.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.name-mattered-more-than-i-knew",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "{name} mattered more than I knew.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-revise.it-began-with-name-though-i-did-not-see-it-then",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "It began with {name}, though I did not see it then.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-main-line)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.home-line-met.i-met-other-in-place",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "I met {other} in {place}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.other-and-i-met-in-place",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "{other} and I met in {place}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.i-first-met-other-in-place",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "I first met {other} in {place}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-roots.my-family-came-from-place",
+      "move": "home-line-roots",
+      "kind": "spoken",
+      "text": "My family came from {place}.",
+      "uses": [
+        {
+          "move": "home-line-roots",
+          "subject": "home",
+          "role": "roots",
+          "choice": "roots",
+          "journal": [
+            {
+              "kindPrefix": "household:roots",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-roots.my-people-came-from-place",
+      "move": "home-line-roots",
+      "kind": "spoken",
+      "text": "My people came from {place}.",
+      "uses": [
+        {
+          "move": "home-line-roots",
+          "subject": "home",
+          "role": "roots",
+          "choice": "roots",
+          "journal": [
+            {
+              "kindPrefix": "household:roots",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-roots.our-family-came-from-place",
+      "move": "home-line-roots",
+      "kind": "spoken",
+      "text": "Our family came from {place}.",
+      "uses": [
+        {
+          "move": "home-line-roots",
+          "subject": "home",
+          "role": "roots",
+          "choice": "roots",
+          "journal": [
+            {
+              "kindPrefix": "household:roots",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-started-a-new-job",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} started a new job.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-got-a-new-job",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} got a new job.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-went-to-work-somewhere-new",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} went to work somewhere new.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-hometown.my-parents-met-in-their-hometown",
+      "move": "home-line-parents-met-hometown",
+      "kind": "spoken",
+      "text": "My parents met in their hometown.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-hometown",
+          "subject": "home",
+          "role": "parents-met-hometown",
+          "choice": "parents-met-hometown",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:hometown",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-hometown.my-parents-met-where-they-both-grew-up",
+      "move": "home-line-parents-met-hometown",
+      "kind": "spoken",
+      "text": "My parents met where they both grew up.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-hometown",
+          "subject": "home",
+          "role": "parents-met-hometown",
+          "choice": "parents-met-hometown",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:hometown",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-hometown.my-parents-knew-each-other-from-home",
+      "move": "home-line-parents-met-hometown",
+      "kind": "spoken",
+      "text": "My parents knew each other from home.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-hometown",
+          "subject": "home",
+          "role": "parents-met-hometown",
+          "choice": "parents-met-hometown",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:hometown",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met.my-parents-met-in-place",
+      "move": "home-line-parents-met",
+      "kind": "spoken",
+      "text": "My parents met in {place}.",
+      "uses": [
+        {
+          "move": "home-line-parents-met",
+          "subject": "home",
+          "role": "parents-met",
+          "choice": "parents-met",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:where-they-lived",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met.my-parents-found-each-other-in-place",
+      "move": "home-line-parents-met",
+      "kind": "spoken",
+      "text": "My parents found each other in {place}.",
+      "uses": [
+        {
+          "move": "home-line-parents-met",
+          "subject": "home",
+          "role": "parents-met",
+          "choice": "parents-met",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:where-they-lived",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met.my-parents-first-met-in-place",
+      "move": "home-line-parents-met",
+      "kind": "spoken",
+      "text": "My parents first met in {place}.",
+      "uses": [
+        {
+          "move": "home-line-parents-met",
+          "subject": "home",
+          "role": "parents-met",
+          "choice": "parents-met",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:where-they-lived",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-school.my-parents-met-in-school",
+      "move": "home-line-parents-met-school",
+      "kind": "spoken",
+      "text": "My parents met in school.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-school",
+          "subject": "home",
+          "role": "parents-met-school",
+          "choice": "parents-met-school",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:school",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-school.my-parents-met-at-school",
+      "move": "home-line-parents-met-school",
+      "kind": "spoken",
+      "text": "My parents met at school.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-school",
+          "subject": "home",
+          "role": "parents-met-school",
+          "choice": "parents-met-school",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:school",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parents-met-school.my-parents-knew-each-other-from-school",
+      "move": "home-line-parents-met-school",
+      "kind": "spoken",
+      "text": "My parents knew each other from school.",
+      "uses": [
+        {
+          "move": "home-line-parents-met-school",
+          "subject": "home",
+          "role": "parents-met-school",
+          "choice": "parents-met-school",
+          "journal": [
+            {
+              "kindPrefix": "household:parents-met:school",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-raised-by.named-raised-me",
+      "move": "home-line-raised-by",
+      "kind": "spoken",
+      "text": "{named} raised me.",
+      "uses": [
+        {
+          "move": "home-line-raised-by",
+          "subject": "home",
+          "role": "raised-by",
+          "choice": "raised-by",
+          "journal": [
+            {
+              "kindPrefix": "household:raised-by",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-raised-by.i-grew-up-with-named",
+      "move": "home-line-raised-by",
+      "kind": "spoken",
+      "text": "I grew up with {named}.",
+      "uses": [
+        {
+          "move": "home-line-raised-by",
+          "subject": "home",
+          "role": "raised-by",
+          "choice": "raised-by",
+          "journal": [
+            {
+              "kindPrefix": "household:raised-by",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-raised-by.i-was-raised-by-named",
+      "move": "home-line-raised-by",
+      "kind": "spoken",
+      "text": "I was raised by {named}.",
+      "uses": [
+        {
+          "move": "home-line-raised-by",
+          "subject": "home",
+          "role": "raised-by",
+          "choice": "raised-by",
+          "journal": [
+            {
+              "kindPrefix": "household:raised-by",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.named-lived-apart-from-us",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "{named} lived apart from us.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "parent-apart",
+          "choice": "parent-apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.named-lived-somewhere-else",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "{named} lived somewhere else.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "parent-apart",
+          "choice": "parent-apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.named-did-not-live-with-us",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "{named} did not live with us.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "parent-apart",
+          "choice": "parent-apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-older.named-was-born-before-me",
+      "move": "home-line-sibling-older",
+      "kind": "spoken",
+      "text": "{named} was born before me.",
+      "uses": [
+        {
+          "move": "home-line-sibling-older",
+          "subject": "home",
+          "role": "sibling-older",
+          "choice": "sibling-older",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-older.named-is-older-than-i-am",
+      "move": "home-line-sibling-older",
+      "kind": "spoken",
+      "text": "{named} is older than I am.",
+      "uses": [
+        {
+          "move": "home-line-sibling-older",
+          "subject": "home",
+          "role": "sibling-older",
+          "choice": "sibling-older",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-older.named-came-before-me",
+      "move": "home-line-sibling-older",
+      "kind": "spoken",
+      "text": "{named} came before me.",
+      "uses": [
+        {
+          "move": "home-line-sibling-older",
+          "subject": "home",
+          "role": "sibling-older",
+          "choice": "sibling-older",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-twin.named-and-i-are-twins",
+      "move": "home-line-sibling-twin",
+      "kind": "spoken",
+      "text": "{named} and I are twins.",
+      "uses": [
+        {
+          "move": "home-line-sibling-twin",
+          "subject": "home",
+          "role": "sibling-twin",
+          "choice": "sibling-twin",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-twin",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-twin.named-and-i-were-born-the-same-day",
+      "move": "home-line-sibling-twin",
+      "kind": "spoken",
+      "text": "{named} and I were born the same day.",
+      "uses": [
+        {
+          "move": "home-line-sibling-twin",
+          "subject": "home",
+          "role": "sibling-twin",
+          "choice": "sibling-twin",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-twin",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-born.named-was-born-after-me",
+      "move": "home-line-sibling-born",
+      "kind": "spoken",
+      "text": "{named} was born after me.",
+      "uses": [
+        {
+          "move": "home-line-sibling-born",
+          "subject": "home",
+          "role": "sibling-born",
+          "choice": "sibling-born",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-born.named-joined-the-family",
+      "move": "home-line-sibling-born",
+      "kind": "spoken",
+      "text": "{named} joined the family.",
+      "uses": [
+        {
+          "move": "home-line-sibling-born",
+          "subject": "home",
+          "role": "sibling-born",
+          "choice": "sibling-born",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-born.named-came-after-me",
+      "move": "home-line-sibling-born",
+      "kind": "spoken",
+      "text": "{named} came after me.",
+      "uses": [
+        {
+          "move": "home-line-sibling-born",
+          "subject": "home",
+          "role": "sibling-born",
+          "choice": "sibling-born",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
       }
     }
   ]

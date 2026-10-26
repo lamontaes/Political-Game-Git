@@ -1,4 +1,9 @@
-import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import {
+  daysBetween,
+  isoDateFromParts,
+  makeIsoDate,
+  daysBetweenText,
+} from "./kernel/dates";
 import { parameter } from "./parameters";
 import type { CoreState, IsoDate, PersonState, TierDefinition } from "./types";
 
@@ -27,7 +32,7 @@ function elapsedDays(
   actor: Readonly<PersonState>,
   date: IsoDate,
 ): number {
-  const days = daysBetween(makeIsoDate(actor.lastActDate), makeIsoDate(date));
+  const days = daysBetweenText(actor.lastActDate, date);
   if (days < parameter("zero", core.data.parameters))
     throw new Error(`Actor has a future last act date: ${actor.id}`);
   return days;
@@ -74,7 +79,15 @@ const cadenceOperations = new Map<string, (context: CadenceContext) => boolean>(
   ],
 );
 
+/** A tier that never acts (a husk until filled in) stays still under any focus. */
+function inactive(core: CoreState, actor: Readonly<PersonState>): boolean {
+  return (
+    core.data.tiers.find((row) => row.id === actor.tier)?.cadence === "inactive"
+  );
+}
+
 function hasDailyFocus(core: CoreState, actor: Readonly<PersonState>): boolean {
+  if (inactive(core, actor)) return false;
   return (
     core.observer ||
     actor.id === core.playerId ||
@@ -97,6 +110,7 @@ export function duePeople(
   for (const [tierId, ids] of core.peopleByTier) {
     const tier = tiers.get(tierId);
     if (!tier) throw new Error(`Unregistered indexed tier: ${tierId}`);
+    if (tier.cadence === "inactive") continue;
     for (const personId of ids) {
       const actor = core.people.get(personId);
       if (!actor || actor.tier !== tierId)

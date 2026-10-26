@@ -14,11 +14,9 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openOffices } from "./modules/offices";
 import {
-  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type FilingRow,
 } from "./modules/elections";
 import {
@@ -32,22 +30,22 @@ import {
   giveSpeech,
   knockDoors,
   openCampaigns,
-  rivalCampaignDay,
+  campaignTurn,
   runAd,
   type ImpressionRow,
 } from "./modules/campaigns";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { setKeepEveryonesWhy } from "./why-kept";
+
+// Reads every reached voter's recorded cause for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaigns:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -57,7 +55,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 function randomPlace() {
   const state = pick(states, "state");
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -76,18 +74,9 @@ function fileAndQualify(
     personId,
     contestId,
     platform,
-    payFee: true,
   });
   if (result.status === "refused") return null;
-  let filing = result.filing;
-  for (const neighbor of [...api.state.people.keys()].sort()) {
-    if (filing.status === "on-ballot") break;
-    if (neighbor !== personId) requestSignature(api, filing.id, neighbor);
-    filing = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .get(filing.id) as unknown as FilingRow;
-  }
+  const filing = result.filing;
   return filing.status === "on-ballot" ? filing : null;
 }
 
@@ -197,7 +186,12 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     const endorser = doors[0]!.voterId;
     askForEndorsement(api, you!.id, endorser);
     // The rival campaigns with the same tools.
-    const rivalReached = rivalCampaignDay(api, you!.contestId, candidate.id);
+    const contestRow = api
+      .moduleState("core2-elections-v1")
+      .table("contests")
+      .get(rival!.contestId) as unknown as { electionDate: string };
+    const rivalTurn = campaignTurn(api, rival!.id, contestRow.electionDate);
+    const rivalReached = rivalTurn.doors;
     expect(rivalReached).toBeGreaterThan(0);
     // Nobody's view moved without a cause.
     const impressions = api

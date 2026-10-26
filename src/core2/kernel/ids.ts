@@ -1,4 +1,4 @@
-/** Moved from src/simulation/ids.ts, which now re-exports it. */
+/** The core's stable ids and hashes. */
 import type { EntityId, EntityKind } from "./brands";
 
 /**
@@ -121,4 +121,13 @@ export function createStableIdFromParts(
     throw new Error(`Cannot create a ${kind} ID from an empty stable key.`);
   }
   return `${kind}_${hasher.digest()}` as EntityId;
+}
+
+/**
+ * The id two people share (their relationship): both ids in code-unit order,
+ * joined by ":". The same string as `[a, b].sort().join(":")`, without the
+ * array and the sort a hot path would allocate for each pair it looks up.
+ */
+export function pairKey(a: string, b: string): string {
+  return a <= b ? `${a}:${b}` : `${b}:${a}`;
 }

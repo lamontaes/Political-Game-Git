@@ -1,0 +1,362 @@
+{
+  "about": "Who the state and federal officials outside the town are, and what weighs on their votes. Read by src/core2/officials-roster.ts and src/core2/modules/officials.ts. Every number is tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it's checked against). Officials are fictional people seated in the party that really holds each seat.",
+  "ideology": {
+    "about": "Each member's own left-right position (their ideal point) on the DW-NOMINATE first dimension, which runs from -1 (left) to +1 (right): the party's mean and spread in the 119th Congress. A member's draw follows their district: within a party, members from districts that lean further their party's way sit further out (Voteview: within-party correlation of first-dimension scores with district presidential vote about 0.4 to 0.6).",
+    "source": "Voteview, HS119_members.csv (Lewis, Poole, Rosenthal, Boche, Rudkin and Sonnet, Voteview: Congressional Roll-Call Votes Database, 2026), retrieved 2026-10-12: House Democrats mean -0.386 sd 0.114 (n 222), House Republicans 0.524 sd 0.160 (n 227), Senate Democrats -0.367 sd 0.106 (n 45), Senate Republicans 0.555 sd 0.168 (n 57); independents -0.546, -0.170 (Senate) and 0.152 (House).",
+    "tag": "SOURCED",
+    "parties": {
+      "democratic": {
+        "us-house": {
+          "mean": -0.386,
+          "sd": 0.114
+        },
+        "us-senate": {
+          "mean": -0.367,
+          "sd": 0.106
+        }
+      },
+      "republican": {
+        "us-house": {
+          "mean": 0.524,
+          "sd": 0.16
+        },
+        "us-senate": {
+          "mean": 0.555,
+          "sd": 0.168
+        }
+      },
+      "other": {
+        "us-house": {
+          "mean": -0.188,
+          "sd": 0.3
+        },
+        "us-senate": {
+          "mean": -0.188,
+          "sd": 0.3
+        }
+      }
+    },
+    "otherSource": "Independents and third parties: the mean of the three independents in the 119th Congress (-0.546, -0.170, 0.152), spread across that range; their side is then set by where their state or district leans (the same district pull as party members). An independent the roster records caucusing with a party draws from that party's spread instead: each of the 119th Congress's independents sits within their caucus's range.",
+    "districtPull": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "Within-party correlation between a member's first-dimension score and their district's presidential vote (Voteview 117th to 119th Congresses; Bafumi and Herron 2010, APSR 104(3): about 0.4 to 0.6).",
+      "spread": [0.3, 0.7]
+    },
+    "stateMeanScale": {
+      "value": 0.85,
+      "tag": "ESTIMATED",
+      "source": "State legislative parties sit somewhat closer together than Congress's on average (Shor and McCarty 2011, 'The Ideological Mapping of American Legislatures', APSR 105(3): the median state's party gap is below Congress's, with wide variation by state).",
+      "spread": [0.6, 1.1]
+    },
+    "executiveSpreadScale": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Governors and statewide executives spread like the Senate's members around their party's mean (no roll calls to place them; checked against Shor and McCarty-style governor estimates that track their state's Senate delegation).",
+      "spread": [0.7, 1.2]
+    },
+    "leanScale": {
+      "value": 1.7,
+      "tag": "ESTIMATED",
+      "source": "Members sit further out than the voters they represent: placed on a common scale with the electorate, each party's median member of Congress is to the outside of roughly 80 to 90 percent of the national electorate (Bafumi and Herron 2010, 'Leapfrog Representation and Extremism', APSR 104(3)). The game's voter lean is a person's rank in the electorate from -1 to 1, so a first-dimension score of about -0.4 (the median House Democrat) reads as a lean near -0.8. Each party's median member then sits near the 15th or 85th percentile of voters (a lean near -0.65 or +0.85), and a member's lean is capped at the electorate's own ends (-1 and 1).",
+      "spread": [1.4, 2.2]
+    },
+    "memberViews": "A member's stance on a question is their lean along the question's measured axis plus how widely state legislatures have already made it law (yesShare in data/research/campaigns/issue-axes-2026.json): the elite consensus members answer to. Their district is read the way voters are, from national polls (policy-support-2026.json)."
+  },
+  "wings": {
+    "about": "A party's members split into three wings by where they sit within the party, in party standard deviations from its mean: the tercile cut points of a normal spread (about -0.43 and +0.43). The wing toward the other party is its moderate wing; the far wing is the liberal (Democrats) or conservative (Republicans) wing. Checked against caucus sizes: the Congressional Progressive Caucus and the Freedom Caucus each hold about a third or less of their party; the Blue Dog and Problem Solvers caucuses hold the members closest to the center.",
+    "tag": "TUNABLE",
+    "cut": 0.43,
+    "spread": [0.3, 0.6],
+    "names": {
+      "democratic": ["liberal", "mainstream", "moderate"],
+      "republican": ["moderate", "mainstream", "conservative"],
+      "other": ["left", "center", "right"]
+    }
+  },
+  "signatureIssues": {
+    "about": "Each member holds a few questions as their own causes, where their view departs from their overall position (a farm-state member on trade, a member with a sick parent on health care). Which questions and how far is who the person is, drawn once from the world's seed.",
+    "count": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Members specialize in a few issues (Hall 1996, Participation in Congress: members are active on a handful of issues outside their committees).",
+      "spread": [1, 5]
+    },
+    "tiltSd": {
+      "value": 0.35,
+      "tag": "TUNABLE",
+      "source": "How far a member's view on one of their own issues departs from their overall position. Checked against the second dimension's spread within parties (Voteview 119th: second-dimension sd about 0.3 to 0.4).",
+      "spread": [0.2, 0.5]
+    }
+  },
+  "independents": {
+    "about": "Whom each independent member of Congress caucuses with, from the public roster's caucus field. A state legislator who is independent caucuses with the party closest to their own views, unless they sit between the parties, in which case they caucus with no one.",
+    "source": "https://unitedstates.github.io/congress-legislators/legislators-current.json (public domain, CC0), retrieved 2026-10-12: both independent senators caucus with the Democrats; the independent House member left the Republican party on 2026-03-09 and caucuses with the Republicans.",
+    "tag": "SOURCED",
+    "caucus": {
+      "seat:US-ME:us-senate:0": {
+        "caucus": "Democratic"
+      },
+      "seat:US-VT:us-senate:1": {
+        "caucus": "Democratic"
+      },
+      "seat:US-CA:us-house:03": {
+        "caucus": "Republican",
+        "formerParty": "Republican",
+        "leftPartyOn": "2026-03-09"
+      }
+    },
+    "betweenBand": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "Share of the distance between the two parties' means, either side of the midpoint, within which an independent sits between the parties and caucuses with no one. Checked against the independents in state legislatures who organize with neither party (NCSL, 'State Partisan Composition', 2026: most independents caucus with a party).",
+      "spread": [0.1, 0.4]
+    }
+  },
+  "traits": {
+    "about": "Each official's traits are the residents' temperament model's level on every trait (the same -2..2 levels and norms by age and sex), and these facets carry the roster's selection shift: officials are drawn from people suited to public life, more outgoing, dutiful and driven than average (Dietrich, Lasley, Mondak, Remmel and Turner 2012, 'Personality and Legislative Politics: The Big Five Trait Dimensions Among U.S. State Legislators', Political Psychology 33(2): legislators score above the public on extraversion and conscientiousness). Each key's mean and spread are on the roster's own scale (-1..1); the shift is the mean over the spread, in standard deviations, carried into residents' levels by levelSd. Loyalty and ambition read these facets back on the roster's scale.",
+    "tag": "ESTIMATED",
+    "keys": {
+      "personality-v1:facet-duty-bound": {
+        "mean": 0.2,
+        "sd": 0.35
+      },
+      "personality-v1:facet-generous": {
+        "mean": 0,
+        "sd": 0.35
+      },
+      "personality-v1:facet-practical": {
+        "mean": 0,
+        "sd": 0.35
+      },
+      "personality-v1:facet-enterprising": {
+        "mean": 0.3,
+        "sd": 0.35
+      },
+      "people-mind-v1:sociability": {
+        "mean": 0.3,
+        "sd": 0.3
+      },
+      "people-mind-v1:reliability": {
+        "mean": 0.15,
+        "sd": 0.3
+      },
+      "people-mind-v1:conflict": {
+        "mean": 0,
+        "sd": 0.35
+      },
+      "people-mind-v1:deliberation": {
+        "mean": 0.1,
+        "sd": 0.3
+      },
+      "people-mind-v1:risk": {
+        "mean": 0.1,
+        "sd": 0.35
+      }
+    },
+    "levelSd": {
+      "value": 1.0954,
+      "tag": "SOURCED",
+      "citation": "The standard deviation of the residents' -2..2 trait levels: the owner-accepted 10/20/40/20/10 spread (src/core2/data/opening-kin.json, personality.levels), the square root of 0.1 x 4 + 0.2 x 1 + 0.4 x 0 + 0.2 x 1 + 0.1 x 4 = 1.2."
+    },
+    "spread": [0.2, 0.5]
+  },
+  "weights": {
+    "about": "How much each influence weighs in a member's position on a bill. Each is a recorded reason on the member's vote. The weights together are checked against roll-call party unity: in recent Congresses about two thirds of House roll calls split the parties and the average member votes with their party on about 90% of those (CQ Vote Studies 2023 and 2024; Voteview party-unity scores).",
+    "views": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "The member's own view on the bill's questions, the yardstick the others are measured against.",
+      "spread": [1, 1]
+    },
+    "district": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much their district's (or state's) lean on the questions weighs beside their own views. Checked against dyadic representation studies (Miller and Stokes 1963; Bafumi and Herron 2010).",
+      "spread": [0.2, 1]
+    },
+    "party": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "Party and leadership pressure: what the party's floor leader wants, times how much the party as a whole cares about the bill. Checked against party-unity voting (CQ Vote Studies: average member unity about 90% in the House and Senate, 2019 to 2024).",
+      "spread": [0.3, 1]
+    },
+    "caucus": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "The pull on an independent from the party they caucus with, a little less than on a party member. Checked against the two independent senators' unity with Senate Democrats (about 90%, Voteview 118th to 119th).",
+      "spread": [0.3, 0.8]
+    },
+    "wing": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "The pull of the member's own wing (the Progressive Caucus, Blue Dogs, Problem Solvers, Freedom Caucus act as blocs). Checked against bloc defections on party votes (Clarke 2020, 'The House Freedom Caucus', Legislative Studies Quarterly 45(3)).",
+      "spread": [0.1, 0.4]
+    },
+    "ambition": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How much more an ambitious member answers to their district as their next election nears, and to the wider state a higher office would need. Checked against Rohde 1979 (progressive ambition and moderation) and Kousser, Lewis and Masket 2007 (members moderate before an election).",
+      "spread": [0.1, 0.8]
+    },
+    "press": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "Press attention: how far a member in the public eye leans toward the side of a bill the public favors (the policy's polled national support). Checked against Arnold 1990, The Logic of Congressional Action (traceable, visible votes follow public opinion more).",
+      "spread": [0.1, 0.6]
+    },
+    "independentReason": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much more a truly independent member weighs a bill that touches the reason they're independent (Sinclair 2006: independents and centrists build their record on a few defining issues).",
+      "spread": [0.3, 1]
+    },
+    "executiveParty": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "On a vote to override a veto, members of the executive's own party weigh standing with them: many who voted for the bill vote to sustain (Cameron 2000, Veto Bargaining: Presidents and the Politics of Negative Power: override votes are more partisan than passage votes, and fewer than one in ten regular presidential vetoes since 1945 were overridden; Senate Historical Office, Vetoes 1789 to present). Checked against that override rate and against governors' vetoes (NCSL and Book of the States Table 4.4: most state vetoes stand).",
+      "spread": [0.3, 1]
+    },
+    "stateStake": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a member of Congress weighs what a federal budget line sends their state against the national average, read on a doubling scale: twice the average per resident pulls a full point toward more for that line, half the average a full point toward less, capped there. The same scale as their district's lean (district weight 0.5 times a lean of up to 1), so pork and principle can pull against each other. Checked against studies of distributive voting (Lee 2003 on Senate transportation votes; Berry, Burden and Howell 2010 on federal outlays to members' districts).",
+      "spread": [0.5, 2]
+    },
+    "statePartyLoyalty": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "A state-chamber member feels the party's pressure at this multiple of a member of Congress's. One means the same weight. Eight chambers drawn in eight places (Oct 16) gave a mean party unity on party-splitting roll calls of 0.885, from 0.82 to 0.94 place by place, against the federal party-unity figure of about 0.90 (CQ Vote Studies); raising this to 1.2 moved the mean by 0.005, so the weight is left at one, and the test reads the pooled unity of four drawn places against the unchanged 0.85 to 0.98 band. The target stays the federal figure until the owner runs his state roll-call calibration input (Oct 15 ruling), which ships nothing.",
+      "spread": [0.6, 1.2]
+    }
+  },
+  "loyalty": {
+    "about": "How strongly a member feels the party's pressure, 1 for a typical member, moved by their traits and their place in the party: dutiful and agreeable members follow the leadership more, combative and risk-taking ones less, and the leadership themselves the most (Dietrich et al. 2012; Kanthak 2007, party leadership PAC giving and loyalty).",
+    "tag": "TUNABLE",
+    "perDutyBound": 0.4,
+    "perGenerous": 0.2,
+    "perConflict": -0.4,
+    "perRisk": -0.3,
+    "leadership": 0.5,
+    "floor": 0.2,
+    "spread": [0.1, 0.6]
+  },
+  "ambitionTraits": {
+    "about": "How ambitious a member is, from their traits: enterprising and risk-taking people seek higher office (Fox and Lawless 2005, 'To Run or Not to Run for Office', AJPS 49(3); Maestas, Fulton, Maisel and Stone 2006).",
+    "tag": "TUNABLE",
+    "perEnterprising": 0.6,
+    "perRisk": 0.4,
+    "spread": [0.2, 0.8]
+  },
+  "visibility": {
+    "about": "How much press attention an office draws, 1 for the most watched. Checked against news coverage by office (Arnold 2004, Congress, the Press, and Political Accountability: senators get several times a House member's coverage; state legislators get little).",
+    "tag": "TUNABLE",
+    "us-senate": 1,
+    "us-house": 0.5,
+    "us-house-delegate": 0.3,
+    "governor": 1,
+    "statewide": 0.6,
+    "legislature": 0.2,
+    "spread": [0.1, 1]
+  },
+  "leadership": {
+    "about": "The leaders each chamber's members elect: the presiding officer and the floor leader from the majority, and the minority's floor leader. They are the party's most senior members by service (Jenkins and Stewart 2013: seniority remains the main path to leadership). Leaders are people in every state's legislature, the town's or not.",
+    "tag": "TUNABLE",
+    "roles": ["presiding", "majority-leader", "minority-leader"],
+    "spread": [3, 3]
+  },
+  "stateSample": {
+    "about": "For legislatures outside the town's state, the rank-and-file members are a representative sample: this many members per chamber, split among the parties by their real seat counts, each standing for an equal share of their party's members. Kept small because those legislatures act only at the coarse level today.",
+    "tag": "TUNABLE",
+    "perChamber": 8,
+    "spread": [4, 20]
+  },
+  "colleagues": {
+    "about": "Officials who serve together know each other: a state's delegation to Congress, and each chamber's members with their party's leader. The time they've spent together is their shared years of service at a few hours a year (delegation lunches and caucus meetings); closeness then follows the core's own closeness model.",
+    "hoursPerSharedYear": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "source": "Delegation and caucus meetings: state delegations meet a few times a year and party caucuses weekly while in session (Congressional Research Service, 'House Leadership Structure', 2023).",
+      "spread": [2, 20]
+    },
+    "maxYears": {
+      "value": 20,
+      "tag": "TUNABLE",
+      "source": "Shared service counted up to this many years (closeness fades between contacts in the core's model).",
+      "spread": [10, 30]
+    }
+  },
+  "tier": "calendar",
+  "tierSource": "Officials outside the town act on the calendar (sessions, votes, elections), not on a daily or monthly routine of their own until the player meets them.",
+  "candidacy": {
+    "about": "Who runs for a state or federal seat when the other party (or, for an open seat, the holder's party) has no filed candidate. Candidates come from the offices one step down the ladder in that state (Schlesinger 1966, Ambition and Politics: the opportunity structure; Maestas, Fulton, Maisel and Stone 2006, APSR 100(2): state legislators are the main pool of House candidates), or a newcomer with no office. Each weighs it from who they are: their ambition, how far their own views sit from the seat's electorate, and whether they have a record to run on. An officeholder whose own seat is on the same year's ballot stays in that race: many states bar one person from standing for two offices at one election, and members whose seat is up run for higher office far less often (Rohde 1979, 'Risk-Bearing and Progressive Ambition', AJPS 23(1)). The one with the strongest reason runs; nothing is rolled.",
+    "ladder": {
+      "about": "The bodies whose members are in the pool for each office, by the office's kind.",
+      "tag": "SOURCED",
+      "source": "Schlesinger 1966 (the manifest offices leading to each higher office); Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections (experienced challengers come from state legislatures and statewide office).",
+      "us-house": ["legislature"],
+      "us-senate": ["us-house", "executive"],
+      "governor": ["us-house", "us-senate", "executive"],
+      "executive": ["legislature"],
+      "legislature": []
+    },
+    "fit": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much the distance between a would-be candidate's own lean and the seat's electorate weighs against running (Black 1972, 'A Theory of Political Ambition', APSR 66(1): the expected chance of winning). The seat's lean is its two-party margin, read as the electorate's center on the voters' scale.",
+      "spread": [0.5, 1.5]
+    },
+    "noRecord": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "What a newcomer lacks against an officeholder: a record, a donor list and name recognition (Jacobson 1989, 'Strategic Politicians and the Dynamics of U.S. House Elections', APSR 83(3): experienced challengers win several times as often).",
+      "spread": [0.1, 0.5]
+    }
+  },
+  "president": {
+    "about": "The small record a sitting President carries into the opening: the home state, the office held before, the 2024 election won, and the states the campaign reached. Who the President is (the home state, the office before, the day of each visit) is drawn once from the world's seed; which states were contested comes from the real 2024 map. Nothing here is a campaign: these are past facts the opening's address and screens read.",
+    "electionDay": {
+      "value": "2024-11-05",
+      "tag": "SOURCED",
+      "source": "Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024."
+    },
+    "campaignFrom": {
+      "value": "2024-09-02",
+      "tag": "SOURCED",
+      "source": "Labor Day 2024, the customary start of the general-election campaign (Holbrook 1996, Do Campaigns Matter?)."
+    },
+    "contestedMargin": {
+      "value": 0.029,
+      "tag": "TUNABLE",
+      "source": "How close to even a state's 2024 two-party presidential vote was for the campaigns to contest it. Checked against the seven states both 2024 campaigns treated as battlegrounds (Arizona, Georgia, Michigan, Nevada, North Carolina, Pennsylvania, Wisconsin; Cook Political Report, 2024 Electoral College ratings): 0.029 keeps all seven and adds New Hampshire and Minnesota, which both campaigns also visited (AP campaign travel tracker, 2024).",
+      "spread": [0.02, 0.05]
+    },
+    "priorOffice": {
+      "about": "The last office the President held before the presidency, in the shares the Presidents from 1901 to 2021 held them: 8 Vice Presidents (T. Roosevelt, Coolidge, Truman, Johnson, Nixon, Ford, G. H. W. Bush, Biden), 6 governors (Wilson, F. Roosevelt, Carter, Reagan, Clinton, G. W. Bush), 3 senators (Harding, Kennedy, Obama), 2 cabinet secretaries (Taft, Hoover) and 2 with no prior elected or appointed civil office (Eisenhower, Trump). The governor and senator served the President's home state.",
+      "tag": "ESTIMATED",
+      "source": "Miller Center, University of Virginia, presidential biographies (millercenter.org/president), counted 2026-10-14.",
+      "shares": {
+        "vice-president": {
+          "value": 8,
+          "title": "Vice President"
+        },
+        "governor": {
+          "value": 6,
+          "title": "Governor"
+        },
+        "us-senate": {
+          "value": 3,
+          "title": "U.S. Senator"
+        },
+        "cabinet": {
+          "value": 2,
+          "title": "Cabinet Secretary"
+        },
+        "none": {
+          "value": 2,
+          "title": null
+        }
+      }
+    }
+  }
+}

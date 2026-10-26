@@ -1,0 +1,23 @@
+{
+  "about": "Congress's regular session each year: it convenes at noon on January 3 unless a law sets another day (U.S. Const. amend. XX, sec. 2), and its last scheduled votes come in mid-December. A year past the table repeats the latest one's month and day, marked ESTIMATED.",
+  "years": {
+    "2025": {
+      "conveneAt": "2025-01-03",
+      "adjournAt": "2025-12-19",
+      "tag": "ESTIMATED",
+      "source": "Convening: U.S. Const. amend. XX, sec. 2 (the 119th Congress convened January 3, 2025). Last votes: the House Majority Leader's 2025 calendar schedules its final votes the week of December 15; spread December 12 to December 23."
+    },
+    "2026": {
+      "conveneAt": "2026-01-03",
+      "adjournAt": "2026-12-18",
+      "tag": "ESTIMATED",
+      "source": "U.S. Const. amend. XX, sec. 2; the last votes of a second session usually fall in the third week of December (House calendars, 2016 to 2024); spread December 11 to December 22."
+    },
+    "2027": {
+      "conveneAt": "2027-01-03",
+      "adjournAt": "2027-12-17",
+      "tag": "ESTIMATED",
+      "source": "U.S. Const. amend. XX, sec. 2; last votes as in recent first sessions (House calendars, 2017 to 2025); spread December 10 to December 21."
+    }
+  }
+}

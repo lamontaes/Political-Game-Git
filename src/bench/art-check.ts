@@ -11,23 +11,18 @@ import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { buildBenchWorld } from "./world";
+import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { openBenchFilingVisit } from "./filing";
-import { openingShots } from "./opening";
+import { openingFrames } from "./opening";
 import { townPlaces, visitPlace } from "./places";
-import {
-  backdropFile,
-  backdropPath,
-  benchScene,
-  figurePng,
-  hasBackdrop,
-} from "./scene";
+import { backdropFile, backdropPath, benchScene, hasBackdrop } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "art-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
-const w = buildBenchWorld(seed, "2026-10-12", {
+const w = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,
   ...(placeKey ? { placeKey } : {}),
 });
@@ -60,34 +55,23 @@ function check(
     failures.push(`${label}: ${place} has nobody on its stage`);
   for (const row of people) {
     figures++;
+    // Only the v2 standing figures are drawn.
     const url = new URL(row.figureUrl, "http://bench");
-    if (url.pathname.startsWith("/art/")) {
-      if (!existsSync(new URL(`../..${url.pathname}`, import.meta.url)))
-        failures.push(`${label}: figure ${url.pathname} missing`);
-      continue;
-    }
-    try {
-      figurePng(
-        core,
-        url.searchParams.get("person")!,
-        url.searchParams.get("place")!,
-        url.searchParams.get("spot")!,
-      );
-    } catch (error) {
-      failures.push(
-        `${label}: ${url.searchParams.get("person")} at ${place}: ${(error as Error).message}`,
-      );
-    }
+    if (!url.pathname.startsWith("/art/people-engine/v2/figures/"))
+      failures.push(`${label}: ${row.personId} is not a v2 figure`);
+    else if (!existsSync(new URL(`../..${url.pathname}`, import.meta.url)))
+      failures.push(`${label}: figure ${url.pathname} missing`);
   }
 }
 
-for (const shot of openingShots(core, me))
+const story = w.director.ledger.opening;
+for (const frame of story ? openingFrames(core, me, story).frames : [])
   check(
-    `opening ${shot.place}`,
-    shot.place,
-    shot.backdrop.file,
-    shot.people,
-    shot.people.length,
+    `opening ${frame.place}`,
+    frame.place,
+    frame.backdrop.file,
+    frame.people,
+    frame.cast.length,
   );
 
 const household =
@@ -133,10 +117,15 @@ const kinds = new Set(
     }[]
   ).map((row) => row.kind ?? ""),
 );
-const bodyPlaces = scenePlaces.bodyPlaces as Record<string, string>;
-for (const [kind, place] of Object.entries(bodyPlaces))
-  if (kind === "default" || kinds.has(kind))
+const bodyPlaces = scenePlaces.bodyPlaces as unknown as Record<
+  string,
+  string[]
+>;
+for (const [kind, places] of Object.entries(bodyPlaces)) {
+  const place = places.find?.(hasBackdrop);
+  if (place && (kind === "default" || kinds.has(kind)))
     check(`body ${kind}`, place, backdropFile(place, 19 * 60).file, [], 0);
+}
 for (const place of scenePlaces.speechPlaces)
   check(`speech ${place}`, place, backdropFile(place, 18 * 60).file, [], 0);
 

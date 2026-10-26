@@ -44,6 +44,11 @@ export type StatuteEffectiveRule =
       readonly kind: "january-after-days";
       readonly days: number;
       readonly oddYearsNextJanuary: boolean;
+    }
+  | {
+      /** The first day of the Nth month after enactment (Alabama's drafting formula). */
+      readonly kind: "first-of-month-after";
+      readonly monthsAfter: number;
     };
 
 export interface StatuteDateContext {
@@ -109,7 +114,12 @@ export function stateStatuteOperativeAt(
             )
           : operative;
       };
-      const sessionEnd = nearest(context.sessionEnds?.(year) ?? [], enactedAt);
+      // The session the act passed in, in its year of passage.
+      const passedAt = context.finalPassageAt?.() ?? enactedAt;
+      const sessionEnd = endOfSessionPassedIn(
+        context.sessionEnds?.(yearOf(passedAt)) ?? [],
+        passedAt,
+      );
       const operative = sessionEnd ? counted(sessionEnd) : null;
       return operative && operative > enactedAt
         ? operative
@@ -132,6 +142,14 @@ export function stateStatuteOperativeAt(
       return rule.oddYearsNextJanuary && year % 2 === 1
         ? nextYearlyDate(enactedAt, 1, 1)
         : nextYearlyDate(addDays(enactedAt, rule.days), 1, 1);
+    case "first-of-month-after": {
+      const month = Number(enactedAt.slice(5, 7)) + rule.monthsAfter;
+      return dateFromParts(
+        year + Math.floor((month - 1) / 12),
+        ((month - 1) % 12) + 1,
+        1,
+      );
+    }
   }
 }
 
@@ -243,15 +261,17 @@ function dayInYear(year: number, day: YearlyDay): DateValue {
   return addDays(dateFromParts(year, day.month, date), day.plusDays ?? 0);
 }
 
-function nearest(dates: readonly DateValue[], to: DateValue): DateValue | null {
-  let best: DateValue | null = null;
-  for (const date of dates)
-    if (
-      best === null ||
-      Math.abs(daysBetween(date, to)) < Math.abs(daysBetween(best, to))
-    )
-      best = date;
-  return best;
+/**
+ * The end of the session an act passed in: the first end on or after its
+ * final passage (a regular session, or a special session that sat after it),
+ * else the last end before it, for an act passed after the year's sessions.
+ */
+function endOfSessionPassedIn(
+  ends: readonly DateValue[],
+  passedAt: DateValue,
+): DateValue | null {
+  const sorted = [...ends].sort();
+  return sorted.find((end) => end >= passedAt) ?? sorted.at(-1) ?? null;
 }
 
 function addMonths(date: DateValue, months: number): DateValue {
@@ -283,14 +303,6 @@ function addDays(date: DateValue, days: number): DateValue {
   const parsed = new Date(`${date}T00:00:00.000Z`);
   parsed.setUTCDate(parsed.getUTCDate() + days);
   return parsed.toISOString().slice(0, 10);
-}
-
-function daysBetween(a: DateValue, b: DateValue): number {
-  return Math.round(
-    (new Date(`${b}T00:00:00.000Z`).getTime() -
-      new Date(`${a}T00:00:00.000Z`).getTime()) /
-      86_400_000,
-  );
 }
 
 function yearOf(date: DateValue): number {

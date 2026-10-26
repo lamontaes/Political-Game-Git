@@ -1,0 +1,467 @@
+{
+  "schema": "english-bill-sections/1",
+  "register": "bill-sections",
+  "description": "The words a bill's sections need, for each policy and law series on the bill catalog (src/core2/data/legislature/bill-catalog.json): the subject as a noun phrase, the purpose as a verb phrase and the operative clause an ordinance or act enacts, with the form of each kind of bill (an ordinance's number, enacting words, sections and effective date; an act's). Authored at development time by the Words line to the patterns of real bill titles and ordinance sections ('An ordinance to ...', 'Be it ordained ..., That ...'); copied from no one. Graded in a words batch like any line. A policy the catalog adds needs a row here; src/english/bill-sections.test.ts fails until it has one. A bill's name is a separate piece (bill-names.json).",
+  "origin": "authored",
+  "author": "Claude Sonnet (Words line, claude/words-bill-name-and-text)",
+  "date": "2026-10-15",
+  "forms": {
+    "ordinance": {
+      "title": "An ordinance to {purpose}.",
+      "repealTitle": "An ordinance to repeal the town's rules on {subject}.",
+      "first": "Section {number}. {enacting}, That {text}.",
+      "further": "Section {number}. And be it further ordained, That {text}.",
+      "repeal": "the rules now in force on {subject} are repealed and shall have no further effect",
+      "effective": {
+        "on-enactment": "This ordinance takes effect on the day it is adopted.",
+        "days-after-adoption": "This ordinance takes effect {days} days after it is adopted.",
+        "state-rule": "This ordinance takes effect as state law provides.",
+        "date": "This ordinance takes effect on {date}."
+      }
+    },
+    "act": {
+      "title": "A bill for an act to {purpose}.",
+      "repealTitle": "A bill for an act to repeal the law on {subject}.",
+      "first": "Section {number}. {enacting} That {text}.",
+      "further": "Section {number}. And be it further enacted, That {text}.",
+      "repeal": "the law now in force on {subject} is repealed",
+      "effective": {
+        "on-enactment": "This Act takes effect on the day it is enacted.",
+        "days-after-adoption": "This Act takes effect {days} days after it is enacted.",
+        "state-rule": "This Act takes effect as state law provides.",
+        "date": "This Act takes effect on {date}."
+      }
+    }
+  },
+  "joiners": {
+    "purposes": "and to",
+    "subjects": "and"
+  },
+  "policies": {
+    "transportation-infrastructure.fare-free-transit": {
+      "subject": "free fares on public transit",
+      "purpose": "make public transit free to ride",
+      "enact": "no fare shall be charged for riding the public transit service"
+    },
+    "transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "subject": "a mileage fee in place of the fuel tax",
+      "purpose": "replace the fuel tax with a fee on miles driven",
+      "enact": "a fee on each mile driven shall be charged in place of the tax on motor fuel"
+    },
+    "transportation-infrastructure.public-broadband": {
+      "subject": "public broadband service",
+      "purpose": "build and run a public broadband network",
+      "enact": "a public broadband network shall be built and operated for the residents it serves"
+    },
+    "transportation-infrastructure.shift-highway-funds-to-transit": {
+      "subject": "highway money used for transit",
+      "purpose": "move highway money into public transit",
+      "enact": "money set aside for highways shall be spent on public transit"
+    },
+    "health-human-services.expand-medicaid-eligibility": {
+      "subject": "wider Medicaid eligibility",
+      "purpose": "extend Medicaid coverage to more residents",
+      "enact": "Medicaid coverage shall be open to every resident whose income falls below the expanded limit"
+    },
+    "health-human-services.medicaid-work-requirement": {
+      "subject": "a work requirement for Medicaid",
+      "purpose": "require work or training for adults on Medicaid",
+      "enact": "an adult shall show work or training hours to keep Medicaid coverage"
+    },
+    "health-human-services.work-requirement-for-assistance": {
+      "subject": "a work requirement for cash assistance",
+      "purpose": "require work or training for adults who receive cash assistance",
+      "enact": "an adult shall show work or training hours to keep receiving cash assistance"
+    },
+    "education.universal-preschool": {
+      "subject": "free preschool for every child",
+      "purpose": "offer free preschool to every young child",
+      "enact": "a free preschool place shall be offered to every child of preschool age"
+    },
+    "education.public-funds-for-private-schooling": {
+      "subject": "public money for private schooling",
+      "purpose": "let public money follow a child to a private school",
+      "enact": "public education money shall pay part of a child's tuition at a private school"
+    },
+    "education.raise-teacher-minimum-salary": {
+      "subject": "a higher minimum teacher salary",
+      "purpose": "raise the lowest salary a school may pay a teacher",
+      "enact": "no teacher in a public school shall be paid less than the new minimum salary"
+    },
+    "fiscal.adopt-income-tax": {
+      "subject": "an income tax",
+      "purpose": "levy a tax on residents' income",
+      "enact": "a tax shall be levied on the income of residents"
+    },
+    "fiscal.cap-property-tax-growth": {
+      "subject": "a limit on property tax growth",
+      "purpose": "limit how fast property tax bills may rise",
+      "enact": "the amount raised by the property tax shall not grow faster than the limit set here"
+    },
+    "fiscal.exempt-groceries-from-sales-tax": {
+      "subject": "a sales tax exemption for groceries",
+      "purpose": "take groceries out of the sales tax",
+      "enact": "food bought for eating at home shall be exempt from the sales tax"
+    },
+    "fiscal.graduated-income-tax": {
+      "subject": "a graduated income tax",
+      "purpose": "tax higher incomes at higher rates",
+      "enact": "income shall be taxed at rates that rise with the amount earned"
+    },
+    "fiscal.balanced-operating-budget": {
+      "subject": "a balanced operating budget",
+      "purpose": "require spending not to exceed revenue in the operating budget",
+      "enact": "the operating budget shall not spend more than the revenue expected for the year"
+    },
+    "fiscal.fund-pensions-to-schedule": {
+      "subject": "full pension funding on schedule",
+      "purpose": "pay into the public pension fund on a fixed schedule",
+      "enact": "the full pension payment due each year shall be paid into the pension fund"
+    },
+    "fiscal.minimum-reserve-balance": {
+      "subject": "a minimum reserve balance",
+      "purpose": "keep a minimum reserve in the treasury",
+      "enact": "a reserve of at least the set minimum shall be kept in the treasury"
+    },
+    "housing-land-use.allow-multifamily-in-single-family-zones": {
+      "subject": "apartments in single-family zones",
+      "purpose": "allow apartment buildings in single-family zones",
+      "enact": "apartment buildings shall be allowed in zones now limited to single-family houses"
+    },
+    "housing-land-use.inclusionary-requirement": {
+      "subject": "affordable homes in new buildings",
+      "purpose": "require new housing developments to include affordable homes",
+      "enact": "a new housing development shall set aside a share of its homes at rents within reach of lower incomes"
+    },
+    "housing-land-use.rent-stabilization": {
+      "subject": "limits on rent increases",
+      "purpose": "limit how much a landlord may raise the rent each year",
+      "enact": "a landlord shall not raise the rent in a year by more than the limit set here"
+    },
+    "housing-land-use.right-to-counsel-in-eviction": {
+      "subject": "a lawyer for tenants facing eviction",
+      "purpose": "give tenants facing eviction the right to a lawyer",
+      "enact": "a tenant facing eviction shall be provided a lawyer at no charge"
+    },
+    "labor-commerce.raise-federal-minimum-wage": {
+      "subject": "a higher federal minimum wage",
+      "purpose": "raise the federal minimum wage",
+      "enact": "the federal minimum wage shall be raised to the amount set here"
+    },
+    "labor-workforce.local-minimum-wage-authority": {
+      "subject": "local control of the minimum wage",
+      "purpose": "let cities set their own minimum wage",
+      "enact": "a city shall have the power to set a minimum wage higher than the state's"
+    },
+    "labor-workforce.raise-minimum-wage": {
+      "subject": "a higher minimum wage",
+      "purpose": "raise the minimum wage",
+      "enact": "no worker shall be paid less than the new minimum wage"
+    },
+    "labor-workforce.paid-family-leave": {
+      "subject": "paid family leave",
+      "purpose": "give workers paid leave to care for a new child or a sick relative",
+      "enact": "a worker shall be paid during leave taken to care for a new child or a sick relative"
+    },
+    "labor-workforce.public-sector-collective-bargaining": {
+      "subject": "collective bargaining for public employees",
+      "purpose": "let public employees bargain together over pay and conditions",
+      "enact": "public employees shall have the right to bargain together over their pay and working conditions"
+    },
+    "labor-workforce.right-to-work": {
+      "subject": "workers who do not join a union",
+      "purpose": "bar contracts that make workers pay a union to hold a job",
+      "enact": "no worker shall be required to join or pay a union as a condition of holding a job"
+    },
+    "business-commerce.legalize-cannabis-sales": {
+      "subject": "legal cannabis sales",
+      "purpose": "allow licensed shops to sell cannabis to adults",
+      "enact": "a licensed shop may sell cannabis to adults"
+    },
+    "business-commerce.cap-consumer-loan-rates": {
+      "subject": "a limit on consumer loan rates",
+      "purpose": "cap the interest a lender may charge on consumer loans",
+      "enact": "a lender shall not charge more than the set rate of interest on a consumer loan"
+    },
+    "environment-energy.ban-new-gas-hookups": {
+      "subject": "new gas hookups in buildings",
+      "purpose": "bar new natural gas hookups in buildings",
+      "enact": "a new building shall not be connected to the natural gas system"
+    },
+    "environment-energy.clean-electricity-standard": {
+      "subject": "clean electricity",
+      "purpose": "require utilities to supply a rising share of power from clean sources",
+      "enact": "each utility shall supply a rising share of its power from clean sources"
+    },
+    "environment-energy.clean-air-plan-for-polluted-counties": {
+      "subject": "a clean air plan for polluted areas",
+      "purpose": "require a plan to cut air pollution where the air is worst",
+      "enact": "an area where the air falls short of the standard shall adopt a plan to cut pollution"
+    },
+    "environment-energy.bottle-deposit": {
+      "subject": "a deposit on bottles and cans",
+      "purpose": "put a refundable deposit on drink bottles and cans",
+      "enact": "a refundable deposit shall be charged on every drink bottle and can sold"
+    },
+    "environment-energy.price-carbon": {
+      "subject": "a price on carbon",
+      "purpose": "put a price on carbon pollution",
+      "enact": "a charge shall be paid on each ton of carbon released"
+    },
+    "justice-public-safety.civilian-oversight-of-police": {
+      "subject": "civilian oversight of police",
+      "purpose": "set up a civilian board to oversee the police",
+      "enact": "a board of residents who are not police officers shall review complaints against the police"
+    },
+    "justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "subject": "cooperation with federal immigration enforcement",
+      "purpose": "have local police work with federal immigration agents",
+      "enact": "local police shall work with federal immigration agents on the cases they refer"
+    },
+    "justice-public-safety.end-cash-bail": {
+      "subject": "an end to cash bail",
+      "purpose": "end the use of cash bail before trial",
+      "enact": "no person shall be held before trial for lack of money to pay bail"
+    },
+    "justice-public-safety.restore-voting-after-sentence": {
+      "subject": "voting rights after a sentence",
+      "purpose": "restore the vote to people who have finished their sentence",
+      "enact": "a person who has finished a sentence shall have the right to vote restored"
+    },
+    "justice-public-safety.raise-juvenile-court-age": {
+      "subject": "a higher juvenile court age",
+      "purpose": "raise the age at which a person is tried as an adult",
+      "enact": "a person below the new age shall be handled in juvenile court"
+    },
+    "justice-public-safety.child-access-prevention": {
+      "subject": "safe storage of firearms around children",
+      "purpose": "require firearms to be stored where children cannot reach them",
+      "enact": "a firearm shall be stored where a child cannot reach it"
+    },
+    "justice-public-safety.permit-to-carry-concealed": {
+      "subject": "a permit to carry a concealed firearm",
+      "purpose": "set the permit required to carry a concealed firearm",
+      "enact": "a person who carries a concealed firearm shall hold a permit"
+    },
+    "justice-public-safety.raise-handgun-purchase-age": {
+      "subject": "a higher age to buy a handgun",
+      "purpose": "raise the age at which a person may buy a handgun",
+      "enact": "a person younger than the new age shall not buy a handgun"
+    },
+    "justice-public-safety.stand-your-ground": {
+      "subject": "the right to stand one's ground",
+      "purpose": "remove the duty to retreat before using force in self-defense",
+      "enact": "a person in a place they may lawfully be shall have no duty to retreat before using force in self-defense"
+    },
+    "government-operations.all-mail-voting": {
+      "subject": "voting by mail",
+      "purpose": "send every registered voter a ballot by mail",
+      "enact": "every registered voter shall be mailed a ballot before each election"
+    },
+    "government-operations.automatic-voter-registration": {
+      "subject": "automatic voter registration",
+      "purpose": "register eligible residents to vote automatically",
+      "enact": "an eligible resident shall be registered to vote unless they decline"
+    },
+    "government-operations.independent-redistricting": {
+      "subject": "an independent redistricting commission",
+      "purpose": "have a citizens' commission draw district lines",
+      "enact": "district lines shall be drawn by a commission of residents rather than by elected officials"
+    },
+    "government-operations.require-photo-id-to-vote": {
+      "subject": "photo identification for voting",
+      "purpose": "require voters to show photo identification",
+      "enact": "a voter shall show photo identification before voting"
+    },
+    "government-operations.same-day-voter-registration": {
+      "subject": "same-day voter registration",
+      "purpose": "let residents register and vote on the same day",
+      "enact": "a resident may register to vote and vote on the same day"
+    },
+    "government-operations.ban-lobbying-after-office": {
+      "subject": "a ban on lobbying after leaving office",
+      "purpose": "bar former officials from lobbying for a time after they leave office",
+      "enact": "a former official shall not lobby the body they served for the period set here"
+    },
+    "government-operations.broaden-local-authority": {
+      "subject": "broader local government power",
+      "purpose": "give local governments wider power to govern themselves",
+      "enact": "a local government shall have the power to act on any matter the state has not reserved"
+    },
+    "government-operations.legislative-term-limits": {
+      "subject": "term limits for legislators",
+      "purpose": "limit how long a legislator may serve",
+      "enact": "a legislator shall not serve more than the number of terms set here"
+    },
+    "civil-family-community.ban-discrimination-in-housing-and-work": {
+      "subject": "a ban on discrimination in housing and work",
+      "purpose": "bar discrimination in housing and in hiring",
+      "enact": "no landlord or employer shall refuse a person housing or a job on a ground the law protects"
+    },
+    "civil-family-community.dedicated-parks-funding": {
+      "subject": "dedicated funding for parks",
+      "purpose": "set aside money for parks every year",
+      "enact": "a set share of revenue shall be dedicated each year to parks"
+    },
+    "civil-family-community.restrict-abortion": {
+      "subject": "limits on abortion",
+      "purpose": "set limits on when an abortion may be performed",
+      "enact": "an abortion shall not be performed after the point set here, except as this measure allows"
+    },
+    "technology-privacy.age-verification-for-social-media": {
+      "subject": "age checks for social media",
+      "purpose": "require social media sites to check the age of their users",
+      "enact": "a social media site shall check the age of each user before opening an account"
+    },
+    "technology-privacy.restrict-government-facial-recognition": {
+      "subject": "limits on government facial recognition",
+      "purpose": "limit how government agencies may use facial recognition",
+      "enact": "a government agency shall not use facial recognition except as this measure allows"
+    },
+    "technology-privacy.consumer-data-privacy-law": {
+      "subject": "privacy of consumer data",
+      "purpose": "limit what businesses may do with customers' personal data",
+      "enact": "a business shall not sell or share a customer's personal data without the customer's consent"
+    },
+    "agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "subject": "limits on groundwater withdrawal",
+      "purpose": "limit how much groundwater may be pumped",
+      "enact": "no user shall pump more groundwater than the limit set here"
+    },
+    "agriculture-natural-resources.protect-farmland-from-development": {
+      "subject": "protection of farmland",
+      "purpose": "protect working farmland from development",
+      "enact": "working farmland shall not be developed except as this measure allows"
+    }
+  },
+  "amounts": {
+    "income-tax": {
+      "subject": "the local income tax rate",
+      "purpose": "set the rate of the local income tax",
+      "raise": "the local income tax rate shall be raised from {before} to {value}",
+      "lower": "the local income tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the local income tax rate shall be raised to {value}",
+      "lowerTo": "the local income tax rate shall be lowered to {value}"
+    },
+    "sales-tax": {
+      "subject": "the local sales tax rate",
+      "purpose": "set the rate of the local sales tax",
+      "raise": "the local sales tax rate shall be raised from {before} to {value}",
+      "lower": "the local sales tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the local sales tax rate shall be raised to {value}",
+      "lowerTo": "the local sales tax rate shall be lowered to {value}"
+    },
+    "minimum-wage": {
+      "subject": "the minimum wage",
+      "purpose": "set the minimum wage",
+      "raise": "the minimum wage shall be raised from {before} to {value}",
+      "lower": "the minimum wage shall be lowered from {before} to {value}",
+      "raiseTo": "the minimum wage shall be raised to {value}",
+      "lowerTo": "the minimum wage shall be lowered to {value}"
+    },
+    "public-pay-floor": {
+      "subject": "the lowest pay for public employees",
+      "purpose": "set the lowest pay a public employer may offer",
+      "raise": "the lowest pay a public employer may offer shall be raised from {before} to {value}",
+      "lower": "the lowest pay a public employer may offer shall be lowered from {before} to {value}",
+      "raiseTo": "the lowest pay a public employer may offer shall be raised to {value}",
+      "lowerTo": "the lowest pay a public employer may offer shall be lowered to {value}"
+    },
+    "property-tax": {
+      "subject": "the property tax rate",
+      "purpose": "set the property tax rate",
+      "raise": "the property tax rate shall be raised from {before} to {value}",
+      "lower": "the property tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the property tax rate shall be raised to {value}",
+      "lowerTo": "the property tax rate shall be lowered to {value}"
+    },
+    "corporate-income-tax": {
+      "subject": "the corporate income tax rate",
+      "purpose": "set the corporate income tax rate",
+      "raise": "the corporate income tax rate shall be raised from {before} to {value}",
+      "lower": "the corporate income tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the corporate income tax rate shall be raised to {value}",
+      "lowerTo": "the corporate income tax rate shall be lowered to {value}"
+    },
+    "estate-tax": {
+      "subject": "the estate tax rate",
+      "purpose": "set the estate tax rate",
+      "raise": "the estate tax rate shall be raised from {before} to {value}",
+      "lower": "the estate tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the estate tax rate shall be raised to {value}",
+      "lowerTo": "the estate tax rate shall be lowered to {value}"
+    },
+    "inheritance-tax": {
+      "subject": "the inheritance tax rate",
+      "purpose": "set the inheritance tax rate",
+      "raise": "the inheritance tax rate shall be raised from {before} to {value}",
+      "lower": "the inheritance tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the inheritance tax rate shall be raised to {value}",
+      "lowerTo": "the inheritance tax rate shall be lowered to {value}"
+    },
+    "social-security-tax": {
+      "subject": "the Social Security payroll tax rate",
+      "purpose": "set the Social Security payroll tax rate",
+      "raise": "the Social Security payroll tax rate shall be raised from {before} to {value}",
+      "lower": "the Social Security payroll tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the Social Security payroll tax rate shall be raised to {value}",
+      "lowerTo": "the Social Security payroll tax rate shall be lowered to {value}"
+    },
+    "medicare-tax": {
+      "subject": "the Medicare payroll tax rate",
+      "purpose": "set the Medicare payroll tax rate",
+      "raise": "the Medicare payroll tax rate shall be raised from {before} to {value}",
+      "lower": "the Medicare payroll tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the Medicare payroll tax rate shall be raised to {value}",
+      "lowerTo": "the Medicare payroll tax rate shall be lowered to {value}"
+    },
+    "federal-unemployment-tax": {
+      "subject": "the federal unemployment tax rate",
+      "purpose": "set the federal unemployment tax rate",
+      "raise": "the federal unemployment tax rate shall be raised from {before} to {value}",
+      "lower": "the federal unemployment tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the federal unemployment tax rate shall be raised to {value}",
+      "lowerTo": "the federal unemployment tax rate shall be lowered to {value}"
+    },
+    "state-unemployment-tax": {
+      "subject": "the state unemployment tax rate",
+      "purpose": "set the state unemployment tax rate",
+      "raise": "the state unemployment tax rate shall be raised from {before} to {value}",
+      "lower": "the state unemployment tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the state unemployment tax rate shall be raised to {value}",
+      "lowerTo": "the state unemployment tax rate shall be lowered to {value}"
+    },
+    "medicaid-match": {
+      "subject": "the federal share of Medicaid costs",
+      "purpose": "set the federal share of Medicaid costs",
+      "raise": "the federal share of Medicaid costs shall be raised from {before} to {value}",
+      "lower": "the federal share of Medicaid costs shall be lowered from {before} to {value}",
+      "raiseTo": "the federal share of Medicaid costs shall be raised to {value}",
+      "lowerTo": "the federal share of Medicaid costs shall be lowered to {value}"
+    },
+    "snap-maximum": {
+      "subject": "the maximum monthly food assistance benefit",
+      "purpose": "set the maximum monthly food assistance benefit",
+      "raise": "the maximum monthly food assistance benefit shall be raised from {before} to {value}",
+      "lower": "the maximum monthly food assistance benefit shall be lowered from {before} to {value}",
+      "raiseTo": "the maximum monthly food assistance benefit shall be raised to {value}",
+      "lowerTo": "the maximum monthly food assistance benefit shall be lowered to {value}"
+    },
+    "unemployment-weekly-maximum": {
+      "subject": "the maximum weekly unemployment benefit",
+      "purpose": "set the maximum weekly unemployment benefit",
+      "raise": "the maximum weekly unemployment benefit shall be raised from {before} to {value}",
+      "lower": "the maximum weekly unemployment benefit shall be lowered from {before} to {value}",
+      "raiseTo": "the maximum weekly unemployment benefit shall be raised to {value}",
+      "lowerTo": "the maximum weekly unemployment benefit shall be lowered to {value}"
+    }
+  },
+  "units": {
+    "percent": "{value} percent",
+    "minor/hour": "{dollars} an hour",
+    "dollars/year": "{dollars} a year",
+    "USD/month": "{dollars} a month",
+    "USD/week": "{dollars} a week"
+  },
+  "cited": "{clause}, amending {statute}"
+}

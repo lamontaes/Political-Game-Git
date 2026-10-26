@@ -3,9 +3,9 @@ import {
   isSelectedDecision,
   recordDurableDecisionTrace,
 } from "./decisions";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { appendedList, recordById } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import type {
   PermitApplicationRecord,

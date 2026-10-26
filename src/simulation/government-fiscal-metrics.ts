@@ -1,4 +1,4 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { makeCurrencyCode } from "./resources";
 import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
 import {

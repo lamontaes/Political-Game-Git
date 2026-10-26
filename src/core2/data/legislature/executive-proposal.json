@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "description": "How each elected executive brings a bill of their own to the body that passes it. by-request: the executive's bill is introduced by a member who agrees to carry it, as no executive may introduce one in their own name.",
+    "retrieved": "2026-10-14"
+  },
+  "kinds": {
+    "president": {
+      "mode": "by-request",
+      "tag": "SOURCED",
+      "citation": "U.S. Const. art. II, sec. 3 (the President shall recommend measures); only a Member may introduce a bill, House Rule XII, cl. 7, and Senate Rule VII."
+    },
+    "governor": {
+      "mode": "by-request",
+      "tag": "SOURCED",
+      "citation": "Every state constitution's message clause (the governor recommends measures); NCSL, Inside the Legislative Process, bill introduction: bills are introduced by members, an administration's bills by a member at its request."
+    },
+    "county-executive": {
+      "mode": "by-request",
+      "tag": "ESTIMATED",
+      "citation": "NACo, County Government Structure (2009): an elected county executive submits legislation for the board to introduce. Charters vary by county; per-county charter data replaces this (SG-GOV-local-executive-proposal)."
+    },
+    "mayor": {
+      "mode": "by-request",
+      "tag": "ESTIMATED",
+      "citation": "National League of Cities, Forms of Municipal Government: a mayor in a mayor-council city recommends ordinances to the council. Charters vary by city; per-city charter data replaces this (SG-GOV-local-executive-proposal)."
+    }
+  }
+}

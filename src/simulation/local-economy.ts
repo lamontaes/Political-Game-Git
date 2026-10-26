@@ -15,8 +15,8 @@ import {
   inventedPersonAge,
   inventedPersonBirthDate,
   type InventedPersonRole,
-} from "./invented-person-age";
-import { makeIsoDate } from "./dates";
+} from "../core2/gov-rules/invented-person-age";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   createCharacterHistoryContextPeople,
   characterHistoryContextPersonId,
@@ -50,7 +50,7 @@ import {
 import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
 import { paymentFromDatedCash } from "./resource-payments";
 import { nameCorpusVersionForWorld } from "./place-name-corpus";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { recordWorldEvent, writeWithWorldIntegrityOnce } from "./world";
 import type {
   EntityId,

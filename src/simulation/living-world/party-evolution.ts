@@ -1,4 +1,4 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import {
   applyNpcPoliticalBeliefFormation,
   evaluatePoliticalBeliefFormation,
@@ -9,14 +9,14 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { evaluateDecision } from "../decisions";
 import {
   cancelFutureDueItem,
   futureDueItemStateAt,
   scheduleFutureDueItem,
 } from "../future-transitions";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import {
   createOrganization,
   createOrganizationParticipation,
@@ -27,7 +27,7 @@ import { organizationParticipationStateAt } from "../life-queries";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { recordsByStringField } from "../history-index";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   DecisionConsideration,
   EntityId,

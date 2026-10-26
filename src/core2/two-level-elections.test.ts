@@ -1,8 +1,9 @@
 /**
  * Elections in the two-level world: the town's counted residents vote from
  * their own records (they see party labels on the ballot, no campaign reached
- * them), the rest of the district or state votes as groups around its real
- * lean, and no candidate wins every vote for want of named supporters.
+ * them), the rest of the district or state votes on the same engine at a
+ * coarser level from its real 2024 vote, and no candidate wins every vote
+ * for want of named supporters.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -11,7 +12,6 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
@@ -22,16 +22,18 @@ import {
 } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
-import { breakElectionTie, openVoting, resultOf } from "./modules/voting";
+import {
+  countedBallotsOf,
+  openVoting,
+  resultOf,
+  secondElection,
+} from "./modules/voting";
+import { breakElectionTie } from "./election-ties";
 import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { partySide } from "./appointments";
-import { countedResidents } from "./electorate";
+import { countedChoice, countedResidents } from "./electorate";
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";
 const seed =
@@ -41,7 +43,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter(
     (k) => !["US-AS", "US-GU", "US-MP", "US-VI", "US-PR", "US-DC"].includes(k),
@@ -62,7 +64,7 @@ describe("elections in the two-level world", () => {
   it("counted residents vote, challengers get real votes, and statewide results track the state", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -81,9 +83,7 @@ describe("elections in the two-level world", () => {
       )
       .sort((a, b) => a.id.localeCompare(b.id))[0]!;
     const core = createLifeCore(
-      withCountedVoterGroups(
-        collapseToTwoLevels({ ...full, playerId: player.id }),
-      ),
+      collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
     openOffices(core, seed);
@@ -110,6 +110,18 @@ describe("elections in the two-level world", () => {
         expect(result.winnerId, contest.title).toBeNull();
       const filings = ballot(api, contest.id);
       expect(result.countedEligible).toBeGreaterThan(0);
+      // Every counted resident's ballot is kept with its reasons, and each
+      // choice is the one its own appeal ranks first.
+      const kept = countedBallotsOf(api, contest.id);
+      expect(kept.length, contest.title).toBeGreaterThan(0);
+      for (const b of kept) {
+        // Each stands for the town's people like them: their choice counts
+        // at their turnout propensity, which slides strictly between never
+        // and always (turnout.ts).
+        expect(b.choice, b.id).toBe(countedChoice(b.appeal));
+        expect(b.turnout, b.id).toBeGreaterThan(0);
+        expect(b.turnout, b.id).toBeLessThan(1);
+      }
       const sides = filings.map((f) => partySide(f.party ?? null));
       const contested =
         filings.length > 1 && sides.includes(1) && sides.includes(-1);
@@ -131,7 +143,10 @@ describe("elections in the two-level world", () => {
       if (contest.family === "statewideExecutive") {
         const real = 1 - presidential.get(state.slice(3))!;
         // The state's result follows the state, not the town's sample.
-        expect(Math.abs(share - real), contest.title).toBeLessThan(0.15);
+        expect(
+          Math.abs(share - real),
+          `${contest.title}: ${state} ${key}, seed ${seed}, share ${share.toFixed(3)} against the state's ${real.toFixed(3)}`,
+        ).toBeLessThan(0.15);
       }
       report.push(
         `${contest.title}: R ${share.toFixed(3)} of ${r + d} (counted ${result.countedTurnout}/${result.countedEligible}, named ${result.namedTurnout}/${result.namedEligible})`,
@@ -193,7 +208,7 @@ describe("elections in the two-level world", () => {
                 contest.family === "municipalOffice"
               ? "localTie"
               : "generalElectionTie";
-      const winner = breakElectionTie(api, contest, tied);
+      const winner = breakElectionTie(api, contest, tied, secondElection);
       const method = rules[field]?.method ?? "lot";
       if (winner === null)
         expect(

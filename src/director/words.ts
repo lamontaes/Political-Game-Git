@@ -1,18 +1,35 @@
 /** Small word rules shared by the journal, conversations and scenes. */
 import { P } from "../core2/parameters";
+import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
+
+/**
+ * A broadcast call sign with its band suffix: four letters starting with K or
+ * W, then -TV, -FM, -AM, -DT, -LP or -CD (47 CFR 73.3550). It stays in capitals.
+ */
+const CALL_SIGN = /^[KW][A-Z]{2,3}-(?:TV|FM|AM|DT|LP|CD)$/;
 
 /**
  * A record's proper name as people write it: some federal files hold names in
  * capitals only ("CENTRAL HIGH"), which are written word by word.
  */
 export function properName(text: string): string {
-  if (text !== text.toUpperCase()) return text;
-  return text
-    .toLowerCase()
-    .replace(
-      /(^|[\s\-/(])([a-z])/g,
-      (_all, lead: string, letter: string) => `${lead}${letter.toUpperCase()}`,
-    );
+  if (CALL_SIGN.test(text)) return text;
+  const titled = (run: string) =>
+    run
+      .toLowerCase()
+      .replace(
+        /(^|[\s\-/(])([a-z])/g,
+        (_all, lead: string, letter: string) =>
+          `${lead}${letter.toUpperCase()}`,
+      );
+  if (text === text.toUpperCase()) return titled(text);
+  // A record name shouted inside a longer one ("COUNTY OF WASHINGTON
+  // treasury"): a run of two or more capitalized words reads as a name.
+  return text.replace(/\b[A-Z][A-Z'&.]*(?:\s+[A-Z][A-Z'&.]*)+\b/g, (run) =>
+    titled(run).replace(/(?<=\s)(Of|The|And|For|In|On)(?=\s)/g, (word) =>
+      word.toLowerCase(),
+    ),
+  );
 }
 
 /** How a resident says a town aloud: without the state it sits in. */
@@ -44,18 +61,10 @@ export function spokenDate(iso: string, today: string): string {
   });
 }
 
-/** A month and year as people say it: "April 2016". */
-export function spokenMonth(iso: string): string {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
-
 /**
- * When something happened, as people say it in passing: "today",
- * "yesterday", or "on March 3" (with the year only when it differs).
+ * How long ago something happened, as people say it in passing ("yesterday",
+ * "last week", "a few weeks ago"), never as a calendar date. The wording is
+ * the row of `src/director/data/spoken-when.json` that covers the gap.
  */
 export function spokenWhen(iso: string, today: string): string {
   const days = Math.round(
@@ -65,7 +74,6 @@ export function spokenWhen(iso: string, today: string): string {
         P.secondsPerMinute *
         P.millisecondsPerSecond),
   );
-  if (days === P.zero) return "today";
-  if (days === P.one) return "yesterday";
-  return `on ${spokenDate(iso, today)}`;
+  const row = SPOKEN_WHEN.rows.find((r) => days <= r.upToDays);
+  return (row ?? SPOKEN_WHEN.rows[SPOKEN_WHEN.rows.length - P.one]!).said;
 }

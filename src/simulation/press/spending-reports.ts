@@ -3,7 +3,7 @@ import {
   type OperatingCategory,
 } from "../campaign-operating-costs";
 import { campaignOpponentRecords, campaigns } from "../campaign-queries";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { organizationNameAt } from "../living-world/party-registry";
 import { personName } from "../people";
 import type { CurrencyCode, EntityId, IsoDate, World } from "../types";

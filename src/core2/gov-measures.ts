@@ -23,8 +23,9 @@
  * - `voting.party-share`: the Democratic share of the two-party vote in the
  *   latest decided partisan race covering the town (0 to 1).
  */
+import { GOV_MEASURES } from "./gov-measure-keys";
 import type { CoreAPI, CoreState } from "./types";
-import { lawChain, lawInForce } from "./modules/laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -39,18 +40,7 @@ import {
   governments,
 } from "./modules/budgets";
 
-export const GOV_MEASURES = [
-  "labor.minimum-wage-change-pct",
-  "labor.minimum-wage-gap-to-15",
-  "election.incumbent-vote",
-  "election.incumbent-reelection",
-  "voting.local-turnout",
-  "budget.parks-added-pct",
-  "labor.minimum-wage",
-  "labor.minimum-wage-to-median",
-  "voting.youth-turnout",
-  "voting.party-share",
-] as const;
+export { GOV_MEASURES };
 
 const daysBefore = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) - days * 86_400_000)
@@ -94,7 +84,16 @@ function decided(api: CoreAPI): {
     );
 }
 
+/** The engines a measure reads; the measure is null where one is not installed. */
+function enginesFor(measure: string): readonly string[] {
+  if (measure.startsWith("labor.")) return [LAWS_MODULE_ID];
+  if (measure.startsWith("budget.")) return [BUDGETS_MODULE_ID];
+  return [ELECTIONS_MODULE_ID, VOTING_MODULE_ID, OFFICES_MODULE_ID];
+}
+
 export function govMeasure(api: CoreAPI, measure: string): number | null {
+  if (!enginesFor(measure).every((id) => api.state.modules.has(id)))
+    return null;
   const date = api.state.date;
   switch (measure) {
     case "labor.minimum-wage-change-pct": {
@@ -229,4 +228,29 @@ export function govMeasure(api: CoreAPI, measure: string): number | null {
     default:
       return null;
   }
+}
+
+/**
+ * The record a government measure's value stands on: the governing minimum
+ * wage row for the labor measures, the city's budget for the parks line, and
+ * null for measures read from results (their races carry their own ids).
+ */
+export function govMeasureRecord(api: CoreAPI, measure: string): string | null {
+  if (!enginesFor(measure).every((id) => api.state.modules.has(id)))
+    return null;
+  if (measure.startsWith("labor."))
+    return (
+      lawInForce(api, "minimum-wage", api.state.date).governing?.id ?? null
+    );
+  if (measure === "budget.parks-added-pct") {
+    if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+    const city = governments(api).find((g) => g.level === "city");
+    if (!city) return null;
+    return (
+      budgetsOf(api, city.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .at(-1)?.id ?? null
+    );
+  }
+  return null;
 }

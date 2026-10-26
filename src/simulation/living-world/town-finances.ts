@@ -52,13 +52,13 @@ import { startState } from "../macro-economy/producer";
 
 import townBusinessResearch from "../../../data/research/money/town-business-a71-2026.json" with { type: "json" };
 import { privacyInitialOccurrence } from "../federal-data-privacy-law";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { acuteWeight } from "../outcome-web";
 import { recordOrganizationProfile } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
 import { MACRO_ERA_POLICY } from "../macro-economy/policy";
-import { countyGeoidsForPlace } from "../government-units";
+import { countyGeoidsForPlace } from "../../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { localInstitutionsFor } from "../local-institutions";
 import { areaResidents } from "../outcome-web/place-outcome-store";
@@ -90,11 +90,8 @@ import {
   townBusinessKindBooks,
   TOWN_BUSINESS_WORKPLACES,
 } from "./town-business-books";
-import {
-  TOWN_EMPLOYMENT_VERSION,
-  TOWN_WORKPLACES,
-  townWorkplaceFor,
-} from "./town-employment";
+import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
+import { TOWN_WORKPLACES, townWorkplaceFor } from "../../core2/town-workplaces";
 import {
   activeTownJobs,
   jobsLostBy,

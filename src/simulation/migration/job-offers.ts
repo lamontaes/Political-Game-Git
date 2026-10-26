@@ -41,7 +41,7 @@
  * The total checks the drawn places together; it decides nobody.
  */
 
-import { ageOnDate, daysBetween } from "../dates";
+import { ageOnDate, daysBetween } from "../../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "../decisions";
 import {
   answerJobOfferAsResident,

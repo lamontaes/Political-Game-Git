@@ -1,4 +1,9 @@
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   activeWorkRelationshipsAt,
@@ -25,7 +30,7 @@ import { isPersonAliveAt } from "../vitality";
 import { recordWorldEvent } from "../world";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { PROVISIONAL_SIMULATION_COURSES, beginHealthEpisode } from "./health";
 import { latestHealthState } from "./health-queries";
 import { crisisRecords } from "./records";

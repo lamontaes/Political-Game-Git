@@ -29,19 +29,13 @@
  * the Census Bureau's.
  */
 
-import {
-  inventedPersonAge,
-  inventedPersonBirthDate,
-  type InventedPersonRole,
-} from "../invented-person-age";
+import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { ageOnDate, makeIsoDate } from "../dates";
-import { birthCohortGivenName } from "../given-name-cohorts";
-import { createStableId } from "../ids";
+import { ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import {
   createEducationEnrollment,
   createHousehold,
@@ -55,8 +49,16 @@ import {
 } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import { organizationProfileAt } from "../life-queries";
-import { householdMixForJurisdiction } from "../household-mix";
-import type { HouseholdShape } from "../household-mix";
+import { householdMixForJurisdiction } from "../../core2/household-mix";
+import type { HouseholdShape } from "../../core2/household-mix";
+import {
+  namedMembers,
+  TOWN_RESIDENTS_VERSION,
+  townHouseholdKey,
+  townHouseholdSkeleton,
+  townResidentKey,
+  type SkeletonMember,
+} from "../../core2/town-households";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
 import { recordRelationshipInteraction } from "../records";
@@ -67,27 +69,17 @@ import {
   townResidents,
 } from "./town-employment";
 import { ensureTownHomes } from "./town-homes";
-import { DEFAULT_CORPUS_VERSION } from "../names-data";
-import { drawCanonicalNamedIdentity } from "../people";
-import { nameCorpusVersionForWorld } from "../place-name-corpus";
-import {
-  defaultPronounsForGender,
-  generatePersonIdentity,
-} from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EducationProgramKind,
   EntityId,
   IsoDate,
   OccupationClassification,
-  PersonIdentity,
   WorkAuthority,
   WorkRelationshipKind,
   World,
 } from "../types";
 import { assertWorldIntegrity, withWorldIntegrityDeferred } from "../world";
-
-export const TOWN_RESIDENTS_VERSION = "town-residents-v1";
 
 const PROVENANCE = {
   kind: "generated" as const,
@@ -234,19 +226,6 @@ const EMPLOYER_ROLES: Readonly<
   },
 };
 
-interface SkeletonMember {
-  readonly age: number;
-  readonly role: "adult" | "child";
-}
-
-/** One household of the town, before anyone in it is written out. */
-export interface TownHouseholdSkeleton {
-  readonly index: number;
-  readonly shape: HouseholdShape;
-  /** Ages on the day the world began, adults first. */
-  readonly members: readonly SkeletonMember[];
-}
-
 /** What the world holds about a town's size. */
 export interface TownRoster {
   readonly town: EntityId;
@@ -289,85 +268,6 @@ export function townRoster(town: EntityId): TownRoster {
   };
 }
 
-function householdKey(town: EntityId, index: number): string {
-  return `${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`;
-}
-
-function householdRng(world: World, town: EntityId, index: number) {
-  return new SeededRng(world.seed).fork(householdKey(town, index));
-}
-
-function pickShape(rng: SeededRng, town: EntityId): HouseholdShape {
-  const { shares } = householdMixForJurisdiction(town);
-  let point = rng.next();
-  for (const [shape, share] of shares) {
-    point -= share;
-    if (point < 0) return shape;
-  }
-  return shares.at(-1)![0];
-}
-
-/**
- * Household `index` of the town: its shape and its members' ages. Cheap.
- * `shape` sets the household's shape instead of drawing it from the town's
- * mix (the opening's household for the player's cohort, core2/population.ts).
- */
-export function townHouseholdSkeleton(
-  world: World,
-  town: EntityId,
-  index: number,
-  shape?: HouseholdShape,
-): TownHouseholdSkeleton {
-  const rng = householdRng(world, town, index);
-  shape ??= pickShape(rng.fork("shape"), town);
-  const members: SkeletonMember[] = [];
-  const push = (age: number) => {
-    members.push({ age, role: "adult" });
-    return age;
-  };
-  const adult = (n: number, role: InventedPersonRole) =>
-    push(inventedPersonAge(rng.fork(`age:${n}`), role));
-  if (shape === "alone") adult(0, "household-adult-alone");
-  else if (shape === "housemates") {
-    adult(0, "household-housemate");
-    adult(1, "household-housemate");
-  } else {
-    const head = adult(
-      0,
-      shape === "couple" ? "household-couple-head" : "household-single-parent",
-    );
-    // A partner is within six years of the first adult, and no younger
-    // than a housemate can be.
-    if (shape !== "parent-with-children")
-      push(
-        rng
-          .fork("age:1")
-          .integer(Math.max(19, head - 6), Math.min(90, head + 6) + 1),
-      );
-    if (shape === "couple-with-children" || shape === "parent-with-children") {
-      const children = rng.fork("children").integer(1, 4);
-      const youngest = Math.max(0, head - 45);
-      for (let c = 0; c < children; c += 1)
-        members.push({
-          age: rng
-            .fork(`child-age:${c}`)
-            .integer(youngest, Math.min(17, head - 20) + 1),
-          role: "child",
-        });
-    }
-  }
-  return { index, shape, members };
-}
-
-/** The stable key of member `member` of household `index`. */
-export function townResidentKey(
-  town: EntityId,
-  index: number,
-  member: number,
-): string {
-  return `${householdKey(town, index)}:person:${member}`;
-}
-
 /** The person id member `member` of household `index` has once written out. */
 export function townResidentId(
   world: World,
@@ -390,108 +290,6 @@ export function townHouseholdMaterialized(
 }
 
 /**
- * CALIBRATION, not a sourced figure: the share of the town's couples who are
- * two women or two men. Claude CTO ruled on September 27, 2026 that the
- * opening pairs couples by the real share of mixed-sex and same-sex
- * households, one rule for every state. About 1.5 percent is inferred from
- * the Census Bureau's American Community Survey same-sex couple tables (about
- * 1.3 million of roughly 65 million couple households), not read from a file
- * in the repository.
- */
-export const SAME_SEX_COUPLE_SHARE = 0.015;
-
-/**
- * The second partner's identity in a couple. Before this, each partner's
- * gender was drawn on its own, so about half of the town's couples were two
- * women or two men. A partner who is nonbinary, or partnered with somebody
- * nonbinary, keeps the identity they drew.
- */
-function partnerIdentity(
-  first: PersonIdentity,
-  drawn: PersonIdentity,
-  rng: SeededRng,
-): PersonIdentity {
-  const binary = (gender: string) => gender === "female" || gender === "male";
-  if (!binary(first.gender) || !binary(drawn.gender)) return drawn;
-  const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;
-  const gender = sameSex === (first.gender === "female") ? "female" : "male";
-  return gender === drawn.gender
-    ? drawn
-    : { gender, pronouns: defaultPronounsForGender(gender) };
-}
-
-/** Who household `index` would be written out as: names and birthdays. Pure. */
-export function townHouseholdPeople(
-  world: World,
-  town: EntityId,
-  index: number,
-  shape?: HouseholdShape,
-): readonly CharacterHistoryContextPersonInput[] {
-  return namedMembers(
-    world,
-    town,
-    townHouseholdSkeleton(world, town, index, shape),
-  );
-}
-
-function namedMembers(
-  world: World,
-  town: EntityId,
-  skeleton: TownHouseholdSkeleton,
-): readonly CharacterHistoryContextPersonInput[] {
-  const rng = householdRng(world, town, skeleton.index);
-  let familyName: string | null = null;
-  const corpusVersion = nameCorpusVersionForWorld(world, town);
-  const couple =
-    skeleton.shape === "couple" || skeleton.shape === "couple-with-children";
-  let firstPartner: PersonIdentity | null = null;
-  return skeleton.members.map((member, n) => {
-    const personRng = rng.fork(`person:${n}`);
-    const stableKey = townResidentKey(town, skeleton.index, n);
-    let identity = generatePersonIdentity(personRng.fork("identity"));
-    if (couple && n === 0) firstPartner = identity;
-    if (couple && n === 1 && firstPartner)
-      identity = partnerIdentity(firstPartner, identity, rng.fork("couple"));
-    const named = drawCanonicalNamedIdentity(personRng.fork("name"), identity, {
-      corpusVersion,
-    });
-    // Skeleton ages are ages on the day the world began, so a household
-    // written years into a save has the same birthdays as one written on day
-    // one (`materializeTownHousehold`).
-    const birthDate = inventedPersonBirthDate(personRng.fork("birth"), {
-      role: "household-member",
-      referenceDate: world.startedAt,
-      age: member.age,
-      placement: "drawn-exact",
-    });
-    // Housemates keep their own names; a family shares the first adult's.
-    const surname =
-      skeleton.shape === "housemates" || familyName === null
-        ? named.familyName
-        : familyName;
-    if (familyName === null) familyName = surname;
-    return {
-      stableKey,
-      // The birth-year cohorts are national; a place with its own names keeps
-      // the name it drew.
-      givenName:
-        corpusVersion === DEFAULT_CORPUS_VERSION
-          ? birthCohortGivenName(world.seed, stableKey, {
-              givenName: named.givenName,
-              familyName: surname,
-              birthDate,
-              gender: named.identity.gender,
-            })
-          : named.givenName,
-      familyName: surname,
-      identity: named.identity,
-      birthDate,
-      homeJurisdictionId: town,
-    };
-  });
-}
-
-/**
  * Write household `index` of the town into the world: its people, its home,
  * and who they are to each other. A household already written is returned
  * unchanged, so the same person is never written twice.
@@ -502,11 +300,16 @@ export function materializeTownHousehold(
   index: number,
 ): World {
   if (townHouseholdMaterialized(world, town, index)) return world;
-  const skeleton = townHouseholdSkeleton(world, town, index);
-  const inputs = namedMembers(world, town, skeleton);
+  const skeleton = townHouseholdSkeleton(world.seed, town, index);
+  const inputs = namedMembers(
+    world,
+    town,
+    skeleton,
+    nameCorpusVersionForWorld(world, town),
+  );
   let next = createCharacterHistoryContextPeople(world, inputs);
   const today = next.currentDate;
-  const key = householdKey(town, index);
+  const key = townHouseholdKey(town, index);
   const ids = inputs.map((input) =>
     characterHistoryContextPersonId(next, input.stableKey),
   );
@@ -608,7 +411,7 @@ export function townRosterPlace(
   );
   for (let attempt = 0; attempt < 64; attempt += 1) {
     const household = rng.integer(from, to);
-    const members = townHouseholdSkeleton(world, town, household).members;
+    const members = townHouseholdSkeleton(world.seed, town, household).members;
     const member = members.findIndex(
       (candidate, m) => fits(candidate) && !taken.has(`${household}:${m}`),
     );
@@ -691,7 +494,7 @@ export function materializeSettledTownHousehold(
     town,
   );
   const members = new Set(
-    townHouseholdSkeleton(next, town, index).members.map((_, m) =>
+    townHouseholdSkeleton(next.seed, town, index).members.map((_, m) =>
       townResidentId(next, town, index, m),
     ),
   );
@@ -763,7 +566,7 @@ function seatTownResidents(world: World, playerPersonId: EntityId): World {
     if (!neighbor || metHouseholds.has(neighbor.household)) continue;
     metHouseholds.add(neighbor.household);
     const members = townHouseholdSkeleton(
-      next,
+      next.seed,
       town,
       neighbor.household,
     ).members;
@@ -842,7 +645,7 @@ function seatTownResidents(world: World, playerPersonId: EntityId): World {
       const found = seat(stableKey, h, (member) => member.role === "adult");
       if (!found) break;
       const members = townHouseholdSkeleton(
-        next,
+        next.seed,
         town,
         found.household,
       ).members;
@@ -951,7 +754,8 @@ export function describeTownResidents(
   let adults16 = 0;
   for (let i = 0; i < n; i += 1) {
     const index = Math.floor((i * roster.households) / n);
-    for (const member of townHouseholdSkeleton(world, town, index).members) {
+    for (const member of townHouseholdSkeleton(world.seed, town, index)
+      .members) {
       people += 1;
       if (member.role === "child" && member.age >= 5) children += 1;
       if (member.age >= 16) adults16 += 1;

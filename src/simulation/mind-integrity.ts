@@ -1,7 +1,7 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { compareDecisionOptionScores } from "./decision-scores";
 import { validateDecisionPeerEstimates } from "./decision-peer-estimates";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   assertLifeHistorySourceAvailable,
   lifeHistoryReferenceKey,

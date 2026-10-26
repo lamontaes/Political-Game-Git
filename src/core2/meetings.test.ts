@@ -6,6 +6,8 @@
  * the town's widest-reaching outlet (it waits for your answers).
  */
 import { createHash } from "node:crypto";
+import { stancesOf, viewsModule } from "./modules/views";
+import { speechModule } from "./modules/speech";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -18,7 +20,6 @@ import {
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
@@ -49,17 +50,13 @@ import {
 import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`meetings:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -74,7 +71,7 @@ function world(
   for (let attempt = 0; attempt < 12; attempt += 1) {
     const state = pick(states, `${salt}:${attempt}`);
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -87,6 +84,7 @@ function world(
         startedAt: START,
         minimumPeople: 300,
       }),
+      { modules: [viewsModule, speechModule] },
     );
     openLaws(core);
     openOffices(core, seed);
@@ -116,53 +114,51 @@ function fileAndQualify(
     personId,
     contestId,
     platform,
-    payFee: true,
   });
   if (result.status === "refused") return null;
-  let filing = result.filing;
-  for (const neighbor of [...api.state.people.keys()].sort()) {
-    if (filing.status === "on-ballot") break;
-    if (neighbor !== personId) requestSignature(api, filing.id, neighbor);
-    filing = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .get(filing.id) as unknown as FilingRow;
-  }
+  const filing = result.filing;
   return filing.status === "on-ballot" ? filing : null;
 }
 
 describe("public meetings", () => {
   it("public comment on a council bill reaches every member, and a town hall moves those present", () => {
-    const { core, api, where } = world(
-      "comment",
-      (c) =>
-        townSeats(coreAPI(c)).filter(
-          (s) => s.office.kind === "council" && s.holder?.personId,
-        ).length >= 3,
-    );
+    // Some states give a town's council no power over any recorded policy
+    // question (nothing it may draft), so a place is accepted only when it
+    // has a council of three that can act on one.
+    const found: { bill: ReturnType<typeof draftBill> | null } = {
+      bill: null,
+    };
+    const { core, api, where } = world("comment", (c) => {
+      const a = coreAPI(c);
+      const seats = townSeats(a).filter(
+        (s) => s.office.kind === "council" && s.holder?.personId,
+      );
+      if (seats.length < 3) return false;
+      found.bill = null;
+      for (const question of Object.keys(POLICY_QUESTIONS)
+        .filter((q) => questionAxis(q) !== 0)
+        .sort(
+          (x, y) =>
+            Math.abs(questionAxis(y)) - Math.abs(questionAxis(x)) ||
+            x.localeCompare(y),
+        )) {
+        const drafted = draftBill(a, {
+          bodyOfficeId: seats[0]!.office.id,
+          sponsorId: seats[0]!.holder!.personId!,
+          provisions: [{ kind: "policy-question", question, value: 1 }],
+        });
+        if (drafted.status === "drafted") {
+          found.bill = drafted;
+          break;
+        }
+      }
+      return found.bill !== null;
+    });
     const council = townSeats(api).filter(
       (s) => s.office.kind === "council" && s.holder?.personId,
     );
     const body = council[0]!.office.id;
-    // A recorded policy question the town may act on.
-    let bill = null;
-    for (const question of Object.keys(POLICY_QUESTIONS)
-      .filter((q) => questionAxis(q) !== 0)
-      .sort(
-        (a, b) =>
-          Math.abs(questionAxis(b)) - Math.abs(questionAxis(a)) ||
-          a.localeCompare(b),
-      )) {
-      const drafted = draftBill(api, {
-        bodyOfficeId: body,
-        sponsorId: council[0]!.holder!.personId!,
-        provisions: [{ kind: "policy-question", question, value: 1 }],
-      });
-      if (drafted.status === "drafted") {
-        bill = drafted;
-        break;
-      }
-    }
+    const bill = found.bill;
     expect(bill, `${where}: no question the council may act on`).not.toBeNull();
     const memberIds = members(api, body).map(memberKey);
     const you = [...core.people.values()]
@@ -284,6 +280,16 @@ describe("public meetings", () => {
       expect(rivalPromises.length).toBe(
         held.answers[rival.personId]!.filter((a) => a.position !== null).length,
       );
+      // The debate's audience hears each candidate as a speaker: the views
+      // engine moves stances by the same read as a speech (owner, Oct 14).
+      {
+        const heard = [...core.people.keys()].filter((id) =>
+          stancesOf(api, id).some((st) =>
+            st.causes.some((c) => c.eventId.includes(`:debate:${held.id}`)),
+          ),
+        );
+        expect(heard.length, where).toBeGreaterThan(0);
+      }
     }
     govReport(
       "meetings-debate",

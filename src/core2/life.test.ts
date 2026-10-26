@@ -1,13 +1,18 @@
+import { addDays } from "./kernel/dates";
 import { describe, expect, it } from "vitest";
 import eventInputs from "./tooling/fixtures/event-inputs.json" with { type: "json" };
 import { DEFAULT_DATA, extendData } from "./data";
+import { scoreOffers } from "./choice";
+import { planFreeTime } from "./free-block";
 import { advanceCore, availableActs, chooseAct, createLifeCore } from "./life";
 import { parameter as p } from "./parameters";
 import { assertCoreIntegrity, coreAPI } from "./state";
 import { ACCOUNTS_MODULE } from "./accounts";
 import { LIFE_MODULE } from "./modules/life";
+import { openingTemperaments } from "./opening-personality";
 import { PEOPLE_MODULE_ID } from "./modules/people";
 import { SCHOOL_MODULE_ID } from "./modules/school";
+import { DISASTERS_MODULE_ID } from "./modules/disasters";
 import { WORK_MODULE } from "./modules/work";
 import type {
   ActionDefinition,
@@ -84,6 +89,9 @@ function input(
     ...extra,
   };
 }
+
+/** A mild work ethic: enough to work when calm, little enough for stress or need to tip the choice. */
+const mildEffort = { [voluntaryEffort]: p("traitScale") / 20 };
 
 function workers(
   ids: readonly string[],
@@ -294,7 +302,10 @@ describe("shared actor chooser and committed effects", () => {
   });
 
   it("re-evaluates resource pressure after wages and commits a different recovery consequence", () => {
-    const core = createLifeCore({ ...workers([actorId]), playerId: actorId });
+    const core = createLifeCore({
+      ...workers([actorId], { traits: mildEffort }),
+      playerId: actorId,
+    });
     const openingMoney = money(core);
     advanceCore(core, nextDay);
     const actor = core.people.get(actorId)!;
@@ -354,27 +365,89 @@ describe("shared actor chooser and committed effects", () => {
     expect(high.people.get(actorId)!.liquidMinor).toBeGreaterThan(
       low.people.get(actorId)!.liquidMinor,
     );
-    // P15 part 2b: the high-effort worker also rests in what is left of the
-    // evening after the shift, so both end the day equally rested.
-    expect(low.people.get(actorId)!.affect.stress).toBe(
+    // Since personality weighs as much as needs (#4152), a full-scale work
+    // ethic skips the evening rest after its shift: the low-effort worker ends
+    // the day at least as rested.
+    expect(low.people.get(actorId)!.affect.stress).toBeLessThanOrEqual(
       high.people.get(actorId)!.affect.stress,
     );
     expect(money(high)).toBe(openingHigh);
     expect(money(low)).toBe(openingLow);
   });
 
+  it("lets stress turn generated personalities from work to rest at the played trait weight", () => {
+    // Real people carry every trait (PEOPLE's temperament model), not the
+    // single strongest effort trait the chooser tests above use, and play
+    // runs at the tuned traitWeight (DEFAULT_DATA).
+    const subjects = Array.from({ length: 40 }, (_, index) => ({
+      id: `person:generated-${index}`,
+      birthDate: "1980-01-01",
+      parents: [],
+    }));
+    const temperaments = openingTemperaments(subjects, {
+      seed: "life-test-played-weight",
+      startedAt,
+    });
+    const stressed =
+      p("stressBaseline") +
+      eventInputs.events.affectStimulus.stressImpulse * p("two");
+    let turned = p("zero");
+    for (const subject of subjects) {
+      const decide = (stress: number) => {
+        const core = createLifeCore({
+          ...workers([actorId], { traits: temperaments.get(subject.id)! }),
+          playerId: actorId,
+        });
+        const actor = core.people.get(actorId)!;
+        coreAPI(core).updatePerson(actorId, {
+          affect: { ...actor.affect, stress },
+        });
+        return chooseAct(core, actorId, availableActs(core, actorId)).selected!
+          .definition.effect;
+      };
+      const calm = decide(p("stressBaseline"));
+      const strained = decide(stressed);
+      // Stress never pushes anyone from rest into work.
+      expect(calm === "recover" && strained === "paid-work").toBe(false);
+      if (calm === "paid-work" && strained === "recover") turned += p("one");
+    }
+    // Some generated workers who would work when calm rest when stressed.
+    expect(turned).toBeGreaterThan(p("zero"));
+  });
+
   it("lets mood and stress change the chosen act through action-specific recorded emotion contributions", () => {
     const decide = (mood: number, stress: number) => {
-      const core = createLifeCore({ ...workers([actorId]), playerId: actorId });
+      // A mild work ethic: emotion tips a near-even choice (a full-scale trait
+      // outweighs any mood or stress since personality weighs as much as needs).
+      const core = createLifeCore({
+        ...workers([actorId], { traits: mildEffort }),
+        playerId: actorId,
+      });
       const actor = core.people.get(actorId)!;
       coreAPI(core).updatePerson(actorId, {
         affect: { ...actor.affect, mood, stress },
       });
       const before = structuredClone(actor);
-      const decision = chooseAct(core, actorId, availableActs(core, actorId));
+      // Scored as a prediction (keepWeighed false): reading the choice
+      // creates no facts. A choice the player weighs for keeps is the
+      // chooser's why-kept record, `weighed:<date>:<action>:<person>`
+      // (keepChoice in choice.ts), checked below.
+      const decision = chooseAct(
+        core,
+        actorId,
+        availableActs(core, actorId),
+        undefined,
+        false,
+        false,
+      );
       expect(core.people.get(actorId)).toEqual(before);
       expect(actor.actCount).toBe(p("zero"));
       expect(core.durableLog.size).toBe(p("zero"));
+      const kept = chooseAct(core, actorId, availableActs(core, actorId));
+      expect([...core.durableLog.keys()]).toEqual([
+        `weighed:${core.date}:${kept.selected!.definition.id}:${actorId}`,
+      ]);
+      expect(core.people.get(actorId)).toEqual(before);
       return decision;
     };
     const calm = decide(p("moodBaseline"), p("stressBaseline"));
@@ -639,7 +712,7 @@ describe("learned civic cause and honest requests", () => {
     expect(core.pendingCallbacks.size).toBe(p("one"));
     const callback = [...core.pendingCallbacks.values()][0]!;
     expect(callback).toMatchObject({
-      date: "2021-01-04",
+      date: addDays("2021-01-04", p("officeReplyDays")),
       kind: "office.approached",
       personIds: [actorId],
       witnessIds: [staffId],
@@ -647,6 +720,7 @@ describe("learned civic cause and honest requests", () => {
       desiredChange: drive.desiredChange,
       facts: { organizationId: institution, sourceEventId: event.id },
     });
+    const callbackId = [...core.pendingCallbacks.keys()][0]!;
     expect(core.jobs.get("job:staff")!.personId).toBe(staffId);
     const approachEvents = [
       ...(core.logByKind.get("office.approached") ?? []),
@@ -665,6 +739,93 @@ describe("learned civic cause and honest requests", () => {
     ).toBe(false);
     expect(money(core)).toBe(openingMoney);
     assertCoreIntegrity(core);
+
+    // Defect 1: the office answers on its reply day and the gate reopens.
+    advanceCore(core, addDays("2021-01-04", p("officeReplyDays") - p("one")));
+    expect(core.pendingCallbacks.size).toBe(p("one"));
+    advanceCore(core, addDays("2021-01-04", p("officeReplyDays")));
+    const replies = [...(core.logByKind.get("office.replied") ?? [])].map(
+      (id) => core.durableLog.get(id)!,
+    );
+    expect(replies).toHaveLength(p("one"));
+    expect(replies[0]).toMatchObject({
+      date: addDays("2021-01-04", p("officeReplyDays")),
+      personIds: [actorId],
+      witnessIds: [staffId],
+      topic: drive.topic,
+      facts: {
+        organizationId: institution,
+        responderId: staffId,
+        callbackId,
+        approachEventId: approachEvents[0]!.id,
+      },
+    });
+    expect(
+      api.knows(actorId, `event:${replies[0]!.id}:experienced`),
+    ).toBeDefined();
+    // Answered, with nothing new on the cause since: no second visit yet.
+    expect(core.pendingCallbacks.size).toBe(p("zero"));
+    expect(
+      availableActs(core, actorId).some(
+        (offer) => offer.definition.effect === "approach",
+      ),
+    ).toBe(false);
+    assertCoreIntegrity(core);
+  });
+
+  it("drops a planned approach on its day when the office's staff have left since the plan", () => {
+    const actsOn = (core: CoreState, date: string) =>
+      [...(core.logByPerson.get(actorId) ?? [])]
+        .map((id) => core.durableLog.get(id)!)
+        .filter((row) => row.actorId === actorId && row.date === date);
+    // The resident organizes on January 3, and their free-time planner books
+    // the visit to the office for the next day, as a resident planning a
+    // block of days does.
+    const planned = () => {
+      const core = createLifeCore(civicInput());
+      const api = coreAPI(core);
+      const event = adverse(core);
+      api.emit(event);
+      recordFixtureCause(core, event);
+      advanceCore(core, "2021-01-03");
+      expect(lastAct(core, actorId).actionId).toBe(definition("organize").id);
+      const offers = availableActs(core, actorId).filter(
+        (offer) => offer.definition.effect === "approach",
+      );
+      expect(offers).toHaveLength(p("one"));
+      planFreeTime(
+        api,
+        core.people.get(actorId)!,
+        scoreOffers(core, actorId, offers),
+        undefined,
+        p("two"),
+      );
+      return core;
+    };
+    // With the office staffed, the planned visit happens on its day.
+    const kept = planned();
+    advanceCore(kept, "2021-01-04");
+    const visits = actsOn(kept, "2021-01-04").filter(
+      (row) => row.actionId === definition("approach").id,
+    );
+    expect(visits).toHaveLength(p("one"));
+    expect(visits[0]!.reasonKey).toMatch(/^planned:/);
+    expect(kept.logByKind.get("office.approached")?.size).toBe(p("one"));
+    // The office's only staff member leaves before that day, as an office's
+    // staff follow its jobs: the visit has no one to receive it and does not
+    // happen, and the day goes on.
+    const left = planned();
+    const office = left.publicOrganizations.get(institution)!;
+    left.publicOrganizations.set(institution, { ...office, staff: [] });
+    advanceCore(left, "2021-01-04");
+    expect(left.logByKind.has("office.approached")).toBe(false);
+    expect(left.pendingCallbacks.size).toBe(p("zero"));
+    expect(
+      actsOn(left, "2021-01-04").some(
+        (row) => row.actionId === definition("approach").id,
+      ),
+    ).toBe(false);
+    assertCoreIntegrity(left);
   });
 
   it("keeps association membership requested after an unforced lookup and joining attempt", () => {
@@ -899,14 +1060,16 @@ describe("controller boundary and data extension", () => {
       { data },
     );
     const openingMoney = money(core);
-    // createLifeCore always registers life, people, school days, recorded
-    // work and the accounts module; the new action adds no module of its own.
-    expect(core.modules.size).toBe(p("two") + p("two") + p("one"));
+    // createLifeCore always registers life, people, school days, disasters,
+    // recorded work and the accounts module; the new action adds no module of
+    // its own.
+    expect(core.modules.size).toBe(p("two") + p("two") + p("two"));
     expect([...core.modules.keys()].sort()).toEqual(
       [
         LIFE_MODULE.id,
         PEOPLE_MODULE_ID,
         SCHOOL_MODULE_ID,
+        DISASTERS_MODULE_ID,
         WORK_MODULE.id,
         ACCOUNTS_MODULE.id,
       ].sort(),
@@ -925,10 +1088,11 @@ describe("controller boundary and data extension", () => {
     expect(chosen.decision!.selectedReasons!.trait).toBeGreaterThan(p("zero"));
     expect(actor.liquidMinor).toBe(core.jobs.get(actor.jobId!)!.wageDailyMinor);
     expect(money(core)).toBe(openingMoney);
-    expect(core.modules.size).toBe(p("two") + p("two") + p("two") + p("one"));
+    expect(core.modules.size).toBe(p("two") + p("two") + p("two") + p("two"));
     expect([...core.modules.keys()].sort()).toEqual(
       [
         SCHOOL_MODULE_ID,
+        DISASTERS_MODULE_ID,
         LIFE_MODULE.id,
         PEOPLE_MODULE_ID,
         WORK_MODULE.id,

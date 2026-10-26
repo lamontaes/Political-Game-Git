@@ -84,6 +84,36 @@
       "tag": "TUNABLE",
       "source": "Age from which health coverage weighs as a personal concern (chronic conditions and coverage gaps rise through the fifties toward Medicare at 65).",
       "spread": [50, 65]
+    },
+    "townHallCauseWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight on an official's reason to hold a town hall: how evenly the town splits on a bill before their body (1 at an even split), or their own race coming up (1). Officials hold town halls on contested questions and in campaign season (Congressional Management Foundation, Communicating with Congress, 2011; Lee, 'Insecure Majorities', 2016).",
+      "spread": [0.5, 2]
+    },
+    "townHallEffort": {
+      "value": 0.8,
+      "tag": "TUNABLE",
+      "source": "The effort of holding a town hall, against which the official's reasons are weighed: below a strong cause, most officials hold none in an ordinary week. Spread checked against members of Congress holding a few in-person town halls a year (Town Hall Project counts, 2017 to 2019).",
+      "spread": [0.5, 1.2]
+    },
+    "townHallGapDays": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "source": "Days after a town hall at which the pull against holding another has halved (a sliding recency, no fixed cooldown).",
+      "spread": [30, 120]
+    },
+    "townHallCampaignDays": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "source": "Days before their election within which a candidate's race is a reason to hold a town hall (campaign season).",
+      "spread": [30, 90]
+    },
+    "townHallBillDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "source": "Days before a bill's vote within which it is a reason for its body's members to hold a town hall.",
+      "spread": [7, 30]
     }
   }
 }

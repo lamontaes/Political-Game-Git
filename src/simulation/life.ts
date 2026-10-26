@@ -3,14 +3,14 @@ import { applyLawConsequences } from "./enacted-law-effects";
 import { GOVERNMENT_OPERATIONS_QUESTION_KEYS } from "./law-consequences/government-operations-rows";
 import { eventById } from "./event-index";
 import { assertPublicGovernmentIdentity } from "./public-government-identity";
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   appendedList,
   hasStableKey,
   recordById,
   stableKeysOf,
 } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   assessLifeLoadAt,
   careResponsibilityStateHistory,

@@ -42,7 +42,7 @@ import {
   stateKeyForJurisdiction,
 } from "./life-places";
 import type { CampaignRecord, EntityId, World } from "./types";
-import type { IsoDate } from "./types";
+import type { IsoDate } from "../core2/kernel/brands";
 
 export type CampaignObligationKind =
   | "principal-campaign-committee-required"

@@ -1,7 +1,7 @@
 import { activateEffect, recordCausalProcess } from "./effect-records";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { cloneIncidentDefinition } from "./incident-catalog";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   compareExactQuantities,
   createExactQuantity,

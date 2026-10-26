@@ -17,13 +17,13 @@ import {
   futureDueItemStateAt,
 } from "./future-transitions";
 import { cancelScheduledActivity, scheduledActivityState } from "./time-work";
-import { addDays, daysBetween, spokenDate } from "./dates";
+import { addDays, daysBetween, spokenDate } from "../core2/kernel/dates";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
 import {
   recordedTuitionFreezePrice,
   recordedStudyPeriodTuitionPrice,
-} from "../education/tuition-prices";
+} from "./tuition-prices";
 import { TUITION_FREEZE_ROW } from "./law-consequences/tuition-freeze-row";
 import { noticeTuitionFreeze } from "./law-consequences/tuition-freeze-noticed";
 import {

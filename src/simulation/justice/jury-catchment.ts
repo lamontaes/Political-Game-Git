@@ -1,6 +1,6 @@
 import { ensureJurisdiction } from "../national-election-geography";
 /** CTO12:31: county geography is an estimated trial-jury catchment. */
-import { countyPopulationSharesForPlace } from "../government-units";
+import { countyPopulationSharesForPlace } from "../../core2/reference/government-units";
 import {
   lifePlaceByJurisdictionId,
   searchLifePlaces,

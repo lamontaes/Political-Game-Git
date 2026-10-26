@@ -1,7 +1,7 @@
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
-} from "../invented-person-age";
+} from "../../core2/gov-rules/invented-person-age";
 import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
@@ -11,8 +11,8 @@ import type {
   CharacterHistoryContextPersonInput,
   CharacterHistoryTransition,
 } from "../character-history";
-import { addDays, makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_NAMES } from "../nationwide-world/state-executive-candidacy-packs";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
@@ -24,7 +24,7 @@ import {
 } from "../people";
 import { birthCohortGivenName } from "../given-name-cohorts";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng, pickDistinct } from "../rng";
+import { SeededRng, pickDistinct } from "../../core2/kernel/rng";
 import type { EntityId, IsoDate, LifeRecordProvenance, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {

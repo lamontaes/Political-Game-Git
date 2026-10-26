@@ -62,6 +62,22 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "real names from federal school and ownership records",
   },
   {
+    pattern:
+      /^src\/core2\/data\/(places\/(county-names|localities|place-lookup)|business\/nonattainment)\.json$/,
+    reason:
+      "real place and county names from Census and EPA records (Centre, Harbour, Storey)",
+  },
+  {
+    pattern: /^src\/bench\/[a-z-]+-receipt\.json$/,
+    reason:
+      "receipts the bench verifier wrote and reads back; regenerated rather than edited",
+  },
+  {
+    pattern: /^docs\/coordination\/DECISION-REGISTER\.md$/,
+    reason:
+      "a copy of the owner's Drive register, re-copied from Drive rather than edited here",
+  },
+  {
     pattern: /^fixtures\/source\//,
     reason: "fixtures mirroring sourced records byte for byte",
   },
@@ -101,6 +117,50 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "the word tables and their tests name the British forms on purpose",
   },
 ];
+
+/**
+ * Official proper names in a file that are otherwise checked: the named word
+ * is allowed there, and nothing else in the file is.
+ */
+export const PROPER_NAMES: readonly {
+  readonly pattern: RegExp;
+  readonly names: readonly string[];
+  readonly reason: string;
+}[] = [
+  {
+    pattern: /^src\/core2\/data\/disasters\/declarations\.json$/,
+    names: ["Sulphur"],
+    reason: "FEMA's official incident name, Sulphur Fire, kept as declared",
+  },
+  {
+    pattern: /^docs\/pool\/INDEX\.md$/,
+    names: ["cancelled"],
+    reason:
+      "the generated index links items by their persisted ids (release-main-runs-cancelled-by-pool-pushes); identifiers keep their spelling",
+  },
+  {
+    pattern:
+      /^docs\/pool\/(?:INDEX\.md|items\/core-speed-year-over-limit-dense-town\.md)$/,
+    names: ["Harbour"],
+    reason:
+      "Discovery Harbour, Hawaii, the Census place where the year stopped, named as published",
+  },
+  {
+    pattern: /^docs\/pool\/items\/release-spelling-sweep-red-oct17\.md$/,
+    names: ["Grey", "Centre"],
+    reason:
+      "the item quotes the Census names it allows, Grey Eagle and Sauk Centre",
+  },
+];
+
+/** True when this British form is an official proper name allowed in this file. */
+export function properNameAllowed(file: string, british: string): boolean {
+  return PROPER_NAMES.some(
+    ({ pattern, names }) =>
+      pattern.test(file) &&
+      names.some((name) => name.toLowerCase() === british.toLowerCase()),
+  );
+}
 
 /**
  * A line that names a British form on purpose — a quotation, an old save's

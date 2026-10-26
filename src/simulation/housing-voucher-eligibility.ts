@@ -1,5 +1,5 @@
 import incomeScope from "../../data/research/money/housing-voucher-income-scope.json" with { type: "json" };
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { recordedMonthlyPayByPerson } from "./household-pay";
 import {
   householdLocationAt,

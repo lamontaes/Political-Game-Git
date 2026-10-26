@@ -35,6 +35,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -48,6 +52,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -61,6 +69,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -74,6 +86,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-05-07",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250507.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -82,11 +98,15 @@
       "kind": "written",
       "text": "The manager turned first to {topic}.",
       "minutesUsing": 36,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-06-17",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260617.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -95,11 +115,15 @@
       "kind": "written",
       "text": "The manager then turned to {topic}.",
       "minutesUsing": 11,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-03-18",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260318.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -113,6 +137,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-04-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -126,6 +154,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-01-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250129.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -139,6 +171,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-12-10",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20251210.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -152,6 +188,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-10-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20251029.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -165,6 +205,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-03-18",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260318.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -178,6 +222,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2023-07-26",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20230726.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -191,6 +239,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -204,6 +256,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-04-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -217,6 +273,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2023-09-20",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20230920.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -230,6 +290,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-04-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -243,6 +307,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-04-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -256,6 +324,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -269,6 +341,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-09-17",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250917.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -282,6 +358,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-01-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250129.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -295,6 +375,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2022-01-26",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20220126.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -308,6 +392,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-12-10",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20251210.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -321,6 +409,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-01-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250129.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -334,6 +426,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -347,6 +443,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -360,6 +460,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -373,6 +477,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -386,6 +494,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -399,6 +511,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-06-17",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260617.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -412,6 +528,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2023-12-13",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20231213.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
       }
     },
     {
@@ -425,6 +545,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "routine"
       }
     },
     {
@@ -438,6 +562,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "routine"
       }
     },
     {
@@ -451,6 +579,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "routine"
       }
     },
     {
@@ -464,6 +596,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2024-12-18",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20241218.htm"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "routine"
       }
     },
     {
@@ -477,6 +613,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "routine"
       }
     },
     {
@@ -490,6 +630,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "routine"
       }
     },
     {
@@ -503,6 +647,10 @@
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "routine"
       }
     }
   ]

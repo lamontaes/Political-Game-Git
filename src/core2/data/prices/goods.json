@@ -33,7 +33,6 @@
     },
     "beverage-container": {
       "perPersonYear": 899,
-      "redemptionRate": 0.73,
       "elasticityParameter": "pricesElasticityBeverages"
     },
     "vehicle-repair": {
@@ -42,6 +41,9 @@
       "poorShareBase": 0.226,
       "poorShareOfReferenceRoads": 0.226,
       "elasticityParameter": "pricesElasticityVehicles"
+    },
+    "cannabis": {
+      "elasticityParameter": "pricesElasticityCannabis"
     }
   }
 }

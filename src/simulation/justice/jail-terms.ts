@@ -1,4 +1,4 @@
-import { isoDateFromParts } from "../dates";
+import { isoDateFromParts } from "../../core2/kernel/dates";
 import { recordsWithFieldValue } from "../history-index";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 

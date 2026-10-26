@@ -4,17 +4,11 @@ import { fileURLToPath } from "node:url";
 import { format } from "prettier";
 
 const tables = [
-  [
-    "town-pay",
-    () => import("../../src/simulation/living-world/town-pay.generated"),
-  ],
-  [
-    "town-rent",
-    () => import("../../src/simulation/living-world/town-rent.generated"),
-  ],
+  ["town-pay", () => import("../../src/core2/reference/town-pay.generated")],
+  ["town-rent", () => import("../../src/core2/reference/town-rent.generated")],
   [
     "town-employment",
-    () => import("../../src/simulation/living-world/town-employment.generated"),
+    () => import("../../src/core2/reference/town-employment.generated"),
   ],
   [
     "town-bank-shapes",

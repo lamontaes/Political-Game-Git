@@ -49,9 +49,9 @@
     "citation": "Mean days per month (365/12)."
   },
   "businessFoundBaseline": {
-    "value": -4,
+    "value": -2,
     "tag": "TUNABLE",
-    "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year).",
+    "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year). Set at -2.5 so the founders' best weighings sit within reach of a trait lean (at -4 the best weighing of 46,674 in a played year was still 1.1 below not starting, and personality turned none).",
     "spread": {
       "low": -6,
       "high": -2,
@@ -79,17 +79,6 @@
       "high": 3,
       "unit": "score",
       "citation": "Losing a job pushes some toward starting a business (Fairlie 2013, necessity entrepreneurship)."
-    }
-  },
-  "businessFoundTraitWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Enterprising and risk-taking people start businesses more often; the term is the shared trait lean toward founding over staying put (every trait, about -1 to 1; OPUS-TRAITS, Oct 12, 2026).",
-    "spread": {
-      "low": 0.5,
-      "high": 2,
-      "unit": "score per trait point",
-      "citation": "Enterprising and risk-taking people start businesses more often; the term is the shared trait lean toward founding over staying put (every trait, about -1 to 1; OPUS-TRAITS, Oct 12, 2026)."
     }
   },
   "businessStartupMonthsOfCosts": {
@@ -253,14 +242,14 @@
     }
   },
   "businessCloseLossWeight": {
-    "value": 0.5,
+    "value": 2,
     "tag": "TUNABLE",
-    "citation": "Firms that keep losing money exit: exit hazard rises steeply with losses (Haltiwanger, Jarmin and Miranda 2013); checked against BDS exits.",
+    "citation": "Firms that keep losing money exit: exit hazard rises steeply with losses (Haltiwanger, Jarmin and Miranda 2013); checked against BDS exits in a test, never used to pick who closes.",
     "spread": {
-      "low": 0.2,
-      "high": 1,
-      "unit": "per month of the business's costs lost and kept",
-      "citation": "Firms that keep losing money exit: exit hazard rises steeply with losses (Haltiwanger, Jarmin and Miranda 2013); checked against BDS exits."
+      "low": 1,
+      "high": 4,
+      "unit": "pull per month of revenue lost (decayed over the memory window)",
+      "citation": "Firms that keep losing money exit: exit hazard rises steeply with losses (Haltiwanger, Jarmin and Miranda 2013); checked against BDS exits in a test, never used to pick who closes."
     }
   },
   "businessCloseAgeWeight": {
@@ -311,6 +300,98 @@
       "high": 6,
       "unit": "score per share drawn",
       "citation": "IRS SOI S-corporation distributions against net income; JPMorgan Chase Institute, Cash Is King (2016)."
+    }
+  },
+  "businessCloseStayBar": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "An owner stays unless the causes add up: most establishments that exit are young or losing money (Census BDS 2010-2023; Haltiwanger, Jarmin and Miranda 2013). Totals are checked against the state's BDS exit rate in a test only.",
+    "spread": {
+      "low": 2,
+      "high": 5,
+      "unit": "summed pull a counted owner needs before any pull to close",
+      "citation": "An owner stays unless the causes add up: most establishments that exit are young or losing money (Census BDS 2010-2023; Haltiwanger, Jarmin and Miranda 2013). Totals are checked against the state's BDS exit rate in a test only."
+    }
+  },
+  "businessCloseRampWidth": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "The pull above the stay bar slides to certainty over this span, so nothing flips at the bar; an owner's decision is gradual (Haltiwanger, Jarmin and Miranda 2013).",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "pull from the stay bar to a sure closing",
+      "citation": "The pull above the stay bar slides to certainty over this span, so nothing flips at the bar; an owner's decision is gradual (Haltiwanger, Jarmin and Miranda 2013)."
+    }
+  },
+  "businessCloseRunwayWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Cash runway drives exits of businesses that are losing money: a median small business holds about 27 days of cash (JPMorgan Chase Institute, Cash Is King 2016).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "pull for a business with no cash cover that is losing money",
+      "citation": "Cash runway drives exits of businesses that are losing money: a median small business holds about 27 days of cash (JPMorgan Chase Institute, Cash Is King 2016)."
+    }
+  },
+  "businessCloseRunwayMonths": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "JPMorgan Chase Institute, Cash Is King (2016): the median small business holds about 27 cash buffer days.",
+    "estimatedFrom": "27 buffer days, about one month of costs.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "months of costs in cash",
+      "citation": "JPMorgan Chase Institute, Cash Is King (2016): buffers range from under two weeks to about two months across industries."
+    }
+  },
+  "businessCloseConditionsWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "A business that cannot meet its payroll is in distress, a strong exit predictor (Census Small Business Pulse / Federal Reserve Small Business Credit Survey 2023: firms behind on payments close far more often).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "pull per month of payroll it could not pay",
+      "citation": "A business that cannot meet its payroll is in distress, a strong exit predictor (Census Small Business Pulse / Federal Reserve Small Business Credit Survey 2023: firms behind on payments close far more often)."
+    }
+  },
+  "businessLossMemoryMonths": {
+    "value": 12,
+    "tag": "ESTIMATED",
+    "citation": "Owners judge a business over its annual accounts (IRS Schedule C / Form 1120-S are filed yearly).",
+    "estimatedFrom": "A year of books, so a loss counts for about a year and then fades.",
+    "spread": {
+      "low": 6,
+      "high": 24,
+      "unit": "months",
+      "citation": "Small businesses judge viability over six months to two years (Federal Reserve Small Business Credit Survey 2023 reports on 12-month performance)."
+    }
+  },
+  "businessComplianceInPartShare": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "U.S. EPA Green Book: a nonattainment area designated in part covers only part of the county.",
+    "estimatedFrom": "Half the weight of a whole-county designation for a business somewhere in the county.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.8,
+      "unit": "share of a whole-county compliance duty",
+      "citation": "U.S. EPA Green Book county designations (whole or part); partial areas are commonly the urbanized part of a county."
+    }
+  },
+  "businessDataPrivacyShareOfCosts": {
+    "value": 0.01,
+    "tag": "ESTIMATED",
+    "citation": "California Department of Finance, Standardized Regulatory Impact Assessment of the CCPA regulations (August 2019): initial compliance about $55 billion, about 1.8% of 2018 California gross state product; the yearly cost after setup is lower.",
+    "estimatedFrom": "Somewhat over half of the first-year share of output, taken as a yearly share of a business's other operating costs once the setup is done.",
+    "spread": {
+      "low": 0.003,
+      "high": 0.018,
+      "unit": "share of other operating costs",
+      "citation": "California Department of Finance, Standardized Regulatory Impact Assessment of the CCPA regulations (August 2019): about 1.8% of 2018 California gross state product in the first year."
     }
   }
 }

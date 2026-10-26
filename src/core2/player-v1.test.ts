@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { parameter as p } from "./parameters";
 import { createLifeCore, advanceCore } from "./life";
+import { coreAPI } from "./state";
 import {
   advancePlayerV1,
   resumePlayerV1,
@@ -291,6 +292,29 @@ describe("controlled player clock contracts", () => {
     retirePlayerV1(core);
     expect(() => advanceCore(core, "2021-01-09")).not.toThrow();
   });
+  it("releases the clock of a controlled character who died, and a connected person takes it", () => {
+    const core = fresh();
+    advancePlayerV1(core, {
+      controlledPersonId: "worker",
+      through: minute("2021-01-02", 0),
+    });
+    // The controlled character dies partway through the player's day.
+    coreAPI(core).updatePerson("worker", { alive: false });
+    // Their clock cannot go on, but it can be released as it stands.
+    expect(() =>
+      advancePlayerV1(core, {
+        controlledPersonId: "worker",
+        through: minute("2021-01-03", 0),
+      }),
+    ).toThrow(/no longer alive/);
+    expect(() => retirePlayerV1(core)).not.toThrow();
+    // A connected person takes control on a fresh clock.
+    const next = advancePlayerV1(core, {
+      controlledPersonId: "continuing-npc",
+      through: minute("2021-01-03", 0),
+    });
+    expect(next.controlledPersonId).toBe("continuing-npc");
+  });
   it("saves the character's own choice as theirs when the player skips", () => {
     const core = fresh();
     let packet = advancePlayerV1(core, {
@@ -360,14 +384,10 @@ describe("controlled player clock contracts", () => {
     if (packet.kind !== "choice")
       throw new Error("Expected discretionary choice");
     const rest = packet.offers.find((o) => o.actionId === "rest")!;
-    expect(rest.durationMinutes).toBe(
-      p("workWakingRecoveryHours") * p("minutesPerHour"),
-    );
-    expect(rest.durationEvidence.effortParameter).toBe(
-      "workWakingRecoveryHours",
-    );
+    expect(rest.durationMinutes).toBe(p("restDayHours") * p("minutesPerHour"));
+    expect(rest.durationEvidence.effortParameter).toBe("restDayHours");
     const before = boundary(core),
-      actual = core.data.parameters.workWakingRecoveryHours!;
+      actual = core.data.parameters.restDayHours!;
     const previous = actual.value;
     try {
       actual.value += p("one");

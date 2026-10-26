@@ -1,19 +1,12 @@
 {
-  "about": "Whole-figure people (owner, Oct 12): which outfits a person wears where, by role, and how tall each age band stands. A person working at a place, or an official at a government place, wears that place's outfits; anyone else wears their age band's everyday clothes. Heights are presentation sizes, TUNABLE against the people engine's 1.7 m standing figure.",
-  "officialOutfits": [
-    "business-suit",
-    "business-suit-tie",
-    "business-suit-open-collar",
-    "business-suit-pocket-square",
-    "skirt-suit",
-    "navy-pantsuit-lapel-pin",
-    "pantsuit-scarf",
-    "dress-blazer",
-    "business-blazer",
-    "staffer-blazer-trousers",
-    "lawyer-skirt-suit",
-    "veteran-blazer"
-  ],
+  "about": "Standing people drawn from the Codex people-engine v2 set (art/people-engine/v2): which of its outfits a person wears where, by role, and how tall each age band stands. An official at a government place wears an official's outfit, someone at their own workplace wears work clothes, anyone else their age band's everyday clothes. The set paints adults only, in the outfits base (tee and shorts), shirt, vest and blazer standing. Heights are presentation sizes, TUNABLE by eye.",
+  "officialOutfits": ["blazer", "vest"],
+  "workOutfits": ["shirt", "vest", "blazer"],
+  "casualByAge": {
+    "teen": ["base", "shirt"],
+    "adult": ["base", "shirt"],
+    "older": ["shirt", "vest"]
+  },
   "governmentPlaces": [
     "council-chamber",
     "public-meeting-room",
@@ -32,51 +25,30 @@
     "dmv-office",
     "regional-office"
   ],
-  "outfitsByPlace": {
-    "police-station": ["uniform-police", "sheriff-deputy"],
-    "fire-station": ["firefighter-turnout"],
-    "hospital-hallway": ["scrubs", "doctor"],
-    "hospital-lobby": ["scrubs", "doctor"],
-    "classroom": ["teacher"],
-    "elementary-classroom": ["teacher"],
-    "diner": ["barista-apron", "chef"],
-    "restaurant": ["barista-apron", "chef"],
-    "coffee-shop": ["barista-apron"],
-    "farm-yard": ["farm-workwear", "flannel-workwear"],
-    "construction-site": ["workwear-hivis", "flannel-workwear"],
-    "factory-floor": ["workwear-hivis", "custodian"],
-    "newsroom": ["reporter", "tv-anchor"],
-    "local-newspaper-office": ["reporter"],
-    "office": ["office-casual", "business-blazer", "clerk-cardigan-tie"],
-    "appellate-courtroom": ["judge-robe", "lawyer-skirt-suit"],
-    "supreme-courtroom": ["judge-robe"]
+  "heightMeters": {
+    "child": 1.25,
+    "teen": 1.66,
+    "adult": 1.72,
+    "older": 1.68
   },
-  "casualByAge": {
-    "child": ["child-overalls", "child-school", "dress", "casual"],
-    "teen": [
-      "teen-hoodie",
-      "teen-varsity",
-      "hoodie-backpack",
-      "t-shirt-shorts"
-    ],
-    "adult": [
-      "casual",
-      "casual-denim",
-      "hoodie",
-      "polo-khakis",
-      "cardigan-casual",
-      "casual-collared",
-      "flannel-workwear",
-      "wrap-dress-cardigan-badge",
-      "office-casual"
-    ],
-    "older": [
-      "retiree-casual",
-      "cardigan-casual",
-      "casual-collared",
-      "flannel-workwear",
-      "green-blazer-black-trousers"
-    ]
-  },
-  "heightMeters": { "child": 1.25, "teen": 1.66, "adult": 1.72, "older": 1.68 }
+  "roomFronts": {
+    "about": "Rooms with a front people face (a rostrum, a dais, a bench, a board): the front's x, in percent of the picture. Everyone in the room turns toward it, seen from behind where their spot faces away. Read from each painting.",
+    "council-chamber": 50,
+    "county-commission": 50,
+    "public-meeting-room": 50,
+    "school-board-room": 50,
+    "township-board": 50,
+    "committee-hearing-room": 50,
+    "state-legislative-chamber-bicameral": 50,
+    "state-legislative-chamber-unicameral": 50,
+    "us-house-floor": 50,
+    "us-senate-floor": 50,
+    "county-courtroom": 50,
+    "appellate-courtroom": 50,
+    "supreme-courtroom": 50,
+    "federal-district-courtroom": 50,
+    "university-lecture-hall": 50,
+    "elementary-classroom": 50,
+    "classroom": 50
+  }
 }

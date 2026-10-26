@@ -1,4 +1,4 @@
-/** Moved from src/simulation/rng.ts, which now re-exports it. */
+/** The core's seeded generator. */
 const UINT32_RANGE = 0x1_0000_0000;
 
 function hashSeed(seed: string): number {

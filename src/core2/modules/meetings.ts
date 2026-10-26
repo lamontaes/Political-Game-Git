@@ -20,13 +20,15 @@
  */
 import rows from "../data/meetings/parameters.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
+import { residentsRuntime } from "./residents";
+import { isDemoted } from "../counted-groups";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -41,6 +43,9 @@ import {
 } from "./campaigns";
 import {
   billOf,
+  billReach,
+  LEGISLATURE_MODULE_ID,
+  members,
   provisionStance,
   registerLegislatureHooks,
   type BillRow,
@@ -52,14 +57,10 @@ import {
   outletsHere,
   type InterviewAnswer,
 } from "./press";
-import {
-  personLean,
-  personStance,
-  platformAgreement,
-  questionAxis,
-  type Stance,
-} from "../campaign-views";
+import { personLean, questionAxis, type Stance } from "../campaign-views";
+import { agreementWith, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
 export const MEETINGS_MODULE_ID = "core2-meetings-v1";
 
@@ -98,6 +99,12 @@ export interface TownHallRow {
   readonly questions: readonly { askedBy: string; question: string }[];
   readonly answers: readonly InterviewAnswer[];
   readonly moved: number;
+  /** Why the host called it, where they weighed it (not the player's own choice): the cause and the parts of the decision. */
+  readonly calledFor?: {
+    readonly cause: "bill" | "race";
+    readonly recordId: string;
+    readonly reasons: Readonly<Record<string, number>>;
+  };
 }
 
 export interface DebateRow {
@@ -140,7 +147,7 @@ const civic = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
 
 export function openMeetings(core: CoreState): void {
   registerLegislatureHooks({
-    beforeVote: publicComment,
+    beforeVote: { name: "public-comment", run: publicComment },
     positionTerm: roomTerm,
   });
   if (core.modules.has(MEETINGS_MODULE_ID)) return;
@@ -244,13 +251,22 @@ function publicComment(api: CoreAPI, billId: string): void {
   const stance = billQuestion(api, bill);
   if (!stance || !local(bill)) return;
   const already = new Set(remarksOn(api, billId).map((r) => r.personId));
+  // The body's own members vote on the bill; public comment is the public's.
+  const seated = new Set(
+    members(api, bill.bodyOfficeId).flatMap((t) =>
+      t.personId ? [t.personId] : [],
+    ),
+  );
   const speakers = townAdults(api)
     .filter(
-      (p) => !already.has(p.id) && p.id !== (api.state as CoreState).playerId,
+      (p) =>
+        !already.has(p.id) &&
+        !seated.has(p.id) &&
+        p.id !== (api.state as CoreState).playerId,
     )
     .map((p) => {
       const view =
-        personStance(personLean(api.state.people, p, 0), stance.question) *
+        viewOn(api, p.id, stance.question, personLean(api.state.people, p, 0)) *
         stance.position;
       return { p, view, drive: Math.abs(view) * (1 + civic(p, api.state)) };
     })
@@ -270,6 +286,30 @@ function publicComment(api: CoreAPI, billId: string): void {
     } as unknown as ModuleRow);
   const said = remarksOn(api, billId);
   if (!said.length) return;
+  // Each comment is a speech to the room: the members and the others who
+  // spoke hear it (the speech engine moves them and lets them retell it).
+  if (api.state.modules.has(SPEECH_MODULE_ID)) {
+    const room = [
+      ...members(api, bill.bodyOfficeId).flatMap((t) =>
+        t.personId ? [t.personId] : [],
+      ),
+      ...said.map((r) => r.personId),
+    ].filter((id) => api.state.people.get(id)?.alive);
+    // Everyone who spoke is heard: those who signed up (the player among
+    // them) and those moved to stand up.
+    for (const r of said)
+      if (api.state.people.get(r.personId)?.alive)
+        deliverSpeech(api, {
+          id: `speech:remark:${bill.id}:${r.personId}`,
+          speakerId: r.personId,
+          placeId: lawChain(api).townPlaceId,
+          topic: stance.question,
+          desiredChange: r.position * stance.position > 0 ? "enact" : "repeal",
+          audienceIds: [...new Set(room)]
+            .filter((id) => id !== r.personId)
+            .sort(),
+        });
+  }
   api.emit({
     id: `public-comment:${bill.id}`,
     date: api.state.date,
@@ -287,6 +327,7 @@ function publicComment(api: CoreAPI, billId: string): void {
     news: false,
     facts: {
       billId: bill.id,
+      level: billReach(api, bill).level,
       for: String(said.filter((r) => r.position > 0).length),
       against: String(said.filter((r) => r.position < 0).length),
     },
@@ -312,9 +353,8 @@ function roomTerm(api: CoreAPI, bill: BillRow): number {
  * schools and family with children at home, health from their fifties,
  * housing while young (most renters are under 35).
  */
-function concerns(api: CoreAPI, p: Readonly<PersonState>) {
+export function concerns(api: CoreAPI, p: Readonly<PersonState>) {
   const date = api.state.date;
-  const age = ageOn(p, date);
   const working =
     ((api.state as CoreState).work.commitmentsByPerson.get(p.id)?.size ?? 0) >
     0;
@@ -322,17 +362,94 @@ function concerns(api: CoreAPI, p: Readonly<PersonState>) {
     const kin = api.state.people.get(id);
     return kin?.alive && ageOn(kin, date) < 18 && kin.placeId === p.placeId;
   });
+  return concernsOf({ age: ageOn(p, date), working, children });
+}
+
+/** The one rule for whether a question touches a life, full person or counted alike. */
+function concernsOf(life: {
+  readonly age: number;
+  readonly working: boolean;
+  readonly children: boolean;
+}) {
   return (question: string) => {
     const topic = question.split(":")[1]?.split(".")[0] ?? "";
-    if (topic.startsWith("labor-") || topic === "fiscal") return working;
+    if (topic.startsWith("labor-") || topic === "fiscal") return life.working;
     if (topic === "education" || topic === "civil-family-community")
-      return children;
+      return life.children;
     if (topic === "health-human-services")
-      return age >= meetingParameter("healthConcernAge");
+      return life.age >= meetingParameter("healthConcernAge");
     if (topic === "housing-land-use")
-      return age < meetingParameter("housingConcernAgeBelow");
+      return life.age < meetingParameter("housingConcernAgeBelow");
     return false;
   };
+}
+
+const concernShares = new WeakMap<
+  CoreState,
+  {
+    key: string;
+    lives: { touches: ReturnType<typeof concernsOf>; weight: number }[];
+  }
+>();
+
+/**
+ * The share of the town's adults whose own life a question touches, by the
+ * same rule for every resident: the full people and each counted resident,
+ * from their age, their work and the children in their household (one
+ * model, two tiers).
+ */
+export function townConcernShare(api: CoreAPI, question: string): number {
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const date = core.date;
+  const rt = residentsRuntime(core);
+  const key = `${date}|${core.people.size}|${rt?.store.membersVersion ?? 0}`;
+  let hit = concernShares.get(core);
+  if (!hit || hit.key !== key) {
+    const lives: { touches: ReturnType<typeof concernsOf>; weight: number }[] =
+      [];
+    for (const p of core.people.values())
+      if (
+        p.alive &&
+        p.placeId === town &&
+        !isDemoted(p) &&
+        ageOn(p, date) >= 18
+      )
+        lives.push({ touches: concerns(api, p), weight: 1 });
+    if (rt) {
+      const store = rt.store;
+      for (const h of store.liveHouseholds()) {
+        const members = store.countedMembers(h);
+        const ageOf = (m: number) => ageOn({ birthDate: store.born[m]! }, date);
+        const children = members.some((m) => ageOf(m) < 18);
+        for (const m of members) {
+          if (store.text(store.placeIx[m]!) !== town || ageOf(m) < 18) continue;
+          const id = store.ids[m]!;
+          const full = core.people.get(id);
+          if (full && !isDemoted(full)) continue;
+          const working = h.workCommitments.some(
+            (c) =>
+              c.personId === id && (c.endsAt === undefined || c.endsAt > date),
+          );
+          // A counted adult counts as many times as their household's weight.
+          lives.push({
+            touches: concernsOf({ age: ageOf(m), working, children }),
+            weight: store.weightOf(h),
+          });
+        }
+      }
+    }
+    hit = { key, lives };
+    concernShares.set(core, hit);
+  }
+  if (!hit.lives.length) return 0;
+  let touched = 0,
+    all = 0;
+  for (const life of hit.lives) {
+    all += life.weight;
+    if (life.touches(question)) touched += life.weight;
+  }
+  return touched / all;
 }
 
 /** A host's answers: their stated platform, else their own lean, else no answer. */
@@ -344,7 +461,12 @@ function ownView(
   const host = api.state.people.get(hostId);
   return questions.map((question) => {
     if (!host) return { question, position: null };
-    const view = personStance(personLean(api.state.people, host, 0), question);
+    const view = viewOn(
+      api,
+      host.id,
+      question,
+      personLean(api.state.people, host, 0),
+    );
     return { question, position: view === 0 ? null : Math.sign(view) };
   });
 }
@@ -364,6 +486,7 @@ export function holdTownHall(
     readonly filingId?: string;
     /** The player's answers, by question; questions left out are declined. */
     readonly answers?: Readonly<Record<string, number | null>>;
+    readonly calledFor?: TownHallRow["calledFor"];
   },
 ): TownHallRow {
   const questions = Object.keys(POLICY_QUESTIONS).filter(
@@ -387,7 +510,7 @@ export function holdTownHall(
       const lean = personLean(api.state.people, p, 0);
       const weight = concerns(api, p);
       const salience = (q: string) =>
-        Math.abs(personStance(lean, q)) *
+        Math.abs(viewOn(api, p.id, q, lean)) *
         (1 + meetingParameter("lifeConcernWeight") * (weight(q) ? 1 : 0));
       const question = questions
         .slice()
@@ -437,7 +560,9 @@ export function holdTownHall(
         voterId: p.id,
         officialId: input.hostId,
         act: "town-hall",
-        target: platformAgreement(
+        target: agreementWith(
+          api,
+          p.id,
           personLean(api.state.people, p, 0),
           statements,
         ),
@@ -455,6 +580,7 @@ export function holdTownHall(
     questions: taken,
     answers,
     moved: causes.filter((c) => c.warmthAfter !== c.warmthBefore).length,
+    ...(input.calledFor ? { calledFor: input.calledFor } : {}),
   };
   table(api, "townHalls").put(row as unknown as ModuleRow);
   api.emit({
@@ -478,6 +604,142 @@ export function holdTownHall(
     },
   });
   return row;
+}
+
+/**
+ * Each week every local official and town candidate (the player aside, who
+ * holds one by choice) weighs holding a town hall: their reason is how evenly
+ * the town splits on a bill before their body (pending, or decided in the
+ * last two weeks), or their own race coming up; their temperament leans for
+ * or against; the effort weighs against it, more the more recently they held
+ * one. Nothing rolls: whoever's reasons outweigh the effort holds one.
+ */
+function considerTownHalls(api: CoreAPI): void {
+  const date = api.state.date;
+  const playerId = (api.state as CoreState).playerId;
+  const reasons = new Map<
+    string,
+    {
+      cause: number;
+      kind: "bill" | "race";
+      recordId: string;
+      filingId?: string;
+    }
+  >();
+  const raise = (
+    id: string,
+    cause: number,
+    kind: "bill" | "race",
+    recordId: string,
+    filingId?: string,
+  ) => {
+    const prior = reasons.get(id);
+    if (!prior || cause > prior.cause)
+      reasons.set(id, {
+        cause,
+        kind,
+        recordId,
+        ...(filingId ? { filingId } : {}),
+      });
+  };
+  // Bills before the town's bodies: how evenly the town splits on each.
+  const adults = townAdults(api);
+  const split = new Map<string, number>();
+  const evenness = (question: string) => {
+    let value = split.get(question);
+    if (value === undefined) {
+      const forIt = adults.filter(
+        (p) =>
+          viewOn(api, p.id, question, personLean(api.state.people, p, 0)) > 0,
+      ).length;
+      const share = adults.length ? forIt / adults.length : 0.5;
+      split.set(question, (value = 1 - Math.abs(2 * share - 1)));
+    }
+    return value;
+  };
+  const since = addDays(
+    makeIsoDate(date),
+    -meetingParameter("townHallBillDays"),
+  );
+  if (api.state.modules.has(LEGISLATURE_MODULE_ID))
+    for (const bill of (
+      api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as BillRow[]
+    ).filter(
+      (b) => local(b) && (b.status === "drafted" || b.introduced >= since),
+    )) {
+      const question = billQuestion(api, bill);
+      if (!question) continue;
+      for (const member of members(api, bill.bodyOfficeId))
+        if (member.personId)
+          raise(member.personId, evenness(question.question), "bill", bill.id);
+    }
+  // A race coming up: its candidates' reason.
+  if (api.state.modules.has(ELECTIONS_MODULE_ID)) {
+    const until = addDays(
+      makeIsoDate(date),
+      meetingParameter("townHallCampaignDays"),
+    );
+    for (const contest of (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    ).filter(
+      (c) =>
+        c.electionDate > date &&
+        c.electionDate <= until &&
+        c.level !== "state" &&
+        c.level !== "federal",
+    ))
+      for (const f of ballot(api, contest.id))
+        if (f.status === "on-ballot")
+          raise(f.personId, 1, "race", contest.id, f.id);
+  }
+  const town = lawChain(api).townPlaceId;
+  for (const [hostId, why] of [...reasons.entries()].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  )) {
+    const host = api.state.people.get(hostId);
+    if (!host?.alive || host.placeId !== town || hostId === playerId) continue;
+    const last = (
+      table(api, "townHalls").query("byHost", [
+        hostId,
+      ]) as unknown as TownHallRow[]
+    ).reduce((d, row) => (row.date > d ? row.date : d), "");
+    const gap = meetingParameter("townHallGapDays");
+    const recency = last
+      ? gap /
+        (gap +
+          Math.max(
+            0,
+            (Date.parse(`${date}T00:00:00Z`) -
+              Date.parse(`${last}T00:00:00Z`)) /
+              86_400_000,
+          ))
+      : 0;
+    const parts = {
+      cause: meetingParameter("townHallCauseWeight") * why.cause,
+      temperament:
+        parameter("traitDecisionWeight") *
+        decisionLean(
+          api.state,
+          host,
+          "meetings.hold-town-hall",
+          "hold",
+          "skip",
+        ),
+      effort: -meetingParameter("townHallEffort") * (1 + recency),
+    };
+    if (parts.cause + parts.temperament + parts.effort <= 0) continue;
+    holdTownHall(api, {
+      hostId,
+      ...(why.filingId ? { filingId: why.filingId } : {}),
+      calledFor: { cause: why.kind, recordId: why.recordId, reasons: parts },
+    });
+  }
 }
 
 function contestOf(api: CoreAPI, contestId: string): ContestRow {
@@ -628,6 +890,7 @@ export function debatesIn(
 function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "debate-week") return;
   scheduleWeek(api, api.state.date);
+  considerTownHalls(api);
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
   const from = addDays(
     makeIsoDate(api.state.date),

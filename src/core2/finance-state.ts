@@ -1,16 +1,20 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import {
   countedWagesEarned,
   residentWageShortfall,
   supplierBillsOwedTo,
 } from "./modules/residents";
-import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { countedJobsOf } from "./residents-economy";
+import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
+import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
+import { webFactorFor } from "./outcome-web-reach";
 import {
   settleFinanceContractJournal,
   transferFinanceCreditJournal,
+  transferWageFlowCreditJournal,
 } from "./finance-cash";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -24,15 +28,23 @@ import type {
   CreditReceipt,
   EmployerClosure,
   FinanceContractInput,
+  FinanceContractState,
   FinanceConditionInput,
   FinanceReceipt,
   FinanceRuntime,
   FinanceInput,
   OwnerClosureChoice,
+  PayerHandover,
   SalesReceiptBudgetPool,
   SalesReceiptPendingBudget,
 } from "./finance-types";
-import type { CoreAPI, CoreState, Source } from "./types";
+import type {
+  CoreAPI,
+  CoreState,
+  JobInput,
+  PersonState,
+  Source,
+} from "./types";
 
 export function emptyFinanceRuntime(at: string): FinanceRuntime {
   return {
@@ -66,6 +78,9 @@ export function emptyFinanceRuntime(at: string): FinanceRuntime {
     detailedReceipts: new Map(),
     closures: new Map(),
     totalsByKind: new Map(),
+    livingPlans: new Map(),
+    livingDueAt: new Map(),
+    obligationsByHousehold: new Map(),
   };
 }
 
@@ -233,9 +248,11 @@ function validateRecipientIncome(
   if (
     fact.facts.payerId !== row.payerIds[api.parameter("zero")] ||
     row.payerIds.length !== api.parameter("one") ||
-    Number(fact.facts.monthlyMinor) !== row.amountMinor ||
+    (term.adjustedMinor ?? Number(fact.facts.monthlyMinor)) !==
+      row.amountMinor ||
     (fact.facts.kindId && fact.facts.kindId !== term.kindId) ||
-    (fact.facts.householdId && fact.facts.householdId !== term.householdId)
+    (fact.facts.householdId &&
+      fact.facts.householdId !== (term.recordedHouseholdId ?? term.householdId))
   )
     throw new Error("Recipient income terms contradict their recorded award.");
   for (const id of core.finance.incomeContractsByPerson.get(person.id) ?? []) {
@@ -449,10 +466,9 @@ export function admitFinanceContract(
   input: FinanceContractInput,
   openingBook?: BusinessBooksInput,
 ): void {
-  const householdPurchaseCalendar = validateHouseholdPurchaseCalendarAdmission(
-    input,
-    core.date,
-  );
+  // A household's purchases are one everyday-living amount, not bills.
+  if (isEverydayPurchase(core, input))
+    return admitEverydayPurchase(core, input);
   policy(api);
   financeSettlementPhase(api, input);
   validateRecipientIncome(core, api, input);
@@ -533,23 +549,6 @@ export function admitFinanceContract(
     api.stopgap(policy(api).salesReceiptBudgetStopgapId);
   const row = {
     ...input,
-    ...(householdPurchaseCalendar
-      ? {
-          householdPurchaseCalendar,
-          nominalDueAt: householdPurchaseCalendar.firstNominalDueAt,
-          householdPurchaseCalendarBasis: {
-            nominalDueAt: householdPurchaseCalendar.firstNominalDueAt,
-            effectiveDueAt: dueAt,
-            mode: "opening" as const,
-            references: householdPurchaseCalendar.openingBasisIds.map((id) => ({
-              id,
-              kind: "opening-basis" as const,
-              source: { ...householdPurchaseCalendar.source },
-            })),
-            source: { ...householdPurchaseCalendar.source },
-          },
-        }
-      : {}),
     ...(input.recipientIncome
       ? { recipientIncome: { ...input.recipientIncome } }
       : {}),
@@ -570,6 +569,8 @@ export function admitFinanceContract(
     );
   if (row.endsAt)
     financeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+  if (row.householdId && row.accruesArrears)
+    financeIndex(core.finance.obligationsByHousehold, row.householdId, row.id);
   for (const id of [...row.payerIds, row.payeeId])
     if (core.organizations.has(id))
       financeIndex(core.finance.contractsByBusiness, id, row.id);
@@ -731,7 +732,7 @@ export function prepareFinanceProcurement(
   }
 }
 
-/** core2-api-v16: a payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
+/** A payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
 export function reduceStandingArrears(
   core: CoreState,
   api: CoreAPI,
@@ -746,7 +747,29 @@ export function reduceStandingArrears(
   if (row.arrearsMinor === api.parameter("zero")) delete row.firstUnpaidAt;
 }
 
-/** core2-api-v15: a standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
+/**
+ * A household filled in from the counts takes up what its group owed: the
+ * arrears the counted lease had run up are on its own lease from the day the
+ * first was unpaid, and the next due date asks for them with the rent.
+ */
+export function carryStandingArrears(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  owedMinor: number,
+  since: string,
+): void {
+  const row = core.finance.contracts.get(id);
+  minor(api, owedMinor, "carried arrears");
+  if (!row || !row.accruesArrears)
+    throw new Error("Arrears can be carried only onto a standing obligation.");
+  if (owedMinor === api.parameter("zero")) return;
+  row.arrearsMinor += owedMinor;
+  if (!row.firstUnpaidAt || row.firstUnpaidAt > since)
+    row.firstUnpaidAt = makeIsoDate(since);
+}
+
+/** A standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
 export function setStandingContractAmount(
   core: CoreState,
   api: CoreAPI,
@@ -762,7 +785,153 @@ export function setStandingContractAmount(
   row.amountMinor = amountMinor;
 }
 
-/** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
+/**
+ * People move from one household to another: the home obligations they shared
+ * (the lease) are paid by the household they now belong to. They stop paying
+ * the old household's; an obligation left with no payer ends, and the people
+ * who stay keep paying it. They begin paying the new household's. Returns the
+ * contracts that changed.
+ */
+export function moveHouseholdPayers(
+  core: CoreState,
+  api: CoreAPI,
+  fromId: string,
+  toId: string,
+  personIds: readonly string[],
+): string[] {
+  const moving = new Set(personIds);
+  const today = makeIsoDate(core.date);
+  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  // Who stays and can take a lease over: the oldest living adult first.
+  const heir = (core.households.get(fromId)?.memberIds ?? [])
+    .map((id) => core.people.get(id))
+    .filter(
+      (person): person is PersonState =>
+        person !== undefined &&
+        person.alive &&
+        !moving.has(person.id) &&
+        ageOnDate(makeIsoDate(person.birthDate), today) >= adultAge,
+    )
+    .sort(
+      (a, b) =>
+        a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+    )[api.parameter("zero")];
+  const changed: string[] = [];
+  for (const id of [
+    ...(core.finance.obligationsByHousehold.get(fromId) ?? []),
+  ]) {
+    const row = core.finance.contracts.get(id);
+    if (!row || row.endedAt) continue;
+    if (!row.payerIds.some((payer) => moving.has(payer))) continue;
+    const left = row.payerIds.filter((payer) => !moving.has(payer));
+    const outcome: PayerHandover["outcome"] = left.length
+      ? "kept-by-co-payers"
+      : heir
+        ? "taken-over"
+        : "ended";
+    const payers = left.length ? left : heir ? [heir.id] : [];
+    row.payerHandovers = [
+      ...(row.payerHandovers ?? []),
+      ...personIds
+        .filter((payer) => row.payerIds.includes(payer))
+        .map((payer) => ({ on: today, from: payer, to: payers, outcome })),
+    ];
+    if (payers.length) row.payerIds = payers;
+    else endStandingContract(core, api, id);
+    changed.push(id);
+  }
+  for (const id of core.finance.obligationsByHousehold.get(toId) ?? []) {
+    const row = core.finance.contracts.get(id);
+    if (!row || row.endedAt) continue;
+    const add = personIds.filter((payer) => !row.payerIds.includes(payer));
+    if (!add.length) continue;
+    row.payerIds = [...row.payerIds, ...add];
+    row.payerHandovers = [
+      ...(row.payerHandovers ?? []),
+      ...add.map((payer) => ({
+        on: today,
+        from: payer,
+        to: row.payerIds,
+        outcome: "joined" as const,
+      })),
+    ];
+    changed.push(id);
+  }
+  return changed;
+}
+
+/**
+ * A person with a recorded income award moves to a household of their own:
+ * their awards are paid into it from the next due date, the monthly amount
+ * unchanged, and the saved award still names the household it was written
+ * for. Returns the contracts that moved.
+ */
+export function moveRecipientIncomeHome(
+  core: CoreState,
+  personId: string,
+  householdId: string,
+): string[] {
+  const moved: string[] = [];
+  for (const id of core.finance.incomeContractsByPerson.get(personId) ?? []) {
+    const row = core.finance.contracts.get(id);
+    if (!row?.recipientIncome || row.endedAt) continue;
+    if (row.recipientIncome.householdId === householdId) continue;
+    row.recipientIncome = {
+      ...row.recipientIncome,
+      householdId,
+      recordedHouseholdId:
+        row.recipientIncome.recordedHouseholdId ??
+        row.recipientIncome.householdId,
+      movedOn: core.date,
+    };
+    moved.push(id);
+  }
+  return moved;
+}
+
+/**
+ * A benefit level in force changes a recipient income's amount from its next
+ * due date: the contract takes the new amount and records the measure and day
+ * beside the saved award, which stays as it was written. The outside funding
+ * obligation that pays the recipient's payer moves by the same dollars, so
+ * the payer's money in and out still match. Returns what changed.
+ */
+export function setRecipientIncomeAmount(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  amountMinor: number,
+  cause: { readonly measureId: string },
+): { fromMinor: number; toMinor: number; fundingId?: string } {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || !row.recipientIncome)
+    throw new Error("Only a current recipient income can take a new amount.");
+  minor(api, amountMinor, "recipient income amount");
+  const fromMinor = row.amountMinor;
+  if (fromMinor === amountMinor) return { fromMinor, toMinor: fromMinor };
+  row.amountMinor = amountMinor;
+  row.recipientIncome = {
+    ...row.recipientIncome,
+    adjustedMinor: amountMinor,
+    adjustedBy: cause.measureId,
+    adjustedOn: core.date,
+  };
+  let fundingId: string | undefined;
+  for (const funding of core.finance.contracts.values()) {
+    const inflow = funding.externalInflow as
+      { incomeContractIds?: readonly string[] } | undefined;
+    if (funding.endedAt || !inflow?.incomeContractIds?.includes(id)) continue;
+    funding.amountMinor += amountMinor - fromMinor;
+    fundingId = funding.id;
+  }
+  return {
+    fromMinor,
+    toMinor: amountMinor,
+    ...(fundingId ? { fundingId } : {}),
+  };
+}
+
+/** A standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
 export function endStandingContract(
   core: CoreState,
   api: CoreAPI,
@@ -776,6 +945,134 @@ export function endStandingContract(
   removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
   if (row.endsAt)
     removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+}
+
+/** What became of a standing obligation when one of its payers died. */
+export interface ContractHandOver {
+  readonly contractId: string;
+  readonly outcome: "kept-by-co-payers" | "taken-over" | "ended";
+  readonly payerIds: readonly string[];
+}
+
+/**
+ * A payer dies, and the standing obligations they paid (a mortgage, a lease)
+ * stop drawing their account (owner rule: a bill reads who is alive when it
+ * falls due). The other payers keep paying it. With none, the oldest living
+ * adult in the dead person's home takes it over from the next due date; with
+ * no one left it ends, and the estate pays what was owed first (`settleEstate`).
+ * Each change is a dated record on the contract. Income awards and purchase
+ * budgets are not payer obligations and are left to their own rules.
+ */
+export function handOverContractsAtDeath(
+  core: CoreState,
+  api: CoreAPI,
+  personId: string,
+): ContractHandOver[] {
+  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const today = makeIsoDate(core.date);
+  const home = core.households.get(
+    core.people.get(personId)?.householdId ?? "",
+  );
+  const heirs = (home?.memberIds ?? [])
+    .map((id) => core.people.get(id))
+    .filter(
+      (person): person is PersonState =>
+        person !== undefined &&
+        person.alive &&
+        person.id !== personId &&
+        ageOnDate(makeIsoDate(person.birthDate), today) >= adultAge,
+    )
+    .sort(
+      (a, b) =>
+        a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+    );
+  const out: ContractHandOver[] = [];
+  for (const row of [...core.finance.contracts.values()]) {
+    if (
+      row.endedAt ||
+      row.recipientIncome ||
+      row.salesReceiptBudget ||
+      !row.payerIds.includes(personId)
+    )
+      continue;
+    const living = row.payerIds.filter(
+      (id) => id !== personId && core.people.get(id)?.alive !== false,
+    );
+    const heir = heirs[api.parameter("zero")];
+    const outcome: ContractHandOver["outcome"] = living.length
+      ? "kept-by-co-payers"
+      : heir
+        ? "taken-over"
+        : "ended";
+    const payerIds = living.length ? living : heir ? [heir.id] : [];
+    row.payerHandovers = [
+      ...(row.payerHandovers ?? []),
+      { on: today, from: personId, to: payerIds, outcome },
+    ];
+    if (outcome === "ended") endStandingContract(core, api, row.id);
+    else row.payerIds = payerIds;
+    out.push({ contractId: row.id, outcome, payerIds });
+  }
+  return out;
+}
+
+/** A person's own income (a pension, an annuity) stops paying at their death; returns the contracts ended. */
+export function endRecipientIncomeAtDeath(
+  core: CoreState,
+  personId: string,
+): string[] {
+  const ended: string[] = [];
+  for (const id of [
+    ...(core.finance.incomeContractsByPerson.get(personId) ?? []),
+  ]) {
+    const row = core.finance.contracts.get(id);
+    if (!row) continue;
+    if (!row.endedAt) {
+      row.endedAt = core.date;
+      ended.push(id);
+    }
+    removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
+    if (row.endsAt)
+      removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+    removeIndex(core.finance.incomeContractsByPerson, personId, row.id);
+    shrinkRetirementFunding(core, row);
+  }
+  return ended;
+}
+
+/**
+ * The funding contract that pays a group of retirees' awards stops listing
+ * an ended one: its amount falls by the award's, its lists lose the award,
+ * and with no award left it ends. The settlement checks that the funding
+ * equals the sum of the actual awards it lists, so a dead retiree's award
+ * left on the list stops the next due date.
+ */
+function shrinkRetirementFunding(
+  core: CoreState,
+  income: FinanceContractState,
+): void {
+  const awardId = income.recipientIncome?.sourceFactId;
+  for (const funding of core.finance.contracts.values()) {
+    const inflow = funding.externalInflow;
+    if (funding.endedAt || !inflow?.incomeContractIds?.includes(income.id))
+      continue;
+    const remaining = inflow.incomeContractIds.filter((id) => id !== income.id);
+    if (!remaining.length) {
+      funding.endedAt = core.date;
+      removeIndex(core.finance.contractsDueAt, funding.dueAt, funding.id);
+      if (funding.endsAt)
+        removeIndex(core.finance.contractsEndingAt, funding.endsAt, funding.id);
+      continue;
+    }
+    funding.amountMinor -= income.amountMinor;
+    funding.externalInflow = {
+      ...inflow,
+      incomeContractIds: remaining,
+      sourceAwardIds: (inflow.sourceAwardIds ?? []).filter(
+        (id) => id !== awardId,
+      ),
+    };
+  }
 }
 
 export function retireFinanceBudget(
@@ -871,7 +1168,7 @@ export function admitCreditFacility(
   });
 }
 
-/** core2-api-v13: a line a bank approved mid-run becomes the business's credit for its bills and payroll. */
+/** A line a bank approved mid-run becomes the business's credit for its bills and payroll. */
 export function attachBusinessCredit(
   core: CoreState,
   api: CoreAPI,
@@ -892,7 +1189,7 @@ export function attachBusinessCredit(
   book.creditFacilityId = facilityId;
 }
 
-/** core2-api-v11: a dated rate change; interest before today stays at the old rate. */
+/** A dated rate change; interest before today stays at the old rate. */
 export function repriceCreditFacility(
   core: CoreState,
   api: CoreAPI,
@@ -904,10 +1201,7 @@ export function repriceCreditFacility(
   if (!row) throw new Error("Repricing requires a recorded credit facility.");
   currentSource(source, core.date);
   amount(api, annualInterestRate, "repriced annual interest rate");
-  const elapsed = daysBetween(
-    makeIsoDate(row.lastAccruedAt),
-    makeIsoDate(core.date),
-  );
+  const elapsed = daysBetweenText(row.lastAccruedAt, core.date);
   const oldRate =
     row.annualInterestRate ?? api.parameter(row.annualInterestParameter);
   const days = api.parameter(
@@ -983,6 +1277,7 @@ export function admitBusinessBooks(
     anchorPrice: input.price,
     lastGeneralPriceFactor: one,
     lastWagePriceFactor: one,
+    lastHourlyByJob: ownHourlyPay(core, input.organizationId).hourly,
     receivedMinor: zero,
     salesReceivedMinor: zero,
     operatingPaidMinor: zero,
@@ -1028,6 +1323,24 @@ export function transferCredit(
   );
 }
 
+/** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+export function transferWageFlowCredit(
+  core: CoreState,
+  api: CoreAPI,
+  facilityId: string,
+  requested: number,
+  flowId: string,
+): CreditReceipt {
+  policy(api);
+  return transferWageFlowCreditJournal(
+    core,
+    api,
+    facilityId,
+    requested,
+    flowId,
+  );
+}
+
 export function settleFinanceContract(
   core: CoreState,
   api: CoreAPI,
@@ -1056,10 +1369,23 @@ export function reviewBusiness(
   date.setUTCMonth(date.getUTCMonth() - p("one"));
   const month = date.toISOString().slice(p("zero"), p("isoMonthCharacters"));
   const paid = core.finance.paidIncomeByPlaceMonth.get(`${month}:${place}`);
+  // The opening's anchor counts residents' pay from the town's own firms; the
+  // month's measure also counts pay from elsewhere and retirement. So the
+  // first full month the book reads (never the game's opening month, which
+  // starts partway) becomes its basis, and each later month moves the anchor
+  // by its change from that basis.
+  if (
+    book.incomeBasisMinor === undefined &&
+    paid !== undefined &&
+    paid > p("zero") &&
+    month > core.startedAt.slice(p("zero"), p("isoMonthCharacters"))
+  )
+    book.incomeBasisMinor = paid * p("monthsPerYear");
   const income =
-    paid === undefined
+    paid === undefined || book.incomeBasisMinor === undefined
       ? book.openingTownIncomeMinor
-      : paid * p("monthsPerYear");
+      : (book.openingTownIncomeMinor * paid * p("monthsPerYear")) /
+        book.incomeBasisMinor;
   const conditions = core.finance.conditionsByPlace.get(place) ?? [];
   const condition = conditions
     .filter((row) => row.at <= core.date)
@@ -1078,6 +1404,7 @@ export function reviewBusiness(
       anchorAnnualDemandMinor: book.anchorAnnualDemandMinor,
       // Against the general price level: inflation alone moves no customer away.
       relativePriceToAnchor: book.price / book.anchorPrice / generalPrice,
+      generalPriceFactor: generalPrice,
       macroDemandFactor: condition?.macroDemandFactor ?? p("one"),
       kindId: book.kindId,
       source: actualSource(
@@ -1098,19 +1425,27 @@ export function reviewBusiness(
     },
     options,
   );
-  const price = projectBusinessPrice(
-    {
-      priorPrice: book.price,
-      annualPlannedPayMinor: book.annualPayrollMinor,
-      annualOtherCostsMinor: cost.annualOtherCostsMinor,
-      wagePriceFactor: wagePrice / book.lastWagePriceFactor,
-      generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
-      annualDemandMinor: demand,
-      capacityMinor: book.capacityMinor,
-      priceLevel: book.price / book.anchorPrice,
-    },
-    options,
-  );
+  const pay = ownHourlyPay(core, id);
+  // What laws and other causes the outcome web carries into prices moves the
+  // business's own price by the change in that factor since its last review.
+  const webPrice = webFactorFor(api, place, "household.prices");
+  const price =
+    projectBusinessPrice(
+      {
+        priorPrice: book.price,
+        annualPlannedPayMinor: book.annualPayrollMinor,
+        annualOtherCostsMinor: cost.annualOtherCostsMinor,
+        wagePriceFactor:
+          ownRaise(book.lastHourlyByJob, pay) ??
+          wagePrice / book.lastWagePriceFactor,
+        generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
+        annualDemandMinor: demand,
+        capacityMinor: book.capacityMinor,
+        priceLevel: book.price / book.anchorPrice,
+      },
+      options,
+    ) *
+    (webPrice / (book.lastWebPriceFactor ?? p("one")));
   const next = financeNextDate(
     api,
     book.nextReviewedAt,
@@ -1132,8 +1467,60 @@ export function reviewBusiness(
   book.annualOtherCostsMinor = cost.annualOtherCostsMinor;
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
+  book.lastWebPriceFactor = webPrice;
   book.lastWagePriceFactor = wagePrice;
+  book.lastHourlyByJob = pay.hourly;
   financeIndex(core.finance.reviewsDueAt, next, id);
+}
+
+/** Each current job's hourly pay and daily hours at a firm, full or counted. */
+function ownHourlyPay(
+  core: CoreState,
+  organizationId: string,
+): { hourly: Record<string, number>; hours: Record<string, number> } {
+  const hourly: Record<string, number> = {},
+    hours: Record<string, number> = {};
+  const add = (job: JobInput) => {
+    if (job.endsAt !== undefined && job.endsAt <= core.date) return;
+    const rate =
+      job.hourlyMinor ??
+      (job.hoursDaily > 0 ? job.wageDailyMinor / job.hoursDaily : undefined);
+    if (rate === undefined || !(rate > 0) || !(job.hoursDaily > 0)) return;
+    hourly[job.id] = rate;
+    hours[job.id] = job.hoursDaily;
+  };
+  for (const jobId of core.finance.jobsByOrganization.get(organizationId) ??
+    []) {
+    const job = core.jobs.get(jobId);
+    if (job) add(job);
+  }
+  for (const job of countedJobsOf(core, organizationId)) add(job);
+  return { hourly, hours };
+}
+
+/**
+ * The firm's own pay change since its last review, over the jobs it had then
+ * and still has, weighted by their hours now: a raise (a minimum wage, the
+ * yearly pay review) passes into its price, a hire at different pay doesn't.
+ * Undefined when no job carries over; the place's pay index stands in.
+ */
+function ownRaise(
+  before: Readonly<Record<string, number>> | undefined,
+  now: {
+    hourly: Readonly<Record<string, number>>;
+    hours: Readonly<Record<string, number>>;
+  },
+): number | undefined {
+  if (!before) return undefined;
+  let paid = 0,
+    wasPaid = 0;
+  for (const jobId in now.hourly) {
+    const prior = before[jobId];
+    if (prior === undefined) continue;
+    paid += now.hourly[jobId]! * now.hours[jobId]!;
+    wasPaid += prior * now.hours[jobId]!;
+  }
+  return wasPaid > 0 ? paid / wasPaid : undefined;
 }
 
 export function businessAvailableCredit(
@@ -1280,6 +1667,88 @@ export function closeEmployer(
   );
 }
 
+/** Cash a closing firm must keep for its full workers' final pay: accrued wages and arrears. */
+function payrollHeld(core: CoreState, organizationId: string): number {
+  let held = 0;
+  for (const ledger of core.work.payrollLedgerByCommitment.values())
+    if (ledger.organizationId === organizationId)
+      held += ledger.accruedMinor + ledger.arrearsMinor;
+  return held;
+}
+
+/**
+ * A closing firm's credit lines close with it: what its cash above final pay
+ * covers goes to the lender in one balanced entry (interest owed first, then
+ * principal), and the lender writes off the rest. A closed line takes no draw,
+ * accrues nothing and is never repriced or billed again.
+ */
+function closeCreditLines(
+  core: CoreState,
+  api: CoreAPI,
+  closure: EmployerClosure,
+): EmployerClosure["creditLines"] {
+  const organizationId = closure.organizationId;
+  let available = Math.max(
+    0,
+    core.organizations.get(organizationId)!.liquidMinor -
+      payrollHeld(core, organizationId),
+  );
+  const lines: {
+    facilityId: string;
+    settledMinor: number;
+    writtenOffMinor: number;
+  }[] = [];
+  for (const facilityId of [
+    ...(core.finance.facilitiesByBorrower.get(organizationId) ?? []),
+  ].sort()) {
+    const facility = core.finance.facilities.get(facilityId)!;
+    if (facility.closedAt) continue;
+    const accounts = available > 0 ? api.accounts() : undefined;
+    const paid =
+      accounts &&
+      Math.min(
+        available,
+        facility.principalMinor + facility.interestArrearsMinor,
+      ) > 0
+        ? accounts.transfer({
+            id: `${closure.sourceReceiptId}:credit-settlement:${facilityId}`,
+            from: accounts.main(organizationId),
+            to: accounts.main(facility.lenderId),
+            amountMinor: Math.min(
+              available,
+              facility.principalMinor + facility.interestArrearsMinor,
+            ),
+            reasonKey: "business.credit-settlement",
+            source: closure.source,
+          }).paidMinor
+        : 0;
+    available -= paid;
+    const towardInterest = Math.min(paid, facility.interestArrearsMinor);
+    const writtenOffMinor =
+      facility.principalMinor -
+      (paid - towardInterest) +
+      (facility.interestArrearsMinor - towardInterest);
+    facility.principalMinor = 0;
+    facility.interestArrearsMinor = 0;
+    facility.unbilledInterestMinor = 0;
+    facility.interestRemainderMinor = 0;
+    facility.lastAccruedAt = core.date;
+    facility.active = false;
+    facility.closedAt = core.date;
+    facility.settledMinor = paid;
+    facility.writtenOffMinor = writtenOffMinor;
+    for (const id of core.finance.contractsByBusiness.get(organizationId) ??
+      []) {
+      const term = core.finance.contracts.get(id)!;
+      if (term.interestFacilityId !== facilityId) continue;
+      term.arrearsMinor = 0;
+      delete term.firstUnpaidAt;
+    }
+    lines.push({ facilityId, settledMinor: paid, writtenOffMinor });
+  }
+  return lines;
+}
+
 /** Ends a closing firm's jobs, contracts and books, and records the closure. */
 function windDownEmployer(
   core: CoreState,
@@ -1308,6 +1777,8 @@ function windDownEmployer(
     endedJobIds.push(jobId);
     affectedPersonIds.push(job.personId);
   }
+  // Counted workers (and a counted owner) lose their jobs today too; the jobs engine ends them on the closure event.
+  const countedJobs = countedJobsOf(core, organizationId);
   const closure: EmployerClosure = {
     organizationId,
     date: core.date,
@@ -1316,14 +1787,19 @@ function windDownEmployer(
     cause,
     endedJobIds,
     affectedPersonIds,
+    endedCountedJobIds: countedJobs.map((job) => job.id),
+    affectedCountedPersonIds: countedJobs.map((job) => job.personId),
+    creditLines: [],
     source: actualSource(api, sourceText),
   };
   book.closedAt = core.date;
   book.closingReasonKey = reasonKey;
+  closure.creditLines = closeCreditLines(core, api, closure);
   removeIndex(core.finance.reviewsDueAt, book.nextReviewedAt, organizationId);
   for (const jobId of endedJobIds) {
     const job = core.jobs.get(jobId)!;
     job.endsAt = core.date;
+    refreshOfficeStaff(core, job.organizationId);
     const actor = core.people.get(job.personId)!;
     if (actor.jobId === jobId) delete actor.jobId;
     for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??
@@ -1350,7 +1826,6 @@ function windDownEmployer(
   }
   for (const id of core.finance.contractsByBusiness.get(organizationId) ?? []) {
     const row = core.finance.contracts.get(id)!;
-    if (row.interestFacilityId) continue;
     row.endedAt = core.date;
     removeIndex(core.finance.contractsDueAt, row.dueAt, id);
     if (row.endsAt) removeIndex(core.finance.contractsEndingAt, row.endsAt, id);
@@ -1487,13 +1962,10 @@ export function closeBusinessByChoice(
       });
   }
   // And its lenders: an open credit line's balance is the lender's, not the owner's.
-  let held = 0;
+  let held = payrollHeld(core, organizationId);
   for (const facility of core.finance.facilities.values())
     if (facility.borrowerId === organizationId)
       held += facility.principalMinor + facility.interestArrearsMinor;
-  for (const ledger of core.work.payrollLedgerByCommitment.values())
-    if (ledger.organizationId === organizationId)
-      held += ledger.accruedMinor + ledger.arrearsMinor;
   const left = Math.max(
     0,
     accounts.balance(accounts.main(organizationId)) - held,

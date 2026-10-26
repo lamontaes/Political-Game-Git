@@ -1,20 +1,20 @@
 import {
   CONDITION_PACK,
   conditionHazard,
-  conditionOnsetDay,
   startingConditionAssignments,
-} from "../../src/simulation/crisis/condition-pack";
-import { remainingDaysAfterOnset } from "../../src/simulation/crisis/death-causes";
+} from "../../src/core2/condition-pack";
+import { conditionOnsetDay } from "../../src/simulation/crisis/condition-pack";
+import { remainingDaysAfterOnset } from "../../src/core2/death-causes";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
   type HazardMultiplierChange,
-} from "../../src/simulation/crisis/hazard";
+} from "../../src/core2/health-hazard";
 import { STRAIN_THRESHOLD } from "../../src/simulation/crisis/mortality";
-import { ssa2023AnnualProbability } from "../../src/simulation/crisis/mortality-table";
-import { addDays, daysBetween } from "../../src/simulation/dates";
-import type { EntityId, IsoDate } from "../../src/simulation/types";
+import { ssa2023AnnualProbability } from "../../src/core2/health-mortality-table";
+import { addDays, daysBetween } from "../../src/core2/kernel/dates";
+import type { EntityId, IsoDate } from "../../src/core2/kernel/brands";
 
 /*
  * Ruling 39: a synthetic cohort, with no world, clock or households. Person

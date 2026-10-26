@@ -19,7 +19,6 @@ import {
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
@@ -41,17 +40,13 @@ import {
   requestInterview,
 } from "./modules/press";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`press:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -69,18 +64,9 @@ function fileAndQualify(
     personId,
     contestId,
     platform,
-    payFee: true,
   });
   if (result.status === "refused") return null;
-  let filing = result.filing;
-  for (const neighbor of [...api.state.people.keys()].sort()) {
-    if (filing.status === "on-ballot") break;
-    if (neighbor !== personId) requestSignature(api, filing.id, neighbor);
-    filing = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .get(filing.id) as unknown as FilingRow;
-  }
+  const filing = result.filing;
   return filing.status === "on-ballot" ? filing : null;
 }
 
@@ -90,7 +76,7 @@ describe("campaign interviews", () => {
     for (let attempt = 0; attempt < 8; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -114,7 +100,9 @@ describe("campaign interviews", () => {
       const outlets = openPress(core);
       const api = coreAPI(core);
       // A town with no local newspaper or news radio is a news desert; draw again.
-      const print = outlets.find((o) => o.kind !== "television");
+      const print = outlets.find(
+        (o) => o.tier !== "national" && o.kind !== "television",
+      );
       if (!print) continue;
       // Followers are the town's adults, by their age band's real habits.
       const town = [
@@ -258,6 +246,79 @@ describe("campaign interviews", () => {
   }, 300_000);
 });
 
+describe("a reporter who runs", () => {
+  // Scotland Neck, North Carolina (seed d48dca5fc9c0): a local reporter filed
+  // for council, their own paper asked them for an interview, and the paper
+  // sent the candidate as their own reporter; the core refused the meeting.
+  // The owner ruled on Oct 16, 2026 that "a reporter who wants to run may
+  // run": press staff file like anyone, and the paper sends someone else.
+  it("files and is on the ballot, and their paper never sends them to interview themselves", () => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 12; attempt += 1) {
+      const state = pick(states, `rstate:${attempt}`);
+      const places = [
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ].sort((a, b) => a.key.localeCompare(b.key));
+      const key = pick(places, `rplace:${attempt}`).key;
+      const where = `seed ${seed}, ${state} place ${key}`;
+      tried.push(where);
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: key,
+          startedAt: START,
+          minimumPeople: 300,
+        }),
+      );
+      openLaws(core);
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openRecord(core);
+      const outlets = openPress(core);
+      const api = coreAPI(core);
+      const paper = outlets.find(
+        (o) => o.tier !== "national" && (o.reporterIds ?? []).length > 0,
+      );
+      if (!paper) continue;
+      const reporter = paper.reporterIds![0]!;
+      const contests = openContests(api);
+      // The first contest the reporter is allowed to enter (their age and
+      // residence decide that, not their job).
+      for (const contest of contests) {
+        const result = fileCandidacy(api, {
+          personId: reporter,
+          contestId: contest.id,
+          platform: [`${pick(PLATFORM_QUESTIONS, "r1")}=1`],
+        });
+        if (result.status === "refused") {
+          // Never because they work for a paper.
+          expect(
+            result.unmet.map((check) => check.rule),
+            `${where}: ${contest.id}`,
+          ).not.toContain("press-employment");
+          continue;
+        }
+        expect(result.filing.status, where).toBe("on-ballot");
+        // Their own paper asked for an interview with them: another of its
+        // reporters goes, or none; never the candidate themselves.
+        const interview = requestInterview(api, {
+          outletId: paper.id,
+          filingId: result.filing.id,
+        });
+        expect(interview.reporterId, where).not.toBe(reporter);
+        return;
+      }
+    }
+    throw new Error(
+      `no town with a local paper whose reporter could enter an open contest: ${tried.join("; ")}`,
+    );
+  }, 300_000);
+});
+
 describe("interviews with state and federal candidates", () => {
   // Regression (wire-all-modules, Oct 12): in the played world, outlets ask
   // the state and federal candidates on the town's ballot, who aren't full
@@ -268,7 +329,7 @@ describe("interviews with state and federal candidates", () => {
     for (let attempt = 0; attempt < 16; attempt += 1) {
       const state = pick(states, `official:state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),

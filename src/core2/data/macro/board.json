@@ -6,6 +6,15 @@
     "citation": "Federal Reserve Act: 12 U.S.C. 241 (seven governors, fourteen-year terms beginning February 1 of even-numbered years), 12 U.S.C. 263 (FOMC voters and rotation), 12 U.S.C. 341 (president terms of five years from March 1 of years ending in 1 and 6); FOMC meeting calendars, https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm. Members are fictional people."
   },
   "placeId": "national:central-bank",
+  "memberPay": {
+    "annualDollars": 225700,
+    "source": {
+      "tag": "ESTIMATED",
+      "asOf": "2026-10-19",
+      "citation": "Executive Schedule Level II, 5 U.S.C. 5313 (members of the Board of Governors of the Federal Reserve System), 2025 annual rate.",
+      "estimatedFrom": "Level II pay for every seat; Reserve Bank presidents are paid by their own boards, usually above it, so their cash is a floor."
+    }
+  },
   "memberTier": "husk",
   "governorSeats": {
     "count": 7,
@@ -94,7 +103,10 @@
           "district:philadelphia"
         ]
       },
-      { "id": "b", "order": ["district:chicago", "district:cleveland"] },
+      {
+        "id": "b",
+        "order": ["district:chicago", "district:cleveland"]
+      },
       {
         "id": "c",
         "order": ["district:atlanta", "district:st-louis", "district:dallas"]
@@ -110,14 +122,38 @@
     ]
   },
   "meetings": [
-    { "month": 1, "nthWednesday": 4 },
-    { "month": 3, "nthWednesday": 3 },
-    { "month": 4, "nthWednesday": 4 },
-    { "month": 6, "nthWednesday": 3 },
-    { "month": 7, "nthWednesday": 4 },
-    { "month": 9, "nthWednesday": 4 },
-    { "month": 11, "nthWednesday": 1 },
-    { "month": 12, "nthWednesday": 3 }
+    {
+      "month": 1,
+      "nthWednesday": 4
+    },
+    {
+      "month": 3,
+      "nthWednesday": 3
+    },
+    {
+      "month": 4,
+      "nthWednesday": 4
+    },
+    {
+      "month": 6,
+      "nthWednesday": 3
+    },
+    {
+      "month": 7,
+      "nthWednesday": 4
+    },
+    {
+      "month": 9,
+      "nthWednesday": 4
+    },
+    {
+      "month": 11,
+      "nthWednesday": 1
+    },
+    {
+      "month": 12,
+      "nthWednesday": 3
+    }
   ],
   "meetingWeekday": 3,
   "effectiveDaysAfterDecision": 1,
@@ -139,11 +175,26 @@
       "id": "macro-rate-hold",
       "actKinds": ["delay", "keep-same", "play-safe"]
     },
-    "move": { "id": "macro-rate-move", "actKinds": ["commit", "change"] }
+    "move": {
+      "id": "macro-rate-move",
+      "actKinds": ["commit", "change"]
+    }
   },
   "need": "money",
   "effortParameter": "zero",
   "effectParameter": "zero",
   "targetKind": "macro-rate-option",
-  "effect": "macro-rate-vote"
+  "effect": "macro-rate-vote",
+  "careerQualification": {
+    "tag": "ESTIMATED",
+    "citation": "How qualified a career makes a candidate for a seat, 0 to 1, for the nominating official's ranking. The Federal Reserve Act asks the President to give due regard to a fair representation of the financial, agricultural, industrial and commercial sectors (12 U.S.C. 241), so every listed career can qualify. The order puts monetary-policy careers first. Registered as SG-WORLD-board-career-qualification.",
+    "spread": [0.1, 0.3],
+    "values": {
+      "academic-economist": 1.0,
+      "reserve-bank-economist": 1.0,
+      "treasury-official": 0.8,
+      "commercial-banker": 0.7,
+      "financial-markets": 0.7
+    }
+  }
 }

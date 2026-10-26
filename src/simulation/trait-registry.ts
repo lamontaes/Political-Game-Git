@@ -20,14 +20,14 @@ import {
 import { JOB_TRAIT_DECISION_DECLARATIONS } from "./traits/jobs-decisions";
 import { MOGUL_APPROACH_DECISION } from "./mogul-decisions";
 import type { WorldContentPacks } from "./runtime-content-packs";
-import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
+import { loadTraitPacks, type TraitRegistry } from "../core2/trait-packs";
 import type { World } from "./types";
 import { VOTES_AND_OUTREACH_DECISIONS } from "./traits/votes-and-outreach-decisions";
 import { SUBJECT_RESPONSE_DECISION } from "./press/subject-response-decision";
 import {
   FACET_AFFECTIONATE_DECISIONS,
   FACET_AFFECTIONATE_EFFECTS,
-} from "./traits/effects/facet-affectionate";
+} from "../core2/trait-effects/facet-affectionate";
 
 /**
  * The packs and decisions this build loads.

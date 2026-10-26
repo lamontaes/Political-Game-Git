@@ -2,6 +2,7 @@
  * The story ledger: what the director keeps for each watched person
  * (docs/design/director-on-core2.md). Structure only; no player text.
  */
+import type { OpeningStory } from "./opening-story";
 import type { Parameter } from "../core2/parameters";
 import type { IsoDate, PersonId } from "../core2/types";
 import type { ScheduleEntry } from "./scheduling";
@@ -30,6 +31,12 @@ export interface DirectorData {
   keptFactKinds: readonly KeptFactKindRow[];
   /** Event flags that make an event broad (public or news). */
   broadEventFlags: readonly string[];
+  /**
+   * How a job's end is recorded when the worker chose it (the source prefix of
+   * the worker's `job:<id>:status` record): a quit for another job or leaving
+   * work. Such an end is `job-left`, never a lost job.
+   */
+  chosenJobEnds?: readonly string[];
   /** Core event kinds the director subscribes to; "*" is every kind, so no list of kinds is kept in code. */
   eventKinds: readonly string[];
   /** Relationship-change notices the director reads, so a mid-day change is rated when recorded. */
@@ -224,4 +231,39 @@ export interface Ledger {
   /** Open lies indexed by the deceived person and the fact they deny. */
   liesByLearner: Map<string, Set<string>>;
   stopgapHits: Set<string>;
+  /** The opening, the first scene: the President's address, that night's news, then home that evening. */
+  opening?: OpeningStory;
+  /** Each player's scene filter: the kinds of scene they allow to interrupt them. */
+  sceneFilters: Map<PersonId, SceneFilter>;
+  /** Each voter's election-day visit to the polls, by `<person>:<election date>`. */
+  pollingVisits: Map<string, PollingVisitRecord>;
+}
+
+/**
+ * A voter's election-day visit (owner, Oct 14, 2026: election day is a
+ * scene): the contests on their ballot, what they marked, and whether they
+ * voted or left. The voting engine counts what was marked (`castBallot`).
+ */
+export interface PollingVisitRecord {
+  readonly id: string;
+  readonly personId: PersonId;
+  readonly electionDate: IsoDate;
+  readonly contestIds: readonly string[];
+  /** Each contest marked: the candidate, or null for a race left blank. */
+  readonly marked: Readonly<Record<string, string | null>>;
+  readonly status: "open" | "voted" | "left";
+}
+
+/**
+ * The player's interrupt setting (owner, Oct 14, 2026): which kinds of scene
+ * may stop the day, by situation type. The director's scheduling reads it
+ * whenever it decides a moment's outcome.
+ */
+export interface SceneFilter {
+  readonly id: string;
+  readonly personId: PersonId;
+  /** The situation-type keys allowed; every other kind becomes a journal line. */
+  readonly allowedKinds: readonly string[];
+  /** When the player set it. */
+  readonly setOn: IsoDate;
 }

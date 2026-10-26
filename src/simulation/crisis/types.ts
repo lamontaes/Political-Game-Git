@@ -5,7 +5,7 @@ import type {
   IsoDate,
   MindConfidence,
 } from "../types";
-import type { MortalityCalibrationCategory } from "./mortality-table";
+import type { MortalityCalibrationCategory } from "../../core2/health-mortality-table";
 import type { LawEffectStampedRecord } from "../law-effect-stamp";
 
 /**

@@ -16,7 +16,9 @@
     "jobless": "People out of work nationally, from the world's job records.",
     "population": "The country's population, from the world's population records.",
     "national_debt": "The national debt, from the federal ledger.",
-    "deficit_cut": "How much the federal deficit fell, from the federal ledger."
+    "deficit_cut": "How much the federal deficit fell, from the federal ledger.",
+    "mortgage_rate": "The thirty-year mortgage rate from the world's economy records, as a number such as 6.8.",
+    "wage_growth": "How much average hourly pay rose nationally over the past year, from the world's wage records, as a number such as 3.9."
   },
   "maxWords": 20,
   "mining": {
@@ -74,7 +76,11 @@
         "granule": "DCPD-201600012",
         "url": "https://www.govinfo.gov/app/details/DCPD-201600012",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.thank-you-mr-speaker",
@@ -100,7 +106,11 @@
         "granule": "DCPD-202600183",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600183",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.thank-you-madam-speaker",
@@ -126,7 +136,11 @@
         "granule": "DCPD-202200527",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200527",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.my-fellow-americans",
@@ -159,7 +173,11 @@
         "granule": "DCPD-202600505",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600505",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.good-evening",
@@ -185,7 +203,11 @@
         "granule": "DCPD-202600366",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600366",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.thank-you-very-much",
@@ -230,6 +252,9 @@
         "granule": "DCPD-202600596",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600596",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
       }
     },
     {
@@ -275,6 +300,9 @@
         "granule": "DCPD-202600593",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600593",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
       }
     },
     {
@@ -301,6 +329,9 @@
         "granule": "DCPD-202600593",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600593",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
       }
     },
     {
@@ -327,7 +358,11 @@
         "granule": "DCPD-202400602",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400602",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.thank-you-everybody",
@@ -359,6 +394,9 @@
         "granule": "DCPD-202600579",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600579",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
       }
     },
     {
@@ -385,7 +423,11 @@
         "granule": "DCPD-202400889",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400889",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-occasion.we-have-a-lot-of-work-to-do",
@@ -411,7 +453,11 @@
         "granule": "DCPD-201800704",
         "url": "https://www.govinfo.gov/app/details/DCPD-201800704",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-occasion.we-have-more-work-to-do",
@@ -437,7 +483,11 @@
         "granule": "DCPD-202400611",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400611",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-occasion.there-is-more-work-to-do",
@@ -463,13 +513,17 @@
         "granule": "DCPD-202500085",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500085",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.unemployment-is-at-unemployment-rate-percent",
+      "key": "opening-speech.state-of-the-union-report.national-unemployment-is-at-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "Unemployment is at {unemployment_rate} percent.",
+      "text": "National unemployment is at {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -484,24 +538,20 @@
           "choice": "report"
         }
       ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "dcpd": 7
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks on the Passage of Public Debt Limit and Federal Budget Legislation",
-        "date": "2023-06-02",
-        "granule": "DCPD-202300493",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202300493",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.the-unemployment-rate-is-unemployment-rate-perce",
+      "key": "opening-speech.state-of-the-union-report.the-national-unemployment-rate-is-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "The unemployment rate is {unemployment_rate} percent.",
+      "text": "The national unemployment rate is {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -516,24 +566,20 @@
           "choice": "report"
         }
       ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 6
-      },
       "shippable": true,
-      "source": {
-        "document": "Statement on the Bureau of Labor Statistics Report on the Employment Situation in July",
-        "date": "2023-08-04",
-        "granule": "DCPD-202300673",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202300673",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.unemployment-is-down-to-unemployment-rate-percen",
+      "key": "opening-speech.state-of-the-union-report.national-unemployment-is-down-to-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "Unemployment is down to {unemployment_rate} percent.",
+      "text": "Across the country, unemployment is down to {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -550,18 +596,14 @@
           "requiresFacts": ["unemployment-down"]
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks at a Campaign Rally in Detroit, Michigan",
-        "date": "2024-07-12",
-        "granule": "DCPD-202400605",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202400605",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.unemployment-is-down",
@@ -595,6 +637,9 @@
         "granule": "DCPD-202400750",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400750",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -629,6 +674,9 @@
         "granule": "DCPD-202600518",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600518",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -663,6 +711,9 @@
         "granule": "DCPD-202600031",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600031",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -697,6 +748,9 @@
         "granule": "DCPD-202200023",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200023",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -732,7 +786,11 @@
         "granule": "DCPD-202600494",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600494",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-report.prices-are-still-too-high",
@@ -766,7 +824,11 @@
         "granule": "DCPD-202400728",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400728",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-report.prices-are-coming-down",
@@ -800,6 +862,9 @@
         "granule": "DCPD-202600064",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600064",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -834,6 +899,9 @@
         "granule": "DCPD-202200029",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200029",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -868,6 +936,9 @@
         "granule": "DCPD-202201058",
         "url": "https://www.govinfo.gov/app/details/DCPD-202201058",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -902,6 +973,9 @@
         "granule": "DCPD-202200940",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200940",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -936,7 +1010,11 @@
         "granule": "DCPD-202400338",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400338",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.wages-are-up",
@@ -971,7 +1049,11 @@
         "granule": "DCPD-202600020",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600020",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.wages-are-going-up",
@@ -1005,7 +1087,11 @@
         "granule": "DCPD-202400269",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400269",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.wages-are-rising-faster-than-prices",
@@ -1039,7 +1125,11 @@
         "granule": "DCPD-202400508",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400508",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-economy-is-growing",
@@ -1073,7 +1163,11 @@
         "granule": "DCPD-202400602",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400602",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.the-economy-is-growing",
@@ -1107,7 +1201,11 @@
         "granule": "DCPD-202400957",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400957",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-economy-is-strong",
@@ -1142,7 +1240,11 @@
         "granule": "DCPD-202400351",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400351",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-economy-is-stronger",
@@ -1176,7 +1278,11 @@
         "granule": "DCPD-202300698",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300698",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-economy-is-booming",
@@ -1210,7 +1316,11 @@
         "granule": "DCPD-202600263",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600263",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.the-economy-is-booming",
@@ -1244,7 +1354,11 @@
         "granule": "DCPD-201900751",
         "url": "https://www.govinfo.gov/app/details/DCPD-201900751",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.jobs-are-up",
@@ -1278,7 +1392,11 @@
         "granule": "DCPD-202600518",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600518",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.we-created-jobs-added-jobs",
@@ -1312,7 +1430,11 @@
         "granule": "DCPD-202400918",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400918",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.weve-created-jobs-added-new-jobs",
@@ -1346,7 +1468,11 @@
         "granule": "DCPD-202500550",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500550",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.we-created-jobs-added-new-jobs",
@@ -1380,7 +1506,11 @@
         "granule": "DCPD-202400087",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400087",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.we-have-created-jobs-added-new-jobs",
@@ -1415,7 +1545,11 @@
         "granule": "DCPD-202300185",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300185",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-businesses-created-jobs-added-new-jobs",
@@ -1449,7 +1583,11 @@
         "granule": "DCPD-201600601",
         "url": "https://www.govinfo.gov/app/details/DCPD-201600601",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.we-cut-the-deficit",
@@ -1484,6 +1622,9 @@
         "granule": "DCPD-202400238",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400238",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1518,7 +1659,11 @@
         "granule": "DCPD-202300576",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300576",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.crime-is-down",
@@ -1552,7 +1697,245 @@
         "granule": "DCPD-202600321",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600321",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.inflation-is-at-inflation-rate-percent",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Inflation is at {inflation_rate} percent.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report"
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.prices-are-up-inflation-rate-percent-over-the-past-year",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Prices are up {inflation_rate} percent over the past year.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["prices-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.mortgage-rates-are-at-mortgage-rate-percent",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Mortgage rates are at {mortgage_rate} percent.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report"
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.interest-on-a-home-loan-is-mortgage-rate-percent",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Interest on a home loan is {mortgage_rate} percent.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report"
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.wages-are-up-wage-growth-percent-from-a-year-ago",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Wages are up {wage_growth} percent from a year ago.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["wages-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["wages-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.wages-rose-wage-growth-percent-this-past-year",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Wages rose {wage_growth} percent this past year.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["wages-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["wages-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.the-economy-grew-growth-rate-percent-over-the-past-year",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "The economy grew {growth_rate} percent over the past year.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["growth-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["growth-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.our-economy-grew-growth-rate-percent-last-year",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Our economy grew {growth_rate} percent last year.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["growth-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["growth-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.i-ask-congress-to-goal",
@@ -1585,7 +1968,11 @@
         "granule": "DCPD-202200127",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200127",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.i-urge-congress-to-goal",
@@ -1618,7 +2005,11 @@
         "granule": "DCPD-202600104",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600104",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.i-call-on-congress-to-goal",
@@ -1651,7 +2042,11 @@
         "granule": "DCPD-202400523",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400523",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.im-calling-on-congress-to-goal",
@@ -1683,7 +2078,11 @@
         "granule": "DCPD-202600046",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600046",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.congress-must-goal",
@@ -1716,7 +2115,11 @@
         "granule": "DCPD-202401082",
         "url": "https://www.govinfo.gov/app/details/DCPD-202401082",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.congress-should-goal",
@@ -1749,7 +2152,11 @@
         "granule": "DCPD-202400879",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400879",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.send-it-to-my-desk",
@@ -1781,7 +2188,11 @@
         "granule": "DCPD-202301124",
         "url": "https://www.govinfo.gov/app/details/DCPD-202301124",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.pass-it",
@@ -1814,7 +2225,11 @@
         "granule": "DCPD-202300238",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300238",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.lets-get-it-done",
@@ -1846,7 +2261,11 @@
         "granule": "DCPD-202500989",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500989",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.lets-finish-the-job",
@@ -1878,7 +2297,11 @@
         "granule": "DCPD-202300531",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300531",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.lets-work-together",
@@ -1910,7 +2333,11 @@
         "granule": "DCPD-202400815",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400815",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.lets-come-together",
@@ -1942,7 +2369,11 @@
         "granule": "DCPD-202200127",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200127",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.we-can-do-this-together",
@@ -1974,7 +2405,11 @@
         "granule": "DCPD-202101072",
         "url": "https://www.govinfo.gov/app/details/DCPD-202101072",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.this-is-not-a-partisan-issue",
@@ -2006,7 +2441,11 @@
         "granule": "DCPD-202101028",
         "url": "https://www.govinfo.gov/app/details/DCPD-202101028",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.this-shouldnt-be-a-partisan-issue",
@@ -2038,7 +2477,11 @@
         "granule": "DCPD-202500915",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500915",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.i-look-forward-to-working-with-you",
@@ -2070,7 +2513,11 @@
         "granule": "DCPD-202500599",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500599",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "request"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-governors.i-want-to-thank-the-governors",
@@ -2102,7 +2549,11 @@
         "granule": "DCPD-202100642",
         "url": "https://www.govinfo.gov/app/details/DCPD-202100642",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "thank"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-governors.states-should-goal",
@@ -2134,7 +2585,11 @@
         "granule": "DCPD-202400431",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400431",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "thank"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-governors.thank-you-governor-name",
@@ -2166,7 +2621,11 @@
         "granule": "DCPD-202500915",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500915",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "thank"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-towns.its-happening-all-across-the-country",
@@ -2198,6 +2657,9 @@
         "granule": "DCPD-202200700",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200700",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2230,6 +2692,9 @@
         "granule": "DCPD-202200129",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200129",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2262,6 +2727,9 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600590",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2294,6 +2762,9 @@
         "granule": "DCPD-202201001",
         "url": "https://www.govinfo.gov/app/details/DCPD-202201001",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2326,6 +2797,9 @@
         "granule": "DCPD-202100873",
         "url": "https://www.govinfo.gov/app/details/DCPD-202100873",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2358,6 +2832,9 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600590",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2390,7 +2867,11 @@
         "granule": "DCPD-202400370",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400370",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.every-child-deserves-goal",
@@ -2422,7 +2903,11 @@
         "granule": "DCPD-202401082",
         "url": "https://www.govinfo.gov/app/details/DCPD-202401082",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.every-american-deserves-goal",
@@ -2454,7 +2939,11 @@
         "granule": "DCPD-202600573",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600573",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.i-know-how-hard-it-is",
@@ -2486,7 +2975,11 @@
         "granule": "DCPD-202200692",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200692",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.i-know-its-hard",
@@ -2519,7 +3012,11 @@
         "granule": "DCPD-202400505",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400505",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.we-see-you",
@@ -2551,7 +3048,11 @@
         "granule": "DCPD-202400410",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400410",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.i-see-you",
@@ -2583,7 +3084,11 @@
         "granule": "DCPD-202600543",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600543",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.i-hear-you",
@@ -2615,7 +3120,11 @@
         "granule": "DCPD-202600362",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600362",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.youre-not-alone",
@@ -2647,7 +3156,11 @@
         "granule": "DCPD-202000048",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000048",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.you-are-not-alone",
@@ -2679,7 +3192,11 @@
         "granule": "DCPD-202300915",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300915",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.the-american-people-deserve-better",
@@ -2711,7 +3228,11 @@
         "granule": "DCPD-202500483",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500483",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-families.we-stand-with-you",
@@ -2743,7 +3264,11 @@
         "granule": "DCPD-202400339",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400339",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.were-with-you",
@@ -2775,7 +3300,11 @@
         "granule": "DCPD-202500052",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500052",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.we-are-with-you",
@@ -2807,7 +3336,11 @@
         "granule": "DCPD-202500757",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500757",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-you-and-may-god-protect-our-troops",
@@ -2833,7 +3366,11 @@
         "granule": "DCPD-202300596",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300596",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-you-all-and-may-god-protect-our-troops",
@@ -2859,7 +3396,11 @@
         "granule": "DCPD-202500094",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500094",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-america",
@@ -2892,7 +3433,11 @@
         "granule": "DCPD-202600485",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600485",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-you-and-god-bless-the-united-states-of",
@@ -2918,7 +3463,11 @@
         "granule": "DCPD-202501112",
         "url": "https://www.govinfo.gov/app/details/DCPD-202501112",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.thank-you-and-god-bless-america",
@@ -2950,7 +3499,11 @@
         "granule": "DCPD-202000048",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000048",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.thank-you-all",
@@ -2977,6 +3530,9 @@
         "granule": "DCPD-202600564",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600564",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close"
       }
     },
     {
@@ -3010,7 +3566,11 @@
         "granule": "DCPD-202500325",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500325",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.may-god-bless-america",
@@ -3042,7 +3602,11 @@
         "granule": "DCPD-202500964",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500964",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-you-all",
@@ -3074,7 +3638,11 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600590",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.thank-you-and-god-bless-you",
@@ -3107,7 +3675,11 @@
         "granule": "DCPD-202400745",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400745",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.thank-you-god-bless-you-and-god-bless-the-united",
@@ -3133,7 +3705,11 @@
         "granule": "DCPD-202000468",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000468",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.may-god-protect-our-troops",
@@ -3165,7 +3741,11 @@
         "granule": "DCPD-202500085",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500085",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.may-god-bless-you-and-may-god-bless-the-united-s",
@@ -3197,7 +3777,11 @@
         "granule": "DCPD-201700130",
         "url": "https://www.govinfo.gov/app/details/DCPD-201700130",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.lets-get-to-work",
@@ -3235,7 +3819,11 @@
         "granule": "DCPD-202400816",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400816",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-close.the-best-is-yet-to-come",
@@ -3267,7 +3855,11 @@
         "granule": "DCPD-202000426",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000426",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.the-future-is-ours",
@@ -3299,7 +3891,11 @@
         "granule": "DCPD-202500103",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500103",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.ive-never-been-more-optimistic-about-our-future",
@@ -3325,7 +3921,11 @@
         "granule": "DCPD-202400775",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400775",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.we-will-not-fail",
@@ -3358,7 +3958,11 @@
         "granule": "DCPD-202000340",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000340",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-close.we-can-do-this",
@@ -3385,7 +3989,11 @@
         "granule": "DCPD-202401047",
         "url": "https://www.govinfo.gov/app/details/DCPD-202401047",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.we-are-the-united-states-of-america",
@@ -3411,7 +4019,11 @@
         "granule": "DCPD-202500070",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500070",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.were-the-united-states-of-america",
@@ -3437,7 +4049,11 @@
         "granule": "DCPD-202500085",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500085",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.theres-nothing-we-cant-do",
@@ -3463,7 +4079,11 @@
         "granule": "DCPD-202400468",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400468",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-salutation.my-fellow-citizens",
@@ -3490,7 +4110,11 @@
         "granule": "DCPD-202000494",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000494",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.inaugural-salutation.thank-you-so-much",
@@ -3509,13 +4133,16 @@
       "bySource": {
         "dcpd": 962
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
         "granule": "DCPD-202600575",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600575",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
       }
     },
     {
@@ -3543,7 +4170,11 @@
         "granule": "DCPD-202400918",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400918",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.we-will-goal",
@@ -3570,6 +4201,9 @@
         "granule": "DCPD-202600592",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600592",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3597,6 +4231,9 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600590",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3623,7 +4260,11 @@
         "granule": "DCPD-202000063",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000063",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.we-are-one-people",
@@ -3649,7 +4290,11 @@
         "granule": "DCPD-202600427",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600427",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.we-are-a-great-nation",
@@ -3675,7 +4320,11 @@
         "granule": "DCPD-202200476",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200476",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.we-are-a-nation-of-immigrants",
@@ -3702,7 +4351,11 @@
         "granule": "DCPD-202200850",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200850",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.inaugural-occasion.i-will-never-let-you-down",
@@ -3728,7 +4381,11 @@
         "granule": "DCPD-202000577",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000577",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.i-will-never-stop-fighting-for-you",
@@ -3754,7 +4411,11 @@
         "granule": "DCPD-201900746",
         "url": "https://www.govinfo.gov/app/details/DCPD-201900746",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.this-is-our-time",
@@ -3780,7 +4441,11 @@
         "granule": "DCPD-201800143",
         "url": "https://www.govinfo.gov/app/details/DCPD-201800143",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.the-time-for-action-is-now",
@@ -3806,7 +4471,11 @@
         "granule": "DCPD-201700520",
         "url": "https://www.govinfo.gov/app/details/DCPD-201700520",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.now-is-the-time",
@@ -3832,7 +4501,11 @@
         "granule": "DCPD-202600120",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600120",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.now-is-the-time-to-act",
@@ -3858,7 +4531,11 @@
         "granule": "DCPD-202100626",
         "url": "https://www.govinfo.gov/app/details/DCPD-202100626",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.the-time-is-now",
@@ -3884,7 +4561,11 @@
         "granule": "DCPD-202600494",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600494",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.this-is-who-we-are",
@@ -3910,7 +4591,11 @@
         "granule": "DCPD-202200110",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200110",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.inaugural-close.god-bless-you-and-god-bless-america",
@@ -3937,7 +4622,11 @@
         "granule": "DCPD-202600268",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600268",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.inaugural-close.so-help-me-god",
@@ -3963,7 +4652,11 @@
         "granule": "DCPD-202600592",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600592",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
+      },
+      "tag": {
+        "move": "close"
+      },
+      "bearing": "calm"
     }
   ]
 }

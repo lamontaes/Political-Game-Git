@@ -1,0 +1,908 @@
+{
+  "id": "foreclosure-steps-2026",
+  "retrieved": "2026-10-14",
+  "method": "Web search and fetch on Oct 14, 2026. ATTOM publishes only the five longest and five shortest state timelines per quarter, so typicalDaysToComplete is filled for 14 places from ATTOM Q2 2026, Q3 2025 and Q2 2025 releases and left null elsewhere. National ATTOM average: 563 days (Q2 2026), 608 days (Q3 2025). Process type, notice periods and redemption are the researcher's recall of each state's statute, cross-checked against the Bills.com state table (updated 2015, partly outdated) and American Default's 2026 judicial/nonjudicial list; official legislature pages, Nolo and Justia could not be fetched (403/404). No place is rated high because no statute text was read this pass. Treat every value as an estimate until the statute is read; the 'estimatedFields' list names those that are weakest or null.",
+  "federal": {
+    "preForeclosureDelinquencyDays": 120,
+    "citation": "12 CFR 1024.41(f)(1) (Regulation X): a servicer may not make the first notice or filing for foreclosure until the loan is more than 120 days delinquent",
+    "sourceUrl": "https://www.consumerfinance.gov/rules-policy/regulations/1024/41/"
+  },
+  "fields": {
+    "process": "nonjudicial, judicial or both: the route most residential foreclosures use; null if none found",
+    "noticeOfDefaultDays": "days the borrower has after a statutory notice of default or intent to foreclose before sale or filing can proceed; null if the statute sets none",
+    "saleNoticeDays": "days of published or mailed notice before the sale",
+    "typicalDaysToComplete": "ATTOM average days from first public notice to completed foreclosure for the quarter named in typicalDaysSource",
+    "typicalDaysSource": "report and quarter for typicalDaysToComplete",
+    "redemptionDaysAfterSale": "statutory redemption days after sale; 0 if none",
+    "statute": "citation",
+    "sourceUrl": "urls (secondary summaries)",
+    "confidence": "high | medium | low",
+    "estimatedFields": "fields not read from statute or official source, or null",
+    "note": "short"
+  },
+  "places": {
+    "US-AL": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 365,
+      "statute": "Ala. Code 35-10-1 et seq. (sale publication 3 consecutive weeks, 35-10-13); 35-10-120 (redemption)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "typicalDaysToComplete"
+      ],
+      "note": "Redemption is one year generally; a shorter homestead period may apply; sources conflict. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-AK": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 90,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": 199,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 0,
+      "statute": "AS 34.20.070 (sale not before 90 days after notice of default recorded); 34.20.090 (no redemption after nonjudicial sale)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": ["saleNoticeDays"],
+      "note": "Judicial sales carry a 12-month redemption; nonjudicial none. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-AZ": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 90,
+      "saleNoticeDays": 90,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "ARS 33-808 (notice of sale at least 90 days before sale); 33-811",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["typicalDaysToComplete"],
+      "note": "Deed-of-trust sale; no redemption after trustee sale. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-AR": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "Ark. Code 18-50-101 et seq. (Statutory Foreclosure Act); 18-50-104",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Judicial foreclosure also available (1-year redemption) but rarely used. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-CA": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 90,
+      "saleNoticeDays": 20,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "Cal. Civ. Code 2924(a)(2) (3 months from notice of default recording); 2924f (20-day notice of sale)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["typicalDaysToComplete"],
+      "note": "Sale is also preceded by a 3-month-plus-5-day wait; 2924.9 pre-notice outreach not counted. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-CO": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 110,
+      "saleNoticeDays": 35,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 8,
+      "statute": "CRS 38-38-101 et seq. (public trustee; sale 110-125 days after notice of election); 38-38-302",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": [
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Owner can cure up to 15 days before sale; 8-day redemption applies to lienors, not the owner. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-CT": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 90,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": 1626,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 0,
+      "statute": "CGS 49-24 et seq., 49-19 (law days); 8-265ee (EMAP notice)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "low",
+      "estimatedFields": ["noticeOfDefaultDays", "saleNoticeDays"],
+      "note": "Strict foreclosure or sale by court order; EMAP notice 30 days plus 60 days to apply. Redemption ends on the law day. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-DE": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "10 Del. C. 5061 et seq. (scire facias sur mortgage); 5062B (30-day notice of intent)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Sheriff's sale; publication details not confirmed. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-DC": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "DC Code 42-815 et seq. (notice of default, mediation); 42-816",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["typicalDaysToComplete"],
+      "note": "Mediation program applies to residential. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-FL": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 20,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "Fla. Stat. 702, 45.031 (sale at least 20 days after judgment)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays", "typicalDaysToComplete"],
+      "note": "Pre-suit notice is contractual (30 days in standard form), not statutory. Right of redemption ends when the clerk files the certificate of sale. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-GA": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "OCGA 44-14-162 to 162.4 (notice to debtor at least 30 days before sale; 4 weeks of ads)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays", "typicalDaysToComplete"],
+      "note": "Sales on the first Tuesday of the month. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-HI": {
+      "process": "both",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 60,
+      "typicalDaysToComplete": 2293,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 0,
+      "statute": "HRS 667-1 et seq. (judicial); 667-5 and 667-21 et seq. (power of sale)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "process",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays"
+      ],
+      "note": "Judicial is the main route and very slow; nonjudicial restricted; sale-notice figure is the secondary summary's. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-ID": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 120,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "Idaho Code 45-1506 (sale at least 120 days after notice of default recorded), 45-1506(6)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["saleNoticeDays", "typicalDaysToComplete"],
+      "note": "Redemption only for judicial sales of 20+ acre parcels. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-IL": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 90,
+      "statute": "735 ILCS 5/15-1501 et seq.; 15-1507(c) (3 weeks of notice); 15-1603 (redemption)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Redemption is 7 months from service or 3 months from judgment, whichever is later; 90 days is the floor. 90-day reinstatement from service. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-IN": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "IC 32-30-10.5-8 (30-day pre-suit notice); IC 32-29-7-3 (sale at least 3 months after filing)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["saleNoticeDays", "typicalDaysToComplete"],
+      "note": "Sheriff's sale; waiting period 3 months after filing (120 days for older mortgages). Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-IA": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": 28,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 365,
+      "statute": "Iowa Code 654.2A (30-day right-to-cure notice); 654.7 and 628.3 (redemption); 626.4",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Redemption is 1 year; 6 months if the lender waives deficiency; shorter if abandoned. Nonjudicial route exists but is rare. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-KS": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 365,
+      "statute": "K.S.A. 60-2410 et seq.; 60-2414 (redemption)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "typicalDaysToComplete"
+      ],
+      "note": "Redemption is 12 months, or 3 months if over one-third of the original loan was repaid. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-KY": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 365,
+      "statute": "KRS 426.525 to 426.570; 426.530 (redemption)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Redemption 12 months only if the sale price is under two-thirds of appraised value. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-LA": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": 3491,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 0,
+      "statute": "La. CCP art. 2631 et seq. (executory process); art. 2682 (30-day advertisement)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays"],
+      "note": "Longest foreclosure average in the country; seizure notice is served on the debtor but no statutory cure period. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-ME": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 35,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 90,
+      "statute": "14 MRSA 6111 (35-day right to cure); 6321 et seq.; 6322 (90-day redemption after judgment)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["saleNoticeDays", "typicalDaysToComplete"],
+      "note": "Redemption runs from judgment, not from the sale. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-MD": {
+      "process": "both",
+      "noticeOfDefaultDays": 45,
+      "saleNoticeDays": 10,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "Md. Real Prop. 7-105.1 (45-day notice of intent); Md. Rules 14-201 to 14-216",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["process", "saleNoticeDays", "typicalDaysToComplete"],
+      "note": "Power of sale run through the court docket (court-supervised); ratification by court. Equity of redemption until ratification. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-MA": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 90,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "MGL c.244 s.35A (90-day right to cure); s.14 (notice of sale, 21-day first publication); s.35B",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["typicalDaysToComplete"],
+      "note": "Servicemembers Civil Relief Act cases go through Land Court. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-MI": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": 28,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 180,
+      "statute": "MCL 600.3201 et seq.; 600.3205a (30-day notice); 600.3208 (4 weeks publication); 600.3240 (redemption)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["redemptionDaysAfterSale", "typicalDaysToComplete"],
+      "note": "Redemption 6 months for most residential property; shorter if abandoned; 12 months in some cases. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-MN": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 28,
+      "typicalDaysToComplete": 162,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2025",
+      "redemptionDaysAfterSale": 180,
+      "statute": "Minn. Stat. 580.04 to 580.06 (4 weeks publication); 580.23 (6-month redemption); 582.039",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/mid-year-2025-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays", "saleNoticeDays"],
+      "note": "Redemption extends to 12 months in some cases (over 40 acres or non-owner-occupied). Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-MS": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "Miss. Code 89-1-55 and 89-1-59 (3 weeks publication)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Lender notice is contractual; secondary summary lists 30 days. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-MO": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 20,
+      "saleNoticeDays": 20,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "RSMo 443.325 (20-day notice before first publication); 443.320",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["redemptionDaysAfterSale", "typicalDaysToComplete"],
+      "note": "A 1-year redemption in 443.410 requires advance notice and bond, so none is assumed for ordinary sales. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-MT": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 120,
+      "typicalDaysToComplete": 174,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q3 2025",
+      "redemptionDaysAfterSale": 0,
+      "statute": "MCA 71-1-315 (notice of sale at least 120 days before sale); 71-1-301 et seq.",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/q3-and-september-2025-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays"],
+      "note": "Secondary summary lists 50 days; recall of the statute gives 120. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-NE": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "Neb. Rev. Stat. 76-1006 (1 month default period after notice recorded); 76-1008",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Trust-deed route; judicial mortgage foreclosure also exists. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-NV": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 90,
+      "saleNoticeDays": 20,
+      "typicalDaysToComplete": 1507,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 0,
+      "statute": "NRS 107.080 (3 months after notice of default; 20-day notice of sale); Foreclosure Mediation Program",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": [],
+      "note": "Very long average timeline since the mediation program and bank delays. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-NH": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 25,
+      "typicalDaysToComplete": 157,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 0,
+      "statute": "RSA 479:25 (notice of sale at least 25 days before sale)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays"],
+      "note": "Notice goes to the mortgagor by certified mail. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-NJ": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": 28,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 10,
+      "statute": "N.J.S.A. 2A:50-56 (30-day notice of intention); 2A:17-36 (sheriff's sale ads); R. 4:65-5",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": [
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Redemption is the 10-day objection period; a longer statutory right of redemption applies only if a deficiency is pursued. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-NM": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 28,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 270,
+      "statute": "NMSA 39-5-1 et seq.; 39-5-18 (redemption)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Redemption 9 months in general; shorter in specific cases. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-NY": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 90,
+      "saleNoticeDays": 28,
+      "typicalDaysToComplete": 2007,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 0,
+      "statute": "RPL 1304 (90-day notice); RPAPL 1303, 231 (sale notice); CPLR 3408 (settlement conference)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": ["saleNoticeDays"],
+      "note": "Equity of redemption ends at sale. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-NC": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 45,
+      "saleNoticeDays": 20,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "NCGS 45-102 (45-day pre-foreclosure notice); 45-21.16 (20-day notice of sale); 45-21.27 (10-day upset bid)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["typicalDaysToComplete"],
+      "note": "Clerk of court hearing precedes the sale; 10-day upset-bid period is not redemption. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-ND": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": null,
+      "statute": "NDCC 32-19-01 et seq.; 32-19.1",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Redemption period sources conflict (60 days vs 1 year); left null. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-OH": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "ORC 2323.07, 2329.26 (3 weeks of notice); 2329.31 (confirmation)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays", "typicalDaysToComplete"],
+      "note": "Equity of redemption ends at confirmation of sale. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-OK": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "12 O.S. 686, 764 (30-day published sale notice); Power of Sale Mortgage Foreclosure Act, 46 O.S. 43",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Nonjudicial power of sale exists but judicial dominates; no redemption after sale. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-OR": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 120,
+      "saleNoticeDays": 120,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "ORS 86.771 (notice of sale at least 120 days before sale); 86.797",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["typicalDaysToComplete"],
+      "note": "Judicial foreclosure carries 180 days redemption. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-PA": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 60,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "35 P.S. 1680.403c (Act 91, 60-day notice); Pa.R.C.P. 3129.2 (30-day sale notice)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["typicalDaysToComplete"],
+      "note": "Act 91 notice is also a program-assistance notice. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-RI": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 45,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": 1929,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q3 2025",
+      "redemptionDaysAfterSale": 0,
+      "statute": "RIGL 34-27-3.1 (45-day notice with counseling); 34-27-4 (21 days first publication)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/q3-and-september-2025-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": [],
+      "note": "Long average comes from older backlogged cases; ATTOM figure is Q3 2025. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-SC": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 20,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "SC Code 29-3-630 et seq.; 37-10-102 (20-day right to cure)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Master-in-equity sale; bidding remains open 30 days for deficiency. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-SD": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 28,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 180,
+      "statute": "SDCL 21-48-1 et seq. (advertisement); 21-52-11 (redemption)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Judicial route also available; secondary summary lists 23 days notice, 180 days redemption. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-TN": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 20,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "Tenn. Code 35-5-101 to 35-5-107 (20 days published notice)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays", "typicalDaysToComplete"],
+      "note": "2-year redemption exists only when the deed of trust reserves it, which standard forms waive. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-TX": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 20,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": 155,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 0,
+      "statute": "Tex. Prop. Code 51.002 (20-day default notice; 21 days notice of sale)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": [],
+      "note": "Sales on the first Tuesday of the month. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-UT": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 90,
+      "saleNoticeDays": 30,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "Utah Code 57-1-24 (3 months after notice of default); 57-1-25 (30 days notice of sale)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["typicalDaysToComplete"],
+      "note": "Trust deed route. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-VT": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 180,
+      "statute": "12 V.S.A. 4931 et seq. (strict foreclosure, decree and redemption period)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Judicial strict foreclosure or by sale; redemption period set by decree (6 months common). Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-VA": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 14,
+      "typicalDaysToComplete": 160,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q3 2025",
+      "redemptionDaysAfterSale": 0,
+      "statute": "Va. Code 55.1-321 (notice to owner at least 14 days before sale)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/q3-and-september-2025-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays"],
+      "note": "Fastest-group state in ATTOM data. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-WA": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": 90,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 0,
+      "statute": "RCW 61.24.030(8) (30-day notice of default); 61.24.040 (notice of sale 90 days before sale)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "medium",
+      "estimatedFields": ["typicalDaysToComplete"],
+      "note": "Foreclosure mediation under RCW 61.24.163. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-WV": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": 30,
+      "saleNoticeDays": 20,
+      "typicalDaysToComplete": 196,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 0,
+      "statute": "W. Va. Code 38-1-4, 38-1-3; 46A-2-106 (30-day right to cure)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": ["saleNoticeDays"],
+      "note": "Fastest-group state in ATTOM data. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-WI": {
+      "process": "judicial",
+      "noticeOfDefaultDays": 15,
+      "saleNoticeDays": 21,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": 180,
+      "statute": "Wis. Stat. 846.101, 846.102 (redemption), 846.16; 425.105 (15-day right to cure)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Sale not earlier than 6 months after judgment (3 months if waiver); redemption runs to sale confirmation. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-WY": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": 28,
+      "typicalDaysToComplete": 173,
+      "typicalDaysSource": "ATTOM U.S. Foreclosure Market Report, properties foreclosed in Q2 2026",
+      "redemptionDaysAfterSale": 90,
+      "statute": "Wyo. Stat. 34-4-101 et seq. (4 weeks publication); 1-18-103 to 1-18-104 (3-month redemption)",
+      "sourceUrl": [
+        "https://www.bills.com/learn/mortgages/foreclosure-laws",
+        "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/"
+      ],
+      "confidence": "medium",
+      "estimatedFields": ["noticeOfDefaultDays"],
+      "note": "Shortest-group state in ATTOM data. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-PR": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": null,
+      "statute": "Puerto Rico Civil Procedure Rules, executory proceeding (Rule 51); Ley 184-2012 (mediation)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Judicial; mandatory mediation under Ley 184-2012. Secondary recall only. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-GU": {
+      "process": "nonjudicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": null,
+      "statute": "21 GCA ch. 44 (deeds of trust and mortgages)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "process",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Not read from any source; process is a guess from the territory's code layout. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-VI": {
+      "process": "judicial",
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": null,
+      "statute": "28 V.I.C. 531 et seq. (foreclosure of mortgages by action)",
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "typicalDaysToComplete"
+      ],
+      "note": "Judicial action; details not confirmed. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-AS": {
+      "process": null,
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": null,
+      "statute": null,
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "process",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "statute",
+        "typicalDaysToComplete"
+      ],
+      "note": "Land is largely communally owned and restricted; no residential foreclosure process found. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    },
+    "US-MP": {
+      "process": null,
+      "noticeOfDefaultDays": null,
+      "saleNoticeDays": null,
+      "typicalDaysToComplete": null,
+      "typicalDaysSource": null,
+      "redemptionDaysAfterSale": null,
+      "statute": null,
+      "sourceUrl": ["https://www.bills.com/learn/mortgages/foreclosure-laws"],
+      "confidence": "low",
+      "estimatedFields": [
+        "noticeOfDefaultDays",
+        "process",
+        "redemptionDaysAfterSale",
+        "saleNoticeDays",
+        "statute",
+        "typicalDaysToComplete"
+      ],
+      "note": "Land ownership is restricted to persons of Northern Marianas descent; no residential foreclosure process found. Secondary sources (Bills.com 2015 table, ATTOM press release); statute recalled, not read from the official site."
+    }
+  }
+}

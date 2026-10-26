@@ -1,5 +1,5 @@
-import corpusJson from "../../data/research/places/local-institutions.json" with { type: "json" };
-import { countyGeoidsForPlace } from "./government-units";
+import { groupedJsonTable } from "../core2/reference/lazy-data";
+import { countyGeoidsForPlace } from "../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   EMPTY_LOCAL_INSTITUTIONS,
@@ -10,7 +10,18 @@ import type { EntityId, IsoDate, LifeRecordProvenance, World } from "./types";
 import type { SchoolStageKey } from "./school-calendar";
 import type { LocalInstitutionRow } from "./local-institutions-data";
 
-const corpus = corpusJson as LocalInstitutionsCorpus;
+// Read on first use, only for the states a world asks about.
+const table = groupedJsonTable(
+  new URL(
+    "../../data/research/places/local-institutions.json",
+    import.meta.url,
+  ),
+  ["places", "counties"],
+);
+type PlaceRows = LocalInstitutionsCorpus["places"][string];
+type CountyRows = LocalInstitutionsCorpus["counties"][string];
+const corpusPlace = table.section<PlaceRows>("places");
+const corpusCounty = table.section<CountyRows>("counties");
 
 /**
  * The official institutions named for a playable place, with county rows
@@ -26,9 +37,9 @@ export function localInstitutionsFor(
   const geoid = lifePlaceByJurisdictionId(jurisdictionId)?.sourceGeoid;
   if (!geoid) return EMPTY_LOCAL_INSTITUTIONS;
 
-  const placeRows = corpus.places[geoid] ?? EMPTY_LOCAL_INSTITUTIONS;
-  const countyRows = countyGeoidsForPlace(geoid).map(
-    (county) => corpus.counties[county],
+  const placeRows = corpusPlace(geoid) ?? EMPTY_LOCAL_INSTITUTIONS;
+  const countyRows = countyGeoidsForPlace(geoid).map((county) =>
+    corpusCounty(county),
   );
   const keys: (keyof LocalInstitutionSet)[] = [
     "highSchools",

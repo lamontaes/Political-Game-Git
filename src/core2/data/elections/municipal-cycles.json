@@ -1,0 +1,21 @@
+{
+  "about": "Cycle years and election day for the states whose towns vote on a multi-year cycle, as an anchor year plus a period in years (a year is a cycle year when (year - anchorYear) is a multiple of periodYears). Read by src/core2/elections-calendar.ts. Citations are the corpus rows data/municipal-elections/92O-national-state-baseline.json (secondary-synthesis-only). Only AL and MS use a cycle timing (checked over all 56 rows).",
+  "states": {
+    "US-AL": {
+      "timing": "quadrennial-late-summer-august",
+      "anchorYear": 2024,
+      "periodYears": 4,
+      "day": { "kind": "nth-weekday", "month": 8, "weekday": 2, "nth": 4 },
+      "tag": "SOURCED",
+      "citation": "Ala. Code sec. 11-46-21: fourth Tuesday in August every 4 years (2020, 2024, 2028)"
+    },
+    "US-MS": {
+      "timing": "quadrennial-summer-june",
+      "anchorYear": 2021,
+      "periodYears": 4,
+      "day": { "kind": "tuesday-after-first-monday", "month": 6 },
+      "tag": "SOURCED",
+      "citation": "Miss. Code secs. 21-11-7, 21-11-11: general election the first Tuesday after the first Monday in June every 4 years (2021, 2025, 2029)"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import {
   applyItemVetoes,
   executiveItemVetoSelectionProblem,
@@ -6,9 +6,13 @@ import {
 } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
-import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
+import {
+  addDays,
+  compareSimulationMoments,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { createWorkRelationship, recordWorkStatus } from "../life";
 import {
   currentLifeCutoff,
@@ -39,7 +43,7 @@ import { publicGovernmentIdentityForRecord } from "../public-government-identity
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,

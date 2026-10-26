@@ -1,7 +1,9 @@
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { makeIsoDate, daysBetweenText } from "../kernel/dates";
+import { addDays } from "../kernel/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
-import { currentCloseness } from "../closeness";
+import { closenessBetween } from "../closeness";
+import { VIEWS_MODULE_ID, stancesOf } from "./views";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
 import type {
@@ -107,9 +109,131 @@ const eventConditions: Readonly<
 
 /** Available acts and consequences are registered operations; content identities remain data. */
 /** P15: closeness today, faded since the last contact; zero for strangers. */
-function relationAt(api: CoreAPI, id: string): number {
-  const row = api.state.relationships.get(id);
-  return row ? currentCloseness(api.state, row) : zero(api);
+function relationAt(api: CoreAPI, a: string, b: string): number {
+  return closenessBetween(api.state, a, b);
+}
+
+/**
+ * The closest the person is to anyone the event names. A vote names a whole
+ * chamber, so whichever list is shorter is walked: the person's own ties or
+ * the names. Strangers count zero either way.
+ */
+function closestTo(
+  api: CoreAPI,
+  personId: string,
+  subjects: readonly string[],
+): number {
+  let level = zero(api);
+  const ties = api.state.relationshipsByPerson.get(personId);
+  if (!ties || ties.size >= subjects.length) {
+    for (const subject of subjects)
+      level = Math.max(level, relationAt(api, personId, subject));
+    return level;
+  }
+  const named = new Set(subjects);
+  for (const id of ties) {
+    const row = api.state.relationships.get(id);
+    if (!row) continue;
+    const other = row.actorId === personId ? row.otherId : row.actorId;
+    if (named.has(other))
+      level = Math.max(level, relationAt(api, personId, other));
+  }
+  return level;
+}
+
+/** What a resident knows the office answered about one cause. */
+const replyKey = (officeId: string, topic: string) =>
+  `office-reply:${officeId}:${topic}`;
+
+/**
+ * The office has answered this cause and nothing on it has reached the person
+ * since: no event has moved their stance on the topic after the reply (the
+ * views engine's dated causes). Going back needs something new to say.
+ */
+function answeredWithNothingNew(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+  topic: string,
+): boolean {
+  const reply = api.knows(personId, replyKey(officeId, topic));
+  if (!reply) return false;
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return true;
+  return !stancesOf(api, personId).some(
+    (stance) =>
+      stance.topic === topic &&
+      stance.causes.some((cause) => cause.date > reply.learnedAt),
+  );
+}
+
+/**
+ * The office answers a resident who came about a cause: the staff member
+ * closest to them (by today's closeness, then by id) replies, the reply is an
+ * event the story director and the journal read, and the approach gate reopens.
+ * A resident who died meanwhile closes the callback unanswered; an office with
+ * no one left on staff answers once someone is.
+ */
+function answerCallback(
+  api: CoreAPI,
+  callbackId: string,
+  callback: CoreEventInput,
+): void {
+  const [residentId] = callback.personIds;
+  const resident = residentId ? api.state.people.get(residentId) : undefined;
+  if (!resident?.alive) {
+    api.resolveCallback(callbackId);
+    return;
+  }
+  const officeId = callback.facts?.organizationId;
+  const office = officeId
+    ? api.state.publicOrganizations.get(officeId)
+    : undefined;
+  const responder = (office?.staff ?? [])
+    .filter((staff) => api.state.people.get(staff.personId)?.alive)
+    .map((staff) => ({
+      staff,
+      closeness: closenessBetween(api.state, resident.id, staff.personId),
+    }))
+    .sort(
+      (a, b) =>
+        b.closeness - a.closeness ||
+        a.staff.personId.localeCompare(b.staff.personId),
+    )[0]?.staff;
+  if (!office || !responder) return;
+  api.emit({
+    id: `office.replied:${api.state.date}:${resident.id}:${office.id}`,
+    date: api.state.date,
+    kind: "office.replied",
+    personIds: [resident.id],
+    witnessIds: [responder.personId],
+    placeId: office.placeId,
+    ...(callback.topic ? { topic: callback.topic } : {}),
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `${office.name} answers ${callback.facts?.approachEventId ?? callbackId} within its response time.`,
+      estimatedFrom: "officeReplyDays",
+    },
+    facts: {
+      organizationId: office.id,
+      office: office.name,
+      responderId: responder.personId,
+      responderTitle: responder.title,
+      callbackId,
+      ...(callback.facts?.approachEventId
+        ? { approachEventId: callback.facts.approachEventId }
+        : {}),
+    },
+  });
+  if (callback.topic)
+    api.observe(resident.id, {
+      key: replyKey(office.id, callback.topic),
+      value: responder.personId,
+      learnedAt: api.state.date,
+      sourceId: `office.replied:${api.state.date}:${resident.id}:${office.id}`,
+      access: "told",
+    });
+  api.resolveCallback(callbackId);
 }
 
 export const LIFE_MODULE: CoreModule = {
@@ -158,10 +282,7 @@ export const LIFE_MODULE: CoreModule = {
       api.stopgap("SG-P8-household-shared-time-contact");
       const horizon = definition.parameters.horizon;
       if (!horizon) throw new Error("Company need requires a tagged horizon.");
-      const elapsed = daysBetween(
-        makeIsoDate(actor.lastContactDate),
-        makeIsoDate(api.state.date),
-      );
+      const elapsed = daysBetweenText(actor.lastContactDate, api.state.date);
       return Math.min(p(api, "one"), positive(api, elapsed / p(api, horizon)));
     },
     "stress-pressure": (api, actor) => positive(api, actor.affect.stress),
@@ -175,7 +296,6 @@ export const LIFE_MODULE: CoreModule = {
     },
     self: (api, actor, action) => [offer(api, actor, action, actor.id)],
     "known-person": (api, actor, action) => {
-      api.stopgap("SG-P8-school-acquaintance-contact-frequency");
       return [...actor.knownIds]
         .filter((id) => api.state.people.get(id)?.alive)
         .map((id) => offer(api, actor, action, id));
@@ -186,12 +306,7 @@ export const LIFE_MODULE: CoreModule = {
         .map((id) => offer(api, actor, action, id)),
     "known-group": knownPublicTargets,
     "public-meeting-place": knownPublicTargets,
-    "known-office": (api, actor, action) =>
-      knownPublicTargets(api, actor, action).filter(
-        (chosen) =>
-          (api.state.publicOrganizations.get(chosen.targetId)?.staff?.length ??
-            zero(api)) > zero(api),
-      ),
+    "known-office": knownPublicTargets,
     "public-directory": (api, actor, action) => {
       api.stopgap("SG-P8-directory-company-substitution");
       const out: ActOffer[] = [];
@@ -207,6 +322,12 @@ export const LIFE_MODULE: CoreModule = {
     },
   },
   eligibilityRules: {
+    // Someone holds a staff job at the office to receive the visit, on the day
+    // it is offered and again on a planned day: an office's staff follow its
+    // jobs, so the clerk can leave between the plan and the visit.
+    "office-staffed": (api, _actor, chosen) =>
+      (api.state.publicOrganizations.get(chosen.targetId)?.staff?.length ??
+        zero(api)) > zero(api),
     "not-member": (api, actor, chosen) =>
       !api.state.memberships.has(`${actor.id}:${chosen.targetId}`),
     "has-drive": (_api, actor, chosen) =>
@@ -230,7 +351,8 @@ export const LIFE_MODULE: CoreModule = {
           true &&
         !api.state.pendingCallbacks.has(
           `callback:${actor.id}:${chosen.targetId}:${drive.id}`,
-        )
+        ) &&
+        !answeredWithNothingNew(api, actor.id, chosen.targetId, drive.topic)
       );
     },
   },
@@ -331,22 +453,26 @@ export const LIFE_MODULE: CoreModule = {
       const event = civicEvent(api, actorId, chosen, "office.approached");
       event.witnessIds = row.staff.map((staff) => staff.personId);
       api.emit(event);
+      // The office answers within its response time (stress audit defect 1).
       api.requestCallback({
         ...event,
         id: `callback:${actorId}:${chosen.targetId}:${drive.id}`,
+        date: addDays(makeIsoDate(api.state.date), p(api, "officeReplyDays")),
+        facts: { ...event.facts, approachEventId: event.id },
       });
     },
+  },
+  onDay(api) {
+    for (const [id, callback] of api.state.pendingCallbacks)
+      if (callback.date <= api.state.date) answerCallback(api, id, callback);
+    return undefined;
   },
   onEvent(api, event, learnedBy) {
     const params = parameterValues(api.state.data.parameters);
     api.stopgap("SG-P8-emotion-model");
     for (const id of learnedBy) {
       const actor = api.state.people.get(id)!;
-      const relation = event.personIds.reduce(
-        (level, subject) =>
-          Math.max(level, relationAt(api, [id, subject].sort().join(":"))),
-        zero(api),
-      );
+      const relation = closestTo(api, id, event.personIds);
       const appraisal = appraiseEvent(
         actor,
         event,

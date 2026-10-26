@@ -1,6 +1,6 @@
 export * from "./citizenship";
 export type * from "./citizenship-types";
-export * from "./dates";
+export * from "../core2/kernel/dates";
 export * from "./after-office-endorsements";
 export * from "./canonical-json";
 export * from "./character-history";
@@ -243,7 +243,7 @@ export type {
   CancelFutureDueItemInput,
   ScheduleFutureDueItemInput,
 } from "./future-transitions";
-export * from "./ids";
+export * from "../core2/kernel/ids";
 export * from "./incident-catalog";
 export * from "./incidents";
 export * from "./life";
@@ -273,7 +273,7 @@ export * from "./executive-authority-rules";
 export * from "./executive-authority-rule-packs";
 export * from "./evidence";
 export * from "./mind";
-export * from "./mind-catalog";
+export * from "../core2/mind-catalog";
 export * from "./narrative-threads";
 export * from "./life-episodes";
 export * from "./episode-bank";
@@ -305,11 +305,11 @@ export * from "./relationship-integration";
 export * from "./resource-queries";
 export * from "./resource-pressure";
 export * from "./resources";
-export * from "./rng";
+export * from "../core2/kernel/rng";
 export * from "./serialization";
 export * from "./setup-generation-inputs";
 export * from "./setup-priors";
-export * from "./sha256";
+export * from "../core2/kernel/sha256";
 export * from "./scheduled-activity-answer";
 export * from "./player-model";
 export * from "./setup-opening-bank";

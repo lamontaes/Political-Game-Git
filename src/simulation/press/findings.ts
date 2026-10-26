@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import type { EntityId, IsoDate, World } from "../types";
 import type {
   MatterProceedingRecord,

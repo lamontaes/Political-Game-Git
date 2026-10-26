@@ -1,12 +1,18 @@
-import { retirementClaimAgeMonths } from "./retirement-claim";
+import { claimWaitCase, retirementClaimAgeMonths } from "./retirement-claim";
+import { startingSocialSecurityAges } from "./social-security-law";
 import dataJson from "./data/opening-income.json" with { type: "json" };
-import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import {
+  daysBetween,
+  isoDateFromParts,
+  makeIsoDate,
+  daysBetweenText,
+} from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { DEFAULT_DATA } from "./data";
-import { decisionLean } from "./trait-decisions";
+import { leanedTerm } from "./trait-decisions";
 import { stopgap } from "./stopgaps";
 import { recordedTraitSource } from "./trait-source";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
@@ -84,8 +90,6 @@ export interface OpeningIncomeData {
     benefitReferenceCoveredMonths: string;
     benefitFactorMinimum: string;
     benefitFactorMaximum: string;
-    /** Deprecated compatibility key; new payers have no prepaid stock. */
-    payerReserveMonths: string;
     periodMonths: string;
   };
   labels: { coverage: string; claim: string; award: string };
@@ -248,7 +252,6 @@ export function buildOpeningRetirementIncome(
     values.periodMonths !== one ||
     values.coveredFraction! <= zero ||
     values.coveredFraction! > one ||
-    values.payerReserveMonths! < zero ||
     values.benefitFactorMinimum! <= zero ||
     values.benefitFactorMaximum! < values.benefitFactorMinimum!
   )
@@ -615,28 +618,31 @@ export function buildOpeningRetirementIncome(
       const trait = traitValue ?? zero;
       // Claiming is their own decision inside the law: savings and patience.
       const dailyCost = person.livingCostDailyMinor;
+      const claimWeights = {
+        anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,
+        traitPullYears: values.claimTraitPullYears!,
+        needPullYears: values.claimNeedPullYears!,
+        fullBufferMonths: values.claimFullBufferMonths!,
+      };
+      const bufferMonths =
+        dailyCost > zero
+          ? person.liquidMinor / ((dailyCost * p("daysPerMeanYear")) / months)
+          : values.claimFullBufferMonths!;
       const claimMonths = retirementClaimAgeMonths(
         {
-          birthYear: Number(person.birthDate.slice(0, 4)),
-          bufferMonths:
-            dailyCost > zero
-              ? person.liquidMinor /
-                ((dailyCost * p("daysPerMeanYear")) / months)
-              : values.claimFullBufferMonths!,
-          patience: decisionLean(
+          ages: startingSocialSecurityAges(person.birthDate),
+          bufferMonths,
+          // Waiting past the full retirement age is a score: the case for it plus every trait's lean at the decision's calibrated weight.
+          patience: leanedTerm(
             traitData,
             person,
             "retirement.claim-age",
             "wait-to-claim",
             "claim-now",
+            claimWaitCase(bufferMonths, claimWeights),
           ),
         },
-        {
-          anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,
-          traitPullYears: values.claimTraitPullYears!,
-          needPullYears: values.claimNeedPullYears!,
-          fullBufferMonths: values.claimFullBufferMonths!,
-        },
+        claimWeights,
       );
       const claimAt =
         claim?.date ?? calendarAfterMonths(person.birthDate, claimMonths);
@@ -668,8 +674,7 @@ export function buildOpeningRetirementIncome(
           ),
         );
         const coveredMonths = Math.floor(
-          (daysBetween(makeIsoDate(startAt), makeIsoDate(claimAt)) /
-            p("daysPerMeanYear")) *
+          (daysBetweenText(startAt, claimAt) / p("daysPerMeanYear")) *
             months *
             fraction,
         );

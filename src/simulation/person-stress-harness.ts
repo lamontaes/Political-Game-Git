@@ -1,4 +1,4 @@
-import { addDays, ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "../core2/kernel/dates";
 import { DEMO_START_DATE } from "./demo";
 import { createWorldId } from "./world";
 import { DEFAULT_CORPUS_VERSION } from "./names-data";

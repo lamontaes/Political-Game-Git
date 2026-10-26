@@ -5,7 +5,7 @@ import {
   recordOrganizationProfile,
   recordWorkStatus,
 } from "../life";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { jailTermOn } from "../justice/jail-terms";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
@@ -16,7 +16,7 @@ import {
   kinshipRelationshipsAt,
   workRoleAt,
 } from "../life-queries";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { localBusinessWageMinor } from "../recorded-employer";
 import type {
   EntityId,
@@ -31,14 +31,13 @@ import type {
 } from "../types";
 import {
   TOWN_EMPLOYMENT_VERSION,
-  TOWN_WORKPLACES,
   WORKING_AGE_MIN,
   fillTownJobs,
   laborStatus,
   townResidents,
   writeTownEmployer,
-  type Workplace,
 } from "./town-employment";
+import { TOWN_WORKPLACES, type Workplace } from "../../core2/town-workplaces";
 import { TOWN_JOB_END_REASONS } from "./town-labor-market";
 import { TOWN_BUSINESS_WORKPLACES } from "./town-business-books";
 import {

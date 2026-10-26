@@ -1,4 +1,4 @@
-import { ageOnDate } from "../../../dates";
+import { ageOnDate } from "../../../../core2/kernel/dates";
 import { lawInForce } from "../../../governing/law-in-force";
 import {
   householdLocationAt,

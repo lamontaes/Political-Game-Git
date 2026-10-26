@@ -1,26 +1,22 @@
 import { describe, expect, it } from "vitest";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { placeLocalities, placeStateKeys } from "./places";
 
 describe("core2 place listing", () => {
-  it("lists the 56 jurisdictions, same as the old listing", () => {
+  it("lists the 56 jurisdictions, the same as the state identities", () => {
     const keys = placeStateKeys();
     expect(keys).toHaveLength(56);
     expect([...keys]).toEqual(
-      lifePlaceStateIdentities()
+      corePlaceStateIdentities()
         .map((identity) => identity.jurisdictionKey)
         .sort((a, b) => a.localeCompare(b)),
     );
   });
 
-  it("matches the old locality list for all 56 places", () => {
-    const total = lifePlaceCoverage().placeCount;
+  it("matches the place search for all 56 places", () => {
+    const total = Number.MAX_SAFE_INTEGER;
     for (const stateKey of placeStateKeys()) {
-      const old = lifePlaceSearch("", total, {
+      const old = searchCorePlaces("", total, {
         stateJurisdictionKey: stateKey,
         scope: "locality",
       })

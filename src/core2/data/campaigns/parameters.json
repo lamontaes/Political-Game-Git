@@ -49,10 +49,10 @@
       "spread": [0.05, 0.3]
     },
     "secondhandWeight": {
-      "value": 0.5,
+      "value": 0.28,
       "tag": "TUNABLE",
-      "source": "Share of a first-hand impression that a retelling passes on to family and friends. Checked against two-step-flow findings (Katz and Lazarsfeld 1955; Nickerson 2008: 60% of a canvassing turnout effect passed to housemates).",
-      "spread": [0.3, 0.7]
+      "source": "Share of a first-hand impression that a retelling passes on to family and friends before the teller's personality, which multiplies it by 1 plus the calibrated campaigns.retell weight times their lean (a town average of 1.77 times at the retell weight of 5.8, Newfane, Vermont, seed c1, adults at the opening; 1.65 at the earlier 4.9). Set to 0.5 divided by that average so the town's mean second-hand reach stays where Katz and Lazarsfeld 1955 and Nickerson 2008 (60% of a canvassing turnout effect passed to housemates) put it.",
+      "spread": [0.17, 0.39]
     },
     "donationShareOfCashPerWarmth": {
       "value": 0.01,
@@ -108,6 +108,54 @@
       "source": "Hours a candidate without a job spends knocking doors on a campaign day: two shifts.",
       "spread": [3, 6]
     },
+    "rivalCallNeedWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more of a rival's campaign hours go to call time for money when the campaign's bank is empty than when it is full; checked against the spread of money raised in a race.",
+      "spread": [0, 2]
+    },
+    "rivalCallStandingWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more of a rival's hours go to call time for money when they are well known, because donors are easier to reach.",
+      "spread": [0, 2]
+    },
+    "rivalDoorUnknownWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more of a rival's hours go to doors when they are unknown, because name recognition is built on doors.",
+      "spread": [0, 2]
+    },
+    "rivalActBaseScore": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "The pull a whole campaign act (an evening event, a press interview) has for a rival with no money or standing behind it; checked against how often rivals in a race hold an event or sit for one.",
+      "spread": [0, 0.5]
+    },
+    "rivalEventRichWeight": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How much more a rival leans on an event the more money the campaign holds, because a self-funding candidate buys rooms and staff where a poor one knocks doors; checked against the spread of events held in a race.",
+      "spread": [1, 5]
+    },
+    "rivalInterviewKnownWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much more a rival leans on press interviews the better known they are, because reporters ask for the known; checked against interviews held per candidate in a race.",
+      "spread": [0, 4]
+    },
+    "rivalInterviewIncumbentWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more a rival who holds the seat leans on press and their record than a challenger.",
+      "spread": [0, 2]
+    },
+    "rivalHoursLeanShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a candidate's own inclination to campaign slides their door hours around the base, as a share of it: at 0.5 the least campaign-minded walks half the base hours and the most walks one and a half times. Below 1 so that no one's hours reach zero.",
+      "spread": [0.25, 0.75]
+    },
     "minimumVolunteerAge": {
       "value": 16,
       "tag": "ESTIMATED",
@@ -117,14 +165,74 @@
     "votingStandAgainBase": {
       "value": 0.9,
       "tag": "TUNABLE",
-      "source": "The reason a serving incumbent who is a full person carries to stand again before their traits weigh in (the trait lean for stand over retire runs about -1 to 1, so most incumbents still stand). Checked against the share of incumbents who seek reelection, about 81% of U.S. local incumbents, the figure the repo's candidacy test cites.",
+      "source": "The reason a serving incumbent who is a full person carries to stand again before their age and traits weigh in. With the age reason below and the calibrated voting.stand-again weight, about 82% of incumbents stand, against about 81% of U.S. local incumbents who seek reelection, the figure the repo's candidacy test cites.",
       "spread": [0.5, 1.2]
     },
+    "votingStandAgainAgeWeight": {
+      "value": 1.75,
+      "tag": "ESTIMATED",
+      "source": "How much an incumbent's age takes from their reason to stand again, rising from nothing at the pivot age to this much at the pivot plus the span. Found with the age distribution of adults 30 to 85 in Newfane VT (seed c1) so that 82% of incumbents stand (about 81% of U.S. local incumbents seek reelection) while the calibrated voting.stand-again weight gives the 1.21 odds ratio the study implies.",
+      "spread": [1.25, 2.25]
+    },
+    "votingStandAgainAgePivot": {
+      "value": 55,
+      "tag": "ESTIMATED",
+      "source": "The age at which an incumbent's age begins to weigh against standing again; local officials leave office more as they near and pass the usual retirement ages (Ballotpedia municipal incumbent reports).",
+      "spread": [50, 65]
+    },
+    "votingStandAgainAgeSpan": {
+      "value": 30,
+      "tag": "ESTIMATED",
+      "source": "Years of age over which the age reason rises from nothing to its full weight (55 to 85).",
+      "spread": [20, 40]
+    },
     "turnoutBase": {
-      "value": -0.6,
+      "value": -0.48,
       "tag": "TUNABLE",
-      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), their interest in the race and its cost. Checked so named adults in a local race on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 64% at this value.",
-      "spread": [-1.2, 0]
+      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), the stakes of the day's races, the campaigns' reach, their habit and the cost of voting; the sum is their turnout propensity through the logistic (src/core2/turnout.ts). Checked so the counted turnout in a presidential year lands near the state's CPS citizen turnout (src/core2/electorate.test.ts, tolerance countedTurnoutTolerance) and named adults on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald). Measured with the logistic propensity over eight random places (OPUS-GOV elections, Oct 14, 2026): counted turnout 0.624 in a presidential year.",
+      "spread": [-1.2, 0.6]
+    },
+    "turnoutScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How gently the turnout propensity slides with a voter's reasons: the logistic's scale on the turnout scale (src/core2/turnout.ts). Near even odds, one unit of reasons moves the propensity by 1/(4 x scale). Checked against the spread of validated turnout by age and engagement: about 23% of citizens 18 to 24 and 65% of those 65 and over voted in the 2022 midterm (U.S. Census Bureau, CPS Voting and Registration Supplement 2022), a spread the age gradient in duty and engagement must reproduce without flipping anyone to always or never.",
+      "spread": [0.25, 1]
+    },
+    "turnoutStakesWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much the stakes of the day's races add to a voter's reason to vote, at most (times tanh of the gap between the candidates in their own eyes). People who care who wins vote more (the American National Election Studies' 'care who wins' item predicts reported turnout; ANES and Gallup, 'Lessons learned', electionstudies.org/2007anes_gallup_lessonslearned); the size here is not taken from a published figure and is checked only through the turnout totals (counted presidential turnout against the state's CPS rate, src/core2/electorate.test.ts). A race whose candidates a voter can't tell apart adds nothing.",
+      "spread": [0.2, 1.2]
+    },
+    "turnoutReachWeight": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "source": "What the campaigns' contacts add to a voter's reason to vote, at most, leveling off with repeated contact. Field experiments: a door-to-door contact raises turnout about 2.5 points in a low-salience election, and a mailer about 0.5 points; repeated contact adds less each time (Green and Gerber, 'Get Out the Vote', 4th ed. 2019, chapters 3 and 5). At the turnout scale (0.5), 0.2 is up to about 10 points for a voter near even odds, reached after several contacts.",
+      "spread": [0.05, 0.4]
+    },
+    "turnoutReachContacts": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many campaign contacts it takes to give about two thirds of the most reach can add (1 - e^-1). Repeated contacts show diminishing returns in field experiments (Green and Gerber 2019); checked so a voter knocked once gains about the 2.5 points a door gives.",
+      "spread": [1, 6]
+    },
+    "turnoutHabitWeight": {
+      "value": 0.4,
+      "tag": "ESTIMATED",
+      "source": "What a voter's own record of voting adds (times their share of elections voted, less one half, by how long the record is). Voting in one election raises the chance of voting in the next by about 10 points (Gerber, Green and Shachar 2003, 'Voting May Be Habit-Forming: Evidence from a Randomized Field Experiment', American Journal of Political Science 47(3):540-550); at the turnout scale, a record of always voting adds about 0.2, about 10 points near even odds.",
+      "spread": [0.2, 0.8]
+    },
+    "turnoutHabitFamiliarity": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How many election days of record it takes for habit to carry half its weight: a record of one election says little, a record of many says more. Checked so a first-time voter's record moves their next turnout by a few points and a long record by about ten (Gerber, Green and Shachar 2003; Coppock and Green 2016, 'Is Voting Habit Forming?', American Journal of Political Science 60(4):1044-1062).",
+      "spread": [1, 6]
+    },
+    "recordFamiliarityItems": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How many items an officeholder's record needs (votes, promises kept or broken) before a voter weighs it at about two thirds of its full weight: the record is an average, and a short record gives a voter less to go on. Keeps a busy incumbent's record within the size of a voter's other reasons (it summed to -8.2 for a 56-vote council member in the elections stress audit of Oct 14, 2026). Checked against roll-call accountability: members out of step with their districts lose a few points of vote share (Canes-Wrone, Brady and Cogan 2002, American Political Science Review 96(1)).",
+      "spread": [2, 12]
     },
     "turnoutWorkWeekMinutes": {
       "value": 2400,
@@ -136,15 +244,7 @@
       "value": 0.46,
       "tag": "SOURCED",
       "source": "Votes cast in November 2024 (about 156 million, Clerk of the House) over the U.S. resident population (about 340 million, Census Bureau Vintage 2024): 0.46. Scaled by each election's cycle (midterm 0.72, off-cycle 0.39 of a presidential year's) where the race's electorate is sized.",
-      "spread": [0.15, 0.55],
-      "stopgapId": "SG-GOV-voter-groups-stand-in"
-    },
-    "voterGroupBands": {
-      "value": 10,
-      "tag": "TUNABLE",
-      "source": "How many lean bands, evenly across the whole left-right scale, the unnamed electorate is split into; each band votes as a group, split the way its named people chose; an even count, so the scale's middle is a band edge and no band spans both sides.",
-      "spread": [6, 20],
-      "stopgapId": "SG-GOV-voter-groups-stand-in"
+      "spread": [0.15, 0.55]
     },
     "partyIdentifierShare": {
       "value": 0.56,
@@ -158,6 +258,12 @@
       "source": "Pew Research Center (2024), 'Changing Partisan Coalitions in a Politically Divided Nation': about 7% of adults neither identify with nor lean toward a party.",
       "spread": [0.05, 0.1]
     },
+    "noPartyDeliberationWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How far a careful thinker (deliberation, -2 to 2) sits from having no party: each point adds this much to how firmly they lean, so the people with no party are those who lean nowhere and think least, and independents are those who think it through. Independents are more often engaged and informed than people with no lean (Pew 2024, Changing Partisan Coalitions), but no study gives a size. The share with no party is fixed at noPartyShare; the weight only orders who they are.",
+      "spread": [0.05, 0.2]
+    },
     "partyLoyaltyWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -167,7 +273,7 @@
     "recordVoteWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
-      "source": "How much each vote on the record moves a voter who knows the officeholder, toward or away by how close the vote sits to their own view. Checked against roll-call accountability studies (Canes-Wrone, Brady and Cogan 2002: members out of step with their districts lose a few points of vote share).",
+      "source": "How much an officeholder's voting record moves a voter who knows the officeholder, at most: the average over the record of their own stance times each vote's position (a vote they'd have cast counts for, one against their view against), by how much the record gives them to go on (recordFamiliarityItems). Checked against roll-call accountability studies (Canes-Wrone, Brady and Cogan 2002: members out of step with their districts lose a few points of vote share; at the electorate's appealPerShare a whole record against a voter is worth several points).",
       "spread": [0.1, 0.5]
     },
     "keptPromiseWeight": {
@@ -200,6 +306,12 @@
       "source": "How much the district's lean on the questions weighs beside the member's own views. Checked against dyadic representation studies (Miller and Stokes 1963; Bafumi and Herron 2010).",
       "spread": [0.2, 1]
     },
+    "pillCandidates": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of their own causes a member weighs as a floor amendment against a bill they oppose: the few they care most about. Checked against the share of bills that draw a poison pill in a played year.",
+      "spread": [1, 5]
+    },
     "ordinanceEffectiveDays": {
       "value": 30,
       "tag": "ESTIMATED",
@@ -225,6 +337,12 @@
       "source": "Councils of up to about nine members usually work as a committee of the whole rather than through standing committees (National League of Cities, city council committee practice; ICMA 2018 survey: median council size 6).",
       "spread": [7, 13]
     },
+    "committeeLeadDays": {
+      "value": 7,
+      "tag": "ESTIMATED",
+      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it (SG-GOV-committee-structure).",
+      "spread": [3, 28]
+    },
     "hearingWitnesses": {
       "value": 3,
       "tag": "TUNABLE",
@@ -237,52 +355,64 @@
       "source": "How much a member's duty to keep the government funded weighs toward adopting a budget, beside their views on its changes. Checked against how rarely councils fail to adopt a budget (most charters carry the prior budget forward when they do).",
       "spread": [0.1, 0.6]
     },
-    "sessionAgendaBills": {
-      "value": 3,
-      "tag": "TUNABLE",
-      "source": "How many of the majority leader's priority policy bills reach the floor in a session (the major partisan measures of a session, out of the hundreds of bills a legislature passes). Checked against states' enacted headline measures per session (state legislative session summaries, 2023 to 2025: typically two to six).",
-      "spread": [1, 8]
-    },
-    "fullYearSessionAgendaMonth": {
+    "floorBillsPerLegislativeDay": {
       "value": 6,
       "tag": "TUNABLE",
-      "source": "The month at whose end a legislature that sits all year (NCSL 'full-year') brings its leader's priority bills to the floor: the end of the state fiscal year most share (June 30 in 46 states, NASBO), when full-time legislatures pass their headline measures alongside the budget.",
-      "spread": [4, 12]
+      "source": "How many bills a legislative chamber's floor takes up in one floor day (each bill reached is debated and voted on; the rest die at adjournment). Checked against official session totals: Kentucky 2024, 212 bills became law in 60 legislative days (3.5 a day, each passing both chambers); Florida 2024, 313 bills passed both chambers in a 60-day session (about 5 a day); the floor also takes up bills that fail (data/research/lawmaking-throughput/throughput-evidence.json).",
+      "spread": [3, 12]
     },
-    "congressAgendaDayOfYear": {
-      "value": 349,
+    "legislativeDaysPerWeek": {
+      "value": 4,
       "tag": "TUNABLE",
-      "source": "The day of the year (349 = December 15) Congress brings its majority leader's priority policy bills to the floor: the final scheduled voting weeks of the House calendar, when year-end packages pass (House majority leader's 2025 and 2026 calendars).",
-      "spread": [300, 355]
+      "source": "Floor days a week while a state legislature is in session, applied to the session's recorded length (NCSL 2026 session calendar). Checked against Kentucky 2024: 60 legislative days between January 2 and April 15, about four a week (Kentucky Legislative Research Commission, General Assembly Action: 2024 Regular Session).",
+      "spread": [2, 5]
+    },
+    "congressFloorDaysPerYear": {
+      "value": 110,
+      "tag": "TUNABLE",
+      "source": "Days a year Congress's floor sits to take up bills. Checked against the House calendar's statistical summary: 184 legislative days in 2023, counting pro forma days with no votes (House Calendars, March 1, 2024, 118th Congress, https://www.govinfo.gov/content/pkg/CCAL-118hcal-2024-03-01/html/CCAL-118hcal-2024-03-01-pt19.htm), and the 118th Congress's 274 public laws in two years (Clerk of the House, final calendar of the 118th Congress).",
+      "spread": [90, 185]
     },
     "senateClotureShare": {
       "value": 0.6,
       "tag": "SOURCED",
       "source": "U.S. Senate Standing Rules, Rule XXII(2): debate on a measure ends only when three-fifths of the senators duly chosen and sworn vote for cloture; the bill then passes by a majority of those voting. https://www.rules.senate.gov/rules-of-the-senate"
     },
-    "localAgendaMeetingsPerYear": {
-      "value": 4,
+    "localMeetingAgendaMinutes": {
+      "value": 150,
       "tag": "TUNABLE",
-      "source": "How many of a council's or county board's regular meetings in a year carry a policy ordinance from the presiding member's own agenda (councils meet once or twice a month; most meetings carry routine business: National League of Cities, City Councils in the U.S., 2023).",
-      "spread": [1, 12]
+      "source": "Minutes of a regular council or board meeting given to legislation, after consent items and reports (regular meetings commonly run two to four hours; National League of Cities, City Councils in the U.S., 2023).",
+      "spread": [60, 240]
     },
-    "localAgendaBills": {
-      "value": 1,
+    "policyOrdinanceMinutes": {
+      "value": 30,
       "tag": "TUNABLE",
-      "source": "How many of the presiding member's own policy ordinances come up at such a meeting.",
-      "spread": [1, 3]
+      "source": "Minutes one policy ordinance takes on a meeting's agenda: its staff report, public comment and the members' debate and vote. Checked against Minneapolis 2024: 48 ordinances introduced and 47 enacted over the year, besides 449 resolutions (Minneapolis City Council tracking report, data/research/lawmaking-throughput/throughput-evidence.json).",
+      "spread": [15, 60]
+    },
+    "defeatedMeasureWaitDays": {
+      "value": 180,
+      "tag": "TUNABLE",
+      "source": "Days after a council or board votes a measure down before the same measure may come back: Robert's Rules of Order (12th ed., 38:1) lets a defeated motion be renewed only at a later session, and council rules of procedure commonly bar a defeated ordinance for six months to a year.",
+      "spread": [30, 365]
     },
     "recallOrganizerEffort": {
       "value": 0.5,
       "tag": "TUNABLE",
       "source": "How strongly a resident must be moved (their grievance with a member's vote plus the weighted trait lean between organizing and leaving it, about -1 to 1 on the shared trait scale, recalls.organize) before taking on a recall petition drive. Checked against local recall frequency: Ballotpedia counts about 150 to 250 local recall efforts a year across roughly 90,000 local governments.",
-      "spread": [0.3, 1.0]
+      "spread": [0.3, 1]
     },
     "recallElectionDays": {
       "value": 75,
       "tag": "TUNABLE",
       "source": "Days from a recall petition's certification to the recall vote (state laws commonly set 60 to 90 days, or the next regular election).",
       "spread": [45, 120]
+    },
+    "registeredShareOfEligible": {
+      "value": 0.736,
+      "tag": "ESTIMATED",
+      "source": "Census Bureau, voting topic page (census.gov/topics/public-sector/voting.html): \"In the 2024 presidential election, 73.6% of the voting-age population was registered to vote\". Applied to a town's eligible voters where the world keeps no voter rolls; states run roughly 65 to 85 percent.",
+      "spread": [0.65, 0.85]
     },
     "recallThresholdEstimate": {
       "value": 25,
@@ -295,6 +425,55 @@
       "tag": "ESTIMATED",
       "source": "A year's dues for a small business in a local employers' association, in cents: local chambers of commerce charge small firms about $300 to $700 a year (chamber dues schedules surveyed by the U.S. Chamber's local affiliate guides).",
       "spread": [20000, 150000]
+    },
+    "groupJoinBar": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), with their trait lean toward joining added (about -1 to 1 times the trait weight), to join a group over it: checked over two random played worlds so a small share join on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023).",
+      "spread": [0.75, 1.5]
+    },
+    "carryStandingWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much the standing of someone who asks a member to carry a bill (how many people in town know them, up to carryStandingCircle) weighs in the member's answer, beside the member's own position on the bill and their tie to the asker. Legislators take up constituents' and activists' proposals more readily from people with a following (Miller and Stokes 1963; Butler and Broockman 2011, American Journal of Political Science 55(3):463-477, on responsiveness to constituent requests). Checked by a well-known asker moving a member who is near even on the bill, and no one carrying a bill they oppose outright. Spread 0.1 to 0.5.",
+      "spread": [0.1, 0.5]
+    },
+    "carryStandingCircle": {
+      "value": 50,
+      "tag": "TUNABLE",
+      "source": "How many people must know an asker for their standing to count in full when they ask a member to carry a bill; the same circle a local campaign starts from (candidacyStandingCircle; Lawless and Fox 2010, ch. 5). Spread 25 to 150.",
+      "spread": [25, 150]
+    },
+    "localSigningDays": {
+      "value": 10,
+      "tag": "ESTIMATED",
+      "source": "Days a mayor or county executive has to sign or veto a passed ordinance before it becomes law without a signature. Municipal charters commonly allow 10 days, matching the federal and most state windows (Book of the States 2023, Table 3.16, for states; the National League of Cities' summaries of mayor-council charters for cities).",
+      "estimatedFrom": "Book of the States 2023 Table 3.16 modal window; NLC charter summaries",
+      "spread": [5, 15]
+    },
+    "settledLawDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "source": "How many days after it passed a law counts as half settled: a change to it then reads as neither a fresh reversal nor a change to settled law. Members with a taste for change back changing long-standing law and resist undoing what the body just did. Legislatures rarely revisit an act within its first year; reversal is mostly a matter of a new majority after an election (Maltzman and Shipan 2008, American Journal of Political Science 52(2):252-267, on the durability of enacted law). Spread 180 to 730.",
+      "spread": [180, 730]
+    },
+    "reversalReluctance": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How strongly a body's members resist filing to undo the law it last enacted on a question, at full freshness and a unanimous margin; it slides down as the law settles and with a narrower margin. Most bodies' rules also require a motion to reconsider within days by a member of the prevailing side (Mason's Manual of Legislative Procedure, sec. 466 to 470); where a place's data records no such rule, this reluctance stands in. Checked by a board not repealing a law it passed weeks earlier unless members' views have moved. Spread 0.25 to 1.",
+      "spread": [0.25, 1]
+    },
+    "groupLeaveMargin": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How far past neutral a member's view on their group's question must cross to the other side before they leave, doubled for someone who follows politics most of the time (they hold on to a commitment longer). Group members who change their minds tend to drift out rather than quit at the first doubt (Han 2014, How Organizations Develop Activists). No study sets the size; checked by members leaving only after hearing cases against their side.",
+      "spread": [0.05, 0.25]
+    },
+    "groupFoundingMembers": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many residents must join before a group exists: an association needs a handful of founders to hold office (state nonprofit corporation acts commonly require three directors or incorporators).",
+      "spread": [2, 5]
     },
     "lobbyWeight": {
       "value": 0.3,
@@ -367,6 +546,36 @@
       "source": "A local official's aide's pay, in cents an hour: legislative assistants earn about $45,000 to $55,000 a year (BLS OES 2024, 43-6011 executive secretaries and administrative assistants in local government, median about $24 an hour).",
       "spread": [1800, 3500]
     },
+    "staffReviewDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days between an official's looks at whether their office needs a hand: hiring for a public post runs on a weeks-long cycle (posting, interviews, start).",
+      "spread": [14, 90]
+    },
+    "staffPerOfficial": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Personal staff an official with a seat takes on: local elected officials commonly have one aide or share clerical staff (National League of Cities, City Councils in the U.S., 2023: most council members in small and mid-size cities have no or shared staff; mayors and county officers have an assistant), state legislators one to three (NCSL, Size of State Legislative Staff, 2015).",
+      "spread": [0, 3]
+    },
+    "staffHireBase": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't.",
+      "spread": [0, 0.5]
+    },
+    "staffAbsenceTolerance": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "The share of an aide's scheduled days missed since the last look that an official puts up with before their trait lean toward letting someone go: an aide who comes in most days stays, one who never comes is let go.",
+      "spread": [0.2, 0.6]
+    },
+    "staffKnownWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How much knowing a candidate adds to an official's choice of aide beside how well they'd do the work: officials hire through their own networks first (Congressional Management Foundation, 'Life in Congress: The Member Perspective', 2013; most staff come through campaign and personal contacts).",
+      "spread": [0, 0.3]
+    },
     "staffBaseQuality": {
       "value": 0.3,
       "tag": "TUNABLE",
@@ -424,32 +633,27 @@
     "legislativeSeatMargin": {
       "value": 0.12,
       "tag": "ESTIMATED",
-      "source": "How far a state legislative district without a read result leans to its holder's party, in two-party share: the median state legislative general election margin is about 25 points (Ballotpedia, 'Margin of victory analysis for the 2024 state legislative elections'), so about 0.12 of share.",
-      "spread": [0.05, 0.2]
-    },
-    "presidentialIncumbentPartyShift": {
-      "value": 0.01,
-      "tag": "TUNABLE",
-      "source": "How far the party holding the presidency loses two-party share in a presidential year with no economy or record read yet (the 'time for change' term in Abramowitz's model, about 1 to 2 points after two terms); replaced once WORLD's economy and the president's record feed the race.",
-      "spread": [0, 0.03]
+      "source": "How far a state legislative district without its own read result (a state the source lacks, a nonpartisan or unmatched district, or a seat one party did not contest) leans to its holder's party, in two-party share. Checked against the districts that do have a result: across the 3,182 Census state legislative districts matched to a contested 2024 race, the median distance of the Republican two-party share from one half is 0.121, with 10th to 90th percentiles of 0.025 to 0.271 (MIT Election Data and Science Lab, State Precinct-Level Returns 2024, doi:10.7910/DVN/DODOBJ; src/core2/legislative-district-results.ts). Districts with a result use their own vote, not this figure.",
+      "estimatedFrom": "median over contested districts of |Republican two-party share - 0.5| (data/research/elections/medsl-2024-legislative-district-results.json); uncontested seats lean further, so this understates them",
+      "spread": [0.025, 0.271]
     },
     "primaryTurnoutCost": {
-      "value": 1.4,
+      "value": 1.15,
       "tag": "TUNABLE",
-      "source": "What a primary adds to the cost of voting, against a general election: checked so a party's primary turnout lands near the real 20 to 30% of its eligible voters (Bipartisan Policy Center, 2022 primary turnout: about 21% of registered voters; Pew 2022). Measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 25 to 34% of named adults clear this cost.",
-      "spread": [0.8, 2.0]
+      "source": "What a primary adds to the cost of voting, against a general election: checked so a party's primary turnout lands near the real 20 to 30% of its eligible voters (Bipartisan Policy Center, 2022 primary turnout: about 21% of registered voters; Pew 2022). Measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 25 to 34% of named adults clear this cost. Remeasured with the logistic propensity over eight random places (Oct 14, 2026): 22% of adults on a primary date in a midterm year.",
+      "spread": [0.8, 2]
     },
-    "primaryShareOfGeneral": {
-      "value": 0.45,
-      "tag": "ESTIMATED",
-      "source": "Primary voters as a share of the same year's general-election voters: 2022 statewide primaries cast about 21% of registered voters' ballots against about 46% in November (Bipartisan Policy Center and U.S. Elections Project), so about 0.45.",
-      "spread": [0.3, 0.6]
-    },
-    "electionsSignKnownPull": {
-      "value": 1,
+    "partyMeetingDays": {
+      "value": 30,
       "tag": "TUNABLE",
-      "source": "A stranger's petition is signed when the person's trait lean toward signing (about -1 to 1) is above zero; knowing the candidate adds this much, so a known candidate gets the signature from nearly everyone (people sign for those they know; OPUS-TRAITS, Oct 12, 2026).",
-      "spread": [0.5, 1.5]
+      "source": "Days between a local party committee's meetings: county and town committees commonly meet monthly under their party rules (e.g. state party bylaws for county committees), some every other month or quarterly.",
+      "spread": [30, 90]
+    },
+    "partyMeetingAttendBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a member's trait lean toward attending (about -1 to 1) must reach for them to show up at a party meeting: only the most inclined do, checked against the 6 to 10% of adults who report attending a political meeting in a year (American National Election Studies, 'attended political meetings', 2016 to 2024).",
+      "spread": [0.3, 0.8]
     },
     "partiesJoinBase": {
       "value": 0.5,
@@ -476,16 +680,16 @@
       "spread": [0.18, 0.46]
     },
     "midtermTurnoutCost": {
-      "value": 0.7,
+      "value": 0.8,
       "tag": "TUNABLE",
-      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named turnout falls near the 2022 midterm's 46.6% of the voting-eligible population (U.S. Elections Project, Michael McDonald), 0.72 of a presidential year's; measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 46% at this value.",
-      "spread": [0.3, 1.0]
+      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named turnout falls near the 2022 midterm's 46.6% of the voting-eligible population (U.S. Elections Project, Michael McDonald), 0.72 of a presidential year's; measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 46% at this value. Remeasured with the logistic propensity over eight random places (Oct 14, 2026): 0.458, 0.73 of the presidential year's 0.624.",
+      "spread": [0.3, 1]
     },
     "offCycleTurnoutCost": {
-      "value": 1.4,
+      "value": 1.8,
       "tag": "TUNABLE",
-      "source": "What an off-cycle election adds to the cost of voting, checked so named turnout falls near 0.39 of a presidential year's, about 25% of eligible adults (Hajnal and Green, 'Big Cities, Tiny Votes?', 2024; off-cycle mayoral turnout in large cities averages about 20% of eligible voters, Portland State University, 'Who Votes for Mayor?', 2016); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 25 to 34% at this value.",
-      "spread": [0.8, 2.0]
+      "source": "What an off-cycle election adds to the cost of voting, checked so named turnout falls near 0.39 of a presidential year's, about 25% of eligible adults (Hajnal and Green, 'Big Cities, Tiny Votes?', 2024; off-cycle mayoral turnout in large cities averages about 20% of eligible voters, Portland State University, 'Who Votes for Mayor?', 2016); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 25 to 34% at this value. Remeasured with the logistic propensity over eight random places (Oct 14, 2026): 0.252, 0.40 of the presidential year's 0.624.",
+      "spread": [0.8, 2]
     },
     "officeTermYearsEstimate": {
       "value": 4,
@@ -512,10 +716,10 @@
       "spread": [10, 18]
     },
     "doorAnswerThreshold": {
-      "value": 2.25,
+      "value": 0.46,
       "tag": "TUNABLE",
-      "source": "How ready the adult home whose traits lean most toward opening must be to open to a canvasser (every trait's lean between opening and ignoring, campaigns.open-door, times traitScale, about -3 to 3, plus their age term); checked against field contact rates of about a quarter to a third of doors knocked (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005). Measured over six random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 19 to 37% of doors, 31% on average, at this value; 42 to 61% at the earlier 1.25.",
-      "spread": [1.75, 2.75]
+      "source": "Where a home opens to a canvasser one knock in two: the readiness of its most willing adult home, before personality, is their age term less this. Personality adds the calibrated campaigns.open-door weight times their lean, and doorAnswerScale slides the share either side. Kept where 18% of adults stood past it under the earlier hand-set trait scale (Newfane VT, Ute IA, Clifton KS and Cameron SC, a played year each); with doorAnswerScale it puts a quarter to a third of doors knocked open, the field contact rate, which counts a home once any adult opens (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005).",
+      "spread": [0.2, 0.9]
     },
     "volunteerClosenessWeight": {
       "value": 0.5,
@@ -524,10 +728,16 @@
       "spread": [0.2, 1]
     },
     "volunteerThreshold": {
-      "value": 2.5,
+      "value": 1,
       "tag": "TUNABLE",
-      "source": "How strong someone's pull to volunteer must be (their warmth and closeness to the candidate, every trait's lean between volunteering and declining, campaigns.volunteer, times traitScale, about -3 to 3, less their hours of work): checked so a small share of a candidate's acquaintances say yes (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that). Measured over six random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 5 to 31% of acquaintances, 17% on average, at this value; 21 to 54% at the earlier 1.0.",
-      "spread": [2, 3]
+      "source": "How strong someone's pull to volunteer must be, before personality: their warmth and closeness to the candidate, less their hours of work. Personality adds the calibrated campaigns.volunteer weight times their lean. Set at the value where about 0.9% of the people a candidate asks say yes across Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each, and where the share of a candidate's acquaintances who volunteer stays inside the 31% top of the range src/core2/campaign-calibration.test.ts holds (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that). A weaker, researched personality term leaves closeness to decide, so the threshold sits above where the earlier hand-set trait scale put the pool's rate.",
+      "spread": [0.6, 1.4]
+    },
+    "doorAnswerScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far readiness slides the share of knocks a home opens (a logistic step): a home whose most willing adult is right at the threshold opens one knock in two, one this far past it about three in four, one this far short about one in four. Set with doorAnswerThreshold so a quarter to a third of the doors knocked open, the field contact rate (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005): over a played weekly canvass of every door, 30% in Anson TX and 27% in Dix NE.",
+      "spread": [0.2, 0.8]
     },
     "doorAnswerPivotAge": {
       "value": 55,
@@ -547,17 +757,197 @@
       "source": "What a campaign pays per completed telephone interview: $36 to $53 (midpoint about $45; BMC Medical Research Methodology 12:32), $46 to $80 by web; a whole local poll of a few hundred interviews runs $15,000 to $40,000 (Daily Montanan, 2023), consistent. data/research/money/poll-interview-prices.json (carried from #2486). Not scaled by place.",
       "spread": [3600, 8000]
     },
-    "pollAnswerThreshold": {
-      "value": 1.4,
+    "outsideDonorShare": {
+      "value": 0.02,
+      "tag": "ESTIMATED",
+      "source": "Share of the adults who lean a candidate's way, in the district or state outside the town, who give that candidate money in a cycle: 12% of adults gave to some candidate in the year before the 2016 election (Pew Research Center, 5 facts about U.S. political donations, 2017, from the American National Election Studies), spread over the several races a donor sees, so a few in a hundred give to any one.",
+      "spread": [0.005, 0.05]
+    },
+    "outsideReachPerTurn": {
+      "value": 0.02,
       "tag": "TUNABLE",
-      "source": "How ready (sociability, half their reliability, and age) someone called must be to complete a poll; checked against telephone response rates of about 6 to 10% (Pew Research Center 2019).",
-      "spread": [0.8, 2]
+      "source": "The share of a district's or state's like-minded adults a campaign's mail, email and call lists reach in one turn; its whole list takes about fifty turns, so a campaign running a year reaches its list before the last weeks.",
+      "spread": [0.005, 0.08]
+    },
+    "outsideDonorIncomeUsd": {
+      "value": 100000,
+      "tag": "ESTIMATED",
+      "source": "The family income of a typical individual donor to a candidate: donors skew to higher incomes (Pew Research Center, 5 facts about U.S. political donations, 2017); the cash they hold beyond a cushion is read from the Survey of Consumer Finances by income (medianTransactionBalance).",
+      "spread": [60000, 150000]
+    },
+    "pollAnswerThreshold": {
+      "value": 0.63,
+      "tag": "TUNABLE",
+      "source": "How ready (age) someone called must be to complete a poll, before personality, which adds the calibrated campaigns.answer-poll weight times their lean. Set so the same 3.4% of adults answer as under the earlier hand-set trait scale; telephone response rates run about 6 to 10% (Pew Research Center 2019), which counts everyone called.",
+      "spread": [0.3, 1.2]
     },
     "pollPartyCue": {
       "value": 0.3,
       "tag": "TUNABLE",
       "source": "How firm a lean must be for someone no campaign reached to name their party's candidate to a pollster rather than say they're undecided.",
       "spread": [0.1, 0.6]
+    },
+    "partyIdentifierLean": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "Where a party's average identifier stands on the -1 to 1 lean scale, before its state shifts it: Cooperative Election Study 2024 ideological self-placement by party identification puts Democratic identifiers' mean about a third to a half of the way from the center to the liberal end and Republicans' mean about half to two thirds toward the conservative end (CES 2024 common content, ideo5 by pid3).",
+      "spread": [0.35, 0.65]
+    },
+    "partyStateLeanWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a state's own vote moves where its parties stand: state parties sit to the side their state leans (Shor and McCarty 2011, 'The Ideological Mapping of American Legislatures', APSR 105(3): each state party's median legislator moves with state ideology while the two parties stay apart).",
+      "spread": [0.2, 0.8]
+    },
+    "partyPositionPriorMembers": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "How many tied members' worth of weight the state's party position carries against the town's own members when the town's party takes a position: a town with a handful of members leans on the state party; one with many speaks for itself.",
+      "spread": [3, 30]
+    },
+    "partyFirmnessBase": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "The share of a party candidate's stated position that comes from their party before their own tie and traits add to it: House candidates' positions sit roughly between their district's and their national party's (Ansolabehere, Snyder and Stewart 2001, 'Candidate Positioning in U.S. House Elections', AJPS 45(1)). For a seated official it scales with their recorded party loyalty.",
+      "spread": [0.2, 0.6]
+    },
+    "partyFirmnessTieWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much a firmer party tie (the tie's lean, 0 to 1) adds to how closely a candidate states the party's positions; strong partisans hold the party line most (Green, Palmquist and Schickler 2002, Partisan Hearts and Minds).",
+      "spread": [0.1, 0.5]
+    },
+    "candidatePlatformQuestions": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many questions a candidate who files with no stated platform campaigns on: the ones they feel most strongly about. Local candidate questionnaires and mailers lead with a few issues (Ballotpedia candidate surveys ask for three key messages).",
+      "spread": [2, 5]
+    },
+    "campaignRampDays": {
+      "value": 60,
+      "tag": "ESTIMATED",
+      "source": "How a campaign's pace rises toward election day: its turns come every campaignTurnDays times (1 + days left / this), so about every 3 days in the last weeks, every 6 two months out and every 3 weeks a year out. Campaign activity concentrates late: most House candidates' spending falls in the final quarter before the general election (FEC, candidate disbursements by reporting period, 2022 cycle), and canvassing programs run mostly in the last six to eight weeks (Green and Gerber, 'Get Out the Vote', 4th ed. 2019).",
+      "spread": [30, 120]
+    },
+    "campaignTurnDays": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Days between a world candidate's campaign turns (asks for money, doors, buys): a part-time local campaign works a few evenings and a weekend day a week (Green and Gerber, Get Out the Vote, 2019).",
+      "spread": [1, 7]
+    },
+    "donorAsksPerTurn": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "How many people a campaign asks for money in one turn, by call or in person: call time runs a few hours a session at roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides).",
+      "spread": [10, 100]
+    },
+    "volunteerAsksPerTurn": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "How many of the people a campaign can reach it asks to volunteer in one turn: recruiting calls run about ten an hour (campaign field manuals; Wellstone Action's training guides), and a turn spends about an hour of the candidate's or an aide's time on it.",
+      "spread": [3, 30]
+    },
+    "endorsementAsksPerTurn": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
+      "spread": [1, 8]
+    },
+    "playerCanvassHours": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "Hours the player's campaign day spends on one canvassing shift: volunteer shifts run two to three hours (Green and Gerber, Get Out the Vote, 2019).",
+      "spread": [2, 4]
+    },
+    "playerEventHours": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Hours an evening event takes the candidate, setup and the room together. Checked against the evening venue rental in campaign-unit-prices (an evening).",
+      "spread": [2, 5]
+    },
+    "playerInterviewHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Hours one press interview takes the candidate, the travel and the talk. Checked against the press desk's one interview per reporter slot.",
+      "spread": [0.5, 2]
+    },
+    "playerCallTimeHours": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "Hours of one fundraising call-time session: a few hours a session (campaign fundraising manuals; Wellstone Action's training guides), the same session donorAsksPerTurn counts.",
+      "spread": [2, 4]
+    },
+    "playerAsksPerCallHour": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "People the player asks for money in one hour of call time, by call or in person: roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides), so a three-hour session matches donorAsksPerTurn.",
+      "spread": [5, 20]
+    },
+    "playerRestHours": {
+      "value": 8,
+      "tag": "TUNABLE",
+      "source": "Hours a rest choice sets aside from the campaign day. Nothing is recorded as activity time for it: the day's other time belongs to the player's own routine.",
+      "spread": [4, 12]
+    },
+    "donorPartyWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much sharing the candidate's party adds to a person's reason to give. Party identifiers give far more often than independents (Pew Research Center 2018, 'Political engagement': 12% of strong partisans and few independents gave in the past year).",
+      "spread": [0.2, 0.8]
+    },
+    "donorRelationshipWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a person's own relationship with the candidate (-1 to 1) adds to their reason to give: a first campaign's first money comes from family and friends (Center for Responsive Politics donor studies; campaign finance guides' 'friends and family' round).",
+      "spread": [0.2, 1]
+    },
+    "adSpendShare": {
+      "value": 0.4,
+      "tag": "ESTIMATED",
+      "source": "Share of a campaign's spending on paid media: about 40% of U.S. House candidates' disbursements go to media and advertising (OpenSecrets, House expenditures by category, 2022 cycle: media 35 to 45%).",
+      "spread": [0.25, 0.55]
+    },
+    "mailSpendShare": {
+      "value": 0.3,
+      "tag": "ESTIMATED",
+      "source": "Share of a local campaign's spending on direct mail: state legislative and local races lean on mail more than federal ones (OpenSecrets direct-mail share 10 to 20% for House; National Institute on Money in Politics shows local campaigns' printing and postage among the largest lines).",
+      "spread": [0.15, 0.45]
+    },
+    "eventSpendShare": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "source": "Share of a campaign's spending on events and rallies before a sociable candidate leans further in (OpenSecrets: campaign events and fundraising events about 5 to 15% of disbursements).",
+      "spread": [0.05, 0.2]
+    },
+    "pollSpendShare": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "source": "Share of a campaign's spending on polling and research before a deliberate candidate leans further in (OpenSecrets 'strategy and research' about 5 to 10% of House disbursements).",
+      "spread": [0.03, 0.2]
+    },
+    "spendTraitWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a candidate's sociability moves their event share, and their deliberation their poll share (each trait -1 to 1).",
+      "spread": [0.2, 1]
+    },
+    "pollMinimumInterviews": {
+      "value": 200,
+      "tag": "ESTIMATED",
+      "source": "The smallest poll a campaign commissions: a sample of 200 carries about a 7-point margin of error (AAPOR margin-of-sampling-error guidance); local campaign polls run 200 to 400 interviews.",
+      "spread": [100, 400]
+    },
+    "adViewsImpulse": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "The appraised impulse of seeing a campaign ad, on the views engine's scale, below a speech heard in person (speech 0.3): single ads persuade little and fade (Kalla and Broockman 2018; Coppock, Hill and Vavreck 2020).",
+      "spread": [0.05, 0.3]
+    },
+    "mailWarmthWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How far one mailer moves the adults in the household it reaches toward what they make of the candidate: direct mail's persuasion effect is small (Green and Gerber 2019, ch. 5).",
+      "spread": [0.05, 0.4]
     },
     "committeeSize": {
       "value": 11,
@@ -595,11 +985,65 @@
       "source": "How much working in the department already adds to a resident's qualification for heading it (department heads are usually promoted from within or hired from the field: ICMA local government management surveys).",
       "spread": [0.1, 0.5]
     },
+    "appointmentBaseQualification": {
+      "value": 0.35,
+      "tag": "TUNABLE",
+      "source": "What an adult resident with no years of experience, no work in the department and a neutral temperament brings to heading it; with the age term it puts a typical 35-year-old near one half, the old fixed starting score. Checked against the share of appointees who are long-serving residents of the town (ICMA local government management surveys).",
+      "spread": [0.2, 0.5]
+    },
+    "appointmentTemperamentWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How much a resident's reliability and deliberation (summed, each on a -1 to 1 scale) add to or take from their qualification for a department: conscientiousness is the personality trait that best predicts job performance across occupations (Barrick and Mount 1991, Personnel Psychology 44).",
+      "spread": [0.1, 0.4]
+    },
+    "appointmentAdulthoodAge": {
+      "value": 18,
+      "tag": "SOURCED",
+      "source": "Age of majority in 46 states (19 in Alabama and Nebraska, 21 in Mississippi); the game uses the common 18 as the first year of adult working experience, matching the working-age minimum used in town employment (canonical town-employment.ts WORKING_AGE_MIN=18). Structural: below it nobody holds a post.",
+      "spread": [18, 21]
+    },
+    "appointmentExperienceHalfYears": {
+      "value": 17,
+      "tag": "ESTIMATED",
+      "source": "Years of adult life at which experience counts half of its full weight toward heading a department; the median age of local department heads is in the low-to-mid 40s, about 25 years past adulthood, and public-sector median tenure with an employer is about 6.5 years (BLS Employee Tenure, 2024; ICMA Municipal Year Book).",
+      "spread": [8, 25]
+    },
+    "appointmentExperienceAgeWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "The most that years of adult experience can add to a resident's qualification, approached smoothly with age and never switched on at an age (department heads are seldom the youngest adults but are not barred from it).",
+      "spread": [0.1, 0.5]
+    },
+    "cabinetQualificationBase": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "Qualification of the most qualified of a governor's cabinet candidates, who come from the governor's circle of experienced officials (National Governors Association, Cabinet Appointments in the States).",
+      "spread": [0.4, 0.8]
+    },
+    "cabinetQualificationStep": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How much less qualified each later candidate in a governor's cabinet shortlist is than the one before.",
+      "spread": [0.05, 0.2]
+    },
+    "cabinetLeanSpread": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "Share of the governor-side lean each later cabinet candidate gives up: governors draw shortlists from their own coalition but not all of it sits at the governor's own position (NGA cabinet appointment surveys).",
+      "spread": [0.1, 0.4]
+    },
     "confirmationTolerance": {
       "value": 1.5,
       "tag": "TUNABLE",
       "source": "How far (on the -1 to 1 lean scale) a nominee's views may sit from a member's before the member votes to reject: confirming bodies defer to executives; the U.S. Senate has rejected only nine cabinet nominees in its history (Senate Historical Office), and state senates rarely reject a governor's.",
       "spread": [1, 2]
+    },
+    "executiveReviewDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days between an executive's reviews of vacant posts and the orders their office may give: a mayor's or governor's office acts on a vacancy within weeks (city charters commonly have the mayor fill a department head's vacancy promptly, with an acting head meanwhile).",
+      "spread": [7, 60]
     },
     "appointeeHourlyMinor": {
       "value": 4600,
@@ -636,6 +1080,173 @@
       "tag": "TUNABLE",
       "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
       "spread": [0.25, 0.75]
+    },
+    "staffMinimumAge": {
+      "value": 18,
+      "tag": "SOURCED",
+      "source": "The age from which federal child labor rules set no limit on hours or occupation (Fair Labor Standards Act, 29 U.S.C. 203(l) and 29 CFR 570.2); an aide is hired as an adult."
+    },
+    "staffReachOtherCounty": {
+      "value": 0.33,
+      "tag": "ESTIMATED",
+      "source": "How far someone living in another county of the same state is within commuting reach of the office, against someone in its own county (1): about 72% of US workers work in their county of residence and about 24% in another county of their state (Census, ACS 2023 1-year, Table B08007 'Sex of Workers by Place of Work, State and County Level'); 24 / 72 = 0.33.",
+      "spread": [0.2, 0.5]
+    },
+    "staffReachOtherState": {
+      "value": 0.055,
+      "tag": "ESTIMATED",
+      "source": "How far someone living in another state is within commuting reach of the office, against someone in its own county (1): about 4% of US workers work outside their state of residence (Census, ACS 2023 1-year, Table B08007); 4 / 72 = 0.055.",
+      "spread": [0.03, 0.1]
+    },
+    "staffWorkingAgeAt18": {
+      "value": 0.37,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 18 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.333, 0.407]
+    },
+    "staffWorkingAgeAt22": {
+      "value": 0.713,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 22 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.642, 0.784]
+    },
+    "staffWorkingAgeAt30": {
+      "value": 0.836,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 30 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.752, 0.92]
+    },
+    "staffWorkingAgeAt40": {
+      "value": 0.831,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 40 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.748, 0.914]
+    },
+    "staffWorkingAgeAt50": {
+      "value": 0.811,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 50 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.73, 0.892]
+    },
+    "staffWorkingAgeAt60": {
+      "value": 0.654,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 60 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.589, 0.719]
+    },
+    "staffWorkingAgeAt70": {
+      "value": 0.267,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 70 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.24, 0.294]
+    },
+    "staffWorkingAgeAt80": {
+      "value": 0.086,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 80 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.077, 0.095]
+    },
+    "boundEmployerCostShare": {
+      "value": 0.01,
+      "tag": "ESTIMATED",
+      "source": "What one new rule binding an employer's line of business costs it a year, as a share of its payroll: U.S. firms' total federal regulatory compliance runs about 8 to 12 percent of payroll across all rules (Crain and Crain, NAM, 2014: about $9,991 per employee a year), and one rule is a small part of that. Stands for each law's own cost until law-reach moves the money (SG-GOV-bound-employer-cost-estimate).",
+      "spread": [0.002, 0.03]
+    },
+    "sessionFilingShare": {
+      "value": 0.33,
+      "tag": "TUNABLE",
+      "source": "The share of a session over which its members introduce their bills, the floor leader's first choices first: most legislatures set a bill introduction deadline in the session's first weeks to first third (NCSL, Bill and Resolution Introduction Deadlines, 2023).",
+      "spread": [0.15, 0.5]
+    },
+    "sessionCommitteeDays": {
+      "value": 21,
+      "tag": "TUNABLE",
+      "source": "Days from a bill's introduction until the floor can take it up: referral, a committee hearing and the committee's report, at most legislatures' pace of two to four weeks (NCSL, Committee Procedures; a hearing must be noticed days ahead in most chambers).",
+      "spread": [7, 45]
+    },
+    "recallTermOpeningDays": {
+      "value": 180,
+      "tag": "ESTIMATED",
+      "source": "Days into a term before a recall petition may be filed against the officeholder: state recall statutes commonly bar a petition in a term's first 90 days to 6 months, and once a recall fails, for the rest of the term (NCSL, Recall of Local Officials; e.g., Cal. Elec. Code 11007 at 90 days, Mich. Comp. Laws 168.951a at 6 months). One national bar stands until each state's statute is read (SG-GOV-recall-bars-national).",
+      "spread": [90, 365]
+    },
+    "budgetCompromiseRounds": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many times the leaders halve the change a failing budget's opponents object to most before dropping it: appropriations are settled by splitting differences line by line (topline deals, then conference) far more often than by striking a line outright (CRS, The Appropriations Process: A Brief Overview, R47106). Three halvings leave an eighth of the change.",
+      "spread": [1, 5]
+    },
+    "budgetFullStanceShare": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The change to a budget line, as a share of the line, at which a member's stance on it is as strong as on a yes-or-no question; a smaller change draws a proportionally smaller stance. Members fight over a few percent of a line far less than over a tenth of it: annual appropriations changes are mostly within a few percent of the prior year (CBO, budget function histories), and the large ones are the fought-over ones.",
+      "spread": [0.05, 0.25]
+    },
+    "chairVoteRelationshipWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a party member's closeness to a colleague (the closeness scale, 0 to 1) counts in whom they back for chair. Set equal to agreement so a close friend and a like-minded stranger weigh alike; checked against the spread, which keeps either from deciding alone.",
+      "spread": [0.5, 2]
+    },
+    "chairVoteAgreementWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much nearness of views (1 minus half the lean gap, 0 to 1) counts in whom a party member backs for chair; the same scale as closeness so neither swamps the other.",
+      "spread": [0.5, 2]
+    },
+    "chairVotePullWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a colleague's pull to lead (sociability plus dutifulness, about -2 to 2, the rule an opening chair is read by) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
+      "spread": [0.25, 1]
+    },
+    "floorConcernWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more a floor leader's calendar weighs a change as the share of the town's adults whose own life it touches rises (work, children at home, age): a change touching every resident counts its backers twice. Set so a widely felt change outranks an equally backed one nobody lives with, without overriding a clear majority of backers; checked against the spread.",
+      "spread": [0.5, 2]
+    },
+    "committeeInterestWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a member's own interest in a committee's subject (their signature issues, or for a town member whether it touches their own life) counts beside the assigning authority's rating of them (party, views, closeness, seniority; about -1 to 3). Members request the committees their interests and districts run to, and leaders grant most requests (Frisch and Kelly, 'Committee Assignment Politics in the U.S. House', 2006; Shepsle 1978). Checked against the spread so neither interest nor the leaders' favor alone decides.",
+      "spread": [0.5, 2]
+    },
+    "sittingHours": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "How long a town council or county board's regular meeting runs, the time a member gives up to attend: most run two to four hours (National League of Cities, 'City Councils in a Changing Environment', 2018 member survey; ICMA meeting-length surveys). A member whose own day leaves fewer free hours than this misses the vote.",
+      "spread": [2, 4]
+    },
+    "sittingIndifference": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How near even a member must stand on a bill (their position's size, on the scale where a full stance is about 1) before the rest of their day can keep them from its vote. Members miss the votes that matter least to them; in recent Congresses the median member missed about 2 percent of roll calls and few missed more than 10 percent outside illness or a campaign (GovTrack missed-votes statistics, 117th and 118th Congresses). Checked against that: about 2 to 5 percent of votes missed in played years.",
+      "spread": [0.1, 0.5]
+    },
+    "sittingSeatDuty": {
+      "value": 0.03,
+      "tag": "TUNABLE",
+      "source": "How much holding the seat itself pulls a member to a sitting of the body they serve on, however lopsided the vote: attending is the job, the goal of fulfilling work that going to a shift also meets. Set small so that, with the session and a close vote, a member attends nearly every sitting (median members missed about 2 percent of roll calls, GovTrack missed-votes statistics, 117th and 118th Congresses) and only a lopsided, low-stakes sitting leaves room for the rest of the day.",
+      "spread": [0.05, 0.3]
+    },
+    "sittingSessionDuty": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "source": "What a legislature's or Congress's session adds to a member's pull to a sitting: session days are the member's working days, planned around, and states protect a legislator's job during session, where a town body's evening meeting comes out of the member's own free hours and gets none.",
+      "spread": [0.03, 0.2]
+    },
+    "sittingCloseDuty": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "What a close vote adds to a member's pull to a sitting, scaled by how near an even split the members' own positions put the chamber (1 for a tie, 0 for a unanimous chamber): a member whose vote could decide it shows up more than one whose side is sure to win. No study in the repository measures this coefficient. Checked against the spread so a close vote outweighs a mild temperament without outweighing a seat's whole pull.",
+      "spread": [0.1, 0.6]
+    },
+    "pillOppositionBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far against a bill a member must stand (their position's size, a full stance about 1) before bending the rules to sink it with an amendment is worth the standing it costs them; below it the member votes no and lets it pass. Compared with the member's own position, so a stronger opponent moves a pill whatever their temperament, and temperament moves the members near the bar.",
+      "spread": [0.25, 1]
     }
   }
 }

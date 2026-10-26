@@ -1,19 +1,21 @@
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { applyCoreEvent } from "../core2/state";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { buildPopulation } from "../core2/population";
 import type { CoreState } from "../core2/types";
-import { composeJournal, composeLookBack, JOURNAL_DATA } from "./journal";
+import { composeJournal, composeLookBack } from "./journal";
+import { JOURNAL_WORDS } from "../english/journal-words";
 import { createDirector, type Director } from "./ledger";
 import type { Moment } from "./types";
 
-// M4-03, the journal: a first-person story in chapters, no year headers,
-// relatives named by relation, repeats summarized, nothing invented.
+// M4-03, the journal: a first-person memoir in chapters (owner, Oct 14: "a
+// dramatized story, not a list of facts"), no year headers, relatives named by
+// relation, no school or workplace as an entry by itself, nothing invented.
 const seed = process.env.GOLDEN_PATH_SEED ?? "journal-test";
 const base = enrichCivicInputs(
   buildDeepPast(
@@ -60,8 +62,13 @@ function resolves(state: CoreState, id: string): boolean {
 
 describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("tells the life in chapters, each line traced to a record", () => {
-    expect(chapters.length).toBeGreaterThan(1);
+    expect(chapters.length).toBeGreaterThan(0);
+    // A workplace or a school never titles a chapter (owner, batch 7).
+    const settings = new Set(
+      [...core.organizations.values()].map((row) => row.name),
+    );
     for (const chapter of chapters) {
+      expect(settings.has(chapter.title), chapter.title).toBe(false);
       expect(chapter.title).not.toMatch(/^\d{4}$/);
       for (const line of chapter.lines) {
         expect(line.text).toMatch(/^[A-Z]/);
@@ -70,6 +77,26 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
           expect(resolves(core, id), id).toBe(true);
       }
     }
+  });
+
+  it("tells each child's birth in that child's chapter, and no look-back twice", () => {
+    const born = /^(My (?:son|daughter|child)) was born\b/;
+    const endings: string[] = [];
+    for (const chapter of chapters)
+      for (const line of chapter.lines) {
+        const child = born.exec(line.text)?.[1];
+        // A birth is remembered, never "I didn't know at the time" (owner, batch 9).
+        if (child)
+          expect(line.text).not.toMatch(/know|idea|clue|realize|meant/i);
+        if (child && chapter.title.startsWith("My "))
+          expect(chapter.title).toBe(child);
+        const said = line.text.split(/(?<=[.!?])\s+/);
+        if (said.length > 1)
+          endings.push(
+            said.at(-1)!.toLowerCase().split(/\s+/).slice(-2).join(" "),
+          );
+      }
+    expect(new Set(endings).size).toBe(endings.length);
   });
 
   it("names relatives by relation, never by name", () => {
@@ -90,7 +117,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
   it("never invents a feeling: its words hold no feeling", () => {
     const feelings =
       /\b(happy|sad|angry|afraid|scared|proud|lonely|glad|upset|love[ds]?|hate[ds]?|miss(ed)?|worried|excited|hurt|felt|feel|joy|grief|ashamed|relieved)\b/i;
-    for (const row of JOURNAL_DATA.lines)
+    for (const row of JOURNAL_WORDS.lines)
       for (const variant of [
         ...row.line,
         ...(row.otherLine ?? []),
@@ -100,7 +127,29 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         expect(variant.text).not.toMatch(feelings);
   });
 
-  it("folds repeats within a chapter into one line", () => {
+  it("frames by age only what happens around a young person, and keeps names", () => {
+    // A race, a filing or a letter is told as itself, never "When I was 17".
+    const framed = JOURNAL_WORDS.lines.filter((row) => row.framesAge);
+    expect(framed.length).toBeGreaterThan(0);
+    for (const row of framed)
+      expect(row.kindPrefix).not.toMatch(/^event:(election|candidate|office)/);
+    const names = new Set(
+      [...core.people.values()].map((person) => person.givenName),
+    );
+    for (const id of initialFocusPeople(input))
+      for (const chapter of composeJournal(core, director, id))
+        for (const line of chapter.lines) {
+          const after = /^When I was \d+[^,]*, (\p{L}+)/u.exec(line.text)?.[1];
+          if (!after) continue;
+          const named = after.charAt(0).toUpperCase() + after.slice(1);
+          // A name after the frame keeps its capital ("Emma won", not "emma").
+          if (names.has(named)) expect(after).toBe(named);
+        }
+  });
+
+  it("never makes a school, a workplace or a visit an entry by itself", () => {
+    // Owner, grading batch 7: "School entries are not journal entries" unless
+    // something happened there; a job or a contact is a setting, not a story.
     const book = director.ledger.people.get(player.id)!;
     const friendId = [...core.people.get(player.id)!.knownIds].find(
       (id) => !core.people.get(player.id)!.familyIds.has(id),
@@ -126,24 +175,24 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         people: new Map([
           [
             player.id,
-            {
-              ...book,
-              moments: [
-                seen("2021-03-01"),
-                seen("2021-03-08"),
-                seen("2021-03-15"),
-              ],
-            },
+            { ...book, moments: [seen("2021-03-01"), seen("2021-03-08")] },
           ],
         ]),
       },
     } as Director;
-    const lines = composeJournal(core, fixture, player.id, {
-      through: makeIsoDate("2021-04-01"),
-    }).flatMap((row) => row.lines);
-    expect(lines).toHaveLength(1);
-    expect(lines[0]!.text).toMatch(/three times\.$/);
-    expect(lines[0]!.momentIds).toHaveLength(3);
+    // The household's own past still tells the family; the visits tell nothing.
+    const contactIds = [seen("2021-03-01").id, seen("2021-03-08").id];
+    expect(
+      composeJournal(core, fixture, player.id, {
+        through: makeIsoDate("2021-04-01"),
+      })
+        .flatMap((row) => row.lines)
+        .filter((line) => line.momentIds.some((id) => contactIds.includes(id))),
+    ).toEqual([]);
+    for (const line of chapters.flatMap((row) => row.lines))
+      expect(line.text).not.toMatch(
+        /^(I went to|I attended|I was at|Then I went to|I went on to|I graduated from|I started working|I went to work)\b/,
+      );
   });
 
   it("looks back on a life when it ends", () => {
@@ -152,8 +201,10 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     person.alive = false;
     try {
       const lines = composeLookBack(core, director, player.id);
-      expect(lines.length).toBe(chapters.length + 1);
-      expect(lines.at(-1)!.text).toMatch(/^I died in .+, at \d+\.$/);
+      // Each chapter's opening line; the death itself is left out because no
+      // mined sentence says it from these records.
+      expect(lines.length).toBe(chapters.length);
+      expect(lines.some((line) => /\bdied\b/.test(line.text))).toBe(false);
       for (const line of lines)
         expect(line.sourceRecordIds.length).toBeGreaterThan(0);
     } finally {
@@ -199,8 +250,10 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const text = composeJournal(core, director, player.id).flatMap((row) =>
       row.lines.map((line) => line.text),
     );
-    expect(text).toContain("My pay went up to $15.00 an hour.");
-    expect(text).toContain("A new minimum wage took effect.");
+    // No mined sentence says a raise, so the raise's own line is left out;
+    // a law the person had no part in is not their story.
+    expect(text.some((line) => /pay|\$15/.test(line))).toBe(false);
+    expect(text).not.toContain("The bill passed.");
   });
 
   it("writes a relative's death and filing for office, from the events' own records", () => {
@@ -247,8 +300,252 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const text = composeJournal(core, director, player.id).flatMap((row) =>
       row.lines.map((line) => line.text),
     );
-    expect(text.some((line) => /^My \w+ died\.$/.test(line))).toBe(true);
-    expect(text).toContain("I filed to run for City Council, Seat 2.");
+    // A death in the family is a hard time; running begins with deciding to.
+    // The relative is named by relation, or by their given name when another
+    // relative already holds the relation (two sons are not both "my son").
+    const relative = core.people.get(relativeId)!;
+    expect(
+      text.some((line) =>
+        new RegExp(
+          `^(My \\w+|${relative.givenName}) (died|passed away)\\.`,
+        ).test(line),
+      ),
+      text.join(" | "),
+    ).toBe(true);
+    expect(
+      text.some((line) =>
+        /^(I ran for City Council, Seat 2\.|So I ran\.)/.test(line),
+      ),
+    ).toBe(true);
+  });
+
+  it("tells a relative's race by the record's result, never the other way", () => {
+    const me = core.people.get(player.id)!;
+    const relativeId = [...me.familyIds].find(
+      (id) => core.people.get(id)?.alive && id !== player.id,
+    )!;
+    const rivalId = [...core.people.keys()].find(
+      (id) => id !== relativeId && id !== player.id,
+    )!;
+    // As the voting module records a count: the relative lost.
+    applyCoreEvent(core, {
+      id: "election-result:fixture-loss",
+      date: core.date,
+      kind: "election-result",
+      personIds: [relativeId, rivalId],
+      witnessIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "City Council, Seat 3", winnerId: rivalId },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-loss"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) expect(line.text).not.toMatch(/\b(won|elected)\b/);
+    // The office is named: what was lost, not only that it was.
+    for (const line of told)
+      expect(line.text).toContain("City Council, Seat 3");
+  });
+
+  it("names the office a relative was elected to, from the count's own record", () => {
+    const me = core.people.get(player.id)!;
+    const relativeId = [...me.familyIds].find(
+      (id) => core.people.get(id)?.alive && id !== player.id,
+    )!;
+    applyCoreEvent(core, {
+      id: "election-result:fixture-win",
+      date: core.date,
+      kind: "election-result",
+      personIds: [relativeId],
+      witnessIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "Mayor", winnerId: relativeId },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-win"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    // "My father was elected to Mayor": never the bare "was elected".
+    for (const line of told) expect(line.text).toContain("Mayor");
+  });
+
+  it("tells the player's own race against a rival they never knew", () => {
+    const me = core.people.get(player.id)!;
+    // The voting module names every candidate; the player never met this one.
+    const strangerId = [...core.people.keys()].find(
+      (id) =>
+        id !== player.id &&
+        !me.knownIds.has(id) &&
+        ![...me.familyIds].includes(id),
+    )!;
+    applyCoreEvent(core, {
+      id: "election-result:fixture-own-win",
+      date: core.date,
+      kind: "election-result",
+      personIds: [player.id, strangerId],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "Council member", winnerId: player.id },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-own-win"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) expect(line.text).not.toMatch(/\blost\b/);
+  });
+
+  it("tells the player's result under the player's own race, not a relative's race of the same day", () => {
+    const me = core.people.get(player.id)!;
+    const relativeId = [...me.familyIds].find((id) => core.people.has(id))!;
+    const strangerId = [...core.people.keys()].find(
+      (id) =>
+        id !== player.id &&
+        id !== relativeId &&
+        !me.knownIds.has(id) &&
+        ![...me.familyIds].includes(id),
+    )!;
+    const source = {
+      tag: "SOURCED" as const,
+      citation: "Fixture shaped like the elections and voting modules.",
+      asOf: core.date,
+    };
+    const emit = (
+      id: string,
+      kind: string,
+      personIds: string[],
+      facts: Record<string, string>,
+    ) =>
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind,
+        personIds,
+        placeId: me.placeId,
+        publicRecord: true,
+        news: true,
+        source,
+        facts,
+      });
+    emit("candidate-filed:fixture-mine", "candidate-filed", [player.id], {
+      filingId: "fixture-mine",
+      contestId: "contest:fixture-mine",
+      office: "Fixture Seat A",
+    });
+    emit("candidate-filed:fixture-kin", "candidate-filed", [relativeId], {
+      filingId: "fixture-kin",
+      contestId: "contest:fixture-kin",
+      office: "Fixture Seat B",
+    });
+    emit(
+      "election-result:contest:fixture-mine",
+      "election-result",
+      [player.id, strangerId],
+      {
+        contestId: "contest:fixture-mine",
+        office: "Fixture Seat A",
+        winnerId: strangerId,
+      },
+    );
+    emit(
+      "election-result:contest:fixture-kin",
+      "election-result",
+      [relativeId],
+      {
+        contestId: "contest:fixture-kin",
+        office: "Fixture Seat B",
+        winnerId: relativeId,
+      },
+    );
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const journal = composeJournal(core, director, player.id);
+    const under = (recordId: string) =>
+      journal.find((chapter) =>
+        chapter.lines.some((line) => line.sourceRecordIds.includes(recordId)),
+      );
+    const mine = under("election-result:contest:fixture-mine");
+    expect(mine?.title).toBe("Fixture Seat A");
+    const kin = under("election-result:contest:fixture-kin");
+    if (kin) expect(kin.title).toBe("Fixture Seat B");
+  });
+
+  it("tells the player's own race when nobody ran against them", () => {
+    const me = core.people.get(player.id)!;
+    applyCoreEvent(core, {
+      id: "election-result:fixture-own-unopposed",
+      date: core.date,
+      kind: "election-result",
+      personIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "U.S. Senator", winnerId: player.id },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-own-unopposed"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) expect(line.text).not.toMatch(/\blost\b/);
+  });
+
+  it("names a child at birth, and says no look-back that points at nothing", () => {
+    const lines = chapters.flatMap((chapter) => chapter.lines);
+    const births = lines.filter((line) => / was born\./.test(line.text));
+    expect(births.length).toBeGreaterThan(0);
+    // "My daughter Jane was born." or, for a second child, "Jane was born."
+    for (const line of births)
+      expect(line.text).toMatch(/^(My \w+ )?[A-Z][a-z]+ was born\./);
+    for (const line of lines) {
+      expect(line.text).not.toMatch(/Little did I know\.?$/);
+      // A turning point needs a later chapter of another kind in the record.
+      if (/turning point/.test(line.text)) {
+        const moment = line.momentIds[0]!;
+        const book = director.ledger.people.get(player.id)!;
+        const own = book.moments.find((row) => row.id === moment)!;
+        const kinds = new Set(
+          book.moments
+            .filter((row) => row.date > own.date)
+            .map((row) => row.causeKind.split(":")[0]),
+        );
+        expect(kinds.size, line.text).toBeGreaterThan(0);
+      }
+    }
   });
 
   it("writes a relative moving away, as the moves engine records it", () => {
@@ -291,10 +588,17 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       facts: { [`person:${relativeId}:residence`]: "elsewhere" },
     });
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const text = composeJournal(core, director, watcherId).flatMap((row) =>
-      row.lines.map((line) => line.text),
+    const lines = composeJournal(core, director, watcherId).flatMap(
+      (row) => row.lines,
     );
-    expect(text.some((line) => /^My \w+ moved away\.$/.test(line))).toBe(true);
+    // The engine words it from the move record: who moved, by relation, and
+    // the line cites the record it came from.
+    const told = lines.filter((line) => /moved away/.test(line.text));
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) {
+      expect(line.text).toMatch(/^My \w+( \w+)? moved away\.$/);
+      expect(line.sourceRecordIds.length).toBeGreaterThan(0);
+    }
   });
 
   it("writes a household move as the person's own move, never as their family leaving them", () => {
@@ -359,7 +663,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       .flatMap((row) => row.lines)
       .filter((line) => line.momentIds.some((id) => moments.has(id)));
     const text = lines.map((line) => line.text);
-    expect(text).toContain("We moved away.");
+    // The move itself has no mined sentence, and never reads as a family
+    // member leaving the person.
+    expect(text).toEqual([]);
     expect(text.some((line) => /^My \w+ moved away\.$/.test(line))).toBe(false);
 
     // When the person's place changes that day, the move is told once, with
@@ -395,69 +701,106 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         moverId,
       )
         .flatMap((row) => row.lines)
+        .filter((line) =>
+          line.momentIds.some((id) => [own.id, movedMoment.id].includes(id)),
+        )
         .map((line) => line.text);
     const named = told(mover.placeId);
-    expect(named.filter((line) => /moved/.test(line))).toEqual([
-      `We moved to ${lifePlaceByJurisdictionId(mover.placeId as never)!.displayName}.`,
-    ]);
+    const moved = named.filter((line) => /^We /.test(line));
+    expect(moved).toHaveLength(1);
+    expect(moved[0]).toContain(
+      corePlaceByJurisdictionId(mover.placeId as never)!.displayName,
+    );
+    expect(named.some((line) => /^I /.test(line))).toBe(false);
+    // A place with no name leaves nothing to say about the move (the
+    // journal's other lines, where the family came from, still stand).
     expect(
-      told("jurisdiction_unnamed").filter((line) => /moved/.test(line)),
-    ).toEqual(["We moved away."]);
+      told("jurisdiction_unnamed").filter((line) => /^We /.test(line)),
+    ).toEqual([]);
   });
 
-  it("writes starting at a school once, however many stages were spent there", () => {
-    // Break 19: Juliaetta journals said "I started at Juliaetta Elementary
-    // School." for the elementary and the middle-school years alike.
-    const person = core.people.get(player.id)!;
-    const school = (person.pastFacts ?? []).find((fact) =>
-      fact.kind.startsWith("school:"),
+  it("never titles a chapter by a school, and remembers a schoolmate who matters later", () => {
+    // Owner, Oct 14: school years are not entries unless something happened;
+    // a schoolmate who becomes important is remembered as their story.
+    // A watched person who remembers a schoolmate: the player, or another
+    // the story follows (a player grown up long since may have none recorded).
+    const remembers = (id: string) =>
+      (core.people.get(id)?.pastFacts ?? []).find(
+        (fact) =>
+          fact.kind === "social:generated-school-acquaintance" &&
+          fact.facts?.contextFactId &&
+          core.people.get(id)!.knownIds.has(fact.facts?.otherPersonId ?? ""),
+      );
+    const holderId = [
+      player.id,
+      ...[...director.ledger.people.keys()].sort(),
+    ].find((id) => remembers(id))!;
+    expect(holderId, "nobody watched remembers a schoolmate").toBeDefined();
+    const person = core.people.get(holderId)!;
+    const mate = remembers(holderId)!;
+    const school = (person.pastFacts ?? []).find(
+      (fact) => fact.id === mate.facts!.contextFactId,
     )!;
-    const later = {
-      ...school,
-      id: `${school.id}:next-stage`,
-      date: makeIsoDate(`${Number(school.date.slice(0, 4)) + 6}-08-26`),
-      facts: { ...school.facts, stage: "middle" },
-    };
-    const moment = (fact: typeof school): Moment => ({
-      id: `${player.id}:${fact.date}:past:${fact.id}:${fact.kind}`,
-      personId: player.id,
-      date: makeIsoDate(fact.date),
-      label: `past:${fact.kind}`,
-      causeId: player.id,
-      causeFactId: fact.id,
-      causeKind: fact.kind,
+    const moment: Moment = {
+      id: `${holderId}:${school.date}:past:${school.id}:${school.kind}`,
+      personId: holderId,
+      date: makeIsoDate(school.date),
+      label: `past:${school.kind}`,
+      causeId: holderId,
+      causeFactId: school.id,
+      causeKind: school.kind,
       counterpartIds: [],
       impact: 1,
       channels: [],
       hindsight: 1,
-      hindsightAt: makeIsoDate(fact.date),
+      hindsightAt: makeIsoDate(school.date),
       echoes: [],
-    });
-    const book = director.ledger.people.get(player.id)!;
+    };
+    const book = director.ledger.people.get(holderId)!;
     const fixture = {
       ...director,
       ledger: {
         ...director.ledger,
-        people: new Map([
-          [player.id, { ...book, moments: [moment(school), moment(later)] }],
-        ]),
+        people: new Map([[holderId, { ...book, moments: [moment] }]]),
       },
     } as Director;
-    const state = {
-      ...core,
-      people: new Map([
-        ...core.people,
-        [
-          player.id,
-          { ...person, pastFacts: [...(person.pastFacts ?? []), later] },
-        ],
-      ]),
-    } as CoreState;
-    const text = composeJournal(state, fixture, player.id)
-      .flatMap((row) => row.lines)
-      .map((line) => line.text);
-    expect(text.filter((line) => line.startsWith("I started at"))).toEqual([
-      `I started at ${school.facts!.schoolName}.`,
-    ]);
+    // The holder's household past is told whatever else the ledger holds;
+    // the school's moment adds nothing to it.
+    const family = new Set(
+      composeJournal(
+        core,
+        {
+          ...fixture,
+          ledger: {
+            ...fixture.ledger,
+            people: new Map([[holderId, { ...book, moments: [] }]]),
+          },
+        } as Director,
+        holderId,
+        { officeOf: () => undefined },
+      ).flatMap((row) => row.lines.map((line) => line.id)),
+    );
+    const beyond = (rows: { lines: { id: string }[] }[]) =>
+      rows.flatMap((row) => row.lines).filter((line) => !family.has(line.id));
+    // Nothing happened there, and nobody from it holds office: no line.
+    expect(
+      beyond(
+        composeJournal(core, fixture, holderId, { officeOf: () => undefined }),
+      ),
+    ).toEqual([]);
+    // Years later the schoolmate holds office: they are remembered, in a
+    // chapter the school does not title.
+    const mayor = { text: "Mayor", sourceRecordIds: ["fixture-term"] };
+    const chapters = composeJournal(core, fixture, holderId, {
+      officeOf: (id) => (id === mate.facts!.otherPersonId ? mayor : undefined),
+    });
+    const schoolName = String(school.facts?.schoolName ?? "");
+    for (const chapter of chapters)
+      if (schoolName) expect(chapter.title).not.toContain(schoolName);
+    const lines = beyond(chapters) as (typeof chapters)[number]["lines"];
+    expect(lines).toHaveLength(1);
+    expect(lines[0]!.text).not.toMatch(/^Except/);
+    expect(lines[0]!.text).toMatch(/mayor/);
+    expect(lines[0]!.sourceRecordIds).toContain(mate.id);
   });
 });

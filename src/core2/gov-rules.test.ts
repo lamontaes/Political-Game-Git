@@ -10,20 +10,20 @@
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-
 import {
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-  type LifePlace,
-} from "../simulation/life-places";
+  searchCorePlaces,
+  corePlaceStateIdentities,
+  type CorePlace,
+} from "./place-lookup";
 import {
   allGovernmentUnits,
   municipioUnit,
   type GovernmentUnitIdentity,
-} from "../simulation/government-units";
-import { makeIsoDate } from "../simulation/dates";
-import { SeededRng } from "../simulation/rng";
+} from "./reference/government-units";
+import { makeIsoDate } from "./kernel/dates";
+import { SeededRng } from "./kernel/rng";
 import * as oldBallot from "../simulation/municipal-ballot-rules";
+import { municipalRulePackFor } from "./gov-rules/municipal-election-rule-packs";
 import * as oldElectionRules from "../simulation/municipal-election-rules";
 import * as oldTownCalendar from "../simulation/nationwide-world/town-election-calendar";
 import * as oldCountyCalendar from "../simulation/nationwide-world/county-election-calendar";
@@ -35,7 +35,6 @@ import * as oldBoardRules from "../simulation/nationwide-world/township-governin
 import * as oldIdentity from "../simulation/person-identity";
 import * as oldCohorts from "../simulation/given-name-cohorts";
 import * as oldNames from "../simulation/names-data";
-import * as oldAge from "../simulation/invented-person-age";
 import {
   municipalGovernments as oldMunicipalGovernments,
   primaryReading as oldPrimaryReading,
@@ -53,10 +52,9 @@ import * as boardRules from "./gov-rules/township-governing-body-rules";
 import * as identity from "./gov-rules/person-identity";
 import * as cohorts from "./gov-rules/given-name-cohorts";
 import * as names from "./gov-rules/names-data";
-import * as age from "./gov-rules/invented-person-age";
 import municipalGovernmentsJson from "./gov-rules/municipal-governments.json" with { type: "json" };
 
-const STATES = lifePlaceStateIdentities();
+const STATES = corePlaceStateIdentities();
 const DATES = [
   "2024-01-01",
   "2026-10-12",
@@ -66,7 +64,7 @@ const DATES = [
 ].map(makeIsoDate);
 
 /** Evenly spaced picks from a list sorted by key: first, last and between. */
-function sample(places: readonly LifePlace[], count: number): LifePlace[] {
+function sample(places: readonly CorePlace[], count: number): CorePlace[] {
   const sorted = [...places].sort((a, b) => a.key.localeCompare(b.key));
   if (sorted.length <= count) return sorted;
   return Array.from(
@@ -79,8 +77,8 @@ function sample(places: readonly LifePlace[], count: number): LifePlace[] {
 function placesIn(
   stateKey: string,
   scope: "locality" | "county",
-): readonly LifePlace[] {
-  return lifePlaceSearch("", Number.MAX_SAFE_INTEGER, {
+): readonly CorePlace[] {
+  return searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
     stateJurisdictionKey: stateKey,
     scope,
   });
@@ -97,7 +95,15 @@ function municipalProjection() {
         publisherId: government.identity?.publisherId || null,
         reading: {
           form: reading.form ?? null,
+          bodyName: reading.bodyName ?? null,
           bodySize: reading.bodySize ?? null,
+          composition: reading.composition
+            ? {
+                pattern: reading.composition.pattern,
+                districtSeats: reading.composition.districtSeats ?? null,
+                wardSeats: reading.composition.wardSeats ?? null,
+              }
+            : null,
           executiveSelection: reading.executiveSelection ?? null,
           mayor: reading.mayor
             ? {
@@ -148,15 +154,52 @@ describe("ported government rule readers", () => {
       "judicial-cause-removal-trial",
       "prohibited",
     ] as const;
+    // The port carries the pack's scope, grounds and citation beside the old
+    // reader's fields, and those fields match the old reader's, except where
+    // a state's recall turns on a form or charter. There a town takes the
+    // doctrine state law gives it until it adopts one, not the national
+    // estimate the old reader used; and Wyoming's commission-form recall is
+    // read as such here, where the old pack read it as universal.
+    const oldFields = (
+      rule: ReturnType<typeof ballot.resolveMunicipalRecallRule>,
+    ) => ({
+      stateUsps: rule.stateUsps,
+      doctrine: rule.doctrine,
+      doctrineBasis: rule.doctrineBasis,
+      threshold: rule.threshold,
+      circulationDays: rule.circulationDays,
+      circulationBasis: rule.circulationBasis,
+      groundsRequired: rule.groundsRequired,
+    });
+    let defaulted = 0;
     for (const state of STATES) {
+      const pack = municipalRulePackFor(state.usps);
+      const conditional = pack?.recallDoctrine.kind === "locally-selectable";
+      const statutory =
+        pack?.recallDoctrine.kind === "locally-selectable"
+          ? pack.recallDoctrine.statutoryDefault
+          : null;
+      // The old reader read a state's own doctrine only where its pack knew
+      // one; anywhere else (a charter or form choice among them) it fell back
+      // to the national estimate.
+      const oldConditional =
+        oldBallot.resolveMunicipalRecallRule(state.usps).doctrineBasis ===
+        "national-estimated";
       for (const usps of [state.usps, state.usps.toLowerCase()]) {
-        for (const doctrine of doctrines)
-          expect(ballot.resolveMunicipalRecallRule(usps, doctrine)).toEqual(
-            oldBallot.resolveMunicipalRecallRule(usps, doctrine),
-          );
-        expect(ballot.resolveMunicipalRecallRule(usps)).toEqual(
-          oldBallot.resolveMunicipalRecallRule(usps),
-        );
+        for (const doctrine of doctrines) {
+          const now = ballot.resolveMunicipalRecallRule(usps, doctrine);
+          expect(now.citation).toBe(pack?.recallCitation ?? null);
+          if (doctrine === null && statutory !== null) {
+            defaulted += 1;
+            expect(now.doctrine, usps).toBe(statutory);
+            expect(now.doctrineBasis, usps).toBe("state-law-unverified");
+          } else if (conditional && !oldConditional)
+            expect(now.doctrine, usps).toBe(doctrine);
+          else
+            expect(oldFields(now)).toEqual(
+              oldBallot.resolveMunicipalRecallRule(usps, doctrine),
+            );
+        }
       }
       for (const place of sample(
         placesIn(state.jurisdictionKey, "locality"),
@@ -174,6 +217,8 @@ describe("ported government rule readers", () => {
           ),
         );
     }
+    // Wyoming's commission-form recall, among others, defaults a town to none.
+    expect(defaulted).toBeGreaterThan(0);
     for (const percent of [0.5, 5, 10, 12.5, 15, 25, 33.3, 100])
       for (const base of [0, 1, 7, 99, 1000, 123_457])
         expect(
@@ -248,7 +293,7 @@ describe("ported government rule readers", () => {
     );
   });
 
-  it("match on invented officials' identity, names and ages", () => {
+  it("match on invented officials' identity and names", () => {
     expect(names.PLACE_NAMES_V1_VERSION).toBe(oldNames.PLACE_NAMES_V1_VERSION);
     for (const version of ["names-v1", "demo-names-v4", "names-pr-v1"]) {
       const corpus = names.getNameCorpus(version);
@@ -282,44 +327,5 @@ describe("ported government rule readers", () => {
           oldCohorts.drawCohortGivenName(new SeededRng(key), sex, year),
         );
     }
-
-    const placements = [
-      undefined,
-      "drawn",
-      "reference-day",
-      "drawn-exact",
-      "drawn-exact-any-day",
-      { monthDay: "07-04" },
-    ] as const;
-    let births = 0;
-    for (const role of Object.keys(
-      oldAge.INVENTED_PERSON_AGE_WINDOWS,
-    ) as oldAge.InventedPersonRole[])
-      for (const date of DATES)
-        for (const placement of placements)
-          for (const seed of ["a", "b", "c"]) {
-            const input = {
-              role,
-              referenceDate: date,
-              legalMinimumAge: 25,
-              ...(placement ? { placement } : {}),
-            };
-            expect(
-              age.inventedPersonBirthDate(
-                new SeededRng(`${role}:${seed}`),
-                input,
-              ),
-            ).toBe(
-              oldAge.inventedPersonBirthDate(
-                new SeededRng(`${role}:${seed}`),
-                input,
-              ),
-            );
-            births += 1;
-          }
-    expect(Object.keys(age.INVENTED_PERSON_AGE_WINDOWS)).toEqual(
-      Object.keys(oldAge.INVENTED_PERSON_AGE_WINDOWS),
-    );
-    console.log(`gov-rules: ${births} invented birth dates compared`);
   });
 });

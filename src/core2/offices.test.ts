@@ -21,18 +21,15 @@ import {
   type TermRow,
   type VacancyRow,
 } from "./modules/offices";
+import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { isRealOfficeholderName } from "./officials-names";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`offices:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -42,7 +39,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 function randomPlace(salt: string) {
   const state = pick(states, `${salt}:state`);
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -77,6 +74,12 @@ describe("M2-01 offices and seats, every level", () => {
     expect(levels.has("federal")).toBe(true);
     expect(levels.has("state")).toBe(true);
     for (const { office, seat, holder } of seats) {
+      // An office its law creates after the opening has no holder until its
+      // first term (offices-state.test.ts follows it to its first election).
+      if (office.firstTermStart && office.firstTermStart > START) {
+        expect(holder, `${office.title} ${seat.id}`).toBeNull();
+        continue;
+      }
       expect(holder, `${office.title} ${seat.id}`).not.toBeNull();
       expect(holder!.identity.givenName.length).toBeGreaterThan(0);
       expect(holder!.startDate <= START).toBe(true);
@@ -91,10 +94,12 @@ describe("M2-01 offices and seats, every level", () => {
       JSON.stringify({
         placeKey,
         seed,
-        seats: seats.map(
-          (s) =>
-            `${s.office.title}${s.seat.district ? ` ${s.seat.district}` : ""}: ${s.holder!.identity.givenName} ${s.holder!.identity.familyName}${s.holder!.party ? ` (${s.holder!.party})` : ""}, until ${s.holder!.endDate ?? "term not read"}`,
-        ),
+        seats: seats
+          .filter((s) => s.holder)
+          .map(
+            (s) =>
+              `${s.office.title}${s.seat.district ? ` ${s.seat.district}` : ""}: ${s.holder!.identity.givenName} ${s.holder!.identity.familyName}${s.holder!.party ? ` (${s.holder!.party})` : ""}, until ${s.holder!.endDate ?? "term not read"}`,
+          ),
       }),
     );
   });
@@ -249,4 +254,102 @@ describe("M2-01 offices and seats, every level", () => {
       }),
     );
   });
+
+  it("seats every member of a chamber whose district elects its members in lettered seats", () => {
+    // The places whose roster names a district's members as "10A" and "10B":
+    // drawn from the data, never named in the test.
+    const lettered = Object.entries(
+      (
+        partyCounts as unknown as {
+          places: Record<
+            string,
+            Record<string, { seatParties?: Record<string, string[]> }>
+          >;
+        }
+      ).places,
+    ).flatMap(([state, chambers]) =>
+      Object.entries(chambers).flatMap(([chamber, row]) => {
+        const names = Object.keys(row.seatParties ?? {});
+        const numbers = new Set(
+          names.flatMap((name) => {
+            const match = /^0*(\d+)[A-Za-z]$/.exec(name);
+            return match ? [match[1]!] : [];
+          }),
+        );
+        // A district that is a pair: two lettered seats of one number, and no plain one.
+        const pairs = [...numbers].filter(
+          (number) =>
+            names.filter((name) =>
+              new RegExp(`^0*${number}[A-Za-z]$`).test(name),
+            ).length >= 2 && !names.includes(number),
+        );
+        return pairs.length && chamber === "lower"
+          ? [{ state, chamber, pairs }]
+          : [];
+      }),
+    );
+    expect(lettered.length).toBeGreaterThan(0);
+    const drawn = pick(lettered, "lettered");
+    const place = [
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+        stateJurisdictionKey: drawn.state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key))[0]!;
+    const where = `seed ${seed}, ${drawn.state} place ${place.key}`;
+    const api = coreAPI(world(place.key));
+    const seats = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("seats")
+      .rows() as unknown as { officeId: string; district: string | null }[];
+    const chamber = `office:${drawn.state}:legislature-${drawn.chamber}`;
+    for (const number of drawn.pairs) {
+      const members = seats.filter(
+        (seat) =>
+          seat.officeId === chamber &&
+          seat.district !== null &&
+          new RegExp(`^0*${number}[A-Za-z]?$`).test(seat.district),
+      );
+      // Both lettered seats are filed, not one for the pair.
+      expect(
+        members.length,
+        `${where} district ${number}`,
+      ).toBeGreaterThanOrEqual(2);
+    }
+  }, 120_000);
+
+  it("another state's chambers seat what the researched table says, no state named in the test", () => {
+    type Row = { members: number; districts: number };
+    const table = (
+      partyCounts as unknown as { places: Record<string, Record<string, Row>> }
+    ).places;
+    const researched = Object.keys(table)
+      .filter((state) => Object.keys(table[state]!).length > 0)
+      .sort();
+    const core = world(randomPlace("seat-counts").key);
+    const api = coreAPI(core);
+    const seats = () =>
+      api.moduleState(OFFICES_MODULE_ID).table("seats").rows() as unknown as {
+        officeId: string;
+      }[];
+    for (const state of [
+      pick(researched, "s1"),
+      pick(researched, "s2"),
+      pick(researched, "s3"),
+    ]) {
+      officesOfState(api, state);
+      for (const chamber of ["lower", "upper"] as const) {
+        const row = table[state]![chamber];
+        if (!row) continue;
+        const count = seats().filter(
+          (seat) => seat.officeId === `office:${state}:legislature-${chamber}`,
+        ).length;
+        // Seats are at least the sitting members; vacancies are the rest.
+        expect(
+          count,
+          `seed ${seed} ${state} ${chamber}`,
+        ).toBeGreaterThanOrEqual(row.members);
+      }
+    }
+  }, 120_000);
 });

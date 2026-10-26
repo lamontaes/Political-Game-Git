@@ -1,6 +1,6 @@
 import contentJson from "./data/opening-peer-network.json" with { type: "json" };
-import { makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, PersonId, PersonInput, Source } from "./types";

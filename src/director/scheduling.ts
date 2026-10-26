@@ -10,10 +10,14 @@
  * line. Everything else is a journal line. A moment no type can stage writes
  * a coverage row with the reason. Nothing is drawn by chance.
  */
-import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
+import { coreAPI } from "../core2/state";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
+import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -33,9 +37,32 @@ export interface SituationCause {
   match?: {
     label?: string;
     labelPrefix?: string;
+    /** The cause's own kind, whichever channel scored it strongest ("event:speech.heard"). */
+    causeKind?: string;
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
+    /** The cause's record names the moment's person among its own people. */
+    selfNamed?: boolean;
+    /**
+     * Facts of the cause's own record, every one of which must hold: a fact
+     * ("winnerId") names the moment's person ("is": "subject") or someone
+     * else ("other"), or is one of the listed values ("equals"). A cause whose
+     * record is gone, or lacks the fact, matches nothing.
+     */
+    causeFacts?: readonly {
+      key: string;
+      is?: "subject" | "other";
+      equals?: readonly string[];
+    }[];
+    /** What a heard speech was given at: "campaign", "remark" at a meeting, a "hearing" (see speechOccasion). */
+    occasion?: string;
+    /**
+     * The cause's own record names the moment's person (a public comment's
+     * speakers): someone who only heard of it from a tie matches nothing, so
+     * a hearing is never staged around a speaker who did not speak.
+     */
+    causeNames?: "subject";
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -43,6 +70,11 @@ export interface SituationCause {
   bind?: Readonly<Record<string, string>>;
   opener?: string;
   opening?: string;
+  /**
+   * Where this cause stages the type, when it is not the type's own order of
+   * settings: a vote trade is asked for in the chamber its record names.
+   */
+  setting?: readonly string[];
 }
 
 export interface SituationType {
@@ -52,6 +84,25 @@ export interface SituationType {
   timing: string;
   causes: readonly SituationCause[];
   awaiting?: readonly string[];
+  /**
+   * A scene that never stops the player's day: it waits its turn by the life's
+   * pace however strongly it was felt (an invitation to a cause meeting).
+   */
+  waits?: boolean;
+  /**
+   * A scene about one record's own decision (a member's vote on one bill):
+   * each cause stages its own, never taken into another sitting or held back
+   * by the repeat window.
+   */
+  eachCause?: boolean;
+  /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
+  choice?: string;
+  /**
+   * Types whose scene this one gives way to: when a moment binds both, only
+   * the type named here is staged, so one cause never stages two scenes
+   * (a lost job told at home stands in for the same loss told at work).
+   */
+  yieldsTo?: readonly string[];
 }
 
 export interface SituationLibrary {
@@ -60,7 +111,15 @@ export interface SituationLibrary {
     paces: Readonly<Record<string, number>>;
     paceBands: readonly { band: string; maxAge?: number }[];
     trailingDays: number;
+    /** Days within which the same scene with the same people is staged once. */
+    repeatDays: number;
     openDays: Readonly<Record<string, number>>;
+    /** Moments that stage their family scene when a household member is in them. */
+    householdScenes: readonly string[];
+    /** Records of the whole household that stage a family scene for each member. */
+    householdRecordScenes?: readonly string[];
+    /** Records of the subject's own life the household meets at home: a filing, the count of their race. */
+    ownRecordScenes?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -78,6 +137,8 @@ export interface SceneBinding {
   opening?: string;
   reason?: string;
   openUntil: IsoDate;
+  /** Later moments of the same day this sitting took in, each with its cause record. */
+  joined?: { momentId: string; causeId: string }[];
 }
 
 export interface CoverageRow {
@@ -150,14 +211,55 @@ export function paceRank(
   return rank;
 }
 
-function causeMatches(
+/**
+ * What a heard speech was given at: a campaign stop, a remark at a meeting, a
+ * hearing, a party meeting, a press attack or a state address. A council
+ * remark is not a campaign event.
+ */
+export function speechOccasion(
+  core: Readonly<CoreState>,
+  causeId: string,
+): string | undefined {
+  const said = core.durableLog.get(causeId)?.facts?.occasion;
+  if (typeof said === "string" && said) return said;
+  // stopgapId: SG-DIRECTOR-speech-occasion (the speech engine's record has no
+  // occasion yet, so the producer's id says it: "speech:remark:...", or
+  // "speech:<speaker>:<date>:<act>:..." for a candidate's own speech).
+  const [head, first, , act] = causeId.split(":");
+  if (head !== "speech" || !first) return undefined;
+  if (!core.people.has(first as never)) return first;
+  return act === "attack" ? "press" : "campaign";
+}
+
+export function causeMatches(
   cause: SituationCause,
   book: PersonLedger,
   moment: Moment,
+  core: Readonly<CoreState>,
 ): boolean {
   const match = cause.match;
   if (!match) return false;
+  for (const want of match.causeFacts ?? []) {
+    const fact = core.durableLog.get(moment.causeId)?.facts?.[want.key];
+    if (typeof fact !== "string" || !fact) return false;
+    if (want.is && (fact === moment.personId) !== (want.is === "subject"))
+      return false;
+    if (want.equals && !want.equals.includes(fact)) return false;
+  }
+  if (
+    match.occasion !== undefined &&
+    speechOccasion(core, moment.causeId) !== match.occasion
+  )
+    return false;
+  if (
+    match.causeNames === "subject" &&
+    !core.durableLog.get(moment.causeId)?.personIds.includes(moment.personId)
+  )
+    return false;
+  if (match.selfNamed && !moment.selfNamed) return false;
   if (match.label !== undefined && moment.label !== match.label) return false;
+  if (match.causeKind !== undefined && moment.causeKind !== match.causeKind)
+    return false;
   if (
     match.labelPrefix !== undefined &&
     !moment.label.startsWith(match.labelPrefix)
@@ -191,6 +293,12 @@ function alive(core: Readonly<CoreState>, id: PersonId): boolean {
 }
 
 /** Who fills a role, read from records on the moment's day. */
+/** Who answers for a subject at home, in order: parents, then other older kin. */
+const GUARDIAN_RELATIONS: readonly (readonly string[])[] = [
+  ["parent", "other-parent"],
+  ["grandparent", "aunt-or-uncle"],
+];
+
 function fillRole(
   fill: string,
   core: Readonly<CoreState>,
@@ -235,6 +343,11 @@ function fillRole(
       return moment.counterpartIds.slice(zero, one);
     case "household":
       return household();
+    case "decider": {
+      // Who decided the cause, from its record's facts (a layoff's owner): a living person, never the subject.
+      const id = core.durableLog.get(moment.causeId)?.facts?.decidedBy;
+      return id && id !== moment.personId && alive(core, id) ? [id] : [];
+    }
     case "kin":
       return closest(
         [...book.threads.values()]
@@ -254,8 +367,29 @@ function fillRole(
         : setting === "workplace"
           ? coworkers()
           : [];
+    case "authority": {
+      // At home: the subject's parent on record who lives with them, else
+      // another older relative in the household (a guardian).
+      const kinIn = new Map<PersonId, string>();
+      for (const fact of subject?.pastFacts ?? [])
+        if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
+          kinIn.set(
+            fact.facts.otherPersonId as PersonId,
+            fact.kind.slice("family:".length),
+          );
+      const members = household();
+      for (const relations of GUARDIAN_RELATIONS) {
+        const found = members.filter((id) =>
+          relations.includes(kinIn.get(id) ?? ""),
+        );
+        if (found.length) return found;
+      }
+      return [];
+    }
     default:
-      // Classmates, authority and absent have no records in the new core yet.
+      // The civic roles come from the offices, voting and press records.
+      if (CIVIC_FILLS.has(fill)) return civicFill(fill, core, moment, taken);
+      // Classmates, absent and the clerk have no records in the new core yet.
       return [];
   }
 }
@@ -280,14 +414,63 @@ function resolveSetting(
       return counterpart && counterpart.householdId !== subject.householdId
         ? { kind, recordId: counterpart.householdId }
         : undefined;
-    case "workplace":
-      return job ? { kind, recordId: job.organizationId } : undefined;
+    case "workplace": {
+      // A job that just ended is no longer on the person; the cause's record names the employer.
+      const employer =
+        job?.organizationId ??
+        core.durableLog.get(moment.causeId)?.facts?.organizationId;
+      return employer ? { kind, recordId: employer } : undefined;
+    }
+    case "seat": {
+      // Where an officeholder's government sits (an address is given at the
+      // capitol, not in the town that watched it), named as a venue.
+      const api = coreAPI(core as CoreState);
+      if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+      const state = api.moduleState(OFFICES_MODULE_ID);
+      const term = (
+        state.table("terms").rows() as unknown as {
+          personId: string;
+          officeId: string;
+          status: string;
+        }[]
+      ).find((row) => row.personId === subject.id && row.status === "serving");
+      const office = term
+        ? (state.table("offices").get(term.officeId) as unknown as
+            { jurisdiction: string } | undefined)
+        : undefined;
+      const seat = office
+        ? coreSeatOfGovernmentPlace(
+            office.jurisdiction === "US" ? "US-FEDERAL" : office.jurisdiction,
+          )
+        : null;
+      return seat
+        ? { kind: "venue", recordId: seat.place.context.jurisdiction.id }
+        : undefined;
+    }
+    case "office": {
+      // The office the cause record names (the executive's, for a bill on
+      // the desk); otherwise an officeholder's office is their post's
+      // employer on record.
+      const office = core.durableLog.get(moment.causeId)?.facts?.officeId;
+      if (typeof office === "string" && office)
+        return { kind, recordId: office };
+      return job?.organizationId
+        ? { kind, recordId: job.organizationId }
+        : undefined;
+    }
     case "phone":
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
       return { kind, recordId: subject.placeId };
     case "venue":
       return moment.placeId ? { kind, recordId: moment.placeId } : undefined;
+    case "chamber": {
+      // The body the cause record names (the chamber a vote trade was made in).
+      const chamber = core.durableLog.get(moment.causeId)?.facts?.chamber;
+      return typeof chamber === "string" && chamber
+        ? { kind, recordId: chamber }
+        : undefined;
+    }
     default:
       // School and letter need records the new core does not keep yet.
       return undefined;
@@ -303,7 +486,8 @@ function bindType(
   library: SituationLibrary,
 ): SceneBinding | { failure: string; detail: string } {
   let failure: { failure: string; detail: string } | undefined;
-  for (const settingKind of type.setting) {
+  const settings = cause.setting ?? type.setting;
+  for (const settingKind of settings) {
     const taken = new Set<PersonId>();
     const roles: SceneBinding["roles"] = [];
     let unbound: string | undefined;
@@ -363,7 +547,7 @@ function bindType(
       ),
     };
   }
-  return failure ?? { failure: "no-place", detail: type.setting.join(",") };
+  return failure ?? { failure: "no-place", detail: settings.join(",") };
 }
 
 /**
@@ -374,19 +558,27 @@ export function scheduleMoment(
   core: Readonly<CoreState>,
   book: PersonLedger,
   moment: Moment,
-  options: { mode: string; interruptImpact: number },
+  options: {
+    mode: string;
+    interruptImpact: number;
+    /**
+     * The scene kinds the player allows to interrupt (their filter record);
+     * absent means every kind. A moment whose scenes are all filtered out
+     * becomes a journal line and stops nothing.
+     */
+    allowedKinds?: ReadonlySet<string>;
+  },
   library: SituationLibrary = SITUATION_LIBRARY,
 ): ScheduleEntry {
   const person = core.people.get(moment.personId);
   if (!person) throw new Error(`Scheduled moment has no person: ${moment.id}`);
   const pace = paceOf(library, person.birthDate, moment.date);
   const rank = paceRank(library, book, moment);
-  const interrupt = moment.impact >= options.interruptImpact;
-  const bindings: SceneBinding[] = [];
+  const found: SceneBinding[] = [];
   let coverage: CoverageRow | undefined;
   for (const type of library.types)
     for (const cause of type.causes) {
-      if (!causeMatches(cause, book, moment)) continue;
+      if (!causeMatches(cause, book, moment, core)) continue;
       const bound = bindType(type, cause, core, book, moment, library);
       if ("failure" in bound)
         coverage ??= {
@@ -398,10 +590,99 @@ export function scheduleMoment(
           typeKey: type.key,
           detail: bound.detail,
         };
-      else if (!bindings.some((row) => row.typeKey === bound.typeKey))
-        bindings.push(bound);
+      else if (!found.some((row) => row.typeKey === bound.typeKey))
+        found.push(bound);
     }
-  if (!bindings.length)
+  // One cause stages one scene: a type that yields to another bound for this
+  // moment is dropped (what the player allows is decided after, below).
+  const staged = found.filter((row) => {
+    const yields =
+      library.types.find((type) => type.key === row.typeKey)?.yieldsTo ?? [];
+    return !found.some((other) => yields.includes(other.typeKey));
+  });
+  // The player's filter: only the scene kinds they allow stage or interrupt.
+  const allowed = options.allowedKinds;
+  // One sitting covers a day: a scene of the same kind with the same people
+  // already staged today takes this cause in (five bills signed in one
+  // afternoon are one press availability, not five). The same scene with the
+  // same people is not staged again within the repeat window either (a
+  // neighbor who shares the same cause seven days running asks once).
+  const castOf = (row: SceneBinding) =>
+    `${row.typeKey}|${row.roles
+      .flatMap((role) => role.personIds)
+      .sort()
+      .join(",")}`;
+  const sittingToday = new Set(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date <= moment.date &&
+          entry.date >
+            addDays(makeIsoDate(moment.date), -library.scheduling.repeatDays) &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) => entry.bindings.map(castOf)),
+  );
+  const wanted = allowed
+    ? staged.filter((row) => allowed.has(row.typeKey))
+    : staged;
+  const eachCause = (row: SceneBinding) =>
+    library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
+  const bindings = wanted.filter(
+    (row) => eachCause(row) || !sittingToday.has(castOf(row)),
+  );
+  // The day's own sitting takes this cause in, so its scene cites both
+  // records. A sitting on an earlier day within the repeat window does not:
+  // that scene has been played.
+  const sittings = new Map(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date === moment.date &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) =>
+        entry.bindings.map((row) => [castOf(row), row] as const),
+      ),
+  );
+  for (const row of wanted) {
+    if (eachCause(row)) continue;
+    const sitting = sittings.get(castOf(row));
+    if (!sitting) continue;
+    sitting.joined ??= [];
+    if (!sitting.joined.some((entry) => entry.momentId === moment.id))
+      sitting.joined.push({ momentId: moment.id, causeId: moment.causeId });
+  }
+  const filteredOut = staged.length > zero && !bindings.length;
+  // News from the household's own records (a parent's lost job, a death, a
+  // serious illness) is a family scene at home whatever its size (owner,
+  // Oct 14, 2026, night: the director picks the family scene the
+  // household's records make apply).
+  // A record of the whole household (an eviction) is a family scene for
+  // each of them, with no one else named.
+  const household = person.householdId;
+  const familyNews =
+    ((library.scheduling.householdScenes.includes(moment.label) &&
+      moment.counterpartIds.some(
+        (id) => core.people.get(id)?.householdId === household,
+      )) ||
+      (library.scheduling.householdRecordScenes?.includes(moment.label) ??
+        false) ||
+      ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
+        moment.selfNamed === true)) &&
+    bindings.some((row) => row.setting.kind === "home");
+  const waits =
+    bindings.length > zero &&
+    bindings.every(
+      (row) => library.types.find((type) => type.key === row.typeKey)?.waits,
+    );
+  const interrupt =
+    (moment.impact >= options.interruptImpact || familyNews) &&
+    !filteredOut &&
+    !waits;
+  if (!found.length)
     coverage ??= {
       momentId: moment.id,
       personId: moment.personId,
@@ -427,6 +708,6 @@ export function scheduleMoment(
     rank,
     pace,
     bindings,
-    ...(bindings.length ? {} : { coverage }),
+    ...(found.length ? {} : { coverage }),
   };
 }

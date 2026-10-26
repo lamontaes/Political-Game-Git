@@ -9,8 +9,7 @@
  *
  * --distribution steam marks the output as Steam-managed, which hard
  * disables the direct updater in the shell. The default distribution is
- * "direct" with the updater unconfigured (no endpoint), which is also
- * disabled at runtime until an endpoint is deliberately authorized.
+ * "direct", whose updater reads the repository's GitHub Releases.
  *
  * --rebuild runs `npm run build` first when provenance does not match.
  * --composition is required to claim "accepted-main" unless HEAD is
@@ -156,11 +155,29 @@ writeFileSync(
 writeFileSync(
   path.join(stagedRoot, "update-config.json"),
   JSON.stringify(
-    { enabled: false, channel: "internal", feedURL: null },
+    // The repository's GitHub Releases, where the release workflow publishes
+    // every release's installers and manifests (electron-builder.yml's
+    // publish block names the same place). Steam output never reads it.
+    {
+      enabled: true,
+      channel: "latest",
+      provider: "github",
+      owner: "lamontaes",
+      repo: "Political-Game-Git",
+      feedURL: "https://github.com/lamontaes/Political-Game-Git/releases",
+    },
     null,
     2,
   ) + "\n",
 );
+
+// The play server's handler rides beside the client (it answers /api and /art).
+const bundled = spawnSync(
+  process.execPath,
+  [path.join(desktopRoot, "scripts", "build-play-api.mjs")],
+  { cwd: repoRoot, stdio: "inherit", env: process.env },
+);
+if (bundled.status !== 0) process.exit(bundled.status ?? 1);
 
 console.log(
   `Staged ${identity.version} @ ${identity.revisionShort}${identity.dirty ? " (dirty)" : ""} distribution=${distribution} composition=${composition} profile=${identity.profile}`,

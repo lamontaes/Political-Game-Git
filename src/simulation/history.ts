@@ -2,7 +2,7 @@ import {
   cloneTermResolution,
   type LawEffectStampedRecord,
 } from "./law-effect-stamp";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { appendedList, hasStableKey, stableKeysOf } from "./history-index";
 import type {
   AppraisalMeaning,

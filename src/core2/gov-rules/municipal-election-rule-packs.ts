@@ -10,6 +10,8 @@
  * available, and unaudited.
  */
 import corpus from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
+import conditionalRecall from "../data/elections/recall-form-conditional.json" with { type: "json" };
+import unresolvedRecall from "../data/elections/recall-threshold-unresolved.json" with { type: "json" };
 import type {
   MunicipalElectionTiming,
   MunicipalRecallDoctrine,
@@ -34,6 +36,11 @@ export interface MunicipalRulePack {
   readonly recallGroundsRequired: PackRule<boolean>;
   readonly recallPetitionThreshold: PackRule<PetitionThreshold>;
   readonly recallCirculationWindowDays: PackRule<number>;
+  /** Which places' offices the state's recall reaches, as the pack reads the law; null where it does not say. */
+  readonly recallScope: string | null;
+  /** The grounds a petition must state, where the law sets them. */
+  readonly recallGrounds: string | null;
+  readonly recallCitation: string | null;
 }
 
 /**
@@ -41,71 +48,23 @@ export interface MunicipalRulePack {
  * the corpus resolves for no town: the options each may take, and the one
  * state law gives a town until it adopts another.
  */
-const FORM_CONDITIONAL_RECALL: Readonly<
-  Record<
-    string,
-    {
-      readonly options: readonly MunicipalRecallDoctrine[];
-      readonly statutoryDefault: MunicipalRecallDoctrine | null;
-    }
-  >
-> = {
-  AR: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: null,
-  },
-  HI: { options: ["yes-no-retention", "prohibited"], statutoryDefault: null },
-  ME: {
-    options: ["yes-no-retention", "prohibited"],
-    statutoryDefault: "prohibited",
-  },
-  MO: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: null,
-  },
-  NM: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: null,
-  },
-  OH: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: "prohibited",
-  },
-  OK: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: "prohibited",
-  },
-  RI: {
-    options: ["yes-no-retention", "prohibited"],
-    statutoryDefault: "prohibited",
-  },
-  TN: {
-    options: ["two-question-standalone", "prohibited"],
-    statutoryDefault: null,
-  },
-  TX: {
-    options: [
-      "two-question-standalone",
-      "simultaneous-incumbent-replacement",
-      "prohibited",
-    ],
-    statutoryDefault: "prohibited",
-  },
-};
+interface FormConditionalRecall {
+  readonly options: readonly MunicipalRecallDoctrine[];
+  readonly statutoryDefault: MunicipalRecallDoctrine | null;
+}
+const FORM_CONDITIONAL_RECALL = conditionalRecall.states as Readonly<
+  Record<string, FormConditionalRecall>
+>;
 
 /**
  * States with a statewide recall whose signature requirement is tiered,
  * ranged or compound (population tiers, a ward condition, a second petition),
- * so no one threshold is read.
+ * so no one threshold is read. Which states, why and the source are data:
+ * `src/core2/data/elections/recall-threshold-unresolved.json`.
  */
-const UNRESOLVED_RECALL_THRESHOLD: ReadonlySet<string> = new Set([
-  "CA",
-  "DC",
-  "FL",
-  "LA",
-  "MT",
-  "WA",
-]);
+const UNRESOLVED_RECALL_THRESHOLD: ReadonlySet<string> = new Set(
+  Object.keys((unresolvedRecall as { states: Record<string, unknown> }).states),
+);
 
 type CorpusRow = (typeof corpus.jurisdictions)[number];
 
@@ -131,6 +90,24 @@ function compileElectionTiming(
 function compileRecall(
   row: CorpusRow,
 ): Omit<MunicipalRulePack, "electionTiming"> {
+  const text = row as CorpusRow & {
+    recallScope?: string | null;
+    recallGrounds?: string | null;
+  };
+  return {
+    recallScope: text.recallScope ?? null,
+    recallGrounds: text.recallGrounds ?? null,
+    recallCitation: row.recallCitation ?? null,
+    ...compileRecallRules(row),
+  };
+}
+
+function compileRecallRules(
+  row: CorpusRow,
+): Omit<
+  MunicipalRulePack,
+  "electionTiming" | "recallScope" | "recallGrounds" | "recallCitation"
+> {
   const conditional = FORM_CONDITIONAL_RECALL[row.usps];
   if (conditional)
     return {

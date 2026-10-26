@@ -1,0 +1,94 @@
+{
+  "about": "The Treasury Bulletin's table OFS-2 (estimated ownership of U.S. Treasury securities) for the quarter ending 2026-03-31, and the Debt to the Penny reading for the same day, as the Treasury's Fiscal Data API returned them on 2026-10-15. Amounts in billions of dollars (OFS-2) and dollars (Debt to the Penny).",
+  "retrieved": "2026-10-15",
+  "sources": [
+    {
+      "name": "Treasury Bulletin, OFS-2 Estimated Ownership of U.S. Treasury Securities",
+      "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/tb/ofs2_estimated_ownership_treasury_securities?filter=end_of_month:eq:2026-03-31"
+    },
+    {
+      "name": "Debt to the Penny",
+      "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2026-03-31"
+    }
+  ],
+  "ofs2": [
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Total Public Debt",
+      "securities_bil_amt": "39065.4"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Federal Reserve And Government Accounts",
+      "securities_bil_amt": "12024.3"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Total Privately Held",
+      "securities_bil_amt": "27041.1"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Depository Institutions",
+      "securities_bil_amt": "2169.5"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "U.S. Savings Bonds",
+      "securities_bil_amt": "148.8"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Pension Funds - Private",
+      "securities_bil_amt": "607.0"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Pension Funds - State And Local Governments",
+      "securities_bil_amt": "573.9"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Insurance Companies",
+      "securities_bil_amt": "597.9"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Mutual Funds",
+      "securities_bil_amt": "5122.8"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "State And Local Governments",
+      "securities_bil_amt": "1641.6"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Foreign And International",
+      "securities_bil_amt": "9355.0"
+    },
+    {
+      "record_date": "2026-09-30",
+      "end_of_month": "2026-03-31",
+      "securities_owner": "Other Investors",
+      "securities_bil_amt": "6824.7"
+    }
+  ],
+  "debtToThePenny": {
+    "record_date": "2026-03-31",
+    "debt_held_public_amt": "31431182280136.26",
+    "intragov_hold_amt": "7634239113504.56",
+    "tot_pub_debt_out_amt": "39065421393640.82"
+  }
+}

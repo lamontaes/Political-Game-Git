@@ -10,49 +10,50 @@
  * links' factors. A link reads its cause as it stood `lagMonths` ago; an
  * outcome a link moves feeds the links that start from it the next month.
  *
- * Each running link then lands on the people it reaches (the landing plan's
- * recipient rule over their own records), one row per person and link,
- * written when the effect on them first reaches them, even at zero, and
- * again whenever it changes. People need not know: nothing here tells them.
- *
  * Nothing here draws a level or limits a factor. Engines that set a measure
  * themselves read the web's factor for it through `outcomeWebFactor`.
  */
+import { addDays, makeIsoDate } from "../kernel/dates";
 import regions from "../data/regional/regions.json" with { type: "json" };
 import {
   baseOf,
   CALIBRATED_AT,
   derivedOf,
   engineMeasure,
+  engineOwned,
   fixedBaseline,
   isLaw,
   KEPT_OUTCOMES,
   keptOutcome,
   LAW_PREFIX,
-  linkCoverage,
   linkEffect,
+  OUTCOME_WEB_MODULE_ID,
   moderatorScale,
   scaleOf,
-  selectorOf,
   sizeIn,
   WEB_LINKS,
   WEB_SETTINGS,
   WEB_VERSION,
   WIRED_INTO,
-  type Selector,
   type WebLink,
 } from "../outcome-web-model";
 import type { ModuleRow } from "../module-data";
-import type {
-  CoreAPI,
-  CoreEventInput,
-  CoreModule,
-  CoreState,
-  PersonState,
-} from "../types";
+import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
+import { schoolMeasure } from "../school-measures";
+import { propertyTaxRateInForce } from "../housing-property-tax";
+import { lawInForce, LAWS_MODULE_ID } from "./laws";
+import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
+import { monthEvent } from "../outcome-news";
 
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
+/** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
+const SCHOOL_MEASURED = new Set([
+  "school.math-proficient-pct",
+  "school.reading-proficient-pct",
+  "school.graduation-pct",
+]);
+
+export { OUTCOME_WEB_MODULE_ID };
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;
@@ -68,20 +69,8 @@ export interface WebMonth {
   readonly bases: Readonly<Record<string, number>>;
   /** Each running link's effect: a proportional change, or for a level outcome, units added. */
   readonly effects: Readonly<Record<string, number>>;
-}
-
-/** A link's effect on one person, kept current: first written when it reaches them, even at zero. */
-export interface WebLanding {
-  readonly id: string;
-  readonly personId: string;
-  readonly placeId: string;
-  readonly linkKey: string;
-  readonly measure: string;
-  readonly effect: number;
-  readonly previousEffect: number | null;
-  readonly value: number;
-  readonly since: string;
-  readonly changedOn: string;
+  /** Dated producer rows; null means the opening was read directly from live engine records. */
+  readonly engineSources: Readonly<Record<string, string | null>>;
 }
 
 interface WebState {
@@ -194,30 +183,101 @@ export function lawValue(
   return [...latest.values()].some((row) => Number(row.value) === 1) ? 1 : 0;
 }
 
+/** Engine records outside the economy's monthly rows, read by name: the engine's own table. */
+const ENGINE_READERS: Readonly<
+  Record<
+    string,
+    (
+      api: CoreAPI,
+      placeId: string,
+    ) => { value: number; recordId: string | null } | null
+  >
+> = {
+  "property-tax-rate": (api, placeId) => {
+    const rate = propertyTaxRateInForce(api, placeId);
+    return rate ? { value: rate.share, recordId: rate.recordId } : null;
+  },
+  // The corporate rate in force is the town's state law; other places keep
+  // their own. A state with no corporate income tax reads zero.
+  "state-corporate-rate": (api, placeId) => {
+    if (!readsTownLaw(api, placeId)) return null;
+    const state = lawInForce(api, "corporate-income-tax").levels.find(
+      (level) => level.level === "state" && !level.setAside,
+    );
+    return { value: state?.row?.value ?? 0, recordId: state?.row?.id ?? null };
+  },
+};
+
+/**
+ * The level a law-read cause is measured from: the law in force the day
+ * before the web opened (the starting law), in the measure's own unit.
+ */
+const BASELINE_READERS: Readonly<
+  Record<
+    string,
+    (api: CoreAPI, placeId: string, openedAt: string) => number | undefined
+  >
+> = {
+  "state-corporate-rate": (api, placeId, openedAt) => {
+    if (!readsTownLaw(api, placeId)) return undefined;
+    const day = addDays(makeIsoDate(openedAt), -1);
+    const state = lawInForce(api, "corporate-income-tax", day).levels.find(
+      (level) => level.level === "state" && !level.setAside,
+    );
+    return state?.row?.value ?? 0;
+  },
+  "property-tax-rate": (api, placeId, openedAt) => {
+    if (!readsTownLaw(api, placeId)) return undefined;
+    return (
+      lawInForce(api, "property-tax", addDays(makeIsoDate(openedAt), -1))
+        .value ?? undefined
+    );
+  },
+};
+
+/** The laws module's chain is the town's: other places keep their own laws. */
+function readsTownLaw(api: CoreAPI, placeId: string): boolean {
+  return (
+    api.state.placeMetadata?.housingTown === placeId &&
+    (api.state as CoreState).modules.has(LAWS_MODULE_ID)
+  );
+}
+
 /** An engine's record for a measure in a place today, or null where it keeps none. */
 function readEngine(
   api: CoreAPI,
   placeId: string,
   measure: string,
-): number | null {
+): { value: number; recordId: string | null } | null {
   const definition = engineMeasure(measure);
   if (!definition) return null;
-  // Only unemployment is read from an engine today (world-metrics).
-  if (!(api.state as CoreState).modules.has(WORLD_METRICS_MODULE_ID))
-    return null;
+  if (definition.reader) {
+    const read = ENGINE_READERS[definition.reader]?.(api, placeId);
+    return read
+      ? { value: read.value * definition.unitScale, recordId: read.recordId }
+      : null;
+  }
+  // Engine measures are read from the economy's monthly rows (world-metrics),
+  // or from the month rows of the engine that owns them.
+  const owner = definition.module ?? WORLD_METRICS_MODULE_ID;
+  if (!(api.state as CoreState).modules.has(owner)) return null;
   const recorded = api
-    .moduleState(WORLD_METRICS_MODULE_ID)
-    .table("months")
-    .query("byPlace", [placeId]) as unknown as readonly {
+    .moduleState(owner)
+    .table(definition.table ?? "months")
+    .query("byPlace", [placeId]) as unknown as readonly ({
     date: string;
-    unemploymentRate: number;
-  }[];
+    id: string;
+  } & Record<string, unknown>)[];
   const latest = recorded
     .filter((row) => row.date <= api.state.date)
     .sort((a, b) => b.date.localeCompare(a.date))[0];
-  const row =
-    latest ?? townMetrics(api).find((metrics) => metrics.placeId === placeId);
-  return row ? row.unemploymentRate * definition.unitScale : null;
+  const row = (latest ??
+    townMetrics(api).find((metrics) => metrics.placeId === placeId)) as
+    Record<string, unknown> | undefined;
+  const value = row?.[definition.field];
+  return typeof value === "number"
+    ? { value: value * definition.unitScale, recordId: latest?.id ?? null }
+    : null;
 }
 
 const ENGINE_CAUSES = [
@@ -226,6 +286,13 @@ const ENGINE_CAUSES = [
   ),
 ]
   .filter((measure) => engineMeasure(measure))
+  .sort();
+const GOV_CAUSES = [
+  ...new Set(
+    WEB_LINKS.flatMap((link) => [link.from, link.moderator?.measure ?? ""]),
+  ),
+]
+  .filter((measure) => (GOV_MEASURES as readonly string[]).includes(measure))
   .sort();
 const LAW_CAUSES = [
   ...new Set(
@@ -255,12 +322,17 @@ function rowAt(r: Reading, index: number): WebMonth | undefined {
 
 /** A cause's value as it stood in month `index` (today's date shifted back for a law). */
 function causeAt(r: Reading, measure: string, index: number): number | null {
-  if (isLaw(measure))
+  if (isLaw(measure)) {
+    // The starting law rows take effect on the calibration date, so a date
+    // before it reads the law as it stood then, not as absent: a place that
+    // repeals a law it began with feels the repeal a lag later.
+    const date = dateMonthsBefore(r.api.state.date, r.index - index);
     return lawValue(
       r.api,
       measure.slice(LAW_PREFIX.length),
-      dateMonthsBefore(r.api.state.date, r.index - index),
+      date < CALIBRATED_AT ? CALIBRATED_AT : date,
     );
+  }
   const derived = derivedOf(measure);
   const kept = derived?.measure ?? measure;
   if (index >= r.index && !keptOutcome(kept)) return r.values[measure] ?? null;
@@ -297,11 +369,34 @@ function baselineOf(r: Reading, measure: string): number | undefined {
       CALIBRATED_AT,
       true,
     );
+  const reader = engineMeasure(measure)?.baselineReader;
+  const opened = webState(r.api)?.openedAt;
+  const lawLevel =
+    reader && opened
+      ? BASELINE_READERS[reader]?.(r.api, r.placeId, opened)
+      : undefined;
+  if (lawLevel !== undefined) return lawLevel;
   return (
     fixedBaseline(measure, r.stateKey) ??
+    (
+      store(r.api).table("baselines").get(r.placeId) as unknown as
+        { values: Record<string, number> } | undefined
+    )?.values[measure] ??
     rowAt(r, r.openingIndex)?.values[measure] ??
     r.values[measure]
   );
+}
+
+/** The cause a link reads: as it stood after the lag, averaged over the link's phase-in months. */
+function phasedCause(r: Reading, link: WebLink, index: number): number | null {
+  const months = Math.max(1, link.phaseInMonths ?? 1);
+  let sum = 0;
+  for (let k = 0; k < months; k += 1) {
+    const value = causeAt(r, link.from, index - k);
+    if (value === null) return k ? sum / k : null;
+    sum += value;
+  }
+  return sum / months;
 }
 
 /** One link's effect this month, or null when its cause can't be read. */
@@ -309,7 +404,7 @@ function effectOf(r: Reading, link: WebLink): number | null {
   // An outcome feeds the links from it the month after it moves.
   const chained = keptOutcome(derivedOf(link.from)?.measure ?? link.from);
   const index = r.index - Math.max(link.lagMonths, chained ? 1 : 0);
-  const value = causeAt(r, link.from, index);
+  const value = phasedCause(r, link, index);
   const baseline = baselineOf(r, link.from);
   if (value === null || baseline === undefined) return null;
   // A lagged law effect does not outlast the law: once the law is back where
@@ -344,16 +439,52 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     openingIndex: monthIndex(state.openingMonth),
     values: {},
   };
+  const baselines = store(api).table("baselines");
+  const opening = baselines.get(placeId) as unknown as
+    { id: string; date: string; values: Record<string, number> } | undefined;
+  const bases: Record<string, number> = { ...opening?.values };
+  const engineSources: Record<string, string | null> = {};
+  let newBaseline = false;
   for (const measure of ENGINE_CAUSES) {
-    const value = readEngine(api, placeId, measure);
-    if (value !== null) r.values[measure] = value;
+    const reading = readEngine(api, placeId, measure);
+    if (reading === null) continue;
+    r.values[measure] = reading.value;
+    engineSources[measure] = reading.recordId;
+    // A later law event can rewrite the opening month's web row. Keep the
+    // first engine reading separately so that it cannot erase the change.
+    if (bases[measure] === undefined) {
+      bases[measure] = reading.value;
+      newBaseline = true;
+    }
   }
+  // The government's own measures (minimum wage, a budget line): the same
+  // reading, from the engines' records, citing the record the value stands on.
+  for (const measure of GOV_CAUSES) {
+    const value = govMeasure(api, measure);
+    if (value === null) continue;
+    r.values[measure] = value;
+    engineSources[measure] = govMeasureRecord(api, measure);
+    if (bases[measure] === undefined) {
+      bases[measure] = value;
+      newBaseline = true;
+    }
+  }
+  if (newBaseline)
+    baselines.put({
+      id: placeId,
+      date: opening?.date ?? date,
+      values: { ...bases },
+    });
   for (const measure of LAW_CAUSES)
     r.values[measure] = lawValue(api, measure.slice(LAW_PREFIX.length), date);
-  const bases: Record<string, number> = {};
   const effects: Record<string, number> = {};
   for (const outcome of KEPT_OUTCOMES) {
     const base = baseOf(outcome, state.stateKey).value;
+    // An engine's own record of the outcome stands as read (poverty).
+    if (engineOwned(outcome) && r.values[outcome] !== undefined) {
+      bases[outcome] = base;
+      continue;
+    }
     const level = scaleOf(outcome) === "level";
     let product = 1,
       added = 0;
@@ -366,6 +497,15 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     }
     bases[outcome] = base;
     r.values[outcome] = level ? base + added : base * product;
+    // An outcome the school engine measures stands on its records: the share
+    // its students reached last school year, citing that record.
+    const measured = SCHOOL_MEASURED.has(outcome)
+      ? schoolMeasure(api, placeId, outcome)
+      : null;
+    if (measured) {
+      r.values[outcome] = measured.value;
+      engineSources[outcome] = measured.recordId;
+    }
   }
   const row: WebMonth = {
     id: `web:${placeId}:${month}`,
@@ -375,6 +515,7 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     values: r.values,
     bases,
     effects,
+    engineSources,
   };
   store(api)
     .table("months")
@@ -382,120 +523,34 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   return row;
 }
 
-const ageOn = (person: Readonly<PersonState>, date: string) =>
-  Number(date.slice(0, "YYYY".length)) -
-  Number(person.birthDate.slice(0, "YYYY".length)) -
-  (date.slice("YYYY-".length) < person.birthDate.slice("YYYY-".length) ? 1 : 0);
-
-interface Resident {
-  readonly person: Readonly<PersonState>;
-  readonly age: number;
-  /** Ages of the others in the household; of their own family, for parents. */
-  readonly housemateAges: readonly number[];
-  readonly childAges: readonly number[];
-  readonly renter: boolean;
-  readonly borrower: boolean;
+/** The month's one public record for a place: what moved since the month before (the town hears it through the press and the news). */
+function announce(api: CoreAPI, row: WebMonth): void {
+  const before = monthRow(
+    api,
+    row.placeId,
+    monthKey(monthIndex(row.month) - 1),
+  );
+  const made = monthEvent(api, row, before?.values ?? {});
+  if (made) api.emit(made.event);
 }
 
-function residentsOf(api: CoreAPI, placeId: string): Resident[] {
-  const core = api.state as CoreState;
-  const date = core.date;
-  const loans = core.modules.has("credit")
-    ? (api
-        .moduleState("credit")
-        .table("loans")
-        .query("open", [true]) as unknown as readonly { householdId: string }[])
-    : [];
-  const borrowing = new Set(loans.map((loan) => loan.householdId));
-  const out: Resident[] = [];
-  for (const person of core.people.values()) {
-    if (!person.alive || person.placeId !== placeId) continue;
-    const others = (core.households.get(person.householdId)?.memberIds ?? [])
-      .filter((id) => id !== person.id)
-      .map((id) => core.people.get(id))
-      .filter((other): other is PersonState => !!other && other.alive);
-    const lease = core.finance.contracts.get(`lease:${person.householdId}`);
-    out.push({
-      person,
-      age: ageOn(person, date),
-      housemateAges: others.map((other) => ageOn(other, date)),
-      childAges: others
-        .filter((other) => person.familyIds.has(other.id))
-        .map((other) => ageOn(other, date)),
-      renter: !!lease && !lease.endedAt,
-      borrower: borrowing.has(person.householdId),
-    });
-  }
-  return out;
-}
-
-const ADULT_AGE = selectorOf("adult-school-completer-estimate") as Selector;
-
-function selects(selector: Selector, resident: Resident): boolean {
-  const age = resident.age;
-  if (selector.minimumAge !== undefined && age < selector.minimumAge)
-    return false;
-  if (selector.maximumAge !== undefined && age > selector.maximumAge)
-    return false;
-  if (
-    selector.noChildUnder !== undefined &&
-    resident.housemateAges.some((other) => other < selector.noChildUnder!)
-  )
-    return false;
-  if (selector.childAges) {
-    const [low, high] = selector.childAges;
-    if (age < (ADULT_AGE.minimumAge ?? 0)) return false;
-    if (!resident.childAges.some((child) => child >= low && child <= high))
-      return false;
-  }
-  if (selector.renter && !resident.renter) return false;
-  if (selector.borrower && !resident.borrower) return false;
-  return true;
-}
-
-const LANDING_LINKS = WEB_LINKS.flatMap((link) => {
-  const coverage = linkCoverage(link);
-  if (!coverage.wired || typeof coverage.lands !== "string") return [];
-  return [{ link, selector: selectorOf(coverage.lands) as Selector }];
-});
-
-/** Land each running link on the people it reaches, when the effect on them is new or changed. */
-function land(api: CoreAPI, row: WebMonth): void {
-  const table = store(api).table("landings");
-  const residents = residentsOf(api, row.placeId);
-  for (const { link, selector } of LANDING_LINKS) {
-    const effect = row.effects[link.key];
-    if (effect === undefined) continue;
-    for (const resident of residents) {
-      if (!selects(selector, resident)) continue;
-      const id = `landing:${link.key}:${resident.person.id}`;
-      const held = table.get(id) as WebLanding | undefined;
-      if (held && held.effect === effect && held.placeId === row.placeId)
-        continue;
-      const landing: WebLanding = {
-        id,
-        personId: resident.person.id,
-        placeId: row.placeId,
-        linkKey: link.key,
-        measure: link.to,
-        effect,
-        previousEffect: held ? held.effect : null,
-        value: row.values[link.to]!,
-        since: held?.since ?? row.date,
-        changedOn: row.date,
-      };
-      table.put(landing as unknown as ModuleRow);
-    }
-  }
-}
-
-function run(api: CoreAPI): void {
+function run(api: CoreAPI, announced = false): void {
   const state = webState(api);
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
   api.stopgap("SG-WEB-outcome-drift");
-  for (const placeId of placesOf(api))
-    land(api, recordMonth(api, placeId, state));
+  // No field counts the SNAP benefit's recipients into SNAP receipt, and no engine keeps food insecurity; both stay ledger numbers.
+  api.stopgap("SG-WEB-snap-receipt-ledger");
+  api.stopgap("SG-WEB-food-insecurity-ledger");
+  // Causes of poverty that reach no incomes yet (poverty itself is the engine's).
+  api.stopgap("SG-WEB-poverty-licensing-no-engine");
+  api.stopgap("SG-WEB-poverty-graduation-no-engine");
+  api.stopgap("SG-WEB-housing-links-unsized");
+  api.stopgap("SG-WEB-disaster-severity");
+  for (const placeId of placesOf(api)) {
+    const row = recordMonth(api, placeId, state);
+    if (announced) announce(api, row);
+  }
 }
 
 function schedule(api: CoreAPI): void {
@@ -540,14 +595,9 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       state: {},
+      baselines: {},
       months: { indexes: { byPlace: { fields: ["placeId"] } } },
       laws: { indexes: { bySeries: { fields: ["series"] } } },
-      landings: {
-        indexes: {
-          byPerson: { fields: ["personId"] },
-          byLink: { fields: ["linkKey"] },
-        },
-      },
     },
   },
   eventKinds: [SETTINGS.lawsModule.eventKind],
@@ -558,7 +608,7 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
   },
   onCalendarWork(api, work) {
     if (work.kind !== RUN_KIND) return;
-    run(api);
+    run(api, true);
     schedule(api);
   },
   onDay(api) {
@@ -582,14 +632,31 @@ export function placeOutcome(
   api: CoreAPI,
   placeId: string,
   measure: string,
-): { value: number; base?: number; month: string } | undefined {
+):
+  | {
+      value: number;
+      base?: number;
+      month: string;
+      recordId: string;
+      engineRecordId: string | null;
+    }
+  | undefined {
+  // A world without the web (a small test world) has no conditions to read.
+  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
+    return undefined;
   const rows = store(api)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[];
   const latest = [...rows].sort((a, b) => b.month.localeCompare(a.month))[0];
   const value = latest?.values[measure];
   return latest && value !== undefined
-    ? { value, base: latest.bases[measure], month: latest.month }
+    ? {
+        value,
+        base: latest.bases[measure],
+        month: latest.month,
+        recordId: latest.id,
+        engineRecordId: latest.engineSources?.[measure] ?? null,
+      }
     : undefined;
 }
 
@@ -606,14 +673,4 @@ export function outcomeWebFactor(
   const record = placeOutcome(api, placeId, measure);
   if (!record || !record.base) return 1;
   return scaleOf(measure) === "level" ? 1 : record.value / record.base;
-}
-
-/** Every outcome-web effect on one person's record. */
-export function outcomesOn(
-  api: CoreAPI,
-  personId: string,
-): readonly WebLanding[] {
-  return store(api)
-    .table("landings")
-    .query("byPerson", [personId]) as unknown as readonly WebLanding[];
 }

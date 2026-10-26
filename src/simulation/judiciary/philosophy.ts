@@ -1,5 +1,5 @@
-import { makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { recordById, recordsByStringField } from "../history-index";
 import { factsForPerson } from "../people";
 import type {
@@ -12,7 +12,7 @@ import type {
 } from "../types";
 import { loadedTraitRegistry } from "../trait-registry";
 import { traitReadingOfRecord } from "../trait-readings";
-import { traitDefinitionFromPack } from "../trait-packs";
+import { traitDefinitionFromPack } from "../../core2/trait-packs";
 import { assertWorldIntegrity } from "../world";
 import { DECISION_IMPORTANCE_ORDER } from "../decisions";
 import type {

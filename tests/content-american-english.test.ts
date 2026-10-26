@@ -45,18 +45,7 @@ const AUTHORED_SURFACES: readonly string[] = [
   "src/simulation/character-history.ts",
   "src/simulation/life-callbacks.ts",
   "src/simulation/life-places.ts",
-  "src/presentation/conversation-subjects.ts",
-  "src/presentation/contextual-scene-families.ts",
-  "src/presentation/contextual-scene-producers.ts",
   "src/simulation/claim-contradictions.ts",
-  "src/presentation/run-b-conversation.ts",
-  "src/presentation/life-narration.ts",
-  "src/presentation/life-record.ts",
-  "src/presentation/life-story.ts",
-  "src/presentation/ordinary-life.ts",
-  "src/presentation/player-conversation.ts",
-  "src/player/PlayerGame.tsx",
-  "src/player/SceneConversation.tsx",
 ];
 
 /** What is wrong, and what to say instead. */

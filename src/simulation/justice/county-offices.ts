@@ -1,5 +1,5 @@
-import { countyGovernmentUnit } from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+import { countyGovernmentUnit } from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import {
   sittingCountyRowOfficers,
   type SeatedCountyRowOfficer,

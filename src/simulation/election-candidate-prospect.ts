@@ -1,11 +1,11 @@
-import { inventedPersonBirthDate } from "./invented-person-age";
+import { inventedPersonBirthDate } from "../core2/gov-rules/invented-person-age";
 import { lifeWeighsAgainstOffice } from "./careers/another-term";
 import type { CharacterHistoryContextPersonInput } from "./character-history";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { drawCanonicalNamedIdentity } from "./people";
 import { generatePersonIdentity } from "./person-identity";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import type { EntityId, IsoDate, World } from "./types";
 
 /** Shared fictional prospect and dated run/decline choice for background seats. */

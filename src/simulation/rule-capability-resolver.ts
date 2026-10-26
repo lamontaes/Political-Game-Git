@@ -31,7 +31,7 @@ import {
   governmentUnit,
   governmentUnitsForPlace,
   type GovernmentUnitIdentity,
-} from "./government-units";
+} from "../core2/reference/government-units";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import type { LegislativeRulePack, RuleValue } from "./legislature-rules";
 import { SUPPORTED_LEGISLATIVE_TERM_RULES } from "./legislative-term-rules";

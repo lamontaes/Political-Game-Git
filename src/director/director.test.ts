@@ -3,6 +3,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
@@ -16,9 +17,16 @@ import type {
   PersonInput,
   Source,
 } from "../core2/types";
-import { STATES } from "../simulation/state-reference";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { paceOf, SITUATION_LIBRARY } from "./scheduling";
+import {
+  paceOf,
+  scheduleMoment,
+  SITUATION_LIBRARY,
+  type SituationLibrary,
+} from "./scheduling";
+import { everySceneWord } from "../english/scene-words";
+import { composeScene } from "./scene";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";
 
@@ -387,7 +395,7 @@ describe("story director on the new core", () => {
         .get("person:worker")!
         .keptFacts.get("knew-each-other:person:spouse:person:worker"),
     ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
-    expect(thread.tie).toBeCloseTo(0.5 + 0.3, 6);
+    expect(thread.tie).toBeCloseTo(0.79 + 0.3, 6);
     const later = "2022-07-01";
     expect(
       director.fading("person:worker", "person:classmate", later),
@@ -443,7 +451,7 @@ describe("story director on the new core", () => {
   });
 
   it("applies one rule in all 56 places", () => {
-    const places = Object.keys(STATES);
+    const places = corePlaceStateIdentities().map((state) => state.usps);
     expect(places).toHaveLength(56);
     const shape = (placeId: string) => {
       const { director } = run(`place:${placeId}`, true);
@@ -467,7 +475,14 @@ describe("story director on the new core", () => {
         expect(row.stopgapId && row.checkRange).toBeTruthy();
       if (row.stopgapId) expect(ids.has(row.stopgapId)).toBe(true);
     }
-    expect(openDirectorStopgapCount()).toBe(DIRECTOR_STOPGAPS.length);
+    // A resolved row says how it was resolved; the rest stay open.
+    const resolved = DIRECTOR_STOPGAPS.filter(
+      (row) => row.status === "resolved",
+    );
+    for (const row of resolved) expect(row.why).toMatch(/Resolved/);
+    expect(openDirectorStopgapCount()).toBe(
+      DIRECTOR_STOPGAPS.length - resolved.length,
+    );
     const folder = join(process.cwd(), "src", "director");
     const literals: string[] = [];
     for (const name of readdirSync(folder)) {
@@ -498,7 +513,16 @@ describe("story director on the new core", () => {
 
   it("keeps situation types to human moments, with no election-night type", () => {
     const types = SITUATION_LIBRARY.types;
-    expect(types).toHaveLength(31);
+    // 32, plus the justice engine's hearing and verdict (OPUS-GOV, October 14,
+    // 2026), plus the 15 civic moments inside the engines' procedures (a race
+    // won or lost, a floor vote, a signing, ...; words work order, Oct 15),
+    // each waiting for the director's producer, plus the 14 scenes with a
+    // purpose (owner, Oct 15, evening: a vote asked, a yes withdrawn, a bill
+    // to carry, a donor, the party, office hours, family, a rally, the desk,
+    // staff, a bargain), plus the life moments with a purpose of their own
+    // (a new baby, a cause shared), plus an
+    // officeholder's own address.
+    expect(types).toHaveLength(66);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
@@ -542,8 +566,9 @@ describe("story director on the new core", () => {
     const spouseEntry = spouse.schedule.find(
       (row) => row.mode !== "before-opening",
     )!;
-    // The spouse's share of the same loss, 0.431, waits.
-    expect(spouseEntry.outcome).toBe("scene-waiting");
+    // The spouse's share of the same loss, 0.431, is under the line, but a
+    // household member's lost job is a family scene at home whatever its size.
+    expect(spouseEntry.outcome).toBe("scene-now");
     const heard = spouseEntry.bindings.find(
       (row) => row.typeKey === "news-arrives",
     )!;
@@ -564,6 +589,202 @@ describe("story director on the new core", () => {
         .get("person:worker")!
         .schedule.find((row) => row.mode !== "before-opening"),
     ).toMatchObject({ outcome: "scene-now", stopsSkip: true });
+  });
+
+  it("stages one scene for a cause: a type that yields to another bound for the same moment is dropped", () => {
+    const { core, director } = run("place:director-fixture", true);
+    const book = director.ledger.people.get("person:worker")!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    // A second type waits on the same record as the household's news (the
+    // layoff scene will, once the work engine names the boss).
+    const second: SituationLibrary["types"][number] = {
+      key: "layoff-told-at-home",
+      roles: [
+        {
+          key: "worker",
+          fill: "subject",
+          count: "one",
+          moves: [],
+          wants: [],
+        },
+      ],
+      setting: ["home"],
+      timing: "at-cause",
+      causes: [
+        {
+          match: { label: moment.label, counterpart: "none" },
+          bind: { worker: "subject" },
+        },
+      ],
+    };
+    const options = { mode: "live", interruptImpact: 0.5 };
+    const both = scheduleMoment(core, book, moment, options, {
+      ...SITUATION_LIBRARY,
+      types: [...SITUATION_LIBRARY.types, second],
+    });
+    // Without the rule one cause stages two scenes.
+    expect(both.bindings.map((row) => row.typeKey).sort()).toEqual([
+      "layoff-told-at-home",
+      "news-arrives",
+    ]);
+    const one = scheduleMoment(core, book, moment, options, {
+      ...SITUATION_LIBRARY,
+      types: [
+        ...SITUATION_LIBRARY.types,
+        { ...second, yieldsTo: ["news-arrives"] },
+      ],
+    });
+    expect(one.bindings.map((row) => row.typeKey)).toEqual(["news-arrives"]);
+    expect(one.outcome).toBe("scene-now");
+    // The shipped layoff and eviction types give way to the household's news.
+    for (const key of ["layoff", "eviction-notice"])
+      expect(
+        SITUATION_LIBRARY.types.find((row) => row.key === key)!.yieldsTo,
+      ).toEqual(["news-arrives"]);
+  });
+
+  it("takes a second cause the same day into the sitting already staged, citing both records", () => {
+    const { core, director } = run("place:director-fixture", true);
+    const personId = "person:worker";
+    const book = director.ledger.people.get(personId)!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    const sitting = book.schedule.find((row) => row.momentId === moment.id)!;
+    const staged = sitting.bindings.find(
+      (row) => row.typeKey === "news-arrives",
+    )!;
+    // Edge case by hand: the same news from a second record that day, with the
+    // same people (two notices of one loss, read the same afternoon).
+    const again = {
+      ...moment,
+      id: `${moment.id}:again`,
+      causeId: `${moment.causeId}:again`,
+    };
+    const entry = scheduleMoment(core, book, again, {
+      mode: "live",
+      interruptImpact: 0.5,
+    });
+    // It stages nothing of its own: the day's sitting takes it in.
+    expect(entry.bindings).toEqual([]);
+    expect(staged.joined).toEqual([
+      { momentId: again.id, causeId: again.causeId },
+    ]);
+    // The same people, and the scene the screen shows cites both records.
+    expect(
+      staged.roles.find((row) => row.role === "bearer")!.personIds,
+    ).toEqual(["person:worker"]);
+    // Every bank line, as the grading view reads them, so the narrator speaks.
+    const words = everySceneWord();
+    const scene = composeScene(core, director, personId, sitting, words);
+    expect(scene?.narration.length).toBeGreaterThan(0);
+    const cited = (scene?.narration ?? []).flatMap(
+      (line) => line.sourceRecordIds,
+    );
+    expect(cited).toEqual(
+      expect.arrayContaining([moment.causeId, again.causeId]),
+    );
+    // Scheduled again, it is not counted twice.
+    scheduleMoment(core, book, again, { mode: "live", interruptImpact: 0.5 });
+    expect(staged.joined).toHaveLength(1);
+    // A sitting on an earlier day takes nothing in: that scene was played.
+    const later = {
+      ...moment,
+      id: `${moment.id}:later`,
+      causeId: `${moment.causeId}:later`,
+      date: makeIsoDate("2021-01-12"),
+    };
+    expect(
+      scheduleMoment(core, book, later, {
+        mode: "live",
+        interruptImpact: 0.5,
+      }).bindings,
+    ).toEqual([]);
+    expect(staged.joined).toHaveLength(1);
+  });
+
+  it("stages every cause of a scene about one record's own decision, the same day and within the repeat window", () => {
+    // A member's vote on one bill is a scene of its own, however many votes
+    // the same chamber takes that day or that month (eachCause).
+    expect(
+      SITUATION_LIBRARY.types.find((row) => row.key === "floor-vote")
+        ?.eachCause,
+    ).toBe(true);
+    const { core, director } = run("place:director-fixture", true);
+    const book = director.ledger.people.get("person:worker")!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    const sitting = book.schedule.find((row) => row.momentId === moment.id)!;
+    const staged = sitting.bindings.find(
+      (row) => row.typeKey === "news-arrives",
+    )!;
+    // Edge case by hand: the fixture's news scene marked as one per cause.
+    const library = {
+      ...SITUATION_LIBRARY,
+      types: SITUATION_LIBRARY.types.map((row) =>
+        row.key === "news-arrives" ? { ...row, eachCause: true } : row,
+      ),
+    };
+    const options = { mode: "live" as const, interruptImpact: 0.5 };
+    const again = {
+      ...moment,
+      id: `${moment.id}:again`,
+      causeId: `${moment.causeId}:again`,
+    };
+    // The same day: its own scene, not taken into the day's sitting.
+    expect(
+      scheduleMoment(core, book, again, options, library).bindings.map(
+        (row) => row.typeKey,
+      ),
+    ).toContain("news-arrives");
+    expect(staged.joined).toBeUndefined();
+    // Two days later, within the repeat window: its own scene again.
+    const later = {
+      ...moment,
+      id: `${moment.id}:later`,
+      causeId: `${moment.causeId}:later`,
+      date: makeIsoDate("2021-01-12"),
+    };
+    expect(
+      scheduleMoment(core, book, later, options, library).bindings.map(
+        (row) => row.typeKey,
+      ),
+    ).toContain("news-arrives");
+  });
+
+  it("keeps a scene kind the player filtered out from interrupting them", () => {
+    const filtered = createDirector({ watch: ["person:worker"] });
+    const core = createLifeCore(town("place:director-fixture"), {
+      scheduledWork: false,
+      modules: [fixtureWorld("place:director-fixture"), filtered.module],
+    });
+    filtered.start(core);
+    // The player allows only funerals to stop their day.
+    const record = filtered.setSceneFilter(
+      "person:worker",
+      ["funeral", "not-a-kind"],
+      core.date,
+    );
+    expect(record?.allowedKinds).toEqual(["funeral"]);
+    advanceCore(core, "2021-01-15");
+    const entry = filtered.ledger.people
+      .get("person:worker")!
+      .schedule.find((row) =>
+        row.momentId.endsWith("fixture-closed:2021-01-10"),
+      )!;
+    // The same 0.509 job loss that otherwise takes over is a journal line.
+    expect(entry).toMatchObject({
+      interrupt: false,
+      outcome: "journal-line",
+      bindings: [],
+    });
+    expect(
+      filtered.setSceneFilter("person:worker", null, core.date),
+    ).toBeNull();
+    expect(filtered.ledger.sceneFilters.size).toBe(P.zero);
   });
 
   it("lets a death take over the screen, stop a skip, and log a moment no type stages", () => {
@@ -909,23 +1130,25 @@ describe("story director on the new core", () => {
       stop: { recordId: momentId, at: { date: "2021-01-11" } },
     });
 
-    // The spouse's 0.431 share of the same loss is under the line: it waits and stops nothing.
+    // The spouse's 0.431 share of the same loss is under the line, but a
+    // household member's lost job is a family scene at home whatever its
+    // size: it stops the spouse's day too.
     const spouse = play("person:spouse");
     expect(
       spouse.stops.filter((packet) =>
         packet.stop.modules.some(
           (row) => row.moduleId === "p13-story-director",
         ),
-      ),
-    ).toEqual([]);
+      ).length,
+    ).toBe(1);
     const shared = spouse.director.ledger.people
       .get("person:spouse")!
       .schedule.find((row) => row.mode !== "before-opening")!;
     expect(shared).toMatchObject({
-      interrupt: false,
-      outcome: "scene-waiting",
+      interrupt: true,
+      outcome: "scene-now",
     });
-    expect(shared.stop).toBeUndefined();
+    expect(shared.stop).toBeDefined();
     // The worker is watched but not controlled in this play: the same 0.509 moment interrupts without a player stop.
     const uncontrolled = spouse.director.ledger.people
       .get("person:worker")!

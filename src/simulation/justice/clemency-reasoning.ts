@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { evaluateDecision } from "../decisions";
 import { principledLeaning } from "../governing/officeholder-principles";
 import { currentLifeCutoff } from "../life-queries";

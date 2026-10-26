@@ -1,7 +1,7 @@
 /**
  * Speeches (M4-04): reception and retelling. A speech is recorded as heard by
- * its audience; the views engine moves each listener's stance on its topic in
- * proportion to how near their lean is to the speaker's, and the drives engine
+ * its audience; the views engine moves each listener's stance on its topic by
+ * the speaker's standing with them (`standingWith`), and the drives engine
  * may turn it into a cause. Then each listener decides, through the core's one
  * chooser, whether to retell it at home, from how far it moved them and how
  * sociable they are; a retelling reaches their household and moves them the
@@ -19,7 +19,7 @@ import type {
   PersonId,
 } from "../types";
 import { decisionKinds, decisionLean } from "../trait-decisions";
-import { stancesOf, viewOf, VIEWS_SPEECH_LEAN_KEY } from "./views";
+import { stancesOf, VIEWS_SPEAKER_KEY } from "./views";
 
 export const SPEECH_MODULE_ID = "speech";
 export const SPEECH_HEARD = "speech.heard";
@@ -99,9 +99,9 @@ function movedBy(
 export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
   const speaker = api.state.people.get(speech.speakerId);
   if (!speaker) throw new Error(`No such speaker: ${speech.speakerId}`);
-  const lean = viewOf(api, speech.speakerId)?.lean ?? api.parameter("zero");
   const impulse = s(api, "speechImpulse");
-  const facts = { [VIEWS_SPEECH_LEAN_KEY]: String(lean) };
+  // The views engine moves each listener by the speaker's standing with them.
+  const facts = { [VIEWS_SPEAKER_KEY]: speech.speakerId };
   const source = {
     tag: "SOURCED" as const,
     citation:
@@ -145,6 +145,7 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
         ).filter(
           (id) =>
             id !== listenerId &&
+            id !== speech.speakerId &&
             !audience.has(id) &&
             api.state.people.get(id)?.alive,
         )
@@ -160,7 +161,8 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
         topic: speech.topic,
         desiredChange: speech.desiredChange,
         moodImpulse: impulse,
-        facts,
+        // Retold at home, it is the listener's case to their family.
+        facts: { [VIEWS_SPEAKER_KEY]: listenerId },
         source,
       });
     const row: Retelling = {
@@ -179,6 +181,15 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
     out.push(row);
   }
   return out;
+}
+
+/** Who heard a speech, and who retold it. */
+export function retellingsOf(
+  api: CoreAPI,
+  speechId: string,
+): readonly Retelling[] {
+  if (!api.state.modules.has(SPEECH_MODULE_ID)) return [];
+  return table(api).query("bySpeech", [speechId]) as unknown as Retelling[];
 }
 
 export const speechModule: CoreModule = {
@@ -209,3 +220,43 @@ export const speechModule: CoreModule = {
     },
   },
 };
+
+/** A case made in private: a lobbying visit, a constituent at an office. */
+export const CASE_MADE = "case.made";
+
+/**
+ * Someone makes their case on a policy question to a few listeners face to
+ * face. The views engine moves each listener by the speaker's standing with
+ * them, the same way a speech moves its audience; nobody retells it.
+ */
+export function makeCase(
+  api: CoreAPI,
+  input: {
+    readonly id: string;
+    readonly speakerId: PersonId;
+    readonly listenerIds: readonly PersonId[];
+    readonly placeId: string;
+    readonly topic: string;
+    readonly desiredChange: string;
+    readonly citation: string;
+  },
+): void {
+  const listeners = input.listenerIds.filter(
+    (id) => id !== input.speakerId && api.state.people.get(id)?.alive,
+  );
+  if (!listeners.length || !api.state.people.get(input.speakerId)?.alive)
+    return;
+  api.emit({
+    id: input.id,
+    date: api.state.date,
+    kind: CASE_MADE,
+    personIds: [input.speakerId],
+    witnessIds: listeners,
+    placeId: input.placeId,
+    topic: input.topic,
+    desiredChange: input.desiredChange,
+    moodImpulse: s(api, "speechImpulse"),
+    facts: { [VIEWS_SPEAKER_KEY]: input.speakerId },
+    source: { tag: "SOURCED", citation: input.citation, asOf: api.state.date },
+  });
+}

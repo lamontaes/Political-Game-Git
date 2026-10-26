@@ -1,5 +1,5 @@
 import table from "../../../data/research/clemency/clemency-gates-2026.json" with { type: "json" };
-import type { IsoDate } from "../types";
+import type { IsoDate } from "../../core2/kernel/brands";
 
 /**
  * Who must agree before clemency is granted, in each state, D.C., the

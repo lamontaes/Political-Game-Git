@@ -1,0 +1,37 @@
+{
+  "about": "What happens when no ticket wins a majority of the electors (U.S. Const. amend. XII; amend. XX, § 3; 3 U.S.C. §§ 15 and 19). The House chooses the president, each state's delegation casting one vote, and a majority of all the states is needed; the Senate chooses the vice president, each senator casting one vote, and a majority of the whole number of senators is needed. The District of Columbia and the territories have electors or delegates at most and no delegation vote. If the House has not chosen by January 20 the vice president-elect acts as president, and if there is none the Speaker of the House acts. The game's ballot holds the two major tickets, so the House and the Senate choose between them.",
+  "citations": [
+    "U.S. Const. amend. XII (the House chooses from the highest three, each state one vote, a majority of all the states; the Senate chooses from the highest two, a majority of the whole number of senators)",
+    "U.S. Const. amend. XX, § 3 (the vice president-elect acts as president if none is chosen by the start of the term)",
+    "3 U.S.C. § 15 (the Congress meets in joint session on January 6)",
+    "3 U.S.C. § 19 (the Speaker of the House acts when there is neither a president nor a vice president-elect)"
+  ],
+  "meets": { "month": 1, "day": 6 },
+  "house": {
+    "votesBy": "delegation",
+    "neededOf": "all-states",
+    "quorumShareOfStates": 0.6666666667
+  },
+  "senate": { "votesBy": "senator", "neededOf": "whole-number-of-senators" },
+  "actingOrder": ["vice-president-elect", "speaker"],
+  "parameters": {
+    "party": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "A member's pull toward their own party's ticket, scaled by their loyalty (officials engine); in 1800 and 1824 delegations mostly followed party and a few followed their states or the man.",
+      "spread": [0.5, 1.5]
+    },
+    "district": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "The member's district's (or state's) lean toward a ticket, right positive; contingent elections have been rare enough (1800, 1824) that the weight is checked only to keep party the larger pull.",
+      "spread": [0.25, 1]
+    },
+    "stateVote": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "The pull of the state's own electoral result on its delegation (in 1824 several delegations followed their state's popular vote).",
+      "spread": [0.25, 1]
+    }
+  }
+}

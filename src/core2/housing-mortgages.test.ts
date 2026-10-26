@@ -4,7 +4,7 @@ import { DEFAULT_DATA } from "./data";
 import { openingMortgages } from "./housing-mortgages";
 import { HOUSING_PARAMETERS } from "./modules/housing";
 import { MACRO_PARAMETERS } from "./modules/macro";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 
 const p = (key: string) =>
   (HOUSING_PARAMETERS[key] ??

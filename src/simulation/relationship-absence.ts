@@ -1,6 +1,6 @@
 import { crisisRecords } from "./crisis/records";
 import type { CrisisRecord, HealthStateRecord } from "./crisis/types";
-import { addDays, daysBetween } from "./dates";
+import { addDays, daysBetween } from "../core2/kernel/dates";
 import {
   growingIndex,
   recordsByStringField,

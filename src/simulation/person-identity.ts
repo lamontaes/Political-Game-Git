@@ -1,4 +1,4 @@
-import type { SeededRng } from "./rng";
+import type { SeededRng } from "../core2/kernel/rng";
 import type {
   GenderIdentityKey,
   Person,

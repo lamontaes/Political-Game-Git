@@ -1,0 +1,177 @@
+{
+  "about": "The name each budget line key carries on the budgets screen, taken from the line's own item label in the source table it comes from (Census state and local finance Table 1 for state and local lines, the OMB Historical Tables for federal ones). A line the project groups from several Census items is named by those items. The screen reads `name`; `source` says which item.",
+  "lines": {
+    "individualIncomeTax": {
+      "name": "Individual income tax",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Taxes, Individual income; OMB receipts by source, Individual income taxes"
+    },
+    "corporateIncomeTax": {
+      "name": "Corporate income tax",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Taxes, Corporate income; OMB receipts by source, Corporation income taxes"
+    },
+    "generalSalesTax": {
+      "name": "General sales tax",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Taxes, General sales"
+    },
+    "selectiveSalesTaxes": {
+      "name": "Selective sales taxes",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Taxes, Selective sales"
+    },
+    "propertyTax": {
+      "name": "Property tax",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Taxes, Property"
+    },
+    "vehicleAndOtherTaxes": {
+      "name": "Motor vehicle license and other taxes",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Taxes, Motor vehicle license; Other taxes"
+    },
+    "chargesAndFees": {
+      "name": "Current charges",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Current charges"
+    },
+    "miscellaneous": {
+      "name": "Miscellaneous general revenue",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Miscellaneous general revenue"
+    },
+    "federalAid": {
+      "name": "From federal government",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: From Federal Government"
+    },
+    "intergovernmental": {
+      "name": "Intergovernmental revenue",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Intergovernmental revenue"
+    },
+    "payrollTaxes": {
+      "name": "Social insurance and retirement receipts",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): receipts by source, Social insurance and retirement receipts"
+    },
+    "customsDuties": {
+      "name": "Customs duties",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): receipts by source, Customs duties"
+    },
+    "exciseTaxes": {
+      "name": "Excise taxes",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): receipts by source, Excise taxes"
+    },
+    "estateAndGiftTaxes": {
+      "name": "Estate and gift taxes",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): receipts by source, Estate and gift taxes"
+    },
+    "miscellaneousReceipts": {
+      "name": "Miscellaneous receipts",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): receipts by source, Miscellaneous receipts"
+    },
+    "schools": {
+      "name": "Elementary and secondary education",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Direct general expenditure, Education, Elementary & secondary"
+    },
+    "higherEducation": {
+      "name": "Higher education",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Education, Higher education"
+    },
+    "welfareAndMedicaid": {
+      "name": "Public welfare",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Public welfare"
+    },
+    "healthAndHospitals": {
+      "name": "Health and hospitals",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Hospitals; Health"
+    },
+    "highways": {
+      "name": "Highways",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Highways"
+    },
+    "police": {
+      "name": "Police protection",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Police protection"
+    },
+    "fire": {
+      "name": "Fire protection",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Fire protection"
+    },
+    "corrections": {
+      "name": "Correction",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Correction"
+    },
+    "parks": {
+      "name": "Parks and recreation",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Parks and recreation"
+    },
+    "housing": {
+      "name": "Housing and community development",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Housing and community development"
+    },
+    "naturalResources": {
+      "name": "Natural resources",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Natural resources; OMB outlays by function, Natural resources and environment"
+    },
+    "administration": {
+      "name": "Government administration",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Financial administration; Judicial and legal; General public buildings; Other governmental administration"
+    },
+    "interest": {
+      "name": "Interest on general debt",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Interest on general debt"
+    },
+    "otherPrograms": {
+      "name": "Other programs",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Other and unallocable; OMB outlays by function, remaining functions"
+    },
+    "localAid": {
+      "name": "Intergovernmental expenditure",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Intergovernmental expenditure"
+    },
+    "agriculture": {
+      "name": "Agriculture",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Agriculture"
+    },
+    "communityAndRegionalDevelopment": {
+      "name": "Community and regional development",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Community and regional development"
+    },
+    "education": {
+      "name": "Education",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Education, training, employment, and social services"
+    },
+    "health": {
+      "name": "Health",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Health"
+    },
+    "incomeSecurity": {
+      "name": "Income security",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Income security"
+    },
+    "internationalAffairs": {
+      "name": "International affairs",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, International affairs"
+    },
+    "medicare": {
+      "name": "Medicare",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Medicare"
+    },
+    "nationalDefense": {
+      "name": "National defense",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, National defense"
+    },
+    "netInterest": {
+      "name": "Net interest",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Net interest"
+    },
+    "socialSecurity": {
+      "name": "Social security",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Social security"
+    },
+    "transportation": {
+      "name": "Transportation",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Transportation"
+    },
+    "veterans": {
+      "name": "Veterans benefits and services",
+      "source": "Office of Management and Budget, Historical Tables (fiscal 2025): outlays by function, Veterans benefits and services"
+    },
+    "retirementContributions": {
+      "name": "Retirement contributions",
+      "source": "src/core2/data/laws/reach-group-b.json: the contributions a retirement law moves, added to a budget by the law reach"
+    }
+  }
+}

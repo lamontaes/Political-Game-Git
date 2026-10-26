@@ -3,9 +3,21 @@
   "stopgapId": "SG-P15-views-first-version",
   "keys": "ces-2024-views.json",
   "parameters": {
-    "zero": { "value": 0, "tag": "SOURCED", "citation": "Identity." },
-    "one": { "value": 1, "tag": "SOURCED", "citation": "Identity." },
-    "two": { "value": 2, "tag": "SOURCED", "citation": "Identity." },
+    "zero": {
+      "value": 0,
+      "tag": "SOURCED",
+      "citation": "Identity."
+    },
+    "one": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "Identity."
+    },
+    "two": {
+      "value": 2,
+      "tag": "SOURCED",
+      "citation": "Identity."
+    },
     "leanMin": {
       "value": -2,
       "tag": "SOURCED",
@@ -21,7 +33,11 @@
       "tag": "SOURCED",
       "citation": "Hex digits of a stable hash read as one uniform value."
     },
-    "hashRadix": { "value": 16, "tag": "SOURCED", "citation": "Hexadecimal." },
+    "hashRadix": {
+      "value": 16,
+      "tag": "SOURCED",
+      "citation": "Hexadecimal."
+    },
     "minimumCellRespondents": {
       "value": 30,
       "tag": "TUNABLE",
@@ -34,6 +50,30 @@
       "citation": "Share of a person's opening lean that their household shares. Parent-child correlations of political orientation run about 0.4 to 0.6 (Jennings, Stoker and Bowers 2009, Journal of Politics 71(3):782-799), and spouses correlate about 0.6 on ideology (Alford, Hatemi, Hibbing, Martin and Eaves 2011, Journal of Politics 73(2):362-379).",
       "estimatedFrom": "Jennings, Stoker and Bowers 2009; Alford et al. 2011; spread 0.4 to 0.6"
     },
+    "faithImportanceProtestant": {
+      "value": 0.72,
+      "tag": "ESTIMATED",
+      "citation": "Share of adults in the group who say religion is very important in their life, the scale the opening stance loadings' faith measure runs on (0 to 1). Pew Research Center, Religious Landscape Study 2014, Chapter 1: Importance of Religion and Religious Beliefs (https://www.pewresearch.org/religion/2015/11/03/chapter-1-importance-of-religion-and-religious-beliefs/): evangelical Protestants 79 percent, mainline 53, historically Black Protestant 85, weighted by their shares of adults (23, 11 and 5 percent of the 2023-24 study's adults) to 72 percent.",
+      "estimatedFrom": "Pew RLS 2014 shares by tradition; spread 0.53 to 0.85"
+    },
+    "faithImportanceCatholic": {
+      "value": 0.58,
+      "tag": "ESTIMATED",
+      "citation": "Share of adults in the group who say religion is very important in their life, the scale the opening stance loadings' faith measure runs on (0 to 1). Pew Research Center, Religious Landscape Study 2014, Chapter 1: Importance of Religion and Religious Beliefs (https://www.pewresearch.org/religion/2015/11/03/chapter-1-importance-of-religion-and-religious-beliefs/): Catholics 58 percent.",
+      "estimatedFrom": "Pew RLS 2014 shares by tradition; spread 0.5 to 0.65"
+    },
+    "faithImportanceNone": {
+      "value": 0.13,
+      "tag": "ESTIMATED",
+      "citation": "Share of adults in the group who say religion is very important in their life, the scale the opening stance loadings' faith measure runs on (0 to 1). Pew Research Center, Religious Landscape Study 2014, Chapter 1: Importance of Religion and Religious Beliefs (https://www.pewresearch.org/religion/2015/11/03/chapter-1-importance-of-religion-and-religious-beliefs/): the religiously unaffiliated 13 percent.",
+      "estimatedFrom": "Pew RLS 2014 shares by tradition; spread 0.08 to 0.2"
+    },
+    "faithImportanceOtherFaith": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Share of adults in the group who say religion is very important in their life, the scale the opening stance loadings' faith measure runs on (0 to 1). Pew Research Center, Religious Landscape Study 2014, Chapter 1: Importance of Religion and Religious Beliefs (https://www.pewresearch.org/religion/2015/11/03/chapter-1-importance-of-religion-and-religious-beliefs/): Mormons 84, Muslims 64, Orthodox Christians 52; Jews, Buddhists and Hindus are lower and unreported there, so the group is set near the middle of the reported range.",
+      "estimatedFrom": "Pew RLS 2014 shares by tradition; spread 0.4 to 0.8"
+    },
     "tightness": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -44,6 +84,42 @@
       "value": 0.1,
       "tag": "TUNABLE",
       "citation": "How far one event that reaches a person moves their stance on its topic, per unit of the event's appraised impulse. No study sets the size; checked by a big event moving the people it touched and no one else. Spread 0.05 to 0.2.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "standingTrustWeight": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "citation": "Share of a speaker's standing that comes from how near the listener's views are to theirs: people credit messages from those who share their predispositions (Zaller 1992, ch. 3; Lupia and McCubbins 1998, The Democratic Dilemma). No study sets the share; the four standing weights sum to 1. Spread 0.25 to 0.55.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "standingClosenessWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "citation": "Share of a speaker's standing that comes from how close the two are today: political discussion with close ties moves views more than with acquaintances (Huckfeldt and Sprague 1995, Citizens, Politics and Social Communication). No study sets the share. Spread 0.15 to 0.45.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "standingPartyWeight": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Share of a speaker's standing that comes from a shared party: party cues move opinion toward one's own side's leaders (Cohen 2003, Journal of Personality and Social Psychology 85(5):808-822). No study sets the share. Spread 0.05 to 0.3.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "standingRecordWeight": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Share of a speaker's standing that comes from how they have voted on the question before: a record that matches the case lends it credibility, one that contradicts it costs credibility (Lupia and McCubbins 1998). No study sets the share. Spread 0.05 to 0.3.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "stanceViewWeight": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "citation": "How much a stance moves a person's current view on its question, on the same -1 to 1 scale as the opening lean along the question's axis. Persuasive messages move opinion by about 0.1 standard deviations on average (Coppock 2023, Persuasion in Parallel); opening views here spread about 0.5, so one message is worth about 0.05, which a typical in-person case (a stance change near 0.015) reaches at weight 3. Checked by votes moving only for members who heard cases. Spread 1.5 to 5.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "repeatWearOut": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "How fast the same case from the same speaker on the same question loses force: the nth repeat moves a listener 1 / (1 + this \u00d7 n) as much as the first. Repeated messages wear out after the first few exposures (Cacioppo and Petty 1979, Journal of Personality and Social Psychology 37(1):97-109). No study sets the rate; checked by a household member sharing a cause daily not carrying a listener across a question within weeks. Spread 0.5 to 2.",
       "stopgapId": "SG-P15-views-first-version"
     }
   },

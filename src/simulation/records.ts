@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   appendClaimRecord,
   appendEventKnowledgeRecord,
@@ -12,7 +12,7 @@ import type {
   MemoryRecordInput,
   RelationshipInteractionInput,
 } from "./history";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   assertOpenTaxonomyKey,
   RELATIONSHIP_INTERACTION_NAMESPACES,

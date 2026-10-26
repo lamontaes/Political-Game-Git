@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 /** Career content composes LIFE's canonical work, calendar and earned-pay writers. */
 import type {
   EntityId,

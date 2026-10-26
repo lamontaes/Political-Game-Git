@@ -5,6 +5,7 @@
  * constituent case the office handled).
  */
 import { createHash } from "node:crypto";
+import { setBookkeeping } from "./bookkeeping";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -20,17 +21,18 @@ import { allCases, openCases } from "./modules/constituent-cases";
 import {
   briefOnBill,
   adviseOnBudget,
+  employerOf,
   hireStaff,
   openStaff,
+  servingStaffOf,
+  staffOf,
+  STAFF_MODULE_ID,
   staffCandidates,
   workOf,
+  workingAgeWeight,
 } from "./modules/staff";
-import { governmentUnitsForPlace } from "../simulation/government-units";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { governmentUnitsForPlace } from "./reference/government-units";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -40,18 +42,26 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 
 describe("M3-06 staff", () => {
   it("a staffer's work follows their record, improves with experience, and every result traces to them", () => {
     let report: Record<string, unknown> | null = null;
+    // Offices whose post's budget line had no room: their aides serve unpaid.
+    const noRoom: {
+      place: string;
+      official: string;
+      employer: string;
+      post: string;
+      unpaid: string[];
+    }[] = [];
     const tried: string[] = [];
     for (let attempt = 0; attempt < 8 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -88,6 +98,15 @@ describe("M3-06 staff", () => {
       if (!seat) continue;
       const official = seat.holder!.personId!;
       const candidates = staffCandidates(api, official);
+      // Everyone offered is someone the records can place: never a relative
+      // whose own work isn't modeled, always within some commuting reach, and
+      // weighed by their age's place in the working-age pool.
+      for (const c of candidates) {
+        expect(core.people.get(c.personId)?.tier).not.toBe("husk");
+        expect(c.reach).toBeGreaterThan(0);
+        expect(c.workingAge).toBeGreaterThan(0);
+        expect(c.workingAge).toBeLessThanOrEqual(1);
+      }
       const known = candidates.find((c) => c.from === "known");
       const applicant = candidates.find((c) => c.from === "applicant");
       if (!known || !applicant) continue;
@@ -129,6 +148,20 @@ describe("M3-06 staff", () => {
       for (const b of briefings)
         expect(b.stakes.length).toBe(b.work.result.covered as number);
       expect(workOf(api, aide.id).length).toBe(5);
+      // In play (bookkeeping off) the why of an aide nobody deals with is not
+      // kept, but the count of their tasks still is.
+      const previous = setBookkeeping(false);
+      briefOnBill(api, aide.id, bill.id);
+      setBookkeeping(previous);
+      expect(workOf(api, aide.id).length).toBe(5);
+      expect(
+        (
+          api
+            .moduleState(STAFF_MODULE_ID)
+            .table("staff")
+            .get(aide.id) as unknown as { tasksDone: number }
+        ).tasksDone,
+      ).toBe(6);
       // Advice on the city's budget priorities: who favors each change.
       const city = governments(api).find((g) => g.level === "city");
       const advice = city
@@ -150,7 +183,62 @@ describe("M3-06 staff", () => {
       advanceCore(core, "2026-02-20");
       // The aide is on the payroll of the government the official serves,
       // and paydays have paid them from its treasury.
-      const aideJob = core.people.get(aide.personId)!.jobId;
+      // An aide the official let go for not coming is replaced: read an aide who has been paid.
+      const staffJob = (personId: string) => {
+        const job = core.people.get(personId)?.jobId;
+        return job?.startsWith("job:public:staff:") ? job : undefined;
+      };
+      const paidAide = servingStaffOf(api, official).find((row) => {
+        const job = staffJob(row.personId);
+        return job ? core.work.latestPayrollByJob.has(job) : false;
+      });
+      // An aide is paid what the post's budget line can carry, as a town's
+      // department heads are: a line with no room at the hire holds the post
+      // unpaid, and the staffer's record carries no job. The town is redrawn
+      // for the paid case, and those aides are named by record.
+      const employerId = employerOf(api, official);
+      const serving = servingStaffOf(api, official);
+      if (
+        !paidAide &&
+        employerId &&
+        serving.length > 0 &&
+        serving.every((row) => row.jobId === undefined)
+      ) {
+        for (const row of serving)
+          expect(staffJob(row.personId), `${key}: ${row.id}`).toBeUndefined();
+        noRoom.push({
+          place: key,
+          official,
+          employer: employerId,
+          post: `staff:${official}`,
+          unpaid: serving.map((row) => row.id),
+        });
+        continue;
+      }
+      if (!paidAide) {
+        // Nobody paid yet is only right after the official let the first aides go for absence (the share
+        // missed on record) and hired replacements who have not had a payday.
+        const rows = staffOf(api, official);
+        const letGo = rows.filter(
+          (row) =>
+            (row as { dismissed?: { absentShare: number } }).dismissed !==
+            undefined,
+        );
+        expect(letGo.length, `${key}: no aide let go`).toBeGreaterThan(0);
+        for (const row of letGo)
+          expect(
+            (row as unknown as { dismissed: { absentShare: number } }).dismissed
+              .absentShare,
+            `${key}: ${row.id}`,
+          ).toBeGreaterThan(0);
+        expect(
+          servingStaffOf(api, official).length,
+          `${key}: the posts were not refilled`,
+        ).toBeGreaterThan(0);
+        continue;
+      }
+      const holder = paidAide;
+      const aideJob = core.people.get(holder.personId)!.jobId;
       const employer = aideJob ? core.jobs.get(aideJob)?.organizationId : null;
       const town = governments(api).find((g) =>
         ["city", "county"].includes(g.level),
@@ -160,6 +248,7 @@ describe("M3-06 staff", () => {
         : undefined;
       if (town) {
         expect(aideJob).toMatch(/^job:public:staff:/);
+        expect(employer, key).toBe(employerOf(api, official));
         expect(
           governments(api).some((g) => g.organizationId === employer),
         ).toBe(true);
@@ -183,6 +272,7 @@ describe("M3-06 staff", () => {
       report = {
         budgetAdvice: advice?.lines ?? null,
         aidePay: { job: aideJob, employer, lastPaidMinor: payroll?.paidMinor },
+        noRoom,
         seed,
         state,
         place: key,
@@ -201,5 +291,23 @@ describe("M3-06 staff", () => {
       `no office could hire in ${tried.join(", ")}`,
     ).not.toBeNull();
     govReport("staff", JSON.stringify(report));
+    // Up to 8 drawn towns, each built in about 0.4 to 1.1 s and played 46
+    // days in 4.9 to 8.2 s on a 4-core container at one worker. Three random
+    // draws played two towns (ending at place 0949880), seven (ending at
+    // 1849950) and two (ending at 2731760): a town is redrawn when its first
+    // aides were let go for missed days and no replacement has been paid yet.
+    // The cases took 10.9, 37.0 and 50.1 s in three later random runs.
+  }, 120_000);
+
+  it("weighs age by the working-age pool, sliding, with no cutoff", () => {
+    const at = (age: number) => workingAgeWeight(age);
+    expect(at(30)).toBeCloseTo(1, 5);
+    expect(at(40)).toBeGreaterThan(0.95);
+    expect(at(92)).toBeGreaterThan(0);
+    expect(at(92)).toBeLessThan(at(70));
+    expect(at(70)).toBeLessThan(at(60));
+    expect(at(65)).toBeLessThan(at(60));
+    expect(at(65)).toBeGreaterThan(at(70));
+    expect(at(20)).toBeLessThan(at(30));
   });
 });

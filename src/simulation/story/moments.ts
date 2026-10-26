@@ -1,5 +1,5 @@
 import kindsData from "../../../data/content/story-moment-kinds.json" with { type: "json" };
-import { addDays, ageOnDate } from "../dates";
+import { addDays, ageOnDate } from "../../core2/kernel/dates";
 import {
   appendedList,
   recordById,
@@ -9,7 +9,7 @@ import {
   annualizedRecordedPayMinor,
   recordedMonthlyPayByPerson,
 } from "../household-pay";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import {
   activePartnershipsAt,
   householdMembershipsAt,
@@ -22,7 +22,10 @@ import {
 } from "../queries";
 import { readRelationshipStanding } from "../relationship-standing";
 import { loadedTraitRegistry } from "../trait-registry";
-import { traitDefinitionFromPack, type RegisteredTrait } from "../trait-packs";
+import {
+  traitDefinitionFromPack,
+  type RegisteredTrait,
+} from "../../core2/trait-packs";
 import { traitReadingOfRecord } from "../trait-readings";
 import { traitActTables } from "../traits/act-pulls";
 import { recordStoryThreads } from "./threads";

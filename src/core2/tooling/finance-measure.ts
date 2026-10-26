@@ -12,7 +12,12 @@ import {
 import { dirname, relative, resolve, sep } from "node:path";
 import { performance } from "node:perf_hooks";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  daysBetweenText,
+} from "../kernel/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION } from "../data";
 import { createLifeCore } from "../life";
 import { createOpeningFinance } from "../opening-finance";
@@ -126,10 +131,10 @@ function economyRuntimeDependencies() {
   // County owner validation reads these runtime identity/geography dependencies.
   const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../../");
   return [
-    "src/simulation/government-units.ts",
-    "src/simulation/government-units.generated.ts",
-    "src/simulation/place-county-relations.generated.ts",
-    "src/simulation/national-counties.generated.ts",
+    "src/core2/reference/government-units.ts",
+    "src/core2/reference/government-units.generated.ts",
+    "src/core2/reference/place-county-relations.generated.ts",
+    "src/core2/reference/national-counties.generated.ts",
     "data/research/local-government/county-governing-bodies.json",
     "data/research/money/place-population-acs-2024.json",
   ].map((path) => fileIdentity(resolve(root, path)));
@@ -187,10 +192,7 @@ function runOne(
   });
   const completed = performance.now();
   const after = memorySample();
-  const expectedDays = daysBetween(
-    makeIsoDate(input.startedAt),
-    makeIsoDate(throughDate),
-  );
+  const expectedDays = daysBetweenText(input.startedAt, throughDate);
   if (captured.receipt.simulatedDays !== expectedDays)
     throw new Error("The run did not complete its specified calendar window.");
   const finance = snapshots.at(-p("one"))!;

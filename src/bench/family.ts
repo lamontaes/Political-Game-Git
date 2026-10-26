@@ -1,6 +1,5 @@
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { backdropStaging } from "../presentation/backdrop-people";
-import { backdropFile, scenePlace } from "./scene";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { backdropFile, scenePlace, stagePeople } from "./scene";
 import type { CoreState } from "../core2/types";
 import { relationWord } from "./words";
 
@@ -28,11 +27,7 @@ export function familyView(core: CoreState, personId: string) {
         alive: false,
       };
     const { place, why } = scenePlace(core, id);
-    const stage = backdropStaging(place);
-    const hero = stage?.spots.find((spot) => spot.hero);
-    const spotId = hero
-      ? (hero.id ?? `${place}:spot:${stage!.spots.indexOf(hero)}`)
-      : undefined;
+    const name = `${other.givenName} ${other.familyName}`;
     return {
       personId: id,
       name: `${other.givenName} ${other.familyName}`,
@@ -42,10 +37,9 @@ export function familyView(core: CoreState, personId: string) {
       place,
       doing: why,
       backdrop: backdropFile(place, 12 * 60).url,
-      figureUrl:
-        spotId && age >= 18
-          ? `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}&date=${core.date}`
-          : undefined,
+      // Their approved whole figure where they are, on that place's lead spot.
+      figureUrl: stagePeople(core, place, [{ id, name, reason: "subject" }])
+        .people[0]?.figureUrl,
     };
   });
 }

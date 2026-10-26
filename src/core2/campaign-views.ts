@@ -17,7 +17,8 @@ import lineAxes from "./data/legislature/budget-line-axes.json" with { type: "js
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
-import { stableHash } from "../simulation/ids";
+import stanceLoadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
+import { stableHash } from "./kernel/ids";
 import type { PersonState } from "./types";
 
 /** One stated position: support (+1) or oppose (-1) a policy question. */
@@ -122,7 +123,20 @@ function openingLeanKey(
   );
 }
 
-const leans = new WeakMap<object, Map<string, number>>();
+interface LeanRank {
+  z: number;
+  key: number;
+  placeId: string;
+  rank: number;
+  size: number;
+}
+interface LeanCalibration {
+  mean: number;
+  sd: number;
+  byPlace: Map<string, { id: string; key: number }[]>;
+  ranks: Map<string, LeanRank>;
+}
+const leans = new WeakMap<object, LeanCalibration>();
 const countedSources = new WeakMap<
   object,
   () => readonly Pick<PersonState, "id" | "traits">[]
@@ -146,7 +160,10 @@ export function registerViewLeans(
     z: number,
   ) => number,
 ): void {
-  if (!viewKeys.has(people)) viewKeys.set(people, key);
+  if (!viewKeys.has(people)) {
+    viewKeys.set(people, key);
+    leans.delete(people);
+  }
 }
 
 /**
@@ -157,7 +174,10 @@ export function registerCountedPeople(
   people: object,
   source: () => readonly Pick<PersonState, "id" | "traits">[],
 ): void {
-  if (!countedSources.has(people)) countedSources.set(people, source);
+  if (!countedSources.has(people)) {
+    countedSources.set(people, source);
+    leans.delete(people);
+  }
 }
 
 /**
@@ -166,17 +186,18 @@ export function registerCountedPeople(
  * engine; where it doesn't, their personality and the rest of who they are,
  * `openingLeanKey`); each one's lean is where they stand in that order
  * against the share of the vote the right won in their area in 2024, so the
- * town as a whole splits the way its area really voted.
+ * opening town splits the way its area really voted. Later views are located
+ * against that opening distribution, so a person's changed view is read
+ * without forcing the town back to its historical vote share.
  */
 export function personLean(
   people: ReadonlyMap<string, Readonly<PersonState>>,
   person: Readonly<Pick<PersonState, "id" | "traits">>,
   townLean: number,
 ): number {
-  let map = leans.get(people);
-  if (!map) {
-    // Everyone in the town ranks together: full people and the counted
-    // residents (two-level population), each by their own record.
+  let calibration = leans.get(people);
+  const viewKey = viewKeys.get(people);
+  if (!calibration) {
     const counted = (countedSources.get(people)?.() ?? []).filter(
       (p) => !people.has(p.id),
     );
@@ -184,47 +205,73 @@ export function personLean(
       ...[...people.values()].filter((p) => p.alive),
       ...counted,
     ];
-    // Each person's own view where the views engine runs (their personality
-    // otherwise): that orders them; the town's real vote places the order.
-    const viewKey = viewKeys.get(people);
     const scores = everyone.map(personalityLean);
     const mean = scores.reduce((a, b) => a + b, 0) / (scores.length || 1);
     const sd =
       Math.sqrt(
         scores.reduce((a, b) => a + (b - mean) ** 2, 0) / (scores.length || 1),
       ) || 1;
-    const key = new Map(
-      everyone.map((p, i) => {
-        const z = openingLeanKey(p, (scores[i]! - mean) / sd);
-        return [p.id, viewKey ? viewKey(p, z) : z];
-      }),
-    );
-    const ordered = everyone.sort(
-      (a, b) => key.get(b.id)! - key.get(a.id)! || a.id.localeCompare(b.id),
-    );
-    // Rank each place on its own: the world also holds people elsewhere
-    // (relatives living away), who must not shift where the town's people
-    // stand against the town's vote.
-    const byPlace = new Map<string, typeof ordered>();
-    for (const p of ordered) {
-      const key = (p as { placeId?: string }).placeId ?? "";
-      byPlace.set(key, [...(byPlace.get(key) ?? []), p]);
+    const byPlace: LeanCalibration["byPlace"] = new Map();
+    const ranks: LeanCalibration["ranks"] = new Map();
+    for (const [i, p] of everyone.entries()) {
+      const z = openingLeanKey(p, (scores[i]! - mean) / sd);
+      const key = viewKey ? viewKey(p, z) : z;
+      const placeId = (p as { placeId?: string }).placeId ?? "";
+      let group = byPlace.get(placeId);
+      if (!group) byPlace.set(placeId, (group = []));
+      group.push({ id: p.id, key });
+      ranks.set(p.id, { z, key, placeId, rank: 0, size: 0 });
     }
-    const rightShare = (1 + townLean) / 2;
-    map = new Map(
-      [...byPlace.values()].flatMap((group) =>
-        group.map((p, rank): [string, number] => [
-          p.id,
-          Math.max(
-            -1,
-            Math.min(1, 2 * (rightShare - (rank + 0.5) / group.length)),
-          ),
-        ]),
-      ),
-    );
-    leans.set(people, map);
+    for (const group of byPlace.values()) {
+      group.sort((a, b) => b.key - a.key || a.id.localeCompare(b.id));
+      for (const [rank, p] of group.entries()) {
+        const held = ranks.get(p.id)!;
+        held.rank = rank;
+        held.size = group.length;
+      }
+    }
+    calibration = { mean, sd, byPlace, ranks };
+    leans.set(people, calibration);
   }
-  return map.get(person.id) ?? townLean + personalityLean(person);
+  const placeId = (person as { placeId?: string }).placeId ?? "";
+  let held = calibration.ranks.get(person.id);
+  const z =
+    held?.z ??
+    openingLeanKey(
+      person,
+      (personalityLean(person) - calibration.mean) / calibration.sd,
+    );
+  // A counted resident may now have a full person's own view; a later view
+  // change must also reach campaigns. Keep the opening distribution, not a
+  // frozen answer for this person. Only a changed key needs a binary search.
+  const key = viewKey ? viewKey(person, z) : z;
+  if (!held || held.key !== key || held.placeId !== placeId) {
+    const group = calibration.byPlace.get(placeId) ?? [];
+    let low = 0,
+      high = group.length;
+    while (low < high) {
+      const middle = Math.floor((low + high) / 2);
+      const row = group[middle]!;
+      if (
+        row.key > key ||
+        (row.key === key && row.id.localeCompare(person.id) < 0)
+      )
+        low = middle + 1;
+      else high = middle;
+    }
+    held = { z, key, placeId, rank: low, size: group.length };
+    calibration.ranks.set(person.id, held);
+  }
+  const rightShare = (1 + townLean) / 2;
+  return Math.max(
+    -1,
+    Math.min(
+      1,
+      held.size
+        ? 2 * (rightShare - (held.rank + 0.5) / held.size)
+        : townLean + personalityLean(person),
+    ),
+  );
 }
 
 /** How strongly a person supports a question's "yes", in [-1, 1]. */
@@ -272,13 +319,51 @@ export function publicOffset(
   return Math.abs(axis) * (2 * share - 1);
 }
 
+/** How far a person's faith (0 to 1) and four-year degree (1 or 0) sit from the average of their age band in their state; absent for a child. */
+export interface StanceProfile {
+  readonly faithFromAverage?: number;
+  readonly collegeFromAverage?: number;
+}
+
+/** The survey's faith and degree loadings by question, read here and by the views engine's opening record. */
+export const STANCE_LOADINGS = stanceLoadings.questions as unknown as Record<
+  string,
+  { loadings: { faith: { value: number }; college: { value: number } } }
+>;
+
 /**
- * How much a person agrees with a platform, in [-1, 1]: the mean, over the
- * stated positions, of their own stance times the position.
+ * What a person's faith and degree add to their opening stance on a question
+ * the 2020 Cooperative Election Study asked (`opening-stance-loadings.json`):
+ * each loading times how far they sit from the average of their age band. A
+ * question with no survey item, or a person with no profile or no recorded
+ * faith, adds nothing (ESTIMATED), the same rule as the views engine's stored
+ * opening record (`openingRecord`), so a counted voter and the same person
+ * filled in stand alike.
  */
-export function platformAgreement(
+export function loadingShift(
+  profile: StanceProfile | null | undefined,
+  question: string,
+): number {
+  const loadings =
+    STANCE_LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
+  if (!loadings || !profile || profile.faithFromAverage === undefined) return 0;
+  return (
+    loadings.faith.value * profile.faithFromAverage +
+    loadings.college.value * (profile.collegeFromAverage ?? 0)
+  );
+}
+
+/**
+ * How much a person or counted group agrees with a platform, in [-1, 1]: the
+ * mean, over the stated positions, of their stance on each (their lean along
+ * the question's axis, and what their faith and degree add) times the
+ * position. A counted voter and a full person of the same lean and profile
+ * agree alike (one model, two tiers).
+ */
+export function groupAgreement(
   lean: number,
   platform: readonly Stance[],
+  profile: StanceProfile | null | undefined,
 ): number {
   if (!platform.length) return 0;
   let sum = 0;
@@ -286,6 +371,14 @@ export function platformAgreement(
   // question is barely moved either way by it; someone who holds it strongly
   // is drawn or put off (owner, Oct 9: most people hold weak views or none).
   for (const stance of platform)
-    sum += personStance(lean, stance.question) * stance.position;
+    sum +=
+      Math.max(
+        -1,
+        Math.min(
+          1,
+          personStance(lean, stance.question) +
+            loadingShift(profile, stance.question),
+        ),
+      ) * stance.position;
   return Math.max(-1, Math.min(1, sum / platform.length));
 }

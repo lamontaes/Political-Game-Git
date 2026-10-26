@@ -7,7 +7,7 @@ import {
   recordArticleVRatification,
   recordConstitutionalProposalRollcalls,
 } from "../constitutional-process";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import {
   FEDERAL_JURISDICTION_KEY,
   describeRuleChangeValue,

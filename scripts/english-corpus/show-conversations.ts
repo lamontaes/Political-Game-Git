@@ -9,18 +9,14 @@ import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
-import { ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   beliefsModule,
   openConversation,
   say,
 } from "../../src/director/conversation";
 import { createDirector } from "../../src/director/ledger";
-import {
-  CONVERSATION_BANK,
-  conversationDataFromBank,
-  pickBy,
-} from "./conversation-bank";
+import { MINED_CONVERSATION } from "../../src/english/mined/conversation-bank";
 
 const seed = process.argv[2] ?? "words-show";
 const count = Number(process.argv[3] ?? 6);
@@ -51,10 +47,7 @@ console.log(`# ${seed}: ${base.place?.displayName ?? ""}`);
 const me = core.people.get(player.id)!;
 for (const otherId of [...me.knownIds].slice(0, count)) {
   if (!core.people.get(otherId)?.alive) continue;
-  const data = conversationDataFromBank(
-    CONVERSATION_BANK,
-    pickBy(`${seed}:${otherId}`),
-  );
+  const data = MINED_CONVERSATION;
   const talk = openConversation(core, player.id, otherId, { data });
   console.log(`\n## ${name(player.id)} and ${name(otherId)}`);
   let shown = 0;
@@ -63,7 +56,7 @@ for (const otherId of [...me.knownIds].slice(0, count)) {
       console.log(`${name(line.speakerId)}: ${line.text}`);
     shown = talk.lines.length;
     console.log(
-      `   choices: ${talk.choices.map((c) => `[${c.text}]`).join(" ")}${talk.lie ? `  lie: [${talk.lie.text}]` : ""}`,
+      `   choices: ${talk.choices.map((c) => `[${c.text}]`).join(" ")}${talk.lies.length ? `  lies: ${talk.lies.map((c) => `[${c.text}]`).join(" ")}` : ""}`,
     );
     say(core, talk, talk.choices[turn % talk.choices.length]!.key, data);
   }

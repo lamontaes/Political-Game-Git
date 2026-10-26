@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import regionsData from "./data/regional/regions.json" with { type: "json" };
 import stats from "../../data/research/regional/series/stats.json" with { type: "json" };
-import { lifePlaceByKey } from "../simulation/life-places";
+import { corePlaceByKey } from "./place-lookup";
 import { historyMonths, stepMacroMonth, type MacroMonth } from "./macro-model";
 import { macroCoreData } from "./modules/macro";
 import { regionOfPlace } from "./modules/regional";
@@ -69,6 +69,55 @@ describe("state and metro economies", () => {
       expect(state.unemploymentPct).toBeCloseTo(series[fips]!["2020-12"]!, 1);
     }
   });
+  it("opens every state with a LAUS series on its published rate, an all-metro state included", () => {
+    const { opening } = year("2021-01-01");
+    const series = regionsData.series.stateUnemploymentPct as Record<
+      string,
+      Record<string, number>
+    >;
+    const states = [...new Set(REGIONS.map((row) => row.stateFips))].filter(
+      (fips) => series[fips]?.["2020-12"] !== undefined,
+    );
+    // An all-metro state (no rest region) is the case a metro's cross-state
+    // area rate once set on its own.
+    expect(
+      states.some(
+        (fips) =>
+          !REGIONS.some(
+            (row) => row.stateFips === fips && row.kind !== "metro",
+          ),
+      ),
+    ).toBe(true);
+    for (const fips of states)
+      expect(
+        stateFigures(opening, fips).unemploymentPct,
+        `state ${fips}`,
+      ).toBeCloseTo(series[fips]!["2020-12"]!, 6);
+  });
+  it("opens every state with a CES pay series on its published hourly pay, its regions' incomes kept apart", () => {
+    const { opening } = year("2021-01-01");
+    const series = regionsData.series.stateHourlyEarnings as Record<
+      string,
+      Record<string, number>
+    >;
+    const states = [...new Set(REGIONS.map((row) => row.stateFips))].filter(
+      (fips) => series[fips]?.["2020-12"] !== undefined,
+    );
+    expect(states.length).toBeGreaterThan(40);
+    for (const fips of states) {
+      expect(
+        stateFigures(opening, fips).hourlyEarnings,
+        `state ${fips}`,
+      ).toBeCloseTo(series[fips]!["2020-12"]!, 6);
+      // Regions whose incomes differ still differ in pay.
+      const regions = REGIONS.filter((row) => row.stateFips === fips);
+      const pays = opening
+        .filter((row) => row.stateFips === fips)
+        .map((row) => row.hourlyEarnings);
+      if (new Set(regions.map((row) => row.perCapitaIncome)).size > 1)
+        expect(new Set(pays).size, `state ${fips}`).toBeGreaterThan(1);
+    }
+  });
   it("two randomly drawn states diverge in a year, inside the 2000-2025 spread of one-year state changes", () => {
     const seed = createHash("sha256")
       .update(`M1-03:${process.env.GOLDEN_PATH_SEED ?? "regional"}`)
@@ -132,7 +181,7 @@ describe("state and metro economies", () => {
     expect(fall(fips.at(-1)!)).toBeGreaterThan(fall(fips[0]!));
   });
   it("puts a real town in the region of its county", () => {
-    const place = lifePlaceByKey("4540075")!;
+    const place = corePlaceByKey("4540075")!;
     const region = regionOfPlace(place.context.jurisdiction.id);
     expect(region).toMatch(/^region:45:/);
   });

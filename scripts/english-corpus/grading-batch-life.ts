@@ -12,7 +12,7 @@
  */
 import { execSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
-import { addDays, ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../src/core2/civic-inputs";
 import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
@@ -22,16 +22,22 @@ import { applyCoreEvent } from "../../src/core2/state";
 import { bringItUp } from "../../src/director/bring-it-up";
 import { composeJournal } from "../../src/director/journal";
 import { createDirector } from "../../src/director/ledger";
-import { renderLine } from "../../src/director/render";
+import { renderLine } from "../../src/english/bank-line";
 import { composeScene } from "../../src/director/scene";
-import { FILING_BANK, filingWordsFromBank } from "./filing-bank";
-import { JOURNAL_BANK, journalDataFromBank } from "./journal-bank";
+import {
+  FILING_BANK,
+  filingWordsFromBank,
+} from "../../src/english/mined/filing-bank";
+import {
+  JOURNAL_BANK,
+  journalDataFromBank,
+} from "../../src/english/mined/journal-bank";
 import {
   BRING_BANK,
-  bringDataFromBank,
+  bringWordsFromBank,
   SCENE_BANK,
   sceneWordsFromBank,
-} from "./scene-bank";
+} from "../../src/english/mined/scene-bank";
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
@@ -120,7 +126,7 @@ for (const seed of seeds) {
 
   // The journal: each line after the one before it.
   for (const chapter of composeJournal(core, director, player.id, {
-    data: journalDataFromBank(),
+    words: journalDataFromBank(),
   }))
     chapter.lines.forEach((line, at) => {
       const key = journalPart(line.text);
@@ -187,7 +193,9 @@ for (const seed of seeds) {
       facts: { [`organization:${org}:status`]: "closed" },
     });
     for (const listener of [...worker.knownIds].slice(0, 3)) {
-      const said = bringItUp(core, worker.id, listener, bringDataFromBank());
+      const said = bringItUp(core, worker.id, listener, {
+        words: bringWordsFromBank(),
+      });
       said?.lines.forEach((line, at) => {
         const key = bringPart(line.text);
         items.push({
@@ -257,7 +265,7 @@ for (const seed of seeds) {
         part: key ?? null,
         parts: key ? [key] : [],
         composer:
-          "the filing visit's renderer (src/director/render.ts), words from data/english/parts/filing-visit.json",
+          "the filing visit's renderer (src/english/bank-line.ts), words from data/english/parts/filing-visit.json",
         kind: "conversation",
         cell: cell("workplace", "filing", place),
         seed,

@@ -3,7 +3,7 @@ import {
   validatePrivateBeliefSubject,
 } from "./political-opinion-subjects";
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   appendCampaignCommitmentRecord,
   appendPrincipleRecord,

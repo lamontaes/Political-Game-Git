@@ -1,5 +1,6 @@
 /** M1-02 module checks on a small recorded fixture; the generated-world proof is tooling/macro-proof.ts. */
 import { describe, expect, it } from "vitest";
+import { registerBoardAppointer } from "./central-bank-appointments";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
 import {
@@ -13,9 +14,13 @@ import {
   experiencedInflationPct,
   votersOn,
   generateBoard,
+  BOARD,
 } from "./central-bank-board";
+import { medianTransactionBalance } from "./starting-cash";
 import { parameter } from "./parameters";
 import type { CoreInput, Source } from "./types";
+import { readFileSync } from "node:fs";
+import pmms from "../../data/research/macro/series/pmms-monthly.json" with { type: "json" };
 
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
@@ -85,6 +90,35 @@ describe("national economy", () => {
       expect(own.filter((row) => !row.inside)).toEqual([]);
     }
   });
+  it("omits unobserved local growth while observed growth changes national output", () => {
+    const previous = historyMonths("2026-10-01", p).at(-1)!;
+    const absent = stepMacroMonth(
+      previous,
+      previous.policyRatePct,
+      undefined,
+      100_000,
+      p,
+    );
+    const noTown = stepMacroMonth(
+      previous,
+      previous.policyRatePct,
+      undefined,
+      0,
+      p,
+    );
+    const growing = stepMacroMonth(
+      previous,
+      previous.policyRatePct,
+      10,
+      100_000,
+      p,
+    );
+    expect(absent).not.toHaveProperty("townIncomeGrowthPct");
+    expect(absent).toEqual(noTown);
+    expect(growing.townIncomeGrowthPct).toBe(10);
+    expect(growing.outputGapPct).toBeGreaterThan(absent.outputGapPct);
+    expect(growing.unemploymentPct).toBeLessThan(absent.unemploymentPct);
+  });
   it("a higher rate lowers output and raises unemployment, with no draws", () => {
     const start = historyMonths("2026-10-01", p).at(-1)!;
     const run = (rate: number) => {
@@ -96,9 +130,113 @@ describe("national economy", () => {
     expect(run(5).mortgage30Pct).toBeGreaterThan(run(3).mortgage30Pct);
     expect(run(4)).toEqual(run(4));
   });
+  it("carries no fiscal multiplier or budget impulse: output moves with the money actually paid and spent (owner, Oct 16)", () => {
+    const keys = Object.keys(data.parameters).filter((key) =>
+      /multiplier|budgetimpulse/i.test(key),
+    );
+    expect(keys).toEqual([]);
+    const start = historyMonths("2026-10-01", p).at(-1)!;
+    const row = stepMacroMonth(start, 4, 0, 0, p) as unknown as Record<
+      string,
+      unknown
+    >;
+    expect(
+      Object.keys(row).filter((key) => /budget|fiscal/i.test(key)),
+    ).toEqual([]);
+  });
+});
+
+describe("the 30-year mortgage rate since June 2019", () => {
+  // FHFA's MIRS Transition Index by release date, as downloaded.
+  const index = new Map<string, number>();
+  for (const line of readFileSync(
+    new URL(
+      "../../data/research/macro/series/mirs-transition-index.csv",
+      import.meta.url,
+    ),
+    "utf8",
+  )
+    .split(/\r?\n/)
+    .slice(1)) {
+    const [date, value] = line.split(",");
+    if (!date || !value) continue;
+    const [month, , year] = date.split("/").map(Number) as [
+      number,
+      number,
+      number,
+    ];
+    // Each value measures the month two before its release.
+    const at = year * 12 + month - 1 - 2;
+    index.set(
+      `${Math.floor(at / 12)}-${String((at % 12) + 1).padStart(2, "0")}`,
+      Number(value),
+    );
+  }
+  // The opening reads back a window of months: openings a year apart cover
+  // every month from June 2019 to the last recorded one.
+  const byMonth = new Map(
+    ["2020-01-01", "2021-01-01", "2022-01-01", "2026-10-20"]
+      .flatMap((start) => historyMonths(start, p))
+      .filter((row) => row.month >= "2019-06")
+      .map((row) => [row.month, row]),
+  );
+  const months = [...byMonth.values()].sort((a, b) =>
+    a.month.localeCompare(b.month),
+  );
+
+  it("reads FHFA's index for every month it covers, and the Treasury plus the spread only where it has not published", () => {
+    expect(months[0]!.month).toBe("2019-06");
+    expect(months.at(-1)!.month).toBe("2026-09");
+    expect(months.length).toBe(88);
+    const fallback: string[] = [];
+    for (const row of months) {
+      const published = index.get(row.month);
+      if (published !== undefined) {
+        expect(row.mortgage30Pct, row.month).toBe(published);
+        continue;
+      }
+      fallback.push(row.month);
+      expect(row.mortgage30Pct, row.month).toBeCloseTo(
+        row.treasury10Pct + p("macroMortgageSpreadOverTreasuryPct"),
+        10,
+      );
+    }
+    // Only the months FHFA has not measured yet: none from June 2019 to July 2026.
+    expect(fallback).toEqual(["2026-08", "2026-09"]);
+  });
+
+  it("names each month that moved from the excluded Freddie Mac survey, and by how much", () => {
+    const moved = months
+      .filter((row) => index.has(row.month))
+      .map((row) => ({
+        month: row.month,
+        by: row.mortgage30Pct - (pmms as Record<string, number>)[row.month]!,
+      }))
+      .filter((row) => Math.abs(row.by) > 1e-9);
+    process.stdout.write(
+      `MORTGAGE moved ${moved.length} months: ${moved.map((row) => `${row.month} ${row.by >= 0 ? "+" : ""}${row.by.toFixed(2)}`).join(", ")}\n`,
+    );
+    expect(moved.length).toBe(82);
+    // Within the spread recorded on the series.
+    for (const row of moved) {
+      expect(row.by, row.month).toBeGreaterThanOrEqual(-0.33 - 1e-9);
+      expect(row.by, row.month).toBeLessThanOrEqual(0.27 + 1e-9);
+    }
+  });
 });
 
 describe("the board", () => {
+  it("opens every member with the cash a family at the seat's pay keeps, from the SCF, never an empty wallet", () => {
+    const seed = `board-cash-${Math.random().toString(36).slice(2, 10)}`;
+    const board = generateBoard({ seed, startedAt: "2021-01-01" }, p);
+    expect(board.people).toHaveLength(19);
+    const expected = Math.round(
+      medianTransactionBalance(BOARD.memberPay.annualDollars) * 100,
+    );
+    for (const person of board.people)
+      expect(person.liquidMinor, `${person.id} (seed ${seed})`).toBe(expected);
+    expect(expected).toBeGreaterThan(0);
+  });
   it("seats seven governors and twelve presidents, twelve voting, leaning by lived inflation", () => {
     const board = generateBoard({ seed: "s", startedAt: "2021-01-01" }, p);
     expect(board.members).toHaveLength(19);
@@ -131,6 +269,19 @@ describe("the board", () => {
       core.finance.facilities.get("facility:shop-line")!.annualInterestRate!;
     advanceCore(core, "2026-12-31");
     const store = api.moduleState("macro");
+    const simulated = store
+      .table("months")
+      .rows()
+      .filter((row) => row.kind === "simulated");
+    expect(simulated.length).toBeGreaterThan(0);
+    // Before the town has a comparable year of its own paid income, the
+    // national step hears the nation's payroll-income growth as the estimate,
+    // with none of the town's own weight.
+    for (const row of simulated) {
+      expect(row.townGrowthOwnWeight).toBe(0);
+      expect(row.townIncomeGrowthPct).toBe(row.townGrowthEstimatePct);
+      expect(row.townIncomeGrowthPct).toBeTypeOf("number");
+    }
     const conditions = core.finance.conditionsByPlace.get(place)!;
     expect(conditions.map((row) => row.at)).toEqual([
       "2026-10-01",
@@ -187,7 +338,40 @@ describe("history before the start (M1-14, the economy's part)", () => {
         expect(row.payrollJobsThousands).toBe(source.payrollJobsThousands);
     }
   });
+  it("leaves a member in place while no one names a successor, then fills the seat once an appointer does", () => {
+    const run = (appointer: boolean) => {
+      // The world's own appointer is the president and Senate (the
+      // government opens it); this test world has no government, so it
+      // names the first candidate itself.
+      registerBoardAppointer(
+        appointer ? () => ({ index: 0, reasons: {} }) : undefined,
+      );
+      try {
+        const core = createLifeCore(opening("2021-01-01"), {
+            data,
+            modules: [MACRO_MODULE],
+          }),
+          api = coreAPI(core);
+        advanceCore(core, "2021-01-02");
+        const members = () =>
+          api.moduleState("macro").table("members").query("all", [true]);
+        const before = members().find((row) => row.seatId === "governor:1")!;
+        advanceCore(core, "2022-03-01");
+        return {
+          before,
+          after: members().find((row) => row.seatId === "governor:1")!,
+        };
+      } finally {
+        registerBoardAppointer(undefined);
+      }
+    };
+    const none = run(false);
+    expect(none.after.personId).toBe(none.before.personId);
+    const named = run(true);
+    expect(named.after.personId).not.toBe(named.before.personId);
+  });
   it("fills a governor's seat when the term ends and reappoints reserve bank presidents under the retirement age", () => {
+    registerBoardAppointer(() => ({ index: 0, reasons: {} }));
     const core = createLifeCore(opening("2021-01-01"), {
         data,
         modules: [MACRO_MODULE],
@@ -226,6 +410,7 @@ describe("history before the start (M1-14, the economy's part)", () => {
     const leans = after.map((row) => Number(row.inflationLean));
     expect(Math.min(...leans)).toBeLessThan(0);
     expect(Math.max(...leans)).toBeGreaterThan(0);
+    registerBoardAppointer(undefined);
   });
 });
 

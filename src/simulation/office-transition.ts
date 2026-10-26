@@ -32,7 +32,7 @@
  * until a consumer reads the attendance record.
  */
 
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   BLANKET_STATE_OATH_VERSION,
   isOathSwornOn,

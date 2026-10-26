@@ -3,8 +3,11 @@
  * state's one or two largest metros and the rest of the state, stepped after
  * each national month. A town's conditions combine the nation with its region.
  */
-import { countyPopulationSharesForPlace } from "../../simulation/government-units";
-import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import { countyPopulationSharesForPlace } from "../reference/government-units";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+} from "../place-lookup";
 import regionalParameters from "../data/regional/parameters.json" with { type: "json" };
 import type { MacroMonth } from "../macro-model";
 import type { Parameter } from "../parameters";
@@ -15,9 +18,11 @@ import {
   openingRegionMonths,
   stepRegionMonth,
   type RegionMonth,
+  type RegionRow,
 } from "../regional-model";
-import type { EntityId } from "../../simulation/types";
+import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
+import { countedStateGrowth } from "./counted-moves";
 
 export const REGIONAL_MODULE_ID = "regional";
 export const REGIONAL_PARAMETERS = regionalParameters as unknown as Readonly<
@@ -35,7 +40,7 @@ export function regionalRegistered(api: CoreAPI): boolean {
 
 /** A place's region from its county; a place with no county row takes its state's remaining region. */
 export function regionOfPlace(placeId: string): string | undefined {
-  const place = lifePlaceByJurisdictionId(placeId as EntityId);
+  const place = corePlaceByJurisdictionId(placeId as EntityId);
   if (!place) return undefined;
   const geoid = place.sourceGeoid ?? "";
   let county: string | undefined;
@@ -50,6 +55,11 @@ export function regionOfPlace(placeId: string): string | undefined {
     ?.id;
 }
 
+/** The month a year before `month` (YYYY-MM): months after it are kept in full. */
+function yearBefore(month: string): string {
+  return `${Number(month.slice(0, 4)) - 1}${month.slice(4)}`;
+}
+
 export function openRegional(
   api: CoreAPI,
   national: Readonly<MacroMonth>,
@@ -59,13 +69,15 @@ export function openRegional(
   unemploymentShiftPts = 0,
 ): void {
   const p = (key: string) => api.parameter(key);
-  for (const row of REGIONS)
-    store(api)
-      .table("regions")
-      .put({ ...row });
-  // The coarse years' real regional months (M1-14), then the opening month the regions step from.
+  // The coarse years' real regional months (M1-14), then the opening month
+  // the regions step from. Retention (MEMORY-FLAT): the year before the
+  // opening in full, and only each year's December before that.
+  const kept = yearBefore(national.month);
   for (const month of history)
-    if (month.month !== national.month)
+    if (
+      month.month !== national.month &&
+      (month.month > kept || month.month.endsWith("-12"))
+    )
       for (const row of openingRegionMonths(month, p))
         store(api)
           .table("months")
@@ -99,9 +111,23 @@ export function stepRegional(
       `${region.id}:${before.month}`,
     ) as unknown as RegionMonth;
     const row = stepRegionMonth(previous, region, before, now, p);
+    // Where counted people move from causes, a region's people follow its
+    // state's counts (one model, two tiers) instead of its own unemployment term.
+    const growth = countedStateGrowth(api.state as CoreState, region.stateUsps);
+    if (growth !== undefined) row.population = previous.population * growth;
     stepped.push(row);
     months.put({ ...row });
   }
+  // Retention (MEMORY-FLAT): the last twelve months in full; before them,
+  // each year's December and the opening month (pay and jobs are read
+  // against it).
+  const gone = yearBefore(now.month);
+  const opening = (
+    api.moduleState("macro").table("state").get("macro:state") as
+      { openingMonth?: string } | undefined
+  )?.openingMonth;
+  if (!gone.endsWith("-12") && gone !== opening)
+    for (const row of months.query("byMonth", [gone])) months.remove(row.id);
   // Each state's monthly jobs report is a public record other engines (the news) can read.
   for (const fips of new Set(stepped.map((row) => row.stateFips))) {
     const rows = stepped.filter((row) => row.stateFips === fips);
@@ -152,18 +178,20 @@ export function regionalMonth(
     .get(`${place.regionId}:${month}`) as unknown as RegionMonth | undefined;
 }
 
-/** How a place's pay and demand moved relative to the nation since the opening. */
+/** How a place's pay, demand and price level moved relative to the nation since the opening. */
 export function regionalFactors(
   api: CoreAPI,
   placeId: string,
   opening: Readonly<MacroMonth>,
   now: Readonly<MacroMonth>,
-): { wage: number; demand: number } {
+): { wage: number; demand: number; price: number } {
   const one = api.parameter("one");
   const first = regionalMonth(api, placeId, opening.month),
     latest = regionalMonth(api, placeId, now.month);
-  if (!first || !latest) return { wage: one, demand: one };
+  if (!first || !latest) return { wage: one, demand: one, price: one };
   return {
+    // The region's price level against the nation's, since the opening.
+    price: latest.priceLevelPct / first.priceLevelPct,
     wage:
       latest.hourlyEarnings /
       first.hourlyEarnings /
@@ -185,8 +213,31 @@ export function regionalLevel(
   return state ? regionalMonth(api, placeId, state.latestMonth) : undefined;
 }
 
+/**
+ * The area a region's figures cover, as people say it: a metro by its first
+ * city ("the Dallas area"), the rest of a state by the metros it leaves out
+ * ("Texas outside the Dallas and Houston areas"), else the state or
+ * territory itself.
+ */
 export function regionName(regionId: string): string | undefined {
-  return REGION_BY_ID.get(regionId)?.title;
+  const region = REGION_BY_ID.get(regionId);
+  if (!region) return undefined;
+  if (region.kind === "metro") return `the ${firstCity(region)} area`;
+  const state =
+    corePlaceStateIdentities().find((row) => row.usps === region.stateUsps)
+      ?.name ?? region.stateUsps;
+  const metros = REGIONS.filter(
+    (row) => row.stateUsps === region.stateUsps && row.kind === "metro",
+  ).map(firstCity);
+  if (!metros.length) return state;
+  const last = metros.pop()!;
+  const listed = metros.length ? `${metros.join(", ")} and ${last}` : last;
+  return `${state} outside the ${listed} area${metros.length ? "s" : ""}`;
+}
+
+/** A metro's first-named city: "Dallas" in "Dallas-Fort Worth-Arlington, TX". */
+function firstCity(region: RegionRow): string {
+  return (region.title ?? region.id).split(",")[0]!.split(/[-/]/)[0]!.trim();
 }
 
 export const REGIONAL_MODULE: CoreModule = {
@@ -194,7 +245,6 @@ export const REGIONAL_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      regions: {},
       months: { indexes: { byMonth: { fields: ["month"] } } },
       places: {},
     },

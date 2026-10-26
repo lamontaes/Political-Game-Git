@@ -1,10 +1,10 @@
+import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import { storyPeople, storyPerson } from "./story-people-store";
 import {
   materializeSettledTownHousehold,
-  townHouseholdPeople,
   townResidentId,
-  townResidentKey,
 } from "./living-world/town-residents";
+import { townHouseholdPeople, townResidentKey } from "../core2/town-households";
 import type { EntityId, StoryPersonRecord, World } from "./types";
 
 /**
@@ -53,9 +53,13 @@ export function nameStoryPeople(
   for (const input of inputs) {
     const id = townResidentId(world, input.town, input.household, input.member);
     if (world.people[id] || storyPerson(world, id) || seen.has(id)) continue;
-    const person = townHouseholdPeople(world, input.town, input.household)[
-      input.member
-    ];
+    const person = townHouseholdPeople(
+      world,
+      input.town,
+      input.household,
+      undefined,
+      nameCorpusVersionForWorld(world, input.town),
+    )[input.member];
     if (!person) continue;
     seen.add(id);
     added.push({

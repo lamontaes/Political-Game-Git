@@ -1,7 +1,7 @@
 import { chiefExecutiveCommencement } from "./chief-executive-commencements";
 import { chiefExecutiveElectionCycle } from "./chief-executive-election-cycles";
-import { makeIsoDate } from "../dates";
-import type { IsoDate } from "../types";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import type { IsoDate } from "../../core2/kernel/brands";
 import {
   chiefExecutiveBaseline,
   chiefExecutiveBaselineDisclosure,

@@ -25,10 +25,8 @@ import {
   type WorldSnapshot,
 } from "./snapshot";
 import { coreAPI, fillInIdentity, fillInPerson } from "./state";
-import {
-  generatedOpening,
-  type WorldSettings,
-} from "./tooling/generated-world";
+import { generatedOpening } from "./tooling/generated-world";
+import type { WorldSettings } from "./world-settings";
 import type {
   CoreData,
   CoreInput,
@@ -127,7 +125,7 @@ registerCommand<Parameters<typeof fillInIdentity>[1]>(
 );
 
 /** The owner's default: coarse history from the parameter table's year to the start. */
-function defaultPreStart(
+export function defaultPreStart(
   core: Game["core"],
 ): { from: string; step: "month" | "quarter" } | false {
   const api = coreAPI(core);

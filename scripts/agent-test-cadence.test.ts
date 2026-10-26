@@ -30,30 +30,43 @@ describe("agent test cadence planning", () => {
     ).toBe(false);
   });
 
-  it("adds readiness aggregate only when requested", () => {
-    const files = ["src/player/Example.tsx"];
+  it("adds the PR release gate only when readiness is requested", () => {
+    const files = ["src/core2/modules/jobs.ts"];
     expect(
       planCadence(files, { readiness: false }).some(
-        (stage) => stage.command === "npm run validate",
+        (stage) => stage.command === "npm run release:check -- --mode pr",
       ),
     ).toBe(false);
     expect(
       planCadence(files, { readiness: true }).some(
-        (stage) => stage.command === "npm run validate",
+        (stage) => stage.command === "npm run release:check -- --mode pr",
       ),
     ).toBe(true);
+    expect(
+      planCadence(files, { readiness: true }).some(
+        (stage) => stage.command === "npm run validate",
+      ),
+    ).toBe(false);
   });
 
-  it("lists Playwright specs before running browser proofs for player edits", () => {
-    const stages = planCadence(["src/player/Example.tsx"]);
-    const listIndex = stages.findIndex(
-      (stage) => stage.command === "npx playwright test --list",
-    );
-    const e2eIndex = stages.findIndex(
-      (stage) => stage.command === "npm run test:e2e",
-    );
-    expect(listIndex).toBeGreaterThanOrEqual(0);
-    expect(e2eIndex).toBeGreaterThan(listIndex);
+  it("routes core edits to the dice and old-engine guards, and changed tests to vitest", () => {
+    const stages = planCadence([
+      "src/core2/modules/jobs.ts",
+      "src/core2/modules/jobs.test.ts",
+    ]);
+    const commands = stages.map((stage) => stage.command);
+    expect(commands).toContain("npm run zero-dice");
+    expect(commands).toContain("npm run old-imports");
+    expect(commands).toContain("npx vitest run src/core2/modules/jobs.test.ts");
+  });
+
+  it("routes screen edits to the bench browser checks", () => {
+    const stages = planCadence(["src/bench/play.mjs"]);
+    expect(
+      stages.some(
+        (stage) => stage.command === "node src/bench/no-scroll.browser.mjs",
+      ),
+    ).toBe(true);
   });
 });
 

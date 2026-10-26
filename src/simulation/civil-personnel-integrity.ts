@@ -4,8 +4,8 @@ import {
 } from "./civil-personnel-rules";
 import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { eventById } from "./event-index";
-import { addDays, daysBetween, makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { activeOrganizationParticipationsAt } from "./life-queries";
 import { PERSONNEL_PROCEDURE_KEYS } from "./civil-personnel-contract";
 import type {

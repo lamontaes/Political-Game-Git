@@ -1,143 +1,176 @@
-import { describe, expect, it } from "vitest";
-import { createCore, coreAPI } from "./state";
-import { piecesInput, piecesSource as source } from "./core-pieces-fixture";
-import { censusVoterSpreads } from "./tooling/voter-spreads";
-import type { VoterGroup } from "./voter-groups";
-const row: VoterGroup = {
-  id: "group",
-  placeId: "place",
-  ageBand: "18 to 24 years",
-  lean: -0.2,
-  turnout: 0.4,
-  size: 100,
-  asOf: "2026-01-01",
-  source,
-  sourceRecordIds: ["views:record", "participation:record"],
-};
-describe("recorded voter groups", () => {
-  it("stores immutable rows and updates both place indexes", () => {
-    const groups = coreAPI(createCore(piecesInput())).voterGroups(),
-      input = structuredClone(row);
-    groups.put(input);
-    input.sourceRecordIds = ["changed"];
-    expect(groups.get(row.id)).toEqual(row);
-    expect(Object.isFrozen(groups.get(row.id)!.sourceRecordIds)).toBe(true);
-    groups.put({ ...row, placeId: "other", ageBand: "older" });
-    expect(groups.atPlace("place")).toEqual([]);
-    expect(groups.atPlace("other", row.ageBand)).toEqual([]);
-    expect(groups.atPlace("other", "older")).toHaveLength(1);
-    expect(groups.remove(row.id)).toBe(true);
-    expect(groups.remove(row.id)).toBe(false);
-    expect(groups.atPlace("other")).toEqual([]);
+/**
+ * Voter groups' contract (owner, Oct 14, 2026: "Voter groups and electorate
+ * blocks are gone as decision paths and stores"). The unnamed electorate is
+ * now the town's counted residents, read in `electorate.ts` by
+ * `countedResidents` and ordered by `electorateSample` (modules/voting.ts),
+ * and the places outside the town counted coarsely on the same sample by
+ * `countPlaces`. This reads them from the bench world in a drawn place and
+ * checks what the code promises: each counted voter is one live household
+ * member, weights are their household's, the sample covers the town's
+ * counted adults in lean order, a place's count stays inside its eligible
+ * voters, and reading changes no record.
+ */
+import { randomBytes } from "node:crypto";
+import { expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { coreAPI } from "./state";
+import { residentsRuntime } from "./modules/residents";
+import { electorateSample } from "./modules/voting";
+import {
+  countPlaces,
+  countedResidents,
+  type CountedFieldEntry,
+} from "./electorate";
+import { statePlaces } from "./electorate-places";
+import type { CoreState } from "./types";
+
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+const place = drawPlace(seed, "voter-groups");
+
+/** Two typical party candidates, no one holding the seat. */
+const typical: readonly CountedFieldEntry[] = [-1, 1].map((side) => ({
+  id: side > 0 ? "R" : "D",
+  side,
+  isIncumbent: false,
+  standing: 0,
+  localStanding: 0,
+  recognition: 0,
+  platform: [],
+}));
+
+const ageOn = (v: { birthDate: string }, date: string) =>
+  Number(date.slice(0, 4)) -
+  Number(v.birthDate.slice(0, 4)) -
+  (date.slice(5) < v.birthDate.slice(5) ? 1 : 0);
+
+/** Everything the electorate reads from the counted store, as one string. */
+function digest(core: CoreState): string {
+  const store = residentsRuntime(core)!.store;
+  return JSON.stringify([
+    core.date,
+    core.people.size,
+    store.membersVersion,
+    [...store.state],
+    store.households.map((h) => [h.id, h.placeId, h.weight, h.members, h.gone]),
+  ]);
+}
+
+it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}`, () => {
+  setBookkeeping(false);
+  const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
   });
-  it("weights lean and participation by population without creating individual ballots", () => {
-    const core = createCore(piecesInput()),
-      groups = coreAPI(core).voterGroups();
-    groups.put(row);
-    groups.put({ ...row, id: "larger", size: 300, lean: 0.6, turnout: 0.8 });
-    expect(groups.summarize("place")).toEqual({
-      groupCount: 2,
-      size: 400,
-      participatingSize: 280,
-      turnout: 0.7,
-      lean: 0.4,
-    });
-    expect(core.people.size).toBe(1);
-    expect(core.durableLog.size).toBe(0);
-    expect(groups.summarize("missing").turnout).toBeNull();
-  });
-  it("reports outside and missing spreads without drawing or rewriting a group", () => {
-    const groups = coreAPI(createCore(piecesInput())).voterGroups();
-    groups.put(row);
-    const before = groups.get(row.id);
-    const spread = {
-      id: "observed",
-      placeId: "place",
-      asOf: row.asOf,
-      source,
-      turnout: [0.5, 0.7] as const,
-      lean: [-0.3, -0.1] as const,
-      size: [90, 110] as const,
-    };
-    expect(groups.check(spread).comparisons.map((r) => r.status)).toEqual([
-      "outside",
-      "within",
-      "within",
-    ]);
-    expect(groups.get(row.id)).toBe(before);
+  const where = `${place.name} [${place.key}], seed ${place.seed}`;
+  const api = coreAPI(core);
+  const store = residentsRuntime(core)!.store;
+  const before = digest(core);
+
+  // Groups exist, one row per counted voter, each in exactly one live household.
+  const voters = countedResidents(core);
+  expect(voters.length, where).toBeGreaterThan(0);
+  expect(new Set(voters.map((v) => v.id)).size, where).toBe(voters.length);
+  const households = new Map([...store.liveHouseholds()].map((h) => [h.id, h]));
+  const perHousehold = new Map<string, number>();
+  for (const v of voters) {
+    const h = households.get(v.householdId);
+    expect(h, `${where}: ${v.id} has a live household`).toBeDefined();
+    // The row carries its household's weight (real voters it stands for).
+    expect(v.weight, where).toBe(store.weightOf(h!));
+    expect(v.weight, where).toBeGreaterThanOrEqual(1);
+    expect(store.memberIdsOf(h!), where).toContain(v.id);
+    perHousehold.set(v.householdId, (perHousehold.get(v.householdId) ?? 0) + 1);
+  }
+  // Rows come in id order, and no household yields more rows than it has counted members.
+  expect(
+    voters.map((v) => v.id),
+    where,
+  ).toEqual(voters.map((v) => v.id).sort((a, b) => a.localeCompare(b)));
+  for (const [id, n] of perHousehold)
+    expect(n, `${where}: ${id}`).toBeLessThanOrEqual(
+      store.countedCount(households.get(id)!),
+    );
+  // The records' own total: weights sum to what the residents store counts.
+  const weighted = voters.reduce((n, v) => n + v.weight, 0);
+  const recorded = [...households.values()].reduce(
+    (n, h) => n + store.weightedCount(h),
+    0,
+  );
+  // The two sums add the same weights in a different order, so they may part in
+  // the last bits: allow the rounding a sum of this many terms can carry, no more.
+  const rounding =
+    recorded * Number.EPSILON * (voters.length + households.size);
+  expect(weighted, where).toBeLessThanOrEqual(recorded + rounding);
+  expect(weighted, where).toBeGreaterThan(0);
+
+  // The sample is the town's counted adults, in lean order by real voters.
+  // The eligible set is read here from the counted rows checked above (the
+  // town is the player's place), not from the sample: every counted adult of
+  // the town is in it once, with their household's weight, and nobody else.
+  // Only a town with no counted adult falls back to its named adults.
+  const sample = electorateSample(api, core.date, 0);
+  expect(sample.length, where).toBeGreaterThan(0);
+  const townId = core.people.get(playerId!)!.placeId;
+  const adults = new Map(
+    voters
+      .filter((v) => v.placeId === townId && ageOn(v, core.date) >= 18)
+      .map((v) => [v.id, v.weight]),
+  );
+  const sampled = new Map(sample.map((s) => [s.id, s.weight]));
+  expect(sampled.size, `${where}: one row per voter`).toBe(sample.length);
+  if (adults.size) {
+    expect([...sampled.keys()].sort(), where).toEqual(
+      [...adults.keys()].sort(),
+    );
+    for (const [id, weight] of adults)
+      expect(sampled.get(id), `${where}: ${id}`).toBe(weight);
+  } else
+    for (const s of sample) {
+      const p = core.people.get(s.id);
+      expect(p?.placeId, `${where}: ${s.id} is a named adult`).toBe(townId);
+      expect(s.weight, where).toBe(1);
+    }
+  let last = 0;
+  for (const s of sample) {
+    expect(s.rank, where).toBeGreaterThan(0);
+    expect(s.rank, where).toBeLessThan(1);
+    expect(s.rank, where).toBeGreaterThanOrEqual(last);
+    last = s.rank;
+  }
+
+  // Places counted from the sample stay inside their eligible voters: the
+  // town itself (every place has one) and the state's counted places, where
+  // the record has any (some territories have none).
+  const town = {
+    id: "town",
+    name: "town",
+    eligible: sample.reduce((n, s) => n + s.weight, 0),
+    rightShare: 0.5,
+    votes2024: 0,
+    source: "the town's counted adults",
+  };
+  const places = [town, ...statePlaces(place.state.slice(3), weighted)];
+  const counted = countPlaces(sample, places, typical);
+  expect(counted.places.length, where).toBe(places.length);
+  expect(counted.places[0]!.cast, where).toBeGreaterThan(0);
+  for (const p of counted.places) {
+    expect(p.cast, `${where}: ${p.id}`).toBeGreaterThanOrEqual(0);
+    expect(p.cast, `${where}: ${p.id}`).toBeLessThanOrEqual(p.eligible);
+    // Votes are rounded per candidate, so they sum to the cast within one each.
     expect(
-      groups
-        .check({ ...spread, placeId: "missing" })
-        .comparisons.every((r) => r.status === "missing"),
-    ).toBe(true);
-  });
-  it("compares causal records against actual CPS turnout spreads across places", () => {
-    const groups = coreAPI(createCore(piecesInput())).voterGroups();
-    // Geography literals identify developer research examples, never simulation branches.
-    const spreads = [
-      ...censusVoterSpreads("research:a", "ALABAMA"),
-      ...censusVoterSpreads("research:b", "ALASKA"),
-    ];
-    expect(spreads).toHaveLength(10);
-    expect(spreads[0]!.turnout![0]).toBeCloseTo(0.344);
-    expect(spreads[0]!.turnout![1]).toBeCloseTo(0.488);
-    groups.put({ ...row, placeId: "research:a", turnout: 0.4 });
-    expect(groups.check(spreads[0]!).comparisons[0]!.status).toBe("within");
-    groups.put({ ...row, placeId: "research:a", turnout: 0.9 });
-    expect(groups.check(spreads[0]!).comparisons[0]!.status).toBe("outside");
-    expect(groups.get(row.id)!.turnout).toBe(0.9);
-    expect(censusVoterSpreads("uncovered", "NOT COVERED")).toEqual([]);
-  });
-  it("rejects invalid writes atomically and preserves the existing row", () => {
-    const groups = coreAPI(createCore(piecesInput())).voterGroups();
-    groups.put(row);
-    const invalid = [
-      { lean: NaN },
-      { lean: 1.01 },
-      { lean: -1.01 },
-      { turnout: -0.1 },
-      { turnout: 1.1 },
-      { size: -1 },
-      { size: 1.5 },
-      { size: Infinity },
-      { asOf: "2026-02-30" },
-      { asOf: "2027-01-01" },
-      { sourceRecordIds: [] },
-      { placeId: "" },
-    ];
-    for (const change of invalid)
-      expect(() => groups.put({ ...row, ...change })).toThrow();
-    expect(groups.get(row.id)).toEqual(row);
-    const spread = { id: "bad", placeId: "place", asOf: row.asOf, source };
-    expect(() => groups.check(spread)).toThrow(/bounds/);
-    expect(() =>
-      groups.check({
-        ...spread,
-        turnout: [0.4, 0.6],
-        source: {
-          ...source,
-          tag: "ESTIMATED",
-          estimatedFrom: "Unmeasured target.",
-        },
-      }),
-    ).toThrow(/sourced reference/);
-    expect(() => groups.check({ ...spread, turnout: [0.8, 0.2] })).toThrow();
-    expect(() => groups.check({ ...spread, lean: [-2, 0] })).toThrow();
-  });
-  it("accepts explicit opening rows and preserves empty groups as distinct from missing data", () => {
-    const core = createCore({
-      ...piecesInput(),
-      voterGroups: [{ ...row, size: 0 }],
-    });
-    expect(coreAPI(core).voterGroups().summarize("place")).toEqual({
-      groupCount: 1,
-      size: 0,
-      participatingSize: 0,
-      turnout: null,
-      lean: null,
-    });
-    expect(
-      coreAPI(createCore(piecesInput())).voterGroups().atPlace("place"),
-    ).toEqual([]);
-  });
-});
+      Object.values(p.votes).reduce((n, x) => n + x, 0),
+      `${where}: ${p.id}`,
+    ).toBeLessThanOrEqual(p.cast + Object.keys(p.votes).length);
+  }
+  // No dice: the same sample and field give the same votes.
+  expect(countPlaces(sample, places, typical), where).toEqual(counted);
+
+  // Reading it all changed no record.
+  expect(digest(core), where).toBe(before);
+  console.log(
+    `voter-groups: ${where}, ${voters.length} counted voters, ${adults.size} counted town adults all in the sample of ${sample.length}`,
+  );
+}, 600_000);

@@ -78,7 +78,12 @@ const MODULE: CoreModule = {
           byPerson: { fields: ["personId"] },
         },
       },
-      organizations: { indexes: { byKey: { fields: ["key", "endedOn"] } } },
+      organizations: {
+        indexes: {
+          byKey: { fields: ["key", "endedOn"] },
+          byOrganization: { fields: ["organizationId", "endedOn"] },
+        },
+      },
       groups: { indexes: { byKey: { fields: ["key"] } } },
       /** Policies in force for the town, re-run on each review. */
       active: {},
@@ -89,7 +94,29 @@ const MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => runReview(api, work),
+  // A closed organization is no longer bound or eligible: its open rows end
+  // the day it closes, not at the next monthly review.
+  eventKinds: ["business.closed"],
+  onEvent: (api, event) => {
+    if (event.kind !== "business.closed" || !event.topic) return;
+    endOrganizationRows(api, event.topic, event.date);
+  },
 };
+
+/** End every open reach row naming an organization, dated the day it closed. */
+export function endOrganizationRows(
+  api: CoreAPI,
+  organizationId: string,
+  date: string,
+): void {
+  const orgs = reachTable(api, "organizations");
+  const open = orgs.query("byOrganization", [
+    organizationId,
+    null,
+  ]) as unknown as OrganizationReach[];
+  for (const row of open)
+    orgs.put({ ...row, endedOn: date } as unknown as ModuleRow);
+}
 
 /** Register the records module the first time a group B policy acts. */
 export function reachTable(api: CoreAPI, name: string) {
@@ -125,7 +152,8 @@ const sameTerms = (
  * Bring a policy's records in line with what it reaches today: new records
  * for people and employers newly reached, ended records for those no longer
  * reached (or everyone, when `reach` is null: a repeal), and the counted
- * residents' row. Named people learn of it as a public fact.
+ * residents' row. A legal reach record is not received information: only
+ * news, conversations or notices may create knowledge.
  */
 export function reconcile(
   api: CoreAPI,
@@ -145,14 +173,16 @@ export function reconcile(
     null,
   ]) as unknown as PersonReach[];
   const named = input.reach?.named ?? new Map();
+  // A person still reached on the same terms keeps the row, cited to the law
+  // row now applying it (a new row with the same terms replaces the old law).
   for (const row of open) {
     const terms = named.get(row.personId);
-    if (terms && sameTerms(terms, row.terms)) continue;
+    if (terms && sameTerms(terms, row.terms) && row.lawId === input.lawId)
+      continue;
     people.put({
       ...row,
-      ...(terms ? { terms } : { endedOn: date }),
+      ...(terms ? { terms, lawId: input.lawId } : { endedOn: date }),
     } as unknown as ModuleRow);
-    if (!terms) learn(api, row.personId, input.key, "ended", input.lawId);
   }
   const holding = new Set(open.map((row) => row.personId));
   for (const [personId, terms] of named) {
@@ -169,7 +199,6 @@ export function reconcile(
       terms,
     };
     people.put(row as unknown as ModuleRow);
-    learn(api, personId, input.key, input.effect, input.lawId);
   }
   const orgs = reachTable(api, "organizations");
   const openOrgs = orgs.query("byKey", [
@@ -179,10 +208,11 @@ export function reconcile(
   const bound = input.reach?.organizations ?? new Map();
   for (const row of openOrgs) {
     const terms = bound.get(row.organizationId);
-    if (terms && sameTerms(terms, row.terms)) continue;
+    if (terms && sameTerms(terms, row.terms) && row.lawId === input.lawId)
+      continue;
     orgs.put({
       ...row,
-      ...(terms ? { terms } : { endedOn: date }),
+      ...(terms ? { terms, lawId: input.lawId } : { endedOn: date }),
     } as unknown as ModuleRow);
   }
   const boundNow = new Set(openOrgs.map((row) => row.organizationId));
@@ -219,23 +249,6 @@ export function reconcile(
       endedOn: input.reach ? null : (prior?.endedOn ?? date),
       terms: input.reach?.terms ?? prior?.terms ?? {},
     } satisfies GroupReach);
-}
-
-function learn(
-  api: CoreAPI,
-  personId: string,
-  key: string,
-  value: string,
-  lawId: string,
-): void {
-  if (!api.state.people.has(personId)) return;
-  api.observe(personId, {
-    key: `law-reach:${key}`,
-    value,
-    learnedAt: api.state.date,
-    sourceId: lawId,
-    access: "public",
-  });
 }
 
 export interface ActiveRow {

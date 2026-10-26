@@ -70,13 +70,64 @@
     "minutes|everyday|minutes|self|young-adult": 1
   },
   "graded": {
+    "naturalness": {
+      "unknown": 59
+    },
     "unknown": {
-      "journal": 9,
-      "meeting": 3,
-      "hearing": 6,
-      "conversation": 1,
-      "choice": 3,
-      "notices-and-screens": 3
+      "unknown": 49,
+      "journal": 25,
+      "legislation": 8,
+      "notices": 2,
+      "minutes": 6,
+      "hearing": 2,
+      "meeting": 5,
+      "campaign": 2,
+      "interview": 1,
+      "emotion": 6,
+      "conversation": 2
+    }
+  },
+  "gradedByBatch": {
+    "batch-7": {
+      "unknown": {
+        "journal": 14,
+        "legislation": 2,
+        "notices": 2,
+        "minutes": 4
+      }
+    },
+    "batch-9-relayed": {
+      "unknown": {
+        "unknown": 7
+      }
+    },
+    "batch-9": {
+      "unknown": {
+        "journal": 11,
+        "legislation": 6,
+        "minutes": 2,
+        "hearing": 2,
+        "meeting": 5,
+        "campaign": 2,
+        "interview": 1,
+        "emotion": 6,
+        "conversation": 2
+      }
+    },
+    "voice-notes-batches-11-19": {
+      "unknown": {
+        "unknown": 37
+      }
+    },
+    "batch-13": {
+      "naturalness": {
+        "unknown": 59
+      }
+    },
+    "batch-22": {
+      "unknown": {
+        "unknown": 5
+      }
     }
   }
 }

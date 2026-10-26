@@ -25,7 +25,7 @@
   "jsonFormatter": "prettier 3.9.6",
   "pdfTextTool": "pdfjs-dist 6.3.289",
   "runtimeArtifactIsByteIdenticalToCorpus": false,
-  "runtimeArtifactPath": "src/simulation/world-setup/electoral-calibration.generated.json",
+  "runtimeArtifactPath": "src/core2/data/elections/electoral-calibration.generated.json",
   "runtimeProjection": "electoral-calibration-runtime/v1",
   "runtimeSha256": "b9de4db488764611a2765322d08c2cc68caed04ec0ff6ead8ef09639594581d2",
   "schema": "electoral-calibration-corpus-manifest/v1"

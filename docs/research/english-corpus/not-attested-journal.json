@@ -560,6 +560,3191 @@
       "text": "I've lived in {place} all my life.",
       "documents": 2,
       "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was about {age}.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "By the time I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "The year I turned {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "By the time I was {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I turned {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "At the age of {age}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was only {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was just {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was about {age} years old.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was only {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was just {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "At {age} years old.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "At {age}.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was {age} years of age.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was about {age} or {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was twelve.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was 15.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was barely {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was nearly {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-when-age",
+      "text": "When I was almost {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-age-line",
+      "text": "I was only {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-age-line",
+      "text": "I was just {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-age-line",
+      "text": "I was just {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-age-line",
+      "text": "I was a young man.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-age-line",
+      "text": "I was a young woman.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-age-line",
+      "text": "I was {age} at the time.",
+      "documents": 3,
+      "modern": 0
+    },
+    {
+      "move": "memoir-age-line",
+      "text": "I was {age} years old at the time.",
+      "documents": 4,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was little.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a young man.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a young woman.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-young",
+      "text": "As a kid.",
+      "documents": 4,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "As a young man.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "As a young woman.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a little girl.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a little boy.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a young boy.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a young girl.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was in school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a teenager.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a boy.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a girl.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was five years old.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was in the 10th grade.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a student.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-young",
+      "text": "When I was a young kid.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I had no idea what I was getting into.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I didn't know it then.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I did not know it at the time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I had no idea what was ahead.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I had no idea what was coming.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I had no idea what it would mean.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I had no idea what that would mean.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "Looking back.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That changed everything.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That changed my life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "It changed my life.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-hook",
+      "text": "It changed everything.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "It was a turning point.",
+      "documents": 3,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That was the turning point.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I'll never forget that day.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I will never forget it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I will never forget that day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I never forgot it.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I didn't realize it then.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That was the start.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That's how it began.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That's where it started.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That was where it started.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That's when everything changed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "Everything changed.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "Things changed.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That stayed with me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "It stayed with me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That has stayed with me.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I think about it often.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I still think about it.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I think about that a lot.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That shaped me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "It shaped my life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That shaped my life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "It shaped who I am.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "That shaped who I am.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I never looked back.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I never forgot that.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I did not know that at the time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "I had no idea at the time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hook",
+      "text": "We didn't know it at the time.",
+      "documents": 3,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I went to school together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We went to school together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I met {name} at {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I met {name} in {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I've known {name} since {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I have known {name} since {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I were in school together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} was my best friend.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I knew {name} at {school}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I knew {name} in {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} was in my class.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} was in my class at {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I worked together.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I worked with {name} at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I met {name} at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I met {name} there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I were friends.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I became friends.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I have been friends ever since.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I go way back.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I've known {name} for years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I've known {name} a long time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I have known {name} for years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I have known {name} for a long time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We were in school together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We were in the same class.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We were in the same class at {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} was a classmate of mine.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I knew {name} from school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I knew {name} back then.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We worked together at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We grew up together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I grew up together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "I grew up with {name}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We were classmates.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We were neighbors.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We were friends later on.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "We became friends and still are.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I were neighbors.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-remember",
+      "text": "{name} and I were classmates.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "Except {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "But there was {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-except",
+      "text": "But I had {name}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "Besides {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "Aside from {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "Apart from {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "But there was one person, {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "There was one person, {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "There was one exception, {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "The one exception was {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "The exception was {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "But {name} was there.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "But {name} was different.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "But {name} was a friend.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-except",
+      "text": "But {name} was my friend.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "That's when I decided to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "That is when I decided to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "That's why I decided to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "That is why I decided to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for {office} myself.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run myself.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "So I decided to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "So I decided to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I made up my mind to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I made the decision to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I made a decision to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I made the decision to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I thought, I'll run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided I would run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided I'd run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided that I would run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided that I would run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "That's when I decided to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "That's what made me decide to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "That's what made me run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I ran for {office} in the next election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I ran.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I filed to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I filed to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I'd run for office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I would run for office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I would be elected.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I'd be elected.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I would win.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I'd win.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never expected to run for office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never planned to run for office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never intended to run for office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never planned to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never expected to win.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought of running for office.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never imagined I would run for office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never imagined I'd run for office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never imagined I would win.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for governor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for Congress.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for the Senate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for mayor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for city council.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for the state senate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to run for sheriff.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I made up my mind.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I decided to do it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I'd be chair.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I would be chair.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I'd be a candidate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I'd be a mayor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-decided",
+      "text": "I never thought I would be a candidate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a hard time.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was very hard.",
+      "documents": 3,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was really hard.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a hard time for us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a hard time for my family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a hard time for all of us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a tough time for us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a tough time for my family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a tough time for all of us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was hard on us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was hard on my family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was hard on all of us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was hard on everybody.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "Times were hard.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "Times were tough.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "Times were hard then.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We didn't have much.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We did not have much.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We didn't have a lot.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We didn't have much money.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My mother raised us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My mother raised us alone.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My mother raised us by herself.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My mother raised us on her own.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My mom raised us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My mom raised us alone.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My mom raised us by herself.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My mom raised us on her own.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My father raised us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My dad raised us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My dad raised us alone.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "My dad raised us by himself.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We got by.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We managed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We got through it together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We made it through together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We all pitched in.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "Everybody pitched in.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "Everyone pitched in.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "We had to grow up fast.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "I had to grow up fast.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "I had to go to work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "I had to go to work young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "I had to work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "I had to get a job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "I had to help out.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "I had to help my family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "I had to help my mother.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a tough time for me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a hard time for me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a very hard time.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was an awful time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was a rough time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was really difficult.",
+      "documents": 3,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard",
+      "text": "It was very tough.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} died when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} died when I was {age} years old.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} died when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} died when I was a kid.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} died when I was little.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} died when I was a child.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} died when I was a teenager.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} died when I was in high school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} died when I was in school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} passed away when I was {age}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} passed away when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} passed away when I was a kid.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} passed when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} passed away when I was little.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} was killed when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "{relation} was killed when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was {age} when {relation} died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was {age} when my father died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was {age} when my mother died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was {age} when my dad died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was {age} when my mom died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was only {age} when {relation} died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was only {age} years old when {relation} died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was only {age} when my father died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was only {age} when my mother died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was just {age} when {relation} died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was just {age} when my father died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was just {age} when my mother died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was young when {relation} died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was young when my father died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was young when my mother died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was a kid when {relation} died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was a kid when my father died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was a kid when my mother died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was little when {relation} died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was little when my father died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was little when my mother died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was a child when {relation} died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was a child when my father died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I was a child when my mother died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost {relation} when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost {relation} when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost my father when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost my mother when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost my father when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost my mother when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost my dad when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost my mom when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost my father when I was a kid.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "I lost my mother when I was a kid.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father died when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother died when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My dad died when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mom died when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father died when I was a kid.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother died when I was a kid.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father died when I was a boy.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father died when I was little.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother died when I was little.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father died when I was a child.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother died when I was a child.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father died when I was a teenager.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother died when I was a teenager.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father died when I was in high school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother died when I was in high school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father died when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother died when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My dad died when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mom died when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father died when I was {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother died when I was {age} years old.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father passed away when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother passed away when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father passed away when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother passed away when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father passed when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My mother passed when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father was killed when I was young.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-hard-death",
+      "text": "My father was killed when I was {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost my first race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost that race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost that election.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost the election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost the first time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost my first election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost the first one.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost my first campaign.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost my first time out.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost my first time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost that race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost that election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost the election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost the first time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost the first one.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost the first race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost the first election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost the first campaign.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost by a small margin.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost by just a few votes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost by a few votes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost narrowly.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost, but we learned a lot.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost, but I learned a lot.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost that first race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost that first election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost that one.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost that first one.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I ran and I lost.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I ran and lost.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I ran, and I lost.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I came up short.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We came up short.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I fell short.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We fell short.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We fell short that year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I didn't win.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We didn't win.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I did not win.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We did not win.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We didn't win that race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I didn't win that race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I didn't win that election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We didn't win that election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We didn't win the first time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I didn't win the first time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I was defeated.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I was defeated that year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I was defeated in that race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I was defeated in that election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We were defeated.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I got beat.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We got beat.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I got beat that year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I got beat that time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We got beat that time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost by a point.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost big.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost by two percentage points.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost that one, right.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost on that one.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost in the primary.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost the primary.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost the primary.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost the general election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost the general election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost by a small margin.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost by a few votes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost by a hair.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost the race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "We lost the race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost the first race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost the race that year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-lost",
+      "text": "I lost that year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} became the {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} was elected {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} was elected to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} ran for {office}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} ran for the {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} went on to become {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} went on to be {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} became a {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} is now {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} is {office} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} later became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} would become {office}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} ended up as {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} ended up being {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} won.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} lost.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} was a candidate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} was running for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} ran for {office} that year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} ran against me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} ran against me for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} was my opponent.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} was my opponent that year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} ran the campaign.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} ran my campaign.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} managed my campaign.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} helped me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} helped me with the campaign.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} worked on my campaign.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} worked for me.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} worked for me then.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} worked on the campaign.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} was on the council.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} was on the school board.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He became {office}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He was elected {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He was elected to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He ran for {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-became",
+      "text": "He went on to become {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He went on to be {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He then became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He was appointed {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He was appointed to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He is now {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He was elected {office} that year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He became {office} later on.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He became {office} after a while.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He ran for {office} the next year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He ran for {office} in the next election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He became {office} the next year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He was elected {office} the next year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He won {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He ran for {office} again.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He became {office} after that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He later ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He went on to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He went on to serve as {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He went on to win {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "He became {office} in the end.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later he became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then he became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually he became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later he ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then he ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually he ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later he was elected {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then he was elected {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually he was elected {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later he was elected to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then he was elected to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually he was elected to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later he went on to become {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then he went on to become {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually he went on to become {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later he was appointed {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then he was appointed {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually he was appointed {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She became {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-became",
+      "text": "She was elected {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She was elected to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She ran for {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-became",
+      "text": "She went on to become {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She went on to be {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She later became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She then became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She was appointed {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She was appointed to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She is now {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She was elected {office} that year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She became {office} later on.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-became",
+      "text": "She became {office} after a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She ran for {office} the next year.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "memoir-became",
+      "text": "She ran for {office} in the next election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She became {office} the next year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She was elected {office} the next year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She won {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She ran for {office} again.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She became {office} after that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She later ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She went on to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She went on to serve as {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She went on to win {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "She became {office} in the end.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later she became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then she became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually she became {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later she ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then she ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually she ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later she was elected {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then she was elected {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually she was elected {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later she was elected to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then she was elected to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually she was elected to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later she went on to become {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then she went on to become {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually she went on to become {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Later she was appointed {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Then she was appointed {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "Eventually she was appointed {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "memoir-became",
+      "text": "{name} was appointed {office}.",
+      "documents": 0,
+      "modern": 0
     }
-  ]
+  ],
+  "memoirRead": {
+    "NASA oral histories": 981,
+    "U.S. House oral histories": 107,
+    "U.S. Senate oral histories": 7
+  }
 }

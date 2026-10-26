@@ -9,10 +9,9 @@ import { generatedOpening } from "../core2/tooling/generated-world";
 import type { CoreEventInput, CoreModule } from "../core2/types";
 import { createHash } from "node:crypto";
 import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../core2/place-lookup";
 import { composeJournal } from "./journal";
 import { createDirector } from "./ledger";
 import { peopleData, peopleModules } from "./play-modules";
@@ -24,12 +23,12 @@ import { peopleData, peopleModules } from "./play-modules";
 // Without the runner, a place drawn from all 56 the way the runner draws.
 function drawPlace(label: string) {
   const hash = createHash("sha256").update(label).digest("hex");
-  const states = [...lifePlaceStateIdentities()].sort((a, b) =>
+  const states = [...corePlaceStateIdentities()].sort((a, b) =>
     a.jurisdictionKey.localeCompare(b.jurisdictionKey),
   );
   const state = states[parseInt(hash.slice(0, 8), 16) % states.length]!;
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state.jurisdictionKey,
       scope: "locality",
     }),
@@ -89,13 +88,26 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
     ).toBe(true);
   });
 
-  it("gives everyone an economy event named a moment that cites it", () => {
+  it("gives everyone an economy event named a moment that cites it, or measures it below the floor", () => {
+    // A change too small to be a moment (a layoff two months into a job) is
+    // measured and counted under the floor, never lost: the director keeps
+    // the label it scored under.
+    const FLOOR_LABEL: Readonly<Record<string, string>> = {
+      "work.job-lost": ":job-ended",
+    };
     const missed = recorded.flatMap((event) =>
       event.personIds
         .filter(
           (personId) =>
             watched.has(personId) &&
-            !momentsCiting(event.id).includes(personId),
+            !momentsCiting(event.id).includes(personId) &&
+            !(
+              FLOOR_LABEL[event.kind] !== undefined &&
+              [
+                ...(director.ledger.people.get(personId)?.belowFloor.keys() ??
+                  []),
+              ].some((label) => label.endsWith(FLOOR_LABEL[event.kind]!))
+            ),
         )
         .map((personId) => {
           const book = director.ledger.people.get(personId);
@@ -121,7 +133,25 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
             core.people.get(mover)!.familyIds.has(id),
           ),
       );
-      for (const id of relatives) expect(momentsCiting(event.id)).toContain(id);
+      // The relative has the move's moment, or, someone other than the
+      // player keeping only their strongest older moments, its month's
+      // summary of moves (the director's memory, ledger.ts forget) that
+      // names this mover among the moments it folded in.
+      const month = event.date.slice(0, "YYYY-MM".length);
+      const summarized = (id: string) =>
+        [...(director.ledger.people.get(id)?.summaries.values() ?? [])].some(
+          (summary) =>
+            summary.month === month &&
+            summary.label.endsWith(`:event:${event.kind}`) &&
+            event.personIds.some((mover) =>
+              summary.counterpartIds.includes(mover),
+            ),
+        );
+      for (const id of relatives)
+        expect(
+          momentsCiting(event.id).includes(id) || summarized(id),
+          `${event.id}: ${id}`,
+        ).toBe(true);
     }
   });
 
@@ -132,7 +162,7 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
       ),
     );
     const economy = lines.filter(({ line }) =>
-      /lost (my|his|her|their) job|started .+\.$|were evicted|bought a house|moved away/.test(
+      /lost (my|his|her|their) job|started .+\.$|were evicted|bought a house|moved away|(moved|came)( back)? to .+\.$/.test(
         line.text,
       ),
     );
@@ -154,9 +184,14 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
         const text = composeJournal(core, director, parentId).flatMap(
           (chapter) => chapter.lines.map((line) => line.text),
         );
+        // The line carries the child's name (owner, Oct 15, evening: "My
+        // daughter Jane was born.").
         expect(
-          text.some((line) =>
-            /^My (son|daughter|child) was born\.$/.test(line),
+          text.some(
+            (line) =>
+              /\b[Mm]y (son|daughter|child) [A-Z][\w'-]*( was born| came along)?\.$/.test(
+                line,
+              ) || /^My (son|daughter|child)( [^.]+)? was born\./.test(line),
           ),
         ).toBe(true);
       }

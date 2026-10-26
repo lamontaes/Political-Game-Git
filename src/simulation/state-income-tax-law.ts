@@ -47,7 +47,7 @@ import {
 } from "./income-tax-withholding";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import type { EntityId, IsoDate, World } from "./types";
-import { censusRegionOf } from "./world-setup/census-regions";
+import { censusRegionOf } from "../core2/reference/census-regions";
 import {
   readFinalEnactedLawTerm,
   readFinalEnactedLawSchedule,

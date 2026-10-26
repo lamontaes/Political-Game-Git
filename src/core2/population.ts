@@ -1,5 +1,15 @@
-import { openingEmploymentFromRecordedRoles } from "./opening-employment";
+import { resolveLawInForce } from "./laws-in-force";
+import { lawChainForPlace, startingLawRows } from "./laws-starting";
+import {
+  DEFAULT_RESIDENT_EMPLOYMENT,
+  openingEmploymentFromRecordedRoles,
+} from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
+import {
+  departmentGovernment,
+  departmentLinkSource,
+  departmentOwnersOf,
+} from "./opening-department-pay";
 import { openingHistoricalCountyOwnerFacts } from "./opening-public-owner";
 import {
   prepareOpeningPublicPayAuthorities,
@@ -14,63 +24,56 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
   type CharacterHistoryContextPersonInput,
-} from "../simulation/character-history";
+} from "./opening-people";
 import {
   ageOnDate,
   daysBetween,
   isoDateFromParts,
   makeIsoDate,
-} from "../simulation/dates";
+} from "./kernel/dates";
 import {
   countyLandSharesForPlace,
   countyPopulationSharesForPlace,
-} from "../simulation/government-units";
+} from "./reference/government-units";
 import {
   HOUSEHOLD_MIX_META,
   householdMixForJurisdiction,
   type HouseholdMix,
   type HouseholdShape,
-} from "../simulation/household-mix";
-import { createStableId, stableHash } from "../simulation/ids";
+} from "./household-mix";
+import { createStableId, pairKey, stableHash } from "./kernel/ids";
 import {
-  lifePlaceByKey,
-  lifePlaceByJurisdictionId,
-  stateJurisdictionForKey,
-  type LifePlace,
-} from "../simulation/life-places";
+  corePlaceByKey,
+  corePlaceByJurisdictionId,
+  coreStateJurisdiction,
+  type CorePlace,
+} from "./place-lookup";
 import {
   estimatedMonthlyHouseholdLivingCosts,
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
-} from "../simulation/living-costs-data";
-import { organizationProfileAt } from "../simulation/life-queries";
+} from "./reference/living-costs-data";
+import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
-import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
+import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
   townJobRate,
   townPayPercentile,
   weeklyHoursOf,
-} from "../simulation/living-world/town-pay";
-import { TOWN_PAY_META } from "../simulation/living-world/town-pay.generated";
-import {
-  bedroomsForHousehold,
-  hudRentRowFor,
-} from "../simulation/living-world/town-rent";
-import { TOWN_RENT_META } from "../simulation/living-world/town-rent.generated";
+} from "./town-pay";
+import { TOWN_PAY_META } from "./reference/town-pay.generated";
+import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import { TOWN_RENT_META } from "./reference/town-rent.generated";
 import {
   TOWN_RESIDENTS_VERSION,
   townHouseholdPeople,
   townHouseholdSkeleton,
   type TownHouseholdSkeleton,
-} from "../simulation/living-world/town-residents";
-import { placeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
-import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
-import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
-import {
-  PEOPLE_MIND_VERSION,
-  PEOPLE_TRAITS,
-} from "../simulation/people-trait-definitions";
+} from "./town-households";
+import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
+import { placeReferencePopulation } from "./gov-rules/place-population";
+import { PEOPLE_MIND_VERSION, PEOPLE_TRAITS } from "./people-mind";
 import {
   upbringingCoreValueFrom,
   upbringingFor,
@@ -80,9 +83,10 @@ import {
   registeredTraitLean,
   upbringingQualities,
 } from "../simulation/people-traits";
-import { medianTransactionBalance } from "../simulation/starting-money";
-import { traitRegistryFor } from "../simulation/trait-registry";
-import { isOneSided, type RegisteredTrait } from "../simulation/trait-packs";
+import { medianTransactionBalance } from "./starting-cash";
+import { seedableTraits } from "./opening-trait-table";
+import { PERSONALITY_PACK } from "./personality-catalogue";
+import { isOneSided, type RegisteredTrait } from "./trait-packs";
 import type {
   EntityId,
   Household,
@@ -100,19 +104,19 @@ import {
   createWorld,
   writeWithWorldIntegrityOnce,
 } from "../simulation/world";
-import { DEFAULT_CORPUS_VERSION } from "../simulation/names-data";
-import { drawCanonicalNamedIdentity } from "../simulation/people";
-import { nameCorpusVersionForWorld } from "../simulation/place-name-corpus";
+import { DEFAULT_CORPUS_VERSION } from "./gov-rules/names-data";
+import { drawCanonicalNamedIdentity } from "./person-names";
 import {
   defaultPronounsForGender,
   type GenderIdentityKey,
-} from "../simulation/person-identity";
-import { birthCohortGivenName } from "../simulation/given-name-cohorts";
-import { inventedPersonBirthDate } from "../simulation/invented-person-age";
-import { SeededRng } from "../simulation/rng";
+} from "./gov-rules/person-identity";
+import { birthCohortGivenName } from "./gov-rules/given-name-cohorts";
+import { inventedPersonBirthDate } from "./gov-rules/invented-person-age";
+import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";
+import { spacedSiblingBirths } from "./sibling-births";
 import { openingTemperaments } from "./opening-personality";
 import { PARAMETERS, parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -142,7 +146,7 @@ export interface PopulationOptions {
 }
 
 interface CountyContext {
-  place: LifePlace;
+  place: CorePlace;
   share: number;
 }
 
@@ -194,7 +198,7 @@ const GENERATED_PROVENANCE = {
 };
 
 /** Geography is distinct from government: a county area need not have a county council. */
-function countyContexts(place: LifePlace): readonly CountyContext[] {
+function countyContexts(place: CorePlace): readonly CountyContext[] {
   const population = place.sourceGeoid
     ? countyPopulationSharesForPlace(place.sourceGeoid)
     : [];
@@ -203,7 +207,7 @@ function countyContexts(place: LifePlace): readonly CountyContext[] {
     : new Map<string, number>();
   const rows: CountyContext[] = [];
   for (const [geoid, populationShare] of population) {
-    const county = lifePlaceByKey(`county:${geoid}`);
+    const county = corePlaceByKey(`county:${geoid}`);
     if (county)
       rows.push({
         place: county,
@@ -214,7 +218,7 @@ function countyContexts(place: LifePlace): readonly CountyContext[] {
   // Declared county equivalents use the same identity loader; this also admits municipios.
   for (const unit of placeLocalGovernmentUnits(place).counties) {
     const county = unit.countyGeoid
-      ? lifePlaceByKey(`county:${unit.countyGeoid}`)
+      ? corePlaceByKey(`county:${unit.countyGeoid}`)
       : null;
     if (county && !rows.some((row) => row.place.key === county.key))
       rows.push({ place: county, share: p("one") });
@@ -222,20 +226,37 @@ function countyContexts(place: LifePlace): readonly CountyContext[] {
   return rows;
 }
 
+/** The minimum wage in force on a date at a place, from the starting law, in dollars an hour; null where none is recorded. */
+function startMinimumWage(placeKey: string, date: string): number | null {
+  const chain = lawChainForPlace(placeKey);
+  const answer = resolveLawInForce({
+    series: "minimum-wage",
+    chain,
+    date,
+    // Local minimums are not modeled in pay: the state and federal rows only.
+    rows: startingLawRows(chain).filter(
+      (row) =>
+        row.series === "minimum-wage" &&
+        (row.level === "federal" || row.level === "state"),
+    ),
+  });
+  return answer.value === null ? null : answer.value / p("minorPerDollar");
+}
+
 /** An initialization identity choice among real records, never a behavioral roll. */
 function selectedPlace(
   options: PopulationOptions,
   minimumPeople: number,
-): LifePlace {
+): CorePlace {
   if (options.placeKey !== undefined) {
-    const place = lifePlaceByKey(options.placeKey);
+    const place = corePlaceByKey(options.placeKey);
     if (!place || place.scope !== "locality")
       throw new Error(
         `Population requires a recorded locality: ${options.placeKey}`,
       );
     return place;
   }
-  let selected: LifePlace | undefined;
+  let selected: CorePlace | undefined;
   let selectedHash: string | undefined;
   for (const place of realLocalities()) {
     if (place.scope !== "locality" || !place.sourceGeoid) continue;
@@ -327,7 +348,7 @@ function withFamilyContext(
       effectiveAt: today,
       jurisdictionId: home,
       label:
-        lifePlaceByJurisdictionId(home)?.displayName ??
+        corePlaceByJurisdictionId(home)?.displayName ??
         world.jurisdictions[home]!.name,
       kind: "residence:home",
       provenance,
@@ -505,16 +526,30 @@ function openingTraits(
 
 /** One-time legacy-source importer; no legacy clock, world generation or advance. */
 export function buildPopulation(options: PopulationOptions): CoreInput {
-  const minimumPeople = options.minimumPeople ?? p("targetPopulation");
-  if (!Number.isSafeInteger(minimumPeople) || minimumPeople < p("one"))
+  const target = options.minimumPeople ?? p("targetPopulation");
+  if (!Number.isSafeInteger(target) || target < p("one"))
     throw new Error("Opening population must be a positive whole count.");
   const startedAt = makeIsoDate(options.startedAt);
-  const place = selectedPlace(options, minimumPeople);
+  const place = selectedPlace(options, target);
+  // A town smaller than the target opens at its real size (its Census
+  // reference population); a size asked for by name is kept as asked.
+  const real = place.sourceGeoid
+    ? placeReferencePopulation(place.sourceGeoid)?.value
+    : undefined;
+  const minimumPeople =
+    options.minimumPeople === undefined &&
+    real !== undefined &&
+    real >= p("one")
+      ? Math.min(target, real)
+      : target;
   const town = place.context.jurisdiction.id;
+  // The floor the opening's pay rests on is the minimum wage the starting law
+  // gives on the start date (dollars an hour), not a later year's rate.
+  const startMinimumHourly = startMinimumWage(place.key, startedAt);
   const counties = countyContexts(place);
   const jurisdictions = new Map([[town, place.context.jurisdiction]]);
   if (place.stateJurisdictionKey) {
-    const state = stateJurisdictionForKey(place.stateJurisdictionKey);
+    const state = coreStateJurisdiction(place.stateJurisdictionKey);
     if (state) jurisdictions.set(state.id, state);
   }
   for (const county of counties)
@@ -532,16 +567,13 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const source = estimatedSource(
     startedAt,
     `${HOUSEHOLD_MIX_META.source} ${TOWN_RESIDENTS_VERSION}; ${place.context.jurisdiction.provenance.source ?? "recorded locality identity"}; ${LIVING_COSTS_SOURCE}; ${TOWN_RENT_META.fairMarketRents}; Federal Reserve SCF 2022 Tables 1/6; src/simulation/people-upbringing.ts.`,
-    `Generated opening cohort at ${startedAt}; ${mix.basis} household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster or an exact 2021 population. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills.`,
+    `Generated opening cohort at ${startedAt}; ${mix.basis} household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills.`,
   );
-  stopgap("SG-P8-opening-vintage");
-  stopgap("SG-P8-historical-start");
   stopgap("SG-P8-family-network-coverage");
   stopgap("SG-P8-person-trait-diversity");
   const gaps = new Set<string>([
-    `Opening vintage: ${startedAt} household/population estimates retain later source vintages; no reconstructed 2021 census or migration history.`,
+    `Opening vintage: ${startedAt} household and population estimates are calibrated from the latest source vintages, which calibrate the world without dating it.`,
     "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",
-    "Baseline law and offices: January 2021 laws, officeholder rosters and powers are not reconstructed; later place/government/institution identity records remain opening proxies, with no actual 2021 officeholder count claimed.",
     "Labor context: no school enrollment, primary care responsibility, pensions, business books or funded public staffing imported; canonical matcher reads the records actually present.",
     "Money: CES nonhousing categories and a hypothetical HUD shelter budget exclude actual tenure, debts, taxes, insurance contracts and medical service bills; no housing contract is invented.",
   ]);
@@ -564,11 +596,35 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   );
   // P15: members are aged from the place's records by household type, and
   // some housemates are a parent and grown child (opening-partnership.ts).
+  // Then the household's children, minor and grown, are born months apart.
   const drawHousehold = (index: number, shape?: HouseholdShape) =>
+    spaceSiblings(drawAged(index, shape));
+  const spaceSiblings = (drawn: ReturnType<typeof drawAged>) => {
+    const siblings = drawn.skeleton.members.flatMap((member, n) =>
+      member.role === "child" || drawn.grownChildren.includes(n) ? [n] : [],
+    );
+    if (siblings.length < p("two")) return drawn;
+    const births = spacedSiblingBirths(
+      startedAt,
+      siblings.map((n) => drawn.people[n]!.birthDate),
+    );
+    const people = [...drawn.people];
+    const members = [...drawn.skeleton.members];
+    siblings.forEach((n, i) => {
+      if (births[i] === people[n]!.birthDate) return;
+      people[n] = { ...people[n]!, birthDate: births[i]! };
+      members[n] = {
+        ...members[n]!,
+        age: ageOnDate(makeIsoDate(births[i]!), startedAt),
+      };
+    });
+    return { ...drawn, people, skeleton: { ...drawn.skeleton, members } };
+  };
+  const drawAged = (index: number, shape?: HouseholdShape) =>
     partnerAgedHousehold({
       seed: options.seed,
-      geo: partnershipGeo(lifePlaceByJurisdictionId(town)?.sourceGeoid),
-      skeleton: townHouseholdSkeleton(seedWorld, town, index, shape),
+      geo: partnershipGeo(corePlaceByJurisdictionId(town)?.sourceGeoid),
+      skeleton: townHouseholdSkeleton(seedWorld.seed, town, index, shape),
       people: townHouseholdPeople(seedWorld, town, index, shape),
       rebirth: (person, age, sex) => {
         const birthDate = inventedPersonBirthDate(
@@ -585,7 +641,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           sex && sex !== person.identity?.gender
             ? { gender: sex, pronouns: defaultPronounsForGender(sex) }
             : person.identity;
-        const corpusVersion = nameCorpusVersionForWorld(seedWorld, town);
         const drawnName =
           identity === person.identity || !identity
             ? person.givenName
@@ -594,22 +649,21 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
                   .fork(`${person.stableKey}:p15-sex`)
                   .fork("name"),
                 identity,
-                { corpusVersion },
+                { corpusVersion: DEFAULT_CORPUS_VERSION },
               ).givenName;
         const gender = identity?.gender as GenderIdentityKey | undefined;
         return {
           ...person,
           birthDate,
           ...(identity ? { identity } : {}),
-          givenName:
-            gender && corpusVersion === DEFAULT_CORPUS_VERSION
-              ? birthCohortGivenName(seedWorld.seed, person.stableKey, {
-                  givenName: drawnName,
-                  familyName: person.familyName,
-                  birthDate,
-                  gender,
-                })
-              : drawnName,
+          givenName: gender
+            ? birthCohortGivenName(seedWorld.seed, person.stableKey, {
+                givenName: drawnName,
+                familyName: person.familyName,
+                birthDate,
+                gender,
+              })
+            : drawnName,
         };
       },
       addPerson: (key, sex, age, familyName) => {
@@ -617,11 +671,10 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           gender: sex,
           pronouns: defaultPronounsForGender(sex),
         };
-        const corpusVersion = nameCorpusVersionForWorld(seedWorld, town);
         const named = drawCanonicalNamedIdentity(
           new SeededRng(seedWorld.seed).fork(key).fork("name"),
           identity,
-          { corpusVersion },
+          { corpusVersion: DEFAULT_CORPUS_VERSION },
         );
         const birthDate = inventedPersonBirthDate(
           new SeededRng(seedWorld.seed).fork(`${key}:p15-birth`),
@@ -635,15 +688,12 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         const surname = familyName ?? named.familyName;
         return {
           stableKey: key,
-          givenName:
-            corpusVersion === DEFAULT_CORPUS_VERSION
-              ? birthCohortGivenName(seedWorld.seed, key, {
-                  givenName: named.givenName,
-                  familyName: surname,
-                  birthDate,
-                  gender: sex,
-                })
-              : named.givenName,
+          givenName: birthCohortGivenName(seedWorld.seed, key, {
+            givenName: named.givenName,
+            familyName: surname,
+            birthDate,
+            gender: sex,
+          }),
           familyName: surname,
           identity,
           birthDate,
@@ -693,34 +743,48 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   let index = p("zero");
   for (; inputs.length < minimumPeople; index += p("one"))
     addHousehold(index, drawHousehold(index));
-  // The player's cohort: a town whose own sample shows no family with a
-  // child that age (a small place's survey count can show none at all)
-  // still opens with one. The town's next households are drawn as families,
-  // in the place's split of couples and single parents with children (the
-  // nation's where the place shows neither), and the first holding a child
-  // that age moves in, every member aged from the place's records as above.
-  const cohortAge = options.cohortAge;
-  const ofCohort = (person: CharacterHistoryContextPersonInput) =>
-    ageOnDate(makeIsoDate(person.birthDate), startedAt) === cohortAge;
-  if (cohortAge !== undefined && !inputs.some(ofCohort)) {
-    const familyShares = (shares: HouseholdMix["shares"]) =>
-      shares.filter(
-        ([shape, share]) =>
-          share > p("zero") &&
-          (shape === "couple-with-children" ||
-            shape === "parent-with-children"),
-      );
-    const families = familyShares(mix.shares).length
-      ? familyShares(mix.shares)
-      : familyShares(householdMixForJurisdiction(null).shares);
-    const total = families.reduce((sum, [, share]) => sum + share, p("zero"));
-    // Searched no further than as many households again as the town has.
-    const last = index + plans.length;
-    for (; ; index += p("one")) {
-      if (index > last)
-        throw new Error(
-          `No household of ${place.displayName} holds a resident aged ${cohortAge}.`,
-        );
+  // The player's cohorts: a town whose own sample shows no family with a
+  // child that age (a small place's survey count can show none at all) still
+  // opens with one. Two ages matter: the age the player is drawn at
+  // (`playerEntryAge`, kept when the opening has no resident that age) and the
+  // caller's `cohortAge` (required). The town's next households are drawn as
+  // families, in the place's split of couples and single parents with children
+  // (the nation's where the place shows neither), and the first holding a
+  // person that age moves in, every member aged from the place's records as above.
+  const cohorts: { age: number; required: boolean }[] = [
+    ...(options.cohortAge !== undefined
+      ? [{ age: options.cohortAge, required: true }]
+      : []),
+    ...(options.cohortAge !== p("playerEntryAge")
+      ? [{ age: p("playerEntryAge"), required: false }]
+      : []),
+  ];
+  const familyShares = (shares: HouseholdMix["shares"]) =>
+    shares.filter(
+      ([shape, share]) =>
+        share > p("zero") &&
+        (shape === "couple-with-children" || shape === "parent-with-children"),
+    );
+  const families = familyShares(mix.shares).length
+    ? familyShares(mix.shares)
+    : familyShares(householdMixForJurisdiction(null).shares);
+  const total = families.reduce((sum, [, share]) => sum + share, p("zero"));
+  for (const { age: cohortAge, required } of cohorts) {
+    const ofCohort = (person: CharacterHistoryContextPersonInput) =>
+      ageOnDate(makeIsoDate(person.birthDate), startedAt) === cohortAge;
+    if (inputs.some(ofCohort)) continue;
+    // Searched no further than as many households again as the town has, and
+    // never fewer than the floor: a town of a few people has a few households.
+    const last =
+      index + Math.max(plans.length, p("cohortSearchMinimumHouseholds"));
+    for (; index <= last + p("one"); index += p("one")) {
+      if (index > last) {
+        if (required)
+          throw new Error(
+            `No household of ${place.displayName} holds a resident aged ${cohortAge}.`,
+          );
+        break;
+      }
       let point =
         new SeededRng(seedWorld.seed)
           .fork(`${TOWN_RESIDENTS_VERSION}:${town}:household:${index}:cohort`)
@@ -731,6 +795,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       const drawn = drawHousehold(index, shape);
       if (drawn.people.some(ofCohort)) {
         addHousehold(index, drawn);
+        index += p("one");
         break;
       }
     }
@@ -746,7 +811,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const employmentSource = estimatedSource(
     startedAt,
     `${TOWN_EMPLOYMENT_META.countyBusinessPatterns.source} ${TOWN_EMPLOYMENT_META.publicEmployment.source} src/simulation/living-world/town-employment.ts`,
-    "Existing deterministic matcher and authored workplace/role mix, interpreted as an opening estimate; later employment vintages are not observed 2021 jobs.",
+    "Existing deterministic matcher and authored workplace/role mix, interpreted as an opening estimate; employment vintages are not observed opening-day jobs.",
   );
   const roles = new Map(
     world.history.workRoles
@@ -784,6 +849,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       role.occupationClassification,
       role.locationJurisdictionId,
       percentile,
+      startMinimumHourly,
     );
     const fallbackAnnual = role.occupationClassification
       ? nationalMedianAnnualWage(role.occupationClassification)
@@ -806,27 +872,36 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       personId: relationship.personId,
       organizationId: relationship.organizationId,
       title: role.title,
-      occupationClassification: role.occupationClassification ?? undefined,
+      ...(role.occupationClassification
+        ? { occupationClassification: role.occupationClassification }
+        : {}),
       hoursDaily,
       hourlyMinor: Math.round(hourlyMinor),
       wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
       source: estimatedSource(
         startedAt,
         `${wageCitation} ${employmentSource.citation}`,
-        `${rate ? `SOC ${rate.soc}, area ${rate.area}, percentile ${rate.percentile}` : "National same-occupation median or registered missing-occupation fallback"}; weekly hours from the generated role; calendar-day average. Job tenure, wage and minimum floor are opening proxies, not historical 2021 contracts.`,
+        `${rate ? `SOC ${rate.soc}, area ${rate.area}, percentile ${rate.percentile}` : "National same-occupation median or registered missing-occupation fallback"}; weekly hours from the generated role; calendar-day average. Job tenure, wage and minimum floor are opening proxies, not historical contracts.`,
       ),
     };
     jobs.push(job);
     jobByPerson.set(job.personId, job);
   }
   const countyGeoidByPerson = new Map<string, string>();
+  // A place with no county of its own (an island area's) reads its
+  // state-equivalent's row of the employment table, where the table has one.
+  const stateEquivalent = place.sourceGeoid?.slice(0, 2);
+  const stateEquivalentRow =
+    stateEquivalent &&
+    stateEquivalent in DEFAULT_RESIDENT_EMPLOYMENT.countyCounts
+      ? stateEquivalent
+      : undefined;
   for (const plan of plans) {
     const county = counties.find(
       (row) => row.place.context.jurisdiction.id === plan.countyId,
     );
-    if (county?.place.sourceGeoid)
-      for (const id of plan.ids)
-        countyGeoidByPerson.set(id, county.place.sourceGeoid);
+    const geoid = county?.place.sourceGeoid ?? stateEquivalentRow;
+    if (geoid) for (const id of plan.ids) countyGeoidByPerson.set(id, geoid);
   }
   const openingAllocation =
     options.openingEmployment === false
@@ -842,6 +917,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           options.seed,
           undefined,
           countyGeoidByPerson,
+          undefined,
+          startMinimumHourly ?? undefined,
         );
   for (const job of openingAllocation.jobs) {
     jobs.push(job);
@@ -860,10 +937,12 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       "Opening employment uses national CPS age priors with tunable missing-county scaling; no sourced local or territorial employment rate is claimed.",
     );
   const publicPayIdentities: OpeningPublicEmployerIdentity[] = [];
+  const departmentOwners = departmentOwnersOf(place);
   const historicalCountyPayingOwnerIds: Record<string, string> = {};
+  const profiles = openingOrganizationProfiles(world);
   const organizations: OrganizationInput[] = world.history.organizations.map(
     (organization) => {
-      const profile = organizationProfileAt(world, organization.id)!;
+      const profile = profiles.get(organization.id)!;
       const publicOwner = openingHistoricalCountyOwnerFacts({
         organizationId: organization.id,
         organizationStableKey: organization.stableKey,
@@ -874,6 +953,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         startedAt,
       });
       for (const gap of publicOwner.gaps) gaps.add(gap);
+      const department = publicOwner.governmentFacts
+        ? undefined
+        : departmentGovernment(profile.classification, departmentOwners);
       if (publicOwner.governmentFacts && publicOwner.identitySource) {
         const governmentKey = publicOwner.governmentFacts.governmentKey!;
         const priorOwnerId = historicalCountyPayingOwnerIds[governmentKey];
@@ -895,6 +977,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           ],
           source: publicOwner.identitySource,
         });
+      } else if (!profile.publicGovernmentIdentity && department) {
+        stopgap("SG-WORLD-department-government");
+        publicPayIdentities.push({
+          organizationId: organization.id,
+          identity: department.identity,
+          basisRecordIds: [profile.id],
+          source: departmentLinkSource(employmentSource, profile.id),
+        });
       } else if (profile.publicGovernmentIdentity) {
         publicPayIdentities.push({
           organizationId: organization.id,
@@ -914,6 +1004,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         classification: profile.classification,
         governmentFacts:
           publicOwner.governmentFacts ??
+          department?.governmentFacts ??
           (profile.publicGovernmentIdentity
             ? {
                 governmentKind: profile.publicGovernmentIdentity.kind,
@@ -1067,7 +1158,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         recordFamilyPast(
           child,
           sibling,
-          `${plan.stableKey}:sibling:${[child, sibling].sort().join(":")}`,
+          `${plan.stableKey}:sibling:${pairKey(child, sibling)}`,
           born[p("one")]!,
           "sibling",
         );
@@ -1116,7 +1207,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const planByPerson = new Map(
     plans.flatMap((plan) => plan.ids.map((id) => [id, plan] as const)),
   );
-  const registry = [...traitRegistryFor(world).traits.values()];
+  const registry = seedableTraits();
   const people: PersonInput[] = world.personOrder.map((id) => {
     const person = world.people[id]!;
     const plan = planByPerson.get(id)!;
@@ -1196,6 +1287,25 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       openingAllocation.templateJobIdByJob,
     ),
   );
+  // A job states the week its schedule runs: the hourly rate (the occupation's
+  // market rate) is paid for those minutes, so the stated hours and daily pay
+  // follow them, and a hire that copies the job copies the same week.
+  const scheduledMinutes = new Map(
+    plannedCommitments.map((row) => [row.jobId, row.expectedWeeklyMinutes]),
+  );
+  for (const [index, job] of jobs.entries()) {
+    const minutes = scheduledMinutes.get(job.id);
+    if (minutes === undefined || !(minutes > p("zero"))) continue;
+    const hoursDaily = minutes / p("minutesPerHour") / p("daysPerWeek");
+    if (hoursDaily === job.hoursDaily) continue;
+    const hourlyMinor =
+      job.hourlyMinor ?? Math.round(job.wageDailyMinor / job.hoursDaily);
+    jobs[index] = {
+      ...job,
+      hoursDaily,
+      wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
+    };
+  }
   const openingCapital = createOpeningEmployerCapital(
     {
       seed: options.seed,
@@ -1232,7 +1342,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     world,
     town,
     stateId: place.stateJurisdictionKey
-      ? stateJurisdictionForKey(place.stateJurisdictionKey)?.id
+      ? coreStateJurisdiction(place.stateJurisdictionKey)?.id
       : undefined,
     stateKey: place.stateJurisdictionKey ?? undefined,
     startedAt,
@@ -1298,7 +1408,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         : "not-held",
       livingCostSource: `${LIVING_COSTS_SOURCE}; ${TOWN_RENT_META.fairMarketRents}`,
       cashSource:
-        "Federal Reserve SCF 2022 tables 1/6, families holding transaction accounts; src/simulation/starting-money.ts. No-job household reserve is an explicit expense-buffer estimate.",
+        "Federal Reserve SCF 2022 tables 1/6, families holding transaction accounts; src/core2/starting-cash.ts. No-job household reserve is an explicit expense-buffer estimate.",
       temporaryWorld:
         "Valid createWorld plus one person batch, one family-table batch and one canonical town employment batch; never advanced or returned.",
     },
@@ -1328,7 +1438,6 @@ function openingFamilies(input: OpeningFamilyInput): {
   familyLinks: FamilyLink[];
 } {
   const { world, startedAt, source } = input;
-  const corpusVersion = nameCorpusVersionForWorld(world, input.town);
   const kin = buildOpeningKin(
     input.plans.map((plan) => ({
       id: plan.id,
@@ -1365,20 +1474,17 @@ function openingFamilies(input: OpeningFamilyInput): {
         const named = drawCanonicalNamedIdentity(
           new SeededRng(world.seed).fork(stableKey).fork("name"),
           { gender: key, pronouns: defaultPronounsForGender(key) },
-          { corpusVersion },
+          { corpusVersion: DEFAULT_CORPUS_VERSION },
         );
         const surname = familyName ?? named.familyName;
         return {
           familyName: surname,
-          givenName:
-            corpusVersion === DEFAULT_CORPUS_VERSION
-              ? birthCohortGivenName(world.seed, stableKey, {
-                  givenName: named.givenName,
-                  familyName: surname,
-                  birthDate: makeIsoDate(birthDate),
-                  gender: key,
-                })
-              : named.givenName,
+          givenName: birthCohortGivenName(world.seed, stableKey, {
+            givenName: named.givenName,
+            familyName: surname,
+            birthDate: makeIsoDate(birthDate),
+            gender: key,
+          }),
         };
       },
     },
@@ -1410,9 +1516,30 @@ function openingFamilies(input: OpeningFamilyInput): {
     citation: `${source.citation} ${OPENING_KIN.moves.source}`,
     estimatedFrom: OPENING_KIN.moves.source,
   };
+  // A parent who died in the year before day one is a dated fact on the
+  // resident who survives them; the news archive reports it.
+  const diedOf = new Map<string, typeof kin.deaths>();
+  for (const death of kin.deaths)
+    diedOf.set(death.survivorId, [
+      ...(diedOf.get(death.survivorId) ?? []),
+      death,
+    ]);
   const familyFacts = (personId: string) => {
     const relations = byPerson.get(personId) ?? [];
     const pastFacts = [
+      ...(diedOf.get(personId) ?? []).map((death) => ({
+        id: `${personId}:family-died:${death.relation}`,
+        date: death.date,
+        kind: "family:parent-died",
+        summary: `${death.givenName} ${death.familyName}, this person's ${death.relation}, died.`,
+        source: kinSource,
+        facts: {
+          relation: death.relation,
+          givenName: death.givenName,
+          familyName: death.familyName,
+          birthDate: death.birthDate,
+        },
+      })),
       ...relations.map((row) => ({
         id: `${personId}:family:${row.otherId}`,
         date: row.date,
@@ -1506,23 +1633,34 @@ function openingFamilies(input: OpeningFamilyInput): {
           ),
         ]),
     );
-    // Every generated trait shares one temperament source; recorded facets
-    // keep the source they already had.
+    // Facets are notable-only (the trait registry): a facet at the middle
+    // level is not recorded, so no record reads as unknown, never as average.
+    const all: Record<string, number> = {};
+    for (const row of [traits, core, recorded])
+      for (const key in row) {
+        const value = row[key]!;
+        if (value === p("zero") && !key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+          delete all[key];
+        else all[key] = value;
+      }
+    const sources: Record<string, Source> = {
+      ...(sharedTraitSource
+        ? Object.fromEntries(
+            Object.keys(recorded).map((key) => [key, sharedTraitSource]),
+          )
+        : {}),
+      ...(traitSources ?? {}),
+      ...Object.fromEntries(
+        Object.keys(core)
+          .filter((key) => key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+          .map((key) => [key, temperamentSource]),
+      ),
+    };
+    for (const key of Object.keys(sources))
+      if (!(key in all)) delete sources[key];
     return {
-      traits: { ...traits, ...core, ...recorded },
-      traitSources: {
-        ...(sharedTraitSource
-          ? Object.fromEntries(
-              Object.keys(recorded).map((key) => [key, sharedTraitSource]),
-            )
-          : {}),
-        ...(traitSources ?? {}),
-        ...Object.fromEntries(
-          Object.keys(core)
-            .filter((key) => key.startsWith(`${PEOPLE_MIND_VERSION}:`))
-            .map((key) => [key, temperamentSource]),
-        ),
-      },
+      traits: all,
+      traitSources: sources,
       sharedTraitSource: temperamentSource,
     };
   };

@@ -21,7 +21,7 @@
  * `civil-war-and-revolution-preconditions`.
  */
 
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 
 /**
  * Where the pressure sizes in `causes.ts`, `flows.ts` and `step.ts` come from.

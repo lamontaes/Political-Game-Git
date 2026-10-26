@@ -1,0 +1,458 @@
+{
+  "schema": "english-parts/1",
+  "register": "speech-stages",
+  "description": "A speech the player builds in stages: a short opener, two longer parts at the core on different subjects (the speaker's own stands, work, home, children, school) and a short closer. The player picks one of four at each stage; the pieces are authored to the calibrated rally and council-comment patterns, and every fact is a slot from the speaker's records.",
+  "slots": {
+    "place": "The speaker's town, from the household record.",
+    "employer": "The speaker's employer, from the job record.",
+    "years": "Years at that employer, computed from the dated tenure record.",
+    "school": "The speaker's school, from the school record.",
+    "number": "The count of children in the speaker's household, from the household record.",
+    "issue": "The subject of a stand, as the bill catalog names its topic.",
+    "goal": "What the speaker's recorded stand is about, as the bill catalog names the policy; said as a question, then answered."
+  },
+  "maxWords": 30,
+  "parts": [
+    {
+      "key": "speech-stages.stage-opener.thank-you-all-for-coming",
+      "move": "stage-opener",
+      "text": "Thank you all for coming.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-opener.it-s-great-to-be-here",
+      "move": "stage-opener",
+      "text": "It's great to be here.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-opener.i-m-glad-to-be-here",
+      "move": "stage-opener",
+      "text": "I'm glad to be here.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-opener.it-s-good-to-be-in-place",
+      "move": "stage-opener",
+      "text": "It's good to be in {place}.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-opener.good-to-see-you-all",
+      "move": "stage-opener",
+      "text": "Good to see you all.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-closer.thank-you-very-much",
+      "move": "stage-closer",
+      "text": "Thank you very much.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-closer.thank-you-all",
+      "move": "stage-closer",
+      "text": "Thank you all.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-closer.thank-you-and-god-bless-you",
+      "move": "stage-closer",
+      "text": "Thank you, and God bless you.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-closer.god-bless-you-and-god-bless-america",
+      "move": "stage-closer",
+      "text": "God bless you, and God bless America.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-closer.that-s-all-i-have-to-say",
+      "move": "stage-closer",
+      "text": "That's all I have to say.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-closer.let-s-get-to-work",
+      "move": "stage-closer",
+      "text": "Let's get to work.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-work.i-worked-at-employer-for-years-years",
+      "move": "stage-work",
+      "text": "I worked at {employer} for {years} years. I know what a paycheck means in {place}.",
+      "uses": [
+        {
+          "move": "stage-work",
+          "subject": "stage",
+          "role": "work",
+          "choice": "work"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-work.i-work-at-employer-i-know-what-a-pay",
+      "move": "stage-work",
+      "text": "I work at {employer}. I know what a paycheck means in {place}, because I earn mine here.",
+      "uses": [
+        {
+          "move": "stage-work",
+          "subject": "stage",
+          "role": "work",
+          "choice": "work"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-home.i-live-in-place-i-know-these-streets",
+      "move": "stage-home",
+      "text": "I live in {place}. I know these streets, and I know the people who live on them.",
+      "uses": [
+        {
+          "move": "stage-home",
+          "subject": "stage",
+          "role": "home",
+          "choice": "home"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-children.i-m-raising-number-children-here-in-",
+      "move": "stage-children",
+      "text": "I'm raising {number} children here in {place}. Every choice we make now is one they'll live with.",
+      "uses": [
+        {
+          "move": "stage-children",
+          "subject": "stage",
+          "role": "children",
+          "choice": "children"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-school.i-went-to-school-what-we-teach-our-k",
+      "move": "stage-school",
+      "text": "I went to {school}. What we teach our kids there is what we leave behind.",
+      "uses": [
+        {
+          "move": "stage-school",
+          "subject": "stage",
+          "role": "school",
+          "choice": "school"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-stance-enact.let-me-talk-about-issue-goal-i-m-for",
+      "move": "stage-stance-enact",
+      "text": "Let me talk about {issue}. {goal}? I'm for it, and I'm saying so here in {place}.",
+      "uses": [
+        {
+          "move": "stage-stance-enact",
+          "subject": "stage",
+          "role": "stance-enact",
+          "choice": "stance-enact"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-stance-enact.on-issue-i-ll-be-plain-goal-i-m-for-",
+      "move": "stage-stance-enact",
+      "text": "On {issue}, I'll be plain. {goal}? I'm for it. Ask me why, and I'll tell you.",
+      "uses": [
+        {
+          "move": "stage-stance-enact",
+          "subject": "stage",
+          "role": "stance-enact",
+          "choice": "stance-enact"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-stance-enact.i-want-to-talk-about-issue-goal-i-m-",
+      "move": "stage-stance-enact",
+      "text": "I want to talk about {issue}. {goal}? I'm for it, and I'd like you to hold me to that.",
+      "uses": [
+        {
+          "move": "stage-stance-enact",
+          "subject": "stage",
+          "role": "stance-enact",
+          "choice": "stance-enact"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-stance-repeal.let-me-talk-about-issue-goal-i-m-aga",
+      "move": "stage-stance-repeal",
+      "text": "Let me talk about {issue}. {goal}? I'm against it, and I'm saying so here in {place}.",
+      "uses": [
+        {
+          "move": "stage-stance-repeal",
+          "subject": "stage",
+          "role": "stance-repeal",
+          "choice": "stance-repeal"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-stance-repeal.on-issue-i-ll-be-plain-goal-i-m-agai",
+      "move": "stage-stance-repeal",
+      "text": "On {issue}, I'll be plain. {goal}? I'm against it. Ask me why, and I'll tell you.",
+      "uses": [
+        {
+          "move": "stage-stance-repeal",
+          "subject": "stage",
+          "role": "stance-repeal",
+          "choice": "stance-repeal"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    }
+  ]
+}

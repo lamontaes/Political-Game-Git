@@ -21,7 +21,7 @@ import {
   createFutureTransitionHandlerRegistry,
 } from "./future-transitions";
 import { recordWorldEvent } from "./world";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   EXECUTIVE_ELECTED_TERM_ENTRY,
   EXECUTIVE_ELECTED_TERM_EXPIRY,

@@ -1,13 +1,13 @@
 import startingLaw from "../../../data/research/laws/starting-law-2026/index";
-import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import stateSessionCalendar from "../../../data/research/laws/state-session-calendars.json" with { type: "json" };
 import {
   addDays,
   daysBetween,
   isoDateFromParts,
   makeIsoDate,
   yearOf,
-} from "../dates";
-import type { IsoDate } from "../types";
+} from "../../core2/kernel/dates";
+import type { IsoDate } from "../../core2/kernel/brands";
 
 /**
  * When a state statute takes effect if the act names no date of its own, by

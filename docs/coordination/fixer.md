@@ -1,5 +1,7 @@
 # FIXER: Standby bug fixer
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Only FIXER writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
 
 - **Owns:** Nothing of its own; works only on bugs the CTO assigns.
@@ -20,7 +22,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [x] **Assigned bugs (both CTO items from Oct 12, 4:25 a.m. done; PRs #4005 and #4006, draft).** Bugs from your evening playtests and checker failures; one bug per PR; no refactoring; inside a pillar's folders only with that pillar told.
   - **Assigned by the CTO, Oct 12, 4:25 a.m. (OPUS-PEOPLE asked for both; open each PR against `pool/P15-people-5`, never push to it):**
     1. **Zero-dice allowlist.** Add allowlist rows for OPUS-PEOPLE's generation picks that were on its branch before today: births' timing in `opening-kin.ts`, household ages in `opening-partnership.ts` (two lines), and the school name pattern in `deep-past.ts`. They are generation (who exists), keyed by household or person. The enrollment-weighted school pick in `deep-past.ts` is not generation: register it as a stopgap whose replacement is "the school follows from the home's location once homes have locations" (it may already exist as `SG-P15-school-assignment`; point the marker at it).
-    2. **American English sweep exemption.** `tests/american-english-sweep.test.ts` fails on `pool/P15-people-5` over real proper names in generated data: school names in `src/core2/data/opening-schools.json` (NCES, e.g. "Harbour", "Centre") and owner names in `src/core2/data/opening-public-owners-2017.json`. Add one `AMERICAN_ENGLISH_EXEMPT` row each in `scripts/prose-eval/american-english-scope.ts`, with the reason "real names from federal school and ownership records".
+    2. **American English sweep exemption.** `tests/american-english-sweep.test.ts` fails on `pool/P15-people-5` over real proper names in generated data: school names in `src/core2/data/opening-schools.json` (NCES, e.g. "Harbor", "Center") and owner names in `src/core2/data/opening-public-owners-2017.json`. Add one `AMERICAN_ENGLISH_EXEMPT` row each in `scripts/prose-eval/american-english-scope.ts`, with the reason "real names from federal school and ownership records".
   - Verified by: A test that fails before the fix and passes after.
   - Needs: The owning pillar
 - [x] **Assigned by the CTO, Oct 12, 5:52 a.m. (all three done; draft PRs #4009, #4010, #4011 against `main`; each edits this file's log, so expect a trivial merge).** First run `npm ci`: this environment has no setup script, and you couldn't run tests last time without it. One bug per branch and PR, against `main`:
@@ -138,7 +140,7 @@ Newest first: one line per event (what changed, the measured result, what's next
 
 - Oct 12 (FIXER): golden-path runner on `fixer/golden-path-one-process`: plain `vitest run <files>` specs now run together in one vitest process (JSON report tells files apart; commands with flags still run alone); they share one drawn place and seed (`vitest-batch`). PR budget left at 300 s, since I can't measure here (no node_modules; the storage guard refuses `npm ci`). Checked the batching with a stub; CI to confirm and the CTO to say if 600 s is needed. The version fix is on `fixer/title-version`.
 
-- Oct 12 (FIXER): credits data done on `fixer/credits-data`: `data/credits/credits.json` (86 rows: 83 CC BY and CC BY-SA reference photos, O\*NET with its exact credit line, Census finances and employment) and `tests/credits-list.test.ts` (fails when a manifest or lock needs credit and the list lacks it). Seven photos have no artist in the manifest, so their rows point to the source page; OPUS-PLAY can fill names later. The sweep failure on `fixer.md` (Harbour, Centre) is #4006's exemption, not this branch. Next: real-name hygiene.
+- Oct 12 (FIXER): credits data done on `fixer/credits-data`: `data/credits/credits.json` (86 rows: 83 CC BY and CC BY-SA reference photos, O\*NET with its exact credit line, Census finances and employment) and `tests/credits-list.test.ts` (fails when a manifest or lock needs credit and the list lacks it). Seven photos have no artist in the manifest, so their rows point to the source page; OPUS-PLAY can fill names later. The sweep failure on `fixer.md` (Harbor, Center) is #4006's exemption, not this branch. Next: real-name hygiene.
 
 - Oct 12 (FIXER): #4005 zero-dice allowlist rows (guard: 6 new -> nothing new) and #4006 American English exemption, both against `pool/P15-people-5`. #4006's sweep test not run here (no node_modules); CI to confirm. M7-05 legal check written. Next: BOARD.md open work.
 

@@ -1,18 +1,31 @@
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { drivesReport } from "../core2/modules/drives";
-import { effectsOn } from "../core2/modules/law-effects";
-import { coreAPI } from "../core2/state";
+import { reachOn } from "../core2/law-reach/host";
+import { coreAPI, personOrFillIn } from "../core2/state";
+import { currentCloseness } from "../core2/closeness";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { PAST_MODULE_ID } from "../core2/past-module";
+import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
+import {
+  BALANCED_TRAIT,
+  PEOPLE_TRAITS,
+  TRAIT_SHAPES,
+  PEOPLE_MIND_VERSION,
+} from "../core2/people-trait-definitions";
+import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
+import { preStartHistory } from "../core2/pre-start";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
 
 /** A person card: who they are, from their records only. */
 export function personCard(core: CoreState, personId: string) {
-  const person = core.people.get(personId);
+  // A counted resident is filled in the moment they are clicked, from the
+  // world's records, so the card is the same person every time.
+  const person = personOrFillIn(core, personId);
   if (!person) throw new Error("Resident does not exist in core records.");
   const name = (id: string) => {
     const row = core.people.get(id);
@@ -35,7 +48,7 @@ export function personCard(core: CoreState, personId: string) {
         name: name(otherId),
         kind: row.kind,
         relation: relationWord(core, otherId, relationOf.get(otherId)),
-        level: row.level,
+        level: currentCloseness(core, row),
         lastContactDate: row.lastContactDate,
         recordId: row.id,
         // Why the tie last changed, from its own record.
@@ -62,10 +75,23 @@ export function personCard(core: CoreState, personId: string) {
       actCount: row.actCount,
       sourceEventId: row.sourceEventId,
     }));
+  // How they came to hold a seat before the start, from the government's
+  // history before day one, each with the term record it stands on.
+  const seats = preStartHistory(core, {
+    kind: "office.seat-reached",
+    personId,
+  }).map((row) => ({
+    recordId: row.id,
+    termId: String(row.facts.termId),
+    officeId: String(row.facts.officeId),
+    reached: String(row.facts.reached),
+    since: row.date,
+  }));
   return {
     id: person.id,
     name: name(person.id),
     birthDate: person.birthDate,
+    seats,
     age: ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
     alive: person.alive,
     home: household && {
@@ -76,6 +102,7 @@ export function personCard(core: CoreState, personId: string) {
           personId: id,
           name: name(id),
           relation: relationWord(core, id, relationOf.get(id)),
+          alive: core.people.get(id)?.alive ?? true,
         })),
     },
     job: job && {
@@ -100,24 +127,42 @@ export function personCard(core: CoreState, personId: string) {
             }
           | undefined) ?? null)
       : null,
+    // The temperament recorded on the person, each in the pole's own word.
+    traits: PEOPLE_TRAITS.flatMap((trait) => {
+      const value = person.traits[`${PEOPLE_MIND_VERSION}:${trait}`];
+      if (value === undefined) return [];
+      const shape = TRAIT_SHAPES[trait];
+      return [
+        {
+          label: shape.label,
+          word:
+            value < 0
+              ? shape.low.label
+              : value > 0
+                ? shape.high.label
+                : BALANCED_TRAIT.label,
+        },
+      ];
+    }),
+    // Where they place themselves politically, as the views engine's label.
+    view: core.modules.has(VIEWS_MODULE_ID)
+      ? (viewOf(coreAPI(core), personId)?.label ?? null)
+      : null,
     affect: person.affect,
     needs: person.needs,
     ties,
     drives,
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
-    lawEffects: core.modules.has("core2-law-effects-v1")
-      ? effectsOn(coreAPI(core), personId).map((row) => ({
-          id: row.id,
-          lawId: row.lawId,
-          question: row.question,
-          kind: row.kind,
-          what: row.what,
-          enforcer: row.enforcer,
-          since: row.since,
-          endedOn: row.endedOn,
-        }))
-      : [],
+    lawEffects: reachOn(coreAPI(core), personId).map((row) => ({
+      id: row.id,
+      lawId: row.lawId,
+      question: row.key,
+      kind: row.kind,
+      what: row.what,
+      since: row.since,
+      endedOn: row.endedOn,
+    })),
     // The life so far: each dated fact from the person's records.
     past: [...(person.pastFacts ?? [])]
       .sort((a, b) => a.date.localeCompare(b.date))
@@ -178,15 +223,24 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     tie: tie
       ? {
           kind: tie.kind,
-          level: tie.level,
+          level: currentCloseness(core, tie),
           lastContactDate: tie.lastContactDate,
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,
+    // What the public knows of a figure the viewer may never have met (the
+    // past module's public tier); null for anyone else.
+    publicKnowledge: core.modules.has(PAST_MODULE_ID)
+      ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
+      : null,
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [
-        { id: otherId, name: `${other.givenName} ${other.familyName}` },
+        {
+          id: otherId,
+          name: `${other.givenName} ${other.familyName}`,
+          reason: "subject",
+        },
       ]).people[0]?.figureUrl ?? null,
   };
 }

@@ -1,4 +1,4 @@
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { recordLawExposure } from "./law-exposure";
 import { lawInForce } from "./governing/law-in-force";
 import {

@@ -1,7 +1,7 @@
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import { nationalMoodDemocraticShift } from "../national-mood";
 import { candidacyPackById } from "../candidacy-packs";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { decideAnotherTerm } from "../careers/another-term";
 import { legislativeTermDates } from "../legislative-office-terms";
 import {
@@ -22,7 +22,7 @@ import {
 } from "../living-world/opening";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { bindingFromIdentity } from "../../districts/query";
 import {
   legislativeTermLimitBar,
@@ -31,7 +31,11 @@ import {
 import { lawInForce } from "../governing/law-in-force";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { applyStateElectionLawLandings } from "../law-consequences/modules/election-state-landings";
-import { clampShare, logit, logistic } from "../world-setup/deterministic-math";
+import {
+  clampShare,
+  logit,
+  logistic,
+} from "../../core2/kernel/deterministic-math";
 import {
   isStateLegislativeSeatDue,
   stateLegislativeElectionRule,

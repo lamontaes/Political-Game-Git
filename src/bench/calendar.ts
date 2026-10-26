@@ -1,8 +1,9 @@
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { wordArchiveStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import type { ContestRow } from "../core2/modules/elections";
-import type { CoreState } from "../core2/types";
+import type { CoreState, LogRecord } from "../core2/types";
 import { storiesHeard } from "../core2/modules/news";
 
 const ELECTIONS = "core2-elections-v1";
@@ -79,17 +80,58 @@ export function calendarItems(
   );
 }
 
+/** Public employer data for the news surface, never a private benefit claim. */
+function staffingNews(
+  core: CoreState,
+  facts: Readonly<Record<string, unknown>>,
+) {
+  const organization = core.organizations.get(
+    String(facts.organizationId ?? ""),
+  );
+  if (!organization || facts.jobsLost === undefined) return undefined;
+  const number = (key: string) =>
+    facts[key] === undefined ? undefined : Number(facts[key]);
+  const jobsLost = number("jobsLost");
+  const salesMinor = number("salesMinor");
+  const costsMinor = number("costsMinor");
+  if (
+    !Number.isFinite(jobsLost) ||
+    (salesMinor !== undefined && !Number.isFinite(salesMinor)) ||
+    (costsMinor !== undefined && !Number.isFinite(costsMinor))
+  )
+    return undefined;
+  return { employer: organization.name, jobsLost, salesMinor, costsMinor };
+}
+
+/**
+ * The visibility a kept record has as news. A record that names the player or
+ * their circle is kept as "circle"; when it is a public record or a news
+ * event (their own race's result, in town or for a statewide seat), it is
+ * news to them and shows with the town's public record.
+ */
+function newsVisibility(core: CoreState, row: LogRecord) {
+  if (row.visibility !== "circle") return row.visibility;
+  return row.publicRecord || row.news ? "public" : undefined;
+}
+
 /** Public records and news the player can know, newest first. */
 export function newsItems(core: CoreState) {
   return [...core.durableLog.values()]
-    .filter((row) => row.visibility === "public" || row.visibility === "news")
+    .map((row) => ({ row, visibility: newsVisibility(core, row) }))
+    .filter(
+      ({ visibility }) => visibility === "public" || visibility === "news",
+    )
     .reverse()
-    .map((row) => ({
+    .map(({ row, visibility }) => ({
       id: row.id,
       date: row.date,
       kind: row.kind,
-      visibility: row.visibility,
+      visibility,
       facts: (row as { facts?: Record<string, unknown> }).facts ?? {},
+      staffing: staffingNews(
+        core,
+        (row as { facts?: Record<string, unknown> }).facts ?? {},
+      ),
     }));
 }
 
@@ -103,5 +145,7 @@ export function heardItems(core: CoreState, personId: string) {
       date: story.date,
       kind: story.kind,
       facts: story.facts,
+      staffing: staffingNews(core, story.facts),
+      ...wordArchiveStory(core, story),
     }));
 }

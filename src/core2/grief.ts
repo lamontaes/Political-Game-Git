@@ -11,9 +11,9 @@
  * relative's grief is their closeness to the person who died, halving every
  * half-life of their own.
  */
-import { daysBetween, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
-import { inverseStandardNormal } from "../simulation/world-setup/deterministic-math";
+import { daysBetweenText } from "./kernel/dates";
+import { stableHash, pairKey } from "./kernel/ids";
+import { inverseStandardNormal } from "./kernel/deterministic-math";
 import { currentCloseness } from "./closeness";
 import data from "./data/grief.json" with { type: "json" };
 import { extendData } from "./data";
@@ -96,9 +96,7 @@ export function recordDeath(
       if (id === deceasedId) continue;
       const person = api.state.people.get(id);
       if (!person?.alive || !person.familyIds.has(deceasedId)) continue;
-      const tie = api.state.relationships.get(
-        [id, deceasedId].sort().join(":"),
-      );
+      const tie = api.state.relationships.get(pairKey(id, deceasedId));
       if (!tie) continue;
       const rows = store.get(id) ?? [];
       rows.push({
@@ -124,8 +122,7 @@ export function griefToday(
     grief +=
       row.grief *
       api.parameter("two") **
-        (-daysBetween(makeIsoDate(row.date), makeIsoDate(api.state.date)) /
-          halfLife);
+        (-daysBetweenText(row.date, api.state.date) / halfLife);
   return {
     grief: Math.min(api.parameter("one"), grief),
     sourceIds: rows.map((row) => row.eventId),

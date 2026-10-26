@@ -11,18 +11,6 @@
     "citation": "A personal stake in an issue moves people to run (Lawless and Fox 2010, ch. 4; Fox and Lawless 2005, American Journal of Political Science 49(3):642-659). Weight on the person's strongest recorded drive. Spread 1 to 3.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
-  "candidacyTemperamentWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Competitiveness, risk-taking and comfort with conflict raise ambition (Lawless and Fox 2010; Dynes, Hassell and Miles 2019, Political Behavior 41:309-336). Weight on the mean of sociability, risk and conflict, each -2 to 2, scaled to -1 to 1. Spread 0.5 to 2.",
-    "stopgapId": "SG-P15-candidacy-weights"
-  },
-  "candidacyMoneyWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The cost of running deters candidates with less money (Carnes 2018, The Cash Ceiling, Princeton University Press). Weight on what filing costs (the fee, less the share the person's own circle can cover by petition where signatures are taken in place of it) against their cash on hand plus what comes in over the filing window (their pay, or for someone without a job, what they live on), -1 to 1. Spread 0.5 to 2.",
-    "stopgapId": "SG-P15-candidacy-weights"
-  },
   "candidacyTimeWeight": {
     "value": 1,
     "tag": "TUNABLE",
@@ -53,21 +41,15 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyStayOutPull": {
-    "value": 5.0,
+    "value": 3.94,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records (their own engagement, the value the views engine gives them when filled in). Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In six drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787, 488331b4a95b8a20 and Vayas, Puerto Rico; 5,569 to 8,990 counted adults each), the adults whose recorded pull for a local seat exceeds 5.0 number 3, 0, 8, 2, 3 and 2 (at 4.8: 8, 1, 30, 13, 16 and 4); each runs for one seat, and a crowded race spreads them over the town's seats. The chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Spread 4.8 to 5.4.",
-    "stopgapId": "SG-P15-candidacy-weights"
-  },
-  "candidacyIncumbencyWeight": {
-    "value": 3.5,
-    "tag": "TUNABLE",
-    "citation": "The pull of holding the seat already. Calibrated so about 81% of incumbents run again: from 2010 to 2024 an average of 18.8% of state legislative seats were open because the incumbent did not run (Ballotpedia, 'Early filing deadlines show fewer state legislative incumbents retiring than in previous years', May 1, 2024, https://news.ballotpedia.org/2024/05/01/early-filing-deadlines-show-fewer-state-legislative-incumbents-retiring-than-in-previous-years/). With the stay-out pull at 4.6, the 19th percentile of run-over-stay-out margins without incumbency was -3.15 (seed candidacy-a) and -2.97 (seed candidacy-b), so 3.1; raised by the same 0.4 as the stay-out pull (5.0) to keep the share. Spread 3.3 to 3.7.",
+    "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records (their own engagement, the value the views engine gives them when filled in). Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In six drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787, 488331b4a95b8a20 and Vayas, Puerto Rico; 5,569 to 8,990 counted adults each), the adults whose recorded pull for a local seat exceeds 5.0 number 3, 0, 8, 2, 3 and 2 (at 4.8: 8, 1, 30, 13, 16 and 4); each runs for one seat, and a crowded race spreads them over the town's seats. The chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Those counts were taken when a money term (cash against the filing fee, weight 1) still sat in the sum, near its full weight for almost everyone (a median of 0.96 to 1.0 across the named adults of two played worlds, Oct 13, 2026); filing fees were removed (owner, Oct 13), and the bar came down by that weight to keep the same people over it. Spread 3.8 to 4.4. Measured Oct 20, 2026 in played towns (buildBenchWorld, 400 days, local seats whose filing had closed, specials left out; places drawn with drawPlace('unc-batch:<n>', 'unc') for n = 100 to 189): with the pull at 3.8, 85.0 percent of 107 local seats (15 towns) had no more than one candidate; at 3.9, 91.7 percent of 132 seats (25 towns); at 4.0 an earlier batch of 111 seats gave 85 percent. Ballotpedia's band is 58 to 75 percent, so the pull inside its documented spread does not move the share to the band; the gap is not in this weight (pool item elections-local-races-share-above-band). Lowered from 4.0 to 3.94 when the run decision's trait weight was refitted among newcomers (0.91 to 0.2), so the same 40 of 14,430 newcomers in four drawn election years run as before.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyFilingWindowDays": {
     "value": 60,
     "tag": "ESTIMATED",
-    "citation": "Where a place's records give no opening day for filing, the window is taken to open this many days before the deadline. State candidate filing periods commonly run from two weeks to about three months before the deadline (National Conference of State Legislatures, 'Filing Deadlines for State Legislative Candidates'; Ballotpedia, 'Signature requirements and deadlines for 2026 local elections'). The same window is the time a would-be candidate has to find the fee from what comes in.",
+    "citation": "Where a place's records give no opening day for filing, the window is taken to open this many days before the deadline. State candidate filing periods commonly run from two weeks to about three months before the deadline (National Conference of State Legislatures, 'Filing Deadlines for State Legislative Candidates'; Ballotpedia, 'Signature requirements and deadlines for 2026 local elections').",
     "estimatedFrom": "NCSL and Ballotpedia filing periods; spread 14 to 120 days"
   },
   "candidacyPlatformQuestions": {
@@ -111,9 +93,123 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyCountywideWeight": {
-    "value": 0.375,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The pull a countywide race loses against a town seat: more ground, more voters and a costlier campaign. Checked against the share of county races with more than one candidate in the general election: 34% of county legislative races (2,170 of 6,423) and 26% of sheriff races (316 of 1,244) were contested in November 2020 (BallotReady, 'Nothing to Lose: Uncontested Races in 2020 and Their Implications', https://organizations.ballotready.org/research/nothing-to-lose-uncontested-races-in-2020-and-their-implications); Ballotpedia counted 25% of the 36,068 local and state elections it covered through October 2024 as contested, with county offices among the least contested (https://news.ballotpedia.org/2024/11/01/67-of-elections-in-kentucky-are-uncontested/). In four played worlds run a year from Oct 12, 2026 (seeds 540f49ac, 551e6d5a, bd3a60c4 and e2761fc3; 38 county races on Nov 3, 2026), 7 races were contested (18%) at 0.45 and 16 (42%) at 0.3; 0.375 sits between them, at about 30%. Spread 0.3 to 0.45.",
+    "citation": "The pull a countywide race loses against a town seat: more ground, more voters and a costlier campaign. Checked against the share of county races with more than one candidate in the general election: 34% of county legislative races (2,170 of 6,423) and 26% of sheriff races (316 of 1,244) were contested in November 2020 (BallotReady, 'Nothing to Lose: Uncontested Races in 2020 and Their Implications', https://organizations.ballotready.org/research/nothing-to-lose-uncontested-races-in-2020-and-their-implications); Ballotpedia counted 25% of the 36,068 local and state elections it covered through October 2024 as contested, with county offices among the least contested (https://news.ballotpedia.org/2024/11/01/67-of-elections-in-kentucky-are-uncontested/). In four played worlds run a year from Oct 12, 2026 (seeds 540f49ac, 551e6d5a, bd3a60c4 and e2761fc3; 38 county races on Nov 3, 2026), 7 races were contested (18%) at 0.45 and 16 (42%) at 0.3; 0.375 sits between them, at about 30%. With filing fees removed (owner, Oct 13, 2026), four played worlds run a year from Oct 12, 2026 (seeds 2e5c4afb, 9eb38ac7, e591f227 and b670243f; 25 county races on Nov 3, 2026) had 15 contested (60%) at 0.375 and 8 (32%) at 0.5, against 10 (40%) with the fee at 0.375. Spread 0.4 to 0.6.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyOpenSeatWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Set at the low end so one open seat in a town of about a thousand adults still draws only a handful. Spread 0.5 to 1.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyRecordGapWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challenge them. Policy disagreement with the officeholder is a leading reason challengers give for running (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96; Lawless and Fox 2010, ch. 4). Spread 0.5 to 2. Set at 2, the top of its spread, with the counted adults weighing a seat by the same standing and record terms as named people: in played towns (buildBenchWorld, 400 days, local seats whose filing had closed, specials left out; places drawn with drawPlace('unc-batch:<n>', 'unc') for n = 100 to 127, 18 towns with such seats), 91 of 121 local seats (75 percent, 95% interval 68 to 83) had no more than one candidate, against 85 to 92 percent at 1 and Ballotpedia's 58 to 75. At 2 the fixture town of named adults still draws under 2 percent of its adults for one seat (candidacy.test.ts).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyMeansRunwayDays": {
+    "value": 365,
+    "tag": "ESTIMATED",
+    "citation": "The days of living cost a would-be candidate for a wide race wants set aside before running; at that much cash the means term is in full. Campaigns for statewide and federal office run a year or more before the election (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96).",
+    "estimatedFrom": "Candidate Emergence Study; spread 180 to 730 days",
+    "spread": {
+      "low": 180,
+      "high": 730,
+      "unit": "days",
+      "citation": "Candidate Emergence Study; spread 180 to 730 days"
+    }
+  },
+  "candidacyMunicipalReach": {
+    "value": 0.0026,
+    "tag": "ESTIMATED",
+    "citation": "The share of a state's voters a city or town seat covers: about 19,500 incorporated places across 50 states (Census Bureau, Census of Governments 2022), so about 390 per state and one 390th of the voters on average.",
+    "estimatedFrom": "Census of Governments 2022 counts of municipal governments; spread 0.0005 to 0.01",
+    "spread": {
+      "low": 0.0005,
+      "high": 0.01,
+      "unit": "share",
+      "citation": "Census of Governments 2022 counts of municipal governments; spread 0.0005 to 0.01"
+    }
+  },
+  "candidacyStatewideWeight": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "The pull a statewide or congressional race loses against a town seat: more ground, more voters and a far costlier campaign, above the countywide loss (see candidacyCountywideWeight). Checked against the share of statewide and U.S. House general elections with more than one major-party candidate: in 2022 and 2024 about 90 percent of U.S. House and nearly all governor and U.S. Senate races had a candidate from each major party (Ballotpedia, 'Uncontested elections'; Federal Election Commission candidate summaries). Spread 0.4 to 1.2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyBackingWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on party backing: the share of the state's vote the person's own party draws, in a partisan race. A party's organization and donors back its candidates where it is strong (Herrnson 2012, Congressional Elections: Campaigning at Home and in Washington, ch. 4). Spread 0.5 to 1.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyCountyReach": {
+    "value": 0.016,
+    "tag": "ESTIMATED",
+    "citation": "The share of a state's voters a county seat covers: 3,031 counties and county equivalents across 50 states (Census Bureau, Census of Governments 2022), about 61 per state, one 61st of the voters on average.",
+    "estimatedFrom": "Census of Governments 2022 counts of county governments; spread 0.005 to 0.05",
+    "spread": {
+      "low": 0.005,
+      "high": 0.05,
+      "unit": "share",
+      "citation": "Census of Governments 2022 counts of county governments; spread 0.005 to 0.05"
+    }
+  },
+  "candidacyAmbitionWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on the person's ambition (their enterprising and risk-taking traits, the officials engine's formula): progressive ambition spurs officeholders and others to seek the next seat (Schlesinger 1966, Ambition and Politics; Fox and Lawless 2005, American Journal of Political Science 49(3):642-659). Applies to anyone drawn from the standing pool of a race. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyFormerStanding": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Standing of someone who ran before and lost, 0 to 1: a past campaign leaves a name, a donor list and a volunteer base for the next one (Maisel and Stone 1997; Jacobson 1989, Strategic Politicians and the Dynamics of U.S. House Elections, APSR 83(3)). Spread 0.3 to 0.7.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyReachExponent": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How quickly standing from an office carries into a wider race: the share of the race's voters the person's seat already covers, raised to this power (a seat covering a tenth of the electorate gives a third of full standing at 0.5). Officeholders carry name recognition into higher races in proportion to the constituency they already serve (Squire 1992, Challenger Quality and Voting Behavior in U.S. Senate Elections, Legislative Studies Quarterly 17(2):247-263). Spread 0.3 to 1.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyMeansWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on means: the person's own cash against the days of living cost a statewide campaign asks them to carry. Personal wealth makes running possible (Carnes 2018, The Cash Ceiling; Lawless and Fox 2010, ch. 3). Spread 0.5 to 1.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyProminentStanding": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "Standing of a business owner, a press outlet's owner or head, or a group's lobbyist, 0 to 1: prominent citizens are recruited to run because people know them and they have means (Lawless and Fox 2010, ch. 5; Carnes 2018). Spread 0.2 to 0.6.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyChairStanding": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Standing in a state race of a party's local chair or other officer, 0 to 1: the people who recruit candidates and run the party's organization are known to its members and donors (Lawless and Fox 2010, ch. 5; Sanbonmatsu 2006, Where Women Run, ch. 4). Spread 0.4 to 0.8.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyOfficeOpportunityWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Opportunity cost of leaving a current mandate for another office, multiplied by steps down the existing office rank. Schlesinger, Ambition and Politics (1966), progressive and static ambition. Spread 1 to 3.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyRevolvingDoorWeight": {
+    "value": 0.011,
+    "tag": "TUNABLE",
+    "citation": "What a revolving-door law in force takes from a legislative seat's pull for someone who does not hold it: on leaving it they could not lobby for a time. Fisman, Leder-Luis, O'Donnell and Vannutelli 2025 (Revolving Door Laws and Political Selection, NBER Working Paper 33626, state legislative candidates 1968 to 2022): new-candidate entry falls 18.2% against its base where such a law passes (11% to 25% across specifications). Calibrated by scripts/law-wiring/calibrate-revolving-door.ts (seed revolving-door-a, ten draws, four towns with a council contest: Oldtown, Idaho; Griffith, Indiana; Old Bennington, Vermont; Clarksburg, West Virginia; 20,401 named and counted adults weighing a council seat they do not hold): above the top 0.1% of run-over-stay-out margins the excess falls off with a scale of 0.054, so a pull of 0.011 keeps out 18.2% of those over the line. Spread 0.005 to 0.019: the 11% and 25% shares across the 0.1%, 0.5% and 1% tails.",
+    "stopgapId": "SG-P15-candidacy-weights",
+    "spread": {
+      "low": 0.005,
+      "high": 0.019,
+      "unit": "pull",
+      "citation": "The 11% and 25% entry shares of Fisman et al. 2025 read through the tail scales 0.044 to 0.066 of the calibration's 0.1%, 0.5% and 1% tails."
+    }
   }
 }

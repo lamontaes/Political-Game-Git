@@ -1,5 +1,5 @@
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import { lifePlaceByKey } from "../life-places";

@@ -5,7 +5,7 @@
  * demand reach every business as dated conditions; a decision reprices
  * prime-linked credit lines on its effective date.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { reviewBoardTerms } from "../central-bank-appointments";
 import { DEFAULT_DATA, extendData } from "../data";
@@ -38,6 +38,7 @@ import {
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
 import { scaleOutsideSales } from "../residents-economy";
+import { residentCounts } from "./residents";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
   REGIONAL_PARAMETERS,
@@ -108,33 +109,106 @@ function firstOfNextMonth(date: string, p: MacroParameter): string {
   return `${shiftMonth(monthKey(date), p("one"), p)}-01`;
 }
 
-/** Paid income in the town's places over the last twelve months against the twelve before, annual percent; null when not yet recorded. */
+/**
+ * Paid income in the town's places over the latest months against the same
+ * months a year earlier, annual percent. Twelve months against twelve when
+ * the records reach that far back; otherwise the longest run of at least a
+ * quarter that has a year-earlier run, so a month's count of paydays doesn't
+ * read as growth. Null before even that is recorded.
+ */
 function townIncomeGrowth(
   api: CoreAPI,
   places: readonly string[],
   month: string,
   p: MacroParameter,
-): number | null {
+): { pct: number; months: number } | null {
   const paid = api.state.finance.paidIncomeByPlaceMonth;
   const sum = (at: string) =>
     places.reduce<number | null>((total, place) => {
       const value = paid.get(`${at}:${place}`);
       return value === undefined ? total : (total ?? p("zero")) + value;
     }, null);
-  // Twelve months against the twelve before, so a month's count of paydays doesn't read as growth.
-  const year = (end: string) => {
+  const run = (end: string, months: number) => {
     let total = p("zero");
-    for (let k = 0; k < p("macroMonthsPerYear"); k++) {
+    for (let k = 0; k < months; k++) {
       const value = sum(shiftMonth(end, -k, p));
       if (value === null) return null;
       total += value;
     }
     return total;
   };
-  const now = year(month),
-    before = year(shiftMonth(month, -p("macroMonthsPerYear"), p));
-  if (now === null || before === null || before <= p("zero")) return null;
+  const yearAgo = shiftMonth(month, -p("macroMonthsPerYear"), p);
+  for (
+    let months = p("macroMonthsPerYear");
+    months >= p("macroTownGrowthMinMonths");
+    months--
+  ) {
+    const now = run(month, months),
+      before = run(yearAgo, months);
+    if (now !== null && before !== null && before > p("zero"))
+      return {
+        pct: (now / before - p("one")) * p("macroHundred"),
+        months,
+      };
+  }
+  return null;
+}
+
+/**
+ * What the town's paid income grows by before its own months can say: the
+ * nation's payroll income (jobs times hourly pay) over the same twelve
+ * months, which the macro history records from before the opening. A town's
+ * growth differs from the nation's by a few points either way; that spread is
+ * the estimate's, and the town's own months replace it as they come in.
+ */
+function incomeGrowthEstimate(
+  api: CoreAPI,
+  month: string,
+  p: MacroParameter,
+): number | undefined {
+  const months = store(api).table("months");
+  const income = (at: string) => {
+    const row = months.get(`macro-month:${at}`) as unknown as
+      MacroMonth | undefined;
+    return row ? row.payrollJobsThousands * row.hourlyEarnings : undefined;
+  };
+  const now = income(month),
+    before = income(shiftMonth(month, -p("macroMonthsPerYear"), p));
+  if (now === undefined || before === undefined || before <= p("zero"))
+    return undefined;
   return (now / before - p("one")) * p("macroHundred");
+}
+
+/**
+ * The growth the national step hears from the town: the estimate while the
+ * town has no comparable months, then the town's own growth with a weight
+ * that rises by a twelfth for each month it covers.
+ */
+function townGrowthHeard(
+  api: CoreAPI,
+  placeIds: readonly string[],
+  month: string,
+  p: MacroParameter,
+):
+  | {
+      pct: number;
+      estimatePct: number;
+      ownPct?: number;
+      ownWeight: number;
+    }
+  | undefined {
+  const estimate = incomeGrowthEstimate(api, month, p);
+  if (estimate === undefined) return undefined;
+  const own = townIncomeGrowth(api, placeIds, month, p);
+  const weight = own
+    ? Math.min(p("one"), own.months / p("macroMonthsPerYear"))
+    : p("zero");
+  return {
+    pct: own ? weight * own.pct + (p("one") - weight) * estimate : estimate,
+    estimatePct: estimate,
+    ...(own ? { ownPct: own.pct } : {}),
+    ownWeight: weight,
+  };
 }
 
 function publishConditions(
@@ -149,11 +223,12 @@ function publishConditions(
     hundred = api.parameter("macroHundred");
   const regional = regionalRegistered(api);
   for (const placeId of state.placeIds) {
-    // The place's region moves its pay and demand against the nation's; price parities hold.
+    // The place's region moves its pay, demand and price level against the nation's.
     const region = regional
       ? regionalFactors(api, placeId, opening, row)
-      : { wage: one, demand: one };
-    const prices = row.priceIndex / opening.priceIndex,
+      : { wage: one, demand: one, price: one };
+    // The nation's prices, moved by the region's price level against the nation's.
+    const prices = (row.priceIndex / opening.priceIndex) * region.price,
       demand =
         ((one + row.outputGapPct / hundred) /
           (one + opening.outputGapPct / hundred)) *
@@ -188,26 +263,32 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     `macro-month:${state.latestMonth}`,
   ) as unknown as MacroMonth;
   const month = shiftMonth(state.latestMonth, p("one"), p);
-  const growth = townIncomeGrowth(
+  const heard = townGrowthHeard(
     api,
     state.placeIds,
     shiftMonth(month, -p("one"), p),
     p,
   );
-  // No recorded town year yet: the town grows with the nation and adds nothing.
-  const neutral = p("macroTrendGrowthPct") + p("macroInflationAnchorPct");
-  const row = stepMacroMonth(
-    previous,
-    state.policyRatePct,
-    growth ?? neutral,
-    state.townResidents,
-    p,
-  );
+  const row = {
+    ...stepMacroMonth(
+      previous,
+      state.policyRatePct,
+      heard?.pct,
+      state.townResidents,
+      p,
+    ),
+    ...(heard
+      ? {
+          townGrowthEstimatePct: heard.estimatePct,
+          townGrowthOwnWeight: heard.ownWeight,
+          ...(heard.ownPct === undefined
+            ? {}
+            : { townGrowthOwnPct: heard.ownPct }),
+        }
+      : {}),
+  };
   // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
-  months.put({
-    ...(row as unknown as { id: string }),
-    ...(growth !== null ? { townIncomeGrowthPct: growth } : {}),
-  });
+  months.put(row as unknown as { id: string });
   if (regionalRegistered(api)) stepRegional(api, previous, row);
   const next = { ...state, latestMonth: row.month };
   store(api).table("state").put(next);
@@ -289,7 +370,15 @@ function open(api: CoreAPI): MacroStateRow {
       Math.floor(opening.policyRatePct / step) * step + step / p("two"),
     ),
     placeIds,
-    townResidents: core.people.size - board.members.length,
+    // The town's people: the full people (less the board's) and the counted
+    // residents of its places, each record times the households it stands for.
+    townResidents:
+      core.people.size -
+      board.members.length +
+      residentCounts(core).reduce(
+        (n, row) => n + (placeIds.includes(row.placeId) ? row.people : 0),
+        0,
+      ),
   };
   store(api)
     .table("state")
@@ -330,8 +419,7 @@ function meet(api: CoreAPI, meetingId: string): void {
   const voters = votersOn(core.date, members);
   const moves = rateOptions(state.policyRatePct, p);
   const votes = voters.map((member) => {
-    const person = core.people.get(member.personId)!;
-    const view = memberView(member, person.traits, readings, p);
+    const view = memberView(member, readings, p);
     const result = chooseAct(
       core,
       member.personId,
@@ -420,7 +508,12 @@ function takeEffect(api: CoreAPI, meetingId: string): void {
     .table("lines")
     .query("byIndex", ["prime"]) as unknown as LinkedLineRow[]) {
     const before = api.state.finance.facilities.get(row.facilityId);
-    if (!before || !before.active) continue;
+    if (
+      !before ||
+      !before.active ||
+      api.state.finance.businesses.get(before.borrowerId)?.closedAt
+    )
+      continue;
     const fromRate =
       before.annualInterestRate ??
       api.parameter(before.annualInterestParameter);
@@ -442,6 +535,16 @@ function takeEffect(api: CoreAPI, meetingId: string): void {
         toRate,
       });
   }
+}
+
+/** The annual rate a line with this spread is charged today: the prime rate (policy rate plus the bank prime spread) plus the line's own spread. Borrowers weigh this same rate. */
+export function quotedLineRate(api: CoreAPI, spreadPct: number): number {
+  const state = readState(api) ?? open(api);
+  return lineRate(
+    state.policyRatePct + api.parameter("macroPrimeSpreadPct"),
+    { spreadPct } as LinkedLineRow,
+    params(api),
+  );
 }
 
 /** Ties a recorded credit line to the prime rate plus its own spread, repricing it now and at every decision. */

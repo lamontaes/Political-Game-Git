@@ -12,6 +12,9 @@
  * real party makeup, seat by seat (public-domain roster).
  */
 import { campaignParameter } from "./campaign-views";
+import { decisionLean, decisionTraitWeight } from "./trait-decisions";
+import type { CoreState } from "./types";
+import partySides from "./data/elections/party-sides.json" with { type: "json" };
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
 export interface AppointmentCandidate {
@@ -29,7 +32,32 @@ export interface NominationReasons {
   readonly alignment: number;
   readonly qualification: number;
   readonly acquaintance: number;
+  /** How much the appointer's own traits count loyalty and merit (1 each where no appointer is named). */
+  readonly loyaltyWeight?: number;
+  readonly meritWeight?: number;
   readonly total: number;
+}
+
+/**
+ * How an appointer's own traits weigh the terms of a nomination: loyalty
+ * (alignment and acquaintance) against merit (qualification). A sliding scale
+ * around one for each; where the traits tilt neither way both are 1.
+ */
+export function appointerWeighing(
+  core: Pick<CoreState, "data" | "people">,
+  appointerId: string | undefined,
+): { readonly loyalty: number; readonly merit: number } | undefined {
+  const person = appointerId ? core.people.get(appointerId) : undefined;
+  if (!person) return undefined;
+  const tilt =
+    decisionLean(
+      core,
+      person,
+      "appointments.weigh",
+      "appoint-loyalty",
+      "appoint-merit",
+    ) * decisionTraitWeight(core, "appointments.weigh");
+  return { loyalty: 1 + tilt, merit: 1 - tilt };
 }
 
 export interface Appointment {
@@ -53,12 +81,44 @@ export function partyName(party: string | null): string | null {
   return /^democrat(ic)?$/i.test(party.trim()) ? "Democratic" : party;
 }
 
-/** -1 for the Democratic family, +1 Republican, 0 otherwise. */
+const SIDES = new Map(
+  Object.entries(
+    (partySides as unknown as { sides: Record<string, number> }).sides,
+  ).map(([label, side]) => [label.trim().toLowerCase(), side]),
+);
+const CAUCUS = new Map(
+  Object.entries(
+    (
+      partySides as unknown as {
+        congressCaucus: { sides: Record<string, number> };
+      }
+    ).congressCaucus.sides,
+  ).map(([label, side]) => [label.trim().toLowerCase(), side]),
+);
+
+/**
+ * A party label's side of the left-right scale: -1 the Democratic family, +1
+ * the Republican family, 0 any other. Read from the party-sides data by the
+ * label as printed (`data/elections/party-sides.json`); a label not listed is
+ * 0. The one place the game decides a party's side.
+ */
 export function partySide(party: string | null | undefined): number {
   if (!party) return 0;
-  if (/^democrat|popular democr/i.test(party)) return -1;
-  if (/^republican|nuevo progresista/i.test(party)) return 1;
-  return 0;
+  return SIDES.get(party.trim().toLowerCase()) ?? 0;
+}
+
+/** The national party of a side of the scale, as the party-sides data names it. */
+export function nationalParty(side: number): string {
+  const name = (partySides as unknown as { national: Record<string, string> })
+    .national[String(Math.sign(side))];
+  if (!name) throw new Error(`No national party on side ${side}`);
+  return name;
+}
+
+/** A member of Congress's side: their party's, or the side their label caucuses with. */
+export function caucusSide(party: string | null | undefined): number {
+  if (!party) return 0;
+  return partySide(party) || (CAUCUS.get(party.trim().toLowerCase()) ?? 0);
 }
 
 /** The U.S. Senate's members' party sides, seat by seat. */
@@ -93,6 +153,8 @@ export function nominateAndConfirm(input: {
    * their side than the other side's would be.
    */
   readonly tolerance?: number;
+  /** The appointer's own weighing (`appointerWeighing`); equal weights where none is named. */
+  readonly weighing?: { readonly loyalty: number; readonly merit: number };
 }): Appointment {
   const reasons = input.candidates
     .map((c): NominationReasons => {
@@ -100,12 +162,17 @@ export function nominateAndConfirm(input: {
       const acquaintance = c.known
         ? campaignParameter("appointmentAcquaintanceWeight")
         : 0;
+      const loyalty = input.weighing?.loyalty ?? 1;
+      const merit = input.weighing?.merit ?? 1;
       return {
         candidateId: c.id,
         alignment,
         qualification: c.qualification,
         acquaintance,
-        total: alignment + c.qualification + acquaintance,
+        ...(input.weighing
+          ? { loyaltyWeight: loyalty, meritWeight: merit }
+          : {}),
+        total: loyalty * (alignment + acquaintance) + merit * c.qualification,
       };
     })
     .sort(

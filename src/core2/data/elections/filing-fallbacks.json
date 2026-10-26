@@ -1,0 +1,49 @@
+{
+  "about": "What a filing rule falls back to where the place's row in data/research/elections/filing-requirements.json carries none (Alaska, Connecticut, Rhode Island, D.C. and the territories for counties; Hawaii and two territories for municipalities; Vermont's legislature). Each is an estimate (SG-GOV-filing-fallbacks): the median of the read values for that office family over the 56 places.",
+  "stopgap": "SG-GOV-filing-fallbacks",
+  "minimumAge": {
+    "countyOffice": {
+      "value": 18,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Median of the 47 read county minimum ages (all 18) in filing-requirements.json",
+      "spread": [18, 21]
+    },
+    "municipalOffice": {
+      "value": 18,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Median of the 53 read municipal minimum ages in filing-requirements.json",
+      "spread": [18, 25]
+    },
+    "stateLegislative": {
+      "value": 21,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Median of the 55 read state-legislative minimum ages in filing-requirements.json",
+      "spread": [18, 25]
+    },
+    "statewideExecutive": {
+      "value": 30,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Median of the read statewide-executive minimum ages in filing-requirements.json",
+      "spread": [18, 35]
+    },
+    "usHouse": {
+      "value": 25,
+      "tag": "SOURCED",
+      "citation": "U.S. Const. art. I, sec. 2, cl. 2",
+      "spread": [25, 25]
+    }
+  },
+  "registeredVoterRequired": {
+    "value": true,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "A candidate who is a voter is the common rule; unread rows assume it",
+    "spread": [0, 1]
+  },
+  "filingOfficer": {
+    "statewideExecutive": "State chief election office",
+    "stateLegislative": "State chief election office",
+    "usHouse": "State chief election office",
+    "countyOffice": "County clerk",
+    "municipalOffice": "Municipal clerk"
+  }
+}

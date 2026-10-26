@@ -53,7 +53,7 @@
     }
   },
   "housingBuyBaseline": {
-    "value": -0.5,
+    "value": -0.6,
     "tag": "TUNABLE",
     "citation": "How far buying sits below renting before cost and the down payment; checked against the ACS owner share and NAR's first-time buyer share of sales (21 percent in 2025).",
     "spread": {
@@ -75,13 +75,13 @@
     }
   },
   "housingBuyDownWeight": {
-    "value": 2,
+    "value": 1,
     "tag": "TUNABLE",
     "citation": "Saving the down payment is the main barrier for first-time buyers (NAR 2025 Profile of Home Buyers and Sellers).",
     "spread": {
       "low": 1,
       "high": 4,
-      "unit": "score per log of down payment over cash",
+      "unit": "score per share of the down payment the household is short",
       "citation": "Saving the down payment is the main barrier for first-time buyers (NAR 2025 Profile of Home Buyers and Sellers)."
     }
   },
@@ -167,6 +167,17 @@
       "citation": "Natural-vacancy rent adjustment (Gabriel and Nothaft 1988, 2001); no readable U.S. estimate, kept small; new 50+ unit buildings lower nearby rents about 6% (Asquith, Mast and Reed 2023)."
     }
   },
+  "housingRentSavingImpulseScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How hard a rent renewal held below the market rent lands on a tenant's mood, per share of the market rent it saved (a 5% saving lands as a mood impulse of 0.05). Checked against the same scale as a benefit change (benefitChangeImpulseScale) and the life-event impulses the drives engine reads.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "mood impulse per share of market rent saved",
+      "citation": "Same scale as benefitChangeImpulseScale: 0.5 to 2."
+    }
+  },
   "housingNewHomeSupplyMonths": {
     "value": 9,
     "tag": "TUNABLE",
@@ -209,6 +220,151 @@
       "high": 1,
       "unit": "per month since rent first went unpaid",
       "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json."
+    }
+  },
+  "housingHostMaxPeople": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "The most people a relative's home takes in before it is crowded: a household of six or more is past one person per room in a typical five- or six-room home (American Housing Survey crowding standard, more than one person per room); checked against the spread 5 to 8.",
+    "spread": {
+      "low": 5,
+      "high": 8,
+      "unit": "people in the host's home",
+      "citation": "American Housing Survey crowding standard (more than one person per room); typical homes of five to six rooms."
+    }
+  },
+  "housingRehouseIncomeMultiple": {
+    "value": 3,
+    "tag": "ESTIMATED",
+    "citation": "Landlords commonly ask for monthly income of about three times the rent before they lease (the 30 percent rent-burden standard, HUD); spread 2.5 to 3.",
+    "estimatedFrom": "rent-screening practice",
+    "spread": {
+      "low": 2.5,
+      "high": 3,
+      "unit": "monthly income per month of rent",
+      "citation": "HUD's 30 percent rent-burden standard; landlord screening at two and a half to three times the rent."
+    }
+  },
+  "housingForeclosureSaleShare": {
+    "value": 0.73,
+    "tag": "ESTIMATED",
+    "citation": "A forced sale brings about 27 percent less than the home's value (Campbell, Giglio and Pathak 2011, American Economic Review 101(5), foreclosure discount in Massachusetts sales 1987-2009).",
+    "estimatedFrom": "one state's sales; national spread 20 to 30 percent",
+    "spread": {
+      "low": 0.7,
+      "high": 0.8,
+      "unit": "share of the home's value",
+      "citation": "Campbell, Giglio and Pathak 2011; Clauretie and Daneshvary 2009 (about 8 percent after controls)."
+    }
+  },
+  "housingMoveRentFriction": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Moving disruption expressed as a share of the proposed monthly rent, weighed against savings. No fee is charged.",
+    "spread": {
+      "low": 0,
+      "high": 0.2,
+      "unit": "share of proposed rent",
+      "citation": "Sensitivity range; behavioral tuning, not a measured fee."
+    }
+  },
+  "housingBuyChildWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Households with children are likelier first-time buyers (NAR 2025 Profile of Home Buyers and Sellers: about a third of first-time buyers have children under 18 at home); a sliding pull by the number of children, to three.",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "score at three or more children at home",
+      "citation": "Households with children are likelier first-time buyers (NAR 2025 Profile of Home Buyers and Sellers: about a third of first-time buyers have children under 18 at home); a sliding pull by the number of children, to three."
+    }
+  },
+  "housingBuyAgeWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "First-time buyers are young adults: NAR 2025 puts their median age at 40 (record high); the pull rises through the late twenties and fades after the early sixties.",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "score at the prime buying ages",
+      "citation": "First-time buyers are young adults: NAR 2025 puts their median age at 40 (record high); the pull rises through the late twenties and fades after the early sixties."
+    }
+  },
+  "housingBuyAgeRiseCenter": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Where the age pull is half its height on the way up: renters' transitions to owning climb through the late twenties and early thirties (Census CPS/ASEC homeownership by age).",
+    "spread": {
+      "low": 26,
+      "high": 34,
+      "unit": "years",
+      "citation": "Where the age pull is half its height on the way up: renters' transitions to owning climb through the late twenties and early thirties (Census CPS/ASEC homeownership by age)."
+    }
+  },
+  "housingBuyAgeFadeCenter": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "Where the age pull is half its height on the way down: few households first buy past their late fifties (NAR 2025).",
+    "spread": {
+      "low": 52,
+      "high": 68,
+      "unit": "years",
+      "citation": "Where the age pull is half its height on the way down: few households first buy past their late fifties (NAR 2025)."
+    }
+  },
+  "housingBuyAgeScale": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "How quickly the age pull rises and fades around its two centers.",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "years",
+      "citation": "How quickly the age pull rises and fades around its two centers."
+    }
+  },
+  "housingBuyTenureWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "The longer a household has rented in place, the likelier it is to settle; a sliding pull by years in the lease, to five.",
+    "spread": {
+      "low": 0,
+      "high": 1,
+      "unit": "score at five or more years in the lease",
+      "citation": "The longer a household has rented in place, the likelier it is to settle; a sliding pull by years in the lease, to five."
+    }
+  },
+  "housingBuyTenureYears": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "Years in the lease at which the tenure pull is full.",
+    "spread": {
+      "low": 3,
+      "high": 8,
+      "unit": "years",
+      "citation": "Years in the lease at which the tenure pull is full."
+    }
+  },
+  "housingBuySavingsWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Savings beyond the down payment make a purchase feasible and are the main enabler of first-time buying (NAR 2025); a sliding pull by the log of means over the down payment, to one.",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "score per log of cash over the down payment",
+      "citation": "Savings beyond the down payment make a purchase feasible and are the main enabler of first-time buying (NAR 2025); a sliding pull by the log of means over the down payment, to one."
+    }
+  },
+  "housingTenureShrinkHomes": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "A small place's ACS owner share is a sample reading (many tiny places read exactly 100% owned); it is pulled toward its county's share as if the county supplied this many homes (empirical-Bayes shrinkage of a binomial share).",
+    "spread": {
+      "low": 10,
+      "high": 100,
+      "unit": "homes",
+      "citation": "ACS 5-year tenure margins of error for places under 500 homes run roughly 5 to 15 points."
     }
   }
 }

@@ -1808,7 +1808,8 @@
     },
     "look": {
       "id": "jobs-look",
-      "actKinds": ["change", "take-risk"]
+      "actKinds": ["change", "take-risk"],
+      "goalKinds": ["secure-home"]
     },
     "leave": {
       "id": "jobs-leave-work",
@@ -1816,7 +1817,8 @@
     },
     "apply": {
       "id": "jobs-apply",
-      "actKinds": ["engage", "change"]
+      "actKinds": ["engage", "change"],
+      "goalKinds": ["secure-home"]
     },
     "wait": {
       "id": "jobs-wait",
@@ -1847,6 +1849,12 @@
     "retired": "retired",
     "lookingAround": "looking-around",
     "startedLooking": "started-looking",
-    "leftJob": "left-job"
+    "leftJob": "left-job",
+    "otherOffer": "other-offer",
+    "traitDrawn": "trait-drawn",
+    "died": "died",
+    "movedAway": "moved-away",
+    "replacement": "replaces-leaver",
+    "offered": "job-offered"
   }
 }

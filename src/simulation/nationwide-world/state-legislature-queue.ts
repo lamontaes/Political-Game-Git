@@ -1,5 +1,5 @@
 import { candidacyPackById } from "../candidacy-packs";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { stateJurisdictionForKey } from "../life-places";
 import {
   cancelFutureDueItem,
@@ -437,10 +437,15 @@ export const stateLegislatureWakeHandler: FutureTransitionHandler = (
     outcomeEventId: null,
   };
 };
-export const STATE_LEGISLATURE_QUEUE_HANDLERS =
-  createFutureTransitionHandlerRegistry([
+let queueHandlersCache:
+  ReturnType<typeof createFutureTransitionHandlerRegistry> | undefined;
+
+/** Built on first use, after every module has loaded, so no key is still undefined. */
+export function stateLegislatureQueueHandlers() {
+  return (queueHandlersCache ??= createFutureTransitionHandlerRegistry([
     [STATE_LEGISLATURE_WAKE_TRANSITION, stateLegislatureWakeHandler],
-  ]);
+  ]));
+}
 
 /** Preserve the existing opening/late-field catch-up once, then register wakes. */
 export function prepareStateLegislatureQueue(

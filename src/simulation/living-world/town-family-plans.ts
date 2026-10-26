@@ -48,7 +48,7 @@
  * a rate, so it is not read here either.
  */
 
-import { addDays, ageOnDate } from "../dates";
+import { addDays, ageOnDate } from "../../core2/kernel/dates";
 import { considerationScore, evaluateDecision } from "../decisions";
 import { activeHealthEpisodes } from "../crisis/health-queries";
 import { outcomeFactor } from "../outcome-web";

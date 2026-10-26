@@ -29,21 +29,20 @@ import { performance } from "node:perf_hooks";
 import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { buildBenchWorld } from "../../src/bench/world";
+import { gameStartDate } from "../../src/core2/game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { addDays, ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import NATALITY from "../../data/research/renewal/natality-2024.json" with { type: "json" };
+import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   residentCounts,
+  residentPerson,
   residentsRuntime,
 } from "../../src/core2/modules/residents";
-import { departuresOf } from "../../src/core2/modules/moves";
-import {
-  BUDGETS_MODULE_ID,
-  budgetsOf,
-  governments,
-} from "../../src/core2/modules/budgets";
+import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
+import { budgetsOf, governments } from "../../src/core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import {
@@ -51,14 +50,19 @@ import {
   ballot,
   incumbentOf,
 } from "../../src/core2/modules/elections";
-import { officialCandidateId, resultOf } from "../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  officialCandidateId,
+  resultOf,
+} from "../../src/core2/modules/voting";
 import { WORLD_RACES_MODULE_ID } from "../../src/core2/modules/world-races";
 import { WORLD_LEGISLATING_MODULE_ID } from "../../src/core2/modules/world-legislating";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import type { CoreModule, CoreState } from "../../src/core2/types";
+import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
 
 /** The bench's opening day (src/bench/m0-check.ts). */
-const OPENING_DATE = "2026-10-12";
+const OPENING_DATE = gameStartDate();
 const nightly = process.env.GOLDEN_PATH_MODE === "nightly";
 /** The runner's own draw for its first world, so its receipt names the place that ran. */
 const runnerPlace =
@@ -85,6 +89,18 @@ const seeds = nightly
  * the nightly's three, about 1.6 times the largest measured.
  */
 const HEAP_BOUND_MB = 1_500 + 500 * years;
+/** Retained heap after a forced collection, in MiB (MEMORY-FLAT's ceilings are in MiB). */
+function heapMiB(): number {
+  const gc = (globalThis as { gc?: () => void }).gc;
+  if (!gc)
+    throw new Error(
+      "Run with --expose-gc so memory is measured after collection.",
+    );
+  gc();
+  return process.memoryUsage().heapUsed / 2 ** 20;
+}
+/** The engine loaded, before any town (MEMORY-FLAT ceiling heapAfterImportMiB). */
+const importHeapMiB = heapMiB();
 /**
  * A new business's loan is within the founder's means when the founder puts
  * in at least a tenth of it (SBA 7(a) start-up equity injection, 10%,
@@ -110,17 +126,27 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   },
   // Alive where officials move away; unobserved where none do.
   "nobody serves after moving away": { owner: "FIXER-MOVES", byTown: true },
-  // Local races draw named challengers (PW-3); a town whose only races in
-  // the year are state or federal ones waits on officials who are people.
-  "a named challenger runs": { owner: "OPUS-OFFICIALS", byTown: true },
   // Full couples of childbearing age are rare among the full people today
   // (OPUS-CORE, BOARD item 4: a representative sample).
   "a baby is born": { owner: "OPUS-CORE", byTown: true },
-  // Alive in some towns; others still leave a home unpriced.
-  "homes have values and rents": { owner: "FIXER-ECONOMY", byTown: true },
+  // Some towns decide a race nobody filed for (incumbents who did not run).
+  "every race has someone on the ballot": {
+    owner: "OPUS-GOV (candidacy)",
+    byTown: true,
+  },
   "pay reaches a spendable account": { owner: "FIXER-ECONOMY", byTown: true },
   "a new business's loan fits its founder": {
     owner: "FIXER-ECONOMY",
+    byTown: true,
+  },
+  // MEMORY-FLAT's ceilings (docs/packages/MEMORY-FLAT.md): the engine's
+  // data tables load at import and the counted people keep their past; the
+  // PR says what is left and whose it is.
+  "the engine loads under its memory ceiling": { owner: "MEMORY-FLAT" },
+  "the opened town is under its memory ceiling": { owner: "MEMORY-FLAT" },
+  // Near the ceiling: under it in some towns, over it in others.
+  "the town's memory grows under its ceiling": {
+    owner: "MEMORY-FLAT",
     byTown: true,
   },
 };
@@ -226,7 +252,10 @@ function playWorld(seed: string) {
     placeKey: place.key,
   });
   const buildSeconds = (performance.now() - buildStarted) / 1000;
+  const openingHeapMiB = heapMiB();
   const core = world.core;
+  // No engine reads departures in play; the check watches the moved-away event.
+  watchDepartures(core);
   const start = core.date;
   const end = addDays(makeIsoDate(start), Math.round(365.25 * years));
   const nextJanuary = `${Number(start.slice(0, 4)) + 1}-01-01`;
@@ -238,6 +267,15 @@ function playWorld(seed: string) {
     [...core.people.values()].map((p) => [p.id, new Map(p.actsByKind)]),
   );
   const countedAtStart = residentCounts(core).reduce((n, r) => n + r.people, 0);
+  // Counted adults are read from the residents' own books, not from the
+  // voting engine's output, so a missing counted ballot can't hide itself.
+  // Only the town's own vote in its local races: a small town whose people
+  // are all filled in has none, though the places around it do.
+  const townAdultsCounted = () =>
+    residentCounts(core)
+      .filter((r) => r.placeId === world.placeId)
+      .reduce((n, r) => n + r.adults, 0);
+  const countedAdultsAtStart = townAdultsCounted();
   const countedIdsAtStart = new Set(
     [...(residentsRuntime(core)?.households.values() ?? [])].flatMap((h) =>
       h.people.map((p) => p.id),
@@ -252,6 +290,30 @@ function playWorld(seed: string) {
       t.endDate <= end,
   );
   countCalls(core);
+  // Paychecks after January 1: the withholding entry the journal posts for
+  // every paycheck names each tax it withheld in its posting ids
+  // (`<id>:tax:<index>:<level>:<tax>`, src/core2/modules/budgets.ts
+  // postWithholding); the budgets module keeps its own row only for the
+  // player's circle.
+  const withheldTaxes = new Set<string>();
+  let withheldPaychecks = 0;
+  const journalApi = coreAPI(core);
+  const postJournal = journalApi.postJournal.bind(journalApi);
+  journalApi.postJournal = (entry) => {
+    if (
+      entry.sourceRef.kind === "budgets:withholding" &&
+      entry.date >= nextJanuary
+    ) {
+      withheldPaychecks++;
+      for (const p of entry.postings) {
+        // The posting id ends in its level and tax, then the law row it took.
+        const named = /:tax:\d+:([a-z]+):([a-z-]+)(?::law:.+)?$/.exec(p.id);
+        if (named && p.deltaMinor > 0)
+          withheldTaxes.add(`${named[1]}:${named[2]}`);
+      }
+    }
+    return postJournal(entry);
+  };
 
   // Day by day, watching what only shows on the day it happens.
   const cashYesterday = new Map<string, number>();
@@ -262,6 +324,10 @@ function playWorld(seed: string) {
   const schoolAgeIds = new Set<string>();
   let foundingsSeen = foundingTable.size;
   const runStarted = performance.now();
+  // Growth is read from the end of the first month, whose one-time tables
+  // (the first payrolls, contests and stories) are not growth.
+  const firstMonthEnd = addDays(makeIsoDate(start), 30);
+  let firstMonthHeapMiB: number | undefined;
   for (let day = start; day < end;) {
     for (const p of core.people.values()) {
       cashYesterday.set(p.id, p.liquidMinor);
@@ -272,6 +338,8 @@ function playWorld(seed: string) {
     }
     const next = addDays(makeIsoDate(day), 1);
     advanceCore(core, next);
+    if (firstMonthHeapMiB === undefined && next >= firstMonthEnd)
+      firstMonthHeapMiB = heapMiB();
     if (foundingTable.size !== foundingsSeen) {
       foundingsSeen = foundingTable.size;
       for (const row of foundingTable.rows() as unknown as Row[]) {
@@ -292,16 +360,46 @@ function playWorld(seed: string) {
     day = next;
   }
   const runSeconds = (performance.now() - runStarted) / 1000;
-  const gc = (globalThis as { gc?: () => void }).gc;
-  if (!gc)
-    throw new Error(
-      "Run with --expose-gc so memory is measured after collection.",
-    );
-  gc();
-  const heapMB = process.memoryUsage().heapUsed / 1e6;
+  const countedAdultsAtEnd = townAdultsCounted();
+  const endHeapMiB = heapMiB();
+  const heapMB = (endHeapMiB * 2 ** 20) / 1e6;
+  const growthMiBPerMonth =
+    (endHeapMiB - firstMonthHeapMiB!) / (years * 12 - 1);
 
   const api = coreAPI(core);
   const verdicts: Record<string, Verdict> = {};
+
+  // MEMORY-FLAT: a played town costs tens of megabytes. The ceilings are in
+  // scripts/core2-guard/policies.json.
+  const ceiling = (
+    measured: number,
+    limit: number,
+    what: string,
+    where: string,
+  ): Verdict =>
+    measured < limit
+      ? pass(`${what}: ${measured.toFixed(1)} MiB, under ${limit} MiB`)
+      : fail(
+          `${what}: ${measured.toFixed(1)} MiB, over the ${limit} MiB ceiling (${where}).`,
+        );
+  verdicts["the engine loads under its memory ceiling"] = ceiling(
+    importHeapMiB,
+    policies.heapAfterImportMiB,
+    "heap after importing the engine",
+    "every data table loads at import, as module source and parsed rows; see docs/packages/MEMORY-FLAT.md, step 3",
+  );
+  verdicts["the opened town is under its memory ceiling"] = ceiling(
+    openingHeapMiB,
+    policies.heapAfterOpeningMiB,
+    "heap after the opening",
+    "the engine's import, the counted people's records (src/core2/modules/residents.ts) and the tables built for the opening",
+  );
+  verdicts["the town's memory grows under its ceiling"] = ceiling(
+    growthMiBPerMonth,
+    policies.heapGrowthMiBPerMonth,
+    `heap growth a month after the first (${years * 12 - 1} months)`,
+    "something keeps history it should let go: the durable log (OPUS-CORE) grows most",
+  );
 
   // Break 17 and the module audit: every installed module did something.
   const recordsAtEnd = moduleRecords(core);
@@ -393,16 +491,7 @@ function playWorld(seed: string) {
         );
 
   // Break 4: withholding continues after January 1.
-  const withheld = rowsOf(core, BUDGETS_MODULE_ID, "withholding").filter(
-    (r) => String(r.date) >= nextJanuary,
-  );
-  const taxes = new Set(
-    withheld.flatMap((r) =>
-      (r.lines as { tax: string; level: string; minor: number }[])
-        .filter((l) => l.minor > 0)
-        .map((l) => `${l.level}:${l.tax}`),
-    ),
-  );
+  const taxes = withheldTaxes;
   // Residents of the five territories owe no federal income tax on income
   // earned there (26 U.S.C. 931 to 933: Puerto Rico excludes it, and Guam,
   // the Virgin Islands, American Samoa and the Northern Marianas pay their
@@ -417,7 +506,7 @@ function playWorld(seed: string) {
   verdicts["taxes are withheld after January 1"] = federalWithheld
     ? pass(`withheld after ${nextJanuary}: ${[...taxes].join(", ")}`)
     : fail(
-        `After ${nextJanuary}, ${withheld.length} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
+        `After ${nextJanuary}, ${withheldPaychecks} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
       );
 
   // Break 6: a passed budget changes the adopted spending.
@@ -510,7 +599,7 @@ function playWorld(seed: string) {
       : pass(`${endingTerms.length} ending terms all followed`);
 
   // Break 8: nobody keeps an office after moving away.
-  const departures = departuresOf(api).filter((d) => d.date >= start);
+  const departures = departuresSeen(core).filter((d) => d.date >= start);
   const termsBefore = (id: string, date: string) =>
     terms.some((t) => t.personId === id && String(t.startDate) <= date);
   const movedOfficials = departures.flatMap((d) =>
@@ -542,37 +631,133 @@ function playWorld(seed: string) {
       (f) => f.personId !== incumbentId && core.people.has(f.personId),
     );
   });
+  // The candidacy engine is calibrated so that few adults run (the stay-out
+  // pull sits above almost everyone's run score: a small town can have no
+  // challenger in a year with nothing wrong, as in Campbellsville, Kentucky
+  // and Venersborg, Washington). So the check is the mechanism: someone other
+  // than the incumbent who decided to run must be on the ballot.
+  const heldIds = new Set(held.map((c) => String(c.id)));
+  const incumbentIds = new Set(
+    held.map((c) => {
+      const incumbent = incumbentOf(api, String(c.id));
+      return incumbent
+        ? (incumbent.personId ?? officialCandidateId(incumbent.id))
+        : undefined;
+    }),
+  );
+  const wantedToRun = rowsOf(core, "candidacy", "decisions").filter(
+    (d) =>
+      d.run &&
+      heldIds.has(String(d.contestId)) &&
+      !incumbentIds.has(String(d.personId)),
+  );
+  // A challenger who filed and lost a primary ran too: the primary marks the
+  // losing filing withdrawn (src/core2/modules/voting.ts, its `lose`), as in
+  // Crosspointe, Virginia, where the one challenger lost the Democratic
+  // primary for attorney general to the incumbent.
+  const primaryLosers = rowsOf(core, "core2-elections-v1", "filings").filter(
+    (f) =>
+      f.status === "withdrawn" &&
+      heldIds.has(String(f.contestId)) &&
+      !incumbentIds.has(String(f.personId)) &&
+      core.people.has(String(f.personId)),
+  );
   verdicts["a named challenger runs"] = !held.length
     ? unobserved("no race was decided in the run")
     : challengers.length
       ? pass(`${challengers.length} named challengers in ${held.length} races`)
-      : fail(
-          `In ${held.length} races decided in the run, no named person other than the incumbent was on the ballot. Who runs (src/core2/modules/candidacy.ts) must have named adults weigh running when a seat comes up.`,
-        );
+      : primaryLosers.length
+        ? pass(
+            `${primaryLosers.length} named challengers filed and lost a primary in ${held.length} races (${String(primaryLosers[0]!.id)})`,
+          )
+        : !wantedToRun.length
+          ? unobserved(
+              `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+            )
+          : fail(
+              `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
+            );
 
   // Break 10: the counted population votes in local races.
   const local = held.filter(
     (c) => c.level !== "federal" && c.level !== "state",
   );
-  const silent = local.filter(
-    (c) =>
-      Object.values(resultOf(api, String(c.id))!.countedVotes).reduce(
-        (n, v) => n + v,
-        0,
-      ) === 0,
-  );
-  verdicts["counted voters vote in local races"] = !local.length
-    ? unobserved("no local race was decided in the run")
-    : !silent.length
-      ? pass(`counted voters voted in all ${local.length} local races`)
-      : fail(
-          `${silent.length} of ${local.length} local races decided in the run had no votes from the counted population (for example ${silent
+  // A race nobody filed for has no one to vote for: that is a candidacy
+  // matter (who runs), counted under "a named challenger runs", not a silent
+  // counted population. Whether counted adults live in the town is read from
+  // the residents' books at the start and the end of the run; when they do,
+  // every local race with someone on its ballot must keep a counted ballot
+  // record. Each record keeps every counted voter's choice, the share of the
+  // people they stand for who turn out, and how many they stand for; a race
+  // is silent when its record is missing, when no counted voter chose
+  // anyone, or when the counted votes those ballots add up to are missing
+  // from the result. A town whose counted adults add up to under two
+  // expected voters (a tiny town is nearly all full people; the result also
+  // takes out non-citizens) can record zero votes honestly: that is
+  // rounding, not a silent counted population.
+  const countedOf = (contestId: string) =>
+    rowsOf(core, VOTING_MODULE_ID, "countedBallots").find(
+      (r) => r.contestId === contestId,
+    ) as
+      | {
+          choice: number[];
+          voted: number[];
+          weight: number[];
+        }
+      | undefined;
+  const countedAdultsLive = countedAdultsAtStart > 0 && countedAdultsAtEnd > 0;
+  const judged = countedAdultsLive
+    ? local.filter((c) => ballot(api, String(c.id)).length > 0)
+    : [];
+  const unkept = judged.filter((c) => !countedOf(String(c.id)));
+  const silent = judged.filter((c) => {
+    const kept = countedOf(String(c.id));
+    if (!kept) return true;
+    const chose = kept.choice.some((x) => x >= 0);
+    const expected = kept.choice.reduce(
+      (n, x, i) => (x >= 0 ? n + kept.voted[i]! * kept.weight[i]! : n),
+      0,
+    );
+    const recorded = Object.values(
+      resultOf(api, String(c.id))!.countedVotes,
+    ).reduce((n, v) => n + v, 0);
+    return !chose || (expected >= 2 && recorded === 0);
+  });
+  const empty = held.filter((c) => !ballot(api, String(c.id)).length);
+  verdicts["every race has someone on the ballot"] = !held.length
+    ? unobserved("no race was decided in the run")
+    : empty.length
+      ? fail(
+          `${empty.length} of ${held.length} races decided in the run had no one on the ballot (for example ${empty
             .slice(0, 3)
-            .map((c) => c.title)
+            .map((c) => `${c.title} ${c.electionDate}`)
             .join(
               "; ",
-            )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels.`,
-        );
+            )}). Who runs (src/core2/modules/candidacy.ts) must put the incumbent or a challenger on every ballot.`,
+        )
+      : pass(`all ${held.length} races had someone on the ballot`);
+  verdicts["counted voters vote in local races"] = !local.length
+    ? unobserved("no local race was decided in the run")
+    : !judged.length
+      ? unobserved(
+          countedAdultsLive
+            ? `${local.length} local races decided and none had anyone on its ballot`
+            : `${local.length} local races decided and the residents' books show no counted adult in the town (${countedAdultsAtStart} at the start, ${countedAdultsAtEnd} at the end)`,
+        )
+      : !silent.length
+        ? pass(
+            `counted voters voted in all ${judged.length} local races (${[
+              ...new Set(judged.map((c) => c.title)),
+            ].join("; ")})`,
+          )
+        : fail(
+            `${silent.length} of ${judged.length} local races decided in the run had no votes from the counted population, ${unkept.length} of them with no counted ballot record although the town has ${countedAdultsAtEnd} counted adults (for example ${silent
+              .slice(0, 3)
+              .map((c) => c.title)
+              .join(
+                "; ",
+              )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels (a race with no one on its ballot is not counted).`,
+          );
 
   // Break 12: the counted population changes.
   // A full couple's own decision, not a counted birth: counted births are
@@ -588,11 +773,48 @@ function playWorld(seed: string) {
   const countedAtEnd = residentCounts(core).reduce((n, r) => n + r.people, 0);
   const countedChange = countedAtEnd + filledIn - countedAtStart;
   countedIdsAtStart.clear();
-  verdicts["the counted population changes"] = countedChange
-    ? pass(`counted population changed by ${countedChange}`)
-    : fail(
-        `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
-      );
+  // The counted engine's own records of the year: births and moves can
+  // cancel in the total (Red Hook, U.S. Virgin Islands: 7 counted births and
+  // 58 moves, and the count back where it began), so they are read too.
+  const countedBirths = rowsOf(core, "core2-renewal-v1", "births").filter(
+    (b) => String(b.date) >= start && b.counted === true,
+  ).length;
+  const countedMoves = rowsOf(core, "core2-counted-moves-v1", "moves").filter(
+    (m) => String(m.date) >= start,
+  ).length;
+  // How many counted births the year should hold at the nation's birth rate
+  // per resident (NCHS 2024): a town of three counted people can go a year
+  // with none, so the check judges only a counted population that expects a
+  // few births. Deaths and moves would add to it, so this is the low side.
+  const expectedBirths =
+    (countedAtStart *
+      NATALITY.areas["United States"].birthsPer1000Residents *
+      years) /
+    1000;
+  // People moved between the tiers are not births, deaths or moves: fill-ins
+  // are taken out above, and a household returned to the counts (demotion)
+  // adds to them. With the counted engine switched off, Hartland, Wisconsin
+  // still changed by 485, with 490 people demoted, so the change alone never
+  // passes: the engine's own birth and move records do.
+  const demoted = rowsOf(core, "core2-counted-demotion-v1", "demotions").filter(
+    (d) => String(d.date) >= start,
+  );
+  const demotedPeople = demoted.reduce(
+    (n, d) => n + ((d.personIds as unknown[] | undefined)?.length ?? 0),
+    0,
+  );
+  verdicts["the counted population changes"] =
+    countedBirths || countedMoves
+      ? pass(
+          `counted population changed by ${countedChange} (${demotedPeople} people returned to the counts), with ${countedBirths} counted births and ${countedMoves} counted moves`,
+        )
+      : expectedBirths < 2
+        ? unobserved(
+            `${countedAtStart} counted people expect ${expectedBirths.toFixed(2)} births in ${years} year(s) at the nation's ${NATALITY.areas["United States"].birthsPer1000Residents} per 1,000 residents (NCHS 2024), and none was born, died or moved`,
+          )
+        : fail(
+            `No counted births or moves in ${years} year(s) for ${countedAtStart} counted people, who expect ${expectedBirths.toFixed(0)} births at the nation's rate; the count changed by ${countedChange}, with ${filledIn} people filled in and ${demotedPeople} returned to the counts (src/core2/births-counted.ts, src/core2/modules/counted-moves.ts).`,
+          );
   verdicts["a baby is born"] = births.length
     ? pass(`${births.length} births`)
     : fail(
@@ -601,8 +823,12 @@ function playWorld(seed: string) {
 
   // Break 16: homes have prices.
   const dwellings = rowsOf(core, "housing", "dwellings");
+  // A former home (evicted, foreclosed or sold) keeps the last rent or value
+  // of how the household held it (src/core2/housing-former-home.ts).
   const unpriced = dwellings.filter((d) =>
-    d.tenure === "rent" ? !Number(d.rentMinor) : !Number(d.valueMinor),
+    d.tenure === "rent" || d.formerTenure === "rent"
+      ? !Number(d.rentMinor)
+      : !Number(d.valueMinor),
   );
   const renters = dwellings.filter((d) => d.tenure === "rent");
   verdicts["homes have values and rents"] =
@@ -646,6 +872,41 @@ function playWorld(seed: string) {
           `${oversized.length} of ${foundings.length} new businesses borrowed more than ${LOAN_TO_FOUNDER_CASH} times the founder's cash (largest loan $${(Math.max(...oversized.map((f) => f.loanMinor)) / 100).toFixed(0)}). Business (src/core2/modules/business.ts) must size a founding to the founder's means.`,
         );
 
+  // Break 16: a pay change (a wage floor) never reaches an ended job, and the
+  // counted books keep no open row for a job that is a full record now.
+  const staleRows = [...(residentsRuntime(core)?.jobs.values() ?? [])].filter(
+    (job) => job.endsAt === undefined && core.jobs.has(job.id),
+  );
+  const raisedAfterEnd = [...core.jobs.values()].filter((job) =>
+    job.endsAt === undefined
+      ? false
+      : (core.work.payChanges.get(job.id) ?? []).some(
+          (change) => change.date > job.endsAt!,
+        ),
+  );
+  verdicts["a wage floor never reaches an ended job"] =
+    !staleRows.length && !raisedAfterEnd.length
+      ? pass(
+          "no counted row stands for a full job, and no pay change followed an ending",
+        )
+      : fail(
+          `${staleRows.length} jobs are open in the counted books and also full records (first ${staleRows[0]?.id}), and ${raisedAfterEnd.length} jobs were re-rated after they ended (first ${raisedAfterEnd[0]?.id}). A job that ends must end in both tables (src/core2/modules/residents.ts releaseResidentHousehold).`,
+        );
+
+  // Break 17: no open job, and no seeker, names a person who is gone (died or
+  // moved away with their household), so a layoff never reads a missing person.
+  const goneJobs = [...(residentsRuntime(core)?.jobs.values() ?? [])].filter(
+    (job) =>
+      job.endsAt === undefined &&
+      !core.people.has(job.personId) &&
+      !residentPerson(core, job.personId),
+  );
+  verdicts["no open job names a person who is gone"] = !goneJobs.length
+    ? pass("every open counted job has a person in the town")
+    : fail(
+        `${goneJobs.length} open counted jobs name a person who is gone (first ${goneJobs[0]?.id} at ${goneJobs[0]?.organizationId}, ${goneJobs[0]?.personId}). Removing a counted person or household must end every job row they hold, including jobs they were hired into (src/core2/modules/residents.ts countedJobIdsOf).`,
+      );
+
   return {
     summary: {
       seed,
@@ -655,6 +916,9 @@ function playWorld(seed: string) {
       buildSeconds: Math.round(buildSeconds),
       runSeconds: Math.round(runSeconds),
       heapMB: Math.round(heapMB),
+      importHeapMiB: Math.round(importHeapMiB),
+      openingHeapMiB: Math.round(openingHeapMiB),
+      growthMiBPerMonth: Number(growthMiBPerMonth.toFixed(1)),
       modules: core.modules.size,
     },
     heapMB,
@@ -710,12 +974,18 @@ for (const [index, seed] of seeds.entries()) {
     alive("every ended term is filled");
     alive("nobody serves after moving away");
     alive("a named challenger runs");
+    alive("every race has someone on the ballot");
     alive("counted voters vote in local races");
     alive("the counted population changes");
     alive("a baby is born", true);
     alive("homes have values and rents");
     alive("pay reaches a spendable account");
     alive("a new business's loan fits its founder");
+    alive("a wage floor never reaches an ended job");
+    alive("no open job names a person who is gone");
+    alive("the engine loads under its memory ceiling");
+    alive("the opened town is under its memory ceiling");
+    alive("the town's memory grows under its ceiling");
     it(`memory at the end stays under ${HEAP_BOUND_MB} MB`, () => {
       assert.ok(
         result!.heapMB < HEAP_BOUND_MB,

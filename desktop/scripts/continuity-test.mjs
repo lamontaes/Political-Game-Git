@@ -269,6 +269,7 @@ async function captureStateMatrix(page) {
 
 async function newLifeAndBegin(page) {
   await page.getByTestId("new-game").click();
+  await page.getByTestId("new-world").click();
   await page.getByTestId("setup-screen").waitFor();
   await page.getByTestId("start-normal").click();
   await page.getByTestId("creator-stage-character").waitFor();

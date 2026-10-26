@@ -1,4 +1,4 @@
-import type { EntityId } from "../types";
+import type { EntityId } from "../../core2/kernel/brands";
 import { MISCONDUCT_FAMILY_LABELS, type MisconductFamily } from "./records";
 
 /** Structured handoff for a future situation-row consumer; creates no scene. */

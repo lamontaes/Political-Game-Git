@@ -1,0 +1,388 @@
+{
+  "reportTraitWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on the person's traits (speaking out and following the rules against staying quiet) when deciding to report a bribe they refused or were told of. Whistleblowing tracks conscientiousness and moral courage (Bjorkelo, Einarsen and Matthiesen 2010, Journal of Occupational and Organizational Psychology 83(2):371-394).",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "weight",
+      "citation": "The same spread the corruption engine gives its trait weight."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "reportTieWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on the reporter's closeness to the accused, pulling against reporting: people report strangers far more than friends or kin (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 9).",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "weight",
+      "citation": "The same spread the corruption engine gives its tie weight."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "reportDutyPull": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The pull to report a bribe one refused as a public official, before traits and ties. About half of the federal public-corruption cases the Justice Department's Public Integrity Section describes began with a report by a participant or a refusing official (Public Integrity Section, Report to Congress 2019, case summaries).",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "pull",
+      "citation": "Checked against the share of refused bribes that are reported in a played year."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "reportHearsayPull": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The pull to report a bribe one was only told of, smaller than for a witness. The Global Corruption Barometer (Transparency International 2019) found most people who knew of corruption did not report it.",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "pull",
+      "citation": "Half the witness's pull at the center."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "witnessEvidence": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Evidence strength, 0 to 1, of a complaint from a party to the act (the official who refused, or a party who took part): direct testimony without documents.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.8,
+      "unit": "share",
+      "citation": "Between hearsay and documents."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "hearsayEvidence": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Evidence strength, 0 to 1, of a complaint from someone a party told: hearsay alone rarely carries a charge (Federal Rule of Evidence 802).",
+    "spread": {
+      "low": 0.15,
+      "high": 0.45,
+      "unit": "share",
+      "citation": "Half a witness's strength."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "paymentEvidence": {
+    "value": 0.85,
+    "tag": "TUNABLE",
+    "citation": "Evidence strength, 0 to 1, of a payment from the offerer's account to the official's found on the books once an investigation subpoenas them: bank records are the core of most bribery prosecutions (Public Integrity Section, Report to Congress 2019).",
+    "spread": {
+      "low": 0.7,
+      "high": 0.95,
+      "unit": "share",
+      "citation": "Documents short of a recording or confession."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "prominenceTown": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How much a town or township official's case is worth to a prosecutor, the base the other levels are measured against.",
+    "stopgapId": "SG-GOV-justice-weights",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The unit the other prominence levels are measured against; it is fixed at 1 and only the ratios matter."
+    }
+  },
+  "prominenceCounty": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "A county official's case against a town official's. Prosecutors weigh a case's public importance (U.S. Justice Manual 9-27.230, the federal interest in a prosecution).",
+    "spread": {
+      "low": 1,
+      "high": 2,
+      "unit": "multiple",
+      "citation": "Ordered by the size of the electorate the office answers to."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "prominenceState": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "A state legislator's case against a town official's (U.S. Justice Manual 9-27.230).",
+    "spread": {
+      "low": 1.5,
+      "high": 3,
+      "unit": "multiple",
+      "citation": "Ordered by the size of the electorate the office answers to."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "prominenceStatewide": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "A statewide or federal official's case against a town official's (U.S. Justice Manual 9-27.230).",
+    "spread": {
+      "low": 2,
+      "high": 4,
+      "unit": "multiple",
+      "citation": "Ordered by the size of the electorate the office answers to."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "prominencePrivate": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "A private person's case (the one who offered) against a town official's: the official's breach of public trust is the heart of a bribery case (U.S. Justice Manual 9-85.100).",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "multiple",
+      "citation": "Below any official."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "prosecutorPartyWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "How much less a case is worth to a prosecutor when the accused shares their party: U.S. attorneys investigated and charged officials of the other party more often (Gordon 2009, American Political Science Review 103(4):534-554).",
+    "spread": {
+      "low": 0,
+      "high": 0.6,
+      "unit": "share",
+      "citation": "From no bias to Gordon's upper estimate."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "prosecutorTraitWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Weight on a prosecutor's own traits (confronting against playing safe) when deciding whether a case is worth opening and charging.",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "weight",
+      "citation": "Half the reporter's trait weight: the office's standards narrow a prosecutor's own temperament."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "investigateBar": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The worth an investigation must clear: evidence times the case's prominence, against the office's cost of opening one.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.8,
+      "unit": "worth",
+      "citation": "A refused town bribe reported by the official clears it; hearsay about a town official alone does not."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "chargeBar": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The evidence strength a prosecutor needs to charge: federal prosecutors charge only when the admissible evidence will probably be sufficient to convict (U.S. Justice Manual 9-27.220).",
+    "spread": {
+      "low": 0.4,
+      "high": 0.6,
+      "unit": "share",
+      "citation": "Around more likely than not."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "prosecutorLossWeight": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "How much a prosecutor's share of cases lost at trial raises the evidence they want before charging.",
+    "spread": {
+      "low": 0,
+      "high": 0.4,
+      "unit": "share",
+      "citation": "Unmeasured; the direction follows Boylan and Long 2005 on prosecutors' career concerns."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "convictionBar": {
+    "value": 0.55,
+    "tag": "TUNABLE",
+    "citation": "The evidence, net of the defense, a court needs to convict: proof beyond a reasonable doubt, set above the charging bar. About 83% of federal defendants who went to trial in fiscal 2022 were convicted (Bureau of Justice Statistics, Federal Justice Statistics 2022).",
+    "spread": {
+      "low": 0.5,
+      "high": 0.7,
+      "unit": "share",
+      "citation": "Checked against the share of trials ending in conviction."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "defenseWeight": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "How much the defendant's money (against a felony defense's cost) lowers the evidence the court weighs: retained counsel won more acquittals and dismissals than appointed counsel in large urban courts (Bureau of Justice Statistics, Defense Counsel in Criminal Cases, 2000).",
+    "spread": {
+      "low": 0.05,
+      "high": 0.3,
+      "unit": "share",
+      "citation": "Small against the evidence."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "defenseCostMinor": {
+    "value": 5000000,
+    "tag": "ESTIMATED",
+    "citation": "What a retained defense through trial in a public-corruption felony costs, $50,000. Felony defense fees run from about $10,000 to well over $100,000 for white-collar trials.",
+    "estimatedFrom": "Published private defense fee ranges; spread $10,000 to $150,000",
+    "spread": {
+      "low": 1000000,
+      "high": 15000000,
+      "unit": "cents",
+      "citation": "From a short felony case to a white-collar trial."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "pleaTraitWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Weight on the defendant's traits (conceding against confronting) when weighing a plea against trial.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.6,
+      "unit": "weight",
+      "citation": "Smaller than the case's own strength: about 90% of federal convictions came by plea (Bureau of Justice Statistics, Federal Justice Statistics 2022)."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "pleaDiscount": {
+    "value": 0.33,
+    "tag": "ESTIMATED",
+    "citation": "How much shorter a plea's sentence is than the one after a trial loss: federal sentences after trial averaged about three times those after a plea for the same offense (National Association of Criminal Defense Lawyers, The Trial Penalty, 2018), most of it from charge bargaining; a third off the term is the guideline's acceptance-of-responsibility reduction at its larger end (U.S. Sentencing Guidelines 3E1.1).",
+    "estimatedFrom": "NACDL 2018; USSG 3E1.1; spread 0.15 to 0.5",
+    "spread": {
+      "low": 0.15,
+      "high": 0.5,
+      "unit": "share",
+      "citation": "From the guideline reduction alone to a typical charge bargain."
+    }
+  },
+  "severityScaleMinor": {
+    "value": 1000000,
+    "tag": "TUNABLE",
+    "citation": "The bribe, $10,000, at which its size reaches half its weight in a sentence's severity: the federal fraud and bribery guideline adds offense levels by the value of the bribe, starting above $6,500 (U.S. Sentencing Guidelines 2C1.1(b)(2), 2B1.1(b)(1)).",
+    "spread": {
+      "low": 650000,
+      "high": 2500000,
+      "unit": "cents",
+      "citation": "The first and third rows of the guideline's loss table."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "severitySizeWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "The share of a sentence's severity from the bribe's size; the rest is the office's prominence (U.S. Sentencing Guidelines 2C1.1(b)(2) and (b)(3), the elected-official enhancement).",
+    "spread": {
+      "low": 0.4,
+      "high": 0.8,
+      "unit": "share",
+      "citation": "Size carries more levels than the office in the guideline."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "custodyFloorMonths": {
+    "value": 6,
+    "tag": "SOURCED",
+    "citation": "The longest guideline range at which a sentence of probation alone is authorized, zero to six months (U.S. Sentencing Guidelines 5B1.1(a)(1), Zone A)."
+  },
+  "probationMinMonths": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "The shortest probation for a felony, one year (18 U.S.C. 3561(c)(1))."
+  },
+  "probationMaxMonths": {
+    "value": 60,
+    "tag": "SOURCED",
+    "citation": "The longest probation for a felony, five years (18 U.S.C. 3561(c)(1))."
+  },
+  "fineMultiple": {
+    "value": 3,
+    "tag": "SOURCED",
+    "citation": "The fine for bribery of a public official, up to three times the value of the bribe (18 U.S.C. 201(b)); the court sets it by the case's severity."
+  },
+  "daysPerMonth": {
+    "value": 30.4375,
+    "tag": "SOURCED",
+    "citation": "The mean Gregorian month, 365.25 days over 12."
+  },
+  "prosecutorCaseloadCapacity": {
+    "value": 6,
+    "tag": "ESTIMATED",
+    "citation": "How many open public-corruption matters (investigations and pending charged cases) one prosecutor's office carries before its workload fully weighs against opening or charging another. A small office's handful of white-collar matters at once; the weight below slides, nothing flips at the number.",
+    "estimatedFrom": "A small-office public-integrity docket; spread 3 to 20 matters",
+    "spread": {
+      "low": 3,
+      "high": 20,
+      "unit": "matters",
+      "citation": "From one prosecutor with other work to a dedicated public-integrity unit."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "prosecutorWorkloadWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "How much a full docket lowers the worth of opening an investigation or charging a target (the load as a share of capacity times this weight). Smaller than the evidence, so a strong case on a busy desk is still pursued.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.5,
+      "unit": "weight",
+      "citation": "Unmeasured; the direction follows prosecutors choosing cases under limited capacity."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "cooperationSentenceShare": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "How much shorter the sentence is for a defendant who testifies against another target, on top of the plea discount: the prosecutor's substantial-assistance motion lets a court go below the range (U.S. Sentencing Guidelines 5K1.1); the size of the cut is a game estimate.",
+    "estimatedFrom": "USSG 5K1.1; spread 0.2 to 0.6",
+    "spread": {
+      "low": 0.2,
+      "high": 0.6,
+      "unit": "share",
+      "citation": "From a modest departure to a large one."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "cooperationEvidence": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "How much a cooperating co-defendant's testimony adds to the evidence against the other targets of the same investigation (witness testimony raised hearsay to direct evidence).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "share",
+      "citation": "Below a recorded payment, above hearsay."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "cooperationLoyaltyWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "How much the closeness to a co-target (from their relationship record) weighs against giving them up for a lighter sentence.",
+    "spread": {
+      "low": 0.2,
+      "high": 1,
+      "unit": "weight",
+      "citation": "Closeness runs 0 to 1; a close tie should be able to outweigh the cut."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "pretrialBailMinor": {
+    "value": 1000000,
+    "tag": "ESTIMATED",
+    "citation": "Median felony bail amount set by state courts in the 75 largest counties, $10,000 (Bureau of Justice Statistics, State Court Processing Statistics 2009, Felony Defendants in Large Urban Counties, Table 14). Stands for the amount a charged official must post to wait out the trial at home.",
+    "estimatedFrom": "BJS SCPS 2009, Table 14",
+    "spread": {
+      "low": 500000,
+      "high": 2500000,
+      "unit": "minor-currency",
+      "citation": "BJS reports medians from about $5,000 (assault, drug) to $25,000 (murder)."
+    }
+  }
+}

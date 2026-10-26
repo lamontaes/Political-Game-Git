@@ -1,7 +1,7 @@
 import {
   stateBillNumberingStyle,
   stateChamberStyle,
-} from "./bill-numbering-styles";
+} from "../core2/bill-numbering-styles";
 import billIntroductionTable from "../../data/research/laws/bill-introductions-2022.json" with { type: "json" };
 import { rulePackById } from "./legislature-rule-packs";
 import { isFederalDistrictUsps } from "./state-reference";

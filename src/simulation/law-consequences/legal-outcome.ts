@@ -6,7 +6,7 @@ import {
 } from "../governing/automatic-legislation";
 import { isLawEffectStamp, lawEffectStamp } from "../law-effect-stamp";
 import { appendedList } from "../history-index";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import type {
   LawConsequenceKindRegistration,
   LawConsequenceRow,
@@ -24,7 +24,7 @@ import {
   SENTENCE_MONTHS_TAG,
   SENTENCE_LIFE_TAG,
 } from "../justice/jail-terms";
-import { ageOnDate } from "../dates";
+import { ageOnDate } from "../../core2/kernel/dates";
 import {
   juvenileJurisdictionRow,
   minimumCustodyRow,

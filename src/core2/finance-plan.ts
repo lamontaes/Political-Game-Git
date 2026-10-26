@@ -1,11 +1,6 @@
-import { readGeneratedHouseholdSourceBasis } from "./generated-household-source";
 import { bookkeeping } from "./bookkeeping";
 /** Internal read-only preparation. It grants no source authority and never writes cash. */
-import { daysBetween, makeIsoDate } from "./kernel/dates";
-import {
-  currentHouseholdPurchaseCalendarBasis,
-  nextHouseholdPurchaseDate,
-} from "./household-purchase-calendar";
+import { makeIsoDate, daysBetweenText } from "./kernel/dates";
 import {
   cashJournalFieldDelete,
   cashJournalFieldWrite,
@@ -1024,9 +1019,6 @@ function readSource(
     vintage = reads.field(source, "generationPriorVintage");
   if (estimatedFrom !== undefined) copy.estimatedFrom = estimatedFrom;
   if (vintage !== undefined) copy.generationPriorVintage = vintage;
-  const generatedBasis = readGeneratedHouseholdSourceBasis(reads, source);
-  if (generatedBasis !== undefined)
-    copy.generatedHouseholdBasis = generatedBasis;
   if (
     !["SOURCED", "ESTIMATED"].includes(copy.tag) ||
     !copy.citation?.trim() ||
@@ -1233,10 +1225,7 @@ function accruedInterest(
   const r = session.reads,
     m = session.metadata,
     data = session.policy()!;
-  const elapsed = daysBetween(
-    makeIsoDate(m.field(row, "lastAccruedAt")),
-    makeIsoDate(session.date),
-  );
+  const elapsed = daysBetweenText(m.field(row, "lastAccruedAt"), session.date);
   const rate =
     m.field(row, "annualInterestRate") ??
     session.parameter(r.field(row, "annualInterestParameter"));
@@ -1452,36 +1441,12 @@ export function prepareFinanceContract(
   if (endsAt && session.date >= endsAt)
     throw new Error("Finite finance budget has ended.");
   const dueAt = m.field(row, "dueAt"),
-    calendarMarker = r.field(row, "householdPurchaseCalendar"),
-    nominalDueAt = calendarMarker ? m.field(row, "nominalDueAt") : dueAt;
-  if (!nominalDueAt)
-    throw new Error(
-      "Generated household purchase is missing its nominal monthly date.",
-    );
-  const nextNominalDueAt = nextDate(
+    next = nextDate(
       session,
-      nominalDueAt,
+      dueAt,
       r.field(row, "periodMonths"),
       r.field(row, "billingDay"),
-    ),
-    followingNominalDueAt = calendarMarker
-      ? nextDate(
-          session,
-          nextNominalDueAt,
-          r.field(row, "periodMonths"),
-          r.field(row, "billingDay"),
-        )
-      : undefined,
-    currentCalendarBasis = currentHouseholdPurchaseCalendarBasis(session, row),
-    nextCalendarBasis = calendarMarker
-      ? nextHouseholdPurchaseDate(
-          session,
-          row,
-          nextNominalDueAt,
-          followingNominalDueAt!,
-        )
-      : undefined,
-    next = nextCalendarBasis?.effectiveDueAt ?? nextNominalDueAt;
+    );
   if (next <= session.date)
     throw new Error(
       "Finance bills must settle chronologically, without skipped periods.",
@@ -1641,12 +1606,6 @@ export function prepareFinanceContract(
       ),
     );
   const receipt: FinanceReceipt = {
-    ...(currentCalendarBasis
-      ? { householdPurchaseCalendarBasis: currentCalendarBasis }
-      : {}),
-    ...(nextCalendarBasis
-      ? { nextHouseholdPurchaseCalendarBasis: nextCalendarBasis }
-      : {}),
     id: receiptId,
     contractId: id,
     date: session.date,
@@ -1713,10 +1672,6 @@ export function prepareFinanceContract(
   const due = session.map("contractsDueAt");
   m.indexRemove(due, dueAt, id);
   m.write(row, "dueAt", next);
-  if (nextCalendarBasis) {
-    m.write(row, "nominalDueAt", nextNominalDueAt);
-    m.write(row, "householdPurchaseCalendarBasis", nextCalendarBasis);
-  }
   if (!endsAt || next < endsAt) m.indexAdd(due, next, id);
   if (interest) {
     m.write(interest, "interestArrearsMinor", arrears);

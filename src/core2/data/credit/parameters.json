@@ -1,4 +1,21 @@
 {
+  "creditDepositWalletMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Conservative cash buffer while payment paths are connected to deposit withdrawals; JPMorgan Chase Institute, Cash is King (2016), reports median business balances covering 27 days of outflows. This is a wallet reserve, not a target for total savings.",
+    "stopgapId": "SG-WORLD-deposit-wallet-buffer",
+    "spread": { "low": 1, "high": 6, "unit": "months of recorded costs" }
+  },
+  "creditDepositLiquidityShare": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Liquidity kept against deposit withdrawals, separate from the capital constraint; calibrated against the repository FDIC community-bank balance sheets. This is a bank policy, not a statutory reserve requirement.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.3,
+      "unit": "share of customer deposits retained as cash"
+    }
+  },
   "creditBankEquityShareOfDeposits": {
     "value": 0.086,
     "tag": "SOURCED",
@@ -187,7 +204,13 @@
     "value": 100000,
     "tag": "ESTIMATED",
     "citation": "Banks' unsecured personal loans start at about $1,000 (published product minimums at large U.S. banks and credit unions).",
-    "estimatedFrom": "A common published minimum; the town bank's own product terms are not recorded.",
+    "estimatedFrom": "A common published minimum; the town bank's own product terms are not recorded. The spread comes from the FDIC's 2011 survey of banks (43 percent offered unsecured personal loans with no minimum and 53 percent a minimum of $2,500 or less) and its small-dollar loan pilot (a participating bank's standard minimum was $500; loans ran $399 to $1,000). Both are older than the opening; no current national figure was found.",
+    "spread": {
+      "low": 50000,
+      "high": 250000,
+      "unit": "minor units (cents)",
+      "citation": "FDIC, 2011 FDIC Survey of Banks' Efforts to Serve the Unbanked and Underbanked (other products results), and FDIC, The FDIC's Small-Dollar Loan Pilot Program (2024 feature article, fdic.gov/system/files/2024-07/smalldollar.pdf): $500 to $2,500."
+    },
     "stopgapId": "SG-WORLD-credit-minimum-loan"
   },
   "creditStartupEquityShare": {
@@ -200,26 +223,13 @@
     "tag": "SOURCED",
     "citation": "SBA SOP 50 10 7.1 and 50 10 8: a 7(a) loan to a new business needs projected cash flow of at least 1.15 times its debt service."
   },
-  "creditFamilyHelpShareOfSpare": {
-    "value": 0.5,
+  "creditIncomeRecordDays": {
+    "value": 14,
     "tag": "TUNABLE",
-    "citation": "How much of what a relative can spare they give a household that ran short, at full closeness. Federal Reserve, Economic Well-Being of U.S. Households in 2018 (May 2019): one in 10 adults, and over a quarter of adults under 30, receive financial support from someone living outside their home, mostly between parents and adult children, often for general expenses.",
+    "citation": "How many days of a job's work record a lender needs before it counts the pay actually earned from hours worked rather than the job's wage rate: two weeks, the most common pay period (BLS, 'Length of pay periods in the Current Employment Statistics survey', 2023: biweekly is the most common).",
     "spread": {
-      "low": 0.2,
-      "high": 1,
-      "unit": "share of the relative's spare cash",
-      "citation": "Federal Reserve, Economic Well-Being of U.S. Households in 2018 (May 2019): one in 10 adults, and over a quarter of adults under 30, receive financial support from someone living outside their home, mostly between parents and adult children, often for general expenses."
-    }
-  },
-  "creditFamilyHelpReserveMonths": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "A relative keeps a few months of their own living costs before helping (CFPB emergency savings guidance: about three months of expenses).",
-    "spread": {
-      "low": 1,
-      "high": 6,
-      "unit": "months of the relative's living costs",
-      "citation": "CFPB emergency savings guidance: about three months of expenses."
+      "low": 7,
+      "high": 31
     }
   }
 }

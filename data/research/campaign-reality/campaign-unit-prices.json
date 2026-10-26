@@ -30,6 +30,20 @@
       "estimated": true,
       "derivation": "Estimated at the cost of 500 U.S. letter stamps using the project's $0.73 2024 USPS rate; no local rate card was found in the single campaign-material search."
     },
+    "mailer-print": {
+      "label": "Printed campaign mailer",
+      "unit": "piece",
+      "priceMinorUnits": 20,
+      "estimated": true,
+      "derivation": "Full-color 4x6 postcards printed in runs of a few thousand cost about $0.10 to $0.30 a piece from commercial printers (2024 online print price lists, e.g. PsPrint and Vistaprint bulk postcard pricing); midpoint taken. Postage is the postage row."
+    },
+    "event-venue": {
+      "label": "Event venue rental",
+      "unit": "evening",
+      "priceMinorUnits": 30000,
+      "estimated": true,
+      "derivation": "A community hall, restaurant back room or lodge room for an evening rents for about $150 to $500 in small and mid-sized towns (municipal facility fee schedules and venue listings, 2024); midpoint taken."
+    },
     "filing-fee": {
       "label": "Candidate filing fee",
       "unit": "filing",

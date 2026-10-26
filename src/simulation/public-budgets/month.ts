@@ -15,7 +15,7 @@ import { heldCashBailMinorUnits } from "../justice/cash-bail";
 import { recordById } from "../history-index";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
-import { governmentUnit } from "../government-units";
+import { governmentUnit } from "../../core2/reference/government-units";
 import { adoptedCountyLevy } from "../county-budget-record";
 import { municipalGovernmentByKey } from "../municipal-government";
 import type { EntityId, IsoDate, ResourceFlow, World } from "../types";

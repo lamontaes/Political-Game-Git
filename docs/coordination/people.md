@@ -1,117 +1,139 @@
-# OPUS-PEOPLE: People and their stories
+# PEOPLE: only approved whole figures, placed like real people
 
-Only OPUS-PEOPLE writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
 
-- **Owns:** The people engines (kin, closeness, grief, memory, views, births and moves, drives) and the story director.
-- **Branch:** its current pool/P15-people-5 branch.
-- **Model:** Opus, high: modeling people is judgment work.
-- **Starts from:** Its own people work (P15 parts 1–5, #3956, #3964), the story director (#3926–#3930, which joins this pillar), views (#3965) and births (#3960).
+Owner: Lamontae. Written by the Opus CTO on Oct 13, 2026, from the code at main `d39511ac2`.
 
-## What the owner can play now
+You are the one session that owns **how people are drawn in scenes**:
 
-- **Steps 1 and 2 in the core (not yet on screen).** A new life at 18 in any of the 56 places has parents and siblings who follow the kin rules, real schools from the place data, and a record behind every fact. Over 91 days that person meets new people on visits and on joining groups, each meeting a dated fact naming the place, and some of those ties grow closer. Both run as golden-path checks in a randomly drawn place. They reach the owner's screen once OPUS-PLAY's bench shows the life and the circle.
+- which figure stands for a person;
+- where and how they stand or sit;
+- which way they face;
+- their size and shadow.
 
-## Audit 1 fixes (owner, Oct 12, 9:15 a.m.: these first)
+You don't own places (the paintings, their tags, which picture a scene uses, Travel). The LOCATIONS session owns those, in `docs/coordination/locations.md`. You also don't own menus and panels. The Opus CTO makes all new art in Firefly and commits it to the repo. You never generate images yourself; you write what you need into the art request file below.
 
-- [x] 1. Conversations: four distinct choices guaranteed; lies change what hearers believe, reach everyone present, and are found out through others.
-- [x] 2. Talking records contact and closeness, and passes news.
-- [ ] 3. The speech module and "bring it up" in /play: `peopleModules()` is ready; wiring it into /play is OPUS-PLAY's (see Needs).
-- [x] 4. News: trust by lean (Gallup), county and state stories, outlets as records; showing what the player heard is the /play sheet's (`storiesHeard`).
-- [x] 5. Journal lines for deaths, illness and filing; marriages and election results wait on producers. The look-back in /play is OPUS-PLAY's.
-- [x] 6. Schools by era: a person's school is one the national directory lists by the year they started there (NCES directories 1986–2021, every five years); a small place whose own schools aren't listed sends its children to a few nearby schools, so they have classmates.
-- [x] 7. Template banks fire their stopgaps until composed from mined speech.
-- [x] Also: a moment no situation type binds now plays at home instead of failing.
+## What the owner said (Oct 13, about 3:50 p.m.)
 
-## Checklist
+- "the president is too small and he's not sitting behind [his desk] … He's sitting on top of the back of the chair."
+- "the senators their legs are still cut off. They're still facing you. Why would they be sitting backwards in the seats? They're still too small. As a matter of fact, those look like they're old models. Again, when I said explicitly that they should be completely deleted…"
+- "Why can you not figure out standing people? Like, I don't understand on a plane."
+- "Travis Olson. To the left, model that was not accepted. Under all the characters, the new ones, they have shadows that don't match up with where they're standing. Why are they just standing in the middle of the room?"
+- "Why is this random dude on a fucking computer?"
+- "Why is everybody facing you? And why are the unapproved models still in the game? I said to remove all the people stuff yesterday."
+- "why does this kid have a random ass skateboard? That makes no sense in an house."
+- "Number 40 … It's just a bunch of kids in random … Are these 18, but why are random people in there? … Why is my character model not updated? Again, everybody is facing me."
+- "So there's only two teens, a boy with a basketball and in shorts… Only two teen girl looks… Never by what the person is doing." He means figures must be chosen by what the person is doing.
+- Oct 13, 4:20 p.m.: "I want the other one to remove all the old models, shadows, seated figures, etc."
 
-An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items. Per the owner's ruling, the ticks below mean the engine is built and tested in drawn places; each counts as done when it also works in /play, which needs OPUS-PLAY's wiring.
+The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, folder `screens/2026-10-13/`. Look at all of them first.
 
-- [x] **A life at 18 and meeting people (steps 1 and 2).** Finish part 5; merge the encounters and closeness reasons (#3964) into its branch.
-  - Done Oct 12: #3964, the story director (`pool/P13-5`) and main merged in. #3964 and this branch had each built part 5 from the same commit; this branch's version stays because saved traces, appraisal and the M0-07 test already use it. M0-06 and M0-07 are registered golden-path commands and pass in drawn places (Repton, Alabama; Martha Lake, Washington). The owner plays them once the bench shows them.
-  - Verified by: M0-06 and M0-07 in the bench; you play steps 1 and 2.
-  - Needs: PLAY (bench)
-- [x] **People in the two-level world.** With CORE: filled-in people get kin and a past that match the records; memories keep what matters and summarize the rest.
-  - Done Oct 12 on my side: a person filled in alone gets the same kin and past as in the full town (`src/core2/fill-in-people.test.ts`); each watched person forgets once a month, keeping the last season whole and the 24 strongest older moments, and folding the rest into monthly summaries without changing how much anyone matters to them (`src/director/director.test.ts`). CORE's counts layer calls these; its fill-in tests are the rest of the check.
-  - Verified by: CORE's fill-in tests; a person's memory stays roughly the same size across a year.
-  - Needs: CORE
-- [x] **Words: the English engine on the new core (owner, Oct 12).** Bring the English engine (`src/presentation/english-*.ts` and the `*-english.ts` writers) onto the new core, so conversations, scene narration and the journal come from record data: every conversation choice names something real, the Lie button sits beside the replies, and the journal reads as a first-person story that never invents a feeling. No hand-written player text.
-  - Verified by: M4-02 and M4-03 in a random place: the step 1 and 2 conversations and a year's journal trace every statement to a record; a batch of real engine output goes to the owner for grading, and his grades feed the engine.
-  - Needs: PLAY (conversation box and journal screens), GOV (the clerk at filing)
-  - Done Oct 12 (first version): the journal, conversations with the scales, scenes and the death look-back run on the new core through the English engine's grounded renderer, each tested in a generated place with every line tracing to records (`src/director/journal.ts`, `conversation.ts`, `scene.ts`). Still open, as registered stopgaps: wording composed from the mined speech corpus instead of the three hand-written template banks, and a 100-item batch for the owner to grade. Speeches and people bringing things up (M4-05) come with GOV's laws and campaigns.
+## How people are drawn today (checked in the code)
 
-- [x] **Political views.** Values and stances formed from each person's life, changing from causes, checked against the CES survey.
-  - Verified by: M1-10: two random states' views against the answer keys; one big event shifts only the people it touched.
-  - Done Oct 12 (first version): CES 2024 is reachable now (CC0, 56,384 respondents); its weighted spreads by state, age, education, faith, place type and county are derived into `src/core2/data/views/ces-2024-views.json` (the microdata stays out of the repo; `data/research/views/derive-ces-2024-views.py` rebuilds it). Each person's opening lean and engagement come from their state and age cell with a share their household holds in common; a recorded event with a topic moves the stances of only the people it reached, with its cause. Jena, Louisiana: town lean 0.31 against Louisiana's 0.30; Princeville, Illinois: −0.13 against −0.10. Still open (registered stopgap): education and faith on person records, the 14 values, and conversations and news moving views.
+- **`src/bench/scene.ts` `stagePeople()`** puts each person on the place's staging spots. The first person goes on the hero spot, and the rest are sorted "behind the lead, nearest first".
+  - For each person it calls `wholeFigureFor()`. When that returns nothing, it falls back to **the old layered people engine**:
+    - `recipeFor` → `engineRecipeFor`, `composeEnginePerson`, from `art/people-engine/v1`;
+    - drawn by `/api/figure` → `figurePng`;
+    - imports from `src/presentation/appearance-engine/*` and `src/presentation/dress-code.ts`.
+  - **These are the unapproved models the owner keeps seeing.**
+- **`src/bench/whole-figures.ts` `wholeFigureFor()`:**
+  - returns `null` for any spot whose pose isn't `stand` (line 96), so every seated, leaning or podium spot falls back to the old engine;
+  - uses only figures with `angle === "three-quarter"` (lines 30–34). The 6 side views and 6 back views in the art are never used;
+  - picks a look by sex, age band and outfit only (`outfitsFor`: an official's outfits at government places, a workplace's outfits, otherwise casual by age), then by a hash of the person's id. It never looks at what the person is doing, or who else is in the scene;
+  - mirrors the figure to face the spot's `facing` if it's left or right, otherwise "toward the middle". A three-quarter figure still looks at the camera;
+  - sets size as `heightMeters[band] × metersPercent × (spot.y − horizonY)` from `src/bench/data/whole-figures.json` and the staging.
+- **Shadows:** `src/bench/play.css` (`#people .figure .shadow`, near line 629) draws one fixed oval at the bottom of the figure's picture box (`bottom: -1.2%`, `left/right: 15%`). It isn't drawn at the feet, so it floats below anyone whose picture has empty space under the feet (`footY` < height).
+- **Staging** is `art/backdrops/staging.json`: 178 places, 2,141 spots.
+  - Poses: sit 1,188, stand 785, lean 140, podium 28. So **1,356 spots can never hold a whole figure today**.
+  - Facing: viewer 589, away 817, left 369, right 366.
+- **The art** is `art/people-whole/manifest.json`: 177 figures, 59 looks × 3 builds (slim, average, heavy). All are standing.
+  - Angles: 165 three-quarter, 6 back, 6 side.
+  - Ages: adult 123, older 30, teen 12, child 12.
+  - **Teens have 4 looks:** a boy in a hoodie with a skateboard, a boy in shorts with a basketball, a girl in a hoodie with a backpack walking, and a girl in a varsity jacket carrying something. Children also have 4 looks.
+  - Each look was painted doing one thing (`activity`: skateboard, laptop, reading and so on). The owner wants plain poses instead (item 7).
+- **The player** is drawn with the teen figures until 18, then an adult casual figure. Nothing ties the adult look to the teen look, so they're different people.
+- **The opening** (`src/bench/opening.ts`) uses the same `stagePeople`. That's why the president is the old seated model in the Oval Office.
 
-- [ ] **Births, then moves.** Births from couples' circumstances (ready for checking); then moves for jobs, family, rent and evictions.
-  - Verified by: M1-09: births and moves inside the place's real rates over a year.
-  - Needs: WORLD (jobs, housing for moves)
-  - Births in, Oct 12: #3960's births (couples' shared plans, pregnancies, newborns with kin and a past from birth) are on this branch, with the four small core additions it needs (newborn admission and infant eligibility; see Needs). Checked over a year in four randomly drawn towns: 43 births against 35.4 expected from each state's 2024 rates by mother's age (Elizabeth City, North Carolina 5 vs 9.4; Edgerton, Ohio 10 vs 9.1; Columbus Grove, Ohio 12 vs 8.1; Dover, Idaho 16 vs 8.9). The total is within chance. Pooled by mother's age it is close for 20–29 (16 vs 15.4) and 35–39 (6 vs 4.6); 30–34 runs high (21 vs 13) and teen births are missing (0 vs 1.2, since only couples plan). Single towns spread wider than chance, because each couple's plan flips when one score passes the other, so a second calibration across places is still due. Moves wait on WORLD's jobs and housing.
-  - Births in /play, Oct 12: `peopleModules()` and `peopleData()` now install births, so a played town has babies; the parents' journals say "My son was born." (a new moment, sized as the SRRS "gain of a new family member", 39). M1-09's test now checks births too: across Gisela, Arizona; Harlan, Kentucky; and Winchester, Kentucky, 16 births in half a year against 12.1 expected from each state's 2024 rates (CDC NVSS Table 6), slightly high as before.
-  - Moves in (first cut), Oct 12: `src/core2/modules/moves.ts`. Each adult builds a pull to leave town month by month from their age band's ACS 2024 rate of leaving the county in their state, weighted by what ties them (a home they own, their own children at home, relatives in town, a job, their taste for risk) against others their age, plus pushes from an eviction, a lost job or a relative moving away. Each month they weigh it against staying through the core's chooser. A couple decides together, a grown child at home leaves alone, and the player never leaves unless they choose to. Leavers go to a relative elsewhere, else their county's most common IRS destination, else their state. Their job and their household's rent and spending here end, and their relatives in town know. The journal says "My son moved away." In a 1,500-person Scottsbluff, Nebraska with the whole economy running, 61 adults left in a year against 76 expected, and the year ran 2.6% slower with moves installed. Short in the middle ages because owner households with a mortgage stay together until WORLD models a home sale (stopgap). M1-09's command, `src/core2/moves.test.ts`, passes in West Glacier, Montana; Stateline, Nevada; Levan, Utah; and Gisela, Arizona. Still open: newcomers arriving into empty homes and open jobs, and the wider population's moves as counts.
+## What to do
 
-- [x] **Who runs for office.** People decide to run, or not, from their drives, views and circumstances.
-  - Verified by: M2-04: every candidate on the ballot filed through those choices, with recorded reasons.
-  - Needs: GOV (filing)
-  - Done Oct 12 (engine): `decideToRun(api, personId, contest)` in `src/core2/modules/candidacy.ts`. Each adult weighs running against staying out through the core's shared chooser, from how closely they follow politics, the strongest cause they carry, temperament, money against the fee, work hours and age; the decision and its reasons are kept, and `candidatesFor(api, contestId)` lists who chose to run. In a drawn town about half a percent of adults run for a council seat; a recorded cause turns the closest non-candidate into one (`src/core2/candidacy.test.ts`). GOV wires it to `openContests` and `fileCandidacy`.
+1. **Delete the old models completely.**
+   - Take the people-engine fallback out of `stagePeople`, and remove `/api/figure` and `figurePng`.
+   - Delete `art/people-engine/v1` and the appearance-engine code, dress code and their tests, once nothing reachable from `/play` uses them. Check by reachability from `src/bench/server.ts`, the way the old-engine removal did on Oct 12.
+   - Where no approved figure fits a spot, draw nobody on that spot; put the person on a fitting standing spot instead. Never an old model.
+   - Report how many files and megabytes you removed.
+2. **Seated figures.**
+   - Wire seated whole figures to every sit spot: the chair's `seatY`, cut off below the desk at `clipBelowY`, sized so the seat and the person match the chair.
+   - Until the CTO's seated art lands, seated spots stay empty.
+   - The president sits in his chair behind the Resolute desk, not on top of it. Senators and legislators sit in their seats facing the front of the chamber. Council and commission members sit at the dais, not in the audience.
+3. **Facing.**
+   - People face who they're with: the person they're talking to, the speaker, the dais, the front of the room. Use side and back views where the spot faces away or sideways.
+   - Only a speaker addressing the room, or a person talking to the player, faces out.
+   - Fix the `facing` of existing spots in `staging.json` where it's `viewer` but a real person there wouldn't face out.
+4. **Standing in sensible places.**
+   - People stand by a counter, a desk, a doorway, a wall or a window, and in groups when they're together. Not in the middle of the floor.
+   - Fix existing stand spots in `staging.json` that sit in the open middle of a room.
+   - Coordinate with LOCATIONS, who stages the new places by the same rules.
+5. **Size.**
+   - Check every place's `horizonY`, `metersPercent` and `floors` against its painting, so a person's height matches doors, desks and chairs at that depth.
+   - The president, senators and members in the chambers must be the right size.
+6. **Shadows.**
+   - Draw the contact shadow at the feet: at `footY` within the figure, as wide as the stance, and soft.
+   - A seated person's shadow goes under the chair, or there's none when the desk hides it.
+   - Shadows must line up with where the person stands.
+7. **Plain poses first; the simulation decides what people are doing.**
+   - Owner, Oct 13, 2026: "regular poses, not with a laptop or a book or something. You don't decide that. The simulation decides what they're doing." Then: "I want plain poses first."
+   - Every person is drawn in a plain pose by default: standing or seated, three-quarter, side or back, hands empty. No prop is ever baked into the only version of a look.
+   - Pick the plain pose that fits the spot (stand or sit, which way it faces) and the person's sex, age and build.
+   - Prop versions (phone, book, coffee, carrying) come later, after the plain set. When they exist, the picker uses one only when the person's current act in the simulation (`doing()` in `scene.ts`) is that act. Otherwise it's always the plain pose. A skateboard or ball is never indoors.
+8. **No twins.** Two people in the same scene never share a look. Siblings and household members get different looks.
+9. **The player's figure** keeps one identity as they age. Their adult look comes from the same look family as their teen look when one exists. Add a `family` field to the manifest so a look can carry ages. The figure must update at 18, and the screen must show the new age.
+10. **Who is there (screen 40).** Only the household, or people with a recorded reason, are in the home scene. If the household moved, the scene must show the new home only after the move is recorded, and the journal or news must say so. Match each figure to their real age, so the father isn't drawn as a young man.
+11. **Art requests.** Write `docs/coordination/people-art-requests.md`, which the CTO reads and generates from. List, per look:
+    - seated poses for each chair kind (office chair behind a desk, legislative desk seat, dais chair, couch, bench or pew, kitchen chair, pulled up to a table);
+    - side and back views;
+    - plain poses only for now (no props): standing and seated, three-quarter, side and back. Prop versions are a later request, used only when the simulation's act calls for them;
+    - and **teen and child looks:** at least 12 per sex per band, everyday clothes for home and school, sports and work clothes, with different builds, skin tones and hair. Plus the adult version of each teen look for continuity.
+    - Give the exact framing rules the code needs (foot line, canvas size, facing), so the CTO's output drops straight in.
 
-- [ ] **Drives and moments.** Losses from the economy form drives; campaigns, votes and laws make moments; people bring them up.
-  - Verified by: M1-11, M4-01 and M4-05.
-  - Needs: WORLD (events), GOV
-  - Moments from the economy, Oct 12: WORLD's own engines now become moments and journal lines for the people they touch. Lost jobs were already covered; a new business ("I started Mann manufacturing."), an eviction ("We were evicted."), a home bought ("We bought a house.") and a relative moving away ("My son moved away.") now are too, each sized on the same life-change scale (SRRS: business readjustment 39, mortgage 31, eviction sized like a lost job 47, a child leaving home 29). A relative's line takes their recorded gender ("My father lost his job.", where it said "their"). Checked over a year of the whole economy in a drawn two-level town, with every full person watched: every economy event that named someone gave them a moment citing it (`src/director/world-moments.test.ts`, now M4-01's command with the journal test). Found on the way: an eviction counted only 0.09 because the home channel scales by 0.2 for ordinary moves; these life-change sizes now use the unscaled channel.
-  - In progress Oct 12: drives and health (#3922) merged; M1-11's closures calibrated and tested; M4-05 people bring it up (with wrong blame) built and tested. Still open: moments from campaigns, votes and laws (M4-01) once GOV's events are on a shared branch, and evictions and job losses as their producers arrive.
+## Proof and rules
+
+- **Proof:** for each PR, before-and-after screenshots from fresh games in at least four random places (`buildBenchWorld`, the way `tests/golden-path/played-world.node-test.ts` builds it). Cover:
+  - the home with the family;
+  - a workplace;
+  - the council or commission meeting;
+  - the state chamber;
+  - the U.S. House and Senate;
+  - the Oval Office;
+  - a conversation;
+  - the intro.
+  - Count figures by source in each: whole versus anything else. The "anything else" count must be zero.
+- **One PR per area,** each merging as soon as it's ready: removing the old models, shadows, facing and staging fixes, the plain-pose picker, no twins, the player's identity, then seated figures when the art lands.
+- Each PR gets a release note in `docs/release/changes/`.
+- **Checks:** prettier, eslint and tsc on changed files, plus the changed tests and the played-world test. Never run the whole suite.
+- American English.
+- No hand-written player text.
+- Never a real politician.
+- Never hard-code a person's figure. It always comes from data and their record.
+- Open each PR ready, not as a draft. The CTO's merge queue merges any ready PR with no conflicts.
+
+## Status (PEOPLE session)
+
+Branch `claude/people-rendering-overhaul-x6zl5r`. Proof tool: `node --import tsx scripts/people/scene-shots.ts <out> [seed ...]` builds fresh games in random places and renders the intro, home, a workplace, the council, the state chamber, the U.S. House and Senate, the Oval Office and a conversation, with a count of figures by source.
+
+- [x] 1. Old models deleted (PR 1): 5,231 files, 238.5 MB. Nobody is drawn on a spot no approved figure fits. Nonbinary people wear any look instead of vanishing.
+- [x] 6. Shadows at the feet (PR 2): measured from each figure's pixels, on the foot point, none behind a desk.
+- [x] 3–5. Facing, staging, size (PR 3): people turn toward who they're with, or a room's front (`roomFronts` in `src/bench/data/whole-figures.json`); companions take the nearest spots that don't hide anyone; council chamber and U.S. House scale raised to full size; 4 home stand spots moved off the open floor; 5 looks' recorded facing corrected. Check sheets: `scripts/people/staging-sheet.ts`. Checked by eye: 29 places (homes, chambers, offices, the owner's scenes). Open: the other 149 places' spots and scale are not yet checked one by one.
+- [x] 7–10. Activity picker, no twins, the player's identity, who is there (PR 4): where each painted activity makes sense is data (`activitySettings` in `src/bench/data/whole-figures.json`); each person takes the first look in their own stable order that fits and nobody else in the scene wears; ages matched within 6 years first, then 12; from 18 never a teen look; the manifest has a `family` field and the player keeps theirs. Stopgap SG-PEOPLE-one-look-per-activity until the activity variants and teen looks land. Who is at home was already the household only (`presentIds`).
+- [x] 2. Seated figures, wiring (PR 5): each seat's chair kind comes from its staging group (`seatKinds` in `src/bench/data/whole-figures.json`; the Oval Office desk is an office chair, the Senate and House members' seats legislative seats, the council dais dais chairs, sofas couches); a seated row of the person's own look is placed with its hip line on the seat's `seatY`, cut at `clipBelowY`. Seats stay empty until the CTO's seated art lands; nothing else needs changing then. Wall and doorway (lean) spots now take standing people.
+- [x] 11. Art requests: `docs/coordination/people-art-requests.md`.
 
 ## Needs from other sessions
 
-- **OPUS-PLAY:** the bench screens for step 1 (the 18-year-old's family, schools and the record behind each fact) and step 2 (the circle, each meeting and why a tie grew closer). The data is `pastFacts`, `knownIds` and each relationship's `latestChange` on `pool/P15-people-5`.
-- **OPUS-CORE (two-level population):** filling someone in is ready on my side. Build a household's kin with `buildOpeningKin([thatHousehold], options)` and its members' past with `buildDeepPast(inputHoldingThem, { peerCohortSize })`; both give exactly what the full-town build gives (`src/core2/fill-in-people.test.ts`). The one thing I need from the counts: `peerCohortSize(circle, contextKey)`, the records' count of people in that school class or workplace. Relatives outside the household stay husks until met, and ties to classmates or coworkers appear as each is filled in.
-- **OPUS-CORE:** births need four small core additions I carried from #3960 onto this branch: newborn family admission (`addBornPersonV1`, core API v13), the tier capability gate and person-level infant eligibility, and keeping a deceased parent as kin without the newborn learning their name. They were written for SOL-1258's review; please review them on `pool/P15-people-5` (commits `133327ad9`, `d6aa7b3cc`, `ad75b73a0`, `8ebd738b9`).
-- **OPUS-GOV (answers to your four asks):**
-  - Views: `viewOf(api, personId)` in `src/core2/modules/views.ts` gives `lean` (−2 very liberal to +2 very conservative, the CES scale), `engagement` (0 to 1) and `label`; install `viewsModule`. It forms on first read, so officials who are residents have one. Per-question stances exist only where an event with that topic reached the person (`stancesOf`), so for now read `lean` along your issue axes in place of your district-vote stand-in.
-  - Who runs: call `decideToRun(api, personId, contest)` (`src/core2/modules/candidacy.ts`, install `candidacyModule`) for each eligible adult when a contest opens; `contest` is `{contestId, officeName, filingDeadline, feeMinor, sourceIds}` from `openContests`/`filingOfficeFor`. File those with `run: true` through `fileCandidacy`; each carries its reasons for the "why".
-  - The clerk conversation at filing: `openFilingVisit(core, playerId, contests, clerkId?)` then `pickContest(core, visit, contestId, filingOfficeFor(...), checkEligibility(...))` in `src/director/filing-visit.ts`. The clerk asks which office, states the deadline and the fee or signatures, explains each unmet rule, and otherwise offers the ways to file; a chosen line returns `{kind: "file", contestId, payFee}` for `fileCandidacy`. The clerk can be the county or city clerk from your `townSeats`.
-- **OPUS-PLAY (audit 1, items 3 and 4):** install every people engine in `/play` with one call: `createLifeCore(input, { data: peopleData(), modules: [...peopleModules(), director.module] })` from `src/director/play-modules.ts` (health, drives, views, news, speeches, who runs, corruption, beliefs). Then the Speech button can call `deliverSpeech`, a conversation can open with `bringItUp` when the other person has news, and the News sheet should show `storiesHeard(api, playerId)` (what the player actually heard), not every public record.
-- **OPUS-PLAY:** the filing visit (step 3) is `openFilingVisit` and `pickContest` in `src/director/filing-visit.ts`, fed by GOV's `openContests`, `filingOfficeFor` and `checkEligibility`; a chosen line's `action` says what to call next.
-- **OPUS-PLAY:** a staged scene is `composeScene(core, director, personId, scheduleEntry)` from `src/director/scene.ts`: `narration` lines (second person, each with its records), `presentIds` for staging, the setting's kind and record for the art, and `talkToId` to open the conversation.
-- **OPUS-PLAY:** the conversation box can drive `openConversation(core, playerId, otherId)` and `say(core, conversation, choiceKey)` from `src/director/conversation.ts`: `lines`, `choices` (each with the records behind it) and `lie` (the scales; null means dimmed). It records what was said as core events at the current date.
-- **OPUS-PLAY:** the "My life" screen can read `composeJournal(core, director, playerId)` from `src/director/journal.ts`: chapters, each with a title and first-person lines, every line carrying the record ids behind it.
-- **OPUS-CORE / OPUS-WORLD:** 39 tests in `opening-finance`, `opening-capital` and `opening-customers` fail on this branch before and after my changes ("Opening income timing requires its owning employer payday calendar"). They're in your opening books, not mine; please check whether they're red on `main`.
-- **OPUS-WORLD (moves):** (1) a home sale when an owner household leaves (price, mortgage payoff, a vacant home), so mortgaged owners can move away (`SG-P15-moves-owners-stay`); (2) export the jobs engine's pinned-job lookup, or let agreements re-resolve their worker when a job ends, so those workers can move (`SG-P15-moves-pinned-jobs`); (3) for newcomers, a way to list vacant homes and open jobs that a newcomer household can take.
-- **OPUS-CORE (moves):** a call that moves a person to another place and out of their household mid-run (`SG-P15-moves-place-kept`; leavers are now the inactive tier, keeping their town place), and a call that admits a newcomer household (adults with kin and a past) mid-run, as `addBornPersonV1` does for newborns.
-- **OPUS-WORLD (moves):** (1) a home sale when an owner household leaves (price, mortgage payoff, a vacant home), so mortgaged owners can move away (`SG-P15-moves-owners-stay`); (2) export the jobs engine's pinned-job lookup, or let agreements re-resolve their worker when a job ends, so those workers can move (`SG-P15-moves-pinned-jobs`); (3) for newcomers, a way to list vacant homes and open jobs that a newcomer household can take.
-- **OPUS-CORE (moves):** a call that moves a person to another place and out of their household mid-run (`SG-P15-moves-place-kept`; leavers are now the inactive tier, keeping their town place), and a call that admits a newcomer household (adults with kin and a past) mid-run, as `addBornPersonV1` does for newborns.
-- **OPUS-PLAY:** `peopleModules()` now includes moves; the bench can list `departuresOf(api)` (who left, when, where to, and the pull and ties behind it).
-- **CTO:** the PR suite now runs four commands in about 288 s against its 300 s budget; M0-06 and M0-07 spend most of theirs loading data. If the budget becomes a problem, give the people checks the nightly run or a larger PR budget.
+- OPUS-PLAY: screen 40 (named "age 18") shows 17 on the card; please check the card's age follows the game date. Figures switch at 18 on the game date.
+- OPUS-WORLD and the story director: when a household moves, the journal or news should say so; the home picture already follows the household's dwelling record.
 
-## Log
+## Questions for the owner
 
-Newest first: one line per event (what changed, the measured result, what's next).
+- Until the teen art lands, a teen boy indoors is drawn with the youngest adult look in a hoodie (24 in the art). Is that better than drawing nobody?
 
-- Oct 12, audit 1 (schools by era): every school in someone's past was open when they started there. Each school's first year comes from the NCES directories for 1986–87 to 2021–22, every five years (97,886 of 100,239 of today's schools matched; those listed in 1986 may be older). A 1960s class can no longer have a 2015 campus. Found on the way, in Pueblito del Río, Puerto Rico: a place whose own schools aren't listed read every school on the island, so a 19-year-old had no classmates and met no one in 91 days (M0-07 failed there). Each such place now has a catchment of nearby schools sized by its population (2020 Census: 1.29% of residents per school year). In four drawn small places, 99.8–100% of children share a school with someone their year, against 78–85% before. The M0-07 test player now visits whoever they've seen least; in Scottsbluff, Nebraska, the same lone friend every day had met no one.
-- Oct 12: WORLD's layoffs (`work.job-lost`) and evictions (`housing.eviction`) now form drives. Each names the employer or landlord as its topic, and a grudge aims at them. Job loss uses the closure's sourced impact (SRRS "fired at work", 47); eviction was first sized by the nearest SRRS item, foreclosure (30), and is now sized like a lost job (47), per Desmond and Kimbro. WORLD's housing names its landlord organization record, so grudges land.
-
-- Oct 12: conversations checked against the small-talk register card (Santa Barbara corpus: median turn 4 words, 45% of turns three words or fewer). Before: the other person always spoke full sentences (median 6, 11% short) and conversations with someone jobless ended after one exchange. Now they acknowledge answers ("Right.", "Yeah."), use the clipped forms people use ("Still in Merrifield?", "Seen Zoe lately?", "Working these days?"), raise their own subjects (people both know, their family, their work), and say "yesterday" rather than a date: median 5, 34% short, inside the check's range, and conversations run 387 turns where they ran 132.
-- Oct 12, audit 1 (news): trust in the media now comes from each person's lean, interpolated between Gallup's September 2024 shares (Democrats 54%, independents 27%, Republicans 12%, all adults 31%), and people who trust it less hear from outlets later; a county or state record reaches the residents inside it; each story names its outlet record (one local outlet per place, a registered stand-in until real outlets are records).
-- Oct 12, audit 1: the journal now writes a relative's death ("My father died.", opening a chapter titled after them), serious illness, and filing for office ("I filed to run for City Council, Seat 2.", from GOV's `candidate-filed` record, sized as the SRRS "outstanding personal achievement"). Marriages and election results wait on producers: no core engine records a marriage yet, and GOV's elections don't emit results yet. All banks now fire their stopgaps; `peopleModules()` installs every people engine for /play.
-- Oct 12, audit 1 fixes (owner, 9:15 a.m.: audit findings first). Conversations rewritten: every turn offers at least four distinct answers to the last line (plain; a further fact such as "Yes. I've been there since April 2016."; turning it back; brief and moving on), checked over 15 conversations and four turns each; a stranger asks what they don't know ("Where are you working these days?"); when the player raises nothing, the other person carries on. Talking is recorded as time together through the core's relationship writer, so closeness grows and news passes. A lie now leaves its claim as a belief in everyone present, the director keeps it, and anyone who knows the truth (a coworker, a housemate) sets a believer straight the next time they talk, which ends the lie. Lies can name a real other employer. Found on the way: every template slot written in camelCase was silently refused by the engine; renamed. The word banks' stopgaps now fire when they write.
-- Oct 12: moments from GOV's law engine (M4-01). The director now sizes events recorded without an appraised impact from their own facts (data rule `eventImpacts`): a minimum-wage raise is a money moment the size of the pay change, and the journal reads "My pay went up to $15.00 an hour." and, for everyone the law reached, "A new minimum wage took effect." Tested with events shaped exactly as GOV's `laws.ts` emits them (`law-took-effect`, `pay-raised-to-minimum-wage`).
-- Oct 12: education and faith (`src/core2/opening-profile.ts`): each adult's attainment and faith come from their state's CES 2024 shares for their age band, with a household share (spouses match on schooling about half the time, on faith about 60%: Schwartz and Mare 2005; Pew 2015), keyed to the person and home so fill-in repeats it. Views now carry them: in Princeville, Illinois, college graduates with no religion lean −0.82 and Protestants without college +0.35, while the town still averages −0.12 against Illinois's −0.10. `addOpeningProfiles` puts them on records for any pipeline that wants the facts (CORE's population, when ready).
-- Oct 12: incumbents decide to run again or retire through the same choice (M2-04): holding the seat is one more reason, calibrated so 83% of a town's would-be incumbents run again against Ballotpedia's 81% (18.8% of state legislative seats open, 2010–2024). GOV passes `incumbentId` on the contest.
-- Oct 12: a grading batch for the owner, `docs/grading/english-batch-2026-10-12.md`: 42 real engine lines from generated lives in Blairsville and Colquitt, Georgia, one per template (the engine has 42 distinct templates on the new core, so not yet 100), covering the journal, conversations with the lie, scenes, the filing clerk and people bringing things up. Rebuilt with `src/director/tooling/grading-batch.ts`. Making it fixed four things it exposed: "Builders's", dates that repeated this year, a stilted reply, and a missing comma.
-- Oct 12: speed with every people module installed (views, news, speeches, who runs, corruption), 30 days in a 1,000-person town, two runs each on one machine: base 15.1 s and 14.8 s, with them 15.7 s and 15.3 s (+3.7%). First measure was +15%; news and corruption now skip contacts with nothing to pass without reading their tables.
-- Oct 12: basic corruption (M3-09, `src/core2/modules/corruption.ts`). Offering and taking a bribe are each decided through the core's chooser from the person's own traits (risk, reliability), money and tie to the other; a taken bribe moves the offerer's own money to the official's own money through the cash journal (balanced to the dollar) and becomes a crime record only the two hold; it surfaces when one falls out with the other and decides to tell the person they're closest to. With ordinary stakes ($50,000) no one offers; with a $500,000 contract, at first people with money offered in 145 of 155 asks. Calibrated after: with the honest pull at 3 (Transparency International's 2019 barometer: about 6% of Americans paid a bribe in a year), 28 of 158 wealthy residents offered on a $500,000 contract and 7 strained residents took; the weights stay a registered stopgap.
-- Oct 12: speeches (M4-04 reception, `src/core2/modules/speech.ts`): a speech is recorded as heard by the people present; each listener's stance on its topic moves in proportion to how near their lean is to the speaker's; then each decides through the core's chooser whether to retell it at home, from how far it moved them and their sociability, and the retelling moves their household. In a drawn town, some but not all of 60 listeners retell it; no one else is touched. GOV's `giveSpeech` can call `deliverSpeech` with the people present.
-- Oct 12: drives answer the economy (M1-11). A closure now weighs as much as a lost job does on the same life-change scale as a death, and the ambition fit is calibrated to displaced-worker research: when every employer in a fresh town closes, 12.8% of workers form an ambition (retraining, a business), 5.5% a grudge aimed at the business, 82% carry on (research: 10–16% retrain, a few points start businesses, most carry on). Registered golden-path commands for M1-10, M1-11, M2-04, M2-09 and M4-05; in nightly mode all nine registered specs pass in drawn places, including Charlotte Amalie and Christiansted, U.S. Virgin Islands. The PR budget (300 s) reaches only the first five.
-- Oct 12: basic news (M2-09, `src/core2/modules/news.ts`): a public record becomes a story for its place; outlets carry it to each resident after a delay set by how closely they follow politics (next day for the most engaged, never past the story's 30 days), and each real contact passes the newest story the other hasn't heard; hearing it teaches what the record says. Not yet measured for speed over a year. Drives on closures: in a year in Rothschild, Wisconsin, 9 closures led 54 workers to decide, and all carried on, below the research's 10–16% who retrain or start something; tuning that is next.
-- Oct 12: people bring it up (M4-05, `src/director/bring-it-up.ts`). Someone who saw a closure's record says "Chen's closed. That was Chen's doing."; a friend they tell repeats it ("From what I heard..."); someone who only heard it closed and whose temperament runs to blaming authority pins it on a public official they know of, wrongly, and passes that on. Drives and health (#3922) are merged in; closures now carry a sourced impact into drives (SRRS "fired at work") and a grudge targets the business. Golden path green on this head (M0-06 Temple, Texas; M0-07 Lebanon, New Hampshire).
-- Oct 12: FIXER's #4005 and #4006 merged into this branch: the six generation picks are recorded and real school and owner names are exempt from the spelling sweep; zero-dice reports nothing new.
-- Oct 12: the filing visit's clerk conversation (`src/director/filing-visit.ts`), speaking from GOV's filing records: "For City Council, Seat 2, filings close on March 5, 2021. The fee is $25, or you can file 50 signatures instead." and, when a rule stops the filing, "You have to be at least 18 to run for City Council, Seat 2." Next: drives and moments (M1-11, M4-01, M4-05).
-- Oct 12: who runs for office (M2-04 engine): a few residents choose to run, each with reasons; a recorded cause can tip someone in. Next: the clerk conversation at filing.
-- Oct 12: births from #3960 ported onto this branch (cherry-picked, since a full merge pulled in an older core); golden path green afterward (M0-06 Eagle Lake, Maine; M0-07 Fallston, Maryland); `life.test.ts` keeps the same six failures it had before. Next: births' second calibration, then who runs for office.
-- Oct 12: political views on the new core (`src/core2/modules/views.ts`), checked against CES 2024 in two drawn towns (`src/core2/views.test.ts`). #3965's views code was never pushed, so this is built fresh and small. Next: births (#3960).
-- Oct 12: scenes on the new core (`src/director/scene.ts`). When the director stages a moment, the scene is built from its blocks in second person: where you are from the setting's record, who the records put there, and what led here, then it opens a conversation with the person who starts it. In Wendell, North Carolina (seed scenes-a), January: "You're out in Wendell. Robert Wilkins is here. You and Robert have been seeing each other lately." then Robert asks "Are you still living in Wendell?" with five choices. Next: the death look-back and people bringing things up (M4-05), then views.
-- Oct 12: conversations on the new core (`src/director/conversation.ts`). The other person opens by asking about something real ("Do you remember Jackson Center High School?", "Still at Chen's General Store?"); the player gets four to six choices, each answering that line and raising another real subject: their own work, the town, people both know ("Have you seen Shawn Patel?"), relatives the other hasn't met ("Have you met my sister, Ann?"). Replies come from the other person's records ("I'm at Craig Brothers Farm.", "I haven't seen Stacy Woodard lately."). The scales line exists only for a question about the player's own record that the listener doesn't already know; a lie is recorded with its exact claim and hearer, the director keeps it, and it ends the day the hearer learns the truth. Leaving is the screen's button. Next: scenes (M4-03), then speech-mined wording.
-- Oct 12: the journal on the new core. `composeJournal` writes "My life" as first-person chapters through the English engine's grounded renderer: chapters turn at school, work, a child and moves; relatives are "my son", "my sister"; repeats fold ("I saw Judith Noble three times."); every line cites the records behind it, and the bank has no feeling words. In Semmes, Alabama (seed journal-b), a 53-year-old's journal opens with her three schools, then "My son was born.", then her start at the police department and someone she met. Templates are a registered stopgap until composed from mined speech. Next: conversations (M4-02).
-- Oct 12: forgetting built. In a year of news every three days, a watched person's stored moments hold steady from July to January (a season plus 24), while without forgetting they keep growing; each pair's importance matches the keep-everything run exactly. Found and fixed a director bug on the way: an old tie that kept coming back counted its own earlier comebacks, so its importance grew without limit (3.8 × 10^34 in that year). Now a comeback renews the tie and counts the history once.
-- Oct 12: fill-in ready for CORE. A household filled in alone gets the same kin, and its people the same past, as in the full-town build: 0 differences for 608 people across 60 households (seed fill-a), and a test now holds it. Classmates and coworkers are now grouped from each person's own key and the class's size in the records, not from who else was built. Memory measured over a year: per person, known facts (17), ties (8.4) and the director's moments (2.5 per watched person) stay flat, so nothing grows yet; forgetting is next so it stays that way once campaigns and drives add moments.
-- Oct 12: merged #3964, `pool/P13-5` and main; typecheck clean; golden path green with M0-06 (Repton, Alabama, 103 s) and M0-07 (Martha Lake, Washington, 157 s) passing as goals. Next: people in the two-level world.
+Left in place on purpose: `src/presentation/complete-outfit.ts`, `engine-people29-data.ts`, `private-candidate-manifests.ts`, `runtime-art.ts` and `bundled-art.ts`. Nothing from `/play` reaches them, but old scene and prose tooling still imports them (`scripts/prose-corpus`, `src/presentation/scene-registry.ts`); they go with the old-core removal.

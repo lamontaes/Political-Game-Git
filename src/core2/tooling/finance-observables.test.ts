@@ -656,7 +656,15 @@ describe("firm sales and other actual transfer observables", () => {
       "public-institution";
     input.finance!.contracts = [
       ...input.finance!.contracts.map((row) =>
-        row.id === saleId ? { ...row, salesReceipt: true } : row,
+        // A plain sale, not a household's everyday living (cost-of-living.ts).
+        row.id === saleId
+          ? {
+              ...row,
+              householdId: undefined,
+              settlementPhaseId: "household-purchases",
+              salesReceipt: true,
+            }
+          : row,
       ),
       {
         id: fundingId,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import {
   OPENING_SPEECH_BANK,
   composeOpeningSpeech,
@@ -75,7 +75,7 @@ describe("the opening speech", () => {
       it(`composes the ${kind} (${stage}) from mined sentences`, () => {
         const speech = composeOpeningSpeech(packet(stage, worldFacts), kind);
         expect(speech, kind).not.toBeNull();
-        expect(speech![0]!.level).toBe("occasion");
+        expect(speech![0]!.level).toBe("salutation");
         expect(speech!.at(-1)!.level).toBe("close");
         for (const section of speech!)
           for (const sentence of section.sentences) {

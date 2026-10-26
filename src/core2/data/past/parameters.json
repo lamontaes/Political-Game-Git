@@ -1,0 +1,300 @@
+{
+  "pastArchiveDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "The news archive covers the year before day one (owner, Oct 14, 2026: 'the year before day one has news records'). Spread 180 to 730.",
+    "spread": {
+      "low": 180,
+      "high": 730,
+      "unit": "days",
+      "citation": "Owner's ruling names one year; the spread is the checked range."
+    }
+  },
+  "pastRollCallsPerBodyYear": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Recorded votes on contested policy questions kept per body per year of the prior term. Real bodies record many more roll calls; the record keeps the contested ones a voter would weigh, and each kept vote counts once in the record engine's appeal. Spread 2 to 12.",
+    "spread": {
+      "low": 2,
+      "high": 12,
+      "unit": "votes per body per year",
+      "citation": "Checked against the record engine's per-vote weight so the record does not swamp party and views."
+    }
+  },
+  "pastLawEnactmentLagDaysLow": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "Shortest gap between a law's passage and its effective date: emergency clauses and bills effective on signing.",
+    "estimatedFrom": "National Conference of State Legislatures, 'Effective Dates of Legislation' (state default effective dates run from immediately to about 90 days after adjournment); federal statutes commonly take effect on enactment or after a stated delay."
+  },
+  "pastLawEnactmentLagDaysHigh": {
+    "value": 365,
+    "tag": "ESTIMATED",
+    "citation": "Longest usual gap between a law's passage and its effective date: a spring session's law effective the next January or July, or a phased schedule's first step.",
+    "estimatedFrom": "National Conference of State Legislatures, 'Effective Dates of Legislation'; minimum wage schedules in data/research/laws/minimum-wage-history-2000-2026.json are typically enacted months before their first step."
+  },
+  "pastUndatedLawAgeYearsLow": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "A law in force at the opening whose research records no enactment date was passed at least this many years before day one. In two policy families with per-state dates, the youngest law in force on January 20, 2025 was 1.14 years old (Medicaid expansion, North Carolina, December 1, 2023) and 8.05 years (right-to-work, Kentucky, 2017): Wikipedia, 'Medicaid expansion' (https://en.wikipedia.org/wiki/Medicaid_expansion) and 'Right-to-work law' (https://en.wikipedia.org/wiki/Right-to-work_law), read October 23, 2026 (data/research/core/state-law-adoption-dates-2025.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "The starting-law research reads the law in force on the calibration date, not its enactment. One year is kept as the floor: the youngest sourced law in force is 1.14 years old. Secondary pages, because the Kaiser Family Foundation tracker gives its dates only as images and the National Right to Work Committee timeline sits behind a bot check.",
+    "spread": {
+      "low": 1.14,
+      "high": 8.05,
+      "unit": "years before day one",
+      "citation": "Youngest law in force at day one in each sourced family: Medicaid expansion 1.14 years, right-to-work 8.05 years (data/research/core/state-law-adoption-dates-2025.json)."
+    },
+    "stopgapId": "SG-CORE-past-undated-law-age"
+  },
+  "pastUndatedLawAgeYearsHigh": {
+    "value": 20,
+    "tag": "ESTIMATED",
+    "citation": "A law in force at the opening whose research records no enactment date was passed at most this many years before day one. In the two sourced policy families, the 67 laws in force on January 20, 2025 were passed a median 11.05 years before it (the seeded draw from 1 to 20 has median 10.5), the oldest Medicaid expansion 11.05 years and the oldest right-to-work law 81.05 years (Florida, 1944): Wikipedia, 'Medicaid expansion' and 'Right-to-work law', read October 23, 2026 (data/research/core/state-law-adoption-dates-2025.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "Twenty years matches the pooled median of the sourced laws but leaves out settled law: 22 of the 26 right-to-work laws are older than 20 years. A wider uniform draw would make every recent policy wave look old, so the value stays until each policy answer reads its own enactment year.",
+    "spread": {
+      "low": 11.05,
+      "high": 81.05,
+      "unit": "years before day one",
+      "citation": "Oldest law in force at day one in each sourced family: Medicaid expansion 11.05 years (2014), right-to-work 81.05 years (1944) (data/research/core/state-law-adoption-dates-2025.json)."
+    },
+    "stopgapId": "SG-CORE-past-undated-law-age"
+  },
+  "pastWinnerShareSpread": {
+    "value": 0.08,
+    "tag": "TUNABLE",
+    "citation": "Half-width of a seat's winner share around the tenure table's average for that kind of office, where no real result is recorded for the seat. Spread 0.04 to 0.15.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the vote",
+      "citation": "Ballotpedia state legislative competitiveness reports: most incumbents win by 10 to 40 points."
+    }
+  },
+  "pastRealShareDrift": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "Half-width of a world's drift from a seat's real 2024 two-party share (owner: recognizable with drift). Spread 0 to 0.05.",
+    "spread": {
+      "low": 0,
+      "high": 0.05,
+      "unit": "share of the vote",
+      "citation": "Register OCD-SIM-003: normal starts stay close to the reference world or differ modestly."
+    }
+  },
+  "pastGroupSplitSlope": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "How far a voter group's share for a candidate moves per unit of alignment between the group's lean and the candidates' (a group at lean 1 voting for the party at side 1 gives the winner this much above the seat's share). Spread 0.2 to 0.5.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.5,
+      "unit": "share per unit lean",
+      "citation": "Pew Research Center validated voters, 2024: partisans split about 90 to 10, independents near even."
+    }
+  },
+  "pastMidtermTurnoutRatio": {
+    "value": 0.72,
+    "tag": "ESTIMATED",
+    "citation": "Ballots in a midterm year as a share of the presidential year's.",
+    "estimatedFrom": "U.S. Elections Project: about 112 million ballots in 2022 against about 156 million in 2024.",
+    "spread": {
+      "low": 0.65,
+      "high": 0.78,
+      "unit": "ratio",
+      "citation": "U.S. Elections Project, midterm against presidential ballots, 2010 to 2024."
+    }
+  },
+  "pastLocalTurnoutRatio": {
+    "value": 0.45,
+    "tag": "ESTIMATED",
+    "citation": "Ballots in a local election off the federal calendar as a share of the voters who vote in a presidential year.",
+    "estimatedFrom": "Hajnal, 'America's Uneven Democracy' (2010), and Portland State University 'Who Votes for Mayor?' (2016): municipal turnout commonly 15 to 27 percent of registered voters against 60 percent and more in presidential years.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.7,
+      "unit": "ratio",
+      "citation": "Portland State University, 'Who Votes for Mayor?' (2016), 30 largest cities."
+    }
+  },
+  "pastPromisesPerWinner": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Campaign promises kept on the record for each prior election's winner: the questions they spoke to most strongly. Spread 1 to 4.",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "promises",
+      "citation": "Owner, Oct 14: officials have a campaign past from day one."
+    }
+  },
+  "pastCampaignLeadDays": {
+    "value": 45,
+    "tag": "TUNABLE",
+    "citation": "Days before a prior election that the winner's recorded promises were made. Spread 14 to 120.",
+    "spread": {
+      "low": 14,
+      "high": 120,
+      "unit": "days",
+      "citation": "General election campaigns run from Labor Day; local races are shorter."
+    }
+  },
+  "pastPublicAwarenessAge": {
+    "value": 9,
+    "tag": "ESTIMATED",
+    "citation": "Age from which a person knows what the public knows about the president and their other public figures.",
+    "estimatedFrom": "Greenstein, 'Children and Politics' (1965): most nine-year-olds could name the president; later surveys of children's political knowledge agree."
+  },
+  "pastMeetingYearsBeforeFirstChildLow": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "Fewest years between when partners met and their first shared child.",
+    "estimatedFrom": "CDC National Survey of Family Growth 2015-2019: median age at first birth near 27 and at first marriage near 28 to 30; Rosenfeld, 'How Couples Meet and Stay Together' (2017): couples commonly marry two to five years after meeting."
+  },
+  "pastMeetingYearsBeforeFirstChildHigh": {
+    "value": 7,
+    "tag": "ESTIMATED",
+    "citation": "Most years between when partners met and their first shared child.",
+    "estimatedFrom": "Rosenfeld, 'How Couples Meet and Stay Together' (2017), years from meeting to cohabitation, marriage and first child."
+  },
+  "pastMeetingAgeMinimum": {
+    "value": 16,
+    "tag": "TUNABLE",
+    "citation": "The younger partner's youngest age at meeting. Spread 14 to 18.",
+    "spread": {
+      "low": 14,
+      "high": 18,
+      "unit": "years",
+      "citation": "Rosenfeld (2017): high-school sweethearts are a small, real share of couples."
+    }
+  },
+  "pastChildlessMeetingAgeYears": {
+    "value": 26,
+    "tag": "ESTIMATED",
+    "citation": "The younger partner's age at meeting for partners with no shared child on record, before the spread.",
+    "estimatedFrom": "U.S. Census Bureau, Current Population Survey 2024, median age at first marriage (about 28 to 30) less the usual two to three years from meeting."
+  },
+  "pastEarliestMemoryAge": {
+    "value": 3.5,
+    "tag": "ESTIMATED",
+    "citation": "Youngest age at which a person remembers a family event.",
+    "estimatedFrom": "Rubin, 'The distribution of early childhood memories' (Memory, 2000): the average earliest memory falls at about three and a half years."
+  },
+  "pastMomentsPerPerson": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Family moments each resident remembers from their household's own dated records. Spread 1 to 6.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "moments",
+      "citation": "Owner, Oct 14: 'a few remembered moments'."
+    }
+  },
+  "pastUsHouseSeats": {
+    "value": 435,
+    "tag": "SOURCED",
+    "citation": "Members of the U.S. House of Representatives: 2 U.S.C. \u00a7 2a (Permanent Apportionment Act of 1929, as fixed after the 1910 census)."
+  },
+  "pastUsSenateSeats": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "Members of the U.S. Senate: U.S. Const. art. I, \u00a7 3 and amend. XVII (two senators from each of the 50 states)."
+  },
+  "pastWinnerShareMin": {
+    "value": 0.505,
+    "tag": "TUNABLE",
+    "citation": "Smallest share a prior election's winner holds against one challenger: more than half.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.52,
+      "unit": "share of the vote",
+      "citation": "A two-candidate race's winner has a majority."
+    }
+  },
+  "pastWinnerShareMax": {
+    "value": 0.95,
+    "tag": "TUNABLE",
+    "citation": "Largest share a contested prior election's winner holds.",
+    "spread": {
+      "low": 0.85,
+      "high": 0.99,
+      "unit": "share of the vote",
+      "citation": "Ballotpedia: contested races rarely exceed 90 to 95 percent."
+    }
+  },
+  "pastGroupShareMin": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "Smallest share any town voter group gives a candidate.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.1,
+      "unit": "share of the group's ballots",
+      "citation": "Pew Research Center validated voters, 2024: even the most partisan groups give the other side a few percent."
+    }
+  },
+  "pastGroupShareMax": {
+    "value": 0.98,
+    "tag": "TUNABLE",
+    "citation": "Largest share any town voter group gives a candidate.",
+    "spread": {
+      "low": 0.9,
+      "high": 0.99,
+      "unit": "share of the group's ballots",
+      "citation": "Pew Research Center validated voters, 2024."
+    }
+  },
+  "pastChallengerLeanMin": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "How far from the center a major-party challenger stands at least, on the winner's opposite side.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "lean",
+      "citation": "Nominees stand on their party's side of the center (DW-NOMINATE first dimension)."
+    }
+  },
+  "pastLawMarginLow": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Lowest yes share for a law passed by seats whose votes the record cannot read a stance from (a chamber's seats then), before the majority it needed.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.6,
+      "unit": "share of the seats",
+      "citation": "Most enacted bills pass with a majority to a wide margin."
+    }
+  },
+  "pastLawMarginHigh": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Highest yes share for such a law: unanimous.",
+    "spread": {
+      "low": 0.9,
+      "high": 1,
+      "unit": "share of the seats",
+      "citation": "Many uncontested bills pass unanimously."
+    }
+  },
+  "pastPresidentialCycleYears": {
+    "value": 4,
+    "tag": "SOURCED",
+    "citation": "The president's term: U.S. Const. art. II, \u00a7 1; presidential elections fall every four years."
+  },
+  "pastPresidentialElectionYear": {
+    "value": 2024,
+    "tag": "SOURCED",
+    "citation": "The presidential election the research holds: Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (data/source/electoral-calibration-2024/corpus.json)."
+  },
+  "pastDaysPerYear": {
+    "value": 365.25,
+    "tag": "SOURCED",
+    "citation": "Mean days in a Julian year (365 days plus a leap day every fourth year), for turning years into days."
+  },
+  "pastVotingAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Voting age in federal, state and local elections: U.S. Const. amend. XXVI."
+  }
+}

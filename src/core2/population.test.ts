@@ -1,25 +1,23 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { characterHistoryContextPersonId } from "../simulation/character-history";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
-  lifePlaceByKey,
-  lifePlaces,
-  lifePlaceStateIdentities,
-  stateJurisdictionForKey,
-} from "../simulation/life-places";
+  corePlaceByKey,
+  corePlaceStateIdentities,
+  coreStateJurisdiction,
+} from "./place-lookup";
 import { WORKING_AGE_MIN } from "../simulation/living-world/town-employment";
-import {
-  materializeTownHousehold,
-  townHouseholdPeople,
-  townHouseholdSkeleton,
-} from "../simulation/living-world/town-residents";
-import { PEOPLE_MIND_VERSION } from "../simulation/people-trait-definitions";
+import { materializeTownHousehold } from "../simulation/living-world/town-residents";
+import { townHouseholdPeople, townHouseholdSkeleton } from "./town-households";
+import { PEOPLE_MIND_VERSION } from "./people-mind";
 import { PERSONALITY_TRAIT_REGISTRY } from "../simulation/personality-trait-registry";
 import { createWorld } from "../simulation/world";
 import { parameter as p } from "./parameters";
 import { OPENING_KIN } from "./opening-kin";
 import { buildPopulation, POPULATION_VERSION } from "./population";
 import { realLocalities } from "./places";
+import { placeReferencePopulation } from "./gov-rules/place-population";
+import { stableHash } from "./kernel/ids";
 import { recordedTraitSource } from "./trait-source";
 import type { CoreInput } from "./types";
 
@@ -104,8 +102,8 @@ describe("real-place one-time population import", () => {
   });
 
   it("keeps canonical identity and kin IDs without treating roommates as family", () => {
-    const place = lifePlaceByKey(opening.placeMetadata!.placeKey!)!;
-    const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!;
+    const place = corePlaceByKey(opening.placeMetadata!.placeKey!)!;
+    const state = coreStateJurisdiction(place.stateJurisdictionKey!)!;
     const context = createWorld({
       seed: `${POPULATION_VERSION}:${seed}:${place.key}`,
       currentDate: makeIsoDate(startedAt),
@@ -116,7 +114,7 @@ describe("real-place one-time population import", () => {
     const checkedShapes = new Set<string>();
     for (const [index, household] of residentHouseholds(opening).entries()) {
       const skeleton = townHouseholdSkeleton(
-        context,
+        context.seed,
         place.context.jurisdiction.id,
         index,
       );
@@ -269,11 +267,16 @@ describe("real-place one-time population import", () => {
       );
       for (const [key, value] of Object.entries(person.traits)) {
         expect(Number.isFinite(value)).toBe(true);
-        expect(recordedTraitSource(person, key)?.estimatedFrom).toContain(
+        // The five dimensions come from the temperament model; a notable
+        // facet from the temperament model or the upbringing projection.
+        const from = recordedTraitSource(person, key)?.estimatedFrom ?? "";
+        expect(
           key.startsWith(`${PEOPLE_MIND_VERSION}:`)
-            ? "Generated opening temperament"
-            : "Canonical sparse upbringing trait projection",
-        );
+            ? from.includes("Generated opening temperament")
+            : from.includes("Generated opening temperament") ||
+                from.includes("Canonical sparse upbringing trait projection"),
+          `${key}: ${from}`,
+        ).toBe(true);
       }
       expect(Number.isSafeInteger(person.liquidMinor)).toBe(true);
       expect(Number.isSafeInteger(person.livingCostDailyMinor)).toBe(true);
@@ -349,7 +352,7 @@ describe("real-place one-time population import", () => {
         .filter((place) => place.scope === "locality")
         .map((place) => place.stateJurisdictionKey),
     );
-    for (const state of lifePlaceStateIdentities())
+    for (const state of corePlaceStateIdentities())
       expect(statesWithLocalities).toContain(state.jurisdictionKey);
     const missingGeography = realLocalities().find(
       (place) =>
@@ -389,13 +392,39 @@ describe("real-place one-time population import", () => {
         p("zero"),
       ),
     ).toBe(cohort.people.length);
+  }, 120_000);
+
+  it("opens a town smaller than the target at its real size", () => {
+    // A town of a few hundred to a few thousand people, drawn from all 56.
+    const small = realLocalities()
+      .filter((place) => {
+        const real = place.sourceGeoid
+          ? placeReferencePopulation(place.sourceGeoid)?.value
+          : undefined;
+        return real !== undefined && real >= 300 && real < 3000;
+      })
+      .sort((a, b) =>
+        stableHash(`${seed}:small:${a.key}`).localeCompare(
+          stableHash(`${seed}:small:${b.key}`),
+        ),
+      )[0]!;
+    const real = placeReferencePopulation(small.sourceGeoid!)!.value;
+    const cohort = buildPopulation({
+      seed: `${seed}:small`,
+      startedAt,
+      placeKey: small.key,
+    });
+    const people = residentsOf(cohort).length;
+    // Whole households: the last one drawn may carry it a few past.
+    expect(people, small.key).toBeGreaterThanOrEqual(real);
+    expect(people - real, small.key).toBeLessThan(10);
   });
 
   it("rejects invalid cohort sizes and nonlocality inputs before generation", () => {
     expect(() =>
       buildPopulation({ seed, startedAt, minimumPeople: p("zero") }),
     ).toThrow("positive whole count");
-    const statePlace = lifePlaces().find((place) => place.scope === "state")!;
+    const statePlace = corePlaceByKey("kentucky")!;
     expect(() =>
       buildPopulation({
         seed,

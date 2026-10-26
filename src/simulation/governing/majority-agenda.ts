@@ -1,4 +1,4 @@
-import type { EntityId } from "../types";
+import type { EntityId } from "../../core2/kernel/brands";
 
 export interface AgendaMember {
   readonly personId: EntityId | null;

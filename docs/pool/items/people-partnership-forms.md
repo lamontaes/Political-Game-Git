@@ -1,0 +1,29 @@
+---
+id: people-partnership-forms
+title: "Two single adults who are close, fit in age and can afford it become one household, as a decision from their traits and money"
+area: people
+kind: feature
+priority: 2
+size: M
+status: open
+claimed-by:
+pr: #4963
+blocked-on:
+after: core-household-membership-change
+source: added with npm run pool -- add
+claimed-at:
+---
+
+**What.** TODO
+
+**Rules.** TODO
+
+**Done when.** TODO **On screen.** Nothing yet: it would show on a person's card in the People web, and nothing there reads it.
+
+**Files.** TODO
+
+**Notes.** TODO
+
+Sent back 2026-10-17 from PR #4963 (branch claude/partnership-forms): Morning check: the partnership-forming stack includes the same non-Words edit to protected src/director/play-modules.ts as #4959. Land that installation through a Words-owned PR and merge the Core household/family-link prerequisites first, then merge main here so the remaining People diff can be checked. Record World-area agreement for the housing-engine helpers, or split them to World.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #4963 (branch claude/partnership-forms): The item still has TODO acceptance and the body lacks its Done-when evidence table; document ordinary-world installation and the combined home-leaving scope; finish on that branch, merge main into it first.

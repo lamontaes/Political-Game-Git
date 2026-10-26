@@ -9,8 +9,9 @@
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
+import { closenessBetween } from "../core2/closeness";
 import { P, parameterValues } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import {
@@ -27,7 +28,7 @@ import type {
   WorkResult,
 } from "../core2/types";
 import directorJson from "./data/director.json" with { type: "json" };
-import { scheduleMoment } from "./scheduling";
+import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
 import type {
@@ -39,6 +40,7 @@ import type {
   Ledger,
   Moment,
   PersonLedger,
+  SceneFilter,
   Thread,
 } from "./types";
 
@@ -90,6 +92,15 @@ export interface Director {
   watch(core: Readonly<CoreState>, personId: PersonId): void;
   /** "live" or "skipping": while skipping, waiting scenes become journal lines. */
   setMode(mode: "live" | "skipping"): void;
+  /**
+   * The player's interrupt setting: the scene kinds allowed to stop their
+   * day (situation-type keys), or null for every kind. Read by scheduling.
+   */
+  setSceneFilter(
+    personId: PersonId,
+    allowedKinds: readonly string[] | null,
+    date: IsoDate,
+  ): SceneFilter | null;
   /** A thread's importance on a date: the tie plus faded moment impacts. Pure. */
   importance(personId: PersonId, otherId: PersonId, date: IsoDate): number;
   /** How far a thread has faded on a date, from 0 to 1. Pure. */
@@ -106,6 +117,8 @@ export function createDirector(
     hitBy: new Map(),
     liesByLearner: new Map(),
     stopgapHits: new Set(),
+    sceneFilters: new Map(),
+    pollingVisits: new Map(),
   };
   const snapshots = new Map<PersonId, Snapshot>();
   const pending = new Map<PersonId, Pending>();
@@ -322,6 +335,19 @@ export function createDirector(
       observedDays: zero,
     };
     ledger.people.set(personId, book);
+    // Someone first followed partway through a day still meets what already
+    // happened to them that day (the address given the morning they begin to
+    // be followed), read from the log's own index of them.
+    for (const id of core.logByPerson.get(personId) ?? []) {
+      const record = core.durableLog.get(id);
+      if (record?.date === core.date && record.personIds.includes(personId))
+        pendingFor(personId).events.push({
+          event: record,
+          reach: "named",
+          mood: zero,
+          stress: zero,
+        });
+    }
     const home = new Set(
       core.households.get(actor.householdId)?.memberIds ?? [],
     );
@@ -693,14 +719,26 @@ export function createDirector(
     otherId: PersonId,
     date: IsoDate,
   ) {
+    // Importance reads impact, never hindsight, so a counterpart's is the
+    // same for every moment of the pair: worked out once per rescore.
+    const importance = new Map<PersonId, number>();
+    const importanceFor = (id: PersonId) => {
+      let value = importance.get(id);
+      if (value === undefined) {
+        const thread = book.threads.get(id);
+        value = thread ? importanceOf(book, thread, date) : zero;
+        importance.set(id, value);
+      }
+      return value;
+    };
     for (const moment of pairMoments(book, otherId)) {
       moment.hindsight =
         moment.impact *
         (one +
-          moment.counterpartIds.reduce((sum, id) => {
-            const thread = book.threads.get(id);
-            return sum + (thread ? importanceOf(book, thread, date) : zero);
-          }, zero));
+          moment.counterpartIds.reduce(
+            (sum, id) => sum + importanceFor(id),
+            zero,
+          ));
       moment.hindsightAt = date;
     }
   }
@@ -900,14 +938,32 @@ export function createDirector(
       for (const [memberId, priorJob] of before.memberJobs) {
         const nowJob = pay.jobs.get(memberId);
         if (priorJob === nowJob) continue;
-        const named = today.events.find((row) =>
-          [...row.event.personIds, ...(row.event.witnessIds ?? [])].includes(
-            memberId,
-          ),
+        // The work or employer record that day naming them (a layoff, a
+        // closure), else the job itself; never another event that only
+        // mentions them (a cause group's ad named a father whose job ended
+        // that day).
+        const named = today.events.find(
+          (row) =>
+            /^(?:work|organization)\./.test(row.event.kind) &&
+            [...row.event.personIds, ...(row.event.witnessIds ?? [])].includes(
+              memberId,
+            ),
+        );
+        // A job the worker chose to leave (a quit for another job, leaving
+        // work) is not a lost job: the worker's own record of the end says
+        // which (`job:<id>:status`, its source).
+        const endedBy = priorJob
+          ? core.knowledgeByPerson.get(memberId)?.get(`job:${priorJob}:status`)
+              ?.sourceId
+          : undefined;
+        const chosen = (data.chosenJobEnds ?? []).some((prefix) =>
+          endedBy?.startsWith(prefix),
         );
         const kind =
           priorJob && !nowJob
-            ? "job-ended"
+            ? chosen
+              ? "job-left"
+              : "job-ended"
             : !priorJob && nowJob
               ? "job-started"
               : "job-changed";
@@ -1055,7 +1111,13 @@ export function createDirector(
     impact: number,
     contributions: ChannelContribution[],
   ): void {
-    const date = core.date;
+    // A cause met only after it happened (someone first followed partway
+    // through the day it happened) keeps its own day.
+    const causeDate = core.durableLog.get(row.causeId)?.date;
+    const date =
+      causeDate && causeDate < core.date && causeDate >= book.watchedSince
+        ? causeDate
+        : core.date;
     const counterpartIds = [...row.counterparts].sort();
     // A cause measured twice in a day (once when its event is recorded, again
     // when the day closes) keeps one id per moment.
@@ -1173,9 +1235,11 @@ export function createDirector(
         });
       rescoreHindsight(book, otherId, date);
     }
+    const filter = ledger.sceneFilters.get(moment.personId);
     const entry = scheduleMoment(core, book, moment, {
       mode,
       interruptImpact: param("directorInterruptImpact"),
+      ...(filter ? { allowedKinds: new Set(filter.allowedKinds) } : {}),
     });
     book.schedule.push(entry);
     if (entry.interrupt) interrupts.push({ moment, entry });
@@ -1292,11 +1356,7 @@ export function createDirector(
         directorStopgap("SG-P13-appraisal-recompute", ledger.stopgapHits);
         const relation = event.personIds.reduce(
           (level, subject) =>
-            Math.max(
-              level,
-              core.relationships.get([id, subject].sort().join(":"))?.level ??
-                zero,
-            ),
+            Math.max(level, closenessBetween(core, id, subject)),
           zero,
         );
         const appraisal = appraiseEvent(
@@ -1441,6 +1501,23 @@ export function createDirector(
     },
     setMode(next) {
       mode = next;
+    },
+    setSceneFilter(personId, allowedKinds, date) {
+      if (!allowedKinds) {
+        ledger.sceneFilters.delete(personId);
+        return null;
+      }
+      const known = new Set(SITUATION_LIBRARY.types.map((row) => row.key));
+      const filter: SceneFilter = {
+        id: `scene-filter:${personId}:${date}`,
+        personId,
+        allowedKinds: [...new Set(allowedKinds)]
+          .filter((key) => known.has(key))
+          .sort(),
+        setOn: date,
+      };
+      ledger.sceneFilters.set(personId, filter);
+      return filter;
     },
     importance(personId, otherId, date) {
       const book = ledger.people.get(personId);

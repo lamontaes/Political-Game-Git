@@ -7,8 +7,8 @@ import {
   PAY_SELECTOR,
   PAY_ACTION,
 } from "./law-consequences/pay-rows";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { workRoleAt } from "./life-queries";
 import {
   matchPayCoveragePredicates,

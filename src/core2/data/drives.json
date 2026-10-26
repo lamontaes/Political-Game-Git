@@ -29,8 +29,10 @@
       "actionId": "approach-office"
     }
   ],
+  "closureEventKind": "organization.closed",
   "factKeys": {
     "responsible": "responsible",
+    "decidedBy": "decidedBy",
     "drive": "drive",
     "origin": "origin",
     "condition": "condition",
@@ -41,7 +43,10 @@
     "strengthAdded": "strength-added",
     "response": "response",
     "role": "role",
-    "originEvent": "origin-event"
+    "originEvent": "origin-event",
+    "countedSubject": "counted-subject",
+    "countedPerceivers": "counted-perceivers",
+    "countedHousehold": "counted-household"
   },
   "driveKinds": [
     {
@@ -73,6 +78,12 @@
       "goalKind": "serve",
       "halfLifeParameter": "driveCallingHalfLifeDays",
       "shareable": true
+    },
+    {
+      "id": "keep-home",
+      "goalKind": "secure-home",
+      "halfLifeParameter": "driveKeepHomeHalfLifeDays",
+      "shareable": false
     }
   ],
   "responses": [
@@ -175,6 +186,23 @@
       "effect": "drive-response",
       "emotion": {
         "moodMultiplierParameter": "negativeOne",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "secure-home",
+      "driveKind": "keep-home",
+      "requires": [],
+      "fitParameter": "responseSecureHomeFit",
+      "actKinds": ["change", "take-risk", "self-interest", "commit"],
+      "goalKinds": ["respond:secure-home"],
+      "need": "safety",
+      "effortParameter": "zero",
+      "effectParameter": "zero",
+      "targetKind": "event-response",
+      "effect": "drive-response",
+      "emotion": {
+        "moodMultiplierParameter": "zero",
         "stressMultiplierParameter": "one"
       }
     }
@@ -369,11 +397,32 @@
         "guard-family",
         "answer-calling",
         "carry-on"
-      ]
+      ],
+      "fitScaleParameter": "responseBereavementFitScale"
+    },
+    {
+      "id": "bereavement-counted",
+      "eventKind": "residents.member-died",
+      "roles": ["family", "household", "acquaintance"],
+      "channels": ["loss", "others-distress"],
+      "responses": [
+        "take-up-cause",
+        "guard-family",
+        "answer-calling",
+        "carry-on"
+      ],
+      "fitScaleParameter": "responseBereavementFitScale"
     },
     {
       "id": "serious-illness",
       "eventKind": "health.serious-illness",
+      "roles": ["subject", "family", "household"],
+      "channels": ["threat", "loss"],
+      "responses": ["take-up-cause", "guard-family", "carry-on"]
+    },
+    {
+      "id": "serious-illness-counted",
+      "eventKind": "residents.member-fell-ill",
       "roles": ["subject", "family", "household"],
       "channels": ["threat", "loss"],
       "responses": ["take-up-cause", "guard-family", "carry-on"]
@@ -411,7 +460,13 @@
       "eventKind": "housing.eviction",
       "roles": ["subject", "household", "family"],
       "channels": ["injustice", "threat"],
-      "responses": ["take-up-cause", "hold-grudge", "guard-family", "carry-on"],
+      "responses": [
+        "secure-home",
+        "take-up-cause",
+        "hold-grudge",
+        "guard-family",
+        "carry-on"
+      ],
       "impulseParameter": "driveEvictionImpulse"
     },
     {
@@ -455,6 +510,28 @@
       "roles": ["witness"],
       "channels": ["threat", "injustice"],
       "responses": ["hold-grudge", "carry-on"]
+    },
+    {
+      "id": "press-snubbed",
+      "eventKind": "press.snubbed",
+      "roles": ["subject"],
+      "channels": ["injustice"],
+      "responses": ["hold-grudge", "carry-on"]
+    },
+    {
+      "id": "press-attacked",
+      "eventKind": "press.attacked",
+      "roles": ["subject"],
+      "channels": ["injustice", "threat"],
+      "responses": ["hold-grudge", "carry-on"]
+    },
+    {
+      "id": "home-lost",
+      "eventKind": "housing.status-changed",
+      "roles": ["subject", "household", "family"],
+      "channels": ["threat", "loss"],
+      "responses": ["secure-home", "guard-family", "carry-on"],
+      "impulseParameter": "driveHomeLostImpulse"
     }
   ],
   "actions": [
@@ -533,7 +610,7 @@
       "goalKinds": ["change-condition"],
       "need": "safety",
       "effortParameter": "donateHours",
-      "effectParameter": "donationLivingCostDays",
+      "effectParameter": "donationShareOfSpare",
       "targetKind": "known-cause-group",
       "effect": "donate",
       "prerequisites": [
@@ -609,49 +686,20 @@
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "zero"
       }
-    },
-    {
-      "id": "testify-at-hearing",
-      "actKinds": ["speak-out", "engage", "follow-rules"],
-      "goalKinds": ["change-condition"],
-      "need": "safety",
-      "effortParameter": "civicHours",
-      "effectParameter": "one",
-      "targetKind": "unbuilt-system",
-      "effect": "unbuilt-system",
-      "stopgapId": "SG-P10-testify-unbuilt"
-    },
-    {
-      "id": "run-for-office",
-      "actKinds": ["take-risk", "commit", "speak-out"],
-      "goalKinds": ["change-condition", "climb"],
-      "need": "safety",
-      "effortParameter": "civicHours",
-      "effectParameter": "one",
-      "targetKind": "unbuilt-system",
-      "effect": "unbuilt-system",
-      "stopgapId": "SG-P10-candidacy-unbuilt"
-    },
-    {
-      "id": "lobby-legislator",
-      "actKinds": ["engage", "speak-out", "cooperate"],
-      "goalKinds": ["change-condition"],
-      "need": "safety",
-      "effortParameter": "civicHours",
-      "effectParameter": "one",
-      "targetKind": "unbuilt-system",
-      "effect": "unbuilt-system",
-      "stopgapId": "SG-P10-lobbying-unbuilt"
     }
   ],
   "gaps": [
     "Producers for work.job-lost, housing.eviction, crime.victimized, injustice.witnessed, speech.heard and law.effect-landed do not exist in core2 yet; their formation rules are data rows waiting on those engines.",
-    "Testifying, running for office and lobbying have no core2 hearing, election or legislature; the rows are registered stopgaps and are never offered.",
     "Cause groups carry a structured key, not a name; the English engine names them later."
   ],
   "institutionFact": {
     "prefix": "organization:",
     "suffix": ":status"
   },
-  "responsibleInTopic": ["work.job-lost", "housing.eviction"]
+  "responsibleInTopic": [
+    "work.job-lost",
+    "housing.eviction",
+    "press.snubbed",
+    "press.attacked"
+  ]
 }

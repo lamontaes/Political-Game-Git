@@ -3,7 +3,7 @@ import {
   makeIsoDate,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import {
   LEXINGTON_DEMO_CONTEXT,
   type DemoJurisdictionContext,
@@ -15,7 +15,7 @@ export {
   LEXINGTON_PLACEHOLDER_ID,
 } from "./demo-jurisdiction-context";
 export type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   createCareResponsibility,
   createHousehold,
@@ -34,7 +34,7 @@ import {
   recordPerception,
   recordTemporaryState,
 } from "./mind";
-import { SYNTHETIC_MIND_IDS } from "./mind-catalog";
+import { SYNTHETIC_MIND_IDS } from "../core2/mind-catalog";
 import {
   DEFAULT_PERSON_GENERATOR_VERSION,
   LEGACY_DEMO_PERSON_GENERATOR_VERSION,
@@ -56,7 +56,7 @@ import {
   applyNpcPoliticalBeliefFormation,
   evaluatePoliticalBeliefFormation,
 } from "./political-belief-formation";
-import { pickDistinct, SeededRng, normalizeSeed } from "./rng";
+import { pickDistinct, SeededRng, normalizeSeed } from "../core2/kernel/rng";
 import {
   recordClaim,
   recordEventKnowledge,

@@ -1,4 +1,4 @@
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { availableActs } from "../core2/life";
 import type { CoreState } from "../core2/types";
 import { coreAPI } from "../core2/state";

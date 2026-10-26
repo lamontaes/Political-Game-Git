@@ -1,5 +1,5 @@
 import fuelShare from "../../../data/research/money/motor-fuel-tax-share-2022.json" with { type: "json" };
-import { addDays, daysBetween } from "../dates";
+import { addDays, daysBetween } from "../../core2/kernel/dates";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import type { IsoDate, World } from "../types";
 import { propositionIdFor } from "./fiscal";

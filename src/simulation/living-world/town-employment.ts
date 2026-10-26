@@ -25,7 +25,7 @@ import {
  *   a town spans by land area. Public employment is the home state's, from the
  *   BLS May 2025 state ownership research estimates, scaled against the
  *   state's total employment. Both come from the regional data in #701
- *   (`town-employment.generated.ts`).
+ *   (`src/core2/reference/town-employment.generated.ts`).
  * - Which workplaces and job titles stand for each industry, how many
  *   outlets of each a town has are GAME ASSUMPTIONS, marked below, until a
  *   researched occupation-by-industry table replaces them. Labor matching
@@ -36,9 +36,15 @@ import {
  * is given its jobs when it is written out, never before.
  */
 
+import {
+  businessNameStyles,
+  countyDisplayName,
+  fillBusinessName,
+  type BusinessNameContext,
+} from "../../core2/business-names";
 import { jailTermOn } from "../justice/jail-terms";
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import {
@@ -49,34 +55,32 @@ import {
   organizationProfileAt,
 } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import {
-  countyGeoidsForPlace,
-  countyGovernmentUnitsForPlace,
-} from "../government-units";
+import { countyGovernmentUnitsForPlace } from "../../core2/reference/government-units";
 import { drawCanonicalNameForGender } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import {
   localInstitutionProvenance,
   localInstitutionsFor,
 } from "../local-institutions";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
+import {
+  TOWN_MEDIAN_TENURE_BY_AGE,
+  TOWN_PART_TIME_DEFAULT,
+  TOWN_PART_TIME_SHARE,
+  TOWN_WORKPLACES,
+  TOWN_WORKPLACE_BY_KEY,
+  type Role,
+  type Workplace,
+} from "../../core2/town-workplaces";
 import { townBusinessHasRoomToHire } from "./town-business-books";
 import type {
   EntityId,
   IsoDate,
-  OccupationClassification,
   OrganizationClassification,
-  ScheduleRigidity,
-  WorkAuthority,
-  WorkRelationshipKind,
   WorkRoleRecord,
   World,
 } from "../types";
-import {
-  COUNTY_SECTOR_EMPLOYMENT,
-  STATE_PUBLIC_EMPLOYMENT,
-  TOWN_EMPLOYMENT_META,
-} from "./town-employment.generated";
+import { townWorkplaceWeights } from "../../core2/town-employment-mix";
 
 export const TOWN_EMPLOYMENT_VERSION = "town-employment-v1";
 
@@ -95,273 +99,6 @@ export const WORKING_AGE_MIN = 18;
 export const WORKING_AGE_MAX = 66;
 
 /* -------------------------------------------------------------------------- */
-/* Sourced mix                                                                */
-/* -------------------------------------------------------------------------- */
-
-type Sector = (typeof TOWN_EMPLOYMENT_META.sectors)[number];
-type LocalGroup = (typeof TOWN_EMPLOYMENT_META.localGroups)[number];
-
-let countyTable: ReadonlyMap<string, readonly (number | null)[]> | null = null;
-let stateTable: ReadonlyMap<string, readonly (number | null)[]> | null = null;
-
-const parseCells = (cells: string) =>
-  cells.split(",").map((value) => (value === "" ? null : Number(value)));
-
-function counties() {
-  if (countyTable) return countyTable;
-  const map = new Map<string, readonly (number | null)[]>();
-  for (const row of COUNTY_SECTOR_EMPLOYMENT.split(";")) {
-    const colon = row.indexOf(":");
-    map.set(row.slice(0, colon), parseCells(row.slice(colon + 1)));
-  }
-  return (countyTable = map);
-}
-
-function states() {
-  if (stateTable) return stateTable;
-  const map = new Map<string, readonly (number | null)[]>();
-  for (const row of STATE_PUBLIC_EMPLOYMENT.split(";")) {
-    const colon = row.indexOf(":");
-    map.set(row.slice(0, colon), parseCells(row.slice(colon + 1)));
-  }
-  return (stateTable = map);
-}
-
-/** Where a town's industry mix was read from. */
-export type TownEmploymentBasis = "county" | "state" | "national";
-
-export interface TownEmploymentMix {
-  readonly basis: TownEmploymentBasis;
-  /** Private employment by two-digit sector; a withheld cell counts nothing. */
-  readonly sectors: ReadonlyMap<Sector, number>;
-  /** Public employment on the same scale as `sectors`. */
-  readonly federal: number;
-  readonly state: number;
-  readonly local: ReadonlyMap<LocalGroup, number>;
-}
-
-function addSectors(
-  into: Map<Sector, number>,
-  cells: readonly (number | null)[],
-  weight: number,
-) {
-  TOWN_EMPLOYMENT_META.sectors.forEach((sector, n) => {
-    const value = cells[n];
-    if (value !== null && value !== undefined)
-      into.set(sector, (into.get(sector) ?? 0) + value * weight);
-  });
-}
-
-/**
- * The town's employment mix: private sectors from its counties, public
- * employment from its state. Pure, and cheap after the first call.
- */
-export function townEmploymentMix(town: EntityId): TownEmploymentMix {
-  const place = lifePlaceByJurisdictionId(town);
-  const geoid = place?.sourceGeoid ?? null;
-  const stateFips = geoid?.slice(0, 2) ?? null;
-  const sectors = new Map<Sector, number>();
-  let basis: TownEmploymentBasis = "national";
-  const parts = geoid ? countyGeoidsForPlace(geoid) : [];
-  const found = parts.filter((county) => counties().has(county));
-  if (found.length > 0) {
-    basis = "county";
-    // Each county the town lies in, evenly: the index lists counties largest
-    // share first but a county's size is not its share of the town's jobs.
-    for (const county of found)
-      addSectors(sectors, counties().get(county)!, 1 / found.length);
-  } else if (stateFips) {
-    for (const [county, cells] of counties())
-      if (county.startsWith(stateFips)) addSectors(sectors, cells, 1);
-    if (sectors.size > 0) basis = "state";
-  }
-  if (sectors.size === 0)
-    for (const cells of counties().values()) addSectors(sectors, cells, 1);
-
-  const privateTotal = [...sectors.values()].reduce((a, b) => a + b, 0);
-  const row = (stateFips && states().get(stateFips)) || nationalPublicRow();
-  const [total, federal] = row;
-  // The District of Columbia publishes no local government: its city
-  // government is counted as state government. There the state figure is the
-  // local one, split as local government is nationally.
-  const cityIsState = row[3] === null && row[2] !== null;
-  const stateGov = cityIsState ? 0 : row[2];
-  const local = cityIsState ? row[2] : row[3];
-  const publicTotal = (federal ?? 0) + (stateGov ?? 0) + (local ?? 0);
-  // Public jobs stand to the county's private jobs as they do in the state.
-  const scale =
-    total && total > publicTotal ? privateTotal / (total - publicTotal) : 0;
-  const localGroups = new Map<LocalGroup, number>();
-  const groupCells = (cityIsState ? nationalPublicRow() : row).slice(4);
-  const groupSum = groupCells.reduce<number>((a, b) => a + (b ?? 0), 0);
-  TOWN_EMPLOYMENT_META.localGroups.forEach((group, n) => {
-    const value = groupCells[n];
-    // Local government's groups share its whole total, so the ones BLS
-    // withheld do not shrink it.
-    if (value !== null && value !== undefined && groupSum > 0)
-      localGroups.set(group, ((local ?? 0) * scale * value) / groupSum);
-  });
-  return {
-    basis,
-    sectors,
-    federal: (federal ?? 0) * scale,
-    state: (stateGov ?? 0) * scale,
-    local: localGroups,
-  };
-}
-
-let nationalRow: readonly (number | null)[] | null = null;
-function nationalPublicRow(): readonly (number | null)[] {
-  if (nationalRow) return nationalRow;
-  const sums: number[] = [];
-  for (const cells of states().values()) {
-    // Only states that publish every figure, so the sums stay comparable.
-    if (cells.some((cell) => cell === null)) continue;
-    cells.forEach((cell, n) => (sums[n] = (sums[n] ?? 0) + cell!));
-  }
-  return (nationalRow = sums);
-}
-
-/* -------------------------------------------------------------------------- */
-/* Workplaces and roles (GAME ASSUMPTION)                                      */
-/* -------------------------------------------------------------------------- */
-
-export interface Role {
-  readonly title: string;
-  readonly occupation: OccupationClassification;
-  readonly weight: number;
-  readonly authority?: WorkAuthority;
-  readonly minAge?: number;
-  readonly hours?: readonly [number, number];
-  readonly rigidity?: ScheduleRigidity;
-}
-
-interface NameContext {
-  readonly town: string;
-  readonly state: string;
-  /** Its founder's family name, or a family of the town's. */
-  readonly family: string;
-  /** The county government's name, such as "Humphreys County". */
-  readonly county: string;
-}
-
-/**
- * Other names each kind of private employer goes by, beside its main name.
- * Every style uses a local family or county; trade-only and invented street
- * templates made unrelated places look alike.
- */
-const MORE_NAMES: Readonly<
-  Record<string, readonly ((context: NameContext) => string)[]>
-> = {
-  farm: [
-    ({ family }) => `${family} Farms`,
-    ({ family }) => `${family} Brothers Farm`,
-  ],
-  quarry: [
-    ({ county }) => `${county} Aggregates`,
-    ({ family }) => `${family} Sand and Gravel`,
-  ],
-  utility: [
-    ({ county }) => `${county} Rural Electric Cooperative`,
-    ({ county }) => `${county} Electric and Water`,
-  ],
-  construction: [
-    ({ family }) => `${family} Builders`,
-    ({ county }) => `${county} Contracting`,
-    ({ family }) => `${family} Roofing and Remodeling`,
-  ],
-  manufacturing: [
-    ({ county }) => `${county} Machine Works`,
-    ({ family }) => `${family} Tool and Die`,
-    ({ family }) => `${family} Fabrication`,
-  ],
-  wholesale: [
-    ({ county }) => `${county} Farm Supply`,
-    ({ county }) => `${county} Feed and Grain`,
-    ({ family }) => `${family} Distributing`,
-  ],
-  // A general store (cashiers, sales associates, stockers selling food and clothing): named as one.
-  retail: [
-    ({ family }) => `${family} General Store`,
-    ({ county }) => `${county} Market`,
-    ({ county }) => `${county} Mercantile`,
-    ({ family }) => `${family}'s Store`,
-  ],
-  trucking: [
-    ({ county }) => `${county} Freight`,
-    ({ family }) => `${family} Transport`,
-  ],
-  information: [
-    ({ county }) => `${county} Telephone Cooperative`,
-    ({ county }) => `${county} Communications`,
-  ],
-  bank: [
-    ({ family }) => `${family} Bank`,
-    ({ county }) => `${county} Savings Bank`,
-    ({ family }) => `${family} Savings and Loan`,
-  ],
-  insurance: [
-    ({ family }) => `${family} Insurance`,
-    ({ county }) => `${county} Insurance Services`,
-  ],
-  realty: [
-    ({ family }) => `${family} Real Estate`,
-    ({ county }) => `${county} Land and Homes`,
-  ],
-  // One firm employs accountants, an attorney and an engineer: named for all of them.
-  professional: [
-    ({ family }) => `${family} and Associates`,
-    ({ county }) => `${county} Professional Services`,
-    ({ family }) => `${family} Professional Group`,
-  ],
-  "building-services": [
-    ({ family }) => `${family} Cleaning`,
-    ({ county }) => `${county} Cleaning Services`,
-  ],
-  "private-school": [
-    ({ county }) => `${county} Christian School`,
-    ({ family }) => `${family} Academy`,
-  ],
-  hospital: [
-    ({ county }) => `${county} Memorial Hospital`,
-    ({ family }) => `${family} Memorial Hospital`,
-  ],
-  clinic: [
-    ({ family }) => `${family} Family Medicine`,
-    ({ county }) => `${county} Medical Clinic`,
-    ({ county }) => `${county} Health Center`,
-    ({ family }) => `${family} Family Care Clinic`,
-  ],
-  "care-home": [
-    ({ family }) => `${family} Manor`,
-    ({ county }) => `${county} Care Center`,
-    ({ family }) => `${family} Residential Care`,
-  ],
-  recreation: [
-    ({ family }) => `${family}'s Bowling Lanes`,
-    ({ family }) => `${family} Fitness`,
-    ({ county }) => `${county} Fitness Center`,
-  ],
-  restaurant: [
-    ({ county }) => `${county} Diner`,
-    ({ family }) => `${family}'s Cafe`,
-    ({ county }) => `${county} Kitchen`,
-  ],
-  inn: [
-    ({ family }) => `The ${family} House`,
-    ({ county }) => `${county} Inn`,
-    ({ county }) => `${county} Motor Inn`,
-    ({ family }) => `${family} Motel`,
-  ],
-  repair: [
-    ({ county }) => `${county} Garage`,
-    ({ family }) => `${family} Tire and Auto`,
-  ],
-  "personal-care": [
-    ({ county }) => `${county} Barber Shop`,
-    ({ family }) => `${family}'s Beauty Salon`,
-  ],
-};
 
 /** The family name of each of the town's residents, in the world's order. */
 function townFamilyNames(world: World, town: EntityId): readonly string[] {
@@ -373,499 +110,6 @@ function townFamilyNames(world: World, town: EntityId): readonly string[] {
   }
   return names;
 }
-
-export interface Workplace {
-  readonly key: string;
-  readonly classification: OrganizationClassification;
-  readonly kind: WorkRelationshipKind;
-  /** Named for the town, or for the family that runs it. */
-  readonly name: (context: NameContext) => string;
-  /** GAME ASSUMPTION: how many separate employers of this kind a town has. */
-  readonly outlets: number;
-  readonly roles: readonly Role[];
-  /** Hire into the town's existing organizations of this kind instead. */
-  readonly existing?: OrganizationClassification;
-  /** A job in the recorded government itself, not a separately owned firm. */
-  readonly governmentOffice?: "municipal" | "county";
-}
-
-const role = (
-  title: string,
-  occupation: OccupationClassification,
-  weight: number,
-  extra: Omit<Role, "title" | "occupation" | "weight"> = {},
-): Role => ({ title, occupation, weight, ...extra });
-
-const LEAD = { authority: "directs-others" as const, minAge: 28 };
-
-export const TOWN_WORKPLACES: readonly Workplace[] = [
-  {
-    key: "farm",
-    classification: "enterprise:agriculture",
-    kind: "employment:agriculture",
-    name: ({ family }) => `${family} Family Farm`,
-    outlets: 2,
-    roles: [
-      role("Farmworker", "occupation:farmworker", 5, { rigidity: "mixed" }),
-      role("Farm manager", "occupation:farm-manager", 1, LEAD),
-    ],
-  },
-  {
-    key: "quarry",
-    classification: "enterprise:mining",
-    kind: "employment:mining",
-    name: ({ family }) => `${family} Stone and Gravel`,
-    outlets: 1,
-    roles: [
-      role("Equipment operator", "trade:equipment-operator", 3),
-      role("Quarry laborer", "occupation:extraction-laborer", 2),
-    ],
-  },
-  {
-    key: "utility",
-    classification: "enterprise:utility",
-    kind: "employment:utility",
-    name: ({ county }) => `${county} Electric and Water`,
-    outlets: 1,
-    roles: [
-      role("Line worker", "trade:line-worker", 3),
-      role("Customer service representative", "occupation:customer-service", 2),
-    ],
-  },
-  {
-    key: "construction",
-    classification: "enterprise:construction",
-    kind: "employment:construction",
-    name: ({ family }) => `${family} Construction`,
-    outlets: 3,
-    roles: [
-      role("Carpenter", "trade:carpenter", 3),
-      role("Electrician", "trade:electrician", 2),
-      role("Construction laborer", "occupation:construction-laborer", 3),
-      role("Project manager", "profession:construction-manager", 1, LEAD),
-    ],
-  },
-  {
-    key: "manufacturing",
-    classification: "enterprise:manufacturing",
-    kind: "employment:manufacturing",
-    name: ({ family }) => `${family} Manufacturing`,
-    outlets: 2,
-    roles: [
-      role("Production worker", "occupation:production-worker", 6),
-      role("Machinist", "trade:machinist", 2),
-      role("Shift supervisor", "occupation:production-supervisor", 1, LEAD),
-    ],
-  },
-  {
-    key: "wholesale",
-    classification: "enterprise:wholesale",
-    kind: "employment:wholesale",
-    name: ({ family }) => `${family} Supply Company`,
-    outlets: 1,
-    roles: [
-      role("Warehouse worker", "occupation:warehouse-worker", 3),
-      role("Sales representative", "occupation:sales-representative", 2),
-    ],
-  },
-  {
-    key: "retail",
-    classification: "enterprise:retail",
-    kind: "employment:retail",
-    name: ({ family }) => `${family}'s General Store`,
-    outlets: 3,
-    roles: [
-      role("Cashier", "occupation:cashier", 4),
-      role("Sales associate", "occupation:retail-sales", 4),
-      role("Stocker", "occupation:stocker", 2),
-      role("Store manager", "occupation:retail-manager", 1, LEAD),
-    ],
-  },
-  {
-    key: "trucking",
-    classification: "enterprise:transportation",
-    kind: "employment:transportation",
-    name: ({ family }) => `${family} Trucking`,
-    outlets: 2,
-    roles: [
-      role("Truck driver", "occupation:truck-driver", 4, {
-        rigidity: "mixed",
-      }),
-      role("Dispatcher", "occupation:dispatcher", 1),
-    ],
-  },
-  {
-    key: "information",
-    classification: "enterprise:telecommunications",
-    kind: "employment:information",
-    name: ({ county }) => `${county} Telephone Cooperative`,
-    outlets: 1,
-    roles: [
-      role("Installation technician", "trade:telecom-technician", 2),
-      role("Customer service representative", "occupation:customer-service", 2),
-    ],
-  },
-  {
-    key: "bank",
-    classification: "enterprise:banking",
-    kind: "employment:finance",
-    name: ({ family }) => `${family} Community Bank`,
-    outlets: 1,
-    roles: [
-      role("Bank teller", "occupation:bank-teller", 3),
-      role("Loan officer", "profession:loan-officer", 2),
-      role("Branch manager", "profession:financial-manager", 1, LEAD),
-    ],
-  },
-  {
-    key: "insurance",
-    classification: "enterprise:insurance",
-    kind: "employment:finance",
-    name: ({ family }) => `${family} Insurance Agency`,
-    outlets: 1,
-    roles: [
-      role("Insurance agent", "profession:insurance-agent", 2),
-      role("Office clerk", "occupation:office-clerk", 1),
-    ],
-  },
-  {
-    key: "realty",
-    classification: "enterprise:real-estate",
-    kind: "employment:real-estate",
-    name: ({ family }) => `${family} Realty`,
-    outlets: 1,
-    roles: [
-      role("Real estate agent", "profession:real-estate-agent", 2),
-      role("Property manager", "profession:property-manager", 1),
-    ],
-  },
-  {
-    key: "professional",
-    classification: "enterprise:professional-services",
-    kind: "employment:professional-services",
-    name: ({ family }) => `${family} and Associates`,
-    outlets: 2,
-    roles: [
-      role("Accountant", "profession:accountant", 2, { minAge: 22 }),
-      role("Attorney", "profession:lawyer", 1, { minAge: 25 }),
-      role("Paralegal", "profession:legal-assistant", 1),
-      role("Engineer", "profession:engineer", 1, { minAge: 22 }),
-    ],
-  },
-  {
-    key: "regional-office",
-    classification: "enterprise:corporate-office",
-    kind: "employment:corporate-office",
-    name: ({ county }) => `${county} Business Services`,
-    outlets: 1,
-    roles: [
-      role("Office manager", "occupation:office-manager", 1),
-      role("Business analyst", "profession:business-analyst", 2, {
-        minAge: 22,
-      }),
-    ],
-  },
-  {
-    key: "building-services",
-    classification: "enterprise:building-services",
-    kind: "employment:building-services",
-    name: ({ family }) => `${family} Building Services`,
-    outlets: 1,
-    roles: [
-      role("Janitor", "occupation:janitor", 3, { rigidity: "mixed" }),
-      role("Landscaper", "occupation:landscaper", 2),
-      role("Security guard", "occupation:security-guard", 1),
-    ],
-  },
-  {
-    key: "private-school",
-    classification: "service:private-school",
-    kind: "employment:education",
-    name: ({ family }) => `${family} Academy`,
-    outlets: 1,
-    roles: [
-      role("Teacher", "profession:teacher", 3, { minAge: 22 }),
-      role("Teacher's aide", "occupation:teacher-assistant", 1),
-    ],
-  },
-  {
-    key: "hospital",
-    classification: "service:hospital",
-    kind: "employment:health-care",
-    name: ({ family }) => `${family} Medical Center`,
-    outlets: 1,
-    roles: [
-      role("Registered nurse", "profession:registered-nurse", 4, {
-        minAge: 21,
-        rigidity: "rigid",
-      }),
-      role("Nursing assistant", "occupation:nursing-assistant", 3),
-      role("Physician", "profession:physician", 1, { minAge: 30 }),
-      role("Medical records clerk", "occupation:medical-records", 1),
-    ],
-  },
-  {
-    key: "clinic",
-    classification: "service:clinic",
-    kind: "employment:health-care",
-    name: ({ family }) => `${family} Family Clinic`,
-    outlets: 1,
-    roles: [
-      role("Nurse", "profession:registered-nurse", 2, { minAge: 21 }),
-      role("Medical assistant", "occupation:medical-assistant", 2),
-      role("Receptionist", "occupation:receptionist", 1),
-    ],
-  },
-  {
-    key: "care-home",
-    classification: "service:nursing-home",
-    kind: "employment:health-care",
-    name: ({ family }) => `${family} Care Home`,
-    outlets: 1,
-    roles: [
-      role("Home health aide", "occupation:home-health-aide", 3),
-      role("Licensed practical nurse", "profession:practical-nurse", 1, {
-        minAge: 21,
-      }),
-    ],
-  },
-  {
-    key: "recreation",
-    classification: "enterprise:recreation",
-    kind: "employment:recreation",
-    name: ({ family }) => `${family} Fitness and Recreation`,
-    outlets: 1,
-    roles: [
-      role("Recreation attendant", "occupation:recreation-attendant", 2),
-      role("Fitness trainer", "occupation:fitness-trainer", 1),
-    ],
-  },
-  {
-    key: "restaurant",
-    classification: "enterprise:food-service",
-    kind: "employment:food-service",
-    name: ({ family }) => `${family}'s Kitchen`,
-    outlets: 3,
-    roles: [
-      role("Cook", "occupation:cook", 3, { rigidity: "mixed" }),
-      role("Server", "service:food-server", 4, { rigidity: "mixed" }),
-      role("Dishwasher", "occupation:dishwasher", 1),
-      role("Restaurant manager", "occupation:food-service-manager", 1, LEAD),
-    ],
-  },
-  {
-    key: "inn",
-    classification: "enterprise:lodging",
-    kind: "employment:lodging",
-    name: ({ family }) => `${family} Inn`,
-    outlets: 1,
-    roles: [
-      role("Front desk clerk", "occupation:hotel-clerk", 2),
-      role("Housekeeper", "occupation:housekeeper", 2),
-    ],
-  },
-  {
-    key: "repair",
-    classification: "enterprise:repair",
-    kind: "employment:repair",
-    name: ({ family }) => `${family} Auto Service`,
-    outlets: 1,
-    roles: [role("Mechanic", "trade:automotive-mechanic", 3)],
-  },
-  {
-    key: "personal-care",
-    classification: "enterprise:personal-services",
-    kind: "employment:personal-services",
-    name: ({ family }) => `${family}'s Salon and Barbershop`,
-    outlets: 1,
-    roles: [
-      role("Hairstylist", "service:hairstylist", 2),
-      role("Barber", "service:barber", 1),
-    ],
-  },
-  // Civic workplaces. Religious, civic and labor organizations are part of
-  // "other services" (NAICS 813) in County Business Patterns.
-  {
-    key: "congregation",
-    classification: "community:congregation",
-    kind: "employment:religious",
-    name: ({ town }) => `${town} Community Church`,
-    outlets: 1,
-    existing: "community:congregation",
-    roles: [
-      role("Pastor", "profession:clergy", 1, { ...LEAD, minAge: 30 }),
-      role("Church office secretary", "occupation:office-clerk", 1),
-    ],
-  },
-  {
-    key: "organizing",
-    classification: "community:organizing-nonprofit",
-    kind: "employment:nonprofit",
-    name: ({ town }) => `${town} Neighbors United`,
-    outlets: 1,
-    roles: [role("Community organizer", "profession:community-organizer", 1)],
-  },
-  {
-    key: "union",
-    classification: "membership:labor-union",
-    kind: "employment:labor-union",
-    name: ({ town }) => `${town} Area Workers Union Local`,
-    outlets: 1,
-    roles: [
-      role("Union representative", "profession:union-representative", 1, {
-        minAge: 25,
-      }),
-    ],
-  },
-  {
-    key: "party-office",
-    classification: "membership:party-chapter",
-    kind: "employment:party-staff",
-    name: ({ town }) => `${town} Party Office`,
-    outlets: 1,
-    existing: "membership:party-chapter",
-    roles: [
-      role("Party office manager", "occupation:office-manager", 1),
-      role("Party field organizer", "profession:political-organizer", 1),
-    ],
-  },
-  {
-    key: "campaign-staff",
-    classification: "enterprise:political-consulting",
-    kind: "employment:campaign-staff",
-    name: ({ town }) => `${town} Campaign Works`,
-    outlets: 1,
-    roles: [
-      role("Campaign field organizer", "profession:political-organizer", 2, {
-        rigidity: "flexible",
-      }),
-      role("Campaign manager", "profession:campaign-manager", 1, {
-        ...LEAD,
-        minAge: 26,
-        rigidity: "flexible",
-      }),
-    ],
-  },
-  // Public employers.
-  {
-    key: "public-school",
-    classification: "service:school",
-    kind: "employment:education",
-    name: ({ town }) => `${town} Public Schools`,
-    outlets: 1,
-    existing: "service:school",
-    roles: [
-      role("Teacher", "profession:teacher", 6, { minAge: 22 }),
-      role("Teacher's aide", "occupation:teacher-assistant", 2),
-      role("Principal", "profession:school-principal", 0, {
-        ...LEAD,
-        minAge: 32,
-      }),
-    ],
-  },
-  {
-    key: "city-hall",
-    governmentOffice: "municipal",
-    classification: "sector:local-government-office",
-    kind: "employment:public-service",
-    name: ({ town }) => `${town} City Hall`,
-    outlets: 1,
-    roles: [
-      role("City clerk", "profession:municipal-clerk", 0, { minAge: 25 }),
-      role("City planner", "profession:urban-planner", 0, { minAge: 24 }),
-      role("Office assistant", "occupation:office-clerk", 3),
-      role("Budget analyst", "profession:budget-analyst", 1, { minAge: 22 }),
-    ],
-  },
-  {
-    // The clerk who keeps the county's records and takes filings. Only a
-    // town inside a county with a county government has one.
-    key: "county-clerk",
-    governmentOffice: "county",
-    classification: "sector:local-government-office",
-    kind: "employment:public-service",
-    name: ({ county }) => `${county} Clerk's Office`,
-    outlets: 1,
-    roles: [
-      role("County clerk", "profession:county-clerk", 0, { minAge: 30 }),
-      role("Deputy county clerk", "occupation:office-clerk", 0),
-    ],
-  },
-  {
-    key: "police",
-    classification: "service:police",
-    kind: "employment:public-safety",
-    name: ({ town }) => `${town} Police Department`,
-    outlets: 1,
-    roles: [
-      role("Police officer", "profession:police-officer", 5, {
-        minAge: 21,
-        rigidity: "rigid",
-      }),
-      role("Emergency dispatcher", "occupation:dispatcher", 1),
-    ],
-  },
-  {
-    key: "fire",
-    classification: "service:fire",
-    kind: "employment:public-safety",
-    name: ({ town }) => `${town} Fire Department`,
-    outlets: 1,
-    roles: [
-      role("Firefighter", "profession:firefighter", 1, { rigidity: "rigid" }),
-    ],
-  },
-  {
-    key: "public-works",
-    classification: "sector:local-government-office",
-    kind: "employment:public-service",
-    name: ({ town }) => `${town} Public Works Department`,
-    outlets: 1,
-    roles: [
-      role("Maintenance worker", "trade:maintenance-worker", 3),
-      role("Equipment operator", "trade:equipment-operator", 1),
-      role("Bus driver", "occupation:bus-driver", 2),
-    ],
-  },
-  {
-    key: "public-health",
-    classification: "service:public-health",
-    kind: "employment:public-service",
-    name: ({ town }) => `${town} Health Department`,
-    outlets: 1,
-    roles: [
-      role("Public health nurse", "profession:registered-nurse", 2, {
-        minAge: 21,
-      }),
-      role("Caseworker", "profession:social-worker", 2, { minAge: 22 }),
-    ],
-  },
-  {
-    key: "state-office",
-    classification: "sector:state-government-office",
-    kind: "employment:public-service",
-    name: ({ town, state }) => `${state} State Offices in ${town}`,
-    outlets: 1,
-    roles: [
-      role("State caseworker", "profession:social-worker", 2, { minAge: 22 }),
-      role("Office clerk", "occupation:office-clerk", 2),
-      role("Highway maintenance worker", "trade:maintenance-worker", 2),
-    ],
-  },
-  {
-    key: "post-office",
-    classification: "sector:federal-government-office",
-    kind: "employment:public-service",
-    name: ({ town }) => `${town} Post Office`,
-    outlets: 1,
-    roles: [
-      role("Mail carrier", "occupation:mail-carrier", 3),
-      role("Postal clerk", "occupation:postal-clerk", 1),
-    ],
-  },
-];
-
-const WORKPLACE = new Map(TOWN_WORKPLACES.map((place) => [place.key, place]));
 
 /** Public facilities get a real source name, or they do not enter the world. */
 export function sourcedTownInstitution(
@@ -885,160 +129,9 @@ export function sourcedTownInstitution(
 const FULL_TIME_HOURS = [35, 45] as const;
 const PART_TIME_HOURS = [16, 29] as const;
 
-/**
- * MEASURED: median years with the current employer by age, wage and salary
- * workers, January 2026 (Bureau of Labor Statistics, Employee Tenure in
- * 2026, Table 1, released September 24, 2026). At the opening each worker
- * has held their job for the median of their age, never from before they
- * turned 18: the table's spread is not drawn.
- */
-export const TOWN_MEDIAN_TENURE_BY_AGE: readonly (readonly [number, number])[] =
-  [
-    [20, 0.8],
-    [25, 1.5],
-    [35, 3.0],
-    [45, 4.7],
-    [55, 7.0],
-    [65, 9.6],
-    [Infinity, 9.9],
-  ];
-
 function medianTenureYears(age: number): number {
   return TOWN_MEDIAN_TENURE_BY_AGE.find(([below]) => age < below)![1];
 }
-
-/**
- * GAME ASSUMPTION: the share of each workplace's staff that works
- * part-time, under 35 hours a week. Food service, stores and recreation run
- * on part-time staff; offices, plants and public agencies mostly do not. An
- * employer hires part-time while its part-time staff are below this share,
- * and a resident whose life asks for fewer hours (a student, a parent of a
- * child under six, anyone 65 or older) works part-time wherever they work.
- * Nothing is drawn. The national share of about one worker in six is the
- * check.
- */
-export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {
-  restaurant: 0.45,
-  retail: 0.35,
-  recreation: 0.5,
-  "personal-care": 0.3,
-  inn: 0.3,
-  "building-services": 0.25,
-  "care-home": 0.25,
-  "private-school": 0.15,
-  "public-school": 0.08,
-  congregation: 0.3,
-  farm: 0.15,
-  hospital: 0.15,
-  clinic: 0.2,
-  "campaign-staff": 0.2,
-  organizing: 0.2,
-};
-export const TOWN_PART_TIME_DEFAULT = 0.08;
-
-/**
- * A county government's listed name as people say it: "COUNTY OF HUMPHREYS"
- * is "Humphreys County", "PARISH OF ORLEANS" is "Orleans Parish".
- */
-export function countyDisplayName(listed: string): string {
-  const title = (text: string) =>
-    text
-      .toLowerCase()
-      .split(" ")
-      .map((word) =>
-        word === "and" || word === "of"
-          ? word
-          : word.replace(/(^|-)([a-z])/g, (found) => found.toUpperCase()),
-      )
-      .join(" ");
-  const match = /^(.+?) OF (.+)$/.exec(listed.trim());
-  return match ? `${title(match[2]!)} ${title(match[1]!)}` : title(listed);
-}
-
-/** The town workplace an employer was written from, and the role held. */
-export function townWorkplaceFor(
-  organizationStableKey: string,
-  classification: string | null,
-): Workplace | null {
-  const employer = /:employer:([a-z-]+):\d+$/.exec(organizationStableKey);
-  if (employer) return WORKPLACE.get(employer[1]!) ?? null;
-  return (
-    TOWN_WORKPLACES.find(
-      (workplace) =>
-        workplace.existing && workplace.existing === classification,
-    ) ?? null
-  );
-}
-
-/** GAME ASSUMPTION: which workplaces stand for each sector, and in what shares. */
-const SECTOR_WORKPLACES: Readonly<
-  Record<Sector, readonly (readonly [string, number])[]>
-> = {
-  "11": [["farm", 1]],
-  "21": [["quarry", 1]],
-  "22": [["utility", 1]],
-  "23": [["construction", 1]],
-  "31": [["manufacturing", 1]],
-  "42": [["wholesale", 1]],
-  "44": [["retail", 1]],
-  "48": [["trucking", 1]],
-  "51": [["information", 1]],
-  "52": [
-    ["bank", 2],
-    ["insurance", 1],
-  ],
-  "53": [["realty", 1]],
-  "54": [["professional", 1]],
-  "55": [["regional-office", 1]],
-  "56": [["building-services", 1]],
-  "61": [["private-school", 1]],
-  "62": [
-    ["hospital", 4],
-    ["clinic", 3],
-    ["care-home", 2],
-  ],
-  "71": [["recreation", 1]],
-  "72": [
-    ["restaurant", 6],
-    ["inn", 1],
-  ],
-  "81": [
-    ["repair", 3],
-    ["personal-care", 2],
-    ["congregation", 2],
-    ["organizing", 1],
-    ["union", 1],
-    ["party-office", 1],
-    ["campaign-staff", 1],
-  ],
-};
-
-/** GAME ASSUMPTION: which local workplaces each major group works in. */
-const LOCAL_GROUP_WORKPLACES: Readonly<
-  Record<LocalGroup, readonly (readonly [string, number])[]>
-> = {
-  "11": [
-    ["city-hall", 1],
-    ["public-school", 1],
-  ],
-  "13": [["city-hall", 1]],
-  "21": [["public-health", 1]],
-  "25": [["public-school", 1]],
-  "29": [["public-health", 1]],
-  "31": [["public-health", 1]],
-  "33": [
-    ["police", 3],
-    ["fire", 2],
-  ],
-  "37": [
-    ["public-works", 1],
-    ["public-school", 1],
-  ],
-  "43": [["city-hall", 1]],
-  "47": [["public-works", 1]],
-  "49": [["public-works", 1]],
-  "53": [["public-works", 1]],
-};
 
 /**
  * Roles every seated town has someone in, whatever the draw: the people a
@@ -1067,29 +160,6 @@ const CIVIC_MINIMUM: readonly (readonly [string, string])[] = [
   ["campaign-staff", "Campaign field organizer"],
   ["campaign-staff", "Campaign manager"],
 ];
-
-/** Every workplace's share of the town's jobs, from the sourced mix. */
-export function townWorkplaceWeights(
-  town: EntityId,
-): ReadonlyMap<string, number> {
-  const mix = townEmploymentMix(town);
-  const weights = new Map<string, number>();
-  const spread = (
-    amount: number,
-    places: readonly (readonly [string, number])[],
-  ) => {
-    const sum = places.reduce((total, [, share]) => total + share, 0);
-    for (const [key, share] of places)
-      weights.set(key, (weights.get(key) ?? 0) + (amount * share) / sum);
-  };
-  for (const [sector, amount] of mix.sectors)
-    spread(amount, SECTOR_WORKPLACES[sector]);
-  for (const [group, amount] of mix.local)
-    spread(amount, LOCAL_GROUP_WORKPLACES[group]);
-  spread(mix.state, [["state-office", 1]]);
-  spread(mix.federal, [["post-office", 1]]);
-  return weights;
-}
 
 /* -------------------------------------------------------------------------- */
 /* Labor status from recorded circumstances                                   */
@@ -1331,7 +401,7 @@ export function writeTownEmployer(
       )
       .map((row) => organizationProfileAt(world, row.id)?.name),
   );
-  const styles = [workplace.name, ...(MORE_NAMES[workplace.key] ?? [])];
+  const styles = businessNameStyles(workplace.key);
   const firstStyle = rng.fork("name-style").integer(0, styles.length);
   let name = "";
   for (let attempt = 0; attempt < styles.length * 4; attempt += 1) {
@@ -1346,7 +416,7 @@ export function writeTownEmployer(
             "unstated",
             nameCorpusVersionForWorld(world, town),
           ).familyName));
-    const context: NameContext = {
+    const context: BusinessNameContext = {
       town: townName,
       state: stateName,
       county: countyName ?? family,
@@ -1354,7 +424,10 @@ export function writeTownEmployer(
     };
     name =
       institution?.name ??
-      styles[(firstStyle + attempt) % styles.length]!(context);
+      fillBusinessName(
+        styles[(firstStyle + attempt) % styles.length]!,
+        context,
+      );
     if (!taken.has(name)) break;
   }
   return createOrganization(world, {
@@ -1700,7 +773,7 @@ export function fillTownJobs(
   };
 
   if (options.into) {
-    const workplace = WORKPLACE.get(options.into.workplace);
+    const workplace = TOWN_WORKPLACE_BY_KEY.get(options.into.workplace);
     if (!workplace) return next;
     const named = options.into.role
       ? workplace.roles.find((entry) => entry.title === options.into!.role)
@@ -1758,7 +831,7 @@ export function fillTownJobs(
   for (const [key, title] of CIVIC_MINIMUM) {
     if (key === "county-clerk" && !countyName) continue;
     if (budgetStaffed.has(`${key}|${title}`)) continue;
-    const workplace = WORKPLACE.get(key)!;
+    const workplace = TOWN_WORKPLACE_BY_KEY.get(key)!;
     const chosen = workplace.roles.find((entry) => entry.title === title)!;
     const organizationIds = existingOf(workplace);
     // One per existing organization (each school its principal), else one.
@@ -1805,7 +878,7 @@ export function fillTownJobs(
           a[0].localeCompare(b[0]),
       );
     for (const [key] of order) {
-      const workplace = WORKPLACE.get(key);
+      const workplace = TOWN_WORKPLACE_BY_KEY.get(key);
       if (!workplace) continue;
       // A role a budget staffs is never offered here. A congregation or
       // school has one pastor or principal, hired above for each one in

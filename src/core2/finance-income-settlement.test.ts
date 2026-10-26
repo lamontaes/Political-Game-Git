@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA } from "./data";
 import { FINANCE_MODULE } from "./modules/finance";
 import { coreAPI, createCore } from "./state";
+import { endRecipientIncomeAtDeath } from "./finance-state";
 import type { FinanceContractInput } from "./finance-types";
 import type { CoreInput, CoreState, Source } from "./types";
 
@@ -62,7 +63,9 @@ function purchaseContract(): FinanceContractInput {
     id: "a:purchase",
     payerIds: [resident],
     payeeId: seller,
-    householdId: household,
+    // Settled directly as a contract, in the household phase; a household's
+    // own purchases would be its everyday-living plan (cost-of-living.ts).
+    settlementPhaseId: "household-purchases",
     kind: "household-purchase",
     amountMinor: 100,
     dueAt: due,
@@ -320,6 +323,19 @@ describe("qualified actual income and ordered finite cash settlement", () => {
       core.finance.latestReceiptsByContract.get("m:income")?.paidMinor,
     ).toBe(0);
     expect(total(core)).toBe(before);
+  });
+
+  it("stops a person's award at their death, so no payment reaches the estate after it", () => {
+    const core = createCore(input([awardContract(), fundingContract()]));
+    core.date = "2021-01-15";
+    expect(endRecipientIncomeAtDeath(core, resident)).toEqual(["m:income"]);
+    expect(core.finance.incomeContractsByPerson.has(resident)).toBe(false);
+    const cash = core.people.get(resident as never)!.liquidMinor;
+    core.date = due;
+    run(core);
+    expect(core.finance.latestReceiptsByContract.has("m:income")).toBe(false);
+    expect(core.people.get(resident as never)!.liquidMinor).toBe(cash);
+    expect(endRecipientIncomeAtDeath(core, resident)).toEqual([]);
   });
 
   it("rejects an unqualified, future or contradictory award before any contract or cash write", () => {

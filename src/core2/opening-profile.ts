@@ -6,9 +6,9 @@
  * Each draw is keyed to the person and their home, never to who else was
  * built, so a person filled in later gets the same profile.
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import profileJson from "./data/profile/parameters.json" with { type: "json" };
 import keysJson from "./data/views/ces-2024-views.json" with { type: "json" };
 import { parameter } from "./parameters";
@@ -101,9 +101,9 @@ export function profileFor(
   startedAt: string,
 ): Profile | null {
   stopgap(DATA.stopgapId);
-  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(startedAt));
+  const age = ageOnDate(person.birthDate, startedAt);
   if (age < d("minimumAdultAge")) return null;
-  const place = lifePlaceByJurisdictionId(person.placeId as never);
+  const place = corePlaceByJurisdictionId(person.placeId as never);
   const key = place?.stateJurisdictionKey;
   const state = key
     ? KEYS.states[key.slice(key.lastIndexOf("-") + p("one"))]

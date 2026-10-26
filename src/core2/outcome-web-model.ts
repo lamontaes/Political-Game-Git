@@ -12,10 +12,9 @@
 import web from "../../data/research/outcome-web/links.json" with { type: "json" };
 import bases from "../../data/research/outcome-web/place-outcome-bases-2024.json" with { type: "json" };
 import ledger from "../../data/research/outcome-web/placeholder-ledger.json" with { type: "json" };
-import cohorts from "../../data/research/outcome-web/person-recipient-age-cohorts.json" with { type: "json" };
-import plan from "../../data/research/outcome-web/landing-plan.json" with { type: "json" };
 import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import coverageData from "./data/outcome-web/coverage.json" with { type: "json" };
+import { GOV_MEASURES } from "./gov-measure-keys";
 import type { Source } from "./types";
 
 export type Shape =
@@ -34,12 +33,31 @@ export type Shape =
 export interface WebLink {
   readonly key: string;
   readonly from: string;
+  /**
+   * The measure the new core reads the cause from when it is not `from` (the
+   * old engine's name): an engine's own records, e.g. the victimization index.
+   */
+  readonly readFrom?: string;
   readonly to: string;
   readonly shape: Shape;
   readonly size: number | null;
   readonly per: string;
   readonly lagMonths: number;
+  /**
+   * Months over which the effect builds after its lag: the cause read is the
+   * average of these months, so a step in the cause reaches its full effect
+   * this many months after the lag (absent, the whole effect at once).
+   */
+  readonly phaseInMonths?: number;
   readonly group: string;
+  /** Names what carries this effect through an engine's records; the link then does not run. */
+  readonly carriedBy?: string;
+  /**
+   * Where an engine reads the same cause by its own mechanic, not this row's
+   * size and lag, so the link still reaches no one: the matrix names it in
+   * the link's reason for staying on the unwired list.
+   */
+  readonly engineGap?: string;
   readonly evidence: string;
   readonly source: string;
   readonly moderator?: {
@@ -47,9 +65,44 @@ export interface WebLink {
     readonly effectAtFull: number;
     readonly mode?: "scale" | "only-when";
   };
+  /** How the link lands on different people, from its research (src/core2/outcome-web-reach.ts). */
+  readonly varies?: readonly Varies[];
   readonly sizeByPlace?: Readonly<Record<string, { readonly size: number }>>;
   readonly floor?: number;
   readonly ceiling?: number;
+}
+
+/** The circumstance a link's effect varies by: a field an engine knows about its subject. */
+export type VariesBy =
+  | "incomeFifth"
+  | "age"
+  | "sex"
+  | "householdKind"
+  | "tenure"
+  | "work"
+  | "region";
+
+/** One band of a moderator: who is in it, how hard the cause lands there, and the band's national share. */
+export interface VariesBand {
+  /** A value of the subject's field, or for a number, `min` (inclusive) to `max` (exclusive). */
+  readonly is?: string | number;
+  readonly min?: number;
+  readonly max?: number;
+  /** The effect in this band against the others' (the research's ratio, before scaling). */
+  readonly weight: number;
+  /** The band's share of the national population the research's average covers. */
+  readonly share: number;
+}
+
+/** A researched moderator: the bands, the source and the words the weights stand on. */
+export interface Varies {
+  readonly by: VariesBy;
+  readonly bands: readonly VariesBand[];
+  readonly tag: "SOURCED" | "ESTIMATED";
+  /** The paper, table and page. */
+  readonly source: string;
+  readonly quote: string;
+  readonly estimatedFrom?: string;
 }
 
 export type Scale = "share" | "index" | "rate" | "level";
@@ -61,7 +114,11 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
-export const WEB_LINKS = web.links as unknown as readonly WebLink[];
+/** The web module's id; here so readers of the web need not load the module itself. */
+export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
+export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
+  (link) => (link.readFrom ? { ...link, from: link.readFrom } : link),
+);
 export const WEB_VERSION = web.version;
 /** The date the research's base levels describe; laws in force then are the baseline. */
 export const CALIBRATED_AT = web.calibratedAt;
@@ -76,6 +133,10 @@ const KEPT_LOCAL = local.keptOutcomes as unknown as Readonly<
       readonly scale: Scale;
       readonly unit: string;
       readonly national?: number;
+      /** A real level by state, D.C. and territory where the source reports one (else the national level, marked ESTIMATED). */
+      readonly places?: Readonly<Record<string, number>>;
+      /** Why a place the source leaves out starts from the national level. */
+      readonly estimatedFrom?: string;
       readonly source: Source;
     }
   >
@@ -84,7 +145,28 @@ const BASELINES = web.baselines as Readonly<
   Record<string, { readonly value: number }>
 >;
 const ENGINE = local.engineMeasures as Readonly<
-  Record<string, { readonly owner: string; readonly unitScale: number }>
+  Record<
+    string,
+    {
+      readonly owner: string;
+      /** The field of a month row the measure reads (world-metrics', else the engine's own table). */
+      readonly field: string;
+      /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
+      readonly reader?: string;
+      /**
+       * A cause read from a law: the level it is measured from is the law the
+       * day before the web opened, so a law taking effect on the opening day
+       * (or after) moves the outcome (src/core2/modules/outcome-web.ts).
+       */
+      readonly baselineReader?: string;
+      readonly unitScale: number;
+      /** An engine that keeps its own month rows by place: its module and table (rows have `placeId`, `date`, `id`). */
+      readonly module?: string;
+      readonly table?: string;
+      /** The engine's record is the kept outcome itself; links into it do not run. */
+      readonly ownsOutcome?: boolean;
+    }
+  >
 >;
 export const LAW_PREFIX = "law:";
 /** An index outcome reads 100 where the place began. */
@@ -127,15 +209,21 @@ export function engineMeasure(measure: string) {
   return ENGINE[measure];
 }
 
+/** A kept outcome whose value is an engine's own record, not the web's product. */
+export function engineOwned(measure: string): boolean {
+  return keptOutcome(measure) && ENGINE[measure]?.ownsOutcome === true;
+}
+
 export function isLaw(measure: string): boolean {
   return measure.startsWith(LAW_PREFIX);
 }
 
-/** A cause the core can read: a kept outcome (or a reading of one), an engine record, or a law. */
+/** A cause the core can read: a kept outcome (or a reading of one), an engine record, a government measure or a law. */
 export function causeAvailable(measure: string): boolean {
   return (
     isLaw(measure) ||
     measure in ENGINE ||
+    (GOV_MEASURES as readonly string[]).includes(measure) ||
     keptOutcome(measure) ||
     derivedOf(measure) !== null
   );
@@ -159,6 +247,19 @@ export function baseOf(
   stateKey: string,
 ): { readonly value: number; readonly source: Source } {
   const local = KEPT_LOCAL[measure];
+  if (local?.places) {
+    const own = local.places[stateKey];
+    return own !== undefined
+      ? { value: own, source: local.source }
+      : {
+          value: local.national!,
+          source: {
+            ...local.source,
+            tag: "ESTIMATED",
+            estimatedFrom: local.estimatedFrom,
+          },
+        };
+  }
   if (local)
     return {
       value: local.scale === "index" ? INDEX_START : local.national!,
@@ -204,7 +305,9 @@ export function fixedBaseline(
 ): number | undefined {
   const derived = derivedOf(measure);
   if (derived) return derived.suffix === ":pct-of-start" ? INDEX_START : 0;
-  if (keptOutcome(measure)) return baseOf(measure, stateKey).value;
+  // An engine-kept outcome starts where the engine's record first read.
+  if (keptOutcome(measure))
+    return engineMeasure(measure) ? undefined : baseOf(measure, stateKey).value;
   return BASELINES[measure]?.value;
 }
 
@@ -259,10 +362,13 @@ export function moderatorScale(
 }
 
 export type Coverage =
+  | { readonly key: string; readonly wired: true }
   | {
       readonly key: string;
-      readonly wired: true;
-      readonly lands: string | { readonly waitingOn: string };
+      readonly wired: false;
+      /** What carries the effect through an engine's records; a web link too would count the cause twice. */
+      readonly carriedBy: string;
+      readonly waitingOn: readonly [];
     }
   | {
       readonly key: string;
@@ -271,85 +377,6 @@ export type Coverage =
       readonly needsSize?: true;
     };
 
-const PLAN_RULES = new Map(
-  (plan.links as readonly { key: string; recipientRule: string | null }[]).map(
-    (row) => [row.key, row.recipientRule],
-  ),
-);
-type Rule =
-  | { readonly kind: "everyone" | "cohort" | "parent" | "renter" | "borrower" }
-  | {
-      readonly kind: "ages";
-      readonly minimumAge: number;
-      readonly maximumAge: number;
-      readonly noChildUnder?: number;
-    }
-  | { readonly kind: "waiting"; readonly waitingOn: string };
-const RULES = local.landing.rules as unknown as Readonly<Record<string, Rule>>;
-const GROUP_RULES = local.landing.groupRules as Readonly<
-  Record<string, string>
->;
-
-/** The recipient rule for a link: the landing plan's, or its group's. */
-export function recipientRule(link: WebLink): string | undefined {
-  return PLAN_RULES.get(link.key) ?? GROUP_RULES[link.group];
-}
-
-export interface Selector {
-  readonly minimumAge?: number;
-  readonly maximumAge?: number;
-  readonly noChildUnder?: number;
-  /** A parent of a child in the household aged within this range. */
-  readonly childAges?: readonly [number, number];
-  readonly renter?: true;
-  readonly borrower?: true;
-}
-
-/** Who a recipient rule selects, over core2's own person records. */
-export function selectorOf(rule: string): Selector | { waitingOn: string } {
-  const row = RULES[rule];
-  if (!row) return { waitingOn: `recipient rule ${rule}` };
-  switch (row.kind) {
-    case "everyone":
-      return {};
-    case "cohort": {
-      const c = (
-        cohorts.cohortsByRule as Record<
-          string,
-          { minimumAge: number; maximumAge: number | null }
-        >
-      )[rule]!;
-      return {
-        minimumAge: c.minimumAge,
-        ...(c.maximumAge === null ? {} : { maximumAge: c.maximumAge }),
-      };
-    }
-    case "parent": {
-      const c = (
-        cohorts.childCohortsByRule as Record<
-          string,
-          { minimumAge: number; maximumAge: number }
-        >
-      )[rule]!;
-      return { childAges: [c.minimumAge, c.maximumAge] };
-    }
-    case "ages":
-      return {
-        minimumAge: row.minimumAge,
-        maximumAge: row.maximumAge,
-        ...(row.noChildUnder === undefined
-          ? {}
-          : { noChildUnder: row.noChildUnder }),
-      };
-    case "renter":
-      return { renter: true };
-    case "borrower":
-      return { borrower: true };
-    case "waiting":
-      return { waitingOn: row.waitingOn };
-  }
-}
-
 /**
  * Whether a link runs on the new core, and if not, the measures it waits on.
  * It runs when its cause (and moderator) can be read, its outcome is one the
@@ -357,6 +384,13 @@ export function selectorOf(rule: string): Selector | { waitingOn: string } {
  * person-level shape needs each person's own exposure record).
  */
 export function linkCoverage(link: WebLink): Coverage {
+  if (link.carriedBy)
+    return {
+      key: link.key,
+      wired: false,
+      carriedBy: link.carriedBy,
+      waitingOn: [],
+    };
   const waitingOn: string[] = [];
   const personShape =
     link.shape.kind === "exposure-years" || link.shape.kind === "acute-decay";
@@ -373,13 +407,7 @@ export function linkCoverage(link: WebLink): Coverage {
       waitingOn: [...new Set(waitingOn)],
       ...(needsSize ? { needsSize: true as const } : {}),
     };
-  const rule = recipientRule(link);
-  const selector = rule ? selectorOf(rule) : { waitingOn: "recipient rule" };
-  return {
-    key: link.key,
-    wired: true,
-    lands: "waitingOn" in selector ? selector : rule!,
-  };
+  return { key: link.key, wired: true };
 }
 
 /** The links that run, by the outcome they move. */
@@ -406,14 +434,17 @@ export function ownerOf(measure: string): string {
 
 /** The checked-in coverage list (data the coverage test holds to the code). */
 export const COVERAGE_DATA = coverageData as unknown as {
-  readonly wired: Readonly<Record<string, string>>;
+  readonly wired: readonly string[];
   readonly waiting: Readonly<
     Record<
       string,
-      { readonly waitingOn: readonly string[]; readonly needsSize?: true }
+      {
+        readonly waitingOn: readonly string[];
+        readonly needsSize?: true;
+        readonly carriedBy?: string;
+      }
     >
   >;
-  readonly landingWaits: Readonly<Record<string, string>>;
   readonly measuresWanted: Readonly<
     Record<string, { readonly owner: string; readonly links: number }>
   >;
@@ -421,23 +452,22 @@ export const COVERAGE_DATA = coverageData as unknown as {
 
 /** The coverage list as data, computed from the links and what the core can read. */
 export function coverageTable(): typeof COVERAGE_DATA {
-  const wired: Record<string, string> = {};
-  const waiting: Record<string, { waitingOn: string[]; needsSize?: true }> = {};
-  const landingWaits: Record<string, string> = {};
+  const wired: string[] = [];
+  const waiting: Record<
+    string,
+    { waitingOn: string[]; needsSize?: true; carriedBy?: string }
+  > = {};
   const wanted: Record<string, { owner: string; links: number }> = {};
   for (const link of WEB_LINKS) {
     const c = linkCoverage(link);
     if (c.wired) {
-      if (typeof c.lands === "string") wired[link.key] = c.lands;
-      else {
-        wired[link.key] = "waiting";
-        landingWaits[link.key] = c.lands.waitingOn;
-      }
+      wired.push(link.key);
       continue;
     }
     waiting[link.key] = {
       waitingOn: [...c.waitingOn],
-      ...(c.needsSize ? { needsSize: true as const } : {}),
+      ...("needsSize" in c && c.needsSize ? { needsSize: true as const } : {}),
+      ...("carriedBy" in c ? { carriedBy: c.carriedBy } : {}),
     };
     for (const measure of c.waitingOn) {
       const row = (wanted[measure] ??= { owner: ownerOf(measure), links: 0 });
@@ -449,5 +479,5 @@ export function coverageTable(): typeof COVERAGE_DATA {
       (a, b) => b[1].links - a[1].links || a[0].localeCompare(b[0]),
     ),
   );
-  return { wired, waiting, landingWaits, measuresWanted };
+  return { wired, waiting, measuresWanted };
 }

@@ -8,7 +8,7 @@ import {
   validateDecisionPeerEstimates,
 } from "./decision-peer-estimates";
 import { appendDecisionTraceRecord } from "./history";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { recordById } from "./history-index";
 import { legislationEntityExists } from "./legislation";
 import { legislativePoliticsEntityExists } from "./legislative-politics";

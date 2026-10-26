@@ -1,3 +1,5 @@
+> Owner, Oct 15, 2026: the attestation rule below ('kept when at least two documents say it and one is a public-domain record') was this session's own habit, never the owner's ruling, and is withdrawn. Banks are now built by development-time authoring to calibrated patterns (see `.agents/skills/words-engine/SKILL.md`); the corpus stays as one source of pieces and patterns.
+
 # The mined English corpus (OPUS-WORDS)
 
 How the phrase banks in `data/english/parts/` are built from real American speech, and where the raw text lives.
@@ -49,7 +51,34 @@ The cloud container that held the first corpus was reclaimed, so the second run 
 | usa.gov pages                                                                                     | 260       | usa.gov                                                                        |
 | Federal counter pages (IRS, Social Security, National Archives, GSA, Postal Service)              | 330       | each agency's site (only .gov pages can be a source)                           |
 
+### Oral-history rebuild for the memoir journal (October 14, 2026)
+
+The memoir shapes (`memoir-*` groups in `shapes/journal.json`) were mined over a smaller oral-history corpus, 1,095 transcripts. The first run's journal parts keep their entries; the memoir parts are added beside them.
+
+| Source                     | Documents | Where             |
+| -------------------------- | --------- | ----------------- |
+| NASA oral histories        | 981       | nasa.gov          |
+| U.S. House oral histories  | 107       | history.house.gov |
+| U.S. Senate oral histories | 7         | senate.gov        |
+
 Kept out: 424 Truman Library interviews, which carry the notice "may not be published in full except by permission". A bank's shapes may name the collections it counts (`sources`); the opening speech counts only what Presidents said.
+
+### Family scenes and the office scene (October 15, 2026)
+
+The Words session rebuilt a corpus for the director's family scenes (a parent's lost job, an eviction) and the office scene's one-on-one ask, 11,442 documents. The family-scene shapes (`family-open`, `job-cause`, `job-hope`, `eviction*` in `shapes/conversation.json`) and the office ask (`member-ask` in `shapes/address.json`) were mined over it; earlier parts keep their entries and the new ones are added beside them.
+
+| Source                                                                                         | Documents | Where                        |
+| ---------------------------------------------------------------------------------------------- | --------- | ---------------------------- |
+| Congressional hearings, 2015 to 2026 (a sample)                                                | 2,500     | govinfo.gov, collection CHRG |
+| Congressional hearings on housing, jobs, families and the like (by title), 2015 to 2026        | 1,192     | govinfo.gov, collection CHRG |
+| Congressional Record granules, 2015 to 2026                                                    | 2,342     | govinfo.gov, collection CREC |
+| Daily Compilation of Presidential Documents: town halls, roundtables and remarks, 2009 to 2026 | 3,511     | govinfo.gov, collection DCPD |
+| NASA oral histories                                                                            | 1,244     | nasa.gov                     |
+| U.S. House oral histories                                                                      | 580       | history.house.gov            |
+| U.S. Senate oral histories                                                                     | 59        | senate.gov                   |
+| National Park Service oral histories                                                           | 14        | nps.gov                      |
+
+Still unattested twice with a 2015-or-later public-domain source, so unsaid: a parent saying they were laid off ("I was laid off.", "They let me go."), that they are looking for work, why the household was evicted ("We couldn't pay the rent.") and where it goes next ("We're going to stay with {relation}."). The director leaves those unsaid; the scene still tells the closure and the move from the records it can word.
 
 ## Rebuilding the banks
 

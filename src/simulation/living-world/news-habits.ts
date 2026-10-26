@@ -1,4 +1,4 @@
-import { ageOnDate } from "../dates";
+import { ageOnDate } from "../../core2/kernel/dates";
 import type { EntityId, World } from "../types";
 import { stateJurisdictionForKey } from "../life-places";
 import { activeWorkRelationshipsAt } from "../life-queries";
@@ -7,7 +7,7 @@ import { mediaOutlets } from "../press/outlets";
 import { personTrait } from "../people-traits";
 import { homeStateUsps } from "../nationwide-world/state-executives";
 import { mediaOutletKey } from "../press/records";
-import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
+import { SYNTHETIC_MIND_IDS } from "../../core2/mind-catalog";
 import { latestPersonalityTendency } from "../queries";
 
 export interface NewsHabit {

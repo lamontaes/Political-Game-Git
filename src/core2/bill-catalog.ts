@@ -89,7 +89,7 @@ export function billCatalog(
                 : {
                     allowed: true,
                     warning: "none" as const,
-                    reason: "within this level's own power",
+                    reason: "within-own-power" as const,
                     source: "",
                   },
           };
@@ -116,9 +116,11 @@ export function provisionFor(input: {
   if (!policy) throw new Error(`No such catalog policy: ${input.policyId}`);
   if (!policy.operations.includes(input.operation))
     throw new Error(`${policy.name} doesn't support ${input.operation}`);
-  const dated = input.effectiveDate
-    ? { effectiveDate: input.effectiveDate }
-    : {};
+  const dated = {
+    ...(input.effectiveDate ? { effectiveDate: input.effectiveDate } : {}),
+    policyId: policy.id,
+    operation: input.operation,
+  };
   if (policy.kind === "policy-question")
     return {
       kind: "policy-question",

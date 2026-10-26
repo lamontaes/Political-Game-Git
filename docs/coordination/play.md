@@ -1,5 +1,7 @@
 # OPUS-PLAY: What you play
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Only OPUS-PLAY writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
 
 - **Owns:** The bench, the game screens on the new core, the nightly integration build, store screenshots.
@@ -48,6 +50,10 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 **Not in yet:** voting yourself (the game casts your ballot for you), the mayor deciding to sign or veto (the game decides for them), committee hearings, and the town visibly changing after a law passes. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
+## Dev mode (owner, Oct 14, 2026)
+
+Status in `docs/coordination/OPUS-PLAY.md` under "Dev mode".
+
 ## Audit fixes (owner, Oct 12, 9:15 a.m.: before new features)
 
 From `docs/reports/audit-2026-10-12/`, in BOARD's order.
@@ -69,7 +75,7 @@ From `docs/reports/audit-2026-10-12/`, in BOARD's order.
 - [x] **"Bring it up" in conversations (the bench side).** When you open a conversation, the other person first brings up the newest change they know of and who they believe caused it (OPUS-PEOPLE's `bringItUp`), and telling you passes it on. PEOPLE's engine covers only business closures so far. In Knappa, Oregon (seed open-a), no business closed in five months, so nobody had anything to bring up. The line will show the first time a closure reaches someone you talk to.
 - [x] **Every town opens, even with a stray kin move.** A town whose kin moves fall after the opening day (Barrigada, Guam, seed k-a) used to crash on the new opening. It now opens on the finance-only route (stopgap SG-PLAY-opening-economy-fallback; see Needs).
 - [ ] Councils, legislatures and Congress acting on their own (`world-legislating`). It's built, but off for now: it makes play about 11 times slower after its first session (see Needs).
-- [x] **What changed (first slice).** When a law takes effect while you play, Until needed stops with "A law took effect" and the What changed sheet opens. Day and Week open it too, and it's also in Politics. Each law shows its date and what it was before and after (a wage in dollars an hour), then who in town it reached and what it means for each, including you. In Botsford, Connecticut (seed wl-a), the state minimum wage went from $16.94 to $17.48 an hour on January 1, 2027. A wage amount reaches nobody by name yet: the law-effects records cover catalogued policies, not amounts, so pay rising at each job is the next slice (it needs OPUS-WORLD's `rerateJob` on a wage law).
+- [x] **What changed (first slice).** When a law takes effect while you play, Until needed stops with "A law took effect" and the What changed sheet opens. Day and Week open it too, and it's also in Politics. Each law shows its date and what it was before and after (a wage in dollars an hour), then who in town it reached and what it means for each, including you. In Botsford, Connecticut (seed wl-a), the state minimum wage went from $16.94 to $17.48 an hour on January 1, 2027. A wage amount reaches nobody by name yet: the law-effects records cover cataloged policies, not amounts, so pay rising at each job is the next slice (it needs OPUS-WORLD's `rerateJob` on a wage law).
 
 ## Queue from the CTO's relays (Oct 12 afternoon), in order
 
@@ -239,3 +245,32 @@ Newest first: one line per event (what changed, the measured result, what's next
 - Oct 12: **#3994 is green on `opus-play`.** The 25 new places have staging spots, and the anchors test passes all 538 checks over 163 places, including one existing newsroom seat that was failing. The spots live in `art/backdrops/staging.json` on this branch (commit "Art: staging spots for the 25 new places"); merge #3994 with this branch, or cherry-pick that commit onto it. Notes from the picture reading: the three "house-" pictures (Gulf Coast, New England, Northwest) are interiors, not exteriors; the convention-floor picture has the stage too far away for a speaker spot.
 
 - Oct 12, morning: `opus-play` made from pool/M0-bench + main + P15 people + P10 drives + P13-5 director; draft PR #4002. The bench rebuild had dropped the people and drives files and rows, and those are restored. The bench now builds the full stack: a town builds in 60 s with 40,135 people and 7 modules. Switching residents works (the one you leave finishes their day on their own choices), and the character answers its own choices while you skip. The golden path is green and the 8 bench tests pass. Next: M0-01 to M0-05 as golden-path commands, then staging spots for the 25 new places (#3994).
+
+## Dev mode: why panels (branch `play/dev-why-panels`)
+
+Dev mode's trace (`src/bench/dev-trace.ts`) now carries `why` panels (`src/bench/dev-why.ts`, rendered by `dev.mjs`), all read-only from records the engines keep:
+
+- **A vote** (a bill, or one member's `vote:` row): every member's recorded reasons from the legislature's own decision row (`MemberPosition`: views, opening views, constituents, sponsor, deal, lobby, party, wing, ambition, press, trait, consistency, bribe, total).
+- **A business closing** (`closure:` row, the `business.closed` event, or the business): the finance book (payroll, demand, other costs, sales and wages paid), the owner's loss record, the owner's recorded choice with its values, the closure row.
+- **A budget line change** (`budget-line-changed`): the measure, the bill or law behind it, and the line's history at that government (every change with a running total, then each budget's amount).
+- **A person**: the year's ledger from the cash journal by group (pay, taxes, rent, spending, other) and by source kind, hours from the work rollups, pay earned and paid, cash now.
+
+Engine gaps the panels name (file these against the engine, not here):
+
+- **Cash journal / decision-detail (OPUS-CORE):** receipt detail is kept only for followed people, so any other person's year is not itemized; the panel says so.
+- **Housing and purchase engines (OPUS-WORLD):** in the sampled world a working person's journal held pay, withholding, a leave-premium and transfers, but no rent or spending receipts, so rent and spending do not appear in the ledger. Either those engines write no journal receipt or the ledger's source kinds do not match; needs the owning engine to confirm.
+- **Work engine (OPUS-WORLD):** weekly rollups cover only the weeks still kept, so hours cannot cover a full year; the panel prints how many weeks it counted.
+- **Business engine (OPUS-WORLD):** a closing by insolvency, retirement or no successor writes the book's reason only, with no choice row and so no recorded values.
+- **Budgets engine (OPUS-GOV):** a starting line's change event names the law that set it, not a bill; the panel shows the law, and the history of the line starts there.
+- **OPUS-PEOPLE (Journal, owner's night review, Oct 14):** a generated life's Journal is empty at day 0 (`/api/journal` returns `[]` for a 17-year-old on the opening evening). It needs a first chapter written at the opening ("My life", the memoir's first chapter) and a moment for a law reaching the player or a local vote. Both are director moments with lines from the English bank; the bench cannot hand-write them.
+- **OPUS-PEOPLE and OPUS-WORDS (News headlines):** the News screen is a front page now (`play/news-front-page`), but only the opening's stories carry an engine headline and lede. Every other record (a vote, an adopted budget, a law taking effect, an election result) needs the English engine's one-line headline from its own record; today the screen shows date, kind and who it was about.
+- **OPUS-PEOPLE and OPUS-WORLD (Who you are, Money):** the five temperament dimensions and the views engine's political label are shown in words, but single-issue stances (`desiredChange`) and the household's home ("your parents' house in <town>") have no word bank: a dwelling kind is a raw slug (`house-suburban-living`).
+- **OPUS-GOV (Politics hub):** office rows need a `branch` field (legislative, executive, judicial) for the Government browser's branch picker, and a `playable` flag for the filing menu (register item 5). Government lists only the seats the office table returns for the player's town; State and Federal bodies beyond them are not reachable.
+
+## Kit 13 controls (branch `play/kit13-controls`)
+
+The play page now uses Kit 13's approved control set (`docs/ui/kit13/APPROVED-2026-10-04.md`), replacing Kit 12: brass corner ornaments on the panel (four SVG files, `public/ui/kit13/corner-*.svg`); buttons as dark glass with fine grain, Continue (`.primary`) and Back (plain) in two sizes, the brass corner mark only while a button is `.active`, `aria-pressed` or held down; tabs with the open one a raised glass box; gold line icons for calendar, money and people; search (icon and text at rest, thin box on hover, solid box with caret clicked); dropdown with no chevron; gold-outline checkboxes with a gold check; brass-handle slider; brass-frame progress bar with a dark-to-light gold fill; thin light close X. Removed: the red underline on primary actions, the underlined tabs, every thin gold rule above or below a section, the brass inset bars, the round brass ring icons. **No scrolling inside a menu:** the sheet, the polling-place ballot and the news reader page (`pageIn` in `play.mjs`: Back and Continue turn pages; columns page sideways, a plain list pages at a row).
+
+Before and after screenshots per control, from a played new game, are in `docs/reports/kit13-controls-2026-10-14/`. The slider has no use on the play page today, so its screenshot is a specimen on a panel. The dev bench (`/` and `/dev`) is a developer tool and keeps its own plain look.
+
+Not done: the Pin icon and Return-to-character icon have no place on the page yet; the politics and travel ring icons keep the old line style (no approved icon exists for them); the lie scales keep their Kit 12 art; the opening's letterbox and the glossary tip were restyled only through the shared panel and button classes.

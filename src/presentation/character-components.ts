@@ -1,10 +1,10 @@
 import { sha256Text } from "./sha256";
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "../core2/kernel/ids";
 import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
   type PersonAppearance,
 } from "../simulation/person-appearance";
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "../core2/kernel/rng";
 import {
   compileGarmentFitMatrix,
   compileWarpBands,

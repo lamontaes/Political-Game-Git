@@ -6,7 +6,7 @@ import {
   RENT_STABILIZATION_ROW,
 } from "./rent-stabilization-row";
 import { townLeases, rentPriceLevel } from "../living-world/town-rent";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { evaluateLawAmount } from "../law-consequence-amount";
 import type {
   LawAmountExpression,
@@ -30,7 +30,7 @@ import { organizationProfileAt } from "../life-queries";
 import {
   recordedStudyPeriodTuitionPrice,
   recordedTuitionFreezePrice,
-} from "../../education/tuition-prices";
+} from "../tuition-prices";
 import {
   TUITION_FREEZE_ROW,
   TUITION_COVERAGE_PREDICATE,

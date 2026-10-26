@@ -1,4 +1,4 @@
-import { ageOnDate } from "../dates";
+import { ageOnDate } from "../../core2/kernel/dates";
 import type { EntityId, EventVisibility, IsoDate, World } from "../types";
 import {
   PROVISIONAL_DISASTER_POLICY,

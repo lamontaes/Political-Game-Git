@@ -8,7 +8,6 @@ import type {
   ModuleStateSnapshot,
 } from "./module-state";
 import type { ModuleCalendar, ModuleCalendarWork } from "./module-calendar";
-import type { VoterGroup, VoterGroups } from "./voter-groups";
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { CashActSelection } from "./act-cash";
 import type {
@@ -21,7 +20,6 @@ import type {
   WorkPayrollLedger,
   WorkEarnedPayPeriod,
 } from "./work-pay-period";
-import type { GeneratedHouseholdSourceBasis } from "./generated-household-source";
 import type {
   LegacyWorkCashInput,
   LegacyWorkCashResult,
@@ -65,8 +63,6 @@ export interface Source {
   citation: string;
   asOf: IsoDate;
   estimatedFrom?: string;
-  /** Fresh default household provenance; never payment authority. */
-  generatedHouseholdBasis?: GeneratedHouseholdSourceBasis;
   /** External-data vintage of an opening generation prior, not its publication date or actor knowledge. */
   generationPriorVintage?: string;
 }
@@ -508,6 +504,8 @@ export interface WorkCommitmentInput {
   personId: PersonId;
   organizationId: string;
   startsAt: IsoDate;
+  /** When the person first held this job, where that is earlier than this commitment: a counted worker filled in keeps the tenure their records gave them, while work and pay run from `startsAt`. */
+  heldSince?: IsoDate;
   endsAt?: IsoDate;
   anchorDate: IsoDate;
   periodDays: number;
@@ -616,7 +614,7 @@ export interface ActivityTimeTotal {
   source: Source;
 }
 export interface WorkRuntime {
-  /** Dated pay changes by job (core2-api-v12 rerateJob), newest last. */
+  /** Dated pay changes by job (rerateJob), newest last. */
   payChanges: Map<
     string,
     readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
@@ -720,7 +718,6 @@ export interface WorkData {
 export interface CoreInput {
   /** Explicit exact-version module snapshots; absent tables start empty. */
   moduleState?: readonly ModuleStateSnapshot[];
-  voterGroups?: readonly VoterGroup[];
   seed: string;
   startedAt: IsoDate;
   people: readonly PersonInput[];
@@ -917,6 +914,20 @@ export interface SalesReceiptNotice {
   counted: boolean;
 }
 
+/** One payday of the counted workers an employer pays (the residents' merged wage flow), for modules' onCountedWages. */
+export interface CountedWagesNotice {
+  /** The flow's payday id: the flow and the date. */
+  id: string;
+  date: IsoDate;
+  employerId: string;
+  placeId: PlaceId;
+  /** The wages paid to the counted workers this payday, before any withholding. */
+  paidMinor: number;
+  /** The counted workers (people) the flow pays. */
+  workers: number;
+  periodDays: number;
+}
+
 export interface CoreModule {
   id: string;
   state?: ModuleStateDefinition;
@@ -943,11 +954,24 @@ export interface CoreModule {
   ) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
   onAfterDay?: (api: CoreAPI) => void;
+  /** A household's people have just been filled in from the counts (or returned to them and filled in again): its engines move what they kept on the counted household to the full one. */
+  onFillIn?: (
+    api: CoreAPI,
+    filled: {
+      readonly householdId: string;
+      readonly memberIds: readonly string[];
+    },
+  ) => void;
   /**
    * Called after every paid sale to a business (finance purchase contracts and
    * the residents' merged purchases), e.g. to remit sales tax from the seller.
    */
   onSalesReceipt?: (api: CoreAPI, sale: SalesReceiptNotice) => void;
+  /**
+   * Called after the counted workers of an employer are paid on a payday,
+   * the counted side of onWorkPayroll (e.g. the employer's payroll tax share).
+   */
+  onCountedWages?: (api: CoreAPI, notice: CountedWagesNotice) => void;
   onDay?: (
     api: CoreAPI,
     decide: (
@@ -1021,7 +1045,6 @@ export interface CoreModule {
 export interface CoreAPI {
   moduleState(moduleId: string): ModuleStateStore;
   moduleCalendar(moduleId: string): ModuleCalendar;
-  voterGroups(): VoterGroups;
   /** Named accounts, transfers and obligations through the one journal (M0-09). */
   accounts(): Accounts;
   version: string;
@@ -1038,21 +1061,29 @@ export interface CoreAPI {
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
-  /** core2-api-v16: reduces recorded arrears by a payment already moved through the ledger. */
+  /** Reduces recorded arrears by a payment already moved through the ledger. */
   reduceStandingArrears(contractId: string, paidMinor: number): void;
-  /** core2-api-v15: a standing obligation's amount from its next due date. */
+  /** A household filled in from the counts takes up the arrears its group had run up on the counted lease. */
+  carryStandingArrears(
+    contractId: string,
+    owedMinor: number,
+    since: string,
+  ): void;
+  /** A standing obligation's amount from its next due date. */
   setStandingContractAmount(contractId: string, amountMinor: number): void;
-  /** core2-api-v14: a standing obligation stops billing today; its arrears stay owed. */
+  /** A standing obligation stops billing today; its arrears stay owed. */
   endStandingContract(contractId: string): void;
-  /** core2-api-v13: makes an approved line the open business's credit for its bills and payroll. */
+  /** Makes an approved line the open business's credit for its bills and payroll. */
   attachBusinessCredit(organizationId: string, facilityId: string): void;
-  /** core2-api-v12: admits one job, its commitment and its payroll calendar mid-run. */
+  /** Admits one job, its commitment and its payroll calendar mid-run. */
   startJob(
     job: JobInput,
     commitment: WorkCommitmentInput,
     calendar: WorkPayrollCalendarInput,
   ): void;
-  /** core2-api-v12: ends one current job today; earned wages stay owed for the next payday. */
+  /** A post paid a salary, not by the hour: the job with no shift hours (official-pay posts the pay). */
+  startSalariedPost(job: JobInput): void;
+  /** Ends one current job today; earned wages stay owed for the next payday. */
   endJob(jobId: string, sourceId: string): void;
   /** Accrues to today at the old rate, then applies the new annual rate from today on. */
   repriceCreditFacility(
@@ -1076,6 +1107,12 @@ export interface CoreAPI {
     requestedMinor: number,
     reasonKey: string,
     sourceId: string,
+  ): CreditReceipt;
+  /** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+  drawWageFlowCredit(
+    facilityId: string,
+    requestedMinor: number,
+    flowId: string,
   ): CreditReceipt;
   reviewBusiness(organizationId: string): void;
   closeEmployer(
@@ -1129,6 +1166,8 @@ export interface CoreAPI {
    */
   meet(actorId: PersonId, otherId: PersonId, encounter: Encounter): boolean;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
+  /** The person leaves the organization; nothing happens if they were not in it. */
+  leave(personId: PersonId, organizationId: string): void;
   emit(event: CoreEventInput): void;
   /** External consumers can subscribe without owning or scanning world state. */
   subscribeEvents(
@@ -1161,6 +1200,7 @@ export interface CoreAPI {
     reason: DecisionResult,
   ): string;
   stopgap(id: string): void;
+  /** An explicitly undefined choice-eligibility flag restores the default rule. */
   updatePerson(
     personId: PersonId,
     changes: Partial<
@@ -1174,8 +1214,26 @@ export interface CoreAPI {
         | "jobId"
         | "tier"
         | "lastActDate"
+        | "discretionaryEligibleV1"
+        | "livingCostDailyMinor"
+        | "traits"
       >
     >,
+  ): void;
+  /**
+   * The new game's chosen identity for the controlled player, on the day the
+   * world opens: name, birth date and look fields (gender, appearance). Only
+   * the controlled player, only before any day has passed; the birth date
+   * may not be in the future. The life's generated past is not rewritten.
+   */
+  chooseIdentityV1(
+    personId: PersonId,
+    identity: {
+      readonly givenName: string;
+      readonly familyName: string;
+      readonly birthDate: IsoDate;
+      readonly looks: Readonly<Record<string, string>>;
+    },
   ): void;
   /**
    * People leaving town for another place (moves): each takes the new place
@@ -1189,6 +1247,33 @@ export interface CoreAPI {
     placeId: PlaceId;
     countyId?: PlaceId;
     householdId: string;
+    source: Source;
+  }): void;
+  /**
+   * People change household in the same town: they join `householdId` (an
+   * existing household, or a new one made here at their place) and leave the
+   * households they were in. Each moving household's share of the everyday
+   * spending follows them, the home obligations they shared (the lease) are
+   * paid by the household they now belong to, and one left with no payer
+   * ends. A household left with no member keeps its record and ends its own
+   * obligations; an owned home is for the caller to sell first. All movers
+   * must be living full people at the same place.
+   */
+  changeHouseholdV1(input: {
+    personIds: readonly PersonId[];
+    householdId: string;
+    source: Source;
+  }): void;
+  /**
+   * Two living adults become partners (`together`), or stop being: a partner
+   * link is added or ended, each person's relatives and past facts record it
+   * with the date, and the event `family.partnered` or `family.separated` is
+   * emitted for the engines (the births engine takes up a new couple). Where
+   * the two live is the caller's business (`changeHouseholdV1`).
+   */
+  setPartnersV1(input: {
+    personIds: readonly [PersonId, PersonId];
+    together: boolean;
     source: Source;
   }): void;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
@@ -1228,4 +1313,6 @@ export interface CoreAPI {
   updateDrive(personId: PersonId, drive: Drive): void;
   markOrganized(personId: PersonId, topic: string): void;
   requestCallback(event: CoreEventInput): void;
+  /** Close an answered (or moot) callback; the approach gate reopens. */
+  resolveCallback(callbackId: string): void;
 }

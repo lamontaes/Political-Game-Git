@@ -5,42 +5,43 @@
  * chambers and the governor; what passes becomes law in force on the state's
  * own effective date.
  */
+import questionScopes from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
+import { wireItem } from "./press-topics";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { enactLaw, openLaws, LAWS_MODULE_ID } from "./modules/laws";
+import { enactLaw, lawChain, openLaws, LAWS_MODULE_ID } from "./modules/laws";
 import { OFFICES_MODULE_ID, openOffices } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
-import { openLegislature } from "./modules/legislature";
+import { meetingRule, meetsOn } from "./office-day-calendar";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { openLegislature, type CommitteeRecord } from "./modules/legislature";
 import { budgetsOf, openBudgets } from "./modules/budgets";
-import { effectsOn, openLawEffects } from "./modules/law-effects";
+import { openLawReach, reachOn } from "./law-reach/host";
+import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 import {
   openWorldLegislating,
-  congressAgendaDate,
-  sessionAgendaDates,
+  legislativeSessionsOf,
   sessionsOf,
   answerIn,
+  windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`world-legislating:${Date.now()}`).digest("hex");
-// Places whose legislature's 2026 session reaches its floor day after the start.
-const states = [...lifePlaceStateIdentities()]
+// Places whose legislature sits in 2026 after the start.
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
-  .filter((k) => sessionAgendaDates(k).some((d) => d > START))
+  .filter((k) => windowsIn(k, 2026).some((w) => w.adjournAt > START))
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
@@ -48,13 +49,13 @@ function pick<T>(list: readonly T[], salt: string): T {
 }
 
 describe("M3-10 other governments legislate", () => {
-  it("the state legislature passes its own laws at its session's end and they take effect", () => {
+  it("the state legislature introduces and votes its bills across its session, and what passes takes effect", () => {
     const tried: string[] = [];
     let report: Record<string, unknown> | null = null;
     for (let attempt = 0; attempt < 6 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -76,15 +77,154 @@ describe("M3-10 other governments legislate", () => {
       openCampaigns(core);
       openRecord(core);
       openLegislature(core);
-      openLawEffects(core);
+      openLawReach(core);
       openWorldLegislating(core);
       const api = coreAPI(core);
-      const end = [...sessionAgendaDates(state)]
-        .filter((d) => d > START)
-        .sort()[0]!;
+      const window = windowsIn(state, 2026).find((w) => w.adjournAt > START)!;
+      const end = window.adjournAt;
       advanceCore(core, end);
-      const session = sessionsOf(api).find((s) => s.stateKey === state);
+      const session = legislativeSessionsOf(api).find(
+        (s) => s.jurisdiction === state,
+      );
       expect(session, `${state} ${key}: no session record`).toBeDefined();
+      // Bills come in over the session, in both chambers' names, and the
+      // floor takes them up week by week, not on one day.
+      const bills = api
+        .moduleState("core2-legislature-v1")
+        .table("bills")
+        .rows() as unknown as { id: string; introduced: string }[];
+      const introduced = session!.filings.flatMap((f) =>
+        f.billId ? [bills.find((b) => b.id === f.billId)!.introduced] : [],
+      );
+      if (introduced.length > 1)
+        expect(new Set(introduced).size).toBeGreaterThan(1);
+      const voted = session!.bills.filter((b) => b.fate === "voted");
+      if (voted.length > session!.perWeek)
+        expect(new Set(voted.map((b) => b.decidedOn)).size).toBeGreaterThan(1);
+      // The governor's signature, veto or the override is a public record the
+      // press takes on its wire, like the floor's roll call.
+      const acts = [...core.durableLog.values()].filter(
+        (e) => e.kind === "executive-action",
+      );
+      for (const bill of session!.bills.filter((b) =>
+        ["signed", "vetoed", "overridden"].includes(b.status),
+      )) {
+        const act = acts.find(
+          (e) =>
+            e.facts?.number === bill.number &&
+            String(e.facts?.billId).includes(state),
+        );
+        expect(act?.facts?.action, `${bill.number}: no executive record`).toBe(
+          bill.status,
+        );
+        expect(
+          wireItem(api, act!, {
+            placeId: lawChain(api).townPlaceId,
+            stateKey: state,
+          }),
+          `${bill.number}: not on the press wire`,
+        ).not.toBeNull();
+      }
+      // A section traded for a vote is in the bill, on the record, and the
+      // member who took it voted for the bill; a poison pill's mover against.
+      const amendments = [...core.durableLog.values()].filter(
+        (e) => e.kind === "bill-amendment",
+      );
+      // Every stage's next amendment starts from the support left by the
+      // previous one, not the opening tally plus one vote per deal.
+      const support = new Map<string, number>();
+      for (const amendment of amendments) {
+        const facts = amendment.facts!;
+        const stage = `${facts.billId}:${facts.chamber}:${facts.stage}`;
+        const before = Number(facts.supportBefore);
+        const after = Number(facts.supportAfter);
+        expect(Number.isFinite(before), amendment.id).toBe(true);
+        expect(Number.isFinite(after), amendment.id).toBe(true);
+        if (support.has(stage))
+          expect(before, amendment.id).toBe(support.get(stage));
+        support.set(stage, after);
+        if (facts.kind === "trade-amendment") {
+          expect(Number(facts.memberBefore), amendment.id).toBeLessThanOrEqual(
+            0,
+          );
+          expect(Number(facts.memberAfter), amendment.id).toBeGreaterThan(0);
+        }
+      }
+      const committees = api
+        .moduleState("core2-legislature-v1")
+        .table("committees")
+        .rows() as unknown as CommitteeRecord[];
+      for (const committee of committees) {
+        expect(committee.votes.length, committee.id).toBe(
+          committee.heard ? committee.memberIds.length : 0,
+        );
+        expect(committee.yes, committee.id).toBe(
+          committee.votes.filter((v) => v.vote === "yes").length,
+        );
+        expect(committee.no, committee.id).toBe(
+          committee.votes.filter((v) => v.vote === "no").length,
+        );
+        for (const vote of committee.votes) {
+          expect(committee.memberIds, committee.id).toContain(vote.memberId);
+          expect(vote.position.memberId).toBe(vote.memberId);
+          const expected =
+            vote.position.total > 0
+              ? "yes"
+              : vote.position.total < 0
+                ? "no"
+                : "abstain";
+          expect(vote.vote, committee.id).toBe(expected);
+        }
+        const after = support.get(
+          `${committee.billId}:${committee.chamber}:committee`,
+        );
+        if (after !== undefined)
+          expect(committee.yes, committee.id).toBe(after);
+      }
+      const votes = api.moduleState("core2-legislature-v1").table("votes");
+      for (const bill of api
+        .moduleState("core2-legislature-v1")
+        .table("bills")
+        .rows() as unknown as {
+        id: string;
+        status: string;
+        provisions: { question?: string }[];
+        deals: { memberId: string; kind: string; terms: string }[];
+      }[])
+        for (const deal of bill.deals.filter((d) =>
+          ["trade-amendment", "poison-pill"].includes(d.kind),
+        )) {
+          const question = deal.terms.split(" ")[1];
+          expect(
+            bill.provisions.some((p) => p.question === question),
+            `${bill.id}: ${deal.terms} not in the bill`,
+          ).toBe(true);
+          const record = amendments.find(
+            (e) =>
+              e.facts?.billId === bill.id && e.facts?.movedBy === deal.memberId,
+          );
+          expect(record, `${bill.id}: no amendment record`).toBeDefined();
+          const vote = (
+            votes.get(`vote:${bill.id}:${deal.memberId}`) as unknown as
+              { vote: string } | undefined
+          )?.vote;
+          // A section taken in markup on a bill that died before its floor
+          // vote has no floor vote to check.
+          if (
+            vote === undefined &&
+            record!.facts?.stage === "committee" &&
+            bill.status === "failed"
+          )
+            continue;
+          // A pill adopted after a trade may break it.
+          const pilled = bill.deals.some((d) => d.kind === "poison-pill");
+          expect(
+            deal.kind === "trade-amendment"
+              ? ["yes", "absent", ...(pilled ? ["no"] : [])]
+              : ["no", "absent"],
+            `${bill.id}: ${deal.kind} by ${deal.memberId} voted ${vote}`,
+          ).toContain(vote);
+        }
       const passed = session!.bills.filter((b) =>
         ["enacted", "signed", "overridden"].includes(b.status),
       );
@@ -97,7 +237,8 @@ describe("M3-10 other governments legislate", () => {
         .map((r) => (r as unknown as { effectiveDate: string }).effectiveDate)
         .sort();
       expect(effective.length).toBeGreaterThanOrEqual(passed.length);
-      advanceCore(core, effective[effective.length - 1]!);
+      const last = effective[effective.length - 1]!;
+      if (last > core.date) advanceCore(core, last);
       for (const bill of passed) {
         const rows = laws.query("bySeries", [state, bill.question]);
         expect(rows.length, `${bill.number} ${bill.question}`).toBeGreaterThan(
@@ -106,15 +247,15 @@ describe("M3-10 other governments legislate", () => {
         expect(answerIn(api, state, bill.question)).not.toBeNull();
       }
       const reached = [...core.people.keys()].filter((id) =>
-        effectsOn(api, id).some((e) =>
-          passed.some((b) => b.question === e.question),
-        ),
+        reachOn(api, id).some((e) => passed.some((b) => b.question === e.key)),
       );
       report = {
         seed,
         state,
         place: key,
         sessionEnd: end,
+        introducedOnDays: new Set(introduced).size,
+        votedOnDays: new Set(voted.map((b) => b.decidedOn)).size,
         effective,
         leader: session!.leader,
         bills: session!.bills,
@@ -125,12 +266,12 @@ describe("M3-10 other governments legislate", () => {
     govReport("world-legislating", JSON.stringify(report));
   }, 120_000);
 
-  it("Congress passes its majority's agenda at its year-end votes and the acts reach the town", () => {
-    // Open the world shortly before Congress's floor day.
-    const start = "2026-11-30";
+  it("Congress sits from January 3, introducing and voting its bills across the session", () => {
+    // Open the world the day before Congress convenes.
+    const start = "2026-01-02";
     const state = pick(states, "congress:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -150,88 +291,159 @@ describe("M3-10 other governments legislate", () => {
     openCampaigns(core);
     openRecord(core);
     openLegislature(core);
-    openLawEffects(core);
+    openLawReach(core);
     openWorldLegislating(core);
     const api = coreAPI(core);
-    const day = congressAgendaDate(2026);
-    advanceCore(core, day);
-    const session = sessionsOf(api).find((s) => s.stateKey === "US");
-    expect(
-      session,
-      `${state} ${key}: no Congress session record`,
-    ).toBeDefined();
+    advanceCore(core, "2026-05-01");
+    const session = legislativeSessionsOf(api).find(
+      (s) => s.jurisdiction === "US",
+    );
+    expect(session, `${state} ${key}: no Congress session`).toBeDefined();
+    expect(session!.conveneAt).toBe("2026-01-03");
+    expect(session!.filings.length).toBeGreaterThan(0);
+    for (const filing of session!.filings)
+      expect(
+        (questionScopes.questions as Record<string, { levels: string[] }>)[
+          filing.question
+        ]?.levels,
+        `${filing.question}: Congress filed another level's question`,
+      ).toContain("federal");
+    const voted = session!.bills.filter((b) => b.fate === "voted");
+    // No vote before committee has had the bill.
+    for (const b of voted)
+      expect(b.decidedOn >= "2026-01-24", b.number).toBe(true);
+    if (voted.length > session!.perWeek)
+      expect(new Set(voted.map((b) => b.decidedOn)).size).toBeGreaterThan(1);
     const passed = session!.bills.filter((b) =>
       ["enacted", "signed", "overridden"].includes(b.status),
     );
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-    const effective = passed
-      .flatMap((b) => laws.query("bySeries", ["US", b.question]))
-      .map((r) => (r as unknown as { effectiveDate: string }).effectiveDate)
-      .sort();
-    expect(effective.length).toBe(passed.length);
-    if (effective.length) advanceCore(core, effective[effective.length - 1]!);
     for (const bill of passed)
-      expect(answerIn(api, "US", bill.question), bill.question).not.toBeNull();
-    const reached = [...core.people.keys()].filter((id) =>
-      effectsOn(api, id).some((e) =>
-        passed.some((b) => b.question === e.question),
-      ),
-    );
+      expect(
+        laws.query("bySeries", ["US", bill.question]).length,
+        bill.question,
+      ).toBeGreaterThan(0);
     govReport(
       "world-legislating-congress",
       JSON.stringify({
         seed,
         state,
         place: key,
-        day,
-        effective,
+        filed: session!.filings.length,
+        voted: voted.length,
+        votedOnDays: new Set(voted.map((b) => b.decidedOn)).size,
         leader: session!.leader,
         bills: session!.bills,
-        residentsReached: reached.length,
       }),
     );
   });
 
-  it("the town's council and county board bring their own ordinances on their schedule", () => {
-    const state = pick(states, "local:state");
-    const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
-        stateJurisdictionKey: state,
-        scope: "locality",
-      }),
-    ].sort((a, b) => a.key.localeCompare(b.key));
-    const key = pick(places, "local:place").key;
-    const core = createLifeCore(
-      buildPopulation({
-        seed,
-        placeKey: key,
-        startedAt: START,
-        minimumPeople: 200,
-      }),
-    );
-    openLaws(core);
-    openOffices(core, seed);
-    openElections(core);
-    openCampaigns(core);
-    openRecord(core);
-    openLegislature(core);
-    openLawEffects(core);
-    openWorldLegislating(core);
+  it(`the town's council and county board bring their own ordinances on their schedule, seed ${seed}`, () => {
+    // A locality with no council and no county board (a territory's
+    // subdistrict, a place its county alone governs) has no ordinances to
+    // bring: draw again, naming why each was passed over.
+    const skipped: string[] = [];
+    let drawn: {
+      state: string;
+      key: string;
+      core: ReturnType<typeof createLifeCore>;
+      bodies: { id: string; kind: string }[];
+      expected: number;
+    } | null = null;
+    for (let attempt = 0; attempt < 8 && !drawn; attempt += 1) {
+      const salt = attempt ? `:${attempt}` : "";
+      const state = pick(states, `local:state${salt}`);
+      const places = [
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ].sort((a, b) => a.key.localeCompare(b.key));
+      const key = pick(places, `local:place${salt}`).key;
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: key,
+          startedAt: START,
+          minimumPeople: 200,
+        }),
+      );
+      openLaws(core);
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openRecord(core);
+      openLegislature(core);
+      openLawReach(core);
+      openWorldLegislating(core);
+      const api = coreAPI(core);
+      const bodies = (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .rows() as unknown as {
+          id: string;
+          kind: string;
+        }[]
+      ).filter((o) => o.kind === "council" || o.kind === "county-board");
+      // Every body meets at each of its regular meetings, on its own rule
+      // (the same one the office-day calendar reads).
+      let expected = 0;
+      for (const body of bodies) {
+        const rule = meetingRule(api, body.id, lawChain(api).countyGeoids[0]);
+        if (!rule) continue;
+        for (
+          let day = addDays(makeIsoDate(START), 1);
+          day <= "2026-04-15";
+          day = addDays(day, 1)
+        )
+          if (meetsOn(rule, day)) expected += 1;
+      }
+      if (!bodies.length) {
+        skipped.push(`${state} ${key}: no council or county board office`);
+        continue;
+      }
+      if (!expected) {
+        skipped.push(
+          `${state} ${key}: its ${bodies.map((b) => b.kind).join(", ")} has no regular meeting by April 15`,
+        );
+        continue;
+      }
+      drawn = { state, key, core, bodies, expected };
+    }
+    if (!drawn)
+      throw new Error(
+        `no drawn locality has a council or county board that meets (seed ${seed}): ${skipped.join("; ")}`,
+      );
+    const { state, key, core, bodies, expected } = drawn;
     const api = coreAPI(core);
-    const bodies = (
-      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
-        id: string;
-        kind: string;
-      }[]
-    ).filter((o) => o.kind === "council" || o.kind === "county-board");
     advanceCore(core, "2026-04-15");
     const meetings = sessionsOf(api).filter((s) =>
       bodies.some(
         (b) => b.id === (s as { bodyOfficeId?: string }).bodyOfficeId,
       ),
     );
-    // Every body met once by now, each meeting on the record with its bills.
-    expect(meetings.length, `${state} ${key}`).toBe(bodies.length);
+    // Each meeting is on the record with its bills; each took up what its
+    // agenda time allowed, and no change it voted down came back within the
+    // wait.
+    const where = `${state} ${key}, seed ${seed}; passed over: ${skipped.join("; ") || "none"}`;
+    expect(meetings.length, where).toBe(expected);
+    expect(expected, where).toBeGreaterThan(0);
+    const defeated = new Map<string, string>();
+    for (const meeting of [...meetings].sort((a, b) =>
+      a.date.localeCompare(b.date),
+    )) {
+      const voted = meeting.bills.filter((b) => b.fate === "voted");
+      expect(voted.length).toBeLessThanOrEqual(meeting.floorTime);
+      for (const bill of voted) {
+        const id = `${meeting.bodyOfficeId}|${bill.question}|${bill.change}`;
+        expect(defeated.has(id), `${id} came back`).toBe(false);
+        if (
+          !["enacted", "overridden", "awaiting-signature"].includes(bill.status)
+        )
+          defeated.set(id, meeting.date);
+      }
+    }
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
     for (const meeting of meetings)
       for (const bill of meeting.bills.filter((b) =>
@@ -247,16 +459,19 @@ describe("M3-10 other governments legislate", () => {
         seed,
         state,
         place: key,
+        skipped,
         bodies: bodies.map((b) => b.kind),
         meetings,
       }),
     );
-  });
+    // Up to eight towns built and played to April 15 when the first draws
+    // have no local body: each takes about half a minute.
+  }, 300_000);
 
   it("Congress votes the federal budget on the fiscal year's first day, the Senate by cloture", () => {
     const state = pick(states, "budget:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -299,7 +514,7 @@ describe("M3-10 other governments legislate", () => {
   it("a federal act with no date of its own takes effect the day it's signed and reaches the town", () => {
     const state = pick(states, "federal-now:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -314,7 +529,7 @@ describe("M3-10 other governments legislate", () => {
       }),
     );
     openLaws(core);
-    openLawEffects(core);
+    openLawReach(core);
     const api = coreAPI(core);
     const question =
       "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work";
@@ -327,9 +542,11 @@ describe("M3-10 other governments legislate", () => {
       measureId: "test-federal-act",
       citation: "Gozlon-Peretz v. United States, 498 U.S. 395 (1991)",
     });
-    const reached = [...core.people.keys()].filter((id) =>
-      effectsOn(api, id).some((e) => e.question === question),
-    );
+    // It binds the town's employers and landlords (law-reach's records).
+    const reached = api
+      .moduleState(REACH_A_MODULE_ID)
+      .table("reach")
+      .query("byKey", [question, null]);
     expect(reached.length, `${state} ${key}`).toBeGreaterThan(0);
   });
 });
@@ -338,15 +555,19 @@ describe("a session already over when the world opens", () => {
   // Regression (wire-all-modules, Oct 12): a game opening in the fall found
   // its state's 2026 session over and never scheduled another, so the state
   // legislature passed nothing all year.
-  it("comes back on the same day the next year", () => {
+  it("opens its next session on the calendar's convening day", () => {
     const opened = "2026-10-12";
-    const over = [...lifePlaceStateIdentities()]
+    const over = [...corePlaceStateIdentities()]
       .map((s) => s.jurisdictionKey)
-      .filter((k) => sessionAgendaDates(k).some((d) => d <= opened))
+      .filter(
+        (k) =>
+          windowsIn(k, 2026).length > 0 &&
+          windowsIn(k, 2026).every((w) => w.adjournAt <= opened),
+      )
       .sort();
     const state = pick(over, "over:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -366,15 +587,15 @@ describe("a session already over when the world opens", () => {
     openCampaigns(core);
     openRecord(core);
     openLegislature(core);
-    openLawEffects(core);
+    openLawReach(core);
     openWorldLegislating(core);
     const calendar = coreAPI(core).moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
-    for (const date of sessionAgendaDates(state).filter((d) => d <= opened)) {
-      const next = `${Number(date.slice(0, 4)) + 1}${date.slice(4)}`;
-      expect(
-        calendar.get(`session-end:${state}:${next}`)?.date,
-        `seed ${seed}, ${state} place ${key}`,
-      ).toBe(next);
-    }
+    const next = [2027, 2028]
+      .flatMap((y) => windowsIn(state, y))
+      .sort((a, b) => a.conveneAt.localeCompare(b.conveneAt))[0]!;
+    expect(
+      calendar.get(`session-open:${state}:${next.conveneAt}`)?.date,
+      `seed ${seed}, ${state} place ${key}`,
+    ).toBe(next.conveneAt);
   });
 });

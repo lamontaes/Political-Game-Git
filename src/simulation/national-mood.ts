@@ -6,7 +6,7 @@ import {
 } from "./campaign-support";
 import { isElectionContestPending } from "./election-contests";
 import { currentPresidentOf } from "./crisis/offices";
-import { ageOnDate, daysBetween } from "./dates";
+import { ageOnDate, daysBetween } from "../core2/kernel/dates";
 import { currentFederalTenure } from "./federal-tenures";
 import { nationalOfficeHolder } from "./national-election-consumer";
 import { viewOfOfficial } from "./official-view-reads";

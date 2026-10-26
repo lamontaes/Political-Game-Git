@@ -12,7 +12,6 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { lawInForce, openLaws } from "./modules/laws";
 import { openOffices, townSeats } from "./modules/offices";
 import {
@@ -22,13 +21,8 @@ import {
   openContests,
   openElections,
   type ContestRow,
-  type FilingRow,
 } from "./modules/elections";
-import {
-  circulatePetition,
-  knockDoors,
-  openCampaigns,
-} from "./modules/campaigns";
+import { knockDoors, openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
 import { openVoting, resultOf } from "./modules/voting";
 import { openRecord } from "./modules/record";
@@ -41,11 +35,7 @@ import {
   openLegislature,
 } from "./modules/legislature";
 import { partySide } from "./appointments";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -55,7 +45,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter(
     (k) => !["US-AS", "US-GU", "US-MP", "US-VI", "US-PR", "US-DC"].includes(k),
@@ -68,7 +58,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
     for (let attempt = 0; attempt < 10; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -93,9 +83,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
       // The player: an adult who qualifies for the seat (residency, voter
       // registration, the fee), the wealthiest first so the fee is in reach.
       const core = createLifeCore(
-        withCountedVoterGroups(
-          collapseToTwoLevels({ ...full, playerId: you.id }),
-        ),
+        collapseToTwoLevels({ ...full, playerId: you.id }),
       );
       openLaws(core);
       openOffices(core, seed);
@@ -126,7 +114,12 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
         continue;
       }
       const seat = seats.find((s) => s.seat.id === contest.seatId)!;
-      const runner = [...core.people.values()]
+      const holder = seat.holder;
+      // Run against the holder: the other major party's label, which takes
+      // membership in it, else as an independent.
+      const against =
+        partySide(holder?.party) > 0 ? "Democratic" : "Republican";
+      const wealthiest = [...core.people.values()]
         .filter(
           (p) =>
             p.alive &&
@@ -134,62 +127,30 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
         )
         .sort(
           (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-        )
-        .find((p) =>
-          checkEligibility(api, p.id, contest.id, "party").every(
-            (c) => c.met || c.rule === "fee" || c.rule === "signatures",
-          ),
         );
+      const qualified = (label: string | null) =>
+        wealthiest.find((p) =>
+          checkEligibility(api, p.id, contest.id, label).every((c) => c.met),
+        );
+      const member = qualified(against);
+      const runner = member ?? qualified(null);
+      const party = member ? against : null;
       if (!runner) {
         tried.push("no resident qualifies");
         continue;
       }
       core.playerId = runner.id;
-      const holder = seat.holder;
-      // Run against the holder: the other major party.
-      const party = partySide(holder?.party) > 0 ? "Democratic" : "Republican";
       const filed = fileCandidacy(api, {
         personId: runner.id,
         contestId: contest.id,
         platform: [],
-        payFee: true,
         party,
       });
       if (filed.status === "refused") {
         tried.push(`refused: ${filed.unmet.map((u) => u.rule).join(",")}`);
         continue;
       }
-      let filing = filed.filing;
-      // Walk the petition door to door, four hours a day, until it fills or
-      // filing closes.
-      for (
-        let day = 0;
-        filing.status === "gathering-signatures" &&
-        api.state.date <= contest.filingDeadline &&
-        day < 60;
-        day += 1
-      ) {
-        circulatePetition(api, {
-          filingId: filing.id,
-          circulatorId: runner.id,
-          hours: 4,
-        });
-        filing = api
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("filings")
-          .get(filing.id) as unknown as FilingRow;
-        if (filing.status === "gathering-signatures")
-          advanceCore(
-            core,
-            new Date(Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000)
-              .toISOString()
-              .slice(0, 10),
-          );
-      }
-      if (filing.status !== "on-ballot") {
-        tried.push(`short of signatures (${filing.signatureCount})`);
-        continue;
-      }
+      const filing = filed.filing;
       // The race is for the seat the player lives in, against its holder.
       expect(contest.seatId, where).toBe(seat.seat.id);
       expect(seat.office.coversTown, where).toBe(true);

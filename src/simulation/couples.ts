@@ -1,4 +1,4 @@
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { createPartnership, recordPartnershipState } from "./life";
 import { LIFE_MIND_IDS } from "./life-mind-content";

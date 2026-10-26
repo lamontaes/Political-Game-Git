@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { format, resolveConfig } from "prettier";
-import { allGovernmentUnits } from "../../src/simulation/government-units";
+import { allGovernmentUnits } from "../../src/core2/reference/government-units";
 import { municipalGovernmentForUnit } from "../../src/simulation/rule-capability-resolver";
 import { primaryReading } from "../../src/simulation/municipal-government";
 import type { TownCouncilProfileReading } from "../../src/simulation/town-council-profile-inputs";

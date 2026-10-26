@@ -2,9 +2,9 @@ import { CURRENCY_CODE } from "./currency-code";
 import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { resourceTransferTermsCutoff } from "./resources";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   listExtends,
   recordById,

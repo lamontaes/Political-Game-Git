@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "news",
-  "description": "News ledes for the new core's stories, keyed by the event kind they report (a closure, a death, a filing, a law taking effect, an election result, a council vote, a budget). News sources give patterns only; every part here is a whole sentence said in public-domain federal records (the Congressional Record, hearings, federal oral histories), with record words as slots.",
+  "description": "News ledes for the new core's stories, keyed by the event kind they report (a closure, a death, a filing, a law taking effect, an election result, a council vote, a budget). News sources give patterns only; every part here is a whole sentence said in public-domain federal records (the Congressional Record, hearings, the Federal Register, federal oral histories), with record words as slots.",
   "slots": {
     "subject": "The business or office that closed, from the event record.",
     "name": "A person, by name, from the records.",
@@ -133,6 +133,10 @@
         "granule": "CHRG-115shrg79104782",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg79104782/html/CHRG-115shrg79104782.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
       }
     },
     {
@@ -161,6 +165,10 @@
         "granule": "CHRG-119hhrg61167",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61167/html/CHRG-119hhrg61167.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
       }
     },
     {
@@ -193,6 +201,10 @@
         "granule": "DCPD-202600487",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
       }
     },
     {
@@ -236,6 +248,10 @@
         "granule": "DCPD-202500550",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
       }
     },
     {
@@ -262,6 +278,10 @@
         "granule": "CREC-2025-05-15-house",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
       }
     },
     {
@@ -288,6 +308,10 @@
         "granule": "CREC-2025-05-15-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
       }
     },
     {
@@ -315,6 +339,10 @@
         "granule": "DCPD-202500870",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500870/html/DCPD-202500870.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "honor"
       }
     },
     {
@@ -342,6 +370,10 @@
         "granule": "nara-staff-alan-lowe-final",
         "url": "https://www.archives.gov/files/about/history/alan-lowe-final.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "loss"
       }
     },
     {
@@ -365,11 +397,14 @@
       },
       "shippable": true,
       "source": {
-        "document": "Board of Advisors Meeting \u2014 transcript (EAC0419VerbatimBOA.pdf)",
+        "document": "Board of Advisors Meeting — transcript (EAC0419VerbatimBOA.pdf)",
         "date": "2019-04-24",
         "granule": "eac-2019-04-24-eac0419verbatimboa",
         "url": "https://www.eac.gov/sites/default/files/event_document/files/EAC0419VerbatimBOA.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "announce-result"
       }
     },
     {
@@ -396,6 +431,10 @@
         "granule": "CHRG-116shrg29104956",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-116shrg29104956/html/CHRG-116shrg29104956.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -422,6 +461,72 @@
         "granule": "CHRG-118hhrg54709",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg54709",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "news.law-took-effect.measure-took-effect-on-date",
+      "move": "law-took-effect",
+      "kind": "written",
+      "text": "{measure} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-took-effect",
+          "subject": "news",
+          "role": "law-took-effect",
+          "choice": "lede",
+          "requiresFacts": ["effective"]
+        }
+      ],
+      "transcriptsUsing": 17,
+      "bySource": {
+        "fr": 17
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. Citizenship and Immigration Services Fee Schedule and Changes to Certain Other Immigration Benefit Request Requirements; Second Correction (Federal Register)",
+        "date": "2025-01-17",
+        "granule": "FR-2025-01-17/2025-01386",
+        "url": "https://www.govinfo.gov/content/pkg/FR-2025-01-17/html/2025-01386.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-took-effect.measure-became-law-on-date",
+      "move": "law-took-effect",
+      "kind": "written",
+      "text": "{measure} became law on {date}.",
+      "uses": [
+        {
+          "move": "law-took-effect",
+          "subject": "news",
+          "role": "law-took-effect",
+          "choice": "lede",
+          "requiresFacts": ["enacted"]
+        }
+      ],
+      "transcriptsUsing": 40,
+      "bySource": {
+        "fr": 40
+      },
+      "shippable": true,
+      "source": {
+        "document": "Partitioning, Disaggregation, and Leasing of Spectrum (Federal Register)",
+        "date": "2019-04-02",
+        "granule": "FR-2019-04-02/2019-06348",
+        "url": "https://www.govinfo.gov/content/pkg/FR-2019-04-02/html/2019-06348.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     }
   ]

@@ -2,9 +2,10 @@
 // who works there, who's there now and what the player can do there.
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
-import { backdropStaging } from "../presentation/backdrop-people";
+import { backdropStaging } from "./staging";
 import { backdropFile, hasBackdrop, orgPlace, stagePeople } from "./scene";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import type { CoreState } from "../core2/types";
@@ -24,7 +25,43 @@ function staffOf(core: CoreState, organizationId: string) {
   return { full: full.sort(), counted: counted.sort() };
 }
 
-/** The town's pictured places, the ones the player knows people at first. */
+/**
+ * The town's and county's own offices, where every adult has civic business
+ * on the golden path: records, public meetings, filing to run.
+ */
+const CIVIC = new Set([
+  "service:municipal-government",
+  "service:county-government",
+  "sector:local-government-office",
+]);
+/** And the state's offices, where an officeholder's work takes them. */
+const STATE_OFFICES = new Set(["sector:state-government-office"]);
+/** The age of majority, when civic business (voting, filing) begins. */
+const ADULT_AGE = 18;
+
+/** Schools, where a household with a child of school age has business. */
+const SCHOOLS = new Set([
+  "service:school",
+  "service:public-school",
+  "service:private-school",
+]);
+/** Compulsory schooling ends by 18 in most states; high school runs through 18. */
+const SCHOOL_AGE_UNDER = 19;
+
+/** Whole years of age on a date. */
+function ageOn(birthDate: string, date: string): number {
+  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
+  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
+}
+
+/**
+ * The town's pictured places the player has a reason to go: where they,
+ * their household or their family work, the schools while someone at home is
+ * of school age, where people they know work, where they can do something
+ * right now, the town's and county's offices for an adult, and the state's
+ * offices while they hold an office. Not every organization with a picture
+ * (owner, Oct 13: "Why would you need to visit the market?").
+ */
 export function townPlaces(
   core: CoreState,
   playerId: string,
@@ -33,6 +70,29 @@ export function townPlaces(
   const player = core.people.get(playerId);
   if (!player) throw new Error("No such person.");
   const offers = packet?.kind === "choice" ? packet.offers : [];
+  // Where the player, their household and their family work.
+  const household = core.households.get(player.householdId)?.memberIds ?? [
+    playerId,
+  ];
+  const ownWork = new Set(
+    [...household, ...player.familyIds]
+      .map((id) => core.people.get(id)?.jobId)
+      .map((jobId) =>
+        jobId ? core.jobs.get(jobId)?.organizationId : undefined,
+      )
+      .filter((id): id is string => !!id),
+  );
+  // Where they study: the town's schools while anyone at home is of school age.
+  const studying = household.some((id) => {
+    const birth = core.people.get(id)?.birthDate;
+    return birth !== undefined && ageOn(birth, core.date) < SCHOOL_AGE_UNDER;
+  });
+  const adult = ageOn(player.birthDate, core.date) >= ADULT_AGE;
+  const official = coreAPI(core)
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .query("byPerson", [playerId])
+    .some((row) => (row as { status?: string }).status === "serving");
   return [...core.organizations.values()]
     .filter((org) => org.placeId === player.placeId)
     .flatMap((org) => {
@@ -40,6 +100,17 @@ export function townPlaces(
       if (!place || !hasBackdrop(place)) return [];
       const { full, counted } = staffOf(core, org.id);
       const known = full.filter((id) => player.knownIds.has(id));
+      const actions = offers
+        .filter((offer) => offer.targetId === org.id)
+        .map((offer) => offer.actionId);
+      const reason =
+        ownWork.has(org.id) ||
+        (studying && SCHOOLS.has(org.classification ?? "")) ||
+        known.length > 0 ||
+        actions.length > 0 ||
+        (adult && CIVIC.has(org.classification ?? "")) ||
+        (official && STATE_OFFICES.has(org.classification ?? ""));
+      if (!reason) return [];
       return [
         {
           organizationId: org.id,
@@ -51,9 +122,7 @@ export function townPlaces(
             return { personId: id, name: `${row.givenName} ${row.familyName}` };
           }),
           // What the player can do there right now: the core's own offers.
-          actions: offers
-            .filter((offer) => offer.targetId === org.id)
-            .map((offer) => offer.actionId),
+          actions,
         },
       ];
     })
@@ -118,7 +187,11 @@ export function visitPlace(
   ).filter((id) => id !== playerId);
   const ids = [playerId, ...present].map((id) => {
     const row = core.people.get(id)!;
-    return { id, name: `${row.givenName} ${row.familyName}` };
+    return {
+      id,
+      name: `${row.givenName} ${row.familyName}`,
+      reason: id === playerId ? ("you" as const) : ("coworker" as const),
+    };
   });
   return {
     organizationId,

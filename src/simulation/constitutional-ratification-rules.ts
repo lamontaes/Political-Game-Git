@@ -1,5 +1,5 @@
 import research from "../../data/research/legislature/federal-amendment-ratification-rules-2026.json" with { type: "json" };
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import type { VoteThresholdRule } from "./legislature-rules";
 
 interface Citation {

@@ -3,8 +3,9 @@
 /**
  * The zero-dice guard (Rule 0: no dice, no one-place special cases).
  *
- * Scans simulation, presentation and crisis code for four shapes and fails
- * when a change adds one that the allowlist does not already carry:
+ * Scans the engine that runs the game (src/core2, with the bench and the
+ * story director) for four shapes and fails when a change adds one that the
+ * allowlist does not already carry:
  *
  *   roll            a seeded or Math.random draw compared with a threshold,
  *                   directly (`rng.next() < 0.3`) or through a variable the
@@ -41,19 +42,12 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 export const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const ALLOWLIST_PATH = "scripts/zero-dice-allowlist.json";
-export const SCANNED_ROOTS = [
-  "src/simulation",
-  "src/presentation",
-  "src/crisis",
-];
-/**
- * Also read, for list-picks only: where the player's screens draw, and where
- * the new core will land. Its picks go through this guard too.
- */
-export const LIST_PICK_ONLY_ROOTS = ["src/player", "src/core2"];
+export const SCANNED_ROOTS = ["src/core2", "src/bench", "src/director"];
+/** Also read, for list-picks only: where the player's screens draw. */
+export const LIST_PICK_ONLY_ROOTS = ["src/player"];
 
 /** The seeded generator itself is where draws are made, not decided. */
-const EXEMPT_FILES = new Set(["src/simulation/rng.ts"]);
+const EXEMPT_FILES = new Set(["src/core2/kernel/rng.ts"]);
 
 const USPS =
   "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC PR GU VI AS MP".split(
@@ -677,7 +671,10 @@ function main(argv) {
     return 1;
   }
   const total = allowlist.entries.reduce((sum, entry) => sum + entry.count, 0);
-  console.log(`zero-dice: nothing new; ${total} allowed lines left.`);
+  const scanned = scannedFiles().length;
+  console.log(
+    `zero-dice: ${scanned} files in ${SCANNED_ROOTS.join(", ")}; nothing new; ${total} allowed lines left.`,
+  );
   return 0;
 }
 

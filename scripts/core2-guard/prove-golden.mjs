@@ -29,6 +29,7 @@ for (const name of [
 const command = [
   process.execPath,
   `--max-old-space-size=${policies.nodeHeapMiB}`,
+  `--max-semi-space-size=${policies.nodeSemiSpaceMiB}`,
   "--import",
   "tsx",
   resolve(directory, "provisional-step2.mjs"),

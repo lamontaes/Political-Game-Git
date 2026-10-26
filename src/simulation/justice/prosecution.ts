@@ -19,7 +19,7 @@ import {
   organizationProfileAt,
 } from "../life-queries";
 import { isPersonAliveAt } from "../vitality";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   ESTIMATED_CHARGE_DECISION_DAYS,
   NATIONAL_RESOLVE_AFTER_DAYS,

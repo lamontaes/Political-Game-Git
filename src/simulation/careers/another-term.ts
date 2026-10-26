@@ -1,4 +1,4 @@
-import { addDays, ageOnDate } from "../dates";
+import { addDays, ageOnDate } from "../../core2/kernel/dates";
 import { recordDurableDecisionTrace, evaluateDecision } from "../decisions";
 import { crisisRecords } from "../crisis/records";
 import { recordByStableKey } from "../history-index";
@@ -6,11 +6,11 @@ import {
   hazardMultipliersOf,
   mortalityCalibrationOf,
 } from "../crisis/mortality";
-import { MULTIPLIER_ONE } from "../crisis/hazard";
+import { MULTIPLIER_ONE } from "../../core2/health-hazard";
 import {
   SSA_2023_MAX_AGE,
   ssa2023AnnualProbability,
-} from "../crisis/mortality-table";
+} from "../../core2/health-mortality-table";
 import type {
   HealthEpisodeRecord,
   HealthState,

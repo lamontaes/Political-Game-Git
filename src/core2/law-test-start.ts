@@ -8,7 +8,7 @@ import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 import { enactLaw, LAWS_MODULE_ID } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 
 export function repealStartingAnswers(core: CoreState): readonly string[] {
   const api = coreAPI(core);

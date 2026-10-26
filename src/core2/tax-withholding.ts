@@ -15,11 +15,19 @@ import type { LawInForceAnswer } from "./laws-in-force";
 import type { LawRowInput } from "./laws-starting";
 
 export interface WithholdingLine {
-  readonly level: "federal" | "state" | "county" | "city";
+  readonly level: "federal" | "state" | "county" | "township" | "city";
   readonly jurisdiction: string;
   readonly tax: "income" | "social-security" | "medicare";
   readonly minor: number;
   readonly lawId: string;
+  /** The law row read is a carried-back or otherwise estimated figure. */
+  readonly estimate: boolean;
+  /** For a flat local rate: the base the law row names, as it was applied. */
+  readonly base?: "wages" | "AGI" | "taxable income";
+  /** The measure that enacted the row read, when an act (not a starting row) did. */
+  readonly enactedBy?: string;
+  /** The tax is worked out on a schedule with more than one rate. */
+  readonly graduated?: boolean;
 }
 
 interface Schedule {
@@ -28,6 +36,29 @@ interface Schedule {
     readonly over: number;
     readonly rate: number;
   }[];
+}
+
+/** The highest rate on a schedule, in percent. */
+function topRate(schedule: Schedule): number {
+  return Math.max(0, ...schedule.brackets.map((b) => b.rate));
+}
+
+/**
+ * The schedule the law row's own rate puts in force. A row's value is its top
+ * rate; a schedule whose top rate differs from it (the rate was changed
+ * without a new table) is scaled to it, the way a bill scales a table.
+ */
+function scheduleOf(row: LawRowInput): Schedule | null {
+  const schedule = single(row);
+  if (!schedule || typeof row.value !== "number" || row.value <= 0)
+    return schedule;
+  const top = topRate(schedule);
+  if (top <= 0 || Math.abs(top - row.value) < 1e-9) return schedule;
+  const scale = row.value / top;
+  return {
+    ...schedule,
+    brackets: schedule.brackets.map((b) => ({ ...b, rate: b.rate * scale })),
+  };
 }
 
 /** Tax on a year's income from one graduated schedule, in dollars. */
@@ -44,6 +75,21 @@ export function scheduleTax(schedule: Schedule, annualDollars: number): number {
     tax += ((Math.min(taxable, top) - bracket.over) * bracket.rate) / 100;
   }
   return tax;
+}
+
+/**
+ * The deduction a local tax on "taxable income" takes off first: the state's
+ * standard deduction where its schedule carries one, else the federal one
+ * (the usual starting point for a local base). Dollars a year.
+ */
+function localStandardDeduction(answer: LawInForceAnswer): number {
+  for (const wanted of ["state", "federal"] as const) {
+    const level = answer.levels.find((l) => l.level === wanted);
+    if (!level?.row || level.setAside) continue;
+    const deduction = single(level.row)?.standardDeduction;
+    if (typeof deduction === "number" && deduction > 0) return deduction;
+  }
+  return 0;
 }
 
 function single(row: LawRowInput): Schedule | null {
@@ -70,13 +116,29 @@ export function withholdingFor(input: {
   for (const level of input.incomeTax.levels) {
     const row = level.row;
     if (!row || level.setAside || row.value === null) continue;
-    const schedule = single(row);
+    const schedule = scheduleOf(row);
+    // A flat rate: a starting row's "percent-flat", or an enacted act's
+    // "percent" with no bracket schedule (audit 3: city tax collected $0).
+    const flat = row.unit === "percent-flat" || row.unit === "percent";
+    // The base the row names (audit 14): wages and AGI are the paycheck's own
+    // pay (this model has no pre-tax adjustments); "taxable income" is pay
+    // after the standard deduction.
+    const named = String(row.terms?.base ?? "").toLowerCase();
+    const base: WithholdingLine["base"] | undefined = flat
+      ? named === "taxable income"
+        ? "taxable income"
+        : named === "agi"
+          ? "AGI"
+          : "wages"
+      : undefined;
+    const taxed =
+      base === "taxable income"
+        ? Math.max(0, annual - localStandardDeduction(input.incomeTax))
+        : annual;
     const yearly = schedule
       ? scheduleTax(schedule, annual)
-      : // A flat rate: a starting row's "percent-flat", or an enacted act's
-        // "percent" with no bracket schedule (audit 3: city tax collected $0).
-        row.unit === "percent-flat" || row.unit === "percent"
-        ? (annual * row.value) / 100
+      : flat
+        ? (taxed * row.value) / 100
         : 0;
     const minor = Math.round((yearly / periods) * 100);
     if (minor > 0)
@@ -86,6 +148,14 @@ export function withholdingFor(input: {
         tax: "income",
         minor,
         lawId: row.id,
+        estimate: row.estimate === true,
+        ...(base && !schedule ? { base } : {}),
+        ...(typeof row.terms?.enactedBy === "string"
+          ? { enactedBy: row.terms.enactedBy }
+          : {}),
+        ...(schedule && new Set(schedule.brackets.map((b) => b.rate)).size > 1
+          ? { graduated: true }
+          : {}),
       });
   }
   const ss = input.socialSecurity.governing;
@@ -103,6 +173,7 @@ export function withholdingFor(input: {
         tax: "social-security",
         minor,
         lawId: ss.id,
+        estimate: ss.estimate === true,
       });
   }
   const medicare = input.medicare.governing;
@@ -127,6 +198,7 @@ export function withholdingFor(input: {
         tax: "medicare",
         minor,
         lawId: medicare.id,
+        estimate: medicare.estimate === true,
       });
   }
   return lines;

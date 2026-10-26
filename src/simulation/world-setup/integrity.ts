@@ -1,4 +1,4 @@
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { LEGISLATIVE_STARTING_PROCEDURES_VERSION } from "../legislative-starting-procedures";
 import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
 import {

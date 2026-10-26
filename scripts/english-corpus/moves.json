@@ -1,0 +1,1265 @@
+{
+  "schema": "english-moves/1",
+  "note": "The one shared list of moves and situation keys that ties the director's situation catalog (src/director/data/situation-types.json) to the English engine's banks (data/english/parts/). A move is one thing a person does with a line, situation-blind; a key is the kind of moment a situation is, shared across situations (a funeral, an assassination and a lost election are all loss). The rules below tag every bank part with its shared move and, where the sentence fits only one kind of moment, its key: scripts/english-corpus/tag-moves.ts applies them in order (first match wins) and writes each part's `tag`. Structure only: no rule holds a sentence; a `text` pattern only sorts a mined sentence by what it already says.",
+  "moves": {
+    "greet": "Open an exchange with a hello or a salutation.",
+    "introduce": "Say who someone is, or who the speaker is.",
+    "address-chair": "Speak to the person presiding before speaking to a body.",
+    "ask": "Ask a question.",
+    "answer": "Answer a question.",
+    "tell": "Say something the speaker's own record holds.",
+    "deliver-news": "Tell someone something that happened that they may not know.",
+    "react": "A short reaction to what was just said.",
+    "beat": "The narrator says what is happening around the people talking, between their lines.",
+    "recall": "Bring up something shared from the past.",
+    "condole": "Say one is sorry for a loss.",
+    "congratulate": "Recognize someone's win or honor.",
+    "comfort": "Reassure someone in a hard moment.",
+    "thank": "Thank someone.",
+    "apologize": "Say one is sorry for what one did.",
+    "confess": "Admit something.",
+    "deflect": "Turn a question aside without answering it.",
+    "lie": "Say something false about the speaker's own record.",
+    "agree": "Agree with what was said.",
+    "disagree": "Disagree with what was said.",
+    "refuse": "Turn down a demand.",
+    "decline": "Turn down an offer or a request.",
+    "confront": "Press someone on what they did.",
+    "blame": "Say who caused something.",
+    "request": "Ask someone to do something.",
+    "offer": "Offer to do something.",
+    "promise": "Commit to doing something.",
+    "warn": "Tell of a danger ahead.",
+    "farewell": "Say goodbye.",
+    "close": "End a speech, a turn or an exchange.",
+    "call-to-order": "Run a body's procedure: open a meeting, recognize a speaker, rule on order.",
+    "put-question": "Put a motion to a vote.",
+    "announce-result": "Say how a vote, a race or a motion came out.",
+    "narrate": "The narrator's line: where the player is and who is there.",
+    "headline": "A news story's headline.",
+    "enact": "A law's enacting words.",
+    "title": "A law's title or a section's heading.",
+    "provision": "A law's operative text.",
+    "record": "A body's minutes recording what happened.",
+    "notice": "A public notice's heading and text.",
+    "control-name": "The name of a choice the player can take.",
+    "plea": "Ask again, from the heart: what it means to the asker.",
+    "press": "Ask again, harder: hold the other to the point.",
+    "threaten": "Say what it will cost the other to refuse.",
+    "boast": "Claim credit or strength for oneself.",
+    "bargain": "Offer a condition or a trade.",
+    "relent": "Give way after holding out.",
+    "withdraw": "Go back on something one said before.",
+    "accept": "Take the other's answer as final.",
+    "stall": "Put off an answer.",
+    "leave": "Ends the exchange and walks away: the talk stops without an answer.",
+    "deny": "Says a claim is false."
+  },
+  "keys": {
+    "loss": "Someone or something is lost: a death, a lost job, a lost race, an eviction.",
+    "threat": "Something bad may happen: an accusation, a scandal, a recall, a danger.",
+    "honor": "Someone is honored: a win, an appointment, an award, a celebration.",
+    "news-received": "Someone learns of something that happened elsewhere.",
+    "favor-asked": "Someone asks another for something.",
+    "vote-wanted": "Someone wants a vote: on a measure or in a race.",
+    "arrival": "Someone or something new arrives: a birth, a first day, a first meeting.",
+    "departure": "Someone leaves: a move, a last day, a parting.",
+    "routine": "The ordinary run of a day or a body's business."
+  },
+  "endpoints": {
+    "money": "The scene ends on a dollar: a job, a rent, a payment, a law's cost reaching someone.",
+    "bill": "The scene ends on a bill or a law: a vote, a signing, a veto, a hearing.",
+    "political": "The scene ends on political life: a race, an office, a recall, the press.",
+    "personal": "The scene ends on a person's own life: family, friends, health, home."
+  },
+  "registers": {
+    "note": "The coverage table's register is the bank's register; the address bank is split by the occasion each part names (uses[].subject), since a floor speech and a concession are different registers in one file. A narrated or written register (the memoir, the scene narration, a headline, a law, the minutes) is not spoken by a role: its cells are the situation's narrator cells, one per move the register carries.",
+    "splitBySubject": ["address"],
+    "narrated": {
+      "journal": ["tell", "recall"],
+      "scene-words": ["narrate", "deliver-news"],
+      "headlines": ["headline"],
+      "news": ["deliver-news", "announce-result"],
+      "newspaper-ledes": ["deliver-news"],
+      "legislation": ["enact", "title", "provision"],
+      "minutes": ["record", "announce-result"],
+      "notice": ["notice"],
+      "winning-losing": ["announce-result"]
+    }
+  },
+  "rules": {
+    "address": [
+      {
+        "move": "^campaign-ask$",
+        "tag": "request",
+        "key": "vote-wanted"
+      },
+      {
+        "move": "^campaign-close$",
+        "tag": "close"
+      },
+      {
+        "move": "^campaign-contrast$",
+        "tag": "disagree",
+        "key": "vote-wanted"
+      },
+      {
+        "move": "^campaign-(issue|self)$",
+        "tag": "tell",
+        "key": "vote-wanted"
+      },
+      {
+        "move": "^campaign-thanks$",
+        "tag": "thank"
+      },
+      {
+        "move": "^chair-run-meeting$",
+        "text": "(?i)adjourn",
+        "tag": "close",
+        "key": "routine"
+      },
+      {
+        "move": "^chair-run-meeting$",
+        "text": "(?i)carries|have it|adopted|is agreed|passes|fails|is not agreed|without objection",
+        "tag": "announce-result",
+        "key": "routine"
+      },
+      {
+        "move": "^chair-run-meeting$",
+        "text": "(?i)opposed|in favor|second|motion|aye|nay|vote",
+        "tag": "put-question",
+        "key": "routine"
+      },
+      {
+        "move": "^chair-run-meeting$",
+        "text": "(?i)^thank",
+        "tag": "thank",
+        "key": "routine"
+      },
+      {
+        "move": "^chair-run-meeting$",
+        "tag": "call-to-order",
+        "key": "routine"
+      },
+      {
+        "move": "^concession-concede$",
+        "text": "(?i)congratulat|called",
+        "tag": "congratulate",
+        "key": "loss"
+      },
+      {
+        "move": "^concession-concede$",
+        "text": "(?i)^thank",
+        "tag": "thank",
+        "key": "loss"
+      },
+      {
+        "move": "^concession-concede$",
+        "tag": "tell",
+        "key": "loss"
+      },
+      {
+        "move": "^debate-closing$",
+        "tag": "close",
+        "key": "vote-wanted"
+      },
+      {
+        "move": "^debate-moderator$",
+        "text": "(?i)^thank",
+        "tag": "thank"
+      },
+      {
+        "move": "^debate-moderator$",
+        "tag": "call-to-order"
+      },
+      {
+        "move": "^debate-rebut$",
+        "tag": "disagree",
+        "key": "vote-wanted"
+      },
+      {
+        "move": "^hearing-close$",
+        "tag": "close"
+      },
+      {
+        "move": "^hearing-open$",
+        "tag": "address-chair"
+      },
+      {
+        "move": "^hearing-witness-hedge$",
+        "tag": "deflect"
+      },
+      {
+        "move": "-address-chair$",
+        "text": "(?i)life of|memory of|passing|mourn",
+        "tag": "address-chair",
+        "key": "loss"
+      },
+      {
+        "move": "-address-chair$",
+        "text": "(?i)honor|recogni|congratulat|celebrat",
+        "tag": "address-chair",
+        "key": "honor"
+      },
+      {
+        "move": "-address-chair$",
+        "text": "(?i)support of|opposition to|against",
+        "tag": "address-chair",
+        "key": "vote-wanted"
+      },
+      {
+        "move": "-address-chair$",
+        "text": "(?i)quorum|unanimous consent|parliamentary",
+        "tag": "call-to-order",
+        "key": "routine"
+      },
+      {
+        "move": "-address-chair$",
+        "tag": "address-chair"
+      },
+      {
+        "move": "^house-floor-tribute-close$",
+        "text": "(?i)missed|memory|condolence|prayers|rest in peace|survived",
+        "tag": "condole",
+        "key": "loss"
+      },
+      {
+        "move": "^house-floor-tribute-close$",
+        "tag": "congratulate",
+        "key": "honor"
+      },
+      {
+        "move": "^house-floor-tribute-story$",
+        "text": "(?i)survived|passed|died|life",
+        "tag": "tell",
+        "key": "loss"
+      },
+      {
+        "move": "^house-floor-tribute-story$",
+        "tag": "tell",
+        "key": "honor"
+      },
+      {
+        "move": "^house-floor-yield$",
+        "text": "(?i)urge|vote",
+        "tag": "request",
+        "key": "vote-wanted"
+      },
+      {
+        "move": "^house-floor-yield$",
+        "tag": "close"
+      },
+      {
+        "move": "^(inaugural|state-of-the-union|state-floor)-close$",
+        "tag": "close"
+      },
+      {
+        "move": "^inaugural-moment$",
+        "tag": "tell",
+        "key": "honor"
+      },
+      {
+        "move": "-salutation$",
+        "tag": "greet"
+      },
+      {
+        "move": "^member-ask$",
+        "tag": "request",
+        "key": "vote-wanted"
+      },
+      {
+        "move": "^public-comment-ask$",
+        "tag": "request"
+      },
+      {
+        "move": "^public-comment-close$",
+        "tag": "close"
+      },
+      {
+        "move": "^public-comment-greet$",
+        "tag": "greet"
+      },
+      {
+        "move": "^public-comment-name$",
+        "tag": "introduce"
+      },
+      {
+        "move": "^public-comment-story$",
+        "tag": "tell"
+      },
+      {
+        "move": "^state-of-the-union-ask$",
+        "tag": "request"
+      },
+      {
+        "move": "^state-of-the-union-guest$",
+        "tag": "introduce"
+      },
+      {
+        "move": "^state-of-the-union-report$",
+        "tag": "tell"
+      },
+      {
+        "move": "^victory-claim$",
+        "text": "(?i)grateful|thank|humbled",
+        "tag": "thank",
+        "key": "honor"
+      },
+      {
+        "move": "^victory-claim$",
+        "tag": "announce-result",
+        "key": "honor"
+      }
+    ],
+    "bring-it-up": [
+      {
+        "move": "^blame-(assumed|record)",
+        "tag": "blame"
+      },
+      {
+        "move": "^blame-hearer-react",
+        "tag": "react"
+      },
+      {
+        "move": "^blame-unknown",
+        "tag": "answer"
+      },
+      {
+        "move": "^change-organization\\.closed",
+        "tag": "deliver-news",
+        "key": "loss"
+      },
+      {
+        "move": "^change-news\\.read",
+        "tag": "deliver-news",
+        "key": "news-received"
+      }
+    ],
+    "choice-names": [
+      {
+        "move": "^stance-answer$",
+        "tag": "answer"
+      },
+      {
+        "move": "^stance-question$",
+        "tag": "ask"
+      },
+      {
+        "move": ".",
+        "tag": "control-name"
+      }
+    ],
+    "conversation": [
+      {
+        "move": "^charge-raise$",
+        "tag": "tell",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-ask$",
+        "tag": "ask",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-answer-confess$",
+        "tag": "confess",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-answer-deflect$",
+        "tag": "deflect",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-answer-refuse$",
+        "tag": "refuse",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-answer-tell$",
+        "tag": "tell",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-reply-answer-comfort$",
+        "tag": "comfort",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-reply-answer-promise$",
+        "tag": "promise",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-reply-answer-ask$",
+        "tag": "ask",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-reply-answer-blame$",
+        "tag": "blame",
+        "key": "threat"
+      },
+      {
+        "move": "^conviction-raise$",
+        "tag": "deliver-news",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-ask$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-answer-tell$",
+        "tag": "tell",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-answer-apologize$",
+        "tag": "apologize",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-answer-confess$",
+        "tag": "confess",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-answer-refuse$",
+        "tag": "refuse",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-reply-answer-comfort$",
+        "tag": "comfort",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-reply-answer-promise$",
+        "tag": "promise",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-reply-answer-ask$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-reply-answer-blame$",
+        "tag": "blame",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-raise$",
+        "tag": "deliver-news",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-ask$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-answer-tell$",
+        "tag": "tell",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-answer-thank$",
+        "tag": "thank",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-answer-refuse$",
+        "tag": "refuse",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-answer-deflect$",
+        "tag": "deflect",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-reply-answer-congratulate$",
+        "tag": "congratulate",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-reply-answer-comfort$",
+        "tag": "comfort",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-reply-answer-ask$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-reply-answer-blame$",
+        "tag": "blame",
+        "key": "news-received"
+      },
+      {
+        "move": "-lie-",
+        "tag": "lie"
+      },
+      {
+        "move": "^lie-doubt",
+        "tag": "ask"
+      },
+      {
+        "move": "^farewell-",
+        "tag": "farewell"
+      },
+      {
+        "move": "^greet-open",
+        "tag": "greet"
+      },
+      {
+        "move": "^greet-answer",
+        "tag": "answer",
+        "key": "routine"
+      },
+      {
+        "move": "^(eviction|job-lost|job-cause)-raise",
+        "tag": "deliver-news",
+        "key": "loss"
+      },
+      {
+        "move": "^(eviction|job-cause|job-hope|eviction-where|eviction-cause)-.*-(comfort|help|hope)$",
+        "tag": "comfort",
+        "key": "loss"
+      },
+      {
+        "move": "^job-hope-reply-answer-brief$",
+        "tag": "react",
+        "key": "loss"
+      },
+      {
+        "move": "^(eviction|eviction-cause|eviction-where|job-cause)-reply-answer-(ask|where)$",
+        "tag": "ask",
+        "key": "loss"
+      },
+      {
+        "move": "^job-new-told-raise",
+        "tag": "congratulate",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-told-reply-answer-thank$",
+        "tag": "thank",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-told-reply-answer-tell$",
+        "tag": "tell",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-raise",
+        "tag": "deliver-news",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-reply-answer-congratulate$",
+        "tag": "congratulate",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-reply-answer-ask$",
+        "tag": "ask",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-reply-answer-brief$",
+        "tag": "react",
+        "key": "honor"
+      },
+      {
+        "move": "^(death|illness|prison)-news-raise",
+        "tag": "deliver-news",
+        "key": "loss"
+      },
+      {
+        "move": "^death-news-reply-answer-condole$",
+        "tag": "condole",
+        "key": "loss"
+      },
+      {
+        "move": "^(death|illness|prison)-news-reply-answer-(help|comfort|brief)$",
+        "tag": "comfort",
+        "key": "loss"
+      },
+      {
+        "move": "^prison-news-reply-answer-promise$",
+        "tag": "promise",
+        "key": "loss"
+      },
+      {
+        "move": "^(death|illness|prison)-news-reply-answer-ask$",
+        "tag": "ask",
+        "key": "loss"
+      },
+      {
+        "move": "^eviction-reply-answer-help$",
+        "tag": "offer",
+        "key": "loss"
+      },
+      {
+        "move": "^eviction-reply-answer-reassure$",
+        "tag": "comfort",
+        "key": "loss"
+      },
+      {
+        "move": "^family-answer-gone$",
+        "tag": "deliver-news",
+        "key": "loss"
+      },
+      {
+        "move": "^family-answer-ill$",
+        "tag": "deliver-news",
+        "key": "threat"
+      },
+      {
+        "move": "^family-answer-thanks$",
+        "tag": "thank"
+      },
+      {
+        "move": "^family-open-open$",
+        "tag": "request"
+      },
+      {
+        "move": "^other-work-answer-ack-none$",
+        "tag": "condole",
+        "key": "loss"
+      },
+      {
+        "move": "^news-answer-react$",
+        "tag": "react",
+        "key": "news-received"
+      },
+      {
+        "move": "^news-answer-no$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^news-answer-(opinion|yes)$",
+        "tag": "answer",
+        "key": "news-received"
+      },
+      {
+        "move": "^news-ask-think$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^news-raise-heard$",
+        "tag": "deliver-news",
+        "key": "news-received"
+      },
+      {
+        "move": "^shared-.*-ask-remember$",
+        "tag": "recall"
+      },
+      {
+        "move": "^shared-school-reply-years$",
+        "tag": "recall"
+      },
+      {
+        "move": "^ack-reply",
+        "tag": "agree"
+      },
+      {
+        "move": "^(tenure-reply-answer-(ack|turn)|mutual-answer-brief|home-reply-answer-(ack|brief))$",
+        "tag": "react"
+      },
+      {
+        "move": "-answer-turn$",
+        "tag": "ask"
+      },
+      {
+        "move": "-ask(-|$)",
+        "tag": "ask"
+      },
+      {
+        "move": "^mutual-raise",
+        "tag": "ask"
+      },
+      {
+        "move": "^their-work-raise",
+        "tag": "ask"
+      },
+      {
+        "move": "-raise",
+        "tag": "tell"
+      },
+      {
+        "move": "-(answer|reply)(-|$)",
+        "tag": "answer"
+      }
+    ],
+    "counter": [
+      {
+        "move": "^clerk-answer$",
+        "tag": "answer",
+        "key": "routine"
+      },
+      {
+        "move": "^clerk-close$",
+        "tag": "close",
+        "key": "routine"
+      },
+      {
+        "move": "^clerk-(fee|form)$",
+        "tag": "tell",
+        "key": "routine"
+      },
+      {
+        "move": "^clerk-greet$",
+        "tag": "greet",
+        "key": "routine"
+      },
+      {
+        "move": "^clerk-id$",
+        "tag": "ask",
+        "key": "routine"
+      },
+      {
+        "move": "^visitor-ask$",
+        "text": "(?i)thank|appreciate",
+        "tag": "thank",
+        "key": "routine"
+      },
+      {
+        "move": "^visitor-ask$",
+        "tag": "ask",
+        "key": "routine"
+      }
+    ],
+    "filing-visit": [
+      {
+        "move": "^clerk-close",
+        "tag": "close",
+        "key": "routine"
+      },
+      {
+        "move": "^clerk-greet",
+        "tag": "greet",
+        "key": "routine"
+      },
+      {
+        "move": "^clerk-(rule|terms)",
+        "tag": "tell",
+        "key": "routine"
+      },
+      {
+        "move": "^player-accept",
+        "tag": "agree",
+        "key": "routine"
+      },
+      {
+        "move": "^player-pick",
+        "tag": "request",
+        "key": "routine"
+      }
+    ],
+    "headlines": [
+      {
+        "move": "^(life-death|organization-closed)$",
+        "tag": "headline",
+        "key": "loss"
+      },
+      {
+        "move": "^honor$",
+        "tag": "headline",
+        "key": "honor"
+      },
+      {
+        "move": "^organization-opened$",
+        "tag": "headline",
+        "key": "arrival"
+      },
+      {
+        "move": ".",
+        "tag": "headline"
+      }
+    ],
+    "hearing": [
+      {
+        "move": "^agree$",
+        "tag": "agree"
+      },
+      {
+        "move": "^(answer|confirm)$",
+        "tag": "answer"
+      },
+      {
+        "move": "^chair-procedure$",
+        "text": "(?i)so ordered|without objection",
+        "tag": "announce-result",
+        "key": "routine"
+      },
+      {
+        "move": "^chair-procedure$",
+        "tag": "call-to-order",
+        "key": "routine"
+      },
+      {
+        "move": "^repair$",
+        "tag": "apologize"
+      },
+      {
+        "move": "^thanks$",
+        "tag": "thank"
+      },
+      {
+        "move": "^time$",
+        "tag": "close"
+      }
+    ],
+    "interview": [
+      {
+        "move": "^official-close$",
+        "tag": "close"
+      },
+      {
+        "move": "^official-commit$",
+        "tag": "promise"
+      },
+      {
+        "move": "^official-deflect$",
+        "tag": "deflect"
+      },
+      {
+        "move": "^official-opponent$",
+        "tag": "disagree",
+        "key": "vote-wanted"
+      },
+      {
+        "move": "^official-(record|story)$",
+        "tag": "tell"
+      },
+      {
+        "move": "^reporter-open$",
+        "text": "(?i)thank",
+        "tag": "thank"
+      },
+      {
+        "move": "^reporter-open$",
+        "tag": "greet"
+      },
+      {
+        "move": "^reporter-record$",
+        "tag": "confront"
+      },
+      {
+        "move": "^reporter-",
+        "tag": "ask"
+      }
+    ],
+    "journal": [
+      {
+        "move": "^death-",
+        "tag": "tell",
+        "key": "loss"
+      },
+      {
+        "move": "^election-line-own-result$",
+        "text": "(?i)lost|didn't",
+        "tag": "tell",
+        "key": "loss"
+      },
+      {
+        "move": "^election-line-own-result$",
+        "text": "(?i)won|elected",
+        "tag": "tell",
+        "key": "honor"
+      },
+      {
+        "move": "^office-line-won$",
+        "tag": "tell",
+        "key": "honor"
+      },
+      {
+        "move": "^office-line-lost$",
+        "tag": "tell",
+        "key": "loss"
+      },
+      {
+        "move": "^family-line-born$",
+        "tag": "tell",
+        "key": "arrival"
+      },
+      {
+        "move": "^family-line-married$",
+        "tag": "tell",
+        "key": "honor"
+      },
+      {
+        "move": "^home-line-moved$",
+        "tag": "tell",
+        "key": "departure"
+      },
+      {
+        "move": "^work-line-lost$",
+        "tag": "tell",
+        "key": "loss"
+      },
+      {
+        "move": "^(work-line-started|school-line-started)$",
+        "tag": "tell",
+        "key": "arrival"
+      },
+      {
+        "move": "^health-",
+        "tag": "tell",
+        "key": "threat"
+      },
+      {
+        "move": "^(memoir-remember|memoir-hook|memoir-revise|memoir-young|memoir-when-age|look-back)",
+        "tag": "recall"
+      },
+      {
+        "move": ".",
+        "tag": "tell"
+      }
+    ],
+    "legislation": [
+      {
+        "move": "^enacting-clause$",
+        "tag": "enact",
+        "key": "routine"
+      },
+      {
+        "move": "(title|section-heading)$",
+        "tag": "title",
+        "key": "routine"
+      },
+      {
+        "move": ".",
+        "tag": "provision",
+        "key": "routine"
+      }
+    ],
+    "meeting": [
+      {
+        "move": "^closer$",
+        "tag": "close"
+      },
+      {
+        "move": "^opener$",
+        "tag": "address-chair"
+      },
+      {
+        "move": "^procedural$",
+        "tag": "call-to-order",
+        "key": "routine"
+      }
+    ],
+    "minutes": [
+      {
+        "move": "^vote$",
+        "tag": "announce-result",
+        "key": "routine"
+      },
+      {
+        "move": ".",
+        "tag": "record",
+        "key": "routine"
+      }
+    ],
+    "news": [
+      {
+        "move": "^(council-vote)$",
+        "tag": "announce-result"
+      },
+      {
+        "move": "^election-result$",
+        "text": "(?i)lost",
+        "tag": "announce-result",
+        "key": "loss"
+      },
+      {
+        "move": "^election-result$",
+        "tag": "announce-result",
+        "key": "honor"
+      },
+      {
+        "move": "^(life-death|organization-closed)$",
+        "tag": "deliver-news",
+        "key": "loss"
+      },
+      {
+        "move": ".",
+        "tag": "deliver-news",
+        "key": "news-received"
+      }
+    ],
+    "newscast": [
+      {
+        "move": "^anchor-close$",
+        "tag": "close"
+      },
+      {
+        "move": "^anchor-hand-off$",
+        "tag": "introduce"
+      },
+      {
+        "move": "^anchor-open$",
+        "tag": "greet"
+      },
+      {
+        "move": "^reporter-field$",
+        "tag": "tell",
+        "key": "news-received"
+      },
+      {
+        "move": "^story-death$",
+        "tag": "deliver-news",
+        "key": "loss"
+      },
+      {
+        "move": "^story-hazard-alert$",
+        "tag": "warn",
+        "key": "threat"
+      },
+      {
+        "move": "^story-(election|vote-or-law)$",
+        "tag": "announce-result"
+      },
+      {
+        "move": ".",
+        "tag": "deliver-news",
+        "key": "news-received"
+      }
+    ],
+    "newspaper-ledes": [
+      {
+        "move": ".",
+        "tag": "deliver-news",
+        "key": "news-received"
+      }
+    ],
+    "notice": [
+      {
+        "move": ".",
+        "tag": "notice",
+        "key": "routine"
+      }
+    ],
+    "opening-speech": [
+      {
+        "move": "-salutation$",
+        "tag": "greet"
+      },
+      {
+        "move": "-close$",
+        "tag": "close"
+      },
+      {
+        "move": "^state-of-the-union-congress$",
+        "tag": "request"
+      },
+      {
+        "move": "^state-of-the-union-governors$",
+        "tag": "thank"
+      },
+      {
+        "move": ".",
+        "tag": "tell"
+      }
+    ],
+    "scene-words": [
+      {
+        "move": "^cause-",
+        "tag": "deliver-news"
+      },
+      {
+        "move": ".",
+        "tag": "narrate"
+      }
+    ],
+    "speech-stages": [
+      {
+        "move": "^stage-opener$",
+        "tag": "greet"
+      },
+      {
+        "move": "^stage-closer$",
+        "tag": "close"
+      },
+      {
+        "move": "^stage-stance-",
+        "tag": "promise"
+      },
+      {
+        "move": "^stage-",
+        "tag": "tell"
+      }
+    ],
+    "winning-losing": [
+      {
+        "move": "^lost$",
+        "tag": "announce-result",
+        "key": "loss"
+      },
+      {
+        "move": ".",
+        "tag": "announce-result"
+      }
+    ],
+    "scene-talk": [
+      {
+        "move": "^[a-z]+-congratulate$",
+        "tag": "congratulate"
+      },
+      {
+        "move": "^[a-z]+-deliver-news$",
+        "tag": "deliver-news"
+      },
+      {
+        "move": "^[a-z]+-apologize$",
+        "tag": "apologize"
+      },
+      {
+        "move": "^[a-z]+-threaten$",
+        "tag": "threaten"
+      },
+      {
+        "move": "^[a-z]+-confront$",
+        "tag": "confront"
+      },
+      {
+        "move": "^[a-z]+-disagree$",
+        "tag": "disagree"
+      },
+      {
+        "move": "^[a-z]+-withdraw$",
+        "tag": "withdraw"
+      },
+      {
+        "move": "^[a-z]+-bargain$",
+        "tag": "bargain"
+      },
+      {
+        "move": "^[a-z]+-promise$",
+        "tag": "promise"
+      },
+      {
+        "move": "^[a-z]+-request$",
+        "tag": "request"
+      },
+      {
+        "move": "^[a-z]+-deflect$",
+        "tag": "deflect"
+      },
+      {
+        "move": "^[a-z]+-narrate$",
+        "tag": "narrate"
+      },
+      {
+        "move": "^[a-z]+-decline$",
+        "tag": "decline"
+      },
+      {
+        "move": "^[a-z]+-comfort$",
+        "tag": "comfort"
+      },
+      {
+        "move": "^[a-z]+-answer$",
+        "tag": "answer"
+      },
+      {
+        "move": "^[a-z]+-relent$",
+        "tag": "relent"
+      },
+      {
+        "move": "^[a-z]+-refuse$",
+        "tag": "refuse"
+      },
+      {
+        "move": "^[a-z]+-accept$",
+        "tag": "accept"
+      },
+      {
+        "move": "^[a-z]+-offer$",
+        "tag": "offer"
+      },
+      {
+        "move": "^[a-z]+-thank$",
+        "tag": "thank"
+      },
+      {
+        "move": "^[a-z]+-press$",
+        "tag": "press"
+      },
+      {
+        "move": "^[a-z]+-blame$",
+        "tag": "blame"
+      },
+      {
+        "move": "^[a-z]+-boast$",
+        "tag": "boast"
+      },
+      {
+        "move": "^[a-z]+-greet$",
+        "tag": "greet"
+      },
+      {
+        "move": "^[a-z]+-agree$",
+        "tag": "agree"
+      },
+      {
+        "move": "^[a-z]+-stall$",
+        "tag": "stall"
+      },
+      {
+        "move": "^[a-z]+-warn$",
+        "tag": "warn"
+      },
+      {
+        "move": "^[a-z]+-tell$",
+        "tag": "tell"
+      },
+      {
+        "move": "^[a-z]+-plea$",
+        "tag": "plea"
+      },
+      {
+        "move": "^[a-z]+-ask$",
+        "tag": "ask"
+      },
+      {
+        "move": "^[a-z]+-confess$",
+        "tag": "confess"
+      },
+      {
+        "move": "^[a-z]+-lie$",
+        "tag": "lie"
+      },
+      {
+        "move": "^[a-z]+-leave$",
+        "tag": "leave"
+      },
+      {
+        "move": "^[a-z]+-react$",
+        "tag": "react"
+      },
+      { "move": "^beat-beat$", "tag": "beat" },
+      {
+        "move": "^[a-z]+-call-to-order$",
+        "tag": "call-to-order"
+      },
+      {
+        "move": "^[a-z]+-deny$",
+        "tag": "deny"
+      },
+      {
+        "move": "^[a-z]+-farewell$",
+        "tag": "farewell"
+      }
+    ]
+  }
+}

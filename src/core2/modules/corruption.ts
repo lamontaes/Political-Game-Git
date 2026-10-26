@@ -9,6 +9,7 @@
  * party falling out with the other and deciding to tell someone.
  */
 import { scoreOffers, decisionFromScores } from "../choice";
+import { closenessBetween, currentCloseness } from "../closeness";
 import { decisionKinds, decisionLean } from "../trait-decisions";
 import rows from "../data/corruption/parameters.json" with { type: "json" };
 import type { CashJournalPosting } from "../journal";
@@ -24,6 +25,8 @@ import type {
 } from "../types";
 
 export const CORRUPTION_MODULE_ID = "corruption";
+/** A bribe taken to the press: public record the news carries. */
+export const SCANDAL_REPORTED = "scandal.reported";
 const SOURCE_KIND = "corruption:bribe";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 const c = (api: CoreAPI, key: string) => {
@@ -52,6 +55,8 @@ export interface CrimeRecord {
   subjectId: string;
   offered: boolean;
   taken: boolean;
+  /** Taken bribes by this official that the offerer had learned of when offering (knowledge records). */
+  heardOf?: readonly string[];
   reasons: Readonly<Record<string, Readonly<Record<string, number>>>>;
 }
 
@@ -76,11 +81,7 @@ function partiesOf(api: CoreAPI): Set<PersonId> {
 }
 
 function closeness(api: CoreAPI, a: PersonId, b: PersonId): number {
-  for (const id of api.state.relationshipsByPerson.get(a) ?? []) {
-    const row = api.state.relationships.get(id)!;
-    if (row.actorId === b || row.otherId === b) return row.level;
-  }
-  return api.parameter("zero");
+  return closenessBetween(api.state, a, b);
 }
 
 /** The person's lean toward a corrupt act, from every trait through the shared trait table, about -1..1. */
@@ -156,6 +157,12 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
   if (amount <= api.parameter("zero")) return null;
   const tie = closeness(api, ask.offererId, ask.officialId);
   const one = api.parameter("one");
+  // What the offerer has learned of this official: bribes they are known to
+  // have taken, from the offerer's own knowledge records.
+  const heardOf = crimesKnownTo(api, ask.offererId)
+    .filter((row) => row.taken && row.officialId === ask.officialId)
+    .map((row) => row.id)
+    .sort();
   const offer = decide(
     api,
     ask.offererId,
@@ -171,6 +178,8 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
             one),
       ),
       tie: c(api, "corruptionTieWeight") * tie,
+      reputation:
+        c(api, "corruptionReputationWeight") * Math.log1p(heardOf.length),
     },
     ask.subjectId,
   );
@@ -205,14 +214,14 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
     subjectId: ask.subjectId,
     offered: offer.yes,
     taken: !!take?.yes,
+    ...(heardOf.length ? { heardOf } : {}),
     reasons: { offer: offer.values, ...(take ? { take: take.values } : {}) },
   };
   if (!offer.yes) return record;
+  // A taken bribe is on the record once the money has moved.
+  if (record.taken) pay(api, record);
   table(api, "crimes").put(record as unknown as { id: string });
-  if (record.taken) {
-    pay(api, record);
-    partiesOf(api).add(record.offererId).add(record.officialId);
-  }
+  if (record.taken) partiesOf(api).add(record.offererId).add(record.officialId);
   // Both parties hold the act; no one else does.
   for (const personId of [ask.offererId, ask.officialId])
     api.observe(personId, {
@@ -289,6 +298,8 @@ export const corruptionModule: CoreModule = {
         },
       },
       surfaced: { indexes: { byCrime: { fields: ["crimeId"] } } },
+      reported: { indexes: { byOfficial: { fields: ["officialId"] } } },
+      settled: { indexes: { byCrime: { fields: ["crimeId"] } } },
     },
   },
   journalSourceProviders: {
@@ -368,8 +379,9 @@ export const corruptionModule: CoreModule = {
           const other = row.actorId === tellerId ? row.otherId : row.actorId;
           if (other === otherId || !api.state.people.get(other)?.alive)
             continue;
-          if (row.level > best) {
-            best = row.level;
+          const level = currentCloseness(api.state, row);
+          if (level > best) {
+            best = level;
             listener = other;
           }
         }
@@ -398,7 +410,162 @@ export const corruptionModule: CoreModule = {
           date: api.state.date,
           reasons: told.values,
         });
+        reportToPress(api, crime, listener);
       }
     }
   },
 };
+
+/**
+ * Whoever learns of a bribe decides whether to take it to the press: the
+ * farther they are from the official, the less they hold back, and their
+ * temperament leans one way or the other. A report is public record, so the
+ * local outlet carries it and readers and word of mouth spread it; nobody
+ * holds the scandal against the official until it reaches them.
+ */
+function reportToPress(
+  api: CoreAPI,
+  crime: CrimeRecord,
+  listenerId: PersonId,
+): void {
+  const listener = api.state.people.get(listenerId);
+  const official = api.state.people.get(crime.officialId);
+  if (!listener?.alive || !official) return;
+  const reported = decide(
+    api,
+    listenerId,
+    "tell",
+    {
+      distance:
+        c(api, "corruptionReportWeight") *
+        (api.parameter("one") -
+          closenessBetween(
+            api.state as CoreState,
+            listenerId,
+            crime.officialId,
+          )),
+      temperament:
+        c(api, "corruptionTraitWeight") * temperament(api, listener, "tell"),
+    },
+    `${crime.id}:report`,
+  );
+  if (!reported.yes) return;
+  const id = `${crime.id}:reported:${listenerId}:${api.state.date}`;
+  api.emit({
+    id,
+    date: api.state.date,
+    kind: SCANDAL_REPORTED,
+    personIds: [crime.officialId],
+    witnessIds: [listenerId],
+    placeId: official.placeId,
+    publicRecord: true,
+    news: true,
+    facts: { crimeId: crime.id, officialId: crime.officialId },
+    source: {
+      tag: "SOURCED",
+      citation: "Someone who learned of a recorded bribe took it to the press.",
+      asOf: api.state.date,
+    },
+  });
+  table(api, "reported").put({
+    id,
+    crimeId: crime.id,
+    officialId: crime.officialId,
+    reporterId: listenerId,
+    date: api.state.date,
+    reasons: reported.values,
+  });
+}
+
+/**
+ * What the bribes an official took on one decision pull them toward: each
+ * taken bribe's amount against a month of the official's living costs,
+ * sliding toward the offerer's side and never past the weight. Zero where
+ * none was taken. (The offerers are those who lose money on it, so the pull
+ * is against the subject.)
+ */
+export function bribePull(
+  api: CoreAPI,
+  officialId: PersonId,
+  subjectId: string,
+): number {
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return 0;
+  const official = api.state.people.get(officialId);
+  if (!official) return 0;
+  const taken = (
+    table(api, "crimes").query("byOfficial", [
+      officialId,
+    ]) as unknown as CrimeRecord[]
+  )
+    .filter((row) => row.taken && row.subjectId === subjectId)
+    .reduce((sum, row) => sum + row.amountMinor, 0);
+  if (!taken) return 0;
+  const month = official.livingCostDailyMinor * c(api, "daysPerMonth");
+  return -c(api, "bribeVoteWeight") * (taken / (taken + month));
+}
+
+/**
+ * A bribe taken on a bill is settled when the bill is voted. The payers are
+ * those who lose money on it, so the favor is a "no"; an official who took
+ * the money and voted "yes" cheated the payer, who loses closeness to them in
+ * proportion to what the bribe was worth against the payer's own living costs.
+ * That souring is the real route by which a taken bribe surfaces (the tie
+ * handler below decides whether the payer tells someone). A bribe delivered
+ * keeps the tie as it was. Each bribe is settled once.
+ */
+export function settleBribes(
+  api: CoreAPI,
+  billId: string,
+  voteOf: (officialId: PersonId) => "yes" | "no" | "abstain" | undefined,
+): void {
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return;
+  const taken = (
+    table(api, "crimes").rows() as unknown as CrimeRecord[]
+  ).filter((row) => row.taken && row.subjectId === billId);
+  for (const crime of taken) {
+    const id = `settled:${crime.id}`;
+    if (table(api, "settled").get(id)) continue;
+    const vote = voteOf(crime.officialId);
+    if (vote === undefined) continue;
+    const delivered = vote !== "yes";
+    table(api, "settled").put({
+      id,
+      crimeId: crime.id,
+      billId,
+      date: api.state.date,
+      vote,
+      delivered,
+    });
+    const payer = api.state.people.get(crime.offererId);
+    if (delivered || !payer?.alive || !api.state.people.get(crime.officialId))
+      continue;
+    const hours =
+      c(api, "bribeBreachHoursPerDayOfCost") *
+      (crime.amountMinor / Math.max(payer.livingCostDailyMinor, 1));
+    api.relationship(
+      crime.offererId,
+      crime.officialId,
+      "contact",
+      -hours,
+      undefined,
+      { cause: "bribe-unrewarded", sourceId: crime.id },
+    );
+  }
+}
+
+/** The scandal stories reported about an official by the date (each a news story id). */
+export function scandalsOf(
+  api: CoreAPI,
+  officialId: PersonId,
+  date: string,
+): readonly string[] {
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return [];
+  return (
+    table(api, "reported").query("byOfficial", [officialId]) as unknown as {
+      id: string;
+      date: string;
+    }[]
+  )
+    .filter((row) => row.date <= date)
+    .map((row) => row.id);
+}

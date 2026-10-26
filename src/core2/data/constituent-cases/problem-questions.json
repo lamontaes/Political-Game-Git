@@ -1,0 +1,13 @@
+{
+  "version": "constituent-case-questions-v1",
+  "source": "Which recorded policy question a constituent's problem argues for when they bring it to an official. A problem with no matching question in the policy table makes no case on a question.",
+  "problems": {
+    "paid-under-minimum-wage": {
+      "question": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "desiredChange": "enact",
+      "tag": "SOURCED",
+      "citation": "The complaint itself: a worker paid under the floor in force is asking for the floor to be enforced and raised (issue axis in data/research/campaigns/issue-axes-2026.json)."
+    },
+    "looking-for-work": null
+  }
+}

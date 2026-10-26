@@ -3,7 +3,7 @@ import {
   BANK_FAILED_EVENT,
   BUSINESS_CLOSED_EVENT,
 } from "../living-world/town-finance-types";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import type { MacroShockKind } from "./policy";
 import { worldMetricStateForPeriodAt } from "../world-metrics";

@@ -1,22 +1,20 @@
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
+import { composeBill } from "../english/bill-sections";
 import {
-  billOf,
+  billForm,
   currentAmount,
   draftBill,
-  learnStake,
   memberKey,
-  offerDeal,
-  scheduleVote,
   votesOn,
   type BillRow,
   type Provision,
 } from "../core2/modules/legislature";
+import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
 import type { TermRow } from "../core2/modules/offices";
-import effects from "../core2/data/laws/policy-effects.json" with { type: "json" };
-import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
+import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFile, hasBackdrop, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const OFFICES = "core2-offices-v1";
@@ -25,7 +23,8 @@ const LEGISLATURE = "core2-legislature-v1";
 function terms(core: CoreState) {
   return coreAPI(core).moduleState(OFFICES).table("terms");
 }
-function name(core: CoreState, key: string): string {
+/** A person's or a named official's name, by their key. */
+export function personName(core: CoreState, key: string): string {
   const person = core.people.get(key);
   if (person) return `${person.givenName} ${person.familyName}`;
   const term = terms(core).get(key.replace(/^official:/, "")) as
@@ -70,7 +69,7 @@ function bodiesOf(core: CoreState, personId: string) {
         kind: office.kind,
         members: members.map((row) => ({
           key: memberKey(row),
-          name: name(core, memberKey(row)),
+          name: personName(core, memberKey(row)),
           party: row.party,
           you: row.personId === personId,
         })),
@@ -79,10 +78,47 @@ function bodiesOf(core: CoreState, personId: string) {
   });
 }
 
+/** The seats this person left on taking another, with the law that required it. */
+function incompatibilitiesOf(core: CoreState, personId: string) {
+  const offices = coreAPI(core).moduleState(OFFICES);
+  const officeTitle = (termId: string) => {
+    const term = terms(core).get(termId) as TermRow | undefined;
+    const office = term
+      ? (offices.table("offices").get(term.officeId) as
+          { title: string } | undefined)
+      : undefined;
+    return office?.title ?? termId;
+  };
+  return (
+    offices.table("incompatibilities").rows() as unknown as {
+      id: string;
+      personId: string;
+      previousTermId: string;
+      acceptedTermId: string;
+      date: string;
+      law: { citation: string };
+    }[]
+  )
+    .filter((row) => row.personId === personId)
+    .map((row) => ({
+      id: row.id,
+      date: row.date,
+      left: officeTitle(row.previousTermId),
+      took: officeTitle(row.acceptedTermId),
+      law: row.law.citation,
+    }));
+}
+
 /** Your seat: the bodies you sit on, what you could change, and your bills. */
 export function seatView(core: CoreState, personId: string) {
   if (!core.modules.has(LEGISLATURE))
-    return { bodies: [], bills: [], amounts: [], questions: [] };
+    return {
+      bodies: [],
+      bills: [],
+      amounts: [],
+      questions: [],
+      incompatibilities: [],
+    };
   const api = coreAPI(core);
   const bills = (
     api.moduleState(LEGISLATURE).table("bills").rows() as unknown as BillRow[]
@@ -92,91 +128,95 @@ export function seatView(core: CoreState, personId: string) {
       bill,
       votes: votesOn(api, bill.id).map((row) => ({
         ...row,
-        name: name(core, row.memberId),
+        name: personName(core, row.memberId),
       })),
     }));
+  // Each body's own catalog: what its level can pass, with the amount in force.
+  const bodies = bodiesOf(core, personId).map((body) => ({
+    ...body,
+    menus: menusFor(api, body.level),
+  }));
   return {
-    bodies: bodiesOf(core, personId),
+    bodies,
+    // Seats the law made them leave on taking another (offices engine).
+    incompatibilities: incompatibilitiesOf(core, personId),
     amounts: lawHere(api).map((row) => ({
       series: row.series,
       unit: row.unit,
       current: currentAmount(api, row.series),
     })),
-    // Every law area on GOV's bill catalog: its policies and budget lines.
-    menus: catalogMenus(),
     questions: [
-      ...new Set([
-        ...Object.keys(
-          (effects as unknown as { effects: Record<string, unknown> }).effects,
+      ...new Set(
+        bodies.flatMap((body) =>
+          body.menus.flatMap((menu) =>
+            menu.items.flatMap((item) =>
+              item.question ? [item.question] : [],
+            ),
+          ),
         ),
-        ...catalogMenus().flatMap((menu) =>
-          menu.items.flatMap((item) => (item.question ? [item.question] : [])),
-        ),
-      ]),
+      ),
     ],
     bills,
   };
 }
 
-/** One act from your seat: draft, ask a colleague, offer a deal, schedule the vote. */
+/**
+ * Draft a bill from your seat: it goes on the body's next agenda that is not
+ * yet posted. Asking a colleague, offering a deal and taking the vote are
+ * acts in the day and the meeting scene (office-day), not buttons here.
+ */
 export function seatAct(
   core: CoreState,
   personId: string,
   input: {
     kind: string;
     officeId?: string;
-    billId?: string;
-    memberId?: string;
     series?: string;
     question?: string;
     /** A budget line the bill changes, by the amount in cents. */
     line?: string;
     value?: number;
-    deal?: string;
   },
 ) {
   const api = coreAPI(core);
-  if (input.billId && billOf(api, input.billId)?.sponsorId !== personId)
-    throw new Error("That is not your bill.");
-  switch (input.kind) {
-    case "draft": {
-      if (!bodiesOf(core, personId).some((b) => b.officeId === input.officeId))
-        throw new Error("You don't sit on that body.");
-      const provision: Provision = input.line
-        ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
-        : input.series
-          ? {
-              kind: "law-amount",
-              series: input.series,
-              value: input.value ?? 0,
-              unit:
-                lawHere(api).find((row) => row.series === input.series)?.unit ??
-                undefined,
-            }
-          : {
-              kind: "policy-question",
-              question: input.question ?? "",
-              value: input.value ?? 1,
-            };
-      return draftBill(api, {
-        bodyOfficeId: input.officeId!,
-        sponsorId: personId,
-        provisions: [provision],
-      });
-    }
-    case "stake":
-      return learnStake(api, input.billId!, input.memberId!, "conversation");
-    case "deal":
-      return offerDeal(api, {
-        billId: input.billId!,
-        memberId: input.memberId!,
-        kind: (input.deal ?? "favor") as "favor" | "back-their-item",
-      });
-    case "schedule":
-      return { date: scheduleVote(api, input.billId!) };
-    default:
-      throw new Error("Unknown act from your seat.");
-  }
+  if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
+  if (!bodiesOf(core, personId).some((b) => b.officeId === input.officeId))
+    throw new Error("You don't sit on that body.");
+  const provision: Provision = input.line
+    ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
+    : input.series
+      ? {
+          kind: "law-amount",
+          series: input.series,
+          value: input.value ?? 0,
+          unit:
+            lawHere(api).find((row) => row.series === input.series)?.unit ??
+            undefined,
+        }
+      : {
+          kind: "policy-question",
+          question: input.question ?? "",
+          value: input.value ?? 1,
+        };
+  const bill = draftBill(api, {
+    bodyOfficeId: input.officeId!,
+    sponsorId: personId,
+    provisions: [provision],
+  });
+  // The bill on paper, worded from its record: title, sections with the old
+  // and new values and the statute amended, and the effective date.
+  const form = billForm(api, bill);
+  const text =
+    composeBill({
+      ...bill,
+      effective: form.effectiveSection,
+      before: form.sections.map((section) => section.before),
+    })?.text ?? [];
+  // A body with no regular meeting (a federal chamber votes on its floor
+  // calendar) keeps the drafted bill without an agenda date.
+  return bill.status === "drafted" && upcomingMeeting(api, bill.bodyOfficeId)
+    ? { ...bill, text, agendaDate: placeOnAgenda(api, bill.id) }
+    : { ...bill, text };
 }
 
 /** The body in its meeting room: the player at the front, colleagues behind. */
@@ -188,7 +228,7 @@ export function bodyScene(
 ) {
   const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
   if (!body) throw new Error("You don't sit on that body.");
-  const places = scenePlaces.bodyPlaces as Record<string, string>;
+  const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
   const offices = coreAPI(core).moduleState(OFFICES).table("offices");
   // A legislature with no upper chamber on record meets in a one-house chamber.
   const kind =
@@ -198,11 +238,31 @@ export function bodyScene(
     )
       ? "legislature-unicameral"
       : body.kind;
-  const place = places[kind] ?? places.default!;
+  // A council's room by its seats, a county board's by the town's size.
+  const sized = (
+    scenePlaces.bodyPlacesBySize as unknown as Record<
+      string,
+      { underSeats?: number; underPopulation?: number; places: string[] }[]
+    >
+  )[kind]?.find((row) =>
+    row.underSeats !== undefined
+      ? ((offices.get(officeId) as { seats?: number } | undefined)?.seats ??
+          body.members.length) < row.underSeats
+      : Number(core.placeMetadata?.referencePopulation ?? 0) <
+        (row.underPopulation ?? 0),
+  )?.places;
+  const place =
+    [...(sized ?? []), ...(places[kind] ?? []), ...places.default!].find(
+      hasBackdrop,
+    ) ?? places.default![0]!;
   const cast = [
     ...body.members.filter((m) => m.you),
     ...body.members.filter((m) => !m.you),
-  ].map((m) => ({ id: m.key.replace(/^official:/, ""), name: m.name }));
+  ].map((m) => ({
+    id: m.key.replace(/^official:/, ""),
+    name: m.name,
+    reason: m.you ? ("you" as const) : ("official" as const),
+  }));
   return {
     title: body.title,
     place,
@@ -211,38 +271,36 @@ export function bodyScene(
   };
 }
 
-interface CatalogPolicy {
-  kind: string;
-  name: string;
-  question?: string;
-  line?: string;
-}
-/** The bill catalog's subjects, each with its policy questions and budget lines. */
-function catalogMenus() {
-  const subjects = (
-    billCatalog as unknown as {
-      subjects: {
-        id: string;
-        name: string;
-        topics: { policies?: CatalogPolicy[] }[];
-      }[];
-    }
-  ).subjects;
-  return subjects.map((subject) => ({
-    id: subject.id,
-    name: subject.name,
-    items: subject.topics
-      .flatMap((topic) => topic.policies ?? [])
+/**
+ * The bill catalog for a body: each law area's policies and budget lines that
+ * its level can pass, with the amount in force today and whether the state
+ * lets a town act (`billCatalog`, never the raw catalog file).
+ */
+function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
+  const level =
+    bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
+  return billCatalog(api, level).map((menu) => ({
+    id: menu.id,
+    name: menu.name,
+    items: menu.topics
+      .flatMap((topic) => topic.policies)
       .filter(
         (row) =>
           (row.kind === "policy-question" && row.question) ||
-          (row.kind === "budget-line" && row.line),
+          (row.kind === "budget-line" && row.line) ||
+          (row.kind === "law-amount" && row.series),
       )
       .map((row) => ({
         kind: row.kind,
         name: row.name,
         ...(row.question ? { question: row.question } : {}),
         ...(row.line ? { line: row.line } : {}),
+        ...(row.series ? { series: row.series } : {}),
+        ...(row.unit ? { unit: row.unit } : {}),
+        inForce: row.inForce,
+        allowed: row.authority.allowed,
+        warning: row.authority.warning,
+        reason: row.authority.reason,
       })),
   }));
 }

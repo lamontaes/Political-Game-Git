@@ -1,11 +1,13 @@
 /**
- * core2-api-v12: one job starts or ends mid-run (shared core seam for OPUS-CORE review).
+ * One job starts or ends mid-run (shared core seam for OPUS-CORE review).
  * A start admits the job, the person's commitment and its payroll calendar
  * through the existing writers; an end stops future work the way an employer
  * closure does, keeping any wages already earned for the next recorded payday.
  */
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { financeIndex } from "./finance-state";
+import { refreshOfficeStaff } from "./civic-inputs";
+import { admitPublicPayAuthority } from "./public-work-pay";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
 import type {
   CoreAPI,
@@ -39,11 +41,75 @@ export function startRecordedJob(
     makeIsoDate(commitment.startsAt) < core.date
   )
     throw new Error("A job start's commitment and calendar must be its own.");
+  // A hire at a public employer joins the employer's public pay authority:
+  // its due pay is resolved only for the commitments the authority owns.
+  const employer = core.organizations.get(job.organizationId)!;
+  const authority = employer.publicPayAuthority;
+  if (commitment.publicPayAuthorityId !== undefined) {
+    if (authority?.id !== commitment.publicPayAuthorityId)
+      throw new Error(
+        "A job start's public pay authority must be its employer's.",
+      );
+    if (!authority.workCommitmentIds.includes(commitment.id))
+      employer.publicPayAuthority = admitPublicPayAuthority(
+        {
+          ...authority,
+          workCommitmentIds: [...authority.workCommitmentIds, commitment.id],
+        },
+        core.date,
+      );
+  }
   core.jobs.set(job.id, { ...job });
   financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
   api.updatePerson(actor.id, { jobId: job.id });
   api.addWorkCommitment(commitment);
   api.addWorkPayrollCalendar(calendar);
+  refreshOfficeStaff(core, job.organizationId);
+}
+
+/**
+ * A post paid a salary rather than by the hour (an elected office): the job
+ * is recorded with no shift hours, so no work act is offered for it; its
+ * pay is the caller's to post (official-pay pays officials monthly).
+ */
+export function startSalariedPost(
+  core: CoreState,
+  api: CoreAPI,
+  job: JobInput,
+): void {
+  const actor = core.people.get(job.personId);
+  if (
+    !actor?.alive ||
+    !core.organizations.has(job.organizationId) ||
+    core.jobs.has(job.id) ||
+    job.endsAt !== undefined ||
+    job.hoursDaily !== 0
+  )
+    throw new Error(
+      "A salaried post needs a living person, a recorded employer and no shift hours.",
+    );
+  if (actor.jobId && core.jobs.get(actor.jobId)?.endsAt === undefined)
+    endRecordedJob(core, api, actor.jobId, `post:${job.id}`);
+  core.jobs.set(job.id, { ...job });
+  financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+  api.updatePerson(actor.id, { jobId: job.id });
+  refreshOfficeStaff(core, job.organizationId);
+}
+
+/**
+ * Whether the person already worked today: a job ends before its day's work
+ * (calendar work runs first on the world's clock, but after the day on the
+ * player's), so someone who has worked today cannot leave theirs for a new
+ * post until tomorrow.
+ */
+export function workedToday(
+  core: CoreState,
+  person: Readonly<{ jobId?: string }>,
+): boolean {
+  return (
+    !!person.jobId &&
+    core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
+  );
 }
 
 export function endRecordedJob(
@@ -63,11 +129,17 @@ export function endRecordedJob(
     throw new Error("A job ends before its day's work, from calendar work.");
   job.endsAt = core.date;
   if (actor.jobId === jobId) delete actor.jobId;
+  refreshOfficeStaff(core, job.organizationId);
   for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??
     []) {
     const commitment = core.work.commitments.get(commitmentId)!;
     if (commitment.jobId !== jobId || commitment.endsAt !== undefined) continue;
-    commitment.endsAt = core.date;
+    // A job that ends before its first day (a commuter job starts the day
+    // after a fill-in, and a return to the counts can end it the same day)
+    // ends its commitment on that first day, never before it starts; the
+    // job's own end, today, still comes first, so it is never worked.
+    commitment.endsAt =
+      commitment.startsAt > core.date ? commitment.startsAt : core.date;
     const residues = core.work.byPeriodResidue.get(commitment.periodDays);
     for (const [residue, ids] of residues ?? []) {
       ids.delete(commitmentId);

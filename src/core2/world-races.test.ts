@@ -1,8 +1,8 @@
 /**
  * M2-10 (first slice): in an election year every state and federal race
  * resolves: the town's own races with named voters (voting.ts) and every
- * other seat at the coarse level from its electorate's lean, the national
- * environment and incumbency. Winners are seated on the real dates.
+ * other seat counted on the same engine, place by place
+ * (electorate.ts, electorate-places.ts). Winners are seated on the real dates.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -22,13 +22,15 @@ import {
   members,
   openLegislature,
 } from "./modules/legislature";
-import { openWorldRaces, presidentialOf, racesOf } from "./modules/world-races";
-import { partySide } from "./appointments";
 import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  electoralCollege,
+  openWorldRaces,
+  presidentialOf,
+  racesOf,
+} from "./modules/world-races";
+import { contingentElection } from "./contingent-election";
+import { partySide } from "./appointments";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";
 const seed =
@@ -38,7 +40,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 // Independents in Congress caucus with the Democrats.
@@ -59,7 +61,7 @@ describe("M2-10 state and federal races in the world", () => {
   it("every race this November resolves, and winners take their seats on the real dates", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -93,10 +95,21 @@ describe("M2-10 state and federal races in the world", () => {
     expect(senate.length).toBeGreaterThanOrEqual(30);
     for (const r of races) {
       expect(r.date).toBe("2026-11-03");
+      // Counted in its places: the share is the places' votes, and every
+      // race keeps each party's reasons.
+      expect(r.reasons?.length).toBe(2);
+      // A territory's delegate seat is decided at its 2024 delegate lean,
+      // its size not yet read (SG-GOV-delegate-race-size).
+      if (!r.votes!.republican && !r.votes!.democratic) {
+        expect(sideOf(r.winnerParty), r.seatId).not.toBe(0);
+        continue;
+      }
+      expect(r.places, r.seatId).toBeGreaterThan(0);
       expect(r.republicanShare).toBeCloseTo(
-        r.lean + r.environment + r.incumbency,
+        r.votes!.republican / (r.votes!.republican + r.votes!.democratic),
         9,
       );
+      expect(r.reasons?.length).toBe(2);
       if (r.republicanShare !== 0.5)
         expect(sideOf(r.winnerParty)).toBe(r.republicanShare > 0.5 ? 1 : -1);
     }
@@ -144,12 +157,14 @@ describe("M2-10 state and federal races in the world", () => {
           .slice(0, 25),
       }),
     );
-  });
+    // Building the town and counting every race in the country takes about
+    // 18 seconds alone; beside other worlds in a parallel run, more.
+  }, 120_000);
 
   it("the presidency is won in the electoral college, and the winner and running mate take office January 20", () => {
     const state = pick(states, "pres:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -208,5 +223,143 @@ describe("M2-10 state and federal races in the world", () => {
           .map((s) => `${s.stateKey}:${s.republicanShare.toFixed(3)}`),
       }),
     );
-  });
+  }, 120_000);
+
+  it("sends a split election to Congress: each delegation votes, the Senate chooses the vice president, and every vote keeps its parts", () => {
+    const state = pick(states, "split:state");
+    const places = [
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "split:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: "2028-10-20",
+        minimumPeople: 120,
+      }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openParties(core);
+    openVoting(core);
+    openLegislature(core);
+    openWorldRaces(core);
+    const api = coreAPI(core);
+    const where = `seed ${seed}, ${state} place ${key}`;
+    // The electors meet and the count is whatever the counties gave.
+    advanceCore(core, "2028-12-20");
+    const counted = presidentialOf(api, 2028)!;
+    expect(counted.contingent, where).toBeUndefined();
+    // Force a split: no ticket reaches the majority this time.
+    electoralCollege(api, 2028, 539);
+    const pending = presidentialOf(api, 2028)!;
+    expect(pending.contingent?.status, where).toBe("pending");
+    expect(pending.contingent?.on).toBe("2029-01-06");
+    advanceCore(core, "2029-01-07");
+    const row = presidentialOf(api, 2028)!;
+    expect(["decided", "deadlocked"], where).toContain(row.contingent!.status);
+    const record = api
+      .moduleState("core2-world-races-v1")
+      .table("contingent")
+      .get(row.contingent!.recordId) as unknown as ReturnType<
+      typeof contingentElection
+    >;
+    expect(record, where).toBeDefined();
+    // One vote per delegation of a voting state, with every member's parts.
+    const house = members(api, FEDERAL_HOUSE);
+    const delegations = new Set(house.map((m) => m.seatId.split(":")[1]));
+    expect(
+      record.house.delegations.map((d) => d.stateKey).sort(),
+      where,
+    ).toEqual([...delegations].sort());
+    expect(record.house.delegations.reduce((n, d) => n + d.members, 0)).toBe(
+      house.length,
+    );
+    for (const delegation of record.house.delegations) {
+      expect(delegation.memberVotes).toHaveLength(delegation.members);
+      for (const vote of delegation.memberVotes)
+        expect(
+          vote.total,
+          `${vote.memberId} ${vote.parts.party}+${vote.parts.district}+${vote.parts.stateVote}`,
+        ).toBeCloseTo(
+          vote.parts.party + vote.parts.district + vote.parts.stateVote,
+          9,
+        );
+    }
+    // A majority of all the states chose, or nobody did and someone acts.
+    expect(record.house.needed).toBe(26);
+    if (row.contingent!.status === "decided") {
+      const chosen =
+        record.house.chosenSide > 0
+          ? record.house.republicanStates
+          : record.house.democraticStates;
+      expect(chosen, where).toBeGreaterThanOrEqual(26);
+      expect(record.acting).toBeNull();
+    } else {
+      expect(record.house.chosenSide).toBe(0);
+      expect(record.acting, where).not.toBeNull();
+    }
+    // The Senate chooses the vice president by a majority of the whole number.
+    const senators = members(api, FEDERAL_SENATE);
+    expect(record.senate.votes).toHaveLength(senators.length);
+    expect(record.senate.needed).toBe(Math.floor(senators.length / 2) + 1);
+    govReport(
+      "world-races-contingent",
+      JSON.stringify({
+        seed,
+        state,
+        place: key,
+        status: row.contingent!.status,
+        acting: record.acting,
+        house: {
+          republicanStates: record.house.republicanStates,
+          democraticStates: record.house.democraticStates,
+          needed: record.house.needed,
+        },
+        senate: {
+          republican: record.senate.republican,
+          democratic: record.senate.democratic,
+          needed: record.senate.needed,
+        },
+        president: row.winnerParty,
+        vicePresident: row.vicePresidentParty,
+      }),
+    );
+    // Congress's choice is who takes office on January 20.
+    advanceCore(core, "2029-01-21");
+    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+    const president = terms.query("bySeatStatus", [
+      "seat:US:president",
+      "serving",
+    ]) as unknown as { party: string; reached: string }[];
+    expect(president, where).toHaveLength(1);
+    expect(president[0]!.party).toBe(row.winnerParty);
+    const vice = terms.query("bySeatStatus", [
+      "seat:US:vice-president",
+      "serving",
+    ]) as unknown as { party: string }[];
+    expect(vice.length, where).toBe(row.vicePresidentParty ? 1 : 0);
+    if (row.vicePresidentParty)
+      expect(vice[0]!.party).toBe(row.vicePresidentParty);
+    // When the House cannot choose (here: a majority of 200 states, which no
+    // delegation count can reach) the vice president-elect acts, else the Speaker.
+    const stuck = contingentElection(api, {
+      year: 2028,
+      electors: Object.fromEntries(
+        row.states.map((state) => [state.stateKey, state.winnerSide]),
+      ),
+      states: 200,
+    });
+    expect(stuck.house.chosenSide, where).toBe(0);
+    expect(stuck.acting, where).not.toBeNull();
+    expect(stuck.presidentSide, where).not.toBe(0);
+    if (stuck.acting === "vice-president-elect")
+      expect(stuck.vicePresidentSide).toBe(0);
+  }, 240_000);
 });

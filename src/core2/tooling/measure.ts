@@ -8,8 +8,9 @@ import {
   ageOnDate,
   daysBetween,
   makeIsoDate,
-} from "../../simulation/dates";
-import { stableHash } from "../../simulation/ids";
+  daysBetweenText,
+} from "../kernel/dates";
+import { stableHash } from "../kernel/ids";
 import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
 import { developerBanners } from "../stopgaps";
@@ -20,19 +21,18 @@ import { advanceCore, createLifeCore } from "../life";
 import { initialFocusPeople } from "../focus";
 import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "../data";
+import { gameStartDate } from "../game-start";
 import measurementData from "../data/measurement.json" with { type: "json" };
 import {
   summarizeWorkObservables,
   type WorkObservableSummary,
 } from "./work-observables";
 
-type MeasureMode = "opening" | "year" | "pre-run";
+type MeasureMode = "opening" | "year";
 
 interface MeasurementData {
   version: string;
   seed: string;
-  startedAt: string;
-  preRunThrough: string;
   source: {
     tag: "SOURCED";
     asOf: string;
@@ -190,7 +190,7 @@ function traceSelection(
   focusPersonIds: string[];
   focusPlaceIds: string[];
   visiblePlaceIds: string[];
-  tierScope: "normal-circle-daily-town-weekly" | "pre-run-full-county-daily";
+  tierScope: "normal-circle-daily-town-weekly";
   peerPrior: {
     contactCount: number;
     contacts: ReturnType<typeof buildOpeningPeerContacts>["contacts"];
@@ -210,7 +210,7 @@ function traceSelection(
   }
   const candidates = input.people.flatMap((person) => {
     if (
-      ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(input.startedAt)) <
+      ageOnDate(person.birthDate, input.startedAt) <
         P("benchmarkAdultMinimumAge") ||
       !person.countyId
     )
@@ -261,12 +261,9 @@ function traceSelection(
   const countyId = player.countyId;
   if (!countyId)
     throw new Error(`Benchmark player has no county focus: ${player.id}`);
-  const focusPlaceIds = mode === "pre-run" ? [countyId] : [];
+  const focusPlaceIds: string[] = [];
   const visiblePlaceIds = [...new Set([player.placeId, countyId])].sort();
-  const tierScope =
-    mode === "pre-run"
-      ? ("pre-run-full-county-daily" as const)
-      : ("normal-circle-daily-town-weekly" as const);
+  const tierScope = "normal-circle-daily-town-weekly" as const;
   const traced: CoreInput = {
     ...input,
     gaps: [
@@ -804,11 +801,11 @@ export function sourceHash(): {
     fileCount: files.length,
     files: manifest,
     directRuntimeDependencies: [
-      "src/simulation/dates.ts",
-      "src/simulation/ids.ts",
-      "src/simulation/life-places.ts",
-      "src/simulation/living-costs-data.ts",
-      "src/simulation/living-costs-category-data.ts",
+      "src/core2/kernel/dates.ts",
+      "src/core2/kernel/ids.ts",
+      "src/core2/place-lookup.ts",
+      "src/core2/reference/living-costs-data.ts",
+      "src/core2/reference/living-costs-category-data.ts",
       "data/content/act-kinds.json",
       "data/content/trait-act-pulls.json",
     ].map((path) => {
@@ -863,10 +860,7 @@ async function runCore(
   const completed = performance.now();
   const after = memorySample();
   const elapsedMilliseconds = completed - started;
-  const expectedDays = daysBetween(
-    makeIsoDate(input.startedAt),
-    makeIsoDate(throughDate),
-  );
+  const expectedDays = daysBetweenText(input.startedAt, throughDate);
   if (advanceReceipt.simulatedDays !== expectedDays)
     throw new Error(
       `Life loop advanced ${advanceReceipt.simulatedDays} days; expected ${expectedDays} from ${input.startedAt} through ${throughDate}.`,
@@ -945,8 +939,8 @@ function parseArgs(args: readonly string[]): {
     const argument = args[index];
     if (argument === "--mode") {
       const value = args[index + one];
-      if (value !== "opening" && value !== "year" && value !== "pre-run")
-        throw new Error("--mode must be opening, year, or pre-run.");
+      if (value !== "opening" && value !== "year")
+        throw new Error("--mode must be opening or year.");
       mode = value;
       index += one;
     } else if (argument === "--output") {
@@ -986,7 +980,7 @@ function parseArgs(args: readonly string[]): {
       index += one;
     } else if (argument === "--help") {
       process.stdout.write(
-        "Usage: measure.ts [--mode opening|year|pre-run] [--output /tmp/receipt.json] [--prepared-input-output /tmp/prepared.json] [--player-id recorded-person-id] [--opening-employment true|false] [--scheduled-work true|false]\n",
+        "Usage: measure.ts [--mode opening|year] [--output /tmp/receipt.json] [--prepared-input-output /tmp/prepared.json] [--player-id recorded-person-id] [--opening-employment true|false] [--scheduled-work true|false]\n",
       );
       process.exit(zero);
     } else {
@@ -1012,7 +1006,7 @@ async function main(): Promise<void> {
     openingEmployment,
     scheduledWork,
   } = parseArgs(process.argv.slice(one + one));
-  const startDate = makeIsoDate(measurement.startedAt);
+  const startDate = gameStartDate();
   const sourceHashBefore = sourceHash();
   const populationMemoryBefore = memorySample();
   const populationStarted = performance.now();
@@ -1060,11 +1054,7 @@ async function main(): Promise<void> {
   });
   const inputSha256 = preparedInputHash(traced.input, preparedInputOutputPath);
   const throughDate =
-    mode === "year"
-      ? addDays(startDate, P("yearSpanDays"))
-      : mode === "pre-run"
-        ? makeIsoDate(measurement.preRunThrough)
-        : startDate;
+    mode === "year" ? addDays(startDate, P("yearSpanDays")) : startDate;
   const expectedDays = daysBetween(startDate, throughDate);
   if (mode === "year" && expectedDays !== P("yearSpanDays"))
     throw new Error("Configured year span does not match its calendar dates.");

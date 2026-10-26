@@ -1,0 +1,206 @@
+{
+  "countedIncomeFifthLimit1Dollars": {
+    "value": 33000,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Income in the United States: 2023 (P60-282), Table A-4, household income at the upper limit of the lowest fifth, 2023 dollars.",
+    "estimatedFrom": "The upper limit of the lowest national household-income fifth keys a counted household's income band; the same limits apply in every place.",
+    "spread": {
+      "low": 31350,
+      "high": 34650,
+      "unit": "dollars a year",
+      "citation": "Within 5% of the published limit, covering the survey's margin and a year of price change."
+    }
+  },
+  "countedIncomeFifthLimit2Dollars": {
+    "value": 62200,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Income in the United States: 2023 (P60-282), Table A-4, household income at the upper limit of the second fifth, 2023 dollars.",
+    "estimatedFrom": "Upper limit of the second national household-income fifth.",
+    "spread": {
+      "low": 59090,
+      "high": 65310,
+      "unit": "dollars a year",
+      "citation": "Within 5% of the published limit."
+    }
+  },
+  "countedIncomeFifthLimit3Dollars": {
+    "value": 101000,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Income in the United States: 2023 (P60-282), Table A-4, household income at the upper limit of the third fifth, 2023 dollars.",
+    "estimatedFrom": "Upper limit of the third national household-income fifth.",
+    "spread": {
+      "low": 95950,
+      "high": 106050,
+      "unit": "dollars a year",
+      "citation": "Within 5% of the published limit."
+    }
+  },
+  "countedIncomeFifthLimit4Dollars": {
+    "value": 165300,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Income in the United States: 2023 (P60-282), Table A-4, household income at the upper limit of the fourth fifth, 2023 dollars.",
+    "estimatedFrom": "Upper limit of the fourth national household-income fifth.",
+    "spread": {
+      "low": 157035,
+      "high": 173565,
+      "unit": "dollars a year",
+      "citation": "Within 5% of the published limit."
+    }
+  },
+  "countedWorkingAgeFrom": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "BLS Current Population Survey: the civilian labor force age bands the opening's employment target uses (ACS/CPS 18 and over in the town's own employment receipt).",
+    "estimatedFrom": "Counted adults from this age without a recorded job share the place's unplaced workers."
+  },
+  "countedWorkingAgeBelow": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "Social Security Administration: full retirement age 66 to 67 for people born 1943 to 1960 and later; 65 is the age band edge the ACS employment tables and the opening's age bands use.",
+    "estimatedFrom": "Counted adults below this age without a recorded job share the place's unplaced workers."
+  },
+  "countedOutlayShareOfDisposableIncome": {
+    "value": 0.927,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Bureau of Economic Analysis, NIPA Table 2.1 'Personal Income and Its Disposition', 2019 annual: personal saving 7.3% of disposable personal income, so outlays are about 92.7% of income after taxes.",
+    "estimatedFrom": "A counted group spends this share of its income after the taxes withheld from its pay (wages net, benefits and awards as paid), averaged over recent months; rent and mortgages come out of it first. 2019 avoids the pandemic years' saving.",
+    "spread": {
+      "low": 0.88,
+      "high": 0.965,
+      "unit": "personal outlays / disposable personal income",
+      "citation": "BEA NIPA Table 2.1: saving 12% of disposable income in 2021 (the low end of outlays) to 3.5% in 2022 (the high end)."
+    }
+  },
+  "countedMovesInStateShare": {
+    "value": 0.57,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, CPS ASEC 2023, Geographical Mobility: 2022 to 2023, Table 1 (people 1 year and over): about 6.0 million moved from a different county in the same state and about 4.6 million from a different state, so 0.57 of those who left their county stayed in their state.",
+    "estimatedFrom": "Of a group's people who leave their county in a year (the ACS rate for their age), this share move elsewhere in their own state and the rest to another state or territory.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.65,
+      "unit": "share of county leavers",
+      "citation": "CPS ASEC 2019 to 2023 tables, same table each year."
+    }
+  },
+  "countedMovesIncomeElasticity": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "Kleven, Landais, Munoz and Stantcheva (2020), 'Taxation and Migration: Evidence and Policy Implications', Journal of Economic Perspectives 34(2): estimated elasticities of where people live to the after-tax income it offers run from near 0.1 for the whole population to about 1.8 for star scientists (Moretti and Wilson 2017) and above for some groups.",
+    "estimatedFrom": "How strongly a place's pull follows its after-tax income in real terms (state income tax in force, regional prices) against home: the pull is scaled by that ratio to this power. A starting value inside the published range.",
+    "spread": {
+      "low": 0.1,
+      "high": 2.0,
+      "unit": "elasticity of the pull to the after-tax real income ratio",
+      "citation": "Kleven et al. (2020), Table 1 and section 3."
+    }
+  },
+  "countedMovesUnemploymentPull": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Blanchard and Katz (1992), 'Regional Evolutions', Brookings Papers on Economic Activity: a state's relative unemployment drives net migration away from it within a few years; the size per point is a starting value.",
+    "estimatedFrom": "Each point a place's unemployment runs below home multiplies its pull by exp(this); above home, the reverse.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.3,
+      "unit": "log pull per unemployment point",
+      "citation": "Blanchard and Katz (1992); Dao, Furceri and Loungani (2017), Review of Economics and Statistics 99(2)."
+    }
+  },
+  "countedPeopleShareUnder18": {
+    "value": 0.215,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 21.5% of residents under 18.",
+    "estimatedFrom": "A state's or territory's people at the coarse grain, by age band, are its BEA population times the national shares.",
+    "spread": {
+      "low": 0.19,
+      "high": 0.25,
+      "unit": "share of population",
+      "citation": "State shares in the same estimates range about 19% to 25%."
+    }
+  },
+  "countedPeopleShare18to29": {
+    "value": 0.16,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 16% of residents 18 to 29.",
+    "estimatedFrom": "National share for the coarse grain.",
+    "spread": {
+      "low": 0.14,
+      "high": 0.2,
+      "unit": "share of population",
+      "citation": "State range in the same estimates."
+    }
+  },
+  "countedPeopleShare30to44": {
+    "value": 0.199,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 19.9% of residents 30 to 44.",
+    "estimatedFrom": "National share for the coarse grain.",
+    "spread": {
+      "low": 0.17,
+      "high": 0.23,
+      "unit": "share of population",
+      "citation": "State range in the same estimates."
+    }
+  },
+  "countedPeopleShare45to64": {
+    "value": 0.246,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 24.6% of residents 45 to 64.",
+    "estimatedFrom": "National share for the coarse grain.",
+    "spread": {
+      "low": 0.22,
+      "high": 0.28,
+      "unit": "share of population",
+      "citation": "State range in the same estimates."
+    }
+  },
+  "countedPeopleShare65plus": {
+    "value": 0.18,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 18% of residents 65 and over.",
+    "estimatedFrom": "National share for the coarse grain.",
+    "spread": {
+      "low": 0.12,
+      "high": 0.22,
+      "unit": "share of population",
+      "citation": "State range in the same estimates."
+    }
+  },
+  "countedDemotionDays": {
+    "value": 210,
+    "tag": "TUNABLE",
+    "citation": "Owner, Oct 15, 2026: 'The days without contact before a met person drifts back into the counted population is a per-world range of 180 to 240 days, drawn once per world at generation (seeded generation is allowed), never a single fixed number.' Each world draws its own length in the spread from its seed; the value is the middle of the range.",
+    "estimatedFrom": "Days since the household was filled in and since the player's last contact with any of its people before it returns to the counts.",
+    "spread": {
+      "low": 180,
+      "high": 240,
+      "unit": "days",
+      "citation": "The owner's range (Oct 15, 2026); checked by the unit test in src/core2/counted-demotion.test.ts."
+    }
+  },
+  "countedCommuterWorkdayHours": {
+    "value": 8,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2023: employed full-time people worked 8.4 hours on the days they worked (7.9 hours on average across all days worked by employed people); a commute job's workday is taken as 8 hours.",
+    "estimatedFrom": "ATUS hours worked on days worked by full-time workers.",
+    "spread": {
+      "low": 7.5,
+      "high": 8.5,
+      "unit": "hours a workday",
+      "citation": "BLS ATUS 2023, Table 4."
+    }
+  },
+  "countedCommuterWorkdaysPerWeek": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "Estimated five-day full-time schedule; checked over 4.5 to 5.5 days per week.",
+    "estimatedFrom": "A conventional five-day workweek; this is a modeling estimate, not a published ATUS weekday count.",
+    "spread": {
+      "low": 4.5,
+      "high": 5.5,
+      "unit": "days a week",
+      "citation": "Sensitivity range around the estimated five-day workweek."
+    }
+  }
+}

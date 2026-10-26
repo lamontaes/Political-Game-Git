@@ -1,7 +1,7 @@
 import threadData from "../../../data/content/story-threads.json" with { type: "json" };
 import { scheduleFutureDueItem } from "../future-transitions";
 import { appendedList, recordsByStringField } from "../history-index";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import {
   householdMembershipsAt,
   kinshipRelationshipsAt,

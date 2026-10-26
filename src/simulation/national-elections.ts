@@ -4,10 +4,10 @@ import {
   nationalUnitJurisdiction,
 } from "./national-election-geography";
 import { validateTimeDemand } from "./life";
-import { compareSimulationMoments, makeIsoDate } from "./dates";
+import { compareSimulationMoments, makeIsoDate } from "../core2/kernel/dates";
 import { eventById } from "./event-index";
 import { indexOverArrays } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   nationalElectionRules,
   CONTINGENT_STATES,

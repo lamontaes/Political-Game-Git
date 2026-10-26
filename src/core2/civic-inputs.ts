@@ -1,10 +1,16 @@
-import directoryJson from "../../data/research/places/local-institutions.json" with { type: "json" };
 import { makeIsoDate } from "./kernel/dates";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/civic-inputs.json" with { type: "json" };
+import { groupedJsonTable } from "./reference/lazy-data";
 import { stopgap } from "./stopgaps";
-import type { CoreInput, JobInput, PublicOrganization, Source } from "./types";
+import type {
+  CoreInput,
+  CoreState,
+  JobInput,
+  PublicOrganization,
+  Source,
+} from "./types";
 
 interface DirectoryRow {
   name: string;
@@ -74,6 +80,64 @@ export const DEFAULT_CIVIC_INPUTS_DATA: CivicInputsData = {
   })),
 };
 
+/** The staff rule that puts a job on an office of this kind, if any. */
+function staffRuleFor(
+  data: CivicInputsData,
+  kind: string,
+  job: Pick<JobInput, "occupationClassification" | "title">,
+): CivicInputsData["staffRules"][number] | undefined {
+  return data.staffRules.find(
+    (row) =>
+      row.targetKinds.includes(kind) &&
+      (!row.occupations.length ||
+        (job.occupationClassification !== undefined &&
+          row.occupations.includes(job.occupationClassification))) &&
+      (!row.titles.length || row.titles.includes(job.title)),
+  );
+}
+
+/**
+ * An employer's public office after a hire or a job's end: its staff are the
+ * employer's current jobs a staff rule names for the office's kind, so filing
+ * and a resident's callback find who holds the job today. An office not built
+ * from its employer's records (a directory listing) keeps its own list.
+ */
+export function refreshOfficeStaff(
+  core: CoreState,
+  organizationId: string,
+): void {
+  const office = core.publicOrganizations.get(organizationId);
+  if (office?.facts?.organizationId !== organizationId) return;
+  const staff: NonNullable<PublicOrganization["staff"]>[number][] = [];
+  for (const jobId of core.finance.jobsByOrganization.get(organizationId) ??
+    []) {
+    const job = core.jobs.get(jobId);
+    if (!job || job.endsAt !== undefined || !core.people.has(job.personId))
+      continue;
+    if (!staffRuleFor(DEFAULT_CIVIC_INPUTS_DATA, office.kind, job)) continue;
+    staff.push({
+      personId: job.personId,
+      jobId: job.id,
+      title: job.title,
+      source: job.source,
+    });
+  }
+  core.publicOrganizations.set(organizationId, { ...office, staff });
+}
+
+// Read on first use, only for the states a world asks about.
+const DIRECTORY = groupedJsonTable(
+  new URL(
+    "../../data/research/places/local-institutions.json",
+    import.meta.url,
+  ),
+  ["places", "counties"],
+);
+const DIRECTORY_STORES: Readonly<Record<string, (geoid: string) => unknown>> = {
+  places: DIRECTORY.section("places"),
+  counties: DIRECTORY.section("counties"),
+};
+
 export interface CivicInputsOptions {
   data?: CivicInputsData;
   directory?: CivicDirectory;
@@ -111,12 +175,14 @@ export function enrichCivicInputs(
   const data = options.data ?? DEFAULT_CIVIC_INPUTS_DATA;
   const marker = stopgap(data.stopgapId);
   const startedAt = makeIsoDate(input.startedAt);
-  const directory = options.directory ?? directoryJson;
-  makeIsoDate(directory.asOf);
-  const stores: Readonly<Record<string, Readonly<Record<string, unknown>>>> = {
-    places: directory.places,
-    counties: directory.counties,
-  };
+  const directory = options.directory;
+  makeIsoDate(directory?.asOf ?? DIRECTORY.rest<{ asOf: string }>().asOf);
+  const stores: Readonly<Record<string, (geoid: string) => unknown>> = directory
+    ? {
+        places: (geoid) => directory.places[geoid],
+        counties: (geoid) => directory.counties[geoid],
+      }
+    : DIRECTORY_STORES;
   const gapPrefix = `Civic inputs ${data.version}: `;
   const gaps = new Set(input.gaps.filter((gap) => !gap.startsWith(gapPrefix)));
   const publicById = new Map<string, PublicOrganization>();
@@ -184,17 +250,12 @@ export function enrichCivicInputs(
       );
       continue;
     }
+    // The staff are the office's jobs now; the jobs engine keeps the list
+    // as people are hired and leave (refreshOfficeStaff).
     const staff: NonNullable<PublicOrganization["staff"]>[number][] = [];
     const staffSources = new Set<string>();
     for (const job of jobsByOrganization.get(organization.id) ?? []) {
-      const rule = data.staffRules.find(
-        (row) =>
-          row.targetKinds.includes(definition.kind) &&
-          (!row.occupations.length ||
-            (job.occupationClassification !== undefined &&
-              row.occupations.includes(job.occupationClassification))) &&
-          (!row.titles.length || row.titles.includes(job.title)),
-      );
+      const rule = staffRuleFor(data, definition.kind, job);
       if (!rule) continue;
       if (!peopleById.has(job.personId)) {
         gaps.add(
@@ -259,7 +320,7 @@ export function enrichCivicInputs(
     const store = stores[scope.store];
     if (!store)
       throw new Error(`Unavailable civic directory store: ${scope.store}`);
-    const group = store[place.sourceGeoid];
+    const group = store(place.sourceGeoid);
     if (group === undefined) continue;
     if (!isRecord(group))
       throw new Error(`Malformed civic directory group: ${placeId}`);

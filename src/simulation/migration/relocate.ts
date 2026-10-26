@@ -24,8 +24,8 @@ import {
 } from "../childhood-record";
 import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import { parentsOf } from "../people-family";
-import { ageOnDate } from "../dates";
-import { createStableId } from "../ids";
+import { ageOnDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 // Not `school-stages.ts`: importing it from here makes the module loader
 // enter the stage handlers before the campaign clock's registries read them.
 import { schoolGradeOn, schoolTermOn } from "../school-calendar";

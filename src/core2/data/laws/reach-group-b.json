@@ -17,31 +17,17 @@
       "stopgapId": "SG-GOV-REACH-B-transit-fare-price"
     },
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "mileage-fee-instead-of-fuel-tax",
       "kind": "price",
-      "people": {
-        "ageFrom": "drivingAge"
-      },
-      "terms": {
-        "centsPerMile": "mileageFeeCentsPerMile"
-      },
       "enforcer": "department of transportation",
       "source": "Model of road usage charge laws (Oregon ORS 319.885 OReGO; Utah Code 72-1-213.1)",
       "stopgapId": "SG-GOV-REACH-B-mileage-fee-price"
     },
     "us-policy-positions:transportation-infrastructure.public-broadband": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "public-broadband-offered",
       "kind": "eligibility",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": ["enterprise:telecommunications"],
-      "terms": {
-        "monthlyDollars": "broadbandMonthlyDollars"
-      },
       "enforcer": "public utility board",
       "source": "Model of municipal broadband utilities (Institute for Local Self-Reliance community network list 2024)",
       "stopgapId": "SG-GOV-REACH-B-broadband-bill"
@@ -57,7 +43,7 @@
       "source": "Model of flexible highway-to-transit funding (23 U.S.C. 104(f), FHWA flex funding)"
     },
     "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
-      "mechanic": "records",
+      "mechanic": "medicaid-coverage",
       "effect": "medicaid-eligible",
       "kind": "eligibility",
       "people": {
@@ -91,7 +77,7 @@
       "stopgapId": "SG-GOV-REACH-B-medicaid-coverage"
     },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
-      "mechanic": "records",
+      "mechanic": "assistance-time-limit",
       "effect": "assistance-time-limited-for-work-hours",
       "kind": "rule",
       "people": {
@@ -101,15 +87,12 @@
         "hoursBelowPerWeek": "snapWorkHoursPerWeek",
         "noChildBelow": "snapWorkExemptChildBelow"
       },
-      "terms": {
-        "hoursPerWeek": "snapWorkHoursPerWeek"
-      },
       "enforcer": "state human services agency",
       "source": "7 U.S.C. 2015(o) as amended by Pub. L. 119-21 (2025), sec. 10102",
       "stopgapId": "SG-GOV-REACH-B-assistance-benefits"
     },
     "us-policy-positions:education.universal-preschool": {
-      "mechanic": "records",
+      "mechanic": "preschool-payment",
       "effect": "preschool-eligible",
       "kind": "eligibility",
       "people": {
@@ -121,20 +104,17 @@
       "stopgapId": "SG-GOV-REACH-B-preschool-enrollment"
     },
     "us-policy-positions:education.public-funds-for-private-schooling": {
-      "mechanic": "records",
-      "effect": "school-voucher-eligible",
-      "kind": "eligibility",
-      "people": {
-        "ageFrom": "schoolAgeFrom",
-        "ageBelow": "schoolAgeBelow"
-      },
+      "mechanic": "school-voucher",
+      "effect": "school-voucher-paid",
+      "kind": "service",
       "organizations": ["service:private-school"],
       "terms": {
         "amountDollars": "voucherAmountDollars"
       },
       "enforcer": "state treasurer and education department",
       "source": "Model of education savings account and voucher laws (EdChoice, The ABCs of School Choice 2025)",
-      "stopgapId": "SG-GOV-REACH-B-voucher-payment"
+      "stopgapId": "SG-GOV-REACH-B-voucher-payment",
+      "employersGain": true
     },
     "us-policy-positions:education.raise-teacher-minimum-salary": {
       "mechanic": "teacher-floor",
@@ -147,35 +127,25 @@
       "source": "Arkansas LEARNS Act (Act 237 of 2023); New Mexico HB 13 (2022)"
     },
     "us-policy-positions:fiscal.adopt-income-tax": {
+      "appliedByEngine": true,
       "mechanic": "income-tax-adopt",
       "effect": "income-tax-adopted",
       "kind": "rule",
-      "people": {
-        "ageFrom": "adultAge",
-        "employed": true
-      },
       "enforcer": "department of revenue",
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025; Local Income Taxes (2019)"
     },
     "us-policy-positions:fiscal.graduated-income-tax": {
+      "appliedByEngine": true,
       "mechanic": "income-tax-graduated",
       "effect": "income-tax-graduated",
       "kind": "rule",
-      "people": {
-        "ageFrom": "adultAge",
-        "employed": true
-      },
       "enforcer": "department of revenue",
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025"
     },
     "us-policy-positions:fiscal.cap-property-tax-growth": {
-      "mechanic": "records",
+      "mechanic": "property-assessment",
       "effect": "property-tax-growth-capped",
       "kind": "right",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
       "terms": {
         "capShare": "propertyTaxGrowthCapShare"
       },
@@ -193,16 +163,45 @@
       },
       "organizations": ["enterprise:retail"],
       "enforcer": "department of revenue",
-      "source": "Model of grocery exemptions (Tax Foundation, Sales Tax Treatment of Groceries 2025)"
+      "source": "Model of grocery exemptions (Tax Foundation, Sales Tax Treatment of Groceries 2025)",
+      "employersGain": true
     },
     "us-policy-positions:fiscal.balanced-operating-budget": {
+      "appliedByEngine": true,
+      "reviewedByTreasury": true,
       "mechanic": "balanced-budget",
       "effect": "balanced-budget-required",
       "kind": "rule",
       "enforcer": "the legislature and the budget office",
-      "source": "NASBO, Budget Processes in the States (2021): balanced-budget requirements"
+      "source": "NASBO, Budget Processes in the States (2021): balanced-budget requirements",
+      "sequestration": {
+        "federal": {
+          "exempt": [
+            "socialSecurity",
+            "veterans",
+            "incomeSecurity",
+            "netInterest",
+            "interest"
+          ],
+          "caps": {
+            "medicare": 0.04
+          },
+          "tag": "SOURCED",
+          "source": "How an across-the-board federal cut falls: the Balanced Budget and Emergency Deficit Control Act exempts Social Security benefits, veterans' compensation and pensions, Medicaid, SNAP, Supplemental Security Income, refundable tax credits and net interest (2 U.S.C. § 905), and limits the Medicare cut to 4 percent under statutory pay-as-you-go (2 U.S.C. § 906(d); 2 U.S.C. § 934(d)(2)). The game's income-security line is mostly those exempt programs, so it is exempt whole. The gap closes in equal steps over five fiscal years, as the Balanced Budget and Emergency Deficit Control Act of 1985 (Gramm-Rudman-Hollings) set its deficit targets falling to zero from fiscal year 1986 to 1991.",
+          "phaseYears": 5
+        },
+        "default": {
+          "exempt": ["interest", "netInterest"],
+          "caps": {},
+          "tag": "SOURCED",
+          "source": "A state or local balanced-budget requirement closes a gap across the budget, never by defaulting on debt service (NASBO, Budget Processes in the States, 2021; every state constitution that limits debt pledges its payment). A state closes its gap within the year: the requirement applies to each year's enacted budget.",
+          "phaseYears": 1
+        }
+      }
     },
     "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "appliedByEngine": true,
+      "reviewedByTreasury": true,
       "mechanic": "pension-funding",
       "effect": "pension-contribution-funded",
       "kind": "rule",
@@ -213,6 +212,8 @@
       "source": "Pew, The State Pension Funding Gap (2023): paying the actuarially determined contribution"
     },
     "us-policy-positions:fiscal.minimum-reserve-balance": {
+      "appliedByEngine": true,
+      "reviewedByTreasury": true,
       "mechanic": "reserve",
       "effect": "minimum-reserve-held",
       "kind": "rule",
@@ -223,7 +224,7 @@
       "source": "GFOA, Fund Balance Guidelines for the General Fund (2015)"
     },
     "us-policy-positions:environment-energy.ban-new-gas-hookups": {
-      "mechanic": "records",
+      "mechanic": "housing-construction",
       "effect": "no-new-gas-hookups",
       "kind": "compliance",
       "organizations": ["enterprise:construction", "enterprise:utility"],
@@ -232,23 +233,15 @@
       "stopgapId": "SG-GOV-REACH-B-building-cost"
     },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "clean-electricity-standard",
       "kind": "price",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": ["enterprise:utility"],
-      "terms": {
-        "priceShare": "cleanElectricityPriceShare"
-      },
       "enforcer": "public utility commission",
       "source": "LBNL, U.S. State Renewables Portfolio and Clean Electricity Standards: 2023 Status Update",
       "stopgapId": "SG-GOV-REACH-B-energy-price"
     },
     "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
-      "mechanic": "records",
+      "mechanic": "compliance-cost",
       "effect": "clean-air-plan-limits",
       "kind": "compliance",
       "organizations": [
@@ -257,49 +250,26 @@
         "enterprise:utility"
       ],
       "enforcer": "state environmental agency",
-      "source": "Clean Air Act sec. 110 and 172 (42 U.S.C. 7410, 7502): state plans for nonattainment areas",
-      "stopgapId": "SG-GOV-REACH-B-nonattainment-data"
+      "source": "Clean Air Act sec. 110 and 172 (42 U.S.C. 7410, 7502): state plans for nonattainment areas"
     },
     "us-policy-positions:environment-energy.bottle-deposit": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "collects-container-deposit",
       "kind": "compliance",
-      "organizations": [
-        "enterprise:retail",
-        "enterprise:food-service",
-        "enterprise:wholesale"
-      ],
-      "terms": {
-        "depositCents": "bottleDepositCents"
-      },
       "enforcer": "the state or city environmental agency",
       "source": "Model of container deposit laws (Container Recycling Institute)",
       "stopgapId": "SG-GOV-REACH-B-retail-price"
     },
     "us-policy-positions:environment-energy.price-carbon": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "carbon-priced",
       "kind": "price",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": [
-        "enterprise:utility",
-        "enterprise:manufacturing",
-        "enterprise:mining",
-        "enterprise:transportation"
-      ],
-      "terms": {
-        "dollarsPerTon": "carbonPricePerTonDollars",
-        "householdTonsPerYear": "householdTonsPerYear"
-      },
       "enforcer": "state environmental agency",
       "source": "Model of carbon pricing (Washington Climate Commitment Act, RCW 70A.65)",
       "stopgapId": "SG-GOV-REACH-B-energy-price"
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
-      "mechanic": "records",
+      "mechanic": "farm-output",
       "effect": "groundwater-allocation",
       "kind": "compliance",
       "organizations": [
@@ -315,7 +285,7 @@
       "stopgapId": "SG-GOV-REACH-B-business-cost"
     },
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
-      "mechanic": "records",
+      "mechanic": "housing-construction",
       "effect": "farmland-development-restricted",
       "kind": "rule",
       "organizations": [
@@ -337,23 +307,12 @@
       },
       "enforcer": "department of revenue",
       "source": "The law in force on income tax (laws module); collected by payroll withholding (src/core2/modules/budgets.ts)"
-    },
-    "sales-tax": {
-      "mechanic": "records",
-      "effect": "sales-tax-rate",
-      "kind": "price",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
-      "organizations": ["enterprise:retail", "enterprise:food-service"],
-      "enforcer": "department of revenue",
-      "source": "The law in force on sales tax (laws module)"
     }
   },
   "budgetLines": {
     "highways": {
       "effect": "road-service-level",
+      "roadCondition": true,
       "people": {
         "ageFrom": "drivingAge"
       },
@@ -387,7 +346,6 @@
       },
       "payroll": {
         "classifications": ["service:school"],
-        "standIn": ["service:private-school"],
         "compensationShare": "schoolCompensationShare"
       }
     },

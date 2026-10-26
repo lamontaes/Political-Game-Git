@@ -1,0 +1,52 @@
+{
+  "seed": "1791948706110-ab2db744ab80",
+  "placeSeed": "586003ac55facac0539d642955227f8b856a205c7354a5eabe3cdd92b3ca0168",
+  "placeKey": "4543135",
+  "placeName": "Lydia, South Carolina",
+  "state": "US-SC",
+  "displayName": "Lydia, South Carolina",
+  "placeRecord": {
+    "key": "4543135",
+    "displayName": "Lydia, South Carolina",
+    "formalName": "Lydia",
+    "withinName": "South Carolina",
+    "context": {
+      "jurisdiction": {
+        "id": "jurisdiction_f92f7c24c5ae7a8c",
+        "slug": "us-place-4543135",
+        "name": "Lydia, South Carolina",
+        "kind": "census-place",
+        "parentName": "South Carolina",
+        "provenance": {
+          "asOf": "2026-01-05",
+          "source": "census-gazetteer-2025-places-zip",
+          "jurisdiction": "jurisdiction_f92f7c24c5ae7a8c",
+          "status": "approved"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/New_York",
+        "utcOffsetMinutes": -300
+      },
+      "creationSummary": "Seeded world in Lydia, South Carolina, from the 2025 Census Gazetteer place identity.",
+      "goalScope": "Lydia, South Carolina",
+      "householdLocationLabel": "Lydia, South Carolina"
+    },
+    "scope": "locality",
+    "stateJurisdictionKey": "US-SC",
+    "capabilities": {
+      "legislativeScenarioKey": null,
+      "candidacyPackId": null
+    },
+    "sourceGeoid": "4543135"
+  },
+  "head": "fd3574c979716bcb4fefa42461295e2fe5b5e2d5",
+  "span": 400,
+  "start": "2025-01-20",
+  "end": "2026-02-24",
+  "playerId": "person_ed8f76123a57b168",
+  "buildSeconds": 64.491,
+  "runSeconds": 85.357
+}

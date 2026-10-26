@@ -19,15 +19,24 @@
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, JobInput } from "../types";
-import { registerPolicyHandler } from "../modules/law-effects";
+import { registerPolicyHandler } from "./host";
+import { registerTreasuryRule } from "../budgets-treasury";
+import {
+  endPlaceRule,
+  PLACE_PRICES_MODULE_ID,
+  poorRoadShareAt,
+  setRoadCondition,
+} from "../modules/place-prices";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import {
   reachParameter,
   selectResidents,
+  forgetTownFacts,
   townFacts,
   type PeopleSelector,
   type ResidentFacts,
+  type TownFacts,
 } from "./group-b-people";
 import {
   reconcile,
@@ -39,24 +48,40 @@ import {
   type Reach,
 } from "./group-b-store";
 import {
+  type AssistanceTimeLimit,
   balancePlan,
-  budgetNow,
-  governmentAt,
+  budgetGap,
+  type BalanceRule,
   holdReserve,
   incomeTaxAct,
   jobsAt,
   modeledShare,
   moveBudget,
   payBenefits,
+  payCoverage,
+  payPreschool,
+  payVouchers,
+  recordApplied,
   raiseToSalaryFloor,
   residentsOf,
   scalePayroll,
   serviceLevel,
+  source,
 } from "./group-b-money";
-import { amendBudget } from "../modules/budgets";
+import { runFoodAid } from "./group-b-food-aid";
+import { lawNoLongerApplies } from "./applied";
 
 type Mechanic =
   | "records"
+  | "medicaid-coverage"
+  | "preschool-payment"
+  | "compliance-cost"
+  | "assistance-time-limit"
+  | "school-voucher"
+  | "farm-output"
+  | "property-assessment"
+  | "price-payment"
+  | "housing-construction"
   | "transit-fares"
   | "highway-shift"
   | "teacher-floor"
@@ -73,10 +98,16 @@ interface PolicyDef {
   readonly kind: string;
   readonly people?: PeopleSelector;
   readonly organizations?: readonly string[];
+  /** The employers it binds gain by it (it pays them or exempts their sales), so they don't organize against it. */
+  readonly employersGain?: boolean;
   readonly terms?: Readonly<Record<string, string>>;
   readonly enforcer: string;
   readonly source: string;
   readonly stopgapId?: string;
+  /** The engine that applies the law records whom it reached (lawApplied); no reach output is written here. */
+  readonly appliedByEngine?: boolean;
+  /** The treasury re-reads this rule each month as it closes its books (budgets-treasury.ts), not the law-reach review. */
+  readonly reviewedByTreasury?: boolean;
 }
 
 interface LineDef {
@@ -86,10 +117,11 @@ interface LineDef {
   readonly publicWorkers?: boolean;
   readonly payroll?: {
     readonly classifications: readonly string[];
-    readonly standIn?: readonly string[];
     readonly compensationShare: string;
   };
   readonly benefit?: boolean;
+  /** The line's level sets the share of the town's roads in poor condition. */
+  readonly roadCondition?: boolean;
   readonly stopgapId?: string;
 }
 
@@ -108,6 +140,13 @@ export function groupBPolicy(key: string): PolicyDef | undefined {
   return data.policies[key];
 }
 
+/** The balanced-budget law's rule for how a gap is closed at this level (data, cited). */
+function balanceRule(def: unknown, level: string): BalanceRule {
+  const rules = (def as { sequestration: Record<string, BalanceRule> })
+    .sequestration;
+  return rules[level] ?? rules.default!;
+}
+
 const termsOf = (def: { terms?: Readonly<Record<string, string>> }) =>
   Object.fromEntries(
     Object.entries(def.terms ?? {}).map(([name, key]) => [
@@ -123,7 +162,9 @@ function employers(api: CoreAPI, classifications: readonly string[]): string[] {
   for (const org of api.state.organizations.values())
     if (
       org.placeId === town &&
-      classifications.includes(org.classification ?? "")
+      classifications.includes(org.classification ?? "") &&
+      // A closed organization is no longer bound; the review must not re-add it.
+      !api.state.finance.businesses.get(org.id)?.closedAt
     )
       out.push(org.id);
   return out.sort();
@@ -153,14 +194,18 @@ function reachOf(
   for (const r of selected) {
     if (r.named)
       named.set(r.id, { ...input.terms, ...input.personTerms?.get(r.id) });
-    else counted += 1;
+    else counted += (r.weight ?? 1) * (r.scale ?? 1);
   }
   const perHousehold = input.people?.householdHead === true;
   const countedOf =
     input.countedOf ??
     (perHousehold
-      ? [...facts.households.values()].filter((h) => !h.named).length
-      : facts.residents.filter((r) => !r.named).length);
+      ? [...facts.households.values()]
+          .filter((h) => !h.named)
+          .reduce((n, h) => n + (h.scale ?? 1), 0)
+      : facts.residents
+          .filter((r) => !r.named)
+          .reduce((n, r) => n + (r.scale ?? 1), 0));
   return {
     named,
     organizations: new Map(
@@ -169,7 +214,7 @@ function reachOf(
         { ...input.terms },
       ]),
     ),
-    counted: counted + (input.counted ?? 0),
+    counted: Math.round(counted) + (input.counted ?? 0),
     countedOf,
     terms: input.terms,
   };
@@ -180,28 +225,125 @@ function lawRow(api: CoreAPI, lawId: string): LawRowInput | undefined {
     LawRowInput | undefined;
 }
 
-/** A policy question is law for the town at some level (latest row says yes). */
-function questionInForce(api: CoreAPI, key: string): boolean {
+/** The row that makes a policy question law for the town at some level (the latest row there says yes). */
+function questionRow(api: CoreAPI, key: string): LawRowInput | undefined {
   const date = api.state.date;
   const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  return lawChain(api).levels.some(({ jurisdiction }) => {
+  for (const { jurisdiction } of lawChain(api).levels) {
     const latest = (
       laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
     )
       .filter((r) => r.effectiveDate <= date)
       .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    return latest?.value === 1;
-  });
+    if (latest?.value === 1) return latest;
+  }
+  return undefined;
 }
 
-/** Teachers the salary floor covers: public school teachers (see the stand-in). */
+/** A policy question is law for the town at some level (latest row says yes). */
+function questionInForce(api: CoreAPI, key: string): boolean {
+  return questionRow(api, key) !== undefined;
+}
+
+const ASSISTANCE_WORK =
+  "us-policy-positions:health-human-services.work-requirement-for-assistance";
+
+/**
+ * The assistance work requirement as the benefit reads it: while it is law, the
+ * adults it reaches (by age, hours, income and young children) draw only for
+ * its time limit. Null while it is not law.
+ */
+function assistanceTimeLimit(
+  api: CoreAPI,
+  facts: TownFacts,
+  stateKey: string,
+): AssistanceTimeLimit | null {
+  const row = questionRow(api, ASSISTANCE_WORK);
+  const people = data.policies[ASSISTANCE_WORK]?.people;
+  if (!row || !people) return null;
+  const reached = selectResidents(facts, people, stateKey);
+  return {
+    key: ASSISTANCE_WORK,
+    lawId: row.id,
+    since: row.effectiveDate,
+    reachedIds: new Set(reached.map((r) => r.id)),
+    counts: new Map(
+      reached
+        .filter((r) => !r.named)
+        .map((r) => [r.id, (r.weight ?? 1) * (r.scale ?? 1)]),
+    ),
+  };
+}
+
+const MEDICAID_EXPAND =
+  "us-policy-positions:health-human-services.expand-medicaid-eligibility";
+const MEDICAID_WORK =
+  "us-policy-positions:health-human-services.medicaid-work-requirement";
+
+/**
+ * Who Medicaid expansion covers as the payment reads it: the adults the
+ * expansion reaches, less those the work requirement ends coverage for (its
+ * hours, income and young-child terms) while that requirement is law.
+ */
+function medicaidCovered(
+  api: CoreAPI,
+  facts: TownFacts,
+  stateKey: string,
+): ResidentFacts[] {
+  const people = data.policies[MEDICAID_EXPAND]?.people;
+  if (!people) return [];
+  const covered = selectResidents(facts, people, stateKey);
+  const workRow = questionRow(api, MEDICAID_WORK);
+  const workPeople = data.policies[MEDICAID_WORK]?.people;
+  if (!workPeople || !workRow) return covered;
+  const ended = new Set(
+    selectResidents(facts, workPeople, stateKey).map((r) => r.id),
+  );
+  // The requirement is read here, where coverage is decided: each adult it
+  // ends coverage for is recorded against it, and no longer against the
+  // expansion that covered them.
+  let endedCounted = 0;
+  for (const r of covered) {
+    if (!ended.has(r.id)) continue;
+    if (r.named) {
+      lawNoLongerApplies(api, MEDICAID_EXPAND, r.id);
+      recordApplied(api, {
+        key: MEDICAID_WORK,
+        lawId: workRow.id,
+        targetId: r.id,
+        target: "person",
+        what: "medicaid-coverage-ended",
+      });
+    } else endedCounted += (r.weight ?? 1) * (r.scale ?? 1);
+  }
+  if (endedCounted > 0)
+    recordApplied(api, {
+      key: MEDICAID_WORK,
+      lawId: workRow.id,
+      targetId: `${lawChain(api).townPlaceId}:medicaid-adults-over-work-rule`,
+      target: "group",
+      what: "medicaid-coverage-ended",
+      count: Math.round(endedCounted),
+    });
+  return covered.filter((r) => !ended.has(r.id));
+}
+
+/** The expansion's payment again, after a law it reads (the work requirement, the match) changed. */
+function rerunMedicaid(api: CoreAPI): void {
+  for (const row of rowsOf<ActiveRow>(api, "active"))
+    if (row.id === MEDICAID_EXPAND)
+      runPolicy(api, MEDICAID_EXPAND, {
+        lawId: row.lawId,
+        level: row.level,
+        inForce: questionInForce(api, MEDICAID_EXPAND),
+        enacting: questionInForce(api, MEDICAID_EXPAND),
+        value: lawRow(api, row.lawId)?.value ?? null,
+      });
+}
+
+/** Teachers the salary floor covers: those the town's public school district employs. */
 function coveredTeachers(api: CoreAPI): JobInput[] {
-  const teacher = "profession:teacher";
-  const jobs = jobsAt(api, ["service:school"], teacher);
-  if (jobs.length) return jobs;
-  // stopgapId: SG-GOV-REACH-B-public-school-staff
-  api.stopgap("SG-GOV-REACH-B-public-school-staff");
-  return jobsAt(api, ["service:private-school"], teacher);
+  return jobsAt(api, ["service:school"], "profession:teacher");
 }
 
 function workersOf(api: CoreAPI, jobs: readonly JobInput[]) {
@@ -234,6 +376,14 @@ function runPolicy(
   let inForce = input.inForce;
   let personTerms: Map<string, Record<string, number>> | undefined;
   switch (def.mechanic) {
+    // The price engine reads these laws at monthly settlement and records
+    // each household, counted group and seller it charged or paid
+    // (place-prices.ts); the housing engine reads its laws at its existing
+    // construction decision. A blanket eligibility row is neither a payment,
+    // a received notice nor a decision.
+    case "price-payment":
+    case "housing-construction":
+      return;
     case "transit-fares":
       moveBudget(api, {
         key,
@@ -248,7 +398,7 @@ function runPolicy(
           ),
         }),
       });
-      break;
+      return;
     case "highway-shift": {
       const moved = moveBudget(api, {
         key,
@@ -280,35 +430,52 @@ function runPolicy(
           ),
         }),
       });
+      if (input.enacting)
+        recordFundedWorkers(api, facts, { key, lawId: input.lawId });
       break;
     case "balanced-budget": {
-      const gov = governmentAt(api, level);
-      const budget = gov ? budgetNow(api, gov.id) : undefined;
-      if (input.enacting && gov && budget) {
-        const plan = balancePlan(budget);
-        let cut = 0;
-        for (const [line, delta] of Object.entries(plan)) {
-          amendBudget(api, {
-            governmentId: gov.id,
-            line,
-            deltaMinor: delta,
-            measureId: `${input.lawId}#balance#${api.state.date}`,
-          });
-          cut -= delta;
-        }
-        if (cut)
-          putRow(api, "taken", {
-            id: `balance|${gov.id}|${api.state.date}`,
-            key,
-            governmentId: gov.id,
-            cutMinor: cut,
-          });
-      }
+      // Set when this call balances a budget (not on a later review of one
+      // already balanced).
+      let firstGap: number | null = null;
+      // Applied once a fiscal year while the act stands; a repeal restores
+      // the lines it cut this year.
+      const moved = moveBudget(api, {
+        key,
+        level,
+        inForce: input.enacting,
+        lawId: `${input.lawId}#balance`,
+        plan: (gov, budget) => {
+          const years = rowsOf<{ id: string; firstGapMinor: number }>(
+            api,
+            "taken",
+          ).filter((r) => r.id.startsWith(`balance|${gov.id}|`));
+          firstGap = years[0]?.firstGapMinor ?? budgetGap(budget);
+          return balancePlan(
+            budget,
+            balanceRule(def, gov.level),
+            years.length,
+            firstGap,
+          );
+        },
+      });
+      const cut = -Object.values(moved?.moves ?? {}).reduce((a, b) => a + b, 0);
+      if (input.enacting && moved && cut && firstGap !== null)
+        putRow(api, "taken", {
+          // One record per fiscal year's budget the law has balanced; the
+          // phase-in counts them.
+          id: `balance|${moved.governmentId}|${moved.budgetId}`,
+          // The gap the law first met: its phase-in steps down from it.
+          firstGapMinor: firstGap,
+          key,
+          governmentId: moved.governmentId,
+          cutMinor: cut,
+        });
       break;
     }
     case "reserve": {
       const held = holdReserve(api, {
         key,
+        lawId: input.lawId,
         level,
         inForce: input.enacting,
         modeledShare: share,
@@ -329,6 +496,9 @@ function runPolicy(
         graduated: def.mechanic === "income-tax-graduated",
       });
       terms.wroteLaw = act?.lawRowId && !act.undone ? 1 : 0;
+      // The act reaches people only through the tax it wrote. Where the level
+      // already had a tax (or this act was undone), it changed no paycheck.
+      inForce = terms.wroteLaw === 1;
       break;
     }
     case "income-tax-rate": {
@@ -383,12 +553,114 @@ function runPolicy(
       });
       return;
     }
-    case "records":
-      if (key === "sales-tax") {
-        const answer = lawInForce(api, "sales-tax");
-        terms.ratePercent = answer.value ?? 0;
-        inForce = (answer.value ?? 0) > 0;
+    case "compliance-cost":
+      return; // The business engine reads the law when it charges a nonattainment county's emitters.
+    case "assistance-time-limit":
+      // The welfare line's benefit reads this law when it picks who is paid;
+      // run that line again now so a change takes hold today.
+      for (const row of rowsOf<ActiveRow>(api, "active")) {
+        if (row.id === "budget-line:welfareAndMedicaid")
+          runBudgetLine(api, "welfareAndMedicaid", row.lawId);
+        // So does the baseline food benefit.
+        if (row.id === FOOD_AID_ACTIVE) payFoodAid(api);
       }
+      return;
+    case "school-voucher": {
+      // The state treasury pays its share of the tuition the town's
+      // households pay the private school; the records are the households paid.
+      const paid = payVouchers(api, { key, lawId: input.lawId, inForce });
+      const heads = facts.residents.filter(
+        (r) => r.named && paid.named.has(r.id),
+      );
+      finish(
+        api,
+        key,
+        def,
+        input,
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: heads,
+              counted: paid.counted,
+              countedOf: paid.counted,
+            })
+          : null,
+      );
+      return;
+    }
+    case "medicaid-coverage": {
+      const paid = payCoverage(api, {
+        key,
+        lawId: input.lawId,
+        inForce,
+        covered: inForce ? medicaidCovered(api, facts, chain.stateKey) : [],
+      });
+      finish(
+        api,
+        key,
+        def,
+        input,
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: facts.residents.filter(
+                (r) => r.named && paid.named.has(r.id),
+              ),
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
+    case "preschool-payment": {
+      const children =
+        inForce && def.people
+          ? selectResidents(facts, def.people, chain.stateKey)
+          : [];
+      const paid = payPreschool(api, {
+        key,
+        lawId: input.lawId,
+        inForce,
+        children,
+        residents: facts.residents,
+      });
+      finish(
+        api,
+        key,
+        def,
+        input,
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: children.filter((c) => c.named),
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
+    case "farm-output":
+      return; // The business engine reads the law when setting production limits.
+    case "property-assessment":
+      return; // The housing assessment reads the cap through budgets when billing.
+    case "records":
+      // The expansion's payment reads this requirement; run it again now.
+      if (key === MEDICAID_WORK) rerunMedicaid(api);
       break;
   }
   finish(
@@ -397,7 +669,7 @@ function runPolicy(
     def,
     input,
     inForce,
-    inForce
+    inForce && !def.appliedByEngine
       ? reachOf(api, {
           people: def.people,
           organizations: def.organizations,
@@ -439,7 +711,40 @@ function finish(
   );
 }
 
-const PUBLIC_EMPLOYERS = [
+/**
+ * The public workers whose pensions the contributions fund: each full worker,
+ * and the counted workers as one group standing for all of them.
+ */
+function recordFundedWorkers(
+  api: CoreAPI,
+  facts: TownFacts,
+  input: { readonly key: string; readonly lawId: string },
+): void {
+  const workers = new Set(jobsAt(api, PUBLIC_EMPLOYERS).map((j) => j.personId));
+  let counted = 0;
+  for (const r of facts.residents) {
+    if (!workers.has(r.id)) continue;
+    if (r.named)
+      recordApplied(api, {
+        ...input,
+        targetId: r.id,
+        target: "person",
+        what: "pension-contribution-funded",
+      });
+    else counted += (r.weight ?? 1) * (r.scale ?? 1);
+  }
+  if (counted > 0)
+    recordApplied(api, {
+      ...input,
+      targetId: `${lawChain(api).townPlaceId}:public-workers-pensions`,
+      target: "group",
+      what: "pension-contribution-funded",
+      count: Math.round(counted),
+    });
+}
+
+/** The employers whose workers a pension rule funds: the town's public offices and services. */
+export const PUBLIC_EMPLOYERS = [
   "sector:local-government-office",
   "sector:state-government-office",
   "sector:federal-government-office",
@@ -467,12 +772,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
   let selected: ResidentFacts[] | undefined;
   const orgs = new Set(employers(api, def.organizations ?? []));
   if (def.payroll) {
-    let jobs = jobsAt(api, def.payroll.classifications);
-    if (!jobs.length && def.payroll.standIn) {
-      // stopgapId: SG-GOV-REACH-B-public-school-staff
-      api.stopgap("SG-GOV-REACH-B-public-school-staff");
-      jobs = jobsAt(api, def.payroll.standIn);
-    }
+    const jobs = jobsAt(api, def.payroll.classifications);
     const rates = scalePayroll(api, {
       key,
       jobs,
@@ -496,7 +796,22 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
       service,
       heads: selected,
       modeledShare: share,
+      timeLimit: assistanceTimeLimit(api, facts, chain.stateKey),
     });
+  }
+  if (def.roadCondition && api.state.modules.has(PLACE_PRICES_MODULE_ID)) {
+    // Drivers' repair bills follow the roads' condition (place-prices reads the rule monthly).
+    if (inForce)
+      setRoadCondition(api, {
+        placeId: chain.townPlaceId,
+        poorShare: poorRoadShareAt(api, service.level),
+        cause: `law-reach:budget-line:${line}`,
+        source: source(
+          api,
+          `Budget line ${line} at ${service.level.toFixed(3)} of its base`,
+        ),
+      });
+    else endPlaceRule(api, chain.townPlaceId, "vehicle-repair", "road");
   }
   if (inForce && def.stopgapId) api.stopgap(def.stopgapId);
   const reachNow = reachOf(api, {
@@ -525,25 +840,54 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
   );
 }
 
+const FOOD_AID_ACTIVE = "food-aid";
+
+/** The baseline SNAP benefit, paid from the maximum allotment in force. */
+function payFoodAid(api: CoreAPI): void {
+  const chain = lawChain(api);
+  runFoodAid(
+    api,
+    assistanceTimeLimit(api, townFacts(api, chain.townPlaceId), chain.stateKey),
+  );
+}
+
+/** Run one policy in force again against the law as it stands today. */
+function rerunPolicy(api: CoreAPI, row: ActiveRow): void {
+  const law = lawRow(api, row.lawId);
+  const inForce = row.id.includes(":") ? questionInForce(api, row.id) : true;
+  runPolicy(api, row.id, {
+    lawId: row.lawId,
+    level: row.level,
+    inForce,
+    enacting: inForce,
+    value: law?.value ?? null,
+  });
+}
+
 /** Re-run every policy in force: reach follows people's records month to month. */
 function review(api: CoreAPI): void {
+  forgetTownFacts(api);
   for (const row of rowsOf<ActiveRow>(api, "active")) {
-    if (row.id.startsWith("budget-line:"))
+    if (row.id === FOOD_AID_ACTIVE) payFoodAid(api);
+    else if (row.id.startsWith("budget-line:"))
       runBudgetLine(api, row.id.slice("budget-line:".length), row.lawId);
-    else if (data.policies[row.id]) {
-      const law = lawRow(api, row.lawId);
-      const inForce = row.id.includes(":")
-        ? questionInForce(api, row.id)
-        : true;
-      runPolicy(api, row.id, {
-        lawId: row.lawId,
-        level: row.level,
-        inForce,
-        enacting: inForce,
-        value: law?.value ?? null,
-      });
-    }
+    else if (
+      data.policies[row.id] &&
+      !data.policies[row.id]!.reviewedByTreasury
+    )
+      rerunPolicy(api, row);
   }
+}
+
+/**
+ * The treasury's monthly close reads its fiscal rules (a balanced budget,
+ * pension funding, a minimum reserve) before it pays: each one in force is
+ * applied to the budget it then pays from.
+ */
+function reviewFiscalRules(api: CoreAPI): void {
+  forgetTownFacts(api);
+  for (const row of rowsOf<ActiveRow>(api, "active"))
+    if (data.policies[row.id]?.reviewedByTreasury) rerunPolicy(api, row);
 }
 
 let registered = false;
@@ -552,8 +896,29 @@ export function registerGroupB(): void {
   if (registered) return;
   registered = true;
   setReachReview(review);
+  registerTreasuryRule(reviewFiscalRules);
+  // The federal share of Medicaid is paid by the expansion's payment.
+  registerPolicyHandler("medicaid-match", (api) => {
+    forgetTownFacts(api);
+    rerunMedicaid(api);
+  });
+  registerPolicyHandler("snap-maximum", (api) => {
+    forgetTownFacts(api);
+    setActive(
+      api,
+      {
+        id: FOOD_AID_ACTIVE,
+        lawId: "",
+        level: "federal",
+        since: api.state.date,
+      },
+      FOOD_AID_ACTIVE,
+    );
+    payFoodAid(api);
+  });
   for (const key of Object.keys(data.policies))
     registerPolicyHandler(key, (api, change) => {
+      forgetTownFacts(api);
       const row = lawRow(api, change.lawId);
       const enacting = key.includes(":")
         ? row?.value === 1
@@ -567,7 +932,8 @@ export function registerGroupB(): void {
       });
     });
   for (const line of Object.keys(data.budgetLines))
-    registerPolicyHandler(`budget-line:${line}`, (api, change) =>
-      runBudgetLine(api, line, change.lawId),
-    );
+    registerPolicyHandler(`budget-line:${line}`, (api, change) => {
+      forgetTownFacts(api);
+      runBudgetLine(api, line, change.lawId);
+    });
 }

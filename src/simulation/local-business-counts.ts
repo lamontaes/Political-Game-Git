@@ -5,15 +5,15 @@ import {
   SALES_PER_EMPLOYEE_ROWS,
   STATE_BUSINESS_ROWS,
 } from "./local-business-counts.generated";
-import { countyLandSharesForPlace } from "./government-units";
+import { countyLandSharesForPlace } from "../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { placeReferencePopulation } from "./nationwide-world/place-population";
 import { NATIONAL_PLACES_ROWS } from "./national-places.generated";
 import {
   PLACE_COUNTY_RELATIONS_META,
   PLACE_COUNTY_RELATIONS_ROWS,
-} from "./place-county-relations.generated";
-import type { EntityId } from "./types";
+} from "../core2/reference/place-county-relations.generated";
+import type { EntityId } from "../core2/kernel/brands";
 
 export { LOCAL_BUSINESS_COUNTS_META, LOCAL_BUSINESS_COUNT_KINDS };
 

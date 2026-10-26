@@ -1,0 +1,593 @@
+{
+  "id": "state-corporate-income-tax-2026",
+  "asOf": "2026-04-02",
+  "sourceKind": "secondary compilation, labeled provisional for calibration (a reputable compilation of state statutes and forms is allowed if labeled)",
+  "source": {
+    "title": "State Corporate Income Tax Rates and Brackets, 2026",
+    "publisher": "Tax Foundation",
+    "url": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+    "published": "2026-01-05",
+    "updated": "2026-04-02",
+    "retrieved": "2026-10-16",
+    "basis": "The page says it is based on state statutes, forms, instructions and Bloomberg Tax, and that the rates are those in effect January 1, 2026."
+  },
+  "officialChecks": [
+    {
+      "place": "US-NC",
+      "url": "https://www.ncdor.gov/taxes-forms/corporate-income-franchise-tax/corporate-income-and-franchise-tax-rates",
+      "finding": "The North Carolina Department of Revenue lists 2.00 percent for tax year 2026 (2.25 percent for 2025). Matches."
+    }
+  ],
+  "scope": "The corporate income tax only: the brackets as the compilation lists them (a rate applies from its threshold up). Gross receipts taxes, franchise and capital stock taxes, minimum taxes, surtaxes other than those noted, and special rates for financial institutions are outside this table. The territories are in laws/local-starting-law/territory-corporate-income-tax-2026.json.",
+  "places": {
+    "US-AL": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 6.5,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-AK": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 0,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 2,
+          "overIncome": 25000
+        },
+        {
+          "ratePercent": 3,
+          "overIncome": 49000
+        },
+        {
+          "ratePercent": 4,
+          "overIncome": 74000
+        },
+        {
+          "ratePercent": 5,
+          "overIncome": 99000
+        },
+        {
+          "ratePercent": 6,
+          "overIncome": 124000
+        },
+        {
+          "ratePercent": 7,
+          "overIncome": 148000
+        },
+        {
+          "ratePercent": 8,
+          "overIncome": 173000
+        },
+        {
+          "ratePercent": 9,
+          "overIncome": 198000
+        },
+        {
+          "ratePercent": 9.4,
+          "overIncome": 222000
+        }
+      ],
+      "note": "The rate is 0 percent below $25,000, then rises by bracket."
+    },
+    "US-AZ": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.9,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-AR": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 2,
+          "overIncome": 3000
+        },
+        {
+          "ratePercent": 3,
+          "overIncome": 5000
+        },
+        {
+          "ratePercent": 4.3,
+          "overIncome": 11000
+        }
+      ]
+    },
+    "US-CA": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 8.84,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-CO": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.4,
+          "overIncome": 0
+        }
+      ],
+      "note": "Rate may be reduced midyear subject to revenue availability."
+    },
+    "US-CT": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 7.5,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 8.25,
+          "overIncome": 100000000
+        }
+      ],
+      "note": "A 10 percent surtax on tax liability applies if gross proceeds are $100 million or more or the corporation files as part of a combined unitary group; scheduled to expire January 1, 2029."
+    },
+    "US-DE": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 8.7,
+          "overIncome": 0
+        }
+      ],
+      "note": "A gross receipts tax applies in addition to the corporate income tax."
+    },
+    "US-FL": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.5,
+          "overIncome": 50000
+        }
+      ],
+      "note": "The 5.5 percent rate applies to income above a $50,000 exemption."
+    },
+    "US-GA": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 5.19,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-HI": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 4.4,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 5.4,
+          "overIncome": 25000
+        },
+        {
+          "ratePercent": 6.4,
+          "overIncome": 100000
+        }
+      ]
+    },
+    "US-ID": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 5.3,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-IL": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 9.5,
+          "overIncome": 0
+        }
+      ],
+      "note": "The 9.5 percent includes two taxes, one at 7 percent and one at 2.5 percent."
+    },
+    "US-IN": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.9,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-IA": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.5,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 7.1,
+          "overIncome": 100000
+        }
+      ]
+    },
+    "US-KS": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 4,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 7,
+          "overIncome": 50000
+        }
+      ]
+    },
+    "US-KY": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 5,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-LA": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 5.5,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-ME": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 3.5,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 7.93,
+          "overIncome": 350000
+        },
+        {
+          "ratePercent": 8.33,
+          "overIncome": 1050000
+        },
+        {
+          "ratePercent": 8.93,
+          "overIncome": 3500000
+        }
+      ]
+    },
+    "US-MD": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 8.25,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-MA": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 8,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-MI": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 6,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-MN": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 9.8,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-MS": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 4,
+          "overIncome": 5000
+        },
+        {
+          "ratePercent": 5,
+          "overIncome": 10000
+        }
+      ],
+      "note": "No tax on the first $5,000; 4 percent from $5,000; 5 percent from $10,000."
+    },
+    "US-MO": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-MT": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 6.75,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-NE": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.55,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-NV": {
+      "corporateIncomeTax": "none",
+      "brackets": [],
+      "note": "No corporate income tax; a gross receipts tax applies, not modeled here."
+    },
+    "US-NH": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 7.5,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-NJ": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 6.5,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 7.5,
+          "overIncome": 50000
+        },
+        {
+          "ratePercent": 9,
+          "overIncome": 100000
+        },
+        {
+          "ratePercent": 11.5,
+          "overIncome": 10000000
+        }
+      ],
+      "rateAppliesToEntireNetIncome": true,
+      "note": "Each rate applies to the entire net income, not only the income above its threshold. The top rate includes a 2.5 percent corporate transit fee surcharge."
+    },
+    "US-NM": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 5.9,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-NY": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 6.5,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 7.25,
+          "overIncome": 5000000
+        }
+      ]
+    },
+    "US-NC": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 2,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-ND": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.41,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 3.55,
+          "overIncome": 25000
+        },
+        {
+          "ratePercent": 4.31,
+          "overIncome": 50000
+        }
+      ]
+    },
+    "US-OH": {
+      "corporateIncomeTax": "none",
+      "brackets": [],
+      "note": "No corporate income tax; a gross receipts tax applies, not modeled here."
+    },
+    "US-OK": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-OR": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 6.6,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 7.6,
+          "overIncome": 1000000
+        }
+      ],
+      "note": "A gross receipts tax applies in addition to the corporate income tax."
+    },
+    "US-PA": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 7.49,
+          "overIncome": 0
+        }
+      ],
+      "note": "Localities may impose gross receipts taxes."
+    },
+    "US-RI": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 7,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-SC": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 5,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-SD": {
+      "corporateIncomeTax": "none",
+      "brackets": [],
+      "note": "No corporate income tax and no gross receipts tax."
+    },
+    "US-TN": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 6.5,
+          "overIncome": 0
+        }
+      ],
+      "note": "A gross receipts tax applies in addition to the corporate income tax."
+    },
+    "US-TX": {
+      "corporateIncomeTax": "none",
+      "brackets": [],
+      "note": "No corporate income tax; a gross receipts tax applies, not modeled here."
+    },
+    "US-UT": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.5,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-VT": {
+      "corporateIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 6,
+          "overIncome": 0
+        },
+        {
+          "ratePercent": 7,
+          "overIncome": 10000
+        },
+        {
+          "ratePercent": 8.5,
+          "overIncome": 25000
+        }
+      ]
+    },
+    "US-VA": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 6,
+          "overIncome": 0
+        }
+      ],
+      "note": "Localities may impose gross receipts taxes."
+    },
+    "US-WA": {
+      "corporateIncomeTax": "none",
+      "brackets": [],
+      "note": "No corporate income tax; a gross receipts tax applies, not modeled here."
+    },
+    "US-WV": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 6.5,
+          "overIncome": 0
+        }
+      ],
+      "note": "Localities may impose gross receipts taxes."
+    },
+    "US-WI": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 7.9,
+          "overIncome": 0
+        }
+      ]
+    },
+    "US-WY": {
+      "corporateIncomeTax": "none",
+      "brackets": [],
+      "note": "No corporate income tax and no gross receipts tax."
+    },
+    "US-DC": {
+      "corporateIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 8.25,
+          "overIncome": 0
+        }
+      ]
+    }
+  }
+}

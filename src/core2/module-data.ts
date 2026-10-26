@@ -1,3 +1,4 @@
+import { bookkeeping } from "./bookkeeping";
 import { makeIsoDate } from "./kernel/dates";
 import type { Source } from "./types";
 
@@ -16,8 +17,37 @@ export function moduleKey(value: string): string {
   return value;
 }
 
-/** Serializable data only. Never retain caller objects, accessors, or mutable containers. */
+/**
+ * The same frozen copy, for play: rows stay immutable records (engines check
+ * that), only the per-field checks are skipped.
+ */
+function plainCopy(value: unknown): unknown {
+  if (value === null || typeof value !== "object") return value;
+  if (Array.isArray(value)) {
+    const items = new Array<unknown>(value.length);
+    for (let at = 0; at < value.length; at += 1)
+      items[at] = plainCopy(value[at]);
+    return Object.freeze(items);
+  }
+  // An ordinary object literal, which the engine copies about twice as fast
+  // as a prototype-less dictionary; a key of "__proto__" would set the
+  // prototype, so it is refused (module keys are ids and field names).
+  const result: Record<string, unknown> = {};
+  for (const key in value as Record<string, unknown>) {
+    if (key === "__proto__")
+      throw new Error("Module data has a prototype field.");
+    result[key] = plainCopy((value as Record<string, unknown>)[key]);
+  }
+  return Object.freeze(result);
+}
+
+/**
+ * Serializable data only. Never retain caller objects, accessors, or mutable
+ * containers. With bookkeeping on every value is checked as it is copied; in
+ * play the copy is the same without the checks (they only ever throw).
+ */
 export function moduleData<T>(input: T): T {
+  if (!bookkeeping()) return plainCopy(input) as T;
   const active = new Set<object>();
   function copy(value: unknown): unknown {
     if (
@@ -38,7 +68,7 @@ export function moduleData<T>(input: T): T {
     )
       throw new Error("Module data requires plain objects and arrays.");
     const keys = Reflect.ownKeys(value);
-    const result = array ? [] : Object.create(null);
+    const result = array ? [] : {};
     active.add(value);
     try {
       for (const key of keys) {

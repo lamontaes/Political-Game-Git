@@ -1,4 +1,4 @@
-import type { DecisionDeclaration } from "./trait-packs";
+import type { DecisionDeclaration } from "../core2/trait-packs";
 
 /** The choices a mogul weighs before approaching a campaign. */
 export const MOGUL_APPROACH_DECISION: DecisionDeclaration = {

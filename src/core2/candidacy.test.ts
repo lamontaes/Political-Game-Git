@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
@@ -7,16 +7,18 @@ import {
   candidacyModule,
   candidacyReasons,
   candidatesFor,
+  platformFromViews,
   decideToRun,
   RUN,
 } from "./modules/candidacy";
 import { viewsModule } from "./modules/views";
+import { standAgainReason, standsAgain } from "./stand-again";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
 
 // M2-04: every candidate filed through their own choice, with its reasons:
-// how closely they follow politics, the cause they carry, temperament, money
-// against the fee, work hours and age. A recorded cause can change who runs.
+// how closely they follow politics, the cause they carry, temperament, work
+// hours and age. A recorded cause can change who runs.
 const seed = process.env.GOLDEN_PATH_SEED ?? "candidacy-a";
 const input = buildDeepPast(
   buildPopulation({
@@ -39,7 +41,6 @@ const contest = (id: string) => ({
   contestId: id,
   officeName: "City council",
   filingDeadline: "2021-03-01",
-  feeMinor: 5000,
   sourceIds: [`fixture-contest:${id}`],
 });
 const decisions = adults.map((row) => decideToRun(api, row.id, contest("a"))!);
@@ -48,6 +49,24 @@ const margin = (row: (typeof decisions)[number]) =>
   row.scores.find((s) => s.actionId !== RUN.id)!.score;
 
 describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
+  it("keeps a candidate's position strength instead of turning every position into an absolute", () => {
+    const platforms = adults.map((person) => platformFromViews(api, person.id));
+    const positions = platforms.flatMap((platform) =>
+      platform.map((part) => Number(part.slice(part.lastIndexOf("=") + 1))),
+    );
+    expect(positions.length).toBeGreaterThan(0);
+    expect(
+      positions.every(
+        (position) => Number.isFinite(position) && Math.abs(position) <= 1,
+      ),
+    ).toBe(true);
+    expect(
+      positions.some(
+        (position) => Math.abs(position) > 0 && Math.abs(position) < 1,
+      ),
+    ).toBe(true);
+  });
+
   it("records every adult's decision with its reasons; few run for one seat", () => {
     // Calibrated for the whole town (named and counted adults) to draw one
     // or two challengers per seat: in a town of about a thousand adults,
@@ -58,16 +77,16 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
       expect(row.run).toBe(margin(row) > 0);
       expect(Object.keys(row.reasons).sort()).toEqual(
         [
+          "afterOffice",
           "age",
           "cause",
           "engagement",
           "field",
-          "incumbency",
           "incumbentTie",
-          "money",
+          "openSeat",
           "reach",
+          "recordGap",
           "standing",
-          "temperament",
           "time",
         ].sort(),
       );
@@ -76,6 +95,28 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     // The same person decides the same way when asked again.
     expect(decideToRun(api, decisions[0]!.personId, contest("a"))).toEqual(
       decisions[0],
+    );
+  });
+
+  it("asks a serving incumbent whether to stand again, by the one stand-again rule, not a newcomer's case", () => {
+    // The oldest and the youngest adult each hold a seat of their own.
+    const byAge = [...adults].sort(
+      (a, b) =>
+        a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+    );
+    for (const [n, holder] of [byAge[0]!, byAge.at(-1)!].entries()) {
+      const held = { ...contest(`held-${n}`), incumbentId: holder.id };
+      const row = decideToRun(api, holder.id, held)!;
+      expect(Object.keys(row.reasons)).toEqual(["standAgain"]);
+      expect(row.reasons.standAgain).toBeCloseTo(
+        standAgainReason(api, holder),
+        12,
+      );
+      expect(row.run).toBe(standsAgain(api, holder));
+    }
+    // Age weighs against standing again: the oldest's case is the weaker.
+    expect(standAgainReason(api, byAge[0]!)).toBeLessThan(
+      standAgainReason(api, byAge.at(-1)!),
     );
   });
 
@@ -96,7 +137,7 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     });
     api.updateDrive(near.personId, {
       id: "fixture-drive",
-      kind: "civic",
+      kind: "cause",
       sourceEventId: "fixture-road-closed",
       topic: "fixture:roads",
       desiredChange: "repair",
@@ -107,8 +148,51 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     expect(again.run).toBe(true);
   });
 
+  it("gives a grudge or family drive no push to file, and a cause drive one", () => {
+    const person = adults.find((row) => row.drives.size === 0)!;
+    applyCoreEvent(core, {
+      id: "fixture-kinds-event",
+      date: core.date,
+      kind: "fixture.kinds",
+      personIds: [person.id],
+      placeId: person.placeId,
+      topic: "fixture:kinds",
+      desiredChange: "repair",
+      source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+    });
+    const base = candidacyReasons(api, person, contest("kinds")).cause!;
+    for (const kind of ["grudge", "protect-family", "status-ambition"])
+      api.updateDrive(person.id, {
+        id: `fixture-${kind}`,
+        kind,
+        sourceEventId: "fixture-kinds-event",
+        topic: "fixture:kinds",
+        desiredChange: "repair",
+        strength: 1,
+      });
+    expect(candidacyReasons(api, person, contest("kinds")).cause).toBe(base);
+    api.updateDrive(person.id, {
+      id: "fixture-cause-kind",
+      kind: "cause",
+      sourceEventId: "fixture-kinds-event",
+      topic: "fixture:kinds",
+      desiredChange: "repair",
+      strength: 1,
+    });
+    expect(
+      candidacyReasons(api, person, contest("kinds")).cause,
+    ).toBeGreaterThan(base);
+  });
+
   it("has most incumbents run again, as about 81% really do", () => {
-    const sample = adults.slice(0, 200);
+    // Every adult in town, each as the seat's incumbent: about 1,200 at the
+    // smallest, in several hundred households, so one standard error of the
+    // share is about a point and the band below is the spread between towns,
+    // not between draws. The first
+    // 200 records alone came in households, a few dozen of them, and an old
+    // town's first households ran again at 0.955 (Suissevale, New Hampshire)
+    // against 0.918 for the whole town.
+    const sample = adults;
     const again = sample.filter(
       (row) =>
         decideToRun(api, row.id, {
@@ -120,57 +204,22 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     expect(again / sample.length).toBeLessThan(0.95);
   });
 
-  // A county's filing fee is often a share of the office's salary (hundreds
-  // of dollars); weighed against cash on hand alone, it kept every adult out
-  // of every county race. The fee is weighed against what a person has and
-  // what their pay brings in while filing is open, and where the law takes
-  // signatures in place of the fee, against the signatures their own circle
-  // can't supply.
-  it("weighs a county's fee against pay and the petition route, and a countywide race's reach", () => {
+  // No one pays to file (owner, Oct 13): what filing would cost is no
+  // reason at all; a countywide race weighs only its wider reach.
+  it("weighs no filing cost, and a countywide race's reach", () => {
     const county = {
       ...contest("county"),
       officeName: "County commissioner",
-      feeMinor: 85_000,
       countywide: true,
     };
-    const workers = adults.filter((row) => {
-      const job = row.jobId ? core.jobs.get(row.jobId) : undefined;
-      return job && !job.endsAt && job.wageDailyMinor > 0;
-    });
-    expect(workers.length).toBeGreaterThan(0);
-    const window = CANDIDACY_PARAMETERS.candidacyFilingWindowDays!.value;
-    for (const row of workers) {
-      const pay = core.jobs.get(row.jobId!)!.wageDailyMinor;
+    for (const row of adults) {
       const reasons = candidacyReasons(api, row, county);
-      // Their pay (or what they live on) over the filing window counts
-      // toward the fee.
-      const means =
-        row.liquidMinor + Math.max(pay, row.livingCostDailyMinor) * window;
-      expect(reasons.money!).toBeCloseTo(
-        CANDIDACY_PARAMETERS.candidacyMoneyWeight!.value *
-          Math.max(-1, Math.min(1, (means - 85_000) / (means + 85_000 + 1))),
-      );
+      expect(reasons).not.toHaveProperty("money");
       // A countywide race costs the same reach for everyone.
       expect(reasons.reach).toBe(
         -CANDIDACY_PARAMETERS.candidacyCountywideWeight!.value,
       );
       expect(candidacyReasons(api, row, contest("town")).reach).toBe(0);
     }
-    // Someone whose circle can sign their petition files without the fee.
-    const known = adults.find((row) => row.knownIds.size > 0)!;
-    const petition = candidacyReasons(api, known, {
-      ...county,
-      signaturesInLieu: known.knownIds.size,
-    });
-    const free = candidacyReasons(api, known, { ...county, feeMinor: 0 });
-    expect(petition.money!).toBeCloseTo(free.money!);
-    const half = candidacyReasons(api, known, {
-      ...county,
-      signaturesInLieu: known.knownIds.size * 2,
-    });
-    expect(half.money!).toBeLessThan(petition.money!);
-    expect(half.money!).toBeGreaterThan(
-      candidacyReasons(api, known, county).money!,
-    );
   });
 });

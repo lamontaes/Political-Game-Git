@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 
 import {
   LEXINGTON_PLACEHOLDER_ID,

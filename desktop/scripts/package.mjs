@@ -41,6 +41,9 @@ const result = spawnSync(
   [
     "electron-builder",
     `-c.extraMetadata.version=${identity.version}`,
+    // Packaging never uploads; the release workflow publishes the files.
+    "--publish",
+    "never",
     ...process.argv.slice(2),
   ],
   { cwd: desktopRoot, stdio: "inherit", shell: process.platform === "win32" },

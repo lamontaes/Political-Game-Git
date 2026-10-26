@@ -1,23 +1,58 @@
 /**
- * Basic news (M2-09). A public record (a closure, a result, a law taking
- * effect) becomes a story for the place it happened in. Outlets carry it to
- * each resident after a delay set by how closely they follow politics (their
- * view's engagement): someone who follows it most of the time hears the next
- * day, someone who hardly follows hears much later, and past the story's life
- * never. People also pass the newest story the other hasn't heard at each
- * real contact. Hearing a story teaches its facts; people who never hear it
- * don't know it.
+ * News (M2-09; the press, Oct 14). Where the press runs, a story is what a
+ * town outlet's reporter chose to print (`printStory`): it reaches the
+ * outlet's followers after a delay set by how closely they follow politics
+ * (their view's engagement) and how far they trust the media. Someone who
+ * follows it most of the time hears the next day, someone who hardly follows
+ * hears much later, and past the story's life never. Each day's readers of a
+ * story are one event with its topic, so their views and drives read what
+ * was printed. People also pass the newest story the other hasn't heard at
+ * each real contact. Hearing a story teaches its facts; people who never hear
+ * it don't know it.
+ *
+ * In a world without the press (unit tests of other engines), a public
+ * record itself is a story for every resident of its place.
  *
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
-import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import { addDays, makeIsoDate } from "../kernel/dates";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
-import type { CoreAPI, CoreModule, KnownFact, PersonId } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  KnownFact,
+  PersonId,
+  PersonState,
+} from "../types";
 import { decisionLean } from "../trait-decisions";
-import { viewOf } from "./views";
+import { VIEWS_SPEAKER_KEY, viewOf, viewOn } from "./views";
+import { conditionQuestions, measureOfFactKey } from "../outcome-news";
+
+/** The press module's id (kept here so news does not import the press). */
+const PRESS_MODULE_ID = "core2-press-v1";
+
+const passOnLeans = new WeakMap<
+  object,
+  { date: string; by: Map<string, number> }
+>();
+
+/** A teller's lean toward passing a story on, worked out once per person per day. */
+function passOnLean(api: CoreAPI, person: PersonState): number {
+  let day = passOnLeans.get(api.state);
+  if (day?.date !== api.state.date) {
+    day = { date: api.state.date, by: new Map() };
+    passOnLeans.set(api.state, day);
+  }
+  let lean = day.by.get(person.id);
+  if (lean === undefined) {
+    lean = decisionLean(api.state, person, "news.pass-on", "tell", "keep");
+    day.by.set(person.id, lean);
+  }
+  return lean;
+}
 
 export const NEWS_MODULE_ID = "news";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -31,11 +66,36 @@ const n = (api: CoreAPI, key: string) => {
 export interface Story {
   id: string;
   kind: string;
-  /** The outlet that carried it: the place's local outlet record. */
+  /** The outlet that carried it: its organization's id. */
   outletId: string;
   date: string;
   placeId: string;
   facts: Readonly<Record<string, string>>;
+  /** What the story is about and the change it argues for, for readers' views. */
+  topic?: string;
+  desiredChange?: string;
+  moodImpulse?: number;
+  /**
+   * How the outlet framed it, -1 to 1: for (+) or against (-) the change it
+   * reports and the people it names (the press's slant).
+   */
+  framing?: number;
+}
+
+/** The event kind for one day's readers of a printed story. */
+export const NEWS_READ = "news.read";
+
+/**
+ * The story a read event is about: its id is `news.read:<story id>:<date>`,
+ * or `news.read:<story id>:<date>:<side>:<question>` for the readers of a
+ * story about a moved condition who hold one side on one question.
+ */
+export function storyOfReadEvent(eventId: string): string | null {
+  if (!eventId.startsWith(`${NEWS_READ}:`)) return null;
+  const read = /^(.+?):\d{4}-\d{2}-\d{2}(?::(?:enact|repeal):.+)?$/.exec(
+    eventId.slice(NEWS_READ.length + 1),
+  );
+  return read ? read[1]! : null;
 }
 
 const stories = (api: CoreAPI) =>
@@ -43,8 +103,26 @@ const stories = (api: CoreAPI) =>
 const deliveries = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("deliveries");
 const heard = (api: CoreAPI) => api.moduleState(NEWS_MODULE_ID).table("heard");
-const outlets = (api: CoreAPI) =>
-  api.moduleState(NEWS_MODULE_ID).table("outlets");
+const delivered = (api: CoreAPI) =>
+  api.moduleState(NEWS_MODULE_ID).table("delivered");
+
+/**
+ * The first story carrying a measure that a resident of the place heard, or
+ * null: a change nobody in town has heard of is not one the town attributes
+ * to anything yet.
+ */
+export function storyDelivered(
+  api: CoreAPI,
+  placeId: string,
+  measure: string,
+): { storyId: string; date: string; personId: string } | null {
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return null;
+  return (delivered(api).get(`${placeId}:${measure}`) ?? null) as unknown as {
+    storyId: string;
+    date: string;
+    personId: string;
+  } | null;
+}
 
 /**
  * Trust in the media from a person's lean, interpolated between Gallup's
@@ -61,6 +139,11 @@ export function trustOf(api: CoreAPI, lean: number): number {
     : center + (n(api, "newsTrustConservative") - center) * x;
 }
 
+/** How much a person's trust in the media weighs what the news told them, against the average reader (1). */
+export function trustWeight(api: CoreAPI, lean: number): number {
+  return trustOf(api, lean) / n(api, "newsTrustAverage");
+}
+
 /**
  * Who reads a story recorded for a place: its residents, and for a county or
  * state, the residents of the places inside it.
@@ -69,9 +152,9 @@ function readersOf(api: CoreAPI, placeId: string): PersonId[] {
   const direct = api.state.peopleByPlace.get(placeId);
   if (direct?.size) return [...direct];
   const out: PersonId[] = [];
-  const state = lifePlaceByJurisdictionId(placeId as never);
+  const state = corePlaceByJurisdictionId(placeId as never);
   for (const [place, people] of api.state.peopleByPlace) {
-    const row = lifePlaceByJurisdictionId(place as never);
+    const row = corePlaceByJurisdictionId(place as never);
     const inside =
       [...people].some(
         (id) => api.state.people.get(id)?.countyId === placeId,
@@ -111,14 +194,19 @@ interface HeardEntry {
   heardDate: string;
 }
 
-/** One person's recent hearing: entries newest first once sorted, and their ids. */
+/** One person's recent hearing: entries newest first, and their ids. */
 interface Recent {
   list: HeardEntry[];
   ids: Set<string>;
-  sorted: boolean;
   /** The cutoff the list was last pruned to. */
   since: string;
+  /** No entry was heard before this date (a bound, exact after a full prune). */
+  oldestHeard?: string;
 }
+
+/** Newest story first, then by id: the order telling reads them in. */
+const newestFirst = (a: HeardEntry, b: HeardEntry) =>
+  b.storyDate.localeCompare(a.storyDate) || a.storyId.localeCompare(b.storyId);
 
 /**
  * What each person heard that may still be news, rebuilt from the table when
@@ -155,14 +243,24 @@ function addRecent(
     map.set(personId, {
       list: [entry],
       ids: new Set([entry.storyId]),
-      sorted: true,
       since: "",
+      oldestHeard: entry.heardDate,
     });
     return;
   }
-  recent.list.push(entry);
+  // Into its place, after any equal entry, as a stable sort would put it.
+  const list = recent.list;
+  let low = 0;
+  let high = list.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (newestFirst(list[mid]!, entry) > 0) high = mid;
+    else low = mid + 1;
+  }
+  list.splice(low, 0, entry);
   recent.ids.add(entry.storyId);
-  recent.sorted = false;
+  if (recent.oldestHeard === undefined || entry.heardDate < recent.oldestHeard)
+    recent.oldestHeard = entry.heardDate;
 }
 
 /** The person's recent entries pruned to `since`, newest first. */
@@ -175,19 +273,26 @@ function recentList(
   if (!recent) return [];
   // Days only move forward, so what is too old now stays too old.
   if (recent.since !== since) {
-    recent.list = recent.list.filter(
-      (row) => row.heardDate >= since && row.storyDate >= since,
-    );
-    recent.ids = new Set(recent.list.map((row) => row.storyId));
+    const list = recent.list;
+    if (recent.oldestHeard === undefined || recent.oldestHeard >= since) {
+      // Everyone's entries were heard since the cutoff: only stories older
+      // than it go, and they are the list's tail.
+      while (list.length && list[list.length - 1]!.storyDate < since)
+        recent.ids.delete(list.pop()!.storyId);
+    } else {
+      recent.list = list.filter(
+        (row) => row.heardDate >= since && row.storyDate >= since,
+      );
+      recent.ids = new Set(recent.list.map((row) => row.storyId));
+      recent.oldestHeard = undefined;
+      for (const row of recent.list)
+        if (
+          recent.oldestHeard === undefined ||
+          row.heardDate < recent.oldestHeard
+        )
+          recent.oldestHeard = row.heardDate;
+    }
     recent.since = since;
-  }
-  if (!recent.sorted) {
-    recent.list.sort(
-      (a, b) =>
-        b.storyDate.localeCompare(a.storyDate) ||
-        a.storyId.localeCompare(b.storyId),
-    );
-    recent.sorted = true;
   }
   return recent.list;
 }
@@ -202,8 +307,9 @@ function* recentStoriesHeard(
   personId: PersonId,
   since: string,
 ): Iterable<Story> {
+  const table = stories(api);
   for (const row of recentList(api, personId, since))
-    yield stories(api).get(row.storyId) as unknown as Story;
+    yield table.get(row.storyId) as unknown as Story;
 }
 
 /** Whether the person is known to have heard a recent story (the table has the rest). */
@@ -263,7 +369,106 @@ function hear(
   learned(newsKey(story.id), story.kind);
   learned(`${newsKey(story.id)}:outlet`, story.outletId);
   for (const [key, value] of Object.entries(story.facts)) learned(key, value);
+  for (const key of Object.keys(story.facts)) {
+    const measure = measureOfFactKey(key);
+    const row = `${story.placeId}:${measure}`;
+    if (measure && !delivered(api).get(row))
+      delivered(api).put({
+        id: row,
+        storyId: story.id,
+        date: api.state.date,
+        personId,
+      });
+  }
   return true;
+}
+
+/**
+ * Retention (MEMORY-FLAT), once a month: past its life a story is never
+ * delivered or told again, so who heard it no longer decides anything, and
+ * those rows go, with the story's own two keys (its kind and outlet), which
+ * nothing reads once it can no longer be told. The facts it carried stay in
+ * their knowledge; the player's own rows and keys stay too.
+ */
+function forgetOldNews(api: CoreAPI): void {
+  const since = addDays(makeIsoDate(api.state.date), -n(api, "newsMaxAgeDays"));
+  const counts = countsOf(api);
+  const player = (api.state as { playerId?: PersonId }).playerId;
+  for (const row of heard(api).rows()) {
+    const personId = row.personId as PersonId;
+    if (personId === player) continue;
+    const story = stories(api).get(row.storyId as string) as unknown as
+      Story | undefined;
+    if (story && story.date >= since) continue;
+    heard(api).remove(row.id);
+    counts.set(personId, (counts.get(personId) ?? 1) - api.parameter("one"));
+    const known = api.state.knowledgeByPerson.get(personId);
+    const key = newsKey(row.storyId as string);
+    known?.delete(key);
+    known?.delete(`${key}:outlet`);
+  }
+}
+
+/** Schedules a story's delivery to each reader by their habits and trust. */
+function scheduleDeliveries(
+  api: CoreAPI,
+  story: Story,
+  readerIds: Iterable<PersonId>,
+  skip: ReadonlySet<PersonId>,
+): number {
+  let scheduled = 0;
+  const maxAge = n(api, "newsMaxAgeDays");
+  for (const personId of readerIds) {
+    if (skip.has(personId)) continue;
+    const view = viewOf(api, personId);
+    const engagement = view?.engagement ?? api.parameter("zero");
+    if (engagement <= api.parameter("zero")) continue;
+    // People who trust the media less check it less, and hear later.
+    const reach =
+      engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
+    const exact = Math.ceil(n(api, "newsOutletDelayDays") / reach);
+    if (exact > maxAge) continue;
+    // A printed story's readers catch up with it in waves: the next day,
+    // then each time the delay grows by the wave factor, so a story is read
+    // on a few days rather than every day of its life (one reading event
+    // per wave).
+    const factor = n(api, "newsReadingWaveFactor");
+    const delay = story.topic
+      ? Math.min(
+          maxAge,
+          factor **
+            Math.ceil(
+              Math.log(Math.max(api.parameter("one"), exact)) /
+                Math.log(factor),
+            ),
+        )
+      : exact;
+    deliveries(api).put({
+      id: `${story.id}:${personId}`,
+      storyId: story.id,
+      personId,
+      date: addDays(makeIsoDate(story.date), delay),
+    });
+    scheduled += 1;
+  }
+  return scheduled;
+}
+
+/**
+ * A town outlet prints a story its reporter chose (the press): it reaches the
+ * outlet's followers, each on their own day, as far as their habits and
+ * trust carry it. Returns how many of them will receive it.
+ */
+export function printStory(
+  api: CoreAPI,
+  story: Story,
+  readerIds: readonly PersonId[],
+): number {
+  // A world without news keeps the press's own record of the story only.
+  if (!api.state.modules.has(NEWS_MODULE_ID) || stories(api).get(story.id))
+    return 0;
+  stories(api).put(story as unknown as { id: string });
+  return scheduleDeliveries(api, story, readerIds, new Set());
 }
 
 /**
@@ -283,26 +488,20 @@ export function createNewsModule(
       schemaVersion: 1,
       tables: {
         stories: {},
-        outlets: {},
         deliveries: { indexes: { byDate: { fields: ["date"] } } },
         heard: { indexes: { byPerson: { fields: ["personId"] } } },
+        // The first story that reached someone in a place with a measure.
+        delivered: {},
       },
     },
     eventKinds: ["*"],
     onEvent(api, event, learnedBy) {
+      // Where the press runs, its reporters decide what becomes a story.
+      if (api.state.modules.has(PRESS_MODULE_ID)) return;
       if (!event.publicRecord || stories(api).get(event.id)) return;
-      const outletId = `outlet:${event.placeId}`;
-      if (!outlets(api).get(outletId))
-        // One local outlet per place stands for its newspapers, stations and
-        // sites until real outlets are records (stopgap SG-P15-news-habits).
-        outlets(api).put({
-          id: outletId,
-          placeId: event.placeId,
-          kind: "local",
-        });
       const story: Story = {
         id: event.id,
-        outletId,
+        outletId: `outlet:${event.placeId}`,
         kind: event.kind,
         date: event.date,
         placeId: event.placeId,
@@ -311,24 +510,12 @@ export function createNewsModule(
       stories(api).put(story as unknown as { id: string });
       // The people the event itself reached already know it.
       for (const id of learnedBy) hear(api, id, story, "perceived", event.id);
-      const maxAge = n(api, "newsMaxAgeDays");
-      for (const personId of readersOf(api, event.placeId)) {
-        if (learnedBy.includes(personId)) continue;
-        const view = viewOf(api, personId);
-        const engagement = view?.engagement ?? api.parameter("zero");
-        if (engagement <= api.parameter("zero")) continue;
-        // People who trust the media less check it less, and hear later.
-        const reach =
-          engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
-        const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
-        if (delay > maxAge) continue;
-        deliveries(api).put({
-          id: `${story.id}:${personId}`,
-          storyId: story.id,
-          personId,
-          date: addDays(makeIsoDate(event.date), delay),
-        });
-      }
+      scheduleDeliveries(
+        api,
+        story,
+        readersOf(api, event.placeId),
+        new Set(learnedBy),
+      );
     },
     relationshipKinds: ["*"],
     onRelationshipChange(api, notice) {
@@ -338,12 +525,10 @@ export function createNewsModule(
       const counts = countsOf(api);
       if (!counts.get(notice.actorId) && !counts.get(notice.otherId)) return;
       const maxAge = n(api, "newsMaxAgeDays");
-      const fresh = (story: Story) =>
-        daysBetween(makeIsoDate(story.date), makeIsoDate(api.state.date)) <=
-        maxAge;
       // A story still fresh today was heard on or after its own date, so only
       // what the teller heard within the story life is read (same order).
       const since = addDays(makeIsoDate(api.state.date), -maxAge);
+      const fresh = (story: Story) => story.date >= since;
       for (const [teller, listener] of [
         [notice.actorId, notice.otherId],
         [notice.otherId, notice.actorId],
@@ -357,13 +542,7 @@ export function createNewsModule(
               api.parameter("one") +
                 (tellerPerson
                   ? n(api, "traitDecisionWeight") *
-                    decisionLean(
-                      api.state,
-                      tellerPerson,
-                      "news.pass-on",
-                      "tell",
-                      "keep",
-                    )
+                    passOnLean(api, tellerPerson)
                   : api.parameter("zero")),
             ),
         );
@@ -378,12 +557,110 @@ export function createNewsModule(
       }
     },
     onAfterDay(api) {
+      if (api.state.date.endsWith("-01")) forgetOldNews(api);
+      const readers = new Map<string, PersonId[]>();
       for (const row of deliveries(api).query("byDate", [api.state.date])) {
         const story = stories(api).get(
           row.storyId as string,
         ) as unknown as Story;
-        if (story) hear(api, row.personId as string, story, "public", story.id);
+        if (
+          story &&
+          hear(api, row.personId as string, story, "public", story.id)
+        )
+          readers.set(story.id, [
+            ...(readers.get(story.id) ?? []),
+            row.personId as string,
+          ]);
         deliveries(api).remove(row.id);
+      }
+      // Today's readers of a printed story take in what it argued.
+      // stopgapId: SG-PEOPLE-counted-readers-stories (an outlet's counted followers are a count at delivery; their groups' views do not move)
+      for (const [storyId, ids] of [...readers].sort((a, b) =>
+        a[0].localeCompare(b[0]),
+      )) {
+        const story = stories(api).get(storyId) as unknown as Story;
+        const alive = ids.filter((id) => api.state.people.get(id)?.alive);
+        const read = (
+          id: string,
+          topic: string,
+          desiredChange: string | undefined,
+          witnessIds: readonly PersonId[],
+          facts: Readonly<Record<string, string>>,
+        ) =>
+          api.emit({
+            id,
+            date: api.state.date,
+            kind: NEWS_READ,
+            personIds: [],
+            witnessIds: [...witnessIds],
+            placeId: story.placeId,
+            topic,
+            desiredChange,
+            ...(story.moodImpulse === undefined
+              ? {}
+              : { moodImpulse: story.moodImpulse }),
+            facts: { ...facts, learnedFrom: newsKey(story.id) },
+            source: {
+              tag: "SOURCED",
+              citation: `Story ${story.id}, read by its outlet's followers`,
+              asOf: api.state.date,
+            },
+          });
+        // A month's move in the town's conditions argues no change of its
+        // own: each reader takes each condition it reports as a reason for
+        // the side their own view already holds on the question that
+        // condition ties to. A reader with no side on a
+        // question has none to strengthen. The readers already hold the
+        // story's facts; what they take from reading it is its source, whose
+        // case it was and which outlet printed it (what they can bring up).
+        const questions = story.desiredChange
+          ? []
+          : conditionQuestions(story.facts);
+        if (questions.length) {
+          const zero = api.parameter("zero");
+          const carried = Object.fromEntries(
+            Object.entries(story.facts).filter(
+              ([key]) =>
+                key === VIEWS_SPEAKER_KEY ||
+                (key.startsWith("printed:") && key.endsWith(":story")),
+            ),
+          );
+          for (const question of questions) {
+            const sides = new Map<string, PersonId[]>();
+            for (const id of alive) {
+              const view = viewOf(api, id);
+              const current = view
+                ? viewOn(api, id, question, view.lean)
+                : zero;
+              if (current === zero) continue;
+              const side = current > zero ? "enact" : "repeal";
+              sides.set(side, [...(sides.get(side) ?? []), id]);
+            }
+            for (const [side, witnessIds] of [...sides].sort((a, b) =>
+              a[0].localeCompare(b[0]),
+            ))
+              read(
+                `${NEWS_READ}:${story.id}:${api.state.date}:${side}:${question}`,
+                question,
+                side,
+                witnessIds,
+                carried,
+              );
+          }
+          continue;
+        }
+        // A story argues a change on a policy question; a law taking effect
+        // is also read and remembered with no side to take, so a reader can
+        // bring up the law in town.
+        if (!story.topic || (!story.desiredChange && !story.facts.lawId))
+          continue;
+        read(
+          `${NEWS_READ}:${story.id}:${api.state.date}`,
+          story.topic,
+          story.desiredChange,
+          alive,
+          story.facts,
+        );
       }
     },
   };

@@ -5,9 +5,10 @@ import { describe, expect, it } from "vitest";
 import coverageData from "../../data/content/trait-coverage.json" with { type: "json" };
 import actKindsData from "../../data/content/act-kinds.json" with { type: "json" };
 import { drawPlace } from "../../scripts/core2-year/place";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { chooseAct, traitLean } from "./choice";
 import { createLifeCore } from "./life";
+import { PEOPLE_MIND_VERSION } from "./people-mind";
 import { buildPopulation } from "./population";
 import {
   buildTraitCoverage,
@@ -81,7 +82,7 @@ describe("trait coverage: every trait, both sides, in every person-decision", ()
   it("finds every decision in code that weighs traits", () => {
     const problems: string[] = [];
     const helper =
-      /\b(chooseAct|scoreOffers|decisionFromScores|traitLean|traitLeanBetween|decisionLean|decisionKinds)\(/;
+      /\b(chooseAct|scoreOffers|decisionFromScores|traitLean|traitLeanBetween|decisionLean|decisionKinds|leanedYes|leanedYesWithTerm|leanedYesWhy|leanedScore|leanedTerm|leanedByKinds|decisionTraitTerm)\(/;
     for (const decision of decisions) {
       const site = read(decision.via ?? decision.site);
       if (!helper.test(site))
@@ -227,7 +228,8 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
     for (const person of adults) {
       // One working copy of the person's traits, set for this trait.
       const traits = working.get(person.id)!;
-      const before = traits[traitId]!;
+      // A notable-only trait the person does not record reads as the middle.
+      const before = traits[traitId];
       traits[traitId] = value;
       const actor = { traits };
       for (const decision of decisions) {
@@ -236,7 +238,8 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
         row[id] = (row[id] ?? 0) + 1;
         counts.set(decision.id, row);
       }
-      traits[traitId] = before;
+      if (before === undefined) delete traits[traitId];
+      else traits[traitId] = before;
     }
     return new Map(
       [...counts].map(([id, row]) => [
@@ -251,9 +254,16 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
   it("carries a level on every trait for every adult, low as well as high", () => {
     expect(adults.length).toBeGreaterThan(50);
     const ids = Object.keys(traits);
+    // Only the opening temperament is recorded for everyone; any other trait
+    // is notable-only (the trait registry): at the middle level it is not
+    // recorded, so absence reads as the middle, never as unknown.
     const missing = adults.flatMap((person) =>
       ids
-        .filter((id) => person.traits[id] === undefined)
+        .filter(
+          (id) =>
+            id.startsWith(`${PEOPLE_MIND_VERSION}:`) &&
+            person.traits[id] === undefined,
+        )
         .map((id) => `${person.id} ${id}`),
     );
     expect(missing).toEqual([]);

@@ -1,10 +1,10 @@
-import { countyGeoidsForPlace } from "./government-units";
+import { countyGeoidsForPlace } from "../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   COUNTY_HOME_VALUE_META,
   COUNTY_HOME_VALUE_ROWS,
 } from "./county-home-value.generated";
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 
 export { COUNTY_HOME_VALUE_META };
 

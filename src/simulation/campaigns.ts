@@ -4,7 +4,7 @@ import {
 } from "./campaign-money-sources";
 import { addCampaignHelper } from "./campaign-helpers";
 import { campaignCompliancePackIdForPlace } from "./campaign-compliance";
-import { inventedPersonBirthDate } from "./invented-person-age";
+import { inventedPersonBirthDate } from "../core2/gov-rules/invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
@@ -128,7 +128,7 @@ import {
   addDays,
   compareSimulationMoments,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import {
   ELECTION_CONTEST_TRANSITION_KEY,
   electionContestResult,
@@ -143,7 +143,7 @@ import {
   createFutureTransitionHandlerRegistry,
   scheduleFutureDueItem,
 } from "./future-transitions";
-import { createStableId, stableHash } from "./ids";
+import { createStableId, stableHash } from "../core2/kernel/ids";
 import {
   createOrganization,
   createOrganizationParticipation,
@@ -153,7 +153,7 @@ import {
 } from "./life";
 import { lifeTransitionHandlers } from "./life-callbacks";
 import { PEOPLE_CONTACT_HANDLERS } from "./relationship-contact";
-import { STATE_LEGISLATURE_QUEUE_HANDLERS } from "./nationwide-world/state-legislature-queue";
+import { stateLegislatureQueueHandlers } from "./nationwide-world/state-legislature-queue";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { peopleFamilyHandlers } from "./people-family-plan";
 import {
@@ -207,7 +207,7 @@ import {
   campaignRoutineSlots,
   routineIdOfActivity,
 } from "./campaign-routine";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import {
   cancelScheduledActivity,
   controlledCommitmentsBlockingActivityPerformance,
@@ -2567,7 +2567,7 @@ export function composeWorldTimeHandlers(
   const ordinary = composeExecutiveWorkHandlers(
     composeFutureTransitionHandlerRegistries(
       createNationalElectionTransitionRegistry(),
-      STATE_LEGISLATURE_QUEUE_HANDLERS,
+      stateLegislatureQueueHandlers(),
       createLegislativeTermTransitionRegistry(),
       createTransitTransitionRegistry((world, input, resolver) =>
         settlePublicResourcePayment(world, input, resolver),

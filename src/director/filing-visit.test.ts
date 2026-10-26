@@ -5,7 +5,7 @@ import { buildPopulation } from "../core2/population";
 import { openFilingVisit, pickContest, type FilingCheck } from "./filing-visit";
 
 // Golden path step 3: the clerk at the filing office speaks from GOV's
-// records (contest, deadline, fee or signatures, each eligibility rule).
+// records (contest, deadline, each eligibility rule).
 const core = createLifeCore(
   buildDeepPast(
     buildPopulation({
@@ -24,9 +24,6 @@ const contest = {
 };
 const terms = {
   filedWith: "City Clerk",
-  feeMinor: 2500,
-  signatures: 50,
-  feeInLieuOfSignatures: true,
   source: "Fixture state election code",
 };
 const check = (
@@ -43,23 +40,22 @@ const check = (
 });
 
 describe("the filing visit", () => {
-  it("states the terms from the record and offers the ways to file", () => {
+  it("states the terms from the record and offers to file", () => {
     const visit = openFilingVisit(core, player.id, [contest]);
-    expect(visit.lines[0]!.text).toBe("Which office are you filing for?");
+    expect(visit.lines[0]!.text).toMatch(/^(?:How|What|Can) .+\?$/);
     expect(visit.choices.map((row) => row.text)).toEqual([
-      "City Council, Seat 2.",
+      "I want to run for City Council, Seat 2.",
     ]);
     pickContest(core, visit, contest.id, terms, [
       check("minimum-age", true, "18", "40"),
     ]);
     const said = visit.lines.at(-1)!.text;
-    expect(said).toContain("March 5, 2021");
-    expect(said).toContain("$25");
-    expect(said).toContain("50 signatures");
+    expect(said).toBe("The deadline is March 5, 2021.");
     expect(visit.choices.map((row) => row.action)).toEqual([
-      { kind: "file", contestId: contest.id, payFee: true },
-      { kind: "file", contestId: contest.id, payFee: false },
+      { kind: "file", contestId: contest.id },
     ]);
+    // Filing is its own control, apart from acknowledging a refusal.
+    expect(visit.choices.map((row) => row.control)).toEqual(["file"]);
     for (const line of visit.lines)
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
   });
@@ -73,12 +69,14 @@ describe("the filing visit", () => {
     const clerk = visit.lines
       .filter((row) => row.speaker === "clerk")
       .map((row) => row.text);
-    expect(clerk).toContain(
-      "You have to be at least 18 to run for City Council, Seat 2.",
-    );
-    expect(clerk).toContain(
-      "Filings for City Council, Seat 2 closed on March 5, 2021.",
-    );
+    expect(
+      clerk.some((text) =>
+        /^You have to be (?:at least )?18(?: by election day)?\.$/.test(text),
+      ),
+    ).toBe(true);
+    // No mined sentence says a missed deadline, so that rule is left out.
+    expect(clerk.some((text) => /closed/.test(text))).toBe(false);
     expect(visit.choices.map((row) => row.action.kind)).toEqual(["done"]);
+    expect(visit.choices.map((row) => row.control)).toEqual(["acknowledge"]);
   });
 });

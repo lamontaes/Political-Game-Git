@@ -1,4 +1,4 @@
-import { simulationMinutesBetween } from "../dates";
+import { simulationMinutesBetween } from "../../core2/kernel/dates";
 import { eventById } from "../event-index";
 import { lawInForce } from "../governing/law-in-force";
 import {

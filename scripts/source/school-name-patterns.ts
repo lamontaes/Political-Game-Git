@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import GIVEN_NAMES from "../../src/simulation/given-names-by-decade.json" with { type: "json" };
+import GIVEN_NAMES from "../../src/core2/data/names/given-names-by-decade.json" with { type: "json" };
 import { NAMES_STARTER_V1 } from "../../src/simulation/names-data";
 import { SCHOOL_NAMES_V1 } from "../../src/simulation/school-names";
 

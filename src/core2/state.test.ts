@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA, extendData } from "./data";
+import { holdInCustody, releaseFromCustody } from "./justice-custody";
 import { parameter as p } from "./parameters";
 import {
   assertCoreIntegrity,
@@ -823,6 +824,42 @@ describe("P8 open module and tier registries", () => {
     expect(core.modules.size).toBe(p("two"));
   });
 
+  it("restores absent, enabled and disabled choice eligibility after custody", () => {
+    const core = createCore(input());
+    const api = coreAPI(core);
+    for (const prior of [undefined, true, false]) {
+      api.updatePerson(outsider, { discretionaryEligibleV1: prior });
+      expect(holdInCustody(api, outsider)).toBe(prior);
+      expect(core.people.get(outsider)!.discretionaryEligibleV1).toBe(false);
+      releaseFromCustody(api, outsider, prior);
+      expect(core.people.get(outsider)!.discretionaryEligibleV1).toBe(prior);
+      expect(
+        Object.hasOwn(core.people.get(outsider)!, "discretionaryEligibleV1"),
+      ).toBe(prior !== undefined);
+    }
+    expect(() => assertCoreIntegrity(core)).not.toThrow();
+  });
+
+  it("rejects invalid eligibility before changing any person fields", () => {
+    const core = createCore(input());
+    const api = coreAPI(core);
+    const before = mutableSnapshot(core);
+    expect(() =>
+      api.updatePerson(outsider, {
+        tier: "daily",
+        discretionaryEligibleV1: null as unknown as boolean,
+      }),
+    ).toThrow("Choice eligibility");
+    expect(mutableSnapshot(core)).toEqual(before);
+    expect(holdInCustody(api, "absent-person")).toBeUndefined();
+    expect(() =>
+      releaseFromCustody(api, "absent-person", undefined),
+    ).not.toThrow();
+    expect(() =>
+      api.updatePerson("absent-person", { discretionaryEligibleV1: false }),
+    ).toThrow("Absent person");
+  });
+
   it("admits a new data-defined tier and maintains town, county and tier indexes", () => {
     const tier = "fixture:fortnight-review";
     const data = extendData(DEFAULT_DATA, {
@@ -945,5 +982,120 @@ describe("P8 retained husk identity and family continuity", () => {
     const before = mutableSnapshot(core);
     expect(() => promoteHusk(core, promotedPerson())).toThrow("recorded husk");
     expect(mutableSnapshot(core)).toEqual(before);
+  });
+});
+
+describe("retained counted family relationships", () => {
+  it("keeps closeness and indexes without filling the relative", () => {
+    const opening = input();
+    const actor = opening.people.find((row) => row.id === player)!;
+    actor.familyIds = [...actor.familyIds, huskId];
+    actor.pastFacts = [
+      {
+        id: `${player}:family:${huskId}`,
+        date: today,
+        kind: "family:sibling",
+        summary: "Recorded family tie",
+        source,
+      },
+    ];
+    const core = createCore(opening);
+    const id = [player, huskId].sort().join(":");
+    expect(core.relationships.get(id)?.level).toBeGreaterThan(0);
+    expect(core.relationshipsByPerson.get(huskId)?.has(id)).toBe(true);
+    expect(core.people.has(huskId)).toBe(false);
+    expect(core.husks.has(huskId)).toBe(true);
+    assertCoreIntegrity(core);
+    expect(() =>
+      coreAPI(core).relationship(player, "absent", "family", 1),
+    ).toThrow("Invalid relationship");
+    expect(() =>
+      coreAPI(core).relationship(outsider, huskId, "family", 1),
+    ).toThrow("Invalid relationship");
+    const before = structuredClone(core.relationships.get(id));
+    promoteHusk(
+      core,
+      promotedPerson({ familyIds: [circle, player], knownIds: [] }),
+    );
+    expect(core.relationships.get(id)).toEqual(before);
+    expect(core.people.has(huskId)).toBe(true);
+  });
+});
+
+describe("relocating a household with a member who has died", () => {
+  // Two people share the witness's household; the second has died and stays
+  // listed with it, as an eviction finds it.
+  function shared(): CoreState {
+    const opening = input();
+    const late = person("person:late", {
+      householdId: `household:${witness}`,
+    });
+    opening.people.push(late);
+    opening.households
+      .find((row) => row.id === `household:${witness}`)!
+      .memberIds.push(late.id);
+    const core = createCore(opening);
+    core.people.get(late.id)!.alive = false;
+    return core;
+  }
+  const move = (householdId: string) => ({
+    personIds: [witness],
+    placeId: away,
+    countyId: "county:fixture-away",
+    householdId,
+    source,
+  });
+
+  it("moves the household whole under its own id, the member who died still listed", () => {
+    const core = shared();
+    coreAPI(core).relocatePeopleV1(move(`household:${witness}`));
+    const household = core.households.get(`household:${witness}`)!;
+    expect(household.placeId).toBe(away);
+    expect(household.memberIds).toEqual([witness, "person:late"]);
+    expect(core.people.get(witness)!.placeId).toBe(away);
+    expect(core.peopleByPlace.get(away)!.has(witness)).toBe(true);
+  });
+
+  it("still splits the living member off under a new id", () => {
+    const core = shared();
+    coreAPI(core).relocatePeopleV1(move("household:witness-moved"));
+    expect(core.households.get(`household:${witness}`)!.memberIds).toEqual([
+      "person:late",
+    ]);
+    const moved = core.households.get("household:witness-moved")!;
+    expect(moved.memberIds).toEqual([witness]);
+    expect(moved.placeId).toBe(away);
+  });
+});
+
+describe("relocating a person who holds a job", () => {
+  const moveInput = (placeId: string) => ({
+    personIds: [player],
+    placeId,
+    countyId: county,
+    householdId: `household:${player}`,
+    source,
+  });
+
+  it("refuses a move to another place and allows a return to the place they are counted in", () => {
+    const core = createCore(input());
+    const api = coreAPI(core);
+    const job = core.people.get(player)!.jobId;
+    expect(job).toBe("job:player");
+    expect(() => api.relocatePeopleV1(moveInput(away))).toThrow(
+      "Invalid relocation",
+    );
+    // Counted in their own place: the return keeps the job.
+    core.people.get(player)!.placeId = `counted:${home}`;
+    api.relocatePeopleV1(moveInput(home));
+    const back = core.people.get(player)!;
+    expect(back.placeId).toBe(home);
+    expect(back.jobId).toBe(job);
+    expect(core.peopleByPlace.get(home)!.has(player)).toBe(true);
+    // Counted in another place, a return to this one still leaves a job behind.
+    core.people.get(player)!.placeId = `counted:${away}`;
+    expect(() => api.relocatePeopleV1(moveInput(home))).toThrow(
+      "Invalid relocation",
+    );
   });
 });

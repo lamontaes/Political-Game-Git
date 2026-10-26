@@ -1,7 +1,7 @@
-import { createStableId } from "../simulation/ids";
-import { SeededRng } from "../simulation/rng";
-import { drawCanonicalNamedIdentity } from "../simulation/people";
-import { generatePersonIdentity } from "../simulation/person-identity";
+import { createStableId } from "./kernel/ids";
+import { SeededRng } from "./kernel/rng";
+import { drawCanonicalNamedIdentity } from "./person-names";
+import { generatePersonIdentity } from "./gov-rules/person-identity";
 import { buildDeepPast } from "./deep-past";
 import { OPENING_KIN } from "./opening-kin";
 import {

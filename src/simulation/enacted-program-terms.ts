@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { currentMeasureProvisions } from "./legislative-politics";
 import type { EntityId, IsoDate, World } from "./types";
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import { COUNTER_BANK, composeCounterVisit, type Errand } from "./counter-bank";
 
 /**

@@ -12,15 +12,12 @@ import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
-  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type FilingRow,
 } from "./modules/elections";
 import {
@@ -37,11 +34,7 @@ import {
   personStance,
   PLATFORM_QUESTIONS,
 } from "./campaign-views";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -51,7 +44,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter((k) => !["US-AS", "US-GU", "US-MP", "US-VI"].includes(k))
   .sort();
@@ -62,7 +55,7 @@ describe("campaign calibration on totals", () => {
     for (let attempt = 0; attempt < 6 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -82,9 +75,7 @@ describe("campaign calibration on totals", () => {
         );
       const player = adults[0]!;
       const core = createLifeCore(
-        withCountedVoterGroups(
-          collapseToTwoLevels({ ...full, playerId: player.id }),
-        ),
+        collapseToTwoLevels({ ...full, playerId: player.id }),
       );
       openLaws(core);
       openOffices(core, seed);
@@ -97,19 +88,10 @@ describe("campaign calibration on totals", () => {
           personId: player.id,
           contestId: contest.id,
           platform: [],
-          payFee: true,
           party: null,
         });
         if (r.status === "refused") continue;
         filing = r.filing;
-        for (const n of [...core.people.keys()].sort()) {
-          if (filing.status === "on-ballot") break;
-          requestSignature(api, filing.id, n);
-          filing = api
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("filings")
-            .get(filing.id) as unknown as FilingRow;
-        }
         break;
       }
       if (!filing) continue;
@@ -117,9 +99,11 @@ describe("campaign calibration on totals", () => {
       const met = knockDoors(api, {
         filingId: filing.id,
         canvasserId: player.id,
-        hours: 3,
+        // About 180 doors: a few dozen leaves the contact rate within chance of
+        // the 15% floor in a town that answers at the field rate.
+        hours: 12,
       });
-      const knocked = campaignFor(api, filing.id).doorsKnocked.length;
+      const knocked = campaignFor(api, filing.id).doorsKnockedCount ?? 0;
       const contact = met.length / Math.max(1, knocked);
       const filled = core.people.size - namedBefore;
       const known = [...(core.people.get(player.id)?.knownIds ?? [])].filter(
@@ -174,13 +158,20 @@ describe("campaign calibration on totals", () => {
         movedMuch: moved.length,
       };
       expect(knocked, `${state} ${key}`).toBeGreaterThan(10);
-      expect(contact, `${state} ${key} ${seed} contact`).toBeGreaterThan(0.15);
+      expect(contact, `${state} ${key} ${seed} contact`).toBeGreaterThanOrEqual(
+        0.15,
+      );
       expect(contact, `${state} ${key} ${seed} contact`).toBeLessThan(0.45);
-      if (known.length >= 10)
+      // The top of the measured range across places (31% of acquaintances,
+      // volunteerThreshold) plus two standard errors of a sample this size:
+      // a dozen acquaintances can't tell 31% from 45% apart by chance.
+      if (known.length >= 10) {
+        const top = 0.31;
         expect(
           volunteers / known.length,
-          `${state} ${key} volunteers`,
-        ).toBeLessThan(0.4);
+          `${state} ${key} ${seed} volunteers (${volunteers} of ${known.length})`,
+        ).toBeLessThan(top + 2 * Math.sqrt((top * (1 - top)) / known.length));
+      }
       if (heard.length >= 10)
         expect(
           moved.length / heard.length,

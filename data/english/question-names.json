@@ -1,0 +1,245 @@
+{
+  "schema": "english-question-names/1",
+  "about": "Each bill-catalog policy question has one spoken name in two fixed forms, so a stand can be said as a plain sentence: `about` is a noun phrase that reads after 'about' or 'on' ('the bill is about a higher minimum wage'); `to` is a verb phrase that reads after 'to' or 'I want to' ('I want to raise the minimum wage'). Authored to the English engine's patterns, American English; a question with no entry is not offered as a stand.",
+  "origin": "authored",
+  "author": "Claude Code, pool session",
+  "date": "2026-10-16",
+  "names": {
+    "us-policy-positions:transportation-infrastructure.fare-free-transit": {
+      "about": "free fares on public transit",
+      "to": "make public transit free to ride"
+    },
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "about": "a mileage fee in place of the fuel tax",
+      "to": "replace the fuel tax with a mileage fee"
+    },
+    "us-policy-positions:transportation-infrastructure.public-broadband": {
+      "about": "public broadband",
+      "to": "build public broadband"
+    },
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "about": "shifting highway money to transit",
+      "to": "shift highway money to transit"
+    },
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "about": "expanding Medicaid",
+      "to": "expand Medicaid eligibility"
+    },
+    "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "about": "a work requirement for Medicaid",
+      "to": "require work for Medicaid"
+    },
+    "us-policy-positions:health-human-services.work-requirement-for-assistance": {
+      "about": "a work requirement for assistance",
+      "to": "require work for cash assistance"
+    },
+    "us-policy-positions:education.universal-preschool": {
+      "about": "universal preschool",
+      "to": "offer preschool to every child"
+    },
+    "us-policy-positions:education.public-funds-for-private-schooling": {
+      "about": "public money for private schools",
+      "to": "pay for private schooling with public money"
+    },
+    "us-policy-positions:education.raise-teacher-minimum-salary": {
+      "about": "a higher minimum salary for teachers",
+      "to": "raise the minimum teacher salary"
+    },
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "about": "an income tax",
+      "to": "adopt an income tax"
+    },
+    "us-policy-positions:fiscal.cap-property-tax-growth": {
+      "about": "a cap on property tax growth",
+      "to": "cap how fast property taxes can grow"
+    },
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "about": "taking the sales tax off groceries",
+      "to": "exempt groceries from the sales tax"
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "about": "a graduated income tax",
+      "to": "tax higher incomes at higher rates"
+    },
+    "us-policy-positions:fiscal.balanced-operating-budget": {
+      "about": "a balanced operating budget",
+      "to": "require a balanced operating budget"
+    },
+    "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "about": "funding pensions on schedule",
+      "to": "fund public pensions on schedule"
+    },
+    "us-policy-positions:fiscal.minimum-reserve-balance": {
+      "about": "a minimum reserve balance",
+      "to": "require a minimum reserve balance"
+    },
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "about": "apartments in single-family neighborhoods",
+      "to": "allow apartments in single-family zones"
+    },
+    "us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "about": "an affordable-housing requirement for new buildings",
+      "to": "require affordable units in new buildings"
+    },
+    "us-policy-positions:housing-land-use.rent-stabilization": {
+      "about": "rent stabilization",
+      "to": "limit how much rents can rise"
+    },
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "about": "a lawyer for tenants facing eviction",
+      "to": "guarantee tenants a lawyer in eviction cases"
+    },
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "about": "a higher federal minimum wage",
+      "to": "raise the federal minimum wage"
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "about": "letting cities set their own minimum wage",
+      "to": "let cities set their own minimum wage"
+    },
+    "us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "about": "a higher minimum wage",
+      "to": "raise the minimum wage"
+    },
+    "us-policy-positions:labor-workforce.paid-family-leave": {
+      "about": "paid family leave",
+      "to": "give workers paid family leave"
+    },
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "about": "collective bargaining for public workers",
+      "to": "let public workers bargain collectively"
+    },
+    "us-policy-positions:labor-workforce.right-to-work": {
+      "about": "right-to-work rules",
+      "to": "ban required union dues"
+    },
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+      "about": "legal cannabis sales",
+      "to": "legalize cannabis sales"
+    },
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+      "about": "a cap on consumer loan rates",
+      "to": "cap interest rates on consumer loans"
+    },
+    "us-policy-positions:environment-energy.ban-new-gas-hookups": {
+      "about": "banning new gas hookups",
+      "to": "ban new gas hookups"
+    },
+    "us-policy-positions:environment-energy.clean-electricity-standard": {
+      "about": "a clean electricity standard",
+      "to": "require utilities to supply clean electricity"
+    },
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "about": "a clean air plan for polluted counties",
+      "to": "require a clean air plan in polluted counties"
+    },
+    "us-policy-positions:environment-energy.bottle-deposit": {
+      "about": "a bottle deposit",
+      "to": "charge a deposit on bottles"
+    },
+    "us-policy-positions:environment-energy.price-carbon": {
+      "about": "a price on carbon",
+      "to": "put a price on carbon"
+    },
+    "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+      "about": "civilian oversight of the police",
+      "to": "give civilians oversight of the police"
+    },
+    "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "about": "working with federal immigration enforcement",
+      "to": "partner with federal immigration enforcement"
+    },
+    "us-policy-positions:justice-public-safety.end-cash-bail": {
+      "about": "ending cash bail",
+      "to": "end cash bail"
+    },
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "about": "restoring the vote after a sentence",
+      "to": "restore the vote once a sentence is served"
+    },
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
+      "about": "a higher age for juvenile court",
+      "to": "raise the age for juvenile court"
+    },
+    "us-policy-positions:justice-public-safety.child-access-prevention": {
+      "about": "child access prevention for guns",
+      "to": "require guns to be stored away from children"
+    },
+    "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+      "about": "a permit to carry a concealed gun",
+      "to": "require a permit to carry a concealed gun"
+    },
+    "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
+      "about": "a higher age to buy a handgun",
+      "to": "raise the age to buy a handgun"
+    },
+    "us-policy-positions:justice-public-safety.stand-your-ground": {
+      "about": "stand-your-ground rules",
+      "to": "remove the duty to retreat before using force"
+    },
+    "us-policy-positions:government-operations.all-mail-voting": {
+      "about": "voting by mail for everyone",
+      "to": "send every voter a mail ballot"
+    },
+    "us-policy-positions:government-operations.automatic-voter-registration": {
+      "about": "automatic voter registration",
+      "to": "register eligible voters automatically"
+    },
+    "us-policy-positions:government-operations.independent-redistricting": {
+      "about": "independent redistricting",
+      "to": "draw district lines with an independent commission"
+    },
+    "us-policy-positions:government-operations.require-photo-id-to-vote": {
+      "about": "photo ID to vote",
+      "to": "require photo ID to vote"
+    },
+    "us-policy-positions:government-operations.same-day-voter-registration": {
+      "about": "same-day voter registration",
+      "to": "let people register and vote on the same day"
+    },
+    "us-policy-positions:government-operations.ban-lobbying-after-office": {
+      "about": "a ban on lobbying after leaving office",
+      "to": "bar former officials from lobbying"
+    },
+    "us-policy-positions:government-operations.broaden-local-authority": {
+      "about": "more local government power",
+      "to": "give local governments more authority"
+    },
+    "us-policy-positions:government-operations.legislative-term-limits": {
+      "about": "term limits for legislators",
+      "to": "limit how long legislators can serve"
+    },
+    "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
+      "about": "a ban on discrimination in housing and work",
+      "to": "ban discrimination in housing and at work"
+    },
+    "us-policy-positions:civil-family-community.dedicated-parks-funding": {
+      "about": "dedicated funding for parks",
+      "to": "set aside money for parks"
+    },
+    "us-policy-positions:civil-family-community.restrict-abortion": {
+      "about": "restricting abortion",
+      "to": "restrict abortion"
+    },
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": {
+      "about": "age checks for social media",
+      "to": "require age checks for social media accounts"
+    },
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+      "about": "limits on government facial recognition",
+      "to": "limit how government uses facial recognition"
+    },
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "about": "a consumer data privacy law",
+      "to": "protect consumers' personal data"
+    },
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "about": "limits on pumping groundwater",
+      "to": "limit how much groundwater can be pumped"
+    },
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "about": "protecting farmland from development",
+      "to": "protect farmland from development"
+    }
+  }
+}

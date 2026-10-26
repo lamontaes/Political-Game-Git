@@ -1,5 +1,5 @@
 import { activeCampaignForCandidate, campaignState } from "./campaign-queries";
-import { addDays, ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import {
   electionContestStatus,

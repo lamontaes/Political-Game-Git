@@ -6,7 +6,9 @@
       "publisherId": "194463",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Anchorage Assembly",
         "bodySize": 12,
+        "composition": null,
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -21,7 +23,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -33,7 +37,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -45,7 +51,9 @@
       "publisherId": null,
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Juneau Assembly",
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -57,7 +65,9 @@
       "publisherId": "122711",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -69,7 +79,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Birmingham City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 9,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -84,7 +100,13 @@
       "publisherId": "160683",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 7,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -96,7 +118,13 @@
       "publisherId": "100091",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 9,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -108,7 +136,13 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 8,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": 0,
+          "wardSeats": 8
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -120,7 +154,13 @@
       "publisherId": "161064",
       "reading": {
         "form": "OTHER",
+        "bodyName": "Fort Smith Board of Directors",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 4
+        },
         "executiveSelection": "Separately elected",
         "mayor": {
           "title": "Mayor",
@@ -135,7 +175,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "Board of Directors",
         "bodySize": 10,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -147,7 +189,13 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -159,7 +207,13 @@
       "publisherId": "207536",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Phoenix City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 8,
+          "wardSeats": null
+        },
         "executiveSelection": "Elected at large",
         "mayor": {
           "title": "Mayor",
@@ -174,7 +228,9 @@
       "publisherId": "160840",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Mayor and Council",
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -186,7 +242,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 15,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -198,7 +256,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -210,7 +270,13 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 8,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -222,7 +288,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -234,7 +302,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 11,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -246,7 +316,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -258,7 +334,13 @@
       "publisherId": "194647",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Denver City Council",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 11,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -273,7 +355,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -285,7 +369,9 @@
       "publisherId": "124038",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 20,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -297,7 +383,13 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "Court of Common Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -309,7 +401,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Board of Alders",
         "bodySize": 30,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": null,
+          "wardSeats": 30
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -324,7 +422,13 @@
       "publisherId": "124214",
       "reading": {
         "form": null,
+        "bodyName": "Council of the District of Columbia",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 8
+        },
         "executiveSelection": "The Mayor is elected by the registered qualified electors of the District.",
         "mayor": {
           "title": "Mayor of the District of Columbia",
@@ -339,7 +443,13 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -351,7 +461,13 @@
       "publisherId": "161529",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Wilmington City Council",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 8,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -366,7 +482,13 @@
       "publisherId": null,
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Jacksonville City Council",
         "bodySize": 19,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 14,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -381,7 +503,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 5,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -393,7 +517,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -405,7 +531,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -417,7 +545,13 @@
       "publisherId": "161650",
       "reading": {
         "form": "COMMISSION_MANAGER",
+        "bodyName": "City Commission",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -429,7 +563,13 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 12,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -441,7 +581,13 @@
       "publisherId": "194679",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Commission",
         "bodySize": 10,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 10,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -453,7 +599,13 @@
       "publisherId": "124438",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Savannah Mayor and Aldermen",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -468,7 +620,9 @@
       "publisherId": "184856",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -480,7 +634,13 @@
       "publisherId": "183701",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Honolulu City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 9,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -495,7 +655,9 @@
       "publisherId": "162013",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -507,7 +669,9 @@
       "publisherId": "189877",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -519,7 +683,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -531,7 +697,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Council",
         "bodySize": 10,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 8
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -543,7 +715,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -555,7 +729,9 @@
       "publisherId": "184216",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -567,7 +743,13 @@
       "publisherId": "164452",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Iowa City City Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 3,
+          "wardSeats": null
+        },
         "executiveSelection": "Chosen by the Council from among its own members at the first meeting of a new Council.",
         "mayor": {
           "title": "Mayor",
@@ -582,7 +764,13 @@
       "publisherId": "162035",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Boise City Council",
         "bodySize": 6,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 6,
+          "wardSeats": null
+        },
         "executiveSelection": "Elected at large",
         "mayor": {
           "title": "Mayor",
@@ -597,7 +785,13 @@
       "publisherId": "162037",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 6,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -609,7 +803,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 50,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -621,7 +817,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 10,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -633,7 +831,9 @@
       "publisherId": "162629",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 10,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -645,7 +845,13 @@
       "publisherId": "211708",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Common Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -657,7 +863,13 @@
       "publisherId": "163465",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -669,7 +881,13 @@
       "publisherId": null,
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Indianapolis-Marion County City-County Council",
         "bodySize": 25,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 25,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -684,7 +902,13 @@
       "publisherId": null,
       "reading": {
         "form": "OTHER",
+        "bodyName": "Governing Body",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 12
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -696,7 +920,13 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Topeka Governing Body",
         "bodySize": 10,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 9,
+          "wardSeats": null
+        },
         "executiveSelection": "Directly elected",
         "mayor": {
           "title": "Mayor",
@@ -711,7 +941,13 @@
       "publisherId": "201810",
       "reading": {
         "form": "OTHER",
+        "bodyName": "Governing Body",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -723,7 +959,13 @@
       "publisherId": "212021",
       "reading": {
         "form": "COMMISSION_MANAGER",
+        "bodyName": "Board of Commissioners",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": null
+        },
         "executiveSelection": "Mayor elected at-large; the Mayor is a member of and presides over the Board of Commissioners rather than a separate executive.",
         "mayor": {
           "title": "Mayor",
@@ -747,7 +989,13 @@
       "publisherId": "165831",
       "reading": {
         "form": "URBAN_COUNTY_CONSOLIDATED",
+        "bodyName": "Urban County Council",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 12,
+          "wardSeats": null
+        },
         "executiveSelection": "Separately elected Mayor, elected at-large countywide",
         "mayor": {
           "title": "Mayor",
@@ -775,7 +1023,13 @@
       "publisherId": "165866",
       "reading": {
         "form": "METRO_CONSOLIDATED",
+        "bodyName": "Louisville Metro Council",
         "bodySize": 26,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 26,
+          "wardSeats": null
+        },
         "executiveSelection": "Separately elected Metro Mayor, elected at-large countywide",
         "mayor": {
           "title": "Mayor",
@@ -799,7 +1053,13 @@
       "publisherId": null,
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "East Baton Rouge Metropolitan Council",
         "bodySize": 12,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 12,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor-President",
@@ -814,7 +1074,13 @@
       "publisherId": "166094",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "New Orleans City Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 5,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -829,7 +1095,13 @@
       "publisherId": "127810",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 7,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -841,7 +1113,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 13,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -853,7 +1127,13 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Cambridge City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "After taking office the nine Councillors elect one of themselves as Mayor.",
         "mayor": {
           "title": "Mayor",
@@ -873,7 +1153,13 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Lexington Town Meeting",
         "bodySize": null,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -885,7 +1171,13 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Provincetown Town Meeting",
         "bodySize": null,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -897,7 +1189,13 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 8
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -909,7 +1207,13 @@
       "publisherId": "106079",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Worcester City Council",
         "bodySize": 11,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 5,
+          "wardSeats": null
+        },
         "executiveSelection": "Popularly elected, holding one of the at-large Council seats.",
         "mayor": {
           "title": "Mayor",
@@ -924,7 +1228,13 @@
       "publisherId": "128028",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 8
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -936,7 +1246,13 @@
       "publisherId": "208246",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Baltimore City Council",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 14,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -951,7 +1267,13 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Mayor and Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -963,7 +1285,13 @@
       "publisherId": "166166",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Bangor City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "After the November election the Council selects one of its own members as Chair for the year; that Chair serves as Mayor.",
         "mayor": {
           "title": "Mayor",
@@ -983,7 +1311,9 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Town Meeting",
         "bodySize": null,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -995,7 +1325,13 @@
       "publisherId": "166159",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": 0,
+          "wardSeats": 7
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1007,7 +1343,13 @@
       "publisherId": "166160",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 5,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1019,7 +1361,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1031,7 +1375,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1043,7 +1389,9 @@
       "publisherId": "166690",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1055,7 +1403,13 @@
       "publisherId": "106897",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Duluth City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 5,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1070,7 +1424,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 13,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1082,7 +1438,9 @@
       "publisherId": "167605",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1094,7 +1452,13 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Kansas City Council",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1109,7 +1473,9 @@
       "publisherId": "168896",
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1121,7 +1487,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "St. Louis Board of Aldermen",
         "bodySize": 14,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": null,
+          "wardSeats": 14
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1136,7 +1508,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1148,7 +1522,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Jackson City Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": null,
+          "wardSeats": 7
+        },
         "executiveSelection": "Elected at large, full time",
         "mayor": {
           "title": "Mayor",
@@ -1163,7 +1543,13 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "Council",
         "bodySize": 11,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 0,
+          "wardSeats": 10
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1175,7 +1561,13 @@
       "publisherId": null,
       "reading": {
         "form": "COMMISSION_MANAGER",
+        "bodyName": "Helena City Commission",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "Elected at large",
         "mayor": {
           "title": "Mayor",
@@ -1190,7 +1582,13 @@
       "publisherId": "169464",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 12,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": 0,
+          "wardSeats": 12
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1202,7 +1600,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 11,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1214,7 +1614,9 @@
       "publisherId": "171305",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1226,7 +1628,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 4,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1238,7 +1642,9 @@
       "publisherId": null,
       "reading": {
         "form": "COMMISSION",
+        "bodyName": "Fargo Board of City Commissioners",
         "bodySize": 4,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1250,7 +1656,9 @@
       "publisherId": "110222",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1262,7 +1670,13 @@
       "publisherId": "184191",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 10,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": 0,
+          "wardSeats": 10
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1274,7 +1688,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1286,7 +1702,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Omaha City Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 7,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1301,7 +1723,9 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Town Meeting",
         "bodySize": null,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1313,7 +1737,9 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Town Meeting",
         "bodySize": null,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1325,7 +1751,13 @@
       "publisherId": "204917",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 10
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1337,7 +1769,13 @@
       "publisherId": "208744",
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Enfield Town Meeting",
         "bodySize": null,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1349,7 +1787,13 @@
       "publisherId": "170001",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Board of Mayor and Aldermen",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 12
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1369,7 +1813,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Nashua Board of Aldermen",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 9
+        },
         "executiveSelection": "Separately elected at large",
         "mayor": {
           "title": "Mayor",
@@ -1393,7 +1843,9 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Town Meeting",
         "bodySize": null,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1405,7 +1857,13 @@
       "publisherId": "193734",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 6
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1417,7 +1875,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Newark Municipal Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 5
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1432,7 +1896,13 @@
       "publisherId": "109096",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Trenton City Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 4
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1452,7 +1922,9 @@
       "publisherId": "170378",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1464,7 +1936,9 @@
       "publisherId": "109329",
       "reading": {
         "form": null,
+        "bodyName": "Governing Body",
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1476,7 +1950,13 @@
       "publisherId": "194943",
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodyName": "Carson City Board of Supervisors",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "There is no separately elected executive. The Mayor is one of the five members of the Board and is elected at large like the other Supervisors.",
         "mayor": {
           "title": "Mayor",
@@ -1496,7 +1976,9 @@
       "publisherId": "169988",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "City Council",
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1508,7 +1990,13 @@
       "publisherId": "169993",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Reno City Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 6
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1523,7 +2011,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1535,7 +2025,9 @@
       "publisherId": "194805",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 51,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1547,7 +2039,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1559,7 +2053,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 15,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1571,7 +2067,13 @@
       "publisherId": "209050",
       "reading": {
         "form": null,
+        "bodyName": "Columbus City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": [
@@ -1588,7 +2090,9 @@
       "publisherId": "209170",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1600,7 +2104,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1612,7 +2118,13 @@
       "publisherId": "211254",
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 12,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 12,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1627,7 +2139,9 @@
       "publisherId": "133602",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 17,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1639,7 +2153,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1651,7 +2167,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 15,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1663,7 +2181,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 12,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1675,7 +2195,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1687,7 +2209,9 @@
       "publisherId": "209465",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1699,7 +2223,9 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Sioux Falls City Council",
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1711,7 +2237,9 @@
       "publisherId": "175728",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 40,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1723,7 +2251,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 10,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1735,7 +2265,13 @@
       "publisherId": null,
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "City Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 7,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1747,7 +2283,13 @@
       "publisherId": "194177",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Council of the City of Charlottesville",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "There is no separately elected executive. The council elects one of its own members as mayor at its first meeting in January 2022 and biennially thereafter.",
         "mayor": {
           "title": "Mayor",
@@ -1771,7 +2313,13 @@
       "publisherId": "194178",
       "reading": {
         "form": "MAYOR_COUNCIL",
+        "bodyName": "Council of the City of Richmond",
         "bodySize": 9,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 9,
+          "wardSeats": null
+        },
         "executiveSelection": "The mayor is elected separately from the council and is the city's chief executive officer.",
         "mayor": {
           "title": "Mayor",
@@ -1791,7 +2339,9 @@
       "publisherId": "176546",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 12,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1803,7 +2353,13 @@
       "publisherId": null,
       "reading": {
         "form": "TOWN_MEETING",
+        "bodyName": "Danville Town Meeting",
         "bodySize": null,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1815,7 +2371,13 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 7,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1827,7 +2389,13 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": "City Council",
         "bodySize": 7,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1839,7 +2407,9 @@
       "publisherId": "209777",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 20,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1851,7 +2421,9 @@
       "publisherId": "136562",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 15,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1863,7 +2435,9 @@
       "publisherId": null,
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 26,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1875,7 +2449,9 @@
       "publisherId": "176966",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 11,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1887,7 +2463,9 @@
       "publisherId": null,
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Morgantown City Council",
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1899,7 +2477,9 @@
       "publisherId": "136964",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1911,7 +2491,9 @@
       "publisherId": "115492",
       "reading": {
         "form": null,
+        "bodyName": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1923,7 +2505,9 @@
       "publisherId": "177842",
       "reading": {
         "form": "COUNCIL_MANAGER",
+        "bodyName": "Laramie City Council",
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []

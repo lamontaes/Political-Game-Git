@@ -2,8 +2,8 @@ import landingPlan from "../../../data/research/outcome-web/landing-plan.json" w
 import recipientAgeCohorts from "../../../data/research/outcome-web/person-recipient-age-cohorts.json" with { type: "json" };
 import recipientWorkCohorts from "../../../data/research/outcome-web/person-recipient-work-cohorts.json" with { type: "json" };
 import schoolAges from "../../../data/research/education/compulsory-school-ages-2020.json" with { type: "json" };
-import { ageOnDate } from "../dates";
-import { createStableId } from "../ids";
+import { ageOnDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,

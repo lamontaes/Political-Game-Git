@@ -17,9 +17,9 @@ import { deserializeWorld } from "../../src/simulation/serialization";
 import {
   ssa2023AnnualProbability,
   SSA_2023_MAX_AGE,
-} from "../../src/simulation/crisis/mortality-table";
+} from "../../src/core2/health-mortality-table";
 import { mortalityCalibrationOf } from "../../src/simulation/crisis/mortality";
-import type { EntityId } from "../../src/simulation/types";
+import type { EntityId } from "../../src/core2/kernel/brands";
 
 const path = process.argv[2];
 if (!path) throw new Error("A save path is required.");

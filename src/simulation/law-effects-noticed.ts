@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { recordById } from "./history-index";
 import { recordLawExposure } from "./law-exposure";
 import { money } from "./resources";

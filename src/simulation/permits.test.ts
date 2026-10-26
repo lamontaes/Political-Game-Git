@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { createStableId } from "./ids";
-import { makeIsoDate } from "./dates";
+import { createStableId } from "../core2/kernel/ids";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { lawInForce } from "./governing/law-in-force";
 import { createOrganization } from "./life";
 import { stateJurisdictionForKey } from "./life-places";

@@ -14,12 +14,10 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openOffices } from "./modules/offices";
 import {
-  ELECTIONS_MODULE_ID,
   ballot,
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type FilingRow,
 } from "./modules/elections";
 import { knockDoors, openCampaigns } from "./modules/campaigns";
@@ -34,17 +32,16 @@ import {
 } from "./modules/parties";
 import { holdPrimary, openVoting } from "./modules/voting";
 import {
-  lifePlaceByKey,
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  corePlaceByKey,
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`parties:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -56,7 +53,7 @@ describe("M2-08 parties", () => {
   it("parties are organizations from data; ties come from views; no party and independent both exist; a primary picks one nominee", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -78,7 +75,7 @@ describe("M2-08 parties", () => {
     openVoting(core);
     const api = coreAPI(core);
     const parties = partiesHere(api);
-    const stateKey = lifePlaceByKey(place)!.stateJurisdictionKey!;
+    const stateKey = corePlaceByKey(place)!.stateJurisdictionKey!;
     expect(parties.map((p) => p.name).sort()).toEqual(
       stateParties(stateKey)
         .map((p) => p.name)
@@ -108,6 +105,24 @@ describe("M2-08 parties", () => {
     expect(kinds.has("party")).toBe(true);
     expect(kinds.has("independent")).toBe(true);
     expect(kinds.has("no-party")).toBe(true);
+    // Careful thinkers lean toward calling themselves independent: a scale on
+    // deliberation and lean together, not a cut on either.
+    const mean = (kind: string) => {
+      const rows = ties.filter((t) => t.tie === kind);
+      return (
+        rows.reduce(
+          (n, t) =>
+            n +
+            (core.people.get(t.personId)?.traits[
+              "people-mind-v1:deliberation"
+            ] ?? 0),
+          0,
+        ) / Math.max(1, rows.length)
+      );
+    };
+    expect(mean("no-party"), `${place} seed ${seed}`).toBeLessThanOrEqual(
+      mean("independent"),
+    );
     const share = ties.filter((t) => t.tie === "party").length / ties.length;
     expect(share).toBeGreaterThan(0.4);
     expect(share).toBeLessThan(0.7);
@@ -135,19 +150,10 @@ describe("M2-08 parties", () => {
           platform: [
             `${pick(PLATFORM_QUESTIONS, "q")}=${party.side > 0 ? 1 : -1}`,
           ],
-          payFee: true,
           party: party.name,
         });
         if (r.status === "refused") break;
-        let f = r.filing;
-        for (const n of [...core.people.keys()].sort()) {
-          if (f.status === "on-ballot") break;
-          requestSignature(api, f.id, n);
-          f = api
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("filings")
-            .get(f.id) as unknown as FilingRow;
-        }
+        const f = r.filing;
         if (f.status === "on-ballot") filed.push(f);
       }
       if (filed.length === 2) {
@@ -164,7 +170,7 @@ describe("M2-08 parties", () => {
         canvasserId: first.personId,
         hours: 6,
       });
-      const votes = holdPrimary(api, primaryContest);
+      const { votes, namedVotes } = holdPrimary(api, primaryContest);
       const left = ballot(api, primaryContest).filter(
         (f) => f.party === party.name,
       );
@@ -173,6 +179,13 @@ describe("M2-08 parties", () => {
       // town's named voters (audit 2, item 1).
       const total = Object.values(votes).reduce((a, b) => a + b, 0);
       expect(total).toBeGreaterThan(members.length);
+      // Same-party candidates no platform tells apart are still told apart
+      // by standing, reach and the ballot itself, so the party's voters
+      // beyond the town vote in it too (CTO, Oct 14).
+      expect(total).toBeGreaterThan(namedVotes);
+      // Votes are whole numbers.
+      for (const n of Object.values(votes))
+        expect(Number.isInteger(n)).toBe(true);
       govReport(
         "parties",
         JSON.stringify({

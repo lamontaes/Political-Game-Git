@@ -1,7 +1,7 @@
 import { assessedCompletedHourlyGrossMinor } from "./completed-hourly-gross";
-import { makeIsoDate, simulationMinutesBetween } from "./dates";
+import { makeIsoDate, simulationMinutesBetween } from "../core2/kernel/dates";
 import { recordById, recordsWithFieldValue } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { workRoleAt, workStatusAt } from "./life-queries";
 import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";

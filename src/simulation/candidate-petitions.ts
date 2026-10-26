@@ -1,4 +1,4 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { viewOfOfficial } from "./official-view-reads";
 import { majorPartyOf } from "./statewide-electorate";

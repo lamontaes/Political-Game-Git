@@ -6,7 +6,7 @@ import {
   compareSimulationMoments,
   makeIsoDate,
   simulationMomentAtLocalTime,
-} from "../dates";
+} from "../../core2/kernel/dates";
 import {
   cancelScheduledActivity,
   createScheduledActivity,
@@ -88,7 +88,7 @@ import {
   councilRules,
   lawJurisdiction,
 } from "../living-world/local-council-binding";
-import { governmentUnit } from "../government-units";
+import { governmentUnit } from "../../core2/reference/government-units";
 import { sittingLocalOfficers } from "../living-world/local-government-seats";
 import {
   COUNCIL_VOTE_NOTE,

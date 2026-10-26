@@ -87,6 +87,12 @@ export interface Accounts {
   addObligation(input: ObligationInput): void;
   obligation(id: string): Readonly<ObligationState> | undefined;
   endObligation(id: string): void;
+  /** Ends every open standing payment into this account (a benefit stops at the payee's death); returns their ids. */
+  endObligationsTo(accountId: string): string[];
+  /** The open standing payments out of this account (what a dead person's estate owes), by id. */
+  obligationsFrom(
+    accountId: string,
+  ): readonly (Readonly<ObligationState> & { readonly id: string })[];
   /** v21: payments due from now on are this amount (a rent cap, a new benefit level). */
   setObligationAmount(id: string, amountMinor: number, source: Source): void;
 }
@@ -96,6 +102,23 @@ interface Runtime {
   transferIds: Set<string>;
   obligations: Map<string, ObligationState>;
   due: Map<IsoDate, Set<string>>;
+  deposits: Map<string, BankDeposit>;
+  depositsByBank: Map<string, Set<string>>;
+  depositTotals: Map<string, number>;
+  heldDeposits: Map<string, number>;
+  depositsByHolder: Map<string, Set<string>>;
+}
+
+/** A claim on a bank, not a second copy of cash in the cash journal. */
+export interface BankDeposit {
+  id: string;
+  bankId: string;
+  holderId: string;
+  balanceMinor: number;
+  paidInMinor: number;
+  paidOutMinor: number;
+  lastTransferId: string;
+  lastJournalSequence?: number;
 }
 
 const runtimes = new WeakMap<CoreState, Runtime>();
@@ -109,10 +132,184 @@ function runtime(core: CoreState): Runtime {
       transferIds: new Set(),
       obligations: new Map(),
       due: new Map(),
+      deposits: new Map(),
+      depositsByBank: new Map(),
+      depositTotals: new Map(),
+      heldDeposits: new Map(),
+      depositsByHolder: new Map(),
     };
     runtimes.set(core, rt);
   }
   return rt;
+}
+
+export function depositId(bankId: string, holderId: string): string {
+  return `deposit:${bankId}:${holderId}`;
+}
+
+export function bankDeposit(
+  core: CoreState,
+  bankId: string,
+  holderId: string,
+): Readonly<BankDeposit> | undefined {
+  return runtime(core).deposits.get(depositId(bankId, holderId));
+}
+
+/** Indexed total, also used when underwriting a new loan. */
+export function bankDepositLiability(core: CoreState, bankId: string): number {
+  return runtime(core).depositTotals.get(bankId) ?? 0;
+}
+
+export function depositsHeld(core: CoreState, holderId: string): number {
+  return runtime(core).heldDeposits.get(holderId) ?? 0;
+}
+
+/** A spending decision can draw a holder's savings without minting cash. */
+export function withdrawSavings(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    id: string;
+    holderId: string;
+    customerAccountId: string;
+    amountMinor: number;
+    source: Source;
+  },
+): number {
+  if (!Number.isSafeInteger(input.amountMinor) || input.amountMinor < 0)
+    throw new Error("A savings withdrawal is a nonnegative whole amount.");
+  const rt = runtime(core);
+  let left = input.amountMinor;
+  for (const id of rt.depositsByHolder.get(input.holderId) ?? []) {
+    const claim = rt.deposits.get(id)!;
+    if (!left || !claim.balanceMinor) continue;
+    const receipt = moveBankDeposit(core, api, {
+      ...input,
+      id: `${input.id}:${claim.bankId}`,
+      bankId: claim.bankId,
+      direction: "withdraw",
+      amountMinor: Math.min(left, claim.balanceMinor),
+    });
+    left -= receipt.paidMinor;
+  }
+  return input.amountMinor - left;
+}
+
+/**
+ * A business's savings are its own money: when its cash falls short of a
+ * payment due, it draws what it needs from the deposits it holds at a local
+ * bank, before the payment goes unpaid and the firm fails with money in the
+ * bank. Returns the amount drawn.
+ */
+export function drawSavingsToCover(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    id: string;
+    holderId: string;
+    owedMinor: number;
+    asOf: IsoDate;
+    reason: string;
+  },
+): number {
+  const held = depositsHeld(core, input.holderId);
+  if (held <= 0 || !core.finance.businesses.has(input.holderId)) return 0;
+  const account = api.accounts().main(input.holderId);
+  const cash = balanceOf(core, account);
+  if (cash >= input.owedMinor) return 0;
+  return withdrawSavings(core, api, {
+    id: input.id,
+    holderId: input.holderId,
+    customerAccountId: account,
+    amountMinor: Math.min(held, Math.ceil(input.owedMinor - cash)),
+    source: {
+      tag: "ESTIMATED",
+      asOf: input.asOf,
+      citation:
+        "A business's deposits are its own money; it draws them when its cash falls short of a payment due (JPMorgan Chase Institute, Cash is King: Flows, Balances, and Buffer Days, 2016).",
+      estimatedFrom: input.reason,
+    },
+  });
+}
+
+export function depositsAtBank(
+  core: CoreState,
+  bankId: string,
+): readonly Readonly<BankDeposit>[] {
+  const rt = runtime(core);
+  return [...(rt.depositsByBank.get(bankId) ?? [])].map((id) =>
+    rt.deposits.get(id)!,
+  );
+}
+
+/** Cash moves first; only a successful journal posting changes the bank's debt. */
+export function moveBankDeposit(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    id: string;
+    bankId: string;
+    holderId: string;
+    customerAccountId: string;
+    direction: "deposit" | "withdraw";
+    amountMinor: number;
+    source: Source;
+  },
+): TransferReceipt {
+  const bank = core.organizations.get(input.bankId);
+  if (!bank || bank.outsideFlow || !input.holderId.trim())
+    throw new Error("A deposit needs a recorded local bank and a holder.");
+  const bankAccount = api.accounts().main(input.bankId);
+  const customer = core.cashJournal.accounts.get(input.customerAccountId);
+  if (!customer || customer.ownerId === input.bankId || customer.outsideFlow)
+    throw new Error("A deposit needs a distinct recorded customer account.");
+  const rt = runtime(core);
+  const id = depositId(input.bankId, input.holderId);
+  const prior = rt.deposits.get(id);
+  if (
+    input.direction === "withdraw" &&
+    input.amountMinor > (prior?.balanceMinor ?? 0)
+  )
+    throw new Error("A withdrawal cannot exceed the depositor's claim.");
+  const depositing = input.direction === "deposit";
+  const receipt = transfer(core, api, {
+    id: input.id,
+    from: depositing ? input.customerAccountId : bankAccount,
+    to: depositing ? bankAccount : input.customerAccountId,
+    amountMinor: input.amountMinor,
+    partial: true,
+    reasonKey: depositing ? "bank-deposit" : "bank-withdrawal",
+    source: input.source,
+  });
+  if (!receipt.paidMinor) return receipt;
+  const delta = depositing ? receipt.paidMinor : -receipt.paidMinor;
+  rt.deposits.set(id, {
+    id,
+    bankId: input.bankId,
+    holderId: input.holderId,
+    balanceMinor: (prior?.balanceMinor ?? 0) + delta,
+    paidInMinor:
+      (prior?.paidInMinor ?? 0) + (depositing ? receipt.paidMinor : 0),
+    paidOutMinor:
+      (prior?.paidOutMinor ?? 0) + (depositing ? 0 : receipt.paidMinor),
+    lastTransferId: receipt.id,
+    lastJournalSequence: receipt.journalSequence,
+  });
+  const ids = rt.depositsByBank.get(input.bankId) ?? new Set<string>();
+  ids.add(id);
+  rt.depositsByBank.set(input.bankId, ids);
+  const heldIds = rt.depositsByHolder.get(input.holderId) ?? new Set<string>();
+  heldIds.add(id);
+  rt.depositsByHolder.set(input.holderId, heldIds);
+  rt.depositTotals.set(
+    input.bankId,
+    (rt.depositTotals.get(input.bankId) ?? 0) + delta,
+  );
+  rt.heldDeposits.set(
+    input.holderId,
+    (rt.heldDeposits.get(input.holderId) ?? 0) + delta,
+  );
+  return receipt;
 }
 
 function ownerOf(core: CoreState, accountId: string) {
@@ -224,7 +421,104 @@ export function transfer(
   return receipt;
 }
 
-function nextDue(at: IsoDate, cadence: AccountCadence, anchorDay: number) {
+/**
+ * One balanced journal entry over several accounts (one payer and many
+ * payees, or many payers and one payee): signed lines that sum to zero, at
+ * most one of them an outside account. A local account paying out must hold
+ * what its line takes; the caller sizes lines to what each can pay.
+ */
+export function transferSplit(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    id: string;
+    lines: readonly { accountId: string; deltaMinor: number }[];
+    reasonKey: string;
+    source: Source;
+  },
+): void {
+  const rt = runtime(core),
+    date = makeIsoDate(core.date);
+  if (!input.id.trim() || rt.transferIds.has(input.id))
+    throw new Error(`Transfer id is empty or reused: ${input.id}`);
+  if (!input.reasonKey.trim()) throw new Error("A transfer needs a reason.");
+  if (input.source.asOf > date)
+    throw new Error("A transfer cannot cite a later source.");
+  const merged = new Map<string, number>();
+  for (const line of input.lines) {
+    if (!Number.isSafeInteger(line.deltaMinor))
+      throw new Error("A transfer line is a whole amount.");
+    if (line.deltaMinor)
+      merged.set(
+        line.accountId,
+        (merged.get(line.accountId) ?? 0) + line.deltaMinor,
+      );
+  }
+  let sum = 0,
+    outsideAccount: string | undefined;
+  for (const [accountId, delta] of merged) {
+    sum += delta;
+    if (isOutside(core, accountId)) {
+      if (outsideAccount)
+        throw new Error("A split transfer has at most one outside account.");
+      outsideAccount = accountId;
+    } else if (delta < 0 && balanceOf(core, accountId) < -delta)
+      throw new Error(`Insufficient funds in ${accountId} for ${input.id}.`);
+  }
+  if (sum !== 0) throw new Error(`A split transfer must balance: ${input.id}`);
+  const postings: CashJournalPosting[] = [...merged]
+    .filter(([, delta]) => delta !== 0)
+    .map(([accountId, deltaMinor], index) => ({
+      id: `${input.id}:${index}`,
+      accountId,
+      deltaMinor,
+    }));
+  if (postings.length < 2) return;
+  rt.transferIds.add(input.id);
+  const due = { kind: DUE_KIND, id: input.id };
+  rt.pending.set(input.id, {
+    resolved: {
+      kind: SOURCE_KIND,
+      id: input.id,
+      date,
+      source: input.source,
+      expectedPostings: postings,
+      requiredRelatedRefs: outsideAccount ? [due] : [],
+      relatedRecords: outsideAccount
+        ? [{ ...due, date, source: input.source }]
+        : [],
+      ...(outsideAccount
+        ? {
+            externalFlowAuthorizations: [
+              { accountId: outsideAccount, obligation: due },
+            ],
+          }
+        : {}),
+    },
+    marker: {},
+    retainFull: false,
+  });
+  try {
+    api.postJournal({
+      id: `journal:${date}:${core.cashJournal.nextSequence}`,
+      date,
+      expectedSequence: core.cashJournal.nextSequence,
+      sourceRef: { kind: SOURCE_KIND, id: input.id },
+      postings,
+    });
+  } catch (error) {
+    rt.transferIds.delete(input.id);
+    throw error;
+  } finally {
+    rt.pending.delete(input.id);
+  }
+}
+
+export function nextDue(
+  at: IsoDate,
+  cadence: AccountCadence,
+  anchorDay: number,
+) {
   if (cadence.kind === "days")
     return makeIsoDate(addDays(makeIsoDate(at), cadence.every));
   const date = new Date(`${at}T00:00:00.000Z`);
@@ -337,6 +631,24 @@ export function accountsFacade(core: CoreState, api: CoreAPI): Accounts {
       if (!row) throw new Error(`Unknown obligation: ${id}`);
       row.endedAt = core.date;
       row.nextDueAt = undefined;
+    },
+    endObligationsTo(accountId) {
+      const ended: string[] = [];
+      for (const [id, row] of rt.obligations)
+        if (row.to === accountId && row.endedAt === undefined) {
+          row.endedAt = core.date;
+          row.nextDueAt = undefined;
+          ended.push(id);
+        }
+      return ended;
+    },
+    obligationsFrom(accountId) {
+      return [...rt.obligations]
+        .filter(
+          ([, row]) => row.from === accountId && row.endedAt === undefined,
+        )
+        .map(([id, row]) => ({ ...row, id }))
+        .sort((a, b) => a.id.localeCompare(b.id));
     },
     setObligationAmount(id, amountMinor, source) {
       const row = rt.obligations.get(id);

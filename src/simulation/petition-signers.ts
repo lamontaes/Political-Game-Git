@@ -1,5 +1,5 @@
 import signerTerms from "../../data/research/elections/petition-signer-terms.json" with { type: "json" };
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { residesForVoting } from "./issue-record";
 import { generalElectionDay } from "./nominations/nomination-rules";
 import { isPersonAliveAt } from "./vitality-integrity";

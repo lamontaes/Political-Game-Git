@@ -1,8 +1,10 @@
 /**
  * Ported from the old engine's `given-name-cohorts.ts`.
  */
-import SSA_DECADES from "../../simulation/given-names-by-decade.json" with { type: "json" };
-import type { SeededRng } from "../../simulation/rng";
+import SSA_DECADES from "../data/names/given-names-by-decade.json" with { type: "json" };
+import TOP_SHARE from "../data/names/given-name-top-share.json" with { type: "json" };
+import { SeededRng } from "../kernel/rng";
+import type { GenderIdentityKey } from "./types";
 
 /**
  * Given names by the year a person was born.
@@ -91,4 +93,58 @@ export function drawCohortGivenName(
     if (point < 0) return name;
   }
   return names[names.length - 1]!;
+}
+
+/**
+ * The share of people who take a cohort name: how many births in their decade
+ * the top 100 names of their sex account for (SSA, measured per decade and
+ * sex in `given-name-top-share.json`), smoothed between neighboring decades
+ * the way the name draw is. The rest keep the name the ordinary draw gave
+ * them, from the whole name list, because a name outside a decade's top 100
+ * was still somebody's name.
+ */
+export function cohortGivenNameShare(sex: Sex, birthYear: number): number {
+  const shares = TOP_SHARE.share as unknown as Record<
+    string,
+    Record<Sex, number>
+  >;
+  return birthYearDecadeWeights(birthYear).reduce(
+    (sum, [decade, weight]) => sum + weight * shares[decade]![sex],
+    0,
+  );
+}
+
+/**
+ * The given name a generated person carries once their birth year is known.
+ *
+ * Applied after the ordinary draw, on a stream forked from the world seed and
+ * the person's own stable key, so no other draw in the world moves: a route
+ * that draws a name and then a birth date keeps both streams exactly where
+ * they were, and only the given name can change. A person whose gender the
+ * world does not state keeps the name they were given, because the cohort
+ * tables are by sex.
+ */
+export function birthCohortGivenName(
+  worldSeed: string,
+  personKey: string,
+  person: {
+    readonly givenName: string;
+    readonly familyName: string;
+    readonly birthDate: string;
+    readonly gender: GenderIdentityKey | undefined;
+  },
+  takenGivenNames: readonly string[] = [],
+): string {
+  const sex = person.gender;
+  if (sex !== "male" && sex !== "female") return person.givenName;
+  const rng = new SeededRng(worldSeed).fork(
+    `given-name-cohort-v1:${personKey}`,
+  );
+  const birthYear = Number(person.birthDate.slice(0, 4));
+  if (rng.next() >= cohortGivenNameShare(sex, birthYear))
+    return person.givenName;
+  return (
+    drawCohortGivenName(rng, sex, birthYear, takenGivenNames) ??
+    person.givenName
+  );
 }

@@ -1,4 +1,15 @@
 {
+  "jobsSalesForecastWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Staffing combines realized firm sales with the regional demand forecast; Hamermesh and Pfann (1996), Adjustment Costs in Factor Demand, Journal of Economic Literature. Calibration checked jointly against BLS JOLTS hires, quits, and layoffs, not used as actor rates.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "share of staffing forecast from smoothed realized sales",
+      "citation": "Sensitivity range for a forecast combining paid sales and macro/regional demand."
+    }
+  },
   "jobsStaffGapActedPerMonth": {
     "value": 0.15,
     "tag": "TUNABLE",
@@ -85,6 +96,17 @@
       "high": 6,
       "unit": "score",
       "citation": "A seeker without work wants work."
+    }
+  },
+  "jobsSearchFatigueWeeks": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "Weeks of looking after which a jobless seeker's push to apply is half its starting size. Krueger and Mueller 2011 (Brookings Papers on Economic Activity, a weekly survey of 6,025 unemployed workers) report that the time devoted to job search declines sharply over the spell of unemployment (from the abstract; their earlier time-use paper finds it flat for workers ineligible for benefits, so the size is not sourced). Set near the CPS median spell of about nine weeks.",
+    "spread": {
+      "low": 4,
+      "high": 26,
+      "unit": "weeks",
+      "citation": "From a month, when search effort is still near its start, to the CPS long-term cutoff of 26 weeks."
     }
   },
   "jobsAcceptBaseline": {
@@ -201,15 +223,15 @@
       "citation": "BLS CPS participation by age, 2015-2019."
     }
   },
-  "jobsCountedRestlessWeight": {
-    "value": 0.5,
+  "jobsOlderWorkWebWeight": {
+    "value": 5,
     "tag": "TUNABLE",
-    "citation": "How much a counted worker's trait lean (every trait through the shared trait table, about -1 to 1; OPUS-TRAITS, Oct 12, 2026) toward looking around over staying, or retiring over staying, adds to that pull; checked against JOLTS 2001-2019 quits (1.9 percent a month).",
+    "citation": "How strongly the outcome web's factor on older workers' employment (labor.older-employment) pulls people from the earliest to the full retirement age to stay at work or start looking: the weight times the log of the factor, on the retire, leave and enter choices. Checked against the retirement-age link's researched size, a 10 percent rise in the employment share at 62 to 66 for a two-year rise in the full retirement age (range 4 to 22 percent; Mastrobuoni 2009, Journal of Public Economics), in one played year of twin bench worlds.",
     "spread": {
-      "low": 0.2,
-      "high": 1.5,
-      "unit": "score per trait point",
-      "citation": "How much a counted worker's taste for risk and gain against contentment and duty adds to their pull toward looking around; checked against JOLTS 2001-2019 quits (1.9 percent a month)."
+      "low": 3.5,
+      "high": 9,
+      "unit": "score per log factor",
+      "citation": "The weights that put the year's move near the ends of the link's range, 4 and 22 percent, in the fitting runs: Sparks, Nevada (1.8 percent at 1, 13.6 at 6), Dakota Dunes, South Dakota (5.3 at 4, 8.6 at 5) and Hudson, New Hampshire."
     }
   },
   "jobsOnTheJobSearchMonths": {
@@ -227,8 +249,7 @@
     "value": 0.5,
     "tag": "ESTIMATED",
     "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
-    "estimatedFrom": "Most states pay 1/26 of high-quarter wages (19 of the listed fractions are 1/23 to 1/26), about half the weekly wage.",
-    "stopgapId": "SG-WORLD-jobs-benefits-terms",
+    "estimatedFrom": "Fill-in for a program whose law row records no benefit fraction (Alaska's weighted schedule): most states pay 1/26 of high-quarter wages, about half the weekly wage.",
     "spread": {
       "low": 0.4,
       "high": 0.6,
@@ -236,38 +257,11 @@
       "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law)."
     }
   },
-  "jobsBenefitWeeklyMaximumMinor": {
-    "value": 61100,
-    "tag": "ESTIMATED",
-    "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
-    "estimatedFrom": "Median of 53 state weekly maximums, January 2026 ($235 to $1,152).",
-    "stopgapId": "SG-WORLD-jobs-benefits-terms",
-    "spread": {
-      "low": 23500,
-      "high": 115200,
-      "unit": "cents per week",
-      "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law)."
-    }
-  },
-  "jobsBenefitMaxWeeks": {
-    "value": 26,
-    "tag": "ESTIMATED",
-    "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
-    "estimatedFrom": "Median maximum duration across the state programs, July 2026 (12 to 26 weeks).",
-    "stopgapId": "SG-WORLD-jobs-benefits-terms",
-    "spread": {
-      "low": 12,
-      "high": 26,
-      "unit": "weeks",
-      "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law)."
-    }
-  },
   "jobsBenefitMinimumBasePeriodMinor": {
     "value": 277500,
     "tag": "ESTIMATED",
     "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
-    "estimatedFrom": "Median minimum base-period wages across the state programs, July 2026.",
-    "stopgapId": "SG-WORLD-jobs-benefits-terms",
+    "estimatedFrom": "Fill-in for a program whose law row records no base-period or high-quarter minimum: median minimum base-period wages across the state programs, July 2026.",
     "spread": {
       "low": 100000,
       "high": 600000,
@@ -322,6 +316,197 @@
       "high": 0.65,
       "unit": "share of quits",
       "citation": "About half of quits go straight to another job and half to unemployment or out of the labor force (Fallick and Fleischman 2004, CPS job-to-job flows; BLS CPS gross flows E to U and E to N)."
+    }
+  },
+  "jobsQuitBaseline": {
+    "value": -4.65,
+    "tag": "TUNABLE",
+    "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker.",
+    "spread": {
+      "low": -5.2,
+      "high": -4.2,
+      "unit": "logit of a month's pull to quit",
+      "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker."
+    }
+  },
+  "jobsTypicalTenureYears": {
+    "value": 3.9,
+    "tag": "SOURCED",
+    "citation": "BLS Employee Tenure in 2024, median tenure of wage and salary workers (about 3.9 years)."
+  },
+  "jobsQuitTenureWeight": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "Short-tenure workers quit far more often than long-tenure ones (BLS Employee Tenure; Farber 1994, JOLE): each log step of tenure below the typical raises the pull; checked against JOLTS quits by industry.",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "logit per log-year of tenure below the typical",
+      "citation": "Short-tenure workers quit far more often than long-tenure ones (BLS Employee Tenure; Farber 1994, JOLE): each log step of tenure below the typical raises the pull; checked against JOLTS quits by industry."
+    }
+  },
+  "jobsUnemploymentQuitWeight": {
+    "value": 0.13,
+    "tag": "TUNABLE",
+    "citation": "Quits fall when unemployment rises: JOLTS total private quits fell from about 2.2% (2007) to 1.2% (2009) while unemployment rose about 4.7 points (BLS JOLTS, LNS14000000).",
+    "spread": {
+      "low": 0.06,
+      "high": 0.2,
+      "unit": "logit per point of unemployment above the natural rate",
+      "citation": "Quits fall when unemployment rises: JOLTS total private quits fell from about 2.2% (2007) to 1.2% (2009) while unemployment rose about 4.7 points (BLS JOLTS, LNS14000000)."
+    }
+  },
+  "jobsUnemploymentLookWeight": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "On-the-job search falls when jobs are scarce (Faberman, Mueller, Sahin and Topa 2022); checked against JOLTS quits and hires through the cycle.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.2,
+      "unit": "score per point of unemployment above the natural rate",
+      "citation": "On-the-job search falls when jobs are scarce (Faberman, Mueller, Sahin and Topa 2022); checked against JOLTS quits and hires through the cycle."
+    }
+  },
+  "jobsUnemploymentEntryWeight": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Discouraged-worker effect: fewer enter the labor force when the local unemployment rate is high (BLS CPS participation through the 2007-2010 recession).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.12,
+      "unit": "logit per point of unemployment above the natural rate",
+      "citation": "Discouraged-worker effect: fewer enter the labor force when the local unemployment rate is high (BLS CPS participation through the 2007-2010 recession)."
+    }
+  },
+  "jobsUnemploymentStopLookingWeight": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Long unemployment spells end in leaving the labor force more often when unemployment is high (BLS CPS gross flows U to N through the 2007-2010 recession).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.12,
+      "unit": "logit per point of unemployment above the natural rate",
+      "citation": "Long unemployment spells end in leaving the labor force more often when unemployment is high (BLS CPS gross flows U to N through the 2007-2010 recession)."
+    }
+  },
+  "jobsSwitchCost": {
+    "value": -1,
+    "tag": "TUNABLE",
+    "citation": "Changing employers costs something (lost tenure, search, relocation of routine): job-to-job movers gain on the order of 5 to 10 percent in pay (Topel and Ward 1992, QJE; Fallick and Fleischman 2004). With the accept baseline of 0.5 and an apply pay weight of 8, a worker needs about a 6 percent raise, or a trait pull, to move.",
+    "spread": {
+      "low": -2,
+      "high": -0.25,
+      "unit": "score for an employed worker taking another job",
+      "citation": "Changing employers costs something (lost tenure, search, relocation of routine): job-to-job movers gain on the order of 5 to 10 percent in pay (Topel and Ward 1992, QJE; Fallick and Fleischman 2004). With the accept baseline of 0.5 and an apply pay weight of 8, a worker needs about a 6 percent raise, or a trait pull, to move."
+    }
+  },
+  "jobsWithdrawActedPerMonth": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "An employer that has all the staff it wants lets its open postings lapse over a couple of months rather than at once; vacancies stay open about a month on average (BLS JOLTS vacancy duration, DHI).",
+    "spread": {
+      "low": 0.2,
+      "high": 1,
+      "unit": "open positions withdrawn per position of surplus, per month",
+      "citation": "An employer that has all the staff it wants lets its open postings lapse over a couple of months rather than at once; vacancies stay open about a month on average (BLS JOLTS vacancy duration, DHI)."
+    }
+  },
+  "jobsOfferDays": {
+    "value": 7,
+    "tag": "TUNABLE",
+    "citation": "How long an employer holds a job offer open before withdrawing it. Common practice is a few days for hourly work up to about two weeks for professional offers; NACE's Principles for Ethical Professional Practice ask employers to give students reasonable time to decide. Checked against played offers lapsing unanswered only when the player has no explicit control.",
+    "spread": {
+      "low": 3,
+      "high": 14,
+      "unit": "days an offer stays open",
+      "citation": "How long an employer holds a job offer open before withdrawing it. Common practice is a few days for hourly work up to about two weeks for professional offers; NACE's Principles for Ethical Professional Practice ask employers to give students reasonable time to decide. Checked against played offers lapsing unanswered only when the player has no explicit control."
+    }
+  },
+  "jobsFitReferralWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Referrals bring a sizable share of hires (Topa 2011, Labor Markets and Referrals, Handbook of Social Economics); the weight is tuned against that share.",
+    "spread": {
+      "low": 0.25,
+      "high": 2,
+      "unit": "score at full standing",
+      "citation": "Referrals bring a sizable share of hires (Topa 2011, Labor Markets and Referrals, Handbook of Social Economics); the weight is tuned against that share."
+    }
+  },
+  "jobsReferralDays": {
+    "value": 90,
+    "tag": "TUNABLE",
+    "citation": "A referral helps while the search is live; the median unemployment spell is about ten weeks (Bureau of Labor Statistics, Current Population Survey).",
+    "spread": {
+      "low": 30,
+      "high": 180,
+      "unit": "days",
+      "citation": "A referral helps while the search is live; the median unemployment spell is about ten weeks (Bureau of Labor Statistics, Current Population Survey)."
+    }
+  },
+  "jobsMotherYoungChildYears": {
+    "value": 5,
+    "tag": "SOURCED",
+    "citation": "Malik 2018 (Center for American Progress), mothers with children under 5, the group the D.C. universal pre-K result is measured on."
+  },
+  "jobsAdultAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Age of majority; a household's children are its members under 18 (Census household definitions)."
+  },
+  "jobsFullRetirementAge": {
+    "value": 67,
+    "tag": "SOURCED",
+    "citation": "42 U.S.C. 416(l): the full Social Security retirement age is 67 for those born in 1960 or later; the upper end of the 62 to 67 group the older-employment outcome covers."
+  },
+  "jobsLowWageLineHourlyMinor": {
+    "value": 1500,
+    "tag": "SOURCED",
+    "citation": "$15 an hour in cents: the line of the labor.low-wage-jobs outcome (Economic Policy Institute: 15 percent of workers paid under $15 an hour in 2022)."
+  },
+  "jobsWeeklyEarningsAllWorkers": {
+    "value": 1268,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: median usual weekly earnings, all workers, $1,268."
+  },
+  "jobsWeeklyEarningsLessThanHighSchool": {
+    "value": 770,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: less than a high school diploma, $770."
+  },
+  "jobsWeeklyEarningsNoCollege": {
+    "value": 966,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: high school diploma, $966 (less than a high school diploma $770)."
+  },
+  "jobsWeeklyEarningsSomeCollege": {
+    "value": 1100,
+    "tag": "ESTIMATED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: some college no degree $1,062, associate's degree $1,135.",
+    "estimatedFrom": "Midpoint of the two rows the survey's 'some college' answer spans (CES some-college covers both).",
+    "spread": {
+      "low": 1062,
+      "high": 1135,
+      "unit": "dollars a week",
+      "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: some college no degree $1,062 and associate's degree $1,135."
+    }
+  },
+  "jobsWeeklyEarningsCollege": {
+    "value": 1578,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: bachelor's degree, $1,578 (master's $1,876, professional $2,294, doctoral $2,307)."
+  },
+  "jobsSchoolingPayShare": {
+    "value": 0.4,
+    "tag": "ESTIMATED",
+    "stopgapId": "SG-WORLD-jobs-schooling-pay-share",
+    "citation": "The share of the raw earnings gap between education levels that remains within one occupation and employer: positions are already priced for their occupation, which carries part of the schooling premium (a degree opens higher-paid roles).",
+    "estimatedFrom": "Assumed share; no source measuring the within-occupation schooling premium was fetched, so it is an estimate with a wide spread, to be researched.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.7,
+      "unit": "share of the raw weekly-earnings gap",
+      "citation": "Assumed range around a middle value; unmeasured."
     }
   }
 }

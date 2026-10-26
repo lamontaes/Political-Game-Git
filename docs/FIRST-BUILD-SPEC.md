@@ -1,5 +1,7 @@
 # First Build Specification
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 ## Objective
 
 Establish the repository, authoritative documentation, validation infrastructure, and a deterministic persistent character/history and decision foundation that can execute independently of React.

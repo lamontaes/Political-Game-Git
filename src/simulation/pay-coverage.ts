@@ -4,7 +4,7 @@ import {
   recordById,
   recordsWithFieldValue,
 } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   organizationProfileAt,

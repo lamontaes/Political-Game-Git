@@ -1,7 +1,7 @@
 import { lifePlaceByKey, lifePlaceSearch } from "./life-places";
 import { isFederalDistrictUsps } from "./state-reference";
 import { US_STATE_USPS } from "./nationwide-world/state-executive-candidacy-packs";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import type { EntityId, World } from "./types";
 
 export const OPENING_FEDERAL_GEOGRAPHY_VERSION = "opening-federal-geography-v1";

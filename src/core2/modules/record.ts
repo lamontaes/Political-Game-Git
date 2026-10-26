@@ -16,14 +16,12 @@
  * on the voter's ballot as a reason. An attack ad carries a rival's record to
  * the people it reaches.
  */
+import { votesAreTownNews } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import {
-  campaignParameter,
-  personStance,
-  type Stance,
-} from "../campaign-views";
+import { campaignParameter, type Stance } from "../campaign-views";
+import { viewOn } from "./views";
 import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./campaigns";
 
 export const RECORD_MODULE_ID = "core2-record-v1";
@@ -80,10 +78,15 @@ export function recordVote(
     .moduleState(RECORD_MODULE_ID)
     .table("votes")
     .put(row as unknown as ModuleRow);
-  // A member who isn't a full person (a state legislator or member of
-  // Congress from elsewhere) is on the record above; the roll call's own story
-  // carries the count, so their vote is not a separate story in every town.
-  if (!api.state.people.has(vote.personId)) return row;
+  // A member from elsewhere (a state legislator or member of Congress whose
+  // seat doesn't cover the town, a person or not) is on the record above; the
+  // roll call's own story carries the count, so their vote is not a separate
+  // story in every town.
+  if (
+    !api.state.people.has(vote.personId) ||
+    !votesAreTownNews(api, vote.personId)
+  )
+    return row;
   api.emit({
     id: `vote-recorded:${row.id}`,
     date: row.date,
@@ -152,9 +155,14 @@ export function promisesOf(
 
 /**
  * How one voter weighs an officeholder's record, if they know the
- * officeholder: each vote by how close it sits to their own view; each
- * promise they'd agree with, kept or broken. Returns the parts as reasons and
- * their sum.
+ * officeholder: each vote by how far it goes their own way on its question
+ * (their own stance times the vote's position: a vote they'd have cast counts
+ * for, one against their view counts against, and a question they hold no
+ * view on barely counts); each promise they heard and agreed with, kept or
+ * broken. The record is an average, not a sum: a long record weighs more
+ * than a short one only by how much more the voter has to go on, leveling
+ * off (`recordFamiliarityItems`), so it stays within the size of a voter's
+ * other reasons. Each item's share of the total is kept as a reason.
  */
 export function recordAppeal(
   api: CoreAPI,
@@ -166,34 +174,49 @@ export function recordAppeal(
   shown = false,
 ): { readonly total: number; readonly reasons: readonly RecordReason[] } {
   if (!knows) return { total: 0, reasons: [] };
+  const votes = votesOf(api, officeholderId);
+  const promises = promisesOf(api, officeholderId).filter((status) => {
+    if (status.status === "open") return false;
+    // A promise only counts with a voter who heard it made.
+    if (!shown && !api.knows(voter.id, status.promise.id)) return false;
+    const own = viewOn(api, voter.id, status.promise.stance.question, lean);
+    return (
+      Math.sign(own) === Math.sign(status.promise.stance.position) && own !== 0
+    );
+  });
+  if (!votes.length && !promises.length) return { total: 0, reasons: [] };
+  // Each vote's share: the average over the votes, by how much the record
+  // gives the voter to go on. A promise they heard made and saw kept or
+  // broken they know in full: promises average among themselves.
+  const voteShare =
+    1 / (votes.length + campaignParameter("recordFamiliarityItems"));
+  const promiseShare = 1 / Math.max(1, promises.length);
   const weight = campaignParameter("recordVoteWeight");
   const reasons: RecordReason[] = [];
-  for (const vote of votesOf(api, officeholderId)) {
-    const own = personStance(lean, vote.stance.question);
+  for (const vote of votes)
     reasons.push({
       kind: "vote",
       itemId: vote.id,
       question: vote.stance.question,
-      effect: weight * (1 - Math.abs(own - vote.stance.position) - 0.5),
+      effect:
+        weight *
+        voteShare *
+        viewOn(api, voter.id, vote.stance.question, lean) *
+        vote.stance.position,
     });
-  }
-  for (const status of promisesOf(api, officeholderId)) {
-    if (status.status === "open") continue;
-    // A promise only counts with a voter who heard it made.
-    if (!shown && !api.knows(voter.id, status.promise.id)) continue;
-    const own = personStance(lean, status.promise.stance.question);
-    const agreed =
-      Math.sign(own) === Math.sign(status.promise.stance.position) && own !== 0;
-    if (!agreed) continue;
+  for (const status of promises)
     reasons.push({
       kind: status.status === "kept" ? "kept-promise" : "broken-promise",
       itemId: status.promise.id,
       question: status.promise.stance.question,
-      effect: campaignParameter(
-        status.status === "kept" ? "keptPromiseWeight" : "brokenPromiseWeight",
-      ),
+      effect:
+        promiseShare *
+        campaignParameter(
+          status.status === "kept"
+            ? "keptPromiseWeight"
+            : "brokenPromiseWeight",
+        ),
     });
-  }
   return { total: reasons.reduce((sum, r) => sum + r.effect, 0), reasons };
 }
 

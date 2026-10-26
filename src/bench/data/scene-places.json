@@ -1,5 +1,5 @@
 {
-  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture; filingClerkOfficeKinds are the offices whose holder, if they live in town, is the clerk at the counter. sceneSettings maps a story scene's setting kind (OPUS-PEOPLE's composeScene) to its pictures; '@org' is the setting record's organization. situationPlaces picks a picture by the story situation and its setting (first one painted wins; @home is the person's own dwelling); schoolPlacesByAge picks a school picture by the person's age. electionNight is the results sheet's picture: where a candidate watches returns, and where a voter voted.",
+  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture. sceneSettings maps a story scene's setting kind (OPUS-PEOPLE's composeScene) to its pictures; '@org' is the setting record's organization. situationPlaces picks a picture by the story situation and its setting (first one painted wins; @home is the person's own dwelling); schoolPlacesByAge picks a school picture by the person's age. electionNight is the results sheet's picture: where a candidate watches returns, and where a voter voted. dwellingPlaces gives each kind of dwelling its pictures by room (living, kitchen, bedroom) and by the household's standing among the town's homes of that kind (low, middle, high third by value for owners and rent for renters); homeRoomByHour says which room a person at home is in by the hour, and teenBedroom is the room for a person 13 to 19. officialResidences replaces the dwelling for a person serving in one of its offices (core2-offices-v1 terms).",
   "actions": {
     "work-shift": ["@workplace"],
     "attend-scheduled-work-date-segment": ["@workplace"],
@@ -16,10 +16,7 @@
     "donate-to-cause": ["@home"],
     "volunteer-for-cause": ["@target", "community-room"],
     "confront-grudge-target": ["main-street"],
-    "seek-standing": ["city-hall-hallway"],
-    "testify-at-hearing": ["committee-hearing-room", "public-meeting-room"],
-    "run-for-office": ["county-clerk-office-rural", "clerk-counter"],
-    "lobby-legislator": ["city-hall-hallway"]
+    "seek-standing": ["city-hall-hallway"]
   },
   "organizationKinds": {
     "service:municipal-government": "city-hall",
@@ -30,24 +27,69 @@
     "community:organizing-nonprofit": "organizing",
     "membership:labor-union": "union",
     "enterprise:political-consulting": "campaign-staff",
-    "enterprise:food-service": "restaurant",
     "enterprise:transportation": "trucking",
     "enterprise:professional-services": "professional",
     "enterprise:telecommunications": "information",
     "enterprise:lodging": "inn",
     "enterprise:real-estate": "realty",
-    "enterprise:personal-services": "personal-care",
-    "service:nursing-home": "care-home",
-    "service:public-health": "clinic"
+    "enterprise:personal-services": "personal-care"
   },
   "placesWithoutKind": {
-    "service:fire": "fire-station",
-    "service:police": "police-station",
-    "enterprise:agriculture": "farm-yard",
-    "service:public-health": "hospital-lobby",
-    "sector:state-government-office": "dmv-office",
-    "service:municipal-government": "mayor-office",
-    "membership:labor-union": "union-hall"
+    "about": "Pictures for an organization classification that has no business kind of its own; where a classification has several, each organization gets one from its own id, and the first painted pictures are the choices.",
+    "service:fire": ["fire-station"],
+    "service:police": ["police-station", "police-station-lobby"],
+    "service:corrections": ["prison-cellblock"],
+    "service:jail": [
+      "county-jail-booking",
+      "county-jail-visiting",
+      "jail-visiting-room"
+    ],
+    "enterprise:agriculture": ["farm-yard", "farm-field"],
+    "service:public-health": ["county-health-department", "hospital-lobby"],
+    "service:clinic": ["doctor-exam-room", "clinic-exam-room"],
+    "service:hospital": [
+      "hospital-lobby",
+      "hospital-emergency-waiting",
+      "hospital-hallway"
+    ],
+    "service:nursing-home": ["nursing-home-commons"],
+    "sector:state-government-office": [
+      "dmv-office",
+      "unemployment-office",
+      "workforce-center",
+      "benefits-office"
+    ],
+    "sector:federal-government-office": [
+      "post-office",
+      "veterans-office",
+      "benefits-office"
+    ],
+    "service:municipal-government": ["mayor-office"],
+    "service:county-government": [
+      "county-admin-lobby",
+      "county-clerk-office-urban"
+    ],
+    "enterprise:utility": [
+      "power-plant",
+      "water-treatment",
+      "solar-farm",
+      "wind-farm"
+    ],
+    "enterprise:banking": ["bank-lobby"],
+    "enterprise:food-service": [
+      "diner",
+      "diner-counter",
+      "coffee-shop",
+      "tavern"
+    ],
+    "enterprise:retail": [
+      "store",
+      "general-store",
+      "hardware-store-interior",
+      "grocery-store",
+      "gas-station"
+    ],
+    "membership:labor-union": ["union-hall"]
   },
   "variantByHour": [
     {
@@ -69,16 +111,22 @@
   ],
   "filingOffices": [
     {
-      "match": "county",
+      "match": "registrar|election",
       "places": [
-        "county-clerk-office-rural",
-        "county-clerk-office-urban",
+        "county-elections-office",
+        "big-city-elections-office",
+        "registrar-of-voters-worn",
+        "election-office",
         "clerk-counter"
       ]
     },
     {
-      "match": "registrar|board of elections|elections",
-      "places": ["registrar-of-voters-worn", "election-office", "clerk-counter"]
+      "match": "county",
+      "places": [
+        "county-clerk-office-urban",
+        "clerk-counter",
+        "county-clerk-office-rural"
+      ]
     },
     {
       "match": "secretary of state",
@@ -88,12 +136,6 @@
       "match": "",
       "places": ["clerk-counter"]
     }
-  ],
-  "filingClerkOfficeKinds": [
-    "county-clerk",
-    "municipal-clerk",
-    "registrar",
-    "election-administrator"
   ],
   "sceneSettings": {
     "home": ["@home"],
@@ -106,17 +148,47 @@
     "letter": ["@home"]
   },
   "bodyPlaces": {
-    "about": "Where each kind of elected body meets, by the office kind on its records; a legislature with no upper chamber meets in the one-house chamber.",
-    "council": "council-chamber",
-    "township-board": "public-meeting-room",
-    "county-board": "council-chamber",
-    "school-board": "school-board-room",
-    "legislature-upper": "state-legislative-chamber-bicameral",
-    "legislature-lower": "state-legislative-chamber-bicameral",
-    "legislature-unicameral": "state-legislative-chamber-unicameral",
-    "us-senate": "us-senate-floor",
-    "us-house": "us-house-floor",
-    "default": "public-meeting-room"
+    "about": "Where each kind of elected body meets, by the office kind on its records; the first painted picture in a list is used. A legislature with no upper chamber meets in the one-house chamber. A council or county board picks its list from bodyPlacesBySize first.",
+    "council": ["council-chamber"],
+    "township-board": ["public-meeting-room"],
+    "county-board": ["county-commission", "council-chamber"],
+    "school-board": ["school-board-room"],
+    "legislature-upper": ["state-legislative-chamber-bicameral"],
+    "legislature-lower": [
+      "state-house-chamber",
+      "state-legislative-chamber-bicameral"
+    ],
+    "legislature-unicameral": ["state-legislative-chamber-unicameral"],
+    "us-senate": ["us-senate-floor"],
+    "us-house": ["us-house-floor"],
+    "default": ["public-meeting-room"]
+  },
+  "bodyPlacesBySize": {
+    "about": "A council's room by its number of seats (a small-town council of a handful of members around a table, a big city's in a large chamber), a county board's by the town's reference population (a rural county's commission room). Seat and population bounds are TUNABLE picture choices, checked by eye against the paintings, not model values; each row applies below its bound.",
+    "council": [
+      {
+        "underSeats": 8,
+        "places": ["council-chamber-small", "council-chamber"]
+      },
+      {
+        "underSeats": 13,
+        "places": ["council-chamber"]
+      },
+      {
+        "underSeats": 1000,
+        "places": ["council-chamber-large", "council-chamber"]
+      }
+    ],
+    "county-board": [
+      {
+        "underPopulation": 10000,
+        "places": ["county-commission-rural", "county-commission"]
+      },
+      {
+        "underPopulation": 1000000000,
+        "places": ["county-commission", "council-chamber"]
+      }
+    ]
   },
   "speechPlaces": [
     "rally-courthouse-square",
@@ -128,26 +200,163 @@
     "rally-airport-hangar",
     "city-hall-steps-event",
     "lodge-hall",
-    "church-supper-hall"
+    "church-supper-hall",
+    "rally-town-square",
+    "rally-high-school-gym",
+    "courthouse-steps",
+    "courthouse-square"
   ],
+  "doorKnockingPlaces": {
+    "house": "door-knocking-suburban",
+    "rowhouse": "door-knocking-urban",
+    "apartment": "door-knocking-urban",
+    "mobile-home": "door-knocking-rural",
+    "farmhouse": "door-knocking-rural"
+  },
+  "phoneBankPlace": "phone-bank-room",
   "dwellingPlaces": {
-    "about": "The home picture for each kind of dwelling OPUS-WORLD's housing records (dwellingKind). Where a kind has several pictures, each household gets one from its own id, so the same home always looks the same; a state's regional house styles join the list there.",
-    "house": ["suburban-house"],
-    "rowhouse": ["rowhouse"],
-    "apartment": [
-      "small-apartment",
-      "apartment-older-walkup",
-      "apartment-suburban-garden"
-    ],
-    "mobile-home": ["mobile-home"],
-    "farmhouse": ["rural-farmhouse"]
+    "about": "The home pictures for each kind of dwelling OPUS-WORLD's housing records (dwellingKind), by room and by the household's third among the town's homes of the same kind (value for owners, rent for renters). Each household gets one picture per room from its own id, so the same home always looks the same; a state's regional house styles join every third of 'house'. A list may name pictures still to be painted: the first painted ones are used.",
+    "house": {
+      "living": {
+        "low": ["suburban-house", "house-suburban-living"],
+        "middle": ["suburban-house", "house-suburban-living"],
+        "high": ["large-house", "house-suburban-living"]
+      },
+      "kitchen": ["home-kitchen"],
+      "bedroom": ["house-bedroom", "bedroom-plain"]
+    },
+    "rowhouse": {
+      "living": {
+        "low": ["rowhouse"],
+        "middle": ["rowhouse"],
+        "high": ["rowhouse"]
+      },
+      "kitchen": ["home-kitchen"],
+      "bedroom": ["bedroom-plain", "house-bedroom"]
+    },
+    "apartment": {
+      "living": {
+        "low": [
+          "apartment-rundown-living",
+          "apartment-public-housing",
+          "apartment-basement-studio"
+        ],
+        "middle": [
+          "apartment-starter-living",
+          "small-apartment",
+          "apartment-older-walkup",
+          "apartment-student-shared"
+        ],
+        "high": ["apartment-nice-living", "apartment-suburban-garden"]
+      },
+      "kitchen": ["apartment-kitchen"],
+      "bedroom": ["bedroom-plain"]
+    },
+    "mobile-home": {
+      "living": {
+        "low": ["mobile-home", "trailer-home-living"],
+        "middle": ["mobile-home", "trailer-home-living"],
+        "high": ["mobile-home", "trailer-home-living"]
+      },
+      "kitchen": ["trailer-home-living", "mobile-home"],
+      "bedroom": ["bedroom-plain"]
+    },
+    "farmhouse": {
+      "living": {
+        "low": ["rural-farmhouse"],
+        "middle": ["rural-farmhouse"],
+        "high": ["rural-farmhouse"]
+      },
+      "kitchen": ["house-rural-kitchen", "rural-farmhouse"],
+      "bedroom": ["house-bedroom", "bedroom-plain"]
+    }
   },
   "regionalHouses": {
-    "about": "House styles by state (USPS code), added to the house pictures there.",
+    "about": "House styles by state (USPS code), added to every third of the house living rooms there.",
     "house-new-england-colonial": ["CT", "ME", "MA", "NH", "RI", "VT"],
     "house-gulf-coast-raised": ["LA", "MS", "AL", "FL", "TX"],
     "house-southwest-adobe": ["AZ", "NM"],
     "house-northwest-craftsman": ["WA", "OR"]
+  },
+  "homeRoomByHour": [
+    {
+      "fromHour": 0,
+      "room": "bedroom"
+    },
+    {
+      "fromHour": 6,
+      "room": "kitchen"
+    },
+    {
+      "fromHour": 9,
+      "room": "living"
+    },
+    {
+      "fromHour": 17,
+      "room": "kitchen"
+    },
+    {
+      "fromHour": 20,
+      "room": "living"
+    },
+    {
+      "fromHour": 23,
+      "room": "bedroom"
+    }
+  ],
+  "teenBedroom": {
+    "fromAge": 13,
+    "underAge": 20,
+    "places": ["bedroom-teen"]
+  },
+  "officialResidences": {
+    "about": "Where a person serving in one of these offices lives (core2-offices-v1 terms), by room, in place of their dwelling. Names before the stand-ins are pictures still to be painted (the residence's own rooms): the first painted picture in a list is used.",
+    "president": {
+      "living": ["white-house-residence-living", "white-house-exterior"],
+      "kitchen": ["white-house-residence-dining", "white-house-exterior"],
+      "bedroom": ["white-house-residence-bedroom", "large-house"]
+    },
+    "governor": {
+      "living": ["governor-residence-living", "governor-residence-exterior"],
+      "kitchen": ["governor-residence-dining", "governor-residence-exterior"],
+      "bedroom": ["governor-residence-bedroom", "large-house"]
+    }
+  },
+  "officeWorkplaces": {
+    "about": "Where a person serving in a full-time office works (core2-offices-v1 office kind), in place of their job's workplace; the first painted picture in a list is used. Part-time bodies (councils, county boards) keep their members' own jobs.",
+    "president": ["oval-office-resolute", "oval-office"],
+    "vice-president": ["white-house-exterior"],
+    "governor": ["governor-office"],
+    "mayor": ["mayor-office"],
+    "us-senate": ["congressional-office", "us-capitol-exterior"],
+    "us-house": ["congressional-office", "us-capitol-exterior"],
+    "us-house-delegate": ["congressional-office", "us-capitol-exterior"],
+    "legislature-upper": ["capitol-hallway", "committee-hearing-room"],
+    "legislature-lower": ["capitol-hallway", "committee-hearing-room"],
+    "county-executive": ["county-admin-lobby", "@courthouse"],
+    "county-sheriff": [
+      "county-sheriff-front-desk",
+      "sheriff-office-lobby",
+      "police-station"
+    ],
+    "county-prosecutor": ["district-attorney-office", "@courthouse"],
+    "county-clerk": ["county-clerk-office-urban", "county-clerk-office-rural"],
+    "county-treasurer": [
+      "county-treasurer-office",
+      "treasurer-counter",
+      "clerk-counter"
+    ],
+    "county-assessor": [
+      "county-recorder-office",
+      "county-office-cramped",
+      "county-admin-lobby",
+      "clerk-counter"
+    ],
+    "county-coroner": [
+      "county-health-department",
+      "county-admin-lobby",
+      "hospital-hallway"
+    ]
   },
   "situationPlaces": {
     "funeral:venue": [
@@ -202,5 +411,37 @@
   "electionNight": {
     "ran": "election-night-venue",
     "voted": "polling-place"
+  },
+  "courthouseByState": {
+    "about": "'@courthouse' in any list is the county courthouse in the style its state's courthouses are usually built in (USPS codes); a state in no row gets the classical one. Styles follow the regional courthouse traditions: New England town greens, Midwestern Romanesque Revival, Southwestern adobe and mission, the sparse Plains and Mountain West, and postwar modern on the Pacific and in the territories.",
+    "county-courthouse-new-england": ["CT", "ME", "MA", "NH", "RI", "VT"],
+    "county-courthouse-romanesque": [
+      "PA",
+      "OH",
+      "IN",
+      "IL",
+      "MI",
+      "WI",
+      "MN",
+      "IA",
+      "MO",
+      "KS",
+      "NE"
+    ],
+    "county-courthouse-southwest": ["AZ", "NM", "NV", "TX"],
+    "county-courthouse-rural": ["ND", "SD", "MT", "WY", "ID"],
+    "county-courthouse-modern": [
+      "CA",
+      "WA",
+      "OR",
+      "HI",
+      "AK",
+      "GU",
+      "AS",
+      "MP",
+      "VI",
+      "PR"
+    ],
+    "default": ["county-courthouse-classical", "county-courthouse"]
   }
 }

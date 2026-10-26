@@ -18,7 +18,7 @@
  * they are loaded at run time so this tool does not depend on that package.
  */
 import { readFileSync, writeFileSync } from "node:fs";
-import { isoDateFromParts } from "../../simulation/dates";
+import { isoDateFromParts } from "../../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../core2/life";
 import { createOpeningFinance } from "../../core2/opening-finance";
 import { DEFAULT_DATA } from "../../core2/data";

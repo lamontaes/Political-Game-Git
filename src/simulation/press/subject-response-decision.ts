@@ -1,4 +1,4 @@
-import type { DecisionDeclaration } from "../trait-packs";
+import type { DecisionDeclaration } from "../../core2/trait-packs";
 
 /** Choices available to a person named in a live press request. */
 export const SUBJECT_RESPONSE_DECISION: DecisionDeclaration = {

@@ -1,0 +1,238 @@
+{
+  "version": "outside-flows-v1",
+  "about": "Every way money may cross between the town and the outside world in a played year, and the record that matches it (money stress audit defect 3). A journal entry touching an outside account must match one row by its source kind and, for accounts transfers, the transfer id's leading segment. A row marked plug is a stand-in the dollar test rejects; any flow matching no row is rejected too.",
+  "flows": [
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "donation-outside",
+      "matchedBy": "own-money",
+      "what": "Gifts to a campaign for a seat wider than the town from the adults of its district or state outside the town, one record per place group."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "residents",
+      "matchedBy": "goods-and-services",
+      "what": "Counted households' purchases from outside sellers and pay from outside employers, through the residents engine's pooled account."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "salary",
+      "matchedBy": "service",
+      "what": "An official's salary for days in office, from the government that seats them (official-pay)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "premium",
+      "matchedBy": "service",
+      "what": "A policyholder's monthly worker share of an employer health plan's premium, paid to an insurer outside the town (coverage)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "unemployment-benefit",
+      "matchedBy": "transfer-under-law",
+      "what": "Unemployment benefits paid under the state's law to a claimant."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "counted-departure",
+      "matchedBy": "own-money",
+      "what": "A counted household moving away takes its share of the pool with it."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "construction",
+      "matchedBy": "goods-and-services",
+      "what": "Building work bought from outside contractors."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "mortgage",
+      "matchedBy": "loan-repayment",
+      "what": "Mortgage payments to an outside lender."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "landlord-payout",
+      "matchedBy": "goods-and-services",
+      "what": "Rent passed to landlords who live outside the town."
+    },
+    {
+      "kind": "finance.contract-settlement",
+      "matchedBy": "goods-and-services",
+      "what": "A recorded finance contract (supplies, services) settled with an outside party."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "home-sale",
+      "matchedBy": "goods-and-services",
+      "what": "A buyer outside the town paying a household for the home its owners sold on leaving; the lender is paid off from the price first."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "home-sale-surplus",
+      "matchedBy": "goods-and-services",
+      "what": "What a sold home brought beyond its mortgage payoff, paid by the outside buyer to the household."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "outside-sales",
+      "matchedBy": "goods-and-services",
+      "what": "Buyers outside the town paying a town business for its goods and services (the outside market)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "press-wider-audience",
+      "matchedBy": "goods-and-services",
+      "what": "Readers and advertisers outside the town paying a town outlet for the part of its news staff the town's own readers and advertisers do not pay for (SG-PEOPLE-press-bureau-shortfall)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "outside-costs",
+      "matchedBy": "goods-and-services",
+      "what": "A town business paying outside suppliers for what it uses."
+    },
+    {
+      "kind": "work-payroll",
+      "matchedBy": "service",
+      "what": "Wages from an employer outside the town for recorded work."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "retirement-claim",
+      "matchedBy": "transfer-under-law",
+      "what": "Social Security retirement awards paid under federal law to a claimant."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "per-capita",
+      "matchedBy": "owner-distribution",
+      "what": "A business's cash above its cushion paid to its outside owner."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "parent-sweep",
+      "matchedBy": "owner-distribution",
+      "what": "A branch's retained earnings swept to its parent company."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "owner-closed",
+      "matchedBy": "owner-distribution",
+      "what": "What is left of a business closed by choice, paid to its owner."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "estate",
+      "matchedBy": "transfer-under-law",
+      "what": "An heirless estate escheating to the decedent's state, or an inheritance to an heir outside the town (estates.ts)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "counted-arrival",
+      "matchedBy": "own-money",
+      "what": "A counted household moving in brings its cash from the outside market into its group (the mirror of counted-departure)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "mover-departure",
+      "matchedBy": "own-money",
+      "what": "A full household moving away takes its cash out of town (moves)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "entrant",
+      "matchedBy": "goods-and-services",
+      "what": "A counted entrant's pay from outside employers and purchases from outside sellers, kept as the same recorded flows the household it takes the shape of already had (residents-economy)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "price",
+      "matchedBy": "goods-and-services",
+      "what": "A price-rule change in what households and businesses pay outside sellers for a good (energy, fuel), settled in place-prices."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "counsel",
+      "matchedBy": "service",
+      "what": "A city paying a tenant's lawyer for a recorded eviction case where the law gives a right to counsel; the outside provider stands in for named legal services (SG-GOV-REACH-A-eviction-cases)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "compliance",
+      "matchedBy": "service",
+      "what": "A town business paying an outside provider for what a law requires of it (the data privacy duty), recorded as a row of the business engine's compliance table under the same id."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "property-tax",
+      "matchedBy": "transfer-under-law",
+      "what": "Property tax a household owes under the law in force, paid to a government whose books are outside the town (housing-property-tax)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-tax",
+      "matchedBy": "tax-payment",
+      "what": "A tax with named payers (corporate income, customs, excise, estate and gift, selective sales, vehicle and other) paid to a treasury by its group of payers on the due date, one transfer per line and installment (taxPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-charges",
+      "matchedBy": "goods-and-services",
+      "what": "People elsewhere who use a state or local government's services paying its charges and fees (tuition, fares, hospital and utility bills), less what the town's own households paid out of their living costs (taxPayments)."
+    },
+    {
+      "kind": "budgets:withholding",
+      "matchedBy": "tax-payment",
+      "what": "Income tax withheld from a paycheck and paid to a government with no treasury in the world (another state's, a county or city the world does not model), against the due record the withholding itself writes (budgets withholding)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "federal-borrowing",
+      "matchedBy": "loan-proceeds",
+      "what": "The federal treasury borrowing its monthly gap from a named group of lenders (foreign holders, the Federal Reserve, funds, banks, households and the rest), one transfer per group, each added to that group's balance in the federal debt table (federalDebt)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-interest",
+      "matchedBy": "loan-repayment",
+      "what": "The federal treasury's net interest paid to each group of lenders by what the group holds (federalDebt)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-wages",
+      "matchedBy": "service",
+      "what": "The part of a treasury's spending line that is pay to public employees who live outside the town, paid to that group each month (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-purchases",
+      "matchedBy": "goods-and-services",
+      "what": "The part of a treasury's spending line bought from contractors and suppliers outside the town, paid to that group each month (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-benefits",
+      "matchedBy": "transfer-under-law",
+      "what": "The part of a treasury's spending line paid as benefits to recipients outside the town, under the law that sets the benefit (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-bonds",
+      "matchedBy": "loan-repayment",
+      "what": "A state or local treasury's interest on its bonds, paid to the holders (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-grants",
+      "matchedBy": "transfer-under-law",
+      "what": "The part of a treasury's spending line paid as grants to recipients outside the town (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "outside-revenue",
+      "matchedBy": "plug",
+      "stopgapId": "SG-GOV-outside-revenue-monthly",
+      "what": "A twelfth of a government's yearly Census revenue paid in each month with no taxpayer, sale or grant behind it."
+    }
+  ]
+}

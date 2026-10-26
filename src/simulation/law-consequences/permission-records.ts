@@ -1,6 +1,6 @@
-import { makeIsoDate, makeSimulationMoment } from "../dates";
+import { makeIsoDate, makeSimulationMoment } from "../../core2/kernel/dates";
 import { appendedList } from "../history-index";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import {
   isLawEffectStamp,

@@ -5,7 +5,7 @@ import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import {
-  BRING_IT_UP_DATA,
+  BRING_IT_UP_ROWS,
   leansToBlame,
   believedCause,
   bringItUp,
@@ -68,8 +68,12 @@ describe(`people bring it up in ${input.placeMetadata?.placeName} (seed ${seed})
         core.jobs.get(core.people.get(id)!.jobId!)!.organizationId !== org,
     )!;
     const said = bringItUp(core, worker.id, friendId)!;
-    expect(said.lines.map((row) => row.text)[0]).toMatch(/ closed\.$/);
-    expect(said.lines[1]!.text).toMatch(/^That was .+(?:'s|s') doing\.$/);
+    expect(said.lines.map((row) => row.text)[0]).toMatch(
+      / (?:closed|is closed|shut down|is gone)\.$/,
+    );
+    // The blame is a mined sentence, and it cites the record it follows.
+    expect(said.lines).toHaveLength(2);
+    expect(said.lines[1]!.sourceRecordIds).toContain(said.change.eventId);
     const [heard] = changesKnownTo(core, friendId);
     expect(believedCause(core, friendId, heard!)).toMatchObject({
       how: "told",
@@ -97,10 +101,10 @@ describe(`people bring it up in ${input.placeMetadata?.placeName} (seed ${seed})
     applyCoreEvent(core, {
       id: "fixture-heard-only",
       date: core.date,
-      kind: BRING_IT_UP_DATA.toldEvent,
+      kind: BRING_IT_UP_ROWS.toldEvent,
       personIds: [blamer.id],
       placeId: blamer.placeId,
-      facts: { [`${BRING_IT_UP_DATA.heardKey}:${closureId}`]: org },
+      facts: { [`${BRING_IT_UP_ROWS.heardKey}:${closureId}`]: org },
       source: {
         tag: "SOURCED",
         citation: "Fixture: heard it closed.",

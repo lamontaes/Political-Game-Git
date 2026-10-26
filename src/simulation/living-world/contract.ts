@@ -1,4 +1,4 @@
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 
 /**
  * ALIVE43 living-world contract. W owns the writers and these read shapes;

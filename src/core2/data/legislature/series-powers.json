@@ -3,7 +3,7 @@
   "series": {
     "minimum-wage": {
       "levels": ["federal", "state", "local"],
-      "source": "29 U.S.C. § 206 (federal floor); 29 U.S.C. § 218 (states and places may set higher)"
+      "source": "29 U.S.C. \u00a7 206 (federal floor); 29 U.S.C. \u00a7 218 (states and places may set higher)"
     },
     "income-tax": {
       "levels": ["federal", "state", "local"],
@@ -15,31 +15,274 @@
     },
     "property-tax": {
       "levels": ["state", "local"],
-      "source": "Property taxes are levied by local governments under state law (U.S. Const. art. I, § 9 bars an unapportioned federal direct tax)"
+      "source": "Property taxes are levied by local governments under state law (U.S. Const. art. I, \u00a7 9 bars an unapportioned federal direct tax)"
     },
     "snap-maximum": {
       "levels": ["federal"],
-      "source": "7 U.S.C. § 2017 (allotments set federally from the Thrifty Food Plan)"
+      "source": "7 U.S.C. \u00a7 2017 (allotments set federally from the Thrifty Food Plan)"
     },
     "medicaid-match": {
       "levels": ["federal"],
-      "source": "42 U.S.C. § 1396d(b) (the federal medical assistance percentage)"
+      "source": "42 U.S.C. \u00a7 1396d(b) (the federal medical assistance percentage)"
     },
     "unemployment-weekly-maximum": {
       "levels": ["state"],
-      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
+      "source": "State unemployment insurance law under 26 U.S.C. \u00a7 3304"
     },
     "unemployment-insurance": {
       "levels": ["state"],
-      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
+      "source": "State unemployment insurance law under 26 U.S.C. \u00a7 3304"
     },
     "social-security-tax": {
       "levels": ["federal"],
-      "source": "26 U.S.C. § 3101(a)"
+      "source": "26 U.S.C. \u00a7 3101(a)"
     },
     "medicare-tax": {
       "levels": ["federal"],
-      "source": "26 U.S.C. § 3101(b)"
+      "source": "26 U.S.C. \u00a7 3101(b)"
+    },
+    "public-pay-floor": {
+      "levels": ["federal", "state", "local"],
+      "source": "Each government sets its own employees' pay: 5 U.S.C. \u00a7 5303 (federal pay schedules), state civil service law, and city and county charters"
+    },
+    "federal-unemployment-tax": {
+      "levels": ["federal"],
+      "source": "26 U.S.C. \u00a7\u00a7 3301-3302"
+    },
+    "state-unemployment-tax": {
+      "levels": ["state"],
+      "source": "State unemployment insurance law under 26 U.S.C. \u00a7 3304"
+    },
+    "corporate-income-tax": {
+      "levels": ["federal", "state"],
+      "source": "26 U.S.C. \u00a7 11 (federal); state corporate income taxes under state law"
+    },
+    "estate-tax": {
+      "levels": ["federal", "state"],
+      "source": "26 U.S.C. 2001 (federal estate tax); state estate taxes under each state's taxing power (Tax Foundation, Estate and Inheritance Taxes by State, 2026). No local government levies one."
+    },
+    "inheritance-tax": {
+      "levels": ["state"],
+      "source": "State inheritance taxes under each state's taxing power (Ky. Rev. Stat. ch. 140; Md. Tax-Gen. 7-203; Neb. Rev. Stat. 77-2004; N.J.S.A. 54:34; 72 P.S. 9116). Congress levies none; no local government levies one."
     }
-  }
+  },
+  "questions": {
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "levels": ["state", "local"],
+      "source": "State water codes; county and district groundwater rules (e.g., groundwater management districts)"
+    },
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "levels": ["state", "local"],
+      "source": "State farmland-preservation acts; county agricultural zoning"
+    },
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+      "levels": ["federal", "state"],
+      "source": "State usury and small-loan acts; federal Military Lending Act (10 U.S.C. sec. 987); local bodies have no usury power"
+    },
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+      "levels": ["state", "local"],
+      "source": "State cannabis acts; local opt-out of retail sales where the state allows it"
+    },
+    "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
+      "levels": ["federal", "state", "local"],
+      "source": "Fair Housing Act and Title VII; state human rights acts; local human rights ordinances"
+    },
+    "us-policy-positions:civil-family-community.restrict-abortion": {
+      "levels": ["federal", "state"],
+      "source": "State abortion statutes after Dobbs v. Jackson Women's Health Organization (2022); federal bills"
+    },
+    "us-policy-positions:education.public-funds-for-private-schooling": {
+      "levels": ["state"],
+      "source": "State voucher and education savings account acts"
+    },
+    "us-policy-positions:education.raise-teacher-minimum-salary": {
+      "levels": ["state"],
+      "source": "State teacher minimum-salary schedules"
+    },
+    "us-policy-positions:education.universal-preschool": {
+      "levels": ["state", "local"],
+      "source": "State pre-K acts; city and county programs"
+    },
+    "us-policy-positions:environment-energy.bottle-deposit": {
+      "levels": ["state"],
+      "source": "State container-deposit acts"
+    },
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "levels": ["federal", "state"],
+      "source": "Clean Air Act state implementation plans (42 U.S.C. sec. 7410)"
+    },
+    "us-policy-positions:environment-energy.clean-electricity-standard": {
+      "levels": ["federal", "state"],
+      "source": "State renewable and clean electricity standards"
+    },
+    "us-policy-positions:environment-energy.price-carbon": {
+      "levels": ["federal", "state"],
+      "source": "State carbon pricing programs; federal bills"
+    },
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "levels": ["federal", "state"],
+      "source": "U.S. Const. amend. XVI; state constitutions (local income tax is the separate local-income-tax series)"
+    },
+    "us-policy-positions:fiscal.balanced-operating-budget": {
+      "levels": ["federal", "state", "local"],
+      "source": "State constitutions and statutes; local charters and budget acts"
+    },
+    "us-policy-positions:fiscal.cap-property-tax-growth": {
+      "levels": ["state"],
+      "source": "State property-tax levy limits"
+    },
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "levels": ["state", "local"],
+      "source": "State sales-tax codes; local sales-tax ordinances where the state lets places set their own base; there is no federal sales tax"
+    },
+    "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "levels": ["federal", "state", "local"],
+      "source": "Each government's own pension funding policy"
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "levels": ["federal", "state"],
+      "source": "Federal and state income-tax codes"
+    },
+    "us-policy-positions:fiscal.minimum-reserve-balance": {
+      "levels": ["federal", "state", "local"],
+      "source": "Each government's own reserve policy"
+    },
+    "us-policy-positions:government-operations.all-mail-voting": {
+      "levels": ["state"],
+      "source": "State election codes"
+    },
+    "us-policy-positions:government-operations.automatic-voter-registration": {
+      "levels": ["federal", "state"],
+      "source": "State election codes; National Voter Registration Act"
+    },
+    "us-policy-positions:government-operations.ban-lobbying-after-office": {
+      "levels": ["federal", "state", "local"],
+      "source": "18 U.S.C. sec. 207; state ethics acts; local ethics codes"
+    },
+    "us-policy-positions:government-operations.broaden-local-authority": {
+      "levels": ["state"],
+      "source": "State home-rule statutes and constitutions"
+    },
+    "us-policy-positions:government-operations.independent-redistricting": {
+      "levels": ["state", "local"],
+      "source": "State constitutions and statutes; city charters for council districts"
+    },
+    "us-policy-positions:government-operations.legislative-term-limits": {
+      "levels": ["state", "local"],
+      "source": "State constitutions; local charters"
+    },
+    "us-policy-positions:government-operations.require-photo-id-to-vote": {
+      "levels": ["state"],
+      "source": "State election codes"
+    },
+    "us-policy-positions:government-operations.same-day-voter-registration": {
+      "levels": ["state"],
+      "source": "State election codes"
+    },
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "levels": ["federal", "state"],
+      "source": "42 U.S.C. sec. 1396a(a)(10)(A)(i)(VIII); state Medicaid plans"
+    },
+    "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "levels": ["federal", "state"],
+      "source": "Public Law 119-21; state Medicaid plans and waivers; counties administer, never set, eligibility"
+    },
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "levels": ["state", "local"],
+      "source": "State zoning-reform acts; local zoning codes"
+    },
+    "us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "levels": ["state", "local"],
+      "source": "State housing acts; local inclusionary zoning ordinances"
+    },
+    "us-policy-positions:housing-land-use.rent-stabilization": {
+      "levels": ["state", "local"],
+      "source": "State rent acts; local rent ordinances where not preempted"
+    },
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "levels": ["state", "local"],
+      "source": "State and local right-to-counsel acts"
+    },
+    "us-policy-positions:justice-public-safety.child-access-prevention": {
+      "levels": ["federal", "state"],
+      "source": "State child-access-prevention statutes"
+    },
+    "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+      "levels": ["state", "local"],
+      "source": "Local ordinances and charters; state oversight acts"
+    },
+    "us-policy-positions:justice-public-safety.end-cash-bail": {
+      "levels": ["state"],
+      "source": "State bail statutes and court rules"
+    },
+    "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "levels": ["federal", "state", "local"],
+      "source": "8 U.S.C. sec. 1357(g); state acts; county sheriff and city agreements"
+    },
+    "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+      "levels": ["state"],
+      "source": "State carry statutes; local firearm laws are generally preempted"
+    },
+    "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
+      "levels": ["federal", "state"],
+      "source": "18 U.S.C. sec. 922(b)(1); state purchase-age statutes"
+    },
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
+      "levels": ["state"],
+      "source": "State juvenile codes"
+    },
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "levels": ["state"],
+      "source": "State constitutions and election codes"
+    },
+    "us-policy-positions:justice-public-safety.stand-your-ground": {
+      "levels": ["state"],
+      "source": "State self-defense statutes"
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "levels": ["state"],
+      "source": "State home-rule and preemption statutes"
+    },
+    "us-policy-positions:labor-workforce.paid-family-leave": {
+      "levels": ["federal", "state", "local"],
+      "source": "State paid-leave acts; local ordinances (e.g., city paid parental leave); federal bills"
+    },
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "levels": ["state", "local"],
+      "source": "State public-employee bargaining acts; local charters and ordinances"
+    },
+    "us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "levels": ["federal", "state", "local"],
+      "source": "29 U.S.C. sec. 206 and 218; state and local wage laws"
+    },
+    "us-policy-positions:labor-workforce.right-to-work": {
+      "levels": ["federal", "state"],
+      "source": "29 U.S.C. sec. 164(b) leaves right-to-work to states"
+    },
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": {
+      "levels": ["federal", "state"],
+      "source": "State age-verification acts; federal bills"
+    },
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "levels": ["federal", "state"],
+      "source": "State comprehensive privacy acts"
+    },
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+      "levels": ["state", "local"],
+      "source": "Local ordinances and state acts on government use"
+    },
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "levels": ["federal", "state"],
+      "source": "State road-usage-charge acts; federal pilot programs"
+    },
+    "us-policy-positions:transportation-infrastructure.public-broadband": {
+      "levels": ["state", "local"],
+      "source": "State broadband acts; municipal broadband ordinances where not preempted"
+    },
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "levels": ["federal", "state"],
+      "source": "23 U.S.C. flexible funding; state transportation budgets"
+    }
+  },
+  "questionsAbout": "Which levels of government may answer each policy question, ESTIMATED by OPUS-GOV from where such laws are enacted in practice (the cited statutes; NCSL and NLC surveys). A local body also needs the state not to have preempted it (authorityFor). A level not listed has no power to pass the question."
 }

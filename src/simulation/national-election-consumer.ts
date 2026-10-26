@@ -1,5 +1,5 @@
 import { nationalOfficeRef } from "./national-election-offices";
-import { compareSimulationMoments } from "./dates";
+import { compareSimulationMoments } from "../core2/kernel/dates";
 import {
   createFutureTransitionHandlerRegistry,
   scheduleFutureDueItem,

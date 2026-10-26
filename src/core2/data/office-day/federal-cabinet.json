@@ -1,0 +1,110 @@
+{
+  "version": "office-day-federal-cabinet-v1",
+  "about": "The president's cabinet: the heads of the fifteen executive departments (5 U.S.C. sec. 101), in the order of presidential succession after the President pro tempore (3 U.S.C. sec. 19(d)(1)). Each is nominated by the president and confirmed by the Senate (U.S. Const. art. II, sec. 2, cl. 2). `lines` are the federal budget's outlay lines (data/research/money/federal-budget-fy2025.json, the budgets engine's keys) the department spends most of; a secretary presses the president for them in the budget request. Read by src/core2/office-day-federal.ts.",
+  "confirmation": {
+    "body": "U.S. Senate",
+    "rule": "simple majority of senators voting",
+    "citation": "U.S. Const. art. II, sec. 2, cl. 2; Senate Rule XXXI; the Senate's November 21, 2013 precedent ending the filibuster on executive nominations"
+  },
+  "posts": [
+    {
+      "id": "state",
+      "department": "Department of State",
+      "title": "Secretary of State",
+      "lines": ["internationalAffairs"]
+    },
+    {
+      "id": "treasury",
+      "department": "Department of the Treasury",
+      "title": "Secretary of the Treasury",
+      "lines": ["netInterest"]
+    },
+    {
+      "id": "defense",
+      "department": "Department of Defense",
+      "title": "Secretary of Defense",
+      "lines": ["nationalDefense"]
+    },
+    {
+      "id": "justice",
+      "department": "Department of Justice",
+      "title": "Attorney General",
+      "lines": []
+    },
+    {
+      "id": "interior",
+      "department": "Department of the Interior",
+      "title": "Secretary of the Interior",
+      "lines": []
+    },
+    {
+      "id": "agriculture",
+      "department": "Department of Agriculture",
+      "title": "Secretary of Agriculture",
+      "lines": ["agriculture"]
+    },
+    {
+      "id": "commerce",
+      "department": "Department of Commerce",
+      "title": "Secretary of Commerce",
+      "lines": []
+    },
+    {
+      "id": "labor",
+      "department": "Department of Labor",
+      "title": "Secretary of Labor",
+      "lines": ["incomeSecurity"]
+    },
+    {
+      "id": "health-and-human-services",
+      "department": "Department of Health and Human Services",
+      "title": "Secretary of Health and Human Services",
+      "lines": ["health", "medicare"]
+    },
+    {
+      "id": "housing-and-urban-development",
+      "department": "Department of Housing and Urban Development",
+      "title": "Secretary of Housing and Urban Development",
+      "lines": ["communityAndRegionalDevelopment"]
+    },
+    {
+      "id": "transportation",
+      "department": "Department of Transportation",
+      "title": "Secretary of Transportation",
+      "lines": ["transportation"]
+    },
+    {
+      "id": "energy",
+      "department": "Department of Energy",
+      "title": "Secretary of Energy",
+      "lines": []
+    },
+    {
+      "id": "education",
+      "department": "Department of Education",
+      "title": "Secretary of Education",
+      "lines": ["education"]
+    },
+    {
+      "id": "veterans-affairs",
+      "department": "Department of Veterans Affairs",
+      "title": "Secretary of Veterans Affairs",
+      "lines": ["veterans"]
+    },
+    {
+      "id": "homeland-security",
+      "department": "Department of Homeland Security",
+      "title": "Secretary of Homeland Security",
+      "lines": ["communityAndRegionalDevelopment"]
+    }
+  ],
+  "lineNotes": "Budget functions per OMB: 150 International Affairs (State), 050 National Defense (Defense), 350 Agriculture, 600 Income Security (Labor's unemployment compensation), 550 Health and 570 Medicare (HHS), 450 Community and Regional Development (HUD's block grants and FEMA's disaster relief under Homeland Security), 400 Transportation, 500 Education, 700 Veterans, 900 Net Interest (Treasury). Departments whose spending falls in the budget's 'otherPrograms' remainder (Justice, Interior, Commerce, Energy) press for no line of their own.",
+  "crises": {
+    "about": "Which department answers a disaster in the situation room, by the incident type of the FEMA declaration record. The Stafford Act's disaster response is run by FEMA, a part of the Department of Homeland Security (42 U.S.C. sec. 5121 et seq.; 6 U.S.C. sec. 313); a biological incident is a public health emergency declared by the Secretary of Health and Human Services (42 U.S.C. sec. 247d); a drought is answered by the Department of Agriculture's disaster designations (7 U.S.C. sec. 1961). Any type not listed goes to Homeland Security.",
+    "default": "homeland-security",
+    "answeredBy": {
+      "Biological": "health-and-human-services",
+      "Drought": "agriculture"
+    }
+  }
+}

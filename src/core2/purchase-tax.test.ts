@@ -3,10 +3,15 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
 import { purchaseTaxes, taxInside } from "./modules/purchase-tax";
-import { residentsAccountFor } from "./modules/residents";
+import {
+  countedFundOf,
+  countedHouseholdsByPlace,
+  residentsAccountFor,
+} from "./modules/residents";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreModule, CoreState, SalesReceiptNotice } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-purchase-tax");
@@ -36,7 +41,7 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
       }),
       { modules: [listener] },
     );
-    advanceCore(core, "2021-01-10");
+    advanceCore(core, daysAfterStart(9));
     const api = coreAPI(core);
     const local = [...core.organizations.values()].filter(
       (row) => row.outsideFlow === undefined && row.kind === "employer",
@@ -50,7 +55,7 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     // Exempt the classification with the smallest sales, as a grocery
     // exemption exempts food stores, so the taxed sales carry most of the
     // town's purchases (none exempt where only one kind of seller sells).
-    advanceCore(core, "2021-01-20");
+    advanceCore(core, daysAfterStart(19));
     const byClass = new Map<string, number>();
     for (const sale of sales) {
       const row = core.organizations.get(sale.sellerId)?.classification;
@@ -78,10 +83,12 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
       placeId: taxPlace,
       ratePercent: 7,
       payeeAccountId: treasury,
-      ...(exempt ? { exemptClassificationPrefixes: [exempt] } : {}),
+      ...(exempt
+        ? { exemptions: [{ classificationPrefix: exempt, share: 1 }] }
+        : {}),
       source: government.source,
     });
-    advanceCore(core, "2021-02-20");
+    advanceCore(core, daysAfterStart(50));
     const taxed = sales.filter((sale) => {
       const seller = core.organizations.get(sale.sellerId)!;
       return seller.placeId === taxPlace && seller.classification !== exempt;
@@ -98,13 +105,24 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     expect(api.accounts().balance(treasury)).toBe(expected);
     expect(cash(core) + outsideNet(core)).toBe(startCash);
 
-    // Benefits for the counted residents pay their place's account.
+    // Benefits for the counted residents pay their place's account, which
+    // holds each counted group's money in that group's own fund.
     const residents = residentsAccountFor(core, taxPlace)!;
-    expect(api.accounts().balance(residents)).toBeGreaterThan(0);
+    const funds = new Set(
+      (countedHouseholdsByPlace(core).get(taxPlace) ?? [])
+        .map((row) => countedFundOf(core, row.household.id))
+        .filter((id): id is string => id !== undefined),
+    );
+    expect(
+      [residents, ...funds].reduce(
+        (n, id) => n + api.accounts().balance(id),
+        0,
+      ),
+    ).toBeGreaterThan(0);
 
     // Ended, it collects nothing more.
     api.endPurchaseTax("tax:sales:test");
-    advanceCore(core, "2021-03-10");
+    advanceCore(core, daysAfterStart(68));
     expect(api.accounts().balance(treasury)).toBe(expected);
   }, 300_000);
 });

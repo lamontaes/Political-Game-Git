@@ -1,4 +1,4 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { growingIndex, type GrowingIndexKind } from "./history-index";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
 

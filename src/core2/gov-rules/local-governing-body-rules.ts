@@ -1,7 +1,7 @@
 /**
  * Ported from the old engine's `nationwide-world/local-governing-body-rules.ts`.
  */
-import type { GovernmentUnitIdentity } from "../../simulation/government-units";
+import type { GovernmentUnitIdentity } from "../reference/government-units";
 import { countyGoverningBodyRules } from "./county-governing-body-rules";
 import { isMayorSeatClass } from "./local-chief-executive-rules";
 import {
@@ -112,4 +112,17 @@ export function localGoverningBodyRules(
         ? { value: readYears, basis: "read" }
         : modalShare(typical.termYears),
   };
+}
+
+/**
+ * The name the town's charter gives its governing body ("Anchorage
+ * Assembly"), where the game has compiled the town's government and its
+ * reading names the body; null where it has not.
+ */
+export function localGoverningBodyName(
+  unit: GovernmentUnitIdentity,
+): string | null {
+  if (!hasGoverningBody(unit)) return null;
+  const government = municipalGovernmentForUnit(unit);
+  return government ? (primaryReading(government).bodyName ?? null) : null;
 }

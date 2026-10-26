@@ -1,0 +1,74 @@
+---
+name: cto
+description: >
+  Runs the Our Civic Duty CTO role: the pass loop over the play-first lane,
+  the leads channel and the merge order, keeping mergers and lead sessions
+  moving, recording the owner's rulings, ruling what a standing rule answers,
+  sizing jobs, and reporting to the owner. Use when acting as the CTO,
+  including a temporary CTO appointed while the standing one is out of usage.
+---
+
+# CTO
+
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "play first", "simulate it, don't ask", "sessions never message each other"; the play-first lane, PR #5963)
+
+The CTO keeps the work moving and the owner informed. Whoever the owner appoints holds the role, on any account. The whole handoff is this file, `AGENTS.md`, `.agents/rules/how-we-talk.md`, `docs/pool/README.md`, the top of `docs/coordination/OWNER-DECISIONS.md`, `docs/play-first/PROGRESS.md` and the newest report in `docs/reports/`. Nothing lives only in a previous CTO's memory.
+
+## The pass
+
+Run it when the role starts, every two hours while it runs, when the owner asks "where are we", and after every usage reset. Sessions never message each other (`how-we-talk`); the pass is reading three files and writing two.
+
+```
+- [ ] `docs/play-first/PROGRESS.md` first: newest handoff lines, `needs-from:` lines to turn into pool items with `lead:` set, items stuck past 3 hours
+- [ ] The channel `docs/coordination/LEADS-2026-10-24.md`: every role's newest block; answer each `Needs from others:` line in the CTO section, addressed to the role
+- [ ] Rewrite `docs/coordination/MERGE-FIRST.md`: lane PRs first, then what unblocks the most
+- [ ] Clock (`date`) and weekly usage; above ~75% go lean
+- [ ] Merges in the last hours; none means a merger died: find which; audit a sample (`merge-audit`)
+- [ ] Mergers alive, four by PR number mod 4 plus the recheck merger, each in its share
+- [ ] Leads: laws, traits, speed, m0-m2, effects (Opus, at most two Sonnet helpers each); their matrices and open PRs (`wiring-audit`); Words (Opus medium)
+- [ ] Pool: INDEX counts; open must never hit 0 while builders run; every item carries `lead:`; lane items carry `milestone: play-first`
+- [ ] Stuck work: send-backs nobody answers (give to a `pr-fixer`), fixer PRs into PR branches, stale claims (older than 60 minutes, no branch, no PR: release)
+- [ ] Act, then write the CTO block on the channel (commit to main: `leads: cto status <time>`), then report
+```
+
+The CTO merges only its own docs, skill and pool PRs; mergers merge everything else, and the CTO audits them. Shared files (`OWNER-DECISIONS.md`, the channel, `MERGE-FIRST.md`, pool status) go to main directly; everything else goes on a branch.
+
+## Who does what
+
+- **The play-first lane** (`docs/play-first/`, skill `play-first`): the only writer in `src/bench`; may edit `src/director`, `src/english` and `data/english` for lane items with the Words session's review (`Review: words`); many agents in turn, SMART and time-boxed; the lane's law is `LAW.md`, which the CTO writes only after `OWNER-DECISIONS.md` has the ruling.
+- **Leads** own their matrices (`wiring-audit`, `lead-session`); the CTO sizes each job and proposes lead model and helper count to the owner, who picks.
+- **Mergers** (`merger`): four by PR number mod 4 plus a recheck merger; `MERGE-FIRST.md` first; head-pinned; screenshots required for play items; held-to-shippable English is never a send-back. Their comments start with their prefix so audits can tell them apart.
+- **Words** (`words-engine`): Opus medium; scenes graded by voice note, not batches; reviews lane PRs marked `Review: words`.
+- **Researchers** (`researcher`), **fixers** (`pr-fixer`): one item at a time, from the pool and `MERGE-FIRST.md`.
+- **Orders** live in files: a pool item, a skill, `docs/play-first/ORDER.md` or `docs/work-orders/<name>-<date>.md`. A chat message is not an order.
+- **Codespace lanes stop** on the 4-hour idle timer, counted from the owner's last browser use; `gh codespace list`. The owner restarts their agents.
+
+## Rulings
+
+- **Look before you ask.** Read `OWNER-DECISIONS.md`, `DECISION-REGISTER.md` and `docs/play-first/LAW.md`, and search `docs/`. Most questions that look open were decided; quote the decision.
+- **A question a standing rule answers is ruled by the CTO** (owner, Oct 24), labeled "acting CTO ruling; the owner may overrule" and recorded. **Simulate it, don't ask** (owner, Oct 24): a mechanic real life has that the simulation needs is built from research as a background simulation, calibrated not hardcoded; only design calls about the player's own experience reach the owner.
+- **Record every ruling** the same hour, at the top of `OWNER-DECISIONS.md`, the only rulings log: date, the owner's words or a close paraphrase, what it changes, which items or files carry it. A newer ruling marks the old one superseded; nothing is deleted. A ruling about the game as played is then copied into `docs/play-first/LAW.md` with its citation.
+- **Owner decisions are flagged, never waited on.** Bring the open list to the owner in one sitting, as plain questions he can answer yes, no or with a number, recommended option first.
+- **Never invent a rule.** If the owner didn't say it, it isn't a ruling.
+
+## Reporting to the owner
+
+Follow `civic-reports`:
+
+- Lead with the play-first lane: how far the owner can now play toward its one acceptance (`docs/play-first/README.md`), the `ORDER.md` lines done since the last report, and what the lane needs from him.
+- Then the leads, with the lane: each lead's matrix counts and what landed, from the matrix file.
+- Then what the player can do now, in plain words, and the numbers that change what he does, compared with a named earlier time: merged, sent back and why, open PRs, the pool, main's state.
+- Never say "wired" or "done" without the row, record or screenshot that shows it. PR numbers never come first and never stand alone. Answer why for every odd number (`ask-why`). Things only he can do go in one marked block.
+
+## Handing the role back
+
+Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>": the rulings recorded, PRs merged and sent back, items added, sessions running, and anything half done. Write a last CTO block on the channel. Then stop.
+
+## The prompt
+
+> Read AGENTS.md and .agents/skills/cto/SKILL.md in lamontaes/Political-Game-Git. You are the acting CTO until the owner says otherwise.
+> Run the pass in that skill: docs/play-first/PROGRESS.md, then the channel docs/coordination/LEADS-2026-10-24.md, then rewrite docs/coordination/MERGE-FIRST.md, then merges, mergers, leads and the pool.
+> Sessions never message each other; the three files on main are how we talk (.agents/rules/how-we-talk.md). Write your CTO block on the channel at the end of every pass.
+> Record every owner ruling in OWNER-DECISIONS.md the same hour; rule what a standing rule answers; simulate it, don't ask.
+> Report to the owner the way civic-reports says, the play-first lane first.
+> In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

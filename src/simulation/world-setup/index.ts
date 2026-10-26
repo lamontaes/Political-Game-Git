@@ -18,8 +18,11 @@ export {
 } from "./state-tax-service-profiles";
 export type { WorldStartingConditionsOptions } from "./conditions";
 export { CRUNCH46_POLICY } from "./policy";
-export { censusRegionOf, CENSUS_REGIONS_SOURCE } from "./census-regions";
-export type { CensusRegion } from "./census-regions";
+export {
+  censusRegionOf,
+  CENSUS_REGIONS_SOURCE,
+} from "../../core2/reference/census-regions";
+export type { CensusRegion } from "../../core2/reference/census-regions";
 export { partyRecords, worldConditionRecords } from "./integrity";
 export {
   applySwing,

@@ -2,16 +2,6 @@
   "about": "Law reach, group A (labor, business, housing, justice, rights, technology and government menus): what each catalog policy does once it's law, through the engine that owns the thing it changes. Each policy names the named people, organizations, officeholders and counted groups it reaches (a selector over their own records), the kind of effect (a rule with its enforcer and penalty, an eligibility, a right, a price or a compliance duty), and the mechanic that moves pay, money, staff, budgets or election costs where one runs. Read by src/core2/law-reach/group-a.ts. Numbers live in reach-group-a-parameters.json. A stopgapId names what another engine must provide before the effect is complete.",
   "estimate": true,
   "selectors": {
-    "publicEmployers": [
-      "service:police",
-      "service:fire",
-      "service:public-health",
-      "service:municipal-government",
-      "service:public-school",
-      "service:corrections",
-      "sector:local-government-office",
-      "sector:state-government-office"
-    ],
     "businesses": ["enterprise:"],
     "builders": ["enterprise:construction", "enterprise:real-estate"],
     "retailers": ["enterprise:retail"],
@@ -44,11 +34,16 @@
     "budget-line:administration": {
       "employers": "cityGovernment",
       "levels": ["city", "county"]
+    },
+    "budget-line:schools": {
+      "employers": "schoolEmployers",
+      "levels": ["city", "county", "state"]
     }
   },
   "extraSelectors": {
     "fireEmployers": ["service:fire"],
-    "correctionsEmployers": ["service:corrections", "service:jail"]
+    "correctionsEmployers": ["service:corrections", "service:jail"],
+    "schoolEmployers": ["service:school"]
   },
   "policies": {
     "minimum-wage": {
@@ -128,7 +123,7 @@
     },
     "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
       "source": "State public-sector bargaining laws (Sanes and Schmitt, Regulation of Public Sector Collective Bargaining in the States, Center for Economic and Policy Research, 2014).",
-      "mechanic": "none",
+      "mechanic": "public-bargaining",
       "stopgapId": "SG-GOV-REACH-A-bargaining",
       "reaches": [
         {
@@ -169,7 +164,7 @@
     },
     "us-policy-positions:labor-workforce.right-to-work": {
       "source": "State right-to-work laws (National Conference of State Legislatures, Right-to-Work States, 2024).",
-      "mechanic": "none",
+      "mechanic": "right-to-work",
       "stopgapId": "SG-GOV-REACH-A-union-dues",
       "reaches": [
         {
@@ -227,7 +222,7 @@
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "source": "Military Lending Act (10 U.S.C. 987) and state rate caps of 36% a year (National Consumer Law Center, State Rate Caps, 2024).",
-      "mechanic": "none",
+      "mechanic": "consumer-loan-quote",
       "stopgapId": "SG-GOV-REACH-A-consumer-credit",
       "reaches": [
         {
@@ -245,7 +240,7 @@
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "source": "State and city laws allowing two to four homes on single-family lots (Oregon HB 2001 of 2019, California SB 9 of 2021, Minneapolis 2040 plan).",
-      "mechanic": "none",
+      "mechanic": "housing-construction",
       "stopgapId": "SG-GOV-REACH-A-housing-supply",
       "reaches": [
         {
@@ -275,7 +270,6 @@
     "budget-line:housing": {
       "source": "Housing spending pays rent assistance to the lowest-income households (HUD, Picture of Subsidized Households, 2023).",
       "mechanic": "housing-assistance",
-      "stopgapId": "SG-GOV-REACH-A-rent-assistance",
       "reaches": [
         {
           "id": "assisted",
@@ -289,7 +283,7 @@
     },
     "us-policy-positions:housing-land-use.inclusionary-requirement": {
       "source": "Inclusionary housing ordinances: a share of new homes set aside as affordable (Grounded Solutions Network, Inclusionary Housing Database, 2021).",
-      "mechanic": "none",
+      "mechanic": "housing-construction",
       "stopgapId": "SG-GOV-REACH-A-affordable-units",
       "reaches": [
         {
@@ -307,7 +301,7 @@
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "source": "Rent stabilization laws capping yearly rent increases (California AB 1482 of 2019, Oregon SB 608 of 2019, St. Paul ordinance of 2021).",
-      "mechanic": "none",
+      "mechanic": "rent-renewal",
       "stopgapId": "SG-GOV-REACH-A-rent-contracts",
       "reaches": [
         {
@@ -336,7 +330,7 @@
     },
     "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
       "source": "City right-to-counsel ordinances (National Coalition for a Civil Right to Counsel, 2024).",
-      "mechanic": "none",
+      "mechanic": "eviction-counsel",
       "stopgapId": "SG-GOV-REACH-A-eviction-cases",
       "reaches": [
         {
@@ -374,22 +368,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the police department with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the police department when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -404,22 +382,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the fire department with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the fire department when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -434,22 +396,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the jail with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the jail when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -464,106 +410,26 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the city or county offices with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the city or county offices when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
     "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
       "source": "Civilian police oversight boards (National Association for Civilian Oversight of Law Enforcement, 2021).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "officers",
-          "target": "staff",
-          "select": {
-            "group": "police"
-          },
-          "kind": "rule",
-          "what": "has complaints against them reviewed by a civilian board",
-          "enforcer": "the civilian oversight board",
-          "penalty": "discipline the board recommends"
-        },
-        {
-          "id": "department",
-          "target": "organizations",
-          "select": {
-            "group": "police"
-          },
-          "kind": "compliance",
-          "what": "must give its records to the civilian oversight board",
-          "enforcer": "the civilian oversight board",
-          "penalty": "a subpoena from the board"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
       "source": "Section 287(g) agreements between local police and Immigration and Customs Enforcement (ICE, Delegation of Immigration Authority, 2025).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-citizenship",
-      "reaches": [
-        {
-          "id": "department",
-          "target": "organizations",
-          "select": {
-            "group": "police"
-          },
-          "kind": "compliance",
-          "what": "must hold people for immigration agents when asked",
-          "enforcer": "U.S. Immigration and Customs Enforcement",
-          "penalty": "loss of the partnership agreement"
-        },
-        {
-          "id": "noncitizens",
-          "target": "estimated",
-          "share": "noncitizenShare",
-          "kind": "rule",
-          "what": "may be held by local police for immigration agents",
-          "enforcer": "the police department",
-          "penalty": "detention and removal proceedings"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.end-cash-bail": {
       "source": "Laws ending money bail (Illinois SAFE-T Act pretrial provisions, 2023; New Jersey Criminal Justice Reform Act, 2017).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-pretrial",
-      "reaches": [
-        {
-          "id": "adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "may not be held before trial for being unable to pay bail",
-          "enforcer": "the court",
-          "penalty": "release from unlawful detention"
-        },
-        {
-          "id": "pretrial",
-          "target": "estimated",
-          "share": "pretrialJailShare",
-          "kind": "right",
-          "what": "is released before trial without paying bail",
-          "enforcer": "the court",
-          "penalty": "release from unlawful detention"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
       "source": "Laws restoring the vote on completing a sentence (The Sentencing Project, Locked Out 2024).",
@@ -583,126 +449,33 @@
     },
     "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
       "source": "Raise-the-age laws sending young adults' cases to juvenile court (Vermont Act 201 of 2018; National Conference of State Legislatures, Juvenile Age of Jurisdiction, 2024).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "young-adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge",
-            "ageBelow": "juvenileCourtAgeBelow"
-          },
-          "kind": "rule",
-          "what": "has a criminal case heard in juvenile court",
-          "enforcer": "the juvenile court",
-          "penalty": "none: a change of court"
-        },
-        {
-          "id": "department",
-          "target": "organizations",
-          "select": {
-            "group": "police"
-          },
-          "kind": "compliance",
-          "what": "must send young adults' cases under the new age to juvenile court",
-          "enforcer": "the juvenile court",
-          "penalty": "charges dismissed from the wrong court"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.child-access-prevention": {
       "source": "Child access prevention laws on storing guns (Giffords Law Center, Child Access Prevention, 2024).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-firearms",
-      "reaches": [
-        {
-          "id": "parents",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge",
-            "withChildBelow": "childAgeBelow"
-          },
-          "kind": "compliance",
-          "what": "must lock up any gun where a child could reach it",
-          "enforcer": "police department",
-          "penalty": "misdemeanor if a child gets the gun"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
       "source": "Concealed carry permit laws (Giffords Law Center, Concealed Carry, 2024).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "concealedCarryAge"
-          },
-          "kind": "eligibility",
-          "what": "must hold a permit to carry a concealed handgun",
-          "enforcer": "police department",
-          "penalty": "misdemeanor for carrying without a permit"
-        },
-        {
-          "id": "young-adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge",
-            "ageBelow": "concealedCarryAge"
-          },
-          "kind": "eligibility",
-          "what": "may not get a permit to carry a concealed handgun",
-          "enforcer": "police department",
-          "penalty": "misdemeanor for carrying without a permit"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
       "source": "Laws setting a handgun purchase age of 21 (18 U.S.C. 922(b)(1); Giffords Law Center, Minimum Age, 2024).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "dealers",
-          "target": "organizations",
-          "select": {
-            "group": "retailers"
-          },
-          "kind": "compliance",
-          "what": "may not sell a handgun to anyone under 21",
-          "enforcer": "police department",
-          "penalty": "misdemeanor for the seller"
-        },
-        {
-          "id": "counted-young-adults",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge",
-            "ageBelow": "handgunPurchaseAge"
-          },
-          "kind": "eligibility",
-          "what": "may not buy a handgun from a licensed dealer",
-          "enforcer": "police department",
-          "penalty": "misdemeanor for the seller"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:justice-public-safety.stand-your-ground": {
       "source": "Stand-your-ground laws removing the duty to retreat (Giffords Law Center, Stand Your Ground, 2024).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "has no duty to retreat before using force in self-defense",
-          "enforcer": "the court",
-          "penalty": "none: a defense at trial"
-        }
-      ]
+      "mechanic": "public-safety",
+      "reaches": [],
+      "note": "Applied where the public-safety engine reads the law (src/core2/public-safety.ts); the engine records each application with lawApplied."
     },
     "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
       "source": "Local human rights ordinances (National League of Cities summaries).",
@@ -731,7 +504,8 @@
           "enforcer": "human rights commission",
           "penalty": "civil fine and damages"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-discrimination"
     },
     "us-policy-positions:civil-family-community.dedicated-parks-funding": {
       "source": "Dedicated park funding measures (Trust for Public Land, LandVote database, 2024).",
@@ -787,7 +561,8 @@
           "enforcer": "the state health department",
           "penalty": "license loss and criminal charges"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-abortion"
     },
     "us-policy-positions:technology-privacy.age-verification-for-social-media": {
       "source": "Social media age verification laws (Utah SB 152 of 2023; Louisiana Act 456 of 2023).",
@@ -816,7 +591,8 @@
           "enforcer": "the state attorney general",
           "penalty": "civil fine per violation"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-age-verification"
     },
     "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
       "source": "Limits on government facial recognition (San Francisco Stop Secret Surveillance Ordinance, 2019; Massachusetts Act of 2020).",
@@ -844,7 +620,8 @@
           "enforcer": "the court",
           "penalty": "discipline and evidence thrown out"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-facial-recognition"
     },
     "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
       "source": "State consumer data privacy laws (California Consumer Privacy Act, 2018; Virginia Consumer Data Protection Act, 2021).",
@@ -873,137 +650,43 @@
           "enforcer": "the state attorney general",
           "penalty": "civil fine per violation"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-data-privacy"
     },
     "us-policy-positions:government-operations.all-mail-voting": {
       "source": "All-mail elections (Colorado, Oregon, Utah and Washington; Gerber, Huber and Hill, Political Science Research and Methods, 2013).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is mailed a ballot for every election",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is mailed a ballot for every election",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.automatic-voter-registration": {
       "source": "Automatic voter registration (Brennan Center for Justice, AVR Impact on State Voter Registration, 2019).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is registered to vote when they deal with a state agency unless they opt out",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "is registered to vote when they deal with a state agency unless they opt out",
-          "enforcer": "the board of elections",
-          "penalty": "none: a service"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.independent-redistricting": {
       "source": "Independent redistricting commissions (National Conference of State Legislatures, Redistricting Commissions, 2024).",
-      "mechanic": "none",
+      "mechanic": "voting",
       "stopgapId": "SG-GOV-REACH-A-redistricting",
       "reaches": [
         {
-          "id": "legislators",
-          "target": "officeholders",
-          "select": {
-            "group": "legislators"
-          },
-          "kind": "rule",
-          "what": "no longer draws the district lines; an independent commission does",
-          "enforcer": "the redistricting commission",
-          "penalty": "the court redraws lines that break the rules"
+          "id": "commission",
+          "target": "mechanic",
+          "kind": "service",
+          "what": "pays its independent redistricting commission each month",
+          "enforcer": "the state treasury",
+          "penalty": "none: an appropriation"
         }
       ]
     },
     "us-policy-positions:government-operations.require-photo-id-to-vote": {
       "source": "Strict photo ID laws (National Conference of State Legislatures, Voter ID Laws, 2024; GAO-15-19, 2014).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "rule",
-          "what": "must show a photo ID to vote",
-          "enforcer": "the board of elections",
-          "penalty": "a provisional ballot that counts only if they show ID later"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "rule",
-          "what": "must show a photo ID to vote",
-          "enforcer": "the board of elections",
-          "penalty": "a provisional ballot that counts only if they show ID later"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.same-day-voter-registration": {
       "source": "Same-day voter registration (Grumbach and Hill, Journal of Politics, 2022).",
       "mechanic": "voting",
-      "reaches": [
-        {
-          "id": "voters",
-          "target": "people",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "may register and vote on the same day",
-          "enforcer": "the board of elections",
-          "penalty": "none: a right"
-        },
-        {
-          "id": "counted-voters",
-          "target": "counted",
-          "select": {
-            "ageFrom": "adultAge"
-          },
-          "kind": "right",
-          "what": "may register and vote on the same day",
-          "enforcer": "the board of elections",
-          "penalty": "none: a right"
-        }
-      ]
+      "reaches": []
     },
     "us-policy-positions:government-operations.ban-lobbying-after-office": {
       "source": "Revolving-door limits on former officials lobbying (National Conference of State Legislatures, Revolving Door Prohibitions, 2024).",
@@ -1022,31 +705,8 @@
     },
     "us-policy-positions:government-operations.broaden-local-authority": {
       "source": "Home rule grants to cities (National League of Cities, Cities 101: Delegation of Power, 2020).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "city",
-          "target": "organizations",
-          "select": {
-            "group": "cityGovernment"
-          },
-          "kind": "right",
-          "what": "may act on any local matter the state hasn't ruled on",
-          "enforcer": "the state courts",
-          "penalty": "none: a power the state grants"
-        },
-        {
-          "id": "council",
-          "target": "officeholders",
-          "select": {
-            "group": "legislators"
-          },
-          "kind": "right",
-          "what": "may pass ordinances on any local matter the state hasn't ruled on",
-          "enforcer": "the state courts",
-          "penalty": "none: a power the state grants"
-        }
-      ]
+      "mechanic": "policy-authority",
+      "reaches": []
     },
     "us-policy-positions:government-operations.legislative-term-limits": {
       "source": "Legislative term limits (National Conference of State Legislatures, The Term-Limited States, 2024).",
@@ -1062,6 +722,20 @@
           "what": "may serve only a limited number of years in the seat",
           "enforcer": "the board of elections",
           "penalty": "kept off the ballot"
+        }
+      ]
+    },
+    "budget-line:schools": {
+      "source": "School spending pays for teachers and school staff (National Center for Education Statistics, Digest of Education Statistics 2022, Table 208.20 pupil/teacher ratios; Census Bureau, Annual Survey of Public Employment and Payroll, 2022).",
+      "mechanic": "staffing",
+      "reaches": [
+        {
+          "id": "positions",
+          "target": "mechanic",
+          "kind": "service",
+          "what": "is funded for the positions its budget line pays for",
+          "enforcer": "the finance office",
+          "penalty": "none: an appropriation"
         }
       ]
     }

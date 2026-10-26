@@ -7,7 +7,7 @@ import {
   dispositionsFromCounts,
   type LegislativeScenario,
 } from "./legislation-scenarios";
-import { daysBetween, makeIsoDate } from "./dates";
+import { daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
@@ -25,7 +25,7 @@ import {
   transmitMeasure,
 } from "./legislation";
 import { chamberByKey } from "./legislature-rules";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   constitutionalPosition,
   proposeConstitutionalMeasure,

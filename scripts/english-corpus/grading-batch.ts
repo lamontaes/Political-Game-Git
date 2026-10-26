@@ -21,7 +21,7 @@ import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
-import { ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { spokenDate } from "../../src/director/words";
 import {
   beliefsModule,
@@ -31,10 +31,9 @@ import {
 import { createDirector } from "../../src/director/ledger";
 import {
   CONVERSATION_BANK,
-  conversationDataFromBank,
-  pickBy,
+  MINED_CONVERSATION,
   type MinedPart,
-} from "./conversation-bank";
+} from "../../src/english/mined/conversation-bank";
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
@@ -139,10 +138,7 @@ for (const seed of seeds) {
       .filter((otherId) => core.people.get(otherId)?.alive)
       .slice(0, 14);
     for (const [index, otherId] of others.entries()) {
-      const data = conversationDataFromBank(
-        CONVERSATION_BANK,
-        pickBy(`${seed}:${otherId}`),
-      );
+      const data = MINED_CONVERSATION;
       const talk = openConversation(core, player.id, otherId, { data });
       const voice = (speakerId: string) =>
         speakerId === player.id ? "You" : name(speakerId).split(" ")[0]!;
@@ -178,12 +174,12 @@ for (const seed of seeds) {
             cell: cell(line.act),
             seed,
             choices: talk.choices.map((choice) => choice.text),
-            lieOffered: talk.lie !== null,
+            lieOffered: talk.lies.length > 0,
           });
         }
         said = talk.lines.length;
         const last = talk.lines.at(-1);
-        for (const choice of [...talk.choices, ...(talk.lie ? [talk.lie] : [])])
+        for (const choice of [...talk.choices, ...talk.lies])
           items.push({
             id: `${seed}:${otherId}:choice:${choice.key}`,
             axis: choice.lie

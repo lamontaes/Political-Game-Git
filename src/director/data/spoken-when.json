@@ -1,0 +1,16 @@
+{
+  "about": "How people say how long ago they last saw someone, in passing: never a calendar date (owner, Oct 15, evening: nobody says a date in speech, 'I talked to Diana on November 13'). The first row whose upToDays covers the gap is said. Authored, calibrated to the way Americans mention a recent contact in the conversation bank; the engine only picks the row by the contact record's date.",
+  "origin": "authored",
+  "author": "Words line, Claude Sonnet 5.5",
+  "date": "2026-10-15",
+  "rows": [
+    { "upToDays": 0, "said": "today" },
+    { "upToDays": 1, "said": "yesterday" },
+    { "upToDays": 6, "said": "a few days ago" },
+    { "upToDays": 13, "said": "last week" },
+    { "upToDays": 45, "said": "a few weeks ago" },
+    { "upToDays": 120, "said": "a couple of months ago" },
+    { "upToDays": 400, "said": "last year" },
+    { "upToDays": 100000, "said": "years ago" }
+  ]
+}

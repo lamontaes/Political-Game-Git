@@ -5,7 +5,7 @@ import {
 } from "../governing/final-law-term-query";
 import { eventById } from "../event-index";
 import { recordsByStringField } from "../history-index";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import { spreadOf } from "../sample-spread";
 import {
   comparableAmountApplicabilityKey,
@@ -20,7 +20,7 @@ import {
 import {
   censusRegionOf,
   censusRegionStates,
-} from "../world-setup/census-regions";
+} from "../../core2/reference/census-regions";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import type { EntityId, World } from "../types";
 

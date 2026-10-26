@@ -1,5 +1,5 @@
 import programs from "../../data/research/money/public-programs-2026.json" with { type: "json" };
-import { yearOf } from "./dates";
+import { yearOf } from "../core2/kernel/dates";
 import { povertyLineMinor } from "./public-benefit-formulas";
 import { STATES } from "./state-reference";
 import type { EntityId, IsoDate, World } from "./types";

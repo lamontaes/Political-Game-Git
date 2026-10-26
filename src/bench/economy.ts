@@ -1,10 +1,16 @@
 import { coreAPI } from "../core2/state";
 import {
   bankPanel,
+  benefitsPanel,
+  boardPanel,
+  buildingPanel,
   evictionPanel,
   jobHistory,
+  lawCostsPanel,
+  metricsPanel,
   ownerPanel,
   regionPanel,
+  townJobsPanel,
   turnoverPanel,
 } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
@@ -18,7 +24,6 @@ export function economyView(
 ) {
   const api = coreAPI(core);
   const national = core.modules.has("macro") ? nationalPanel(api) : undefined;
-  const turnover = core.modules.has("jobs") ? turnoverPanel(api) : undefined;
   return {
     nation: national?.months.at(-1),
     nationMonths: national?.months.slice(-13) ?? [],
@@ -26,11 +31,7 @@ export function economyView(
     region: core.modules.has("regional")
       ? regionPanel(api, placeId).region
       : undefined,
-    jobs: turnover && {
-      employed: turnover.employed,
-      seekers: turnover.seekers,
-      openPositions: turnover.openPositions,
-    },
+    jobs: core.modules.has("jobs") ? townJobsPanel(api, placeId) : undefined,
     jobHistory: jobHistory(api, personId),
   };
 }
@@ -45,5 +46,10 @@ export function worldPanels(core: CoreState, placeId: string) {
     bank: bankPanel(api),
     evictions: evictionPanel(api),
     owners: ownerPanel(api),
+    building: buildingPanel(api),
+    lawCosts: lawCostsPanel(api),
+    benefits: benefitsPanel(api),
+    board: boardPanel(api),
+    metrics: metricsPanel(api, placeId),
   };
 }

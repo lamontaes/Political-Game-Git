@@ -130,19 +130,6 @@ if (args.includes("--prepare")) {
         sourceRecordIds: [key, input.organizations[0].id],
       });
     }
-    const groups = api.voterGroups();
-    for (let index = 0; index < 100; index++)
-      groups.put({
-        id: `contract-group:${index}`,
-        placeId: input.people[0].placeId,
-        ageBand: "contract-adults",
-        lean: 0,
-        turnout: 0.5,
-        size: 100,
-        asOf: input.startedAt,
-        source,
-        sourceRecordIds: ["contract-group-input"],
-      });
   }
   const ready = performance.now();
   const result = advanceCore(core, "2027-01-01");
@@ -166,9 +153,6 @@ if (args.includes("--prepare")) {
       processedWork: table.size,
       emittedRecords: saved.map((row) => row.id),
       sourceRecordIds: [input.organizations[0].id],
-      voterSummary: api.voterGroups().summarize(input.people[0].placeId),
-      limitation:
-        "Contract groups are explicit API inputs, not generated political views or ballots.",
     };
   }
   const receipt = {

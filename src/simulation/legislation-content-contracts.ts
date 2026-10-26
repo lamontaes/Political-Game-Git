@@ -8,7 +8,7 @@
  * one registry the game reads.
  */
 
-import { spokenDate } from "./dates";
+import { spokenDate } from "../core2/kernel/dates";
 import type {
   IsoDate,
   LegislativeProvisionBeneficiary,

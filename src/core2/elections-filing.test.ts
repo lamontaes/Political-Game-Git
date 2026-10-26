@@ -5,9 +5,8 @@
  * - The next local, state and federal contests carry that place's real dates
  *   (general election, primary, filing deadline) from the data files, and
  *   filing requires what that place's rules require.
- * - A resident files once: by fee (the cash moves from the candidate to the
- *   government that takes filings, and the books balance) or by signatures
- *   gathered from real residents; then they're on the ballot.
+ * - A resident files once, at no charge and with no petition, and is on
+ *   the ballot.
  * - An ineligible person gets the rule that stops them, as a structured reason.
  */
 import { createHash } from "node:crypto";
@@ -26,15 +25,10 @@ import {
   filingRequirements,
   openContests,
   openElections,
-  requestSignature,
   type ContestRow,
 } from "./modules/elections";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
-import { novemberGeneralElectionDay } from "../simulation/nationwide-world/town-election-calendar";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { novemberGeneralElectionDay } from "./gov-rules/town-election-calendar";
 
 const START = "2026-01-05";
 const seed =
@@ -46,7 +40,13 @@ const nomination = JSON.parse(
     "utf8",
   ),
 ).places;
-const states = [...lifePlaceStateIdentities()]
+const filingRequirementsRead = JSON.parse(
+  readFileSync("data/research/elections/filing-requirements.json", "utf8"),
+).places as Record<
+  string,
+  Record<string, { independent?: { deadline2026?: string } }>
+>;
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -56,7 +56,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 function randomPlace(salt: string) {
   const state = pick(states, `${salt}:state`);
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -114,6 +114,15 @@ describe("M2-02 election calendars and filing rules", () => {
       const rules = filingRequirements(stateKey, contest.family);
       expect(rules.minimumAge).toBeGreaterThanOrEqual(18);
       expect(rules.filedWith.length).toBeGreaterThan(0);
+      // An independent files by the independent route's own deadline,
+      // where the place's law sets one apart.
+      const own =
+        filingRequirementsRead[stateKey]?.[contest.family]?.independent
+          ?.deadline2026;
+      if (own)
+        expect(
+          filingRequirements(stateKey, contest.family, "independent").deadline,
+        ).toBe(own);
     }
     govReport(
       "elections-filing",
@@ -132,7 +141,7 @@ describe("M2-02 election calendars and filing rules", () => {
 });
 
 describe("M2-03 filing (engine)", () => {
-  it("a resident files once and is on the ballot; the fee balances; an ineligible person is told the rule", () => {
+  it("a resident files once, at no charge and with no petition, and is on the ballot; an ineligible person is told the rule", () => {
     const core = world(randomPlace("file").key);
     const api = coreAPI(core);
     const open = openContests(api);
@@ -145,27 +154,13 @@ describe("M2-03 filing (engine)", () => {
       )
       .sort((a, b) => a.id.localeCompare(b.id));
     const candidate = pick(adults, "candidate");
-    // Give the candidate enough cash for any fee, through the journal-free
-    // opening stock (a test fixture, not a payment).
-    const rules = filingRequirements(
-      (
-        api
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("town")
-          .get("town") as unknown as { stateKey: string }
-      ).stateKey,
-      contest.family,
-    );
     const eligibility = checkEligibility(api, candidate.id, contest.id);
     const unmetBefore = eligibility.filter((c) => !c.met).map((c) => c.rule);
     const cashBefore = core.people.get(candidate.id)!.liquidMinor;
-    const payFee =
-      (rules.feeMinor ?? 0) > 0 && cashBefore >= (rules.feeMinor ?? 0);
     const result = fileCandidacy(api, {
       personId: candidate.id,
       contestId: contest.id,
       platform: ["fixture-platform"],
-      payFee,
     });
     if (result.status === "refused") {
       // Refused only for a stated rule.
@@ -173,43 +168,18 @@ describe("M2-03 filing (engine)", () => {
       expect(unmetBefore.length + result.unmet.length).toBeGreaterThan(0);
       return;
     }
-    if (result.filing.feePaidMinor > 0)
-      expect(core.people.get(candidate.id)!.liquidMinor).toBe(
-        cashBefore - result.filing.feePaidMinor,
-      );
-    // Gather signatures from real residents until the petition is complete.
-    let filing = result.filing;
-    const neighbors = [...core.people.values()]
-      .filter((p) => p.id !== candidate.id)
-      .sort((a, b) => a.id.localeCompare(b.id));
-    for (const neighbor of neighbors) {
-      if (filing.status === "on-ballot") break;
-      requestSignature(api, filing.id, neighbor.id);
-      filing = api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("filings")
-        .get(filing.id) as unknown as typeof filing;
-    }
-    // On the ballot once the fee is paid or enough neighbors actually signed
-    // (children, people out of town and wary strangers don't).
-    const signed = (
-      api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("signatures")
-        .query("byFiling", [filing.id]) as unknown as { signed: boolean }[]
-    ).filter((s) => s.signed).length;
-    if (signed >= (rules.signatures ?? 0) || filing.feePaidMinor > 0)
-      expect(filing.status).toBe("on-ballot");
-    if (filing.status === "on-ballot")
-      expect(ballot(api, contest.id).map((f) => f.personId)).toContain(
-        candidate.id,
-      );
+    // Filing costs nothing.
+    expect(core.people.get(candidate.id)!.liquidMinor).toBe(cashBefore);
+    const filing = result.filing;
+    expect(filing.status).toBe("on-ballot");
+    expect(ballot(api, contest.id).map((f) => f.personId)).toContain(
+      candidate.id,
+    );
     // File once.
     const again = fileCandidacy(api, {
       personId: candidate.id,
       contestId: contest.id,
       platform: [],
-      payFee,
     });
     expect(again.status).toBe("refused");
     // A child can't file, and is told the age rule.
@@ -221,7 +191,6 @@ describe("M2-03 filing (engine)", () => {
         personId: child.id,
         contestId: contest.id,
         platform: [],
-        payFee: false,
       });
       expect(refused.status).toBe("refused");
       if (refused.status === "refused")
@@ -232,9 +201,6 @@ describe("M2-03 filing (engine)", () => {
       JSON.stringify({
         contest: contest.title,
         filedWith: filing.filedWith,
-        fee: filing.feePaidMinor,
-        signatures: filing.signatureCount,
-        required: rules.signatures,
         status: filing.status,
       }),
     );

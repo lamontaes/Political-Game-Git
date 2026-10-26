@@ -4,8 +4,7 @@
  * one import:
  *
  *   import { MINED_WORDS } from "../../scripts/english-corpus";
- *   openConversation(core, playerId, otherId, { data: MINED_WORDS.conversation() });
- *   composeJournal(core, director, personId, { data: MINED_WORDS.journal });
+ *   composeJournal(core, director, personId, { words: MINED_WORDS.journal });
  *   composeScene(core, director, personId, entry, MINED_WORDS.scene);
  *   bringItUp(core, speakerId, listenerId, MINED_WORDS.bringItUp);
  *   MINED_WORDS.openingSpeech.composeOpeningSpeech(packet, "state-of-the-union");
@@ -13,23 +12,25 @@
  * OPUS-WORDS owns the banks and these adapters; OPUS-PEOPLE owns the engine.
  */
 import { addressMoves, composeTurn } from "./address-bank";
-import { conversationDataFromBank, pickBy } from "./conversation-bank";
-import { filingWordsFromBank } from "./filing-bank";
-import { journalDataFromBank } from "./journal-bank";
+import { MINED_CONVERSATION } from "../../src/english/mined/conversation-bank";
+import { filingWordsFromBank } from "../../src/english/mined/filing-bank";
+import { journalDataFromBank } from "../../src/english/mined/journal-bank";
 import { benchControlNames, stanceWords } from "./choice-names-bank";
 import { composeCounterVisit } from "./counter-bank";
 import { composeNewsStory } from "./newscast-bank";
 import { composeOpeningSpeech, openingSpeechKind } from "./opening-speech-bank";
-import { bringDataFromBank, sceneWordsFromBank } from "./scene-bank";
+import {
+  bringWordsFromBank,
+  sceneWordsFromBank,
+} from "../../src/english/mined/scene-bank";
 
 export const MINED_WORDS = {
-  /** One wording per answer choice, chosen by a stable key (a seed and the other person). */
-  conversation: (key?: string) =>
-    conversationDataFromBank(undefined, key ? pickBy(key) : undefined),
+  /** Every wording of every choice; the renderer's stable pick chooses one per moment. */
+  conversation: () => MINED_CONVERSATION,
   journal: journalDataFromBank(),
   filingVisit: filingWordsFromBank(),
   scene: sceneWordsFromBank(),
-  bringItUp: bringDataFromBank(),
+  bringItUp: { words: bringWordsFromBank() },
   address: { addressMoves, composeTurn },
   /** The President's address that opens the game, section by section. */
   openingSpeech: { composeOpeningSpeech, openingSpeechKind },

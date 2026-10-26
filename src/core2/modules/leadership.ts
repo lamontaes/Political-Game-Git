@@ -16,10 +16,12 @@
  */
 import leadershipData from "../../../data/research/legislature/chamber-leadership.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { closenessBetween } from "../closeness";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
+  bodyReach,
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
   leanOf,
@@ -28,6 +30,13 @@ import {
   registerCommitteeRosterProvider,
 } from "./legislature";
 import { partySide } from "../appointments";
+import {
+  COMMITTEES,
+  committeeTopics,
+  topicOf,
+} from "../legislature-committees";
+import { officialOf } from "./officials";
+import { concerns } from "./meetings";
 import { campaignParameter } from "../campaign-views";
 
 export const LEADERSHIP_MODULE_ID = "core2-leadership-v1";
@@ -56,8 +65,29 @@ function field<T>(template: Template, name: string): T {
   return row.value as T;
 }
 
-/** The subject committees a body refers bills to (the legislature's `committeeFor`). */
-export const COMMITTEES = ["finance", "labor", "general"] as const;
+/** The subject committees a body refers bills to (data, `committees.json`). */
+export { COMMITTEES };
+
+/**
+ * How much a committee's subject touches a member: an official's signature
+ * issues, or for a town member, whether it touches their own life (work,
+ * children at home, age; the meetings rule). Members ask for the committees
+ * their interests run to, and the assigning authority weighs it.
+ */
+function interestIn(api: CoreAPI, t: TermRow, committee: string): number {
+  const topics = committeeTopics(committee);
+  const official = officialOf(api, memberKey(t));
+  if (official)
+    return official.signature.some((s) => topics.includes(topicOf(s.question)))
+      ? 1
+      : 0;
+  const person = t.personId ? api.state.people.get(t.personId) : undefined;
+  if (!person) return 0;
+  const touches = concerns(api, person);
+  return topics.some((topic) => touches(`us-policy-positions:${topic}.any`))
+    ? 1
+    : 0;
+}
 
 export interface PostRow {
   readonly id: string;
@@ -106,6 +136,21 @@ export function openLeadership(core: CoreState): void {
   if (!core.modules.has(LEADERSHIP_MODULE_ID))
     registerModule(core, LEADERSHIP_MODULE);
   void coreAPI(core);
+}
+
+/**
+ * The body a seat's chamber really is: a seat in the U.S. House or Senate is
+ * organized with the whole chamber (its speaker, its leaders and whips), not
+ * as a body of the one seat or the home delegation that holds it.
+ */
+function chamberOf(api: CoreAPI, chamber: string): string {
+  if (chamber === FEDERAL_HOUSE || chamber === FEDERAL_SENATE) return chamber;
+  const kind = (
+    api.moduleState(OFFICES_MODULE_ID).table("offices").get(chamber) as
+      { kind: string } | undefined
+  )?.kind;
+  if (kind?.startsWith("us-house")) return FEDERAL_HOUSE;
+  return kind === "us-senate" ? FEDERAL_SENATE : chamber;
 }
 
 /** Which kind of chamber a body is, for its rules of organization. */
@@ -175,9 +220,7 @@ function rating(
   const views = 1 - Math.abs(leanFor(api, voter) - leanFor(api, candidate));
   const tie =
     voter.personId && candidate.personId
-      ? ((api.state as CoreState).relationships.get(
-          [voter.personId, candidate.personId].sort().join(":"),
-        )?.level ?? 0)
+      ? closenessBetween(api.state, voter.personId, candidate.personId)
       : 0;
   const seniority =
     campaignParameter("leadershipSeniorityWeight") *
@@ -286,7 +329,8 @@ function standing(
  * Organize a body if its membership changed since it last did: elect its
  * posts and assign its committees. Returns its posts.
  */
-export function organize(api: CoreAPI, chamber: string): readonly PostRow[] {
+export function organize(api: CoreAPI, body: string): readonly PostRow[] {
+  const chamber = chamberOf(api, body);
   const all = members(api, chamber);
   const signature = all.map(memberKey).sort().join("|");
   const done = table(api, "organized").get(chamber) as
@@ -420,7 +464,10 @@ function organizeNow(
       },
       publicRecord: true,
       news: true,
-      facts: Object.fromEntries(posts.map((p) => [p.post, p.holderId ?? ""])),
+      facts: {
+        level: bodyReach(api, chamber),
+        ...Object.fromEntries(posts.map((p) => [p.post, p.holderId ?? ""])),
+      },
     });
   return posts;
 }
@@ -487,6 +534,7 @@ function assignCommittees(
   const load = new Map<string, number>();
   const cap = Math.ceil((COMMITTEES.length * size) / all.length);
   const appoint = (
+    committee: string,
     authorityId: string | null,
     pool: readonly TermRow[],
     n: number,
@@ -496,7 +544,10 @@ function assignCommittees(
       .filter((t) => (load.get(memberKey(t)) ?? 0) < cap)
       .map((t) => ({
         t,
-        r: authority ? rating(api, authority, t, partisan) : 0,
+        r:
+          (authority ? rating(api, authority, t, partisan) : 0) +
+          campaignParameter("committeeInterestWeight") *
+            interestIn(api, t, committee),
       }))
       .sort(
         (a, b) =>
@@ -514,8 +565,10 @@ function assignCommittees(
   for (const committee of COMMITTEES) {
     const majorityPool = partisan ? majority : all;
     const seated = [
-      ...appoint(who.majority, majorityPool, size - minoritySeats),
-      ...(minoritySeats ? appoint(who.minority, minority, minoritySeats) : []),
+      ...appoint(committee, who.majority, majorityPool, size - minoritySeats),
+      ...(minoritySeats
+        ? appoint(committee, who.minority, minority, minoritySeats)
+        : []),
     ];
     if (!seated.length) continue;
     const eligible = seated.filter((t) => majorityPool.includes(t));
@@ -546,9 +599,10 @@ function assignCommittees(
 /** A body's committee as its leadership seated it (organizing it first if needed). */
 export function committeeRoster(
   api: CoreAPI,
-  chamber: string,
+  body: string,
   committee: string,
 ): { memberIds: readonly string[]; chairId: string } | null {
+  const chamber = chamberOf(api, body);
   organize(api, chamber);
   const row = table(api, "committees").get(
     `${chamber}:${committee}`,
@@ -556,13 +610,34 @@ export function committeeRoster(
   return row ? { memberIds: row.memberIds, chairId: row.chairId } : null;
 }
 
+/**
+ * The record that seated a committee: its id (`chamber:committee`), who
+ * assigned it and the day, for a member told where they sit. Null where the
+ * body has no such committee.
+ */
+export function committeeAssignment(
+  api: CoreAPI,
+  body: string,
+  committee: string,
+): { id: string; assignedBy: string; since: string } | null {
+  const chamber = chamberOf(api, body);
+  organize(api, chamber);
+  const row = table(api, "committees").get(
+    `${chamber}:${committee}`,
+  ) as unknown as CommitteeRow | undefined;
+  return row
+    ? { id: row.id, assignedBy: row.assignedBy, since: row.since }
+    : null;
+}
+
 /** The holder of a post (a speaker, a majority leader, a council president). */
 export function leaderOf(
   api: CoreAPI,
-  chamber: string,
+  body: string,
   post: string,
 ): string | null {
   if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return null;
+  const chamber = chamberOf(api, body);
   organize(api, chamber);
   const row = table(api, "posts").get(`${chamber}:${post}`) as unknown as
     PostRow | undefined;
@@ -588,10 +663,11 @@ export function standForPost(
     readonly personId: string;
   },
 ): void {
+  const chamber = chamberOf(api, input.chamber);
   table(api, "choices").put({
-    id: `stand:${input.chamber}:${input.post}:${input.personId}`,
+    id: `stand:${chamber}:${input.post}:${input.personId}`,
   });
-  table(api, "organized").remove(input.chamber);
+  table(api, "organized").remove(chamber);
 }
 
 /** The player's own vote for a post; without one, the player abstains. */
@@ -604,9 +680,10 @@ export function voteForPost(
     readonly candidateId: string;
   },
 ): void {
+  const chamber = chamberOf(api, input.chamber);
   table(api, "choices").put({
-    id: `vote:${input.chamber}:${input.post}:${input.voterId}`,
+    id: `vote:${chamber}:${input.post}:${input.voterId}`,
     candidateId: input.candidateId,
   });
-  table(api, "organized").remove(input.chamber);
+  table(api, "organized").remove(chamber);
 }

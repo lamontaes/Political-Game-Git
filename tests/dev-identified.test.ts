@@ -1,26 +1,11 @@
-import { afterAll, afterEach, beforeAll, describe, it, expect } from "vitest";
+import { afterEach, describe, it, expect } from "vitest";
 import { spawn, type ChildProcess, type SpawnOptions } from "child_process";
-import { mkdtempSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
 import path from "path";
 import net from "net";
-import { ArtbenchStore } from "../scripts/dev-lab/artbench-store";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const ownedChildren: ChildProcess[] = [];
 const ownedServers: net.Server[] = [];
-const fixtureRoot = mkdtempSync(path.join(tmpdir(), "identified-server-test-"));
-beforeAll(() => {
-  // Prepare a returning user's isolated records once. Legacy asset import has
-  // its own store tests; it is not part of the launcher's lifecycle deadline.
-  new ArtbenchStore({
-    dataRoot: path.join(fixtureRoot, "records"),
-    workspace: REPO_ROOT,
-    driveRoot: null,
-    ownerId: "launcher-fixture",
-  });
-});
-afterAll(() => rmSync(fixtureRoot, { recursive: true, force: true }));
 afterEach(async () => {
   for (const child of ownedChildren.splice(0)) {
     if (child.exitCode !== null || child.signalCode !== null) continue;
@@ -59,10 +44,6 @@ function spawnOwned(
     env: {
       ...process.env,
       ...options.env,
-      // Launcher tests must not read or sync the owner's Art Desk and Drive.
-      PG_ARTBENCH_DATA_ROOT: path.join(fixtureRoot, "records"),
-      PG_ARTBENCH_DRIVE_ROOT: path.join(fixtureRoot, "unmounted-drive"),
-      PG_ARTBENCH_SYNC_MS: "0",
     },
   });
   ownedChildren.push(child);
@@ -178,14 +159,8 @@ describe(
       expect(output).toContain("Host: 127.0.0.1");
       expect(output).toContain(`Requested Port: ${port}`);
       expect(output).toContain("Launcher PID:");
-      const play = `Play: http://127.0.0.1:${port}/\n`;
-      const candidate = `Candidate-art Play (separate saves): http://127.0.0.1:${port}/?art-preview=candidate\n`;
-      const review = `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=review%20%2F%3F%26%20fixture\n`;
+      const play = `Play: http://127.0.0.1:${port}/src/bench/play.html\n`;
       expect(output).toContain(play);
-      expect(output).toContain(candidate);
-      expect(output).toContain(review);
-      expect(output.indexOf(play)).toBeLessThan(output.indexOf(candidate));
-      expect(output.indexOf(candidate)).toBeLessThan(output.indexOf(review));
       // Printed by Vite, not by the launcher, so it can arrive after the bind.
       expect(await waitForOutput(() => output, "test-proof-mode")).toBe(true);
 
@@ -225,9 +200,6 @@ describe(
 
       expect(output).toContain("Host: 127.0.0.1");
       expect(output).toContain(`Requested Port: ${port}`);
-      expect(output).toContain(
-        `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=dev-lab2-review`,
-      );
 
       child.kill("SIGTERM");
       const isClosed = await waitForPort(port, false, 5000);

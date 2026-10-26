@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   currentLifeCutoff,
   householdLocationHistory,

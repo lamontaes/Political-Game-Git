@@ -5,8 +5,8 @@ import {
 } from "./transit-contract-definitions";
 import { canonicalJson } from "./canonical-json";
 import { createOrganization } from "./life";
-import { createStableId, stableHash } from "./ids";
-import { addDays } from "./dates";
+import { createStableId, stableHash } from "../core2/kernel/ids";
+import { addDays } from "../core2/kernel/dates";
 import {
   createWorldMetricDefinition,
   createWorldMetricCatalog,

@@ -1,0 +1,613 @@
+{
+  "id": "municipal-filing-deadlines-2026",
+  "asOf": "2026-10-14",
+  "about": "Each place's municipal filing-deadline rule as data, structured from data/research/elections/filing-requirements.json (ruleText is that file's words). Kinds: days-before-election; weekday-of-month (nth, negative counts from the end; plusDays after it) in the election's year; weekday-before-election (nth such weekday before the election); fixed-date; unread (the estimate stands in: SG-GOV-filing-deadline-estimate); not-applicable. The unread rows and every ESTIMATED row are checked against the statute named when read. A rule with yearsBefore falls that many years before the election's year (Oklahoma's December filing for a February or April election).",
+  "stopgap": "SG-GOV-filing-deadline-estimate",
+  "places": {
+    "US-AK": {
+      "rule": {
+        "kind": "unread",
+        "reason": "Set by each municipal code; no single rule."
+      },
+      "ruleText": "Set by municipal code; commonly about 60-70 days before the regular October municipal election",
+      "citation": "AS 29.26.010 (municipal elections governed by ordinance)",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-AL": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 7,
+        "weekday": 2,
+        "nth": 3
+      },
+      "ruleText": "5 p.m. on the third Tuesday in July before the August municipal election (quadrennial; next 2029)",
+      "citation": "Ala. Code 11-46-25",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-AR": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 90
+      },
+      "ruleText": "Noon on the 90th day before the November general (one-week filing period; 2026: July 29-August 5 in Pulaski County)",
+      "citation": "https://pulaskiclerkar.gov/press-release/july-22-2026-pulaski-municipal-filing-week-july-29th-august-5th/",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-AZ": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 120
+      },
+      "ruleText": "A city or town candidate files nomination papers with the clerk between 150 and 120 days before the election, by 5 p.m. on the last day",
+      "citation": "A.R.S. 16-311(B) and (F), read from azleg.gov Oct 19, 2026",
+      "tag": "SOURCED"
+    },
+    "US-CA": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 88
+      },
+      "ruleText": "88th day before the election (extended to the 83rd day if an incumbent does not file)",
+      "citation": "Cal. Elec. Code 10220, 10224, 10225, 10228",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-CO": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 71
+      },
+      "ruleText": "71 days before the municipal election (C.R.S. 31-10-302)",
+      "citation": "C.R.S. 31-10-302",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-CT": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 90
+      },
+      "ruleText": "Each page of a nominating petition for a candidate at a regular municipal election goes to the town clerk by 4 p.m. on the ninetieth day before the election (2025: August 6 for November 4); a party-endorsed candidate files earlier, by the party's own timetable",
+      "citation": "Conn. Gen. Stat. 9-453i; Secretary of the State, 2021 and 2025 election calendars",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "A mirror of 9-453i and the Secretary of the State's calendar (August 6, 2025); the official statute text was not retrieved. The date is the petition deadline, the latest a candidate can file."
+    },
+    "US-DE": {
+      "rule": {
+        "kind": "unread",
+        "reason": "Set by each charter."
+      },
+      "ruleText": "Set by charter; commonly 30-60 days before the municipal election",
+      "citation": "15 Del. C. ch. 75 (municipal elections governed by charter)",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-FL": {
+      "rule": {
+        "kind": "unread",
+        "reason": "Set by each charter or ordinance."
+      },
+      "ruleText": "Set by charter or ordinance; commonly a one-week qualifying period ending 60-90 days before the election",
+      "citation": "Fla. Stat. 99.093, 100.3605",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-GA": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 8,
+        "weekday": 1,
+        "nth": 3,
+        "plusDays": 4
+      },
+      "ruleText": "A nonpartisan municipal qualifying period opens no earlier than 8:30 a.m. on the third Monday in August before the November general election and closes no later than 4:30 p.m. the following Friday; each municipal superintendent sets three to five consecutive days inside it",
+      "citation": "O.C.G.A. 21-2-132(c)(3) (2024 Code)",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The 2024 Code of Georgia, 21-2-132, read from a search excerpt of the statute text; the deadline is the latest the statute allows (the Friday that closes the window), not each municipality's chosen days."
+    },
+    "US-HI": {
+      "rule": {
+        "kind": "not-applicable",
+        "reason": "The place has no municipal level in the filing-requirements record."
+      },
+      "ruleText": null,
+      "citation": "",
+      "tag": "SOURCED"
+    },
+    "US-IA": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 68
+      },
+      "ruleText": "City elections in November of odd years; nomination papers due 5 p.m. 68 days before the election (estimate)",
+      "citation": "Iowa Code 45.1, 45.4, 376.4",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-ID": {
+      "rule": {
+        "kind": "weekday-before-election",
+        "weekday": 5,
+        "nth": 9
+      },
+      "ruleText": "5 p.m. on the 9th Friday (estimate) before the November odd-year city election (estimate: about early September)",
+      "citation": "Idaho Code 34-1404, 50-406",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-IL": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 106
+      },
+      "ruleText": "Consolidated election (April, odd years): nominating papers filed 113th-106th day before the election",
+      "citation": "10 ILCS 5/10-6, 10-3.1",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-IN": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 5,
+        "weekday": 1,
+        "nth": 1,
+        "plusDays": -87
+      },
+      "ruleText": "A declaration of candidacy for a city office nominated at the municipal primary is filed by noon 88 days before the primary, held on the first Tuesday after the first Monday in May (2023: February 3 for the May 2 primary); a town that nominates by convention files by noon on August 1, which is later",
+      "citation": "Ind. Code 3-8-2-4, 3-8-5-10.5, 3-10-6",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Search excerpts of IC 3-8-2-4 (88 days before the primary) and 3-8-5-10.5; the official text was not retrieved. The date counts from a city primary, so a convention town files later."
+    },
+    "US-KS": {
+      "rule": {
+        "kind": "fixed-date",
+        "month": 6,
+        "day": 1
+      },
+      "ruleText": "Noon June 1 of the odd year for the November city election",
+      "citation": "K.S.A. 25-205, 25-2110",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-KY": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 8,
+        "weekday": 2,
+        "nth": 2
+      },
+      "ruleText": "A city that has no nonpartisan primary takes nomination papers at the county clerk's office until the second Tuesday in August before the November election; a city that holds a primary files earlier",
+      "citation": "KRS 83A.045(2)",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "City codes (Corydon, Walton) and bill texts that quote KRS 83A.045(2), read from search excerpts; the current codified text was not retrieved. Cities that keep a primary file earlier, so this is the latest deadline."
+    },
+    "US-LA": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 84
+      },
+      "ruleText": "Three-day qualifying period about 12 weeks before the municipal election",
+      "citation": "La. R.S. 18:463, 18:464, 18:466",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-MA": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 35
+      },
+      "ruleText": "Papers to registrars about 49 days before the election; filed with the clerk 35 days before (town elections, M.G.L. c. 53 sec. 10)",
+      "citation": "M.G.L. c. 53 sec. 6, 7, 10",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-MD": {
+      "rule": {
+        "kind": "unread",
+        "reason": "Set by each municipal charter."
+      },
+      "ruleText": "Set by municipal charter; filed with the city clerk or board of supervisors of elections",
+      "citation": "Md. Local Gov't Art. 4-104 and municipal charters",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-ME": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 45
+      },
+      "ruleText": "Nomination papers due at least 45 days before the election (estimate; set by 30-A M.R.S. 2528 and local ordinance)",
+      "citation": "30-A M.R.S. 2528",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-MI": {
+      "rule": {
+        "kind": "weekday-before-election",
+        "weekday": 2,
+        "nth": 15
+      },
+      "ruleText": "Where a city charter nominates by caucus or by a petition or affidavit filed directly for the general election, the deadline is 4 p.m. on the fifteenth Tuesday before the odd-year general election; where the charter elects at the primary on a majority, it is the fifteenth Tuesday before the primary, which is earlier",
+      "citation": "MCL 168.644e",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "MCL 168.644e read from legislature.mi.gov for the charter cities that nominate by caucus or by a petition filed for the general election (the fifteenth Tuesday before it). A charter that elects at the primary on a majority files earlier, the fifteenth Tuesday before the primary, so this is the latest deadline, not every city's; which cities elect at the primary is not in the data."
+    },
+    "US-MN": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 56
+      },
+      "ruleText": "Cities without a primary: filing period 70 to 56 days before the November election (Minn. Stat. 205.13); with a primary, same as state (84th-70th day before the primary)",
+      "citation": "Minn. Stat. 205.13",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-MO": {
+      "rule": {
+        "kind": "weekday-before-election",
+        "weekday": 2,
+        "nth": 15
+      },
+      "ruleText": "April general municipal election: declarations filed from the 16th Tuesday to 5 p.m. on the 15th Tuesday before the election (estimate)",
+      "citation": "RSMo 115.127",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-MS": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 4,
+        "weekday": 2,
+        "nth": 1,
+        "plusDays": -60
+      },
+      "ruleText": "Party primary and independent candidates for municipal office qualify until 5 p.m. 60 days before the municipal primary, held on the first Tuesday in April (2025: January 31 for the April 1 primary)",
+      "citation": "Miss. Code 23-15-309; Mississippi Secretary of State, 2025 Candidate Qualifying Guide",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The Secretary of State's 2025 Candidate Qualifying Guide, which gives January 31, 2025 for the April 1, 2025 municipal primary; the 60-day count and the first-Tuesday primary are read from that one cycle, not from the statute text."
+    },
+    "US-MT": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 75
+      },
+      "ruleText": "Nonpartisan municipal (odd years): 135 to 75 days before the general (filing closes in June)",
+      "citation": "Mont. Code Ann. 13-14-112, 13-10-201",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-NC": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 7,
+        "weekday": 5,
+        "nth": 3
+      },
+      "ruleText": "Odd-year municipal elections: filing from noon the first Friday in July to noon the third Friday in July",
+      "citation": "N.C.G.S. 163-294.2, 163-294.1",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-ND": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 64
+      },
+      "ruleText": "City elections on the June primary date: 4 p.m. 64th day before the election",
+      "citation": "N.D.C.C. 40-21-07",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-NE": {
+      "rule": {
+        "kind": "fixed-date",
+        "month": 8,
+        "day": 1
+      },
+      "ruleText": "Primary cities: February 15 / March 1; villages (no primary): August 1 before the November election",
+      "citation": "Neb. Rev. Stat. 32-606, 32-607, 32-608",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-NH": {
+      "rule": {
+        "kind": "weekday-before-election",
+        "weekday": 5,
+        "nth": 6
+      },
+      "ruleText": "In a town that uses the nonpartisan ballot system, the filing period begins on the seventh Wednesday before the town election and ends on the Friday of the following week, which is the sixth Friday before a Tuesday election",
+      "citation": "RSA 669:19, read from gc.nh.gov Oct 19, 2026",
+      "tag": "SOURCED"
+    },
+    "US-NJ": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 70
+      },
+      "ruleText": "Partisan: municipal clerk 71 days (estimate) before the June primary (repo filing-office.json); nonpartisan May/November elections: 70 days (estimate) before (estimate)",
+      "citation": "N.J.S.A. 19:23-14, 40:45-8",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-NM": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 70
+      },
+      "ruleText": "Regular local election (first Tuesday after the first Monday in November, odd years): declarations filed the 70th day before the election",
+      "citation": "NMSA 1-22-7",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-NV": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 3,
+        "weekday": 1,
+        "nth": 1,
+        "plusDays": 11
+      },
+      "ruleText": "A candidate for city office other than municipal judge files from the first Monday in March of the election year until 5 p.m. on the second Friday after it",
+      "citation": "NRS 293C.145(3)(b), read from leg.state.nv.us Oct 19, 2026",
+      "tag": "SOURCED"
+    },
+    "US-NY": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 4,
+        "weekday": 4,
+        "nth": 1
+      },
+      "ruleText": "A party candidate's designating petition is filed not later than the twelfth Thursday before the primary, held on the fourth Tuesday in June, which is always the first Thursday in April; an independent nominating petition is filed 24 to 23 weeks before the general election; a village that elects in March keeps its own dates (the estimate stands in there)",
+      "citation": "N.Y. Elec. Law 6-158(1), (9) and 8-100(1)(a), https://www.nysenate.gov/legislation/laws/ELN/6-158 and https://www.nysenate.gov/legislation/laws/ELN/8-100, read Oct 23, 2026",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The party candidate's date (first Thursday in April) is read from the statute; the independent nominating petition closes 24 to 23 weeks before the general election (May 19 to 26 in 2026), which this one-date rule does not hold, so an independent's deadline here is about eight weeks early. Kept ESTIMATED until the engine reads a side-specific deadline."
+    },
+    "US-OH": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 90
+      },
+      "ruleText": "Odd-year municipal elections: nominating petitions due 4 p.m. 90 days before the November general (or 90 days before the primary where held)",
+      "citation": "Ohio Rev. Code 3513.251, 3513.254",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-OK": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 12,
+        "weekday": 1,
+        "nth": 1,
+        "plusDays": 2,
+        "yearsBefore": 1
+      },
+      "ruleText": "Candidates for municipal office file from the first Monday through the Wednesday of the first full week in December before a February or April municipal election (the Wednesday closes the period)",
+      "citation": "26 O.S. 13-103, 13-105",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag). The rule falls in the year before the election."
+    },
+    "US-OR": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 70
+      },
+      "ruleText": "70th day before the November general for city offices (ORS 249.037; charters may differ)",
+      "citation": "ORS 249.037, 249.056",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-PA": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 5,
+        "weekday": 2,
+        "nth": 3,
+        "plusDays": -70
+      },
+      "ruleText": "All nomination petitions are filed with the county board of elections on or before the tenth Tuesday before the primary; the municipal primary is the third Tuesday in May (2023: March 7 for the May 16 primary)",
+      "citation": "25 P.S. 2873(d), 2913; Pennsylvania Department of State 2023 Municipal Election Calendar",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "A mirror of 25 P.S. 2873, county election offices' statements of the rule, and the Department of State's 2023 municipal calendar (March 7, 2023); the official code text was not retrieved."
+    },
+    "US-RI": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 6,
+        "weekday": 3,
+        "nth": -1
+      },
+      "ruleText": "A voter who wants to be a candidate for a local office at the primary files a declaration of candidacy with the local board during the last consecutive Monday, Tuesday and Wednesday in June in the even years; the Wednesday closes the period (2024: June 26; 2026: June 24)",
+      "citation": "R.I. Gen. Laws 17-14-1, read from webserver.rilegislature.gov Oct 19, 2026",
+      "tag": "SOURCED"
+    },
+    "US-SC": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 75
+      },
+      "ruleText": "Set by ordinance; statement of candidacy filed no later than noon on the 75th (estimate) day before the election (estimate)",
+      "citation": "S.C. Code 5-15-70, 5-15-110",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-SD": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 2,
+        "weekday": 5,
+        "nth": -1
+      },
+      "ruleText": "Annual municipal election (April-June): petitions filed between January 30 and 5 p.m. on the last Friday in February (estimate)",
+      "citation": "SDCL 9-13-7, 9-13-8",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-TN": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 8,
+        "weekday": 4,
+        "nth": 3
+      },
+      "ruleText": "Noon on the third Thursday in August for November municipal elections (or per charter) (estimate)",
+      "citation": "Tenn. Code 2-5-101(a)(2)",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-TX": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 78
+      },
+      "ruleText": "5 p.m. 78th day before the election (Tex. Elec. Code 143.007)",
+      "citation": "Tex. Elec. Code 143.005, 143.007, 141.001, 141.031",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-UT": {
+      "rule": {
+        "kind": "fixed-date",
+        "month": 6,
+        "day": 7
+      },
+      "ruleText": "Declaration filed in person June 1-7 of odd-numbered years",
+      "citation": "Utah Code 20A-9-203",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-VA": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 6,
+        "weekday": 2,
+        "nth": 3
+      },
+      "ruleText": "November elections: 7 p.m. third Tuesday in June (independents and nonpartisan)",
+      "citation": "Va. Code 24.2-506, 24.2-507",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-VT": {
+      "rule": {
+        "kind": "weekday-before-election",
+        "weekday": 1,
+        "nth": 6
+      },
+      "ruleText": "Australian-ballot towns: petitions filed by 5 p.m. on the 6th Monday before town meeting day (March)",
+      "citation": "17 V.S.A. 2681",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-WA": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 5,
+        "weekday": 1,
+        "nth": 1,
+        "plusDays": 4
+      },
+      "ruleText": "Odd-year local elections: filing week first Monday in May to the following Friday",
+      "citation": "RCW 29A.24.050, 29A.24.091",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-WI": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 1,
+        "weekday": 2,
+        "nth": 1
+      },
+      "ruleText": "5 p.m. first Tuesday in January for the April spring election",
+      "citation": "Wis. Stat. 8.10",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+    },
+    "US-WV": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 1,
+        "weekday": 6,
+        "nth": -1
+      },
+      "ruleText": "A candidate files a certificate of announcement with the municipal recorder or city clerk not earlier than the second Monday in January and not later than the last Saturday in January before the primary election day",
+      "citation": "W. Va. Code 3-5-7(b)(3) and (c), read from code.wvlegislature.gov Oct 19, 2026",
+      "tag": "SOURCED"
+    },
+    "US-WY": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 8,
+        "weekday": 1,
+        "nth": 3,
+        "plusDays": -80
+      },
+      "ruleText": "A candidate for municipal office files an application and fee with the municipal clerk not more than 96 days and not later than 81 days before the municipal primary, which is held with the statewide primary on the first Tuesday after the third Monday in August of even-numbered years",
+      "citation": "W.S. 22-23-302 and 22-2-104(b), read from the Wyoming Statutes Title 22 at wyoleg.gov Oct 19, 2026",
+      "tag": "SOURCED"
+    },
+    "US-DC": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 90
+      },
+      "ruleText": "90 days before the election",
+      "citation": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Washington,_D.C.",
+      "tag": "SOURCED"
+    },
+    "US-PR": {
+      "rule": {
+        "kind": "fixed-date",
+        "month": 12,
+        "day": 30,
+        "yearsBefore": 1
+      },
+      "ruleText": "The Commission and the parties take candidacies from December 1 until noon on December 30 of the year before the general election, for every elective office",
+      "citation": "P.R. Electoral Code (Act 58-2020) art. 7.14(1), 16 L.P.R.A. 4624, read from the State Elections Commission's text, https://ww2.ceepur.org/sites/ComisionEE/es-pr/Presidencia/DocumentosPresidencia/Ley%2058-2020%20-%20C%C3%B3digo%20Electoral.pdf, Oct 23, 2026",
+      "tag": "SOURCED"
+    },
+    "US-GU": {
+      "rule": {
+        "kind": "weekday-of-month",
+        "month": 8,
+        "weekday": 6,
+        "nth": 1,
+        "plusDays": -90
+      },
+      "ruleText": "Nomination papers are filed with the Election Commission at least 90 days but not earlier than 160 days before the primary, held on the first Saturday of August in every even-numbered year",
+      "citation": "3 GCA 15201, 15206, read from the Compiler of Laws, https://col.guamcourts.gov/sites/default/files/3gc015.pdf, Oct 23, 2026",
+      "tag": "SOURCED"
+    },
+    "US-VI": {
+      "rule": {
+        "kind": "not-applicable",
+        "reason": "The place has no municipal level in the filing-requirements record."
+      },
+      "ruleText": null,
+      "citation": "",
+      "tag": "SOURCED"
+    },
+    "US-AS": {
+      "rule": {
+        "kind": "not-applicable",
+        "reason": "The place has no municipal level in the filing-requirements record."
+      },
+      "ruleText": null,
+      "citation": "",
+      "tag": "SOURCED"
+    },
+    "US-MP": {
+      "rule": {
+        "kind": "days-before-election",
+        "days": 90
+      },
+      "ruleText": "4:30 p.m. 90 days before the election",
+      "citation": "https://www.votecnmi.gov.mp/downloads/2026/2026_GE_Candidates_Pamphlet-updated.pdf",
+      "tag": "SOURCED"
+    }
+  }
+}

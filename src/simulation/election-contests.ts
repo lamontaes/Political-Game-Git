@@ -1,12 +1,12 @@
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { isEligibleVoterIn } from "./issue-record";
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   cancelFutureDueItem,
   scheduleFutureDueItem,
 } from "./future-transitions";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { personName } from "./people";
 import type {
   CandidateTally,
@@ -32,7 +32,7 @@ import { recordsWithFieldValue } from "./history-index";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { activeLegislativeTermEvidence } from "./legislative-office-terms";
 import { localSeatHolder } from "./living-world/local-elections";
-import { governmentUnitJurisdictionId } from "./government-units";
+import { governmentUnitJurisdictionId } from "../core2/reference/government-units";
 import { sittingCountyRowOfficers } from "./living-world/local-government-seats";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { recordWorldEvent } from "./world";

@@ -1,8 +1,9 @@
 /**
  * Turns the mined speech bank (`data/english/parts/address.json`) into move
  * banks for the English engine's `composeAddress`, so a speech, a turn at a
- * council microphone or a floor statement is composed from sentences said in
- * public-domain federal records. Each register's moves follow its register
+ * council microphone or a floor statement is composed from pieces mined from
+ * public-domain federal records or authored to the calibrated patterns (text
+ * rule, Oct 15). Each register's moves follow its register
  * card (docs/research/speech-and-dialogue-corpus-2026-09-28.md).
  *
  * A sentence that opens "Mr." or "Madam" addresses a chair: it is said only
@@ -11,7 +12,7 @@
  * OPUS-WORDS owns this file until GOV or PEOPLE folds it into the engine.
  */
 import bankJson from "../../data/english/parts/address.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import {
   composeAddress,
   composeGroundedLine,
@@ -19,12 +20,12 @@ import {
   type ComposedLineBank,
   type LinePartVariant,
   type SpeechAct,
-} from "../../src/presentation/english-composition";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
+} from "../../src/english/english-composition";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import {
   REGISTER_CARDS,
   type SpeechRegister,
-} from "../../src/presentation/speech-registers";
+} from "../../src/english/speech-registers";
 
 interface MinedPart {
   key: string;

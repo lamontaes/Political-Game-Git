@@ -18,8 +18,14 @@ export interface MacroMonth {
   primeRatePct: number;
   treasury10Pct: number;
   mortgage30Pct: number;
-  /** The town's own paid-income growth that entered this month, annual percent; absent for history. */
+  /** The town's own paid-income growth that entered this month, annual percent; absent when no comparable paid-income history exists. */
   townIncomeGrowthPct?: number;
+  /** The nation's payroll-income growth the town was assumed to share, annual percent. */
+  townGrowthEstimatePct?: number;
+  /** The weight on the town's own paid-income growth in what the national step heard: 0 with no comparable months, 1 at twelve. */
+  townGrowthOwnWeight?: number;
+  /** The town's own paid-income growth over its comparable months, annual percent; absent until it has any. */
+  townGrowthOwnPct?: number;
 }
 
 interface HistoryRow {
@@ -80,7 +86,7 @@ function mortgageAt(
 ): number {
   const published = rows.get(month)?.mortgage30Pct;
   if (published !== undefined) return published;
-  // Past the published survey (Freddie Mac PMMS through its latest month): the 10-year plus its measured spread.
+  // Past FHFA's published rate (its MIRS Transition Index, two months behind its release): the 10-year plus its measured spread.
   return (
     field(rows, month, "treasury10Pct", p) +
     p("macroMortgageSpreadOverTreasuryPct")
@@ -160,7 +166,7 @@ export function historyMonths(
 export function stepMacroMonth(
   previous: Readonly<MacroMonth>,
   policyRatePct: number,
-  townIncomeGrowthPct: number,
+  townIncomeGrowthPct: number | undefined,
   townResidents: number,
   p: MacroParameter,
 ): MacroMonth {
@@ -170,16 +176,21 @@ export function stepMacroMonth(
   const month = shiftMonth(previous.month, one, p);
   const realRate = previous.policyRatePct - previous.inflationPct;
   // One town is its share of the nation: its own income growth over the trend.
+  // Public budgets reach the national step only here, as the wages, benefits
+  // and business receipts actually paid in town (no implicit
+  // multiplier; the federal-dollar report checks the response against
+  // macroFederalOutlayResponseBand).
   const town =
-    townResidents *
-    p("macroTownWeightPerPerson") *
-    (townIncomeGrowthPct -
-      p("macroTrendGrowthPct") -
-      p("macroInflationAnchorPct"));
+    townIncomeGrowthPct === undefined
+      ? p("zero")
+      : townResidents *
+        p("macroTownWeightPerPerson") *
+        (townIncomeGrowthPct -
+          p("macroTrendGrowthPct") -
+          p("macroInflationAnchorPct"));
   const outputGapPct =
     p("macroOutputGapPersistence") * previous.outputGapPct -
     p("macroRealRateEffectOnGap") * (realRate - p("macroNeutralRealRatePct")) +
-    p("macroPublicBudgetImpulse") / months +
     town / months;
   const unemploymentPct =
     p("macroNaturalUnemploymentPct") -
@@ -228,7 +239,7 @@ export function stepMacroMonth(
       p("macroMortgageIntercept") +
       p("macroMortgagePersistence") * previous.mortgage30Pct +
       p("macroMortgagePerPolicy") * policyRatePct,
-    townIncomeGrowthPct,
+    ...(townIncomeGrowthPct === undefined ? {} : { townIncomeGrowthPct }),
   };
 }
 

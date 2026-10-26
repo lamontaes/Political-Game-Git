@@ -6,7 +6,7 @@ import { lifePlaces, stateJurisdictionForKey } from "../../../life-places";
 import { stateKeyForJurisdiction } from "../../../state-jurisdiction-id";
 import { lawInForce } from "../../../governing/law-in-force";
 import { readFinalEnactedLawCategories } from "../../../governing/final-law-term-query";
-import { createStableId } from "../../../ids";
+import { createStableId } from "../../../../core2/kernel/ids";
 import { lawEffectStamp } from "../../../law-effect-stamp";
 import type {
   AnyLawConsequenceKindRegistration,

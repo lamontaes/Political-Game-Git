@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { eventById } from "../event-index";
 import {
   scheduleFutureDueItem,

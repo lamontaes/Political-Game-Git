@@ -86,7 +86,7 @@ import {
   makeSimulationMoment,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
 import { assertTownFinanceIntegrity } from "./living-world/town-finances";
@@ -153,7 +153,7 @@ import {
   eventsInvolving,
 } from "./history";
 import type { HistoricalEventInput } from "./history";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   assertLifeHistoryIntegrity,
   lifeEntityAvailableAt,
@@ -165,7 +165,7 @@ import {
   assertMindCatalogIntegrity,
   cloneMindCatalog,
   createSyntheticMindCatalog,
-} from "./mind-catalog";
+} from "../core2/mind-catalog";
 import { validateMindHistoryIntegrity } from "./mind-integrity";
 import { materializePersonRecord, personName } from "./people";
 import {
@@ -188,7 +188,7 @@ import {
   policySemanticsEntityAvailableAt,
   policySemanticsEntityExists,
 } from "./policy-semantics";
-import { normalizeSeed } from "./rng";
+import { normalizeSeed } from "../core2/kernel/rng";
 import {
   assertResourceHousingIntegrity,
   resourceHousingEntityAvailableAt,

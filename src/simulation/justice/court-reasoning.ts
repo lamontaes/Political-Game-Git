@@ -1,5 +1,5 @@
 import { livesInJuryCatchment } from "./jury-catchment";
-import { ageOnDate } from "../dates";
+import { ageOnDate } from "../../core2/kernel/dates";
 import { evaluateDecision } from "../decisions";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { officesHeldBy } from "../governing/office-consequence";
@@ -17,7 +17,7 @@ import {
 } from "../life-queries";
 import { ensurePeopleTraits } from "../people-traits";
 import { deriveRelationshipSummary } from "../queries";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { registeredTraitConsiderations } from "../trait-readings";
 import { traitRegistryFor } from "../trait-registry";
 import type {

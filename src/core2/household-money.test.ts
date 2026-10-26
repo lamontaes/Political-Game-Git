@@ -1,4 +1,8 @@
-/** When money runs out, the record says what happened (sim stories, Oct 12, item 20). */
+/**
+ * A household's money is pay in, rent or mortgage out, and one everyday-living
+ * amount (owner, Oct 13): the home is paid first, everyday living from what is
+ * left, and the month records what went unpaid.
+ */
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
 import { CREDIT_MODULE } from "./modules/credit";
@@ -37,12 +41,11 @@ const person = (
 });
 
 function input(): CoreInput {
-  // A father with nothing left and a son with $500 share one household's $800 grocery bill;
-  // the grandmother lives on her own with savings.
+  // A father with nothing left and a son with $1,000 share a $600 lease and
+  // $800 a month of everyday living.
   const people = [
-    person("father", "household:home", 0, ["son", "grandmother"]),
-    person("son", "household:home", 50_000, ["father", "grandmother"]),
-    person("grandmother", "household:gran", 10_000_000, ["father", "son"]),
+    person("father", "household:home", 0, ["son"]),
+    person("son", "household:home", 100_000, ["father"]),
   ];
   return withCentralBank({
     seed: "household-money",
@@ -55,12 +58,6 @@ function input(): CoreInput {
         memberIds: ["father", "son"],
         source: src,
       },
-      {
-        id: "household:gran",
-        placeId: place,
-        memberIds: ["grandmother"],
-        source: src,
-      },
     ],
     jobs: [],
     organizations: [
@@ -68,6 +65,14 @@ function input(): CoreInput {
         id: "organization:grocer",
         placeId: place,
         name: "Grocer",
+        kind: "employer",
+        liquidMinor: 0,
+        source: src,
+      },
+      {
+        id: "organization:landlord",
+        placeId: place,
+        name: "Landlord",
         kind: "employer",
         liquidMinor: 0,
         source: src,
@@ -82,9 +87,22 @@ function input(): CoreInput {
           payeeId: "organization:grocer",
           kind: "household.food",
           amountMinor: 80_000,
-          dueAt: "2026-10-15",
+          dueAt: "2026-10-05",
           periodMonths: 1,
           accruesArrears: false,
+          salesReceipt: true,
+          source: src,
+        },
+        {
+          id: "lease:household:home",
+          householdId: "household:home",
+          payerIds: ["father", "son"],
+          payeeId: "organization:landlord",
+          kind: "household-purchase",
+          amountMinor: 60_000,
+          dueAt: "2026-10-15",
+          periodMonths: 1,
+          accruesArrears: true,
           source: src,
         },
       ],
@@ -103,7 +121,7 @@ const money = (core: CoreState) =>
   [...core.organizations.values()].reduce((n, row) => n + row.liquidMinor, 0);
 
 describe("a household that runs short", () => {
-  it("records who paid its bills, what went unpaid, and the help its relatives gave", () => {
+  it("pays its home first, buys what it can of everyday living, and records the rest", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
         modules: [MACRO_MODULE, CREDIT_MODULE],
@@ -111,33 +129,34 @@ describe("a household that runs short", () => {
       }),
       api = coreAPI(core),
       total = money(core);
-    // The grandmother and her son are close: they talk most weeks.
-    const tie = core.relationships.get("father:grandmother")!;
-    core.relationships.set(tie.id, {
-      ...tie,
-      level: 0.6,
-      lastContactDate: "2026-10-28",
+    // Purchases are one everyday-living plan, not a bill per store.
+    expect(core.finance.contracts.has("groceries:household:home")).toBe(false);
+    expect(core.finance.livingPlans.get("household:home")).toMatchObject({
+      monthlyMinor: 80_000,
     });
     advanceCore(core, "2026-11-01");
     const month = api
       .moduleState("credit")
       .table("households")
       .get("household-month:household:home:2026-11-01")!;
-    // The household pools its cash: the son's $500 paid the bill as far as it went.
+    // $600 kept back for the lease left $400 of the $800 for everyday living.
     expect(month).toMatchObject({
-      billsMinor: 80_000,
-      paidMinor: 50_000,
-      unpaidMinor: 30_000,
-      paidByMemberMinor: { son: 50_000 },
-      memberCashMinor: { father: 0, son: 0 },
+      housingMinor: 60_000,
+      everydayMinor: 80_000,
+      billsMinor: 140_000,
+      paidMinor: 100_000,
+      unpaidMinor: 40_000,
     });
-    // The grandmother covered the shortfall from her savings.
-    expect(month.helpFromIds).toEqual(["grandmother"]);
-    expect(Number(month.helpMinor)).toBeGreaterThan(0);
-    expect(core.people.get("father")!.liquidMinor).toBe(month.helpMinor);
-    expect(core.people.get("grandmother")!.liquidMinor).toBe(
-      10_000_000 - Number(month.helpMinor),
+    expect(core.organizations.get("organization:grocer")!.liquidMinor).toBe(
+      40_000,
     );
+    expect(core.organizations.get("organization:landlord")!.liquidMinor).toBe(
+      60_000,
+    );
+    // Unbought everyday living is never a debt; the lease is paid in full.
+    expect(
+      core.finance.contracts.get("lease:household:home")!.arrearsMinor,
+    ).toBe(0);
     expect(money(core)).toBe(total);
   });
 });

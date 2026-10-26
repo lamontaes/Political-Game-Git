@@ -5,9 +5,11 @@
  * engines' own records. Screens and the outcome web (M3-04) read these rows;
  * nothing here moves money or decides anything.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "./residents";
+import { povertyByPlace } from "../world-poverty";
+import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
 
@@ -39,6 +41,9 @@ export function townMetrics(api: CoreAPI) {
       foundedThisMonth: number;
       price: number[];
       rents: number[];
+      /** Each household's yearly earnings, by household. */
+      earnings: Map<string, number>;
+      evictionOrders: number;
     }
   >();
   const at = (placeId: string) => {
@@ -55,17 +60,36 @@ export function townMetrics(api: CoreAPI) {
           foundedThisMonth: 0,
           price: [],
           rents: [],
+          earnings: new Map(),
+          evictionOrders: 0,
         }),
       );
     return row;
   };
   const placeOf = (organizationId: string) =>
     c.organizations.get(organizationId)?.placeId;
+  const daysPerYear = api.parameter("jobsDaysPerYear");
+  // A household's yearly earnings count where it lives.
+  const earn = (
+    placeId: string | undefined,
+    householdId: string | undefined,
+    dailyMinor: number,
+  ) => {
+    if (!placeId || !householdId || dailyMinor <= 0) return;
+    const row = at(placeId).earnings;
+    row.set(
+      householdId,
+      (row.get(householdId) ?? 0) + dailyMinor * daysPerYear,
+    );
+  };
   for (const job of c.jobs.values()) {
     const placeId = placeOf(job.organizationId);
     if (job.endsAt !== undefined || !placeId) continue;
     at(placeId).employed += 1;
     if (job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
+    const person = c.people.get(job.personId);
+    const home = person ? c.households.get(person.householdId) : undefined;
+    earn(home?.placeId, home?.id, job.wageDailyMinor);
   }
   for (const [jobId, flow] of rt?.wageFlowByJob ?? []) {
     const job = rt!.jobs.get(jobId);
@@ -73,6 +97,32 @@ export function townMetrics(api: CoreAPI) {
     if (!job || job.endsAt !== undefined || flow.endedAt || !placeId) continue;
     at(placeId).employed += 1;
     if (job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
+    // The worker's group, read from its columns, not through a person record.
+    const m = rt!.store.countedMember(job.personId);
+    const home =
+      m === undefined
+        ? undefined
+        : rt!.store.households[rt!.store.household[m]!];
+    earn(
+      home && !home.gone ? home.placeId : undefined,
+      home?.id,
+      job.wageDailyMinor,
+    );
+  }
+  // Eviction orders (judgments) in the month before this one, by where the household lives.
+  const lastMonth = addDays(makeIsoDate(`${month}-01`), -1).slice(
+    0,
+    "YYYY-MM".length,
+  );
+  for (const row of rows(api, HOUSING_MODULE_ID, "cases") as unknown as {
+    householdId: string;
+    judgmentAt?: string;
+  }[]) {
+    if (!row.judgmentAt?.startsWith(lastMonth)) continue;
+    const placeId =
+      c.households.get(row.householdId)?.placeId ??
+      rt?.store.liveHousehold(row.householdId)?.placeId;
+    if (placeId) at(placeId).evictionOrders += 1;
   }
   for (const table of ["seekers", "countedSeekers"])
     for (const row of rows(api, "jobs", table) as unknown as {
@@ -112,30 +162,58 @@ export function townMetrics(api: CoreAPI) {
   const loans = rows(api, "credit", "loans") as unknown as {
     open: boolean;
   }[];
+  const poverty = povertyByPlace(c);
+  const housing = c.modules.has(HOUSING_MODULE_ID)
+    ? townFiguresByPlace(api, new Set(places.keys()))
+    : undefined;
   return [...places]
     .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([placeId, row]) => ({
-      placeId,
-      date: c.date,
-      employed: row.employed,
-      unemployed: row.unemployed,
-      unemploymentRate:
-        row.employed + row.unemployed > 0
-          ? row.unemployed / (row.employed + row.unemployed)
-          : 0,
-      medianHourlyMinor: median(row.hourly),
-      businessesOpen: row.open,
-      businessesFoundedThisMonth: row.foundedThisMonth,
-      businessesClosedThisMonth: row.closedThisMonth,
-      priceLevel: row.price.length
-        ? row.price.reduce((n, value) => n + value, 0) / row.price.length
-        : 1,
-      medianRentMinor: median(row.rents),
-      // The town bank and its mortgages serve the town as a whole.
-      mortgagesOwed: mortgages.filter((m) => m.monthsLeft > 0).length,
-      mortgageBalanceMinor: mortgages.reduce((n, m) => n + m.balanceMinor, 0),
-      householdLoansOpen: loans.filter((loan) => loan.open).length,
-    }));
+    .map(([placeId, row]) => {
+      const income = median([...row.earnings.values()]);
+      const homes = housing?.get(placeId);
+      const rent = homes?.rentMinor ?? median(row.rents);
+      return {
+        placeId,
+        date: c.date,
+        employed: row.employed,
+        unemployed: row.unemployed,
+        unemploymentRate:
+          row.employed + row.unemployed > 0
+            ? row.unemployed / (row.employed + row.unemployed)
+            : 0,
+        medianHourlyMinor: median(row.hourly),
+        businessesOpen: row.open,
+        businessesFoundedThisMonth: row.foundedThisMonth,
+        businessesClosedThisMonth: row.closedThisMonth,
+        priceLevel: row.price.length
+          ? row.price.reduce((n, value) => n + value, 0) / row.price.length
+          : 1,
+        medianRentMinor: median(row.rents),
+        // The town bank and its mortgages serve the town as a whole.
+        mortgagesOwed: mortgages.filter((m) => m.monthsLeft > 0).length,
+        mortgageBalanceMinor: mortgages.reduce((n, m) => n + m.balanceMinor, 0),
+        householdLoansOpen: loans.filter((loan) => loan.open).length,
+        // Households with earners: the middle household's yearly earnings.
+        medianHouseholdEarningsMinor: income,
+        medianHomeValueMinor: homes?.homeValueMinor ?? 0,
+        // A year of the typical rent against the typical household's earnings.
+        rentToEarnings:
+          income > 0
+            ? (rent * api.parameter("macroMonthsPerYear")) / income
+            : 0,
+        evictionOrdersLastMonth: row.evictionOrders,
+        // People (named plus counted, by weight) in households whose yearly
+        // income is under the Census line for their size, over all people.
+        // A place with no recorded jobs has no incomes to read, so it keeps
+        // no share (the web then falls back to its estimate).
+        ...(row.employed > 0 && poverty.get(placeId)
+          ? {
+              povertyShare:
+                poverty.get(placeId)!.poor / poverty.get(placeId)!.people,
+            }
+          : {}),
+      };
+    });
 }
 
 function schedule(api: CoreAPI): void {

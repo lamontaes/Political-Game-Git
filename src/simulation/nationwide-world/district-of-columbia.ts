@@ -1,5 +1,5 @@
-import { governmentUnitsForState } from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+import { governmentUnitsForState } from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { lifePlaceByKey } from "../life-places";
 import type { EntityId, Jurisdiction } from "../types";
 

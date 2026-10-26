@@ -1,0 +1,107 @@
+{
+  "about": "The state officeholder's day (OFFICE-STATE): how a session week, the interim and the governor's year are laid out where a place's own data says nothing more exact. Each place's session windows come from data/research/laws/state-session-calendars.json; per diem from state-legislator-per-diem.json; the line-item veto from state-line-item-veto.json.",
+  "parameters": {
+    "committeeMeetsBeforeFloor": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Standing committees meet on floor days, before or after the floor sits (NCSL, 'Committee Meeting Schedules'). 1 means a committee member's floor day holds a committee meeting.",
+      "spread": [0, 1]
+    },
+    "caucusWeekday": {
+      "value": 2,
+      "tag": "ESTIMATED",
+      "source": "Party caucuses meet at the start of the legislative week, before the first floor session (NCSL, 'Legislative Caucuses'). Monday is 1.",
+      "spread": [1, 3]
+    },
+    "stateOfTheStateDaysAfterConvening": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Governors give the State of the State at or within days of the regular session's opening (NGA, 'State of the State addresses', 2024 and 2025 dates).",
+      "spread": [0, 21]
+    },
+    "budgetProposalDaysAfterConvening": {
+      "value": 10,
+      "tag": "ESTIMATED",
+      "source": "Governors submit the executive budget to the legislature at or shortly after the session's opening; statutory deadlines run from before convening to about a month in (NASBO, 'Budget Processes in the States', 2021, table 2).",
+      "spread": [-45, 45]
+    },
+    "leadersWeekday": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "The weekday a governor meets the legislature's leaders during session; real governors' schedules vary. Monday is 1.",
+      "spread": [1, 5]
+    },
+    "attendanceDuty": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much a member's sense of the job pulls toward showing up for a session, a committee or a caucus, beside their traits' lean (a -1 to 1 term). Real attendance on recorded votes runs well above 90 percent (GovTrack missed-vote rates; state roll-call records), so duty outweighs most temperaments.",
+      "spread": [0.3, 1]
+    },
+    "officeHoursDuty": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How much a member's sense of the job pulls toward holding district office hours on a district day, beside their traits' lean. District offices are open most weekdays, but a member is there in person less than on the floor.",
+      "spread": [-0.2, 0.6]
+    },
+    "meetingHours": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "Hours a member spends with the other members at a caucus or a committee meeting, the time together their tie gains.",
+      "spread": [1, 4]
+    },
+    "stateOfTheStateTopics": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many policy questions a State of the State takes up as calls to act; real addresses name a handful of priorities (NGA summaries of 2024 and 2025 addresses).",
+      "spread": [2, 6]
+    },
+    "holdMinute": {
+      "value": 540,
+      "tag": "TUNABLE",
+      "source": "Morning office-day stop; same 9 a.m. day boundary as the shared daytime meeting.",
+      "spread": [480, 600]
+    },
+    "leaderRequestPartyWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a floor leader's party loyalty weighs in answering a member's request to schedule a hearing: a member of the leader's own party gets it, one of the other side loses it. Larger than the tie and trait terms, so a request from the other side is refused unless a deep tie and the leader's traits outweigh it.",
+      "spread": [0.5, 1.5]
+    },
+    "leaderRequestFavorWeight": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How much a favor the member owes the leader (accepted when offered) adds to the leader's answer to a refused request for the floor. Floor leaders trade scheduling for support and favors (Cox and McCubbins, Setting the Agenda, 2005), but no study sizes the trade; set a little under the tie term's range so a favor can turn a close refusal and cannot undo a party's opposition alone.",
+      "spread": [0.2, 0.7]
+    },
+    "leaderRequestBackingWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much a promise to back the leader's own item (accepted when offered) adds to the leader's answer to a refused request: a promised vote is worth more to a leader than a favor owed. Same source and limit as the favor weight.",
+      "spread": [0.3, 1]
+    },
+    "leaderRequestTieWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much the leader's closeness to the member (their tie today, 0 to 1) adds to granting the request.",
+      "spread": [0.2, 0.8]
+    },
+    "clemencyReviewWeekday": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "The weekday a governor takes up one clemency case (Thursday is 4): a governor works through petitions on a regular day each week rather than daily; no dataset in the repository measures it.",
+      "spread": [1, 5]
+    },
+    "clemencyReviewMonths": {
+      "value": 12,
+      "tag": "TUNABLE",
+      "source": "Months before a denied petition is reviewed again: pardon and commutation boards and governors commonly bar a repeat application for a year after a denial (Collateral Consequences Resource Center, state pardon profiles).",
+      "spread": [6, 36]
+    },
+    "clemencyBar": {
+      "value": 0.75,
+      "tag": "TUNABLE",
+      "source": "The share of a term a person has served that, with a neutral temperament, tips a governor to grant clemency: commutations go overwhelmingly to people far into long terms. A trait lean moves it either way; no dataset in the repository measures it.",
+      "spread": [0.5, 0.95]
+    }
+  }
+}

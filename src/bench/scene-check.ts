@@ -1,14 +1,15 @@
 /* global process, console */
 // Every scene reached in a random place shows real art: a backdrop file
-// from the library and a composed figure for each person drawn.
+// from the library and an approved whole figure for each person drawn.
 // Usage: node --import tsx src/bench/scene-check.ts [seed]
-import { existsSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
-import { backdropPath, benchScene, figurePng } from "./scene";
+import { gameStartDate } from "../core2/game-start";
+import { backdropPath, benchScene } from "./scene";
 
 const seed = process.argv[2] ?? process.env.GOLDEN_PATH_SEED ?? "scene-check";
-const w = buildBenchWorld(seed, "2026-10-12", {
+const w = buildBenchWorld(seed, gameStartDate(), {
   ...(process.env.GOLDEN_PATH_PLACE_KEY
     ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
     : {}),
@@ -28,8 +29,11 @@ function look(personId: string) {
   if (!existsSync(backdropPath(scene.backdrop.file)))
     throw new Error(`Missing backdrop ${scene.backdrop.file}`);
   for (const person of scene.people) {
-    const png = figurePng(w.core, person.personId, scene.place, person.spotId);
-    if (png.length < 1000)
+    // Only the v2 standing figures are drawn.
+    if (!person.figureUrl.startsWith("/art/people-engine/v2/figures/"))
+      throw new Error(`${person.personId} is not a v2 figure`);
+    const file = new URL(`../..${person.figureUrl}`, import.meta.url);
+    if (!existsSync(file) || statSync(file).size < 1000)
       throw new Error(`Blank figure for ${person.personId}`);
     figures++;
   }
@@ -61,5 +65,5 @@ for (const row of picked) {
   look(row.id);
 }
 console.log(
-  `${w.place.displayName} (${w.place.key}), seed ${seed}: ${scenes} scenes, ${figures} figures drawn, ${unplaced} people present without a spot or adult art; places ${[...places].map(([p, n]) => `${p} ${n}`).join(", ")}`,
+  `${w.place.displayName} (${w.place.key}), seed ${seed}: ${scenes} scenes, ${figures} figures drawn, ${unplaced} people present without a spot or a fitting whole figure; places ${[...places].map(([p, n]) => `${p} ${n}`).join(", ")}`,
 );
