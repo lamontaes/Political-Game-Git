@@ -15,6 +15,10 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { withholdingOf } from "./modules/budgets";
 import { coreAPI } from "./state";
+import { setKeepEveryonesWhy } from "./why-kept";
+
+// Reads an official's withholding record for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 

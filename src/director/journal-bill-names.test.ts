@@ -56,8 +56,15 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
   const { core, director } = world;
   const memberId = seat!.holder!.personId!;
   // A member among the wider population is filled in as a full person.
-  fillInPerson(core, memberId);
-  director.watch(core, memberId);
+  // Every member who holds a seat is filled in and watched, so whichever of
+  // them the engine records voting yes or no tells it in their journal.
+  const voters = members(api, seat!.office.id)
+    .map((term) => term.personId)
+    .filter((id): id is string => !!id);
+  for (const id of new Set([memberId, ...voters])) {
+    fillInPerson(core, id);
+    director.watch(core, id);
+  }
   const policy = billCatalog(api, "city")
     .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
     .find((row) => row.kind === "policy-question" && row.authority.allowed)!;
@@ -72,7 +79,9 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
   for (
     let day = 0;
     day < 120 &&
-    !votesOn(api, bill.id).some((row) => row.memberId === memberId);
+    !votesOn(api, bill.id).some(
+      (row) => row.vote === "yes" || row.vote === "no",
+    );
     day += 1
   )
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
@@ -98,22 +107,37 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
   console.log(
     `JOURNAL BILL ${place.name} (${place.key}), seed ${seed}, ${bill.id}: "${introduced!.text}" cites ${introduced!.sourceRecordIds.join(", ")}; vote ${cast?.vote}`,
   );
-  if (cast && (cast.vote === "yes" || cast.vote === "no")) {
-    const voted = lines.find(
-      (line) => line.text.includes(name) && /voted/i.test(line.text),
-    );
-    expect(
-      voted,
-      `${bill.id}: no vote line in ${lines.map((l) => l.text).join(" | ")} (cast ${cast.vote}; ${core.durableLog.get(`office.voted:${bill.id}:${memberId}`) ? "event logged" : "no event"})`,
-    ).toBeDefined();
-    expect(voted!.text).toContain(
-      `${cast.vote === "yes" ? "voted for" : "voted against"} ${said}.`,
-    );
-    expect(voted!.sourceRecordIds).toContain(
-      `office.voted:${bill.id}:${memberId}`,
-    );
-    console.log(
-      `JOURNAL BILL ${place.name}: "${voted!.text}" cites ${voted!.sourceRecordIds.join(", ")}`,
-    );
-  }
+  // The vote as the engine recorded it: a member who voted yes or no, by
+  // their own reasons, is required; their journal tells it by the bill's name.
+  const voter = votesOn(api, bill.id).find(
+    (row) => row.vote === "yes" || row.vote === "no",
+  );
+  expect(
+    voter,
+    `${place.name} (${place.key}) seed ${seed} ${bill.id}: no member voted yes or no (${votesOn(
+      api,
+      bill.id,
+    )
+      .map((row) => `${row.memberId} ${row.vote}`)
+      .join(", ")})`,
+  ).toBeDefined();
+  const voterLines = composeJournal(core, director, voter!.memberId).flatMap(
+    (chapter) => chapter.lines,
+  );
+  const voted = voterLines.find(
+    (line) => line.text.includes(name) && /voted/i.test(line.text),
+  );
+  expect(
+    voted,
+    `${bill.id}: no vote line for ${voter!.memberId} in ${voterLines.map((l) => l.text).join(" | ")}`,
+  ).toBeDefined();
+  expect(voted!.text).toContain(
+    `${voter!.vote === "yes" ? "voted for" : "voted against"} ${said}.`,
+  );
+  expect(voted!.sourceRecordIds).toContain(
+    `office.voted:${bill.id}:${voter!.memberId}`,
+  );
+  console.log(
+    `JOURNAL BILL ${place.name}: ${voter!.memberId} "${voted!.text}" cites ${voted!.sourceRecordIds.join(", ")}`,
+  );
 }, 600_000);
