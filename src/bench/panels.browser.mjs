@@ -17,6 +17,7 @@ const shots = process.env.PANEL_SHOTS;
 // Every color stop of the panel's background must be opaque, nothing may blur
 // the scene through it, and its text must read against the lightest stop.
 async function solid(screen, selector) {
+  await page.locator(selector).waitFor({ state: "visible" });
   const found = await page.evaluate((s) => {
     const panel = document.querySelector(s);
     const style = getComputedStyle(panel);
@@ -57,16 +58,13 @@ async function solid(screen, selector) {
   assert.ok(contrast >= 4.5, `${screen}: text contrast ${contrast}`);
 }
 async function sheet(tab) {
-  await page
-    .locator(`[data-tab="${tab}"]`)
-    .first()
-    .evaluate((e) => e.click());
+  await page.locator(`#menu [data-tab="${tab}"]`).click();
   await page.locator("#sheet-body").waitFor();
   await page.waitForTimeout(800);
 }
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
+  await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
   await ready;
   const made = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/newlife",
@@ -92,6 +90,8 @@ try {
   await solid("Person card", "#person");
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
+  await page.locator('#rings [data-tab="calendar"]').click();
+  await page.locator("#menu").waitFor({ state: "visible" });
   await sheet("news");
   await solid("Menu", "#menu");
   await solid("News", "#sheet");
