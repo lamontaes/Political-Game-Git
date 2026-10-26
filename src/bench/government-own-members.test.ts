@@ -109,4 +109,4 @@ it("lists the player's own members first, leaders by post, and every other membe
   process.stdout.write(
     `OWN MEMBERS ${where}: ${own.map((k) => `${k.officeTitle} ${k.name}`).join("; ")}; leaders ${leaders.map((k) => `${k.post} ${k.chamber} ${k.name} (${k.stateName})`).join("; ")}; ${other} in Congress: ${senators.length} senators, ${congress.length - senators.length} House\n`,
   );
-}, 900_000);
+}, 600_000);
