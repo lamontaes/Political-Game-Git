@@ -3402,32 +3402,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 101 open (full 38, counted groups 40/277 people, households 17, orgs 6, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_ae720410206893b1:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 121 open (full 59, counted groups 35/231 people, households 21, orgs 6, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_eadfec9a418d1fed:2025-01-21",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 101 open (full 38, counted groups 41/294 people, households 16, orgs 6, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_ae720410206893b1:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 124 open (full 59, counted groups 36/229 people, households 23, orgs 6, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_eadfec9a418d1fed:2025-01-21",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/place-prices.ts:690",
+          "evidence": "src/core2/modules/place-prices.ts:694",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c: 6351580 (journal:2025-02-03:7630); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:business-commerce.legalize-cannabis-sales: 6351580 (journal:2025-02-03:7630); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:business-commerce.legalize-cannabis-sales: 5622523 (journal:2025-02-03:7566); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 3 the law paid or charged, the payments that changed first: 3 accounts.transfer paid in (src/core2/counted-money.ts:809 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 41821 here, journal:2025-02-03:7807); 3 accounts.transfer paid in (src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 37374 here, journal:2025-02-03:7637); 3 accounts.transfer paid out (src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, -1202 here, journal:2025-02-03:7638)",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c: 6407882 (journal:2025-02-03:7629); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:business-commerce.legalize-cannabis-sales: 6407882 (journal:2025-02-03:7629); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:business-commerce.legalize-cannabis-sales: 5862780 (journal:2025-02-03:7565); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 3 the law paid or charged, the payments that changed first: 3 accounts.transfer paid in (src/core2/counted-money.ts:809 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 41821 here, journal:2025-02-03:7806); 3 accounts.transfer paid in (src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 37433 here, journal:2025-02-03:7636); 3 accounts.transfer paid out (src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, -1203 here, journal:2025-02-03:7637)",
           "why": ""
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 cannabis-sales-to-youth-use 0.0400; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 cannabis-sales-to-overdose-deaths 0.0500; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 cannabis-sales-to-youth-use 0.0400",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 cannabis-sales-to-youth-use 0.0400; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 cannabis-sales-to-youth-use 0.0400; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 cannabis-sales-to-youth-use 0.0400",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 94 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 69 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 101 -> after repeal 0 -> re-enacted 143; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 121 open -> after repeal 0 open, 86 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 101 -> after repeal 0 -> re-enacted 131; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 124 open -> after repeal 0 open, 98 ended",
           "why": ""
         },
         "allPlaces": {
@@ -3609,32 +3609,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 119 open (full 0, counted groups 39/128 people, households 52, orgs 28, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-electricity-standard|jurisdiction_971998ff58477430:counted-group-6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 122 open (full 0, counted groups 39/136 people, households 56, orgs 27, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-electricity-standard|household_0191bce915485942",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 111 open (full 0, counted groups 40/145 people, households 43, orgs 28, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-electricity-standard|jurisdiction_971998ff58477430:counted-group-6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 124 open (full 0, counted groups 40/149 people, households 57, orgs 27, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-electricity-standard|household_0191bce915485942",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/place-prices.ts:690",
+          "evidence": "src/core2/modules/place-prices.ts:694",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad: 3083541 (journal:2025-02-03:7630); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:environment-energy.clean-electricity-standard: 3083541 (journal:2025-02-03:7630); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:environment-energy.clean-electricity-standard: 2396316 (journal:2025-02-03:7458); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 122 the law paid or charged, the payments that changed first: 72 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:environment-energy.clean-electricity-standard; e.g. household_0180bce91539e60f on 2025-02-03: 0 in the control world, -461 here, journal:2025-02-03:7659)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:environment-energy.clean-electricity-standard: 939294 (journal:2025-09-03:60223); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad: 3076070 (journal:2025-02-03:7629); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:environment-energy.clean-electricity-standard: 2385431 (journal:2025-02-03:7457); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 124 the law paid or charged, the payments that changed first: 80 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:environment-energy.clean-electricity-standard; e.g. household_0180bce91539e60f on 2025-02-03: 0 in the control world, -461 here, journal:2025-02-03:7658)",
           "why": ""
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 clean-electricity-to-price -0.1100; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 clean-electricity-to-particulates 0.0100; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 clean-electricity-to-price -0.1100",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): clean-electricity-to-price lags 84 months, past the run's window; the web read law:us-policy-positions:environment-energy.clean-electricity-standard as 0 (control 1) in web:jurisdiction_971998ff58477430:2025-01 (2025-01); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): clean-electricity-to-particulates lags 60 months, past the run's window; the web read law:us-policy-positions:environment-energy.clean-electricity-standard as 0 (control 1) in web:jurisdiction_971998ff58477430:2025-01 (2025-01); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): clean-electricity-to-price lags 84 months, past the run's window; the web read law:us-policy-positions:environment-energy.clean-electricity-standard as 0 (control 1) in web:jurisdiction_971998ff58477430:2025-02 (2025-02)",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 117 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 135 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 110 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 145 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 119 -> after repeal 0 -> re-enacted 99; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 122 open -> after repeal 0 open, 0 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 111 -> after repeal 0 -> re-enacted 103; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 124 open -> after repeal 0 open, 0 ended",
           "why": ""
         },
         "allPlaces": {
@@ -3817,32 +3817,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 91 open (full 0, counted groups 39/128 people, households 52, orgs 0, govts 0) e.g. applied|us-policy-positions:environment-energy.bottle-deposit|jurisdiction_971998ff58477430:counted-group-6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 95 open (full 0, counted groups 39/136 people, households 56, orgs 0, govts 0) e.g. applied|us-policy-positions:environment-energy.bottle-deposit|household_0191bce915485942",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 83 open (full 0, counted groups 40/145 people, households 43, orgs 0, govts 0) e.g. applied|us-policy-positions:environment-energy.bottle-deposit|jurisdiction_971998ff58477430:counted-group-6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 97 open (full 0, counted groups 40/149 people, households 57, orgs 0, govts 0) e.g. applied|us-policy-positions:environment-energy.bottle-deposit|household_0191bce915485942",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/place-prices.ts:690",
+          "evidence": "src/core2/modules/place-prices.ts:694",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15: 258768 (journal:2025-02-03:7630); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:environment-energy.bottle-deposit: 258768 (journal:2025-02-03:7630); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:environment-energy.bottle-deposit: 237194 (journal:2025-02-03:7526); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 95 the law paid or charged, the payments that changed first: 53 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:environment-energy.bottle-deposit; e.g. household_0180bce91539e60f on 2025-02-03: 0 in the control world, -303 here, journal:2025-02-03:7659)",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15: 262566 (journal:2025-02-03:7629); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:environment-energy.bottle-deposit: 262566 (journal:2025-02-03:7629); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:environment-energy.bottle-deposit: 230120 (journal:2025-02-03:7525); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 97 the law paid or charged, the payments that changed first: 54 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:environment-energy.bottle-deposit; e.g. household_0180bce91539e60f on 2025-02-03: 0 in the control world, -303 here, journal:2025-02-03:7658)",
           "why": ""
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 container-deposit-to-litter 0.4500; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 container-deposit-to-litter 0.4500; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 container-deposit-to-litter 0.4500",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 container-deposit-to-prices -0.0005; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-06 container-deposit-to-prices -0.0005; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 container-deposit-to-prices -0.0005",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 58 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 119 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 91 -> after repeal 0 -> re-enacted 73; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 95 open -> after repeal 0 open, 0 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 83 -> after repeal 0 -> re-enacted 69; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 97 open -> after repeal 0 open, 0 ended",
           "why": ""
         },
         "allPlaces": {
@@ -3859,7 +3859,7 @@
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],
