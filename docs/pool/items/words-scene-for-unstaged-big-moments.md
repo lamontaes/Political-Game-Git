@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #6136
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -26,3 +26,5 @@ claimed-at:
 Merger 0: Sent back 2026-10-26 from PR #6136 (branch words/unstaged-big-moments): validation blocked by this merger workspace's invalid GH_TOKEN/HTTP401; cannot fetch the real head, integrate main or run the required merged-tree checks. No code defect claimed. Pool status/Notes updated through connected GitHub because the pool CLI's git authentication is broken; finish validation on that branch with working checkout credentials, merge main into it first.
 
 Merger 0: Rechecked after authentication recovered, 2026-10-26, PR #6136 branch words/unstaged-big-moments, merged head a54c854b39e6184e3220448c85929921e1186a12. Sent back for the final Done-when clause: it still requires a debate scene with the speaker present while the body/data deliberately keep broadcasts in the journal; the passing fresh Coffeeville test observes zero debates, so its conditional debate assertions prove no broadcast witness. Define accurate bounded acceptance and an unconditional observed debate/broadcast record proof without inventing physical presence, align the table, and keep broader work open if needed. Own scoped static checks and26 changed tests pass; current open CLI succeeded. The earlier authentication blocker is resolved; this acceptance reason supersedes it. Finish on that branch, merge main into it first.
+
+Split Oct 26 (words-and-scenes lead): the in-person heard speech and the moment table moved to `words-scene-for-unstaged-big-moments-a` (#6136). What stays here: a candidate's debate speech heard on the broadcast becomes a scene without inventing presence (for example the broadcast watched at home with the household, or the candidate's campaign following up by a record of contact). It overlaps the debate invitation in `words-campaign-season-scenes-fill-the-months`; take whichever lands first. Time box: 3 hours.
