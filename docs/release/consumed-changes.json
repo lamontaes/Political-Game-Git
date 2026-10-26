@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "version": "0.32.1",
+      "releasedOn": "2026-10-26",
+      "revision": "4055613f064fa20603c3fe4b6beb06f45f76f8fb",
+      "changeIds": [
+        "people-no-full-18-year-old",
+        "play-bench-card-intercepts-calendar-pointer",
+        "play-stop-23-job-offer-hold-locks-the-game",
+        "words-journal-own-race-unknown-rival"
+      ]
+    },
+    {
       "version": "0.32.0",
       "releasedOn": "2026-10-26",
       "revision": "174196989bb9b04acc149867f31c684b86c3027e",

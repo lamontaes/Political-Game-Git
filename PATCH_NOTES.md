@@ -296,6 +296,29 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.32.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Every town now opens with someone your age at 18** Some towns opened with
+  nobody aged 18 among the people you can meet and play, so the life you start
+  at 18 had no one to start from. Every town now opens with at least one full
+  18-year-old wherever its households can hold one.
+
+- **The menu icons stay clickable above your card** The six menu icons now stand
+  on top of your card in the bottom-left corner instead of under it, so the card
+  never covers them, whether the window is wide or as small as the desktop
+  allows, and whatever your card is showing after you knock on doors. Your name
+  stays on one line.
+
+- **A job offer no longer locks the game** When an employer's offer holds your
+  clock, the play screen now shows the offer itself — the employer, the job, the
+  pay and the day to answer by — with Take it and Turn it down. Either answer
+  releases the hold and Day and Week work again; an offer that just arrived can
+  also wait at the Jobs tab until its deadline.
+
 ## PRE-ALPHA 0.32.0
 
 _Released October 26, 2026._

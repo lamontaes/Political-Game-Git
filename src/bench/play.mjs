@@ -689,6 +689,17 @@ async function act(path) {
         `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
       );
     }
+    // A job offer holds the clock: the offer itself, then the day goes on.
+    const offerStop = jobOfferStop(result.packet);
+    if (offerStop) {
+      const answered = await atTheOffer(offerStop);
+      if (answered) {
+        busy = false;
+        return act(
+          `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
+        );
+      }
+    }
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
   } catch (error) {
@@ -704,6 +715,18 @@ async function act(path) {
 function officeStop(value) {
   return value?.kind === "stop"
     ? value.stop.modules.find((row) => row.moduleId === "core2-office-day-v1")
+    : undefined;
+}
+/** A stop the jobs engine holds: an employer's offer to the player, when it
+ * arrives and again at its deadline. Every hold reason answers here, the
+ * offer-deadline kind included. */
+function jobOfferStop(value) {
+  return value?.kind === "stop"
+    ? value.stop.modules.find(
+        (row) =>
+          row.moduleId === "jobs" &&
+          (row.reasonKey === "job-offered" || row.kind === "offer-deadline"),
+      )
     : undefined;
 }
 const voteWords = () => controls.meeting ?? {};
@@ -924,6 +947,80 @@ function atThePolls(scene) {
     draw(scene);
     show("ballot", true);
   });
+}
+// ---- A job offer (jobs): the hold is the offer itself ----
+// The employer, the job and the pay with Take it and Turn it down: the
+// engine offers, the player decides. Either answer releases the
+// hold and the day goes on; before the deadline the offer can also wait,
+// answerable at the Jobs tab, until the deadline holds the clock.
+async function atTheOffer(stopRow) {
+  const labels = controls.jobs ?? {};
+  const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`).catch(
+    () => ({ offers: [] }),
+  );
+  const offer = (view.offers ?? []).find((row) =>
+    stopRow.recordId.startsWith(`${row.id}:`),
+  );
+  if (!offer) return false;
+  $("job-offer-title").textContent = offer.title;
+  $("job-offer-employer").textContent = offer.employer;
+  $("job-offer-facts").replaceChildren(
+    row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
+    row(labels.deadline, proseDate(offer.deadline)),
+  );
+  $("job-offer-take").textContent = labels.accept ?? "";
+  $("job-offer-turn").textContent = labels.decline ?? "";
+  $("job-offer-wait").textContent = labels.notNow ?? "";
+  $("job-offer-status").textContent = "";
+  // The deadline holds the clock: answering is the only way out. An offer
+  // that just arrived can wait.
+  $("job-offer-wait").hidden = Boolean(stopRow.hold);
+  return await new Promise((resolve) => {
+    const close = (answered) => {
+      show("job-offer", false);
+      resolve(answered);
+    };
+    const answer = async (kind) => {
+      for (const button of $("job-offer").querySelectorAll("button"))
+        button.disabled = true;
+      try {
+        const result = await post(
+          `/api/jobs/answer?${new URLSearchParams({
+            offerId: offer.id,
+            answer: kind,
+          })}`,
+        );
+        if (result.answered) close(true);
+        else {
+          // The employer withdrew it while the moment stood open.
+          $("job-offer-status").textContent = labels.unavailable ?? "";
+          setTimeout(() => close(false), 1500);
+        }
+      } catch {
+        $("job-offer-status").textContent = labels.failed ?? "";
+        for (const button of $("job-offer").querySelectorAll("button"))
+          button.disabled = false;
+      }
+    };
+    $("job-offer-take").onclick = () => answer("accept");
+    $("job-offer-turn").onclick = () => answer("decline");
+    $("job-offer-wait").onclick = () => close(false);
+    // A later offer's moment must not inherit an answered one's disabled buttons.
+    for (const button of $("job-offer").querySelectorAll("button"))
+      button.disabled = false;
+    show("job-offer", true);
+    $("job-offer-take").focus();
+  });
+}
+/** The offer moment for a hold already open when the page loads. */
+async function openOfferMoment() {
+  const stopRow = jobOfferStop(packet);
+  if (!stopRow) return;
+  const answered = await atTheOffer(stopRow);
+  if (answered)
+    await act(
+      `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: packet.pauseId })}`,
+    );
 }
 // Day and Week run the world forward (owner, Oct 15, 2026); a calendar day
 // runs it to that day. A scene the director fires stops any of them there.
@@ -4230,6 +4327,7 @@ $("front-continue").addEventListener("click", async () => {
   $("game").classList.add("in-play");
   if (life.packet) renderPacket(life.packet);
   await refresh();
+  await openOfferMoment();
 });
 // The desktop window closes (and the app quits); a browser tab has no Quit.
 if (window.location.protocol === "app:") {
@@ -4721,6 +4819,7 @@ async function startLife({ custom = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();
+    await openOfferMoment();
     showNewsSurface(opening?.news);
     coachFirstChoices();
   } catch (error) {
