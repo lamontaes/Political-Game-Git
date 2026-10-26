@@ -69,6 +69,31 @@ describe("state and metro economies", () => {
       expect(state.unemploymentPct).toBeCloseTo(series[fips]!["2020-12"]!, 1);
     }
   });
+  it("opens every state with a LAUS series on its published rate, an all-metro state included", () => {
+    const { opening } = year("2021-01-01");
+    const series = regionsData.series.stateUnemploymentPct as Record<
+      string,
+      Record<string, number>
+    >;
+    const states = [...new Set(REGIONS.map((row) => row.stateFips))].filter(
+      (fips) => series[fips]?.["2020-12"] !== undefined,
+    );
+    // An all-metro state (no rest region) is the case a metro's cross-state
+    // area rate once set on its own.
+    expect(
+      states.some(
+        (fips) =>
+          !REGIONS.some(
+            (row) => row.stateFips === fips && row.kind !== "metro",
+          ),
+      ),
+    ).toBe(true);
+    for (const fips of states)
+      expect(
+        stateFigures(opening, fips).unemploymentPct,
+        `state ${fips}`,
+      ).toBeCloseTo(series[fips]!["2020-12"]!, 6);
+  });
   it("two randomly drawn states diverge in a year, inside the 2000-2025 spread of one-year state changes", () => {
     const seed = createHash("sha256")
       .update(`M1-03:${process.env.GOLDEN_PATH_SEED ?? "regional"}`)

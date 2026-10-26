@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/party-asks-you-to-run
-pr:
+pr: #6146
 blocked-on:
 after:
 source: added by the acting CTO, Oct 25 (owner ruling)

@@ -271,10 +271,13 @@ function playWorld(seed: string) {
   const countedAtStart = residentCounts(core).reduce((n, r) => n + r.people, 0);
   // Counted adults are read from the residents' own books, not from the
   // voting engine's output, so a missing counted ballot can't hide itself.
-  const countedAdultsAtStart = residentCounts(core).reduce(
-    (n, r) => n + r.adults,
-    0,
-  );
+  // Only the town's own vote in its local races: a small town whose people
+  // are all filled in has none, though the places around it do.
+  const townAdultsCounted = () =>
+    residentCounts(core)
+      .filter((r) => r.placeId === world.placeId)
+      .reduce((n, r) => n + r.adults, 0);
+  const countedAdultsAtStart = townAdultsCounted();
   const countedIdsAtStart = new Set(
     [...(residentsRuntime(core)?.households.values() ?? [])].flatMap((h) =>
       h.people.map((p) => p.id),
@@ -305,7 +308,8 @@ function playWorld(seed: string) {
     ) {
       withheldPaychecks++;
       for (const p of entry.postings) {
-        const named = /:tax:\d+:([a-z]+):([a-z-]+)$/.exec(p.id);
+        // The posting id ends in its level and tax, then the law row it took.
+        const named = /:tax:\d+:([a-z]+):([a-z-]+)(?::law:.+)?$/.exec(p.id);
         if (named && p.deltaMinor > 0)
           withheldTaxes.add(`${named[1]}:${named[2]}`);
       }
@@ -358,10 +362,7 @@ function playWorld(seed: string) {
     day = next;
   }
   const runSeconds = (performance.now() - runStarted) / 1000;
-  const countedAdultsAtEnd = residentCounts(core).reduce(
-    (n, r) => n + r.adults,
-    0,
-  );
+  const countedAdultsAtEnd = townAdultsCounted();
   const endHeapMiB = heapMiB();
   const heapMB = (endHeapMiB * 2 ** 20) / 1e6;
   const growthMiBPerMonth =
@@ -746,7 +747,11 @@ function playWorld(seed: string) {
             : `${local.length} local races decided and the residents' books show no counted adult in the town (${countedAdultsAtStart} at the start, ${countedAdultsAtEnd} at the end)`,
         )
       : !silent.length
-        ? pass(`counted voters voted in all ${judged.length} local races`)
+        ? pass(
+            `counted voters voted in all ${judged.length} local races (${[
+              ...new Set(judged.map((c) => c.title)),
+            ].join("; ")})`,
+          )
         : fail(
             `${silent.length} of ${judged.length} local races decided in the run had no votes from the counted population, ${unkept.length} of them with no counted ballot record although the town has ${countedAdultsAtEnd} counted adults (for example ${silent
               .slice(0, 3)
