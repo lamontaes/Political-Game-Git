@@ -1,6 +1,5 @@
 /**
- * Siblings are born months apart, never days (owner's playtest, Oct 24,
- * 2026: a sister born seven days after the player, not a twin). Each
+ * Siblings are born months apart, never days, unless marked as twins. Each
  * household member's birthday is drawn on its own, so two can land a week
  * apart; this places them `siblingBirthGapDays` apart or more. A sibling
  * drawn too close to one already placed moves to the nearest day far

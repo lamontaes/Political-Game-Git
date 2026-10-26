@@ -889,9 +889,10 @@ export function subjectsBetween(
     });
   }
   // The speaker's relatives the listener has not met, named by relation.
+  // stopgapId: SG-DIRECTOR-shared-relative-kin-address
   // A relative the two share is neither introduced nor asked after: "my
   // father", "your father" or "How's John?" is not how a brother and sister
-  // speak of their own father (owner's playtest, Oct 24, play-stop-20).
+  // speak of their own father. Shared-kin wording replaces this suppression.
   const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
