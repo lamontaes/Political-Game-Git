@@ -19,7 +19,8 @@ import { currentStaff } from "./law-reach/group-a-records";
 import { staffingOf } from "./law-reach/group-a-staffing";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
-import { countedStaffOf } from "./modules/residents";
+import { countedStaffOf, residentsRuntime } from "./modules/residents";
+import { countedJobsOf } from "./residents-economy";
 import { appliedOn } from "./law-reach/applied";
 import { fundedOpenings } from "./modules/jobs";
 import { memberKey } from "./modules/legislature";
@@ -92,6 +93,14 @@ for (const direction of ["cut", "raise"] as const)
       const open = addDays(makeIsoDate(next), -(lead - 1));
       if (core.date < open) advanceCore(core, open);
       if (core.date > open) continue;
+      // Staff come and go in the months before the bill: the same precondition
+      // as above, read again on the day the mayor proposes.
+      if (employees(district.id).length < 1) {
+        tried.push(
+          `${where}: city hall had no named employee on ${core.date}, the day the bill opens`,
+        );
+        continue;
+      }
       const priorLine = budgetsOf(api, city.id).at(-1)!.spendingMinor
         .administration;
       if (!priorLine) {
@@ -114,8 +123,12 @@ for (const direction of ["cut", "raise"] as const)
       );
       // Every payroll payday the treasury posts from the bill on, by journal entry id.
       const paydays: { id: string; date: string }[] = [];
+      // Counted staff are paid by their employer's wage flow, one transfer a payday.
+      const countedPaydays: { id: string; date: string }[] = [];
       const post = api.postJournal.bind(api);
       api.postJournal = (entry) => {
+        if (entry.sourceRef.id.startsWith("residents:wages:"))
+          countedPaydays.push({ id: entry.sourceRef.id, date: api.state.date });
         if (entry.sourceRef.kind === "work-payroll")
           paydays.push({ id: entry.sourceRef.id, date: api.state.date });
         return post(entry);
@@ -213,16 +226,72 @@ for (const direction of ["cut", "raise"] as const)
               ", ",
             )}; staff named ${employees(district.id).length} counted ${countedStaffOf(core, district.id)}\n`,
         );
-        // A raise hires: a named person with no job at city hall before now
-        // holds a current one, and a payday names that job's commitment.
-        const hired = employees(district.id).filter(
+        // A raise hires through either tier. A named hire is a new current
+        // job at city hall, paid by a payroll journal entry naming its work
+        // commitment. A counted hire is a counted worker the jobs engine applied
+        // the line to (the applied record's target group), whose job is
+        // `job:<opening>:<person>`, paid by the employer's wage flow.
+        const namedHires = employees(district.id).filter(
           (j) => !staffBefore.includes(j.personId),
         );
-        expect(hired.length, `${detail}: no new hire`).toBeGreaterThan(0);
-        const paid = hired.filter((j) => paydaysOf(j.id).length > 0);
+        const rt = residentsRuntime(core);
+        const countedHires = appliedOn(api, "budget-line:administration")
+          .filter(
+            (r) =>
+              r.what === "hired-on-budget-line" &&
+              r.target === "group" &&
+              !staffBefore.includes(r.targetId),
+          )
+          .flatMap((r) =>
+            countedJobsOf(core, district.id)
+              .filter((job) => job.id.endsWith(`:${r.targetId}`))
+              .map((job) => ({
+                record: r,
+                job,
+                flow: rt?.wageFlowByJob.get(job.id),
+              })),
+          );
         expect(
-          paid.length,
-          `${detail}: no payday for any of ${hired.map((j) => j.id).join(", ")}`,
+          namedHires.length + countedHires.length,
+          `${detail}: no new hire in either tier`,
+        ).toBeGreaterThan(0);
+        const paidNamed = namedHires.filter((j) => paydaysOf(j.id).length > 0);
+        // A counted hire is paid when the employer's wage flow carries the
+        // job's daily wage and a wage transfer of that flow posts after the hire.
+        const paidCounted = countedHires.flatMap((h) =>
+          h.flow &&
+          (h.flow.perDayMinorByJob?.[h.job.id] ?? 0) > 0 &&
+          h.flow.jobIds?.includes(h.job.id)
+            ? countedPaydays
+                .filter(
+                  (d) =>
+                    d.id.startsWith(`${h.flow!.id}@`) &&
+                    d.date >= h.job.source.asOf,
+                )
+                .map((payday) => ({ ...h, payday }))
+            : [],
+        );
+        process.stdout.write(
+          `ADMIN LINE RAISE PROOF ${where}: named hires ${
+            namedHires.map((j) => j.id).join(", ") || "none"
+          }; counted hires ${
+            countedHires
+              .map(
+                (h) =>
+                  `${h.record.targetId} job ${h.job.id} wage ${h.job.wageDailyMinor}/day on flow ${h.flow?.id} (last payday carried ${h.flow?.lastPaidMinor ?? 0})`,
+              )
+              .join(", ") || "none"
+          }; paydays ${[
+            ...paidNamed.flatMap((j) => paydaysOf(j.id)),
+            ...paidCounted.map((p) => p.payday),
+          ]
+            .slice(0, 3)
+            .map((d) => `${d.id} on ${d.date}`)
+            .join("; ")}\n`,
+        );
+        expect(
+          paidNamed.length + paidCounted.length,
+          `${detail}: no payday for any hire (named ${namedHires.map((j) => j.id).join(", ")}; counted ${countedHires.map((h) => h.record.targetId).join(", ")})`,
         ).toBeGreaterThan(0);
       }
       return;
