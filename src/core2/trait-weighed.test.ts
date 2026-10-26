@@ -78,27 +78,6 @@ describe(`weighed decisions keep their reasons for people in focus: ${where}`, (
     }
   }, 240_000);
 
-  it("keeps anyone's weighing while the audit's probe asks, and the probe row names the record", () => {
-    const stranger = [...core.people.values()].find(
-      (p) =>
-        p.alive &&
-        p.id !== core.playerId &&
-        !core.focusPersonIds.has(p.id) &&
-        weighedBy(p.id).length === 0,
-    )!;
-    const rows: FormulaProbeRow[] = [];
-    setTraitProbe({ keepWeighed: true, formula: (row) => rows.push(row) });
-    try {
-      leanedYes(core, stranger, DECISION, "open", "ignore", -5);
-    } finally {
-      setTraitProbe(undefined);
-    }
-    const [kept] = weighedBy(stranger.id);
-    expect(kept?.actionId, where).toBe(`${DECISION}:no`);
-    expect(kept?.visibility).toBe("observer");
-    expect(rows.map((row) => row.recordId)).toEqual([kept!.id]);
-  }, 240_000);
-
   it("records a choice among options for someone in focus, unless the caller commits it as an act", () => {
     const person = [...core.people.values()].find(
       (p) =>
@@ -121,5 +100,27 @@ describe(`weighed decisions keep their reasons for people in focus: ${where}`, (
     expect(
       (row!.decision as DecisionResult).scores!.map((s) => s.actionId),
     ).toEqual(offers.map((o) => o.definition.id));
+  }, 240_000);
+
+  // Last, since the stranger it picks keeps a record the other tests would read.
+  it("keeps anyone's weighing while the audit's probe asks, and the probe row names the record", () => {
+    const stranger = [...core.people.values()].find(
+      (p) =>
+        p.alive &&
+        p.id !== core.playerId &&
+        !core.focusPersonIds.has(p.id) &&
+        weighedBy(p.id).length === 0,
+    )!;
+    const rows: FormulaProbeRow[] = [];
+    setTraitProbe({ keepWeighed: true, formula: (row) => rows.push(row) });
+    try {
+      leanedYes(core, stranger, DECISION, "open", "ignore", -5);
+    } finally {
+      setTraitProbe(undefined);
+    }
+    const [kept] = weighedBy(stranger.id);
+    expect(kept?.actionId, where).toBe(`${DECISION}:no`);
+    expect(kept?.visibility).toBe("observer");
+    expect(rows.map((row) => row.recordId)).toEqual([kept!.id]);
   }, 240_000);
 });
