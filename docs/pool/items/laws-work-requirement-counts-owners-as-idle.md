@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/owner-hours-work-requirement
 pr: #6194
 blocked-on:
