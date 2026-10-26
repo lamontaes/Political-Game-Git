@@ -15,12 +15,15 @@ page.setDefaultTimeout(60000);
 const errors = [];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 page.on("pageerror", (e) => errors.push(e.message));
-async function openMenuTab(tab) {
-  await page.keyboard.press("Escape");
-  if (!(await page.locator("#menu").isVisible()))
-    await page.keyboard.press("Escape");
-  await page.locator("#menu:not([hidden])").waitFor();
-  await page.locator(`#menu [data-tab="${tab}"]`).click();
+async function openNavigationTab(tab) {
+  const button = page.locator(`#rings [data-tab="${tab}"]`);
+  await button.focus();
+  assert.ok(
+    await button.evaluate((node) => node === document.activeElement),
+    "the navigation button did not receive keyboard focus",
+  );
+  await page.keyboard.press("Enter");
+  await page.locator("#sheet:not([hidden])").waitFor();
 }
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
@@ -50,7 +53,7 @@ try {
   );
   console.log("Place:", await page.locator("#card-place").innerText());
   // Travel to the first place where filings are taken.
-  await openMenuTab("travel");
+  await openNavigationTab("travel");
   const go = page.locator("#sheet-body button", { hasText: /Go/ });
   await go.first().waitFor();
   const controlsResponse = await page.request.get(`${base}/api/controls`);
@@ -142,7 +145,7 @@ try {
     document.getElementById("card-name").textContent.trim(),
   );
   // Join a party on Politics, as a player does; the form then starts on it.
-  await openMenuTab("politics");
+  await openNavigationTab("politics");
   // Three honest cases: parties on offer (join the first), already a member
   // (use that party; the screen shows membership, not Join), or no party in
   // this place (run as an independent).
@@ -170,7 +173,7 @@ try {
   } else {
     console.log("No party on offer in this place: filing as independent");
   }
-  await openMenuTab("travel");
+  await openNavigationTab("travel");
   const goAgain = page.locator("#sheet-body button", { hasText: /Go/ });
   await goAgain.first().waitFor();
   let atCounter = false;
