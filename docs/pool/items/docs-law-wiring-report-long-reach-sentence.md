@@ -5,7 +5,7 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/law-table-long-sentence
 pr: #6192
 blocked-on:
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T21:34:57.328Z
 **Rules.** Keep it simple: split the explanation at its source and regenerate the report without changing any law grade or legal qualification. No dice: preserve the same evidence and do not weaken the report checker or add an exception.
 
 **Done when.** The report-check test no longer reports the long sentence in docs/reports/law-wiring-table.md, and regenerating the report preserves the correction. Record the exact test result and retain all existing grades, evidence and legal qualifications; unrelated baseline findings remain separately tracked. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** docs/reports/law-wiring-table.md, scripts/law-wiring/matrix.ts, scripts/report-check/report-check.test.ts
 

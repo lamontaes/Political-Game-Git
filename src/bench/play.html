@@ -37,10 +37,7 @@
       <!-- Election day at the polls: the ballot, from the elections engine's records. -->
       <section id="ballot" class="panel" hidden>
         <div id="ballot-races"></div>
-        <div id="ballot-pager" class="acts" hidden>
-          <button type="button" class="action small">Back</button>
-          <button type="button" class="action primary small">Continue</button>
-        </div>
+        <div id="ballot-pager" class="acts" data-pager hidden></div>
         <div class="acts">
           <button id="ballot-leave" class="action" type="button"></button>
         </div>
@@ -78,10 +75,7 @@
         <div class="news-reader-main">
           <h2 id="news-reader-headline" class="heading"></h2>
           <div id="news-reader-body"></div>
-          <div id="news-reader-pager" class="acts" hidden>
-            <button type="button" class="action small">Back</button>
-            <button type="button" class="action primary small">Continue</button>
-          </div>
+          <div id="news-reader-pager" class="acts" data-pager hidden></div>
         </div>
         <div>
           <div class="acts">
@@ -567,10 +561,7 @@
         <nav id="sheet-tabs" class="tabs"></nav>
         <div id="sheet-media" hidden></div>
         <div id="sheet-body"></div>
-        <div id="sheet-pager" class="acts" hidden>
-          <button type="button" class="action small">Back</button>
-          <button type="button" class="action primary small">Continue</button>
-        </div>
+        <div id="sheet-pager" class="acts" data-pager hidden></div>
       </section>
 
       <section id="talk" class="panel chat" hidden>
@@ -634,18 +625,7 @@
           <h2 id="person-name" class="heading"></h2>
           <p id="person-role" class="role"></p>
           <div id="person-facts"></div>
-          <div id="person-pager" class="acts" hidden>
-            <button
-              type="button"
-              class="action small"
-              data-person-label="back"
-            ></button>
-            <button
-              type="button"
-              class="action primary small"
-              data-person-label="continue"
-            ></button>
-          </div>
+          <div id="person-pager" class="acts" data-pager="person" hidden></div>
           <div class="acts">
             <button
               id="person-talk"
