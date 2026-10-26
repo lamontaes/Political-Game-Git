@@ -295,6 +295,8 @@
   },
   "politics": {
     "seats": "Seats",
+    "yourMembers": "Your members",
+    "leaders": "Leaders",
     "notChosenHere": "Not chosen by this place's voters",
     "votes": "Votes",
     "yes": "Yes",
