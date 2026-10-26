@@ -4,7 +4,7 @@ title: "Stopgaps in employer-taxes (missing-engine): 2 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: An owner-run business pays no tax on its profit: under the law its profit is its owner's income (a pass-through), and owners' draws and profit aren't taxed as income yet. Only businesses owned by another organization pay
 
 Oct 20 (pool feeder): spec written; the profit pass-through row is already resolved (status resolved in stopgaps.json, no marker in code), so the title's '2 open' is stale: one open row remains, waiting on the new premises record.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

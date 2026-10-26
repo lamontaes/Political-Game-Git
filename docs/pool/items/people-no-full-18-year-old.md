@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T15:52:46.374Z
 
 **Rules.** Two-level population: full people exist where they matter, and the player is drawn at 18, so the age-18 cohort matters in every place. One rule, all 56 places. Never edit the spec's test.
 
-**Done when.** GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY above make node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-life-at-18.test.ts pass, with the cause named by file and line in the PR, and it passes in three more drawn places named with seeds; a year runs no more than 20 percent slower (npm run speed:year, same seed).
+**Done when.** GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY above make node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-life-at-18.test.ts pass, with the cause named by file and line in the PR, and it passes in three more drawn places named with seeds; a year runs no more than 20 percent slower (npm run speed:year, same seed). **On screen.** Nothing yet: it would show on the People web and the Journal, and nothing there reads it.
 
 **Files.** src/core2/population.ts
 

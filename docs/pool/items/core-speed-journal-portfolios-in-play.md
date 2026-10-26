@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Bookkeeping is a debug switch: validation and copies run in tests, not in play. No dice: every dollar and record stays exactly the same. Speed: no change makes a year slower, measured before and after on the same machine, one process at a time.
 
-**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, and Stanardsville, Virginia, seed cc91f5444b53bd47, three years) every fingerprint is identical before and after; portfolios' self time in a CPU profile falls by at least half; src/core2/journal*.test.ts and the accounts and finance tests pass.
+**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, and Stanardsville, Virginia, seed cc91f5444b53bd47, three years) every fingerprint is identical before and after; portfolios' self time in a CPU profile falls by at least half; src/core2/journal*.test.ts and the accounts and finance tests pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/journal-state.ts
 

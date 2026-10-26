@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record. The chain is the acceptance: each law is followed to a payer or payee and a journal id with its control-world amount. A registered stopgap never counts.
 
-**Done when.** In a played year (`buildBenchWorld`, every module installed) in Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8), `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade each of the nine laws wired on all nine links or not applicable in `docs/reports/law-wiring-matrix.json`, and `src/core2/law-wiring-justice.test.ts` names, for each of them, its `lawApplied` record id, the journal entry of its money on the account that record names, and whom it reached.
+**Done when.** In a played year (`buildBenchWorld`, every module installed) in Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8), `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade each of the nine laws wired on all nine links or not applicable in `docs/reports/law-wiring-matrix.json`, and `src/core2/law-wiring-justice.test.ts` names, for each of them, its `lawApplied` record id, the journal entry of its money on the account that record names, and whom it reached. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/public-safety.ts, src/core2/law-wiring-justice.test.ts, docs/reports/law-wiring/families/justice-year-US-MI-2666300.json, docs/reports/law-wiring/families/justice-year-US-NE-3149425.json
 

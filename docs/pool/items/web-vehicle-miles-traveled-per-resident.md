@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T16:32:07.552Z
 
 **Rules.** No dice: research calibrates the link's size, lag and spread and decides nobody's trip. One rule, all 56 places: a per-place table, no state named in logic. Estimate, never UNKNOWN: territories get the labeled median. An effect is a read: the place-prices engine reads the factor when it settles the fee.
 
-**Done when.** The mileage-fee row leaves outcome-research-gaps.json; links.json holds the sized link (status built) with source, anchor quote and range; coverage.json is regenerated; src/core2/outcome-web.test.ts and src/core2/law-wiring-prices.test.ts pass; and scripts/law-wiring/check.ts with matrix.ts grade its web link wired in the two audit towns of a played world (buildBenchWorld, seeds a91c03e7d2b84f10 and 5e27b0c4196fd3a8), with the month-row record id as evidence.
+**Done when.** The mileage-fee row leaves outcome-research-gaps.json; links.json holds the sized link (status built) with source, anchor quote and range; coverage.json is regenerated; src/core2/outcome-web.test.ts and src/core2/law-wiring-prices.test.ts pass; and scripts/law-wiring/check.ts with matrix.ts grade its web link wired in the two audit towns of a played world (buildBenchWorld, seeds a91c03e7d2b84f10 and 5e27b0c4196fd3a8), with the month-row record id as evidence. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** data/research/outcome-web/place-outcome-bases-2024.json, data/research/outcome-web/links.json, src/core2/data/laws/outcome-research-gaps.json, src/core2/data/outcome-web/coverage.json, src/core2/modules/place-prices.ts
 

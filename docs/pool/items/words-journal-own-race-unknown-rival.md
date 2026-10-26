@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #6121
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
