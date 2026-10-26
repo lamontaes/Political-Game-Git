@@ -17,10 +17,12 @@ claimed-at:
 
 **Rules.** Tests draw a random place from all 56 and name place and seed; a test that builds a world sets its own timeout like its neighbors.
 
-**Done when.** src/core2/scandal-term.test.ts sets a 600 second timeout as src/core2/player-money-year.test.ts does, and passes in six consecutive random draws by npx vitest run, with the place and seed named in any failure. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** src/core2/scandal-term.test.ts keeps a measured explicit timeout (currently main’s 300 seconds; do not raise it without measurements), and passes in six consecutive random draws by npx vitest run, with the place and seed named in any failure. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/scandal-term.test.ts
 
 **Notes.** TODO
 
 Sent back 2026-10-25 from PR #5529 (branch claude/scandal-term): earlier superseded label inaccurate: main300s differs fromrequested600s; currentmainmergeconflictsinscandal-term.test.ts; reconciletestandmeasuredtimeoutandaddDonewhentablewithsixdrawproof; finish on that branch, merge main into it first.
+
+Rechecked 2026-10-26 for #5529: fixer retained main’s 300-second bound after six measured random draws (slowest case 47.7 seconds), rather than making the unmeasured increase to 600 seconds. Acceptance is the explicit measured bound and six consecutive passing random draws; the test now reports place, seed, population and build duration.
