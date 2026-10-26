@@ -26,10 +26,13 @@ Run it when the role starts, every two hours while it runs, when the owner asks 
 - [ ] Rewrite `docs/coordination/MERGE-FIRST.md`: lane PRs first, then what unblocks the most
 - [ ] Clock (`date`) and weekly usage; above ~75% go lean
 - [ ] Merges in the last hours; none means a merger died: find which; audit a sample (`merge-audit`)
-- [ ] Mergers alive, four by PR number mod 4 plus the recheck merger, each in its share
+- [ ] Mergers alive, each in its share (PR number modulo the number running; five on Oct 26)
 - [ ] Leads: laws, traits, speed, m0-m2, effects (Opus, at most two Sonnet helpers each); their matrices and open PRs (`wiring-audit`); Words (Opus medium)
+- [ ] Every area the owner is complaining about has a running lead with a channel block in the last 4 hours. On Oct 26 words, scenes and the shared screen system had none while the owner named them the biggest problem. A role silent 4 hours is not running: give its sent-back PRs to a `pr-fixer` and propose a replacement to the owner
+- [ ] `docs/coordination/playtest/`: the owner's newest sitting block. Turn its stops into assignments unless the block reserves them ("drafts only", "Fable decides"); record its rulings first
+- [ ] `MERGE-FIRST.md` older than 4 hours is rewritten; the owner's repeated complaints go first
 - [ ] Pool: INDEX counts; open must never hit 0 while builders run; every item carries `lead:`; lane items carry `milestone: play-first`
-- [ ] Stuck work: send-backs nobody answers (give to a `pr-fixer`), fixer PRs into PR branches, stale claims (older than 60 minutes, no branch, no PR: release)
+- [ ] Stuck work: send-backs nobody answers (give to a `pr-fixer`), fixer PRs into PR branches, stale claims (older than 60 minutes, no branch, no PR: release); in-pr items whose PR is closed, merged elsewhere, or a draft with no push in 72 hours go back to open (Oct 26: 59 of 97 in-pr items sat on four idle drafts)
 - [ ] Act, then write the CTO block on the channel (commit to main: `leads: cto status <time>`), then report
 ```
 
@@ -39,7 +42,7 @@ The CTO merges only its own docs, skill and pool PRs; mergers merge everything e
 
 - **The play-first lane** (`docs/play-first/`, skill `play-first`): the only writer in `src/bench`; may edit `src/director`, `src/english` and `data/english` for lane items with the Words session's review (`Review: words`); many agents in turn, SMART and time-boxed; the lane's law is `LAW.md`, which the CTO writes only after `OWNER-DECISIONS.md` has the ruling.
 - **Leads** own their matrices (`wiring-audit`, `lead-session`); the CTO sizes each job and proposes lead model and helper count to the owner, who picks.
-- **Mergers** (`merger`): four by PR number mod 4 plus a recheck merger; `MERGE-FIRST.md` first; head-pinned; screenshots required for play items; held-to-shippable English is never a send-back. Their comments start with their prefix so audits can tell them apart.
+- **Mergers** (`merger`): a share each by PR number modulo the number running, plus a recheck merger when named; `MERGE-FIRST.md` first; head-pinned; screenshots required for play items; held-to-shippable English is never a send-back. Their comments start with their prefix so audits can tell them apart.
 - **Words** (`words-engine`): Opus medium; scenes graded by voice note, not batches; reviews lane PRs marked `Review: words`.
 - **Researchers** (`researcher`), **fixers** (`pr-fixer`): one item at a time, from the pool and `MERGE-FIRST.md`.
 - **Orders** live in files: a pool item, a skill, `docs/play-first/ORDER.md` or `docs/work-orders/<name>-<date>.md`. A chat message is not an order.

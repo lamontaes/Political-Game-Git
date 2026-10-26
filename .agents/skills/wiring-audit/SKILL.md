@@ -14,7 +14,7 @@ description: >
 
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 20: Opus leads with Sonnet helpers; owner, Oct 24: at most two helpers per lead, status on the channel every two hours; the lead role itself is `lead-session`)
 
-"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
+"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. **Wired is not seen:** the links below are measured headless. Never tell the owner a law or link is wired without also saying whether a player can see it in play, on which screen or scene, by screenshot with place and seed (Oct 26: the matrix read 55 of 89 laws wired while a player's own bill never got a vote all year and News reported no law). This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
 
 ## 1. Define wired, point by point
 
