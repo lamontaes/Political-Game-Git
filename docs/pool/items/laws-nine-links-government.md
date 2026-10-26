@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/law-wiring-government
 pr: #5582
 blocked-on:

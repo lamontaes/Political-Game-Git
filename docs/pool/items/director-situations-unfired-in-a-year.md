@@ -24,6 +24,6 @@ The missing producers and unbound roles must be traced to their existing cause r
 
 **Rules.** An effect is a read, not a record: the director consumes the actual cause and cast records before staging a situation; never invent a cast. Engines are other areas' (justice, housing, press). File what they need, and build the director side.
 
-**Done when.** A year in a drawn place stages at least 10 situation types, each with the record that caused it. A focused generated-world test names the seed, producer record and bound role records for each newly supported type.
+**Done when.** A year in a drawn place stages at least 10 situation types, each with the record that caused it. A focused generated-world test names the seed, producer record and bound role records for each newly supported type. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json

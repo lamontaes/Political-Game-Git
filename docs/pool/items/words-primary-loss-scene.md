@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/primary-loss-scene
-pr:
+pr: #6022
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T11:03:45.486Z

@@ -4,7 +4,7 @@ title: "Stopgaps in finance-state (receipt-budget-proxy): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Opening supplier reference budgets become cost-to-revenue ratios applied to novel actual received sales, allocated across all active routes with integer largest-remainder rounding per dated pool. A route accumulates its
 
 Oct 20 (pool feeder): spec written; the replacement named in the row (firm-specific procurement terms or a validated procurement crosswalk) is the BEA input-output crosswalk plus the ordering decision; no source gives procurement timing, so net 30 is an ESTIMATED parameter.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.
