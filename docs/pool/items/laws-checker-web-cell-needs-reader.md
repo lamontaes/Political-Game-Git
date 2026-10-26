@@ -6,10 +6,10 @@ lead: laws-effects
 kind: wiring
 priority: 2
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: laws-matrix-unread-outcome-grades-wired
 source: laws-effects lead, Oct 26 (Merger 2's send-back on #6026)
 ---
 
@@ -24,3 +24,5 @@ source: laws-effects lead, Oct 26 (Merger 2's send-back on #6026)
 **Files.** scripts/law-wiring/matrix.ts, src/core2/data/outcome-web/unwired.json, docs/reports/law-wiring-matrix.json, docs/reports/law-wiring-table.md
 
 **Notes.** Laws-effects lead, Oct 26. Built after the four laws family PRs (#5986, #6026, #5669, #6011) are on main, so it regrades every family once.
+
+Laws-effects lead, Oct 26 19:05 UTC: a duplicate of laws-matrix-unread-outcome-grades-wired (PR #6173), filed the same hour by another session. Blocked on it; the CTO may drop this one.

@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-governor-races-on-screen
 pr: #6159
 blocked-on:
