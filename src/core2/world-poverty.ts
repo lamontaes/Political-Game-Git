@@ -4,12 +4,17 @@
  * has a yearly cash income (pay plus recorded awards) and a Census poverty
  * threshold for its size, its children and its eldest member. A person is
  * poor when their household's income is under its threshold. World-metrics
- * records the share monthly; the outcome web reads that record.
+ * records the share monthly; the outcome web reads that record. Unemployment
+ * compensation counts as income, as in the Census official measure (money
+ * income, which lists unemployment compensation among its sources).
  */
 import thresholds from "./data/world-metrics/poverty-thresholds-2024.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { ageOn, type HouseholdKind } from "./counted-groups";
+import type { ClaimRow } from "./jobs-benefits";
+import { reachParameter } from "./law-reach/group-b-people";
 import { householdIncome, residentsRuntime } from "./modules/residents";
+import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
 const T = thresholds as unknown as {
@@ -56,10 +61,49 @@ export interface HouseholdPoverty {
   readonly weight: number;
 }
 
+/**
+ * What each household's open unemployment claims pay it over the coming year:
+ * the weekly benefit times the weeks left on the claim, at most a year's weeks.
+ * (Pay counts at its yearly rate and awards at theirs; a claim ends, so what it
+ * still owes within the year is its yearly rate.) A counted claimant's claim
+ * counts for their counted household by the same rule; the household record's
+ * weight multiplies the count at the tally, as it does for pay.
+ */
+function claimIncome(core: CoreState): Map<string, number> {
+  const out = new Map<string, number>();
+  if (!core.modules.has("jobs")) return out;
+  const rt = residentsRuntime(core);
+  for (const claim of coreAPI(core)
+    .moduleState("jobs")
+    .table("claims")
+    .query("open", [true]) as unknown as ClaimRow[]) {
+    const named = core.people.get(claim.personId)?.householdId;
+    const m =
+      named === undefined ? rt?.store.countedMember(claim.personId) : undefined;
+    const household =
+      named ??
+      (m === undefined
+        ? undefined
+        : rt!.store.households[rt!.store.household[m]!]?.id);
+    if (household === undefined) continue;
+    out.set(
+      household,
+      (out.get(household) ?? 0) +
+        claim.weeklyMinor *
+          Math.min(
+            reachParameter("weeksPerYear"),
+            Math.max(0, claim.weeksLeft),
+          ),
+    );
+  }
+  return out;
+}
+
 /** Every household's income against its line today, named and counted. */
 export function householdPoverty(core: CoreState): HouseholdPoverty[] {
   const out: HouseholdPoverty[] = [];
   const date = makeIsoDate(core.date);
+  const claims = claimIncome(core);
   const add = (
     householdId: string,
     placeId: string,
@@ -105,7 +149,8 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
   }
   for (const household of core.households.values()) {
     const ages: number[] = [];
-    let income = awards.get(household.id) ?? 0;
+    let income =
+      (awards.get(household.id) ?? 0) + (claims.get(household.id) ?? 0);
     for (const id of household.memberIds) {
       const person = core.people.get(id);
       if (!person?.alive) continue;
@@ -127,7 +172,7 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
         h.placeId,
         false,
         ages,
-        householdIncome(rt, h),
+        householdIncome(rt, h) + (claims.get(h.id) ?? 0),
         rt.store.weightOf(h),
       );
     }
