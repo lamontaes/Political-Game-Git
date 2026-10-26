@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/law-in-play-beats-starting
-pr:
+pr: #6177
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T18:59:55.733Z
