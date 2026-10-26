@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** The test passes in a played world built with buildBenchWorld on seed 5bc87701eb9c1641 (Washington, District of Columbia) and on two fresh drawn places named with their seeds, and the cause of the stopped-but-paid owner is named by file and line, with the record id of the payment.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/outcome-web-public-finance.test.ts
 
 **Notes.** Found Oct 26 by Merger 4; red on clean main.
