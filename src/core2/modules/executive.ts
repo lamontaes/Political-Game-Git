@@ -362,7 +362,11 @@ function fillTownPost(
     source: { tag: "SOURCED", citation: `Appointment ${row.id}`, asOf: date },
     publicRecord: true,
     news: true,
-    facts: { post: spec.key, appointedBy: row.appointedBy },
+    facts: {
+      post: spec.key,
+      appointedBy: row.appointedBy,
+      appointee: row.holderId,
+    },
   });
   // On the town government's payroll at a department head's pay.
   const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
@@ -893,7 +897,11 @@ export function appointStatePost(
     },
     publicRecord: true,
     news: true,
-    facts: { post: spec.key, appointedBy: input.executiveId },
+    facts: {
+      post: spec.key,
+      appointedBy: input.executiveId,
+      appointee: person.id,
+    },
   });
   return row;
 }
