@@ -1,6 +1,8 @@
 ---
 id: laws-nine-links-justice
-impact: none
+impact: patch
+section: Fixed
+title: Follow justice payments to the people and treasuries they reach
 ---
 
-The police, fire and corrections lines, the handgun-age test and the law-wiring grade for the justice family: engine records and tests in the bench world only.
+Justice laws record the counted groups, households and treasuries they reach. Public safety staffing can use the state budget where no city or county funds it, and fire losses follow changes to the local fire budget. Nine justice laws have wiring evidence; police, corrections and restoring the vote remain unfinished.
