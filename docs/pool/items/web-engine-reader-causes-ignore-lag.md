@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** An effect is a read: the web reads the cause on the month its lag points to. One rule, all 56 places.
 
-**Done when.** In a played world (`buildBenchWorld`, the Prescott seed or a drawn place named), a county property tax raised in January 2025 moves rent from the January 2026 row, not before, named by the web's row id; `src/core2/outcome-web.test.ts` has a case that fails without the change.
+**Done when.** In a played world (`buildBenchWorld`, the Prescott seed or a drawn place named), a county property tax raised in January 2025 moves rent from the January 2026 row, not before, named by the web's row id; `src/core2/outcome-web.test.ts` has a case that fails without the change. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/outcome-web.ts
 

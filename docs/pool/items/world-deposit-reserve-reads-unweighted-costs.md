@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: every reader of a business figure multiplies by the weight the same way. Wire to the world: the deposits and the cash on hand move on the journal, shown in a played year.
 
-**Done when.** In a one-year played world built with buildBenchWorld at Census scale in a drawn place above 10,000 (seed named), each business's deposits divided by its weighted flows are within a stated spread of the same town's ratio at the sample size, named by organization id, in a test in src/core2.
+**Done when.** In a one-year played world built with buildBenchWorld at Census scale in a drawn place above 10,000 (seed named), each business's deposits divided by its weighted flows are within a stated spread of the same town's ratio at the sample size, named by organization id, in a test in src/core2. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/credit-deposits.ts
 

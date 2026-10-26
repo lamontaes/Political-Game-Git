@@ -101,4 +101,4 @@ it(`two worlds' addresses differ in length and order, each citing its own number
       .map((row) => `${row.where} ${row.lines.length} ${row.order.join(">")}`)
       .join("; ")}`,
   );
-}, 1_800_000);
+}, 600_000);

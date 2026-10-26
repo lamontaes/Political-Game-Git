@@ -1,0 +1,1453 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "budget-line:police",
+      "kind": "budget-line",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "place:2666300 police 4746872 -> 14746872 by law-wiring-e6fd8b9f",
+      "lawIds": ["law-wiring-e6fd8b9f"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 1,
+        "countedGroups": 34,
+        "countedPeople": 167,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 38,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-e6fd8b9f:positions:organization_c8c4bd3ade9bbdd0:2025-01-20",
+          "applied|budget-line:police|organization_c8c4bd3ade9bbdd0",
+          "applied|budget-line:police|organization:treasury:place:2666300",
+          "applied|budget-line:police|person_b42610e627dd7567"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 356297367,
+            "control": 349463418,
+            "ids": [
+              "journal:2025-01-23:1677",
+              "journal:2025-01-24:1678",
+              "journal:2025-01-25:1679"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 666480008,
+            "control": 661129450,
+            "ids": [
+              "journal:2025-02-01:2670",
+              "journal:2025-02-01:2671",
+              "journal:2025-02-01:2672"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 250578798,
+            "control": 245818720,
+            "ids": [
+              "journal:2025-02-01:1972",
+              "journal:2025-02-01:1973",
+              "journal:2025-02-01:1974"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+            "treatment": 182635604,
+            "control": 178287930,
+            "ids": [
+              "journal:2025-02-01:2656",
+              "journal:2025-02-01:2657",
+              "journal:2025-02-01:2658"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 425526144,
+            "control": 423069204,
+            "ids": [
+              "journal:2025-01-21:1632",
+              "journal:2025-01-21:1633",
+              "journal:2025-01-21:1634"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1287644819,
+            "control": 1290009658,
+            "ids": [
+              "journal:2025-01-21:1606",
+              "journal:2025-01-21:1607",
+              "journal:2025-01-21:1608"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177079578645659,
+            "control": 177079579882851,
+            "ids": [
+              "journal:2025-02-01:1773",
+              "journal:2025-02-01:1774",
+              "journal:2025-02-01:1775"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 374604708,
+            "control": 375532144,
+            "ids": [
+              "journal:2025-01-27:1708",
+              "journal:2025-01-28:1711",
+              "journal:2025-01-28:1714"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 710208789949808,
+            "control": 710208790681584,
+            "ids": [
+              "journal:2025-02-01:1783",
+              "journal:2025-02-01:1784",
+              "journal:2025-02-01:1785"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 62623583,
+            "control": 62011963,
+            "ids": [
+              "journal:2025-02-01:1989",
+              "journal:2025-02-01:1991",
+              "journal:2025-02-01:1993"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 47901473,
+            "control": 48388615,
+            "ids": [
+              "journal:2025-01-21:1584",
+              "journal:2025-01-21:1585",
+              "journal:2025-01-21:1586"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:828",
+            "treatment": 12280711,
+            "control": 12734011,
+            "ids": [
+              "journal:2025-02-01:2645",
+              "journal:2025-03-01:9788",
+              "journal:2025-04-01:17538"
+            ]
+          }
+        ],
+        "diffKinds": 37,
+        "cited": [
+          {
+            "token": "budget-line:police",
+            "gross": 2608179,
+            "ids": [
+              "journal:2025-02-13:8192",
+              "journal:2025-02-13:8193",
+              "journal:2025-02-27:8550"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 3,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 1,
+              "moved": 154103,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_b42610e627dd7567",
+                  "row": "applied|budget-line:police|person_b42610e627dd7567",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -154103,
+                  "control": 0,
+                  "journal": "journal:2025-03-01:9259"
+                }
+              ]
+            },
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 1,
+              "moved": 52700,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_b42610e627dd7567",
+                  "row": "applied|budget-line:police|person_b42610e627dd7567",
+                  "date": "2025-02-13",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 52700,
+                  "control": 0,
+                  "journal": "journal:2025-02-13:8192"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 1,
+              "moved": 35123,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_b42610e627dd7567",
+                  "row": "applied|budget-line:police|person_b42610e627dd7567",
+                  "date": "2025-02-13",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -35123,
+                  "control": 0,
+                  "journal": "journal:2025-02-13:8251"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1565",
+              "way": "out",
+              "targets": 1,
+              "moved": 6271,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_b42610e627dd7567",
+                  "row": "applied|budget-line:police|person_b42610e627dd7567",
+                  "date": "2025-02-13",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1565",
+                  "way": "out",
+                  "treatment": -6271,
+                  "control": 0,
+                  "journal": "journal:2025-02-13:8193"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "police-to-violent-crime",
+            "status": "built",
+            "to": "crime.violent"
+          },
+          {
+            "key": "police-to-property-crime",
+            "status": "built",
+            "to": "crime.property"
+          },
+          {
+            "key": "police-to-low-level-arrests",
+            "status": "size-not-set",
+            "to": "justice.low-level-arrests"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "police-to-violent-crime",
+            "effect": -0.024053023106685213
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "police-to-property-crime",
+            "effect": -0.012026511553342606
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "police-to-violent-crime",
+            "effect": -0.024053023106685213
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "police-to-property-crime",
+            "effect": -0.012026511553342606
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "police-to-violent-crime",
+            "effect": -0.024053023106685213
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "police-to-property-crime",
+            "effect": -0.012026511553342606
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "police-to-violent-crime",
+            "effect": -0.024053023106685213
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "police-to-property-crime",
+            "effect": -0.012026511553342606
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "police-to-violent-crime",
+            "effect": -0.024053023106685213
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "police-to-property-crime",
+            "effect": -0.012026511553342606
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "police-to-violent-crime",
+            "effect": -0.024210493438360056
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "police-to-property-crime",
+            "effect": -0.012105246719180028
+          }
+        ],
+        "firedCount": 22,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 51,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:police:law-wiring-e6fd8b9f",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:police:law-wiring-e6fd8b9f",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:police:law-wiring-e6fd8b9f"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 1,
+        "countedGroups": 27,
+        "countedPeople": 97,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 31,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-e6fd8b9f:positions:organization_c8c4bd3ade9bbdd0:2025-01-20",
+          "applied|budget-line:police|organization_c8c4bd3ade9bbdd0",
+          "applied|budget-line:police|organization:treasury:place:2666300",
+          "applied|budget-line:police|person_95f684085236b198"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 81
+    },
+    {
+      "key": "budget-line:corrections",
+      "kind": "budget-line",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "place:2666300 corrections 7110 -> 10007110 by law-wiring-b12dcfab",
+      "lawIds": ["law-wiring-b12dcfab"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 35,
+        "countedPeople": 35,
+        "households": 0,
+        "organizations": 1,
+        "governments": 2,
+        "other": 0,
+        "open": 38,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-b12dcfab:positions:organization:treasury:place:2666300:2025-01-20",
+          "applied|budget-line:corrections|organization:treasury:place:2666300",
+          "applied|budget-line:corrections|service:corrections",
+          "applied|budget-line:corrections|group:jurisdiction_971998ff58477430:town:adults:income-1:other:45-64:working"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1293841521,
+            "control": 1290009658,
+            "ids": [
+              "journal:2025-01-21:1606",
+              "journal:2025-01-21:1607",
+              "journal:2025-01-21:1608"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 657308258,
+            "control": 661129450,
+            "ids": [
+              "journal:2025-02-01:2669",
+              "journal:2025-02-01:2670",
+              "journal:2025-02-01:2671"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 349222293,
+            "control": 349463418,
+            "ids": [
+              "journal:2025-01-23:1677",
+              "journal:2025-01-24:1678",
+              "journal:2025-01-25:1679"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 422915374,
+            "control": 423069204,
+            "ids": [
+              "journal:2025-01-21:1632",
+              "journal:2025-01-21:1633",
+              "journal:2025-01-21:1634"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 375615604,
+            "control": 375532144,
+            "ids": [
+              "journal:2025-01-27:1708",
+              "journal:2025-01-28:1711",
+              "journal:2025-01-28:1714"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 710208790653767,
+            "control": 710208790681584,
+            "ids": [
+              "journal:2025-02-01:1782",
+              "journal:2025-02-01:1783",
+              "journal:2025-02-01:1784"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1565",
+            "treatment": 3332294985,
+            "control": 3332288796,
+            "ids": [
+              "journal:2025-01-27:1709",
+              "journal:2025-01-28:1712",
+              "journal:2025-01-28:1715"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 245813046,
+            "control": 245818720,
+            "ids": [
+              "journal:2025-02-01:1971",
+              "journal:2025-02-01:1972",
+              "journal:2025-02-01:1973"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177079579877797,
+            "control": 177079579882851,
+            "ids": [
+              "journal:2025-02-01:1772",
+              "journal:2025-02-01:1773",
+              "journal:2025-02-01:1774"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 62533298,
+            "control": 62537300,
+            "ids": [
+              "journal:2025-01-21:1660",
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1948"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+            "treatment": 178283978,
+            "control": 178287930,
+            "ids": [
+              "journal:2025-02-01:2655",
+              "journal:2025-02-01:2656",
+              "journal:2025-02-01:2657"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:2602",
+            "treatment": 584050,
+            "control": 585686,
+            "ids": ["journal:2025-06-01:32946", "journal:2026-01-01:90297"]
+          }
+        ],
+        "diffKinds": 33,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "incarceration-to-crime",
+            "status": "about-zero",
+            "to": "crime.all"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 50,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:corrections:law-wiring-b12dcfab",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:corrections:law-wiring-b12dcfab",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:corrections:law-wiring-b12dcfab"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 28,
+        "countedPeople": 28,
+        "households": 0,
+        "organizations": 2,
+        "governments": 3,
+        "other": 0,
+        "open": 33,
+        "ended": 0,
+        "sample": [
+          "reach:budget:US-MI:2025:positions:organization:treasury:US-MI:2025-10-01",
+          "reach:law-wiring-b12dcfab:positions:organization:treasury:place:2666300:2025-01-20",
+          "applied|budget-line:corrections|organization:treasury:US-MI",
+          "applied|budget-line:corrections|organization:treasury:place:2666300"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 77
+    },
+    {
+      "key": "budget-line:fire",
+      "kind": "budget-line",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "place:2666300 fire 3313932 -> 13313932 by law-wiring-aff49982",
+      "lawIds": ["law-wiring-aff49982"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 2,
+        "countedGroups": 34,
+        "countedPeople": 79,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 39,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-aff49982:positions:organization_ff39b01874c8803a:2025-01-20",
+          "applied|budget-line:fire|organization_ff39b01874c8803a",
+          "applied|budget-line:fire|organization:treasury:place:2666300",
+          "applied|budget-line:fire|person_b42610e627dd7567"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 2,
+        "countedGroups": 26,
+        "countedPeople": 54,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 31,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-aff49982:positions:organization_ff39b01874c8803a:2025-01-20",
+          "applied|budget-line:fire|organization_ff39b01874c8803a",
+          "applied|budget-line:fire|organization:treasury:place:2666300",
+          "applied|budget-line:fire|person_b42610e627dd7567"
+        ]
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 381864560,
+            "control": 375532144,
+            "ids": [
+              "journal:2025-01-27:1708",
+              "journal:2025-01-28:1711",
+              "journal:2025-01-28:1714"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 353910586,
+            "control": 349463418,
+            "ids": [
+              "journal:2025-01-23:1677",
+              "journal:2025-01-24:1678",
+              "journal:2025-01-25:1679"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 710208787665997,
+            "control": 710208790681584,
+            "ids": [
+              "journal:2025-02-01:1783",
+              "journal:2025-02-01:1784",
+              "journal:2025-02-01:1785"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 248637352,
+            "control": 245818720,
+            "ids": [
+              "journal:2025-02-01:1972",
+              "journal:2025-02-01:1973",
+              "journal:2025-02-01:1974"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+            "treatment": 180841196,
+            "control": 178287930,
+            "ids": [
+              "journal:2025-02-01:2656",
+              "journal:2025-02-01:2657",
+              "journal:2025-02-01:2658"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1292200657,
+            "control": 1290009658,
+            "ids": [
+              "journal:2025-01-21:1606",
+              "journal:2025-01-21:1607",
+              "journal:2025-01-21:1608"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177079578304281,
+            "control": 177079579882851,
+            "ids": [
+              "journal:2025-02-01:1773",
+              "journal:2025-02-01:1774",
+              "journal:2025-02-01:1775"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 63253028,
+            "control": 62011963,
+            "ids": [
+              "journal:2025-02-01:1989",
+              "journal:2025-02-01:1991",
+              "journal:2025-02-01:1993"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 662127677,
+            "control": 661129450,
+            "ids": [
+              "journal:2025-02-01:2670",
+              "journal:2025-02-01:2671",
+              "journal:2025-02-01:2672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 47445746,
+            "control": 48388615,
+            "ids": [
+              "journal:2025-01-21:1584",
+              "journal:2025-01-21:1585",
+              "journal:2025-01-21:1586"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/official-living.ts:102",
+            "treatment": 3259682344,
+            "control": 3260385386,
+            "ids": [
+              "journal:2025-01-27:1699",
+              "journal:2025-01-27:1700",
+              "journal:2025-01-27:1701"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 2459629,
+            "control": 3137614,
+            "ids": [
+              "journal:2025-10-01:63738",
+              "journal:2025-10-01:63739",
+              "journal:2025-11-01:72163"
+            ]
+          }
+        ],
+        "diffKinds": 39,
+        "cited": [
+          {
+            "token": "budget-line:fire",
+            "gross": 8573670,
+            "ids": [
+              "journal:2025-02-13:8197",
+              "journal:2025-02-13:8198",
+              "journal:2025-02-27:8551"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 42,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+              "way": "in",
+              "targets": 37,
+              "moved": 13047,
+              "earliest": "2025-02-06",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "date": "2025-02-06",
+                  "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+                  "way": "in",
+                  "treatment": -1698,
+                  "control": -2336,
+                  "journal": "journal:2025-02-06:8062"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:working",
+                  "date": "2025-02-06",
+                  "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+                  "way": "in",
+                  "treatment": -476,
+                  "control": -636,
+                  "journal": "journal:2025-02-06:8063"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+                  "date": "2025-02-06",
+                  "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+                  "way": "in",
+                  "treatment": -423,
+                  "control": -583,
+                  "journal": "journal:2025-02-06:8063"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:working",
+                  "date": "2025-02-06",
+                  "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+                  "way": "in",
+                  "treatment": -425,
+                  "control": -585,
+                  "journal": "journal:2025-02-06:8063"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:828",
+              "way": "out",
+              "targets": 32,
+              "moved": 41129,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:828",
+                  "way": "out",
+                  "treatment": 34795,
+                  "control": 35927,
+                  "journal": "journal:2025-03-01:9787"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:828",
+                  "way": "out",
+                  "treatment": 17397,
+                  "control": 17963,
+                  "journal": "journal:2025-03-01:9787"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:828",
+                  "way": "out",
+                  "treatment": 17397,
+                  "control": 17963,
+                  "journal": "journal:2025-03-01:9787"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:other:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:other:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:828",
+                  "way": "out",
+                  "treatment": 17397,
+                  "control": 17963,
+                  "journal": "journal:2025-03-01:9787"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+              "way": "in",
+              "targets": 25,
+              "moved": 285592,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+                  "way": "in",
+                  "treatment": -129278,
+                  "control": -130090,
+                  "journal": "journal:2025-03-01:9796"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+                  "way": "in",
+                  "treatment": -64635,
+                  "control": -65041,
+                  "journal": "journal:2025-03-01:9798"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-3:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-3:mortgage:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+                  "way": "in",
+                  "treatment": -700221,
+                  "control": -700787,
+                  "journal": "journal:2025-03-01:9796"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-3:other:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-3:other:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+                  "way": "in",
+                  "treatment": -930405,
+                  "control": -930971,
+                  "journal": "journal:2025-03-01:9796"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+              "way": "out",
+              "targets": 19,
+              "moved": 59324,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-2:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-2:mortgage:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+                  "way": "out",
+                  "treatment": 307982,
+                  "control": 343044,
+                  "journal": "journal:2025-03-01:8852"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:one-adult:income-1:other:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:one-adult:income-1:other:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+                  "way": "out",
+                  "treatment": 632500,
+                  "control": 655490,
+                  "journal": "journal:2025-03-01:8855"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:one-adult:income-2:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:one-adult:income-2:mortgage:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+                  "way": "out",
+                  "treatment": 174620,
+                  "control": 175241,
+                  "journal": "journal:2025-03-01:8849"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "date": "2025-04-14",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+                  "way": "out",
+                  "treatment": 58801,
+                  "control": 58849,
+                  "journal": "journal:2025-04-14:23337"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+              "way": "out",
+              "targets": 12,
+              "moved": 697257,
+              "earliest": "2025-02-19",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+                  "way": "out",
+                  "treatment": -89928,
+                  "control": -89610,
+                  "journal": "journal:2025-02-19:8359"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:working",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+                  "way": "out",
+                  "treatment": -73034,
+                  "control": -72874,
+                  "journal": "journal:2025-02-19:8349"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:rent:18-29:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:rent:18-29:not-working",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+                  "way": "out",
+                  "treatment": -55817,
+                  "control": -55657,
+                  "journal": "journal:2025-02-19:8360"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-1:rent:18-29:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-1:rent:18-29:not-working",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+                  "way": "out",
+                  "treatment": -118680,
+                  "control": -118519,
+                  "journal": "journal:2025-02-19:8366"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+              "way": "out",
+              "targets": 9,
+              "moved": 480615,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:one-adult:income-0:mortgage:45-64:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:one-adult:income-0:mortgage:45-64:not-working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+                  "way": "out",
+                  "treatment": -300614,
+                  "control": -26976,
+                  "journal": "journal:2025-03-01:9796"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                  "date": "2025-03-03",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+                  "way": "out",
+                  "treatment": -48053,
+                  "control": -47241,
+                  "journal": "journal:2025-03-03:15149"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+                  "date": "2025-03-03",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+                  "way": "out",
+                  "treatment": -19095,
+                  "control": -18689,
+                  "journal": "journal:2025-03-03:15149"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:with-children:income-0:rent:18-29:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:with-children:income-0:rent:18-29:not-working",
+                  "date": "2025-03-03",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:667",
+                  "way": "out",
+                  "treatment": -5519,
+                  "control": -4561,
+                  "journal": "journal:2025-03-03:15149"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "in",
+              "targets": 9,
+              "moved": 60035,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-2:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-2:mortgage:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -1304474,
+                  "control": -1332756,
+                  "journal": "journal:2025-03-01:8815"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:one-adult:income-1:other:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:one-adult:income-1:other:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -791498,
+                  "control": -814897,
+                  "journal": "journal:2025-03-01:8820"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:one-adult:income-2:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:one-adult:income-2:mortgage:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -191129,
+                  "control": -193452,
+                  "journal": "journal:2025-03-01:8822"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-1:other:65-plus:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-1:other:65-plus:working",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -1476638,
+                  "control": -1477043,
+                  "journal": "journal:2025-04-01:16447"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+              "way": "in",
+              "targets": 7,
+              "moved": 76022,
+              "earliest": "2025-02-07",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:one-adult:income-0:mortgage:45-64:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:one-adult:income-0:mortgage:45-64:not-working",
+                  "date": "2025-02-07",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+                  "way": "in",
+                  "treatment": 75164,
+                  "control": 0,
+                  "journal": "journal:2025-02-07:8096"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:one-adult:income-0:other:18-29:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:one-adult:income-0:other:18-29:not-working",
+                  "date": "2025-04-14",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+                  "way": "in",
+                  "treatment": 13846,
+                  "control": 13469,
+                  "journal": "journal:2025-04-14:23337"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:other:30-44:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:other:30-44:not-working",
+                  "date": "2025-10-14",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+                  "way": "in",
+                  "treatment": 3030,
+                  "control": 2951,
+                  "journal": "journal:2025-10-14:71139"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:with-children:income-1:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:with-children:income-1:mortgage:45-64:working",
+                  "date": "2025-10-14",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+                  "way": "in",
+                  "treatment": 4546,
+                  "control": 4427,
+                  "journal": "journal:2025-10-14:71139"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 5,
+              "moved": 907,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-1:other:65-plus:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-1:other:65-plus:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -395950,
+                  "control": -395790,
+                  "journal": "journal:2025-03-01:8813"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-3:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-3:mortgage:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -501827,
+                  "control": -501667,
+                  "journal": "journal:2025-03-01:8826"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-3:other:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-3:other:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -537385,
+                  "control": -537278,
+                  "journal": "journal:2025-03-01:8814"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:one-adult:income-1:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:one-adult:income-1:mortgage:45-64:working",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -207536,
+                  "control": -207216,
+                  "journal": "journal:2025-03-01:8812"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+              "way": "out",
+              "targets": 4,
+              "moved": 65,
+              "earliest": "2025-11-01",
+              "sample": [
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:other:30-44:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:other:30-44:not-working",
+                  "date": "2025-11-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -733,
+                  "control": -720,
+                  "journal": "journal:2025-11-01:73444"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:with-children:income-1:mortgage:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:with-children:income-1:mortgage:45-64:working",
+                  "date": "2025-11-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -542,
+                  "control": -530,
+                  "journal": "journal:2025-11-01:73444"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:rent:30-44:not-working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:rent:30-44:not-working",
+                  "date": "2025-12-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -842,
+                  "control": -808,
+                  "journal": "journal:2025-12-01:81900"
+                },
+                {
+                  "target": "group:jurisdiction_971998ff58477430:town:with-children:income-1:other:45-64:working",
+                  "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:with-children:income-1:other:45-64:working",
+                  "date": "2026-01-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -1835,
+                  "control": -1829,
+                  "journal": "journal:2026-01-01:90553"
+                }
+              ]
+            }
+          ],
+          "paid": 37,
+          "pick": "accounts.transfer @ src/core2/public-safety.ts:421|in",
+          "sample": [
+            {
+              "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+              "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+              "date": "2025-02-06",
+              "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+              "way": "in",
+              "treatment": -1698,
+              "control": -2336,
+              "journal": "journal:2025-02-06:8062"
+            },
+            {
+              "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:working",
+              "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:working",
+              "date": "2025-02-06",
+              "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+              "way": "in",
+              "treatment": -476,
+              "control": -636,
+              "journal": "journal:2025-02-06:8063"
+            },
+            {
+              "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+              "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:not-working",
+              "date": "2025-02-06",
+              "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+              "way": "in",
+              "treatment": -423,
+              "control": -583,
+              "journal": "journal:2025-02-06:8063"
+            },
+            {
+              "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:working",
+              "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:45-64:working",
+              "date": "2025-02-06",
+              "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+              "way": "in",
+              "treatment": -425,
+              "control": -585,
+              "journal": "journal:2025-02-06:8063"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+              "way": "in",
+              "targets": 37,
+              "first": {
+                "target": "group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                "row": "applied|budget-line:fire|group:jurisdiction_971998ff58477430:town:adults:income-0:mortgage:30-44:not-working",
+                "date": "2025-02-06",
+                "kind": "accounts.transfer @ src/core2/public-safety.ts:421",
+                "way": "in",
+                "treatment": -1698,
+                "control": -2336,
+                "journal": "journal:2025-02-06:8062"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "fire-spending-to-fire-deaths",
+            "status": "about-zero",
+            "to": "fire.civilian-casualties"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 50,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:fire:law-wiring-aff49982",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:fire:law-wiring-aff49982",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:fire:law-wiring-aff49982"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 3,
+        "countedGroups": 26,
+        "countedPeople": 54,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 32,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-aff49982:positions:organization_ff39b01874c8803a:2025-01-20",
+          "applied|budget-line:fire|organization_ff39b01874c8803a",
+          "applied|budget-line:fire|organization:treasury:place:2666300",
+          "applied|budget-line:fire|person_0bbe6a59b6ca584c"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 77
+    }
+  ]
+}

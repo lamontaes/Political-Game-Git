@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** The engine offers, the player decides: the controlled person's choice is never made by the engine. Wire to the world: the player's answer is what files or drops the bill, by record id. No dice.
 
-**Done when.** In a played world (buildBenchWorld) on a place drawn from all 56 with a seed the builder did not choose, an executive's ask to carry a bill that reaches the player files nothing until the player answers; agreeing files the bill with the player as sponsor and requestedBy the asker, declining files nothing, each named by record id in the PR body.
+**Done when.** In a played world (buildBenchWorld) on a place drawn from all 56 with a seed the builder did not choose, an executive's ask to carry a bill that reaches the player files nothing until the player answers; agreeing files the bill with the player as sponsor and requestedBy the asker, declining files nothing, each named by record id in the PR body. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/world-legislating.ts
 
