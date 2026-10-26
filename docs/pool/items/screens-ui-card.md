@@ -5,13 +5,14 @@ area: play
 kind: cleanup
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/screens-ui-card
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: screens
 milestone: play-first
+claimed-at: 2026-10-26T20:32:30.674Z
 ---
 
 **What.** The owner ruled on Oct 26 that the play screen's controls come from one shared set. This is the fourth part: the card. Today play.mjs builds the law card, the family card, the money item, the job overview and the job offer each by hand with its own class. They move to src/bench/ui/card.mjs as one makeCard, and the hand-written elements are deleted. Looks and behavior do not change.
