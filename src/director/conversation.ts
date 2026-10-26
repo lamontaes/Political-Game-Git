@@ -250,18 +250,17 @@ function schoolStage(core: Readonly<CoreState>, person: Readonly<PersonState>) {
 }
 
 /**
- * How long someone has held their job, in whole years by the calendar: what
- * people say ("for seven years"), never the month they started (owner, Oct
- * 15: nobody says a date). Under two years there is no count to say.
+ * How long someone has held their job, in completed years, counted to the
+ * anniversary of the day they started: what people say ("for seven years"),
+ * never the month they started (owner, Oct 15: nobody says a date). Under two
+ * years there is no count to say.
  */
-function tenureYears(
+export function tenureYears(
   started: { date: string; factId: string } | null,
   today: string,
 ): { text: string; sourceRecordIds: readonly string[] } | undefined {
   if (!started) return undefined;
-  const years =
-    Number(today.slice(zero, today.indexOf("-"))) -
-    Number(started.date.slice(zero, started.date.indexOf("-")));
+  const years = ageOnDate(started.date, today);
   return years > one
     ? { text: String(years), sourceRecordIds: [started.factId] }
     : undefined;
