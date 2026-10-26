@@ -5,9 +5,9 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/law-table-long-sentence
-pr:
+pr: #6192
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T21:34:57.328Z
