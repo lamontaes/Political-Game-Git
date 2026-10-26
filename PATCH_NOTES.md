@@ -296,6 +296,70 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.36.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A minimum wage taking effect no longer stops the game over a job that ended
+  before it began.** A commuter's job could end the day before it was to start
+  while its schedule still ran to that start day, and the minimum wage tried to
+  raise it and stopped the game. The wage now raises only jobs whose own record
+  is still open.
+
+## PRE-ALPHA 0.36.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **Election night also shows who won the governor races around the country.**
+  After your own races, the election results now list every other state's
+  governor race that night: which party won and by how many points. Before the
+  first governor races are counted, the results say so.
+
+## PRE-ALPHA 0.35.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **The People web marks who came closer this year and who drifted away** The
+  People web marks the people who joined your five closest in the last year and
+  those who left it, and names why on selecting them: a visit, a move away, a
+  death or no time together lately, each read from the tie's record. When your
+  five closest are the same as a year ago, it says so.
+
+- **When the press runs a story against an officeholder or their bill, one of
+  their aides brings it in** When a paper or station runs a story that comes out
+  against an officeholder, or against a bill they sponsored, one of their own
+  aides comes in with it: which outlet ran it, what it's about, and who wrote
+  it. They can ask about it, push back, take it, or put it off, and their day
+  stops for it. A story in their favor brings no one in, and an officeholder
+  without an aide hears it the usual way. You can't hire an aide yet, so for now
+  this plays for the town's other officeholders.
+
+### Fixed
+
+- **Buttons in a row are the same size** Every button in the game now follows
+  one size, so a row of buttons shares one height: the talk box's Say nothing
+  beside Leave, the creator's Back beside Continue, the menu's entries with and
+  without a description line, and Continue on the title with its saved life
+  beside it.
+
+- **Menu screens and person cards are solid** The menu, every menu screen and a
+  person's card are now drawn on a solid panel, so the room behind them no
+  longer shows through the text. Panels over a scene, such as the talk box, keep
+  their glass.
+
+- **Talking to your family at home has something to say on the first evening**
+  On the first evening, your mother, father or sibling asks whether you saw the
+  President's speech, the household having watched it together, and you have
+  four replies. Whatever you say, they tell you what they made of it, for or
+  against, and you have four more replies. Before, Talk at home gave one goodbye
+  line and nothing to say.
+
 ## PRE-ALPHA 0.34.4
 
 _Released October 26, 2026._

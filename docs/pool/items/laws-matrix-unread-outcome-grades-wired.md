@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/matrix-unread-grades
 pr: #6173
 blocked-on:
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T18:57:26.362Z
 **Rules.** An effect is a read, not a record: a nonzero monthly ledger change does not complete an unread production link. The chain is the acceptance: complete outcome evidence identifies the owning engine and actual affected generated-world record. Registered stopgaps remain honest gaps until their production reader exists.
 
 **Done when.** A targeted regression test using the committed SNAP maximum food-insecurity evidence grades the web cell partial or stopgap while its registered unread reason remains and no production reader exists. A genuine engine-carried outcome and a supported long-lag link with an existing reader still receive their correct grade. Rebuilding the law matrix no longer calls this unread SNAP outcome wired; the report names the missing reader without deleting its stopgap, weakening a guard, or requiring every empirical effect to appear before its research lag.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** scripts/law-wiring/matrix.ts, src/core2/data/outcome-web/unwired.json, docs/reports/law-wiring-matrix.json, docs/reports/law-wiring-table.md
 
