@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Never loosen a check to get green: the test must still show a shorter runway raising the need in each tier and the need surviving fill-in. One rule, all 56 places: keep drawing from all 56, naming place and seed.
 
-**Done when.** src/core2/jobs-apply-need-varies.test.ts passes on main for APPLY_NEED_SEED=moneycheck1 and for three fresh seeds, each run naming the drawn place, seed and the two seekers it compared in each tier by person id, with the shorter runway's need above the longer's in both tiers.
+**Done when.** src/core2/jobs-apply-need-varies.test.ts passes on main for APPLY_NEED_SEED=moneycheck1 and for three fresh seeds, each run naming the drawn place, seed and the two seekers it compared in each tier by person id, with the shorter runway's need above the longer's in both tiers. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/jobs-apply-need-varies.test.ts
 

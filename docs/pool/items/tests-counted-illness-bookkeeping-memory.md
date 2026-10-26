@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: preserve the original independent root and the full generated played year. Bookkeeping is a debug switch: retain it in this test because its assertions require the kept monthly records; fix retained memory growth without disabling validation, changing the seed, weakening positive assertions or raising the container budget.
 
-**Done when.** The unchanged counted-illness test completes on the recorded Wallowa played world with one worker, a 6 GB Node heap and the 10 GB cloud limit, and passes its positive death, illness and fill-in assertions. A fresh drawn-place case also completes with the same checks, and the PR names record ids plus before and after retained memory behavior.
+**Done when.** The unchanged counted-illness test completes on the recorded Wallowa played world with one worker, a 6 GB Node heap and the 10 GB cloud limit, and passes its positive death, illness and fill-in assertions. A fresh drawn-place case also completes with the same checks, and the PR names record ids plus before and after retained memory behavior. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/counted-illness.test.ts, src/core2/bookkeeping.ts, src/core2/state.ts, src/core2/births-counted.ts
 

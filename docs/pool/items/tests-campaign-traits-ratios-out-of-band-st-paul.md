@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: the ratios check totals, never an actor's outcome. One rule, all 56 places: the test draws its place, and a band that one small town breaks either holds a wrong slack for a town that size or shows a real skew in that town's people; name which. Ask why: the cause is named by record, not by retrying the draw.
 
-**Done when.** src/core2/modules/campaigns.traits.test.ts passes in St. Paul, Oregon with base seed 174063ebf76ebfbc632befa6193ec00525ce6df2 and in a fresh random draw, and the PR names why the two ratios ran outside the band there (the town's adults by lean third, with the counts behind each mean), with the fix in the engine or in the test's band for a town that size, each change justified by that read.
+**Done when.** src/core2/modules/campaigns.traits.test.ts passes in St. Paul, Oregon with base seed 174063ebf76ebfbc632befa6193ec00525ce6df2 and in a fresh random draw, and the PR names why the two ratios ran outside the band there (the town's adults by lean third, with the counts behind each mean), with the fix in the engine or in the test's band for a town that size, each change justified by that read. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/modules/campaigns.traits.test.ts, src/core2/trait-decisions.ts
 

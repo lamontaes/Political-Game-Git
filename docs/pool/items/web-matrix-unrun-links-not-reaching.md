@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: a link reaches only when the web runs it into an engine that reads it, or an engine carries its cause. Never delete stopgap rows; mark them resolved.
 
-**Done when.** effect-matrix.ts regenerated on a branch from main grades every link coverage.json lists as waiting and not carried as not reaching, with its waitingOn reason; each appears in unwired.json with a specific stopgap row; outcome-web-unwired.test.ts passes, and a test fails if a waiting link grades as reaching.
+**Done when.** effect-matrix.ts regenerated on a branch from main grades every link coverage.json lists as waiting and not carried as not reaching, with its waitingOn reason; each appears in unwired.json with a specific stopgap row; outcome-web-unwired.test.ts passes, and a test fails if a waiting link grades as reaching. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/outcome-web/effect-matrix.ts, scripts/outcome-web/write-unwired.ts, src/core2/outcome-web-unwired.test.ts
 

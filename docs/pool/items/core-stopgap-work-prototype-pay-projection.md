@@ -4,7 +4,7 @@ title: "Stopgaps in work (prototype-pay-projection): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Projects hourly SOC wage proxies onto actual attended minutes and immediate same-day conserving payment.
 
 Oct 20 (pool feeder): spec written; the row's wording ('immediate same-day payment') is stale: pay already follows the employer payday (work-payroll-cash.ts, work-pay-period.ts); overtime is split out as laws-overtime-pay-rule, which this item reads. Research: docs/research/stand-in-figures-2026-10-12.md says no number fixes this, it is a mechanic.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

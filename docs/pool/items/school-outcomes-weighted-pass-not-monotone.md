@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: a counted senior is read by the same rule as a full one, times their weight. No dice: who graduates comes from standing and the share, not a draw. Sliding scales and causes: more share never makes a given student fail; nothing flips at a threshold.
 
-**Done when.** The pass rule clears students in order of standing so that raising a fifth's share never fails a student who cleared before (for example a counted record clears its weight in part, as a share of its household); school-outcomes-spending-web.test.ts checks per senior again that the raise fails no one, on seed 020184272677dc2b and two fresh drawn places named in the PR body; the town's graduation share stays within the calibrated band.
+**Done when.** The pass rule clears students in order of standing so that raising a fifth's share never fails a student who cleared before (for example a counted record clears its weight in part, as a share of its household); school-outcomes-spending-web.test.ts checks per senior again that the raise fails no one, on seed 020184272677dc2b and two fresh drawn places named in the PR body; the town's graduation share stays within the calibrated band. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/school-outcomes.ts, src/core2/school-outcomes-spending-web.test.ts
 

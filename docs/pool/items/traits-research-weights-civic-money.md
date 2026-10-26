@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Research before building: each weight cites its row and the played years it was fitted on. Never loosen a check: a decision a played year cannot fit keeps a gap row with its numbers. No dice.
 
-**Done when.** In one year of buildBenchWorld in each of two places drawn from all 56, seeds named, on a head carrying the civic and money rows, press.follow-news, speech.retell, jobs-benefits.file-claim, views.persuasion, views.trust and jobs.raise-for-opening each have a fitted weight tagged ESTIMATED with its row's citation, or a gap row naming why it cannot.
+**Done when.** In one year of buildBenchWorld in each of two places drawn from all 56, seeds named, on a head carrying the civic and money rows, press.follow-news, speech.retell, jobs-benefits.file-claim, views.persuasion, views.trust and jobs.raise-for-opening each have a fitted weight tagged ESTIMATED with its row's citation, or a gap row naming why it cannot. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/data/parameters.json, data/content/trait-decision-gaps.json
 

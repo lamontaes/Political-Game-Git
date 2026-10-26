@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5796
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each row is SOURCED or ESTIMATED in the parameter table with a citation and a spread; SG-CORE-residents-cadence is resolved or its remaining mechanic is named in a pool item with the sourced rows it reads; the research-data-reader guard, tripwire and calibration-guard tests pass; a one-year played world (buildBenchWorld, a drawn place, seed named) reports each band and where the town landed.
+**Done when.** Each row is SOURCED or ESTIMATED in the parameter table with a citation and a spread; SG-CORE-residents-cadence is resolved or its remaining mechanic is named in a pool item with the sourced rows it reads; the research-data-reader guard, tripwire and calibration-guard tests pass; a one-year played world (buildBenchWorld, a drawn place, seed named) reports each band and where the town landed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/residents.ts,src/core2/data/parameters.json,src/core2/data/stopgaps.json,data/research/people/
 

@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T02:39:57.895Z
 
 **Rules.** No dice: a counted death follows from a recorded illness, and the check must not depend on a lucky draw. One model, two tiers: a counted group follows the same illness rule as a full person, times its count. One rule, all 56 places: the check draws its place and names it with the seed.
 
-**Done when.** In the played world (buildBenchWorld), GOLDEN_PATH_SEED=0b5c642b9b1ced1a9e74ea1914f63d8eb4e9dc9b passes src/core2/counted-illness.test.ts, the test fails loudly rather than silently when a drawn town has nothing to count, and three fresh random draws pass.
+**Done when.** In the played world (buildBenchWorld), GOLDEN_PATH_SEED=0b5c642b9b1ced1a9e74ea1914f63d8eb4e9dc9b passes src/core2/counted-illness.test.ts, the test fails loudly rather than silently when a drawn town has nothing to count, and three fresh random draws pass. **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
 
 **Files.** src/core2/counted-illness.test.ts, src/core2/modules/health.ts
 
