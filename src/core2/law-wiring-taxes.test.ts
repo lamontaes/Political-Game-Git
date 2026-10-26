@@ -251,6 +251,9 @@ function draw(index: number): {
     twoLevel: true,
     placeKey: drawn.key,
   });
+  // The modules open their books on the world's first day (the housing
+  // engine's homes, the businesses' books), before any law here is changed.
+  run(world.core, 1);
   return { where, core: world.core, lacks: lacking(coreAPI(world.core)) };
 }
 
