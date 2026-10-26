@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/web-matrix-unrun-links
 pr: #6008
 blocked-on:
