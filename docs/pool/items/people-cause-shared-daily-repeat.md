@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T01:31:38.230Z
 
 **Rules.** TODO
 
-**Done when.** TODO
+**Done when.** TODO **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
 
 **Files.** TODO
 

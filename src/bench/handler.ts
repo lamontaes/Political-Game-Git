@@ -311,12 +311,14 @@ export async function benchRequest(
       }
       if (
         request.method === "GET" &&
-        /^\/art\/people-whole\/[\w.-]+\.png$/.test(url.pathname)
+        /^\/art\/people-engine\/v2\/figures\/[\w.-]+\.png$/.test(url.pathname)
       ) {
-        // Whole-figure people: the owner-approved cutouts, served as they are.
+        // Standing people: the v2 figures, served as they are. The folder is
+        // written out so the desktop build copies it (it reads the fixed part
+        // of this path, desktop/scripts/build-play-api.mjs).
         const content = await readFile(
           new URL(
-            `../../art/people-whole/${url.pathname.slice("/art/people-whole/".length)}`,
+            `../../art/people-engine/v2/figures/${url.pathname.split("/").at(-1)}`,
             import.meta.url,
           ),
         );

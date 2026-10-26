@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: gov-chamber-committees-reader, gov-chamber-committees-data-a-m
@@ -23,3 +23,5 @@ source: split from gov-stopgap-legislature-committees-assumed-data by pool feede
 **Files.** src/core2/data/legislature/chamber-committees.json, src/core2/legislature-committees.ts, src/core2/legislature-committees.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): part 3 of 3 of gov-stopgap-legislature-committees-assumed-data.
+
+Folded into gov-chamber-committees-reader (Oct 25 audit).

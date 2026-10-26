@@ -1,0 +1,54 @@
+{
+  "about": "Recall doctrines a municipality may adopt by form or charter, and the statutory default until it does. Extracted without changing the eleven options/default rows from the municipal rule-pack reader; the reader applies one rule to every row.",
+  "basis": "Secondary synthesis only, as in data/municipal-elections/92O-national-state-baseline.json; the municipal rule pack carries each jurisdiction citation.",
+  "states": {
+    "AR": {
+      "options": ["two-question-standalone", "prohibited"],
+      "statutoryDefault": null
+    },
+    "HI": {
+      "options": ["yes-no-retention", "prohibited"],
+      "statutoryDefault": null
+    },
+    "ME": {
+      "options": ["yes-no-retention", "prohibited"],
+      "statutoryDefault": "prohibited"
+    },
+    "MO": {
+      "options": ["two-question-standalone", "prohibited"],
+      "statutoryDefault": null
+    },
+    "NM": {
+      "options": ["two-question-standalone", "prohibited"],
+      "statutoryDefault": null
+    },
+    "OH": {
+      "options": ["two-question-standalone", "prohibited"],
+      "statutoryDefault": "prohibited"
+    },
+    "OK": {
+      "options": ["two-question-standalone", "prohibited"],
+      "statutoryDefault": "prohibited"
+    },
+    "RI": {
+      "options": ["yes-no-retention", "prohibited"],
+      "statutoryDefault": "prohibited"
+    },
+    "TN": {
+      "options": ["two-question-standalone", "prohibited"],
+      "statutoryDefault": null
+    },
+    "TX": {
+      "options": [
+        "two-question-standalone",
+        "simultaneous-incumbent-replacement",
+        "prohibited"
+      ],
+      "statutoryDefault": "prohibited"
+    },
+    "WY": {
+      "options": ["simultaneous-incumbent-replacement", "prohibited"],
+      "statutoryDefault": "prohibited"
+    }
+  }
+}

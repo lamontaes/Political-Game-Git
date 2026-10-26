@@ -54,6 +54,7 @@ import {
   LAWS_MODULE_ID,
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
+import { lawApplied } from "../law-reach/applied";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
@@ -188,6 +189,8 @@ export interface BillRow {
   readonly bodyOfficeId: string;
   readonly sponsorId: string;
   readonly introduced: string;
+  /** The day it passed its last chamber; a state act's session is the one sitting then, whenever it is signed. */
+  readonly passedOn?: string;
   /** The committee record that reported the bill to the floor of its first chamber, where its body has committees. */
   readonly committeeId?: string;
   /** The pre-vote hooks that already ran on the bill's committee day; the floor day does not run them again. */
@@ -902,7 +905,7 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
           allowed: true,
           warning: "none",
           reason: "state-grants-local-minimum-wage",
-          source: rows[0]?.id ?? "",
+          source: authority.measureId ?? rows[0]?.id ?? "",
         }
       : {
           allowed: false,
@@ -910,7 +913,7 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
           reason: authority.preempts
             ? "state-preempts-local-minimum-wage"
             : "state-gives-no-local-minimum-wage",
-          source: rows[0]?.id ?? "",
+          source: authority.measureId ?? rows[0]?.id ?? "",
         };
   }
   if (
@@ -1340,7 +1343,12 @@ export function effectiveRule(
       cite: "Gozlon-Peretz v. United States, 498 U.S. 395 (1991)",
     };
   if (state) {
-    const stateDate = stateActEffectiveDate(chain.stateKey, api.state.date);
+    // Counted from the session the act passed in, though signed later.
+    const stateDate = stateActEffectiveDate(
+      chain.stateKey,
+      api.state.date,
+      bill.passedOn,
+    );
     // Every state's rule is data; a state act with no rule is a data gap to
     // fix, never a silent ordinance delay.
     if (!stateDate)
@@ -1708,6 +1716,37 @@ function checkedText(
             } as Authority)
           : authorityFor(api, p))),
   );
+  // A local minimum wage drafted under the state's grant (or refused by
+  // its preemption) reaches the body that drafted it, on the law that
+  // decided it: the state's authority answer or the question that enacted it.
+  for (const [i, p] of provisions.entries()) {
+    const a = authority[i]!;
+    const decidedBy = a.source
+      ? (api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .get(a.source) as unknown as LawRowInput | undefined)
+      : undefined;
+    // A question answered no is no law to apply; the state's preemption is
+    // the grant series' own row.
+    if (
+      !stateBody &&
+      p.kind === "law-amount" &&
+      p.series === "minimum-wage" &&
+      decidedBy &&
+      (!decidedBy.series.includes(":") || decidedBy.value === 1)
+    )
+      lawApplied(api, {
+        key: decidedBy.series,
+        lawId: decidedBy.id,
+        targetId: bodyOfficeId,
+        target: "government",
+        engine: LEGISLATURE_MODULE_ID,
+        what: a.allowed
+          ? "local-minimum-wage-bill-allowed"
+          : "local-minimum-wage-bill-preempted",
+      });
+  }
   return {
     provisions,
     costEstimate: costOf(api, provisions),
@@ -3470,7 +3509,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       return failed;
     }
   }
-  const passed: BillRow = { ...bill, status: "passed" };
+  const passed: BillRow = {
+    ...bill,
+    status: "passed",
+    passedOn: api.state.date,
+  };
   table(api, "bills").put(passed as unknown as ModuleRow);
   return executiveAction(api, passed, tallies);
 }
