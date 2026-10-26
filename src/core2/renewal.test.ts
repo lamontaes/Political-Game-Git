@@ -577,7 +577,7 @@ it(
               renewal.table("exposure").get(String(couple.id))?.carry,
             );
             expect(
-              !!plan || after !== carry,
+              !!plan || (Number.isFinite(after) && after !== carry),
               `${where}: ${couple.id} reviewed after fill-in (carry ${carry} then ${after})`,
             ).toBe(true);
             carried = `${where}: ${id} carried ${carry.toFixed(4)} into ${couple.id}, then ${plan ? `plan ${String(plan.id)}` : `carry ${after.toFixed(4)}`}`;
