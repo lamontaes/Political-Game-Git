@@ -628,7 +628,8 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       appliedOn(api, key).filter((r) => r.what === "parks-line-paid"),
       where,
     ).toHaveLength(0);
-  });
+    // It lives a year and a month of a town's days: over the default 30 seconds on a loaded machine.
+  }, 180_000);
 
   it("reports", () => {
     govReport("law-reach-group-a", JSON.stringify(report));
