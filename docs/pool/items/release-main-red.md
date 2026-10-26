@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: fix/main-red-2026-10-26-press-counted
 pr: #6165
 blocked-on:
@@ -31,7 +31,11 @@ Merger 2, October 26 14:47 UTC: Reopened for new Release failure40340740222, sou
 
 Merger 2, October 26 15:36 UTC: Ready bounded repair PR #6165 at93bf50847d1b55247f34d6f5588e7f82e72ddc61/tree7cd634e2deaab2293856974a71da10b3bf443d53. Actual fix restores countedResidents beside countedResidentsOf: the projected query lacks the household/trait fields required by countedLean, so both existing queries are retained. Clean-main typecheck fails TS2552 (exit2,606.86s); own repaired full build PASS1575.08s, focused fresh Guam test PASS331.43s, other scoped gates PASS and pool4416-byte exact baseline. This author cannot merge #6165; another merger validates/merges it. Only release-press-counted-town-query is its line-1 completion target; this shared incident remains separately tracked until repaired main is confirmed.
 
+Merger 2, October 26 15:55 UTC: This owned compile incident is repaired by another merger in PR #6165, checked head3c766036def7ec9a9dfa8077b2f8abf4bf682de2, main merge49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce at15:47:26. Merger 2 authored the repair and did not merge it. The bounded item is already DONE on maincdf1d4c318; author local build/typecheck and focused Guam regression passed, and the reviewing merger integrated main before its pinned merge. Closing this same owned shared incident via the official CLI, preserving all prior history. Latest Release40352786029 is in progress on49bfe2f8; no published-release success is claimed while it runs.
+
 
 Resolved current staging incident Oct 26 by PR #6071 (03c3437ea4), with independent exact-main bundle failure, fixed bundle and staged HTTP figure proof. The post-merge Release 40257575148 then passed both desktop staging/package/startup jobs and desktop publication. This follows the earlier merged heap repair; requested pool-done CLI succeeded and main was verified.
 
 Merger 0: Press compile repair #6165 independently merged 2026-10-26 at49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce, checked/pinned3c766036def7ec9a9dfa8077b2f8abf4bf682de2. Own full build and scoped gates pass; fresh Camden ME root85be428af733b05a stance test1/1 passes. Shared-main TS2552 independently reproduced before repair, pool36 exactly baseline. Bounded release-press-counted-town-query is DONE by requested CLI; shared incident awaits confirmation of repaired main publication.
+
+Merger 0: Repaired-main publication confirmed October 26, 16:28 UTC: Release run40352786029, source49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce, completed SUCCESS. Candidate build, exact candidate validation/publication, macOS and Windows packages, and desktop publication all succeeded. Current main already marks this shared item done; preserved that status and the incident history.

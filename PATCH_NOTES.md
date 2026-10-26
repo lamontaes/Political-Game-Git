@@ -296,6 +296,53 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.34.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Candidates answer reporters from their voting record, and some shade it.** A
+  candidate who has voted on a question now answers a reporter from that vote,
+  or shades the answer toward where the town stands. Who shades follows their
+  honesty and how far the vote sits from the town: about a quarter of people
+  would shade a vote the town opposes as strongly as a town can, fewer when the
+  town is divided, and nobody when the town stands with the vote. A shaded
+  answer names the vote it contradicts, so the town's reporter can check it and
+  print the record against the candidate's word.
+
+### Fixed
+
+- **When a state repeals and grants a city's power to set its own minimum wage
+  on the same day, the later law now governs.** A state's answer on local wage
+  authority always beat a statute taking effect the same day, even one enacted
+  after it, so a council could be refused under a repeal the state had already
+  undone. Laws enacted in play now carry the order they were enacted in, and the
+  later one governs.
+
+- **The President's opening address cites the country's numbers and takes its
+  President's shape** The opening address now cites unemployment and three or
+  four more of the country's numbers, from inflation, mortgage rates, wage
+  growth and the economy's growth. Which numbers, and in what order, follow the
+  President's own goals. A President whose first goal is about the economy opens
+  with the numbers and cites one more for each such goal; any other opens with
+  the occasion. Before, every address cited only unemployment and kept one
+  shape.
+
+- **Politics lists your own members first and every chamber leader by post**
+  Politics no longer lists a chamber's leader from another state as one of your
+  own members, or every member of your state's legislature in one long column.
+  It shows your own U.S. senators, U.S. representative and state legislators
+  first, then the President, the Vice President and each chamber's leader named
+  by post, chamber and the state they serve. Every other member is under the
+  State and Federal filters.
+
+- **Town stance retains its counted-resident reader after press changes.** Keep
+  both existing counted-resident queries available to the press: town stance
+  needs household and trait records, while audience counts use the smaller
+  age-and-weight projection. This fixes the release build's missing import
+  without changing either calculation.
+
 ## PRE-ALPHA 0.33.3
 
 _Released October 26, 2026._

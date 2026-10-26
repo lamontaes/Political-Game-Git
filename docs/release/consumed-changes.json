@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.34.0",
+      "releasedOn": "2026-10-26",
+      "revision": "49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce",
+      "changeIds": [
+        "laws-same-day-authority-tiebreak",
+        "play-first-09-opening-speech-per-world",
+        "play-stop-05-politics-lists-wrong-officials-a",
+        "press-world-candidates-answer-from-record",
+        "release-press-counted-town-query"
+      ]
+    },
+    {
       "version": "0.33.3",
       "releasedOn": "2026-10-26",
       "revision": "984e3ee8fdd9ddf6db3ec347f1f2e118aa381529",
