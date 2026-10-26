@@ -1,9 +1,11 @@
 /**
  * A two-way decision weighed by the shared formula (`leanedYes`) leaves a
  * `person.weighed` record for the player and anyone in focus, yes or no, with
- * the case and the trait term as its reasons, and so does a choice among
- * options by the shared chooser; anyone else leaves none (why-kept). Built on
- * a drawn place's opening world.
+ * the case and the trait term as its reasons (a decline's chosen option
+ * carries them turned around, the case against and the pull away), and so
+ * does a choice among options by the shared chooser; anyone else leaves none
+ * (why-kept) unless the audit's probe, off in play, asks. Built on a drawn
+ * place's opening world.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -16,6 +18,7 @@ import {
   decisionTraitWeight,
   leanedYes,
 } from "./trait-decisions";
+import { setTraitProbe, type FormulaProbeRow } from "./trait-probe";
 import type { DecisionResult } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -60,12 +63,40 @@ describe(`weighed decisions keep their reasons for people in focus: ${where}`, (
       [rows[0]!, 5],
       [rows[1]!, -5],
     ] as const) {
-      const scores = (row.decision as DecisionResult).scores!;
+      const decision = row.decision as DecisionResult;
+      const scores = decision.scores!;
       expect(scores[0]!.reasons.trait).toBeCloseTo(term, 9);
       expect(scores[0]!.reasons.module).toBe(bare);
       expect(scores[0]!.score).toBeCloseTo(bare + term, 9);
-      expect(scores[1]!.score).toBe(0);
+      expect(scores[1]!.reasons.trait).toBeCloseTo(-term, 9);
+      expect(scores[1]!.reasons.module).toBe(-bare);
+      expect(scores[1]!.score).toBeCloseTo(-bare - term, 9);
+      // The chosen option's reasons, all a condensed record keeps, say why.
+      const sign = bare > 0 ? 1 : -1;
+      expect(decision.selectedReasons.module).toBe(sign * bare);
+      expect(decision.selectedReasons.trait).toBeCloseTo(sign * term, 9);
     }
+  }, 240_000);
+
+  it("keeps anyone's weighing while the audit's probe asks, and the probe row names the record", () => {
+    const stranger = [...core.people.values()].find(
+      (p) =>
+        p.alive &&
+        p.id !== core.playerId &&
+        !core.focusPersonIds.has(p.id) &&
+        weighedBy(p.id).length === 0,
+    )!;
+    const rows: FormulaProbeRow[] = [];
+    setTraitProbe({ keepWeighed: true, formula: (row) => rows.push(row) });
+    try {
+      leanedYes(core, stranger, DECISION, "open", "ignore", -5);
+    } finally {
+      setTraitProbe(undefined);
+    }
+    const [kept] = weighedBy(stranger.id);
+    expect(kept?.actionId, where).toBe(`${DECISION}:no`);
+    expect(kept?.visibility).toBe("observer");
+    expect(rows.map((row) => row.recordId)).toEqual([kept!.id]);
   }, 240_000);
 
   it("records a choice among options for someone in focus, unless the caller commits it as an act", () => {
