@@ -6,7 +6,7 @@ lead: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/laws-nine-links-prices
 pr: #5986
 blocked-on:
