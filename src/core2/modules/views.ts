@@ -365,6 +365,60 @@ function profileFromAverage(
   };
 }
 
+/**
+ * Where a person's view opens on the views scale: the CES cell for their
+ * state, age and profile, spread by their household's heritage and their own
+ * key. A counted resident opens where they will when filled in.
+ */
+function openingLean(
+  person: PersonState,
+  startedAt: string,
+  seed: string,
+): ReturnType<typeof viewCell> & { lean: number } {
+  const found = viewCell(person, startedAt, seed);
+  const share = v("householdShare");
+  const z =
+    share * normal(`${seed}:views:home:${person.householdId}`) +
+    Math.sqrt(v("one") - share * share) *
+      normal(`${seed}:views:person:${person.id}`);
+  const lean = Math.min(
+    v("leanMax"),
+    Math.max(v("leanMin"), found.cell.mean + found.cell.sd * z),
+  );
+  return { ...found, lean };
+}
+
+const countedLeans = new WeakMap<object, Map<PersonId, number>>();
+
+/**
+ * A counted resident's lean on the views scale: the lean their view gets when
+ * they are filled in as a full person, without making them one (one model,
+ * two tiers). A counted resident hears nothing that moves it, so it is kept
+ * for the world.
+ */
+export function countedLean(
+  api: CoreAPI,
+  voter: {
+    readonly id: PersonId;
+    readonly householdId: string;
+    readonly birthDate: string;
+    readonly placeId: string;
+    readonly traits: PersonState["traits"];
+  },
+): number {
+  const held = countedLeans.get(api.state) ?? new Map<PersonId, number>();
+  countedLeans.set(api.state, held);
+  const kept = held.get(voter.id);
+  if (kept !== undefined) return kept;
+  const { lean } = openingLean(
+    voter as unknown as PersonState,
+    api.state.startedAt,
+    api.state.seed,
+  );
+  held.set(voter.id, lean);
+  return lean;
+}
+
 /** A person's view, formed from their record the first time it is read. */
 export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const table = viewsTable(api);
@@ -373,21 +427,11 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const person = api.state.people.get(personId);
   if (!person) return null;
   api.stopgap(VIEWS_DATA.stopgapId);
-  const { cell, shares, basis } = viewCell(
+  const seed = api.state.seed;
+  const { lean, cell, shares, basis } = openingLean(
     person,
     api.state.startedAt,
-    api.state.seed,
-  );
-  const seed = api.state.seed;
-  // Who someone is at the opening: their household's heritage and their own.
-  const share = v("householdShare");
-  const z =
-    share * normal(`${seed}:views:home:${person.householdId}`) +
-    Math.sqrt(v("one") - share * share) *
-      normal(`${seed}:views:person:${person.id}`);
-  const lean = Math.min(
-    v("leanMax"),
-    Math.max(v("leanMin"), cell.mean + cell.sd * z),
+    seed,
   );
   // Following politics: the cell's average, spread by the person's own key
   // (u to the power a has mean 1 / (a + 1)).

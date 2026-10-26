@@ -72,7 +72,7 @@ import {
   STAFF_ROLES,
   type StaffRow,
 } from "../press-staff";
-import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
+import { countedLean, stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
 import { residentCounts, residentsRuntime } from "./residents";
 import { openingEmployerCashBufferPrior } from "../opening-capital";
 import { employerTaxShareOfWage } from "./employer-taxes";
@@ -2072,32 +2072,39 @@ export function shadesAnswer(
 
 const standCache = new WeakMap<
   object,
-  { date: string; map: Map<string, number> }
+  { key: string; map: Map<string, number> }
 >();
 
 /**
  * Where the town's adults stand on a question, -1 to 1: the mean of where
  * each one's lean puts them on its axis (as the press reads an outlet's
- * readers), read once a day.
+ * readers), each counted record weighed by the people it stands for. Read
+ * once a day, and again after a fill-in.
  */
-function townStand(api: CoreAPI, question: string): number {
-  const held = standCache.get(api.state);
-  const map =
-    held?.date === api.state.date ? held.map : new Map<string, number>();
-  if (held?.date !== api.state.date)
-    standCache.set(api.state, { date: api.state.date, map });
+export function townStand(api: CoreAPI, question: string): number {
+  const core = api.state as CoreState;
+  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
+  const held = standCache.get(core);
+  const map = held?.key === key ? held.map : new Map<string, number>();
+  if (held?.key !== key) standCache.set(core, { key, map });
   const hit = map.get(question);
   if (hit !== undefined) return hit;
+  const town = lawChain(api).townPlaceId;
+  const views = core.modules.has(VIEWS_MODULE_ID);
   let sum = 0;
   let adults = 0;
-  for (const id of api.state.peopleByPlace.get(lawChain(api).townPlaceId) ??
-    []) {
-    const p = api.state.people.get(id);
-    if (!p?.alive || ageOn(p, api.state.date) < 18) continue;
-    sum += (leanOf(api, id) / 2) * questionAxis(question);
+  for (const id of core.peopleByPlace.get(town) ?? []) {
+    const p = core.people.get(id);
+    if (!p?.alive || ageOn(p, core.date) < 18) continue;
+    sum += leanOf(api, id) / 2;
     adults += 1;
   }
-  const stand = adults ? sum / adults : 0;
+  for (const voter of countedResidents(core)) {
+    if (voter.placeId !== town || ageOn(voter, core.date) < 18) continue;
+    sum += ((views ? countedLean(api, voter) : 0) / 2) * voter.weight;
+    adults += voter.weight;
+  }
+  const stand = adults ? (sum / adults) * questionAxis(question) : 0;
   map.set(question, stand);
   return stand;
 }

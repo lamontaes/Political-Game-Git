@@ -1493,8 +1493,8 @@
       "effect": {
         "kind": "odds-ratio-per-sd",
         "value": 0.53,
-        "low": null,
-        "high": null
+        "low": 0.47,
+        "high": 0.6
       },
       "baseRate": 0.261,
       "source": {
@@ -1504,7 +1504,7 @@
         "venue": "Judgment and Decision Making 13(4), 356-371",
         "url": "https://dlab.sauder.ubc.ca/sjdm/journal/18/18322/jdm18322.html"
       },
-      "quote": "Abstract: \"The results show a medium to large effect of HH (odds ratio = 0.53)\". Section 3: \"The odds ratio for a z-standardized predictor quantifies how strongly the odds in favor of dishonesty change\". \"Across studies, the overall probability d was estimated to be 26.1%, with a 95% Bayesian credibility interval (BCI) of [19.2%; 34.4%].\" Big Five Agreeableness: \"OR = 0.75\", with no incremental validity beyond HH.",
+      "quote": "Abstract: \"The results show a medium to large effect of HH (odds ratio = 0.53)\". Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2, honesty-humility: \"0.53\", 2.5% \"0.47\", 97.5% \"0.60\". Section 3: \"The odds ratio for a z-standardized predictor quantifies how strongly the odds in favor of dishonesty change\". \"Across studies, the overall probability d was estimated to be 26.1%, with a 95% Bayesian credibility interval (BCI) of [19.2%; 34.4%].\" Big Five Agreeableness: \"OR = 0.75\", with no incremental validity beyond HH.",
       "quoteVerified": true,
       "notes": "Odds ratio per standard deviation of honesty-humility for being a liar (lower honesty, more lying); the calibration reads its size and the lean's direction. The base rate is the share prepared to lie when it pays, used for shadeBase at the largest gap between vote and town a town's stand allows."
     },
