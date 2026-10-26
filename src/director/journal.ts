@@ -401,6 +401,7 @@ export function composeJournal(
             : [moment.causeId],
       };
     }
+    const hasOwnLine = Boolean(row?.hasOwnLine);
     const otherId =
       moment.counterpartIds[zero] ??
       (moment.causeKind === "family:child"
@@ -408,7 +409,9 @@ export function composeJournal(
         : undefined);
     if (otherId) {
       const said = other(otherId);
-      if (!said) return null;
+      // One's own race is told without a rival the person never knew by
+      // name: its own lines say only how it went.
+      if (!said) return moment.selfNamed && hasOwnLine ? facts : null;
       const row = core.people.get(otherId);
       // A child is born with a name: "My daughter Jane was born." (owner,
       // Oct 15). A second child already said by name keeps it alone.
@@ -511,6 +514,10 @@ export function composeJournal(
   const settingFactIds: string[] = [];
   const employerIds: string[] = [];
   let chapter: (typeof chapters)[number] | undefined;
+  // The chapter a race's turn opened, by contest record id: the race's result
+  // is told there, never under whatever chapter another person's race (a
+  // relative's, on the same day) opened last.
+  const chapterOfContest = new Map<string, (typeof chapters)[number]>();
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
   // Every moment of the person's so far, told or not, and those a later
@@ -626,6 +633,13 @@ export function composeJournal(
         );
       open(moment.id, title?.text ?? "", moment.date);
     }
+    const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
+    if (typeof contestId === "string" && row.turn)
+      chapterOfContest.set(contestId, chapter!);
+    const told =
+      (typeof contestId === "string" && !row.turn
+        ? chapterOfContest.get(contestId)
+        : undefined) ?? chapter!;
     // The scene: the event itself, worded for whose it was.
     const own =
       !!selfCount ||
@@ -815,7 +829,7 @@ export function composeJournal(
         parts.push(hook);
       }
     }
-    chapter!.lines.push({
+    told.lines.push({
       id: moment.id,
       date: moment.date,
       text: journalEntry(parts),
@@ -825,7 +839,7 @@ export function composeJournal(
       ],
       ...(changed && revision ? { revises: [changed.id] } : {}),
     });
-    chapter!.through = moment.date;
+    if (moment.date > told.through) told.through = moment.date;
   }
 
   // Revised as life goes on: a schoolmate or a co-worker who now holds office
