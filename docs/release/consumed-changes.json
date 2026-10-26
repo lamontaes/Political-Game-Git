@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.32.5",
+      "releasedOn": "2026-10-26",
+      "revision": "1646215d362e2b78aa3e9b81a4ff943e8460e820",
+      "changeIds": [
+        "gov-played-world-counted-voters-township-board",
+        "people-m0-06-parent-fourteen-at-birth",
+        "traits-audit-opening-appointments"
+      ]
+    },
+    {
       "version": "0.32.4",
       "releasedOn": "2026-10-26",
       "revision": "9fd9a633aa93d81938b403cbe46c53e7ef4b65c9",

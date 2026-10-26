@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/effects-end-to-end-talk-screenshot
-pr:
+pr: #6161
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T07:53:37.899Z
