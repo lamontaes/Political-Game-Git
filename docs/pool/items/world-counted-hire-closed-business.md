@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-hire-closed-business
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T08:33:00.748Z
 ---
 
 **What.** In Johnstown, Ohio (key 3939340, drawn from all 56 by seed band-2026-10-26), on main 9bf8ccd9c2 with the open speed changes merged, the TV news outlet organization:press:television:0:jurisdiction_44255e80577bd2c8 closed on August 1, 2027, the day the jobs engine had posted an opening there. The weekly round still filled that opening from the counts: person_015623cde2517aca got job:position:organization:press:television:0:jurisdiction_44255e80577bd2c8:2027-08-01:1:person_015623cde2517aca the next day. On August 9 the press's staff refresh filled that worker in, handing back a job at a closed business, and the core stopped the run with 'A person can only hold their own recorded job.' A full person's hire already refuses a closed business (src/core2/modules/jobs.ts, 'A closed business hires no one, though its opening may still be listed'); hireCounted, the counted hire, has no such check.
