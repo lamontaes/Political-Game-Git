@@ -1,3 +1,5 @@
+import { ageOnDate } from "../core2/kernel/dates";
+import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import { keyPeopleOf } from "../core2/opening-key-people";
@@ -15,8 +17,10 @@ import {
   fileCandidacy,
   filingOfficeFor,
   openContests,
+  type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
+import { candidateIdentity, resultOf } from "../core2/modules/voting";
 import {
   PARTIES_MODULE_ID,
   joinParty,
@@ -109,12 +113,38 @@ export function politicsStates() {
  * they live, who holds each seat over them, and the open contests with the
  * filing office's rules checked for them today. Record data only.
  */
+/** The winner of a seat's decided race who takes office later, if any. */
+function electOf(api: ReturnType<typeof coreAPI>, seatId: string) {
+  for (const contest of api
+    .moduleState(ELECTIONS)
+    .table("contests")
+    .query("bySeat", [seatId]) as unknown as ContestRow[]) {
+    const result = resultOf(api, contest.id);
+    if (!result?.winnerId || !result.takesOffice) continue;
+    if (result.takesOffice <= api.state.date) continue;
+    const who = candidateIdentity(api, result.winnerId);
+    return {
+      personId: result.winnerId,
+      name: who ? `${who.givenName} ${who.familyName}` : result.winnerId,
+      contestId: contest.id,
+      takesOffice: result.takesOffice,
+    };
+  }
+  return null;
+}
+
 export function governmentView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const filings = api
     .moduleState(ELECTIONS)
     .table("filings")
     .query("byPerson", [personId]) as unknown as FilingRow[];
+  const seats = townSeats(api);
+  // Who sets each level's law: the government its seats name ("Texas").
+  const governmentOf = new Map<string, string>();
+  for (const { office } of seats)
+    if (!governmentOf.has(office.level))
+      governmentOf.set(office.level, office.governmentName);
   return {
     date: core.date,
     law: lawHere(api).map((row) => ({
@@ -123,10 +153,13 @@ export function governmentView(core: CoreState, personId: string) {
       unit: row.unit,
       estimate: row.estimate,
       governing: row.governing,
-      levels: row.levels,
+      levels: row.levels.map((level) => ({
+        ...level,
+        government: governmentOf.get(level.level) ?? null,
+      })),
       pending: row.pending,
     })),
-    seats: townSeats(api).map(({ office, seat, holder }) => ({
+    seats: seats.map(({ office, seat, holder }) => ({
       officeId: office.id,
       title: office.title,
       level: office.level,
@@ -139,6 +172,8 @@ export function governmentView(core: CoreState, personId: string) {
       district: seat.district,
       // The seat's elections, oldest first, each named by the term it seated.
       elections: pastElections(api, seat.id),
+      // Who won the seat's last race and has not taken office yet.
+      elect: electOf(api, seat.id),
       holder: holder && {
         termId: holder.id,
         personId: holder.personId,
@@ -180,8 +215,17 @@ export function governmentView(core: CoreState, personId: string) {
         : [],
     })),
     filings,
+    ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
   };
+}
+
+/** Whether the person is old enough to vote today. */
+function ofVotingAge(core: CoreState, personId: string): boolean {
+  const person = core.people.get(personId);
+  return Boolean(
+    person && ageOnDate(person.birthDate, core.date) >= parameter("votingAge"),
+  );
 }
 
 export function fileForOffice(

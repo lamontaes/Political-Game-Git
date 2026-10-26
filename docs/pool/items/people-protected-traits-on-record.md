@@ -16,7 +16,7 @@ source: laws lead, Oct 24, from the owner's ruling
 
 **Rules.** No dice: seeded generation of who exists may assign race from shares, but a pass-over comes only from the decision-maker's recorded traits and views, never a roll. One model, two tiers: counted groups carry the same shares and the same decision rule times their count. One rule, all 56 places: shares come from each place's Census data, estimated with a labeled median where a place has none. Ask why: a refused decision records the law and the reason it cited.
 
-**Done when.** In a played year of buildBenchWorld in a drawn place (seed named), a hire or tenant decision records a pass-over whose reasons cite the decision-maker's traits against an applicant's race or sex, and with the discrimination ban in force the same kind of decision is refused, recorded by lawApplied and named by record id in src/core2/law-wiring-rights-env.test.ts; the matrix grades the ban's systems and money links from those records.
+**Done when.** In a played year of buildBenchWorld in a drawn place (seed named), a hire or tenant decision records a pass-over whose reasons cite the decision-maker's traits against an applicant's race or sex, and with the discrimination ban in force the same kind of decision is refused, recorded by lawApplied and named by record id in src/core2/law-wiring-rights-env.test.ts; the matrix grades the ban's systems and money links from those records. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/types.ts, src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/law-wiring-rights-env.test.ts
 

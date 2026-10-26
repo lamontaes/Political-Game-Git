@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: words/play-stop-01-talk-a
-pr:
+pr: #6078
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

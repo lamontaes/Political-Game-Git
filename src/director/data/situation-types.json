@@ -2939,14 +2939,22 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "vote-sought",
+          "match": {
+            "label": "cause:event:bill-amendment",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "kind", "equals": ["trade-amendment"] },
+              { "key": "movedBy", "is": "subject" }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.member-position",
+          "causeRecord": "bill-amendment",
           "bind": {
-            "colleague": "members",
+            "colleague": "counterpart",
             "you": "subject"
           },
-          "opener": "colleague"
+          "opener": "colleague",
+          "setting": ["chamber"]
         }
       ],
       "tag": {
@@ -3167,20 +3175,27 @@
       "causes": [
         {
           "match": {
+            "label": "cause:event:office.approached",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "officialId", "is": "subject" }]
+          },
+          "causeEngine": "constituent-cases",
+          "causeRecord": "office.approached",
+          "bind": {
+            "constituent": "counterpart",
+            "you": "subject"
+          },
+          "opener": "constituent",
+          "setting": ["office"]
+        },
+        {
+          "match": {
             "label": "cause:event:town-hall",
-            "causeFacts": [
-              {
-                "key": "hostId",
-                "is": "subject"
-              }
-            ]
+            "causeFacts": [{ "key": "hostId", "is": "subject" }]
           },
           "causeEngine": "meetings",
           "causeRecord": "town-hall",
-          "bind": {
-            "constituent": "town-hall-askers",
-            "you": "subject"
-          },
+          "bind": { "constituent": "town-hall-askers", "you": "subject" },
           "opener": "constituent"
         }
       ],
@@ -3445,18 +3460,28 @@
       "causes": [
         {
           "match": {
-            "label": "cause:event:executive-action",
-            "causeFacts": [
-              {
-                "key": "executiveId",
-                "is": "subject"
-              }
-            ]
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
           },
           "causeEngine": "legislature",
-          "causeRecord": "executive-action",
+          "causeRecord": "bill-presented",
           "bind": {
             "aide": "staff",
+            "you": "subject"
+          },
+          "opener": "aide"
+        },
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "aide": "clerk",
             "you": "subject"
           },
           "opener": "aide"
@@ -3540,11 +3565,18 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "section-bargain",
+          "match": {
+            "label": "cause:event:bill-amendment",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "kind", "equals": ["trade-amendment"] },
+              { "key": "movedBy", "is": "other" }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.poison-pill",
+          "causeRecord": "bill-amendment",
           "bind": {
-            "member": "members",
+            "member": "counterpart",
             "you": "subject"
           },
           "opener": "member"

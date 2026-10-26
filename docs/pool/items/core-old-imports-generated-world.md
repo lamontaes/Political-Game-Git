@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: blocked
+status: dropped
 claimed-by: claude/generated-world-old-imports
 pr:
 blocked-on: core-old-engine-04-opening-population-no-throwaway-world
@@ -22,3 +22,5 @@ claimed-at: 2026-10-22T06:11:44.353Z
 **Files.** src/core2/tooling/generated-world.ts, src/core2/tooling/calibration-guard.test.ts
 
 **Notes.** Found by the pool feeder: the roll-up grep still lists this file, and the earlier tooling item left it.
+
+Duplicate of core-old-engine-04-opening-population-no-throwaway-world (Oct 25 audit). generated-world.ts is in core-old-engine-04's grep.

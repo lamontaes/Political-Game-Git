@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-exit-poll
-pr:
+pr: #6095
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T17:41:54.190Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T17:41:54.190Z
 
 **Rules.** No dice: the answer follows the voter's recorded reasons and lean, never a roll. Research before building: the response rate and the trait size come from fetched pages, quoted. Ask why: each ballot's why keeps the parts.
 
-**Done when.** In the named voters of two drawn race towns' played windows (src/core2/trait-test-kit.ts drawnRaceWorld), seeds named, the share who tell the pollster is between 35% and 60% and the crossed net odds between the thirds of lean are from 1.1 to 1.4, with the base, engagement and interest weights and traitWeightVotingExitPoll tagged ESTIMATED with their sources; src/core2/modules/voting.traits.test.ts checks that every voter's answer follows their kept reasons at the weight; and the voting.exit-poll gap row is removed.
+**Done when.** In the named voters of two drawn race towns' played windows (src/core2/trait-test-kit.ts drawnRaceWorld), seeds named, the share who tell the pollster is between 35% and 60% and the crossed net odds between the thirds of lean are from 1.1 to 1.4, with the base, engagement and interest weights and traitWeightVotingExitPoll tagged ESTIMATED with their sources; src/core2/modules/voting.traits.test.ts checks that every voter's answer follows their kept reasons at the weight; and the voting.exit-poll gap row is removed. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/voting.ts, src/core2/data/elections/parameters.json, src/core2/data/parameters.json, data/research/trait-effect-sizes.json, src/core2/modules/voting.traits.test.ts
 

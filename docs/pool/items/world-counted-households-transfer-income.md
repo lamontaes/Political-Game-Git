@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted household receives a transfer by the same rule as a full household, times its count. Wire to the world: each transfer is a journal record from the paying government or outside flow. Estimate, never UNKNOWN: amounts start from sourced per-place figures with a spread.
 
-**Done when.** In Puerto Rico place 7237336 (seed 63ef211a72f7f8d3519652d91152eaf5cda51a871ae2bed4e9221c537c7bd2f8) and a drawn place (seed named), with the branch's whole unplaced workers merged, the share of counted renter households with no income on day one is within 5 points of the ACS share with no income, and housing-calibration.test.ts passes, shown by transfer record ids.
+**Done when.** In Puerto Rico place 7237336 (seed 63ef211a72f7f8d3519652d91152eaf5cda51a871ae2bed4e9221c537c7bd2f8) and a drawn place (seed named), with the branch's whole unplaced workers merged, the share of counted renter households with no income on day one is within 5 points of the ACS share with no income, and housing-calibration.test.ts passes, shown by transfer record ids. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/modules/residents.ts, src/core2/residents.ts
 
