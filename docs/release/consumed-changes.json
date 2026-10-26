@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.33.2",
+      "releasedOn": "2026-10-26",
+      "revision": "229b7bad809937b5b166e89c67826368e758269e",
+      "changeIds": ["world-housing-sold-and-removed-dwelling-rows-unpriced"]
+    },
+    {
       "version": "0.33.1",
       "releasedOn": "2026-10-26",
       "revision": "eaef8e400494ea7a8384d0428b3aace60d6707a7",
