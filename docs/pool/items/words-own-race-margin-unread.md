@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T00:45:34.960Z
 **Files.** src/director/journal.ts, src/english/journal-words.ts, data/english/parts/journal.json, src/director/data/journal-rows.json
 
 **Notes.** TODO
+
+Merger 1, 2026-10-26 06:19 UTC: local validation was interrupted when the cloud environment became unavailable and exec-server disconnected. Pushed checked-in review head 6fc188527f12b9f4a2892359f7c063c7007dd0ac strengthens the generated-world test to require a positive unopposed journal case and a positive margin claim. Final-head typecheck (129.0 s), scoped ESLint/Prettier, zero-dice and release checks passed; the final generated-election test was still running at fresh root f5a34054e659f68e when access was lost. No test-pass, completed local gate, merge or done flip is claimed. Resume on words/own-race-margin, merge current main and complete local checks before a pinned merge. This is an infrastructure interruption rather than a source-code send-back; status remains in-pr because the official pool CLI/index regeneration cannot run without the environment.

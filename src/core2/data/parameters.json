@@ -5436,6 +5436,17 @@
       "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
     }
   },
+  "playerEntryAge": {
+    "value": 18,
+    "tag": "TUNABLE",
+    "citation": "The turn-18 golden path's player entry age (AGENTS.md). The opening keeps at least one full resident of this age when one occurs in the place's generated households, selecting a household to keep full rather than creating an age cohort the place lacks. Matches the bench player's default entry age (src/bench/world.ts).",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years",
+      "citation": "Design sensitivity bounds around the turn-18 start, from 17 through 21 years."
+    }
+  },
   "cohortSearchMinimumHouseholds": {
     "value": 400,
     "tag": "TUNABLE",

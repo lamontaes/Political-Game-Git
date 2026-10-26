@@ -23,6 +23,7 @@ import {
   paidLeavePremium,
 } from "./paid-leave";
 import { withholdingFor } from "./tax-withholding";
+import { recordIncomeTaxApplied } from "./tax-applied";
 import {
   BUDGETS_MODULE_ID,
   governments,
@@ -91,6 +92,25 @@ function householdById(
   const ix = rt.store.householdOf.get(id);
   const h = ix === undefined ? undefined : rt.store.households[ix];
   return h && !h.gone ? h : undefined;
+}
+
+/**
+ * The people (counted members times weight) and real households a counted
+ * household record stands for, or nothing when the id is not a counted
+ * household here. Engines that apply a law to one record it with this count.
+ */
+export function countedHouseholdStands(
+  api: CoreAPI,
+  householdId: string,
+): { readonly people: number; readonly households: number } | undefined {
+  const rt = residentsRuntime(api.state as CoreState);
+  const h = rt ? householdById(rt, householdId) : undefined;
+  return h
+    ? {
+        people: Math.max(1, rt!.store.weightedCount(h)),
+        households: rt!.store.weightOf(h),
+      }
+    : undefined;
 }
 
 /** The counted household a flow part belongs to, from its key. */
@@ -432,10 +452,12 @@ export function groupWithholding(
   });
   rt.withholdingYtd.set(ytdKey, ytd + perWorker);
   const out: Withheld[] = [];
+  const kept: (typeof lines)[number][] = [];
   for (const line of lines) {
     if (row.placeId !== town && line.level === "city") continue;
     const accountId = accounts.get(line.jurisdiction);
     if (!accountId) continue;
+    kept.push(line);
     const series = PAYROLL_TAX_SERIES[line.tax];
     if (series && line.minor > 0)
       lawApplied(api, {
@@ -455,6 +477,13 @@ export function groupWithholding(
       tax: line.tax,
     });
   }
+  // The group's workers were taxed by the law in force, as a full worker is.
+  recordIncomeTaxApplied(api, {
+    targetId: row.id,
+    target: "group",
+    count: workers,
+    lines: kept,
+  });
   return out;
 }
 
