@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gov-scenes-no-policy
-pr:
+pr: #6142
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T04:46:40.728Z

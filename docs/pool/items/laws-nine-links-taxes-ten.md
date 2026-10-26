@@ -6,9 +6,9 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
-pr: "#5649"
+pr: #5649
 blocked-on:
 source: laws lead, Oct 26
 claimed-at:

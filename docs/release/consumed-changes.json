@@ -1,6 +1,23 @@
 {
   "entries": [
     {
+      "version": "0.32.0",
+      "releasedOn": "2026-10-26",
+      "revision": "174196989bb9b04acc149867f31c684b86c3027e",
+      "changeIds": ["law-wiring-taxes", "words-office-hours-scene"]
+    },
+    {
+      "version": "0.31.0",
+      "releasedOn": "2026-10-26",
+      "revision": "26b4fa079bf9a3ac6cdd1f61e94435c713a280b0",
+      "changeIds": [
+        "core-old-imports-town-households",
+        "people-coverage-counted",
+        "tests-journal-world-moments-red-on-seed-2803",
+        "web-repeal-of-starting-law-waits-its-lag"
+      ]
+    },
+    {
       "version": "0.30.0",
       "releasedOn": "2026-10-26",
       "revision": "134eceeb5ffce40784dbea7ff602626be192262a",
