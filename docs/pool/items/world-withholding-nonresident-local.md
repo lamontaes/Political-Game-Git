@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Every dollar balances: the tax withheld from the paycheck is exactly the treasury line's receipt. Wire to the world: the treasury line, the worker's net pay and the budget read it. One rule, all 56 places: the rates are law rows, never named places.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56 with a local income tax row, seed named in the PR body) a named worker who lives outside the town has local tax withheld at the row's nonresident rate on a payday, shown by the paycheck record id and the treasury receipt record id, and SG-WORLD-withholding-nonresident-local is resolved; the budgets test passes.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56 with a local income tax row, seed named in the PR body) a named worker who lives outside the town has local tax withheld at the row's nonresident rate on a payday, shown by the paycheck record id and the treasury receipt record id, and SG-WORLD-withholding-nonresident-local is resolved; the budgets test passes. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/budgets.ts, src/core2/law-reach/group-b-money.ts, src/core2/data/stopgaps.json
 

@@ -7,6 +7,7 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
+import { circleChanges } from "./circle";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
 import {
@@ -14,8 +15,9 @@ import {
   PEOPLE_TRAITS,
   TRAIT_SHAPES,
   PEOPLE_MIND_VERSION,
-} from "../simulation/people-trait-definitions";
+} from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
+import { preStartHistory } from "../core2/pre-start";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
@@ -74,10 +76,23 @@ export function personCard(core: CoreState, personId: string) {
       actCount: row.actCount,
       sourceEventId: row.sourceEventId,
     }));
+  // How they came to hold a seat before the start, from the government's
+  // history before day one, each with the term record it stands on.
+  const seats = preStartHistory(core, {
+    kind: "office.seat-reached",
+    personId,
+  }).map((row) => ({
+    recordId: row.id,
+    termId: String(row.facts.termId),
+    officeId: String(row.facts.officeId),
+    reached: String(row.facts.reached),
+    since: row.date,
+  }));
   return {
     id: person.id,
     name: name(person.id),
     birthDate: person.birthDate,
+    seats,
     age: ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
     alive: person.alive,
     home: household && {
@@ -137,6 +152,8 @@ export function personCard(core: CoreState, personId: string) {
     affect: person.affect,
     needs: person.needs,
     ties,
+    // Who joined or left their five closest this year, from the tie records.
+    circle: circleChanges(core, personId),
     drives,
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
@@ -222,7 +239,11 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [
-        { id: otherId, name: `${other.givenName} ${other.familyName}` },
+        {
+          id: otherId,
+          name: `${other.givenName} ${other.familyName}`,
+          reason: "subject",
+        },
       ]).people[0]?.figureUrl ?? null,
   };
 }

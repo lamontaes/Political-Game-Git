@@ -18,7 +18,7 @@ source: "docs/reports/repo-audit-2026-10-19.md sections B4 and E"
 
 **Done when.** `.gitattributes` tracks the named art and raw-data patterns in LFS; a fresh clone without LFS objects is under 500 MB; the `data/source/*/raw/` folders are gone from main; `npm run build` and the golden-path suite pass; the PR body lists the MB moved to LFS and the MB deleted.
 
-A drawn-place buildBenchWorld run retains the current game behavior and the original golden-path acceptance after the storage changes.
+A drawn-place buildBenchWorld run retains the current game behavior and the original golden-path acceptance after the storage changes. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** `.gitattributes`, `art/`, `data/source/*/raw/`
 

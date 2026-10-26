@@ -319,6 +319,15 @@ describe("actual finance journal adapters (all candidates UNEXECUTED)", () => {
     ).toThrow(/genuine/);
     expect(financial(core)).toBe(before);
   });
+  it("rejects a wage-flow draw with no short payday behind it", () => {
+    const core = fixture({ credit: true }),
+      api = coreAPI(core),
+      before = financial(core);
+    expect(() =>
+      api.drawWageFlowCredit(facilityId, 100, "fixture:no-such-wage-flow"),
+    ).toThrow(/short payday/);
+    expect(financial(core)).toBe(before);
+  });
   it("resolves an actual contract key and preserves a valid partial draw", () => {
     const core = fixture({
         credit: true,
