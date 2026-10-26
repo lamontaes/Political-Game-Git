@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/effects-end-to-end-talk-screenshot
 pr: #6161
 blocked-on:
