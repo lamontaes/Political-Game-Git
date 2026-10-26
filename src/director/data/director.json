@@ -1270,6 +1270,11 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "office.approached",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "executive-action",
       "channel": "cause",
       "impactParameter": "directorExecutiveActionImpact"
