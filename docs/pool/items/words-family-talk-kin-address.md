@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/words-family-talk-kin-address
+pr: #6156
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T07:21:36.214Z
 ---
 
 **What.** The playtest (Oct 24) heard a sister ask 'How's John?' about their own father. play-stop-20 stops two relatives from asking after a relative they share, since the banks name a relative only by first name or as 'your father'. The owner expected 'a sister who calls our father Dad'. The banks have no kin address words (Dad, Mom, Grandma), so a brother and sister who live apart cannot ask after their parent at all.

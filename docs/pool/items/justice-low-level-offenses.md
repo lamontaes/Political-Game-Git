@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/justice-low-level-offenses
 pr: #6056
 blocked-on:
 source: laws lead, Oct 24, from the owner's ruling
@@ -26,6 +26,8 @@ claimed-at:
 In PR #6056 (Oct 25, laws lead): built by a helper, stacked on #6012; owner question on drug possession flagged.
 
 Laws lead, Oct 26: back in PR #6056 at 6ffa0b1e95, on the fixer's main merge (f279854b6e). Drug possession is the sixth minor-offense category per the CTO's Oct 25 ruling (SG-LAW-justice-low-level-drug-possession resolved), and #6083's state minimum wage fix is ported for CI's M1-01.
+
+Laws lead, Oct 26: Merger 0's 06:49 UTC send-back fixed at b792e3dbf4 (the low-level test no longer moves to another town when the raised line funds no more officers; it asserts the officers in the chosen town, break-it fails in Riverdale, Georgia). Main merged at 4de611b791; back in PR #6056.
 
 Merger 0, Oct 26: Sent back from PR #6056 (branch claude/justice-low-level-offenses): merging main after #6012 conflicts in src/core2/law-wiring-justice.test.ts (also the generated law matrix/table and stopgaps); preserve the opening-census eligibility, no redraw after play, ended-record reader, held-policy phases and nine-law target-account assertions while integrating the low-level checks; finish on that branch, merge main into it first.
 
