@@ -11,7 +11,7 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
-after: core-race-candidates-with-records-house
+after:
 ---
 
 **What.** Today an out-of-town U.S. House, Senate or legislature race (built in world-races.ts by specialCandidates and the typical-candidate path) stands the seat's holder for their party and a seeded challenger from drawOfficialIdentity for the other, and neither has a campaign of their own. Replace that pair with a who-runs decision. The seat's pool is the state's counted adults old enough for the office; each weighs running through the existing counted-tier rule `countedCandidacyReasons` in candidacy.ts (traits, age, work hours, the people who know them, engagement) against the seat's open contest, and the sitting holder weighs running again with the full-person `candidacyReasons`. The strongest pulls per party file, each filled in as a named candidate (identity by seeded generation of who exists, consistent with the counted record) whose filing keeps its reasons by record id. Each candidate's campaign inputs (money, name recognition, ads versus doors) come from their own money, standing and traits, as the owner ruled Oct 20 for rivals: a rich candidate leans on paid ads and staff, a poor one on doors and volunteers, a known incumbent on press and record, an unknown on building name recognition.

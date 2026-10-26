@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: a twin shifts the record a reader reads, and a measure computed by a reader from other engines' records is shifted by changing those records, which a law or budget test does. Never weaken tests: the check still shifts every cause it can and still requires a moved record kind for those.
 
-**Done when.** outcome-web-twins.test.ts leaves out the government's measures with the causes read through a named reader, saying why; it passes on main in Paris, Arkansas (seed ew20oct26) and a drawn place over four months, with each cause's moved record kinds posted in the leads channel.
+**Done when.** outcome-web-twins.test.ts leaves out the government's measures with the causes read through a named reader, saying why; it passes on main in Paris, Arkansas (seed ew20oct26) and a drawn place over four months, with each cause's moved record kinds posted in the leads channel. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/outcome-web-twins.test.ts
 

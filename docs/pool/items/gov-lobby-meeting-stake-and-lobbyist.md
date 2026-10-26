@@ -3,7 +3,7 @@ id: gov-lobby-meeting-stake-and-lobbyist
 title: "No lobbyist weighed a bribe in 416 meetings across four played worlds: each meeting had a lobbyist and no stake, or a stake and no lobbyist (Kingfield, Maine)"
 area: gov
 kind: bug
-priority: 2
+priority: 3
 size: S
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/interest-groups.ts, src/core2/modules/corruption.ts
 
 **Notes.** Filed Oct 25 by the effects lead from gov-bribes-in-played-worlds-measured.
+
+Deferred Oct 25: nothing on screen reads it yet.

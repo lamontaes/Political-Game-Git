@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Estimate, never UNKNOWN: a prior year's budget comes from the real published figure where the repo has it, or an estimate from it with its source and spread. Wire to the world: the prior budgets are history records the budget screens and news can read.
 
-**Done when.** The M1-14 command in Dayton, Indiana (seed above) and a second place drawn from all 56 shows at least two fiscal years of adopted budgets for every government before the start, each with its source by record id in the PR body.
+**Done when.** The M1-14 command in Dayton, Indiana (seed above) and a second place drawn from all 56 shows at least two fiscal years of adopted budgets for every government before the start, each with its source by record id in the PR body. **On screen.** Nothing yet: filed play-prior-budgets-on-screen, which puts it on Politics → Budgets.
 
 **Files.** src/core2/modules/budgets.ts
 

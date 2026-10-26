@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Tests draw a random place from all 56 and name place and seed; a test that builds a world sets its own timeout like its neighbors.
 
-**Done when.** src/core2/scandal-term.test.ts sets a 600 second timeout as src/core2/player-money-year.test.ts does, and passes in six consecutive random draws by npx vitest run, with the place and seed named in any failure.
+**Done when.** src/core2/scandal-term.test.ts sets a 600 second timeout as src/core2/player-money-year.test.ts does, and passes in six consecutive random draws by npx vitest run, with the place and seed named in any failure. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/scandal-term.test.ts
 

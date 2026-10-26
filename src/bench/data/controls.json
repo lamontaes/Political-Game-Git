@@ -32,6 +32,7 @@
     "start": "Shift starts",
     "end": "Shift ends",
     "moment": "Something needs you",
+    "job-offered": "A job offer",
     "results": "Election results",
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
@@ -74,6 +75,17 @@
     "event": "Hold an event",
     "interview": "Ask for an interview",
     "hours": "hours"
+  },
+  "campaignUnavailable": {
+    "noHouseholds": "No households in town",
+    "noPlatform": "Choose your platform first",
+    "eventMoney": "Hall {price} · campaign {cash}",
+    "noOutlet": "No paper or station here",
+    "interviewed": "Every outlet here has interviewed you",
+    "outletsFull": "No outlet has room this week",
+    "notKnown": "Not known enough for television yet",
+    "nobodyReached": "Nobody you can reach yet",
+    "allGave": "Everyone you can reach has given"
   },
   "campaignContribute": {
     "give": "Put in your own money",
@@ -147,7 +159,10 @@
       "district-residency": "District residency",
       "party-member": "Party membership",
       "term-limit": "Term limit"
-    }
+    },
+    "seat": "Seat",
+    "heldBy": "Held by",
+    "openSeat": "No one holds it now"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",
@@ -273,6 +288,7 @@
     "deadline": "Answer by",
     "accept": "Take it",
     "decline": "Turn it down",
+    "notNow": "Not now",
     "noJob": "No current job",
     "unavailable": "Offer no longer available",
     "failed": "Could not send your answer. Try again."
@@ -284,6 +300,8 @@
     "yes": "Yes",
     "no": "No",
     "vacant": "Vacant",
+    "elected": "Elected",
+    "takesOffice": "Takes office",
     "searchIssues": "Search issues",
     "back": "Back",
     "next": "Continue",
@@ -301,6 +319,9 @@
     "exitPoll": "Exit poll",
     "wonIn": "Where it was won",
     "you": "You",
+    "yourRace": "Your race",
+    "won": "Won",
+    "lost": "Lost",
     "unopposed": "Unopposed",
     "abstained": "—"
   },

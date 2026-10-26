@@ -296,6 +296,234 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.32.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **A resident's visit to your office hours is a scene** When a resident brings
+  you a problem at office hours, out of work with their savings running thin or
+  paid under the minimum wage, they come to your office and say it in their own
+  words. You can promise the referral the office really makes (the workforce
+  office or the labor standards office), ask more, or turn them away. The visit
+  is on the office's record, and the scene stands on it.
+
+### Improved
+
+- **Tax laws reach the people who pay them** When a government changes an income
+  tax, a property tax or a corporate tax, the new rate is now what comes out of
+  paychecks, home tax bills and company profits, for named residents and for the
+  wider population alike, and each payer's record names the law that took the
+  money. A graduated income tax follows a changed top rate. Businesses owned by
+  a corporation now pay the state's tax as well as the federal one: a company
+  short of cash owes each government its own share, and still pays a state whose
+  tax was repealed. A higher state corporate rate now lowers pay a little in the
+  town. An estate settles under the death taxes in force and names who paid
+  them, for a resident of the wider population as well as a named one. When no
+  one inherits and the state takes the estate, it pays the state's inheritance
+  tax only where that state's own statute taxes a government heir; each state
+  with the tax carries its statute's wording. A town council's draft of an
+  income tax is checked against the state's grant of that power in force. Each
+  month, as it closes its books, a treasury reads its balanced-budget, pension
+  and reserve rules before it pays, and the pension rule names the public
+  workers whose pensions it funds.
+
+## PRE-ALPHA 0.31.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Everyone in town pays for health coverage** The wider population now holds
+  employer health plans and pays premiums the same way the people you meet do:
+  the same ranking by employer size and pay, the same single and family
+  premiums, once for every household each record stands for. A household you
+  meet keeps the plan and premium it had when it was counted.
+
+### Fixed
+
+- **Repealing a law a place began with now takes effect after its delay.** When
+  a legislature repeals a law that was in force when the game began, its effects
+  on people's health, births and other outcomes now arrive after the delay the
+  research measured, rather than on the first day.
+
+### Changed
+
+- **Some residents of a new town have a different first name, drawn by the same
+  rule as everyone else.** The town's opening residents now get their first
+  names from the same rule the rest of the opening uses: how often a decade's
+  popular names were given, as measured from Social Security records. Before,
+  part of each town used an older fixed share. Last names, ages, genders and
+  birthdays are unchanged.
+
+## PRE-ALPHA 0.30.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **The title shows the Lincoln Memorial at night** The title screen's rotation
+  of national scenes now includes a painting of the Lincoln Memorial at night,
+  full-window behind the menu.
+
+## PRE-ALPHA 0.29.8
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A layoff no longer stops the game on a day you already worked** If your
+  employer decided to let you go on a day you had already worked, the game
+  stopped with an error. The layoff now comes at the next review instead.
+
+- **Follow justice payments to the people and treasuries they reach** Justice
+  laws record the counted groups, households and treasuries they reach. Public
+  safety staffing can use the state budget where no city or county funds it, and
+  fire losses follow changes to the local fire budget. Nine justice laws have
+  wiring evidence; police, corrections and restoring the vote remain unfinished.
+
+- **The town list reads in one font, with the population the world opens with**
+  The creator's town list is set in the state buttons' font, names and counts
+  alike, and each town's count is the one the world opens with; a town with no
+  recorded count shows the size its world opens at, marked "about".
+
+- **People say how long they have worked somewhere, not the month they started**
+  Asked how long they have been at their job, people in a conversation now
+  answer the way people talk ("For seven years now."), not with a calendar date
+  like "Since January 2018."
+
+## PRE-ALPHA 0.29.7
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **The filing panel keeps its party and platform choices reachable** The
+  journal note steps aside while the filing panel is open, so the party picker
+  and platform choices stay reachable. The browser check uses keyboard
+  navigation and verifies the party and stands recorded by filing.
+
+- **Election night opens on your own race** After an election you ran in,
+  election night opens on your own race with every candidate's votes and whether
+  you won. Campaigns marks your filing won or lost, the journal tells it the
+  next day even against someone you never met, News carries the result, and
+  Government shows who was elected to each seat and when they take office.
+
+- **The journal note no longer covers the party picker when you file** At the
+  filing counter, the journal note in the corner used to sit over the party
+  picker at the bottom of the filing panel. It now steps aside while the panel
+  is open, as the news card already did, so you can see and choose your party
+  before you file.
+
+## PRE-ALPHA 0.29.6
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Unplanned pregnancies happen across the whole town, not only to the people
+  you know** The households in town that are counted rather than named now have
+  unplanned pregnancies by the same rule as the people you know: the same
+  exposure, the same weighing of the law and the miles to a provider, and the
+  same trip paid from their own cash. A pregnancy carried to term adds a birth
+  to the town's count.
+
+### Fixed
+
+- **Neighbors in a small town know each other from the start** People in a small
+  town now open with ties to the classmates and coworkers the town's records
+  name, so news and talk travel between them from the first week instead of only
+  through relatives elsewhere.
+
+## PRE-ALPHA 0.29.5
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **At a filing office each race names its seat, its election day and who holds
+  it now.** Under each office you can ask to run for, the counter now shows the
+  seat, the election day in words and the seat's current holder (or that no one
+  holds it), so several seats on the same body no longer read alike.
+
+## PRE-ALPHA 0.29.4
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Budgets appear under Politics once they are your business.** At 17, with no
+  office and no filing, Politics has no Budgets tab. It appears once you hold
+  office, file for one, or come of age to vote, and its sums read in rounded
+  words ("$5.2 trillion").
+
+## PRE-ALPHA 0.29.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **The Journal opens on the first evening with your family** On the first
+  evening, the Journal's first chapter tells where your family came from, how
+  your parents met, the parent who raised you and the one who lived apart, and
+  each brother and sister by name, older or younger. Before, it had one line
+  about where the family came from.
+
+- **A town's aides are paid only what its budget can carry** An official's aides
+  are now paid from the same budget line as the town's department heads, and
+  only what that line can still carry. A small town whose council members hired
+  full-time aides it could not afford no longer leaves its police chief and
+  other staff unpaid for months.
+
+## PRE-ALPHA 0.29.2
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Knocking on doors keeps counting after every door in town has been knocked,
+  and reaches someone every evening** Once a campaign had knocked on every door
+  in town, Knock on doors stopped adding to its door count and then grayed out
+  with no reason. The canvass now goes round again, the doors knocked longest
+  ago first, and every door knocked counts. Every evening of knocking also
+  reaches someone: a home opens in the share of knocks its readiness says, so a
+  street of younger, reluctant homes still opens a few doors, and a quarter to a
+  third of the doors knocked open over a campaign. A grayed campaign action
+  (Hold an event, Ask for an interview or Call donors) now says why on its
+  button.
+
+## PRE-ALPHA 0.29.1
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Only people with a reason stand in a room** A room now shows only people the
+  records give a reason to be there: you, your household at home, coworkers at
+  work, the person you went to see, the people a moment is about, the clerk at
+  the counter and the voters you reach. Scenes no longer open by announcing that
+  someone "is with you" or "is here".
+
+## PRE-ALPHA 0.29.0
+
+_Released October 25, 2026._
+
+### Improved
+
+- **People who were burglarized, robbed or attacked can tell the people close to
+  them** When a household is burglarized or someone is robbed or attacked, the
+  people it happened to now remember it. In a talk with a housemate, the victim
+  can bring it up and say what happened.
+
+### Changed
+
+- **People answer in a scene the way they decide everywhere else** In a scene
+  with a purpose, the person asking now answers each of your replies by the same
+  temperament read every other decision in the game uses, so someone who presses
+  in a negotiation presses in talk too. The lines your character leads with
+  follow the same read, a lie included.
+
 ## PRE-ALPHA 0.28.2
 
 _Released October 25, 2026._

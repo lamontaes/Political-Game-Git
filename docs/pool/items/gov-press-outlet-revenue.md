@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: advertising and subscriptions follow readers' choices and businesses' cash and goals, never a fixed payment. An effect is a read, not a record: the revenue reads the audience at payment time. One model, two tiers: the counted audience subscribes by the same rule as a full reader times their count. Replace, never layer: the standing outside payment is deleted. Estimate, never UNKNOWN: an ad price with no source starts from the real average marked ESTIMATED with spread. Speed: revenue settles monthly from the audience count.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, an outlet's revenue rises and falls with its audience and includes a named local business's ad payment, shown by transfer id, and the stopgap row closes. Tests in src/core2/press.test.ts and a new src/core2/press-money.test.ts. The owner plays it: he sees a local paper run an ad from a shop he knows.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, an outlet's revenue rises and falls with its audience and includes a named local business's ad payment, shown by transfer id, and the stopgap row closes. Tests in src/core2/press.test.ts and a new src/core2/press-money.test.ts. The owner plays it: he sees a local paper run an ad from a shop he knows. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/press.ts, src/core2/press-money.ts, src/core2/data/press/parameters.json, src/core2/data/stopgaps.json
 
