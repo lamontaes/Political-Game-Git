@@ -4,7 +4,7 @@ title: "Stopgaps in health (missing-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Only the opening chronic conditions, the serious-illness onset and the death of the Ruling 29/38/39 mortality rule run in core2; conditions beginning during life, coverage, poverty onset causes, injuries and births are a
 
 Oct 20 (pool feeder): spec written; the "no core2 health engine" blocker is stale: health.ts exists with condition holdings, onset and mortality; the missing pieces were split into two bounded items.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

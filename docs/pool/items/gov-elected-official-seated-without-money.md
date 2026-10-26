@@ -3,7 +3,7 @@ id: gov-elected-official-seated-without-money
 title: "A newly elected state representative takes the seat with no living cost and no cash, so a bribe's pull on them is the whole bribe in cents (Davie, Florida)"
 area: gov
 kind: bug
-priority: 2
+priority: 3
 size: S
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/corruption.ts, src/core2/modules/elections.ts
 
 **Notes.** Filed Oct 25 by the effects lead from gov-bribes-in-played-worlds-measured. The state members also all open with the same living cost and cash (7,314 a day and 346,921), which may be the same seating path.
+
+Deferred Oct 25: nothing on screen reads it yet.

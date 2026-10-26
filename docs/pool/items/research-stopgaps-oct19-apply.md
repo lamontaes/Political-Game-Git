@@ -3,7 +3,7 @@ id: research-stopgaps-oct19-apply
 title: "Apply the Oct 19 stopgap research: 112 rows have sourced values or estimates with spreads"
 area: core
 kind: stopgap
-priority: 2
+priority: 3
 size: L
 status: open
 claimed-by:
@@ -40,3 +40,5 @@ Sent back 2026-10-23 from PR #5466 (branch claude/apply-stopgaps-a): Missing Don
 Sent back 2026-10-23 from PR #5478 (branch claude/apply-stopgaps-c2): Missing Done-when evidence table for delegate-size disposition and drawn-world reader proof; keep incomplete parent research work open or use a valid bounded item; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5794 (branch claude/apply-stopgaps-b): Body calls 0.04-to-0.10 smaller and cleaning provenance still says a tenth for 0.12; correct claims and use a valid bounded four-parameter acceptance item; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T19:56:33.881Z
+claimed-at: 2026-10-26T02:06:39.311Z
 ---
 
 **What.** On Politics → Campaigns in the v0.22.10 release, after a few weeks of knocking on doors the block "What the race turns on" reads "Doors 172 · +105 · −67 · Retold 86 · +57 · −16". Nothing says what plus and minus mean, what "Retold" is, or whether I am winning. There is no poll result, no opponent and no count of votes needed. I expected a plain sentence about how the race stands and who I am running against.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-25T19:56:33.881Z
 **Files.** src/bench/campaign.ts, src/bench/play.mjs, src/bench/data/controls.json
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:05, 16:12; screenshots 53, 61. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
+
+Sent back 2026-10-25 ~22:35 UTC from PR #6104 (branch play-first/play-stop-18-race-line-unreadable, head 23d50c233a with main merged in): both body screenshots are wrapped in backticks so they render as code, not images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
