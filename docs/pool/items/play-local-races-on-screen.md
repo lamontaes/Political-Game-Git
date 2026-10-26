@@ -5,13 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-local-races-on-screen
 pr:
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from elections-local-races-too-uncontested)
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-26T08:26:28.006Z
 ---
 
 **What.** The candidacy engine decides who runs for each council, mayor and county seat, and elections-local-races-too-uncontested is fixing how many do. The player cannot see any of it: Campaigns shows only the player's own race, so an empty or one-name race is invisible until election night. Add a Local races block to Politics → Campaigns that lists each seat on the town's next ballot with every filer by name, read from the filing records, and says Unopposed or No one has filed where that is the record.
