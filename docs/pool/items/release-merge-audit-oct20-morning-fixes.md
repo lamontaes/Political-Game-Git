@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/audit-fix4-browser
-pr: #5703
+pr: #5818
 blocked-on:
 source: CTO merge audit, Oct 20 morning
 claimed-at: 2026-10-26T07:18:28.608Z
