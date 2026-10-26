@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.34.1",
+      "releasedOn": "2026-10-26",
+      "revision": "8ac620aa87c56c7ebcadc62958ebda3e0776223b",
+      "changeIds": [
+        "core-speed-journal-portfolios-in-play",
+        "journal-own-unopposed-win-silent",
+        "world-regional-opening-misses-state-figures"
+      ]
+    },
+    {
       "version": "0.34.0",
       "releasedOn": "2026-10-26",
       "revision": "49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce",

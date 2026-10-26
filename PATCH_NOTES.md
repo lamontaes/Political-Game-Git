@@ -296,6 +296,19 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.34.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Every state opens at its own published average hourly pay.** A state's
+  regions took their pay from the state's pay moved by each region's income, and
+  those moves did not average out, because a metro's income takes in neighboring
+  states. Virginia opened at $38.24 an hour against its published $35.35, and
+  Hawaii at $36.63 against $37.29. Every state now opens at its published pay,
+  and its regions still differ by their incomes.
+
 ## PRE-ALPHA 0.34.0
 
 _Released October 26, 2026._
