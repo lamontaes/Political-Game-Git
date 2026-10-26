@@ -32,7 +32,8 @@ import {
 } from "./law-reach/group-a-records";
 import { countedStaffOf } from "./modules/residents";
 import { enactLaw, lawChain } from "./modules/laws";
-import { amendBudget, governments } from "./modules/budgets";
+import { amendBudget, budgetsOf, governments } from "./modules/budgets";
+import { outsideAccountOf } from "./budgets-treasury";
 import { corePlaceByKey } from "./place-lookup";
 import { realLocalities } from "./places";
 import { countyPopulationSharesForPlace } from "./reference/government-units";
@@ -237,6 +238,26 @@ function repealAll(w: World) {
 }
 
 function fixtureLines(w: World) {
+  // A town's treasury may hold nothing when its first lines fall due (a small town's often does): then no payment is made on any line and none can name a law. An edge fixture gives this town's a year of its lines, so the chain from the law to the payment is the one under test.
+  const accounts = w.api.accounts();
+  const budget = [...budgetsOf(w.api, w.gov.id)].sort(
+    (a, b) => b.fiscalYear - a.fiscalYear,
+  )[0];
+  accounts.transfer({
+    id: `fixture:rights-env:treasury-cash:${w.core.date}`,
+    from: accounts.main(outsideAccountOf(w.api)!),
+    to: accounts.main(w.gov.organizationId),
+    amountMinor: Object.values(budget?.spendingMinor ?? {}).reduce(
+      (sum, minor) => sum + minor,
+      0,
+    ),
+    reasonKey: "fixture",
+    source: {
+      tag: "SOURCED",
+      citation: "Test fixture: cash for the treasury's first closes.",
+      asOf: w.core.date,
+    },
+  });
   for (const line of LINES)
     amendBudget(w.api, {
       governmentId: w.gov.id,
