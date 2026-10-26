@@ -65,8 +65,11 @@ describe("civic decisions in a played window", () => {
     // The record a side's decision kept: the person, the decision, the day,
     // the answer, and as its reasons the case and the pull of temperament
     // (turned around for a decline: the case against, the pull away).
+    // A circle member's weighed choice is detail the log forgets after
+    // circleDecisionDetailDays (decision-detail.ts): a record still kept is
+    // read from the log, an older one as it was kept the day it was made.
     const weighed = (decisionId: string, call: PlayedCall) => {
-      const record = world.core.durableLog.get(call.recordId!);
+      const record = world.core.durableLog.get(call.recordId!) ?? call.record;
       const where = `${decisionId}: ${call.recordId} at ${label}`;
       expect(record?.kind, where).toBe("person.weighed");
       expect(record!.actorId, where).toBe(call.actorId);

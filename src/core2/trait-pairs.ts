@@ -14,7 +14,7 @@ import { addDays } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { residentPerson } from "./modules/residents";
 import { setTraitProbe } from "./trait-probe";
-import type { CoreState } from "./types";
+import type { CoreState, LogRecord } from "./types";
 
 /** One two-way decision a played day weighed for a named actor. */
 export interface PlayedCall {
@@ -30,6 +30,13 @@ export interface PlayedCall {
   turned: boolean;
   /** The `person.weighed` record the decision kept (a formula decision by a full person). */
   recordId?: string;
+  /**
+   * That record as it was kept the day the decision was made. A circle
+   * member's weighed choice is detail the log forgets after
+   * circleDecisionDetailDays (decision-detail.ts), so a played window longer
+   * than that reads its early records here.
+   */
+  record?: LogRecord;
 }
 
 /** Two people, about the same case, opposite leans, different decisions. */
@@ -93,7 +100,12 @@ export function playWeighing(
         lean: row.lean,
         yes: row.yes,
         turned: row.turned,
-        ...(row.recordId ? { recordId: row.recordId } : {}),
+        ...(row.recordId
+          ? {
+              recordId: row.recordId,
+              record: core.durableLog.get(row.recordId),
+            }
+          : {}),
       });
     },
     chooser(row) {
