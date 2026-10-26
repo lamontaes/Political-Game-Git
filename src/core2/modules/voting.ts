@@ -2220,8 +2220,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     }
     if (choice) namedVotes[choice] = (namedVotes[choice] ?? 0) + 1;
     // The reasons behind a ballot (each candidate's appeal terms, the record
-    // reasons, why they turned out) are kept for the player's circle and when
-    // bookkeeping is on; everyone else's ballot keeps who voted and the choice,
+    // reasons, why they turned out) are kept for the player's circle (and
+    // everyone's under the keep-everyone's-why switch); everyone else's ballot
+    // keeps who voted and the choice,
     // which is all the turnout and results reads take.
     const why = keepsWhy(api.state as CoreState, voter.id);
     table(api, "ballots").put({
