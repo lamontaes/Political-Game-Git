@@ -1,8 +1,11 @@
 /* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
+import { el } from "./ui/dom.mjs";
+import { makeButton, mountPagers } from "./ui/button.mjs";
 import { show, mountCloseButtons } from "./ui/panel.mjs";
 mountCloseButtons();
+mountPagers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
@@ -129,12 +132,6 @@ function setClock(at) {
 /** A figure cropped to head and shoulders (Kit 12's bust). */
 function setBust(id, url) {
   $(id).style.backgroundImage = url ? `url("${url}")` : "";
-}
-function el(tag, props = {}, ...children) {
-  const node = document.createElement(tag);
-  Object.assign(node, props);
-  node.append(...children);
-  return node;
 }
 // A record id as the bench stores it (person_<hex>, official:term:seat:...).
 const RECORD_ID =
@@ -785,9 +782,8 @@ function inMeeting() {
               ? []
               : [
                   ...["for", "against"].map((position) => {
-                    const b = el("button", {
+                    const b = makeButton({
                       className: "action",
-                      type: "button",
                       textContent:
                         words[
                           position === "for" ? "speakFor" : "speakAgainst"
@@ -803,9 +799,8 @@ function inMeeting() {
                     return b;
                   }),
                   ...["yes", "no", "abstain", "own"].map((vote) => {
-                    const b = el("button", {
+                    const b = makeButton({
                       className: "action",
-                      type: "button",
                       textContent: words[vote] ?? vote,
                     });
                     b.addEventListener("click", async () =>
@@ -849,9 +844,8 @@ function atDesk() {
           billBlock(
             item,
             ["sign", "veto", "own"].map((how) => {
-              const b = el("button", {
+              const b = makeButton({
                 className: "action",
-                type: "button",
                 textContent: words[how] ?? how,
               });
               b.addEventListener("click", async () =>
@@ -901,9 +895,8 @@ function atThePolls(scene) {
           };
           const chosen = contest.marked;
           const button = (text, candidateId) => {
-            const node = el("button", {
+            const node = makeButton({
               className: "action",
-              type: "button",
               textContent: text,
             });
             if (chosen) {
@@ -1090,8 +1083,7 @@ function spokenLines(lines, speakerOf) {
 /** Numbered replies; a key press of the number says it. */
 function replies(choices, onPick) {
   return choices.map((choice) => {
-    const b = el("button", {
-      type: "button",
+    const b = makeButton({
       className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
       // Filing is a control of its own, never worded like acknowledging a refusal.
       textContent:
@@ -1163,10 +1155,9 @@ async function talkTo(otherId, momentId) {
 // A line that does not read right is marked where it is said; no time passes.
 // Mark gap is a developer control: it joins the talk box only while dev
 // mode is on, and is never in the player's markup.
-const gapButton = el("button", {
+const gapButton = makeButton({
   id: "talk-gap",
   className: "action small",
-  type: "button",
   textContent: "Mark gap",
 });
 gapButton.addEventListener("click", async () => {
@@ -1343,8 +1334,7 @@ function partyRows(party) {
     return [line];
   }
   return party.parties.map((p) => {
-    const b = el("button", {
-      type: "button",
+    const b = makeButton({
       textContent: `${words.join} ${p.name}`,
     });
     b.addEventListener("click", async () => {
@@ -1378,8 +1368,7 @@ function debatePanel(debate) {
     ...picks.map(({ question, pick }) =>
       el("label", {}, ` ${policyLabel(question)} `, pick),
     ),
-    el("button", {
-      type: "button",
+    makeButton({
       textContent: words.answer,
       onclick: async () => {
         await post(
@@ -1404,8 +1393,7 @@ function speechPanel(filing, venue) {
     return el(
       "div",
       {},
-      el("button", {
-        type: "button",
+      makeButton({
         textContent: controls.speech.begin,
         onclick: async () => {
           speechState = await post("/api/campaign/speech/begin");
@@ -1422,8 +1410,7 @@ function speechPanel(filing, venue) {
       {},
       ...said,
       el("label", { textContent: controls.speech.venue }, venue),
-      el("button", {
-        type: "button",
+      makeButton({
         textContent: controls.speech.give,
         onclick: async () => {
           const result = await post(
@@ -1444,8 +1431,7 @@ function speechPanel(filing, venue) {
     {},
     ...said,
     ...speechState.choices.map((choice) =>
-      el("button", {
-        type: "button",
+      makeButton({
         textContent: choice.text,
         onclick: async () => {
           speechState = await post(
@@ -1530,7 +1516,7 @@ async function campaignRows() {
       ),
     );
     const button = (label, kind, extra) => {
-      const b = el("button", { type: "button", textContent: label });
+      const b = makeButton({ textContent: label });
       b.addEventListener("click", () =>
         act(kind, typeof extra === "function" ? extra() : extra),
       );
@@ -1560,8 +1546,7 @@ async function campaignRows() {
                   .replace("{price}", dollars(choice.why.priceMinor ?? 0))
                   .replace("{cash}", dollars(choice.why.cashMinor ?? 0))
               : "";
-            const b = el("button", {
-              type: "button",
+            const b = makeButton({
               textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
               disabled: !choice.available,
               title: why,
@@ -1590,8 +1575,7 @@ async function campaignRows() {
             value: "0",
             ariaLabel: controls.campaignContribute.dollars,
           });
-          const give = el("button", {
-            type: "button",
+          const give = makeButton({
             textContent: controls.campaignContribute.give,
           });
           give.addEventListener("click", () =>
@@ -2087,7 +2071,7 @@ async function seatRows() {
       value: "0",
       style: "width: 90px",
     });
-    const draft = el("button", { type: "button", textContent: "Draft" });
+    const draft = makeButton({ textContent: "Draft" });
     draft.addEventListener("click", () => {
       const [kind, key] = [
         pick.value.slice(0, pick.value.indexOf(":")),
@@ -2183,13 +2167,11 @@ function menuPages(items, size = 5) {
   let at = 0;
   const box = el("div", { className: "record-pages" });
   const draw = () => {
-    const back = el("button", {
-      type: "button",
+    const back = makeButton({
       textContent: controls.politics.back,
       disabled: at === 0,
     });
-    const next = el("button", {
-      type: "button",
+    const next = makeButton({
       textContent: controls.politics.next,
       disabled: (at + 1) * size >= items.length,
     });
@@ -2306,7 +2288,7 @@ const sheets = {
     const detail = el("div", { className: "people-selection" });
     const pager = el("nav", { className: "people-pager" });
     const button = (text, fn) => {
-      const b = el("button", { type: "button", textContent: text });
+      const b = makeButton({ textContent: text });
       b.addEventListener("click", fn);
       return b;
     };
@@ -2503,8 +2485,7 @@ const sheets = {
       { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
     );
     const personLink = (member) => {
-      const button = el("button", {
-        type: "button",
+      const button = makeButton({
         className: "character-person",
         textContent: member.name,
       });
@@ -2886,7 +2867,7 @@ const sheets = {
         ["accept", labels.accept],
         ["decline", labels.decline],
       ]) {
-        const button = el("button", { type: "button", textContent: label });
+        const button = makeButton({ textContent: label });
         button.onclick = async () => {
           for (const b of actions.children) b.disabled = true;
           try {
@@ -3092,7 +3073,7 @@ const sheets = {
       row(me.card.name, "†"),
       ...people.map((p) => {
         const line = row(p.name, `${p.why} `);
-        const b = el("button", { type: "button", textContent: "Play" });
+        const b = makeButton({ textContent: "Play" });
         b.addEventListener("click", () => playAs(p.id));
         line.append(b);
         return line;
@@ -3188,8 +3169,7 @@ const sheets = {
               [labels.decrease, -1],
               [labels.increase, 1],
             ]) {
-              const b = el("button", {
-                type: "button",
+              const b = makeButton({
                 textContent: sign > 0 ? "+" : "−",
                 title: name,
               });
@@ -3259,7 +3239,7 @@ const sheets = {
     const details = el("section", { className: "calendar-details" });
     const upcoming = el("section", { className: "calendar-upcoming" });
     const button = (label, fn) => {
-      const b = el("button", { type: "button", textContent: label });
+      const b = makeButton({ textContent: label });
       b.addEventListener("click", fn);
       return b;
     };
@@ -3274,7 +3254,7 @@ const sheets = {
         path.setAttribute("d", d);
         svg.append(path);
       }
-      const b = el("button", { type: "button", className: "skip-forward" });
+      const b = makeButton({ className: "skip-forward" });
       b.setAttribute("aria-label", name);
       b.append(svg);
       b.addEventListener("click", fn);
@@ -3491,7 +3471,7 @@ const sheets = {
     const paper = el("section", { className: "paper" });
     const outletPicker = el("nav", { className: "outlet-picker" });
     const button = (label, fn) => {
-      const b = el("button", { type: "button", textContent: label });
+      const b = makeButton({ textContent: label });
       b.onclick = fn;
       return b;
     };
@@ -3863,15 +3843,13 @@ const sheets = {
       );
     }
     const actions = el("div", { className: "acts options-actions" });
-    const resume = el("button", {
-      type: "button",
+    const resume = makeButton({
       textContent: labels.continue,
     });
     resume.addEventListener("click", closeSheet);
     actions.append(resume);
     if (skipOpening) {
-      const skip = el("button", {
-        type: "button",
+      const skip = makeButton({
         textContent: labels.skipOpening,
       });
       skip.addEventListener("click", () => {
@@ -3880,8 +3858,7 @@ const sheets = {
       });
       actions.append(skip);
     }
-    const quit = el("button", {
-      type: "button",
+    const quit = makeButton({
       textContent: labels.quitToTitle,
     });
     quit.dataset.testid = "quit-to-title";
@@ -3937,15 +3914,14 @@ const sheets = {
               ].join(" · "),
             }),
           );
-        const go = el("button", { type: "button", textContent: labels.go });
+        const go = makeButton({ textContent: labels.go });
         go.setAttribute("aria-label", `${labels.go}: ${p.name}`);
         go.onclick = () =>
           p.filing ? openFiling(p.name) : visit(p.organizationId);
         card.append(info, go);
         return card;
       });
-      const back = el("button", {
-        type: "button",
+      const back = makeButton({
         textContent: labels.back,
         disabled: page === 0,
       });
@@ -3953,8 +3929,7 @@ const sheets = {
         page--;
         draw();
       };
-      const next = el("button", {
-        type: "button",
+      const next = makeButton({
         textContent: labels.next,
         disabled: (page + 1) * 5 >= found.length,
       });
@@ -4139,8 +4114,7 @@ const sheets = {
                 line.append(elect);
               }
               if (s.holder?.personId) {
-                const b = el("button", {
-                  type: "button",
+                const b = makeButton({
                   className: "member-name",
                   textContent: name,
                 });
@@ -4176,8 +4150,7 @@ const sheets = {
         b.classList.toggle("on", b.dataset.level === level);
     };
     for (const key of ["local", "state", "federal"]) {
-      const b = el("button", {
-        type: "button",
+      const b = makeButton({
         className: "tab",
         textContent: controls.levels?.[key] ?? words(key),
       });
@@ -4225,8 +4198,7 @@ const sheets = {
         );
       // Play anyone: a resident officeholder can be taken over (bench only).
       if (k.resident && k.personId !== me.id) {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: "dev-only",
           textContent: "Play",
         });
@@ -4428,8 +4400,7 @@ async function openSheet(tab) {
             politics.ofVotingAge),
       )
       .map((name) => {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: `tab${name === tab ? " on" : ""}`,
           textContent: titles[name],
         });
@@ -4770,8 +4741,7 @@ function listStates() {
     ...states
       .filter((s) => s.name.toLowerCase().includes(q))
       .map((s) => {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: "item",
           textContent: s.name,
         });
@@ -4831,8 +4801,7 @@ function showLook(view) {
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) => {
       const arrow = (by, glyph) => {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: "action small",
           textContent: glyph,
         });
