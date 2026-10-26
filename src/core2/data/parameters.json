@@ -113,7 +113,7 @@
       "low": 20.8,
       "high": 28.6,
       "unit": "years of age at first marriage",
-      "citation": "Census MS-2 women's series, 1970–2021."
+      "citation": "Census MS-2 women's series, 1970\u20132021."
     },
     "checkRange": {
       "ref": "P9-GENERATED-PRIOR-PARTNERSHIP-TIMELINE"
@@ -460,7 +460,7 @@
   "moodHalfLifeDays": {
     "value": 1,
     "tag": "ESTIMATED",
-    "citation": "Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119–127, doi:10.1007/s11031-014-9445-y (median episode 5 hours to full return to baseline; sadness 120 hours); Bolger, DeLongis, Kessler & Schilling (1989), 'Effects of daily stress on negative mood', Journal of Personality and Social Psychology 57:808–818 (habituation by the second day for most daily stressors).",
+    "citation": "Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119\u2013127, doi:10.1007/s11031-014-9445-y (median episode 5 hours to full return to baseline; sadness 120 hours); Bolger, DeLongis, Kessler & Schilling (1989), 'Effects of daily stress on negative mood', Journal of Personality and Social Psychology 57:808\u2013818 (habituation by the second day for most daily stressors).",
     "estimatedFrom": "Exponential decay; treating 'episode over' as about 90% decayed (3.3 half-lives) gives about 1.5 hours for a median emotion and about 1.5 days for sadness. Game events sit at the long end, so 1 day. Neither sample is national.",
     "spread": {
       "low": 0.06,
@@ -520,7 +520,7 @@
       "low": 0.6,
       "high": 1.2,
       "unit": "dimensionless utility weight relative to needWeight = 1",
-      "citation": "Stopgap research (data/research/stopgaps-oct19/A-people-behavior-1.json, SG-P8-param-driveWeight), confidence low: An event-born drive (a salient recent trigger) is closest to a strong desire; desire strength predicts enactment at roughly the same size as intentions (r about 0.5), so parity with need is defensible. No direct measure of drive versus need exists, so 1.0 is retained as an estimate with a spread tied to the goal band. Fetched: Psychological Bulletin (Webb, Sheeran) 2006 (https://doi.org/10.1037/0033-2909.132.2.249)."
+      "citation": "Assumed sensitivity band from 0.6 to 1.2 around the unchanged tunable value 1, not a published interval or an empirically fitted drive-versus-need coefficient. Low-confidence proposal in data/research/stopgaps-oct19/A-people-behavior-1.json (SG-P8-param-driveWeight). Webb and Sheeran (2006, https://doi.org/10.1037/0033-2909.132.2.249) is background on intentions and behavior, not a direct bound on this coefficient. Empirical calibration remains open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -600,7 +600,7 @@
       "low": 7,
       "high": 30,
       "unit": "days (contact gap at which the company need saturates)",
-      "citation": "Stopgap research (data/research/stopgaps-oct19/A-people-behavior-1.json, SG-P8-param-companyHorizonDays), confidence low: The spread of 7 to 30 days is this table's own bracket from weekly to monthly contact (geometric mean 14.5 days), not a published interval; the layered contact frequencies it is often attributed to were not read, so they are not cited. Friendships decay unless contact is maintained (Roberts and Dunbar 2015), and about 50 hours together make a casual friend while 200+ make a close one (Hall 2018). The existing ATUS check (1.4 to 1.6 times observed family visiting) supports 14 as at least internally consistent. Fetched: Human Nature (Roberts, Dunbar) 2015 (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4626528/); Journal of Social and Personal Relationships (Hall) / KU release 2018 (https://news.ku.edu/news/article/2018/03/06/study-reveals-number-hours-it-takes-make-friend). Cited but not fetched: Trends in Cognitive Sciences (Dunbar) 2018."
+      "citation": "Assumed weekly-to-monthly contact-gap sensitivity band from 7 to 30 days, not a published interval; the tunable value remains 14 days. Low-confidence proposal in data/research/stopgaps-oct19/A-people-behavior-1.json (SG-P8-param-companyHorizonDays). Roberts and Dunbar (2015, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4626528/) and Hall (2018, https://news.ku.edu/news/article/2018/03/06/study-reveals-number-hours-it-takes-make-friend) provide relationship-maintenance context, not measured bounds on this saturation duration. Empirical calibration remains open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -609,8 +609,8 @@
   "moneyBufferDays": {
     "value": 19,
     "tag": "ESTIMATED",
-    "citation": "JPMorgan Chase Institute, Wheat & Eckerd, 'Household cash buffer management from the Great Recession through COVID-19' (July 2023), Figure 1, https://www.jpmorganchase.com/institute/all-topics/household-financial-health/household-cash-buffer-management-from-the-great-recession-through-covid-19: median cash buffer days by income quartile, 2009–January 2020 about 13/16/19/26; July 2021 peak 22/26/32/43. Outcome check: Federal Reserve, Economic Well-Being of U.S. Households in 2020 (May 2021): 64% of adults would cover a $400 emergency with cash or its equivalent.",
-    "estimatedFrom": "Cash buffer days are liquid balances over typical daily outflows, the same unit as daily living cost × days. Households without pay skew to lower income (13–16 days before 2020), and a January 2021 opening sits on the pandemic rise, so the all-income median of 19 is used.",
+    "citation": "JPMorgan Chase Institute, Wheat & Eckerd, 'Household cash buffer management from the Great Recession through COVID-19' (July 2023), Figure 1, https://www.jpmorganchase.com/institute/all-topics/household-financial-health/household-cash-buffer-management-from-the-great-recession-through-covid-19: median cash buffer days by income quartile, 2009\u2013January 2020 about 13/16/19/26; July 2021 peak 22/26/32/43. Outcome check: Federal Reserve, Economic Well-Being of U.S. Households in 2020 (May 2021): 64% of adults would cover a $400 emergency with cash or its equivalent.",
+    "estimatedFrom": "Cash buffer days are liquid balances over typical daily outflows, the same unit as daily living cost \u00d7 days. Households without pay skew to lower income (13\u201316 days before 2020), and a January 2021 opening sits on the pandemic rise, so the all-income median of 19 is used.",
     "spread": {
       "low": 13,
       "high": 43,
@@ -640,7 +640,7 @@
       "low": 0.5,
       "high": 1,
       "unit": "dimensionless multiplier on event appraisal by relationship closeness",
-      "citation": "Stopgap research (data/research/stopgaps-oct19/A-people-behavior-1.json, SG-P8-param-appraisalRelationshipWeight), confidence low: Interpersonal events carry the strongest daily mood effects (Bolger 1989), supporting an appraisal that scales fully with relationship closeness. No instrument estimates the share, so 1 (full scaling) is retained as an estimate with a lower bound of 0.5 if non-relational channels are added. Fetched: Journal of Personality and Social Psychology (Bolger, DeLongis, Kessler, Schilling) 1989 (https://hcp.hms.harvard.edu/publication/effects-daily-stress-negative-mood)."
+      "citation": "Assumed sensitivity band from 0.5 to 1 around the unchanged tunable value 1, not a published interval or fitted share of appraisal attributable to relationships. Low-confidence proposal in data/research/stopgaps-oct19/A-people-behavior-1.json (SG-P8-param-appraisalRelationshipWeight). Bolger, DeLongis, Kessler and Schilling (1989, https://hcp.hms.harvard.edu/publication/effects-daily-stress-negative-mood) provides daily-stress context, not direct bounds on this coefficient. Empirical calibration remains open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -899,12 +899,12 @@
     "value": 4449120,
     "tag": "ESTIMATED",
     "citation": "BLS OEWS national all-occupations row 00-0000: May 2020 median hourly wage $20.17 (https://www.bls.gov/oes/2020/may/oes_nat.htm) and May 2021 median $22.00 (https://www.bls.gov/oes/2021/may/oes_nat.htm); OEWS 2,080-hour annualization.",
-    "estimatedFrom": "January 2021 interpolated between the May 2020 and May 2021 medians: $21.39/hour × 2,080 hours. Proxy only for a job with no recorded local or same-occupation rate.",
+    "estimatedFrom": "January 2021 interpolated between the May 2020 and May 2021 medians: $21.39/hour \u00d7 2,080 hours. Proxy only for a job with no recorded local or same-occupation rate.",
     "spread": {
       "low": 4195360,
       "high": 4576000,
       "unit": "USD minor units a year",
-      "citation": "May 2020 and May 2021 OEWS national medians × 2,080 hours."
+      "citation": "May 2020 and May 2021 OEWS national medians \u00d7 2,080 hours."
     }
   },
   "deepPastMiddleSchoolOffsetYears": {
@@ -1911,7 +1911,7 @@
   "businessIncomeHalfLifeDays": {
     "value": 785,
     "tag": "ESTIMATED",
-    "citation": "BLS Local Area Unemployment Statistics, state unemployment-rate gaps 2000–2025: half-life implied by their AR(1) persistence, median across the 50 states (data/research/regional/roadmap-r1-gap-persistence.json, research roadmap R1).",
+    "citation": "BLS Local Area Unemployment Statistics, state unemployment-rate gaps 2000\u20132025: half-life implied by their AR(1) persistence, median across the 50 states (data/research/regional/roadmap-r1-gap-persistence.json, research roadmap R1).",
     "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
       "low": 357,
@@ -2041,15 +2041,15 @@
   "openingRetirementSchoolContextYears": {
     "value": 4,
     "tag": "ESTIMATED",
-    "citation": "Existing shared school-calendar common high-school grades 9–12. Four modeled years bound a possible post-cohort career start; a cohort record does not grant graduation or employment.",
+    "citation": "Existing shared school-calendar common high-school grades 9\u201312. Four modeled years bound a possible post-cohort career start; a cohort record does not grant graduation or employment.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "stopgapId": "SG-P8-opening-retirement-income"
   },
   "openingRetirementClaimAgeYears": {
     "value": 64,
     "tag": "ESTIMATED",
-    "citation": "Calibration target, no longer the claim age itself: SSA's average age at entitlement for claims made 2000–2020 was 63.4–65.0 (Annual Statistical Supplement 2021, Table 6.B5.1). The claim is a decision inside the law (src/core2/retirement-claim.ts).",
-    "estimatedFrom": "The opening retiree stock claimed over about 1985–2020, when the average award age was 63.4–65.0; awards at full retirement age include disability conversions the generator doesn't model.",
+    "citation": "Calibration target, no longer the claim age itself: SSA's average age at entitlement for claims made 2000\u20132020 was 63.4\u201365.0 (Annual Statistical Supplement 2021, Table 6.B5.1). The claim is a decision inside the law (src/core2/retirement-claim.ts).",
+    "estimatedFrom": "The opening retiree stock claimed over about 1985\u20132020, when the average award age was 63.4\u201365.0; awards at full retirement age include disability conversions the generator doesn't model.",
     "spread": {
       "low": 62,
       "high": 70,
@@ -2073,7 +2073,7 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     },
-    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
+    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4\u201365.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
   },
   "openingRetirementCoveredFraction": {
     "checkRange": {
@@ -2081,7 +2081,7 @@
     },
     "value": 0.685,
     "tag": "ESTIMATED",
-    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
+    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950\u20131959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
     "estimatedFrom": "The source counts quarters from age 22; the game's adults start at 18 (openingRetirementCareerStartAgeYears), so each share is turned into covered years over the claim age less 22 and divided by the years from 18: 0.75 (the men's and women's shares averaged) times (64.08 - 22) / (64.08 - 18) = 0.685, using the opening's measured mean claim age of 64.08. One value for everyone until people's own work histories carry it.",
     "spread": {
       "low": 0.603,
@@ -2107,7 +2107,7 @@
   "openingRetirementMinimumCoveredMonths": {
     "value": 120,
     "tag": "SOURCED",
-    "citation": "Social Security Act §214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for workers born after 1928; SSA Publication 05-10072, How You Earn Credits.",
+    "citation": "Social Security Act \u00a7214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for workers born after 1928; SSA Publication 05-10072, How You Earn Credits.",
     "estimatedFrom": "40 quarters = 120 months. Real credits come from earnings (up to 4 a year), so modeled covered months are an analog of the legal threshold."
   },
   "openingRetirementBenefitMonthlyMinor": {
@@ -2120,8 +2120,8 @@
   "openingRetirementBenefitReferenceCoveredMonths": {
     "value": 420,
     "tag": "SOURCED",
-    "citation": "Social Security Act §215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation years for workers born 1929 or later; SSA Publication 05-10070, Your Retirement Benefit: How It's Figured.",
-    "estimatedFrom": "35 years × 12 = 420 months; dividing covered months by 420 approximates the zero-year penalty, not the earnings level or the bend points."
+    "citation": "Social Security Act \u00a7215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation years for workers born 1929 or later; SSA Publication 05-10070, Your Retirement Benefit: How It's Figured.",
+    "estimatedFrom": "35 years \u00d7 12 = 420 months; dividing covered months by 420 approximates the zero-year penalty, not the earnings level or the bend points."
   },
   "openingRetirementBenefitFactorMinimum": {
     "checkRange": {
@@ -3605,11 +3605,11 @@
     "value": 27,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 all-small-businesses cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 all-small-businesses cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 13,
       "high": 62,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3618,11 +3618,11 @@
     "value": 16,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 restaurants cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 restaurants cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 9,
       "high": 31,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3631,11 +3631,11 @@
     "value": 18,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 repair-and-maintenance cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 repair-and-maintenance cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 9,
       "high": 40,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3644,11 +3644,11 @@
     "value": 19,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 retail cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 retail cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 10,
       "high": 45,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3657,11 +3657,11 @@
     "value": 20,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 construction cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 construction cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 44,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3670,11 +3670,11 @@
     "value": 21,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 personal-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 personal-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 45,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3683,11 +3683,11 @@
     "value": 23,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 wholesalers cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 wholesalers cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 52,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3696,11 +3696,11 @@
     "value": 28,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 metal-and-machinery cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 metal-and-machinery cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 13,
       "high": 62,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3709,11 +3709,11 @@
     "value": 30,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 health-care-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 health-care-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 14,
       "high": 67,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3722,11 +3722,11 @@
     "value": 32,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 high-tech-manufacturing cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 high-tech-manufacturing cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 71,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3735,11 +3735,11 @@
     "value": 33,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 other-professional-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 other-professional-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 72,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3748,11 +3748,11 @@
     "value": 33,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 high-tech-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 high-tech-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 77,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3761,11 +3761,11 @@
     "value": 47,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February–October 2015 real-estate cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February\u2013October 2015 real-estate cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 21,
       "high": 107,
-      "unit": "cash buffer days; observed 25th–75th percentiles",
+      "unit": "cash buffer days; observed 25th\u201375th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -5057,7 +5057,7 @@
     "value": 40,
     "tag": "ESTIMATED",
     "citation": "BLS Current Population Survey 2021 annual averages, Table 19 'Persons at work in agriculture and related and in nonagricultural industries by hours of work': people usually working full time averaged about 42 to 43 hours a week at work; https://www.bls.gov/cps/aa2021/cpsaat19.htm",
-    "estimatedFrom": "A full-time job copied from a part-time recorded role gets the midpoint of the town generator's full-time range (35–45 hours), slightly under the CPS average hours at work.",
+    "estimatedFrom": "A full-time job copied from a part-time recorded role gets the midpoint of the town generator's full-time range (35\u201345 hours), slightly under the CPS average hours at work.",
     "spread": {
       "low": 35,
       "high": 45,
@@ -5069,7 +5069,7 @@
     "value": 22.5,
     "tag": "ESTIMATED",
     "citation": "BLS Current Population Survey 2021 annual averages, Table 19 'Persons at work in agriculture and related and in nonagricultural industries by hours of work': people usually working part time averaged about 22 to 23 hours a week at work; https://www.bls.gov/cps/aa2021/cpsaat19.htm",
-    "estimatedFrom": "A part-time job copied from a full-time recorded role gets the midpoint of the town generator's part-time range (16–29 hours).",
+    "estimatedFrom": "A part-time job copied from a full-time recorded role gets the midpoint of the town generator's part-time range (16\u201329 hours).",
     "spread": {
       "low": 16,
       "high": 29,
@@ -5080,7 +5080,7 @@
   "openingPartTimeShiftMinutes": {
     "value": 330,
     "tag": "ESTIMATED",
-    "citation": "The town schedule generator's part-time shift (src/simulation/living-world/work-schedules.ts), consistent with CPS part-time averages of about 22–23 hours over four days.",
+    "citation": "The town schedule generator's part-time shift (src/simulation/living-world/work-schedules.ts), consistent with CPS part-time averages of about 22\u201323 hours over four days.",
     "estimatedFrom": "Shifts longer than six hours are cut to five and a half hours for part-time staff, as the generator does.",
     "spread": {
       "low": 240,
@@ -5093,7 +5093,7 @@
     "value": 0.84,
     "tag": "ESTIMATED",
     "citation": "U.S. Bureau of Economic Analysis, NIPA Table 2.1 'Personal Income and Its Disposition', 2019 annual: personal outlays about $15.6 trillion of personal income about $18.6 trillion (taxes about $2.2 trillion, saving 7.3% of disposable income); https://apps.bea.gov/iTable/?reqid=19&step=2&isuri=1&categories=survey#eyJhcHBpZCI6MTksInN0ZXBzIjpbMSwyLDNdLCJkYXRhIjpbWyJjYXRlZ29yaWVzIiwiU3VydmV5Il0sWyJOSVBBX1RhYmxlX0xpc3QiLCI1OCJdXX0=",
-    "estimatedFrom": "Counted households spend this share of last month's income; the rest stands for taxes and saving until income taxes are collected from the counts. 2019 is used rather than 2020–2021, when stimulus and closures pushed saving far above normal.",
+    "estimatedFrom": "Counted households spend this share of last month's income; the rest stands for taxes and saving until income taxes are collected from the counts. 2019 is used rather than 2020\u20132021, when stimulus and closures pushed saving far above normal.",
     "spread": {
       "low": 0.78,
       "high": 0.88,
@@ -5118,19 +5118,19 @@
   "sellerCapacityUtilization": {
     "value": 0.796,
     "tag": "ESTIMATED",
-    "citation": "Board of Governors of the Federal Reserve System, G.17 Industrial Production and Capacity Utilization: total industry capacity utilization averaged 79.6% over 1972–2023; https://www.federalreserve.gov/releases/g17/current/",
+    "citation": "Board of Governors of the Federal Reserve System, G.17 Industrial Production and Capacity Utilization: total industry capacity utilization averaged 79.6% over 1972\u20132023; https://www.federalreserve.gov/releases/g17/current/",
     "estimatedFrom": "A seller's monthly capacity is its projected sales divided by this rate; spending beyond it buys the same thing outside the town (residents travel to the next town). Industrial utilization stands in for retail and service capacity.",
     "spread": {
       "low": 0.7,
       "high": 0.85,
       "unit": "share of capacity in use",
-      "citation": "G.17 range over business cycles, 1972–2023."
+      "citation": "G.17 range over business cycles, 1972\u20132023."
     }
   },
   "openingRetirementClaimAnchorYearsBeforeFull": {
     "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "Calibrated so the opening's retirees claimed at SSA's average age at entitlement, 63.4–65.0 for claims made 2000–2020 (SSA Annual Statistical Supplement 2021, Table 6.B5.1).",
+    "citation": "Calibrated so the opening's retirees claimed at SSA's average age at entitlement, 63.4\u201365.0 for claims made 2000\u20132020 (SSA Annual Statistical Supplement 2021, Table 6.B5.1).",
     "spread": {
       "low": 0,
       "high": 3,
@@ -5140,7 +5140,7 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     },
-    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
+    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4\u201365.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
   },
   "openingRetirementClaimNeedPullYears": {
     "value": 1.5,
@@ -5155,7 +5155,7 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     },
-    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
+    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4\u201365.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
   },
   "openingRetirementClaimFullBufferMonths": {
     "value": 24,
@@ -5174,7 +5174,7 @@
   "gameStartDate": {
     "value": 20250120,
     "tag": "SOURCED",
-    "citation": "Inauguration Day, 20th Amendment §1; owner ruling Oct 14, 2026: every game starts on January 20, 2025, in every place. Written as year, month and day (YYYYMMDD); read it with gameStartDate() in src/core2/game-start.ts."
+    "citation": "Inauguration Day, 20th Amendment \u00a71; owner ruling Oct 14, 2026: every game starts on January 20, 2025, in every place. Written as year, month and day (YYYYMMDD); read it with gameStartDate() in src/core2/game-start.ts."
   },
   "preStartFromYear": {
     "value": 2000,
@@ -5207,23 +5207,23 @@
     "value": 0.87,
     "tag": "ESTIMATED",
     "citation": "NCES Fast Facts, Back-to-school statistics: fall 2021 public school enrollment 49.4 million and private 4.7 million; NCES NHES 2019: about 2.8% of school-age children homeschooled.",
-    "estimatedFrom": "49.4 / (49.4 + 4.7 + about 1.6 homeschooled) ≈ 0.87 of school-age children enrolled in public schools; pre-K in the public count is not separated.",
+    "estimatedFrom": "49.4 / (49.4 + 4.7 + about 1.6 homeschooled) \u2248 0.87 of school-age children enrolled in public schools; pre-K in the public count is not separated.",
     "spread": {
       "low": 0.8,
       "high": 0.92,
-      "unit": "share of children aged 5–17",
+      "unit": "share of children aged 5\u201317",
       "citation": "State public shares range roughly from 0.80 to 0.92 (NCES Digest Table 205.80, private enrollment by state)."
     }
   },
   "openingSchoolAgeFirst": {
     "value": 5,
     "tag": "SOURCED",
-    "citation": "NCES Digest Table 203.10 and Census school-age population: kindergarten through grade 12 serves ages 5–17."
+    "citation": "NCES Digest Table 203.10 and Census school-age population: kindergarten through grade 12 serves ages 5\u201317."
   },
   "openingSchoolAgeLast": {
     "value": 17,
     "tag": "SOURCED",
-    "citation": "NCES Digest Table 203.10 and Census school-age population: kindergarten through grade 12 serves ages 5–17."
+    "citation": "NCES Digest Table 203.10 and Census school-age population: kindergarten through grade 12 serves ages 5\u201317."
   },
   "openingTeacherMinimumAge": {
     "value": 22,
@@ -5240,7 +5240,7 @@
   "openingWorkingAgeLast": {
     "value": 64,
     "tag": "ESTIMATED",
-    "citation": "BLS Current Population Survey, labor force participation by age (annual averages): participation falls from about 65% at ages 55–64 to about 19% at 65 and over.",
+    "citation": "BLS Current Population Survey, labor force participation by age (annual averages): participation falls from about 65% at ages 55\u201364 to about 19% at 65 and over.",
     "estimatedFrom": "New opening jobs go to adults under 65, where most of the labor force is; the opening's part-time rule already starts at 65 (openingPartTimeOlderWorkerAge).",
     "spread": {
       "low": 61,
@@ -5252,7 +5252,7 @@
   "openingPrivateTuitionAnnualUsd": {
     "value": 12420,
     "tag": "SOURCED",
-    "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average tuition at all private elementary and secondary schools, 2011–12, $12,420 in constant 2020–21 dollars. https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp"
+    "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average tuition at all private elementary and secondary schools, 2011\u201312, $12,420 in constant 2020\u201321 dollars. https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp"
   },
   "openingCustomerClubMembershipsAnnualNationalUsd": {
     "value": 272,
@@ -5426,7 +5426,7 @@
   "schoolDayHours": {
     "value": 6.7,
     "tag": "ESTIMATED",
-    "citation": "NCES Schools and Staffing Survey 2011–12: public schools' average school day was about 6.7 hours.",
+    "citation": "NCES Schools and Staffing Survey 2011\u201312: public schools' average school day was about 6.7 hours.",
     "estimatedFrom": "The national average length of a public school day, used for every school.",
     "spread": {
       "low": 6,
@@ -6603,8 +6603,8 @@
   "schoolStandingTraitWeight": {
     "value": 0.5,
     "tag": "ESTIMATED",
-    "citation": "Weight of the student's study traits (studious, voluntary effort) in that standing, against attendance at 1: the ratio of the two predictors' correlations with grades. Conscientiousness correlates with academic performance at rho .21 in secondary school, .28 in primary and .23 in tertiary (Poropat 2009, Psychological Bulletin 135(2), Table 2); class attendance correlates with class grades at rho .44 and with GPA at .41 (Credé, Roch and Kieszczynka 2010, Review of Educational Research 80(2)). Ordering only, never the level, which is the researched base.",
-    "estimatedFrom": "Poropat's secondary-school conscientiousness correlation (.21) over Credé, Roch and Kieszczynka's attendance and class-grade correlation (.44) is 0.48, rounded to 0.5. Both are correlations with grades, not a model with both predictors, so the ratio is an estimate of their relative pull.",
+    "citation": "Weight of the student's study traits (studious, voluntary effort) in that standing, against attendance at 1: the ratio of the two predictors' correlations with grades. Conscientiousness correlates with academic performance at rho .21 in secondary school, .28 in primary and .23 in tertiary (Poropat 2009, Psychological Bulletin 135(2), Table 2); class attendance correlates with class grades at rho .44 and with GPA at .41 (Cred\u00e9, Roch and Kieszczynka 2010, Review of Educational Research 80(2)). Ordering only, never the level, which is the researched base.",
+    "estimatedFrom": "Poropat's secondary-school conscientiousness correlation (.21) over Cred\u00e9, Roch and Kieszczynka's attendance and class-grade correlation (.44) is 0.48, rounded to 0.5. Both are correlations with grades, not a model with both predictors, so the ratio is an estimate of their relative pull.",
     "spread": {
       "low": 0.45,
       "high": 0.65,
