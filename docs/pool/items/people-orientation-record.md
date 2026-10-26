@@ -3,13 +3,13 @@ id: people-orientation-record
 title: "Adults carry a recorded orientation, read when pairing, so who partners with whom follows each person's own record"
 area: people
 kind: feature
-priority: 2
+priority: 3
 size: S
 status: blocked
 claimed-by:
 pr:
 after:
-blocked-on: people-partnership-forms (PR 4963, an open draft) holds src/core2/modules/partnerships.ts, the pairing rule this item must read the record in
+blocked-on: people-partnership-forms
 milestone:
 source: split from people-partnership-counted by pool feeder Oct 20
 ---
@@ -23,3 +23,7 @@ source: split from people-partnership-counted by pool feeder Oct 20
 **Files.** src/core2/opening-partnership.ts, src/core2/data/opening-partnership.json, src/core2/modules/partnerships.ts, src/core2/people-orientation.test.ts
 
 **Notes.** Created by the pool feeder Oct 20 from the owner ruling of Oct 19 (OWNER-DECISIONS.md, "Pairing"). The partnership forms and ends PRs (#4963, #4970) carry the woman-and-man rule; whoever builds this replaces it there.
+
+Deferred Oct 25: nothing on screen reads it yet.
+
+Oct 25 audit: blocked-on now names the item (people-partnership-forms) instead of its PR.

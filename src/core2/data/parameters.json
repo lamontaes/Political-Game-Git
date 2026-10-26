@@ -155,6 +155,11 @@
     "tag": "SOURCED",
     "citation": "IEC 80000-13: one mebibyte is 2^20 bytes."
   },
+  "votingAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "U.S. Constitution, Twenty-sixth Amendment (1971): the right to vote of citizens eighteen years of age or older shall not be denied on account of age."
+  },
   "targetPopulation": {
     "value": 10000,
     "tag": "SOURCED",
