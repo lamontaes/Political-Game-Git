@@ -58,11 +58,6 @@
       "why": "Needs a recall on the ballot after a petition with enough signatures (src/core2/modules/recalls.ts:565-616).",
       "fix": "Same as recalls.organize (pool item gov-recall-for-cause-start)."
     },
-    "voting.turnout": {
-      "class": "runs only in an election window",
-      "why": "Runs on an election day; most places hold none in the default audit year. With TRAIT_AUDIT_ELECTION=1 it ran 594 times in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 1,349 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026) (2,681 in Parkway, Missouri, seed e6ff0d60d6bc). Its weight (0.79) is cited to Mondak et al. 2010 (odds ratio 1.98): net odds 2.12 in Halfway and 3.77 in Marblehead.",
-      "fix": "Audit the place's own election window (TRAIT_AUDIT_ELECTION=1); Marblehead's high odds stay open under traits-wire-civic."
-    },
     "voting.exit-poll": {
       "class": "no study number",
       "why": "Runs after a race in the played year (TRAIT_AUDIT_ELECTION=1): 94 voters told or declined in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 12 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026). The case without temperament is below zero in every call, so temperament decides each one (turned 88% and 100%). No study gives a size, so the general weight of 1 stands; in Halfway the third leaning most toward telling told 1.00 of the time and the third leaning least 0.65, net 35.",
