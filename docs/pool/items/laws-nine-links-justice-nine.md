@@ -6,9 +6,9 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
-pr: "#6012"
+pr: #6012
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:

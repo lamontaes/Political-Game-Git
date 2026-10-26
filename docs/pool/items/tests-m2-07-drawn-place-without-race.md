@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/tests-m2-07-race-draw
-pr:
+pr: #6135
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T02:57:09.395Z
