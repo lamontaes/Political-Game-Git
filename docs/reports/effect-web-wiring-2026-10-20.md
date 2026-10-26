@@ -1,10 +1,10 @@
 # A town's causes now reach its people, unevenly, as the research says
 
-Of 232 researched causes, 132 now change what happens to people, against 5 on October 20, and 15 land differently by age, sex, income or home. Every other link names why it does not. Public finance, crime and justice, and the health family's named reasons are on main; the other six families wait for the merging sessions, each with its played records. People hear the town's conditions through the news. The owner ruled on October 22 that hearing them should move a stance for those the story reached; that change is built and waits on counted readers' stances.
+The static matrix refreshed from main on October 26 finds 140 of 237 researched links reaching engine records or carried by an engine, against 5 on October 20. Fifteen have a complete researched split by person; seven more have a partial one. Every other link names why it does not reach. Health, labor, civic and environment are on main; schools and places and services remain in review. These are static wiring counts, separate from the earlier played-year measurements below. People hear the town's conditions through the news. The owner ruled on October 22 that hearing them should move a stance for those the story reached; that change is built and waits on counted readers' stances.
 
 ## Before and after
 
-A link is one researched cause and its effect, such as "a point of unemployment raises burglary 3%". On October 20, 5 of the 221 links then researched changed anything a person lives with. On main on October 25, 132 of 232 do, and every other link names why it does not. The six links added since the crime family came with the labor law wiring: unemployment insurance's two links into poverty reach, and four payroll taxes' links into unemployment, which the research finds about zero, do not.
+A link is one researched cause and its effect, such as "a point of unemployment raises burglary 3%". On October 20, 5 of the 221 links then researched changed anything a person lives with. On main on October 26, the refreshed matrix counts 140 of 237 reaching or carried, and every other link names why it does not. Six of the links added since the crime family came with the labor law wiring: unemployment insurance's two links into poverty reach, and four payroll taxes' links into unemployment, which the research finds about zero, do not.
 
 Measured by playing a full year in two places drawn at random from all 56, once on main and once on a branch that merges every fix.
 
@@ -17,14 +17,14 @@ Measured by playing a full year in two places drawn at random from all 56, once 
 
 These numbers are measured on the branch before the cause-of-death and moderator work merged in. Run time stayed within 2 seconds in both towns on a shared machine. Only about 20 links move in a played year because most links start from a law, and these towns passed no new law in the year.
 
-Across all links, from the static matrix (`docs/reports/effect-web-matrix-2026-10-20.json`), before on October 20 and after on main on October 25:
+Across all links, from the static matrix (`docs/reports/effect-web-matrix-2026-10-20.json`), before on October 20 and after refreshed from main on October 26:
 
 | Point                                                            | Before     | After                                                                                |
 | ---------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------ |
-| Reaches an engine's records, or an engine already carries it     | 5 of 221   | 132 of 232                                                                           |
-| Lands differently on people, from a researched split             | 0 of 221   | 15 of 232                                                                            |
-| Links the web runs that have a recorded spread around their size | 94 of 130  | 120 of 120 (the 14 poverty links stopped running, and others are carried by engines) |
-| Not reaching anyone and with no stated reason                    | 216 of 221 | 0 of 232                                                                             |
+| Reaches an engine's records, or an engine already carries it     | 5 of 221   | 140 of 237                                                                           |
+| Lands differently on people, from a researched split             | 0 of 221   | 15 of 237                                                                            |
+| Links the web runs that have a recorded spread around their size | 94 of 130  | 124 of 124 (the 14 poverty links stopped running, and others are carried by engines) |
+| Not reaching anyone and with no stated reason                    | 216 of 221 | 0 of 237                                                                             |
 
 ## What a person now feels
 
@@ -52,12 +52,12 @@ Measured in both towns, from the after-year records:
 - Paychecks, then the poverty count, then students' math results: three engines in a row.
 - Victimizations, then the town's violent-crime index, then next month's crimes.
 
-## Why 100 links still reach no one
+## Why 97 links still reach no one
 
 Each is listed in `src/core2/data/outcome-web/unwired.json` with its reason and an open stopgap. A test keeps that list equal to the matrix (`src/core2/outcome-web-unwired.test.ts`).
 
-- **55 of the 100 point at something nothing records.** Examples are test scores, larceny, reoffending, arrests, convictions, earnings at 28, depression and blood pressure.
-- **45 of the 100 point at a measure no engine reads yet.** Examples:
+- **55 of the 97 point at something nothing records.** Examples are test scores, larceny, reoffending, arrests, convictions, earnings at 28, depression and blood pressure.
+- **42 of the 97 point at a measure no engine reads yet.** Examples:
   - Unemployment, from four payroll taxes: the research finds about zero, so an engine would multiply by one.
   - Government borrowing cost, from five links: no government borrows at a rate.
   - Vandalism: there is no national rate to start from.
@@ -67,10 +67,10 @@ Each is listed in `src/core2/data/outcome-web/unwired.json` with its reason and 
 
 By point, after the fixes:
 
-- **Cause:** 159 of 232 links read a real record or law. Some read a record whose own effect is not yet wired, which is why this exceeds the 132 that reach.
-- **Size:** 167 of 232 have a size with a sourced or labeled spread. 20 of those are research findings of no effect, whose interval was not found in the source text, so their spread is recorded as zero.
-- **Varied:** 15 of 232 vary by person. The research behind most others reports no split, and each such link says so.
-- **Timing:** 2 of 232 links build up over months: violent crime's pull on moving away builds over 60 months, and new transit service over 24. The rest change fully once their lag passes.
+- **Cause:** 168 of 237 links read a real record or law. Some read a record whose own effect is not yet wired, which is why this exceeds the 140 that reach.
+- **Size:** 172 of 237 have a size with a sourced or labeled spread. The earlier audit also noted research findings of no effect whose interval was not found in the source text; those were recorded with zero spread.
+- **Varied:** 15 of 237 vary by person. The research behind most others reports no split, and each such link says so.
+- **Timing:** 2 of 237 links build up over months: violent crime's pull on moving away builds over 60 months, and new transit service over 24. The rest change fully once their lag passes.
 
 ## Shifting one cause in a copy of the town
 
@@ -91,18 +91,16 @@ On main on October 25, with the crime family merged, a four-month run in Paris m
 
 ## What happens next
 
-- **On main:** the capstone (#5639), the school engine (#5609), public finance (#5905), crime and justice (#5892) and the health family's waiting links (#5980).
-- **In review, each merged with main:**
-  - the writers' load fix (#6054), which the family branches carry until it merges;
-  - the families: health (#6006, played), labor (#6004), civic (#6020), environment (#5915), schools (#5934), and places and services (#6042, stacked on the matrix grading #6008);
-  - the twin text (#6045, which this refresh builds on), the end-to-end proof (#5912, on the lived-crime talk #5922), coverage reads (#5661), counted coverage (#5475), the bribe measurement (#6053) and the voter-groups rounding fix (#6061), which the family branches carry for the golden path.
+- **On main:** the capstone (#5639), school engine (#5609), public finance (#5905), crime and justice (#5892), health waiting links (#5980), writers' load fix (#6054), and the health (#6006), labor (#6004), civic (#6020) and environment (#5915) families.
+- **Also merged:** the twin text (#6045), end-to-end proof (#5912 and #6161), lived-crime talk (#5922), coverage reads (#5661), counted coverage (#5475), bribe measurement (#6053) and voter-groups rounding fix (#6061).
+- **Still in review at this refresh:** schools (#5934), and places and services (#6042, carrying the still-open matrix grading #6008). Their current branch checks belong to those PRs; this report does not claim them green.
 
 ## For the next session
 
-1. After any merge to main, merge main into the other open effects branches and rerun the three writers in `scripts/outcome-web/`: coverage, the unwired list twice (then prettier), and the matrix. Until #6054 merges, carry its fix; the writers stop at load on main without it.
-2. Rerun the twin check on main, Paris, Arkansas (seed `ew20oct26`) and one drawn place, and post the counts in the leads channel.
-3. When the families are on main, rerun the played years (`scripts/outcome-web/web-year.ts`, seeds `ewyear-a` and `ewyear-b`) and refresh the before-and-after table above.
-4. Next work from the pool: `web-fare-free-riders-reach-nothing`, then `web-civic-scandal-played-witness` once the corruption follow-ups from `gov-bribes-in-played-worlds-measured` let a bribe surface.
+1. After a family merges, integrate main into the other open effects branches and refresh the coverage, unwired list and matrix with the writers in `scripts/outcome-web/`. The writers' load fix #6054 is on main.
+2. Rerun the twin check on current main in Paris, Arkansas (seed `ew20oct26`) and one drawn place. The twelve-month matrix block and October 25 four-month results above are retained historical runs; this documentation refresh does not claim a new simulation.
+3. When the remaining families merge, rerun the played years (`scripts/outcome-web/web-year.ts`, seeds `ewyear-a` and `ewyear-b`) and refresh the before-and-after table above.
+4. Next work comes from the current pool, including `web-fare-free-riders-reach-nothing` and `web-civic-scandal-played-witness`; check their latest Notes before claiming.
 
 - **Sources not reached:** 12 links had a possible split in research the helper could not open (paywall or blocked); they stay unvaried until a session with library access reads them.
 
