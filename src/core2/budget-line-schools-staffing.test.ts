@@ -74,7 +74,6 @@ for (const direction of ["cut", "raise"] as const)
       }
       expect(budgetProposalDue(api, officeHost, mayorId), where).not.toBeNull();
       const staffBefore = teachers(district.id).map((j) => j.personId);
-      const staffInPlace = staffIn(district.id);
       // The mayor asks to cut or raise the schools line by a third.
       const change = (direction === "cut" ? -1 : 1) * Math.floor(priorLine / 3);
       prepareAct(api, mayorId, "propose-budget", {
@@ -85,6 +84,12 @@ for (const direction of ["cut", "raise"] as const)
         mayorId,
         {} as never,
       );
+      // The adopted line takes effect on the fiscal year's first day, and the
+      // staffing reach takes its base then: the teachers in place, named and
+      // counted, on the eve of that day (a counted district's staff moves
+      // between the proposal and the new year as its workers come and go).
+      advanceCore(core, addDays(makeIsoDate(next), -1));
+      const staffInPlace = staffIn(district.id);
       advanceCore(core, addDays(makeIsoDate(next), 10));
       const adopted = budgetsOf(api, city.id).find(
         (b) => b.startsOn === next || b.adoptedOn === next,
@@ -102,7 +107,7 @@ for (const direction of ["cut", "raise"] as const)
       // The bill reaches the district: it is funded for its staff times the
       // line after the bill against the line before it.
       const row = staffingOf(api, "budget-line:schools", district.id);
-      const detail = `${where}: schools line ${priorLine} ${direction} by ${Math.abs(change)}, adopted ${adopted?.id}; ${staffBefore.length} teachers before`;
+      const detail = `${where}: schools line ${priorLine} ${direction} by ${Math.abs(change)}, adopted ${adopted?.id}; ${staffBefore.length} named teachers at the proposal, ${staffInPlace} named and counted on the eve of ${next}`;
       expect(row, detail).not.toBeNull();
       // The base is every teacher in place, named or counted, and the line
       // after the bill against the line before it funds more or fewer.
@@ -115,6 +120,9 @@ for (const direction of ["cut", "raise"] as const)
         if (staffBefore.length)
           expect(laidOff.length, detail).toBeGreaterThan(0);
       } else expect(row!.positions, detail).toBeGreaterThan(staffInPlace);
+      process.stdout.write(
+        `schools line ${direction}: ${detail}; staffing ${row!.id} base ${row!.baseStaff}, positions ${row!.positions.toFixed(2)}, ${laidOff.length} named laid off\n`,
+      );
       return;
     }
     throw new Error(`no drawn place had the pieces: ${tried.join("; ")}`);
