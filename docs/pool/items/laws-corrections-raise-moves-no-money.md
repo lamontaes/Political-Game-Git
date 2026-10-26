@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** An effect is a read: the engine that pays for jail days reads the corrections line at the moment it pays them. Replace, never layer: a new capacity rule replaces the cap it changes. No dice: who is held follows sentences and the law, never a roll.
 
-**Done when.** In a played world (buildBenchWorld, seeds a91c03e7d2b84f10 and 5e27b0c4196fd3a8), a raised corrections line moves a journal post an engine makes because of it, named by journal id in the justice family test, and the checker's money link cites that post, not rounding.
+**Done when.** In a played world (buildBenchWorld, seeds a91c03e7d2b84f10 and 5e27b0c4196fd3a8), a raised corrections line moves a journal post an engine makes because of it, named by journal id in the justice family test, and the checker's money link cites that post, not rounding. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/public-safety.ts, src/core2/law-wiring-justice.test.ts
 

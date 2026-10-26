@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/journal.test.ts
 
 **Notes.** TODO
+
+Folded into tests-journal-red-on-seed-3d7f-linganore (Oct 25 audit).
