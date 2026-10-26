@@ -29,6 +29,7 @@ import {
   partyTie,
 } from "../core2/modules/parties";
 import type { CoreState } from "../core2/types";
+import { ownRace } from "./results";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 
@@ -215,6 +216,8 @@ export function governmentView(core: CoreState, personId: string) {
         : [],
     })),
     filings,
+    // The newest race the person ran in that has a result, for its seat's row.
+    ownRace: ownRace(core, personId),
     ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
   };

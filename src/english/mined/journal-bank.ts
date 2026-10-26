@@ -44,7 +44,8 @@ const MEMOIR = "memoir:";
 
 /**
  * Whether one's own race was won or lost, read from the sentence's own verb:
- * "I won.", "We lost." A sentence that says neither ("It was close.") fits both.
+ * "I won.", "We lost." A sentence that says neither ("It was close.") tells
+ * nothing of the result.
  */
 function resultStages(text: string): string[] | undefined {
   if (/\b(?:lost|didn't win)\b/i.test(text)) return ["lost"];
@@ -137,10 +138,12 @@ export function journalDataFromBank(
             return stages ? { ...variant, stages } : variant;
           })
         : mined(from, "otherLine");
+      // One's own race is told by how it went: a sentence that says neither
+      // ("It wasn't close.") claims a margin no record gives it.
       const ownLine = row.hasOwnLine
-        ? (fields.get(`${from}|ownLine`) ?? []).map((variant) => {
+        ? (fields.get(`${from}|ownLine`) ?? []).flatMap((variant) => {
             const stages = resultStages(variant.text);
-            return stages ? { ...variant, stages } : variant;
+            return stages ? [{ ...variant, stages }] : [];
           })
         : undefined;
       const repeat = mined(from, "repeatLine");

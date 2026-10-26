@@ -109,6 +109,50 @@ export function electionResults(core: CoreState, playerId: string) {
 }
 
 /**
+ * The newest race the person ran in that has a result: its seat, whether they
+ * won, each side's votes and the public result record every screen cites.
+ */
+export function ownRace(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  if (!core.modules.has(ELECTIONS)) return null;
+  const elections = api.moduleState(ELECTIONS);
+  let newest:
+    | { contest: ContestRow; result: NonNullable<ReturnType<typeof resultOf>> }
+    | undefined;
+  for (const filing of elections
+    .table("filings")
+    .query("byPerson", [personId]) as unknown as FilingRow[]) {
+    const contest = elections
+      .table("contests")
+      .get(filing.contestId) as unknown as ContestRow | undefined;
+    const result = contest && resultOf(api, contest.id);
+    if (!contest || !result || !(personId in result.totals)) continue;
+    if (!newest || contest.electionDate > newest.contest.electionDate)
+      newest = { contest, result };
+  }
+  if (!newest) return null;
+  const { contest, result } = newest;
+  const won = result.winnerId === personId;
+  // Who they ran against: the winner when they lost, the runner-up when they won.
+  const rival = Object.entries(result.totals)
+    .filter(([id]) => id !== personId)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
+  return {
+    contestId: contest.id,
+    seatId: contest.seatId,
+    level: contest.level,
+    title: contest.title,
+    date: contest.electionDate,
+    won,
+    votes: result.totals[personId]!,
+    rival: rival
+      ? { id: rival[0], name: candidateName(api, rival[0]), votes: rival[1] }
+      : null,
+    recordId: `election-result:${contest.id}`,
+  };
+}
+
+/**
  * Election night's picture: the returns party if you ran in the newest
  * election, with your household, or the polling place if you voted in it.
  */

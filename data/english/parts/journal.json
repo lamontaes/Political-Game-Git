@@ -1800,7 +1800,12 @@
           "subject": "office",
           "role": "line",
           "choice": "won",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 11,
@@ -1836,7 +1841,12 @@
           "subject": "office",
           "role": "line",
           "choice": "won",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 5,
@@ -1868,7 +1878,12 @@
           "subject": "office",
           "role": "line",
           "choice": "won",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 15,
@@ -1900,7 +1915,12 @@
           "subject": "office",
           "role": "line",
           "choice": "won",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 3,
@@ -1932,7 +1952,12 @@
           "subject": "office",
           "role": "line",
           "choice": "lost",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 4,
@@ -1965,7 +1990,12 @@
           "subject": "office",
           "role": "line",
           "choice": "lost",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 4,
@@ -3343,12 +3373,7 @@
           "subject": "election",
           "role": "line",
           "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
+          "journal": []
         }
       ],
       "transcriptsUsing": 8,
@@ -3380,12 +3405,7 @@
           "subject": "election",
           "role": "line",
           "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
+          "journal": []
         }
       ],
       "transcriptsUsing": 2,
@@ -3415,12 +3435,7 @@
           "subject": "election",
           "role": "line",
           "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
+          "journal": []
         }
       ],
       "transcriptsUsing": 6,
