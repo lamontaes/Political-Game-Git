@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** In buildBenchWorld in a place drawn from D.C. and the five territories (bounded draws that fail when they run out), townSeats has the delegate's seat over the town, keyPeopleOf names its holder with reason own-us-representative, and src/bench/government-own-members.test.ts asserts one member of the House for every drawn place, named by record id.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/offices-state.ts, src/core2/data/opening/key-people.json, src/core2/opening-key-people.ts
 
 **Notes.** Found by play-stop-05-politics-lists-wrong-officials-a (PR #6127). lead: laws.
