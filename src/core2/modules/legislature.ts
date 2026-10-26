@@ -281,6 +281,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       choices: {},
       itemVetoes: {},
       projectRequests: {},
+      carryAsks: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -2356,6 +2357,8 @@ export interface CarryRequest {
   readonly carried: boolean;
   /** The bill the member filed, when they carried it. */
   readonly billId: string | null;
+  /** The member is the player: the ask waits for their answer (`answerCarryAsk`) and nothing is filed until then. */
+  readonly awaitingPlayer?: boolean;
 }
 
 /**
@@ -2418,13 +2421,17 @@ export function askToCarry(
           asker!.knownIds.size / campaignParameter("carryStandingCircle"),
         ));
   const carried = position.total + standing > 0;
-  const bill = carried
-    ? draftBill(api, {
-        bodyOfficeId: input.bodyOfficeId,
-        sponsorId: input.memberId,
-        provisions: input.provisions,
-      })
-    : null;
+  // The engine offers, the player decides: an ask to the controlled member is
+  // held as a request, and nothing is filed or dropped until they answer.
+  const toPlayer = input.memberId === (api.state as CoreState).playerId;
+  const bill =
+    carried && !toPlayer
+      ? draftBill(api, {
+          bodyOfficeId: input.bodyOfficeId,
+          sponsorId: input.memberId,
+          provisions: input.provisions,
+        })
+      : null;
   if (bill)
     table(api, "bills").put({
       ...bill,
@@ -2439,10 +2446,55 @@ export function askToCarry(
     provisions: input.provisions,
     position,
     standing,
-    carried,
+    carried: toPlayer ? false : carried,
     billId: bill?.id ?? null,
+    ...(toPlayer ? { awaitingPlayer: true } : {}),
   };
+  if (toPlayer) table(api, "carryAsks").put(row as unknown as ModuleRow);
   return row;
+}
+
+/** The asks waiting on the player's answer, oldest first. */
+export function carryAsksAwaiting(api: CoreAPI): readonly CarryRequest[] {
+  return (table(api, "carryAsks").rows() as unknown as CarryRequest[])
+    .filter((r) => r.awaitingPlayer)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+}
+
+/**
+ * The player's answer to a waiting ask: agreeing files the bill with the
+ * player as its sponsor and the asker as `requestedBy`; declining files
+ * nothing. Returns the closed request, with its bill when one was filed.
+ */
+export function answerCarryAsk(
+  api: CoreAPI,
+  requestId: string,
+  agree: boolean,
+): CarryRequest {
+  const waiting = table(api, "carryAsks").get(requestId) as unknown as
+    CarryRequest | undefined;
+  if (!waiting?.awaitingPlayer)
+    throw new Error(`No ask is waiting on the player: ${requestId}`);
+  const bill = agree
+    ? draftBill(api, {
+        bodyOfficeId: waiting.bodyOfficeId,
+        sponsorId: waiting.memberId,
+        provisions: waiting.provisions,
+      })
+    : null;
+  if (bill)
+    table(api, "bills").put({
+      ...bill,
+      requestedBy: waiting.askerId,
+    } as unknown as ModuleRow);
+  const closed: CarryRequest = {
+    ...waiting,
+    carried: agree,
+    billId: bill?.id ?? null,
+    awaitingPlayer: false,
+  };
+  table(api, "carryAsks").put(closed as unknown as ModuleRow);
+  return closed;
 }
 
 /** How an executive brings a bill of their own to the body, by office (data). */
