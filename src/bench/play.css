@@ -770,6 +770,15 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-2);
   margin-top: 2px;
 }
+/* A town in the creator's list reads in the state buttons' own font. */
+.item.town span,
+.item.town small {
+  display: block;
+  font: inherit;
+}
+.item.town small {
+  color: var(--text-2);
+}
 /* The creator (the Oct 12 SetupScreen's steps). */
 #front:has(#cr-character:not([hidden])),
 #front:has(#cr-place:not([hidden])),
@@ -1537,7 +1546,8 @@ body.dev .dev-ring {
   min-height: 0;
   overflow-y: auto;
 }
-#game.filing-open #news-surface {
+#game.filing-open #news-surface,
+#game.filing-open #journal-note {
   visibility: hidden;
 }
 #filing-overlay .name {
@@ -1700,7 +1710,8 @@ body.dev .dev-ring {
    heading and actions; positions only. */
 #ballot,
 #meeting,
-#desk {
+#desk,
+#job-offer {
   top: var(--gutter);
   right: var(--gutter);
   bottom: calc(9vh + 18px);
@@ -1708,6 +1719,18 @@ body.dev .dev-ring {
   width: min(420px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
   overflow: hidden;
+}
+/* A job offer's moment (jobs): the employer's offer over the scene. */
+#job-offer-employer {
+  font: 500 20px var(--speech);
+  margin: 4px 0 2px;
+}
+#job-offer-facts {
+  margin: 8px 0 18px;
+}
+#job-offer-status {
+  min-height: 18px;
+  margin: 12px 0 0;
 }
 #ballot {
   display: flex;

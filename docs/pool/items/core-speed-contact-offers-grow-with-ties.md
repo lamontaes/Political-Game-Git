@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/speed-score-offers-per-kind
-pr:
+pr: #6133
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T15:39:41.671Z
