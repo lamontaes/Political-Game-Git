@@ -590,23 +590,31 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     const share = reachParameter("parksDedicatedShare");
     enact(key, "city", 1);
     const first = budgetToday(api, gov)!;
-    // A treasury with no cash pays nothing, and then nothing is paid under the law (a small town's may hold none): this town's gets a year of its lines, an edge fixture, so the first close pays.
+    // A treasury that cannot pay a month of its lines pays none at its first close, and then nothing is paid under the law (governments open with no cash). Read as the law is set, before it acts: the town's treasury is given a year of its lines, an edge fixture, so the first close pays.
     const accounts = api.accounts();
-    accounts.transfer({
-      id: `fixture:parks-levy-cash:${api.state.date}`,
-      from: accounts.main(outsideAccountOf(api)!),
-      to: accounts.main(gov.organizationId),
-      amountMinor: Object.values(first.spendingMinor).reduce(
-        (sum, minor) => sum + minor,
-        0,
-      ),
-      reasonKey: "fixture",
-      source: {
-        tag: "SOURCED",
-        citation: "Test fixture: cash for the treasury's first close.",
-        asOf: api.state.date,
-      },
-    });
+    const lines = Object.values(first.spendingMinor).reduce(
+      (sum, minor) => sum + minor,
+      0,
+    );
+    const cash = accounts.balance(accounts.main(gov.organizationId));
+    if (cash < lines / 12) {
+      // stopgapId: SG-WORLD-government-opening-fund-balance
+      accounts.transfer({
+        id: `fixture:parks-levy-cash:${api.state.date}`,
+        from: accounts.main(outsideAccountOf(api)!),
+        to: accounts.main(gov.organizationId),
+        amountMinor: lines,
+        reasonKey: "fixture",
+        source: {
+          tag: "SOURCED",
+          citation: "Test fixture: cash for the treasury's first close.",
+          asOf: api.state.date,
+        },
+      });
+      process.stdout.write(
+        `FIXTURE treasury cash: ${where}: the treasury held ${cash} against ${Math.round(lines / 12)} a month of its lines; given ${lines}\n`,
+      );
+    }
     // The treasury's first close pays the levy's share of the line under the law's own payment, and records whom it reached.
     advanceCore(core, after(api.state.date, 35));
     const paid = appliedOn(api, key).filter(

@@ -237,27 +237,45 @@ function repealAll(w: World) {
   return { lawKeys, startedYes };
 }
 
+/**
+ * Sets the budget-line laws under test and, where the town's treasury cannot
+ * pay a month of its lines, gives it cash (a registered stopgap).
+ */
 function fixtureLines(w: World) {
-  // A town's treasury may hold nothing when its first lines fall due (a small town's often does): then no payment is made on any line and none can name a law. An edge fixture gives this town's a year of its lines, so the chain from the law to the payment is the one under test.
   const accounts = w.api.accounts();
   const budget = [...budgetsOf(w.api, w.gov.id)].sort(
     (a, b) => b.fiscalYear - a.fiscalYear,
   )[0];
-  accounts.transfer({
-    id: `fixture:rights-env:treasury-cash:${w.core.date}`,
-    from: accounts.main(outsideAccountOf(w.api)!),
-    to: accounts.main(w.gov.organizationId),
-    amountMinor: Object.values(budget?.spendingMinor ?? {}).reduce(
-      (sum, minor) => sum + minor,
-      0,
-    ),
-    reasonKey: "fixture",
-    source: {
-      tag: "SOURCED",
-      citation: "Test fixture: cash for the treasury's first closes.",
-      asOf: w.core.date,
-    },
-  });
+  const lines = Object.values(budget?.spendingMinor ?? {}).reduce(
+    (sum, minor) => sum + minor,
+    0,
+  );
+  // Read now, as the laws are set and before any law acts: a treasury that
+  // cannot pay a month of its lines pays none at its first closes, so no
+  // payment can name a law. Governments open with no cash.
+  const cash = accounts.balance(accounts.main(w.gov.organizationId));
+  if (cash < lines / 12) {
+    // stopgapId: SG-WORLD-government-opening-fund-balance
+    accounts.transfer({
+      id: `fixture:rights-env:treasury-cash:${w.core.date}`,
+      from: accounts.main(outsideAccountOf(w.api)!),
+      to: accounts.main(w.gov.organizationId),
+      amountMinor: lines,
+      reasonKey: "fixture",
+      source: {
+        tag: "SOURCED",
+        citation: "Test fixture: cash for the treasury's first closes.",
+        asOf: w.core.date,
+      },
+    });
+    process.stdout.write(
+      `FIXTURE treasury cash: ${w.where}: the treasury held ${cash} against ${Math.round(lines / 12)} a month of its lines; given ${lines}\n`,
+    );
+  }
+  // The measure under test for the three budget-line laws: a line that an
+  // ordinance raised is the law "budget-line:<line>" (the checker's
+  // changeBudget makes the same change), so this raise is the law's own and
+  // not a fixture that gives the line something to pay.
   for (const line of LINES)
     amendBudget(w.api, {
       governmentId: w.gov.id,

@@ -6779,5 +6779,17 @@
     "addedAt": "2026-10-24",
     "replacement": "Pool item people-protected-traits-on-record: sex and race on people and counted groups (sourced shares), read by the hiring step and the rental applicant pool the ban refuses on, and by a complaint the justice engine hears (pool items world-hiring-discrimination-ban-refusal, justice-discrimination-complaint).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-government-opening-fund-balance",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 456,
+    "whatItFakes": "Every government's treasury opens with no cash. It pays its budget lines only from revenue collected since the opening, so a small town's first closes can pay none of its lines (Martin's Additions, Maryland, seed fc77ce2f81eb630a). The rights and environment family test and the group A levy test give a treasury a year of its lines as a fixture when it cannot pay a month of them (src/core2/law-wiring-rights-env.test.ts fixtureLines, src/core2/law-reach-group-a.test.ts, the dedicated parks levy test), so the chain from a law to a payment can be checked.",
+    "why": "The government units listing the treasuries are built from gives each a budget and no fund balance; the Census Bureau's Annual Survey of State and Local Government Finances reports cash and security holdings by government type and state, but no opening balance has been read from it.",
+    "addedBy": "claude/law-wiring-rights-env (laws lead helper)",
+    "addedAt": "2026-10-26",
+    "replacement": "Pool item world-government-opening-fund-balance: each treasury opens with its state's per-government average cash and securities for its type, marked ESTIMATED with a spread, as a journal posting from the outside account; the two fixtures are then removed.",
+    "status": "open"
   }
 ]

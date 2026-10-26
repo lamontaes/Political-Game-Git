@@ -453,6 +453,7 @@ function government(
       placeId: lawChain(api).townPlaceId,
       name: `${row.name} treasury`,
       kind: "government-treasury",
+      // stopgapId: SG-WORLD-government-opening-fund-balance
       liquidMinor: 0,
       source: {
         tag: "SOURCED",
