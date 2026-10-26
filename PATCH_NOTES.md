@@ -296,6 +296,25 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.36.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Play screens show dates and statuses in words** News, Politics, the filing
+  counter and Campaigns now show dates as "November 3, 2026" and a filing as
+  "You are on the ballot", never a record's code or field name. Archived public
+  records are named by what they record, and the Mark gap button is gone from
+  the player's talk box.
+
+- **The day no longer stops for a moment with nothing to show** A big moment the
+  story had no scene for, such as hearing a parent's speech or a candidate at a
+  debate, stopped the day under "Something needs you" with an empty box: only
+  the day and the place, and no one to answer. Such a moment is now a line in
+  the journal and no longer stops the day. Every stop left has a scene with
+  someone to talk to.
+
 ## PRE-ALPHA 0.36.1
 
 _Released October 26, 2026._
