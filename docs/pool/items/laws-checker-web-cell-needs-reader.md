@@ -6,10 +6,10 @@ lead: laws-effects
 kind: wiring
 priority: 2
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: laws-matrix-unread-outcome-grades-wired
 source: laws-effects lead, Oct 26 (Merger 2's send-back on #6026)
 ---
 
