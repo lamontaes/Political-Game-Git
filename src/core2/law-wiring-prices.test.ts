@@ -20,6 +20,7 @@ import { WEB_LINKS } from "./outcome-web-model";
 import type { LawRowInput } from "./laws-starting";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
+import { licensedSellers } from "./modules/place-prices";
 import { purchaseTaxes } from "./modules/purchase-tax";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
@@ -175,6 +176,11 @@ function run(
   const api = coreAPI(core);
   const sales = lawInForce(api, SALES_TAX);
   if (!(sales.value && sales.value > 0)) return false;
+  // The cannabis law's buyers buy from the town's licensed sellers, its open
+  // retail stores, which open their books on the world's first day: a town
+  // with none (Huntley, Wyoming) is redrawn before anything is played.
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  if (!licensedSellers(core, lawChain(api).townPlaceId).length) return false;
   // For each law row the test enacted: its first post that pays money and
   // its first post that cites it by id, and whether any post cites it after
   // the repeal. A year of every post would not fit a test worker's memory.

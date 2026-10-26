@@ -390,7 +390,11 @@ interface Seller {
  * been serving): where a legal sale of a licensed good goes. Sorted so the
  * remainder of a rounded split always lands on the same seller.
  */
-function licensedSellers(c: CoreState, placeId: string): readonly Seller[] {
+/** The town's licensed sellers for a legal sale: its open retail businesses, weighted by their demand. */
+export function licensedSellers(
+  c: CoreState,
+  placeId: string,
+): readonly Seller[] {
   const sellers: Seller[] = [];
   for (const [id, book] of c.finance.businesses) {
     const org = c.organizations.get(id);
