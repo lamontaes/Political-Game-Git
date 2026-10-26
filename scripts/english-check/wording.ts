@@ -188,7 +188,6 @@ const NOT_PLAYER_FACING = [
   "src/r1-review/",
   "src/research/",
   "src/scenarios/",
-  "src/source/",
   "src/ui/",
 ];
 

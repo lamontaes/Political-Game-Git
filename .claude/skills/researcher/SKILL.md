@@ -9,6 +9,8 @@ description: >
 
 # The researcher
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Every research item is SMART: the one number, the check that it calibrates, a time box. Before marking anything an owner decision, read `OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/` and search `docs/`; most numbers were ruled or sourced already.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "simulate it, don't ask")
 
 ## What research is for here

@@ -12,7 +12,8 @@
       "population": "242 large U.S. cities, population above 50,000 in 1980",
       "evidenceLimit": "Two IV strategies; local/historical hiring effects. Not arrests per officer per month or generic rate elasticity. Larger drug/liquor arrest increases per capita for Black civilians.",
       "numericContrastVerified": true,
-      "runtimeAdmission": "not-admitted"
+      "runtimeAdmission": "admitted",
+      "admittedAs": "2026-10-25 (justice-low-level-offenses): an elasticity, not the per-officer count. 7.12 (Table 2, SE 0.88) and 22.01 (Table 3, SE 5.09) more arrests per officer, over the sample means (60,244 arrests and 6,047.0 officers; 49,908 arrests and 6,390.7 officers), are 0.71 and 2.82; the link is data/research/outcome-web/links.json police-to-low-level-arrests"
     },
     {
       "key": "summer-jobs-to-youth-violence",
