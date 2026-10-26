@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice. Wire to the world: proven in buildBenchWorld with a drawn place. Replace, never layer.
 
-**Done when.** In a drawn place (named in the PR body), a public employer's leaver is replaced by an opening posted through the jobs engine within a year, a test in src/core2/public-pay-floor-hire.test.ts enacts a floor, then asserts by record id that the opening and its hire are paid at or above publicPayFloorHourly, and SG-GOV-public-pay-floor-owner's text matches what is proven.
+**Done when.** In a drawn place (named in the PR body), a public employer's leaver is replaced by an opening posted through the jobs engine within a year, a test in src/core2/public-pay-floor-hire.test.ts enacts a floor, then asserts by record id that the opening and its hire are paid at or above publicPayFloorHourly, and SG-GOV-public-pay-floor-owner's text matches what is proven. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/public-pay-floor-hire.test.ts, src/core2/data/stopgaps.json
 

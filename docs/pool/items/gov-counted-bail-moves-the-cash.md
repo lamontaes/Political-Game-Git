@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/counted-bail-cash
+pr: #5967
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T17:31:10.522Z
 ---
 
 **What.** The public-safety engine's monthly case flow (src/core2/public-safety.ts, batchCase and unableToPost) splits a counted group's adult defendants into those who cannot post bail, who are detained, and the rest, who are released on bail, but nothing moves for the ones who post: no money leaves the group's fund and nothing is held for the court. Full people who post bail move it on the journal from their own cash into the court escrow under the prosecuting government's treasury, and get it back when the case is heard (src/core2/modules/justice.ts, holdBail and returnBail). Under one model, two tiers, the counted group should post the same bail from its fund, times the count that posts, into the same court escrow, and get it back at the case's due month when the batch case closes.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/public-safety.ts, src/core2/modules/justice.ts, src/core2/counted-money.ts, src/core2/law-wiring-justice.test.ts
 
 **Notes.** Found Oct 23 while finishing justice-bail-moves-the-cash: batchCase records the detained share and the bail law's effect for counted adult defendants each month, but no posting for the share that posts bail, while a full person's posted bail is a journal entry. The full-person bail lives in src/core2/modules/justice.ts (escrowOf, holdBail, returnBail); reuse that escrow account rather than adding a second one.
+
+October 24, 2026 (claude, claude/counted-bail-cash): built. Each adult batch case, where cash bail is in force, levies the bail of every counted group's share that can post (unableToPost) from the group's fund into the prosecuting county's court escrow (justice's escrowOf, now exported), records it on the case (bailHeld, bailTreasuryId), and returns it to the funds when resolveDue closes the case. Test: src/core2/public-safety-bail.test.ts names both journal entries per case.

@@ -76,6 +76,7 @@
       "id": "recorded-government-office",
       "classifications": [
         "sector:local-government-office",
+        "service:municipal-government",
         "service:county-government"
       ],
       "classificationPrefixes": [],

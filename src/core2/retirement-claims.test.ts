@@ -7,6 +7,7 @@ import { residentPerson, residentsRuntime } from "./modules/residents";
 import { enactLaw, openLaws } from "./modules/laws";
 import {
   claimRetirementNow,
+  monthsAfter,
   retirementClaims,
 } from "./modules/retirement-claims";
 import { PARAMETERS } from "./parameters";
@@ -35,14 +36,19 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
   it("starts each claimant's monthly award, and every dollar balances", () => {
     // One full adult, born so their own claim date falls two months in. They
     // are moved to an earlier birth date, never a later one, so nothing they
-    // already know predates their birth.
+    // already know predates their birth. A claim comes between 62 and 70, so
+    // that birth lies 70 to 62 years before day one; the search spans it with
+    // a year to spare on each side.
     const input = generatedOpening(place, { twoLevel: true });
+    const startYear = Number(input.startedAt.slice(0, 4));
+    const firstBirthYear = startYear - 71;
+    const lastBirthYear = startYear - 61;
     const adult = input.people
       .filter(
         (row) =>
           row.id !== input.playerId &&
           !row.jobId &&
-          row.birthDate > "1962-12-31",
+          row.birthDate > `${lastBirthYear}-12-31`,
       )
       .sort((a, b) => a.id.localeCompare(b.id))[0]!;
     const weights = {
@@ -76,16 +82,22 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
         },
         weights,
       );
-    // The birth year sets the full retirement age, which jumps at a year
-    // boundary, so the birth month is found by looking at each month in turn
-    // for the claim date nearest two months in, never by iterating to a fixed point.
-    let birthDate = "1959-01-01";
+    // The birth year sets the full retirement age, which jumps between
+    // January 1 and January 2 (a person born on January 1 counts as born the
+    // year before: social-security-law.ts), so every birth day is tried, each
+    // claim dated as the engine dates it, for the one nearest two months in.
+    let birthDate = `${firstBirthYear}-01-01`;
     let best = Infinity;
-    for (let month = 0; month < 6 * 12; month++) {
-      const birth = new Date(Date.UTC(1957, month, 1));
-      const born = birth.toISOString().slice(0, 10);
-      const claim = new Date(birth);
-      claim.setUTCMonth(claim.getUTCMonth() + claimMonths(born));
+    const last = Date.UTC(lastBirthYear, 11, 31);
+    for (
+      let at = Date.UTC(firstBirthYear, 0, 1);
+      at <= last;
+      at += 86_400_000
+    ) {
+      const born = new Date(at).toISOString().slice(0, 10);
+      const claim = new Date(
+        `${monthsAfter(born, claimMonths(born))}T00:00:00Z`,
+      );
       const away = Math.abs(
         (claim.getTime() - dayOne.getTime()) / 86_400_000 - 60,
       );
@@ -106,6 +118,9 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     advanceCore(core, daysAfterStart(365));
     const claims = retirementClaims(core);
     expect(claims.has(adult.id)).toBe(true);
+    process.stdout.write(
+      `RETIREMENT ${place.name} (seed ${seed}): ${adult.id} moved to born ${birthDate}, a claim ${best} days from two months in; claimed ${claims.get(adult.id)!.date}\n`,
+    );
     const flows = residentsRuntime(core)!.flows;
     let counted = 0;
     for (const [personId, row] of claims) {

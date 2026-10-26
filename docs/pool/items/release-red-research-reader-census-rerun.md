@@ -17,8 +17,12 @@ claimed-at:
 
 **Rules.** Never loosen the guard: no ceiling raised without the reason the guard asks for; a file the game should read goes to awaitingReader, not rawSource. Every entry's reason says what the file is evidence for.
 
-**Done when.** research-data-has-reader.test.ts passes on main, each of the ten files is accounted for in the category its contents call for, and the PR body lists each file with its category and reason.
+**Done when.** research-data-has-reader.test.ts passes on main, each of the ten files is accounted for in the category its contents call for, and the PR body lists each file with its category and reason. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/audit/research-data-allowlist.json, tests/guards/research-data-has-reader.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5828 (branch claude/research-reader-census-rerun): Ten rawSource additions clear a red research-reader guard through a bypass list, explicitly disallowed by the merger Guards rule; supply the reader/accounting repair; finish on that branch, merge main into it first.
+
+Oct 25 audit: From the dropped guards-research-data-reader-red-on-base: at 8911f21ed9 the guard listed eleven files under data/research/people/ (the Household Pulse homeschool replicate errors).

@@ -10,7 +10,7 @@ claimed-by:
 pr: #5390
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Finish the existing implementation on claude/eviction-settlement-notice. A tenant represented by a lawyer should receive the settlement notice that reflects the recorded payment plan.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/housing.ts, src/core2/housing-notices.ts, src/core2/eviction-notice.test.ts
 
 **Notes.** Sent back 2026-10-23 from PR #5390 (branch claude/eviction-settlement-notice): current main conflicts in src/core2/modules/housing.ts; preserve both readers, merge stopgaps by ID and regenerate the pool index; finish on that branch, merge main into it first. No existing matching pool item was found by PR, branch or settlement-notice title.
+
+Sent back 2026-10-24 UTC from PR #5390 (branch claude/eviction-settlement-notice): Missing required Done-when evidence table: identify the drawn-world test plus settlement, notice, law and treasury journal records required by the pool item; narrative Chain/Proof sections do not supply the table; finish on that branch, merge main into it first.

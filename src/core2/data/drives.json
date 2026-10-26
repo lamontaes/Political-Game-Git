@@ -32,6 +32,7 @@
   "closureEventKind": "organization.closed",
   "factKeys": {
     "responsible": "responsible",
+    "decidedBy": "decidedBy",
     "drive": "drive",
     "origin": "origin",
     "condition": "condition",
@@ -396,7 +397,8 @@
         "guard-family",
         "answer-calling",
         "carry-on"
-      ]
+      ],
+      "fitScaleParameter": "responseBereavementFitScale"
     },
     {
       "id": "bereavement-counted",
@@ -408,11 +410,19 @@
         "guard-family",
         "answer-calling",
         "carry-on"
-      ]
+      ],
+      "fitScaleParameter": "responseBereavementFitScale"
     },
     {
       "id": "serious-illness",
       "eventKind": "health.serious-illness",
+      "roles": ["subject", "family", "household"],
+      "channels": ["threat", "loss"],
+      "responses": ["take-up-cause", "guard-family", "carry-on"]
+    },
+    {
+      "id": "serious-illness-counted",
+      "eventKind": "residents.member-fell-ill",
       "roles": ["subject", "family", "household"],
       "channels": ["threat", "loss"],
       "responses": ["take-up-cause", "guard-family", "carry-on"]
