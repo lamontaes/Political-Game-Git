@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.32.8",
+      "releasedOn": "2026-10-26",
+      "revision": "0a5d5d0a97dd70d91aebef037021742060de224a",
+      "changeIds": [
+        "core-speed-drive-write-checks-in-play",
+        "laws-georgia-state-minimum-wage-missing",
+        "research-regional-population-change-range"
+      ]
+    },
+    {
       "version": "0.32.7",
       "releasedOn": "2026-10-26",
       "revision": "4ccd7b349f5d5374ce6939d72ae6e4d1d63f5d3c",
