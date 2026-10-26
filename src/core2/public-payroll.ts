@@ -104,6 +104,7 @@ export function startPublicJob(
     const postHoursDaily =
       api.parameter("openingFullTimeWeeklyHours") /
       api.parameter("daysPerWeek");
+    // stopgapId: SG-GOV-officer-stipend-hours (a post whose line carries less than a full-time week is paid by cutting its hourly rate, not its hours)
     const linePostedHourlyMinor =
       input.maxDailyMinor === undefined
         ? input.hourlyMinor

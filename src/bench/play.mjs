@@ -2163,8 +2163,8 @@ function recordImage(url, className) {
   return image;
 }
 /** Small pages keep all records reachable without scrolling a menu. */
-function menuPages(items, size = 5) {
-  let at = 0;
+function menuPages(items, size = 5, start = 0) {
+  let at = Math.floor(Math.max(0, start) / size);
   const box = el("div", { className: "record-pages" });
   const draw = () => {
     const back = makeButton({
@@ -3385,26 +3385,55 @@ const sheets = {
     // The nation, region and job numbers above the paper, from the economy's records.
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
+    const econ = controls.news?.economy ?? {};
+    // A month of record ("2025-01") as a reader says it: January 2025.
+    const monthWords = (month) =>
+      /^\d{4}-\d{2}$/.test(String(month))
+        ? new Date(`${month}-15T12:00:00Z`).toLocaleDateString("en-US", {
+            month: "long",
+            year: "numeric",
+            timeZone: "UTC",
+          })
+        : "";
+    // A region's series by its control name and unit; a series with no
+    // control name is not shown.
+    const count = new Intl.NumberFormat("en-US");
+    const value = (unit, v) =>
+      unit === "percent"
+        ? `${v.toFixed(1)}%`
+        : unit === "thousands"
+          ? count.format(Math.round(v * 1000))
+          : unit === "dollars"
+            ? dollars(Math.round(v * 100))
+            : v.toFixed(1);
     const economy = e.nation
       ? [
           row(
-            `Nation · ${e.nation.month}`,
-            `Unemployment ${pct(e.nation.unemploymentPct)} · Inflation ${pct(e.nation.inflationPct)} · Policy rate ${pct(e.nation.policyRatePct)} · Mortgage ${pct(e.nation.mortgage30Pct)}`,
+            `${econ.nation} · ${monthWords(e.nation.month)}`,
+            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
           ),
           ...(e.region
             ? [
                 // The region's rate under the area it covers, beside the nation's.
                 row(
-                  `${(e.region.name ?? "").replace(/^./, (c) => c.toUpperCase())} · ${e.region.month ?? ""}`,
-                  `Unemployment ${pct(e.region.unemploymentPct)}`,
+                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
+                  Object.entries(e.region)
+                    .filter(
+                      ([k, v]) => typeof v === "number" && econ.series?.[k],
+                    )
+                    .map(
+                      ([k, v]) =>
+                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
+                    )
+                    .join(" · "),
                 ),
               ]
             : []),
           ...(e.jobs
             ? [
                 row(
-                  "Jobs here",
-                  `${e.jobs.employed} employed · ${e.jobs.seekers} looking · ${e.jobs.openPositions} open`,
+                  econ.jobsHere,
+                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
                 ),
               ]
             : []),
@@ -3415,9 +3444,10 @@ const sheets = {
       api(`/api/opening?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.news;
+    // What you heard, newest first, ahead of the opening night's paper.
     const stories = [
-      ...(opening?.news?.stories ?? []),
       ...rows.filter((r) => r.headline || r.lede),
+      ...(opening?.news?.stories ?? []),
     ].filter((s) => s.headline || s.lede);
     const outlets = new Map();
     for (const story of stories) {
@@ -3552,11 +3582,37 @@ const sheets = {
                         ]
                       : []),
                   ].join(" · ")
-                : [
+                : // Who the record is about, each by their role in it.
+                  [
                     ...new Set(
-                      Object.values(record.facts ?? {})
-                        .filter((v) => typeof v === "string" && me.names?.[v])
-                        .map((v) => me.names[v]),
+                      Object.entries(record.facts ?? {}).flatMap(
+                        ([role, v]) => {
+                          // The record's kind is the heading already.
+                          if (typeof v !== "string" || role === "recordKind")
+                            return [];
+                          const label = words(role.replace(/Id$/, ""));
+                          const name = record.names?.[v] ?? me.names?.[v];
+                          // A person by name, a date in words, a plain value
+                          // by its label; record ids are never shown.
+                          if (name) return [`${label} ${name}`];
+                          // A yes-or-no fact reads as its label when true.
+                          if (v === "true") return [label];
+                          if (v === "false") return [];
+                          if (/^\d{4}-\d{2}-\d{2}$/.test(v))
+                            return [`${label} ${proseDate(v)}`];
+                          // A code with no name (a jurisdiction key, a
+                          // status) is never shown.
+                          if (
+                            /[:_]/.test(v) ||
+                            !v.trim() ||
+                            /^[A-Z0-9]+(?:-[A-Z0-9]+)+$/.test(v) ||
+                            /^[a-z]+(?:\.[a-z-]+)+$/.test(v)
+                          )
+                            return [];
+                          // A proper name keeps its own capitals.
+                          return [`${label} ${/[A-Z]/.test(v) ? v : words(v)}`];
+                        },
+                      ),
                     ),
                   ].join(" · "),
             }),
@@ -3933,7 +3989,9 @@ const sheets = {
     const labels = controls.politics;
     const levelOf = (s) =>
       ["state", "federal"].includes(s.level) ? s.level : "local";
-    let level = "local";
+    // The race you ran in opens first: its level, its office, its seat.
+    const race = v.ownRace;
+    let level = race ? levelOf(race) : "local";
     let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
@@ -3989,6 +4047,9 @@ const sheets = {
         if (!offices.has(s.officeId)) offices.set(s.officeId, []);
         offices.get(s.officeId).push(s);
       }
+      const raceOffice = [...offices.values()].findIndex((seats) =>
+        seats.some((s) => s.seatId === race?.seatId),
+      );
       content.replaceChildren(
         menuPages(
           [...offices.values()].map((seats) => {
@@ -4066,9 +4127,34 @@ const sheets = {
                 elect.dataset.contest = s.elect.contestId;
                 line.append(elect);
               }
+              // Your race for this seat: won or lost, and the votes each side got.
+              if (race && s.seatId === race.seatId) {
+                const result = controls.results;
+                const own = listRow("own-race", {
+                  textContent: [
+                    result.yourRace,
+                    race.won ? result.won : result.lost,
+                    `${result.you} ${race.votes.toLocaleString("en-US")}`,
+                    race.rival
+                      ? `${race.rival.name} ${race.rival.votes.toLocaleString("en-US")}`
+                      : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · "),
+                });
+                own.dataset.contest = race.contestId;
+                own.dataset.record = race.recordId;
+                line.append(own);
+              }
               return line;
             });
-            card.append(menuPages(members, 6));
+            card.append(
+              menuPages(
+                members,
+                6,
+                seats.findIndex((s) => s.seatId === race?.seatId),
+              ),
+            );
             // Future public view records can supply these without changing the layout.
             for (const vote of first.votes ?? [])
               card.append(
@@ -4086,6 +4172,7 @@ const sheets = {
             return card;
           }),
           1,
+          raceOffice,
         ),
       );
       chooseTab(picker, "level", level);
