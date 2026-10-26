@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/schools-base-staff
-pr:
+pr: #6148
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T05:47:29.538Z

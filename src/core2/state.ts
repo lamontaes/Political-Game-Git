@@ -9,7 +9,11 @@ import {
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
-import { keptDecision, queueDecisionDetail } from "./decision-detail";
+import {
+  keptDecision,
+  queueCircleEntry,
+  queueDecisionDetail,
+} from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
@@ -112,6 +116,7 @@ import {
 import { recordStopgapsIn, stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import { nativityFact } from "./nativity";
+import { spacedSiblingBirths } from "./sibling-births";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -750,6 +755,8 @@ export function retainLog(core: CoreState, event: LogRecord): void {
   // The circle's reasons are condensed once they're older than the detail
   // window, the player's own routine ones a year later (condenseCircleDecisions).
   if (row.decision) queueDecisionDetail(core, core.date, row.id);
+  else if (row.visibility === "circle" && !row.publicRecord && !row.news)
+    queueCircleEntry(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
@@ -1564,6 +1571,21 @@ export function coreAPI(core: CoreState): CoreAPI {
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
       actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
+      // Brothers and sisters stay born months apart from the chosen birthday:
+      // one drawn too close moves, keeping their age where their year allows.
+      const siblings = (actor.pastFacts ?? []).flatMap((fact) => {
+        const other =
+          fact.kind === "family:sibling" && fact.facts?.otherPersonId
+            ? core.people.get(fact.facts.otherPersonId)
+            : undefined;
+        return other ? [other] : [];
+      });
+      const births = spacedSiblingBirths(
+        core.startedAt,
+        siblings.map((row) => row.birthDate),
+        [identity.birthDate],
+      );
+      siblings.forEach((row, i) => (row.birthDate = births[i]!));
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
