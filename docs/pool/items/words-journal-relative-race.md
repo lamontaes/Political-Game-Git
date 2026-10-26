@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is an unmerged draft, 'do not merge as is'; on main the lines still ship as authored shippable parts, so the slot is not empty and the rewritten test in the done-when does not exist yet. Needs the owner to grade the lines (the 5647 decision).
+blocked-on:
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/english/parts/journal.json, src/director/journal.ts, src/director/journal.test.ts
 
 **Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts.
+
+Oct 25 audit: unblocked; PR #5647 (the held hand-written parts) merged Oct 23, so the slot is empty on main and waits for the engine's line.

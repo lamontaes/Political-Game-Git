@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T22:04:58.951Z
 
 **Rules.** No hand-written player text: the words are bank parts authored with origin, author and date, never typed into code. Ask why: each line cites the event or record it voices. This is a game, not a spreadsheet: no new player step or form.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose (named in the PR body), the filing visit and a law taking effect each produce worded lines citing the filing record id and the law record id, composed through the real engine, and tests in tests/english-parts-banks.test.ts pass; the owner grades the lines in the next words batch.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose (named in the PR body), the filing visit and a law taking effect each produce worded lines citing the filing record id and the law record id, composed through the real engine, and tests in tests/english-parts-banks.test.ts pass; the owner grades the lines in the next words batch. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** data/english/parts/filing-visit.json, data/english/parts/scene-words.json, data/english/parts/bring-it-up.json, src/director/filing-visit.ts, src/director/bring-it-up.ts
 

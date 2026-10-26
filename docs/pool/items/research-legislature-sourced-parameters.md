@@ -3,7 +3,7 @@ id: research-legislature-sourced-parameters
 title: "Research: sourced parameters for the legislature and executive proposals"
 area: gov
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -30,3 +30,5 @@ claimed-at:
 Oct 24, 2026: split. PR 5862 (item research-legislature-committee-town-law-tables) delivers three per-place research tables, with their check script and played-year script. They cover who seats each chamber's committees (108 chambers), the enacting clause and numbering for town and county ordinances (56 places), and how a mayor or county executive brings a bill (56 places). Still open here: all three stopgaps, SG-GOV-committee-structure, SG-GOV-local-bill-numbering and SG-GOV-local-executive-proposal, because no engine reads the tables yet (builder items gov-leadership-committee-appointer-by-chamber, gov-legislature-local-rules-by-place and words-local-enacting-clause-by-state) and 81 chambers and most place rows are still ESTIMATED. The Wisconsin, Illinois, California and New York pages the cloud could not reach, and Texas's statute page that renders only by script, stay ESTIMATED until read.
 
 Sent back 2026-10-23 from PR #5862 (branch claude/dreamy-tesla-bgi3ui-legislature): local-ordinance-style-2026.json:508-513 applies a city-only clause to Nebraska villages although statute17-613 requires the chairperson/board-of-trustees alternative; preserve that scoped alternative and validate it; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.
