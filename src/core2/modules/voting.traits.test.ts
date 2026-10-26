@@ -162,6 +162,9 @@ describe("voting.exit-poll is told by the voters whose traits lean toward tellin
         "tell",
         "decline",
       );
+      // A lean within rounding of zero sits on the line (the decision sums
+      // its trait terms in another order): either answer fits it.
+      if (Math.abs(lean) < 1e-9) continue;
       if (b.toldPollster === "declined")
         expect(lean, b.id).toBeLessThanOrEqual(0);
       else expect(lean, b.id).toBeGreaterThan(0);

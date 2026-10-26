@@ -723,6 +723,19 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "openingPeerTieHours": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Hours of time together two people have at the opening when the records say they shared a school class or a workgroup in the town. Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): about 50 hours of time together to move from acquaintance to casual friend (the same study that sets closenessHoursAtHalf).",
+    "estimatedFrom": "Hall's roughly 50 hours to a casual friend, used as the estimated initial time together for every recorded school classmate and coworker. Shared hours and stint lengths are not measured per pair; the tie fades by the closeness half-life from the recorded day the shared context began, including for a current coworker. This is the registered opening approximation, not an observed duration for each pair.",
+    "spread": {
+      "low": 40,
+      "high": 60,
+      "unit": "hours together",
+      "citation": "Hall (2019): 40 to 60 hours to a casual friend, 80 to 100 to a friend."
+    },
+    "stopgapId": "SG-P15-closeness-model"
+  },
   "closenessKinHalfLifeDays": {
     "value": 1095,
     "tag": "TUNABLE",
@@ -6099,25 +6112,25 @@
     }
   },
   "traitWeightNewsPassOn": {
-    "value": 0.28,
+    "value": 0.18,
     "tag": "ESTIMATED",
-    "citation": "Lin, Wang and Sun 2024, How big five personality traits influence information sharing on social media: A meta analysis, PLOS ONE 19(6): extraversion has a pooled standardized beta of 0.05 on information sharing (27 studies, N=31,969). Carried to the thirds of people leaning most and least toward passing news on, that is a log rate gap of 0.198 (a rate ratio of 1.22). Stories passed at a contact are a rate, not a probability, so the gap is measured on the stories owed at a contact (storiesOwedAtContact) by every adult over six drawn places (seeds c1, d1, d3, d12, c2, d2 with the label trait-wiring, 60 days) at weights 0 to 1.2, and the weight solves for 0.198: 0.277. The agreeableness beta (-0.06) is not used: the lean toward telling is carried by extraversion and sociability.",
+    "citation": "Lin, Wang and Sun 2024, How big five personality traits influence information sharing on social media: A meta analysis, PLOS ONE 19(6): extraversion has a pooled standardized beta of 0.05 on information sharing (27 studies, N=31,969). Carried to the thirds of people leaning most and least toward passing news on, that is a log rate gap of 0.198 (a rate ratio of 1.22). Stories passed at a contact are a rate, not a probability, so the gap is measured on the stories owed at a contact (storiesOwedAtContact), which grow as one plus the weight times the lean, by every adult over six drawn places (seeds c1, d1, d3, d12, c2, d2 with the label trait-wiring). Remeasured Oct 26, 2026: the thirds now sit 1.10 to 1.12 apart in lean (Newfane, Vermont; Ute, Iowa; Clifton, Kansas; Cameron, South Carolina; Frederiksted, U.S. Virgin Islands; Lockhart, Alabama), against about 0.71 when the weight was first found at 0.277, which then gave 0.30 in every town. The weight solving for 0.198 runs 0.178 to 0.187 across the six, mean 0.182. The agreeableness beta (-0.06) is not used: the lean toward telling is carried by extraversion and sociability.",
     "spread": {
-      "low": 0.166,
-      "high": 0.332,
+      "low": 0.108,
+      "high": 0.219,
       "unit": "weight",
-      "citation": "The study reports no interval; the weight scales with the beta, and the same sentence reports betas of 0.03 to 0.06 for the other traits (0.03 gives 0.166, 0.06 gives 0.332)."
+      "citation": "The study reports no interval; the same sentence reports betas of 0.03 to 0.06 for the other traits, and solved the same way over the same six places those give weights of 0.108 and 0.219."
     }
   },
   "traitWeightPressFollowNews": {
-    "value": 0.065,
+    "value": 0.08,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the press.follow-news decision: a person's news habit is how closely they follow politics against the nation (the views engine's engagement) plus every trait's lean toward keeping up over letting it go, at this weight. Sindermann, Schmitt, Rozgonjuk, Elhai and Montag (2021) give extraversion r 0.16 with the number of news sources a person uses (openness 0.12, neuroticism -0.09). The habit is a size, so the weight is set where the lean correlates with the habit at 0.16 across a town's adults: in six drawn towns (seeds n1 to n6: Sedro-Woolley, Washington; Long Branch, New Jersey; Floyd Hill, Colorado; Rincon, Georgia; Slaughter Beach, Delaware; Dustin Acres, California; 20,707 adults) that is 0.047 to 0.077, 0.065 pooled. At the general weight of 1 the correlation was 0.91 to 0.93: the trait term outweighed the whole spread of engagement between people.",
+    "citation": "Sindermann, Schmitt and others 2021 (rows press.follow-news in data/research/trait-effect-sizes.json): extraversion correlates 0.16 with the number of news sources a German adult follows (openness 0.12, neuroticism -0.09). A person's habit is their political engagement plus the weighted lean, and each kind of news (local paper, television, radio, and the national kinds) takes the top of each age band by habit at its researched share, so the weight is set so the lean correlates 0.16 with the number of kinds a person follows. Fitted by rebuilding the audiences at each weight over every adult of two played towns (buildBenchWorld, every module): Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, 57 adults) reaches 0.16 at about 0.02 and Jagual, Puerto Rico (7237166, seed d29d296abf1f, 112 adults) at about 0.11; pooled, 0.08.",
     "spread": {
-      "low": 0.031,
-      "high": 0.098,
+      "low": 0.02,
+      "high": 0.11,
       "unit": "weight",
-      "citation": "The study's 95% interval for the correlation, 0.076 to 0.242, carried the same way."
+      "citation": "The two towns' own fits."
     }
   },
   "traitWeightPressAcceptInterview": {
@@ -6501,25 +6514,25 @@
     }
   },
   "traitWeightViewsPersuasion": {
-    "value": 0.34,
+    "value": 0.3,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the views.persuasion outcome: the hearer's lean toward yielding (openness and agreeableness side) scales how far an argument or a story moves their view, by e to the weight times the lean. Hibbing, Ritchie and Anderson (2011) give openness 0.66 on the log odds of being moved toward a discussion partner's view over the trait's full range (standard deviation 0.22 of it): odds 1.37 between the thirds. Read as the ratio of the thirds' mean moves, net of the moves with temperament left out, it moves with the weight on the log scale: at the general weight of 1 the two audit towns gave 2.76 and 2.53 net, so 1.37 is reached at ln 1.37 / ln 2.53 = 0.34. A study of how far traits scale one occasion's move does not exist, so the size across occasions stands in (SG-TRAITS-persuasion-size).",
+    "citation": "Hibbing, Ritchie and Anderson 2011 (rows views.persuasion in data/research/trait-effect-sizes.json): openness raises the log odds of being moved toward a discussion partner's view by 0.66 across the trait's range (trait sd 0.22), an odds ratio of 1.37 between the thirds. A move is a size, so the weight is set so the most yielding third's mean move over the least yielding third's, net of the same ratio without the trait term, is 1.37. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). At 0.3 the ratio is 1.36 in Lookeba and 1.35 in Jagual.",
     "spread": {
-      "low": 0.057,
-      "high": 0.625,
+      "low": 0.2,
+      "high": 0.4,
       "unit": "weight",
-      "citation": "The study's 95% interval for the coefficient, 0.111 to 1.209, carried the same way."
+      "citation": "The fit's neighbors: 0.2 gives 1.22 to 1.23 and 0.4 gives 1.49 to 1.51."
     }
   },
   "traitWeightViewsTrust": {
-    "value": 1.2,
+    "value": 0.25,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the views.trust outcome: the hearer's lean toward trusting (agreeableness) scales a speaker's standing with them, by e to the weight times the lean. Thielmann, Spadaro and Balliet (2020), a meta-analysis of 28 samples of the Trust Game, give agreeableness r 0.09 with how much a person entrusts to a stranger: a log odds gap of 0.357 between the thirds. Read as the log ratio of the thirds' mean standing, net of the standing with temperament left out, it moves with the weight: at the general weight of 1 the two audit towns gave net ratios of 1.63 and 1.38 (log 0.32 at the lower), and a drawn town's speech in the views trait test gave log 0.65 at 2.5, so the study's size is reached between 1.1 and 1.4. Sindermann et al. (2021), a smaller survey of general trust, give r 0.20, the top of the spread. A study of trust in one speaker on one occasion does not exist, so trust in a stranger stands in (SG-TRAITS-persuasion-size).",
+    "citation": "Sindermann, Schmitt and others 2021 (row views.trust in data/research/trait-effect-sizes.json): agreeableness correlates 0.20 with the Interpersonal Trust Scale among German adults (neuroticism -0.17; Thielmann et al. 2020 give 0.09 to 0.11 for trust-game sending). The weight is set so the hearer's lean correlates 0.20 with how far they trust a speaker. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). Pooled over 29,256 trust readings, 0.25 gives 0.203 (0.119 in Lookeba, 0.302 in Jagual: how far near ties already track the lean differs by town).",
     "spread": {
-      "low": 0.6,
-      "high": 2.5,
+      "low": 0.15,
+      "high": 0.35,
       "unit": "weight",
-      "citation": "Half the meta-analysis's size at the low end; Sindermann et al.'s r 0.20 (log odds 0.81 between the thirds) at the high end."
+      "citation": "The pooled fit's neighbors: 0.15 gives 0.141 and 0.35 gives 0.256."
     }
   },
   "workAbsenceIllnessWeight": {
