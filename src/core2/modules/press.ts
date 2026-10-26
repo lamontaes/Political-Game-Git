@@ -21,6 +21,7 @@ import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
+import { keepsWhy } from "../why-kept";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -211,6 +212,19 @@ export interface InterviewRow {
   readonly reporterId?: string | null;
   /** The story the outlet printed from it. */
   readonly storyId?: string | null;
+  /**
+   * Why the candidate accepted or declined, kept where why is kept: the share
+   * of the town that follows the outlet, whether they hold the seat, their
+   * closeness to the reporter and any grudge, and their trait lean toward
+   * accepting before the weight.
+   */
+  readonly acceptReasons?: {
+    readonly reach: number;
+    readonly incumbent: boolean;
+    readonly closeness: number;
+    readonly grudge: number;
+    readonly lean: number;
+  };
 }
 
 interface ParameterRow {
@@ -1133,6 +1147,47 @@ function isIncumbent(api: CoreAPI, contest: ContestRow, personId: string) {
 }
 
 /**
+ * How much of the town knows a candidate: the people who've heard of them and
+ * the counted households their mail reached (`campaignRecognition`).
+ */
+function knownShare(api: CoreAPI, filing: FilingRow): number {
+  if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return 0;
+  const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID);
+  if (campaigns.table("campaigns").get(filing.id))
+    return campaignRecognition(api, filing.id);
+  const adults =
+    [...(api.state.peopleByPlace.get(lawChain(api).townPlaceId) ?? [])]
+      .length || 1;
+  return (
+    (
+      campaigns
+        .table("impressions")
+        .query("byCandidate", [filing.personId]) as unknown as ImpressionRow[]
+    ).filter((i) => i.heardOf).length / adults
+  );
+}
+
+/**
+ * A candidate's case for accepting an interview, before temperament: a base,
+ * the share of the town the outlet reaches, less a sitting official's
+ * reluctance, and how they stand with the reporter who asks.
+ */
+export function acceptCase(reasons: {
+  readonly reach: number;
+  readonly incumbent: boolean;
+  readonly closeness: number;
+  readonly grudge: number;
+}): number {
+  return (
+    pressParameter("interviewAcceptBase") +
+    pressParameter("interviewReachWeight") * Math.min(1, reasons.reach) -
+    (reasons.incumbent ? pressParameter("interviewIncumbentReluctance") : 0) +
+    reasons.closeness -
+    reasons.grudge
+  );
+}
+
+/**
  * How newsworthy a candidate is to a reporter: how many people in town have
  * heard of them, whether they hold the seat, and their share of the money
  * raised in the race.
@@ -1187,24 +1242,10 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
     );
   }
   const contest = contestOf(api, filing.contestId);
-  const town = lawChain(api).townPlaceId;
-  const adults = [...(api.state.peopleByPlace.get(town) ?? [])].length || 1;
   const campaigns = api.state.modules.has(CAMPAIGNS_MODULE_ID)
     ? api.moduleState(CAMPAIGNS_MODULE_ID)
     : null;
-  // How much of the town knows them: the people who've heard of them and
-  // the counted households their mail reached (`campaignRecognition`).
-  const known = !campaigns
-    ? 0
-    : campaigns.table("campaigns").get(filing.id)
-      ? campaignRecognition(api, filing.id)
-      : (
-          campaigns
-            .table("impressions")
-            .query("byCandidate", [
-              filing.personId,
-            ]) as unknown as ImpressionRow[]
-        ).filter((i) => i.heardOf).length / adults;
+  const known = knownShare(api, filing);
   const raised = (f: FilingRow) =>
     (
       campaigns?.table("campaigns").get(f.id) as unknown as
@@ -2807,6 +2848,8 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     .flatMap((c) => ballot(api, c.id))
     .filter((f) => f.status === "on-ballot")
     .map((f) => ({ f, worth: newsworthiness(api, f) }));
+  const townAdults =
+    api.state.peopleByPlace.get(lawChain(api).townPlaceId)?.size || 1;
   for (const outlet of outletsHere(api))
     // Access: a candidate close to the outlet's reporters is asked first.
     for (const { f, worth } of filings
@@ -2832,22 +2875,45 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (row.status !== "invited" || f.personId === playerId) continue;
       const person = api.state.people.get(f.personId);
       const reporter = row.reporterId ?? "";
-      // How they stand with the reporter who asks, past the bar, and every
-      // trait's lean toward accepting.
-      const accepts = person
-        ? leanedYes(
-            api.state,
-            person,
-            "press.accept-interview",
-            "accept",
-            "decline",
-            closeness(api, person.id, reporter) -
-              grudge(api, person.id, reporter) -
-              pressParameter("interviewShyness"),
-          )
-        : true;
-      if (!accepts) refuse(api, row);
-      else publish(api, row, candidateAnswers(api, row.questions, f));
+      // The voters the outlet would put them before (the share of the town
+      // that follows it), whether they hold the seat (a sitting official needs
+      // the coverage least and risks their record), how they stand with the
+      // reporter who asks, and every trait's lean toward accepting.
+      const reasons = person && {
+        reach: followersOf(api, outlet.id).length / townAdults,
+        incumbent: isIncumbent(api, contestOf(api, f.contestId), f.personId),
+        closeness: closeness(api, person.id, reporter),
+        grudge: grudge(api, person.id, reporter),
+      };
+      const accepts =
+        person && reasons
+          ? leanedYes(
+              api.state,
+              person,
+              "press.accept-interview",
+              "accept",
+              "decline",
+              acceptCase(reasons),
+            )
+          : true;
+      const weighed =
+        person && reasons && keepsWhy(api.state as CoreState, person.id)
+          ? record(api, {
+              ...row,
+              acceptReasons: {
+                ...reasons,
+                lean: decisionLean(
+                  api.state,
+                  person,
+                  "press.accept-interview",
+                  "accept",
+                  "decline",
+                ),
+              },
+            })
+          : row;
+      if (!accepts) refuse(api, weighed);
+      else publish(api, weighed, candidateAnswers(api, row.questions, f));
     }
 }
 

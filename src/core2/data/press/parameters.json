@@ -97,11 +97,23 @@
       "source": "How much less a question draws each time this candidate has already answered it on the record: a reporter looks for what the candidate hasn't said yet.",
       "spread": [0.5, 2]
     },
-    "interviewShyness": {
-      "value": -1,
+    "interviewAcceptBase": {
+      "value": 1.8,
+      "tag": "ESTIMATED",
+      "source": "Fitted so that about half the candidates a reporter asks accept: the League of Women Voters' VOTE411 2024 report, \"Nationally, the median candidate response rate was 51%\" (my.lwv.org/node/65462; federal races 63%, Connecticut General Assembly races 32%), a voter guide's request standing in for an interview's. Fitted on the interview asks of two played election-window years (Halfway, Missouri, place key 2929962, seed 3e9ed70a5fb7; Marblehead, Ohio, 3947502, seed 7772ab1c8196) with the reach, incumbency and trait weights: 49% and 54% accept. The spread is the base at which 39% and 61% of those asks accept.",
+      "spread": [1.5, 2.05]
+    },
+    "interviewReachWeight": {
+      "value": 13.5,
       "tag": "TUNABLE",
-      "source": "A candidate declines a reporter only when shy and averse to conflict and risk together (sociability plus half of conflict and risk below this).",
-      "spread": [-1.5, -0.5]
+      "source": "How much more a candidate wants an interview from an outlet more of the town follows (the share of town adults who follow it). No study gives its size, so a standard deviation of reach weighs the same as one of incumbency among 591 asks in six drawn race windows (run seed acceptfit1; 0.073 and 0.291), as the exit poll weighs its two reasons.",
+      "spread": [6.75, 20]
+    },
+    "interviewIncumbentReluctance": {
+      "value": 3.4,
+      "tag": "TUNABLE",
+      "source": "A sitting official's reluctance to give an interview: they need the coverage least and risk their record. Checked against Vote Smart's 2016 Political Courage Test returns, 32 of 416 incumbents against 261 of 784 challengers, a share ratio of about 0.25 (from a search snippet of Vote Smart's release; its page was not fetched), a long survey rather than an interview. Fitted with the other weights on 591 asks in six drawn race windows (run seed acceptfit1), where incumbents accept about 46% of asks and challengers all of theirs (a ratio near 0.47).",
+      "spread": [2, 5]
     },
     "reportersPerNewspaper": {
       "value": 1,

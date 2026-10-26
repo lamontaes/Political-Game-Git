@@ -6110,14 +6110,14 @@
     }
   },
   "traitWeightPressAcceptInterview": {
-    "value": 2.18,
+    "value": 1.1,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for speaking to a reporter: target odds ratio 2.70 between thirds (2.47 before the rescale below). Nearly every candidate has no closeness or grudge with the asking reporter, so no circumstance varies and the weight is set on the latent-logit scale: the study's log odds divided by the gap between the top and bottom third's mean lean (0.456) across the adults of Newfane VT (seed c1). Only a candidate strongly averse to a reporter declines. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.1 (the weight is the study's log odds over the thirds' lean gap, so it scales exactly): 1.98 became 2.18.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for speaking to a reporter: target odds ratio 2.70 between thirds, with the trait's own spread from the paper's Table 1 (0.22 of its full range). Fitted on the interview asks of two played election-window years (Halfway, Missouri, seed 3e9ed70a5fb7; Marblehead, Ohio, seed 7772ab1c8196), every kept case (the base, the outlet's reach and the seat, src/core2/data/press/parameters.json) crossed with every candidate's lean: odds 3.06 and 3.48 between the thirds at 1.1. In small drawn towns whose residents are all named, where nearly every candidate is known to the whole town, 0.57 reaches the same odds.",
     "spread": {
-      "low": 1.43,
-      "high": 2.97,
+      "low": 0.744,
+      "high": 1.456,
       "unit": "weight",
-      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
+      "citation": "Scaled from the study's interval for the coefficient, 1.40 to 2.74 around 2.07."
     }
   },
   "traitWeightPressDig": {
