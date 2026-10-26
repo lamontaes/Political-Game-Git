@@ -32,3 +32,5 @@ claimed-at:
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
 
 Sent back 2026-10-25 ~22:20 UTC from PR #6091 (branch play-first/play-first-01-start-a-life-first, head 78e82b2fc1 with main merged in): all three body screenshots are wrapped in backticks so none render as images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #6091 (branch play-first/play-first-01-start-a-life-first): Current-main integration and static gate pass, but ordinary New game Advanced Custom world opens setup with dev mode false, violating OWNER-DECISIONS.md36 and this item custom-dev requirement; route or restrict custom setup through dev mode and assert the boundary in title.browser.mjs; finish on that branch, merge main into it first.

@@ -172,19 +172,43 @@ export function openingRegionMonths(
           restPop
         : stateValue;
     const metroRpp = (row: RegionRow) => rppAt(row.rppPct, year) ?? stateRpp;
+    const restU = solve(stateU, (metro) => metroU.get(metro.id)!);
+    // A metro's LAUS rate covers its whole area, which can cross state lines.
+    // Where the metros leave the rest of the state no positive rate, or the
+    // state is all metro, every region's rate is scaled by one factor so the
+    // state's people-weighted rate is its published one.
+    const unemploymentScale =
+      restPop > 0 && restU > p("zero")
+        ? p("one")
+        : (stateU * (metroPop + restPop)) /
+          (metros.reduce(
+            (sum, row) => sum + metroU.get(row.id)! * row.population,
+            0,
+          ) +
+            stateU * restPop);
+    // Each region's pay is the state's moved by its income against the
+    // state's. A metro's income covers its whole area, which can cross state
+    // lines, so the ratios are scaled to average one over the state's people:
+    // the state's people-weighted pay is its published pay.
+    const ratioOf = (row: RegionRow) =>
+      row.perCapitaIncome && state.perCapitaIncome
+        ? row.perCapitaIncome / state.perCapitaIncome
+        : p("one");
+    const people = rows.reduce((sum, row) => sum + row.population, 0);
+    const meanRatio =
+      people > 0
+        ? rows.reduce((sum, row) => sum + ratioOf(row) * row.population, 0) /
+          people
+        : p("one");
     for (const row of rows) {
       const share = state.population ? row.population / state.population : 1;
-      const incomeRatio =
-        row.perCapitaIncome && state.perCapitaIncome
-          ? row.perCapitaIncome / state.perCapitaIncome
-          : p("one");
-      const restU = solve(stateU, (metro) => metroU.get(metro.id)!);
+      const incomeRatio = ratioOf(row) / meanRatio;
       const unemploymentPct =
         row.kind === "metro"
-          ? metroU.get(row.id)!
-          : restU > p("zero")
+          ? metroU.get(row.id)! * unemploymentScale
+          : restPop > 0 && restU > p("zero")
             ? restU
-            : stateU;
+            : stateU * unemploymentScale;
       const restRpp = solve(stateRpp, metroRpp);
       out.push({
         id: `${row.id}:${month}`,

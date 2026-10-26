@@ -1,0 +1,23 @@
+---
+id: play-opening-address-empty-waiting-room
+title: "Show the opening address in its intended setting with its speaker"
+area: play
+kind: bug
+priority: 2
+size: S
+status: open
+claimed-by:
+pr:
+blocked-on:
+source: added with npm run pool -- add
+---
+
+**What.** The numeric President address plays over an empty office waiting room. Merger3 reproduced on PR6103 and the author before/after images already disclose it as existing. The numeric text fits at both checked window sizes, but the scene does not show the speaker giving the address.
+
+**Rules.** Wire to the world: the opening renderer must read the actual address frame and its speaker records to place the scene. Browser visual acceptance: no green script overrides visible failure. Read the existing opening frame place/backdrop/cast records and use the intended scene; do not hard-code a place or create an alternate engine.
+
+**Done when.** In an ordinary drawn new game, screenshot the inaugural address with the intended setting and visible President, inspect native1440x900 and1024x768 captures, and show record IDs and real playback with no page errors. Add a drawn regression case for the backdrop and cast reader.
+
+**Files.** src/bench/opening.ts, src/bench/play.mjs, src/bench/data/opening-pictures.json
+
+**Notes.** Observed Sa ilele American Samoa seedbe36e975-96e3-44f3-b712-df15c5927a29 and Los Heroes Puerto Rico seede2e7428f-99d6-49f0-b875-590326606fb6; speech macro-month:2024-12. Screenshot evidence will be linked on PR6103. This existing scene defect is separate from Words numeric address implementation.

@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: claude/same-day-authority
-pr:
+pr: #6120
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T22:39:29.578Z
