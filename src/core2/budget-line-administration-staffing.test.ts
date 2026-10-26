@@ -13,6 +13,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
+import { corePlaceByKey } from "./place-lookup";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { currentStaff } from "./law-reach/group-a-records";
 import { staffingOf } from "./law-reach/group-a-staffing";
@@ -28,6 +29,15 @@ import { budgetProposalDue, officeActHandlers } from "./office-day-acts";
 import { coreAPI } from "./state";
 
 const seed = process.env.ADMIN_LINE_SEED ?? randomBytes(8).toString("hex");
+// Replay a named regression beside the ordinary drawn-place run. These are
+// opening inputs only; every adoption, staffing and payroll assertion stays on.
+const replayKey = process.env.ADMIN_LINE_PLACE_KEY;
+const replaySeed = process.env.ADMIN_LINE_WORLD_SEED;
+if (!!replayKey !== !!replaySeed)
+  throw new Error("Set both ADMIN_LINE_PLACE_KEY and ADMIN_LINE_WORLD_SEED");
+const replayPlace = replayKey ? corePlaceByKey(replayKey) : undefined;
+if (replayKey && !replayPlace)
+  throw new Error(`No recorded place for ADMIN_LINE_PLACE_KEY=${replayKey}`);
 const before = setBookkeeping(false);
 afterAll(() => {
   setBookkeeping(before);
@@ -36,8 +46,14 @@ afterAll(() => {
 for (const direction of ["cut", "raise"] as const)
   it(`a ${direction} to the city's administration line moves named city employees' jobs (a cut ends them, a raise hires)`, () => {
     const tried: string[] = [];
-    for (let draw = 0; draw < 25; draw += 1) {
-      const place = drawPlace(`${seed}:${draw}`, "admin-line");
+    for (let draw = 0; draw < (replayPlace ? 1 : 25); draw += 1) {
+      const place = replayPlace
+        ? {
+            key: replayPlace.key,
+            name: replayPlace.displayName,
+            seed: replaySeed!,
+          }
+        : drawPlace(`${seed}:${draw}`, "admin-line");
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
       const { core } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
