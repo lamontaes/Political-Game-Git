@@ -4,6 +4,7 @@
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
 import { mountMenu } from "./ui/menu.mjs";
+import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
@@ -373,11 +374,8 @@ async function playOpening() {
  * controls.opening.newsToastSeconds, goes at once on its close, and the story
  * stays in News either way.
  */
-let newsToastTimer;
 function hideNewsToast() {
-  clearTimeout(newsToastTimer);
-  show("news-surface", false);
-  $("news-surface").classList.remove("fading");
+  hideToast($("news-surface"));
 }
 function showNewsSurface(news) {
   const story = news?.stories?.[0];
@@ -398,15 +396,9 @@ function showNewsSurface(news) {
     coachUsed("news-surface");
     hideNewsToast();
   };
-  const seconds = controls.opening?.newsToastSeconds ?? 8;
-  $("news-surface").style.setProperty("--toast-seconds", `${seconds}s`);
-  clearTimeout(newsToastTimer);
-  newsToastTimer = setTimeout(() => {
-    coachUsed("news-surface");
-    hideNewsToast();
-  }, seconds * 1000);
-  $("news-surface").classList.add("fading");
-  show("news-surface", true);
+  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8, () =>
+    coachUsed("news-surface"),
+  );
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -651,12 +643,21 @@ function endedBy(value) {
 }
 
 /** The newest line of the journal, bottom right. */
+let shownJournalLine = "";
+$("journal-note-close").addEventListener("click", () =>
+  hideToast($("journal-note")),
+);
 async function renderJournalNote() {
   const chapters = await api(
     `/api/journal?id=${encodeURIComponent(me.id)}`,
   ).catch(() => []);
   const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
   $("journal-line").textContent = line;
+  // A new line is a toast: it holds, fades and goes, or goes at once on its close.
+  if (!line) hideToast($("journal-note"));
+  else if (line !== shownJournalLine)
+    showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
+  shownJournalLine = line;
 }
 async function refresh() {
   await Promise.all([
@@ -4504,7 +4505,7 @@ $("front-continue").addEventListener("click", async () => {
   seenChanges = await changeCount();
   seenNews = await newsCount();
   show("front", false);
-  for (const id of ["rings", "card", "journal-note"]) show(id, true);
+  for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
   if (life.packet) renderPacket(life.packet);
   await refresh();
@@ -5008,7 +5009,7 @@ async function startLife({ custom = false, placeKey, person }) {
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
     // Home that evening (the server's rule for the opening day), with the
     // night's news to pick up, then the first choices pointed out.
-    for (const id of ["rings", "card", "journal-note"]) show(id, true);
+    for (const id of ["rings", "card"]) show(id, true);
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();

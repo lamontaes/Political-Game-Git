@@ -113,6 +113,18 @@ try {
       );
     });
   console.log("Faded after", ((Date.now() - start) / 1000).toFixed(1), "s");
+  // The Journal toast leaves the same way, untouched.
+  await page
+    .waitForFunction(
+      () => document.getElementById("journal-note").hidden,
+      undefined,
+      { timeout: 10000, polling: 100 },
+    )
+    .catch(() => {
+      throw new Error(
+        "the Journal toast was still on screen after ten seconds",
+      );
+    });
   if (label)
     await page.screenshot({
       path: `${dir}/${label}-2-after-ten-seconds-${tag}.png`,
@@ -151,6 +163,34 @@ try {
   );
   if (label)
     await second.screenshot({ path: `${dir}/${label}-4-in-news-${tag}.png` });
+
+  // A real mouse click on each close, late in the visible interval, closes it: the
+  // controls stay targetable until the toast is gone (merger send-back, Oct 26).
+  const third = await browser.newPage({
+    viewport: { width: 1672, height: 941 },
+  });
+  third.setDefaultTimeout(30000);
+  third.on("pageerror", (e) => errors.push(e.message));
+  await newGame(third);
+  await third.waitForTimeout(5000);
+  for (const [toast, closeId] of [
+    ["news-surface", "news-surface-close"],
+    ["journal-note", "journal-note-close"],
+  ]) {
+    const shown = await third.evaluate(
+      (id) => !document.getElementById(id).hidden,
+      toast,
+    );
+    if (!shown) continue;
+    const box = await third.locator(`#${closeId}`).boundingBox();
+    assert.ok(box, `${closeId} has no box five seconds in`);
+    await third.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+    assert.equal(
+      await third.evaluate((id) => document.getElementById(id).hidden, toast),
+      true,
+      `a real click on ${closeId} five seconds in did not close ${toast}`,
+    );
+  }
   assert.deepEqual(errors, []);
   console.log("OK news toast fades, closes and stays in News");
 } finally {

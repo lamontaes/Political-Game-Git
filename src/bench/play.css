@@ -1674,10 +1674,7 @@ body.dev .dev-ring {
   top: var(--gutter);
   right: var(--gutter);
   z-index: 4;
-  display: grid;
   gap: 4px;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
   max-width: 340px;
   padding: 12px 12px 12px 16px;
 }
@@ -1687,18 +1684,23 @@ body.dev .dev-ring {
   text-align: left;
   cursor: pointer;
 }
-/* The toast leaves by itself: it holds, then fades out over its last second. */
-#news-surface.fading {
-  animation: news-toast var(--toast-seconds) linear forwards;
+/* A toast leaves by itself: it holds, then fades out over its last second. Its close
+   control and its story stay clickable for as long as it shows (ui/toast.mjs). */
+.toast {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
 }
-@keyframes news-toast {
+.toast.fading {
+  animation: toast-fade var(--toast-seconds) linear forwards;
+}
+@keyframes toast-fade {
   0%,
   88% {
     opacity: 1;
   }
   100% {
     opacity: 0;
-    pointer-events: none;
   }
 }
 #news-reader {
