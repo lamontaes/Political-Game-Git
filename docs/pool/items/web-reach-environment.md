@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: claimed
 claimed-by: claude/web-reach-environment
 pr: #5915
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-25T17:33:00.496Z
+claimed-at: 2026-10-26T00:35:19.562Z
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the environment, disasters, farms and water family: 13 unwired links, 11 where the owning engine does not read the factor and 2 where nothing keeps the outcome. Their outcomes: env.particulates, env.emissions, env.litter, env.container-recycling-pct, disaster.damage, disaster.flood-damage, farmland.developed-acres, farmland.value-per-acre and water.irrigation-groundwater. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
@@ -28,3 +28,5 @@ Sent back 2026-10-24 from PR #5915 (branch claude/web-reach-environment): Missin
 Sent back 2026-10-24 from PR #5915 (branch claude/web-reach-environment): After-lag played-proof repair is present, but current main integration conflicts in production modules/jobs.ts plus effect-web matrix and stopgaps registry; integrate current writers, retain all SG rows, regenerate reports and refresh Done-when evidence; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5915 (branch claude/web-reach-environment): two carriedBy rows at links.json:5690 and :5712 use existing stand-ins with different sizes or timing rather than the researched after-lag effects; supply true witnesses or retain both specific unwired reasons/stopgaps instead of resolving their unread rows; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5915 (branch claude/web-reach-environment): repaired source integrated main and regenerated coverage/matrix at 97c96d0d2fc6c20372fd72992c59913c1d58df86, retaining every main stopgap ID, but cloud execution environment became unavailable before the required own changed-file gate; no code defect or green merge claimed; finish on that branch, merge main into it first.

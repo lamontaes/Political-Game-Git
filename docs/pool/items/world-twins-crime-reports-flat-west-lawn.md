@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/twins-crime-reports
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T00:24:13.324Z
 ---
 
 **What.** The outcome-web twins test fails on clean main with EFFECT_TWINS_SEED=27ed11060d06e388, which draws West Lawn, Pennsylvania: shifting each running cause moves no engine record for crime.reported-per-capita ('expected 0 to be greater than 0'). The laws lead found it in its gate on Oct 24 and confirmed it on main with the same seed. Either no cause that runs there reaches the crime-report measure in the test's four months, or the measure's engine misses a read of the shifted cause.
