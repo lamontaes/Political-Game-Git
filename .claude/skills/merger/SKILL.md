@@ -42,9 +42,10 @@ At the start of every run, before listing PRs, read the latest release workflow 
 
 ## 1. Your share, and other mergers
 
-Several mergers run at once: four by PR number mod 4 (`<N>` is 0, 1, 2 or 3) and one recheck merger whose share is the recheck list in `MERGE-FIRST.md`. Your prompt gives your share and an order (oldest or newest first). Stay in it, after `MERGE-FIRST.md`: a `MERGE-FIRST.md` line in nobody's share is anyone's; a line in your share is yours first.
+Several mergers run at once, splitting open PRs by PR number modulo the number of share mergers your prompt names (five on Oct 26: `<N>` is 0 to 4), plus a recheck merger when `MERGE-FIRST.md` names one. Your prompt gives your share and an order (oldest or newest first). Stay in it, after `MERGE-FIRST.md`: a `MERGE-FIRST.md` line in nobody's share is anyone's; a line in your share is yours first.
 
 - Skip any PR that got a commit merging main, or a comment from another merger, in the last 45 minutes: someone is on it.
+- Read the PR's comments again just before you post. If another merger already sent back the same head, add nothing (Oct 26: four mergers sent #6086 back on the same head within three minutes).
 - Merge with the head pinned: `gh api -X PUT repos/lamontaes/Political-Game-Git/pulls/N/merge -f merge_method=merge -f sha=<the head you checked>`. HTTP 409 means the branch moved: re-check it or move on.
 - If your plain push is rejected because the branch moved, drop that PR and move on.
 - Start every comment with your prompt's prefix (for example `Codex merger:` or `Cloud merger:`), so audits can tell mergers apart.
@@ -106,6 +107,10 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 
    **Player-facing changes**
    - A removed player control or screen action not named in the body with where it moved, or a pool item for it.
+   - Developer text on a player screen, in the diff or the after screenshot (`player-screen-text`): record kinds, ids, ISO dates, unrounded numbers, status codes, debug labels. Name file and line.
+   - A screen change that names no mock line, or adds a second renderer for a control that already has one (`screen-to-mock`).
+   - A scene or talk whose outcome writes nothing back, or that a player cannot reach in ordinary play (`scene-standard`).
+   - A test that asserts a known defect (an ISO date on screen, a masthead that only says "News").
 
    **Core rules**
    - A stand-in without a row in `src/core2/data/stopgaps.json` and a code marker, or a stopgap row deleted.
@@ -127,7 +132,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 
 6. **Merge on green.** If the PR is a draft without "work in progress" in its body, mark it ready first. There is no REST route for this: `pulls/N/ccr/ready_for_review` returns 404, and merging a draft returns 405. Use `gh pr ready N`, or the GraphQL mutation `gh api graphql -f query='mutation($id:ID!){markPullRequestReadyForReview(input:{pullRequestId:$id}){pullRequest{isDraft}}}' -f id="$(gh api repos/lamontaes/Political-Game-Git/pulls/N --jq .node_id)"`, or `update_pull_request` with `draft: false`. Read the PR again and confirm `draft` is false. Then merge with the head pinned (section 1). Right after, post one comment: "<prefix> merged at <sha>. Checks run here: <list>, all passed."
 7. **A send-back goes back to the pool.** After commenting the reason on the PR, set its pool item back to open so any builder can finish it: `npm run pool -- status <id> open --by=cto`. Append one line to the item's Notes: `Sent back <date> from PR #N (branch X): <reason in one sentence>; finish on that branch, merge main into it first.` If the item id is not in the PR, match it by branch name or title. Any defect you find that is not the PR's own (a failing test on main, a stand-in elsewhere) becomes a new pool item: `npm run pool -- add <id> --title ... --area ... --kind bug --priority 1 --size S`.
-8. **Pool.** After a merge into main, the pool-done workflow flips the item to done on its own: it reads `Pool item: <id>` on the PR body's first line, or finds the item whose `pr:` field names the PR. Check the item (`grep -l "pr: #N" docs/pool/items/*.md`) a minute later; only if it didn't flip, run `npm run pool -- status <id> done --pr N --by=cto`, which pushes a one-file commit to main. Never flip an item for a merge into a branch other than main.
+8. **Pool.** A merge is not the owner's acceptance. For an item with `milestone: play-first` (or a `play-stop-*` item), add one Notes line after the merge: `Merged <date> in PR #N; awaiting the owner's installed-build check` (owner, Oct 25: the owner's check closes the item). If he rejects it in a playtest, it reopens with his words. Otherwise: after a merge into main, the pool-done workflow flips the item to done on its own: it reads `Pool item: <id>` on the PR body's first line, or finds the item whose `pr:` field names the PR. Check the item (`grep -l "pr: #N" docs/pool/items/*.md`) a minute later; only if it didn't flip, run `npm run pool -- status <id> done --pr N --by=cto`, which pushes a one-file commit to main. Never flip an item for a merge into a branch other than main.
 
 ## 3. Stale runs
 
@@ -140,7 +145,7 @@ End each batch with a table: `PR | merged / sent back / left | reason`.
 ## The prompt
 
 > Read AGENTS.md and .agents/skills/merger/SKILL.md in lamontaes/Political-Game-Git, then docs/coordination/MERGE-FIRST.md and the CTO section of docs/coordination/LEADS-2026-10-24.md.
-> You are merger <N>: your share is open PRs whose number mod 4 equals <N> (the recheck merger's share is the recheck list in MERGE-FIRST.md), <oldest | newest> first, after every MERGE-FIRST line you can take. Start every comment with "Merger <N>:".
+> You are merger <N>: your share is open PRs whose number mod <M> equals <N> (<M> = the number of share mergers running) (the recheck merger's share is the recheck list in MERGE-FIRST.md), <oldest | newest> first, after every MERGE-FIRST line you can take. Start every comment with "Merger <N>:".
 > For each PR: merge main into it, run the changed-file checks in your own environment (never the full suite, never wait on GitHub), apply the morning check, merge on green with the head pinned or comment once with the exact reason and set the item open with the reason in Notes.
 > Play-first lane PRs first; send one back only for missing before/after screenshots, never for director or English edits or held lines flipped to shippable. "OWNER SCREENSHOT NEEDED" is not a merge gate; a `docs/play-first/PROGRESS.md` hunk on a lane branch is dropped, not resolved.
 > Never merge a PR you authored, never force-push, never run the full suite. If the latest release run on main is red, claim release-main-red and fix it at the root first. End with a table.
