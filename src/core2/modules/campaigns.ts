@@ -15,7 +15,12 @@
  */
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
-import { customPolitics, registerElectorate } from "../electorate";
+import {
+  customPolitics,
+  engagementOf,
+  NATIONAL_ENGAGEMENT,
+  registerElectorate,
+} from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
@@ -1119,26 +1124,32 @@ function atWork(
 }
 
 /**
- * Whether someone gives their evenings to a campaign before personality: how
- * much they like the candidate, how close they are, against the hours their
- * work already takes, past the volunteer threshold.
+ * Whether someone gives their evenings to a campaign before personality: the
+ * reasons anyone backs a campaign (warmth toward the candidate, agreement
+ * with the platform, the party, how they stand with the candidate), how
+ * closely they follow politics against the nation, less the hours their work
+ * already takes, past the volunteer threshold.
  */
 export function volunteerReason(
   api: CoreAPI,
   campaign: CampaignRow,
   person: Readonly<PersonState>,
 ): number {
-  const warmth =
-    impressionOf(api, person.id, campaign.candidateId)?.warmth ?? 0;
+  const why = backingReasons(api, campaign, person);
   const core = api.state as CoreState;
-  const tie = closenessBetween(core, person.id, campaign.candidateId);
-  const family = person.familyIds.has(campaign.candidateId) ? 1 : 0;
+  const engagement = engagementOf(core, person);
   const weeklyWork = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
     .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
     .reduce((a, b) => a + b, 0);
   return (
-    warmth +
-    campaignParameter("volunteerClosenessWeight") * (tie + family) -
+    why.warmth +
+    why.agreement +
+    campaignParameter("donorPartyWeight") * why.party +
+    campaignParameter("donorRelationshipWeight") * why.relationship +
+    (engagement === null
+      ? 0
+      : campaignParameter("turnoutEngagementWeight") *
+        (engagement - NATIONAL_ENGAGEMENT)) -
     weeklyWork / campaignParameter("turnoutWorkWeekMinutes") -
     campaignParameter("volunteerThreshold")
   );

@@ -5871,14 +5871,14 @@
     }
   },
   "traitWeightCampaignsVolunteer": {
-    "value": 0.165,
+    "value": 0.4,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 over the trait's full range (95% interval 0.57 to 3.47): target odds ratio 2.63 between thirds (2.41 before the rescale below). Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the volunteer threshold set at 1.0 (the largest the campaign calibration test's range of acquaintances who volunteer allows without losing the closest circle). Reached 2.42. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.1: 0.15 became 0.165.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 over the trait's full range (95% interval 0.57 to 3.47), with the trait's standard deviation 0.22 of its range (Table 1): target odds ratio 2.63 between the thirds. Refit Oct 26, 2026, after the choice came to read each person's own reasons (the backing reasons a donor weighs, their interest in politics and their work hours) instead of one shared total: over the asks of six drawn towns' election windows (seeds volfit1:k:a: Northfork, West Virginia; Oklee, Minnesota; Hoffman, Illinois; La Plena, Puerto Rico; Chacra, Colorado; Epps, Louisiana; 12,584 asks), every asked person's case met with every lean, as the campaigns trait test measures it, the thirds' odds ratio is 2.17 to 2.86 by town at 0.4, geometric mean 2.55.",
     "spread": {
-      "low": 0.046,
-      "high": 0.286,
+      "low": 0.12,
+      "high": 0.75,
       "unit": "weight",
-      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
+      "citation": "The study's 95% interval, odds ratios 1.31 and 5.28 between the thirds, solved the same way over the same asks."
     }
   },
   "traitWeightCampaignsDonate": {

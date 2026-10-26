@@ -745,17 +745,11 @@
       "source": "Where a home opens to a canvasser one knock in two: the readiness of its most willing adult home, before personality, is their age term less this. Personality adds the calibrated campaigns.open-door weight times their lean, and doorAnswerScale slides the share either side. Kept where 18% of adults stood past it under the earlier hand-set trait scale (Newfane VT, Ute IA, Clifton KS and Cameron SC, a played year each); with doorAnswerScale it puts a quarter to a third of doors knocked open, the field contact rate, which counts a home once any adult opens (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005).",
       "spread": [0.2, 0.9]
     },
-    "volunteerClosenessWeight": {
-      "value": 0.5,
-      "tag": "TUNABLE",
-      "source": "How much closeness to the candidate (relationship level, family) weighs in agreeing to volunteer.",
-      "spread": [0.2, 1]
-    },
     "volunteerThreshold": {
       "value": 1,
-      "tag": "TUNABLE",
-      "source": "How strong someone's pull to volunteer must be, before personality: their warmth and closeness to the candidate, less their hours of work. Personality adds the calibrated campaigns.volunteer weight times their lean. Set at the value where about 0.9% of the people a candidate asks say yes across Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each, and where the share of a candidate's acquaintances who volunteer stays inside the 31% top of the range src/core2/campaign-calibration.test.ts holds (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that). A weaker, researched personality term leaves closeness to decide, so the threshold sits above where the earlier hand-set trait scale put the pool's rate.",
-      "spread": [0.6, 1.4]
+      "tag": "ESTIMATED",
+      "source": "How strong someone's case to volunteer must be, before personality: the reasons anyone backs a campaign (warmth toward the candidate, agreement with the platform, the party, how they stand with the candidate), how closely they follow politics against the nation, less their hours of work. Personality adds the calibrated campaigns.volunteer weight times their lean. Checked Oct 26, 2026 against the share of adults who worked for a party or candidate in the American National Election Studies (VCF0719, weighted, ANES Cumulative Datafile 1948-2024 read on UC Berkeley's SDA server: 3.2% in 2016, 3.1% in 2020, 3.0% in 2024): over six drawn towns' election windows (seeds volfit1:k:a; Northfork, West Virginia; Oklee, Minnesota; Hoffman, Illinois; La Plena, Puerto Rico; Chacra, Colorado; Epps, Louisiana; 19,392 adults) 561 adults volunteered at weight 0.165, 2.9%, and at the fitted weight of 0.4 an estimated 3.1%.",
+      "spread": [0.95, 1.05]
     },
     "doorAnswerScale": {
       "value": 0.5,

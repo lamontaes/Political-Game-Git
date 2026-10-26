@@ -44,8 +44,8 @@ const BASE_SEED =
 const MAX_PLAYED = 4;
 /** Days the window runs past the race, so the count and the losers' scenes are in it. */
 const AFTER_RACE = 10;
-/** The yes share the volunteering slope is read at (see its test). */
-const VOLUNTEER_SHARE = 0.05;
+/** The share running for office is read at (see its test). */
+const RUN_SHARE = 0.05;
 const DAYS = 150;
 
 interface Row {
@@ -104,6 +104,7 @@ function windowGaps(world: CoreState): string[] {
   const reached = volunteerRows().length;
   if (reached <= 50) gaps.push(`campaigns reached ${reached} adults`);
   const read: [string, readonly Row[]][] = [
+    ["campaigns.volunteer", formula.get("campaigns.volunteer") ?? []],
     ["campaigns.donate", formula.get("campaigns.donate") ?? []],
     ["campaigns.open-door", formula.get("campaigns.open-door") ?? []],
     ["candidacy.run", chooser],
@@ -290,23 +291,17 @@ function expectAboutResearch(
 }
 
 describe("personality in campaigns and candidacy (a played slice of a drawn place)", () => {
-  it("volunteering leans toward the more open, read at a fixed share saying yes", () => {
-    // Most people a campaign reaches share one reason total (no warmth, tie or
-    // work hours yet), so where the line falls in that pile temperament alone
-    // sorts them and the odds ratio swings from about 1 to over 30 by town; the
-    // researched size waits on the choice reading more of each person's own
-    // circumstances (trait-decision-gaps.json, campaigns.volunteer). The slope
-    // is read with every reason total moved so one in twenty says yes.
-    const rows = volunteerRows();
+  it("volunteering follows openness at about the researched rate, among the people campaigns asked", () => {
+    // Each person asked weighs the reasons anyone backs a campaign (warmth,
+    // agreement with the platform, party, closeness), how closely they follow
+    // politics and their work hours, so the cases spread instead of piling on
+    // one total.
+    const rows = formula.get("campaigns.volunteer") ?? [];
     const w = decisionTraitWeight(core, "campaigns.volunteer");
-    const reached = crossOdds(rows, w, shiftForShare(rows, w, VOLUNTEER_SHARE));
     console.log(
-      `${placeName}: volunteering at a ${VOLUNTEER_SHARE} yes share, ${rows.length} calls, odds ratio ${reached.toFixed(2)} against the study's ${targetOddsRatio("campaigns.volunteer").toFixed(2)}`,
+      `${placeName}: volunteering, ${rows.length} asks, odds ratio ${crossOdds(rows, w).toFixed(2)} against the study's ${targetOddsRatio("campaigns.volunteer").toFixed(2)}`,
     );
-    expect(reached).toBeGreaterThan(1.05);
-    expect(
-      crossOdds(rows, 0, shiftForShare(rows, 0, VOLUNTEER_SHARE)),
-    ).toBeCloseTo(1, 5);
+    expectAboutResearch("campaigns.volunteer", rows, w);
   });
 
   it("giving follows openness at about the researched rate", () => {
@@ -329,13 +324,13 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
     // A serving incumbent weighs standing again (voting.stand-again), so only
     // newcomers weigh running here, and so few of them run that the thirds'
     // rates would sit at the floor; the slope is read with every reason total
-    // moved so one in twenty would run, as volunteering is read.
+    // moved so one in twenty would run.
     expectAboutResearch(
       "candidacy.run",
       chooser,
       decisionTraitWeight(core, "candidacy.run"),
       ONE_TOWN_SLACK,
-      VOLUNTEER_SHARE,
+      RUN_SHARE,
     );
   });
 

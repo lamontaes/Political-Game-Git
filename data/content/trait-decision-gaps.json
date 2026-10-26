@@ -143,11 +143,6 @@
       "why": "Personality turned 14.8% of 29,520 daily-activity picks at the general trait weight of 1. Studies of extraversion and time spent socializing (Mehl et al. 2006) report no extractable coefficient, so the general weight stands.",
       "fix": "Calibrate when a study gives a size for extraversion and social time."
     },
-    "campaigns.volunteer": {
-      "class": "circumstances tie",
-      "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
-      "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
-    },
     "appointments.weigh": {
       "class": "runs only at the opening and on a vacancy",
       "why": "The appointer's loyalty against merit (src/core2/appointments.ts:56) is read whenever a post is filled. The town's department heads and the state's cabinet are filled when the executive module opens (src/core2/modules/executive.ts:151-152), before the audit's probe is on; afterward only a department head who dies or moves away (executive.ts:1168-1172) or a newly seated governor (:1197) fills one, and neither happened in the election window.",
