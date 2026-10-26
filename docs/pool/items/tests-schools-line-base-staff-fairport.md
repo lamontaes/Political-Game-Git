@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/schools-base-staff
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T05:47:29.538Z
 ---
 
 **What.** `src/core2/budget-line-schools-staffing.test.ts` fails on main 48a52cc156 in Fairport, New York (3625076), the fourth place its seed fd3206c32c6734df draws (place seed 32d3fd2544eb…). Both cases fail on the same line: the staffing row's `baseStaff` is 62 teachers, while the test counts 63 teachers in place, named and counted. On the justice family's branch the test counts 64 against the same 62. The engine takes its base when the bill's change runs (`src/core2/law-reach/group-a-staffing.ts`), and the test counts afterward. So a teacher who joins or leaves between those two moments, or a counted teacher one side counts and the other does not, would explain the gap; the cause is not traced.
