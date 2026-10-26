@@ -5052,6 +5052,28 @@
       "shape": {
         "kind": "linear"
       },
+      "group": "households",
+      "owner": "B-cloud",
+      "key": "sales-tax-to-prices",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "to": "household.prices",
+      "size": 0,
+      "per": "percentage point of the combined state and local sales tax rate",
+      "lagMonths": 3,
+      "evidence": "about-zero",
+      "anchor": "Retail prices of taxed goods rise by about the amount of the sales tax: the shopper's price goes up point for point and the price before tax does not move. The tax is added at the register, so the price level the businesses set (before tax) is unchanged by a rate change",
+      "source": "Poterba 1996, National Tax Journal 49(2), pp. 165-176, abstract and Table 3; Besley and Rosen 1999, National Tax Journal 52(2), NBER Working Paper 6667",
+      "from": "law:sales-tax",
+      "range": [0, 0],
+      "rangeSource": "Poterba 1996 abstract: \"retail prices rise by approximately the amount of the sales tax\" (eight cities, 1947-77); Table 3 total responses of tax-inclusive clothing and personal-care prices to a one-point rate change are 1.33, 0.84 and 1.17, and the paper says it is \"never possible to reject the null hypothesis that prices rise point-for-point with changes in the retail sales tax\". Point-for-point pass-through to the price with tax means no change in the price before tax, so the pre-tax level is zero. The Depression-era estimate (0.62, 1925-39) and Besley and Rosen's overshifting for some goods are the spread on either side, and neither is a pre-tax move the web can attach to one direction. Besley and Rosen 1999 abstract: \"For some commodities, the after-tax price increases by exactly the amount of the tax.\"",
+      "notes": "Read by nothing, on purpose: the purchase-tax engine charges the tax at each sale (src/core2/modules/purchase-tax.ts collect), so a link that also raised the pre-tax price level would charge households twice. household.prices is the pre-tax level businesses set (finance-state.ts reads its factor at their price review)."
+    },
+    {
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
       "group": "place",
       "owner": "B-cloud",
       "key": "mandatory-minimums-to-violent-crime",
@@ -5917,6 +5939,40 @@
       "floor": -19,
       "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
       "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
+    },
+    {
+      "key": "mileage-fee-to-vehicle-miles",
+      "status": "built",
+      "unsupportedReason": null,
+      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "to": "traffic.vehicle-miles",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.0035,
+      "per": "law in force says yes (1) rather than no (0), as the long-run change in miles driven per resident",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F",
+      "evidence": "researched",
+      "anchor": "Drivers respond to the fuel cost of a mile, whoever collects the tax in it: the rebound effect is \"the negative of the elasticity of driving with respect to fuel cost per unit distance\", so \"a VMT elasticity of -0.20 corresponds to a rebound effect of 20%\" (Hymel and Small 2015). The fee replaces the fuel tax, so the average vehicle's cost per mile moves by the fee less the tax it stops paying: 2.0 cents a mile (the law's fee) less 51.7 cents a gallon over 22.6 miles a gallon (2.29 cents), -0.29 cents a mile, -2.0% of the 14.6 cents a mile that a gallon of 2024 regular gasoline ($3.304) costs at 22.6 miles a gallon. At the long-run elasticity of -0.178 (Hymel and Small 2015, Table 2, 2000-2009, Model 3.3; short run -0.028) that raises miles driven 0.35%, about 34 miles a resident a year on 9,685. The fee is close to revenue neutral for the average vehicle, so the effect is near zero: it is the 0.29-cent gap, and it turns negative where the fee is above 2.29 cents a mile (-0.26% at the 2.5 cents top of the fee's range, +1.57% at its 1 cent bottom). Low end: \"the direct short-run effect of a price rise on driving is more than twice as large as that of a price cut\" (Hymel and Small 2015, Model 3.21b: -0.0639 against -0.0639+0.0340), and this is a cut in cost per mile, so the elasticity is taken at 0.47 of its value, -0.083. High end: the meta-analysis average long-run rebound effect of 26 to 29% (Dimitropoulos, Oueslati and Sintek 2018), -0.29. People are \"adjusting their travel in a given year by just 21 percent of the ultimate shift\" (Small and Van Dender 2007), so the effect builds over five years and a fifth of it, 0.07%, shows in the first.",
+      "source": "Hymel and Small 2015, The rebound effect for automobile travel: Asymmetric response to price changes and novel features of the 2000s, Energy Economics 49: 93-103, Table 2 (https://escholarship.org/uc/item/4m56j2xg); Small and Van Dender 2007, Fuel Efficiency and Motor Vehicle Travel: The Declining Rebound Effect, Energy Journal 28(1): 25-51, Table 5 and section 4.2 (UC Irvine working paper 05-06-03, https://www.econ.uci.edu/files/docs/workingpapers/2005-06/Small-03.pdf); Dimitropoulos, Oueslati and Sintek 2018, The rebound effect in road transport: A meta-analysis of empirical studies, Energy Economics 75: 163-179, abstract (https://ideas.repec.org/a/eee/eneeco/v75y2018icp163-179.html); U.S. EIA, U.S. Regular All Formulations Retail Gasoline Prices, annual 2024, $3.304 a gallon (https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=pet&s=emm_epmr_pte_nus_dpg&f=a); fuel tax and fleet fuel economy from data/research/prices/household-prices-2026.json (EIA, FHWA Table VM-1); fee from reach-group-b-parameters.json (mileageFeeCentsPerMile)",
+      "range": [0.0016, 0.0057],
+      "phaseInMonths": 60,
+      "phaseInSource": "Small and Van Dender 2007 (the coefficient on lagged travel implies people adjust \"by just 21 percent of the ultimate shift\" in a year) and Hymel and Small 2015 (lagged travel 0.83 in Model 3.3, so the long run is about six times the one-year response, 5.6 to 6.3): a linear build over 60 months puts 20% of the effect in the first year.",
+      "reverseOnRepeal": "The fuel tax comes back and miles return as they left: the effect falls away over the same 60 months, as the months the fee stood leave the average the link reads.",
+      "researchSizing": {
+        "estimate": 0.0035,
+        "unit": "proportional change in miles driven per resident, long run: elasticity of vehicle miles with respect to fuel cost per mile (-0.178) times the proportional change in the average vehicle's fuel cost per mile when the 2.0 cent fee replaces the fuel tax (-0.01967)",
+        "source": "Hymel and Small 2015, Energy Economics 49: 93-103",
+        "location": "Table 2, Model 3.3, 2000-2009 long run -0.178 (short run -0.028; Model 3.18 long run -0.255); Table 3, Model 3.21b for the asymmetry",
+        "status": "applied",
+        "requiredConnection": "Applied: place-prices.ts multiplies the miles each household drives, and so the fee it is charged and the fuel tax it is refunded on them, by the web's factor on traffic.vehicle-miles (FHWA Highway Statistics 2024 Table VM-2 over Census Vintage 2024 population, all 56 places).",
+        "lag": "No delay before drivers respond; the response builds over 60 months (see phaseInSource).",
+        "rangeMeaning": "The range is the spread of published long-run elasticities (0.083 for a price cut in Hymel and Small's asymmetric model to 0.29 in the meta-analysis) times the same cost change at the national fuel tax; it is not variation between places. The fee's own spread (1 to 2.5 cents a mile) would move the effect from +0.0157 to -0.0026."
+      },
+      "notes": "The fee is close to revenue neutral for the average vehicle (2.0 cents against 2.29 cents of fuel tax a mile), so the web moves driving by a third of one percent, not a shift in how people travel. Read by the miles each household drives in place-prices.ts, so a household pays the fee and is refunded the fuel tax on the miles it now drives. The tax and fuel economy are national averages: state fuel taxes run from 27.4 to 89.3 cents a gallon with the federal 18.4 (EIA, January 2026), so the same fee cuts the cost per mile more where the tax is high (registered stopgap SG-GOV-REACH-B-mileage-fee-price). The sources give no split by income, household kind or place, so the link is not varied."
     },
     {
       "key": "fix-it-first-to-poor-roads",

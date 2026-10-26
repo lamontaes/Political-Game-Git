@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/matrix-unread-grades
+pr: #6173
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T18:57:26.362Z
 ---
 
 **What.** The law-wiring matrix marks a built nonzero outcome link wired when a run contains fired monthly ledger rows, without checking whether a production engine reads that outcome factor. PR #6026 exposes the false positive: SNAP maximum receives a wired web cell from a food-insecurity ledger change while the committed unwired report and registered stopgap explicitly say no person, household or organization record changes. This can incorrectly certify a family whose acceptance forbids registered stopgaps. The fired-row shortcut already exists on main, so this checker repair is tracked separately from the returned family.
