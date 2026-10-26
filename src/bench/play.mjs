@@ -190,7 +190,30 @@ function screenArtwork({ portraitUrl, backgroundUrl, name }) {
 }
 function show(id, on) {
   $(id).hidden = !on;
+  if (on && $(id).classList.contains("chat")) clearDock();
 }
+
+/**
+ * The talk box keeps clear of the player card: when the centered box would
+ * reach over the dock (a long status line widens the card), it stands above
+ * the dock instead, so no reply sits under the card.
+ */
+function clearDock() {
+  const game = $("game").getBoundingClientRect();
+  const dock = $("dock").getBoundingClientRect();
+  const width = Math.max(
+    ...[...document.querySelectorAll("#game .chat")].map(
+      (box) => box.offsetWidth,
+    ),
+  );
+  const left = game.left + (game.width - width) / 2;
+  $("game").style.setProperty(
+    "--chat-bottom",
+    left < dock.right + 8 ? `${Math.ceil(game.bottom - dock.top + 8)}px` : "",
+  );
+}
+new ResizeObserver(clearDock).observe($("dock"));
+window.addEventListener("resize", clearDock);
 
 /** Soft contact shadows on the floor at each person's feet, under everyone. */
 function shadowsOf(people) {

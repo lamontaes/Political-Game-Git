@@ -18,9 +18,10 @@ const minutes = (text) => {
   const [, h, m, ap] = text.match(/(\d+):(\d+)\s*(AM|PM)$/);
   return ((Number(h) % 12) + (ap === "PM" ? 12 : 0)) * 60 + Number(m);
 };
+const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
+  await page.goto(`${base}/play`);
   await ready;
   const person = JSON.stringify({
     givenName: "Pat",
@@ -30,12 +31,13 @@ try {
     birthMonth: 6,
     birthDay: 15,
   });
-  const { seed, date } = await (
-    await page.request.get("http://localhost:3000/api/seed")
-  ).json();
+  const drawn = await (await page.request.get(`${base}/api/seed`)).json();
+  // SEED replays a drawn world (a reviewer's failing seed).
+  const seed = process.env.SEED ?? drawn.seed;
+  const { date } = drawn;
   console.log("Seed:", seed, "date:", date);
   const made = await page.request.post(
-    `http://localhost:3000/api/newlife?${new URLSearchParams({ seed, date, person })}`,
+    `${base}/api/newlife?${new URLSearchParams({ seed, date, person })}`,
     { timeout: 600000 },
   );
   assert.equal(made.status(), 200);
@@ -116,6 +118,49 @@ try {
     console.log("Held by:", said.replace(/\s+/g, " ").trim());
     assert.ok(said.trim(), "a stop after the outing shows nothing");
     if (shots) await page.screenshot({ path: `${shots}/held.png` });
+    // Every reply on screen is clear of the player card at both window
+    // sizes: a pointer at its middle lands on it, and the keyboard reaches it.
+    for (const size of [
+      { width: 1440, height: 900 },
+      { width: 1024, height: 768 },
+    ]) {
+      await page.setViewportSize(size);
+      await page.waitForTimeout(600);
+      const covered = await page.evaluate(() => {
+        const dock = document.getElementById("dock").getBoundingClientRect();
+        return [...document.querySelectorAll("#talk-choices button")]
+          .filter((button) => button.offsetParent)
+          .map((button) => {
+            const box = button.getBoundingClientRect();
+            const top = document.elementFromPoint(
+              box.left + box.width / 2,
+              box.top + box.height / 2,
+            );
+            const overlaps =
+              box.right > dock.left &&
+              box.left < dock.right &&
+              box.bottom > dock.top &&
+              box.top < dock.bottom;
+            return {
+              text: button.innerText.trim(),
+              overlaps,
+              reached: button === top || button.contains(top),
+              keyboard: button.tabIndex >= 0 && !button.disabled,
+            };
+          })
+          .filter((row) => row.overlaps || !row.reached || !row.keyboard);
+      });
+      assert.deepEqual(
+        covered,
+        [],
+        `${size.width}x${size.height}: a story reply is under the card or out of reach`,
+      );
+      if (shots)
+        await page.screenshot({
+          path: `${shots}/held-${size.width}x${size.height}.png`,
+        });
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
   }
   while (await page.locator("#continue").isVisible()) {
     await page.locator("#continue").click();
