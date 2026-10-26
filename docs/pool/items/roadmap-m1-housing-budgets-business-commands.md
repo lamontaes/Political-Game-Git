@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/quirky-ride-vrwwz4-m1-housing
+status: open
+claimed-by:
 pr: #5893
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T02:11:16.830Z
+claimed-at:
 ---
 
 **What.** Roadmap M1-05 (housing), M1-07 (budgets and taxes at every level) and M1-08 (businesses grow and shrink) read passes: false with command null on main, so they can never pass. Each needs a check that plays a year of the bench world in the place the golden-path runner draws and tests its spec text, built on the shared played-year helper the M1-03, M1-04 and M1-06 checks use (src/core2/tooling/m1-played-year.ts).
