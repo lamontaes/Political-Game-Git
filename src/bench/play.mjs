@@ -1155,10 +1155,9 @@ async function talkTo(otherId, momentId) {
 // A line that does not read right is marked where it is said; no time passes.
 // Mark gap is a developer control: it joins the talk box only while dev
 // mode is on, and is never in the player's markup.
-const gapButton = el("button", {
+const gapButton = makeButton({
   id: "talk-gap",
   className: "action small",
-  type: "button",
   textContent: "Mark gap",
 });
 gapButton.addEventListener("click", async () => {
