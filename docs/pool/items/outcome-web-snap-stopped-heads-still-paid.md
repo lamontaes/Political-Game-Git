@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/snap-stopped-head-paid
 pr: #6180
 blocked-on:
