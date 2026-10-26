@@ -770,6 +770,15 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-2);
   margin-top: 2px;
 }
+/* A town in the creator's list reads in the state buttons' own font. */
+.item.town span,
+.item.town small {
+  display: block;
+  font: inherit;
+}
+.item.town small {
+  color: var(--text-2);
+}
 /* The creator (the Oct 12 SetupScreen's steps). */
 #front:has(#cr-character:not([hidden])),
 #front:has(#cr-place:not([hidden])),
