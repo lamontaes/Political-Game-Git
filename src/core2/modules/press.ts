@@ -32,7 +32,7 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
-import { countedResidentsOf } from "../electorate";
+import { countedResidents, countedResidentsOf } from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
