@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
 // The title's rotation reaches the Lincoln Memorial at night, and the picture
-// fills the window (owner, Oct 8 ruling; LAW.md section 1). Each load of the
+// fills the window. Each load of the
 // page is one visit to the title, so the check loads it until the rotation
 // comes round. BENCH_PORT names the server; BENCH_SHOT, a screenshot folder.
 const port = process.env.BENCH_PORT ?? "3000";

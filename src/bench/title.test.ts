@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { TITLE_SCENES, titleScene } from "./title";
 
-// The owner's title ruling (Oct 8, 2026) names the Lincoln Memorial at night
-// among the title's national scenes; its painting is an imported backdrop.
+// The Lincoln Memorial at night belongs among the title's national scenes;
+// its painting is an imported backdrop.
 describe("the title's rotation", () => {
   it("includes the Lincoln Memorial and shows its night painting", () => {
     expect(TITLE_SCENES).toContain("lincoln-memorial");
