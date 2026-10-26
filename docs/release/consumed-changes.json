@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.32.6",
+      "releasedOn": "2026-10-26",
+      "revision": "9090e25d2ce8f6a6bf3ef1dbae4f97dcb03941b6",
+      "changeIds": [
+        "tests-scandal-term-timeout",
+        "words-scene-narration-says-news-twice"
+      ]
+    },
+    {
       "version": "0.32.5",
       "releasedOn": "2026-10-26",
       "revision": "1646215d362e2b78aa3e9b81a4ff943e8460e820",
