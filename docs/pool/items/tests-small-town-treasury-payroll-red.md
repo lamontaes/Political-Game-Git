@@ -23,4 +23,6 @@ claimed-at:
 
 **Notes.** Found Oct 24 by the speed lead while checking the work helper's report (the helper saw Brookford fail on an older main; checked again on f8e3b721e9, both cases fail). Not caused by the speed branches: the run is on clean main.
 
+Oct 25, 2026 (claude/small-town-treasury-payroll): bisected to e795efed7a (merge of lamontaes/Political-Game-Git#5613, core-commuter-job-fill-in), which shifted who the town finds to hire. The root is older: an aide's pay was not capped by its budget line, so Brookford's six aides drew about 30 million cents a year on an administration line with 662 cents of wage room. Aides are now capped as department heads are; Nua passes on main already.
+
 Sent back 2026-10-25 from PR #5998 (branch claude/small-town-treasury-payroll): staff.test.ts zero-cap branch loops over possibly empty serving staff then continues past dismissal/replacement and payroll checks, using the first town government cap rather than the official employer; require positive named no-room evidence plus a funded/payroll case while preserving treasury bounds; finish on that branch, merge main into it first.
