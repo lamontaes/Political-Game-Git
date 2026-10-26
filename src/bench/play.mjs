@@ -2893,11 +2893,13 @@ const sheets = {
             textContent: `${c.name}${c.party ? ` (${c.party})` : ""} · ${number(c.votes)}`,
           }),
         ),
+        // One total for the race: every ballot cast in it, the town's and
+        // the rest of the electorate's.
         el(
           "div",
           {},
-          el("b", { textContent: `${labels.turnout} ` }),
-          `${number(race.namedTurnout)} / ${number(race.namedEligible)}`,
+          el("b", { textContent: `${labels.cast} ` }),
+          number(race.electorate),
         ),
         el(
           "div",
@@ -2914,7 +2916,7 @@ const sheets = {
               el("b", { textContent: `${labels.wonIn} ` }),
               race.places
                 .slice(0, 6)
-                .map((p) => `${p.name} ${p.leader ?? ""} · ${number(p.cast)}`)
+                .map((p) => `${p.name} ${p.leader ?? ""}`)
                 .join(" · "),
             )
           : "",
