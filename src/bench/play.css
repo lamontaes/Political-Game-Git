@@ -2211,6 +2211,7 @@ body.dev .dev-ring {
   margin: 12px 0 22px;
 }
 .government-body h3,
+.key-people h3,
 .party-section h3,
 .budget-content h3,
 .law-card h3 {
@@ -2224,6 +2225,9 @@ body.dev .dev-ring {
 }
 .government-body {
   max-width: 1000px;
+}
+.key-people {
+  break-inside: avoid;
 }
 .government-chamber {
   float: left;

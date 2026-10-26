@@ -11,6 +11,7 @@ import {
   townSeats,
 } from "../core2/modules/offices";
 import { choosesPresident } from "../core2/electorate-places";
+import { federalOffices } from "../core2/offices-state";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { lawChain } from "../core2/modules/laws";
 import {
@@ -233,13 +234,22 @@ function politicsKeyPeople(core: CoreState, personId: string) {
     )
     .map(({ row }) => {
       const own = row.reasons.some((reason) => reason.startsWith("own-"));
-      const office = offices.get(row.officeId) as unknown as
-        { governmentName?: string } | undefined;
+      // A member of Congress sits in their own state's seat, which this
+      // world may not have loaded (a territory's world has no Senate seat at
+      // all): the office is read from that state's federal offices, without
+      // seating them, so a read-only screen makes no record.
+      const office = (offices.get(row.officeId) ??
+        (row.stateKey
+          ? federalOffices(row.stateKey, "", core.date)
+              .map((entry) => entry.office)
+              .find((o) => o.kind === row.officeKind)
+          : undefined)) as unknown as
+        { governmentName?: string; title?: string } | undefined;
       return {
         personId: row.id,
         resident: core.people.has(row.id),
         name: row.name,
-        officeTitle: row.officeTitle,
+        officeTitle: row.officeTitle || (office?.title ?? ""),
         stateKey: row.stateKey,
         own,
         post: row.leads?.post ?? null,

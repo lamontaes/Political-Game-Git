@@ -3931,14 +3931,20 @@ const sheets = {
     };
     const own = v.keyPeople.filter((k) => k.own);
     const leaders = v.keyPeople.filter((k) => !k.own);
+    // Each group stays in one column with its heading.
     const keyPeople = [
-      ...(own.length
-        ? [el("h3", { textContent: labels.yourMembers }), ...own.map(keyLine)]
-        : []),
-      ...(leaders.length
-        ? [el("h3", { textContent: labels.leaders }), ...leaders.map(keyLine)]
-        : []),
-    ];
+      [labels.yourMembers, own],
+      [labels.leaders, leaders],
+    ]
+      .filter(([, rows]) => rows.length)
+      .map(([title, rows]) =>
+        el(
+          "section",
+          { className: "key-people" },
+          el("h3", { textContent: title }),
+          ...rows.map(keyLine),
+        ),
+      );
     // The party the player belongs to, with the tie's record and how their
     // views fit it; the parties they could join otherwise. Never joined: files
     // unaffiliated.
