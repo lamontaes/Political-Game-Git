@@ -52,6 +52,14 @@ export interface WebLink {
   readonly group: string;
   /** Names what carries this effect through an engine's records; the link then does not run. */
   readonly carriedBy?: string;
+  /**
+   * Why the engine that reads this link's outcome cannot apply it: the effect
+   * arrives by a path that engine does not keep (a Medicaid plan, where the
+   * coverage review gives only employer plans). The web still keeps the
+   * effect on the outcome, its readers skip the link, and the matrix names
+   * this as the gap.
+   */
+  readonly readerGap?: string;
   readonly evidence: string;
   readonly source: string;
   readonly moderator?: {

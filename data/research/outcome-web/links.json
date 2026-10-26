@@ -931,7 +931,8 @@
         "months": 6,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
-      "aboutZero": false
+      "aboutZero": false,
+      "readerGap": "the coverage review gives employer plans and Medicare only (src/core2/modules/coverage.ts holdersToday and plansToday), so a work requirement would wrongly end employer plans held by people at work; no engine keeps a Medicaid plan for the requirement to end (gov-medicaid-coverage-reader)"
     },
     {
       "key": "work-requirement-to-employment",
@@ -2837,7 +2838,8 @@
         "months": 0,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
-      "aboutZero": false
+      "aboutZero": false,
+      "readerGap": "the coverage review gives employer plans and Medicare only (src/core2/modules/coverage.ts holdersToday and plansToday), so a Medicaid expansion would wrongly add employer plans; no engine gives an eligible adult a Medicaid plan from the law-reach engine's eligibility records (gov-medicaid-coverage-reader)"
     },
     {
       "key": "medicaid-expansion-to-mortality",

@@ -243,7 +243,10 @@ function reachPoint(
       evidence: `carried by an engine, not the web: ${link.carriedBy}`,
     };
   const engine = engineReaders(link.to);
-  if (engine.length) return { status: "pass", evidence: where(engine) };
+  // An engine that reads the outcome but keeps no path for this link's
+  // effect (`readerGap`) skips it, so it does not carry the link.
+  if (engine.length && !link.readerGap)
+    return { status: "pass", evidence: where(engine) };
   // A kept outcome no engine reads still reaches people when a running link
   // starts from it and that link reaches: the web carries it on the next month.
   if (keptOutcome(link.to))
@@ -273,6 +276,12 @@ function reachPoint(
       status: "fail",
       evidence: "-",
       why: `no measure: the web does not keep ${link.to} and no engine produces it`,
+    };
+  if (link.readerGap)
+    return {
+      status: "fail",
+      evidence: where(engine),
+      why: `the engine that reads ${link.to} cannot apply it: ${link.readerGap}`,
     };
   const knowing = knowingReaders(link.to);
   return {

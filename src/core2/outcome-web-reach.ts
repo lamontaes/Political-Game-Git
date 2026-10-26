@@ -138,7 +138,8 @@ const NONE: WebReach = { factor: 1, added: 0, recordId: null, parts: [] };
  * The web's factor on an outcome for one subject in a place this month: the
  * product of each running link's effect, scaled by how hard it lands on the
  * subject (for a level outcome, its base plus the scaled additions, over its
- * base). Without a subject, the place's average.
+ * base). Without a subject, the place's average. A link whose effect comes
+ * by a path the reading engine does not keep (`readerGap`) is left out.
  */
 export function webReach(
   api: CoreAPI,
@@ -155,6 +156,7 @@ export function webReach(
     added = 0;
   const parts: WebPart[] = [];
   for (const link of links) {
+    if (link.readerGap) continue;
     const effect = row.effects[link.key];
     if (effect === undefined || effect === 0) continue;
     const weight = subjectWeight(link.key, subject);
