@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T18:37:27.225Z
 
 **Rules.** One rule, all 56 places: every state's own minimum wage statute is a state-level law row read the same way in every place, including states whose rate sits below the federal one.
 
-**Done when.** GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY above make npx vitest run src/core2/laws.test.ts pass, with the cause named by line in the PR, and the test passes in three more drawn Georgia places and two other states with a rate below the federal one, named with seeds.
+**Done when.** GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY above make npx vitest run src/core2/laws.test.ts pass, with the cause named by line in the PR, and the test passes in three more drawn Georgia places and two other states with a rate below the federal one, named with seeds. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/modules/laws.ts, data/laws/
 

@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Filed Oct 24 by the speed lead from the work helper's profile of core-speed-work-payroll-in-play. The laws lead's taxes family changes budgets.ts; take this after those PRs land or build on their branch.
 
 Measured Oct 25 (speed lead), not built: in a profiled pair of Long Hill's year on main 01f5cd4715 with the ready speed branches, `withhold` takes 1.54 s and `payEmployerShare` 1.02 s. They no longer build a planning session per call (that went with #5925). What is left is mostly the cash journal posting itself (`postJournal` 0.65 and 0.30 s), then the law in force read per paycheck (`lawInForce` 0.41 and 0.18 s) and the record's citation built per paycheck. Halving them needs the journal posting design (`core-speed-cash-journal-posting`); the rest is about 0.6 s of a 120 s year. Recommend dropping this item or folding it into that one.
+
+Dropped by the Oct 25 audit: the speed lead recommended folding it into core-speed-cash-journal-posting; what is left is about 0.6 s of a year.

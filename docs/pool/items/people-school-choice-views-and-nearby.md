@@ -5,7 +5,7 @@ area: people
 kind: owner-decision
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #5483
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Part 3 of 3 split from core-stopgap-opening-private-tuition-aggregate-spending (Oct 20).
 
 Sent back 2026-10-20 from PR #5483 (branch claude/school-choice-question): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Duplicate of core-private-tuition-beliefs-and-schools (Oct 25 audit). The owner ruled on Oct 20 (OWNER-DECISIONS.md, private school), so the question is answered; PR #5483 can be closed.

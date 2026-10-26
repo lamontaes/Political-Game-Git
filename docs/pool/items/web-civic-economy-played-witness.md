@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Generated-world proof through existing producers only; places drawn from all 56 with bounded redraws that fail when exhausted; bookkeeping on only for election days; the scandal witness stays with web-civic-scandal-played-witness and the family stays with web-reach-civic.
 
-**Done when.** src/core2/outcome-web-civic-played.test.ts, in a drawn place and seed named in the PR body, asserts that each moved candidate's ballot standing equals the result's standing (with local standing for town voters) and differs from it with the economy term removed, and that every kept ballot's scandal term is negative exactly where its voter had heard a story by the race's day and zero elsewhere.
+**Done when.** src/core2/outcome-web-civic-played.test.ts, in a drawn place and seed named in the PR body, asserts that each moved candidate's ballot standing equals the result's standing (with local standing for town voters) and differs from it with the economy term removed, and that every kept ballot's scandal term is negative exactly where its voter had heard a story by the race's day and zero elsewhere. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/outcome-web-civic-played.test.ts
 

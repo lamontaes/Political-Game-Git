@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T03:08:03.624Z
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower than its base. Never scan the whole world or a whole history every day; use indexes or act on the day something changed. Replace, never layer: the per-market rebuild is removed, not kept beside a cache.
 
-**Done when.** In the played world (buildBenchWorld), a CPU profile of npm run speed:year -- --seed m7b --exclusive before and after shows foundings below 2 percent of the year, and the business tests, including a founding in a drawn place, pass unchanged.
+**Done when.** In the played world (buildBenchWorld), a CPU profile of npm run speed:year -- --seed m7b --exclusive before and after shows foundings below 2 percent of the year, and the business tests, including a founding in a drawn place, pass unchanged. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/modules/business.ts
 

@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record. The chain is the acceptance: each law is followed to a named payer, payee and journal id with its control-world amount. A registered stopgap never counts.
 
-**Done when.** In a played year (`buildBenchWorld`, every module installed) in the two audit places (Prescott, Michigan seed a91c03e7d2b84f10 and Uehling, Nebraska seed 5e27b0c4196fd3a8), with third places drawn where a law stands at the opening, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade each of the eleven laws above wired on all nine links or declared not applicable in `docs/reports/law-wiring-matrix.json`, and the family test names, for each of them, its `lawApplied` record id, the journal entry of its money and the person, household or organization reached.
+**Done when.** In a played year (`buildBenchWorld`, every module installed) in the two audit places (Prescott, Michigan seed a91c03e7d2b84f10 and Uehling, Nebraska seed 5e27b0c4196fd3a8), with third places drawn where a law stands at the opening, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade each of the eleven laws above wired on all nine links or declared not applicable in `docs/reports/law-wiring-matrix.json`, and the family test names, for each of them, its `lawApplied` record id, the journal entry of its money and the person, household or organization reached. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** scripts/law-wiring/check.ts, scripts/law-wiring/matrix.ts, src/core2/law-wiring-taxes.test.ts
 
