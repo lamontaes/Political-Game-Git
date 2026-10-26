@@ -2134,17 +2134,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": 0.35,
-      "per": "workers bear 30-35% of the tax",
+      "size": -0.039,
+      "per": "percentage point of the state's top corporate income tax rate, in dollars of average hourly earnings of private employees",
       "lagMonths": 0,
       "group": "workers",
       "owner": "B",
-      "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%",
-      "source": "Suarez Serrato and Zidar 2016 (AER)",
+      "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%: workers bear about a third of the tax, which a point of the state rate spreads over the hours private employees work",
+      "source": "Suarez Serrato and Zidar 2016 (AER 106(9)), NBER w20289, abstract; state corporation net income tax collections, U.S. Census Bureau via FRED USCORPINCTX; private employment and hours, BLS CES via FRED USPRIV and AWHAETP",
       "from": "tax.state-corporate-rate",
       "evidence": "researched",
-      "range": [0, 0.7],
-      "notes": "Sized, with its cause recorded and its outcome missing: each place's top corporate income tax rate is now a place outcome (Tax Foundation, 2026), but wages by this key are not a kept place outcome (median earnings is a different measure), so the link moves nothing until one is produced. Varied by sex and age from Fuest, Peichl and Siegloch 2018 Table 5 (German local business tax; the US incidence size above is Suarez Serrato and Zidar). Skill is not a subject, so the finding that high-skilled workers bear none is not applied.",
+      "range": [-0.045, -0.031],
+      "notes": "Re-sized Oct 24, 2026 so the link can run on the law. The earlier size, +0.35, was the workers' share of the tax read as dollars an hour per point: forty times too large, and positive, which would have raised pay when the tax rose. The cause is now read from the state corporate rate in force (the laws module's row, src/core2/modules/outcome-web.ts reader state-corporate-rate), against the rate at the web's opening; the jobs engine reads the labor.wages factor when it sets new pay (src/core2/modules/jobs.ts payLevel). The estimate assumes collections scale with the statutory top rate; a real base shifts with apportionment and credits (ESTIMATED). Varied by sex and age from Fuest, Peichl and Siegloch 2018 Table 5 (German local business tax; the US incidence share above is Suarez Serrato and Zidar). Skill is not a subject, so the finding that high-skilled workers bear none is not applied.",
       "varies": [
         {
           "by": "sex",
@@ -2190,7 +2190,9 @@
           "quote": "Age: Young -0.516, Medium -0.420, Old -0.419 (all workers). \"we do not find strong evidence for different effects by age\"",
           "estimatedFrom": "The paper does not give its age cutoffs; they are set here at under 30, 30 to 49 and 50 and over. Shares are the 2025 CPS employed by age with the 25-34 and 45-54 bands split evenly. The paper also finds no negative wage effect for high-skilled workers (-0.011 against -0.431 medium and -0.454 low), which is not applied because a worker's skill is not a subject the engines carry."
         }
-      ]
+      ],
+      "rangeSource": "Derived Oct 24, 2026 from fetched figures. Workers' share of the incidence: the 2016 paper's text, \"the estimated share of the burden for workers is only 28%\", and its abstract, \"workers and landowners bear 30-35% and 25-30%\"; the authors' 2023 update (\"Further Results\", AEA Papers and Proceedings) finds \"firm owners bear roughly half of the incidence\" with workers and landowners at \"25-40 percent\". So 0.28 to 0.40 with 0.35 central. Tax per point: 2023 state corporation net income tax collections of $153,665,988 thousand (Census via FRED USCORPINCTX) over the 5.8-point mean top rate of the 56 places (place-outcome-bases-2024.json) is about $26.5 billion a point. Hours: 133,766 thousand private employees (FRED USPRIV, December 2023) times 34.4 weekly hours (FRED AWHAETP) times 52 weeks is about 239.3 billion hours a year. So a point costs workers 0.35 x $26.5 billion / 239.3 billion hours = $0.039 an hour (a 0.28 share gives $0.031 and 0.40 gives $0.044; the range is rounded out to $0.045). The sign is negative: a higher rate lowers pay.",
+      "readFrom": "tax.state-corporate-rate-in-force"
     },
     {
       "key": "incentive-deal-to-industry-jobs",
@@ -2549,9 +2551,9 @@
       "who": "Parents of eligible enrolled young children whose care constraint changes; the cited maternal estimate is not all women or every household.",
       "lagWhy": "The existing12-month lag represents enrollment and labor response. Verify the D.C./Quebec study time window and whether the effect is percentage points or a relative participation change.",
       "aboutZero": false,
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Baker, Gruber and Milligan (NBER w11832) estimate one labor supply elasticity (0.236) for mothers in two-parent families (their sample) and report no split by income, age or household kind.",
       "range": [0.1125, 0.1875],
-      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Malik 2018 gives about 10 points on a base near 65% (D.C. mothers 65% in 2008, 76.4% in 2016); Baker, Gruber and Milligan report no interval retrieved here.",
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Baker, Gruber and Milligan (NBER w11832) estimate one labor supply elasticity (0.236) for mothers in two-parent families (their sample) and report no split by income, age or household kind."
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Malik 2018 gives about 10 points on a base near 65% (D.C. mothers 65% in 2008, 76.4% in 2016); Baker, Gruber and Milligan report no interval retrieved here."
     },
     {
       "key": "voter-id-to-turnout",
@@ -5711,9 +5713,9 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": true,
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried.",
       "range": [0, 0],
-      "rangeSource": "Jia, Jin and Wagman 2021; Janssen et al. 2022 (NBER w30028): the cost falls on a small share of workers, too few to move median earnings. No interval was retrieved; range [0, 0] records the null.",
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried."
+      "rangeSource": "Jia, Jin and Wagman 2021; Janssen et al. 2022 (NBER w30028): the cost falls on a small share of workers, too few to move median earnings. No interval was retrieved; range [0, 0] records the null."
     },
     {
       "key": "library-materials-to-reading",
@@ -6020,6 +6022,29 @@
       "anchor": "Across the 50 states and D.C., each doubling of state and local parks spending per resident goes with 0.9 points more of residents near a park or recreation facility, with a 95% range of -1.6 to +3.3 points, once the rural share is held fixed: about zero, a cross-section fit and not a causal estimate (Research 1, from County Health Rankings 2025 and Census 2022 finances). A one percent rise in spending is 0.0144 of a doubling, 0.0129 points, 0.0157% of the median 82.25%, so the size is 0.000157 for each percent, and the range -0.000279 to +0.000575. A dedication adds about $9.26 a resident to a place that spends about $136, 6.8%, so access moves about 0.1% either way. The lag is the year a parks agency needs to spend new money on sites and hours, judged, not measured.",
       "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)",
       "range": [-0.000279, 0.000575]
+    },
+    {
+      "key": "income-tax-rate-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:income-tax",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the income tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "The official poverty measure counts money income before taxes, so an income tax rate cannot move it",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html)",
+      "range": [0, 0],
+      "rangeSource": "Census official poverty definition (fetched Oct 24, 2026): \"The official poverty definition uses money income before taxes and does not include capital gains or noncash benefits.\" A tax rate has no path to the official poverty rate by definition, so the range [0, 0] is the definitional zero, not a sampled interval.",
+      "notes": "Carried by definition: the poverty measure counts income before taxes. What a higher rate does to a household's take-home pay is paid by the withholding engine on each payday (src/core2/modules/budgets.ts, src/core2/counted-money.ts), by named worker and counted group, not by the web.",
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
     },
     {
       "key": "social-security-tax-to-unemployment",
