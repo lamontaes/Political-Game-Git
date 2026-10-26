@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/floor-ended-job
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T00:10:10.554Z
 ---
 
 **What.** src/core2/enact-law-ids.test.ts fails on clean main with GOLDEN_PATH_SEED a1, b2 and c3 (each measured on main b17446f596 and again with this session's branch): 'Error: The job has ended.' thrown by rerateJob, from raiseOne in src/core2/wage-floor.ts:159, called by raiseToFloor (wage-floor.ts:34) when a minimum-wage law takes effect through runModuleCalendar. The floor walks a job list that includes a job ended earlier the same day or before, then asks the core to re-rate it.
