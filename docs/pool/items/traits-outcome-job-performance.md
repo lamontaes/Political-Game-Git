@@ -17,10 +17,12 @@ claimed-at:
 
 **Rules.** No dice: whom an employer keeps follows tenure and the worker's recorded temperament, never a roll. One model, two tiers: counted workers are valued by the same rule as full ones. Research before building: the weight cites its study.
 
-**Done when.** In one year of buildBenchWorld in two places drawn from all 56, seeds named, scripts/traits/trait-wiring-matrix.ts shows the new decision running with its calibrated weight, a layoff job-change record id where the worker let go leaned least toward keeping, and data/content/trait-outcomes.json grades outcome.job-performance as read with that record and the engine line.
+**Done when.** In one year of buildBenchWorld in two places drawn from all 56, seeds named, scripts/traits/trait-wiring-matrix.ts shows the new decision running with its calibrated weight, a layoff job-change record id where the worker let go leaned least toward keeping, and data/content/trait-outcomes.json grades outcome.job-performance as read with that record and the engine line. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, data/content/trait-decisions.json, data/content/trait-outcomes.json, src/core2/data/jobs/parameters.json
 
 **Notes.** Split Oct 24 by the traits lead from traits-outcomes-unread.
 
 Sent back 2026-10-24 from PR #5901 (branch claude/traits-outcome-job-performance): its explicit merge-order prerequisite #5587 remains open and unmerged, so the carried money-family stack cannot be accepted through this later PR; finish on that branch, merge main into it first after #5587 merges. No source failure or completed local gate is claimed.
+
+Sent back 2026-10-26 from PR #5901 (branch claude/traits-outcome-job-performance): parent #5587 is merged and old dependency hold resolved, but current normal main integration conflicts in production src/core2/modules/jobs.ts; merge aborted without code resolution; preserve both current jobs/money behavior and performance reader, then finish on that branch and merge main first; no completed gate claimed.

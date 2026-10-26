@@ -185,7 +185,15 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
   });
 
   it("has most incumbents run again, as about 81% really do", () => {
-    const sample = adults.slice(0, 200);
+    // Every adult in town, each as the seat's incumbent. Measured samples
+    // include 1,200 adults in Suissevale and 903 in Santa Ana; minimumPeople
+    // counts people, not adults. At those sample sizes, one standard error
+    // of the share is about a point. The band below is the spread between
+    // towns, not between draws. The first
+    // 200 records alone came in households, a few dozen of them, and an old
+    // town's first households ran again at 0.955 (Suissevale, New Hampshire)
+    // against 0.918 for the whole town.
+    const sample = adults;
     const again = sample.filter(
       (row) =>
         decideToRun(api, row.id, {
