@@ -395,7 +395,7 @@
       "link": "medicaid-expansion-to-medical-debt",
       "outcome": "finance.medical-debt-in-collections",
       "reason": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-finance-medical-debt-in-collections"
+      "stopgapId": "SG-EW-HEALTH-medical-debt-reader"
     },
     {
       "link": "mandatory-minimums-to-incarceration",

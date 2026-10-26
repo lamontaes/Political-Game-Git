@@ -5,15 +5,15 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/web-unwired-fire-link-row
-pr:
+pr: #6141
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T04:51:45.085Z
 ---
 
-**What.** The laws lead's justice family added the outcome link fire-spending-to-fire-deaths to data/research/outcome-web/links.json without rerunning the outcome web's writers. The link does not reach anyone (no engine keeps fire.civilian-casualties) and has a reason, but src/core2/data/outcome-web/unwired.json has no row for it and src/core2/data/stopgaps.json no SG-WEB-unread-fire-civilian-casualties row, so src/core2/outcome-web-unwired.test.ts fails on main and the effect matrix counts one link not reaching with no stopgap.
+**What.** The laws lead's justice family added the outcome link fire-spending-to-fire-deaths to data/research/outcome-web/links.json without rerunning the outcome web's writers. The link does not reach anyone, since no engine keeps fire.civilian-casualties, and it has a reason. But src/core2/data/outcome-web/unwired.json has no row for it and src/core2/data/stopgaps.json no SG-WEB-unread-fire-civilian-casualties row, so src/core2/outcome-web-unwired.test.ts fails on main and the effect matrix counts one link not reaching with no stopgap.
 
 **Rules.** An effect is a read, not a record: a link that reaches no one keeps a specific stopgap row. Never delete stopgap rows. Regenerate with the repository writers, never by hand.
 
