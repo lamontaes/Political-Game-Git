@@ -443,10 +443,16 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
           ).toBe(true);
         }
         // The police line's funded officers moved, and the arrests followed.
-        if (!(raised.officersRow.officersPer1000 > opening.officersPer1000)) {
-          tried.push(`${where}: the raised line did not raise the officers`);
-          continue;
-        }
+        // The town was chosen on its opening police line alone, so a reader
+        // that drops the raise or the cut fails here, in this town.
+        expect(
+          raised.officersRow.officersPer1000,
+          `${where}: officers after the raise (${raised.officersRow.id})`,
+        ).toBeGreaterThan(opening.officersPer1000);
+        expect(
+          cut.officersRow.officersPer1000,
+          `${where}: officers after the cut (${cut.officersRow.id})`,
+        ).toBeLessThan(opening.officersPer1000);
         expect(raised.month.lowLevelRatePer1000, where).toBeGreaterThan(
           began.month.lowLevelRatePer1000,
         );
