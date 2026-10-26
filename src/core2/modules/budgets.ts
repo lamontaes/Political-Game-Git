@@ -1018,7 +1018,6 @@ export function budgetPriorities(
   );
 }
 
-/** The spending changes every budget bill a government enacted has made, by line. */
 /** The measure that last carried a change into a government's spending line (an ordinance or act that amended it), if one did. */
 export function carriedMeasureOf(
   api: CoreAPI,
@@ -1033,6 +1032,7 @@ export function carriedMeasureOf(
   );
 }
 
+/** The spending changes every budget bill a government enacted has made, by line. */
 export function enactedBudgetChanges(
   api: CoreAPI,
   governmentId: string,
