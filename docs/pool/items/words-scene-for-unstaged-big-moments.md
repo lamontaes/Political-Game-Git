@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/unstaged-big-moments
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T02:29:51.323Z
 ---
 
 **What.** Once #6126 (play-stop-26) lands, a moment stops the player's day only when a situation stages a scene for it. Big moments that no situation type stages then reach only the journal. #6126's two-year probe in Murraysville, North Carolina (seed stops-a) names two on main, on September 10 and October 27, 2026: a heard speech that moved the player's views, and a candidate's speech at a county board debate, whose scene was bound to nothing. The player never meets the person behind either moment.
