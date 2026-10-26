@@ -100,8 +100,8 @@ const HELD_MONTHS =
   ) + 3;
 const MODERATED_MONTHS = 3;
 const DAYS_PER_MONTH = 30;
-// Days a line's raise has to reach someone and move money, inside its fiscal year.
-const LINE_WINDOW_DAYS = 62;
+// Days after the opening within which the lines are read; the lowest government's fiscal year must not turn over before.
+const LINE_READ_DAYS = 120;
 
 interface Taken {
   readonly key: string;
@@ -174,9 +174,12 @@ function lineBudget(api: CoreAPI) {
   return gov && budget ? { gov, budget } : null;
 }
 
+/** A council's raise of a line: a twentieth of it (at least $100,000). A fifth, as the checker raises a line, leaves a large city's treasury, whose revenue only meets its spending, with nothing but its payroll to pay. */
+const LINE_RAISE = 0.05;
+
 /**
  * A council's budget bill, as the checker makes one: the line of the town's
- * lowest government that carries it goes up by a fifth (at least $100,000),
+ * lowest government that carries it goes up by LINE_RAISE (at least $100,000),
  * and the change carries into later years. The town has such a budget (the
  * opening records said so before play); a town without one never plays.
  */
@@ -188,7 +191,7 @@ function raiseLine(api: CoreAPI, line: string, tag: string): string {
   amendBudget(api, {
     governmentId: held.gov.id,
     line,
-    deltaMinor: Math.max(100_000_00, Math.round(base * 0.2)),
+    deltaMinor: Math.max(100_000_00, Math.round(base * LINE_RAISE)),
     measureId,
     carry: true,
   });
@@ -296,7 +299,18 @@ function lacking(core: CoreState): string | null {
     return "no state or federal government";
   if (!lawInForce(api, "snap-maximum").governing?.value)
     return "no SNAP law in force";
-  if (!lineBudget(api)) return "no government with a budget to carry the lines";
+  const lowest = lineBudget(api);
+  if (!lowest) return "no government with a budget to carry the lines";
+  // A line's raise is the service's base from the next fiscal year on, so the
+  // lines are raised only where the year does not turn over before they are read.
+  const opened = makeIsoDate(api.state.date);
+  if (
+    fiscalYearOf(
+      addDays(opened, LINE_READ_DAYS),
+      lowest.gov.fiscalYearStart,
+    ) !== fiscalYearOf(opened, lowest.gov.fiscalYearStart)
+  )
+    return `the lowest government's fiscal year turns over within ${LINE_READ_DAYS} days of the opening`;
   if (!hasTuition(core, chain.townPlaceId))
     return "no private-school tuition contract";
   // The teacher minimum has something to raise only where it is not law yet
@@ -380,6 +394,12 @@ function play(where: string, seed: string, core: CoreState): void {
   // journal.
   const taken = () => rowsOf<Taken>(api, "taken");
   for (const q of QUESTIONS) if (q !== MEDICAID_WORK) enact(api, q, "on");
+  // A council raises each of the four lines the day the laws are enacted, the
+  // way the checker raises a line the day after the opening, so the first
+  // monthly close pays it (a treasury pays what it holds, and a raised payroll
+  // can leave a large city's nothing to pay the lines with a few months on).
+  const raisedOn = api.state.date;
+  for (const line of LINES) raiseLine(api, line, `raise-${line}`);
   advance(core, ENACTED_DAYS - WORK_REQUIREMENT_DAYS);
   // Whatever day of the month a close falls on, the requirement comes after
   // every coverage payment then open has paid something (a treasury pays
@@ -726,56 +746,33 @@ function play(where: string, seed: string, core: CoreState): void {
     teacherPay ? (teacherPay.split(" ")[0] ?? null) : null,
   );
 
-  // A line's raise reaches people for the fiscal year it is passed in: the
-  // next year's budget starts from it and the service is measured against that
-  // base, so what a line served is read before the lowest government's year
-  // turns over. The lines are raised with at least two months of the year
-  // left, and read as soon as each has reached a person and moved money.
-  const yearStart = lineBudget(api)!.gov.fiscalYearStart;
-  const yearOf = (day: string) => fiscalYearOf(day, yearStart);
-  while (
-    yearOf(addDays(makeIsoDate(api.state.date), LINE_WINDOW_DAYS)) !==
-    yearOf(api.state.date)
-  )
-    advance(core, 1);
-
-  // A council raises each of the four lines, and Congress raises the SNAP
-  // maximum, so each law's cause differs from its baseline.
-  const raisedOn = api.state.date;
-  for (const line of LINES) raiseLine(api, line, `raise-${line}`);
+  // Congress raises the SNAP maximum, so that law's cause differs from its
+  // baseline too.
   raiseSnapMaximum(api, "snap-raise");
 
   // Each line reached people and moved money: the reach record that names a
-  // person it served, and the journal entry of a payment out of the line.
-  const lineReach = (line: string) =>
-    rowsOf<PersonReach>(api, "people").find(
-      (r) => r.key === `budget-line:${line}` && !r.endedOn,
-    );
-  const lineMoney = (line: string) =>
-    moneyTo(
-      "benefit|budget-line:welfareAndMedicaid",
-      () => line === "welfareAndMedicaid",
-    ) ??
-    posts
-      .find(
-        (p) =>
-          p.date > raisedOn &&
-          p.gross > 0 &&
-          p.id.includes(`budget-line:${line}`),
-      )
-      ?.id.split(" ")[0] ??
-    null;
-  for (
-    let day = 0;
-    day < LINE_WINDOW_DAYS &&
-    !LINES.every((line) => lineReach(line) && lineMoney(line));
-    day += 1
-  )
-    advance(core, 1);
+  // person it served (it ends when the fiscal year turns over, which is why
+  // the town's year was judged before play, so the record stands), and the
+  // journal entry of a payment out of the line.
   for (const line of LINES) {
-    const reach = lineReach(line);
+    const reach = rowsOf<PersonReach>(api, "people").find(
+      (r) => r.key === `budget-line:${line}` && r.since >= raisedOn,
+    );
     expect(reach, say(`${line}: no person reached`)).toBeDefined();
-    const money = lineMoney(line);
+    const money =
+      moneyTo(
+        "benefit|budget-line:welfareAndMedicaid",
+        () => line === "welfareAndMedicaid",
+      ) ??
+      posts
+        .find(
+          (p) =>
+            p.date > raisedOn &&
+            p.gross > 0 &&
+            p.id.includes(`budget-line:${line}`),
+        )
+        ?.id.split(" ")[0] ??
+      null;
     expect(money, say(`${line}: no journal entry of its money`)).not.toBeNull();
     chain[`budget-line:${line}`] = {
       applied: reach!.id,
