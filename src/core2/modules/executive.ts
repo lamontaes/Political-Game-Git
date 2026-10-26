@@ -890,14 +890,18 @@ export function appointStatePost(
     seatKey: `cabinet:${state}:${spec.key}`,
     appointerSide: leanOf(api, input.executiveId),
     weighing: appointerWeighing(api.state as CoreState, input.executiveId),
-    candidates: pool.map((person) => ({
-      id: person.id,
-      lean: personLean(api.state.people, person, 0),
-      qualification: qualification(api, person, spec.key, api.state.date),
-      known: (api.state as CoreState).relationships.has(
-        pairKey(input.executiveId, person.id),
-      ),
-    })),
+    candidates: pool.map((person) => {
+      const record = postRecord(api, person, spec.key, api.state.date);
+      return {
+        id: person.id,
+        lean: personLean(api.state.people, person, 0),
+        qualification: appointmentQualification(person, record),
+        qualificationRecords: record.recordIds,
+        known: (api.state as CoreState).relationships.has(
+          pairKey(input.executiveId, person.id),
+        ),
+      };
+    }),
     confirmingBody: confirmation
       ? {
           name: senate!.title,
