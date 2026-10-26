@@ -6614,14 +6614,14 @@
   },
   {
     "id": "SG-WORLD-credit-rate-cap-no-small-lender",
-    "kind": "owner-decision",
+    "kind": "missing-mechanic",
     "file": "src/core2/modules/credit.ts",
     "line": 1162,
     "whatItFakes": "The cap-consumer-loan-rates law applies only to the bank's consumer loan, which sits near 13 percent against a 36 percent ceiling and never reaches it in an ordinary rate year, so no borrower's rate changes and the law moves no dollar. The game has no lender the cap could bind.",
-    "why": "Whether the game should have a payday-style lender is the owner's call: should the game have a payday-style lender, so a rate cap has a loan to bind? Until it does, the law is read at every quote and records each household it governed (credit.ts), and its outcome-web link moves lender counts, but no loan is repriced.",
+    "why": "The owner ruled on Oct 24 that small-dollar lenders are simulated in the background: payday and small-dollar lenders exist where state law allows them, with rates and volumes from sourced data, read by the consumer-loan rate cap and by households that borrow (docs/coordination/OWNER-DECISIONS.md, Oct 24, \"Small-dollar lenders\"). Until world-small-dollar-lenders builds them, the law is read at every quote and records each household it governed (credit.ts), and its outcome-web link moves lender counts, but no loan is repriced.",
     "addedBy": "claude/laws-nine-links-housing-credit",
     "addedAt": "2026-10-24",
-    "replacement": "If the owner wants one: a small-dollar lender product (payday or installment) whose rate and fees the cap binds, offered where the place's law allows it, with the cap's ceiling read from the law in force.",
+    "replacement": "world-small-dollar-lenders: payday and small-dollar lenders where the place's law allows them, their rates and volumes from CFPB and state regulator data, whose rate and fees the cap binds, with the cap's ceiling read from the law in force.",
     "status": "open"
   },
   {
