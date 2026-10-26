@@ -33,7 +33,7 @@ try {
   });
   const drawn = await (await page.request.get(`${base}/api/seed`)).json();
   // SEED replays a drawn world (a reviewer's failing seed).
-  const seed = process.env.SEED ?? drawn.seed;
+  const seed = process.env.SEED || drawn.seed;
   const { date } = drawn;
   console.log("Seed:", seed, "date:", date);
   const made = await page.request.post(
@@ -128,7 +128,11 @@ try {
       await page.waitForTimeout(600);
       const covered = await page.evaluate(() => {
         const dock = document.getElementById("dock").getBoundingClientRect();
-        return [...document.querySelectorAll("#talk-choices button")]
+        return [
+          ...document.querySelectorAll(
+            "#talk-choices button, #talk-gap, #talk-silent, #talk-leave",
+          ),
+        ]
           .filter((button) => button.offsetParent)
           .map((button) => {
             const box = button.getBoundingClientRect();
@@ -161,6 +165,43 @@ try {
         });
     }
     await page.setViewportSize({ width: 1440, height: 900 });
+    await page.waitForTimeout(600);
+    // The keyboard walks every response with Tab, and Enter on the story's
+    // own reply answers it: no response is out of the keyboard's reach.
+    const controls =
+      "#talk-choices button:visible, #talk-gap:visible, #talk-silent:visible, #talk-leave:visible";
+    const replies = await page.locator(controls).allInnerTexts();
+    await page.locator(controls).first().focus();
+    const reached = [];
+    for (
+      let i = 0;
+      i < replies.length * 2 && reached.length < replies.length;
+      i++
+    ) {
+      const text = await page.evaluate(() =>
+        document.activeElement?.closest("#talk-choices, #talk .acts")
+          ? document.activeElement.innerText.trim()
+          : null,
+      );
+      if (text && !reached.includes(text)) reached.push(text);
+      await page.keyboard.press("Tab");
+    }
+    assert.deepEqual(
+      [...reached].sort(),
+      replies.map((text) => text.trim()).sort(),
+      "Tab reaches every reply",
+    );
+    const last = page.locator("#talk-choices button:visible").first();
+    const answered = (await last.innerText()).trim();
+    await last.focus();
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(800);
+    console.log(
+      "Keyboard reached:",
+      reached.join(" | "),
+      "; Enter answered:",
+      answered,
+    );
   }
   while (await page.locator("#continue").isVisible()) {
     await page.locator("#continue").click();
