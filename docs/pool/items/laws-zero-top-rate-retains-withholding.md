@@ -19,6 +19,8 @@ source: added with npm run pool -- add
 
 **Done when.** A regression checks zero with retained nonzero brackets beside a positive scaled rate, then a buildBenchWorld run in a drawn place with its seed and law row id changes an eligible income-tax rate to zero without deleting its schedule and proves a later named and counted paycheck collect no income tax for that jurisdiction while other levels still balance. The test must fail with the prior calculation; do not merely assert the old law id disappears from applied rows. **On screen.** None by design: this is a simulation correction; later paychecks reflect the rate in force.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/tax-withholding.ts, src/core2/tax-withholding.test.ts, src/core2/law-wiring-taxes.test.ts
 
 **Notes.** Merger 1, 2026-10-26: base and PR boundary outputs saved in merger1-state/5649-0458/zero-rate-edge.jsonl. Both collect 4,000 at value 0; PR correctly collects 4,400 at value 4.4 whereas base collects 4,000. Confirm the generated-world route before claiming player impact.
