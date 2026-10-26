@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/owner-hours-work-requirement
+pr: #6194
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T21:47:50.750Z
 ---
 
 **What.** The Medicaid work requirement ends coverage for expansion adults who work fewer than the required hours a month, and it reads each named person's hours from their work commitments only (`src/core2/law-reach/group-b-people.ts:156` and `:180`). An owner who runs their own business has no work commitment there, so the requirement reads them as working no hours and ends their coverage. In Montgomery, Michigan (2655220, world seed 5bc87ba8c575d498bfcfbac8353c3cae24df7a433ca9e816da727ccfaff83c9e), the health-schools family test's named example of coverage ended is the town newspaper's owner, `person:press:outlet:newspaper:0:jurisdiction_707bd06376948157:owner:0` (found by the laws lead, Oct 25). The assistance work requirement reads the same hours, so it likely has the same gap; check it in the same change.

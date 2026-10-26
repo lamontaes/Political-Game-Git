@@ -296,6 +296,46 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.37.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **A resident's journal says when they learn a law changed what they pay** When
+  someone hears a story about a law and ties it to a change in what they pay,
+  their journal now says so, naming the law by the bill that enacted it: "I
+  found out the Free Fares for Riders Act changed what I pay." Before, the
+  journal said nothing about it.
+
+### Fixed
+
+- **The morning after your race, the Journal, News and Government each tell you
+  whether you won.** The day after an election you ran in, your journal says
+  whether you won or lost. The news leads with your race, naming the office and
+  who you ran against. Politics opens on that seat with your result and each
+  side's votes.
+
+- **The journal names a bill with its article** An officeholder's journal now
+  reads "I voted for the Bottle Deposit Act." and "I introduced the Police
+  Oversight Board Repeal Ordinance." Before, it dropped the "the" ("I voted for
+  Bottle Deposit Act.").
+
+## PRE-ALPHA 0.36.5
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Every button on the play screen is built by one shared part** The play
+  screen's buttons, and the Back and Continue pair that pages a long list, now
+  come from one shared part instead of dozens of hand-written copies. They look
+  and work the same.
+
+- **Every window on the play screen closes with the same control** The close
+  button on the sheets, the person card and the news reader now comes from one
+  shared part instead of three hand-written copies. It looks and works the same.
+
 ## PRE-ALPHA 0.36.4
 
 _Released October 26, 2026._

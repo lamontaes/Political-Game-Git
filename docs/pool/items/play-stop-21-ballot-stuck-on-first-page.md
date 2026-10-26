@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
 pr: #6062
 blocked-on:
@@ -34,3 +34,4 @@ claimed-at:
 Oct 25, 17:40 UTC (CTO): branch play-first/play-stop-21-ballot-stuck-on-first-page had 7 probe pushes and no PR by 04:27Z; two more pushes landed 17:14Z and 17:18Z and draft PR #6062 opened at 17:24Z, so the claim stands. The agent on it leaves draft within the hour with the bench proof at 1440×900, place and seed named; the installed-build screenshot is the done-when.
 
 Sent back 2026-10-26 from PR #6062 (branch play-first/play-stop-21-ballot-stuck-on-first-page, head625dff661284252336bee6a9eedd28ae6138375a): polling.browser.mjs643–646 asserts only the pre-existing visit id, so it does not prove the actual filed contest/player mark was kept; assert successful response, exact contest/candidate and kept mark plus a no-mark negative. BENCH_SEED must reproduce the actual world as well as place. Main merged cleanly; no own runtime failure claimed. Owner-installed acceptance remains open under the Oct25 ruling; route eventual bench implementation separately. Finish on that branch, merge main into it first. Return6424530223.
+Merged Oct 26 in PR #6062; awaiting the owner's installed-build check
