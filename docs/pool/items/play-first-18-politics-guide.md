@@ -29,6 +29,6 @@ claimed-at:
 
 **Files.** src/bench/play.mjs, src/bench/government.ts, src/bench/data/controls.json
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Guide lines beyond the glossary are the Words lead's (`needs-from: words`). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Guide lines beyond the glossary are the Words lead's (`needs-from: words`). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): Politics > Campaigns before filing is blank and has no "how to run here".
 
 Sent back 2026-10-26 from PR #6099 (branch play-first/play-first-18-politics-guide): Current-main integration conflicts in src/bench/government.ts and src/bench/play.css, plus main-only PROGRESS.md; merge aborted, preserve current government/creator/card readers and rerun the guide record/browser checks after reconciliation; Words approval and owner screenshot policy are not blockers; finish on that branch, merge main into it first.

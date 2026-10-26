@@ -1,21 +1,25 @@
 # Merge first (CTO's list; mergers read this before their share)
 
-Current as of 2026-10-25, 23:55 UTC
+Current as of 2026-10-26, 21:00 UTC (CTO)
 
-Rulings of Oct 25 that hold for every line (OWNER-DECISIONS.md): **"OWNER SCREENSHOT NEEDED" is not a merge gate**; merge on the agent's before/after screenshots and your checks, the owner's installed-build check closes the item later. **A lane branch's `docs/play-first/PROGRESS.md` hunk is dropped, not resolved** (handoffs live on main only). Merger 3's lane (PR number mod 4 = 3) is uncovered since 18:14: Mergers 0/1/2/X take any mod-3 PR.
+Rules that hold for every line (`.agents/rules/smart-and-look-first.md`, owner Oct 26): you are not the session that wrote the PR, and that is all "adversarial" means. Run the changed-file checks on the merged result and try once to break the claim on another drawn place or seed. A PR whose **OWNER DECISIONS NEEDED** lacks the reading line, or whose new faked-mechanic or missing-mechanic stopgap has no code marker, goes back. Every send-back you write is SMART: the one defect, the check that shows it fixed, a time box. Rulings of Oct 25 still hold: "OWNER SCREENSHOT NEEDED" is not a merge gate; a lane branch's `docs/play-first/PROGRESS.md` hunk is dropped, not resolved; one head per recheck; a merger never leaves a PR because another merger sent it back earlier. Election day as a choice, discrimination yes, and Developer ID or licenses are never send-back reasons or open questions (`OWNER-DECISIONS.md`, Oct 26).
 
-Rules that hold for every line: a PR whose line 1 names a `play-stop-*` item keeps that item as its line-1 item even when the fix was re-lined to a new item; the play-stop is the gate, and its done-when (a screenshot on the installed build, or the bench at 1440×900 with place and seed named until a build exists) stands. A plain link to the PNG on the PR's branch satisfies the screenshot rule; open it (acting CTO, Oct 25). A lane PR with director or English edits carries `Review: words` and is never sent back for them. Held-to-shippable changes in data/english are the owner's Oct 24 ruling, never a send-back reason. One head per recheck: a lead never pushes while a merger is checking. **A merger never leaves a PR because another merger sent it back earlier; it rechecks the current head.**
+Mergers are numbered 0 to N-1 by PR number mod N, where N is the count the CTO started (five or six). Any merger takes any line here regardless of its share.
 
-1. **#6071 — desktop packaging red since 18:01** (the play server's figure lookup names its folder). Any merger merges this now, before anything else.
-2. **#6119 — red main.** The lane's shared files need no declaration. Next after #6071.
-3. The lane PRs, in this order: #6058, #6091, #6092, #6086, #6104, #6101, #6069, #6088, #6097, #6105, #6118.
-4. Traits: #5587, #5715 (ready since 17:48 and 18:12, no merger reply), then #5657 after its import fix (voting.ts:63).
-5. Effects, never touched by a merger: #6042, #5912, #6045, #5661; then the rechecks #6008, #6020.
-6. Laws: #5649, #6012, #5986, once the laws lead answers the merger's send-backs on each (not before).
-7. The dead-ends #6062, #6041, #5971, when their lane agent says ready for recheck.
-8. Ready, no reply for more than two hours: #5475, #5818, #5792, #5767, #5975, #6011, #5977, #6002, #6007, #5972, #5991, #6079, #5998.
-9. The rest, newest play-stop or play-first PR first, then the leads' queues as they post them.
+1. **#6166 (rulings, SMART rule, the Oct 26 pool filing), #6174 (scene-standard, player-screen-text, screen-to-mock skills) and #6175 (the Oct 26 playtest block).** The CTO merges these three; mergers read them first. From #6174 on, a merger also sends back developer text on a player screen, a screen change with no mock line or a second renderer, and a scene that writes nothing back.
+2. **The lane, dead ends and the words PRs the owner keeps hitting, in this order:** #6062 (the ballot reaches his race, ready for recheck), then #6058, #6096, #6147, #6086, #6104, #6090, #6091, #6092, then #6100, #6112, #6156, #6136, #6146 as the words lead posts each head. A play item merged is not closed: add the Notes line `Merged <date> in PR #N; awaiting the owner's installed-build check`.
+3. **Effects #6008 first (ready at f3251e37e5; it shares only generated stopgap rows with the laws PRs), then the laws family PRs, in this order:** #5986 prices (ready for recheck), #6026 health and schools, #5669 rights, #6011 housing. One at a time; each merge conflicts the next, so the laws lead re-merges main after each and posts the new head.
+4. **Effects, ready:** #6042, #6008, #6151, #6154, #5934.
+5. **Traits, the two stacks:** #5657, then #5715, then #6143.
+6. **Speed:** #6082, #6074, #6133. After the three, one Sonnet job measures `npm run speed:year` on main three times in a drawn town and writes the number to the speed section of the channel.
+7. **Ready with no reply for more than two hours:** #5975, #5977, #6002, #6007, #5991, #5792, #5767, #5972.
+8. **Stale:** any open PR with no push for five days that is conflicted or sent back is closed with the comment `Merge-first: stale, back to the pool` and its item set `open` with a one-line Note naming the branch. The fixers take those items in pool order.
+9. The rest, newest `play-stop-*` or `play-first-*` PR first, then the leads' queues as they post them.
 
-#5956 stays open as the record; do not merge it (items are on main).
+Drafts #5968 and #5675 (the laws proof and report) merge last, after line 3.
+
+**For the screens lead:** `play-stop-39`, `-40`, `-44`, `-45` are pool items in #6166 (branch `claude/festive-gauss-ybtd28`, under `docs/pool/items/`), not on a code branch; read them there until #6166 merges.
+
+**For the laws-and-effects lead (relayed from the Oct 26 playtest):** the owner's H.R. 1 sat drafted a year because `src/bench/legislature.ts` (around lines 215-219, commit c53327dea, Oct 17) stopped calling `scheduleVote`, and the weekly floor in `world-legislating.ts` only takes bills filed at session open; its "year-end votes" header is stale. Your next deliverable after the family PRs is visible in play: every player bill scheduled, members file all session, the floor vote and the whip on screen, and your matrix row says on which screen a law shows ("wired is not seen", `wiring-audit`).
 
 When a line is merged or sent back, it stays until the CTO removes it; comment `Merge-first: <PR> done` on the PR.

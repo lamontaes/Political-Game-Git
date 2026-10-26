@@ -9,6 +9,8 @@ description: >
 
 # Trace audit
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The example command's state is an example only; every run draws its places from all 56. Each helper brief and each filed defect is SMART with a time box.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: play first; "simulate it, don't ask")
 
 The audit shows the owner what each of the 56 places actually did in a year, and why. It views the game and changes nothing.
