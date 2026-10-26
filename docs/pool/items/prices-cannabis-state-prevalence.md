@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: the share comes from the per-place table keyed by postal code, never a state named in logic. One model, two tiers: a counted group reads the same state share times its count as a named adult does. No dice: the share calibrates who uses cannabis at generation, never a purchase.
 
-**Done when.** In a drawn place from all 56 in the played world (buildBenchWorld, seed named in the PR), the share of named adults 21 and over recorded as users and the counted groups' weight both read the town's state row of data/research/laws/samhsa-2024-cannabis-past-year.json, shown by src/core2/cannabis-sales-law.test.ts with the place, its row and a named adult's person id.
+**Done when.** In a drawn place from all 56 in the played world (buildBenchWorld, seed named in the PR), the share of named adults 21 and over recorded as users and the counted groups' weight both read the town's state row of data/research/laws/samhsa-2024-cannabis-past-year.json, shown by src/core2/cannabis-sales-law.test.ts with the place, its row and a named adult's person id. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/modules/place-prices.ts, src/core2/data/prices/parameters.json, data/research/laws/samhsa-2024-cannabis-past-year.json
 

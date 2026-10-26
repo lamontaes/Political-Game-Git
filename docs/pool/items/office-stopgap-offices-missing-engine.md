@@ -4,7 +4,7 @@ title: "Stopgaps in offices (missing-engine): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** First row: Where the voting engine isn't running, a special election's seat goes to the best-suited eligible person on the day instead of a vote. With voting open it is a real race. Its date is the state's law for the office where
 
 Oct 20 (pool feeder): spec written; the row was already narrowed on Oct 19 (gov-special-election-races-outside-town, done) to House and legislative seats, so what remains is the statewide kinds; judges stay on the stand-in because courts come after early access, and the row stays open for them. M. M2's election engine is built, so the old blocker no longer applies.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.
