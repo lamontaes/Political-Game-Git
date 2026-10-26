@@ -291,7 +291,7 @@ export function placeRemovedHousehold(
     // With no job holding them here, they go to the relative's town.
     if (host.placeId !== placeId)
       api.relocatePeopleV1({
-        personIds: household.memberIds,
+        personIds: memberIds,
         placeId: host.placeId,
         householdId: household.id,
         source: {
