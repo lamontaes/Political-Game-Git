@@ -17,8 +17,14 @@ import { setBookkeeping } from "./bookkeeping";
 import type { CountedHousehold } from "./counted-groups";
 import { gameStartDate } from "./game-start";
 import { householdIncome, residentsRuntime } from "./modules/residents";
-import { countedHeadcountOf, countedJobsOf } from "./residents-economy";
-import { fillInPerson } from "./state";
+import {
+  countedHeadcountOf,
+  countedJobHeads,
+  countedJobsOf,
+} from "./residents-economy";
+import { payrollReserve, treasuryParameter } from "./budgets-treasury";
+import { governments } from "./modules/budgets";
+import { coreAPI, fillInPerson } from "./state";
 import type { CoreState, JobInput } from "./types";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -174,5 +180,50 @@ it(`a fill-in keeps an employer's heads when its job was the employer's only cou
   }
   throw new Error(
     `no drawn place had both cases at ten times its sample: ${tried.join("; ")}`,
+  );
+}, 900_000);
+
+it(`a counted job's heads size its treasury's payroll reserve (base ${base})`, () => {
+  const tried: string[] = [];
+  for (let i = 0; i < 6; i += 1) {
+    const { core, where } = world(100 + i);
+    const api = coreAPI(core);
+    const rt = residentsRuntime(core)!;
+    // A counted job at an employer a treasury pays (a town department).
+    const job = [...core.organizations.values()]
+      .filter((org) => org.publicPayAuthority)
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .flatMap((org) => countedJobsOf(core, org.id))
+      .find((row) => countedJobHeads(core, row) >= 2);
+    if (!job) {
+      tried.push(`${where}: no counted job at a publicly paid employer`);
+      continue;
+    }
+    const before = new Map(
+      governments(api).map((gov) => [gov.id, payrollReserve(api, gov)]),
+    );
+    const heads = countedJobHeads(core, job);
+    rt.store.setJobHeads(job, heads / 2);
+    const changed = governments(api)
+      .map((gov) => ({
+        id: gov.id,
+        by: before.get(gov.id)! - payrollReserve(api, gov),
+      }))
+      .filter((row) => row.by !== 0);
+    const monthDays =
+      treasuryParameter("daysPerYear") / treasuryParameter("monthsPerYear");
+    const expected = job.wageDailyMinor * monthDays * (heads / 2);
+    process.stdout.write(
+      `WEIGHT RELEASE EDGES ${where}: ${job.id} at ${job.organizationId} cut from ${heads} to ${heads / 2} jobs: reserve of ${changed.map((row) => `${row.id} down ${row.by}`).join(", ") || "none"}, expected ${expected.toFixed(1)}\n`,
+    );
+    expect(changed.length, `${where}: treasuries whose reserve moved`).toBe(1);
+    expect(
+      Math.abs(changed[0]!.by - expected),
+      `${where}: ${changed[0]!.id}'s reserve after the cut`,
+    ).toBeLessThanOrEqual(1);
+    return;
+  }
+  throw new Error(
+    `no drawn place had a counted job at a publicly paid employer: ${tried.join("; ")}`,
   );
 }, 900_000);

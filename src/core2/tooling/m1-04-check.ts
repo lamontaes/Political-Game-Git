@@ -24,7 +24,7 @@ import regionsData from "../data/regional/regions.json" with { type: "json" };
 import turnover from "../../../data/research/jobs/series/turnover.json" with { type: "json" };
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import { residentsRuntime } from "../modules/residents";
-import { countedHeadsOf } from "../residents-economy";
+import { countedHeadsOf, countedJobHeads } from "../residents-economy";
 import {
   changeHeads,
   represented,
@@ -42,7 +42,7 @@ const orgPlace = (id: string) => core.organizations.get(id)?.placeId;
 
 /** The people one record stands for: a full person one, a counted record its household's weight. */
 const heads = (personId: string) => countedHeadsOf(core, personId);
-/** The town's jobs today: full people's and the counted tier's, at the town's employers, as the people they stand for. */
+/** The town's jobs today: full people's and the counted tier's, at the town's employers, each counted job for the jobs it stands for. */
 function employment(): number {
   const inTown = (job: { endsAt?: string; organizationId: string }) =>
     job.endsAt === undefined && orgPlace(job.organizationId) === townId;
@@ -50,7 +50,7 @@ function employment(): number {
     represented([...core.jobs.values()].filter(inTown), () => 1) +
     represented(
       [...(residentsRuntime(core)?.jobs.values() ?? [])].filter(inTown),
-      (job) => heads(job.personId),
+      (job) => countedJobHeads(core, job),
     )
   );
 }

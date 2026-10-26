@@ -210,8 +210,7 @@ export function countedJobsOf(
 
 /**
  * How many real jobs an employer's counted workers stand for: each counted
- * job is worth the weight of its worker's household (one unless the opening
- * gave households a weight). Readers that count heads read this; readers that
+ * job is worth the heads its employer's staffing set (`countedJobHeads`). Readers that count heads read this; readers that
  * pick one worker keep the record from `countedJobsOf`.
  */
 export function countedHeadcountOf(
