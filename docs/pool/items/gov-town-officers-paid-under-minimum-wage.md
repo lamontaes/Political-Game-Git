@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/officers-minimum-wage
-pr:
+pr: #6190
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T20:58:53.247Z
