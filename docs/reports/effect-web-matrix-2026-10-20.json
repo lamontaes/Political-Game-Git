@@ -5359,7 +5359,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-finance-medical-debt-in-collections"
+      "stopgap": "SG-EW-HEALTH-medical-debt-reader"
     },
     {
       "key": "snap-work-requirement-to-participation",

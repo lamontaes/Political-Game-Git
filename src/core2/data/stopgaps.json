@@ -5147,6 +5147,18 @@
     "resolution": "The coverage review (modules/coverage.ts, holdersToday) reads the web's factor for health.uninsured-pct for each worker's age and sex, full and counted alike, so the running uninsured-share links (unemployment, Medicaid expansion, the work requirement) change who holds an employer plan, by coverage record; proved by src/core2/coverage-web.test.ts. The medical-debt link and the marriage-equality link are registered on their own in SG-EW-HEALTH-medical-debt-reader."
   },
   {
+    "id": "SG-EW-HEALTH-medical-debt-reader",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "The Medicaid expansion to medical debt link (medicaid-expansion-to-medical-debt) moves only the web's own finance.medical-debt-in-collections number; no household's books hold a medical debt, so no one's money moves with it. The marriage-equality-to-coverage link has no running cause (the law has been national since 2015, link status cause-not-recorded), so it moves nothing.",
+    "why": "No household or counted group records medical bills or debts in collection, so there is nothing for a debt decision to multiply by the web's factor.",
+    "addedBy": "claude/web-coverage-reads",
+    "addedAt": "2026-10-24",
+    "replacement": "A medical-debt record on the household's books, decided from the household's own coverage record times the web's factor, which the medical-debt link then reads like the coverage links.",
+    "status": "open"
+  },
+  {
     "id": "SG-EW-HEALTH-death-cause",
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
@@ -5909,7 +5921,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
     "line": 116,
-    "whatItFakes": "coverage-to-medical-debt, medicaid-expansion-to-medical-debt move finance.medical-debt-in-collections only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "whatItFakes": "coverage-to-medical-debt moves finance.medical-debt-in-collections only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, health.coverage-pct",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
@@ -6745,15 +6757,15 @@
     "status": "open"
   },
   {
-    "id": "SG-EW-HEALTH-medical-debt-reader",
-    "kind": "missing-record",
-    "file": "src/core2/health-web.ts",
-    "line": 1,
-    "whatItFakes": "The Medicaid expansion to medical debt link (medicaid-expansion-to-medical-debt) moves only the web's own finance.medical-debt-in-collections number; no household's books hold a medical debt, so no one's money moves with it. The marriage-equality-to-coverage link has no running cause (the law has been national since 2015, link status cause-not-recorded), so it moves nothing.",
-    "why": "No household or counted group records medical bills or debts in collection, so there is nothing for a debt decision to multiply by the web's factor.",
-    "addedBy": "claude/web-coverage-reads",
-    "addedAt": "2026-10-24",
-    "replacement": "A medical-debt record on the household's books, decided from the household's own coverage record times the web's factor, which the medical-debt link then reads like the coverage links.",
+    "id": "SG-DIRECTOR-shared-relative-kin-address",
+    "kind": "missing-engine",
+    "file": "src/director/conversation.ts",
+    "line": 892,
+    "whatItFakes": "Conversations omit introducing or asking after relatives shared by the speaker and listener instead of naming their shared relation naturally.",
+    "why": "The English banks have no shared-parent kin address yet; first names and possessive parent phrases give the wrong relation in these conversations.",
+    "addedBy": "merger0",
+    "addedAt": "2026-10-26",
+    "replacement": "words-family-talk-kin-address: select shared-relative wording through the English engine, then restore these topics with positive played-world conversation evidence.",
     "status": "open"
   }
 ]
