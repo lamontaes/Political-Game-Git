@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: a business adds a location because its own books, market room and owner decide it, never a yearly chance; real BDS rates check the totals only.
 
-**Done when.** node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-08-check.ts in Cochituate, Massachusetts (seed above) shows at least one location founding with its parent, market room and cash by record id, and openings inside the BDS range, with the cause of the missing expansions named in the PR body.
+**Done when.** node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-08-check.ts in Cochituate, Massachusetts (seed above) shows at least one location founding with its parent, market room and cash by record id, and openings inside the BDS range, with the cause of the missing expansions named in the PR body. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/business.ts
 

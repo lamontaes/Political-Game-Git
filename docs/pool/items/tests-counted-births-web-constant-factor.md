@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: preserve the independent original root and check meaningful web effects in eligible drawn towns. No vacuous tests: retain positive record evidence and a real producer or reader break that fails, without substituting a convenient seed or forcing observed values.
 
-**Done when.** Diagnose the constant web factor on the original WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36 played world, fix the underlying cause or the invalid test assumption, and pass the original case plus a fresh drawn-place test with nonempty record ids and an unchanged-checker negative control that detects a real producer or reader break.
+**Done when.** Diagnose the constant web factor on the original WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36 played world, fix the underlying cause or the invalid test assumption, and pass the original case plus a fresh drawn-place test with nonempty record ids and an unchanged-checker negative control that detects a real producer or reader break. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/births-counted-web.test.ts, src/core2/births-counted.ts, src/core2/modules/outcome-web.ts
 

@@ -8,6 +8,11 @@ on:
     # the next one. A push that also changes anything else still runs.
     paths-ignore:
       - "docs/pool/**"
+      # The play-first lane's shared files: its progress log and lead sheets,
+      # appended to straight on main; none changes the client.
+      - "docs/play-first/PROGRESS.md"
+      - "docs/coordination/LEADS-2026-10-24.md"
+      - "docs/coordination/MERGE-FIRST.md"
   # Manual final drain for a release candidate that lost a main fast-forward
   # race and had no later merge to trigger another run.
   workflow_dispatch:

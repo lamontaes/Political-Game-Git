@@ -3,7 +3,7 @@ id: research-residents-sourced-parameters
 title: "Research: sourced parameters for residents' cadence, district placement and employment"
 area: people
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -34,3 +34,5 @@ Sent back 2026-10-20 from PR #5690 (branch claude/residents-county-employment): 
 Sent back 2026-10-23 from PR #5698 (branch claude/district-placement): Current main conflicts in src/core2/modules/residents.ts; preserve both counted-resident readers and district placement, then rerun the drawn split-town proof; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5698 (branch claude/district-placement): Conflict repaired, but PR body lacks the required Done-when evidence table and names only opening placement rather than the specified one-year band report; supply applicable evidence or a completed bounded placement item while keeping wider research open; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

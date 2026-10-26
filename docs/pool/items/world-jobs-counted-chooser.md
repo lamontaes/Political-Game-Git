@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -23,3 +23,5 @@ source: split from world-jobs-counted-choices by pool feeder Oct 20
 **Files.** src/core2/modules/jobs.ts, src/core2/choice.ts, src/core2/jobs.test.ts
 
 **Notes.** Split from world-jobs-counted-choices Oct 20. The business and credit modules also call strongestPulls (business-close, found, business-borrow); that is the next part.
+
+Duplicate of world-jobs-counted-choices-one-rule (Oct 25 audit). Same replacement of strongestPulls for counted retire, quit and look; PR #5767 carries it.
