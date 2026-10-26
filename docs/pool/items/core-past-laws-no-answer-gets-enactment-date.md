@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/past-laws-no-answer
+pr: #6140
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T04:44:00.721Z
 ---
 
 **What.** The law history (src/core2/past-laws.ts:441-443) treats every starting policy answer as a law in force at the opening, so an answer of 'no', where the place has no such law, still gets an enactment date and a roll call. In a played year in Pinopolis, South Carolina (seed 54a757e867ea, scripts/research/core-parameters-year.ts), the state's 'no' on Medicaid expansion carries an enactment 16.80 years before day one (law-history:law:US-SC:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting), though South Carolina never expanded Medicaid. Give an answer that means no such law exists no enactment record, or the enactment of the law that ended it where the research records one, so the record never shows members voting on a law that was not passed.

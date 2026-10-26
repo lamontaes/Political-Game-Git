@@ -24,6 +24,7 @@ import { stateFigures, REGIONS, type RegionMonth } from "../regional-model";
 import { type MacroMonth } from "../macro-model";
 import { advanceCore } from "../life";
 import { buildPlayedWorld, nextDay, playYear } from "./m1-played-year";
+import { openingRateMatches, weightedRate } from "./m1-measures";
 
 const world = buildPlayedWorld();
 const { api, core } = world;
@@ -185,6 +186,7 @@ const latest = (series: Record<string, number> | undefined) => {
 let statesChecked = 0,
   metrosChecked = 0;
 const noSeries: string[] = [];
+const scaledStates: string[] = [];
 for (const fips of fipsList) {
   const rows = openingRows.filter((row) => row.stateFips === fips);
   const usps = REGIONS.find((row) => row.stateFips === fips)!.stateUsps;
@@ -204,18 +206,14 @@ for (const fips of fipsList) {
     failures.push(
       `${usps}: opening jobs ${jobsNow.toFixed(1)}k, real ${jobs}k`,
     );
-  const uNow =
-    rows.reduce((sum, row) => sum + row.unemploymentPct * people(row), 0) /
-    total;
-  // The rest of the state takes what the state's rate leaves after its metros; a metro above the state can leave it nothing, so the state's own rate stands there.
-  const rest = rows.find(
-    (row) => REGIONS.find((r) => r.id === row.regionId)!.kind !== "metro",
-  );
-  const restFloored =
-    rest !== undefined && rest.unemploymentPct === unemployment;
-  if (!restFloored && Math.abs(uNow - unemployment) > 1e-6)
+  const rates = rows.map((row) => ({
+    pct: row.unemploymentPct,
+    people: people(row),
+  }));
+  // No case is excused: the state's weighted rate matches the published one.
+  if (!openingRateMatches(rates, unemployment))
     failures.push(
-      `${usps}: opening unemployment ${uNow.toFixed(3)}%, real ${unemployment}%`,
+      `${usps}: opening unemployment ${weightedRate(rates).toFixed(3)}%, real ${unemployment}%`,
     );
   if (pay !== undefined) {
     const payNow =
@@ -226,15 +224,39 @@ for (const fips of fipsList) {
         `${usps}: opening hourly pay ${payNow.toFixed(2)}, real ${pay} (${(100 * (payNow / pay - 1)).toFixed(2)}%)`,
       );
   }
+  // A metro's published rate covers its whole area, which can cross state
+  // lines. Where the state has no rest region, or its metros leave the rest
+  // no positive rate, every region carries one shared factor that brings the
+  // state to its published rate; elsewhere the factor is one.
+  const regionsOf = REGIONS.filter((region) => region.stateFips === fips);
+  const metroRate = (region: (typeof REGIONS)[number]) =>
+    latest(real.metroUnemploymentPct[region.lausMetroCode ?? ""]) ??
+    unemployment;
+  const metroRegions = regionsOf.filter((region) => region.kind === "metro");
+  const metroWeighted = metroRegions.reduce(
+    (sum, region) => sum + metroRate(region) * region.population,
+    0,
+  );
+  const restPeople =
+    regionsOf.find((region) => region.kind !== "metro")?.population ?? 0;
+  const statePeople =
+    metroRegions.reduce((sum, region) => sum + region.population, 0) +
+    restPeople;
+  const shared =
+    restPeople > 0 && unemployment * statePeople - metroWeighted > 0
+      ? 1
+      : (unemployment * statePeople) /
+        (metroWeighted + unemployment * restPeople);
+  if (shared !== 1) scaledStates.push(`${usps} x${shared.toFixed(4)}`);
   for (const row of rows) {
     const region = REGIONS.find((r) => r.id === row.regionId)!;
     if (region.kind !== "metro") continue;
     const metro = latest(real.metroUnemploymentPct[region.lausMetroCode ?? ""]);
     if (metro !== undefined) {
       metrosChecked += 1;
-      if (Math.abs(row.unemploymentPct - metro) > 1e-9)
+      if (Math.abs(row.unemploymentPct - metro * shared) > 1e-9)
         failures.push(
-          `${region.id}: opening unemployment ${row.unemploymentPct}%, real ${metro}%`,
+          `${region.id}: opening unemployment ${row.unemploymentPct}%, real ${metro}% (state factor ${shared})`,
         );
     }
     const years = Object.keys(region.rppPct)
@@ -275,6 +297,7 @@ console.log(
       statesChecked,
       metrosChecked,
       statesWithoutSeries: noSeries,
+      statesScaledToTheirRate: scaledStates,
     },
   }),
 );

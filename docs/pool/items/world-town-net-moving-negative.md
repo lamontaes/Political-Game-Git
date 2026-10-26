@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: movers come from the pull of income, prices and jobs, never a roll. One model, two tiers: a counted household and a full person leave and arrive by the same rule. One rule, all 56 places. Never tune a seed.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in six places drawn from all 56 and seeds the builder did not choose (names in the PR body), each town's net moving (in-moves less out-moves, counted and full, over its residents at the start) is within 1.5 percent of its state's net migration, shown by move record ids, and a test in src/core2 states it.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in six places drawn from all 56 and seeds the builder did not choose (names in the PR body), each town's net moving (in-moves less out-moves, counted and full, over its residents at the start) is within 1.5 percent of its state's net migration, shown by move record ids, and a test in src/core2 states it. **On screen.** Nothing yet: filed play-town-moves-on-screen, which puts it on Who you are and News.
 
 **Files.** src/core2/modules/counted-moves.ts, src/core2/modules/moves.ts, src/core2/place-lookup.ts
 

@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/homeless-rehouse-left-household
 pr: #5772
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T01:31:18.142Z
 **Files.** src/core2/housing-homeless.ts, src/core2/housing-rehouse-left-household.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5772 (branch claude/homeless-rehouse-left-household): housing-rehouse-left-household.test.ts:33-40 asserts only nonempty payerIds, not a living payer as its title and item require; resolve payer records and assert alive, plus the actual 400-day final date; finish on that branch, merge main into it first.

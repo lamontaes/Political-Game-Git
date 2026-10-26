@@ -6,6 +6,12 @@
  * law rows an income-tax act writes for payroll withholding to collect.
  * Money moves only through the accounts journal; pay only through rerateJob.
  */
+import {
+  appliedOn,
+  appliedTo,
+  lawApplied,
+  type AppliedTarget,
+} from "./applied";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
@@ -28,9 +34,9 @@ import {
   type TownFacts,
 } from "./group-b-people";
 import { flowWeights, fundOf } from "../counted-money";
-import { getRow, putRow, rowsOf } from "./group-b-store";
-import { appliedTo, lawApplied, type AppliedTarget } from "./applied";
-import { registerLinePayments } from "../budgets-treasury";
+import { getRow, putRow, REACH_B_MODULE_ID, rowsOf } from "./group-b-store";
+import { payReach } from "./pay-reach";
+import { fundFederalStanding, registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
 export const source = (api: CoreAPI, citation: string): Source => ({
@@ -403,6 +409,16 @@ export function reconcileObligations(
       ...(input.line ? { line: input.line } : {}),
     } satisfies BenefitRow);
   }
+  // The federal treasury, which borrows any day, covers its new shares from
+  // tomorrow; a state's or a town's pays from what it holds.
+  if (
+    [...want.keys()].some(
+      (pair) =>
+        governments(api).find((g) => g.id === pair.split("|")[0])?.level ===
+        "federal",
+    )
+  )
+    fundFederalStanding(api);
 }
 
 /** An assistance work requirement in force: who it reaches and how long they may draw. */
@@ -1008,7 +1024,13 @@ export function moveBudget(
     putRow(api, "taken", row);
     return row;
   }
-  if (prior && !prior.undone && prior.budgetId === budget.id) return prior;
+  if (prior && !prior.undone && prior.budgetId === budget.id) {
+    // Already moved (at the opening, or by an earlier review): the government
+    // is still reached; record it once if no row says so.
+    if (!appliedOn(api, input.key).some((r) => r.targetId === gov.id))
+      recordMoved(api, input, gov.id, prior.moves);
+    return prior;
+  }
   const moves = input.plan(gov, budget);
   for (const [line, delta] of Object.entries(moves))
     if (delta)
@@ -1027,7 +1049,33 @@ export function moveBudget(
     undone: false,
   };
   putRow(api, "taken", row);
+  recordMoved(api, input, gov.id, moves);
   return row;
+}
+
+/**
+ * The budgets engine pays its lines as amended: the government was reached,
+ * and the dollars the act moved are recorded with it.
+ */
+function recordMoved(
+  api: CoreAPI,
+  input: { readonly key: string; readonly lawId: string },
+  governmentId: string,
+  moves: Readonly<Record<string, number>>,
+): void {
+  const added = Object.values(moves).filter((d) => d > 0);
+  const moved = added.length
+    ? added.reduce((a, b) => a + b, 0)
+    : Object.values(moves).reduce((a, b) => a + Math.abs(b), 0);
+  lawApplied(api, {
+    key: input.key,
+    lawId: input.lawId.replace(/#.*$/, ""),
+    targetId: governmentId,
+    target: "government",
+    engine: BUDGETS_MODULE_ID,
+    what: "budget-lines-moved",
+    amountMinor: moved,
+  });
 }
 
 /** Debt interest lines: the state and local name, and the federal one. */
@@ -1122,6 +1170,7 @@ export function holdReserve(
     readonly level: string;
     readonly inForce: boolean;
     readonly modeledShare: number;
+    readonly lawId?: string;
   },
 ): { held: number; target: number } | null {
   const gov = governmentAt(api, input.level);
@@ -1142,7 +1191,7 @@ export function holdReserve(
   if (!input.inForce) {
     if (held > 0)
       accounts.transfer({
-        id: `reach-b:reserve-release:${gov.id}:${api.state.date}`,
+        id: `reach-b:reserve-release:${input.key}:${gov.id}:${api.state.date}`,
         from: accountId,
         to: main,
         amountMinor: held,
@@ -1172,7 +1221,7 @@ export function holdReserve(
   const receipt =
     need > 0
       ? accounts.transfer({
-          id: `reach-b:reserve:${gov.id}:${api.state.date}`,
+          id: `reach-b:reserve:${input.key}:${gov.id}:${api.state.date}`,
           from: main,
           to: accountId,
           amountMinor: need,
@@ -1188,6 +1237,17 @@ export function holdReserve(
     accountId,
     targetMinor: target,
   } satisfies ReserveRow);
+  // The treasury was held to the reserve: the balance set aside is the money.
+  if (input.lawId)
+    lawApplied(api, {
+      key: input.key,
+      lawId: input.lawId,
+      targetId: gov.id,
+      target: "government",
+      engine: BUDGETS_MODULE_ID,
+      what: "reserve-held",
+      amountMinor: receipt?.paidMinor ?? 0,
+    });
   return { held: held + (receipt?.paidMinor ?? 0), target };
 }
 
@@ -1248,6 +1308,13 @@ export function incomeTaxAct(
   const id = `tax|${input.key}|${input.level}`;
   const prior = getRow<TaxRow>(api, "taken", id);
   const current = levelRow(api, input.level);
+  // A territory's own income tax stands in place of the federal one under
+  // federal law (26 U.S.C. 931 to 933), whatever rate its legislature sets:
+  // an act that rewrites the territory's tax keeps that standing.
+  const standing =
+    current?.terms?.replacesFederal === true
+      ? { replacesFederal: true }
+      : undefined;
   const enact = (
     value: number,
     unit: string,
@@ -1263,7 +1330,7 @@ export function incomeTaxAct(
       effectiveDate: api.state.date,
       measureId: `${tag}:${input.lawId}`,
       citation: `Act ${input.lawId}`,
-      ...(terms ? { terms } : {}),
+      ...(terms || standing ? { terms: { ...terms, ...standing } } : {}),
     });
   const hasTax = !!current && (current.value ?? 0) > 0;
   const scope = input.level === "state" ? "state" : "local";
@@ -1380,12 +1447,20 @@ export function raiseToSalaryFloor(
     (floorDollars * reachParameter("centsPerDollar")) /
     reachParameter("daysPerYear");
   const out = new Map<string, { fromMinor: number; toMinor: number }>();
+  const reach = payReach(api, {
+    key: "us-policy-positions:education.raise-teacher-minimum-salary",
+    lawId,
+    engine: REACH_B_MODULE_ID,
+    what: "teacher-pay-raised-to-floor",
+  });
   for (const job of jobs) {
     const hourly = job.hourlyMinor ?? 0;
     if (hourly <= 0 || job.wageDailyMinor >= floorDaily) continue;
     const to = Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
     api.rerateJob(job.id, to, source(api, `Teacher minimum salary (${lawId})`));
     out.set(job.id, { fromMinor: hourly, toMinor: to });
+    reach.add(job, (job.wageDailyMinor * (to - hourly)) / hourly);
   }
+  reach.flush();
   return out;
 }

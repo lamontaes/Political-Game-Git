@@ -504,6 +504,8 @@ export interface WorkCommitmentInput {
   personId: PersonId;
   organizationId: string;
   startsAt: IsoDate;
+  /** When the person first held this job, where that is earlier than this commitment: a counted worker filled in keeps the tenure their records gave them, while work and pay run from `startsAt`. */
+  heldSince?: IsoDate;
   endsAt?: IsoDate;
   anchorDate: IsoDate;
   periodDays: number;
@@ -1105,6 +1107,12 @@ export interface CoreAPI {
     requestedMinor: number,
     reasonKey: string,
     sourceId: string,
+  ): CreditReceipt;
+  /** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+  drawWageFlowCredit(
+    facilityId: string,
+    requestedMinor: number,
+    flowId: string,
   ): CreditReceipt;
   reviewBusiness(organizationId: string): void;
   closeEmployer(

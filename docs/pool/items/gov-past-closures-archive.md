@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: a closure comes from a business's books, its owner's reasons and the market, never a roll or a fixed percentage. Ask why: each archived story keeps the closure record it came from. One model, two tiers: a counted business closing is archived at counted level and filled in when the player meets it.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a drawn place and a seed the builder did not choose, the opening's archive lists at least one business closure dated before day one with its record id, and the stopgap SG-CORE-past-no-deaths-closures is resolved. A test in src/core2 names the place, the seed and the closure record.
+**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a drawn place and a seed the builder did not choose, the opening's archive lists at least one business closure dated before day one with its record id, and the stopgap SG-CORE-past-no-deaths-closures is resolved. A test in src/core2 names the place, the seed and the closure record. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
 
 **Files.** src/core2/past-news.ts, src/core2/modules/business.ts, src/core2/past-business.ts, src/core2/data/stopgaps.json
 
@@ -30,3 +30,5 @@ Sent back 2026-10-21 from PR #5513 (branch claude/political-game-pool-yucp92-oo)
 Sent back 2026-10-21 from PR #5513 (branch claude/political-game-pool-yucp92-oo): The repaired closure test now requires a nonempty closure, its story and hearing, so the prior vacuous path is fixed. The separate acceptance in docs/pool/items/gov-past-closures-archive.md:20 still names a one-year run of the played buildBenchWorld world. src/core2/past.test.ts only builds openings (there is no advanceCore call), and the body/new Fixer receipt only reports opening closure IDs, with no played-year receipt. Supply the named year proof on the integrated result, or track this opening-only slice under a bounded item while keeping the broader acceptance open. Also the body says counted parents deaths were never part of SG-CORE-past-no-deaths-closures, but that original row explicitly includes them; describe the remaining counted-parent work as split into the new open row. No completed local gate is claimed for this source review.; finish on that branch, merge main into it first.
 
 Oct 22 (claude): the opening archive built in PR 5513 is tracked as gov-past-closures-opening-archive; this item (the played-year acceptance) stays open.
+
+Sent back 2026-10-23 from PR #5072 (branch claude/past-business-closures): current main conflicts in src/core2/past-business.ts and src/core2/past.test.ts; reconcile both changes and supply the Done-when evidence table; finish on that branch, merge main into it first.

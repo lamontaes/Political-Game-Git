@@ -586,6 +586,8 @@
           },
           "nextRegularElectionYear": 2026,
           "electedWithGovernorOnTicket": true,
+          "firstTermStart": "2027-01-04",
+          "firstTermStartCitation": "Ariz. Const. art. V sec. 1, as amended by Prop. 131 (2022): the office's first term begins the first Monday in January after the 2026 election (January 4, 2027). From compiled knowledge, not a fetched page.",
           "notes": "First elected 2026; takes office January 2027 and becomes first in line of succession.",
           "vacancyRule": {
             "method": "appointment",

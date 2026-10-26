@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dreamy-tesla-bgi3ui-law-reach
 pr: #5863
 blocked-on:

@@ -144,6 +144,11 @@
     "tag": "SOURCED",
     "citation": "IEC 80000-13: one mebibyte is 2^20 bytes."
   },
+  "votingAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "U.S. Constitution, Twenty-sixth Amendment (1971): the right to vote of citizens eighteen years of age or older shall not be denied on account of age."
+  },
   "targetPopulation": {
     "value": 10000,
     "tag": "SOURCED",
@@ -718,6 +723,19 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "openingPeerTieHours": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Hours of time together two people have at the opening when the records say they shared a school class or a workgroup in the town. Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): about 50 hours of time together to move from acquaintance to casual friend (the same study that sets closenessHoursAtHalf).",
+    "estimatedFrom": "Hall's roughly 50 hours to a casual friend, used as the estimated initial time together for every recorded school classmate and coworker. Shared hours and stint lengths are not measured per pair; the tie fades by the closeness half-life from the recorded day the shared context began, including for a current coworker. This is the registered opening approximation, not an observed duration for each pair.",
+    "spread": {
+      "low": 40,
+      "high": 60,
+      "unit": "hours together",
+      "citation": "Hall (2019): 40 to 60 hours to a casual friend, 80 to 100 to a friend."
+    },
+    "stopgapId": "SG-P15-closeness-model"
+  },
   "closenessKinHalfLifeDays": {
     "value": 1095,
     "tag": "TUNABLE",
@@ -748,6 +766,26 @@
     "value": 243,
     "tag": "SOURCED",
     "citation": "Kannan and Veazie (2022), SSM Population Health 21:101331, American Time Use Survey 2019: average minutes per day in the presence of household family members, respondents 15 and older."
+  },
+  "circleRetentionShareOverSpan": {
+    "value": 0.48,
+    "tag": "SOURCED",
+    "citation": "Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80, Dutch panel of 1,007 adults aged 18-65, 604 re-interviewed seven years later: \"Only 48 percent were still part of the network\" (discussion partners and practical helpers; Utrecht University release of May 27, 2009, https://www.sciencedaily.com/releases/2009/05/090527111907.htm, fetched 2026-10-24; data/research/people/mollenhorst-2014-network-turnover.json). A secondary report of the study; the article's tables were not readable. It checks totals across many circles and never decides one tie's fate.",
+    "spread": {
+      "low": 0.44,
+      "high": 0.52,
+      "unit": "share of the starting circle still in it after the span",
+      "citation": "95% binomial interval of 0.48 among the 604 re-interviewed (1.96 * sqrt(0.48 * 0.52 / 604) = 0.04); sampling error only (data/research/people/mollenhorst-2014-network-turnover.json)."
+    }
+  },
+  "circleRetentionSpanYears": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Span over which circleRetentionShareOverSpan was measured: the Mollenhorst, Volker and Flap (2014) panel re-interviewed respondents seven years after the first wave (same release and research file).",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The study has one fixed re-interview span; no other span was measured."
+    }
   },
   "householdOtherMinutesPerDay": {
     "value": 43,
@@ -788,9 +826,26 @@
   "farKinContactShare": {
     "value": 0.39,
     "tag": "ESTIMATED",
-    "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39).",
-    "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
+    "citation": "Visits to a relative living outside the household's county, as a share of visits to one in the same county. Pew Research Center, 'As Family Forms Change, Bonds Remain Strong' (survey 2005, released 2006), table 'Living Closer to Parents Means More Contact' (https://www.pewresearch.org/wp-content/uploads/sites/3/2010/10/FamilyBonds.pdf): 56% of adults with a parent in the same town see or talk to them every day, against 22% with a parent out of town (data/research/core/pew-2006-family-contact.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "Ratio of the two daily-contact shares, 22 / 56 = 0.39, applied to visits to any relative outside the county. Pew counts calls with visits and compares towns, not counties or travel times; the CTO accepted it until relatives carry a place (October 10, 2026). The measured figure that would make it SOURCED is contact by travel time between the two places, which no fetched U.S. page gives.",
+    "spread": {
+      "low": 0.39,
+      "high": 0.49,
+      "unit": "ratio of contact with a relative out of town to one in town",
+      "citation": "Pew Research Center 2006, same table: the daily-contact ratio (22 / 56 = 0.39) to the ratio of contacts a year over the whole distribution (111.4 / 225.2 = 0.49, coding daily 365, weekly 52, monthly 12, several times a year 4, yearly 1); data/research/core/pew-2006-family-contact.json."
+    },
     "stopgapId": "SG-P15-distance-by-place"
+  },
+  "causeHolderWeeklyContacts": {
+    "value": 15,
+    "tag": "TUNABLE",
+    "citation": "How many of their ties a person with a cause weighs contacting in a week (owner decision SG-PEOPLE-cause-holder-weekly-contacts). Studies of personal networks find layers of about 5 people in closest weekly touch and about 12 to 15 contacted at least monthly (the 'sympathy group'; Dunbar and colleagues' network-layer studies); the value is the upper layer, so the shortlist binds only for people whose cause has tied them to many more.",
+    "spread": {
+      "low": 5,
+      "high": 15,
+      "unit": "people",
+      "citation": "From the closest weekly layer to the monthly 'sympathy group' of personal-network studies; to be sourced from pages fetched by research before it leaves TUNABLE."
+    }
   },
   "extendedKinVisitShare": {
     "value": 0.25,
@@ -837,28 +892,28 @@
   },
   "deepPastMiddleSchoolOffsetYears": {
     "value": 6,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Current Population Survey October 2024 School Enrollment, Table 2, Single Grade of Enrollment by single year of age (https://www2.census.gov/programs-surveys/demo/tables/school-enrollment/2024/2024-cps/enroll02_2024_1.xlsx), in data/research/core/cps-2024-grade-by-age.json and checked by scripts/research/deep-past-check.ts: the modal grade (the Census Bureau's \"year of school in which the largest proportion of students of a given age is enrolled\") of 5-year-olds is kindergarten (2,540 thousand) and of 11-year-olds grade 6 (2,613 thousand).",
+    "estimatedFrom": "Converted from a cross-sectional enrollment table, not a measured duration. The value is the modal age of grade 6 minus the modal age of kindergarten (11 - 5 = 6 years). The spread's high end is the 6 grades divided by the mean pace of enrolled children, the rise in mean grade per year of age from age 6 to age 11 (0.98 grades a year), which gives 6.13 years. Limit: Table 2 counts children by age and grade in one October, so it does not time any child's entry into a grade; the October age cutoff, early or late starts and held-back children are mixed into the modal ages, and the high end counts children held back, whom the deep past does not hold back. The figure becomes SOURCED when a source that follows children from kindergarten entry times the years to grade 6.",
     "stopgapId": "SG-P8-deep-past",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
+      "low": 6,
+      "high": 6.13,
+      "unit": "years from kindergarten entry to grade 6 entry",
+      "citation": "Same table: on-time progression takes 6 years; at the mean pace of enrolled children (mean grade 0.84 at age 6 and 5.73 at age 11, 0.98 grades a year) it takes 6.13."
     }
   },
   "deepPastHighSchoolOffsetYears": {
     "value": 9,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Current Population Survey October 2024 School Enrollment, Table 2, Single Grade of Enrollment by single year of age (https://www2.census.gov/programs-surveys/demo/tables/school-enrollment/2024/2024-cps/enroll02_2024_1.xlsx), in data/research/core/cps-2024-grade-by-age.json and checked by scripts/research/deep-past-check.ts: the modal grade of 5-year-olds is kindergarten (2,540 thousand) and of 14-year-olds grade 9 (2,623 thousand).",
+    "estimatedFrom": "Converted from a cross-sectional enrollment table, not a measured duration. The value is the modal age of grade 9 minus the modal age of kindergarten (14 - 5 = 9 years). The spread's high end is the 9 grades divided by the mean pace of enrolled children, the rise in mean grade per year of age from age 6 to age 14 (0.99 grades a year), which gives 9.14 years. Limit: Table 2 counts children by age and grade in one October, so it does not time any child's entry into a grade; the October age cutoff, early or late starts and held-back children are mixed into the modal ages, and the high end counts children held back, whom the deep past does not hold back. The figure becomes SOURCED when a source that follows children from kindergarten entry times the years to grade 9.",
     "stopgapId": "SG-P8-deep-past",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
+      "low": 9,
+      "high": 9.14,
+      "unit": "years from kindergarten entry to grade 9 entry",
+      "citation": "Same table: on-time progression takes 9 years; at the mean pace of enrolled children (mean grade 0.84 at age 6 and 8.72 at age 14, 0.99 grades a year) it takes 9.14."
     }
   },
   "warmupRuns": {
@@ -912,18 +967,15 @@
   "openingPeerGroupSize": {
     "value": 20,
     "tag": "ESTIMATED",
-    "citation": "NCES National Teacher and Principal Survey 2020-21, average public school class size by school level, https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n: class-sized groups average 17 to 22 across school levels.",
-    "estimatedFrom": "Maximum intended size of a generated peer group, set to the class-size average (about 20). A class is not an acquaintance circle (the real circle is the whole grade cohort and no source gives a remembered-peer circle size), so the generated-prior stopgap stays open. Balanced partitioning can yield smaller groups.",
+    "citation": "National Center for Education Statistics, National Teacher and Principal Survey 2020-21, Average class size in public K-12 schools, by school level, class type, and selected school characteristics (https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n), in data/research/core/nces-ntps-2021-class-size.json and checked by scripts/research/deep-past-check.ts: elementary 19.1 self-contained and 20.7 departmentalized, middle 16.9 and 22.0, high 17.2 and 21.0, combined 17.1 and 17.9.",
+    "estimatedFrom": "Largest generated peer group, set between the elementary self-contained class (19.1) and the high-school departmentalized class (21.0), the classes of the first and last school stages a cohort record names. A class is not an acquaintance circle (the real circle is the whole grade cohort and no source gives a remembered-peer circle size), so the generated-prior stopgap stays open. Balanced partitioning of the named people who share a cohort record yields smaller groups, and the ceiling itself is a cutoff filed as core-opening-peer-network-openingPeerGroupSize-as-cause.",
     "spread": {
-      "low": 17,
+      "low": 16.9,
       "high": 22,
-      "unit": "people per class-sized group",
-      "citation": "NCES NTPS 2020-21 average class sizes across school levels (17 to 22)."
+      "unit": "students per class",
+      "citation": "NCES NTPS 2020-21 average class sizes across school levels and class types, 16.9 (middle, self-contained) to 22.0 (middle, departmentalized)."
     },
-    "stopgapId": "SG-P8-opening-peer-network",
-    "checkRange": {
-      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
-    }
+    "stopgapId": "SG-P8-opening-peer-network"
   },
   "employment-age-16-minimumAge": {
     "value": 16,
@@ -1189,7 +1241,7 @@
   "workSleepReserveHours": {
     "value": 8.7,
     "tag": "ESTIMATED",
-    "citation": "BLS American Time Use Survey 2025, Table 8B (https://www.bls.gov/news.release/atus.t08b.htm), employed adults 18 and over, annual averages: sleeping 8.83 hours per diary day with no household child under 18, 8.56 with one. Not-employed adults sleep more (Table 8C: 9.37 and 9.31); all adults average 9.03 (Table 1, https://www.bls.gov/news.release/atus.t01.htm).",
+    "citation": "BLS American Time Use Survey 2025, Table 8B (https://www.bls.gov/news.release/atus.t08b.htm), employed adults 18 and over, annual averages: sleeping 8.83 hours per diary day with no household child under 18, 8.56 with one. Not-employed adults sleep more (Table 8C: 9.37 and 9.31); all adults average 9.03 (Table 1, https://www.bls.gov/news.release/atus.t01.htm). Recorded in data/research/core/atus-2025-sleep.json, checked by scripts/research/core-parameters-check.ts.",
     "spread": {
       "low": 8.56,
       "high": 8.83,
@@ -1197,10 +1249,7 @@
       "citation": "BLS ATUS 2025 Table 8B, employed adults: with a household child under 18 (8.56) to with none (8.83)."
     },
     "stopgapId": "SG-P8-work-time-reserve",
-    "checkRange": {
-      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-    },
-    "estimatedFrom": "The midpoint of the two employed-adult figures in Table 8B, because the table gives no total for employed adults and the share of employed adults with a child at home is not read here. It replaces the all-adults mean of 9.03, which includes people who do not work."
+    "estimatedFrom": "The midpoint of the two employed-adult figures in Table 8B, because the table gives no total for employed adults and the share of employed adults with a child at home is not read here. It replaces the all-adults mean of 9.03, which includes people who do not work. One reserve serves every person and every day; the figure that would make it SOURCED is each person's own ATUS group (age, employed or not, a child at home), read per person."
   },
   "workRoutineRetentionWeeks": {
     "value": 4,
@@ -1313,11 +1362,10 @@
     "estimatedFrom": "The rest act stands for the day's leisure: the free-time planner (free-block.ts) takes at most one act per need per day, so one rest act is the whole day's leisure and takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). Measured Oct 19: shortening it to one sitting cuts the leisure hours per day almost in proportion, because a person still rests once a day (docs/pool/items/core-recovery-hours-per-offer.md). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
     "stopgapId": "SG-P8-work-time-reserve",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical offer-duration range or matched microdata calibration is established."
-    },
-    "checkRange": {
-      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      "low": 3.89,
+      "high": 7.39,
+      "unit": "hours of leisure and sports per diary day",
+      "citation": "BLS ATUS 2025 Table 3 (https://www.bls.gov/news.release/atus.t03.htm), leisure and sports by age: 3.89 hours (35 to 44) to 7.39 (75 and over), held in src/core2/data/time-use-reference.json and checked by scripts/research/core-parameters-check.ts."
     }
   },
   "employmentCountyAge22": {
@@ -3846,10 +3894,16 @@
     }
   },
   "spouseAgeGapOpenRowYears": {
-    "value": 5,
+    "value": 16,
     "tag": "ESTIMATED",
-    "citation": "U.S. Census Bureau, CPS 2023 ASEC, America's Families and Living Arrangements: 2023, Table FG3: the age-difference rows are 2-3, 4-5, 6-9, 10-14 and 15-19 years, and the last rows are open (husband or wife 20 or more years older).",
-    "estimatedFrom": "Each open row is spread over five whole years, the width of the two rows next to it (10-14 and 15-19 years), so 20 or more years reads as 20 to 24. The open rows hold 1.2% of married couples.",
+    "citation": "U.S. Census Bureau, Current Population Survey 2023 Annual Social and Economic Supplement public use file (asecpub23csv.zip, https://www2.census.gov/programs-surveys/cps/datasets/2023/march/asecpub23csv.zip), counted in data/research/core/cps-asec-2023-partner-age-gap.json and checked by scripts/research/deep-past-check.ts: the 746 thousand married couples in Table FG3's two open rows (20 or more years apart) are on average 27.34 years apart (husband older 26.41, wife older 30.27); the counts reproduce Table FG3 row for row.",
+    "estimatedFrom": "The engine spreads each open row evenly over this many whole years from 20; an even spread over w years has a mean gap of 20 + (w - 1) / 2, so the pooled mean of 27.34 years gives w = 15.69, rounded to 16. Before, five years (20 to 24) left out the 43% of husband-older and 62% of wife-older open-row couples who are 25 or more years apart. Reading the single-year tail itself in place of an even spread is the partnership builder's change.",
+    "spread": {
+      "low": 14,
+      "high": 22,
+      "unit": "whole years an open age-gap row is spread over",
+      "citation": "CPS 2023 ASEC public use file, data/research/core/cps-asec-2023-partner-age-gap.json: the even width matching each open row's own mean gap, 13.82 years where the husband is 20 or more years older and 21.55 where the wife is."
+    },
     "stopgapId": "SG-P15-partnership-model"
   },
   "openingCoworkerGroupSize": {
@@ -3941,11 +3995,11 @@
   "unmodeledLeisureValuePerHour": {
     "value": 0.46,
     "tag": "TUNABLE",
-    "citation": "Score an hour of the leisure the game does not model is worth; an act added to a free block after the activation's pick must score above its hours times this. Calibrated so visits fall on the ATUS 2025 share of people who socialize or communicate on a given day (30.4%, Table 1); no direct source for the value itself. Calibrated on two generated towns of 1,000 residents over 28 days (seeds p15-visit-a and -b: Albertville, Alabama; Kennedale, Texas): 0.4 gave 33.9% and 0.5 gave 28.6% of adult-days with a visit.",
+    "citation": "Score an hour of the leisure the game does not model is worth; an act added to a free block after the activation's pick must score above its hours times this. Calibrated so visits fall on the ATUS 2025 share of people who socialize or communicate on a given day (30.4%, Table 1); no direct source for the value itself. Calibrated on two generated towns of 1,000 residents over 28 days (seeds p15-visit-a and -b: Albertville, Alabama; Kennedale, Texas): 0.4 gave 33.9% and 0.5 gave 28.6% of adult-days with a visit. Band (Oct 23, 2026): ATUS 2025 Table 1, socializing and communicating, 30.4% of people 15 and over on an average day (men 28.2%, women 32.5%), in data/research/core/atus-2025-socializing.json; scripts/research/core-year.ts reports the town's share of adult-days with a visit against it and scripts/research/check-core-research.ts checks the file.",
     "stopgapId": "SG-P15-free-block-plan",
     "spread": {
       "status": "unmeasured",
-      "reason": "Calibrated to one ATUS share; no empirical range for the value of an hour of leisure in these score units."
+      "reason": "No published effect converts to the value of an hour in these score units (ATUS gives time and shares of people, not a score); the ATUS share is an outcome band the year run reports against, not a bound on this value."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4590,6 +4644,32 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "grudgeConfrontRecencyWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "How strongly having just confronted the person a grudge is held against weighs against confronting them again (a reason in the chooser, fading at grudgeConfrontRecencyDays). Without it a laid-off holder, whose stress and unmet safety the act answers, confronted the same person several times a day for months (179 confrontations on 179 days for one grudge in Rockport, Texas, seed cbf9ae5a6ee7, where a confrontation's other reasons summed to about 3.2). Checked so a grudge leads to an occasional confrontation, not a daily one, in a played year.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures confrontation spacing on the chooser's utility scale."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "grudgeConfrontRecencyDays": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "Days over which the weight of a recent confrontation against another fades by a factor of e (about two-thirds gone after two months).",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how long people wait before confronting the same person again."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
   "responseCarryOnFit": {
     "value": 1,
     "tag": "TUNABLE",
@@ -4611,6 +4691,21 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No instrument-matched bound links trait-act lean to response choice after life events."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseBereavementFitScale": {
+    "value": 2.1,
+    "tag": "TUNABLE",
+    "citation": "How much harder a death in the family pushes toward a lasting drive than the responses' own fits say: a multiple of the cause, guard and calling fits in the two bereavement rules only. Cause-sharing and speeches keep the fits as they are, because doubling them for every event would raise the causes people take up from hearing of one from 7% to 39% (replay of recorded played-year responses). Calibrated Oct 24 (traits lead) to the share of the bereaved who carry on: 65.7% resilient after a potential trauma, 95% interval 61.6 to 69.8 (Galatzer-Levy, Huang and Bonanno 2018, data/research/people/trauma-trajectories-2018.json; the spousal-loss cohort alone was 45.9%, Bonanno and others 2002, data/research/people/bonanno-bereavement-patterns-2002.json). Measured: 1,000 bereaved adults with generated temperaments (src/core2/drives.test.ts, seed p10-drives-bands) 64.1% carry on; played years at this value, 41 drawn places, 636 of 950 bereaved adults (family and household of the person who died, 16 and older) carried on, 66.9% (95% interval 63.9 to 69.9). At 2.0 the played share read 69.9% and at 2.05 71.3% in earlier pooled batches, hence 2.1.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "low": 2.0,
+      "high": 2.15,
+      "unit": "scale",
+      "citation": "In the fixture a scale of 1.9 gives 70.9% and 2.2 gives 60.1% of the bereaved carrying on against the 61.6 to 69.8% band; replaying 341 recorded bereaved responses from played years, the share stays inside the band from about 2.0 to 2.25."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4708,13 +4803,15 @@
     }
   },
   "responseGrudgeFit": {
-    "value": 0.8,
+    "value": 1.7,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How strongly a perceived wrong pushes toward holding a grudge against the person responsible, before traits lean the person. Calibrated Oct 24 (traits lead) so the share of laid-off workers who hold a grudge sits inside the share of fired workers who act on one: 1.7 to 14.9% filed a claim, between those given a complete explanation or treated with dignity and those given none or treated without (Greenberg, Lind, Scott and Welchans 1998, data/research/people/termination-claims-1998.json; the share who hold a grudge is not published and a claim is the costly end of one), and under the 69% of the fired who call their firing unfair (NELP and YouGov 2022, data/research/people/nelp-yougov-firings-2022.json). The prototype value 0.8 gave 0.2% of laid-off adults a grudge, so none was ever held and relationships.fall-out never ran. Measured: 1,000 laid-off adults with generated temperaments (src/core2/drives.test.ts, seed p10-drives-bands) 12.0%; played years at this value, 14 drawn places, 38 of 403 layoff and closure responses held a grudge, 9.4% (95% interval 6.9 to 12.7).",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+      "low": 1.3,
+      "high": 1.8,
+      "unit": "fit",
+      "citation": "In the same fixture a fit of 1.3 gives 4.4% and 1.8 gives 14.6% of laid-off adults a grudge; replaying 377 recorded layoff responses from played years, 1.3 gives 2.7% and 1.9 gives 14.9%: inside 1.7 to 14.9% from about 1.3 to 1.8."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4745,9 +4842,9 @@
     }
   },
   "responseAmbitionFit": {
-    "value": 1.9,
+    "value": 1.5,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%).",
+    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "measured",
@@ -5128,6 +5225,17 @@
       "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
     }
   },
+  "siblingBirthGapDays": {
+    "value": 274,
+    "tag": "TUNABLE",
+    "citation": "The fewest days between two siblings' births in a household the opening draws: nine months, the owner's floor for siblings who are not twins (playtest, Oct 24, 2026, play-stop-20: siblings born at least nine months apart). A pregnancy begun right after a birth and carried to term, 39 to 40 weeks (American College of Obstetricians and Gynecologists, Committee Opinion 579, Definition of Term Pregnancy, 2013), ends 273 to 280 days later.",
+    "spread": {
+      "low": 245,
+      "high": 300,
+      "unit": "days",
+      "citation": "From a late-preterm birth at 35 weeks to a full-term birth a few weeks after a pregnancy begun at once."
+    }
+  },
   "minimumParentAgeAtBirth": {
     "value": 15,
     "tag": "SOURCED",
@@ -5145,9 +5253,9 @@
     }
   },
   "circleDecisionDetailDays": {
-    "value": 30,
+    "value": 7,
     "tag": "TUNABLE",
-    "citation": "Owner rulings, Oct 11 ('save why reasons only for the player and the people they deal with') and Oct 12 (running memory stays small): how long a circle member's act keeps every option's score before only its chosen reasons remain.",
+    "citation": "How long a circle member's act keeps every option's score before only its chosen reasons remain. Set to the spread's low end: at 30 days a played year in a large town (South Burlington, Vermont) held 2,904 MB against the 2,000 MB memory bound, most of it these kept scores.",
     "spread": {
       "low": 7,
       "high": 90,
@@ -5328,6 +5436,17 @@
       "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
     }
   },
+  "playerEntryAge": {
+    "value": 18,
+    "tag": "TUNABLE",
+    "citation": "The turn-18 golden path's player entry age (AGENTS.md). The opening keeps at least one full resident of this age when one occurs in the place's generated households, selecting a household to keep full rather than creating an age cohort the place lacks. Matches the bench player's default entry age (src/bench/world.ts).",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years",
+      "citation": "Design sensitivity bounds around the turn-18 start, from 17 through 21 years."
+    }
+  },
   "cohortSearchMinimumHouseholds": {
     "value": 400,
     "tag": "TUNABLE",
@@ -5423,10 +5542,10 @@
   "traitWeightBusinessOwnerDraw": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the business.owner-draw decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the business.owner-draw decision, at the general traitWeight (1): no study of owners' draws by personality gives a number, so by the pool item's rule this decision keeps the general weight, with its gap row in data/content/trait-decision-gaps.json. An owner weighs the business's cash against a month of everything it pays out before drawing.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No study gives this decision a size; the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightBusinessOpenLocation": {
@@ -5439,12 +5558,14 @@
     }
   },
   "traitWeightBusinessFound": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the business.found decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "citation": "Zhao and Seibert 2006, The Big Five personality dimensions and entrepreneurial status (Journal of Applied Psychology 91(2)): multiple R .37 across the five traits, an odds ratio of 4.83 between the thirds. Weight set with scripts/traits/trait-calibrate.ts on played years of Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f, 3,097 calls: weight 0.4, odds ratio 5.3), Peacham, Vermont (place key 5054325, seed 58e683537f9b, 10,373 calls: weight 0.3, odds ratio 5.0) and a third town (place key 2371780, seed c08fca61fc5c, 9,710 calls: weight 1.25, odds ratio 5.0), where many founders' cases are positive before personality; 0.6 sits between them. Full people take this weight on the chooser's arithmetic; the wider population keeps businessCountedFound's weight of 2.04 on its summed pull.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.3,
+      "high": 1.25,
+      "unit": "weight",
+      "citation": "The three towns' fits; Zhao, Seibert and Lumpkin 2010 give R .36."
     }
   },
   "traitWeightJobsReviewWorker": {
@@ -5468,10 +5589,10 @@
   "traitWeightJobsApply": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.apply decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the jobs.apply decision, at the general traitWeight (1): Kanfer, Wanberg and Kantrowitz 2001 (Journal of Applied Psychology 86(5)) report job search behavior's population correlations with its antecedents only as a range in the abstract (-.15 to .46), with no per-trait number retrieved, so by the pool item's rule this decision keeps the general weight, with its gap row in data/content/trait-decision-gaps.json. A seeker's push to apply eases with the weeks looked.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No study gives this decision a size; the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightJobsAcceptOffer": {
@@ -5486,30 +5607,32 @@
   "traitWeightHousingBuyHome": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the housing.buy-home decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the housing.buy-home decision: the general traitWeight (1). No study of personality and becoming a homeowner was found, and the fits with an assumed 1.2 per standard deviation disagree (Holualoa, Hawaii: 2.05 on 3 buyers; Peacham, Vermont: none reachable on 1; place key 2371780: 0.1, where the nearest households sit within a point of buying and odds are 11 at weight 1), so no weight is claimed from them.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "Three drawn towns fit 0.1, 2.05 and none: a year holds one to sixteen households near enough to buy to be tipped, too few to fit."
     }
   },
   "traitWeightCreditBorrow": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the credit.borrow decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "Brown and Taylor 2014, Household finances and the 'Big Five' personality traits (Journal of Economic Psychology 45), Table 3 singles, probability of holding unsecured debt per standard deviation: conscientiousness -3.37 points, openness +3.35, extraversion +3.07 (base rate 0.4847), the strongest an odds ratio of 1.34 between the thirds. Weight set with scripts/traits/trait-calibrate.ts on played years of Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f, 10,357 calls: weight 1.15, odds ratio 1.34) and Peacham, Vermont (place key 5054325, seed 58e683537f9b, 5,491 calls: weight 1.2, odds ratio 1.34). A stock of debt held is the nearest published proxy for the chance of taking it on.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1.0,
+      "high": 1.4,
+      "unit": "weight",
+      "citation": "Weights 1.0 to 1.4 give odds ratios of 1.29 to 1.40 between the thirds in the same calls; the study's interval for conscientiousness is -6.0 to -0.7 points."
     }
   },
   "traitWeightCandidacyRun": {
-    "value": 0.91,
+    "value": 0.2,
     "tag": "ESTIMATED",
-    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range: target odds ratio 1.21 between thirds. The chooser's trait term is the only place personality enters (the separate temperament reason was removed). Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.21.",
+    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range: target odds ratio 1.21 between thirds. The chooser's trait term is the only place personality enters. Only newcomers weigh running: a serving incumbent weighs standing again (voting.stand-again). Running is rare among newcomers, so at the real share the few who run are those temperament tips over the line; the study's outcome (ever having run for office) has a base rate of a few percent, so the odds are read with every reason total moved so one in twenty would run. Fitted on 14,430 newcomers' decisions in the election-window years of four places drawn from all 56 (seeds e6cc8ea3d8b7, a3367c5b3f9c, fc53ee5340e9 and fd6b432aad56, scripts/traits/trait-wiring-audit.ts with TRAIT_AUDIT_ELECTION=1): the places fit alone at 0.15 to 0.22 and pooled at 0.23; 0.2 reaches 1.21 to 1.35 in them. Before incumbents left this choice it was fitted at 0.91 with their nearly certain yes in the sample.",
     "spread": {
-      "low": 0.45,
-      "high": 1.4,
+      "low": 0.11,
+      "high": 0.23,
       "unit": "weight",
-      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
+      "citation": "The places' own fits at a one-in-twenty share, with Secretary, Maryland and Halaula, Hawaii (from the campaigns trait test at 0.91) at 0.12 and 0.11."
     }
   },
   "traitWeightSpeechRetell": {
@@ -5605,21 +5728,25 @@
     }
   },
   "traitWeightBusinessCountedFound": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the business.counted-found decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2.04,
+    "tag": "ESTIMATED",
+    "citation": "Zhao and Seibert 2006 (Journal of Applied Psychology 91(2)): multiple R .37. Counted adults' founding pull is a logistic of their reasons; weight is ln(4.83) divided by 0.772, the mean lean gap between the thirds (place key 3223500, seed 7ae8589566f5), so the odds ratio between the thirds is the study's 4.83.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1.5,
+      "high": 2.6,
+      "unit": "weight",
+      "citation": "Zhao, Seibert and Lumpkin 2010 give R .36; the weight range gives odds ratios of 3 to 7.5 between the thirds."
     }
   },
   "traitWeightRetirementClaimAge": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the retirement.claim-age decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "Greenberg, Hershfield, Shu and Spiller 2018 (working paper, 20th Annual Joint Meeting of the Retirement Research Consortium), Table 2: intended Social Security claiming age rises 0.218 years per standard deviation of openness and 0.211 of agreeableness (standardized beta 0.078 and 0.075 on the 2.8-year spread of intended ages); the thirds of a trait sit 2.18 standard deviations apart, so 0.475 years. scripts/traits/trait-calibrate.ts cannot fit it: the case for waiting past the full retirement age clusters at one score, so the odds ratio is 1 up to a weight of 0.12 and over 3,000 at 0.15. Weight fitted directly: 0.475 years divided by claimTraitPullYears (4) times the mean lean gap between the thirds of those weighed (1.08 in Holualoa, Hawaii, place key 1515700, seed 6f7794a4906f, 5,574 calls; 0.71 in Peacham, Vermont, place key 5054325, seed 58e683537f9b, 2,131 calls), 0.11 and 0.17, set at the pooled 0.12.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.07,
+      "high": 0.17,
+      "unit": "weight",
+      "citation": "The study's standard error (0.047 years for openness) gives 0.13 to 0.31 years per standard deviation, which at these lean gaps is a weight of 0.07 to 0.17."
     }
   },
   "traitWeightBringItUpBlame": {
@@ -5650,12 +5777,14 @@
     }
   },
   "traitWeightMovesMoveAway": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the moves.move-away decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.366,
+    "tag": "ESTIMATED",
+    "citation": "Jokela 2009, Personality predicts migration within and between U.S. states (Journal of Research in Personality 43(1)): openness, odds ratio 1.19 per standard deviation between states over 7 to 11 years. Moves are a pull multiplied by e to the net of pushes and holds, so the weight is ln(1.19^2.18) divided by 1.036, the mean lean gap between the third of counted adults leaning most toward moving and the third leaning least (place key 3223500, seed 7ae8589566f5): an odds ratio of 1.46 between the thirds.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.6,
+      "unit": "weight",
+      "citation": "Jokela's interval for openness, 1.04 to 1.36 per standard deviation, gives weights 0.08 to 0.65."
     }
   },
   "traitWeightVotingTurnout": {
@@ -5733,65 +5862,67 @@
     }
   },
   "traitWeightCampaignsVolunteer": {
-    "value": 0.15,
+    "value": 0.165,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 over the trait's full range (95% interval 0.57 to 3.47): target odds ratio 2.41 between thirds. Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the volunteer threshold set at 1.0 (the largest the campaign calibration test's range of acquaintances who volunteer allows without losing the closest circle). Reached 2.42.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 over the trait's full range (95% interval 0.57 to 3.47): target odds ratio 2.63 between thirds (2.41 before the rescale below). Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the volunteer threshold set at 1.0 (the largest the campaign calibration test's range of acquaintances who volunteer allows without losing the closest circle). Reached 2.42. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.1: 0.15 became 0.165.",
     "spread": {
-      "low": 0.042,
-      "high": 0.26,
+      "low": 0.046,
+      "high": 0.286,
       "unit": "weight",
       "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightCampaignsDonate": {
-    "value": 0.065,
+    "value": 0.0715,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, contributed money, openness logit 1.25 (interval 0.41 to 2.09): target odds ratio 1.72 between thirds. Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.72 on whether a person's reasons to give clear zero; no threshold moved because a gift grows with the reason.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, contributed money, openness logit 1.25 (interval 0.41 to 2.09): target odds ratio 1.82 between thirds (1.72 before the rescale below). Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.72 on whether a person's reasons to give clear zero; no threshold moved because a gift grows with the reason. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.1: 0.065 became 0.0715.",
     "spread": {
-      "low": 0.021,
-      "high": 0.109,
+      "low": 0.023,
+      "high": 0.12,
       "unit": "weight",
       "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightCampaignsEndorse": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.endorse decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2 (rows campaigns.endorse in data/research/trait-effect-sizes.json: openness and extraversion on having tried to convince people to vote for or against a candidate, a proxy for an endorsement), carried to the thirds as an odds ratio of 2.70. Fitted with scripts/traits/trait-calibrate.ts on played years (buildBenchWorld, every module, January 20, 2025 to January 20, 2026): Haledon, New Jersey (place key 3429070, seed fc8bf1311d0f) fits 0.2 on 1,053 calls and Kenvir, Kentucky (2142112, seed 32bb83941552) fits 0.1 on 62. At 0.15 Haledon's thirds reach 2.12, or 2.76 with every case crossed with every decider's lean; at the general weight of 1 they ran at 269.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "The two towns' own fits."
     }
   },
   "traitWeightCampaignsOpenDoor": {
-    "value": 0.085,
+    "value": 0.1105,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion 0.27 to 0.49 across its range (logit 0.92, SE 0.27), used as the citizen-side proxy for answering a stranger's knock: target odds ratio 1.48 between thirds. Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.44.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion 0.27 to 0.49 across its range (logit 0.92, SE 0.27), used as the citizen-side proxy for answering a stranger's knock: target odds ratio 1.66 between thirds (1.48 before the rescale below). Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.44. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.085 became 0.1105.",
     "spread": {
-      "low": 0.036,
-      "high": 0.134,
+      "low": 0.047,
+      "high": 0.174,
       "unit": "weight",
       "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightCampaignsRetell": {
-    "value": 4.9,
+    "value": 5.8,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for telling family a campaign story (no study of retelling by personality was found): target ratio 2.47 between thirds. A retelling's reach is 1 plus this weight times the lean, so the weight is the one at which the top third's mean reach is 2.45 times the bottom third's across the adults of Newfane VT (seed c1). The campaign's second-hand weight was lowered to keep the town's mean reach where it was.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for telling family a campaign story (no study of retelling by personality was found): target ratio 2.70 between thirds (2.47 before the rescale below). A retelling's reach is 1 plus this weight times the lean, so the weight is the one at which the top third's mean reach is 2.45 times the bottom third's across the adults of Newfane VT (seed c1). The campaign's second-hand weight was lowered to keep the town's mean reach where it was. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target grows by 1.1 (log odds 0.903 to 0.993). A retelling's reach is 1 plus the weight times the lean, so it does not scale exactly with the target; the weight is found again the same way on the adults of Newfane VT (seed c1): the top third's mean reach is 2.45 times the bottom's at 4.9 and 2.71 times at 5.8, against the new 2.70, and a plain 1.1 scale (5.39) would reach only 2.59. 4.9 became 5.8. That lifts the town's mean reach from 1.65 to 1.77 times, which the campaign's second-hand weight is set from.",
     "spread": {
-      "low": 3.3,
-      "high": 6.6,
+      "low": 3.9,
+      "high": 7.8,
       "unit": "weight",
       "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
   },
   "traitWeightCampaignsAnswerPoll": {
-    "value": 0.095,
+    "value": 0.1235,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion (proxy for answering a pollster's call; no study of poll response by personality was found): target odds ratio 1.48 between thirds. Found by the same cross-product method on the age reasons of every adult of Newfane VT (seed c1) met with their trait leans, with the threshold moved so the share who answer is unchanged. Reached 1.46.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion (proxy for answering a pollster's call; no study of poll response by personality was found): target odds ratio 1.66 between thirds (1.48 before the rescale below). Found by the same cross-product method on the age reasons of every adult of Newfane VT (seed c1) met with their trait leans, with the threshold moved so the share who answer is unchanged. Reached 1.46. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.095 became 0.1235.",
     "spread": {
-      "low": 0.04,
-      "high": 0.15,
+      "low": 0.052,
+      "high": 0.195,
       "unit": "weight",
       "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
@@ -5869,39 +6000,39 @@
     }
   },
   "traitWeightLegislatureMemberPosition": {
-    "value": 0.2,
+    "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.member-position decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 0.2 gives an odds ratio of 2.19 of a yes vote between the third of 10,336 member positions leaning most toward yes and the third leaning least, net of the same gap with personality off, against the target of 2.24. No study of legislators' roll-call votes by personality was retrievable (Dietrich et al. 2012 could not be read), so the target is the default personality-behavior study scaled for a single occasion to r = .2: Fleeson & Gallagher 2009, average-level r = .42 to .56, single-decision r = .1 to .3. Party, district and record still decide most votes.",
-    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
+    "citation": "The trait weight of the legislature.member-position decision, set by the party discipline a member's position must keep once officials carry a level on every trait (pool item officials-carry-every-trait). With every trait, a member's taste for change is a standing lean on every bill, so at 0.6 (fitted to the generic single-occasion personality target of 2.24) the two independent senators in the world drawn from seed 3e556e7e162eca8baf7052af5494da02 (Fenwick, West Virginia) voted with their caucus on 55 of 90 party votes, against about 90% for the real independents (Voteview, the caucus weight's check). At 0.1 the independents of four drawn worlds vote with their caucus on 0.80, 0.98, 0.90 and 0.95 of party votes (mean 0.91; seeds 3e556e7e162eca8baf7052af5494da02, caucusA1, caucusB2, caucusC3), and party members' pooled unity on party-splitting votes is 0.943 over four drawn places (src/core2/party-loyalty.test.ts, seed loyalty01, against its 0.85 to 0.98 band from CQ Vote Studies). The generic target is not used here: a legislator's roll call is dominated by party, and no study found gives personality's size per roll call.",
+    "estimatedFrom": "The independents' caucus unity (about 90%, Voteview 118th to 119th Congress, as the officials roster's caucus weight cites) and party unity (about 90%, CQ Vote Studies, the party-loyalty band), read in drawn worlds at weights 0.05 to 0.6.",
     "spread": {
-      "low": 0.1,
-      "high": 0.3,
+      "low": 0.05,
+      "high": 0.15,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "At 0.15 the Fenwick world's independents vote with their caucus on 70 of 92 party votes (0.76) and the four worlds' mean is 0.89; at 0.05, 0.79 and 0.91."
     }
   },
   "traitWeightLegislatureHoldHearing": {
-    "value": 1.35,
+    "value": 0.65,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.hold-hearing decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 1.35 gives an odds ratio of 2.01 of holding the hearing between the thirds of 78 chair decisions, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2). Few calls, so the weight is noisy.",
+    "citation": "The trait weight of the legislature.hold-hearing decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): 0.65 gives an odds ratio of 2.32 of holding the hearing between the thirds of 172 chair decisions, against the target of 2.24. The places fit alone at 0.1 (77 decisions) and 1.0 (95). It was 1.35 when fitted in Ely, Nevada on 78 decisions while officials carried nine faint traits.",
     "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "low": 0.675,
-      "high": 2.025,
+      "low": 0.1,
+      "high": 1.0,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "The two places' own fits, each on fewer than 100 chair decisions."
     }
   },
   "traitWeightLegislatureSignOrVeto": {
-    "value": 0.2,
+    "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.sign-or-veto decision. Only 29 desk decisions ran in the audit year, too few for scripts/traits/trait-calibrate.ts (30 needed), so this carries the weight calibrated for legislature.member-position, the same legislators weighing a bill against the same record, with the same default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "citation": "The trait weight of the legislature.sign-or-veto decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): the 59 desk decisions saturate (the odds ratio between the thirds is 78 at weight 1), and 0.1 comes closest to the target of 2.24 (2.62). The second place alone fits 0.3 on 31 decisions.",
     "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2), calibrated on 10,336 calls; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
       "low": 0.1,
       "high": 0.3,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "The pooled and the second place's fits."
     }
   },
   "traitWeightLegislatureBudgetPriorities": {
@@ -5982,12 +6113,12 @@
     }
   },
   "traitWeightPressAcceptInterview": {
-    "value": 1.98,
+    "value": 2.18,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for speaking to a reporter: target odds ratio 2.47 between thirds. Nearly every candidate has no closeness or grudge with the asking reporter, so no circumstance varies and the weight is set on the latent-logit scale: the study's log odds divided by the gap between the top and bottom third's mean lean (0.456) across the adults of Newfane VT (seed c1). Only a candidate strongly averse to a reporter declines.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for speaking to a reporter: target odds ratio 2.70 between thirds (2.47 before the rescale below). Nearly every candidate has no closeness or grudge with the asking reporter, so no circumstance varies and the weight is set on the latent-logit scale: the study's log odds divided by the gap between the top and bottom third's mean lean (0.456) across the adults of Newfane VT (seed c1). Only a candidate strongly averse to a reporter declines. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.1 (the weight is the study's log odds over the thirds' lean gap, so it scales exactly): 1.98 became 2.18.",
     "spread": {
-      "low": 1.3,
-      "high": 2.7,
+      "low": 1.43,
+      "high": 2.97,
       "unit": "weight",
       "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
@@ -6065,12 +6196,12 @@
     }
   },
   "traitWeightCampaignsPartyFirmness": {
-    "value": 0.44,
+    "value": 0.484,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 (interval 0.57 to 3.47), as the proxy for holding a party's line (no study of party firmness by personality was found): target odds ratio 2.41 between thirds. Firmness is a share around one half, so the weight is the one at which the odds of a firm tie between the top and bottom third of lean differ by 2.37 across the adults of Newfane VT (seed c1).",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, worked for a party or candidate, openness logit 2.02 (interval 0.57 to 3.47), as the proxy for holding a party's line (no study of party firmness by personality was found): target odds ratio 2.63 between thirds (2.41 before the rescale below). Firmness is a share around one half, so the weight is the one at which the odds of a firm tie between the top and bottom third of lean differ by 2.37 across the adults of Newfane VT (seed c1). Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target grows by 1.1 and the weight is scaled by the same 1.1: 0.44 became 0.484. Not found again by measure: the fit above cannot be repeated on today's code, where on the adults of Newfane VT (seed c1) at the opening the odds of a firm tie between the thirds differ by only 1.35 at 0.44 and never pass about 1.5 at any weight (firmness is held between 0 and 1).",
     "spread": {
-      "low": 0.12,
-      "high": 0.77,
+      "low": 0.132,
+      "high": 0.847,
       "unit": "weight",
       "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
     }
@@ -6096,7 +6227,7 @@
   "traitWeightLegislatureAttendSitting": {
     "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.attend-sitting decision. Salgado (2002), 'The Big Five personality dimensions and counterproductive behaviors' (Int. J. Selection and Assessment 10), found no Big Five trait significantly predicting absenteeism, so the trait share is the smallest in this family: half the 0.2 of legislature.member-position, which is r = .1 against r = .2. scripts/traits/trait-calibrate.ts could not fit it, because with a seat, session and close-vote duty most gated sittings are attended whatever the temperament (a miss rate near 1 percent leaves no gap between the thirds), so the weight is set by that ratio and checked by how many sittings personality turns (about 8 of 100 gated sittings, down from 96 of 100 when personality was the only reason).",
+    "citation": "The trait weight of the legislature.attend-sitting decision. Salgado (2002), 'The Big Five personality dimensions and counterproductive behaviors' (Int. J. Selection and Assessment 10), found no Big Five trait significantly predicting absenteeism, so the trait share is the smallest in this family: half the 0.2 of legislature.member-position, which is r = .1 against r = .2. scripts/traits/trait-calibrate.ts could not fit it, because with a seat, session and close-vote duty most gated sittings are attended whatever the temperament (a miss rate near 1 percent leaves no gap between the thirds), so the weight is set by that ratio and checked by how many sittings personality turns (about 8 of 100 gated sittings, down from 96 of 100 when personality was the only reason). Pooled over 1,916 sittings in two played years after officials carry every trait (Pomona, New Jersey, seed 7628f7fcf9e0; seed f9a9cd8421fe), the choice saturates: a member's case for attending barely varies, so even a small trait term decides it (odds ratio 6,551 at weight 1), and no weight reaches the target; it stays the smallest in the family.",
     "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2) halved for r = .1; Salgado 2002 found no significant Big Five predictor of absenteeism.",
     "spread": {
       "low": 0.05,
@@ -6130,15 +6261,15 @@
     }
   },
   "traitWeightOfficeDayStateLeaderRequest": {
-    "value": 0.2,
+    "value": 1.7,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the office-day-state.leader-request decision. Replaces the hand-set leaderRequestTraitWeight of 0.4. scripts/traits/trait-calibrate.ts cannot fit it on the audit year's 49 requests: the leader's party term (a same-party request is granted, an other-party one refused) outweighs temperament, so personality turned none of them, which is how party leaders schedule. Carries the weight calibrated for legislature.member-position (0.2), with the default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "citation": "The trait weight of the office-day-state.leader-request decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): 1.7 gives an odds ratio of 2.49 between the thirds of 106 requests, against the target of 2.24. Each place alone saturates (fits of 1.65 and 2.15 that cannot reach the target). It was 0.2, the single-occasion default, before officials carried every trait.",
     "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2).",
     "spread": {
-      "low": 0.1,
-      "high": 0.3,
+      "low": 1.65,
+      "high": 2.15,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "The two places' own best weights."
     }
   },
   "traitWeightAppointmentsWeigh": {
@@ -6367,6 +6498,51 @@
       "high": 0.4,
       "unit": "score per unit of care need",
       "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
+    }
+  },
+  "coarsePlaceOldestWorkingAge": {
+    "value": 80,
+    "tag": "TUNABLE",
+    "citation": "The oldest age a worker met in another place is drawn up to when the last Census age row (75 and over) has no upper bound; the ACS reports employed people 75 and over as one row, and few are past 80.",
+    "spread": {
+      "low": 76,
+      "high": 90,
+      "unit": "years",
+      "citation": "Chosen range: the oldest working ages in the ACS 75-and-over row, which has no upper bound; checked by whether the drawn ages stay plausible, not measured."
+    }
+  },
+  "coarsePlaceWagePercentile": {
+    "value": 50,
+    "tag": "TUNABLE",
+    "citation": "Where in their occupation's published wage distribution a worker met in another place is paid: the median, since the place's counts show how many hold each job and its wage table shows the middle, not who earns more; the player's own town spreads pay by tenure instead.",
+    "spread": {
+      "low": 25,
+      "high": 75,
+      "unit": "percentile",
+      "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles; the player's own town starts a worker at the 25th and moves toward the 75th with tenure, so the median sits inside that range."
+    }
+  },
+  "schoolStandingAttendanceWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The unit of the standing that orders students within an income fifth: a student's share of school days attended counts at weight 1, and the study traits at schoolStandingTraitWeight against it. The standing only ranks who in a fifth passes or graduates (the count comes from the place's base, the web's factor and the income gradient), so only the ratio of the two weights matters and this one is the reference.",
+    "spread": {
+      "low": 1,
+      "high": 1,
+      "unit": "reference",
+      "citation": "Fixed as the reference: scaling both weights together leaves every student's rank, and so every result record, unchanged."
+    }
+  },
+  "schoolStandingTraitWeight": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "Weight of the student's study traits (studious, voluntary effort) in that standing, against attendance at 1: the ratio of the two predictors' correlations with grades. Conscientiousness correlates with academic performance at rho .21 in secondary school, .28 in primary and .23 in tertiary (Poropat 2009, Psychological Bulletin 135(2), Table 2); class attendance correlates with class grades at rho .44 and with GPA at .41 (Credé, Roch and Kieszczynka 2010, Review of Educational Research 80(2)). Ordering only, never the level, which is the researched base.",
+    "estimatedFrom": "Poropat's secondary-school conscientiousness correlation (.21) over Credé, Roch and Kieszczynka's attendance and class-grade correlation (.44) is 0.48, rounded to 0.5. Both are correlations with grades, not a model with both predictors, so the ratio is an estimate of their relative pull.",
+    "spread": {
+      "low": 0.45,
+      "high": 0.65,
+      "unit": "ratio to the attendance weight",
+      "citation": "From secondary conscientiousness over attendance and class grades (.21/.44 = 0.48) or GPA (.21/.41 = 0.51), to primary over class grades (.28/.44 = 0.64)."
     }
   }
 }
