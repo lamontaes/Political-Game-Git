@@ -58,6 +58,12 @@ interface Run {
     }
   >;
   events: Record<string, number>;
+  /** Decisions weighed while the world was built, and the first records of each kind it left. */
+  opening?: {
+    chooser: Record<string, { calls: number }>;
+    formula: Record<string, { calls: number }>;
+    records: Record<string, string[]>;
+  };
   people: {
     id: string;
     placeId?: string;
@@ -83,6 +89,8 @@ const GAPS = JSON.parse(
   readFileSync("data/content/trait-decision-gaps.json", "utf8"),
 ) as {
   formulaSiteAliases?: Record<string, string>;
+  /** The kind of record a decision weighed at the opening leaves, by decision id. */
+  openingRecordKinds?: Record<string, string>;
   gaps: Record<string, { class: string; why: string; fix: string }>;
 };
 const PARAMETERS = JSON.parse(
@@ -117,23 +125,34 @@ const researchById = new Map<string, { id: string }[]>();
 for (const row of research.rows)
   researchById.set(row.id, [...(researchById.get(row.id) ?? []), row]);
 
+/**
+ * Whether a chooser site (its sorted action ids) is this decision's: every
+ * action is one of its options, and no narrower decision fits them all (a
+ * site whose actions fit several decisions goes to the narrowest).
+ */
+function siteIsDecision(key: string, decision: DecisionRow): boolean {
+  const actions = key.split("|");
+  if (!actions.every((a) => decision.options.some((o) => o.id === a)))
+    return false;
+  return !decisions.decisions.some(
+    (other) =>
+      other.id !== decision.id &&
+      other.options.length < decision.options.length &&
+      actions.every((a) => other.options.some((o) => o.id === a)),
+  );
+}
+
+/** Whether a formula read (by table id or caller site) is this decision's. */
+const readIsDecision = (key: string, decision: DecisionRow) =>
+  key === decision.id || GAPS.formulaSiteAliases?.[key] === decision.id;
+
 /** Chooser sites whose action ids all belong to one decision's options. */
 function chooserFor(run: Run, decision: DecisionRow) {
-  const ids = new Set(decision.options.map((o) => o.id));
   let calls = 0,
     turned = 0;
   const gaps: { option: string; n: number; low: number; high: number }[] = [];
   for (const [key, site] of Object.entries(run.chooser)) {
-    const actions = key.split("|");
-    if (!actions.every((a) => ids.has(a))) continue;
-    // A site whose actions fit several decisions goes to the narrowest.
-    const narrower = decisions.decisions.some(
-      (other) =>
-        other.id !== decision.id &&
-        other.options.length < decision.options.length &&
-        actions.every((a) => other.options.some((o) => o.id === a)),
-    );
-    if (narrower) continue;
+    if (!siteIsDecision(key, decision)) continue;
     calls += site.calls;
     turned += site.turned;
     for (const [option, t] of Object.entries(site.byLean))
@@ -152,8 +171,7 @@ function formulaFor(run: Run, decision: DecisionRow) {
     turned = 0;
   const sites: string[] = [];
   for (const [key, row] of Object.entries(run.formula)) {
-    if (key !== decision.id && GAPS.formulaSiteAliases?.[key] !== decision.id)
-      continue;
+    if (!readIsDecision(key, decision)) continue;
     calls += row.calls;
     absLean += row.absLeanSum;
     nonzero += row.nonzero;
@@ -267,17 +285,36 @@ function outcomeThirds(run: Run, decision: DecisionRow) {
   };
 }
 
+/** Calls of a decision weighed while the world was built (null when the run kept none). */
+function openingCalls(run: Run, decision: DecisionRow): number | null {
+  if (!run.opening) return null;
+  let calls = 0;
+  for (const [key, row] of Object.entries(run.opening.chooser))
+    if (siteIsDecision(key, decision)) calls += row.calls;
+  for (const [key, row] of Object.entries(run.opening.formula))
+    if (readIsDecision(key, decision)) calls += row.calls;
+  return calls;
+}
+
 const rows = decisions.decisions.map((decision: DecisionRow) => {
   const c = chooserFor(played, decision);
   const f = formulaFor(played, decision);
   const calls = c.calls + f.calls;
   const best = c.gaps.sort((a, b) => b.n - a.n)[0];
+  // Weighed while the world was built: counted apart, never in the year's calls.
+  const atOpening = openingCalls(played, decision);
+  const openingKind = GAPS.openingRecordKinds?.[decision.id];
   return {
     id: decision.id,
     kind: "decision",
     route: decision.route,
     site: decision.site,
     callsInYear: calls,
+    callsAtOpening: atOpening,
+    openingRecords:
+      atOpening && openingKind
+        ? (played.opening?.records[openingKind] ?? [])
+        : null,
     chooserCalls: c.calls,
     formulaCalls: f.calls,
     turnedShare: c.calls ? c.turned / c.calls : null,
@@ -445,6 +482,10 @@ const matrix = {
     decisions: rows.length,
     ran: rows.filter((r) => r.status === "ran").length,
     neverRan: rows.filter((r) => r.status === "never-ran").map((r) => r.id),
+    // Silent in the year but weighed while the world was built.
+    ranAtOpeningOnly: rows
+      .filter((r) => r.status === "never-ran" && (r.callsAtOpening ?? 0) > 0)
+      .map((r) => r.id),
     // A decision is calibrated once its weight row is set from research (no longer TUNABLE).
     calibrated: rows.filter((r) => r.weightTag && r.weightTag !== "TUNABLE")
       .length,

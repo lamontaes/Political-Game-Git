@@ -5,12 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/tests-group-a-age-check-empty-town
+status: open
+claimed-by:
 pr: #6027
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T11:34:29.958Z
+claimed-at:
 ---
 
 **What.** `src/core2/law-reach-group-a.test.ts` runs every record-only law through `recordRoundTrip` and requires each to reach someone. On CI's random seed 4fbd5b9fb2634ed13ab0c0251ffacef17651e45390b4c2b358c7d86e96055bc3 it draws Monowi, Nebraska (3132550), and the social media age check reaches no one: "us-policy-positions:technology-privacy.age-verification-for-social-media reached no one: expected 0 to be greater than 0" (CI unit job on #6012, Oct 25). Main at 71454fc4f0 fails the same way on that seed (measured by the laws lead). The law reaches residents aged 13 to 17 and organizations in the `online` group (`src/core2/data/laws/reach-group-a.json`), and that town's world holds neither, so reaching no one is the engine's right answer. The test is wrong, not the engine, and it turns any PR's unit job red when CI draws such a town.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-25T11:34:29.958Z
 **Notes.** From the laws lead, Oct 25, reading #6012's red unit job. The rights family (#5669) moves the age check's reach to its own engine, so whoever takes this checks the test against that branch too.
 
 Laws lead, Oct 25 11:50: in PR #6027 (head e3e7c567e4); ported into the family PRs that hit it.
+
+Sent back 2026-10-26 from PR #6027 (branch claude/tests-group-a-age-check-empty-town): The code repair is already in merged #6012 and this PR now changes only a release declaration; the remaining explicit Done-when detail is selector-specific no-subject logging, which the body admits and main confirms is currently only a law-key message.; finish on that branch, merge main into it first.

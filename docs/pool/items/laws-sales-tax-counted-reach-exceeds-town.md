@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** Found by the laws lead on Oct 24 while writing the prices family PR body.
 
 Laws lead, Oct 26: the prices family's runs on the own-payment checker show the same in both audit towns, and for the cannabis law too. The sales tax's counted reach is 5,044 people in Prescott and 3,132 in Uehling. Legal cannabis sales reach 277 and 231. The towns have 216 and 188 residents (Census, 2020-2024 estimates), and the other price engine laws reach 125 to 136 people in each. Run files: docs/reports/law-wiring/families/prices-year-US-MI-2666300.json and prices-year-US-NE-3149425.json on claude/laws-nine-links-prices (PR #5986).
+
+Laws lead, Oct 26 (07:50 UTC): the grocery exemption over-counts the same way. In the control worlds where it is in force at the opening, its counted groups stand for 5,044 people in Prescott (46 groups) and 3,106 in Uehling (35 groups); enacted in Colome, South Dakota (260 residents), its 224 named people and 2 groups for 171 people make 395 (`docs/reports/law-wiring/families/prices-year-*.json`, PR #5986).

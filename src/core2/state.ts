@@ -112,6 +112,7 @@ import {
 import { recordStopgapsIn, stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import { nativityFact } from "./nativity";
+import { spacedSiblingBirths } from "./sibling-births";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -1570,6 +1571,21 @@ export function coreAPI(core: CoreState): CoreAPI {
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
       actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
+      // Brothers and sisters stay born months apart from the chosen birthday:
+      // one drawn too close moves, keeping their age where their year allows.
+      const siblings = (actor.pastFacts ?? []).flatMap((fact) => {
+        const other =
+          fact.kind === "family:sibling" && fact.facts?.otherPersonId
+            ? core.people.get(fact.facts.otherPersonId)
+            : undefined;
+        return other ? [other] : [];
+      });
+      const births = spacedSiblingBirths(
+        core.startedAt,
+        siblings.map((row) => row.birthDate),
+        [identity.birthDate],
+      );
+      siblings.forEach((row, i) => (row.birthDate = births[i]!));
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
