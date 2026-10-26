@@ -1,6 +1,83 @@
 {
   "entries": [
     {
+      "version": "0.29.7",
+      "releasedOn": "2026-10-25",
+      "revision": "a6d3be700a72a3f1fe779c77aecf24e26728d90a",
+      "changeIds": [
+        "filing-panel-party-not-covered",
+        "play-election-night-own-race-first",
+        "play-filing-party-under-journal-note"
+      ]
+    },
+    {
+      "version": "0.29.6",
+      "releasedOn": "2026-10-25",
+      "revision": "a3762a2f88a2c197a31432973a9bdd7eae4a0d61",
+      "changeIds": [
+        "people-town-neighbors-no-ties",
+        "people-unplanned-counted-tier",
+        "web-civic-played-witness"
+      ]
+    },
+    {
+      "version": "0.29.5",
+      "releasedOn": "2026-10-25",
+      "revision": "001d8d1f8e597a7e2182d9360b9f8d457b00832c",
+      "changeIds": [
+        "play-stop-16-identical-council-seat-choices",
+        "release-lane-files-no-declaration",
+        "release-main-red-play-api-figures",
+        "research-residents-cadence-sourced"
+      ]
+    },
+    {
+      "version": "0.29.4",
+      "releasedOn": "2026-10-26",
+      "revision": "bb901b62bed41a4cc2e62dfb340c5202bd6a9265",
+      "changeIds": [
+        "play-first-14-budgets-hidden-until-relevant",
+        "tests-played-world-counted-change-tiny-place"
+      ]
+    },
+    {
+      "version": "0.29.3",
+      "releasedOn": "2026-10-26",
+      "revision": "8f48993193bc955cfa0186f05eab719abdf062bf",
+      "changeIds": [
+        "play-first-10-journal-from-day-one",
+        "tests-small-town-treasury-payroll-red"
+      ]
+    },
+    {
+      "version": "0.29.2",
+      "releasedOn": "2026-10-25",
+      "revision": "b440977e327887619d8b0c04395365f2b49e88a7",
+      "changeIds": [
+        "effects-end-to-end-proof",
+        "gov-bribes-in-played-worlds-measured",
+        "play-stop-25-door-count-stops-growing"
+      ]
+    },
+    {
+      "version": "0.29.1",
+      "releasedOn": "2026-10-25",
+      "revision": "6ef4a6d543207970f91fe3c7d06e74357da17bc0",
+      "changeIds": [
+        "core-speed-school-day-memo",
+        "play-first-07-no-random-people-in-rooms"
+      ]
+    },
+    {
+      "version": "0.29.0",
+      "releasedOn": "2026-10-25",
+      "revision": "d627bd0bd35f0153b3b8ef8284456874106beee4",
+      "changeIds": [
+        "director-talk-lived-crime",
+        "traits-scene-talk-shared-lean"
+      ]
+    },
+    {
       "version": "0.28.2",
       "releasedOn": "2026-10-25",
       "revision": "01fd25c9a171f5598379ce883ae8052b4125d433",

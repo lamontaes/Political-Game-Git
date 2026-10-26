@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Speed: a town's game year must run in under two minutes, and no change may make a year more than 20 percent slower than its base. One rule, all 56 places: every state's races are counted by the same rule. No dice: the counted share of each place decides, never a draw. Owner decisions are flagged, never waited on: whether a House race is counted per place or per state is a design call the builder makes simply and flags.
 
-**Done when.** In the played world (buildBenchWorld), Bedford, Wyoming (seed 9a4dd331ace7, key 5606045) and a place drawn from all 56 (named with its seed), two played years: the month ending on the 2026 election day runs within 2 times an ordinary month, decide's inclusive time in a CPU profile of that month falls by at least half, and every race elsewhere has the same winner as before (a test names the races and their record ids), with any share that moves reported with its size.
+**Done when.** In the played world (buildBenchWorld), Bedford, Wyoming (seed 9a4dd331ace7, key 5606045) and a place drawn from all 56 (named with its seed), two played years: the month ending on the 2026 election day runs within 2 times an ordinary month, decide's inclusive time in a CPU profile of that month falls by at least half, and every race elsewhere has the same winner as before (a test names the races and their record ids), with any share that moves reported with its size. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/modules/world-races.ts, src/core2/electorate.ts, src/core2/data/electorate/parameters.json
 

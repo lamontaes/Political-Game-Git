@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-first-07-no-random-people-in-rooms
 pr: #6084
 blocked-on:
