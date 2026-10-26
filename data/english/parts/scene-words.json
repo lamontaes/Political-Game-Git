@@ -2941,6 +2941,48 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-town-hall-afterward-other.other-comes-your-way-as-the-town-hall-empties",
+      "move": "lead-town-hall-afterward-other",
+      "kind": "spoken",
+      "text": "{other} comes your way as the town hall empties.",
+      "uses": [
+        {
+          "move": "lead-town-hall-afterward-other",
+          "subject": "lead",
+          "role": "town-hall-afterward",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-town-hall-afterward-alone.the-candidate-who-spoke-is-coming-your-way",
+      "move": "lead-town-hall-afterward-alone",
+      "kind": "spoken",
+      "text": "The candidate who spoke is coming your way.",
+      "uses": [
+        {
+          "move": "lead-town-hall-afterward-alone",
+          "subject": "lead",
+          "role": "town-hall-afterward",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

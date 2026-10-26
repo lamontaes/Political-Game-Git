@@ -13,6 +13,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDesignation } from "../english/bill-names";
+import { topicInSentence } from "../english/policy-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
@@ -127,6 +128,10 @@ function composeBinding(
   const town = corePlaceByJurisdictionId(asked.placeId as never);
   if (town)
     facts.place = { text: spoken(town), sourceRecordIds: [asked.placeId] };
+  // What the cause record is about (a shared cause, a speech), as the bill
+  // catalog names its topic.
+  const cause = record?.topic ? topicInSentence(record.topic) : null;
+  if (cause) facts.cause = { text: cause, sourceRecordIds: [moment.causeId] };
   // A bill the record names, by its number, and the section a trade added.
   if (said.number) {
     // Said as a clerk reads it: a bare number takes its form's word first.

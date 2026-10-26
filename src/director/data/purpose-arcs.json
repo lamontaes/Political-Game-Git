@@ -2733,6 +2733,62 @@
           "when": {}
         }
       ]
+    },
+    "ask-support": {
+      "state": "request",
+      "replies": ["ask", "agree", "decline", "deflect"],
+      "follow": {
+        "ask": ["answer"],
+        "agree": ["thank"],
+        "decline": ["press", "accept"],
+        "deflect": ["press"]
+      },
+      "again": {
+        "answer": ["agree", "decline", "leave"],
+        "press": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "pledged",
+          "label": "You said you'd vote for them",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "heard-out",
+          "label": "You heard them out and passed",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"],
+            "asker": ["accept"],
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "not-yet",
+          "label": "Not your candidate",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "dodged",
+          "label": "You kept your vote to yourself",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {

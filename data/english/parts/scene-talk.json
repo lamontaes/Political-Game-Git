@@ -84165,6 +84165,840 @@
         "move": "request",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.after-the-town-hall-name-works-the-room-and-stops-to-shake-your-hand",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "After the town hall, {name} works the room and stops to shake your hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-chairs-are-emptying-when-name-comes-down-the-aisle-toward-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The chairs are emptying when {name} comes down the aisle toward you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-coming-out-tonight",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for coming out tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.glad-you-made-it-i-saw-you-listening",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Glad you made it. I saw you listening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-meant-every-word-up-there-can-i-count-on-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I meant every word up there. Can I count on your vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.if-any-of-that-made-sense-to-you-i-d-be-grateful-for-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If any of that made sense to you, I'd be grateful for your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-actually-do-first",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you actually do first?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-would-you-pay-for-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How would you pay for it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've got my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-with-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-sold-yet",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not sold yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-still-don-t-see-it-your-way",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I still don't see it your way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-still-making-up-my-mind",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm still making up my mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deflect",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-think-it-over",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me think it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deflect",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-going",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get going.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-head-home",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to head home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.start-with-what-i-said-tonight-and-do-it-in-the-first-year",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with what I said tonight, and do it in the first year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.carefully-and-in-the-open-where-you-can-watch-me",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Carefully, and in the open, where you can watch me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-means-a-lot-tell-a-friend",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That means a lot. Tell a friend.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-won-t-let-you-down",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I won't let you down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.what-would-it-take-to-get-you-there",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "What would it take to get you there?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.fair-what-s-holding-you-back",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Fair. What's holding you back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-hope-i-earn-it-before-election-day",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I hope I earn it before election day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-respect-that-thanks-for-hearing-me-out",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I respect that. Thanks for hearing me out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.see-you-at-the-polls-then",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "See you at the polls, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-keep-my-word-you-ll-see",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll keep my word. You'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-my-door-s-open-if-you-change-your-mind",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. My door's open if you change your mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-be-on-the-ballot-either-way",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll be on the ballot either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-election-day-isn-t-far",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over. Election day isn't far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-too-long-the-race-is-close",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait too long. The race is close.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-thanks-for-coming-tonight",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. Thanks for coming tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.of-course-have-a-good-night",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Of course. Have a good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-meant-what-i-said-about-cause-can-i-count-on-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I meant what I said about {cause}. Can I count on your vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
     }
   ]
 }
