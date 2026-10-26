@@ -1484,13 +1484,25 @@
     },
     {
       "id": "interest-groups.employer-join",
-      "trait": "none found",
-      "outcome": "an employer joining an employers' association",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a personality effect size on a business owner joining an association was found; the general weight (1) stands."
+      "trait": "openness to experience",
+      "outcome": "contributed money to a group that supported or opposed candidates (2006 Cooperative Congressional Election Study, N = 1,061); a proxy for an employer joining a group that opposes a bill",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 2.31,
+        "low": 1.389,
+        "high": 3.231,
+        "traitSd": 0.22
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/mondak_et_al._2010.pdf"
+      },
+      "quote": "Table 2, row \"Respondent contributed money to a group that supported or opposed candidates (1,061)\", column Openness to Experience: \"2.31***\", standard error \"(0.47)\"; Extraversion \"0.16\" \"(0.41)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1: Openness mean \"0.46\", standard deviation \"(0.22)\".",
+      "quoteVerified": true,
+      "notes": "US adults, not employers, and giving money to a political group, not joining a business association: the nearest study found. Carried to the thirds (2.18 standard deviations apart), a log odds gap of 1.11 (odds 3.03). low and high are the coefficient plus or minus 1.96 standard errors."
     },
     {
       "id": "outcome.news-reaction",

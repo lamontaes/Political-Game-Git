@@ -184,9 +184,9 @@
       "fix": "Re-center the waiting side against the births rate, then set the weight (traits-plan-child-weight-recentered)."
     },
     "interest-groups.employer-join": {
-      "class": "no study number",
-      "why": "Runs when a bill before the council costs the town's employers (src/core2/modules/interest-groups.ts, employerStakes) and the employer's owner is a person: most owners are counted until met, and they now weigh joining through the same formula as a named owner. 3 and 2 employers weighed joining in the two played years. No study gives a size, so the general weight of 1 stands.",
-      "fix": "Calibrate when a study gives the odds of an owner joining a trade association by trait (traits-wire-civic)."
+      "class": "too few calls to fit",
+      "why": "Runs when a bill before the council costs the town's employers (src/core2/modules/interest-groups.ts, employerStakes) and the employer's owner is a person; counted owners weigh it through the same formula as a named one. 3 and 2 employers weighed joining in the two audited election windows (Halfway, Missouri and Marblehead, Ohio). Mondak et al. (2010) give openness 2.31 over its range on giving money to a political group (a log odds gap of 1.11 between the thirds), the nearest study, but five calls cannot fit a weight, so the general weight of 1 stands.",
+      "fix": "Pool the employers weighed across several drawn towns' played years and fit to the study (traits-wire-civic)."
     },
     "jobs-benefits.file-claim": {
       "class": "too few calls to fit",
