@@ -531,6 +531,10 @@
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
+    "income-tax-rate-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
     "social-security-tax-to-unemployment": {
       "waitingOn": ["labor.unemployment-pct"]
     },

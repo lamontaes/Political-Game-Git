@@ -305,7 +305,8 @@ function playWorld(seed: string) {
     ) {
       withheldPaychecks++;
       for (const p of entry.postings) {
-        const named = /:tax:\d+:([a-z]+):([a-z-]+)$/.exec(p.id);
+        // The posting id ends in its level and tax, then the law row it took.
+        const named = /:tax:\d+:([a-z]+):([a-z-]+)(?::law:.+)?$/.exec(p.id);
         if (named && p.deltaMinor > 0)
           withheldTaxes.add(`${named[1]}:${named[2]}`);
       }
