@@ -21,4 +21,6 @@ claimed-at: 2026-10-25T23:46:25.296Z
 
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/residents.ts, src/core2/modules/renewal.ts
 
-**Notes.** TODO
+**Notes.** Sent back 2026-10-25 from PR #6068 (branch claude/counted-change-expected-events, checked 08d042ca05): its own Hartland evidence says disabling counted births, deaths and moves still passes because other flows change the count; forcing the checker readings to zero does not satisfy the disabled-engine Done-when. Keep checker observations unchanged and prove the real negative control alongside the same-root positive world; finish on that branch, merge main into it first. No completed local green test gate was claimed.
+
+Resolved 2026-10-26: PR #6068 merged at d941c9436e261cc5e06a2c87154aab21c7acea19, checked head 36761d270151abe4fb72d6d77667054b4e1c598d. Merger 0 independently passed the full file in fresh Balfour, Warm River and Hartland; the same Hartland input with only real counted birth/death and move producers disabled failed exactly the changed check, despite the count changing by 485 from tier transitions. The pool item was flipped done with the requested CLI and verified on main.
