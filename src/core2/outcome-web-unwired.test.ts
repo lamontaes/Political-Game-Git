@@ -30,6 +30,26 @@ describe("the outcome web's unwired links", () => {
       expect(listed.has(link.key), `${link.key} is not run`).toBe(true);
   });
 
+  it("say the monthly ledger only for links the web runs", () => {
+    // A link the web never runs moves nothing, not even the ledger; its
+    // shared row must name its own reason instead.
+    const rows = new Map(
+      (stopgaps as { id: string; status?: string; whatItFakes?: string }[])
+        .filter((row) => row.status === "open")
+        .map((row) => [row.id, row.whatItFakes ?? ""]),
+    );
+    for (const row of data.links) {
+      if (!row.stopgapId.startsWith("SG-WEB-unread-")) continue;
+      const fakes = rows.get(row.stopgapId) ?? "";
+      const runs = row.reason.startsWith("engine doesn't read");
+      const clause =
+        fakes.split("; ").find((part) => part.includes(row.link)) ?? "";
+      expect(clause, `${row.link} in ${row.stopgapId}`).toContain(
+        runs ? "monthly ledger" : "is not run by the outcome web",
+      );
+    }
+  });
+
   it("each name an open stopgap row", () => {
     const open = new Set(
       (stopgaps as { id: string; status?: string }[])
