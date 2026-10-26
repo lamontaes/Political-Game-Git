@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/budget-sales-tax-zero
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T17:55:40.000Z
 ---
 
 **What.** The budget test for sales tax collected on town purchases fails on clean main and on PR 6067 in the same generated town. With GOLDEN_PATH_SEED b19affd9b3296e3f8fe097c100a3c28fe16ebc09, its Templeton, Indiana draw at suffix :0 reports expected zero to be greater than zero at src/core2/budgets.test.ts:325. The local seller check did not exempt the case. Merger 3 reproduced the identical failure on exact main parent 0695ed520103d0e86616500feeaf3b484b524848; its cause is not yet diagnosed.
