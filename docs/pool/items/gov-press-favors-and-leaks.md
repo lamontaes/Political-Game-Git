@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr: #5606
 blocked-on:
-after: gov-press-interview-conversation
+after: people-interview-screen
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5606 (branch claude/press-favors-leaks): edits src/director/press-interview.ts (Words-session area) and adds a dated 'Done Oct 20' note in the stopgap resolution text; stacked on #5602, which was sent back for the same reasons; finish on that branch, merge main into it first.
+
+Oct 25 audit: From the dropped people-favors-and-leaks-stopgap-sg-people-press: leakToReporter is on main (PR #5163); press-owners.test.ts must not return early when the story is already in print.

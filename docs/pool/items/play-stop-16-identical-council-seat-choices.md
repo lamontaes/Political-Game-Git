@@ -30,3 +30,7 @@ claimed-at:
 **Files.** src/director/filing-visit.ts, src/bench/filing.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:02; screenshot 43. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
+
+Sent back 2026-10-25 ~22:45 UTC from PR #6101 (branch play-first/play-stop-16-identical-council-seat-choices, head 8672b515da with main merged in): both body screenshots are wrapped in backticks so they render as code, not images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
+
+2026-10-25 Merger 1 correction: restored open after my chained command prematurely marked done when a head check aborted; PR #6101 remains unmerged at 8672b515da21b2fa1df4bf8e2b2c169624ba9af9. The existing Merger X send-back and its Notes remain the gate. No merge was completed.

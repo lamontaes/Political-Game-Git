@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: whose stress stays raised comes from their own traits, losses, money and health read at the moment, never a seeded draw against the 19.5% share. Research before building: the trajectory shares are a band the year run checks the town against, never a chance one person follows.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and seed named in the PR), scripts/research/core-year.ts prints the share of bereaved people still raised by half their rise at 182 days inside the band in data/research/core/affect-trajectories-2018.json, naming two person ids and the death event ids, and a test in src/core2/emotion.test.ts shows a person whose ongoing cause keeps stress up while one without it recovers.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and seed named in the PR), scripts/research/core-year.ts prints the share of bereaved people still raised by half their rise at 182 days inside the band in data/research/core/affect-trajectories-2018.json, naming two person ids and the death event ids, and a test in src/core2/emotion.test.ts shows a person whose ongoing cause keeps stress up while one without it recovers. **On screen.** Nothing yet: it would show on the People web and the Journal, and nothing there reads it.
 
 **Files.** src/core2/emotion.ts, src/core2/emotion.test.ts, data/research/core/affect-trajectories-2018.json, scripts/research/core-year.ts, src/core2/data/stopgaps.json
 

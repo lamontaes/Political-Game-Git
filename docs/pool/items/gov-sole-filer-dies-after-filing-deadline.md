@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: the substitution law comes from each place's records, with a labeled estimate where a place has none. No dice: who is named comes from the party or committee's records, never a roll. An effect is a read: the substitute's filing is read by ballot() and the result.
 
-**Done when.** In buildBenchWorld in a place drawn from all 56 (bounded draws that fail when they run out), a contest whose only filer died after the filing deadline carries either a substitute's filing made under the place's recorded law, or a recorded reason from that law that the dead filer stays on the ballot, named by record id, and M0-13's 'every race has someone on the ballot' reads it.
+**Done when.** In buildBenchWorld in a place drawn from all 56 (bounded draws that fail when they run out), a contest whose only filer died after the filing deadline carries either a substitute's filing made under the place's recorded law, or a recorded reason from that law that the dead filer stays on the ballot, named by record id, and M0-13's 'every race has someone on the ballot' reads it. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/core2/modules/candidacy.ts
 
