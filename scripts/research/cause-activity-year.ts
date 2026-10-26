@@ -71,8 +71,7 @@ const ACTS: readonly {
     kind: "initiative.organizing-started",
     act: "organized a meeting",
     measure: "attendingPublicMeetings",
-    differs:
-      "the survey counts attending a public meeting, not organizing one",
+    differs: "the survey counts attending a public meeting, not organizing one",
   },
   {
     kind: "cause-group.joined",
