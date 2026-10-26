@@ -162,11 +162,30 @@ try {
     Array.isArray(others) && others.length > 0,
     "the view carries no standing",
   );
-  assert.match(
-    text,
-    /\b(running against|opponents? (is|are)) [A-Z][a-z]+ [A-Z][a-z]+/,
-    "nothing names the opponents",
-  );
+  // The opponents on the contest's filings are each named; with none on
+  // record, the screen says no one else has filed.
+  const opponents = await page.evaluate(async () => {
+    const personId = (await (await fetch("/api/title")).json()).life.personId;
+    const view = await (
+      await fetch(`/api/campaign?id=${encodeURIComponent(personId)}`)
+    ).json();
+    return view.campaigns[0].opponents;
+  });
+  console.log("Opponents on record:", opponents.join(", ") || "none");
+  if (opponents.length) {
+    assert.match(
+      text,
+      /\b(running against|opponents? (is|are)) [A-Z][a-z]+ [A-Z][a-z]+/,
+      "nothing names the opponents",
+    );
+    for (const name of opponents)
+      assert.ok(text.includes(name), `the screen does not name ${name}`);
+  } else
+    assert.match(
+      text,
+      /\b(No one else|Nobody else)\b[^.]*\b(filed|on the ballot)\b/,
+      "nothing says no one else is running",
+    );
   assert.match(
     text,
     /poll[^.]*\bcost[^.]*\$\d|\$\d[^.]*poll|cost\w* \$\d/i,

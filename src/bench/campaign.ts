@@ -122,8 +122,12 @@ export function campaignView(core: CoreState, personId: string) {
         contacted: number;
         answers: Record<string, number>;
       }[];
+      const causes = contestCauses(core, filing.contestId, personId);
       return {
         filing,
+        // The other candidates on the contest's filings, by name: what the
+        // standing's opponents sentence names.
+        opponents: causes.filter((who) => !who.you).map((who) => who.name),
         campaign: {
           ...campaign,
           volunteers: campaign.volunteerIds.length,
@@ -133,12 +137,7 @@ export function campaignView(core: CoreState, personId: string) {
         // The sample a poll asks, so the screen's Poll button and the price below agree.
         pollSample: POLL_SAMPLE,
         // Where the race stands, in the English engine's words, from the contest's records.
-        standing: raceStanding(
-          core,
-          filing,
-          polls.at(-1),
-          contestCauses(core, filing.contestId, personId),
-        ),
+        standing: raceStanding(core, filing, polls.at(-1), causes),
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
           const outing = OUTINGS[choice.kind];
