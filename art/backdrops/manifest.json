@@ -11327,6 +11327,24 @@
       "tags": ["kind:lecture-hall-tiered", "uses:shared-location", "education"]
     },
     {
+      "place": "lincoln-memorial",
+      "variant": "night",
+      "file": "lincoln-memorial__night.jpg",
+      "width": 1376,
+      "height": 768,
+      "sha256": "a2b487d9e771f4b25a025d8fe0f479e3b6180b214a2f8067e6a87eb84892d52b",
+      "sourceFile": "title-lincoln-night-a__215378c3.jpg",
+      "sourceSha256": "a2b487d9e771f4b25a025d8fe0f479e3b6180b214a2f8067e6a87eb84892d52b",
+      "fireflyAssetId": "urn:aaid:sc:US:215378c3-1143-4686-9d9f-94c894bfdc37",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:lincoln-memorial",
+        "uses:shared-location",
+        "national-landmark",
+        "title-scene"
+      ]
+    },
+    {
       "place": "little-league-field",
       "variant": "midday",
       "file": "little-league-field__midday.jpg",
