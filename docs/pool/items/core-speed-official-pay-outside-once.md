@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-official-pay-outside-once
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T04:54:03.422Z
 ---
 
 **What.** On each monthly payday the officials' pay (src/core2/modules/official-pay.ts, payMonth) calls spendLivingCost (src/core2/official-living.ts) for every official who spends, and each call runs outsideAccountOf (src/core2/budgets-treasury.ts), which copies every organization in the world and sorts them by id with localeCompare before searching. In Johnstown, Ohio (key 3939340, drawn from all 56 by seed band-2026-10-26), on main with every open speed change, this is 1.4 s of year one and 6.9 s of year three, as organizations grow from 286 to 531: the largest single part of that town's third year running 1.27 times its first. Nothing in the payday loop adds an organization, so the account is the same for every official on that payday.
