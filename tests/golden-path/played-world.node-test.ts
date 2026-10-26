@@ -788,17 +788,29 @@ function playWorld(seed: string) {
       NATALITY.areas["United States"].birthsPer1000Residents *
       years) /
     1000;
+  // People moved between the tiers are not births, deaths or moves: fill-ins
+  // are taken out above, and a household returned to the counts (demotion)
+  // adds to them. With the counted engine switched off, Hartland, Wisconsin
+  // still changed by 485, with 490 people demoted, so the change alone never
+  // passes: the engine's own birth and move records do.
+  const demoted = rowsOf(core, "core2-counted-demotion-v1", "demotions").filter(
+    (d) => String(d.date) >= start,
+  );
+  const demotedPeople = demoted.reduce(
+    (n, d) => n + ((d.personIds as unknown[] | undefined)?.length ?? 0),
+    0,
+  );
   verdicts["the counted population changes"] =
-    countedChange || countedBirths || countedMoves
+    countedBirths || countedMoves
       ? pass(
-          `counted population changed by ${countedChange}, with ${countedBirths} counted births and ${countedMoves} counted moves`,
+          `counted population changed by ${countedChange} (${demotedPeople} people returned to the counts), with ${countedBirths} counted births and ${countedMoves} counted moves`,
         )
       : expectedBirths < 2
         ? unobserved(
             `${countedAtStart} counted people expect ${expectedBirths.toFixed(2)} births in ${years} year(s) at the nation's ${NATALITY.areas["United States"].birthsPer1000Residents} per 1,000 residents (NCHS 2024), and none was born, died or moved`,
           )
         : fail(
-            `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
+            `No counted births or moves in ${years} year(s) for ${countedAtStart} counted people, who expect ${expectedBirths.toFixed(0)} births at the nation's rate; the count changed by ${countedChange}, with ${filledIn} people filled in and ${demotedPeople} returned to the counts (src/core2/births-counted.ts, src/core2/modules/counted-moves.ts).`,
           );
   verdicts["a baby is born"] = births.length
     ? pass(`${births.length} births`)
