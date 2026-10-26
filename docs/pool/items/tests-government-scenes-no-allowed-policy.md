@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-scenes-no-policy
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T04:46:40.728Z
 ---
 
 **What.** The government-scenes test selects a body with full members and then assumes its bill catalog contains an allowed policy question. In Black Sands, Hawaii, the selected body has none, so policy.id throws before any floor vote or executive scene is checked. The exact fresh seed fails identically on clean main and PR #5923; the existing bounded redraw cannot handle this missing subject.
