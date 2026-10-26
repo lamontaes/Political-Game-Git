@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-drive-write-checks
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T05:10:38.568Z
 ---
 
 **What.** The drives engine (src/core2/modules/drives.ts, writeDrive) rewrites every held drive each day as it fades, and the core's updateDrive (src/core2/state.ts) checks each write's source event against the event list and the person's knowledge, building a fact key string every time. In Johnstown, Ohio (key 3939340, drawn from all 56 by seed band-2026-10-26), on main with every open speed change, updateDrive takes 0.16 s of year one and 2.32 s of year three, 1.78 s of it that knowledge check, as held drives pile up (a drive lives about six half-lives before it retires). The check never fails in play: a drive forms only from an event the person lived through.
