@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Research before building: each rule is read from statute text or an official office page, quoted with its section and URL, and a row the text does not settle stays an estimate with its reason written. One rule, all 56 places: rules live in the data tables keyed by place, never a state named in code.
 
-**Done when.** Every unread or ESTIMATED filing-deadline row and every 'not specified' registration row is read from its law with section and URL, or kept with a reason; scripts/research/elections-sources-check.ts passes with the stopgap counts narrowed; src/core2/elections-law.test.ts passes in a drawn place, seed named; and a buildBenchWorld year names the town's contest and the deadline read from its row.
+**Done when.** Every unread or ESTIMATED filing-deadline row and every 'not specified' registration row is read from its law with section and URL, or kept with a reason; scripts/research/elections-sources-check.ts passes with the stopgap counts narrowed; src/core2/elections-law.test.ts passes in a drawn place, seed named; and a buildBenchWorld year names the town's contest and the deadline read from its row. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/data/elections/filing-deadlines.json, data/research/elections/filing-requirements.json, data/research/elections/ballot-order-2026.json
 

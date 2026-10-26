@@ -98,6 +98,11 @@
       "why": "Read only to rank the replies offered to the player in a conversation the player opens (src/director/conversation.ts:2003, :2036) and in the player's speech builder (src/director/speech-builder.ts:281, from src/bench/campaign.ts).",
       "fix": "Player-only by design; covered by the player's conversations."
     },
+    "scene-talk.move": {
+      "class": "no trigger (player only)",
+      "why": "Read only when the director composes a scene with a purpose for the player (src/director/scene-talk.ts): the asker's answer and the reply the player's character leans toward.",
+      "fix": "Player-only by design; covered by scene-talk.test.ts on a generated town."
+    },
     "bring-it-up.blame": {
       "class": "no trigger (player only)",
       "why": "Read only when a person raises a change in a conversation the player opens: leansToBlame (src/director/bring-it-up.ts:125, decision read at :133) is reached from believedCause (:141), which bringItUp (:206) calls from the bench handler (src/bench/handler.ts:382) and the grading tool.",
