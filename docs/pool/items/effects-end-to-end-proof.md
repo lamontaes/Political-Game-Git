@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr: #5912
+pr: #6161
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at:

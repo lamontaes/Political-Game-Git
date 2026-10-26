@@ -779,7 +779,7 @@ export const viewsModule: CoreModule = {
             ? prior.desiredChange
             : desiredChange,
         strength: Math.abs(strength),
-        // The player's circle (and every person when bookkeeping is on) keeps
+        // The player's circle (and everyone, under the keep-everyone's-why switch) keeps
         // why the stance is what it is: one cause per source, the speaker and
         // the record they learned it from, holding that source's latest event
         // and how often and how much it has moved the stance. A source
