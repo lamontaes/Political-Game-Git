@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/group-b-joint-subjects
-pr:
+pr: #6172
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T18:55:58.545Z
