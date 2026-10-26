@@ -20,6 +20,8 @@ claimed-at: 2026-10-26T18:55:58.545Z
 
 **Done when.** `src/core2/law-reach-group-b.test.ts` passes on main on three fresh random seeds and on b859e7d6b13cc7f344a6475e1d26ffa00245ed91436791b312ab8794b75c52c9, each case naming the town it drew. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/law-reach-group-b.test.ts
 
 **Notes.** Found by the laws lead while gating PR #5649 (taxes), whose diff changes this test file, so CI runs it there.
