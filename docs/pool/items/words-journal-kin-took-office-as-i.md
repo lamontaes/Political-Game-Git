@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/kin-took-office
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T08:46:51.378Z
 ---
 
 **What.** When the player's father won a council seat, the player's own journal said "I took office as Council member." on the day the father was sworn in. The took-office record names only the winner, so the player's journal tells someone else's swearing-in as their own. The journal row for event:took-office has only first-person lines and no line for someone else's moment, unlike the election-result row, which has both. Seen in the bench in White Sulphur Springs, Montana (3080050), place seed e6253d7d132141ef79226210a85a474e90a1d2bb2d5ea41a69c63b9bfdb96035: the player person_f20a24acaa8c0691's journal line person_f20a24acaa8c0691:2026-01-01:took-office:seat:gus2025:108118:council:4:2026-01-01 cites took-office:seat:gus2025:108118:council:4:2026-01-01, whose winner is the father person_f20a21acaa8c0178.

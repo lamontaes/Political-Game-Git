@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-drive-write-checks
-pr:
+pr: #6157
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T05:10:38.568Z

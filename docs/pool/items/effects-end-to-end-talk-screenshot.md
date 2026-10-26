@@ -5,11 +5,12 @@ area: director
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/effects-end-to-end-talk-screenshot
+pr: #6161
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T07:53:37.899Z
 ---
 
 **What.** The effects end-to-end proof (src/core2/effects-end-to-end.test.ts, PR #5912) follows Saulsbury, Tennessee (seed 6f539fcfdf6d96f9, 150 households met) from the town's December 2025 unemployment to crime.victimized:assault:household_4e07b185b4629ed1:2025-12-04, the victim person_32c9f82c590ec88c's stance on the police line, the director's moment and a talk with person_8b103d8fa883c300 in which the victim says "Someone attacked me yesterday." in ordinary play. Its done-when asks for a screenshot of that scene. scripts/people/scene-shots.ts draws a staged scene's figures and backdrop but not a talk's lines, and /play has no way to open a given world on a given day.
