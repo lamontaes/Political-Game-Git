@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.29.3",
+      "releasedOn": "2026-10-26",
+      "revision": "8f48993193bc955cfa0186f05eab719abdf062bf",
+      "changeIds": [
+        "play-first-10-journal-from-day-one",
+        "tests-small-town-treasury-payroll-red"
+      ]
+    },
+    {
       "version": "0.29.2",
       "releasedOn": "2026-10-25",
       "revision": "b440977e327887619d8b0c04395365f2b49e88a7",
