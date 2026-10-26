@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/director/data/journal-rows.json, data/english/parts/journal.json, src/director/journal-law-effect.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-26 from PR #6117 (branch words/law-effect-learned-journal): bounded journal-reader scope fixes the previous end-to-end return, but updated PR explicitly carries #6112 and says merge it first; #6112 checked live open/unmerged at 8f0be511e525, so await its reviewed main delivery, then finish on this branch and merge main first; no new local gate claimed.
