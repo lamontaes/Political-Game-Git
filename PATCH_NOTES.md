@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.34.4
+
+_Released October 26, 2026._
+
+### Changed
+
+- **People give to their causes about as often as real people do** Someone with
+  a cause volunteered, donated or shared it nearly every day. Now what a person
+  has lately given to a cause weighs against giving more of the same, fading
+  over the weeks, so a volunteer gives a few dozen hours a year instead of
+  several hundred.
+
 ## PRE-ALPHA 0.34.3
 
 _Released October 26, 2026._

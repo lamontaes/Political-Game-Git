@@ -2244,7 +2244,31 @@ const sheets = {
         ],
       });
     }
-    const people = [...records.values()];
+    // Who joined or left the player's five closest this year, each with the
+    // record that changed the tie; one who left and is no longer among the
+    // card's ties is still drawn, marked.
+    const circle = me.card.circle ?? { joined: [], left: [] };
+    const dateText = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    const change = new Map([
+      ...circle.joined.map((c) => [c.personId, { ...c, mark: "joined" }]),
+      ...circle.left.map((c) => [c.personId, { ...c, mark: "left" }]),
+    ]);
+    for (const c of circle.left)
+      if (!records.has(c.personId))
+        records.set(c.personId, {
+          personId: c.personId,
+          name: c.name,
+          groups: [],
+        });
+    // Changed ties first, so the first page shows them.
+    const people = [...records.values()].sort(
+      (a, b) => Number(change.has(b.personId)) - Number(change.has(a.personId)),
+    );
     let group = "all";
     let selected;
     let page = 0;
@@ -2332,7 +2356,8 @@ const sheets = {
           selected = p.personId;
           draw();
         });
-        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`;
+        const changed = change.get(p.personId);
+        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
         node.setAttribute("aria-pressed", String(selected === p.personId));
         node.setAttribute("aria-label", p.name);
         node.style.left = `${x}%`;
@@ -2342,17 +2367,46 @@ const sheets = {
           el("b", { textContent: p.name }),
           el("span", { textContent: p.relation ?? "" }),
         );
+        if (changed)
+          node.append(
+            el("em", {
+              className: "circle-mark",
+              textContent:
+                changed.mark === "joined" ? labels.joined : labels.left,
+            }),
+          );
         canvas.append(node);
       });
       const person = people.find((p) => p.personId === selected);
       detail.replaceChildren();
+      // Nothing changed in the five closest this year: said, never an empty box.
+      if (!change.size)
+        detail.append(
+          el("span", {
+            className: "circle-none",
+            textContent: labels.noChange,
+          }),
+        );
       if (person) {
+        const changed = change.get(person.personId);
         detail.append(
           el("span", {
             textContent: [person.name, person.relation]
               .filter(Boolean)
               .join(" · "),
           }),
+          ...(changed
+            ? [
+                el("span", {
+                  className: "circle-why",
+                  textContent: [
+                    changed.mark === "joined" ? labels.joined : labels.left,
+                    labels.causes?.[changed.cause] ?? words(changed.cause),
+                    dateText(changed.date),
+                  ].join(" · "),
+                }),
+              ]
+            : []),
           button(labels.card, () => {
             closeSheet();
             showPerson(person);
