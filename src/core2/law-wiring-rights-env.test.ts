@@ -379,7 +379,7 @@ it("names, for each law, the record, the journal entry and who it reached", () =
       );
       const paid = paidWhat
         ? rowsOn(key, paidWhat).find((r) => r.amountMinor > 0)
-        : governments[0];
+        : (governments.find((r) => r.amountMinor > 0) ?? governments[0]);
       // The government whose treasury paid it is the one whose level's law row paid.
       const govRow =
         governments.find((r) => r.lawId === paid?.lawId) ?? governments[0];
