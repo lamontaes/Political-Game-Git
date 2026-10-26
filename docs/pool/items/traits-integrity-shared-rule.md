@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/traits-integrity
 pr: #5715
 blocked-on:

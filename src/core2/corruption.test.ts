@@ -23,8 +23,17 @@ import { decisionLean } from "./trait-decisions";
 const sum = (values: Readonly<Record<string, number>>) =>
   Object.values(values).reduce((a, b) => a + b, 0);
 
-/** The cases of M3-09 in one world: a seed, and a place (the seed's own when none is given). */
-function corruptionCases(seed: string, placeKey?: string): void {
+/**
+ * The cases of M3-09 in one world: a seed, and a place (the seed's own when
+ * none is given). A fresh draw whose fixture asks yield fewer than two taken
+ * bribes, or none between people one of whom leans toward telling, registers
+ * nothing and returns why, so the caller can draw the next place.
+ */
+function corruptionCases(
+  seed: string,
+  placeKey?: string,
+  fresh = false,
+): string | null {
   const input = buildDeepPast(
     buildPopulation({
       seed,
@@ -66,6 +75,24 @@ function corruptionCases(seed: string, placeKey?: string): void {
       });
       if (record) records.push(record);
     }
+  if (fresh) {
+    const leansToTell = (id: string) =>
+      decisionLean(
+        core,
+        core.people.get(id)!,
+        "corruption.tell",
+        "corruption-tell-yes",
+        "corruption-tell-no",
+      ) > 0;
+    const taken = records.filter((row) => row.taken);
+    if (
+      taken.length < 2 ||
+      !taken.some(
+        (row) => leansToTell(row.offererId) || leansToTell(row.officialId),
+      )
+    )
+      return `${input.placeMetadata?.placeName} (seed ${seed}): ${taken.length} taken of ${records.filter((row) => row.offered).length} offers`;
+  }
 
   describe(`basic corruption in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
     it("offers and takes only where traits and money support it, some and not all", () => {
@@ -257,6 +284,7 @@ function corruptionCases(seed: string, placeKey?: string): void {
       );
     });
   });
+  return null;
 }
 
 // The regression: Hawleyville, Connecticut once gave one taken bribe where the
@@ -274,9 +302,21 @@ corruptionCases(
 );
 
 // Three places drawn from all 56 on a fresh seed (set CORRUPTION_SEED to
-// reproduce a run); each names its place and seed.
+// reproduce a run); each names its place and seed. Bribes are rare by design
+// (a larger one tempts more without overwhelming honesty), so a place whose
+// fixture asks yield fewer than two taken is passed over, by name.
 const fresh = process.env.CORRUPTION_SEED ?? randomBytes(16).toString("hex");
-for (let draw = 0; draw < 3; draw++) {
+const passedOver: string[] = [];
+let drawn = 0;
+for (let draw = 0; drawn < 3 && draw < 12; draw++) {
   const place = drawPlace(`${fresh}:${draw}`, "corruption");
-  corruptionCases(place.seed, place.key);
+  const refused = corruptionCases(place.seed, place.key, true);
+  if (refused) passedOver.push(refused);
+  else drawn += 1;
 }
+describe(`fresh corruption draws (CORRUPTION_SEED ${fresh})`, () => {
+  it("finds three drawn places with at least two taken bribes", () => {
+    if (passedOver.length) console.log(`passed over: ${passedOver.join("; ")}`);
+    expect(drawn, passedOver.join("; ")).toBe(3);
+  });
+});

@@ -252,7 +252,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)
 
-- money: the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it (what it changes is who may vote, read by the board of elections when it builds the roll)
+- money: the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it. What it changes is who may vote, read by the board of elections when it builds the roll
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-convictions)
 
 **raise juvenile court age** (`us-policy-positions:justice-public-safety.raise-juvenile-court-age`)
@@ -269,7 +269,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **ban lobbying after office** (`us-policy-positions:government-operations.ban-lobbying-after-office`)
 
-- reach: the ban binds former officeholders (a cooling-off period before they may lobby), and every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence
+- reach: the ban binds former officeholders (a cooling-off period before they may lobby). Every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach. The full people it reached are named in the evidence
 - money: the ban bars former officeholders from lobbying for a cooling-off period; it charges, pays and taxes no one by its own terms, so no money flows because of it (what it changes is who a group hires to lobby, read by the interest-groups engine)
 
 **broaden local authority** (`us-policy-positions:government-operations.broaden-local-authority`)
@@ -341,7 +341,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **local-income-tax-authority** (`local-income-tax-authority`)
 
 - change: no bill catalog policy and no series-powers row: no body can propose, enact or repeal it
-- money: the law only grants or withholds a power: a state's permission for its localities to levy an income tax; the grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)
+- money: the law only grants or withholds a power: a state's permission for its localities to levy an income tax. The grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)
 - web: The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own.
 
 **local-minimum-wage-authority** (`local-minimum-wage-authority`)

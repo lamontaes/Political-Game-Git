@@ -387,8 +387,8 @@
     },
     "budget.schools-added-pct": {
       "owner": "OPUS-GOV",
-      "record": "the town's share of the schools line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
-      "reader": "budget-line-added:schools",
+      "record": "the schools lines of the town's city and county budgets in force (the budgets module's rows the school engine's spending measure reads), together, above their Census base for the fiscal year, as a percent",
+      "reader": "schools-line-above-base",
       "field": "",
       "unitScale": 1
     },
