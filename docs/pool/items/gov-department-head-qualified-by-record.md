@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/executive.ts, src/core2/data/campaigns/parameters.json, src/core2/executive.test.ts
 
 **Notes.** Filed by the speed lead on Merger 0's send-back of #6080 (Oct 26), which asked that the intended qualification rule be proven, not fixed with an arbitrary new age threshold. play-stop-20 stays open on this item and words-family-talk-kin-address.
+
+Sent back 2026-10-26 from PR #6149 (branch claude/department-head-by-record): normal current-main integration conflicts in src/core2/executive.test.ts; merge aborted with no source push, reconcile the new record-based qualification checks with current main coverage before the local gate; finish on that branch, merge main into it first.
