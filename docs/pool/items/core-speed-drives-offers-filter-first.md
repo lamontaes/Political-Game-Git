@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/speed-drives-nearby-groups
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T05:07:48.273Z
 **Files.** src/core2/modules/drives.ts
 
 **Notes.** Filed Oct 26 by the speed lead from Johnstown's year one and year three profiles (speed-year-three-within-band). Not the dropped core-speed-cause-group-offers-per-topic, which shared one topic's checks across drives and saved nothing; this one skips the far groups' checks and the sorts. #6044, #5972 and #6082 also change drives.ts, in other hunks; each merges with this change without conflict.
+
+Built and measured Oct 26 (speed lead), not shipped, claim released, recommend drop. The change (patch kept in the speed lead's scratchpad, never pushed) is exact: on main 8abee77ef0, Long Hill, Connecticut (seed m7b, one year) gives deep fingerprint `72befe2a4fc4036c` before and after, and Stanardsville, Virginia (seed cc91f5444b53bd47) gives `984f9e045cd78ea0`, `efc267ebcab753e9` and `cb09482e64aa401f` for years one to three on both. It saves nothing: in Johnstown, Ohio's third year on main, profiled, `groupKnown` is 26.2 s before and 27.2 s after, and the drives engine 181.5 s before and 190.7 s after (the after run's year was 4 percent slower overall). Nearly every group on a holder's topic was founded in their own place or county, so testing nearness first skips almost no knowledge checks, and the sorts it saves are small. As with core-speed-cause-group-offers-per-topic, the cost is how many acts the holders take and are offered, which people-drives-cause-acts-pull-less (#6082) and the 30-day focus window (#6102) cut: with both, the drives engine is 17.9 s of Johnstown's third year.
