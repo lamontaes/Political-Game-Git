@@ -40,6 +40,7 @@ import {
   POLICIES,
   reachOn,
   reachParameter,
+  targetsOf,
   townPeople,
 } from "./law-reach/group-a-records";
 import { budgetToday, leavePremiumsOf } from "./law-reach/group-a-money";
@@ -194,9 +195,29 @@ function recordRoundTrip(
   mayBeEmpty = false,
 ): void {
   const level = levelFor(key);
+  // The engine's own selection: a town with no one and nothing a law selects
+  // (no teenager and no online business for the age check) is reached by no one.
+  const selected = (POLICIES[key]?.reaches ?? []).map((spec) => ({
+    spec,
+    found: targetsOf(api, spec).length,
+  }));
+  const subject = selected.some((s) => s.found > 0);
   enact(key, level, 1);
   const open = openReach(api, key);
-  if (mayBeEmpty && !open.length) {
+  if (!subject && !open.length)
+    console.log(
+      `${where}: ${key} selects no one here, so its mechanic is checked instead; ${
+        selected.length
+          ? `selectors that found nobody: ${selected
+              .map(
+                ({ spec }) =>
+                  `${spec.id} (${spec.target}${spec.select ? ` ${JSON.stringify(spec.select)}` : ""})`,
+              )
+              .join("; ")}`
+          : "it has no group A reach selector"
+      }`,
+    );
+  if ((mayBeEmpty || !subject) && !open.length) {
     between?.();
     enact(key, level, 0);
     afterRepeal?.();

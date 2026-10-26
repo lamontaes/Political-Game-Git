@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T19:43:31.030Z
 
 **Rules.** Sliding scales and causes: nothing in the moves choice may flip at a fixed number; the age a person decides alone comes from the law in force in their place, and kin and housing pressure slide. One rule, all 56 places: the age of majority is per-place data, never a state named in logic.
 
-**Done when.** In a one-year buildBenchWorld run of a drawn place (seed named in the PR), src/core2/modules/moves.ts reads no cap or cutoff parameter, a departure record with five relatives in town shows a larger kin hold than one with four, a household with no income shows a housing push read from its own records, and src/core2/moves.test.ts passes.
+**Done when.** In a one-year buildBenchWorld run of a drawn place (seed named in the PR), src/core2/modules/moves.ts reads no cap or cutoff parameter, a departure record with five relatives in town shows a larger kin hold than one with four, a household with no income shows a housing push read from its own records, and src/core2/moves.test.ts passes. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/moves.ts, src/core2/data/moves/parameters.json, src/core2/modules/counted-moves.ts
 
