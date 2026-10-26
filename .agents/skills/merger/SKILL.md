@@ -57,7 +57,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - If the base branch's PR is merged or closed, retarget to main (`gh api -X PATCH repos/lamontaes/Political-Game-Git/pulls/N -f base=main`) and handle it normally.
 2. **Send-backs.** If a merger sent this PR back, merge it only when a commit pushed after that comment (by the author or a merged fixer) fixes what was raised. Compare the commit times to the comment.
 3. **Fetch and merge main.** `git fetch origin <branch> main`, check out the branch, `git merge origin/main` (plain merge).
-   - Resolve docs-only conflicts yourself: `SESSION-*.md` and `PROGRESS.md` by taking both sides; `src/core2/data/stopgaps.json` by keeping every row from both sides, merged by `id`.
+   - Resolve docs-only conflicts yourself: `SESSION-*.md` by taking both sides; `docs/play-first/PROGRESS.md` by dropping the branch's hunk entirely (handoffs live on main only, acting CTO, Oct 25: a lane branch that changes it is a defect; `git checkout origin/main -- docs/play-first/PROGRESS.md` on the merge, then merge); `src/core2/data/stopgaps.json` by keeping every row from both sides, merged by `id`.
    - Pool item conflicts: keep the newer status, claim and pr fields, keep the written spec over an empty shell, and keep both sides' Notes lines. Regenerate `docs/pool/INDEX.md` with `npm run pool`; never hand-merge it or English banks.
    - A conflict in code goes back to the author: one comment naming the files, and the pool item back to open (step 2.7).
    - Push the merge commit with a plain push.
@@ -109,7 +109,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - A stand-in without a row in `src/core2/data/stopgaps.json` and a code marker, or a stopgap row deleted.
    - A state, city or GEOID named in logic.
    - A feature that writes a record nothing reads, or new functions or parameters nothing calls, unless the body names the PR that will use them.
-   - Hand-written player text in code or data (`origin: "authored"` with `shippable: true`), except lines the owner graded or liked: the Oct 24 ruling released the hold, so a change in `data/english/` that flips held lines to shippable is never a send-back reason.
+   - Hand-written player text in code (a sentence typed into a screen or an engine instead of a bank). A bank part's `shippable` must match the grade ledger (`tests/english-parts-banks.test.ts`): authored bank parts are English engine pieces and play unless graded out (owner, Oct 24).
    - Code in `src/core2` importing from `src/simulation`.
    - Owner names or dated owner notes in code or shipped data.
    - Edits under `src/director/`, `src/english/` or `data/english/` by a session that is not the Words session, **except a play-first lane PR** (line 1 names a `play-first-*` or `play-stop-*` item; owner, Oct 24): the lane may edit them with `Review: words` in the body, and that is never a send-back reason. Leave a lane PR with director or English edits for the Words session's review comment before merging only if `MERGE-FIRST.md` says so; otherwise merge on green.
@@ -117,7 +117,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - A docs/pool item with sections pasted twice.
 
    **The play-first lane** (`docs/play-first/README.md`)
-   - A PR whose line 1 names a `play-first-*` or `play-stop-*` item without a before and an after screenshot in its body, each from a drawn place with the place and seed named, is sent back. A look that changed needs the owner's yes on the screenshot ("OWNER SCREENSHOT NEEDED" at the top of the body): leave it, comment, and name it in your table for the CTO.
+   - A PR whose line 1 names a `play-first-*` or `play-stop-*` item without a before and an after screenshot in its body, each from a drawn place with the place and seed named, is sent back. A plain link to the PNG on the PR's branch satisfies the rule (acting CTO, Oct 25): open it. Embedding is preferred, not required; a backticked link is a writer defect the fixer corrects in the body, never a send-back reason on its own. **"OWNER SCREENSHOT NEEDED" is never a merge reason** (owner, Oct 25: "remove that block"): a PR carrying that line merges on its before/after screenshots and your checks like any other; the owner's installed-build check closes the pool item later, never the PR.
    - Lane PRs come first (`MERGE-FIRST.md`, line 1). Never send a lane PR back for director or English edits (`Review: words`) or for `data/english` lines flipped to shippable.
 
    **Missing paperwork**
@@ -140,6 +140,6 @@ End each batch with a table: `PR | merged / sent back / left | reason`.
 > Read AGENTS.md and .agents/skills/merger/SKILL.md in lamontaes/Political-Game-Git, then docs/coordination/MERGE-FIRST.md and the CTO section of docs/coordination/LEADS-2026-10-24.md.
 > You are merger <N>: your share is open PRs whose number mod 4 equals <N> (the recheck merger's share is the recheck list in MERGE-FIRST.md), <oldest | newest> first, after every MERGE-FIRST line you can take. Start every comment with "Merger <N>:".
 > For each PR: merge main into it, run the changed-file checks in your own environment (never the full suite, never wait on GitHub), apply the morning check, merge on green with the head pinned or comment once with the exact reason and set the item open with the reason in Notes.
-> Play-first lane PRs first; send one back only for missing before/after screenshots, never for director or English edits or held lines flipped to shippable.
+> Play-first lane PRs first; send one back only for missing before/after screenshots, never for director or English edits or held lines flipped to shippable. "OWNER SCREENSHOT NEEDED" is not a merge gate; a `docs/play-first/PROGRESS.md` hunk on a lane branch is dropped, not resolved.
 > Never merge a PR you authored, never force-push, never run the full suite. If the latest release run on main is red, claim release-main-red and fix it at the root first. End with a table.
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

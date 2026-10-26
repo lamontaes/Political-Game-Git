@@ -7,11 +7,12 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #6103
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at:
 ---
 
 **What.** The owner's read of the playtest screenshots: the opening speech is generated per world and per president from the game's numbers, not formulaic. PR #5902 (merged after the v0.22.10 build) put the President's voice and own issues into the address, but every world still cites one number (unemployment) and keeps one eight-line shape. This item finishes it: the address reads several of the world's own numbers and records, and its length and order follow the President and the year.
@@ -29,3 +30,5 @@ milestone: play-first
 **Files.** src/director/opening-story.ts, src/english/english-opening-speech.ts, data/english/parts/opening-speech.json
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Finishes PR #5902 (merged). The opening speech is the Words lead's (src/director, src/english, data/english): the lane writes `needs-from: words` unless the Words lead takes the item. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Merger 3, October 26: PR6103 completes the bounded bench speech implementation in words-opening-address-numbers-order-implementation. Original stays open for owner installed-build acceptance under the October25 ruling. Own drawn Sa ilele American Samoa and Los Heroes Puerto Rico show different length/order and macro-record facts; existing scene backdrop defect is separately play-opening-address-empty-waiting-room.

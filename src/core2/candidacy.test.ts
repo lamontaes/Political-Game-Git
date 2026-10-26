@@ -12,6 +12,7 @@ import {
   RUN,
 } from "./modules/candidacy";
 import { viewsModule } from "./modules/views";
+import { standAgainReason, standsAgain } from "./stand-again";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
 
@@ -76,11 +77,11 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
       expect(row.run).toBe(margin(row) > 0);
       expect(Object.keys(row.reasons).sort()).toEqual(
         [
+          "afterOffice",
           "age",
           "cause",
           "engagement",
           "field",
-          "incumbency",
           "incumbentTie",
           "openSeat",
           "reach",
@@ -94,6 +95,28 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     // The same person decides the same way when asked again.
     expect(decideToRun(api, decisions[0]!.personId, contest("a"))).toEqual(
       decisions[0],
+    );
+  });
+
+  it("asks a serving incumbent whether to stand again, by the one stand-again rule, not a newcomer's case", () => {
+    // The oldest and the youngest adult each hold a seat of their own.
+    const byAge = [...adults].sort(
+      (a, b) =>
+        a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+    );
+    for (const [n, holder] of [byAge[0]!, byAge.at(-1)!].entries()) {
+      const held = { ...contest(`held-${n}`), incumbentId: holder.id };
+      const row = decideToRun(api, holder.id, held)!;
+      expect(Object.keys(row.reasons)).toEqual(["standAgain"]);
+      expect(row.reasons.standAgain).toBeCloseTo(
+        standAgainReason(api, holder),
+        12,
+      );
+      expect(row.run).toBe(standsAgain(api, holder));
+    }
+    // Age weighs against standing again: the oldest's case is the weaker.
+    expect(standAgainReason(api, byAge[0]!)).toBeLessThan(
+      standAgainReason(api, byAge.at(-1)!),
     );
   });
 
@@ -162,7 +185,14 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
   });
 
   it("has most incumbents run again, as about 81% really do", () => {
-    const sample = adults.slice(0, 200);
+    // Every adult in town, each as the seat's incumbent: about 1,200 at the
+    // smallest, in several hundred households, so one standard error of the
+    // share is about a point and the band below is the spread between towns,
+    // not between draws. The first
+    // 200 records alone came in households, a few dozen of them, and an old
+    // town's first households ran again at 0.955 (Suissevale, New Hampshire)
+    // against 0.918 for the whole town.
+    const sample = adults;
     const again = sample.filter(
       (row) =>
         decideToRun(api, row.id, {

@@ -14,6 +14,9 @@ import { matrix } from "./effect-matrix";
 
 const UNWIRED = "src/core2/data/outcome-web/unwired.json";
 const STOPGAPS = "src/core2/data/stopgaps.json";
+/** The resolution of a shared row whose every link now reaches an engine's records. */
+const REACHED =
+  "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.";
 
 export interface UnwiredRow {
   readonly link: string;
@@ -62,16 +65,39 @@ if (process.argv[1]?.endsWith("write-unwired.ts")) {
     if (row.stopgapId.startsWith("SG-WEB-unread-"))
       byId.set(row.stopgapId, [...(byId.get(row.stopgapId) ?? []), row]);
   // A shared row no unwired link cites any more stays in the registry as
-  // resolved, its history kept: its links now reach an engine's records.
+  // resolved, its history kept. Its resolution says what became of its links:
+  // those still unwired wait on the stopgap that now carries them (it is
+  // superseded), and the rest reach an engine's records. A row resolved with
+  // the old reaching text is read again, so the history stays true.
+  const waitingOn = new Map(rows.map((row) => [row.link, row.stopgapId]));
+  const resolution = (whatItFakes = "") => {
+    const named = (whatItFakes.split(/ moves? /)[0] ?? "")
+      .split(", ")
+      .map((key) => key.trim())
+      .filter(Boolean);
+    const by = [
+      ...new Set(
+        named.flatMap((key) => {
+          const id = waitingOn.get(key);
+          return id ? [id] : [];
+        }),
+      ),
+    ].sort();
+    return by.length
+      ? `Superseded by ${by.join(", ")}: the links this row named that still do not reach an engine's records now wait on ${by.length === 1 ? "that stopgap" : "those stopgaps"} instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.`
+      : REACHED;
+  };
   const kept = registry.map((row) =>
     row.id.startsWith("SG-WEB-unread-") &&
     !byId.has(row.id) &&
-    row.status !== "resolved"
+    (row.status !== "resolved" ||
+      (row as { replacement?: string }).replacement === REACHED)
       ? {
           ...row,
           status: "resolved",
-          replacement:
-            "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+          replacement: resolution(
+            (row as { whatItFakes?: string }).whatItFakes,
+          ),
         }
       : row,
   );

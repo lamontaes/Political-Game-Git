@@ -20,7 +20,7 @@ Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: four mergers by PR number mo
    - Tests narrowed, skipped, returning early, `>= 0`, looping over a set that can be empty, or pinned to one convenient seed.
    - Timeouts raised without a measured reason.
    - Done-when proof missing (the pool item names it).
-   - Hand-written player text (`origin: authored` with `shippable: true`) the owner has not graded or liked; lines flipped to shippable in `data/english/` after the Oct 24 release of the hold are not a finding.
+   - Hand-written player text in code, or a bank part whose `shippable` flag disagrees with the grade ledger (owner, Oct 24: bank parts play unless graded out).
    - Director or English edits by a session that is neither Words nor a play-first lane PR (`Review: words`); `src/bench` edits by anyone but the lane.
    - A play item merged without its before and after screenshots, or a changed look merged without the owner's yes.
    - `src/core2` importing `src/simulation`.

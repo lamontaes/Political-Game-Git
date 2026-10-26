@@ -3,15 +3,17 @@
 // Continue turns the ballot's pages to the player's own race; marking it
 // records the vote. Honest UI drive on the bench: creator, party join,
 // filing, calendar skip to election day, page the ballot.
-// Run: BENCH_PORT=3001 BENCH_BROWSER=<chromium> node src/bench/polling.browser.mjs
+// Run: BENCH_PORT=3001 [BENCH_SEED=<logged seed>] node --import tsx src/bench/polling.browser.mjs
+// The town is drawn from all 56 places with the repo's drawPlace helper; the
+// run seed is logged, so BENCH_SEED reproduces the same draws.
 import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
 import { chromium } from "playwright";
+import { drawPlace } from "../../scripts/core2-year/place.ts";
 const PORT = process.env.BENCH_PORT ?? "3000";
 const BASE = `http://localhost:${PORT}`;
 const browser = await chromium.launch({
-  executablePath:
-    process.env.BENCH_BROWSER ??
-    "/Users/lamontae/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+  executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(60000);
@@ -34,6 +36,8 @@ page.on("response", async (r) => {
   }
 });
 const draws = [];
+const runSeed = process.env.BENCH_SEED ?? randomUUID();
+console.log("Run seed:", runSeed);
 try {
   // A life with a parties module (tiny towns have none): redraw, all draws logged.
   let seed = "";
@@ -58,15 +62,16 @@ try {
     await page.locator("#cr-year").selectOption({ label: grown });
     await page.locator("#cr-character-next").click();
     await page.locator("#cr-states .item").first().waitFor();
-    await page.evaluate(() => {
-      const items = [...document.querySelectorAll("#cr-states .item")];
-      items[Math.floor(Math.random() * items.length)].click();
-    });
+    const drawn = drawPlace(runSeed, `polling-${attempt}`);
+    console.log("Drawn place:", drawn.key, drawn.name, drawn.state);
+    await page.locator(`[data-testid="state-${drawn.state}"]`).click();
     await page.locator("#cr-towns .item").first().waitFor();
-    await page.evaluate(() => {
-      const items = [...document.querySelectorAll("#cr-towns .item")];
-      items[Math.floor(Math.random() * items.length)].click();
+    await page.locator("#cr-town-search").fill(drawn.name);
+    const townItems = page.locator("#cr-towns .item", {
+      has: page.locator("b", { hasText: drawn.name }),
     });
+    await townItems.first().waitFor();
+    await townItems.first().click();
     const made = page.waitForResponse(
       (r) => new URL(r.url()).pathname === "/api/newlife",
       { timeout: 600000 },

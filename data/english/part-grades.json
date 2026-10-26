@@ -7,7 +7,8 @@
     "batch-9",
     "batch-9-relayed",
     "voice-notes-batches-11-19",
-    "batch-13"
+    "batch-13",
+    "batch-22"
   ],
   "parts": {
     "address.campaign-thanks.its-great-to-be-back-in-place": {
@@ -989,6 +990,46 @@
     "scene-talk.state-ask.quick-question-before-the-day-eats-us-did-anybody-tell-you-what-you-re": {
       "good": 0,
       "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-words.cause-acquitted-self.you-have-been-acquitted": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-words.cause-birth-self.you-have-a-new-baby": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-words.cause-birth-self.your-baby-has-been-born": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-words.cause-charged-self.you-have-been-charged-with-a-crime": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-words.cause-convicted-self.you-have-been-convicted": {
+      "good": 1,
+      "bad": 0,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
