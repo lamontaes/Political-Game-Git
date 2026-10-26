@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5657
 blocked-on:
@@ -26,3 +26,7 @@ claimed-at:
 Sent back 2026-10-25 from PR #5657 (branch claude/traits-civic): prior bounded-acceptance/director fixes acknowledged; current main integration conflicts in production src/core2/modules/voting.ts; preserve both voting/traits readers and rerun bounded gate; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 ~22:25 UTC from PR #5657 (branch claude/traits-civic, head e7ce5944ef with main merged in clean): eslint fails on src/core2/modules/voting.ts:63, unused `parameter` import left by the PR's own edit; remove that line and it goes back in the queue; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5657 (branch claude/traits-civic): final Done-when row requires both actual decision record IDs, but civic-traits-played.traits.test.ts:62-81 only prints probe actor/date/lean data and optional yes membership, without asserting or naming retained yes/no decision records; add generated-world durable-record lookups and matching evidence; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5657 (branch claude/traits-civic): prior retained yes/no decision-record proof is fixed and current integration clean, but voting.traits.test.ts:166-173 skips all answer assertions for near-zero leans with only polled.length>0, so an all-neutral sample can pass untested; use tolerant per-voter assertions or a positive nonneutral witness with explicit neutral handling, then finish on that branch and merge main first; no new completed gate claimed.

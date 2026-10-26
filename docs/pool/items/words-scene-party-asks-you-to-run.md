@@ -5,15 +5,15 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
-claimed-by: words/party-asks-you-to-run
-pr:
+status: open
+claimed-by:
+pr: #6146
 blocked-on:
 after:
 source: added by the acting CTO, Oct 25 (owner ruling)
 lead: words
 milestone: play-first
-claimed-at: 2026-10-26T04:49:32.697Z
+claimed-at:
 ---
 
 **What.** The owner ruled Oct 25 that the Pendergast approach is built now: a party that needs a seat filled approaches the player to run for it. Today no scene does this; the player finds races only by opening the Politics screen and filing. The scene reads a record, a seat the party holds no candidate for or expects to lose, and a player whose standing (job, ties, views) makes them the party's pick by its own reads, and stages the approach as a talk with a party officer who says what the seat is and why they came, with the player's answer from controls (yes, not now, no) recorded as an event the campaigns engine and the journal read. The approach comes from the party's records, never from a timer or a roll.
@@ -31,3 +31,4 @@ claimed-at: 2026-10-26T04:49:32.697Z
 **Files.** src/director/situations/, src/director/scene.ts, src/director/scene-talk.ts, src/core2/modules/candidacy.ts (read only), data/english/parts/, src/bench/play.mjs
 
 **Notes.** Owner, Oct 25: "will give me the seats"; build all three scenes without asking (OWNER-DECISIONS, Oct 25). The party officer is a person on the record, introduced before speaking (Oct 15 ruling).
+Sent back 2026-10-26 from PR #6146 (branch words/party-asks-you-to-run): owner-decision question and stopgap SG-P15-party-ask-order lack the Read line; finish on that branch, merge main into it first.

@@ -24,7 +24,12 @@ import {
 import type { SpeechBuild } from "../director/speech-builder";
 import { storyReply, storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
-import { electionResults, ownRace, resultsScene } from "./results";
+import {
+  electionResults,
+  governorRacesTonight,
+  ownRace,
+  resultsScene,
+} from "./results";
 import { wordOwnResult } from "./archive-words";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -829,6 +834,10 @@ export async function benchRequest(
         );
         return;
       }
+      if (request.method === "GET" && url.pathname === "/api/results/nation") {
+        send(200, governorRacesTonight(requireCore()));
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/results/scene") {
         send(
           200,
@@ -1088,6 +1097,7 @@ export async function benchRequest(
           legislators: stateLegislators(
             requireCore(),
             url.searchParams.get("state") ?? "",
+            url.searchParams.get("level") === "federal" ? "federal" : "state",
           ),
         });
         return;

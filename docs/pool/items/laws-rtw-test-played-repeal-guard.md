@@ -5,12 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/rtw-repeal-guard
+status: open
+claimed-by:
 pr: #6115
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T21:14:02.775Z
+claimed-at:
 ---
 
 **What.** The right-to-work law test checks union dues over its first 400 days, but in some drawn states a bill the legislature passes in play repeals right-to-work inside that window (Nevada's AB 39, effective 2025-10-01, in one labor-family run). The test then fails on dues the repealed law no longer stops, which is the game working, not a defect. The labor helper saw it fail once and pass on a rerun. The test should check that the law still stands before asserting what it does, the way other law tests do.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T21:14:02.775Z
 **Files.** src/core2/right-to-work-law.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-26 from PR #6115 (branch claude/rtw-repeal-guard): Done-when ordinary played repeal seed/outcome is explicitly not met; four fresh runs have no repeal and inserted fixture is not played evidence. Lines95-103 can skip every dues assertion or loop an empty set then report dues charged again; require nonempty checked dues during the actual repeal interval and a reproducible played witness.; finish on that branch, merge main into it first.
