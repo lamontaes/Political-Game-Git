@@ -46,7 +46,10 @@ it("a controlled character's month runs past the review and no job ends on a day
     "layoff-worked-today",
     ["work.job-lost"],
     (_api, e) => {
-      const jobId = e.id.split(":").at(-1)!;
+      const prefix = `event:work.job-lost:${e.date}:`;
+      expect(e.id.startsWith(prefix), where).toBe(true);
+      const jobId = e.id.slice(prefix.length);
+      expect(jobId, where).not.toBe("");
       lost.push({
         id: e.id,
         workedToday:
@@ -111,10 +114,12 @@ it("a business whose only candidate worked today lays them off at the next revie
   c.work.lastAttendanceByJob.set(job.id, { date: today } as never);
   expect(layOff(api, job.organizationId, staff, 1, {}), where).toBeUndefined();
   expect(c.jobs.get(job.id)?.endsAt, where).toBeUndefined();
-  // The next review, before that day's work: the same worker goes.
-  c.work.lastAttendanceByJob.set(job.id, {
-    date: addDays(makeIsoDate(today), -1),
-  } as never);
+  // Controlled review inputs on the next month's first day, before work:
+  // keep today's actual attendance stamp. Calendar scheduling itself is
+  // exercised by the played case above.
+  const nextMonth = addDays(makeIsoDate(`${today.slice(0, 7)}-01`), 32);
+  c.date = makeIsoDate(`${nextMonth.slice(0, 7)}-01`);
+  expect(c.work.lastAttendanceByJob.get(job.id)?.date, where).toBe(today);
   const laid = layOff(api, job.organizationId, staff, 1, {});
   expect(laid, where).toMatchObject({ heads: 1 });
   expect(

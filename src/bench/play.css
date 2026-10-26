@@ -1022,6 +1022,18 @@ body.dev .dev-ring {
 #talk-lines .narration {
   font-style: italic;
 }
+/* The grading view (/play?held=1): a line still held until the owner grades
+   it is underlined, and the record that fired the scene is listed small. */
+#talk-lines .held,
+.reply.held {
+  text-decoration: underline dotted var(--text-3);
+  text-underline-offset: 3px;
+}
+#talk-lines .why {
+  font: 400 11px/1.3 var(--ui);
+  color: var(--text-3);
+  overflow-wrap: anywhere;
+}
 .chat .acts {
   margin-top: 8px;
 }
@@ -1516,7 +1528,8 @@ body.dev .dev-ring {
   min-height: 0;
   overflow-y: auto;
 }
-#game.filing-open #news-surface {
+#game.filing-open #news-surface,
+#game.filing-open #journal-note {
   visibility: hidden;
 }
 #filing-overlay .name {
@@ -2429,4 +2442,12 @@ body.dev .dev-ring {
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
   opacity: 0.55;
+}
+
+/* A race at the filing counter, told apart under its choice. */
+#talk-choices .reply .reply-facts {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.85em;
+  opacity: 0.8;
 }

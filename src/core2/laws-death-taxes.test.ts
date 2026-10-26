@@ -19,6 +19,7 @@ import { stancesOf } from "./modules/views";
 import { settleEstate, heirsOf } from "./estates";
 import { estateTaxes, inheritanceTax, scheduleTax } from "./laws-death-taxes";
 import { shapedRate } from "./modules/legislature";
+import { enactLaw } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 
 const seed =
@@ -93,6 +94,56 @@ describe("estate and inheritance taxes", () => {
         3,
       );
   });
+
+  it("a state that adopts a death tax by setting only a rate taxes the whole amount at that rate", () => {
+    const states = Object.keys(rows)
+      .filter(
+        (k) =>
+          /^US-[A-Z]{2}$/.test(k) &&
+          !taxing.includes(k) &&
+          placeLocalities(k).length > 0,
+      )
+      .sort();
+    const state = pick(states, "adopting-state");
+    const key = pick(
+      [...placeLocalities(state)].sort((a, b) => a.key.localeCompare(b.key)),
+      "adopting-place",
+    ).key;
+    const where = `seed ${seed}, ${state} place ${key}`;
+    const core = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: key,
+    }).core;
+    const api = coreAPI(core);
+    expect(inheritanceTax(api, state, "sibling", 100_000_00), where).toBeNull();
+    const [inheritanceLaw, estateLaw] = (
+      ["inheritance-tax", "estate-tax"] as const
+    ).map((series) =>
+      enactLaw(api, {
+        jurisdiction: state,
+        level: "state",
+        series,
+        value: 5,
+        effectiveDate: core.date,
+        measureId: `test:adopt-${series}`,
+        citation: "A bill that sets only a rate",
+      }),
+    );
+    // Five percent of a $100,000 share, in cents, with no exemption, under
+    // the row the bill wrote.
+    const heir = inheritanceTax(api, state, "sibling", 100_000_00);
+    expect(heir?.amountMinor, where).toBe(5_000_00);
+    expect(heir?.lawId, where).toBe(inheritanceLaw!.id);
+    const estate = estateTaxes(api, state, 100_000_00).find(
+      (t) => t.jurisdiction === state,
+    );
+    expect(estate?.amountMinor, where).toBe(5_000_00);
+    expect(estate?.lawId, where).toBe(estateLaw!.id);
+    console.log(
+      `rate-only death taxes: ${where}: ${heir!.lawId} ${heir!.amountMinor}, ${estate!.lawId} ${estate!.amountMinor}`,
+    );
+    // A drawn world builds in 32 to 84 seconds (measured); the case below has the same limit.
+  }, 600_000);
 
   it("a played world's estate pays the taxes in force to named treasuries, every cent balanced, and the heirs learn which law took it", () => {
     const state = pick(taxing, "state");

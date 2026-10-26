@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-layoff-worked-today
-pr:
+pr: #6018
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T09:09:20.173Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T09:09:20.173Z
 
 **Rules.** No dice: who goes is still the business's choice by tenure and reliability, among the workers it can let go today. Wire to the world: the review that skips a worker today lays someone off by the same rule; nothing is forgiven, only ordered.
 
-**Done when.** The M0-03 command passes in Medicine Lake, Montana with the seed above and in two places drawn from all 56, named with seeds; a test lays off staff whose only candidate worked today, shows no job ended today and the layoff made at the next review, and fails with the old choice.
+**Done when.** The M0-03 command passes in Medicine Lake, Montana with the seed above and in two places drawn from all 56, named with seeds; a test lays off staff whose only candidate worked today, shows no job ended today and the layoff made at the next review, and fails with the old choice. **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts
 

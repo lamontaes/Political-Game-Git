@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6025
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** raiseUnfilledPay (src/core2/modules/jobs.ts, the room in a month's days) takes a trading month's sales less payrollMinor, costsMinor and complianceMinor. But the business engine's costsMinor already holds the month's wages and compliance (src/core2/modules/business.ts, the trading month's costs sum), so both are taken out twice. A business that broke even shows a loss of a month's wages, and an opening that has gone unfilled is almost never raised. Found Oct 25 by the traits lead's pay-growth helper.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/business.ts
 
 **Notes.** Filed by the traits lead (claude/traits-pay-growth), which does not touch raiseUnfilledPay.
+
+Sent back 2026-10-25 from PR #6025 (branch claude/traits-unfilled-pay-room): required one-year buildBenchWorld proof is only120days in test:40 and body; retain positive thin-margin raise/reversal checks and finish full-year evidence before completing item; finish on that branch, merge main into it first.

@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: governor races outside the player's state run on the same counted engine as the House and Senate, from each state's own election calendar in data. Wire to the world: the winner takes office on that state's real inauguration date and is read by the executive engine.
 
-**Done when.** The M2-10 command, in Fort Myers Beach, Florida (seed above) and a second place drawn from all 56, shows every governor race outside the town's state that its calendar holds in November 2026 run, counted in places with reasons, and the winner serving from the state's inauguration date, by record id in the PR body.
+**Done when.** The M2-10 command, in Fort Myers Beach, Florida (seed above) and a second place drawn from all 56, shows every governor race outside the town's state that its calendar holds in November 2026 run, counted in places with reasons, and the winner serving from the state's inauguration date, by record id in the PR body. **On screen.** Nothing yet: filed play-governor-races-on-screen, which puts it on the election night results.
 
 **Files.** src/core2/modules/world-races.ts, src/bench/m2-10-check.ts
 
