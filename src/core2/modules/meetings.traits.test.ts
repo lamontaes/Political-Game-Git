@@ -26,7 +26,7 @@ let api: CoreAPI;
 let adults: PersonState[];
 /** The host's reasons apart from personality, for each town hall the days weighed. */
 const hostCases: number[] = [];
-/** Each resident weighed for a meeting's room: their lean, whether they took part, and whether they would have with temperament left out. */
+/** Each resident weighed for a meeting's room that could not hold everyone driven: their lean, whether they took part, and whether they would have with temperament left out. */
 const tookPart: { lean: number; value: number; flat: number }[] = [];
 /** Fewer weighed residents than this leave the thirds' gap mostly noise. */
 const MIN_TAKE_PART = 100;
@@ -53,7 +53,11 @@ beforeAll(() => {
     },
     2,
     // A place whose officials weighed too few town halls, or whose meetings
-    // weighed too few residents, has nothing for these tests to read.
+    // weighed too few residents, has nothing for these tests to read. A room
+    // that holds everyone driven weighs no one: in Lonerock, Oregon (seed
+    // c8ff3f460600582a58a7bf6b9b69d5204859bbc4:meetings:6) about 29 adults
+    // filled every town hall's 40 seats, and only its public comments, 6
+    // speakers of about 26, turned anyone away.
     () => {
       console.log(
         `meetings draw: ${hostCases.length} town halls weighed, ${tookPart.length} residents weighed for a room`,
@@ -96,6 +100,7 @@ describe("meetings.take-part reads one calibrated trait term", () => {
     // names them); at it six drawn towns sat from 0.91 to 2.06, highest where
     // the rooms took most of who came (Crescent Springs, Oklahoma, about 40 of
     // every 49), so one drawn town sits within a factor of two of the study.
+    // Counted over its full public comments alone, Lonerock sits at 1.40.
     expect(net).toBeGreaterThan(target / 2);
     expect(net).toBeLessThan(target * 2);
   });

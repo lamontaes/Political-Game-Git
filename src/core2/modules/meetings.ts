@@ -169,7 +169,9 @@ function driveOf(
  * The meeting's time takes the `room` most driven of `rows`. The audit's
  * probe (off in play) sees, for each of them, whether they took part, and
  * whether they would have with temperament left out (the room filled by
- * feeling alone), so the matrix shows who took part by thirds of lean.
+ * feeling alone), so the matrix shows who took part by thirds of lean. A room
+ * that holds everyone driven turns no one away, so temperament decides
+ * nothing there and the probe sees none of it.
  */
 function takePart<
   T extends { p: PersonState; base: number; drive: number; lean: number },
@@ -184,14 +186,15 @@ function takePart<
         .slice(0, room)
         .map((row) => row.p.id),
     ));
-  for (const row of rows)
-    reportOutcome(
-      "meetings.take-part",
-      row.p.id,
-      row.lean,
-      "probability",
-      (withTerm) => ((withTerm ? taken : takenFlat()).has(row.p.id) ? 1 : 0),
-    );
+  if (rows.length > room)
+    for (const row of rows)
+      reportOutcome(
+        "meetings.take-part",
+        row.p.id,
+        row.lean,
+        "probability",
+        (withTerm) => ((withTerm ? taken : takenFlat()).has(row.p.id) ? 1 : 0),
+      );
   return chosen;
 }
 
