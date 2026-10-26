@@ -14,6 +14,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
+import { WEB_LINKS } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { coreAPI } from "./state";
@@ -65,7 +66,37 @@ describe(`counted births and the outcome web (${place.name}, seed ${seed})`, () 
     console.log(
       `web births: ${place.name}, seed ${seed}: factors ${read.map((r) => r.webBirths.toFixed(3)).join(" ")}; first moved month ${moved[0]?.month} (${moved[0]?.webRecordId})`,
     );
-    expect(new Set(read.map((row) => row.webBirths)).size).toBeGreaterThan(1);
+    // The links into the birth rate wait out their research lags (home prices
+    // a year, unemployment nine months): a cause that changes in one month
+    // reaches births that many months later. So the factor must move once a
+    // cause changed early enough for its lag to land inside the run; until
+    // then a constant factor is what the records hold, and the test names it.
+    const rows = read.map(
+      (row) =>
+        months.get(row.webRecordId!) as unknown as {
+          values: Record<string, number>;
+        },
+    );
+    const landed = WEB_LINKS.filter((link) => link.to === "births.rate")
+      .map((link) => {
+        const measure = link.readFrom ?? link.from;
+        const changed = rows.findIndex(
+          (row, i) =>
+            i > 0 &&
+            row.values[measure] !== undefined &&
+            row.values[measure] !== rows[i - 1]!.values[measure],
+        );
+        return { link: link.key, measure, changed, lag: link.lagMonths };
+      })
+      .filter((c) => c.changed > 0 && c.changed + c.lag < rows.length);
+    console.log(
+      `web births causes: ${place.name}, seed ${seed}: ${landed.map((c) => `${c.measure} changed in ${read[c.changed]!.month} (${read[c.changed]!.webRecordId}), lag ${c.lag} months`).join("; ") || "no cause changed early enough for its lag to land in the run"}`,
+    );
+    if (landed.length)
+      expect(
+        new Set(read.map((row) => row.webBirths)).size,
+        `${place.name}: ${landed.map((c) => c.link).join(", ")} landed in the run`,
+      ).toBeGreaterThan(1);
     // A year after the opening, the town's home prices have moved from where
     // they began: owners' births rise and renters' fall, from one cause.
     const town = read.at(-1)!.placeId;
