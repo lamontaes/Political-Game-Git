@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Research before building: every customer class added cites its source and spread, and real rates check totals and never pick one firm's outcome. One model, two tiers: counted buyers and full buyers are read with the same rule, times their count.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, each business kind's planned buyers cover its book demand within the sourced spread, shown by business and purchase-flow record ids, and the stopgap row for the gap is resolved.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, each business kind's planned buyers cover its book demand within the sourced spread, shown by business and purchase-flow record ids, and the stopgap row for the gap is resolved. **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
 
 **Files.** src/core2/modules/business.ts, src/core2/residents-economy.ts, src/core2/data/stopgaps.json
 

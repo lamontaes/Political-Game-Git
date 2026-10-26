@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** The checker changes one law the way a body would.
 
-**Done when.** The taxes family's Prescott run changes the grant from 1 to 0 (or Uehling's from 0 to 1), its change line says so, and the matrix grades the law as before.
+**Done when.** The taxes family's Prescott run changes the grant from 1 to 0 (or Uehling's from 0 to 1), its change line says so, and the matrix grades the law as before. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/law-wiring/check.ts
 

@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: each person's purchases and counted groups' purchases are priced by the same rule. No dice: returns come from the person's own choice. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a container deposit law charges a named person at purchase and refunds them at return, with purchase, deposit and refund record ids, named by record id. The test in src/core2/place-prices.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: pass a bottle deposit law and get your nickel back.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a container deposit law charges a named person at purchase and refunds them at return, with purchase, deposit and refund record ids, named by record id. The test in src/core2/place-prices.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: pass a bottle deposit law and get your nickel back. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/modules/place-prices.ts, src/core2/data/stopgaps.json, src/core2/place-prices.test.ts
 

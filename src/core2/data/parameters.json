@@ -144,6 +144,11 @@
     "tag": "SOURCED",
     "citation": "IEC 80000-13: one mebibyte is 2^20 bytes."
   },
+  "votingAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "U.S. Constitution, Twenty-sixth Amendment (1971): the right to vote of citizens eighteen years of age or older shall not be denied on account of age."
+  },
   "targetPopulation": {
     "value": 10000,
     "tag": "SOURCED",
@@ -718,6 +723,19 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "openingPeerTieHours": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Hours of time together two people have at the opening when the records say they shared a school class or a workgroup in the town. Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): about 50 hours of time together to move from acquaintance to casual friend (the same study that sets closenessHoursAtHalf).",
+    "estimatedFrom": "Hall's roughly 50 hours to a casual friend, used as the estimated initial time together for every recorded school classmate and coworker. Shared hours and stint lengths are not measured per pair; the tie fades by the closeness half-life from the recorded day the shared context began, including for a current coworker. This is the registered opening approximation, not an observed duration for each pair.",
+    "spread": {
+      "low": 40,
+      "high": 60,
+      "unit": "hours together",
+      "citation": "Hall (2019): 40 to 60 hours to a casual friend, 80 to 100 to a friend."
+    },
+    "stopgapId": "SG-P15-closeness-model"
+  },
   "closenessKinHalfLifeDays": {
     "value": 1095,
     "tag": "TUNABLE",
@@ -827,6 +845,17 @@
       "high": 15,
       "unit": "people",
       "citation": "From the closest weekly layer to the monthly 'sympathy group' of personal-network studies; to be sourced from pages fetched by research before it leaves TUNABLE."
+    }
+  },
+  "focusDailyContactDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "How long after the player last had contact with someone in focus (outside the player's family and household) that person keeps choosing daily; after it they choose at their tier's cadence until the two meet again. The contact date is read from the indexed tie. A scheduling cadence, like the tiers' own, not a behavior. Measured Oct 25 in Bedford, Wyoming (seed 9a4dd331ace7) with a prototype: the third year fell from 2.05 to 1.28 times the first.",
+    "spread": {
+      "low": 14,
+      "high": 90,
+      "unit": "days",
+      "citation": "From two weeks, about the gap between a weekly group's meetings missed twice, to a season; checked against the year-three speed band (speed:year)."
     }
   },
   "extendedKinVisitShare": {
@@ -5207,6 +5236,17 @@
       "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
     }
   },
+  "siblingBirthGapDays": {
+    "value": 274,
+    "tag": "TUNABLE",
+    "citation": "The fewest days between two siblings' births in a household the opening draws: nine months, the owner's floor for siblings who are not twins (playtest, Oct 24, 2026, play-stop-20: siblings born at least nine months apart). A pregnancy begun right after a birth and carried to term, 39 to 40 weeks (American College of Obstetricians and Gynecologists, Committee Opinion 579, Definition of Term Pregnancy, 2013), ends 273 to 280 days later.",
+    "spread": {
+      "low": 245,
+      "high": 300,
+      "unit": "days",
+      "citation": "From a late-preterm birth at 35 weeks to a full-term birth a few weeks after a pregnancy begun at once."
+    }
+  },
   "minimumParentAgeAtBirth": {
     "value": 15,
     "tag": "SOURCED",
@@ -5407,6 +5447,17 @@
       "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
     }
   },
+  "playerEntryAge": {
+    "value": 18,
+    "tag": "TUNABLE",
+    "citation": "The turn-18 golden path's player entry age (AGENTS.md). The opening keeps at least one full resident of this age when one occurs in the place's generated households, selecting a household to keep full rather than creating an age cohort the place lacks. Matches the bench player's default entry age (src/bench/world.ts).",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years",
+      "citation": "Design sensitivity bounds around the turn-18 start, from 17 through 21 years."
+    }
+  },
   "cohortSearchMinimumHouseholds": {
     "value": 400,
     "tag": "TUNABLE",
@@ -5502,10 +5553,10 @@
   "traitWeightBusinessOwnerDraw": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the business.owner-draw decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the business.owner-draw decision, at the general traitWeight (1): no study of owners' draws by personality gives a number, so by the pool item's rule this decision keeps the general weight, with its gap row in data/content/trait-decision-gaps.json. An owner weighs the business's cash against a month of everything it pays out before drawing.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No study gives this decision a size; the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightBusinessOpenLocation": {
@@ -5518,12 +5569,14 @@
     }
   },
   "traitWeightBusinessFound": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the business.found decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "citation": "Zhao and Seibert 2006, The Big Five personality dimensions and entrepreneurial status (Journal of Applied Psychology 91(2)): multiple R .37 across the five traits, an odds ratio of 4.83 between the thirds. Weight set with scripts/traits/trait-calibrate.ts on played years of Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f, 3,097 calls: weight 0.4, odds ratio 5.3), Peacham, Vermont (place key 5054325, seed 58e683537f9b, 10,373 calls: weight 0.3, odds ratio 5.0) and a third town (place key 2371780, seed c08fca61fc5c, 9,710 calls: weight 1.25, odds ratio 5.0), where many founders' cases are positive before personality; 0.6 sits between them. Full people take this weight on the chooser's arithmetic; the wider population keeps businessCountedFound's weight of 2.04 on its summed pull.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.3,
+      "high": 1.25,
+      "unit": "weight",
+      "citation": "The three towns' fits; Zhao, Seibert and Lumpkin 2010 give R .36."
     }
   },
   "traitWeightJobsReviewWorker": {
@@ -5547,10 +5600,10 @@
   "traitWeightJobsApply": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.apply decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the jobs.apply decision, at the general traitWeight (1): Kanfer, Wanberg and Kantrowitz 2001 (Journal of Applied Psychology 86(5)) report job search behavior's population correlations with its antecedents only as a range in the abstract (-.15 to .46), with no per-trait number retrieved, so by the pool item's rule this decision keeps the general weight, with its gap row in data/content/trait-decision-gaps.json. A seeker's push to apply eases with the weeks looked.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No study gives this decision a size; the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightJobsAcceptOffer": {
@@ -5565,19 +5618,21 @@
   "traitWeightHousingBuyHome": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the housing.buy-home decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the housing.buy-home decision: the general traitWeight (1). No study of personality and becoming a homeowner was found, and the fits with an assumed 1.2 per standard deviation disagree (Holualoa, Hawaii: 2.05 on 3 buyers; Peacham, Vermont: none reachable on 1; place key 2371780: 0.1, where the nearest households sit within a point of buying and odds are 11 at weight 1), so no weight is claimed from them.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "Three drawn towns fit 0.1, 2.05 and none: a year holds one to sixteen households near enough to buy to be tipped, too few to fit."
     }
   },
   "traitWeightCreditBorrow": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the credit.borrow decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "Brown and Taylor 2014, Household finances and the 'Big Five' personality traits (Journal of Economic Psychology 45), Table 3 singles, probability of holding unsecured debt per standard deviation: conscientiousness -3.37 points, openness +3.35, extraversion +3.07 (base rate 0.4847), the strongest an odds ratio of 1.34 between the thirds. Weight set with scripts/traits/trait-calibrate.ts on played years of Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f, 10,357 calls: weight 1.15, odds ratio 1.34) and Peacham, Vermont (place key 5054325, seed 58e683537f9b, 5,491 calls: weight 1.2, odds ratio 1.34). A stock of debt held is the nearest published proxy for the chance of taking it on.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1.0,
+      "high": 1.4,
+      "unit": "weight",
+      "citation": "Weights 1.0 to 1.4 give odds ratios of 1.29 to 1.40 between the thirds in the same calls; the study's interval for conscientiousness is -6.0 to -0.7 points."
     }
   },
   "traitWeightCandidacyRun": {
@@ -5684,21 +5739,25 @@
     }
   },
   "traitWeightBusinessCountedFound": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the business.counted-found decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2.04,
+    "tag": "ESTIMATED",
+    "citation": "Zhao and Seibert 2006 (Journal of Applied Psychology 91(2)): multiple R .37. Counted adults' founding pull is a logistic of their reasons; weight is ln(4.83) divided by 0.772, the mean lean gap between the thirds (place key 3223500, seed 7ae8589566f5), so the odds ratio between the thirds is the study's 4.83.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1.5,
+      "high": 2.6,
+      "unit": "weight",
+      "citation": "Zhao, Seibert and Lumpkin 2010 give R .36; the weight range gives odds ratios of 3 to 7.5 between the thirds."
     }
   },
   "traitWeightRetirementClaimAge": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the retirement.claim-age decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "Greenberg, Hershfield, Shu and Spiller 2018 (working paper, 20th Annual Joint Meeting of the Retirement Research Consortium), Table 2: intended Social Security claiming age rises 0.218 years per standard deviation of openness and 0.211 of agreeableness (standardized beta 0.078 and 0.075 on the 2.8-year spread of intended ages); the thirds of a trait sit 2.18 standard deviations apart, so 0.475 years. scripts/traits/trait-calibrate.ts cannot fit it: the case for waiting past the full retirement age clusters at one score, so the odds ratio is 1 up to a weight of 0.12 and over 3,000 at 0.15. Weight fitted directly: 0.475 years divided by claimTraitPullYears (4) times the mean lean gap between the thirds of those weighed (1.08 in Holualoa, Hawaii, place key 1515700, seed 6f7794a4906f, 5,574 calls; 0.71 in Peacham, Vermont, place key 5054325, seed 58e683537f9b, 2,131 calls), 0.11 and 0.17, set at the pooled 0.12.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.07,
+      "high": 0.17,
+      "unit": "weight",
+      "citation": "The study's standard error (0.047 years for openness) gives 0.13 to 0.31 years per standard deviation, which at these lean gaps is a weight of 0.07 to 0.17."
     }
   },
   "traitWeightBringItUpBlame": {
@@ -5729,12 +5788,14 @@
     }
   },
   "traitWeightMovesMoveAway": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the moves.move-away decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.366,
+    "tag": "ESTIMATED",
+    "citation": "Jokela 2009, Personality predicts migration within and between U.S. states (Journal of Research in Personality 43(1)): openness, odds ratio 1.19 per standard deviation between states over 7 to 11 years. Moves are a pull multiplied by e to the net of pushes and holds, so the weight is ln(1.19^2.18) divided by 1.036, the mean lean gap between the third of counted adults leaning most toward moving and the third leaning least (place key 3223500, seed 7ae8589566f5): an odds ratio of 1.46 between the thirds.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.6,
+      "unit": "weight",
+      "citation": "Jokela's interval for openness, 1.04 to 1.36 per standard deviation, gives weights 0.08 to 0.65."
     }
   },
   "traitWeightVotingTurnout": {
@@ -6080,6 +6141,17 @@
     "spread": {
       "status": "unmeasured",
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPressShadeAnswer": {
+    "value": 1.09,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the press.shade-answer decision. Heck, Thielmann, Moshagen and Hilbig (2018), Judgment and Decision Making 13(4):356-371: honesty-humility lowers the odds of lying for gain, odds ratio 0.53 per standard deviation (\"The results show a medium to large effect of HH (odds ratio = 0.53)\"; \"The odds ratio for a z-standardized predictor\"), as the proxy for shading an answer about one's own vote toward the town: target log odds 1.38 between the top and bottom thirds (2.18 standard deviations apart). The gap between the vote and where the town stands is the only circumstance and the target is set on the latent-logit scale, as for press.accept-interview: the target divided by the gap between the top and bottom third's mean lean toward shading over owning (1.27 to 1.28, scaled and clamped as the formula reads it) across the adults of 16 towns drawn from all 56 places (seeds shadefit1 and shadefit2). Town by town the fitted weight runs 1.03 to 1.13 (measured across the 16 towns, separate from the study's own uncertainty).",
+    "spread": {
+      "low": 0.877,
+      "high": 1.296,
+      "unit": "weight",
+      "citation": "The weight scales with the log odds ratio: the study's 95% Bayesian credibility interval for the odds ratio is 0.47 to 0.60 (Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2: 0.53, 2.5% 0.47, 97.5% 0.60)."
     }
   },
   "traitWeightPressTip": {
