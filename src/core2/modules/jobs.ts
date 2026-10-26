@@ -195,7 +195,7 @@ function fullJobs(api: CoreAPI, organizationId: string) {
 }
 
 /** An employer's staff: its full people's jobs and its counted workers' jobs. */
-function currentJobs(api: CoreAPI, organizationId: string) {
+export function currentJobs(api: CoreAPI, organizationId: string) {
   return [
     ...fullJobs(api, organizationId),
     ...countedJobsOf(core(api), organizationId),
@@ -1197,8 +1197,9 @@ function reviewEmployers(api: CoreAPI): void {
         },
         trading?.id,
       );
-      // The next worker to go stands for more jobs than the staff is over by: wait.
-      if (laid === "over") break;
+      // The next worker to go stands for more jobs than the staff is over by,
+      // or worked today already: wait for the next review.
+      if (laid === "over" || laid === undefined) break;
       if (laid?.id) jobChangeIds.push(laid.id);
       need += laid?.heads ?? 1;
     }
@@ -1321,7 +1322,7 @@ function managerOf(
 }
 
 /** The business decides who goes: the worker whose tenure and record it values least. */
-function layOff(
+export function layOff(
   api: CoreAPI,
   organizationId: string,
   staff: readonly JobInput[],
@@ -1339,6 +1340,14 @@ function layOff(
     (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
   )[0];
   if (!job) return;
+  // A job ends before its day's work. The worker the business chose played
+  // their day before this review ran (the controlled character): the same
+  // choice is made at the next review, before that day's work.
+  if (
+    c.jobs.has(job.id) &&
+    c.work.lastAttendanceByJob.get(job.id)?.date === c.date
+  )
+    return;
   // The jobs this record stands for may not exceed what the staff is over by.
   const heads = headsOf(c, job);
   if (heads > budget + 1e-9) return "over";
@@ -2300,7 +2309,14 @@ function hireCounted(
   store(api)
     .table("positions")
     .put({ ...position, status: "filled", filledBy: seeker.personId });
-  fundedHire(api, position, seeker.personId, "group", positionHeads(position));
+  fundedHire(
+    api,
+    position,
+    seeker.personId,
+    "group",
+    positionHeads(position),
+    job.wageDailyMinor,
+  );
   store(api).table("countedSeekers").remove(seeker.personId);
   endClaim(api, store(api).table("claims"), seeker.personId);
   record(api, {
@@ -3214,7 +3230,7 @@ function hire(
         ? { ...position, heads: left }
         : { ...position, status: "filled", filledBy: person.id },
     );
-  fundedHire(api, position, person.id, "person", 1);
+  fundedHire(api, position, person.id, "person", 1, job.wageDailyMinor);
   store(api).table("seekers").remove(person.id);
   endSpell(api, person.id);
   // The new hire meets the full people already working there.
@@ -3246,7 +3262,9 @@ function hire(
 /**
  * A hire to an opening a budget line funds: the jobs engine applied the
  * line's change to this worker (a named person, or a counted worker standing
- * for the jobs the opening stood for).
+ * for the jobs the opening stood for). The row names the pay the line commits
+ * to them for a year (their daily wage over a year, times the jobs the
+ * opening stood for), so the money the line pays is on the payee's own record.
  */
 function fundedHire(
   api: CoreAPI,
@@ -3254,6 +3272,7 @@ function fundedHire(
   personId: string,
   target: "person" | "group",
   count: number,
+  wageDailyMinor: number,
 ): void {
   if (!position.fundedBy) return;
   lawApplied(api, {
@@ -3264,6 +3283,7 @@ function fundedHire(
     engine: JOBS_MODULE_ID,
     what: "hired-on-budget-line",
     count,
+    amountMinor: wageDailyMinor * count * api.parameter("jobsDaysPerYear"),
   });
 }
 

@@ -4,7 +4,7 @@ title: "Stopgaps in justice-law (estimated-rule): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** First row: Every place vacates an office on a felony conviction, on the day of the conviction.
 
 Oct 20 (pool feeder): spec written; the small justice engine vacates on the conviction day, so a place whose rule waits for sentencing or final appeal needs the vacate step to move to that event; the small engine has no appeal step, so 'final appeal' rows read as the sentencing date until appeals exist (record that in the row, ESTIMATED).
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

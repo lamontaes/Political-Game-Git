@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Wire to the world: the assistance and the repairs move between the damaged town's own households and builders, the town whose FEMA row it is, wherever the player lives that day. One rule, all 56 places: the damaged town is found from the world's records, never by a place name in code.
 
-**Done when.** In a generated world where the player moves out of the opened town before a damaging disaster is declared, the opened town's residents account receives the assistance and pays its own builders, named by journal entry id, and the town the player moved to pays nothing for it. The no-payee regression in src/core2/disasters-no-market.test.ts stays reachable, its forced step changed if it must be.
+**Done when.** In a generated world where the player moves out of the opened town before a damaging disaster is declared, the opened town's residents account receives the assistance and pays its own builders, named by journal entry id, and the town the player moved to pays nothing for it. The no-payee regression in src/core2/disasters-no-market.test.ts stays reachable, its forced step changed if it must be. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/disasters.ts, src/core2/disasters-no-market.test.ts
 

@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T14:31:21.061Z
 
 **Rules.** Replace, never layer: use lineBeforeBill as the base instead of adding a second path. No dice. One rule, all 56 places: the base is read from the budget records in any fiscal-year calendar. An effect is a read: the staffing row feeds the hiring round.
 
-**Done when.** At the place and seed above, and in two other drawn places, a third off the schools line lays off named teachers (job ids named) and a third on hires named adults; src/core2/budget-line-schools-staffing.test.ts passes for both directions; the police and fire lines that share the rule still pass src/core2/law-reach-group-a.test.ts.
+**Done when.** At the place and seed above, and in two other drawn places, a third off the schools line lays off named teachers (job ids named) and a third on hires named adults; src/core2/budget-line-schools-staffing.test.ts passes for both directions; the police and fire lines that share the rule still pass src/core2/law-reach-group-a.test.ts. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-a-staffing.ts,src/core2/law-reach/group-a-money.ts,src/core2/modules/budgets.ts,src/core2/budget-line-schools-staffing.test.ts
 

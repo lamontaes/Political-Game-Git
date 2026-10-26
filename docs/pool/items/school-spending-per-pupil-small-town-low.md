@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Estimate, never UNKNOWN: a figure a player can see starts from the real average with a per-world spread. One rule, all 56 places: the same reader in every place. Research before building: the band comes from the Census survey of school finances.
 
-**Done when.** The spending record in Summer Shade, Kentucky (seed d12e2e3dd77853bd) and three fresh drawn places named in the PR body lies inside the sourced band, with the cause of the low value named by file and line; school-outcomes.test.ts passes on those seeds.
+**Done when.** The spending record in Summer Shade, Kentucky (seed d12e2e3dd77853bd) and three fresh drawn places named in the PR body lies inside the sourced band, with the cause of the low value named by file and line; school-outcomes.test.ts passes on those seeds. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/school-outcomes.ts, src/core2/school-budget-line.ts, src/core2/school-outcomes.test.ts
 
