@@ -905,13 +905,26 @@
     },
     {
       "id": "life.daily-act",
+      "option": "contact-known-person",
       "trait": "extraversion",
-      "outcome": "time spent socializing",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "Second pass: Mehl, Gosling & Pennebaker (2006, JPSP 90, 862-877, doi 10.1037/0022-3514.90.5.862) correlate Big Five with EAR-recorded daily social interaction in 96 people, but the abstract gives no coefficient and the full text was not retrieved."
+      "outcome": "socialized with friends, neighbors or family (not counting a spouse or partner) on the previous day (2012 Health and Retirement Study day reconstruction, N = 5,484, ages 51 to 99)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 1.031,
+        "low": 0.693,
+        "high": 1.372,
+        "traitSd": 0.19
+      },
+      "source": {
+        "authors": "Newton, N. J., Pladevall-Guyer, J., Gonzalez, R., & Smith, J.",
+        "year": 2018,
+        "title": "Activity Engagement and Activity-Related Experiences: The Role of Personality",
+        "venue": "The Journals of Gerontology, Series B 73(8), 1480-1490",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6178970"
+      },
+      "quote": "Results: \"higher extraversion was associated with higher likelihood to socialize, OR = 1.41; 95% CI: 1.26, 1.58, p < .001\". Table 1: \"Contribution of Extraversion and Covariates to the Likelihood of Engaging in Each Activity for Total Sample (odds ratios)\", \"N = 5,484\", \"All other variables are continuous.\" Extraversion is the mean of five items \"on a 4-point scale from 1 (a lot) to 4 (not at all)\", reverse scored; mean 3.17, SD 0.57. \"Extraversion was not significantly related to the amount of time spent in any activity.\"",
+      "quoteVerified": true,
+      "notes": "The odds ratio is per point of the 1-to-4 mean score (a continuous predictor), so the logit coefficient is ln 1.41 = 0.344 per point, 1.031 over the scale's three points (interval 0.693 to 1.372 from the odds ratio's 1.26 to 1.58), and the trait's standard deviation is 0.57 of three points, 0.19 of the range. Older adults only. Rohrer and Lucas (2018, German time-use diaries) give r = 0.182 for socializing on a diary day, a larger size (thirds log odds 0.73 against this row's 0.43). Both find extraversion unrelated to the time spent, so the trait weighs whether a person sees someone today, not for how long."
     },
     {
       "id": "drives.respond",

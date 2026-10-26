@@ -17,6 +17,7 @@ import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import {
   setTraitProbe,
+  type ChooserProbeRow,
   type FormulaProbeRow,
   type OutcomeProbeRow,
 } from "./trait-probe";
@@ -142,16 +143,19 @@ export function drawnWorld(
   start = gameStartDate(),
   /** Sees every decision reported as an outcome with and without the trait term. */
   onOutcome?: (row: OutcomeProbeRow) => void,
+  /** Sees every chooser pick, with and without the trait term. */
+  onChooser?: (row: ChooserProbeRow) => void,
 ): { core: CoreState; api: CoreAPI; placeName: string; placeKey: string } {
   const world = buildBenchWorld(seed, start, {
     twoLevel: false,
     placeKey: place.key,
   });
   setTraitProbe(
-    onFormula || onOutcome
+    onFormula || onOutcome || onChooser
       ? {
           ...(onFormula ? { formula: onFormula } : {}),
           ...(onOutcome ? { outcome: onOutcome } : {}),
+          ...(onChooser ? { chooser: onChooser } : {}),
         }
       : undefined,
   );
@@ -203,6 +207,8 @@ export function drawnRaceWorld(
   accept?: (world: { core: CoreState; api: CoreAPI }) => string | null,
   /** Sees every decision reported as an outcome with and without the trait term. */
   onOutcome?: (row: OutcomeProbeRow) => void,
+  /** Sees every chooser pick, with and without the trait term. */
+  onChooser?: (row: ChooserProbeRow) => void,
 ): { core: CoreState; api: CoreAPI; placeName: string; placeKey: string } {
   const opening = gameStartDate();
   const shift = (date: string, by: number) => {
@@ -243,6 +249,7 @@ export function drawnRaceWorld(
       onFormula,
       makeIsoDate(start),
       onOutcome,
+      onChooser,
     );
     const refused = accept?.(world) ?? null;
     if (refused === null) return world;
