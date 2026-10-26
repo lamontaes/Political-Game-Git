@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/tooling/m1-05-check.ts, src/core2/tooling/m1-07-check.ts, src/core2/tooling/m1-08-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-laws-budgets-flags and roadmap-m1-housing-business-renewal-flags (CTO branch). Build on the m1-economy branch's helper until it merges.
+
+Sent back 2026-10-26 from PR #5893 (branch claude/quirky-ride-vrwwz4-m1-housing): parent #5876 merged and retarget/integration clean, scoped static gate passes, but own M1-07 Agingan MP draw exits0 while perResident is empty/mandatory territory range unchecked, and runner converts0 to passed/discards output; preserve nonpassing incomplete mandatory coverage and test it without excluding territories; finish on that branch, merge main first.
