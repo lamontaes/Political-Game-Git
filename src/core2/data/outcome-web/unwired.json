@@ -416,12 +416,6 @@
       "stopgapId": "SG-WEB-unread-finance-high-cost-loans"
     },
     {
-      "link": "carbon-price-to-emissions",
-      "outcome": "env.emissions",
-      "reason": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-emissions"
-    },
-    {
       "link": "container-deposit-to-litter",
       "outcome": "env.litter",
       "reason": "engine doesn't read the factor: env.litter moves only in the web's monthly ledger; no engine multiplies its own rates by it",
@@ -434,22 +428,10 @@
       "stopgapId": "SG-WEB-unread-disaster-flood-damage"
     },
     {
-      "link": "container-deposit-to-recycling",
-      "outcome": "env.container-recycling-pct",
-      "reason": "engine doesn't read the factor: env.container-recycling-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-container-recycling-pct"
-    },
-    {
       "link": "mandatory-minimum-cut-to-federal-prisoners",
       "outcome": "justice.federal-incarcerated-per-100k",
       "reason": "engine doesn't read the factor: justice.federal-incarcerated-per-100k moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces justice.federal-incarcerated-per-100k",
       "stopgapId": "SG-WEB-unread-justice-federal-incarcerated-per-100k"
-    },
-    {
-      "link": "power-plant-carbon-to-emissions",
-      "outcome": "env.emissions",
-      "reason": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-emissions"
     },
     {
       "link": "drug-negotiation-to-out-of-pocket",
@@ -544,13 +526,13 @@
     {
       "link": "farmland-easements-to-farmland-lost",
       "outcome": "farmland.developed-acres",
-      "reason": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+      "reason": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts) reads this law and cuts the town's single-family starts by its own land elasticity, not this row's size and five-year lag, and no engine keeps the acres converted",
       "stopgapId": "SG-WEB-unread-farmland-developed-acres"
     },
     {
       "link": "groundwater-limits-to-irrigation-pumping",
       "outcome": "water.irrigation-groundwater",
-      "reason": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+      "reason": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts) reads this law and cuts each farm's water by its own estimated share the day the law takes effect, not this row's size and one-year lag, and no engine keeps the groundwater pumped",
       "stopgapId": "SG-WEB-unread-water-irrigation-groundwater"
     },
     {
