@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/department-head-by-record
-pr:
+pr: #6149
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T06:16:50.634Z

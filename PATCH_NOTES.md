@@ -296,6 +296,40 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.32.4
+
+_Released October 26, 2026._
+
+### Improved
+
+- **A recession costs men their employer health plans** When unemployment rises
+  in a town, fewer working people hold an employer health plan, and men lose
+  theirs faster than women do. The research behind it finds that a rise in
+  unemployment lowers men's coverage far more than women's.
+
+### Fixed
+
+- **Washington, D.C. and Rhode Island open at their own published unemployment
+  rates.** A place whose state is made up only of metro areas used to open at
+  the whole metro area's unemployment rate, which takes in neighboring states.
+  Washington, D.C. opened at 2.9 percent instead of its own 5.6, and Rhode
+  Island at 4.2 instead of 4.5. Both now open at their published rates.
+
+## PRE-ALPHA 0.32.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Brothers and sisters are born months apart, and no 17-year-old runs a city
+  department** A new life could open with a sister born a week after the player,
+  and a 17-year-old could be named the city's Public Works Director. Brothers
+  and sisters at home are now born at least nine months apart, and a birthday
+  chosen at the start moves a sibling born too close to it. Only residents who
+  have turned 18 by their birthday are weighed for a department. Two relatives
+  no longer ask each other after a relative they share by first name or as "your
+  father".
+
 ## PRE-ALPHA 0.32.2
 
 _Released October 26, 2026._
