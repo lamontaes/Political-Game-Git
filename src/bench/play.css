@@ -710,6 +710,29 @@ input[type="range"]::-moz-range-thumb {
 .field input {
   width: 170px;
 }
+/* The creator's fields always show their box, empty or filled. */
+#cr-character .field input,
+#cr-character .field select {
+  border-color: rgba(242, 237, 228, 0.28);
+  background-color: rgba(8, 8, 9, 0.45);
+}
+/* Month, day and year on one line, each label over its box, one height. */
+.date-row {
+  display: grid;
+  grid-template-columns: 3fr 1.4fr 2.6fr;
+  gap: 10px;
+  margin: 6px 0 8px;
+}
+.date-row .field {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding: 0;
+}
+.date-row select {
+  width: 100%;
+  max-width: none;
+}
 
 /* ---- Title screen ---- */
 .menu {
@@ -769,6 +792,15 @@ input[type="range"]::-moz-range-thumb {
   font: 400 12.5px var(--ui);
   color: var(--text-2);
   margin-top: 2px;
+}
+/* A town in the creator's list reads in the state buttons' own font. */
+.item.town span,
+.item.town small {
+  display: block;
+  font: inherit;
+}
+.item.town small {
+  color: var(--text-2);
 }
 /* The creator (the Oct 12 SetupScreen's steps). */
 #front:has(#cr-character:not([hidden])),
@@ -935,14 +967,26 @@ body.dev .dev-ring {
 }
 
 /* ---- The play HUD: the player card, bottom left (the only place the date and time appear) ---- */
-.me {
+/* The menu icons and the card stand in one column, bottom left: the icons
+   always above the card, however tall the card's status line makes it. */
+#dock {
+  position: absolute;
   left: var(--gutter);
   bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+#dock > .panel {
+  position: relative;
+}
+.me {
   display: flex;
   gap: 11px;
   align-items: center;
   padding: 7px 18px 7px 7px;
-  max-width: calc(50vw - 380px);
+  max-width: calc(100vw - 2 * var(--gutter));
 }
 /* With a menu open the card keeps to the menu's column. */
 #game.sheet-open .me {
@@ -982,9 +1026,6 @@ body.dev .dev-ring {
   margin-bottom: 4px;
 }
 #rings {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 108px;
   display: flex;
   gap: 8px;
 }
@@ -1528,7 +1569,8 @@ body.dev .dev-ring {
   min-height: 0;
   overflow-y: auto;
 }
-#game.filing-open #news-surface {
+#game.filing-open #news-surface,
+#game.filing-open #journal-note {
   visibility: hidden;
 }
 #filing-overlay .name {
@@ -1711,7 +1753,8 @@ body.dev .dev-ring {
    heading and actions; positions only. */
 #ballot,
 #meeting,
-#desk {
+#desk,
+#job-offer {
   top: var(--gutter);
   right: var(--gutter);
   bottom: calc(9vh + 18px);
@@ -1719,6 +1762,18 @@ body.dev .dev-ring {
   width: min(420px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
   overflow: hidden;
+}
+/* A job offer's moment (jobs): the employer's offer over the scene. */
+#job-offer-employer {
+  font: 500 20px var(--speech);
+  margin: 4px 0 2px;
+}
+#job-offer-facts {
+  margin: 8px 0 18px;
+}
+#job-offer-status {
+  min-height: 18px;
+  margin: 12px 0 0;
 }
 #ballot {
   display: flex;
@@ -2461,4 +2516,12 @@ body.dev .dev-ring {
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
   opacity: 0.55;
+}
+
+/* A race at the filing counter, told apart under its choice. */
+#talk-choices .reply .reply-facts {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.85em;
+  opacity: 0.8;
 }

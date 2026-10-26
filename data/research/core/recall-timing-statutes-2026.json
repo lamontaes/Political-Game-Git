@@ -183,9 +183,15 @@
       "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
     },
     "MS": {
-      "localRecall": true,
-      "tag": "unread",
-      "reason": "Not found. The searches read found Mississippi's recall reaches county officials by petition to the governor, and the 2026 bill SB 2350 (introduced, https://legiscan.com/MS/text/SB2350/2026) would add a municipal recall barred in a term's first 180 days; no enacted municipal timing bar was read. The national estimate (recallTermOpeningDays) stands."
+      "localRecall": false,
+      "basis": "No municipal recall timing applies: the quoted statute governs elective county officers, not municipal recall.",
+      "statute": "Miss. Code Ann. 25-5-3 (2025 Code text)",
+      "url": "https://law.justia.com/codes/mississippi/title-25/chapter-5/section-25-5-3/",
+      "retrievedOn": "2026-10-25",
+      "quotes": [
+        "The Governor is hereby empowered, in accordance with the provisions of Section 139 of the Mississippi Constitution of 1890, through the procedure and under the regulations prescribed in Sections 25-5-3 through 25-5-37 and for the reasons and causes set forth, to remove any elective county officer in this state; and every elective officer of any county in this state may be removed from office by the Governor at any time when done in compliance with the regulations hereinafter set forth."
+      ],
+      "note": "The published statute empowers the Governor to remove elective county officers; it does not authorize municipal recall. Text also verified at https://codes.findlaw.com/ms/title-25-public-officers-and-employees-public-records/ms-code-sect-25-5-3/. The 2026 municipal-recall bill SB 2350 died in committee on February 3, 2026 (https://legiscan.com/MS/bill/SB2350/2026). No municipal timing bar applies."
     },
     "MO": {
       "localRecall": false,
@@ -333,7 +339,7 @@
         "closingDays": 0
       },
       "afterFailed": "not stated in the sections read",
-      "note": "9-13-30 (https://sdlegislature.gov/api/Statutes/9-13-30.html?all=true) also lists grounds: \"The allowable grounds for removal are misconduct, malfeasance, nonfeasance, crimes in office, drunkenness, gross incompetency, corruption, theft, oppression, or gross partiality.\" The municipal rule pack reads South Dakota as needing no grounds."
+      "note": "9-13-30 (https://sdlegislature.gov/api/Statutes/9-13-30.html?all=true) also lists grounds: \"The allowable grounds for removal are misconduct, malfeasance, nonfeasance, crimes in office, drunkenness, gross incompetency, corruption, theft, oppression, or gross partiality.\" The municipal rule pack now reads these grounds as required."
     },
     "TN": {
       "localRecall": false,
@@ -391,7 +397,7 @@
         "closingDays": 0
       },
       "afterFailed": "not stated in the sections read",
-      "note": "The 2026 bill HB0022 would have given every municipal officer a recall with a nine-month opening bar and a six-month bar before the next election; the Senate Committee of the Whole failed it on March 3, 2026 (https://www.wyoleg.gov/2026/Digest/HB0022.pdf: \"3/3/2026 S COW:Failed 10-20-1-0-0\"). Recall elsewhere than commission-form cities rests on the rule pack, not read here."
+      "note": "The 2026 bill HB0022 would have given every municipal officer a recall with a nine-month opening bar and a six-month bar before the next election; the Senate Committee of the Whole failed it on March 3, 2026 (https://www.wyoleg.gov/2026/Digest/HB0022.pdf: \"3/3/2026 S COW:Failed 10-20-1-0-0\"). The municipal rule pack now gives a town under any other form no recall (Wyo. Stat. 15-4-110 sits in Title 15, chapter 4, article 1, for commission-form cities and towns)."
     },
     "PR": {
       "localRecall": false,

@@ -4,12 +4,16 @@
 // in News. Drawn place (New world), first evening. SHOTS=<label> saves
 // screenshots into docs/reports/news-toast-2026-10-25/.
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
 const port = process.env.BENCH_PORT ?? "3000";
 const base = `http://localhost:${port}`;
 const label = process.env.SHOTS;
-const dir = "docs/reports/news-toast-2026-10-25";
+const dir =
+  process.env.BENCH_SCREENSHOT_DIR ?? "docs/reports/news-toast-2026-10-25";
+const replayRoot = process.env.GOLDEN_PATH_SEED;
+let gameIndex = 0;
 if (label) mkdirSync(dir, { recursive: true });
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -19,6 +23,21 @@ let tag = "";
 
 /** A new drawn-place game up to the first evening at home. */
 async function newGame(page) {
+  const index = gameIndex++;
+  if (replayRoot) {
+    const seed = createHash("sha256")
+      .update(`${replayRoot}:news-toast:${index}`)
+      .digest("hex");
+    await page.route(
+      "**/api/newlife?*",
+      (route) => {
+        const url = new URL(route.request().url());
+        url.searchParams.set("seed", seed);
+        return route.continue({ url: url.toString() });
+      },
+      { times: 1 },
+    );
+  }
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto(`${base}/play`);
   await ready;

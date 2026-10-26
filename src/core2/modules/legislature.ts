@@ -1,3 +1,4 @@
+import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
@@ -54,7 +55,6 @@ import {
   LAWS_MODULE_ID,
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
-import { lawApplied } from "../law-reach/applied";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
@@ -189,6 +189,8 @@ export interface BillRow {
   readonly bodyOfficeId: string;
   readonly sponsorId: string;
   readonly introduced: string;
+  /** The day it passed its last chamber; a state act's session is the one sitting then, whenever it is signed. */
+  readonly passedOn?: string;
   /** The committee record that reported the bill to the floor of its first chamber, where its body has committees. */
   readonly committeeId?: string;
   /** The pre-vote hooks that already ran on the bill's committee day; the floor day does not run them again. */
@@ -918,13 +920,20 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
     provision.kind === "law-amount" &&
     (provision.series === "income-tax" || provision.series === "sales-tax")
   ) {
-    const key =
+    // The state's grant of local income-tax authority is the row in force
+    // today (a later row withdraws what an earlier one granted); a local sales
+    // tax needs only that the state records one. No bill offers the grant yet
+    // (stopgapId: SG-LAW-local-income-tax-authority-change).
+    const rows =
       provision.series === "income-tax"
-        ? "local-income-tax-authority"
-        : "local-sales-tax-average";
-    const rows = (
-      laws.query("bySeriesOnly", [key]) as unknown as LawRowInput[]
-    ).filter((r) => r.jurisdiction === chain.stateKey);
+        ? lawInForce(api, "local-income-tax-authority")
+            .levels.filter((l) => l.level === "state" && l.row)
+            .map((l) => l.row!)
+        : (
+            laws.query("bySeriesOnly", [
+              "local-sales-tax-average",
+            ]) as unknown as LawRowInput[]
+          ).filter((r) => r.jurisdiction === chain.stateKey);
     const allowed =
       provision.series === "income-tax"
         ? rows.some((r) => r.value === 1)
@@ -1341,7 +1350,12 @@ export function effectiveRule(
       cite: "Gozlon-Peretz v. United States, 498 U.S. 395 (1991)",
     };
   if (state) {
-    const stateDate = stateActEffectiveDate(chain.stateKey, api.state.date);
+    // Counted from the session the act passed in, though signed later.
+    const stateDate = stateActEffectiveDate(
+      chain.stateKey,
+      api.state.date,
+      bill.passedOn,
+    );
     // Every state's rule is data; a state act with no rule is a data gap to
     // fix, never a silent ordinance delay.
     if (!stateDate)
@@ -1709,6 +1723,21 @@ function checkedText(
             } as Authority)
           : authorityFor(api, p))),
   );
+  // The state's grant (or refusal) of local income-tax authority was read for
+  // this body: it is the body the law lets tax, or keeps from taxing.
+  if (!stateBody)
+    for (const [index, p] of provisions.entries()) {
+      const read = authority[index]!;
+      if (p.kind === "law-amount" && p.series === "income-tax" && read.source)
+        lawApplied(api, {
+          key: "local-income-tax-authority",
+          lawId: read.source,
+          targetId: bodyOfficeId,
+          target: "organization",
+          engine: LEGISLATURE_MODULE_ID,
+          what: read.allowed ? "local-tax-allowed" : "local-tax-barred",
+        });
+    }
   // A local minimum wage drafted under the state's grant (or refused by
   // its preemption) reaches the body that drafted it, on the law that
   // decided it: the state's authority answer or the question that enacted it.
@@ -3502,7 +3531,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       return failed;
     }
   }
-  const passed: BillRow = { ...bill, status: "passed" };
+  const passed: BillRow = {
+    ...bill,
+    status: "passed",
+    passedOn: api.state.date,
+  };
   table(api, "bills").put(passed as unknown as ModuleRow);
   return executiveAction(api, passed, tallies);
 }
