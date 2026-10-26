@@ -5,7 +5,7 @@ area: office
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5632
 blocked-on:
@@ -38,3 +38,5 @@ Sent back 2026-10-25 from PR #5632 (branch claude/schools-raise-test): correctiv
 Sent back 2026-10-26 from PR #5632 (branch claude/schools-raise-test), checked 8d6902b742bd7e42c5305594cf578d57f7543e91: budget-line-schools-staffing.test.ts:134-140 replaces the adopted-line assertion with a redraw on a differing or missing adopted budget, so an eligible world with broken adoption can be discarded. Assert the eligible world or distinguish a real recorded council amendment/rejection by bill and vote records; missing required output must fail. Keep a real producer-break control and correct body/release claims to the actual shared layoff-order diff, since shared hiring and before-bill staffing already exist on main. No local green gate is claimed. Finish on that branch, merge main into it first.
 
 Merger 0, Oct 26: Sent back from PR #5632 again at merged-main head 8b020dc203: prior adoption-redraw/release claims were corrected and the government-specific bill filter strengthened, but staffing-order.test.ts:40 still selects eligibility using layoffOrder output and schools-staffing.test.ts:330-335 exempts all counted hires from prior-job evidence. Select employers from staff inputs alone and follow earlier active work in both tiers without output redraw or vacuous counted assertions; finish on claude/schools-raise-test, merge main into it first. Static checks pass (pool matches 34 baseline errors), fresh root 8a38ed23152d36591b17340fe343ca28 cut case passes in 229.791 seconds; remaining cases were stopped on source review and are not claimed green.
+
+Completed 2026-10-26 in PR #5632, merged b2b10b39eaece5192c4c713f04c4395ff94ee2be at checked head 98c0ed9f6cdf3fb59a4dc8f30aab18d646a1cf53. Own root 8a38ed23152d36591b17340fe343ca28 draws Hooper Utah 4936400, seed 58fecdc8ec35f0439d44cbb23ea5caa9a75ec204a0b46870aeb4cc913a0685cf: 46 hires, 33 counted and 13 named, every prior-work check passes; budget budget:place:4936400:2025, council vote 3-2 on 2025-1. Full named job and old-job end date are in the Done-when table. Same-world real vote-producer break fails as required. All five changed test cases complete across the recorded runs; pool status done was applied with the requested exact node CLI and verified on main. Broader staffing-ratio proof stays open.
