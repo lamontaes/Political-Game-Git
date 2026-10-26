@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/coverage-counted
 pr: #5475
 blocked-on:
