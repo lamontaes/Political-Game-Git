@@ -50,8 +50,14 @@ function topRate(schedule: Schedule): number {
  */
 function scheduleOf(row: LawRowInput): Schedule | null {
   const schedule = single(row);
-  if (!schedule || typeof row.value !== "number" || row.value <= 0)
-    return schedule;
+  if (!schedule || typeof row.value !== "number") return schedule;
+  // A zero rate keeps the schedule's terms (a repeal that leaves the table in
+  // place) but taxes nothing: every bracket scales to zero.
+  if (row.value <= 0)
+    return {
+      ...schedule,
+      brackets: schedule.brackets.map((b) => ({ ...b, rate: 0 })),
+    };
   const top = topRate(schedule);
   if (top <= 0 || Math.abs(top - row.value) < 1e-9) return schedule;
   const scale = row.value / top;

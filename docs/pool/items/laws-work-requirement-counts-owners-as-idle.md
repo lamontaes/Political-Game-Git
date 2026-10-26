@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/owner-hours-work-requirement
-pr:
+pr: #6194
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T21:47:50.750Z
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T21:47:50.750Z
 **Rules.** No dice: whether a person meets the requirement follows from the hours the world records for them, never from a chance. One model, two tiers: counted owners and named owners are read by the same rule. Estimate, never UNKNOWN: where an owner's hours are not recorded, use a sourced average for owners of that kind of business, marked as an estimate.
 
 **Done when.** An owner's hours at their own business count toward the work requirement's hours, read from a recorded source (the business's records or a sourced owner-hours parameter), and in a played world (`buildBenchWorld`, Montgomery, Michigan, seed above, and a random place named in the PR) the newspaper owner keeps coverage while an adult with no job and no business still loses it, both named by record id; the health-schools family test passes on its named seed.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/law-reach/group-b-people.ts, src/core2/law-reach/group-b.ts
 

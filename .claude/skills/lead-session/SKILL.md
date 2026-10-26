@@ -11,6 +11,8 @@ description: >
 
 # Lead session
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** One lead holds laws and effects together on one checker and one matrix; traits rows live in the effects matrix. Every helper brief and every `Needs from others` line is SMART with a time box in hours. Before any owner question, do the full reading (`OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/`, `LAW.md`, a `docs/` search) and end it with the reading line. Research is allowed and expected. No new family PR opens until the last one is on main.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 20: Opus leads with Sonnet helpers; owner, Oct 24: play first, "simulate it, don't ask", "sessions never message each other")
 
 A lead owns one cross-system family end to end: its checker, its matrix, its PRs. The five leads are **laws, traits, speed, m0-m2** and **effects**; each has a section in the channel whose first line names its work order (`docs/work-orders/lead-<name>-2026-10-24.md`, on main or on the CTO branch the channel names).
