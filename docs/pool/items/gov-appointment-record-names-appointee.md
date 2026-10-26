@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** In a drawn place, every official-appointed record carries the appointee's person id, News names the appointee, and a test over the opening's appointment records in two drawn places finds none without one, naming place and seed.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/modules/officials.ts, src/bench/play.mjs
 
 **Notes.** TODO
