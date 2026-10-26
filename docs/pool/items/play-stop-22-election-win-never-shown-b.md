@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-22-election-win-never-shown-b
-pr:
+pr: #6147
 blocked-on:
 after: play-stop-22-election-win-never-shown-a
 source: added with npm run pool -- add

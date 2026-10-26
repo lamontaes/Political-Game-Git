@@ -296,6 +296,60 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.32.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A budget cut now lets the newest public hires go first, named or counted**
+  When a city or county cuts the line that pays a department (schools, police,
+  fire), the layoffs now follow one order across the employer's whole staff: the
+  newest hire goes first, whether the game follows that worker closely or counts
+  them in the wider town.
+
+- **A raise or cut to a public-school budget line is checked end to end in a
+  drawn town** A new test follows a mayor's schools-line change through the
+  council's budget bill to the district's teachers. A place where the council
+  recorded its own amendment, rejection or veto is skipped by that record; a
+  place where the line was not adopted with no such record now fails the test.
+
+- **Layoffs after a budget cut follow the same newest-first order for named and
+  counted staff** When a budget cut forces a department to let staff go, the
+  line's own recent hires go first, then the employer's remaining staff, named
+  and counted together, newest hire first. A counted worker's start date is the
+  date their household committed to the job, the same date a named person's job
+  carries, so filling a counted worker in does not move them in the order.
+
+- **The journal says a race was close only when the count shows it** A
+  candidate's journal now says "It was very close." or "It wasn't close." only
+  when the result's vote totals bear it out. Before, those lines were picked by
+  win or loss alone, so someone who ran unopposed could write that it was very
+  close. A race with one candidate now reads "I won." or "We won.".
+
+## PRE-ALPHA 0.32.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Every town now opens with someone your age at 18** Some towns opened with
+  nobody aged 18 among the people you can meet and play, so the life you start
+  at 18 had no one to start from. Every town now opens with at least one full
+  18-year-old wherever its households can hold one.
+
+- **The menu icons stay clickable above your card** The six menu icons now stand
+  on top of your card in the bottom-left corner instead of under it, so the card
+  never covers them, whether the window is wide or as small as the desktop
+  allows, and whatever your card is showing after you knock on doors. Your name
+  stays on one line.
+
+- **A job offer no longer locks the game** When an employer's offer holds your
+  clock, the play screen now shows the offer itself — the employer, the job, the
+  pay and the day to answer by — with Take it and Turn it down. Either answer
+  releases the hold and Day and Week work again; an offer that just arrived can
+  also wait at the Jobs tab until its deadline.
+
 ## PRE-ALPHA 0.32.0
 
 _Released October 26, 2026._
