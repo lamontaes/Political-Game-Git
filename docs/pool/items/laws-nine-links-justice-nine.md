@@ -6,9 +6,9 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
-pr: "#6012"
+pr: #6012
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 
@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/public-safety.ts, src/core2/law-wiring-justice.test.ts, docs/reports/law-wiring/families/justice-year-US-MI-2666300.json, docs/reports/law-wiring/families/justice-year-US-NE-3149425.json
 
 **Notes.** Laws lead, Oct 25. PR #6012 moves to this item; `laws-nine-links-justice` stays open for the three laws above.
+
+Laws lead, Oct 26: Merger 0's 23:51 send-back fixed at f682dd421c (eligibility from the engine's census before play; records counted open or ended; laws held through the test's phases), with the two CI failures since; back in PR #6012.
