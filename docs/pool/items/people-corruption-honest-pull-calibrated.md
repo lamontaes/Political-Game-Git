@@ -5,19 +5,19 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/honest-pull
+status: open
+claimed-by:
 pr: #5737
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T12:26:45.673Z
+claimed-at:
 ---
 
 **What.** In most drawn towns every bribe offer is declined because the yes case never beats the honest pull of 3, so corruption take, tell, the justice chain and press tips never run in a played year. Weigh the stake against the official's own money need and calibrate the honest pull and the trait weight so the odds between the most and least honest thirds match Pletzer et al. 2019. Keep bribery rare in total, near the Global Corruption Barometer's six percent of people paying a bribe.
 
 **Rules.** No dice: whether an official takes a bribe comes from their need, their tie and their traits, never a roll; Wire to the world: a taken bribe must reach justice and the press in a played year.
 
-**Done when.** In a one-year buildBenchWorld run of a drawn place with a bill carrying employer costs, at least one bribe is taken by a low-integrity official and reaches a justice or press record by id, src/core2/corruption.test.ts and the trait-wiring audit show the calibrated odds between thirds.
+**Done when.** In a one-year buildBenchWorld run of a drawn place with a bill carrying employer costs, at least one bribe is taken by a low-integrity official and reaches a justice or press record by id, src/core2/corruption.test.ts and the trait-wiring audit show the calibrated odds between thirds. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
 
 **Files.** src/core2/modules/corruption.ts, src/core2/data/corruption/parameters.json
 
@@ -32,3 +32,5 @@ What a builder needs: (1) a way to read the take decision for any adult without 
 Sent back 2026-10-20 from PR #5737 (branch claude/honest-pull): docs/pool/items/people-corruption-honest-pull-calibrated.md:20 requires a one-year buildBenchWorld run in a drawn place with an employer-cost bill, a low-integrity official taking a bribe, and the resulting justice or press record ids. The body explicitly says this chain is not done; the new calibration test does not supply it. Finish and record that proof before resubmission.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5737 (branch claude/honest-pull): the required one-year buildBenchWorld taken-bribe to justice or press record proof remains missing; existing merger return still applies with no corrective source commit; finish on that branch, merge main into it first.
+
+Claim released by the Oct 25 audit: no push in 72 hours (branch claude/honest-pull last pushed Oct 21; PR #5737 stays open for the next builder).

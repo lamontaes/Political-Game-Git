@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Speed: never keep a whole history or scan the whole world every day; what a year keeps must scale with what play reads, not with the town's size times days. One rule, all 56 places: the bound holds for any place drawn from all 56, large towns included, not just the three it was calibrated on.
 
-**Done when.** tests/golden-path/played-world.node-test.ts passes its memory-at-the-end check in Sandy, Utah (place key 4967440, seed a230b4b0b65c783d3d44852feaf476f7001104f08c59fb42d8a5faa366af2f3f) and in two more drawn places of at least 50,000 people, in the played world (buildBenchWorld) the test builds, with the heap before and after named in the PR body and the tables that shrank listed by size.
+**Done when.** tests/golden-path/played-world.node-test.ts passes its memory-at-the-end check in Sandy, Utah (place key 4967440, seed a230b4b0b65c783d3d44852feaf476f7001104f08c59fb42d8a5faa366af2f3f) and in two more drawn places of at least 50,000 people, in the played world (buildBenchWorld) the test builds, with the heap before and after named in the PR body and the tables that shrank listed by size. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/state.ts, src/core2/modules/residents.ts
 

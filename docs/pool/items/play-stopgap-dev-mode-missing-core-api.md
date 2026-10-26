@@ -4,7 +4,7 @@ title: "Stopgaps in dev-mode (missing-core-api): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Dev mode's count of who a law reached reads only the law-effects, law-reach and law raise records that name the law: full people by id, counted people where a record names one or carries a count. A law's effect that leav
 
 Oct 20 (pool feeder): spec written; the count function the row waits for does not exist, but every record it needs does (reach A `count`, reach B `groups`, laws `raises`), so this is buildable now as a read over them. Related: laws-enacted-law-reaches-nobody.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

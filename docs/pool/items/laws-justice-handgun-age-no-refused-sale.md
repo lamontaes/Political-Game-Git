@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T08:30:00.602Z
 
 **Rules.** No dice: whether a would-be buyer under the age is refused must come from the buyers the town holds and the law in force, never a roll; one rule, all 56 places: the fix may not skip a place, only draw again when the town has no buyer under the age, naming it.
 
-**Done when.** src/core2/law-wiring-justice.test.ts passes on seed 1d3152b7aae80d2d9733320a04fa4fdad4b61fb6 and on two fresh random seeds, each named in the PR body; the PR says which it was (a refusal the engine missed, by file and line, or a town with no buyer under the age, redrawn with the reason named).
+**Done when.** src/core2/law-wiring-justice.test.ts passes on seed 1d3152b7aae80d2d9733320a04fa4fdad4b61fb6 and on two fresh random seeds, each named in the PR body; the PR says which it was (a refusal the engine missed, by file and line, or a town with no buyer under the age, redrawn with the reason named). **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/law-wiring-justice.test.ts
 
