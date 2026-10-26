@@ -3,7 +3,7 @@ id: research-core-parameters-sourced-parameters
 title: "Research: sourced parameters for the core parameter tables (distance, time, past, speech, corruption, moves)"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -24,7 +24,7 @@ claimed-at:
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/data/corruption/parameters.json, src/core2/data/moves/parameters.json, src/core2/data/parameters.json, src/core2/data/past/parameters.json, src/core2/data/speech/parameters.json, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
@@ -35,3 +35,5 @@ Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-
 Oct 20 (research-reachable-sources-oct20): the Census Gazetteer place centroids named in the first row (travel time between places) are reachable at https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2023_Gazetteer/ (2023_Gaz_place_national.zip family, HTTP 200); that row can be taken. Check it in a played world (buildBenchWorld) in a drawn place and seed named in the PR body.
 
 Oct 24, 2026: split. PR 5857 (item research-core-parameters-spreads-citations) delivers spreads and citations, with no value changed, for farKinContactShare, workSleepReserveHours, restDayHours, both past-law age rows, movesOwnerHold, movesJobHold and movesUnemploymentGapWeight. Still open here: movesChildrenHold and movesKinHold (converted to 0.32 and 0.30, held at main's values until world-town-net-moving-negative), four speech rows and ten corruption rows (files held by PRs 5657 and 5737), and movesMinimumAge, movesKinHoldCap and movesHousingCostShareCap (a cutoff and caps; bug core-moves-caps-and-minimum-age-as-cause). Also open: eleven moves rows with no convertible source (the Jokela 2009 page refused the cloud, 403) and all six stopgaps.
+
+Deferred Oct 25: nothing on screen reads it yet.

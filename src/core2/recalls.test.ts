@@ -9,6 +9,7 @@ import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
+import { setBookkeeping } from "./bookkeeping";
 import { coreAPI } from "./state";
 import { openLaws } from "./modules/laws";
 import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
@@ -274,11 +275,22 @@ describe("M3-10 recalls", () => {
     }
     expect(checked, `no recall started in ${tried.join(", ")}`).toBe(true);
   };
+  // Each case builds and plays whole bench worlds; the why of every decision
+  // in them is play's bookkeeping, which they do not read, so it is off and
+  // the worker holds the worlds, not every reason they kept.
+  const inPlay = (check: () => void) => {
+    const before = setBookkeeping(false);
+    try {
+      check();
+    } finally {
+      setBookkeeping(before);
+    }
+  };
   it("counts the town's counted residents as signers and voters by the same rule", () => {
-    countedSigners();
+    inPlay(() => countedSigners());
   }, 900_000);
   it("counts them the same when their weights are fractions", () => {
-    countedSigners(2.5);
+    inPlay(() => countedSigners(2.5));
   }, 900_000);
 });
 
@@ -312,4 +324,57 @@ describe("each state's recall timing bars", () => {
     // A state whose statute is unread has no row, so no state bar is invented.
     expect(recallBarsFor("NC", 4)).toBeNull();
   });
+});
+
+describe("each state's recall rule as its statute reads", () => {
+  it("South Dakota needs grounds, Wyoming's reaches commission-form towns only, Mississippi's no town", () => {
+    const sd = resolveMunicipalRecallRule("SD");
+    expect(sd.doctrine).toBe("simultaneous-incumbent-replacement");
+    expect(sd.groundsRequired).toBe(true);
+    expect(sd.threshold).toEqual({ percent: 15, base: "registered-voters" });
+    expect(sd.circulationDays).toBe(60);
+    expect(sd.citation).toContain("9-13-29");
+    expect(sd.grounds).toContain("malfeasance");
+    expect(sd.scope).toContain("every municipality");
+    // A town not under the commission form has no recall in Wyoming.
+    const wy = resolveMunicipalRecallRule("WY");
+    expect(wy.doctrine).toBe("prohibited");
+    expect(wy.circulationDays).toBeNull();
+    expect(wy.citation).toContain("15-4-110");
+    expect(wy.scope).toContain("commission-form");
+    const ms = resolveMunicipalRecallRule("MS");
+    expect(ms.doctrine).toBe("prohibited");
+    expect(ms.scope).toContain("county officials only");
+  });
+
+  it("a South Dakota or Wyoming town plays a year under its recall rule, and no recall starts that its law forbids", () => {
+    let place = drawPlace(seed, "recall-statute:0");
+    for (let i = 1; i < 5000 && !/^US-(SD|WY)$/.test(place.state); i += 1)
+      place = drawPlace(seed, `recall-statute:${i}`);
+    expect(place.state, `seed ${seed}`).toMatch(/^US-(SD|WY)$/);
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    // A whole bench world played a year; its bookkeeping is not read here.
+    const before = setBookkeeping(false);
+    let core: ReturnType<typeof buildBenchWorld>["core"];
+    try {
+      core = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      }).core;
+      advanceCore(core, after(core.date, 365));
+    } finally {
+      setBookkeeping(before);
+    }
+    const api = coreAPI(core);
+    const rule = resolveMunicipalRecallRule(place.state.slice(3));
+    // Grounds of cause bar a recall over an ordinance's vote; no recall at
+    // all bars every one.
+    expect(
+      rule.groundsRequired === true || rule.doctrine === "prohibited",
+    ).toBe(true);
+    expect(recallsOf(api), where).toHaveLength(0);
+    process.stdout.write(
+      `recall-statute: ${where}: ${rule.doctrine}, scope ${rule.scope}; grounds ${rule.grounds}; ${rule.citation}; ${recallsOf(api).length} recalls in a year\n`,
+    );
+  }, 900_000);
 });

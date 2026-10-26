@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -31,3 +31,5 @@ Reconciled Oct 23: only the old runtime path `workSchedulesFor` (and the old Wor
 Sent back 2026-10-23 from PR #5035 (branch claude/old-imports-opening-work): The definition-only slice names already-ported helpers and pattern data, while its in-pr PR link would falsely complete the still-unimplemented opening-work task; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from planning PR #5035 (branch claude/old-imports-opening-work): own-environment applicable checks passed on 2f8bcb91dc390ed3df2a36eb86799138682257db, but the head-pinned merge returned 405 merge conflicts after main advanced; implementation acceptance remains open. Finish the planning merge on that branch, merge current main into it first and rerun the changed-file checks.
+
+Duplicate of core-old-engine-03-schedules-jobs-traits-history (Oct 25 audit). opening-work.ts is in core-old-engine-03's grep.

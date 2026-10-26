@@ -4,7 +4,7 @@ title: "Stopgaps in births-plan (estimated-record): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: When a couple has no dated partner fact (or it is dated the opening day), the partnership start is estimated: one birth-spacing interval before their first child, else the mother reaching the usual age of a first union.
 
 Oct 20 (pool feeder): spec written; the cause is population.ts line 407 (startedAt = yearsBefore(today, max(0, youngest adult age - marriageReferenceAge))), so couples with a young partner collapse to the opening day; the stopgap row's "replacement" (partnerships carry their own recorded start) is a small change in the population builder, not a new engine. A "first-union age" cohort figure may need one sourced row (NSFG or ACS median age at first marriage) in the parameter table.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

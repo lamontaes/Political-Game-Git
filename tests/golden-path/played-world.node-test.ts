@@ -34,6 +34,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
+import NATALITY from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   residentCounts,
@@ -49,7 +50,11 @@ import {
   ballot,
   incumbentOf,
 } from "../../src/core2/modules/elections";
-import { officialCandidateId, resultOf } from "../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  officialCandidateId,
+  resultOf,
+} from "../../src/core2/modules/voting";
 import { WORLD_RACES_MODULE_ID } from "../../src/core2/modules/world-races";
 import { WORLD_LEGISLATING_MODULE_ID } from "../../src/core2/modules/world-legislating";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
@@ -129,8 +134,6 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
     owner: "OPUS-GOV (candidacy)",
     byTown: true,
   },
-  // Alive in some towns; others still leave a home unpriced.
-  "homes have values and rents": { owner: "FIXER-ECONOMY", byTown: true },
   "pay reaches a spendable account": { owner: "FIXER-ECONOMY", byTown: true },
   "a new business's loan fits its founder": {
     owner: "FIXER-ECONOMY",
@@ -264,6 +267,15 @@ function playWorld(seed: string) {
     [...core.people.values()].map((p) => [p.id, new Map(p.actsByKind)]),
   );
   const countedAtStart = residentCounts(core).reduce((n, r) => n + r.people, 0);
+  // Counted adults are read from the residents' own books, not from the
+  // voting engine's output, so a missing counted ballot can't hide itself.
+  // Only the town's own vote in its local races: a small town whose people
+  // are all filled in has none, though the places around it do.
+  const townAdultsCounted = () =>
+    residentCounts(core)
+      .filter((r) => r.placeId === world.placeId)
+      .reduce((n, r) => n + r.adults, 0);
+  const countedAdultsAtStart = townAdultsCounted();
   const countedIdsAtStart = new Set(
     [...(residentsRuntime(core)?.households.values() ?? [])].flatMap((h) =>
       h.people.map((p) => p.id),
@@ -294,7 +306,8 @@ function playWorld(seed: string) {
     ) {
       withheldPaychecks++;
       for (const p of entry.postings) {
-        const named = /:tax:\d+:([a-z]+):([a-z-]+)$/.exec(p.id);
+        // The posting id ends in its level and tax, then the law row it took.
+        const named = /:tax:\d+:([a-z]+):([a-z-]+)(?::law:.+)?$/.exec(p.id);
         if (named && p.deltaMinor > 0)
           withheldTaxes.add(`${named[1]}:${named[2]}`);
       }
@@ -347,6 +360,7 @@ function playWorld(seed: string) {
     day = next;
   }
   const runSeconds = (performance.now() - runStarted) / 1000;
+  const countedAdultsAtEnd = townAdultsCounted();
   const endHeapMiB = heapMiB();
   const heapMB = (endHeapMiB * 2 ** 20) / 1e6;
   const growthMiBPerMonth =
@@ -637,17 +651,32 @@ function playWorld(seed: string) {
       heldIds.has(String(d.contestId)) &&
       !incumbentIds.has(String(d.personId)),
   );
+  // A challenger who filed and lost a primary ran too: the primary marks the
+  // losing filing withdrawn (src/core2/modules/voting.ts, its `lose`), as in
+  // Crosspointe, Virginia, where the one challenger lost the Democratic
+  // primary for attorney general to the incumbent.
+  const primaryLosers = rowsOf(core, "core2-elections-v1", "filings").filter(
+    (f) =>
+      f.status === "withdrawn" &&
+      heldIds.has(String(f.contestId)) &&
+      !incumbentIds.has(String(f.personId)) &&
+      core.people.has(String(f.personId)),
+  );
   verdicts["a named challenger runs"] = !held.length
     ? unobserved("no race was decided in the run")
     : challengers.length
       ? pass(`${challengers.length} named challengers in ${held.length} races`)
-      : !wantedToRun.length
-        ? unobserved(
-            `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+      : primaryLosers.length
+        ? pass(
+            `${primaryLosers.length} named challengers filed and lost a primary in ${held.length} races (${String(primaryLosers[0]!.id)})`,
           )
-        : fail(
-            `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
-          );
+        : !wantedToRun.length
+          ? unobserved(
+              `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+            )
+          : fail(
+              `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
+            );
 
   // Break 10: the counted population votes in local races.
   const local = held.filter(
@@ -655,15 +684,45 @@ function playWorld(seed: string) {
   );
   // A race nobody filed for has no one to vote for: that is a candidacy
   // matter (who runs), counted under "a named challenger runs", not a silent
-  // counted population.
-  const silent = local.filter(
-    (c) =>
-      ballot(api, String(c.id)).length > 0 &&
-      Object.values(resultOf(api, String(c.id))!.countedVotes).reduce(
-        (n, v) => n + v,
-        0,
-      ) === 0,
-  );
+  // counted population. Whether counted adults live in the town is read from
+  // the residents' books at the start and the end of the run; when they do,
+  // every local race with someone on its ballot must keep a counted ballot
+  // record. Each record keeps every counted voter's choice, the share of the
+  // people they stand for who turn out, and how many they stand for; a race
+  // is silent when its record is missing, when no counted voter chose
+  // anyone, or when the counted votes those ballots add up to are missing
+  // from the result. A town whose counted adults add up to under two
+  // expected voters (a tiny town is nearly all full people; the result also
+  // takes out non-citizens) can record zero votes honestly: that is
+  // rounding, not a silent counted population.
+  const countedOf = (contestId: string) =>
+    rowsOf(core, VOTING_MODULE_ID, "countedBallots").find(
+      (r) => r.contestId === contestId,
+    ) as
+      | {
+          choice: number[];
+          voted: number[];
+          weight: number[];
+        }
+      | undefined;
+  const countedAdultsLive = countedAdultsAtStart > 0 && countedAdultsAtEnd > 0;
+  const judged = countedAdultsLive
+    ? local.filter((c) => ballot(api, String(c.id)).length > 0)
+    : [];
+  const unkept = judged.filter((c) => !countedOf(String(c.id)));
+  const silent = judged.filter((c) => {
+    const kept = countedOf(String(c.id));
+    if (!kept) return true;
+    const chose = kept.choice.some((x) => x >= 0);
+    const expected = kept.choice.reduce(
+      (n, x, i) => (x >= 0 ? n + kept.voted[i]! * kept.weight[i]! : n),
+      0,
+    );
+    const recorded = Object.values(
+      resultOf(api, String(c.id))!.countedVotes,
+    ).reduce((n, v) => n + v, 0);
+    return !chose || (expected >= 2 && recorded === 0);
+  });
   const empty = held.filter((c) => !ballot(api, String(c.id)).length);
   verdicts["every race has someone on the ballot"] = !held.length
     ? unobserved("no race was decided in the run")
@@ -679,16 +738,26 @@ function playWorld(seed: string) {
       : pass(`all ${held.length} races had someone on the ballot`);
   verdicts["counted voters vote in local races"] = !local.length
     ? unobserved("no local race was decided in the run")
-    : !silent.length
-      ? pass(`counted voters voted in all ${local.length} local races`)
-      : fail(
-          `${silent.length} of ${local.length} local races decided in the run had no votes from the counted population (for example ${silent
-            .slice(0, 3)
-            .map((c) => c.title)
-            .join(
-              "; ",
-            )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels (a race with no one on its ballot is not counted).`,
-        );
+    : !judged.length
+      ? unobserved(
+          countedAdultsLive
+            ? `${local.length} local races decided and none had anyone on its ballot`
+            : `${local.length} local races decided and the residents' books show no counted adult in the town (${countedAdultsAtStart} at the start, ${countedAdultsAtEnd} at the end)`,
+        )
+      : !silent.length
+        ? pass(
+            `counted voters voted in all ${judged.length} local races (${[
+              ...new Set(judged.map((c) => c.title)),
+            ].join("; ")})`,
+          )
+        : fail(
+            `${silent.length} of ${judged.length} local races decided in the run had no votes from the counted population, ${unkept.length} of them with no counted ballot record although the town has ${countedAdultsAtEnd} counted adults (for example ${silent
+              .slice(0, 3)
+              .map((c) => c.title)
+              .join(
+                "; ",
+              )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels (a race with no one on its ballot is not counted).`,
+          );
 
   // Break 12: the counted population changes.
   // A full couple's own decision, not a counted birth: counted births are
@@ -704,11 +773,48 @@ function playWorld(seed: string) {
   const countedAtEnd = residentCounts(core).reduce((n, r) => n + r.people, 0);
   const countedChange = countedAtEnd + filledIn - countedAtStart;
   countedIdsAtStart.clear();
-  verdicts["the counted population changes"] = countedChange
-    ? pass(`counted population changed by ${countedChange}`)
-    : fail(
-        `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
-      );
+  // The counted engine's own records of the year: births and moves can
+  // cancel in the total (Red Hook, U.S. Virgin Islands: 7 counted births and
+  // 58 moves, and the count back where it began), so they are read too.
+  const countedBirths = rowsOf(core, "core2-renewal-v1", "births").filter(
+    (b) => String(b.date) >= start && b.counted === true,
+  ).length;
+  const countedMoves = rowsOf(core, "core2-counted-moves-v1", "moves").filter(
+    (m) => String(m.date) >= start,
+  ).length;
+  // How many counted births the year should hold at the nation's birth rate
+  // per resident (NCHS 2024): a town of three counted people can go a year
+  // with none, so the check judges only a counted population that expects a
+  // few births. Deaths and moves would add to it, so this is the low side.
+  const expectedBirths =
+    (countedAtStart *
+      NATALITY.areas["United States"].birthsPer1000Residents *
+      years) /
+    1000;
+  // People moved between the tiers are not births, deaths or moves: fill-ins
+  // are taken out above, and a household returned to the counts (demotion)
+  // adds to them. With the counted engine switched off, Hartland, Wisconsin
+  // still changed by 485, with 490 people demoted, so the change alone never
+  // passes: the engine's own birth and move records do.
+  const demoted = rowsOf(core, "core2-counted-demotion-v1", "demotions").filter(
+    (d) => String(d.date) >= start,
+  );
+  const demotedPeople = demoted.reduce(
+    (n, d) => n + ((d.personIds as unknown[] | undefined)?.length ?? 0),
+    0,
+  );
+  verdicts["the counted population changes"] =
+    countedBirths || countedMoves
+      ? pass(
+          `counted population changed by ${countedChange} (${demotedPeople} people returned to the counts), with ${countedBirths} counted births and ${countedMoves} counted moves`,
+        )
+      : expectedBirths < 2
+        ? unobserved(
+            `${countedAtStart} counted people expect ${expectedBirths.toFixed(2)} births in ${years} year(s) at the nation's ${NATALITY.areas["United States"].birthsPer1000Residents} per 1,000 residents (NCHS 2024), and none was born, died or moved`,
+          )
+        : fail(
+            `No counted births or moves in ${years} year(s) for ${countedAtStart} counted people, who expect ${expectedBirths.toFixed(0)} births at the nation's rate; the count changed by ${countedChange}, with ${filledIn} people filled in and ${demotedPeople} returned to the counts (src/core2/births-counted.ts, src/core2/modules/counted-moves.ts).`,
+          );
   verdicts["a baby is born"] = births.length
     ? pass(`${births.length} births`)
     : fail(
@@ -717,8 +823,12 @@ function playWorld(seed: string) {
 
   // Break 16: homes have prices.
   const dwellings = rowsOf(core, "housing", "dwellings");
+  // A former home (evicted, foreclosed or sold) keeps the last rent or value
+  // of how the household held it (src/core2/housing-former-home.ts).
   const unpriced = dwellings.filter((d) =>
-    d.tenure === "rent" ? !Number(d.rentMinor) : !Number(d.valueMinor),
+    d.tenure === "rent" || d.formerTenure === "rent"
+      ? !Number(d.rentMinor)
+      : !Number(d.valueMinor),
   );
   const renters = dwellings.filter((d) => d.tenure === "rent");
   verdicts["homes have values and rents"] =

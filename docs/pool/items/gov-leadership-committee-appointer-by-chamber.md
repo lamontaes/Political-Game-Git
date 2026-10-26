@@ -3,7 +3,7 @@ id: gov-leadership-committee-appointer-by-chamber
 title: "Each chamber's committees are seated by the hand its own rules name"
 area: gov
 kind: stopgap
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/leadership.ts, src/core2/modules/legislature.ts, data/research/gov/chamber-committee-appointment-2026.json, data/research/legislature/chamber-leadership.json
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.
