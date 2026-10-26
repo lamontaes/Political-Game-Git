@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/past-laws-no-answer
-pr:
+pr: #6140
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T04:44:00.721Z
