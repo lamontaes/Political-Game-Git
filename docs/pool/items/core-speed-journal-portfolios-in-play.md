@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-journal-portfolios-in-play
-pr:
+pr: #6131
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T02:39:38.900Z

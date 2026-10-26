@@ -25,6 +25,7 @@ import {
   type JournalWords,
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
+import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import { properName } from "./words";
 import type { Moment } from "./types";
 import {
@@ -87,6 +88,38 @@ function billName(
     .table("bills")
     .get(billId) as unknown as BillRow | undefined;
   return row ? (billTitleOf(row)?.title ?? undefined) : undefined;
+}
+
+/**
+ * How a race was decided, from its result record's totals: "alone" when one
+ * candidate stood, "close" or "wide" by the winner's lead over the runner-up
+ * as a share of the votes cast, and "middle" between them or when the totals
+ * are not on record, so no line claims a margin the record does not show.
+ */
+function raceMargin(
+  core: Readonly<CoreState>,
+  resultId: string,
+): (typeof RACE_MARGINS)[number] {
+  let votes: number[] = [];
+  try {
+    votes = Object.values(
+      JSON.parse(String(core.durableLog.get(resultId)?.facts?.totals ?? "{}")),
+    )
+      .map(Number)
+      .filter(Number.isFinite)
+      .sort((a, b) => b - a);
+  } catch {
+    votes = [];
+  }
+  if (votes.length === one) return "alone";
+  const cast = votes.reduce((sum, count) => sum + count, zero);
+  if (votes.length < P.two || !(cast > zero)) return "middle";
+  const lead = (votes[zero]! - votes[one]!) / cast;
+  const { journalRaceCloseMargin, journalRaceWideMargin } =
+    DEFAULT_DIRECTOR_DATA.parameters;
+  if (lead <= journalRaceCloseMargin!.value) return "close";
+  if (lead >= journalRaceWideMargin!.value) return "wide";
+  return "middle";
 }
 
 /** The person's relatives by id, with the family fact that records each. */
@@ -401,6 +434,7 @@ export function composeJournal(
             : [moment.causeId],
       };
     }
+    const hasOwnLine = Boolean(row?.hasOwnLine);
     const otherId =
       moment.counterpartIds[zero] ??
       (moment.causeKind === "family:child"
@@ -408,7 +442,9 @@ export function composeJournal(
         : undefined);
     if (otherId) {
       const said = other(otherId);
-      if (!said) return null;
+      // One's own race is told without a rival the person never knew by
+      // name: its own lines say only how it went.
+      if (!said) return moment.selfNamed && hasOwnLine ? facts : null;
       const row = core.people.get(otherId);
       // A child is born with a name: "My daughter Jane was born." (owner,
       // Oct 15). A second child already said by name keeps it alone.
@@ -511,6 +547,10 @@ export function composeJournal(
   const settingFactIds: string[] = [];
   const employerIds: string[] = [];
   let chapter: (typeof chapters)[number] | undefined;
+  // The chapter a race's turn opened, by contest record id: the race's result
+  // is told there, never under whatever chapter another person's race (a
+  // relative's, on the same day) opened last.
+  const chapterOfContest = new Map<string, (typeof chapters)[number]>();
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
   // Every moment of the person's so far, told or not, and those a later
@@ -626,6 +666,13 @@ export function composeJournal(
         );
       open(moment.id, title?.text ?? "", moment.date);
     }
+    const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
+    if (typeof contestId === "string" && row.turn)
+      chapterOfContest.set(contestId, chapter!);
+    const told =
+      (typeof contestId === "string" && !row.turn
+        ? chapterOfContest.get(contestId)
+        : undefined) ?? chapter!;
     // The scene: the event itself, worded for whose it was.
     const own =
       !!selfCount ||
@@ -644,7 +691,7 @@ export function composeJournal(
     let event: ReturnType<typeof render> = null;
     if (row.hasOwnLine && own) {
       const won = facts.winner?.text === personId;
-      const stage = won ? "won" : "lost";
+      const stage = `${won ? "won" : "lost"}:${raceMargin(core, moment.causeId)}`;
       // Losing a first race is the start of a story, not its end.
       const first = !won && !wonBefore && !lostBefore;
       event =
@@ -815,7 +862,7 @@ export function composeJournal(
         parts.push(hook);
       }
     }
-    chapter!.lines.push({
+    told.lines.push({
       id: moment.id,
       date: moment.date,
       text: journalEntry(parts),
@@ -825,7 +872,7 @@ export function composeJournal(
       ],
       ...(changed && revision ? { revises: [changed.id] } : {}),
     });
-    chapter!.through = moment.date;
+    if (moment.date > told.through) told.through = moment.date;
   }
 
   // Revised as life goes on: a schoolmate or a co-worker who now holds office
