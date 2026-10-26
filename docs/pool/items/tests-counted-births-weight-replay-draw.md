@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/speed-counted-renewal
+status: open
+claimed-by:
 pr: #6072
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T00:17:46.204Z
+claimed-at:
 ---
 
 **What.** src/core2/counted-births-weight.test.ts:73 draws fresh crypto bytes inside each attempt and ignores the usual seed bindings. During local review of PR #6072 at f8b7d1ff41951522df88bae7cc2adccdac5daa66 its worker was OOM-killed after 84.70 seconds, before returning a test result or printing its input draw. The unrecorded input cannot be replayed on exact main, so this failure remains unclassified and no baseline equivalence is claimed.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T00:17:46.204Z
 **Files.** src/core2/counted-births-weight.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-26 from PR #6072 (branch claude/speed-counted-renewal), corrective head 9cd0510a8d4474222ec1213cd04711cf10df357f: a normal merge of current main f3ffe15b57369f21de7ebf210a3d07535c320764 conflicts in src/core2/births-counted.ts. The replayable root/attempt draw and pre-play logging address the prior return; preserve them, the indexing optimization and main's current counted-pregnancy flows when resolving the conflict. The merger aborted without resolving code or pushing; no current local gate or performance pass is claimed. Finish on that branch, merge main into it first.

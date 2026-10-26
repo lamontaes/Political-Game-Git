@@ -6,7 +6,7 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: "#6012"
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Laws lead, Oct 25. PR #6012 moves to this item; `laws-nine-links-justice` stays open for the three laws above.
 
 Sent back 2026-10-25 from PR #6012 (branch claude/laws-nine-links-justice, checked 2d3ed4d536): law-wiring-justice.test.ts:364-382 marks missing applied output after play as an absent subject, and lines 435-439 redraw until that output exists; choose eligibility from opening inputs, then fail a missing required producer in the eligible world and retain a real producer-break negative control. The bounded nine-law item and target-account evidence are acknowledged; the three unfinished laws stay on the open umbrella. No local green gate is claimed. Finish on that branch, merge main into it first.
+
+Laws lead, Oct 26: Merger 0's 23:51 send-back fixed at f682dd421c (eligibility from the engine's census before play; records counted open or ended; laws held through the test's phases), with the two CI failures since; back in PR #6012.

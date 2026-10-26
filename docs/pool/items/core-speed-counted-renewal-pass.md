@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/speed-counted-renewal
+status: open
+claimed-by:
 pr: #6072
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T23:59:49.117Z
+claimed-at:
 ---
 
 **What.** The renewal engine's monthly counted pass (applyCountedFlows in src/core2/births-counted.ts) takes 9.6 of 264 profiled seconds of Long Hill, Connecticut's played year (seed m7b). For every death it filters the whole town's counted people to find the household that outlives them, and checks each person against the month's deaths with an array search. It groups people into death cohorts by copying the cohort's whole array for each member it adds, and it builds every household's view again at the month's end only for a record that is kept with bookkeeping on. Read each household's own people, keep the month's deaths in a set, append to the cohort, and build the end-of-month counts only when the record is kept.
@@ -30,3 +30,5 @@ Not shipped yet (speed lead, Oct 24): exact (deep fingerprints identical for Lon
 Ready Oct 25 (speed lead), not opened while the play-first freeze holds: branch `claude/speed-counted-renewal` at 710c472e9d on main 01f5cd4715. It adds the cut named above: each member's monthly chance is worked out once per age and income fifth (members of a cohort share sex and birth year), and a new illness reads its household from the month's index. Exact: deep fingerprints identical before and after (Long Hill, Connecticut, seed m7b, year one `3350c66a3805f1e8`; Stanardsville, Virginia, seed cc91f5444b53bd47, years one to three `176370fb6d3c2ba1`, `3ccb0a9002236aa5`, `4be9e9254da3aaf3`). Paired Long Hill year 114.5 to 106.9 s (0.933); a profiled pair 128.0 to 118.5 s (0.925), `applyCountedFlows` inclusive 5.32 to 3.06 s. Ten renewal test files pass; `counted-births-weight` fails on main too and is fixed on its own (`tests-counted-births-weight-red`). Before opening: merge main, since the open PRs #5757, #5788 and #5786 also change `births-counted.ts`.
 
 Sent back 2026-10-25 from PR #6072 (branch claude/speed-counted-renewal, checked f8b7d1ff41): required counted-births-weight.test.ts lost its worker to an OOM kill, and line 73 generates fresh random bytes without recording the draw before play or honoring seed bindings, so the failed input cannot be matched on main. Record and replay the same independent input, then resolve the memory failure or reproduce it on exact main; never replace it with a passing draw or disable bookkeeping. Long Hill timing and deep fingerprints, three-year Stanardsville fingerprints, the CPU profile and eight passing required files are preserved. Two other failures match main exactly and have their own open bugs; this birth-weight failure remains unclassified, so no complete green gate is claimed. Finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #6072 (branch claude/speed-counted-renewal), corrective head 9cd0510a8d4474222ec1213cd04711cf10df357f: a normal merge of current main f3ffe15b57369f21de7ebf210a3d07535c320764 conflicts in src/core2/births-counted.ts. The replayable root/attempt draw and pre-play logging address the prior return; preserve them, the indexing optimization and main's current counted-pregnancy flows when resolving the conflict. The merger aborted without resolving code or pushing; no current local gate or performance pass is claimed. Finish on that branch, merge main into it first.
