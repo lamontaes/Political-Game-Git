@@ -54,6 +54,8 @@ vi.mock("./outcome-web-reach", () => ({
     m: string,
     s?: { incomeFifth?: number },
   ) => reachOf(m, s).factor,
+  // No level outcome is mocked: the redemption read falls to its research base.
+  webLevel: () => null,
 }));
 
 const seed = process.env.WEB_PRICES_SEED || randomBytes(8).toString("hex");
