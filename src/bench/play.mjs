@@ -4,6 +4,13 @@
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
 import { mountMenu, fillChoiceMenu } from "./ui/menu.mjs";
+import {
+  talkLine,
+  talkReply,
+  fillTalk,
+  addTalkLine,
+  mountTalkKeys,
+} from "./ui/talk-box.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
@@ -1090,54 +1097,34 @@ function spokenLines(lines, speakerOf) {
   const lastMine = lines.findLastIndex((line) => line.speakerId === me.id);
   const theirs = lines.slice(lastMine + 1).slice(-3);
   return [
+    // What was said before sits apart from the line being said now (owner, Oct 26).
     ...(lastMine >= 0
       ? [
-          // What was said before sits apart from the line being said now: its own
-          // block, quieter, with the speaker named (owner, Oct 26).
-          el(
-            "li",
-            {
-              className: `history${lines[lastMine].act === "lie" ? " lying" : ""}`,
-            },
-            el("span", {
-              className: "history-who",
-              textContent: $("card-name").textContent,
-            }),
-            lines[lastMine].text,
-          ),
+          talkLine({
+            kind: "history",
+            who: $("card-name").textContent,
+            text: lines[lastMine].text,
+            lying: lines[lastMine].act === "lie",
+          }),
         ]
       : []),
-    ...theirs.map((line) =>
-      el("li", { className: "speech", textContent: speakerOf(line) }),
-    ),
+    ...theirs.map((line) => talkLine({ text: speakerOf(line) })),
   ];
 }
 /** Numbered replies; a key press of the number says it. */
 function replies(choices, onPick) {
-  return choices.map((choice) => {
-    const b = makeButton({
-      className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
+  return choices.map((choice) =>
+    talkReply(
+      choice,
       // Filing is a control of its own, never worded like acknowledging a refusal.
-      textContent:
-        choice.control === "file"
-          ? (controls.filing?.file ?? choice.text)
-          : choice.text,
-    });
-    b.addEventListener("click", () => onPick(choice));
-    return b;
-  });
+      choice.control === "file"
+        ? (controls.filing?.file ?? choice.text)
+        : choice.text,
+      onPick,
+    ),
+  );
 }
-document.addEventListener("keydown", (event) => {
-  const n = Number(event.key);
-  if (
-    !Number.isInteger(n) ||
-    n < 1 ||
-    $("game").classList.contains("sheet-open")
-  )
-    return;
-  if (!$("talk-choices").offsetParent) return;
-  $("talk-choices").children[n - 1]?.click();
-});
+mountTalkKeys(() => $("game").classList.contains("sheet-open"));
 function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
   $("talk-lie").classList.toggle("on", Boolean(available && on));
@@ -1154,15 +1141,13 @@ function renderTalk(value) {
     !$("talk-name").textContent
   )
     setWho(value.otherId, other?.speaker ?? me.names?.[value.otherId]);
-  $("talk-lines").replaceChildren(
-    ...spokenLines(value.lines, (line) => line.text),
-  );
   // Lying, the false set stands in place of the true choices.
   const lies = value.lies ?? [];
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
-  $("talk-choices").replaceChildren(
-    ...replies(choices, (choice) => sayLine(choice.key)),
-  );
+  fillTalk({
+    lines: spokenLines(value.lines, (line) => line.text),
+    replies: replies(choices, (choice) => sayLine(choice.key)),
+  });
   // Dim when there is nothing false to say; tipped and red while lying.
   setScales({ available: lies.length > 0, on: lying });
 }
@@ -1240,7 +1225,7 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
+  fillTalk({ lines: spokenLines(lines, (line) => line.text) });
   renderFilingOverlay(value);
   // More races than the talk can hold open as a menu beside it, never as a long
   // numbered list in the talk box (owner, Oct 26).
@@ -1302,14 +1287,14 @@ function renderFiling(value) {
     if (!value.result && !value.overlay) show("race-menu", true);
   }
   if (!asMenu || value.overlay) show("race-menu", false);
-  $("talk-choices").replaceChildren(...buttons);
+  fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
   // label under the talk, not as words in the clerk's mouth.
   if (value.result)
-    $("talk-lines").append(
-      el("li", {
-        className: "label",
-        textContent: value.result.filing
+    addTalkLine(
+      talkLine({
+        kind: "label",
+        text: value.result.filing
           ? (controls.filing?.status?.[value.result.status] ??
             words(value.result.status))
           : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
@@ -1700,24 +1685,25 @@ async function showStory(momentId) {
   show("talk", true);
   show("talk-who", false);
   $("talk-name").textContent = "";
-  $("talk-lines").replaceChildren(
-    ...story.narration.map((line) =>
-      el("li", {
-        className: `speech narration${line.held ? " held" : ""}`,
-        textContent: line.text,
-      }),
-    ),
-    ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
-  );
   // A scene with a purpose is its own exchange; any other opens a talk.
   const withId = story.talk?.askerId ?? story.talkToId;
-  $("talk-choices").replaceChildren(
-    ...(withId
+  fillTalk({
+    lines: [
+      ...story.narration.map((line) =>
+        talkLine({
+          kind: "speech narration",
+          text: line.text,
+          held: line.held,
+        }),
+      ),
+      ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
+    ],
+    replies: withId
       ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
           story.talk ? playExchange(story) : talkTo(withId, momentId),
         )
-      : []),
-  );
+      : [],
+  });
   setScales({ available: false });
 }
 /** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
@@ -1726,16 +1712,18 @@ function playExchange(story) {
   setWho(talk.askerId, story.names[talk.askerId]);
   const said = [...talk.opening];
   const lineOf = (line) =>
-    el("li", {
-      className: `${line.role === "asked" ? "said" : "speech"}${line.held ? " held" : ""}`,
-      textContent: line.text,
+    talkLine({
+      kind: line.role === "asked" ? "history" : "speech",
+      who: line.role === "asked" ? $("card-name").textContent : undefined,
+      text: line.text,
+      held: line.held,
     });
   // The path is the index of each reply chosen, from the first.
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
-    $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
-    $("talk-choices").replaceChildren(
-      ...replies(
+    fillTalk({ lines: said.slice(-4).map(lineOf) });
+    fillTalk({
+      replies: replies(
         node.replies.map((reply, index) => ({
           text: reply.line.text,
           held: reply.line.held,
@@ -1752,11 +1740,10 @@ function playExchange(story) {
           );
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
-          else $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
-          if (!reply.next) $("talk-choices").replaceChildren();
+          else fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
         },
       ),
-    );
+    });
   };
   play(talk.tree, []);
 }
