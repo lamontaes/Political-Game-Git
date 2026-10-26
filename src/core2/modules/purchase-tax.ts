@@ -192,7 +192,12 @@ function flushApplied(api: CoreAPI): void {
   day.clear();
 }
 
-/** A sale's buyers and seller, noted under a law: money is the buyers' (positive: tax paid; negative: tax spared). */
+/**
+ * A sale's buyers and seller, noted under a law. The buyers' money is the tax
+ * inside the price they paid (positive); the seller's is what it remitted
+ * (positive) or kept of the remittance under an exemption (negative). A
+ * buyer's cash is the same either way, so an exemption notes the buyers with 0.
+ */
 function noteSale(
   core: CoreState,
   sale: SalesReceiptNotice,
@@ -247,7 +252,8 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
           sale,
           { key: exempt.lawKey, lawId: exempt.lawId },
           "sales-tax-exempt",
-          -spared,
+          // Prices are tax-inclusive: the buyers pay the same, the seller remits less.
+          0,
           -spared,
         );
     }

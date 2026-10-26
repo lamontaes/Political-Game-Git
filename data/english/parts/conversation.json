@@ -13,7 +13,7 @@
     "years": "A count of years, computed from two dated records.",
     "since": "A month and year from a dated record, as people say it.",
     "my_since": "The month and year the player started, from their job record.",
-    "when": "When the speaker last saw someone, from a contact record, as the director says it (\"yesterday\", \"on March 3\").",
+    "when": "When something happened, from a dated record (a contact, a crime), as the director says it in passing.",
     "my_when": "When the player last saw that person, from a contact record, said the same way.",
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",
@@ -9361,6 +9361,12 @@
           "subject": "charge-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "victimization-reply-answer-ask",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 243,
@@ -9741,6 +9747,12 @@
           "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 249,
@@ -9846,6 +9858,12 @@
         {
           "move": "eviction-cause-reply-answer-comfort",
           "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
           "role": "answer",
           "choice": "comfort"
         }
@@ -12396,6 +12414,12 @@
           "subject": "conviction-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 622,
@@ -14674,6 +14698,12 @@
         {
           "move": "eviction-reply-answer-help",
           "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "victimization-reply-answer-help",
+          "subject": "victimization-reply",
           "role": "answer",
           "choice": "help"
         }
@@ -19331,6 +19361,294 @@
       }
     },
     {
+      "key": "conversation.victimization-raise.we-were-burglarized-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "We were burglarized {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["burglary"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-got-into-our-place-to-steal",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone got into our place to steal.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["burglary"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.our-home-got-burglarized-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Our home got burglarized {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["burglary"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.we-had-something-stolen-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "We had something stolen {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["other-property"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.somebody-stole-something-of-ours",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Somebody stole something of ours.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["other-property"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.something-of-ours-got-stolen-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Something of ours got stolen {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["other-property"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.i-got-robbed-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "I got robbed {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["robbery"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.somebody-robbed-me",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Somebody robbed me.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["robbery"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-robbed-me-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone robbed me {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["robbery"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-attacked-me-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone attacked me {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["assault"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.i-got-attacked",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "I got attacked.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["assault"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.i-was-assaulted-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "I was assaulted {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["assault"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
       "key": "conversation.eviction-reply-answer-brief.wait-we-have-to-move",
       "move": "eviction-reply-answer-brief",
       "kind": "spoken",
@@ -19529,6 +19847,454 @@
         "move": "comfort",
         "key": "loss"
       }
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-see-the-president-s-speech",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you see the President's speech?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-watch-the-president-s-speech",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you watch the President's speech?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-catch-the-president-s-speech",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you catch the President's speech?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-agree.i-thought-it-was-a-good-speech",
+      "move": "address-answer-agree",
+      "kind": "spoken",
+      "text": "I thought it was a good speech.",
+      "uses": [
+        {
+          "move": "address-answer-agree",
+          "subject": "address",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-agree.i-liked-what-the-president-said",
+      "move": "address-answer-agree",
+      "kind": "spoken",
+      "text": "I liked what the President said.",
+      "uses": [
+        {
+          "move": "address-answer-agree",
+          "subject": "address",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-doubt.i-m-not-sure-i-believe-any-of-it",
+      "move": "address-answer-doubt",
+      "kind": "spoken",
+      "text": "I'm not sure I believe any of it.",
+      "uses": [
+        {
+          "move": "address-answer-doubt",
+          "subject": "address",
+          "role": "answer",
+          "choice": "doubt"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-doubt.i-ve-heard-all-of-that-before",
+      "move": "address-answer-doubt",
+      "kind": "spoken",
+      "text": "I've heard all of that before.",
+      "uses": [
+        {
+          "move": "address-answer-doubt",
+          "subject": "address",
+          "role": "answer",
+          "choice": "doubt"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-hope.i-hope-some-of-it-actually-happens",
+      "move": "address-answer-hope",
+      "kind": "spoken",
+      "text": "I hope some of it actually happens.",
+      "uses": [
+        {
+          "move": "address-answer-hope",
+          "subject": "address",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-hope.i-hope-it-means-something-for-us-here",
+      "move": "address-answer-hope",
+      "kind": "spoken",
+      "text": "I hope it means something for us here.",
+      "uses": [
+        {
+          "move": "address-answer-hope",
+          "subject": "address",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-think.what-did-you-make-of-it",
+      "move": "address-answer-think",
+      "kind": "spoken",
+      "text": "What did you make of it?",
+      "uses": [
+        {
+          "move": "address-answer-think",
+          "subject": "address",
+          "role": "answer",
+          "choice": "think",
+          "raises": "address"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-think.what-did-you-think-of-it",
+      "move": "address-answer-think",
+      "kind": "spoken",
+      "text": "What did you think of it?",
+      "uses": [
+        {
+          "move": "address-answer-think",
+          "subject": "address",
+          "role": "answer",
+          "choice": "think",
+          "raises": "address"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-raise-for.i-thought-the-president-made-a-lot-of-sense",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "I thought the President made a lot of sense.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-raise-for.i-liked-what-the-president-had-to-say",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "I liked what the President had to say.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-raise-against.i-didn-t-believe-a-word-the-president-said",
+      "move": "address-view-raise-against",
+      "kind": "spoken",
+      "text": "I didn't believe a word the President said.",
+      "uses": [
+        {
+          "move": "address-view-raise-against",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "against",
+          "stages": ["against"]
+        },
+        {
+          "move": "address-view-reply-against",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "against",
+          "stages": ["against"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-raise-against.i-ve-heard-those-promises-too-many-times",
+      "move": "address-view-raise-against",
+      "kind": "spoken",
+      "text": "I've heard those promises too many times.",
+      "uses": [
+        {
+          "move": "address-view-raise-against",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "against",
+          "stages": ["against"]
+        },
+        {
+          "move": "address-view-reply-against",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "against",
+          "stages": ["against"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-agree.i-m-with-you-on-that",
+      "move": "address-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'm with you on that.",
+      "uses": [
+        {
+          "move": "address-view-answer-agree",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-agree.you-and-me-both",
+      "move": "address-view-answer-agree",
+      "kind": "spoken",
+      "text": "You and me both.",
+      "uses": [
+        {
+          "move": "address-view-answer-agree",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-disagree.i-saw-it-differently",
+      "move": "address-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I saw it differently.",
+      "uses": [
+        {
+          "move": "address-view-answer-disagree",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-disagree.i-don-t-see-it-that-way",
+      "move": "address-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I don't see it that way.",
+      "uses": [
+        {
+          "move": "address-view-answer-disagree",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-wait.we-ll-see-what-they-actually-do",
+      "move": "address-view-answer-wait",
+      "kind": "spoken",
+      "text": "We'll see what they actually do.",
+      "uses": [
+        {
+          "move": "address-view-answer-wait",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "wait"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-wait.i-ll-believe-it-when-i-see-it",
+      "move": "address-view-answer-wait",
+      "kind": "spoken",
+      "text": "I'll believe it when I see it.",
+      "uses": [
+        {
+          "move": "address-view-answer-wait",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "wait"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-local.the-question-is-what-it-means-here",
+      "move": "address-view-answer-local",
+      "kind": "spoken",
+      "text": "The question is what it means here.",
+      "uses": [
+        {
+          "move": "address-view-answer-local",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "local"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-local.what-i-want-to-know-is-what-it-means-here",
+      "move": "address-view-answer-local",
+      "kind": "spoken",
+      "text": "What I want to know is what it means here.",
+      "uses": [
+        {
+          "move": "address-view-answer-local",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "local"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
     }
   ]
 }
