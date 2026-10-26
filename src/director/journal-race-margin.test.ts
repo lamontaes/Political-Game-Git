@@ -32,9 +32,14 @@ const { journalRaceCloseMargin, journalRaceWideMargin } =
 it(`a candidate's journal claims only the margin their result shows, seed ${seed}`, () => {
   setBookkeeping(false);
   const told: string[] = [];
+  const covered = { unopposed: 0, marginClaims: 0 };
   const tried: string[] = [];
   try {
-    for (let attempt = 0; attempt < 4 && !told.length; attempt += 1) {
+    for (
+      let attempt = 0;
+      attempt < 4 && (!covered.unopposed || !covered.marginClaims);
+      attempt += 1
+    ) {
       const place =
         attempt === 0 && pinned
           ? {
@@ -109,12 +114,23 @@ it(`a candidate's journal claims only the margin their result shows, seed ${seed
             lead !== null && lead >= journalRaceWideMargin!.value,
             said,
           ).toBe(true);
+        if (votes.length === 1) covered.unopposed += 1;
+        if (close || wide) covered.marginClaims += 1;
         told.push(said);
       }
       if (!told.length)
         tried.push(`${where}: no candidate's race reached their journal`);
     }
     expect(told.length, tried.join("; ")).toBeGreaterThan(0);
+    const evidence = [...tried, ...told].join("; ");
+    expect(
+      covered.unopposed,
+      `no unopposed journal result: ${evidence}`,
+    ).toBeGreaterThan(0);
+    expect(
+      covered.marginClaims,
+      `no claimed margin checked: ${evidence}`,
+    ).toBeGreaterThan(0);
     console.log(`JOURNAL RACE MARGIN\n${told.join("\n")}`);
   } finally {
     setBookkeeping(true);
