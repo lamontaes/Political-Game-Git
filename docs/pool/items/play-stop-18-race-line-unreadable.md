@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: play-first/play-stop-18-race-line-unreadable
 pr: #6104
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-26T02:06:39.311Z
 ---
 
 **What.** On Politics → Campaigns in the v0.22.10 release, after a few weeks of knocking on doors the block "What the race turns on" reads "Doors 172 · +105 · −67 · Retold 86 · +57 · −16". Nothing says what plus and minus mean, what "Retold" is, or whether I am winning. There is no poll result, no opponent and no count of votes needed. I expected a plain sentence about how the race stands and who I am running against.

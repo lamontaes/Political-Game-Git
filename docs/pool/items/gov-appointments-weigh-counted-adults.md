@@ -16,8 +16,10 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers (owner, Oct 14): a rule that applies only to full people is an unregistered placeholder; a counted group is read by the same rule times its count and filled in when it matters. No dice.
 
-**Done when.** In a two-level played world in a place drawn from all 56 (place and seed named), the appointer weighs the town's counted adults by the same reasons, and the share of department heads from the player's household is no higher than its share of the town's adults; a counted adult who is appointed is filled in and matches the records (their job, pay and household).
+**Done when.** In a two-level played world in a place drawn from all 56 (place and seed named), the appointer weighs the town's counted adults by the same reasons, and the share of department heads from the player's household is no higher than its share of the town's adults; a counted adult who is appointed is filled in and matches the records (their job, pay and household). **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
 
 **Files.** src/core2/modules/executive.ts
 
 **Notes.** Found by the speed lead on play-stop-20 (Oct 25).
+
+Oct 25 audit: From the dropped gov-town-posts-counted-candidates: every post the town's form names is filled at the opening or its record says why no adult could take it (place 3812060).

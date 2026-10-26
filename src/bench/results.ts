@@ -133,7 +133,11 @@ export function resultsScene(core: CoreState, playerId: string) {
     : [playerId];
   const cast = ids.map((id) => {
     const row = core.people.get(id)!;
-    return { id, name: `${row.givenName} ${row.familyName}` };
+    return {
+      id,
+      name: `${row.givenName} ${row.familyName}`,
+      reason: id === playerId ? ("you" as const) : ("household" as const),
+    };
   });
   return {
     place,
