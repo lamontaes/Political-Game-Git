@@ -4947,7 +4947,7 @@
       {
         "level": "state",
         "series": "minimum-wage",
-        "tier": "general",
+        "tier": "six-or-more-employees-not-flsa-covered",
         "value": 515,
         "effectiveDate": "2024-01-01",
         "endDate": null,
@@ -7483,7 +7483,7 @@
       {
         "level": "state",
         "series": "minimum-wage",
-        "tier": "general",
+        "tier": "not-flsa-covered",
         "value": 725,
         "effectiveDate": "2010-01-01",
         "endDate": null,
@@ -21392,7 +21392,7 @@
       {
         "level": "state",
         "series": "minimum-wage",
-        "tier": "general",
+        "tier": "not-flsa-covered",
         "value": 515,
         "effectiveDate": "2024-01-01",
         "endDate": null,
