@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: words
 ---
 
 **What.** In a played Montana life (game seed a8153746-c9e8-45b9-a70a-bd3396686b70, Parker School), the player's mother is a county commissioner. Her bill reads "I introduced Budget Ordinance. I thought little of Maya then." in the player's journal, under the player's own U.S. Senator chapter. The line cites office.introduced:bill:office:gus2025:202110:board:2025-07-01:person_3a7b466e4bb5d08c:53, the mother's act. In composeJournal (src/director/journal.ts), a moment with no counterpart fact is worded as the player's own, so a relative's office act takes the first person.
