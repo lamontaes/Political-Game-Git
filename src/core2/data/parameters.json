@@ -6110,12 +6110,14 @@
     }
   },
   "traitWeightPressFollowNews": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the press.follow-news decision. How much a person keeps up with the news is their political engagement plus their lean toward following over skipping. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.065,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the press.follow-news decision: a person's news habit is how closely they follow politics against the nation (the views engine's engagement) plus every trait's lean toward keeping up over letting it go, at this weight. Sindermann, Schmitt, Rozgonjuk, Elhai and Montag (2021) give extraversion r 0.16 with the number of news sources a person uses (openness 0.12, neuroticism -0.09). The habit is a size, so the weight is set where the lean correlates with the habit at 0.16 across a town's adults: in six drawn towns (seeds n1 to n6: Sedro-Woolley, Washington; Long Branch, New Jersey; Floyd Hill, Colorado; Rincon, Georgia; Slaughter Beach, Delaware; Dustin Acres, California; 20,707 adults) that is 0.047 to 0.077, 0.065 pooled. At the general weight of 1 the correlation was 0.91 to 0.93: the trait term outweighed the whole spread of engagement between people.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.031,
+      "high": 0.098,
+      "unit": "weight",
+      "citation": "The study's 95% interval for the correlation, 0.076 to 0.242, carried the same way."
     }
   },
   "traitWeightPressAcceptInterview": {
