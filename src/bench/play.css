@@ -1117,7 +1117,7 @@ body.dev .dev-ring {
 .nav-item {
   display: block;
   width: 100%;
-  /* Every menu entry one height, with a description line or without. */
+  /* Every menu entry one height. */
   min-height: 50px;
   padding: 8px 18px;
 }
@@ -1127,12 +1127,6 @@ body.dev .dev-ring {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text);
-}
-.nav-item .nd {
-  display: block;
-  font: 400 12px var(--ui);
-  color: var(--text-3);
-  margin-top: 1px;
 }
 .nav-item.active {
   background: var(--raised);
