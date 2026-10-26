@@ -2,13 +2,14 @@
 id: laws-nine-links-taxes
 title: "Every taxes and public finance law passes all nine wiring links in a played year"
 area: laws
+lead: laws
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/law-wiring-taxes
-pr: #5649
-blocked-on:
+status: blocked
+claimed-by:
+pr:
+blocked-on: people-estate-wealth-top-tail
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 ---
 
@@ -21,3 +22,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** src/core2/modules/employer-taxes.ts, src/core2/budgets-treasury.ts, src/core2/law-reach/applied.ts
 
 **Notes.** Split Oct 24 by the CTO from `laws-wiring-every-law` (the lead order: `docs/work-orders/lead-laws-2026-10-24.md`). Family PR state on Oct 23: open, #5649 (branch claude/law-wiring-taxes), sent back Oct 21 for corporate-tax arrears (item `laws-corporate-tax-arrears-by-jurisdiction`); the death-tax terms fix is #5744 (item `laws-death-tax-rate-only-terms`). A PR for this family names this item on line 1 (`Pool item: laws-nine-links-taxes`) and `Lead: laws` in its body, never the umbrella: family PRs looped because the umbrella's done-when is one no single family can meet, and a bare umbrella id on line 1 closes the umbrella on merge. The arrears and death-tax fixes are part of this family; land them with it.
+
+Laws lead, Oct 25: PR #5649 now lands the eleven laws that are wired as `laws-nine-links-taxes-eleven`. This item stays for the estate tax, whose money cannot move until a played town has an estate above an exemption (`people-estate-wealth-top-tail`); once it does, rerun the estate tax in a drawn place on the checker and finish it here.

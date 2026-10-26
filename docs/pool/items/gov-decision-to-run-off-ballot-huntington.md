@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** Filed Oct 25 by the effects lead: it turned PR 5915's golden-path-year red, and clean main fails identically on the same seed.
 
 - Laws lead, Oct 25: reproduced on main 929ab16c42 in Perrysville, Indiana (place key 1859238, seed f0390569196f1442db81ee832aa105840f6bd916977c1addc22e1ae233d30c9c, the M0-13 draw for #5986's head fe40e0d021): "1 adults other than the incumbent chose to run in the 4 races decided, and none was on the ballot". The same check fails identically on #5986's head.
+
+- Effects lead, Oct 25: also on main b3ab4d7c92 in Hobart Bay, Alaska (place key 0232550, seed bebe23902e7036383abd127d1f9d751625c9221287ce086f6d28c30192930ab8, the M0-13 draw for #6008's head 2e243b7e6b): "1 adults other than the incumbent chose to run in the 7 races decided, and none was on the ballot". It turned #6008's golden-path-year red; that PR changes only the matrix script's grading.

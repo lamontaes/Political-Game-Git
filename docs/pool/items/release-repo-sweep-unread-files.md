@@ -5,7 +5,7 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5867
 after:
@@ -31,3 +31,5 @@ Sent back 2026-10-24 from PR #5867 (branch claude/stoic-rubin-6vq560): Current m
 Sent back 2026-10-24 from PR #5867 (branch claude/stoic-rubin-6vq560): Normal merge of current main into corrective head e0682e9be6 conflicts in package-lock.json; reconcile/regenerate the lock with latest main and rerun required checks/build/golden-path acceptance; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5867 (branch claude/stoic-rubin-6vq560): Lock conflict repaired; deletion removes trace report still cited by pool evidence and content-pack examples still required by live system docs; preserve or replace evidence and update live pointers; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 ~23:05 UTC from PR #5867 (branch claude/stoic-rubin-6vq560, head 57d636aa388d, main NOT merged: package-lock.json conflicts and scripts/press/proof.ts is modify/delete): main's package.json now depends on react/react-dom (persistent character history foundation), so the React removal contradicts main semantically; rebase the G1 list onto current main and re-verify no live reader per deleted path; finish on that branch, merge main into it first.
