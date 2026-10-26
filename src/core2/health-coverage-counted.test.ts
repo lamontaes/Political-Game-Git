@@ -380,7 +380,9 @@ it(`a counted household pays the premium a full household of its shape pays, and
       ).length,
     }),
   );
-}, 3_600_000);
+  // The annual case measured 84 seconds; allow three preceding five-month
+  // draws and the overhead of sharing the runner with the other coverage cases.
+}, 600_000);
 
 // One model, two tiers: ranking by an employer's size counts a counted job as
 // many jobs as the households its record stands for. A drawn place opened with
