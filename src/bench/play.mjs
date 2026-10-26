@@ -3614,6 +3614,9 @@ const sheets = {
                           // A person by name, a date in words, a plain value
                           // by its label; record ids are never shown.
                           if (name) return [`${label} ${name}`];
+                          // A yes-or-no fact reads as its label when true.
+                          if (v === "true") return [label];
+                          if (v === "false") return [];
                           if (/^\d{4}-\d{2}-\d{2}$/.test(v))
                             return [`${label} ${proseDate(v)}`];
                           // A code with no name (a jurisdiction key, a

@@ -23,6 +23,7 @@ const tells = [
   ["a record kind", /\b[A-Z][a-z]+\.[a-z]+\b/],
   ["a bare fraction", /(?<![$\d.])\b0\.\d+\b(?!\s*%)/],
   ["the Mark gap button", /\bMark gap\b/],
+  ["a raw yes-or-no value", /\b(?:True|False)\b/],
 ];
 // Hyphenated American English words that are not codes.
 const words = new Set([
@@ -72,6 +73,16 @@ async function sheet(tab) {
   await page.locator("#sheet-body").waitFor();
   await page.waitForTimeout(800);
 }
+// A place to start in (PLAIN_TEXT_PLACE_KEY, a place key as drawPlace gives
+// it), to reread a draw a merger reported; otherwise the game draws one.
+const placeKey = process.env.PLAIN_TEXT_PLACE_KEY;
+if (placeKey)
+  await page.route("**/api/newlife?*", (route) => {
+    const url = new URL(route.request().url());
+    if (!url.searchParams.has("placeKey"))
+      url.searchParams.set("placeKey", placeKey);
+    return route.continue({ url: url.toString() });
+  });
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto("http://localhost:3000/play");
