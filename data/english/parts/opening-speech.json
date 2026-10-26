@@ -16,7 +16,9 @@
     "jobless": "People out of work nationally, from the world's job records.",
     "population": "The country's population, from the world's population records.",
     "national_debt": "The national debt, from the federal ledger.",
-    "deficit_cut": "How much the federal deficit fell, from the federal ledger."
+    "deficit_cut": "How much the federal deficit fell, from the federal ledger.",
+    "mortgage_rate": "The thirty-year mortgage rate from the world's economy records, as a number such as 6.8.",
+    "wage_growth": "How much average hourly pay rose nationally over the past year, from the world's wage records, as a number such as 3.9."
   },
   "maxWords": 20,
   "mining": {
@@ -518,10 +520,10 @@
       "bearing": "braced"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.unemployment-is-at-unemployment-rate-percent",
+      "key": "opening-speech.state-of-the-union-report.national-unemployment-is-at-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "Unemployment is at {unemployment_rate} percent.",
+      "text": "National unemployment is at {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -536,28 +538,20 @@
           "choice": "report"
         }
       ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "dcpd": 7
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks on the Passage of Public Debt Limit and Federal Budget Legislation",
-        "date": "2023-06-02",
-        "granule": "DCPD-202300493",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202300493",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
       "tag": {
         "move": "tell"
       },
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.the-unemployment-rate-is-unemployment-rate-perce",
+      "key": "opening-speech.state-of-the-union-report.the-national-unemployment-rate-is-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "The unemployment rate is {unemployment_rate} percent.",
+      "text": "The national unemployment rate is {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -572,28 +566,20 @@
           "choice": "report"
         }
       ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 6
-      },
       "shippable": true,
-      "source": {
-        "document": "Statement on the Bureau of Labor Statistics Report on the Employment Situation in July",
-        "date": "2023-08-04",
-        "granule": "DCPD-202300673",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202300673",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
       "tag": {
         "move": "tell"
       },
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.state-of-the-union-report.unemployment-is-down-to-unemployment-rate-percen",
+      "key": "opening-speech.state-of-the-union-report.national-unemployment-is-down-to-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "Unemployment is down to {unemployment_rate} percent.",
+      "text": "Across the country, unemployment is down to {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -610,18 +596,10 @@
           "requiresFacts": ["unemployment-down"]
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks at a Campaign Rally in Detroit, Michigan",
-        "date": "2024-07-12",
-        "granule": "DCPD-202400605",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202400605",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
       "tag": {
         "move": "tell"
       },
@@ -1724,6 +1702,240 @@
         "move": "tell"
       },
       "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.inflation-is-at-inflation-rate-percent",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Inflation is at {inflation_rate} percent.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report"
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.prices-are-up-inflation-rate-percent-over-the-past-year",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Prices are up {inflation_rate} percent over the past year.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["prices-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.mortgage-rates-are-at-mortgage-rate-percent",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Mortgage rates are at {mortgage_rate} percent.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report"
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.interest-on-a-home-loan-is-mortgage-rate-percent",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Interest on a home loan is {mortgage_rate} percent.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report"
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.wages-are-up-wage-growth-percent-from-a-year-ago",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Wages are up {wage_growth} percent from a year ago.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["wages-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["wages-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.wages-rose-wage-growth-percent-this-past-year",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Wages rose {wage_growth} percent this past year.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["wages-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["wages-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.the-economy-grew-growth-rate-percent-over-the-past-year",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "The economy grew {growth_rate} percent over the past year.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["growth-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["growth-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.state-of-the-union-report.our-economy-grew-growth-rate-percent-last-year",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Our economy grew {growth_rate} percent last year.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["growth-up"]
+        },
+        {
+          "move": "inaugural-report",
+          "subject": "inaugural",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["growth-up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item play-first-09-opening-speech-per-world)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.i-ask-congress-to-goal",
@@ -3921,7 +4133,7 @@
       "bySource": {
         "dcpd": 962
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",

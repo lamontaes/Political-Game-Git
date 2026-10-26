@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T04:44:50.131Z
 
 **Rules.** One rule, all 56 places: the news test must hold in every drawn place, so fix why a small town's residents never read an outlet; never skip or weaken the assertion.
 
-**Done when.** GOLDEN_PATH_SEED=89974afab8e8ef9592bf602b64510149e1b7a1423695217f04d8ee4e19eb39c4 GOLDEN_PATH_PLACE_KEY=2912079 node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/news.test.ts passes with the cause named in the PR, and the test passes on three more drawn places named with their seeds.
+**Done when.** GOLDEN_PATH_SEED=89974afab8e8ef9592bf602b64510149e1b7a1423695217f04d8ee4e19eb39c4 GOLDEN_PATH_PLACE_KEY=2912079 node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/news.test.ts passes with the cause named in the PR, and the test passes on three more drawn places named with their seeds. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/news.test.ts, src/core2/modules/news.ts
 

@@ -4,7 +4,7 @@ title: "Stopgaps in residents (skipped-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/wages-credit-draw
 pr: #5983
 blocked-on:

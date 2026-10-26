@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/web-reach-health
+status: done
+claimed-by:
 pr: #5980
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T20:48:06.553Z
+claimed-at:
 ---
 
 **What.** Sixteen of the health family's 28 outcome-web links do not reach a person's records. The health engine already registers why, in four stopgaps (a condition record, unsized links, person-level causes, coverage), but their text names the causes in prose rather than by link key, so the matrix files every one of the sixteen under a shared, generic unread row. This item makes each waiting link name its specific stopgap and adds a test that holds each reason, so the day an engine reads one of these outcomes the test says to wire the link. The played-year proofs of the twelve health links that reach stay with web-reach-health.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T20:48:06.553Z
 **Files.** src/core2/data/stopgaps.json, src/core2/data/outcome-web/unwired.json, src/core2/outcome-web-health-waiting.test.ts
 
 **Notes.** Split Oct 24 by the effects lead from web-reach-health, as civic's audit was from web-reach-civic.
+
+Sent back 2026-10-24 from PR #5980 (branch claude/web-reach-health): the six unsized-link tests never check for a new engine reader despite the Done-when, and fourteen generic stopgaps falsely say their links now reach engines when they remain unwired under specific open rows; check readers for all sixteen, name the superseding IDs truthfully and preserve that history on regeneration; finish on that branch, merge main into it first.

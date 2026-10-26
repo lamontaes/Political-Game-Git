@@ -4947,7 +4947,7 @@
       {
         "level": "state",
         "series": "minimum-wage",
-        "tier": "six-or-more-employees-not-flsa-covered",
+        "tier": "general",
         "value": 515,
         "effectiveDate": "2024-01-01",
         "endDate": null,
@@ -7483,7 +7483,7 @@
       {
         "level": "state",
         "series": "minimum-wage",
-        "tier": "not-flsa-covered",
+        "tier": "general",
         "value": 725,
         "effectiveDate": "2010-01-01",
         "endDate": null,
@@ -7936,6 +7936,14 @@
             "minRate": 6,
             "maxRate": 16,
             "slideOver": 200000
+          },
+          "governmentHeir": {
+            "exempt": true,
+            "cite": "Ky. Rev. Stat. 140.060",
+            "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28979",
+            "quote": "all transfers to cities, and towns or public institutions in this state for public purposes shall be exempt from the tax imposed by this chapter.",
+            "reading": "The statute names cities, towns and public institutions in this state for public purposes, not the Commonwealth itself; the Commonwealth taking an estate by escheat is read as a public institution (ESTIMATED reading; no ruling found).",
+            "retrieved": "2026-10-24"
           }
         }
       },
@@ -9020,6 +9028,13 @@
             "minRate": 10,
             "maxRate": 10,
             "slideOver": 0
+          },
+          "governmentHeir": {
+            "exempt": true,
+            "cite": "Md. Code, Tax-General 7-203(i)",
+            "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=7-203&enactments=false",
+            "quote": "The inheritance tax does not apply to the receipt of property that passes from a decedent to the State, a county, or a municipal corporation of the State.",
+            "retrieved": "2026-10-24"
           }
         }
       },
@@ -12642,6 +12657,13 @@
             "minRate": 15,
             "maxRate": 15,
             "slideOver": 0
+          },
+          "governmentHeir": {
+            "exempt": true,
+            "cite": "Neb. Rev. Stat. 77-2007.03",
+            "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-2007.03",
+            "quote": "Property transferred to either (1) the United States, or any of its departments, instrumentalities, or agencies, or (2) this state, or any governmental subdivision, department, agency, or instrumentality thereof, any municipal corporation or body politic created by or under the laws of Nebraska, or any agency, institution, foundation, or fund administered or operated by any of the same shall be exempt from any inheritance tax imposed by sections 77-2001 to 77-2006, and any amendments thereto.",
+            "retrieved": "2026-10-24"
           }
         }
       },
@@ -13415,6 +13437,14 @@
             "minRate": 15,
             "maxRate": 16,
             "slideOver": 700000
+          },
+          "governmentHeir": {
+            "exempt": true,
+            "cite": "N.J.S.A. 54:34-4(a)",
+            "url": "https://pub.njleg.gov/Bills/2024/S1000/556_I1.HTM",
+            "quote": "The following transfers of property shall be exempt from taxation: a. Property passing to or for the use of the State of New Jersey, or to or for the use of a municipal corporation within the State or other political subdivision thereof, for exclusively public purposes.",
+            "note": "Quoted from the NJ Legislature's bill S556 (2024), which prints this section as existing law. It names the State itself; the condition is exclusively public purposes, which the State taking an estate by escheat to its treasury meets.",
+            "retrieved": "2026-10-24"
           }
         }
       },
@@ -13515,24 +13545,7 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" },
-        "note": "Salem County 3.3125% in lieu of state rate; TF average local shown as negative (-0.02)."
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": -0.02,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.313,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
+        "note": "Salem County 3.3125% in lieu of state rate; TF average local shown as negative (-0.02). No general local sales tax is levied: the negative average is the state rate cut in Salem County and in Urban Enterprise Zones, whose sellers collect half the state rate (3.3125%). TF footnote (d), fetched 2026-10-24: \"Salem County, N.J., is not subject to the statewide sales tax rate and collects a local rate of 3.3125%.\" \"New Jersey's local score is represented as a negative.\" So localAllowed is false and no local-average row is built; the reduced rates are SG-WORLD-salem-county-sales-rate."
       },
       {
         "level": "federal",
@@ -13711,23 +13724,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": -0.024,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.313,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -16342,6 +16338,14 @@
             "minRate": 15,
             "maxRate": 15,
             "slideOver": 0
+          },
+          "governmentHeir": {
+            "exempt": true,
+            "cite": "72 P.S. 9111(b)",
+            "url": "https://codes.findlaw.com/pa/title-72-ps-taxation-and-fiscal-affairs/pa-st-sect-72-9111/",
+            "quote": "Transfers of property to or for the use of any of the following are exempt from inheritance tax: (1) The United States of America. (2) The Commonwealth of Pennsylvania. (3) A political subdivision of the Commonwealth of Pennsylvania.",
+            "note": "Section 9111(l) also exempts property awarded to the Commonwealth as statutory heir by escheat, otherwise than as custodian for a known distributee. The Department of Revenue's inheritance tax page says the 15 percent rate applies 'except charitable organizations, exempt institutions and government entities exempt from tax'.",
+            "retrieved": "2026-10-24"
           }
         }
       },
@@ -21426,7 +21430,7 @@
       {
         "level": "state",
         "series": "minimum-wage",
-        "tier": "not-flsa-covered",
+        "tier": "general",
         "value": 515,
         "effectiveDate": "2024-01-01",
         "endDate": null,

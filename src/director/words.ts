@@ -61,15 +61,6 @@ export function spokenDate(iso: string, today: string): string {
   });
 }
 
-/** A month and year as people say it: "April 2016". */
-export function spokenMonth(iso: string): string {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
-
 /**
  * How long ago something happened, as people say it in passing ("yesterday",
  * "last week", "a few weeks ago"), never as a calendar date. The wording is

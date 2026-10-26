@@ -4,7 +4,7 @@ title: "Stopgaps in parameters (authored-memory-budget): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: Retains latest/cumulative work results and a tunable finite number of quiet weekly rollups. Claim released Oct 23: branch gone.
 
 Looked at Oct 19 (claude/political-game-pool-b6g0dl), not built: SG-P8-work-result-retention is the number of quiet weekly work rollups `compactQuietWorkResults` (src/core2/work-state.ts) keeps before deleting them. It is a memory budget, not a missing mechanic: no human-forgetting measurement could replace it, and AGENTS.md "Keep it simple" says bookkeeping is a debug switch. Nothing reads the rollups past the cutoff by design. What closes the row is a CTO decision that an engineering memory budget is a TUNABLE parameter (with the spread it was checked against) and not a stopgap, which is filed as owner-stopgap-memory-budgets.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.
