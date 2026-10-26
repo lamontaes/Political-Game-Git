@@ -29,7 +29,7 @@ import {
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { REGISTER_CARDS } from "../english/speech-registers";
 import { kinAddress, relationPhrase } from "../english/journal-words";
-import type { PersonId } from "../core2/kernel/brands";
+import type { PersonId } from "../core2/types";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
 // every turn, each answering the last line from real records; talking is

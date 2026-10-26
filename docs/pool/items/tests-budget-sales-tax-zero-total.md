@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/budget-sales-tax-zero
 pr: #6169
 blocked-on:
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T17:55:40.000Z
 **Rules.** Never loosen the test: trace real purchases and their tax payments independently before deciding whether the engine missed a collection or the fixture has no taxable purchase. One rule, all 56 places: preserve the random draw and use no place-specific engine logic.
 
 **Done when.** The exact named seed reproduces on clean main, and the repaired test passes with an explained purchase and tax-journal trail or an independently proven absence of an eligible taxable purchase. Two fresh drawn places are named with their seeds and results, changed-file checks pass, and no missing payment is hidden by a predicate that only reads missing tax output.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/budgets.test.ts, src/core2/modules/budgets.ts
 

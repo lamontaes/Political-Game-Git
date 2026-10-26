@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: fix/main-red-2026-10-26-work-order-declaration
 pr: #6168
 blocked-on:
@@ -33,6 +33,13 @@ Merger 2, October 26 15:36 UTC: Ready bounded repair PR #6165 at93bf50847d1b5524
 
 Merger 2, October 26 15:55 UTC: This owned compile incident is repaired by another merger in PR #6165, checked head3c766036def7ec9a9dfa8077b2f8abf4bf682de2, main merge49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce at15:47:26. Merger 2 authored the repair and did not merge it. The bounded item is already DONE on maincdf1d4c318; author local build/typecheck and focused Guam regression passed, and the reviewing merger integrated main before its pinned merge. Closing this same owned shared incident via the official CLI, preserving all prior history. Latest Release40352786029 is in progress on49bfe2f8; no published-release success is claimed while it runs.
 
+Resolved current staging incident Oct 26 by PR #6071 (03c3437ea4), with independent exact-main bundle failure, fixed bundle and staged HTTP figure proof. The post-merge Release 40257575148 then passed both desktop staging/package/startup jobs and desktop publication. This follows the earlier merged heap repair; requested pool-done CLI succeeded and main was verified.
+
+Merger 0: Press compile repair #6165 independently merged 2026-10-26 at49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce, checked/pinned3c766036def7ec9a9dfa8077b2f8abf4bf682de2. Own full build and scoped gates pass; fresh Camden ME root85be428af733b05a stance test1/1 passes. Shared-main TS2552 independently reproduced before repair, pool36 exactly baseline. Bounded release-press-counted-town-query is DONE by requested CLI; shared incident awaits confirmation of repaired main publication.
+
+Merger 0: Repaired-main publication confirmed October 26, 16:28 UTC: Release run40352786029, source49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce, completed SUCCESS. Candidate build, exact candidate validation/publication, macOS and Windows packages, and desktop publication all succeeded. Current main already marks this shared item done; preserved that status and the incident history.
 Merger 2, October 26 17:57 UTC: Reopening for Release40371694575 source6c4acf01fcd01d3deb664b2952bf817652d41cdd job121743817196: exact range a6925bc62555eb31b1b913c2c272bdf6c8f6249b..6c4acf01fcd01d3deb664b2952bf817652d41cdd changes docs/work-orders/lead-laws-effects-2026-10-26.md without a declaration. Claim fix/main-red-2026-10-26-work-order-declaration; add the missing impact:none declaration, reproduce the failed range locally and show the repaired range passes, without exempting work orders or weakening the guard. Prior incidents/history preserved.
 
 Merger 2, October 26 18:07 UTC: Ready repair PR #6168, head85f04c188472c117154bdec98935eb2c331fc265/tree9f64467cf3dd6e465482811372589c640ce83951. Exact failed incoming range reproduces exit1; identical failed source plus only the missing declaration passes in isolated proof156ec97477bb778eaeeeec93565873f4de22aa34. Actual repair range passes, local typecheck502.60s/format/zero-dice/release pass; pool4507-byte exact clean-main baseline. This author cannot merge #6168; another merger must validate fresh main and pin the repair head. Completion target is release-laws-work-order-declaration, shared incident stays separately tracked. Earlier note's 17:57 timestamp was approximate; actual claim was17:55:32UTC.
+
+Merger 2, October 26: This owned work-order declaration incident was repaired by Merger3 in #6168, reviewed head61175440f00027228c553e7b24fd7da04f40a0cd, main merged20399d3e881dd2ad583641a5096b810a65a69d7 at18:40:55UTC. This author did not merge it. Official CLI closes the same owned incident and bounded item, preserving all history; this does not claim a finished published desktop release.

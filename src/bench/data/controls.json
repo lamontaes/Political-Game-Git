@@ -151,6 +151,12 @@
   },
   "filing": {
     "file": "File for this office",
+    "metOn": "From",
+    "status": {
+      "on-ballot": "You are on the ballot",
+      "withdrawn": "Withdrawn",
+      "refused": "Not accepted"
+    },
     "rules": {
       "filing-deadline": "Filing deadline",
       "already-filed": "Filed before",
@@ -233,7 +239,13 @@
   "party": {
     "join": "Join",
     "member": "Your party",
-    "agreement": "Views fit"
+    "agreement": "Views fit",
+    "fit": [
+      { "atLeast": 0.6, "label": "Close" },
+      { "atLeast": 0.2, "label": "Mostly" },
+      { "atLeast": -0.2, "label": "Mixed" },
+      { "atLeast": -1, "label": "Far apart" }
+    ]
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
@@ -268,7 +280,16 @@
     "card": "View person",
     "talk": "Talk",
     "back": "Back",
-    "next": "Continue"
+    "next": "Continue",
+    "joined": "Closer this year",
+    "left": "Drifted away",
+    "noChange": "Your five closest are the same as a year ago",
+    "causes": {
+      "person.moved-away": "Moved away",
+      "life.death": "Died",
+      "no-time-together": "No time together lately",
+      "chosen-act": "Time together"
+    }
   },
   "news": {
     "title": "News",
@@ -302,6 +323,13 @@
     "yes": "Yes",
     "no": "No",
     "vacant": "Vacant",
+    "reached": {
+      "in office at the opening": "Serving when your story began",
+      "elected": "Elected"
+    },
+    "electedOn": "Elected",
+    "ofVote": "of the vote",
+    "adopted": "Adopted",
     "elected": "Elected",
     "takesOffice": "Takes office",
     "searchIssues": "Search issues",
@@ -325,7 +353,11 @@
     "won": "Won",
     "lost": "Lost",
     "unopposed": "Unopposed",
-    "abstained": "—"
+    "abstained": "—",
+    "nation": "Governor races across the country",
+    "marginBy": "by",
+    "points": "points",
+    "noNation": "No governor races have been counted yet"
   },
   "money": {
     "cash": "Cash available",
