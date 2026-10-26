@@ -312,7 +312,13 @@
     "increase": "Increase",
     "decrease": "Decrease",
     "stateFilter": "State",
-    "ownState": "Your state"
+    "ownState": "Your state",
+    "booksSince": "Actually taken in and paid out since",
+    "takenIn": "Taken in",
+    "paidOut": "Paid out",
+    "cashOnHand": "Cash on hand",
+    "overBudget": "Paid out more than this year's budget",
+    "noBooks": "The treasury has paid nothing in or out yet"
   },
   "results": {
     "turnout": "Turnout",

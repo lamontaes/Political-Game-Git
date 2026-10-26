@@ -3059,6 +3059,46 @@ const sheets = {
           ),
         );
       content.append(summary);
+      // What the treasury actually took in and paid out, from its journal,
+      // beside the plan: a treasury gone wrong shows here.
+      const books = gov.books;
+      if (!books)
+        content.append(
+          el("p", { className: "label", textContent: labels.noBooks }),
+        );
+      else {
+        const actual = el("div", { className: "budget-summary budget-books" });
+        for (const [label, value] of [
+          [labels.takenIn, books.takenInMinor],
+          [labels.paidOut, books.paidOutMinor],
+          [labels.cashOnHand, books.cashMinor],
+        ])
+          actual.append(
+            el(
+              "div",
+              {},
+              el("span", { className: "label", textContent: label }),
+              el("strong", {
+                className: "record-total",
+                textContent: roundedDollars(value),
+              }),
+            ),
+          );
+        content.append(
+          el("p", {
+            className: "label",
+            textContent: `${labels.booksSince} ${proseDate(books.since)}`,
+          }),
+          actual,
+        );
+        if (books.paidOutMinor > total(latest.spending))
+          content.append(
+            el("p", {
+              className: "budget-warning",
+              textContent: labels.overBudget,
+            }),
+          );
+      }
       const columns = el("div", { className: "budget-columns" });
       for (const [label, lines] of [
         [labels.revenue, latest.revenue],
@@ -3111,6 +3151,9 @@ const sheets = {
       }
       content.append(columns);
     };
+    // The town's own books open first.
+    const town = view.governments.find((g) => g.level === "city");
+    if (town) select.value = town.id;
     select.addEventListener("change", draw);
     draw();
     return [select, content];
