@@ -12,9 +12,9 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** The numeric President address plays over an empty office waiting room. Merger3 reproduced on PR6103 and the author before/after images already disclose it as existing. Text fits but the scene does not show the speaker at the address.
+**What.** The numeric President address plays over an empty office waiting room. Merger3 reproduced on PR6103 and the author before/after images already disclose it as existing. The numeric text fits at both checked window sizes, but the scene does not show the speaker giving the address.
 
-**Rules.** Browser visual acceptance: no green script overrides visible failure. Read the existing opening frame place/backdrop/cast records and use the intended scene; do not hard-code a place or create an alternate engine.
+**Rules.** Wire to the world: the opening renderer must read the actual address frame and its speaker records to place the scene. Browser visual acceptance: no green script overrides visible failure. Read the existing opening frame place/backdrop/cast records and use the intended scene; do not hard-code a place or create an alternate engine.
 
 **Done when.** In an ordinary drawn new game, screenshot the inaugural address with the intended setting and visible President, inspect native1440x900 and1024x768 captures, and show record IDs and real playback with no page errors. Add a drawn regression case for the backdrop and cast reader.
 
