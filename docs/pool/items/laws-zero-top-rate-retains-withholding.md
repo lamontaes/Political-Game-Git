@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/zero-rate-withholding
-pr:
+pr: #6193
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T21:36:01.625Z
