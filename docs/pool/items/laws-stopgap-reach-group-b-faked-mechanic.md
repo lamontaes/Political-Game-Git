@@ -18,7 +18,7 @@ claimed-at: 2026-10-16T02:49:58.475Z
 
 **Rules.** Estimate, never UNKNOWN: a cap not yet in the data starts from the real average with a spread and a source. Wire to the world: the cap changes a bill a named owner pays. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a property tax cap law changes the bill of a named owner through their own account and a business cost law changes a named business's payroll cost, with bill and account record ids, named by record id. The test in src/core2/property-tax-laws.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: pass a property tax cap and read the new bill on his own house.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a property tax cap law changes the bill of a named owner through their own account and a business cost law changes a named business's payroll cost, with bill and account record ids, named by record id. The test in src/core2/property-tax-laws.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: pass a property tax cap and read the new bill on his own house. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/data/stopgaps.json, src/core2/property-tax-laws.test.ts
 

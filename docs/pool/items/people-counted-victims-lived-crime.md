@@ -3,7 +3,7 @@ id: people-counted-victims-lived-crime
 title: "A counted group the crime engine victimizes moves its view on the police by the same rule as a full victim"
 area: people
 kind: wiring
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/views.ts,src/core2/modules/crime.ts
 
 **Notes.** Found Oct 24 by the effects lead when Merger 3 sent back #5895 (web-views-lived-crime-moves-stance), whose full-victim step is on that PR. Sibling of people-counted-readers-stances-from-stories, which is the same gap for printed stories.
+
+Deferred Oct 25: nothing on screen reads it yet.

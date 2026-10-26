@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: the table lands only with the jobs engine reading it when an employer ranks applicants. No dice: the per-employer attitude is a generated trait of who exists, and the hire follows from it with the applicant's records, never a roll at the decision. Research before building: every ratio carries its citation and spread, and real callback rates check totals across employers, never one employer's answer.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and seed the builder did not choose, both named), the jobs engine reads an employer's attitude from the table when it ranks applicants, named by record id, and across all hires the callback gap by group falls inside the table's sourced spread; src/core2/data/jobs/employer-callback-gaps.test.ts checks every row has a source and spread.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and seed the builder did not choose, both named), the jobs engine reads an employer's attitude from the table when it ranks applicants, named by record id, and across all hires the callback gap by group falls inside the table's sourced spread; src/core2/data/jobs/employer-callback-gaps.test.ts checks every row has a source and spread. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
 
 **Files.** src/core2/data/jobs/employer-callback-gaps.json, src/core2/modules/jobs.ts, src/core2/data/jobs/employer-callback-gaps.test.ts
 
