@@ -26,9 +26,14 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 it(`a candidate's journal tells their own race, even against a rival they never knew, seed ${seed}`, () => {
   setBookkeeping(false);
   const told: string[] = [];
+  const outcomes = { unknownWins: 0, unknownLosses: 0 };
   const tried: string[] = [];
   try {
-    for (let attempt = 0; attempt < 4 && !told.length; attempt += 1) {
+    for (
+      let attempt = 0;
+      attempt < 4 && (!outcomes.unknownWins || !outcomes.unknownLosses);
+      attempt += 1
+    ) {
       const place = drawPlace(seed, `journal-own-race:${attempt}`);
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
       const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -101,6 +106,11 @@ it(`a candidate's journal tells their own race, even against a rival they never 
           `${where}: ${filing.personId} ${won ? "won" : "lost"} ${filing.contestId} against ${rivals.join(", ") || "nobody"}${strangers ? ", none known" : ""}; journal: ${lines.map((row) => row.text).join(" | ") || "(empty)"}`,
         ).toBeDefined();
         if (won) expect(line!.text).not.toMatch(/\blost\b/);
+        else expect(line!.text).not.toMatch(/\b(?:I|We) won\b/i);
+        if (strangers) {
+          if (won) outcomes.unknownWins += 1;
+          else outcomes.unknownLosses += 1;
+        }
         told.push(
           `${where}: ${filing.personId} ${won ? "won" : "lost"} ${filing.contestId}${strangers ? " against a rival never met" : ""}: "${line!.text}" cites ${resultId}`,
         );
@@ -109,6 +119,15 @@ it(`a candidate's journal tells their own race, even against a rival they never 
         tried.push(`${where}: no candidate's race became a moment`);
     }
     expect(told.length, tried.join("; ")).toBeGreaterThan(0);
+    const evidence = [...tried, ...told].join("; ");
+    expect(
+      outcomes.unknownWins,
+      `no unknown-rival win: ${evidence}`,
+    ).toBeGreaterThan(0);
+    expect(
+      outcomes.unknownLosses,
+      `no unknown-rival loss: ${evidence}`,
+    ).toBeGreaterThan(0);
     console.log(`JOURNAL OWN RACE\n${told.join("\n")}`);
   } finally {
     setBookkeeping(true);
