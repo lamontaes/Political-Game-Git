@@ -6,8 +6,8 @@ lead: laws
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/laws-nine-links-prices
+status: open
+claimed-by:
 pr: #5986
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
@@ -35,3 +35,5 @@ Merger 2: Sent back 2026-10-26 from PR #5986 (branch claude/laws-nine-links-pric
 Laws lead, Oct 26: PR #5986 moves to the bounded `laws-nine-links-prices-eight`. This item stays open for the clean electricity standard and the bottle deposit, whose outcome effects show before their lag until `web-lag-law-before-opening-reads-none` (PR #6006) is on main; then they are rerun.
 
 Laws lead, Oct 26: PR #5986 now lands all ten laws and moves back to this item. #6006's lag fix is ported unchanged, so a repealed starting law waits its research lag; cannabis, the bottle deposit and the clean electricity standard were rerun in both audit towns and every outcome link fires at its lag or falls to the long-lag rule.
+
+Merger 2: Sent back 2026-10-26 from PR #5986 (branch claude/laws-nine-links-prices), author head23c37f3429c73d76a5fbfb0ef4cac61e5b0d6bb6: normal merge of main2adbaa85700ba7a81b3214226c17b37636d613d6 conflicts in src/core2/modules/place-prices.ts monthlyChange web argument and webUse return/default (miles versus main redemption), plus generated law-wiring-matrix.json and law-wiring-table.md; preserve both engine reads/tests, regenerate reports with their writers, finish on that branch and merge main first. No new local test/lag failure claimed. Exact return: https://github.com/lamontaes/Political-Game-Git/pull/5986#issuecomment-6418765503.
