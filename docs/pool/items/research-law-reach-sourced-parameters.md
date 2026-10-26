@@ -3,7 +3,7 @@ id: research-law-reach-sourced-parameters
 title: "Research: sourced parameters for law reach (group A, group B money, starting law)"
 area: laws
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -50,3 +50,5 @@ claimed-at:
 **Notes.** Folded from: laws-stopgap-group-b-money-missing-data, laws-stopgap-laws-data-gap, laws-stopgap-reach-group-a-missing-mechanic. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read. Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-law-reach-sourced-parameters.md (25 rows: 6 sourced, 5 estimated, 14 mechanic).
 
 Oct 24, 2026: split. PR 5863 (item research-law-reach-2025-law-and-two-rates) delivers the January 2025 starting law for the federal and state series, the flat income tax rate (4.25) and the cannabis use share (0.2317), and the public-sector union band. Still open here: 18 stopgap rows. Five wait on other work: the series still carried back (research-start-law-remaining-2025-phases), the flat-tax sponsor rate, cannabis dispensaries and state prevalence, union membership, and public-sector bargaining. Five are being rewritten by another open pull request: discrimination, abortion, age verification, facial recognition and data privacy. Eight have no number to source: leave claims, consumer credit, housing supply, affordable units, rent contracts, eviction cases, redistricting and police oversight.
+
+Deferred Oct 25: nothing on screen reads it yet.

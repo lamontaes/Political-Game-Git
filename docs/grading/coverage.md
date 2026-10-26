@@ -6,22 +6,22 @@ Built by `npm run words:coverage` (`scripts/dialogue-batch/coverage-table.ts`) f
 
 | Measure                                     | Count |
 | ------------------------------------------- | ----- |
-| Situation types                             | 63    |
-| Cells                                       | 940   |
-| Cells with at least one part                | 666   |
-| Empty cells (the mining and authoring list) | 274   |
-| Cells with parts but none graded pass       | 545   |
-| Cells with a part graded pass               | 121   |
-| Part fits counted over all cells            | 17019 |
+| Situation types                             | 66    |
+| Cells                                       | 972   |
+| Cells with at least one part                | 693   |
+| Empty cells (the mining and authoring list) | 279   |
+| Cells with parts but none graded pass       | 566   |
+| Cells with a part graded pass               | 127   |
+| Part fits counted over all cells            | 20584 |
 
 ## By endpoint
 
 | Endpoint  | Situation types | Cells | Empty cells | Cells with a pass |
 | --------- | --------------- | ----- | ----------- | ----------------- |
 | money     | 6               | 79    | 18          | 12                |
-| bill      | 9               | 156   | 60          | 14                |
-| political | 16              | 300   | 102         | 21                |
-| personal  | 32              | 405   | 94          | 74                |
+| bill      | 9               | 156   | 59          | 14                |
+| political | 17              | 308   | 101         | 21                |
+| personal  | 34              | 429   | 101         | 80                |
 
 ## By situation key
 
@@ -29,13 +29,13 @@ Built by `npm run words:coverage` (`scripts/dialogue-batch/coverage-table.ts`) f
 | ------------- | --------------- | ----- | ----------- | ----------------- |
 | loss          | 8               | 120   | 40          | 25                |
 | threat        | 10              | 175   | 63          | 17                |
-| honor         | 5               | 80    | 28          | 10                |
+| honor         | 7               | 100   | 34          | 13                |
 | news-received | 7               | 83    | 10          | 12                |
-| favor-asked   | 9               | 108   | 19          | 10                |
+| favor-asked   | 10              | 120   | 21          | 13                |
 | vote-wanted   | 6               | 113   | 41          | 2                 |
 | arrival       | 5               | 59    | 14          | 10                |
 | departure     | 2               | 25    | 6           | 9                 |
-| routine       | 11              | 177   | 53          | 26                |
+| routine       | 11              | 177   | 50          | 26                |
 
 ## Emptiest situations
 
@@ -48,64 +48,67 @@ Situation types by their share of empty cells, emptiest first.
 | scandal           | threat        | political | 37    | 24    | 240           | 2      |
 | veto              | loss          | bill      | 20    | 12    | 214           | 4      |
 | race-won          | honor         | political | 30    | 17    | 224           | 4      |
-| apology           | routine       | personal  | 12    | 6     | 257           | 3      |
+| apology           | routine       | personal  | 12    | 6     | 261           | 3      |
 | race-lost         | loss          | political | 23    | 11    | 220           | 8      |
-| argument          | threat        | personal  | 24    | 11    | 298           | 3      |
-| eviction-notice   | loss          | money     | 20    | 9     | 459           | 5      |
-| reconciliation    | routine       | personal  | 14    | 6     | 285           | 3      |
+| argument          | threat        | personal  | 24    | 11    | 302           | 3      |
+| eviction-notice   | loss          | money     | 20    | 9     | 463           | 5      |
+| reconciliation    | routine       | personal  | 14    | 6     | 289           | 3      |
 | bill-signed       | honor         | bill      | 15    | 6     | 244           | 4      |
-| news-arrives      | news-received | personal  | 20    | 8     | 296           | 3      |
+| news-arrives      | news-received | personal  | 20    | 8     | 300           | 3      |
 | public-hearing    | routine       | bill      | 25    | 10    | 129           | 8      |
-| campaign-stop     | vote-wanted   | political | 30    | 11    | 286           | 0      |
-| press-interview   | routine       | political | 22    | 8     | 232           | 0      |
-| departure         | departure     | personal  | 14    | 5     | 426           | 6      |
-| care              | routine       | personal  | 12    | 4     | 283           | 3      |
-| favor-asked       | favor-asked   | personal  | 12    | 4     | 281           | 3      |
-| becoming-friends  | routine       | personal  | 14    | 4     | 293           | 3      |
-| breakup           | loss          | personal  | 14    | 4     | 412           | 5      |
-| date              | routine       | personal  | 14    | 4     | 293           | 3      |
-| layoff            | loss          | money     | 14    | 4     | 394           | 4      |
-| reunion           | arrival       | personal  | 14    | 4     | 308           | 3      |
-| asking-permission | favor-asked   | personal  | 11    | 3     | 287           | 3      |
-| advice            | routine       | personal  | 12    | 3     | 287           | 3      |
+| address           | honor         | political | 8     | 3     | 277           | 0      |
+| campaign-stop     | vote-wanted   | political | 30    | 11    | 374           | 0      |
+| departure         | departure     | personal  | 14    | 5     | 430           | 6      |
+| care              | routine       | personal  | 12    | 4     | 287           | 3      |
+| cause-invite      | favor-asked   | personal  | 12    | 4     | 320           | 4      |
+| favor-asked       | favor-asked   | personal  | 12    | 4     | 285           | 3      |
+| becoming-friends  | routine       | personal  | 14    | 4     | 297           | 3      |
+| breakup           | loss          | personal  | 14    | 4     | 416           | 5      |
+| date              | routine       | personal  | 14    | 4     | 297           | 3      |
+| layoff            | loss          | money     | 14    | 4     | 398           | 4      |
+| reunion           | arrival       | personal  | 14    | 4     | 312           | 3      |
+| asking-permission | favor-asked   | personal  | 11    | 3     | 291           | 3      |
+| advice            | routine       | personal  | 12    | 3     | 291           | 3      |
 | appointment       | honor         | political | 12    | 3     | 205           | 3      |
 | filing            | routine       | political | 20    | 5     | 268           | 3      |
-| first-day         | arrival       | personal  | 12    | 3     | 294           | 3      |
-| first-meeting     | arrival       | personal  | 12    | 3     | 284           | 3      |
-| proposal          | favor-asked   | personal  | 12    | 3     | 285           | 3      |
-| return            | arrival       | personal  | 12    | 3     | 304           | 3      |
-| visit             | routine       | personal  | 12    | 3     | 289           | 3      |
+| first-day         | arrival       | personal  | 12    | 3     | 298           | 3      |
+| first-meeting     | arrival       | personal  | 12    | 3     | 288           | 3      |
+| new-baby          | honor         | personal  | 12    | 3     | 360           | 4      |
+| proposal          | favor-asked   | personal  | 12    | 3     | 289           | 3      |
+| return            | arrival       | personal  | 12    | 3     | 308           | 3      |
+| visit             | routine       | personal  | 12    | 3     | 293           | 3      |
+| press-interview   | routine       | political | 22    | 5     | 556           | 0      |
 | law-takes-effect  | news-received | money     | 10    | 2     | 209           | 4      |
-| interview         | favor-asked   | money     | 11    | 2     | 291           | 3      |
-| betrayal          | threat        | personal  | 12    | 2     | 296           | 3      |
-| reach-out         | favor-asked   | personal  | 12    | 2     | 299           | 3      |
-| rescue            | threat        | personal  | 12    | 2     | 298           | 3      |
-| bill-carry        | favor-asked   | bill      | 13    | 2     | 190           | 0      |
-| celebration       | honor         | personal  | 13    | 2     | 306           | 3      |
-| party-ask         | favor-asked   | political | 13    | 2     | 193           | 0      |
-| accusation        | threat        | personal  | 14    | 2     | 303           | 3      |
-| arrival           | arrival       | personal  | 9     | 1     | 280           | 3      |
-| last-day          | departure     | personal  | 11    | 1     | 392           | 5      |
-| rally-opponent    | threat        | political | 11    | 1     | 180           | 0      |
-| warning           | threat        | personal  | 11    | 1     | 288           | 3      |
-| donor-ask         | favor-asked   | money     | 13    | 1     | 196           | 0      |
-| confession        | news-received | personal  | 12    | 0     | 295           | 3      |
-| desk-bill         | vote-wanted   | bill      | 10    | 0     | 196           | 0      |
-| family-absence    | threat        | political | 11    | 0     | 165           | 0      |
-| family-filing     | news-received | political | 11    | 0     | 169           | 0      |
-| family-loss       | loss          | political | 10    | 0     | 147           | 0      |
-| family-win        | honor         | political | 10    | 0     | 146           | 0      |
-| funeral           | loss          | personal  | 12    | 0     | 454           | 5      |
-| gathering-missing | loss          | personal  | 7     | 0     | 310           | 3      |
-| hearing           | threat        | personal  | 14    | 0     | 311           | 3      |
-| letter            | news-received | personal  | 4     | 0     | 253           | 3      |
-| office-hours      | favor-asked   | money     | 11    | 0     | 197           | 0      |
+| interview         | favor-asked   | money     | 11    | 2     | 295           | 3      |
+| betrayal          | threat        | personal  | 12    | 2     | 300           | 3      |
+| reach-out         | favor-asked   | personal  | 12    | 2     | 303           | 3      |
+| rescue            | threat        | personal  | 12    | 2     | 302           | 3      |
+| celebration       | honor         | personal  | 13    | 2     | 310           | 3      |
+| accusation        | threat        | personal  | 14    | 2     | 307           | 3      |
+| arrival           | arrival       | personal  | 9     | 1     | 284           | 3      |
+| last-day          | departure     | personal  | 11    | 1     | 396           | 5      |
+| rally-opponent    | threat        | political | 11    | 1     | 383           | 0      |
+| warning           | threat        | personal  | 11    | 1     | 292           | 3      |
+| bill-carry        | favor-asked   | bill      | 13    | 1     | 426           | 0      |
+| donor-ask         | favor-asked   | money     | 13    | 1     | 393           | 0      |
+| party-ask         | favor-asked   | political | 13    | 1     | 390           | 0      |
+| confession        | news-received | personal  | 12    | 0     | 299           | 3      |
+| desk-bill         | vote-wanted   | bill      | 10    | 0     | 342           | 0      |
+| family-absence    | threat        | political | 11    | 0     | 301           | 0      |
+| family-filing     | news-received | political | 11    | 0     | 192           | 0      |
+| family-loss       | loss          | political | 10    | 0     | 212           | 0      |
+| family-win        | honor         | political | 10    | 0     | 227           | 0      |
+| funeral           | loss          | personal  | 12    | 0     | 458           | 5      |
+| gathering-missing | loss          | personal  | 7     | 0     | 314           | 3      |
+| hearing           | threat        | personal  | 14    | 0     | 315           | 3      |
+| letter            | news-received | personal  | 4     | 0     | 257           | 3      |
+| office-hours      | favor-asked   | money     | 11    | 0     | 460           | 0      |
 | polling-place     | routine       | political | 20    | 0     | 415           | 5      |
-| section-bargain   | vote-wanted   | bill      | 12    | 0     | 233           | 0      |
-| staff-news        | news-received | political | 11    | 0     | 173           | 0      |
-| verdict           | news-received | personal  | 15    | 0     | 336           | 4      |
-| vote-asked        | vote-wanted   | bill      | 13    | 0     | 238           | 0      |
-| vote-confirmed    | vote-wanted   | bill      | 13    | 0     | 229           | 0      |
+| section-bargain   | vote-wanted   | bill      | 12    | 0     | 404           | 0      |
+| staff-news        | news-received | political | 11    | 0     | 200           | 0      |
+| verdict           | news-received | personal  | 15    | 0     | 340           | 4      |
+| vote-asked        | vote-wanted   | bill      | 13    | 0     | 407           | 0      |
+| vote-confirmed    | vote-wanted   | bill      | 13    | 0     | 371           | 0      |
 
 ## Every cell
 
@@ -125,7 +128,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | staying    | blame        | -            |             |         |
 | others     | farewell     | 50/1         |             |         |
 | others     | comfort      | -            |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 94/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -142,7 +145,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | waiting    | confront     | -            |             |         |
 | waiting    | recall       | 14/0         |             |         |
 | waiting    | thank        | 2/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 102/1   |
 | (narrator) | recall       |              |             | 38/2    |
@@ -159,7 +162,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | receiver   | blame        | 5/0          |             |         | 9/0         |
 | receiver   | confront     | -            |             |         | -           |
 | receiver   | comfort      | 2/0          |             |         | -           |
-| (narrator) | narrate      |              | 83/0        |         |             |
+| (narrator) | narrate      |              | 87/0        |         |             |
 | (narrator) | deliver-news |              | 45/0        |         |             |
 | (narrator) | tell         |              |             | 87/1    |             |
 | (narrator) | recall       |              |             | 38/2    |             |
@@ -170,7 +173,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | ---------- | ------------ | ------- | ----------- |
 | (narrator) | tell         | 87/1    |             |
 | (narrator) | recall       | 38/2    |             |
-| (narrator) | narrate      |         | 83/0        |
+| (narrator) | narrate      |         | 87/0        |
 | (narrator) | deliver-news |         | 45/0        |
 
 ### argument (threat, personal)
@@ -187,7 +190,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | other-side | agree        | 2/0          |             |         | -           |
 | witness    | comfort      | 1/0          |             |         | -           |
 | witness    | tell         | 9/0          |             |         | -           |
-| (narrator) | narrate      |              | 83/0        |         |             |
+| (narrator) | narrate      |              | 87/0        |         |             |
 | (narrator) | deliver-news |              | 45/0        |         |             |
 | (narrator) | tell         |              |             | 90/1    |             |
 | (narrator) | recall       |              |             | 38/2    |             |
@@ -204,7 +207,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | wronged     | refuse       | -            |             |         |
 | wronged     | blame        | -            |             |         |
 | wronged     | thank        | 2/0          |             |         |
-| (narrator)  | narrate      |              | 83/0        |         |
+| (narrator)  | narrate      |              | 87/0        |         |
 | (narrator)  | deliver-news |              | 45/0        |         |
 | (narrator)  | tell         |              |             | 87/1    |
 | (narrator)  | recall       |              |             | 38/2    |
@@ -221,7 +224,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | told       | blame        | 5/0          |             |         |
 | told       | thank        | 2/0          |             |         |
 | told       | promise      | 1/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 87/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -238,7 +241,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | asked      | decline      | -            |             |         |
 | asked      | offer        | -            |             |         |
 | asked      | request      | 12/0         |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 87/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -255,7 +258,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | asked      | decline      | -            |             |         |
 | asked      | request      | 12/0         |             |         |
 | asked      | thank        | 2/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 87/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -274,7 +277,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | other-friend | offer        | -            |             |         |
 | other-friend | thank        | 2/0          |             |         |
 | other-friend | confess      | -            |             |         |
-| (narrator)   | narrate      |              | 83/0        |         |
+| (narrator)   | narrate      |              | 87/0        |         |
 | (narrator)   | deliver-news |              | 45/0        |         |
 | (narrator)   | tell         |              |             | 87/1    |
 | (narrator)   | recall       |              |             | 38/2    |
@@ -292,7 +295,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | guests     | thank        | 4/0          |             |         |
 | guests     | tell         | 6/0          |             |         |
 | guests     | offer        | -            |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 96/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -304,7 +307,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | household  | recall       | 14/0         |             |         |
 | household  | comfort      | 28/0         |             |         |
 | household  | tell         | 4/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 98/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -321,7 +324,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | family     | recall       | 14/0         |             |         |
 | family     | farewell     | 50/1         |             |         |
 | family     | comfort      | 28/0         |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 98/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -338,7 +341,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | met        | thank        | 2/0          |             |         |
 | introducer | tell         | 4/0          |             |         |
 | introducer | offer        | -            |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 102/1   |
 | (narrator) | recall       |              |             | 38/2    |
@@ -355,7 +358,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | authority  | comfort      | -            |             |         |
 | peers      | offer        | -            |             |         |
 | peers      | tell         | 4/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 102/1   |
 | (narrator) | recall       |              |             | 38/2    |
@@ -371,7 +374,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | staying    | farewell     | 50/1         |             |         |
 | staying    | recall       | 14/0         |             |         |
 | staying    | thank        | 2/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 94/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -387,7 +390,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | candidate   | lie          | 16/0         |             |         |
 | candidate   | request      | 12/0         |             |         |
 | candidate   | thank        | 2/0          |             |         |
-| (narrator)  | narrate      |              | 83/0        |         |
+| (narrator)  | narrate      |              | 87/0        |         |
 | (narrator)  | deliver-news |              | 45/0        |         |
 | (narrator)  | tell         |              |             | 87/1    |
 | (narrator)  | recall       |              |             | 38/2    |
@@ -406,7 +409,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | other-partner | offer        | -            |             |         |
 | other-partner | thank        | 2/0          |             |         |
 | other-partner | confess      | -            |             |         |
-| (narrator)    | narrate      |              | 83/0        |         |
+| (narrator)    | narrate      |              | 87/0        |         |
 | (narrator)    | deliver-news |              | 45/0        |         |
 | (narrator)    | tell         |              |             | 87/1    |
 | (narrator)    | recall       |              |             | 38/2    |
@@ -423,7 +426,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | proposed-to | decline      | -            |             |         |
 | proposed-to | request      | 12/0         |             |         |
 | proposed-to | thank        | 2/0          |             |         |
-| (narrator)  | narrate      |              | 83/0        |         |
+| (narrator)  | narrate      |              | 87/0        |         |
 | (narrator)  | deliver-news |              | 45/0        |         |
 | (narrator)  | tell         |              |             | 87/1    |
 | (narrator)  | recall       |              |             | 38/2    |
@@ -442,7 +445,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | partner    | farewell     | 50/1         |             |         |
 | children   | comfort      | 28/0         |             |         |
 | children   | tell         | 4/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 98/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -461,7 +464,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | other      | apologize    | -            |             |         |
 | other      | thank        | 2/0          |             |         |
 | other      | promise      | -            |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 102/1   |
 | (narrator) | recall       |              |             | 38/2    |
@@ -478,7 +481,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | betrayer   | lie          | 16/0         |             |         |
 | betrayer   | deflect      | 3/0          |             |         |
 | betrayer   | confess      | 3/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 90/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -495,7 +498,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | in-danger  | tell         | 9/0          |             |         |
 | bystanders | tell         | 9/0          |             |         |
 | bystanders | offer        | -            |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 90/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -512,7 +515,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | cannot-come | tell         | 4/0          |             |         |
 | cannot-come | request      | 12/0         |             |         |
 | cannot-come | confess      | -            |             |         |
-| (narrator)  | narrate      |              | 83/0        |         |
+| (narrator)  | narrate      |              | 87/0        |         |
 | (narrator)  | deliver-news |              | 45/0        |         |
 | (narrator)  | tell         |              |             | 87/1    |
 | (narrator)  | recall       |              |             | 38/2    |
@@ -526,7 +529,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | household  | thank        | 2/0          |             |         |
 | newcomer   | thank        | 2/0          |             |         |
 | newcomer   | tell         | 4/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 102/1   |
 | (narrator) | recall       |              |             | 38/2    |
@@ -543,7 +546,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | cared-for  | request      | 12/0         |             |         |
 | cared-for  | decline      | -            |             |         |
 | cared-for  | confess      | -            |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 87/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -560,7 +563,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | deciding   | thank        | 2/0          |             |         |
 | deciding   | agree        | 2/0          |             |         |
 | deciding   | decline      | -            |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 87/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -579,7 +582,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | accused    | refuse       | 3/0          |             |         |
 | witnesses  | tell         | 9/0          |             |         |
 | witnesses  | comfort      | 1/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 90/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -595,7 +598,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | at-risk    | deflect      | 3/0          |             |         |
 | at-risk    | refuse       | 3/0          |             |         |
 | at-risk    | promise      | 3/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 90/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -614,7 +617,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | other      | recall       | 14/0         |             |         |
 | other      | promise      | -            |             |         |
 | other      | offer        | -            |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 87/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -630,7 +633,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | authority  | agree        | 2/0          |             |         |
 | authority  | decline      | -            |             |         |
 | authority  | offer        | -            |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 87/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -665,7 +668,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | family     | promise      | 3/0          |             |         |
 | others     | tell         | 9/0          |             |         |
 | others     | blame        | 3/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 90/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -685,7 +688,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | family     | farewell     | 50/1         |             |         |
 | others     | tell         | 5/0          |             |         |
 | others     | blame        | 5/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 87/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -838,17 +841,17 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 
 | Role       | Move         | scene-talk | scene-words | interview |
 | ---------- | ------------ | ---------- | ----------- | --------- |
-| reporter   | greet        | 2/0        |             | -         |
-| reporter   | ask          | 7/0        |             | 23/0      |
-| reporter   | confront     | 3/0        |             | 3/0       |
+| reporter   | greet        | 25/0       |             | -         |
+| reporter   | ask          | 56/0       |             | 23/0      |
+| reporter   | confront     | 69/0       |             | 3/0       |
 | reporter   | close        | -          |             | 7/0       |
-| official   | answer       | 13/0       |             | -         |
-| official   | deflect      | 2/0        |             | 18/0      |
-| official   | tell         | -          |             | 11/0      |
-| official   | promise      | -          |             | 8/0       |
-| official   | disagree     | -          |             | -         |
+| official   | answer       | 113/0      |             | -         |
+| official   | deflect      | 21/0       |             | 18/0      |
+| official   | tell         | 27/0       |             | 11/0      |
+| official   | promise      | 21/0       |             | 8/0       |
+| official   | disagree     | 15/0       |             | -         |
 | official   | close        | -          |             | 7/0       |
-| (narrator) | narrate      |            | 83/0        |           |
+| (narrator) | narrate      |            | 87/0        |           |
 | (narrator) | deliver-news |            | 45/0        |           |
 
 ### scandal (threat, political)
@@ -878,25 +881,38 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | (narrator) | deliver-news    |             |              |         | 3/0  |
 | (narrator) | announce-result |             |              |         | 1/0  |
 
+### address (honor, political)
+
+| Role       | Move         | opening-speech | scene-words |
+| ---------- | ------------ | -------------- | ----------- |
+| speaker    | tell         | 71/0           |             |
+| speaker    | promise      | -              |             |
+| speaker    | thank        | 3/0            |             |
+| aide       | tell         | 71/0           |             |
+| audience   | agree        | -              |             |
+| audience   | disagree     | -              |             |
+| (narrator) | narrate      |                | 87/0        |
+| (narrator) | deliver-news |                | 45/0        |
+
 ### campaign-stop (vote-wanted, political)
 
 | Role       | Move         | scene-talk | scene-words | address/campaign |
 | ---------- | ------------ | ---------- | ----------- | ---------------- |
-| volunteer  | request      | 9/0        |             | 9/0              |
-| volunteer  | ask          | 6/0        |             | -                |
-| volunteer  | thank        | 13/0       |             | 7/0              |
-| volunteer  | promise      | 3/0        |             | -                |
-| candidate  | greet        | 11/0       |             | -                |
+| volunteer  | request      | 12/0       |             | 9/0              |
+| volunteer  | ask          | 17/0       |             | -                |
+| volunteer  | thank        | 20/0       |             | 7/0              |
+| volunteer  | promise      | 6/0        |             | -                |
+| candidate  | greet        | 16/0       |             | -                |
 | candidate  | introduce    | -          |             | -                |
 | candidate  | tell         | -          |             | 34/0             |
-| candidate  | request      | 9/0        |             | 9/0              |
-| candidate  | promise      | 3/0        |             | -                |
+| candidate  | request      | 12/0       |             | 9/0              |
+| candidate  | promise      | 6/0        |             | -                |
 | candidate  | close        | -          |             | 4/0              |
-| voters     | ask          | 6/0        |             | -                |
-| voters     | agree        | 7/0        |             | -                |
+| voters     | ask          | 17/0       |             | -                |
+| voters     | agree        | 38/0       |             | -                |
 | voters     | disagree     | -          |             | 8/0              |
-| voters     | thank        | 13/0       |             | 7/0              |
-| (narrator) | narrate      |            | 83/0        |                  |
+| voters     | thank        | 20/0       |             | 7/0              |
+| (narrator) | narrate      |            | 87/0        |                  |
 | (narrator) | deliver-news |            | 45/0        |                  |
 
 ### filing (routine, political)
@@ -929,7 +945,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | boss       | close        | -            |             |         |
 | coworkers  | comfort      | 28/0         |             |         |
 | coworkers  | condole      | 5/0          |             |         |
-| (narrator) | narrate      |              | 83/0        |         |
+| (narrator) | narrate      |              | 87/0        |         |
 | (narrator) | deliver-news |              | 45/0        |         |
 | (narrator) | tell         |              |             | 98/1    |
 | (narrator) | recall       |              |             | 38/2    |
@@ -946,7 +962,7 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | landlord   | offer        | -            |             |         | -           |
 | family     | comfort      | 28/0         |             |         | -           |
 | family     | ask          | 59/1         |             |         | -           |
-| (narrator) | narrate      |              | 83/0        |         |             |
+| (narrator) | narrate      |              | 87/0        |         |             |
 | (narrator) | deliver-news |              | 45/0        |         |             |
 | (narrator) | tell         |              |             | 98/1    |             |
 | (narrator) | recall       |              |             | 38/2    |             |
@@ -955,230 +971,264 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| colleague  | request      | 9/0        |             |
-| colleague  | plea         | 8/0        |             |
-| colleague  | press        | 19/0       |             |
-| colleague  | threaten     | 4/0        |             |
-| colleague  | thank        | 13/0       |             |
-| colleague  | accept       | 16/0       |             |
-| you        | agree        | 7/0        |             |
-| you        | refuse       | 10/0       |             |
-| you        | bargain      | 12/0       |             |
-| you        | stall        | 8/0        |             |
+| colleague  | request      | 12/0       |             |
+| colleague  | plea         | 17/0       |             |
+| colleague  | press        | 39/0       |             |
+| colleague  | threaten     | 10/0       |             |
+| colleague  | thank        | 20/0       |             |
+| colleague  | accept       | 42/0       |             |
+| you        | agree        | 38/0       |             |
+| you        | refuse       | 45/0       |             |
+| you        | bargain      | 26/0       |             |
+| you        | stall        | 22/0       |             |
 | you        | relent       | 4/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### vote-confirmed (vote-wanted, bill)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| colleague  | ask          | 6/0        |             |
-| colleague  | plea         | 8/0        |             |
-| colleague  | press        | 19/0       |             |
-| colleague  | threaten     | 4/0        |             |
-| colleague  | thank        | 13/0       |             |
-| colleague  | accept       | 16/0       |             |
-| you        | agree        | 7/0        |             |
+| colleague  | ask          | 17/0       |             |
+| colleague  | plea         | 17/0       |             |
+| colleague  | press        | 39/0       |             |
+| colleague  | threaten     | 10/0       |             |
+| colleague  | thank        | 20/0       |             |
+| colleague  | accept       | 42/0       |             |
+| you        | agree        | 38/0       |             |
 | you        | withdraw     | 4/0        |             |
-| you        | bargain      | 12/0       |             |
-| you        | stall        | 8/0        |             |
+| you        | bargain      | 26/0       |             |
+| you        | stall        | 22/0       |             |
 | you        | relent       | 4/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### bill-carry (favor-asked, bill)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| member     | request      | 14/0       |             |
-| member     | plea         | 7/0        |             |
-| member     | press        | 3/0        |             |
+| member     | request      | 29/0       |             |
+| member     | plea         | 16/0       |             |
+| member     | press        | 38/0       |             |
 | member     | bargain      | 3/0        |             |
-| member     | thank        | 11/0       |             |
-| member     | accept       | 10/0       |             |
-| you        | agree        | 6/0        |             |
-| you        | decline      | 5/0        |             |
+| member     | thank        | 65/0       |             |
+| member     | accept       | 51/0       |             |
+| you        | agree        | 34/0       |             |
+| you        | decline      | 51/0       |             |
 | you        | bargain      | 3/0        |             |
-| you        | stall        | -          |             |
+| you        | stall        | 4/0        |             |
 | you        | relent       | -          |             |
-| (narrator) | narrate      |            | 83/0        |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### donor-ask (favor-asked, money)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| donor      | request      | 14/0       |             |
-| donor      | press        | 3/0        |             |
-| donor      | threaten     | 6/0        |             |
+| donor      | request      | 29/0       |             |
+| donor      | press        | 38/0       |             |
+| donor      | threaten     | 7/0        |             |
 | donor      | bargain      | 3/0        |             |
-| donor      | thank        | 11/0       |             |
-| donor      | accept       | 10/0       |             |
-| you        | agree        | 6/0        |             |
-| you        | refuse       | 5/0        |             |
+| donor      | thank        | 65/0       |             |
+| donor      | accept       | 51/0       |             |
+| you        | agree        | 34/0       |             |
+| you        | refuse       | 11/0       |             |
 | you        | bargain      | 3/0        |             |
-| you        | deflect      | 7/0        |             |
+| you        | deflect      | 20/0       |             |
 | you        | relent       | -          |             |
-| (narrator) | narrate      |            | 83/0        |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### party-ask (favor-asked, political)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| chair      | request      | 14/0       |             |
-| chair      | press        | 3/0        |             |
-| chair      | threaten     | 6/0        |             |
-| chair      | plea         | 7/0        |             |
-| chair      | thank        | 11/0       |             |
-| chair      | accept       | 10/0       |             |
-| you        | agree        | 6/0        |             |
-| you        | refuse       | 5/0        |             |
+| chair      | request      | 29/0       |             |
+| chair      | press        | 38/0       |             |
+| chair      | threaten     | 7/0        |             |
+| chair      | plea         | 16/0       |             |
+| chair      | thank        | 65/0       |             |
+| chair      | accept       | 51/0       |             |
+| you        | agree        | 34/0       |             |
+| you        | refuse       | 11/0       |             |
 | you        | bargain      | 3/0        |             |
-| you        | stall        | -          |             |
+| you        | stall        | 4/0        |             |
 | you        | relent       | -          |             |
-| (narrator) | narrate      |            | 83/0        |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### office-hours (favor-asked, money)
 
 | Role        | Move         | scene-talk | scene-words |
 | ----------- | ------------ | ---------- | ----------- |
-| constituent | request      | 14/0       |             |
-| constituent | plea         | 7/0        |             |
-| constituent | press        | 3/0        |             |
-| constituent | thank        | 11/0       |             |
-| constituent | accept       | 10/0       |             |
-| you         | promise      | 9/0        |             |
-| you         | ask          | 7/0        |             |
-| you         | decline      | 5/0        |             |
-| you         | offer        | 3/0        |             |
-| (narrator)  | narrate      |            | 83/0        |
+| constituent | request      | 29/0       |             |
+| constituent | plea         | 16/0       |             |
+| constituent | press        | 38/0       |             |
+| constituent | thank        | 65/0       |             |
+| constituent | accept       | 51/0       |             |
+| you         | promise      | 31/0       |             |
+| you         | ask          | 25/0       |             |
+| you         | decline      | 51/0       |             |
+| you         | offer        | 22/0       |             |
+| (narrator)  | narrate      |            | 87/0        |
 | (narrator)  | deliver-news |            | 45/0        |
 
 ### family-filing (news-received, political)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| relative   | ask          | 12/0       |             |
+| relative   | ask          | 18/0       |             |
 | relative   | plea         | 1/0        |             |
 | relative   | comfort      | 5/0        |             |
-| relative   | press        | 5/0        |             |
-| relative   | thank        | 6/0        |             |
-| you        | tell         | 3/0        |             |
+| relative   | press        | 7/0        |             |
+| relative   | thank        | 11/0       |             |
+| you        | tell         | 7/0        |             |
 | you        | request      | 1/0        |             |
-| you        | deflect      | 3/0        |             |
+| you        | deflect      | 5/0        |             |
 | you        | comfort      | 5/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### family-win (honor, political)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| relative   | congratulate | 3/0        |             |
-| relative   | ask          | 1/0        |             |
-| relative   | promise      | 3/0        |             |
-| relative   | thank        | 2/0        |             |
-| you        | thank        | 2/0        |             |
-| you        | promise      | 3/0        |             |
-| you        | boast        | 2/0        |             |
-| you        | tell         | 2/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| relative   | congratulate | 5/0        |             |
+| relative   | ask          | 17/0       |             |
+| relative   | promise      | 5/0        |             |
+| relative   | thank        | 20/0       |             |
+| you        | thank        | 20/0       |             |
+| you        | promise      | 5/0        |             |
+| you        | boast        | 10/0       |             |
+| you        | tell         | 13/0       |             |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### family-loss (loss, political)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| relative   | comfort      | 5/0        |             |
-| relative   | ask          | 1/0        |             |
-| relative   | plea         | 1/0        |             |
-| relative   | thank        | 3/0        |             |
-| you        | thank        | 3/0        |             |
+| relative   | comfort      | 8/0        |             |
+| relative   | ask          | 9/0        |             |
+| relative   | plea         | 10/0       |             |
+| relative   | thank        | 19/0       |             |
+| you        | thank        | 19/0       |             |
 | you        | blame        | 2/0        |             |
-| you        | deflect      | 2/0        |             |
-| you        | promise      | 2/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| you        | deflect      | 6/0        |             |
+| you        | promise      | 7/0        |             |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### family-absence (threat, political)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| relative   | confront     | 14/0       |             |
+| relative   | confront     | 86/0       |             |
 | relative   | plea         | 1/0        |             |
-| relative   | press        | 4/0        |             |
-| relative   | accept       | 5/0        |             |
-| relative   | warn         | 2/0        |             |
-| you        | apologize    | 2/0        |             |
-| you        | promise      | 3/0        |             |
-| you        | deflect      | 4/0        |             |
+| relative   | press        | 11/0       |             |
+| relative   | accept       | 35/0       |             |
+| relative   | warn         | 15/0       |             |
+| you        | apologize    | 5/0        |             |
+| you        | promise      | 6/0        |             |
+| you        | deflect      | 8/0        |             |
 | you        | blame        | 2/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### rally-opponent (threat, political)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| opponent   | confront     | 14/0       |             |
-| opponent   | boast        | 3/0        |             |
-| opponent   | press        | 4/0        |             |
+| opponent   | confront     | 86/0       |             |
+| opponent   | boast        | 8/0        |             |
+| opponent   | press        | 11/0       |             |
 | opponent   | threaten     | -          |             |
-| opponent   | accept       | 5/0        |             |
-| you        | disagree     | 5/0        |             |
-| you        | deflect      | 4/0        |             |
-| you        | confront     | 14/0       |             |
-| you        | boast        | 3/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| opponent   | accept       | 35/0       |             |
+| you        | disagree     | 9/0        |             |
+| you        | deflect      | 8/0        |             |
+| you        | confront     | 86/0       |             |
+| you        | boast        | 8/0        |             |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### desk-bill (vote-wanted, bill)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| aide       | deliver-news | 3/0        |             |
-| aide       | answer       | 2/0        |             |
-| aide       | press        | 19/0       |             |
-| aide       | thank        | 13/0       |             |
-| you        | agree        | 7/0        |             |
-| you        | refuse       | 10/0       |             |
-| you        | ask          | 6/0        |             |
-| you        | stall        | 8/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| aide       | deliver-news | 7/0        |             |
+| aide       | answer       | 22/0       |             |
+| aide       | press        | 39/0       |             |
+| aide       | thank        | 20/0       |             |
+| you        | agree        | 38/0       |             |
+| you        | refuse       | 45/0       |             |
+| you        | ask          | 17/0       |             |
+| you        | stall        | 22/0       |             |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### staff-news (news-received, political)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| aide       | deliver-news | 3/0        |             |
-| aide       | answer       | 6/0        |             |
-| aide       | disagree     | 3/0        |             |
+| aide       | deliver-news | 4/0        |             |
+| aide       | answer       | 10/0       |             |
+| aide       | disagree     | 4/0        |             |
 | aide       | comfort      | 5/0        |             |
-| aide       | promise      | 4/0        |             |
-| you        | ask          | 12/0       |             |
-| you        | blame        | 2/0        |             |
-| you        | accept       | 7/0        |             |
-| you        | deflect      | 3/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| aide       | promise      | 5/0        |             |
+| you        | ask          | 18/0       |             |
+| you        | blame        | 3/0        |             |
+| you        | accept       | 14/0       |             |
+| you        | deflect      | 5/0        |             |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
 
 ### section-bargain (vote-wanted, bill)
 
 | Role       | Move         | scene-talk | scene-words |
 | ---------- | ------------ | ---------- | ----------- |
-| member     | bargain      | 12/0       |             |
-| member     | press        | 19/0       |             |
-| member     | threaten     | 4/0        |             |
-| member     | accept       | 16/0       |             |
-| member     | thank        | 13/0       |             |
-| you        | agree        | 7/0        |             |
-| you        | refuse       | 10/0       |             |
-| you        | bargain      | 12/0       |             |
-| you        | stall        | 8/0        |             |
+| member     | bargain      | 26/0       |             |
+| member     | press        | 39/0       |             |
+| member     | threaten     | 10/0       |             |
+| member     | accept       | 42/0       |             |
+| member     | thank        | 20/0       |             |
+| you        | agree        | 38/0       |             |
+| you        | refuse       | 45/0       |             |
+| you        | bargain      | 26/0       |             |
+| you        | stall        | 22/0       |             |
 | you        | relent       | 4/0        |             |
-| (narrator) | narrate      |            | 83/0        |
+| (narrator) | narrate      |            | 87/0        |
 | (narrator) | deliver-news |            | 45/0        |
+
+### new-baby (honor, personal)
+
+| Role       | Move         | conversation | scene-words | journal |
+| ---------- | ------------ | ------------ | ----------- | ------- |
+| parent     | tell         | 6/0          |             |         |
+| parent     | thank        | 4/0          |             |         |
+| parent     | confess      | -            |             |         |
+| parent     | request      | 12/0         |             |         |
+| visitor    | greet        | 25/0         |             |         |
+| visitor    | ask          | 47/1         |             |         |
+| visitor    | comfort      | -            |             |         |
+| visitor    | offer        | -            |             |         |
+| (narrator) | narrate      |              | 87/0        |         |
+| (narrator) | deliver-news |              | 45/0        |         |
+| (narrator) | tell         |              |             | 96/1    |
+| (narrator) | recall       |              |             | 38/2    |
+
+### cause-invite (favor-asked, personal)
+
+| Role       | Move         | conversation | scene-words | journal |
+| ---------- | ------------ | ------------ | ----------- | ------- |
+| invited    | ask          | 45/1         |             |         |
+| invited    | agree        | 2/0          |             |         |
+| invited    | decline      | -            |             |         |
+| invited    | deflect      | -            |             |         |
+| recruiter  | request      | 12/0         |             |         |
+| recruiter  | tell         | 4/0          |             |         |
+| recruiter  | offer        | -            |             |         |
+| recruiter  | press        | -            |             |         |
+| (narrator) | narrate      |              | 87/0        |         |
+| (narrator) | deliver-news |              | 45/0        |         |
+| (narrator) | tell         |              |             | 87/1    |
+| (narrator) | recall       |              |             | 38/2    |
