@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/decision-to-run-reaches-ballot
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T23:38:41.872Z
 ---
 
 **What.** M0-13's played-world check fails on clean main 3bb2e63717 in Huntington, Utah (place key 4936950, seed ca75d1e89cfcf56ed5c202205d4d2f7c1eefffc04d87f324dc5ed818233ab4c7, the golden-path draw for environment PR 5915's head). The check 'a named challenger runs' reads: 1 adult other than the incumbent chose to run in the 4 races decided, and none was on the ballot. The check 'every race has someone on the ballot' reads 1 of 4 races empty (Council member, 2025-11-04). The primary-loss case is already counted (5950 on main), so this decision to run did not reach a filing at all, or its filing never reached the ballot.

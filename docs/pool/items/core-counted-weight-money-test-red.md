@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by: claude/peaceful-ritchie-03780x
-pr: #5076
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:23:35.922Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T03:23:35.922Z
 
 **Files.** src/core2/counted-weight-money.test.ts, src/core2/modules/residents.ts
 
-**Notes.** Failure text: AssertionError ... residents:wages:opening-payroll-calendar:organization_bc110158f37a326c|residents:jurisdiction_082f7e93b3d1faad:0@2025-02-20: expected 6258687 to be less than or equal to 5704457.
+**Notes.** Failure text: AssertionError ... residents:wages:opening-payroll-calendar:organization_bc110158f37a326c|residents:jurisdiction_082f7e93b3d1faad:0@2025-02-20: expected 6258687 to be less than or equal to 5704457. Released from idle draft #5076 by the CTO, Oct 26.

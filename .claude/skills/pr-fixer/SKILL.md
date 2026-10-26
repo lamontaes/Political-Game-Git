@@ -10,6 +10,8 @@ description: >
 
 # PR fixer
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Fix exactly the merger's SMART send-back inside its time box; if the send-back is not SMART, write the missing part into the PR body before working it. Before raising any owner question, do the full reading (`OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/`, `LAW.md`, a `docs/` search) and end the question with the reading line. Research is allowed.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: the play-first lane owns `src/bench`; the Words line owns director and English files; "sessions never message each other")
 
 A sent-back PR is usually one small fix away from merging. Finish it on its own branch; never open a second PR for the same item.
