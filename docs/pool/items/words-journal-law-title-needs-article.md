@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, data/english/parts/journal.json
 
 **Notes.** TODO
+
+Merger 0: Sent back 2026-10-26 from PR #6112 (branch words/journal-law-title-article): journal-bill-names.test.ts 103 makes all vote evidence conditional, allowing the vote Done-when row to go untested; finish on that branch, merge main into it first.
