@@ -122,7 +122,16 @@
     "place": "Home",
     "talk": "Talk",
     "back": "Back",
-    "continue": "Continue"
+    "continue": "Continue",
+    "knows": "Knows",
+    "noColleagues": "Knows no one in office yet",
+    "tieWords": {
+      "coworker": "Works with",
+      "contact": "Knows",
+      "group": "In a group with",
+      "family": "Family"
+    },
+    "rival": "Rival"
   },
   "options": {
     "version": "Version",
