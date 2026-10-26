@@ -26,3 +26,5 @@ claimed-at:
 Merger 2: Ready in PR #6165, own checked head93bf50847d1b55247f34d6f5588e7f82e72ddc61/tree7cd634e2deaab2293856974a71da10b3bf443d53. Full build and scoped checks PASS; fresh Asan-Maina Guam root31902f16cdb962a5 test PASS. Another merger must merge; never the author.
 
 Sent back 2026-10-26 from PR #6165 (branch fix/main-red-2026-10-26-press-counted): Merger3 expected-head publication was rejected because Merger0 advanced the source to3c766036def7ec9a9dfa8077b2f8abf4bf682de2 during review; dropped without retry or merge. Own build and scoped gate passed on the identical tree6fcfae49919cd1dfca56336e1be3e2afdcb72737; the active Merger0 review must finish its own pinned merge.; finish on that branch, merge main into it first.
+
+Merger 0: Completed 2026-10-26 by #6165 merge49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce, checked/pinned3c766036def7ec9a9dfa8077b2f8abf4bf682de2. Own full build, scoped checks and Camden ME weighted-stance/fill-in test pass; all36 pool diagnostics identical to independently checked clean main. Exact TS2552 reproduced on clean main before fix. Requested done CLI succeeded and main done verified.

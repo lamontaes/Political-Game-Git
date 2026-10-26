@@ -317,10 +317,12 @@ describe(
         const total = taxes.reduce((a, t) => a + t.collectedMinor, 0);
         // The tax is on sales by sellers in the town; a town whose residents
         // buy from no seller there (a few dozen people and no shop) has no
-        // taxable sale to collect on, so it cannot show the collection.
+        // taxable sale to collect on, so it cannot show the collection. A
+        // flow is a sale only when it issues a sales receipt: union dues to a
+        // local hall do not (Templeton, Indiana, seed b19affd9:0).
         const town = lawChain(api).townPlaceId;
         const localSeller = [...(residentsRuntime(core)?.flows.values() ?? [])]
-          .filter((f) => f.kind === "purchase" && !f.endedAt)
+          .filter((f) => f.kind === "purchase" && f.salesReceipt && !f.endedAt)
           .some((f) => {
             const seller = core.organizations.get(f.payeeId);
             return seller?.placeId === town && seller.kind !== "outside-market";
