@@ -21,7 +21,11 @@ import { electorateChange } from "./electorate-inputs";
 import { inForceHere } from "./law-reach/host";
 import { RESTORE_VOTE } from "./law-reach/group-a-voting";
 import { openReach } from "./law-reach/group-a-records";
-import { appliedOn, type LawAppliedRow } from "./law-reach/applied";
+import {
+  appliedEver,
+  appliedOn,
+  type LawAppliedRow,
+} from "./law-reach/applied";
 import {
   amendBudget,
   budgetsOf,
@@ -355,8 +359,12 @@ function play(where: string, core: CoreState): Attempt {
     // Phase two: the limit is law, the sale is refused.
     setQuestion(api, HANDGUN_AGE, 1);
     run(core, 35);
+    // A law's records, open and ended: a body in play may repeal a law the
+    // test put in force (Columbia Falls, Montana's council repealed oversight
+    // and the immigration partnership on February 20, 2025), which ends the
+    // records its engine wrote while it stood.
     for (const key of [...keys, ...lines])
-      rows.set(key, [...appliedOn(api, key)]);
+      rows.set(key, [...appliedEver(api, key)]);
     for (const [kind, gross] of noLimit) posts.set(`first:${kind}`, gross);
     // The outcome web's month rows for the measures the engine reads.
     const webTable = api
@@ -497,8 +505,6 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
       console.log(
         `law-wiring-justice passed in ${a.where}; tried ${tried.length}`,
       );
-      const open = (key: string) =>
-        (a.rows.get(key) ?? []).filter((r) => !r.endedOn);
       const groups = (key: string) =>
         (a.rows.get(key) ?? []).filter((r) => r.target === "group");
       const moneyOf = (key: string) =>
@@ -572,9 +578,10 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
         moneyOf(CASH_BAIL),
         `${a.where}: avoided jail days`,
       ).toBeGreaterThan(0);
-      expect(open(OVERSIGHT).some((r) => r.target === "organization")).toBe(
-        true,
-      );
+      expect(
+        (a.rows.get(OVERSIGHT) ?? []).some((r) => r.target === "organization"),
+        `${a.where}: the oversight board reached the police department`,
+      ).toBe(true);
 
       // A cut gives less service and the restored line gives it back.
       const [cut, restored] = a.cutService;

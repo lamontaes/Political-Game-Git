@@ -128,6 +128,22 @@ export function appliedOn(api: CoreAPI, key: string): readonly LawAppliedRow[] {
     .sort((a, b) => a.since.localeCompare(b.since) || a.id.localeCompare(b.id));
 }
 
+/** Every applied row on a key, open and ended (a repeal ends rows, it keeps them), oldest first. */
+export function appliedEver(
+  api: CoreAPI,
+  key: string,
+): readonly LawAppliedRow[] {
+  if (!api.state.modules.has(HOST_ID)) return [];
+  return (
+    api
+      .moduleState(HOST_ID)
+      .table(LAW_APPLIED_TABLE)
+      .rows() as unknown as LawAppliedRow[]
+  )
+    .filter((r) => r.key === key)
+    .sort((a, b) => a.since.localeCompare(b.since) || a.id.localeCompare(b.id));
+}
+
 /** Every applied row naming one target, current and ended. */
 export function appliedTo(
   api: CoreAPI,
