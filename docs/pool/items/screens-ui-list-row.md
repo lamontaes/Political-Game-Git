@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/ui/list-row.mjs, src/bench/play.mjs, src/bench/play.css
 
 **Notes.** Work order docs/work-orders/lead-screens-2026-10-26.md, part 3. Stacked on claude/screens-ui-button (#6179), which is stacked on claude/screens-ui-panel (#6178); merge those first.
+Sent back 2026-10-26 from PR #6181 (branch claude/screens-ui-list-row): merge of main conflicts in src/bench/play.mjs after #6178 and #6179 landed; finish on that branch, merge main into it first.
