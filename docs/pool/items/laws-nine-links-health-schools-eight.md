@@ -6,12 +6,12 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/laws-nine-links-health-schools
+status: open
+claimed-by:
 pr: #6026
 blocked-on:
 source: laws lead, Oct 26
-claimed-at: 2026-10-26T17:54:50.182Z
+claimed-at:
 ---
 
 **What.** A bounded part of `laws-nine-links-health-schools`. Eight of the family's twelve laws grade wired on all nine links on the law checker that credits a law only with its own payment: medicaid-match, expand-medicaid-eligibility, medicaid-work-requirement, work-requirement-for-assistance, universal-preschool, snap-maximum, budget-line:welfareAndMedicaid and raise-teacher-minimum-salary. The family item stays open for four. The healthAndHospitals, schools and higherEducation budget lines are cited by the payments they fund but pay nothing under their own law id; they wait for the treasury change in PR #5669, which pays each law's share of a line under the law's own id. Public funds for private schooling reached nobody in Prescott, Michigan, so it waits for a place where a private school and an eligible family both exist at the opening.
