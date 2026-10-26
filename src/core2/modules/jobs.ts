@@ -18,11 +18,11 @@ import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
-import { traitLean } from "../choice";
 import {
   decisionLean,
+  decisionTraitTerm,
   decisionTraitWeight,
-  traitLeanBetween,
+  leanedByKinds,
 } from "../trait-decisions";
 import {
   businessTradingMonth,
@@ -44,11 +44,23 @@ import {
   participationShift,
   type LaborFacts,
 } from "../jobs-web";
-import { residentFacts, residentsRuntime } from "./residents";
+import {
+  countedHouseholdJobChanged,
+  keepCalendar,
+  countedHouseholdOf,
+  householdCash,
+  residentFacts,
+  residentPerson,
+  residentsRuntime,
+} from "./residents";
+import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
+import { graduationOf } from "../school-outcomes";
+import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
+import { lawApplied } from "../law-reach/applied";
 import {
   addCountedJob,
   countedHeadsOf,
@@ -112,6 +124,8 @@ export interface PositionRow {
   raises?: number;
   firstHourlyMinor?: number;
   raisedBy?: string;
+  /** The budget line (and the measure that changed it) that funds this opening at a public employer. */
+  fundedBy?: { readonly key: string; readonly lawId: string };
 }
 /** A job offered to the person the player controls: theirs to accept or decline. */
 export interface JobOfferRow {
@@ -181,7 +195,7 @@ function fullJobs(api: CoreAPI, organizationId: string) {
 }
 
 /** An employer's staff: its full people's jobs and its counted workers' jobs. */
-function currentJobs(api: CoreAPI, organizationId: string) {
+export function currentJobs(api: CoreAPI, organizationId: string) {
   return [
     ...fullJobs(api, organizationId),
     ...countedJobsOf(core(api), organizationId),
@@ -278,21 +292,20 @@ function record(
     tradingId?: string;
   },
 ): void {
+  // The people the change stands for when it happens (a counted worker's
+  // household weight, one for a full person), kept on the change so a later
+  // fill-in doesn't rewrite it.
+  const heads = headsOf(core(api), { id: row.jobId, personId: row.personId });
   // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
   if (row.kind === "quit" || row.kind === "left-work")
-    noteLeaver(
-      api,
-      row.organizationId,
-      row.jobId,
-      row.personId,
-      headsOf(core(api), { id: row.jobId, personId: row.personId }),
-    );
+    noteLeaver(api, row.organizationId, row.jobId, row.personId, heads);
   store(api)
     .table("changes")
     .put({
       id: `job-change:${api.state.date}:${row.jobId}:${row.kind}`,
       date: api.state.date,
       ...row,
+      heads,
       values: { ...(row.values ?? {}) },
     });
 }
@@ -438,6 +451,27 @@ function noteCountedLeavers(api: CoreAPI): void {
       ...(Object.keys(heads).length ? { countedHeads: heads } : {}),
     });
   }
+}
+
+/**
+ * A seeker's push to apply: a jobless seeker needs work (`need`, in play the
+ * household's runway-scaled need from `unemployedNeed`), and the push fades
+ * as the search drags on (a long search wears down the effort a seeker puts
+ * in: Krueger and Mueller 2011 report search time falling sharply through
+ * the spell). It is half its starting size after `jobsSearchFatigueWeeks`; a
+ * worker looking while employed has none. The one reason full and counted
+ * seekers weigh, so a seeker's own search length, not a flat constant, sets
+ * where personality can tip the choice.
+ */
+export function applyNeed(
+  p: (key: string) => number,
+  seeker: Pick<SeekerRow, "employed" | "since">,
+  today: string,
+  need: number = p("jobsUnemployedNeedWeight"),
+): number {
+  if (seeker.employed) return p("zero");
+  const weeks = daysBetweenText(seeker.since, today) / p("daysPerWeek");
+  return need / (p("one") + weeks / p("jobsSearchFatigueWeeks"));
 }
 
 function startSeeking(
@@ -907,16 +941,11 @@ export function raiseUnfilledPay(
   if (openHanded <= 0) return;
   const monthDays = api.parameter("jobsDaysPerYear") / 12;
   const perMonth = monthDays / trading.days;
-  // What the last month left after wages, purchases and compliance, in a month's days, less raises already given this review.
-  let room =
-    (trading.salesMinor -
-      trading.payrollMinor -
-      trading.costsMinor -
-      trading.complianceMinor) *
-    perMonth;
-  // What one head's seat can carry in a month: sales less purchases and compliance, shared across the heads.
+  // What the last month left after wages, purchases and compliance, in a month's days, less raises already given this review. The trading month's costs already hold all three.
+  let room = (trading.salesMinor - trading.costsMinor) * perMonth;
+  // What one head's seat can carry in a month: sales less purchases and compliance (the costs less the wages they hold), shared across the heads.
   const carriesMonthly =
-    ((trading.salesMinor - trading.costsMinor - trading.complianceMinor) *
+    ((trading.salesMinor - trading.costsMinor + trading.payrollMinor) *
       perMonth) /
     heads;
   if (carriesMonthly <= 0) return;
@@ -1189,8 +1218,9 @@ function reviewEmployers(api: CoreAPI): void {
         },
         trading?.id,
       );
-      // The next worker to go stands for more jobs than the staff is over by: wait.
-      if (laid === "over") break;
+      // The next worker to go stands for more jobs than the staff is over by,
+      // or worked today already: wait for the next review.
+      if (laid === "over" || laid === undefined) break;
       if (laid?.id) jobChangeIds.push(laid.id);
       need += laid?.heads ?? 1;
     }
@@ -1273,14 +1303,22 @@ function wageFloor(api: CoreAPI): number {
   return lawInForce(api, "minimum-wage").value ?? api.parameter("zero");
 }
 
-function tenureYears(api: CoreAPI, job: JobInput): number {
+/** Years a worker has held their job: a counted worker by their counted record, a full person by their work commitment (or the job they held before a fill-in). */
+export function tenureYears(api: CoreAPI, job: JobInput): number {
   if (isCounted(api, job.personId)) return countedTenureYears(api, job);
   const commitment = [
     ...(core(api).work.commitmentsByPerson.get(job.personId) ?? []),
   ]
     .map((id) => core(api).work.commitments.get(id)!)
     .find((row) => row.jobId === job.id);
-  const since = commitment?.startsAt ?? api.state.startedAt;
+  // A counted worker's hire here dates their job, as it did before they were
+  // filled in (countedTenureYears); a full hire keeps no such date.
+  const since =
+    (store(api).table("pay").get(job.id) as { since?: string } | undefined)
+      ?.since ??
+    commitment?.heldSince ??
+    commitment?.startsAt ??
+    api.state.startedAt;
   return (
     daysBetweenText(since, api.state.date) / api.parameter("jobsDaysPerYear")
   );
@@ -1305,7 +1343,7 @@ function managerOf(
 }
 
 /** The business decides who goes: the worker whose tenure and record it values least. */
-function layOff(
+export function layOff(
   api: CoreAPI,
   organizationId: string,
   staff: readonly JobInput[],
@@ -1323,6 +1361,14 @@ function layOff(
     (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
   )[0];
   if (!job) return;
+  // A job ends before its day's work. The worker the business chose played
+  // their day before this review ran (the controlled character): the same
+  // choice is made at the next review, before that day's work.
+  if (
+    c.jobs.has(job.id) &&
+    c.work.lastAttendanceByJob.get(job.id)?.date === c.date
+  )
+    return;
   // The jobs this record stands for may not exceed what the staff is over by.
   const heads = headsOf(c, job);
   if (heads > budget + 1e-9) return "over";
@@ -1354,12 +1400,16 @@ function layOff(
   // the counts no longer hold them.
   const placeId = (c.people.get(job.personId) ??
     residentFacts(c, job.personId))!.placeId;
+  // A worker filled in since the hire is a full person even when the job they
+  // lost lived in the counted books: the event names them, so they learn of it
+  // and answer it as anyone named does.
+  const full = c.people.has(job.personId);
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
     kind: "work.job-lost",
     // A counted worker is not a full person; the change row names them until fill-in.
-    personIds: counted ? [] : [job.personId],
+    personIds: full ? [job.personId] : [],
     placeId,
     source: source(api, "A layoff decided from the business's books."),
     publicRecord: false,
@@ -1373,7 +1423,7 @@ function layOff(
     facts: {
       decidedBy: decidedBy ?? organizationId,
       organizationId,
-      ...(counted ? { "counted-subject": job.personId } : {}),
+      ...(full ? {} : { "counted-subject": job.personId }),
     },
   });
   // Laid off through no choice of their own: a claim under the state's program.
@@ -1652,17 +1702,6 @@ function reviewJobless(api: CoreAPI): void {
     const age =
       daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
     if (age < young || age >= old) continue;
-    // A dependent's own living cost is carried by the household, so the
-    // pressure is how few days the household's money covers its costs.
-    let liquid = 0,
-      cost = 0;
-    for (const memberId of c.households.get(person.householdId)!.memberIds) {
-      const member = c.people.get(memberId);
-      if (!member?.alive) continue;
-      liquid += member.liquidMinor;
-      cost += member.livingCostDailyMinor;
-    }
-    const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
     const enter = participationShift(
       api,
       person.placeId,
@@ -1674,9 +1713,9 @@ function reviewJobless(api: CoreAPI): void {
       offer("look", person.id, {
         baseline: p("jobsEnterBaseline"),
         ...(enter ? { web: enter } : {}),
-        needWork:
-          p("jobsUnemployedNeedWeight") /
-          (p("one") + days / (p("jobsDaysPerYear") / p("macroMonthsPerYear"))),
+        // A dependent's own living cost is carried by the household, so the
+        // pressure is how few days the household's money covers its costs.
+        needWork: unemployedNeed(api, person.id),
         // Where jobs are scarce, fewer start looking (discouraged workers).
         unemployment:
           -p("jobsUnemploymentEntryWeight") *
@@ -1706,6 +1745,49 @@ function lastPay(api: CoreAPI, personId: string): number {
     }
   }
   return pay;
+}
+
+/**
+ * How much an unemployed person needs work: the base need shrunk by how many
+ * months their household's money covers its costs, so a person with a long
+ * runway applies less eagerly than one a month from the rent. A full person's
+ * household is its members' records; a counted person's is its counted
+ * household's share of its group's money (its columns where groups hold none), which is what a
+ * fill-in hands its members, so filling one in leaves the need as it was.
+ */
+export function unemployedNeed(api: CoreAPI, personId: string): number {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const person = c.people.get(personId);
+  let liquid = 0,
+    cost = 0;
+  if (person) {
+    const household = c.households.get(person.householdId);
+    for (const memberId of household?.memberIds ?? [personId]) {
+      const member = c.people.get(memberId);
+      if (!member?.alive) continue;
+      liquid += member.liquidMinor;
+      cost += member.livingCostDailyMinor;
+    }
+  } else {
+    const counted = countedHouseholdOf(c, personId);
+    const rt = residentsRuntime(c);
+    if (counted && rt) {
+      // Its money is its share of its group's account, which a fill-in hands
+      // its members; a world whose groups hold no money keeps it in the
+      // members' columns.
+      for (const member of rt.store.factsOfHousehold(counted)) {
+        if (!rt.funded) liquid += member.liquidMinor;
+        cost += member.livingCostDailyMinor;
+      }
+      if (rt.funded) liquid += householdCash(rt, counted);
+    }
+  }
+  const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
+  return (
+    p("jobsUnemployedNeedWeight") /
+    (p("one") + days / (p("jobsDaysPerYear") / p("macroMonthsPerYear")))
+  );
 }
 
 /** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
@@ -1751,6 +1833,12 @@ function runWeek(api: CoreAPI): void {
     )
       continue;
     const reference = seeker.referenceHourlyMinor;
+    const needWork = applyNeed(
+      p,
+      seeker,
+      c.date,
+      unemployedNeed(api, person.id),
+    );
     const scored = scoreOffers(c, person.id, [
       offer("wait", seeker.id, {}),
       ...nearby.map((position) =>
@@ -1758,7 +1846,7 @@ function runWeek(api: CoreAPI): void {
           pay:
             p("jobsApplyPayWeight") *
             (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
-          needWork: seeker.employed ? 0 : p("jobsUnemployedNeedWeight"),
+          needWork,
         }),
       ),
     ]);
@@ -1795,20 +1883,31 @@ function runWeek(api: CoreAPI): void {
     }
     // The same reasons a full person weighs: pay against their reference,
     // the need for work, and every trait's lean toward applying or waiting.
-    const person = { traits: traitsOf(api, seeker.personId) };
-    const traitTerm =
-      p("traitWeight") *
-      (traitLean(c, person, jobsData.actions.apply.actKinds) -
-        traitLean(c, person, jobsData.actions.wait.actKinds));
+    const person = {
+      id: seeker.personId,
+      traits: traitsOf(api, seeker.personId),
+    };
     const reference = seeker.referenceHourlyMinor;
+    // The same runway-scaled need a full person weighs, eased by the weeks looked.
+    const needWork = applyNeed(
+      p,
+      seeker,
+      c.date,
+      unemployedNeed(api, seeker.personId),
+    );
     for (const position of byPlace.get(seeker.placeId) ?? [])
       if (
-        p("jobsRateWeight") *
-          (p("jobsApplyPayWeight") *
-            (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
-            (seeker.employed ? 0 : p("jobsUnemployedNeedWeight"))) +
-          traitTerm >
-        0
+        leanedByKinds(
+          c,
+          person,
+          "jobs.counted-apply",
+          jobsData.actions.apply.actKinds,
+          jobsData.actions.wait.actKinds,
+          p("jobsRateWeight") *
+            (p("jobsApplyPayWeight") *
+              (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
+              needWork),
+        )
       )
         apply(position.id, seeker);
   }
@@ -1884,22 +1983,23 @@ function runWeek(api: CoreAPI): void {
       if (isCounted(api, best.personId)) {
         // A counted seeker answers the offer by the same reasons a full person
         // weighs, every trait included.
-        const person = { traits: traitsOf(api, best.personId) };
+        const person = {
+          id: best.personId,
+          traits: traitsOf(api, best.personId),
+        };
         // An employed worker measures the offer against the job they hold now, and moving costs something.
         const current = best.employed
           ? countedJobOfPerson(c, best.personId)?.hourlyMinor
           : undefined;
         const reference = current ?? best.referenceHourlyMinor;
-        const accepts =
-          acceptScore(
-            p,
-            position.hourlyMinor,
-            reference,
-            best.employed,
-            p("traitWeight") *
-              (traitLean(c, person, jobsData.actions.accept.actKinds) -
-                traitLean(c, person, jobsData.actions.decline.actKinds)),
-          ) > 0;
+        const accepts = leanedByKinds(
+          c,
+          person,
+          "jobs.counted-accept",
+          jobsData.actions.accept.actKinds,
+          jobsData.actions.decline.actKinds,
+          acceptScore(p, position.hourlyMinor, reference, best.employed),
+        );
         placed = accepts && hireCounted(api, position, best, fit(best));
       } else if (controlled(c, best.personId)) {
         // A past decline or lapse is an answer, not a permanent hold.
@@ -2062,6 +2162,86 @@ export function moveLabel(
     : other;
 }
 
+/**
+ * The schooling a person held on `date`: a senior year decided in play by
+ * then (a graduate holds a high school diploma, a senior who did not
+ * graduate holds none), else their education record, or the profile it is
+ * drawn from. Undefined for a person with no schooling record (a child).
+ */
+export function schoolingOn(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): string | undefined {
+  const c = core(api);
+  const person = c.people.get(personId) ?? residentPerson(c, personId);
+  if (!person) return undefined;
+  const graduation = api.state.modules.has(SCHOOL_MODULE_ID)
+    ? graduationOf(api, personId, person.birthDate)
+    : undefined;
+  if (graduation && graduation.date <= date)
+    return graduation.passed ? "no-college" : "less-than-high-school";
+  return (
+    (person.pastFacts?.find((row) => row.kind === PROFILE_FACT_KINDS.education)
+      ?.facts?.level as string | undefined) ??
+    profileFor(person, c.seed, makeIsoDate(date))?.education
+  );
+}
+
+/** The BLS weekly earnings of the schooling a person holds today, which their hire pay reads; undefined with no schooling record. */
+export function schoolingWeekly(
+  api: CoreAPI,
+  personId: string,
+): number | undefined {
+  const level = schoolingOn(api, personId, core(api).date);
+  return level === "less-than-high-school"
+    ? api.parameter("jobsWeeklyEarningsLessThanHighSchool")
+    : level === "college"
+      ? api.parameter("jobsWeeklyEarningsCollege")
+      : level === "some-college"
+        ? api.parameter("jobsWeeklyEarningsSomeCollege")
+        : level === "no-college"
+          ? api.parameter("jobsWeeklyEarningsNoCollege")
+          : undefined;
+}
+
+/**
+ * What a hire is paid per hour: the position's pay, moved by the person's own
+ * schooling (their graduation record from a senior year in play, else their
+ * education record, or the profile it is drawn from) by the
+ * share of the BLS earnings gap that holds within one role. A person with no
+ * schooling record (a child) takes the position's pay as it stands. The same
+ * rule prices a full and a counted hire.
+ */
+export function hirePay(
+  api: CoreAPI,
+  position: PositionRow,
+  personId: string,
+): number {
+  const c = core(api);
+  const weekly = schoolingWeekly(api, personId);
+  if (weekly === undefined) return position.hourlyMinor;
+  const gap = weekly / api.parameter("jobsWeeklyEarningsAllWorkers") - 1;
+  // stopgapId: SG-WORLD-jobs-schooling-pay-share (the within-role share of the schooling pay gap is assumed)
+  stopgap("SG-WORLD-jobs-schooling-pay-share");
+  const pay = Math.round(
+    position.hourlyMinor * (1 + api.parameter("jobsSchoolingPayShare") * gap),
+  );
+  // Schooling never takes a hire under the floors the opening was posted to
+  // respect: the minimum wage and, at a public employer, the public pay floor.
+  const template =
+    c.jobs.get(position.templateJobId) ??
+    residentsRuntime(c)?.jobs.get(position.templateJobId) ??
+    countedJobsOf(c, position.organizationId)[0];
+  const floor = Math.max(
+    wageFloor(api),
+    template
+      ? publicPayFloorHourly(api, position.organizationId, template)
+      : api.parameter("zero"),
+  );
+  return Math.max(pay, Math.min(position.hourlyMinor, floor));
+}
+
 function hireCounted(
   api: CoreAPI,
   position: PositionRow,
@@ -2077,22 +2257,58 @@ function hireCounted(
   if (!template) return false;
   const jobId = `job:${position.id}:${seeker.personId}`;
   const hours = template.hoursDaily;
+  const pay = hirePay(api, position, seeker.personId);
   const job: JobInput = {
     id: jobId,
     personId: seeker.personId,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
-    hourlyMinor: position.hourlyMinor,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
+    hourlyMinor: pay,
     hoursDaily: hours,
-    wageDailyMinor: Math.round(position.hourlyMinor * hours),
+    wageDailyMinor: Math.round(pay * hours),
     source: source(api, `A counted worker hired to ${position.id}.`),
   };
   const previous = seeker.employed
     ? countedJobOfPerson(c, seeker.personId)
     : undefined;
   if (previous?.organizationId === position.organizationId) return false;
-  if (!addCountedJob(c, job, template.id)) return false;
+  // The role's schedule and payday, as a full hire takes them, kept with the
+  // household so the worker is on that payroll the day they are met.
+  const role = roleTemplate(c, { ...position, templateJobId: template.id });
+  // A founded firm hires from another employer's role: its hire is paid on the
+  // firm's own calendar with that role's payday, one per firm and role, as a
+  // full hire's calendar names its own employer (hire, below).
+  const calendar: WorkPayrollCalendarInput | undefined =
+    role &&
+    (role.calendar.organizationId === position.organizationId
+      ? role.calendar
+      : {
+          ...role.calendar,
+          id: `${role.calendar.id}:at:${position.organizationId}`,
+          organizationId: position.organizationId,
+        });
+  const commitment: WorkCommitmentInput | undefined = role && {
+    ...role.commitment,
+    organizationId: position.organizationId,
+    id: `work-commitment:${jobId}`,
+    jobId,
+    personId: seeker.personId,
+    payrollCalendarId: calendar!.id,
+    startsAt: addDays(makeIsoDate(api.state.date), 1),
+    // A new hire's own: a filled-in template's earlier tenure is not copied.
+    heldSince: undefined,
+    endsAt: undefined,
+    hourlyMinor: position.hourlyMinor,
+    scheduleTemplateJobId: role.template.id,
+    paySource: job.source,
+    scheduleSource: job.source,
+  };
+  if (!addCountedJob(c, job, template.id, commitment)) return false;
+  if (calendar) keepCalendar(c, calendar);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
@@ -2129,6 +2345,14 @@ function hireCounted(
   store(api)
     .table("positions")
     .put({ ...position, status: "filled", filledBy: seeker.personId });
+  fundedHire(
+    api,
+    position,
+    seeker.personId,
+    "group",
+    positionHeads(position),
+    job.wageDailyMinor,
+  );
   store(api).table("countedSeekers").remove(seeker.personId);
   endClaim(api, store(api).table("claims"), seeker.personId);
   record(api, {
@@ -2141,7 +2365,9 @@ function hireCounted(
     values: {
       fit,
       referral: referralStanding(api, seeker.personId),
-      hourlyMinor: position.hourlyMinor,
+      hourlyMinor: pay,
+      // The schooling the pay was read from, as its weekly earnings.
+      schoolingWeekly: schoolingWeekly(api, seeker.personId) ?? 0,
       counted: 1,
     },
   });
@@ -2217,13 +2443,13 @@ function reviewCountedRetirements(api: CoreAPI): void {
           -countedShift(api, job.personId, person.placeId, p) +
           p("jobsRetireBaseline") +
           p("jobsRetireAgeWeight") * past +
-          p("traitWeight") *
-            traitLeanBetween(
-              c,
-              person,
-              jobsData.actions.leave.actKinds,
-              jobsData.actions.stay.actKinds,
-            ),
+          decisionTraitTerm(
+            c,
+            person,
+            "jobs.counted-retire",
+            jobsData.actions.leave.actKinds,
+            jobsData.actions.stay.actKinds,
+          ),
       });
     }
   }
@@ -2473,9 +2699,10 @@ function reviewCountedQuits(api: CoreAPI): void {
             payGap,
             tenureYears: countedTenureYears(api, job),
             unemploymentGapPts: unemploymentGap(api, person.placeId),
-            restless: traitLeanBetween(
+            restless: decisionTraitTerm(
               c,
               person,
+              "jobs.counted-look",
               jobsData.actions.look.actKinds,
               jobsData.actions.stay.actKinds,
             ),
@@ -2543,9 +2770,10 @@ function reviewCountedLooking(api: CoreAPI): void {
         (going.get(job.occupationClassification ?? job.title) ?? pay) / pay - 1,
       );
       // Every trait's lean toward looking around over staying put.
-      const restless = traitLeanBetween(
+      const restless = decisionTraitTerm(
         c,
         person,
+        "jobs.counted-look",
         jobsData.actions.look.actKinds,
         jobsData.actions.stay.actKinds,
       );
@@ -2558,7 +2786,7 @@ function reviewCountedLooking(api: CoreAPI): void {
           p("jobsPayGapWeight") * payGap -
           p("jobsUnemploymentLookWeight") *
             unemploymentGap(api, person.placeId) +
-          p("traitWeight") * restless,
+          restless,
       });
     }
   }
@@ -2643,7 +2871,7 @@ function countedTenureYears(api: CoreAPI, job: JobInput): number {
  * A counted worker's pull to quit to nothing this month: the typical-tenure
  * baseline, less for a longer tenure and more for a shorter one, more for pay
  * below the going rate, less where the place's unemployment is above the
- * natural rate, and their traits' lean toward change. Sliding in each.
+ * natural rate, and their traits' lean toward change (`restless`, already weighted by the decision's calibrated trait weight). Sliding in each.
  */
 export function quitScore(
   p: (key: string) => number,
@@ -2661,7 +2889,7 @@ export function quitScore(
       (Math.log1p(p("jobsTypicalTenureYears")) -
         Math.log1p(reasons.tenureYears)) -
     p("jobsUnemploymentQuitWeight") * reasons.unemploymentGapPts +
-    p("traitWeight") * (reasons.restless ?? 0)
+    (reasons.restless ?? 0)
   );
 }
 
@@ -2776,7 +3004,8 @@ function offerToPlayer(
     positionId: position.id,
     organizationId: position.organizationId,
     title: position.title,
-    hourlyMinor: position.hourlyMinor,
+    // The pay offered is what the person would be hired at, schooling included.
+    hourlyMinor: hirePay(api, position, personId),
     fit,
     offeredAt: c.date,
     deadline,
@@ -2956,6 +3185,7 @@ function hire(
       },
     });
   }
+  const pay = hirePay(api, position, person.id);
   const startsAt = addDays(makeIsoDate(api.state.date), 1);
   const coworkerIds = fullJobs(api, position.organizationId).map(
     (row) => row.personId,
@@ -2979,10 +3209,13 @@ function hire(
     personId: person.id,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
-    hourlyMinor: position.hourlyMinor,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
+    hourlyMinor: pay,
     hoursDaily,
-    wageDailyMinor: Math.round(position.hourlyMinor * hoursDaily),
+    wageDailyMinor: Math.round(pay * hoursDaily),
     source: jobSource,
   };
   const newCalendar: WorkPayrollCalendarInput = {
@@ -3007,8 +3240,9 @@ function hire(
       personId: person.id,
       payrollCalendarId: newCalendar.id,
       startsAt,
+      heldSince: undefined,
       endsAt: undefined,
-      hourlyMinor: position.hourlyMinor,
+      hourlyMinor: pay,
       scheduleTemplateJobId: template.id,
       paySource: jobSource,
       scheduleSource: jobSource,
@@ -3034,6 +3268,7 @@ function hire(
         ? { ...position, heads: left }
         : { ...position, status: "filled", filledBy: person.id },
     );
+  fundedHire(api, position, person.id, "person", 1, job.wageDailyMinor);
   store(api).table("seekers").remove(person.id);
   endSpell(api, person.id);
   // The new hire meets the full people already working there.
@@ -3055,9 +3290,118 @@ function hire(
     values: {
       fit,
       referral: referralStanding(api, seeker.personId),
-      hourlyMinor: position.hourlyMinor,
+      hourlyMinor: pay,
+      // The schooling the pay was read from, as its weekly earnings.
+      schoolingWeekly: schoolingWeekly(api, person.id) ?? 0,
     },
   });
+}
+
+/**
+ * A hire to an opening a budget line funds: the jobs engine applied the
+ * line's change to this worker (a named person, or a counted worker standing
+ * for the jobs the opening stood for). The row names the pay the line commits
+ * to them for a year (their daily wage over a year, times the jobs the
+ * opening stood for), so the money the line pays is on the payee's own record.
+ */
+function fundedHire(
+  api: CoreAPI,
+  position: PositionRow,
+  personId: string,
+  target: "person" | "group",
+  count: number,
+  wageDailyMinor: number,
+): void {
+  if (!position.fundedBy) return;
+  lawApplied(api, {
+    key: position.fundedBy.key,
+    lawId: position.fundedBy.lawId,
+    targetId: personId,
+    target,
+    engine: JOBS_MODULE_ID,
+    what: "hired-on-budget-line",
+    count,
+    amountMinor: wageDailyMinor * count * api.parameter("jobsDaysPerYear"),
+  });
+}
+
+/**
+ * Openings a budget line newly funds at a public employer, posted like any
+ * opening at the employer's pay for the role: the week's matching fills them
+ * from named and counted seekers alike, and each hire records the line.
+ */
+export function postFundedOpenings(
+  api: CoreAPI,
+  input: {
+    readonly organizationId: string;
+    readonly templateJobId: string;
+    readonly count: number;
+    readonly key: string;
+    readonly lawId: string;
+  },
+): number {
+  // With no jobs engine (a unit test's small world) nobody fills an opening.
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return 0;
+  const c = core(api);
+  const template = jobById(api, input.templateJobId);
+  const placeId = c.organizations.get(input.organizationId)?.placeId;
+  if (!template || !placeId) return 0;
+  let posted = 0;
+  for (; posted < input.count; posted += 1)
+    store(api)
+      .table("positions")
+      .put({
+        id: `position:${input.organizationId}:${api.state.date}:${input.key}:${posted}`,
+        organizationId: input.organizationId,
+        placeId,
+        templateJobId: template.id,
+        title: template.title,
+        occupation: roleOf(template),
+        hourlyMinor: payFor(api, input.organizationId, template),
+        openedAt: api.state.date,
+        status: "open",
+        reasonKey: jobsData.reasons.opening,
+        fundedBy: { key: input.key, lawId: input.lawId },
+      } satisfies PositionRow);
+  return posted;
+}
+
+/** An employer's open openings a budget line funds. */
+export function fundedOpenings(
+  api: CoreAPI,
+  organizationId: string,
+  key: string,
+): readonly PositionRow[] {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return [];
+  return openPositions(api, organizationId).filter(
+    (row) => row.fundedBy?.key === key,
+  );
+}
+
+/** Withdraw an opening the line no longer funds (it was cut back before anyone filled it). */
+export function withdrawOpening(api: CoreAPI, position: PositionRow): void {
+  store(api)
+    .table("positions")
+    .put({ ...position, status: "withdrawn" });
+}
+
+/** End a counted worker's job: a public employer let them go when its line was cut. */
+export function layOffCounted(api: CoreAPI, jobId: string): boolean {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return false;
+  const c = core(api);
+  const job = residentsRuntime(c)?.jobs.get(jobId);
+  if (!job) return false;
+  endCountedJob(c, jobId);
+  record(api, {
+    personId: job.personId,
+    organizationId: job.organizationId,
+    jobId,
+    kind: "layoff",
+    reasonKey: jobsData.reasons.layoff,
+    decidedBy: job.organizationId,
+    values: { hourlyMinor: job.hourlyMinor ?? 0, counted: 1 },
+  });
+  return true;
 }
 
 export const JOBS_MODULE: CoreModule = {
@@ -3136,8 +3480,11 @@ export const JOBS_MODULE: CoreModule = {
       // Only jobs named by this closure ended because of it. A same-day quit did not.
       // Looking for another job does not keep this job alive after closure.
       // The job ends with the employer today; its wage flow stops paying at its next date.
-      if (!job.endsAt && !endCountedJob(core(api), job.id))
-        rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
+      if (!job.endsAt && !endCountedJob(core(api), job.id)) {
+        const ended = { ...job, endsAt: api.state.date };
+        rt!.jobs.set(job.id, ended);
+        countedHouseholdJobChanged(core(api), ended);
+      }
       const person = residentFacts(core(api), job.personId);
       if (!person) continue;
       record(api, {

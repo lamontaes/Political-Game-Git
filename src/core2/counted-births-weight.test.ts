@@ -31,7 +31,8 @@ interface CountRow {
 }
 
 function play(seed: string, key: string, countScale?: number) {
-  setBookkeeping(false);
+  // The monthly counted record read below is kept only under bookkeeping.
+  setBookkeeping(true);
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
@@ -93,6 +94,9 @@ it("expects and books births and deaths for the real people a counted household 
       `${where}: booked ${scaled.booked} against expected ${scaled.expected.births}`,
     ).toBeLessThanOrEqual(
       scaled.heaviest + WEIGHT_DRIFT * scaled.expected.births,
+    );
+    process.stdout.write(
+      `births weight: ${draw.name} (${where}): ${base.start} and ${scaled.start} people, births expected ${base.expected.births.toFixed(1)} and ${scaled.expected.births.toFixed(1)}, booked ${scaled.booked}\n`,
     );
     return;
   }

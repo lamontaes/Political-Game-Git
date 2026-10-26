@@ -8,6 +8,7 @@
 import table from "../../data/content/trait-decisions.json" with { type: "json" };
 import { traitLean } from "./choice";
 import { parameter } from "./parameters";
+import { retainLog } from "./state";
 import { probeCallerSite, traitProbe } from "./trait-probe";
 import type { CoreState, PersonState } from "./types";
 
@@ -218,7 +219,9 @@ function reportLeaned(
   lean: number,
   bare: number,
 ): number {
-  const score = bare + lean * decisionTraitWeight(core, decisionId);
+  const term = lean * decisionTraitWeight(core, decisionId);
+  const score = bare + term;
+  keepWeighing(core, person, decisionId, bare, term);
   const probe = traitProbe();
   if (probe?.formula) {
     const zero = parameter("zero", core.data.parameters);
@@ -232,6 +235,77 @@ function reportLeaned(
     });
   }
   return score;
+}
+
+/**
+ * The player and the people in focus keep a record of every two-way decision
+ * they weigh, yes or no (why-kept: the player and the people they deal with),
+ * as their acts do: the case without personality as the module reason and
+ * the trait term as the trait reason, on a `person.weighed` log record. A
+ * decline leaves no other trace.
+ */
+function keepWeighing(
+  core: Pick<CoreState, "data">,
+  person: { id?: string },
+  decisionId: string,
+  bare: number,
+  term: number,
+): void {
+  const id = person.id;
+  if (!id || !("focusPersonIds" in core)) return;
+  const c = core as CoreState;
+  if (!c.focusPersonIds.has(id) && id !== c.playerId) return;
+  const actor = c.people.get(id);
+  if (!actor) return;
+  const zero = parameter("zero", c.data.parameters);
+  const reasons = (trait: number, module: number) => ({
+    need: zero,
+    goal: zero,
+    drive: zero,
+    trait,
+    emotion: zero,
+    effort: zero,
+    module,
+  });
+  const yes = bare + term > zero;
+  const base = `weighed:${c.date}:${decisionId}:${id}`;
+  let recordId = base;
+  for (let n = 2; c.durableLog.has(recordId); n++) recordId = `${base}:${n}`;
+  retainLog(c, {
+    id: recordId,
+    date: c.date,
+    kind: "person.weighed",
+    personIds: [id],
+    placeId: actor.placeId,
+    source: {
+      tag: "SOURCED",
+      asOf: c.date,
+      citation: `A two-way decision weighed by its shared formula (${decisionId}).`,
+    },
+    actorId: id,
+    actionId: `${decisionId}:${yes ? "yes" : "no"}`,
+    reasonKey: decisionId,
+    decision: {
+      actorId: id,
+      date: c.date,
+      reasonKey: decisionId,
+      selectedReasons: yes ? reasons(term, bare) : reasons(zero, zero),
+      scores: [
+        {
+          actionId: `${decisionId}:yes`,
+          targetId: id,
+          score: bare + term,
+          reasons: reasons(term, bare),
+        },
+        {
+          actionId: `${decisionId}:no`,
+          targetId: id,
+          score: zero,
+          reasons: reasons(zero, zero),
+        },
+      ],
+    },
+  });
 }
 
 /**

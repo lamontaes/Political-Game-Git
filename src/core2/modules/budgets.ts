@@ -27,6 +27,7 @@ import localYears from "../data/budgets/local-fiscal-years.json" with { type: "j
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
+import { lawApplied } from "../law-reach/applied";
 import { makeIsoDate } from "../kernel/dates";
 import type {
   HistoryWriter,
@@ -53,6 +54,7 @@ import { resolveLawInForce, type LawInForceAnswer } from "../laws-in-force";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
+import { recordIncomeTaxApplied } from "../tax-applied";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
@@ -66,6 +68,10 @@ import {
 import { syncServiceCharges } from "../budgets-service-charges";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
+
+/** The law series each payroll withholding line is read from (income tax is read elsewhere). */
+export const PAYROLL_TAX_SERIES: Readonly<Record<string, string | undefined>> =
+  { "social-security": "social-security-tax", medicare: "medicare-tax" };
 const WITHHOLDING_KIND = "budgets:withholding";
 
 /** Spending functions a county carries; the rest of local spending is the city's or township's. */
@@ -245,6 +251,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       priorities: {},
       /** Each government's spending changes from every budget bill it enacted. */
       enacted: {},
+      /** The measure that last changed each government's spending line (a bill, an ordinance, an adoption), for the engines that serve from the line. */
+      lineChanges: {},
       yearToDate: {},
       outsideRevenue: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
@@ -296,7 +304,18 @@ export const BUDGETS_MODULE: PreStartModule = {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
-    if (event.kind === "budget-line-changed") syncServiceCharges(api);
+    if (event.kind === "budget-line-changed") {
+      syncServiceCharges(api);
+      const f = event.facts ?? {};
+      if (f.governmentId && f.line)
+        table(api, "lineChanges").put({
+          id: `${f.governmentId}:${f.line}`,
+          governmentId: f.governmentId,
+          line: f.line,
+          measureId: f.measureId ?? event.id,
+          date: event.date,
+        } as unknown as ModuleRow);
+    }
     // A change to the federal Social Security line reaches the next payment.
     if (
       event.kind === "budget-line-changed" &&
@@ -712,7 +731,18 @@ function closeMonth(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // stopgapId: SG-GOV-outside-revenue-monthly
   api.stopgap("SG-GOV-outside-revenue-monthly");
   closeTreasuries(api, work.source);
+  // Standing programs a law has a treasury pay each month (a state's
+  // redistricting commission), registered by the engines that apply them.
+  for (const pay of monthlyPrograms) pay(api, work.source);
   scheduleOutsideRevenue(api, api.state.date);
+}
+
+const monthlyPrograms: ((api: CoreAPI, source: Source) => void)[] = [];
+/** An engine registers a program its law has a treasury pay at each month's close. */
+export function registerMonthlyProgram(
+  pay: (api: CoreAPI, source: Source) => void,
+): void {
+  if (!monthlyPrograms.includes(pay)) monthlyPrograms.push(pay);
 }
 
 const GROCERY_EXEMPTION =
@@ -1138,6 +1168,26 @@ export function lineBeforeBill(
   return Math.max(0, adoptedLine(api, gov, fy, line) - year);
 }
 
+/**
+ * A line as it would stand with no budget bill ever passed: the adopted line
+ * less every change the government's bills carried into its enacted lines,
+ * this year's and earlier years'. What a service is measured against, so a
+ * raise a bill carries keeps moving the service in every later year it stays
+ * in the line, and putting the old amount back ends it.
+ */
+export function lineWithoutBills(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  line: string,
+): number {
+  return Math.max(
+    0,
+    adoptedLine(api, gov, fy, line) -
+      (enactedBudgetChanges(api, gov.id)[line] ?? 0),
+  );
+}
+
 /** A year's budget when its bill fails: the enacted lines carried forward. */
 export function carriedBudget(
   api: CoreAPI,
@@ -1474,16 +1524,23 @@ function postWithholding(
       accountFor(api, line.jurisdiction) ??
       `cash:${outsideGovernment(api, line.jurisdiction)}:residual`;
     kept.push(line);
-    // The posting names its tax, so every paycheck's journal entry says what
-    // it withheld; the table keeps the full record only for the player's circle.
+    // The posting names its tax and the law row it took, so every paycheck's
+    // journal entry says what it withheld and under which law; the table keeps
+    // the full record only for the player's circle.
     postings.push({
-      id: `${input.id}:tax:${index}:${line.level}:${line.tax}`,
+      id: `${input.id}:tax:${index}:${line.level}:${line.tax}:${line.lawId}`,
       accountId: account,
       deltaMinor: line.minor,
     });
     total += line.minor;
   }
   if (!total) return null;
+  recordIncomeTaxApplied(api, {
+    targetId: input.payerId,
+    target: "person",
+    count: 1,
+    lines: kept,
+  });
   postings.unshift({
     id: `${input.id}:tax:out`,
     accountId: `cash:${input.payerId}:residual`,
@@ -1515,6 +1572,20 @@ function postWithholding(
         : {}),
     },
   };
+  // The payroll taxes the worker paid, on the worker's own reach row.
+  for (const line of kept) {
+    const series = PAYROLL_TAX_SERIES[line.tax];
+    if (series)
+      lawApplied(api, {
+        key: series,
+        lawId: line.lawId,
+        targetId: input.payerId,
+        target: "person",
+        engine: BUDGETS_MODULE_ID,
+        what: "withheld",
+        amountMinor: line.minor,
+      });
+  }
   // The journal reads the record from its slot; the table keeps it once posted.
   holdWithholdingSlot(api, record);
   const state = api.state as CoreState;
@@ -1543,6 +1614,13 @@ export function amendBudget(
     readonly line: string;
     readonly deltaMinor: number;
     readonly measureId: string;
+    /**
+     * A passed budget bill's change: it joins the government's enacted lines,
+     * which every later year's budget starts from (the carry rule above). A
+     * one-time grant or a law that applies its own amount each year leaves
+     * this off.
+     */
+    readonly carry?: boolean;
   },
 ): BudgetRow | null {
   const gov = table(api, "governments").get(input.governmentId) as unknown as
@@ -1553,6 +1631,23 @@ export function amendBudget(
     `budget:${gov.id}:${fy}`,
   ) as unknown as BudgetRow | undefined;
   if (!budget) return null;
+  if (input.carry) {
+    const prior = table(api, "enacted").get(gov.id) as unknown as
+      | {
+          changes: Record<string, number>;
+          byYear?: Record<string, Record<string, number>>;
+        }
+      | undefined;
+    const changes = { ...(prior?.changes ?? {}) };
+    const year = { ...(prior?.byYear?.[String(fy)] ?? {}) };
+    changes[input.line] = (changes[input.line] ?? 0) + input.deltaMinor;
+    year[input.line] = (year[input.line] ?? 0) + input.deltaMinor;
+    table(api, "enacted").put({
+      id: gov.id,
+      changes,
+      byYear: { ...(prior?.byYear ?? {}), [String(fy)]: year },
+    } as unknown as ModuleRow);
+  }
   const amended: BudgetRow = {
     ...budget,
     spendingMinor: {
@@ -1585,9 +1680,26 @@ export function amendBudget(
       line: input.line,
       deltaMinor: String(input.deltaMinor),
       measureId: input.measureId,
+      carried: input.carry ? "yes" : "no",
     },
   });
   return amended;
+}
+
+/**
+ * The measure that last changed a government's spending line: the bill,
+ * ordinance, act or adoption whose amendment the budget now stands on, with
+ * the day it changed. Null while the line is as the world opened it.
+ */
+export function lineChangedBy(
+  api: CoreAPI,
+  governmentId: string,
+  line: string,
+): { readonly measureId: string; readonly date: string } | null {
+  const row = table(api, "lineChanges").get(
+    `${governmentId}:${line}`,
+  ) as unknown as { measureId: string; date: string } | undefined;
+  return row ? { measureId: row.measureId, date: row.date } : null;
 }
 
 /** What a government's treasury has received from outside the town's flows. */

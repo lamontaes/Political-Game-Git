@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: a state's pay moves from its own conditions (its jobs, its industries, its prices), never a random draw. One rule, all 56 places: the rule reads place data only.
 
-**Done when.** The M1-03 command run in three places drawn from all 56 shows the two drawn states' yearly pay changes differing as the real spread does and each inside it, named with place and seed in the PR body; a test fails when every state's pay moves with the nation alone.
+**Done when.** The M1-03 command run in three places drawn from all 56 shows the two drawn states' yearly pay changes differing as the real spread does and each inside it, named with place and seed in the PR body; a test fails when every state's pay moves with the nation alone. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/regional-model.ts, src/core2/tooling/m1-03-check.ts
 

@@ -14,7 +14,10 @@
  * English engine words.
  */
 import { registerElectorate } from "../electorate";
-import { termLimitReached } from "../law-reach/group-a-voting";
+import {
+  recordTermLimitFiling,
+  termLimitReached,
+} from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-views";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { partyName } from "../appointments";
@@ -350,7 +353,9 @@ function contestFor(
       termEnd,
       onDate,
     });
-  let dates = at(holder?.endDate ?? null);
+  // An office its law creates later is first filled at the last election
+  // before its first term, as a term ending then would be.
+  let dates = at(holder?.endDate ?? office.firstTermStart ?? null);
   // A holder whose seat's election passed with no one elected holds over;
   // the seat's next election comes a full term on.
   if (
@@ -723,6 +728,8 @@ export function fileCandidacy(
   const contest = table(api, "contests").get(
     input.contestId,
   ) as unknown as ContestRow;
+  // A term limit in force reached this filing (law-reach, group A).
+  recordTermLimitFiling(api, input.personId, contest.officeId);
   const rules = filingRulesFor(
     api,
     contest,
