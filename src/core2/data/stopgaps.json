@@ -5505,7 +5505,9 @@
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
     "replacement": "A reader in the jobs engine of the wage floor over the place's median hourly pay, added to the engine measures.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-25",
+    "resolution": "gov-measures.ts records labor.minimum-wage-to-median (the governing minimum wage over the median hourly pay of the town's current jobs), and the web's model counts government measures as causes (src/core2/gov-measure-keys.ts), so minimum-wage-to-low-wage-jobs runs. Its reach to employers is SG-LABOR-low-wage-unreviewed's."
   },
   {
     "id": "SG-LABOR-person-exposure",

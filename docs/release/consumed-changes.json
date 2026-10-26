@@ -1,6 +1,30 @@
 {
   "entries": [
     {
+      "version": "0.36.2",
+      "releasedOn": "2026-10-26",
+      "revision": "329f2d013f76826352fb2b7a4e27856d4c46b2a3",
+      "changeIds": [
+        "laws-starting-rows-next-year-override-play",
+        "merger0-returns-2026-10-25-1455",
+        "play-stop-02-developer-text-on-play-screens-b",
+        "play-stop-26-empty-something-needs-you",
+        "release-repo-sweep-unread-files",
+        "research-stopgaps-oct19-apply-spreads",
+        "web-twins-skip-gov-measures",
+        "world-employer-callback-table-data"
+      ]
+    },
+    {
+      "version": "0.36.1",
+      "releasedOn": "2026-10-26",
+      "revision": "1418c3ea103177de44ebf53ae084c00241f12ffc",
+      "changeIds": [
+        "tests-enact-law-ids-rerate-ended-job",
+        "web-matrix-unrun-links-not-reaching"
+      ]
+    },
+    {
       "version": "0.36.0",
       "releasedOn": "2026-10-26",
       "revision": "fccb4e01d460010abab5c1b7b25684aa5c082071",
