@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-integrity-cases-vary
 pr: #6001
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-26T07:54:26.343Z
 ---
 
 **What.** Four integrity decisions cannot reach a researched size in a played year. An official's own call on a constituent case weighs the same constant case every time, so its weight only sets a trait bar; a staffer's follow-through runs too rarely to calibrate; bringing a case and hiring staff have no study and run at overwhelming odds at the general weight (net odds ratios 44 and 20 between the thirds in Jerry City, Ohio). The corruption decisions also count personality twice: the chooser adds the decision's trait term and the circumstances add a temperament reason. Give each case its own recorded circumstances, keep one trait term per decision, and calibrate.
