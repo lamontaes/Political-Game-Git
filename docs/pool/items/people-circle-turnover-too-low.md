@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: a tie leaves someone's circle because of moves, deaths, new jobs, new partners and time apart, read from their own records, and the study's share only checks the town's total.
 
-**Done when.** node --max-old-space-size=8192 --import tsx src/core2/tooling/m0-07-turnover-check.ts passes in the runner's drawn place and two more drawn places named with seeds, with the cause of the low turnover named by line in the PR and the change it makes; the check is unchanged.
+**Done when.** node --max-old-space-size=8192 --import tsx src/core2/tooling/m0-07-turnover-check.ts passes in the runner's drawn place and two more drawn places named with seeds, with the cause of the low turnover named by line in the PR and the change it makes; the check is unchanged. **On screen.** Nothing yet: filed play-circle-changes-on-screen, which puts it on the People web.
 
 **Files.** src/core2/closeness.ts, src/core2/life.ts, src/core2/data/parameters.json
 

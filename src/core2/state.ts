@@ -2309,6 +2309,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     const calendarId = `${original.id}:filled:${commitment.id}`;
     api.addWorkCommitment({
       ...commitment,
+      // Work and pay run from today; the job has been theirs since the
+      // counted record's own start.
+      heldSince: commitment.heldSince ?? commitment.startsAt,
       startsAt: makeIsoDate(core.date),
       hourlyMinor: job.hourlyMinor ?? commitment.hourlyMinor,
       payrollCalendarId: calendarId,

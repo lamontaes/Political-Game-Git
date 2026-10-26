@@ -17,10 +17,11 @@ claimed-at:
 
 **Rules.** Bookkeeping is a debug switch: validation and copies run in tests, not in play. No dice: every dollar and record stays exactly the same. Speed: no change makes a year slower, measured before and after on the same machine, one process at a time.
 
-**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, and Stanardsville, Virginia, seed cc91f5444b53bd47, three years) every fingerprint is identical before and after; portfolios' self time in a CPU profile falls by at least half; src/core2/journal*.test.ts and the accounts and finance tests pass.
+**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, and Stanardsville, Virginia, seed cc91f5444b53bd47, three years) every fingerprint is identical before and after; portfolios' self time in a CPU profile falls by at least half; src/core2/journal*.test.ts and the accounts and finance tests pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/journal-state.ts
 
 **Notes.** Filed Oct 24 by the speed lead from the journal helper's finding on claude/speed-journal-in-play; stacked on that branch.
 
 Not built, Oct 24 (speed lead): below the noise. In the paired CPU profile of Long Hill (seed m7b, base 185d76d7ce) with core-speed-journal-posting-in-play applied, `portfolios` takes 2.2 s of a 190 s year (it was 2.7 s before that change). Halving it would save about 1 s, well under the pairing's run-to-run noise of a few percent, so under the speed work order it is not shipped. Claim released; take it only if a later profile shows it has grown.
+Claim released Oct 25: branch never pushed (`claude/speed-journal-portfolios-in-play`).

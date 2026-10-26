@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/drives-cause-acts-pull-less
-pr:
+pr: #6082
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T14:23:59.869Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T14:23:59.869Z
 
 **Rules.** Sliding scales and causes: no cap, cooldown or fixed interval; the pull of a further act falls on a sliding scale with what the holder already gave of their time and money. No dice: the bands check the town's totals and never become a chance; each act stays the holder's own scored choice. Speed: no change makes a year slower than its base.
 
-**Done when.** In the played world (buildBenchWorld), scripts/research/cause-activity-year.ts on Bedford, Wyoming (seed 9a4dd331ace7, key 5606045) and on a place drawn from all 56 (named with its seed), three played years, prints hours per volunteer, donations per donor, shares per person and groups joined per joiner inside or nearer the CEV bands (people-cause-holder-activity-calibrated) than on main, with the before and after lines in the PR body. The share of adults who act belongs to a drive-formation item, and the year-three speed band to core-speed-contact-offers-grow-with-ties.
+**Done when.** In the played world (buildBenchWorld), scripts/research/cause-activity-year.ts on Bedford, Wyoming (seed 9a4dd331ace7, key 5606045) and on a place drawn from all 56 (named with its seed), three played years, prints hours per volunteer, donations per donor, shares per person and groups joined per joiner inside or nearer the CEV bands (people-cause-holder-activity-calibrated) than on main, with the before and after lines in the PR body. The share of adults who act belongs to a drive-formation item, and the year-three speed band to core-speed-contact-offers-grow-with-ties. **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
 
 **Files.** src/core2/modules/drives.ts, src/core2/data/drives.json, scripts/research/cause-activity-year.ts
 

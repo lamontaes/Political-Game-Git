@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-first-07-no-random-people-in-rooms
+pr: #6084
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T18:33:20.187Z
 ---
 
 **What.** On the v0.22.10 release a stranger in an apron stood in my bedroom at midnight, the city secretary turned up at the doors I knocked, and a moment opened with "Noah Chan is with you." with no reason given. The owner's read: people in the house need a reason to be there; no "X is with you"; "Noah Chan is with you" is removed. This item draws a person in a room only when a record gives the reason (lives there, works there, invited, the scene's cast) and removes the "X is with you" line from play.

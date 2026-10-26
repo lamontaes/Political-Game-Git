@@ -35,7 +35,7 @@ import { outsideGovernment } from "./outside-governments";
 import { estateTaxes, inheritanceTax, type DeathTax } from "./laws-death-taxes";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { closenessBetween } from "./closeness";
-import { decisionLean } from "./trait-decisions";
+import { leanedYes } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
 import { personOrFillIn, registerModule } from "./state";
 import { residentPerson } from "./modules/residents";
@@ -142,7 +142,8 @@ function treasuryOf(api: CoreAPI, jurisdiction: string): string {
 
 /**
  * Whether the person made a will, from their traits and age: the trait lean
- * toward planning ahead over leaving things be (the shared trait table), plus
+ * toward planning ahead over leaving things be (the shared trait table, at
+ * the decision's own weight), plus
  * how much older than `willAgeMidpointYears` they are. Their will leaves
  * their estate to their living family in shares by how close each is.
  */
@@ -153,18 +154,16 @@ export function willOf(
   const p = (key: string) => api.parameter(key);
   const age =
     daysBetweenText(person.birthDate, api.state.date) / p("daysPerMeanYear");
-  const lean = decisionLean(
+  const made = leanedYes(
     api.state,
     person,
     "estates.will",
     "make-will",
     "leave-it",
-  );
-  const score =
-    lean +
     (p("willAgeWeight") * (age - p("willAgeMidpointYears"))) /
-      p("willAgeMidpointYears");
-  if (score <= p("zero")) return null;
+      p("willAgeMidpointYears"),
+  );
+  if (!made) return null;
   return closenessShares(api, person);
 }
 
@@ -184,11 +183,11 @@ function closenessShares(
 /**
  * Whether the person had put part of their estate in a living trust, and how
  * much: the trait lean toward setting one up over leaving it (the shared
- * trait table) plus how far the estate runs past `trustWealthMidpointMinor`,
- * per e-fold. The share in the trust is the estate over the estate plus that
- * midpoint, so it grows smoothly with wealth. Its beneficiaries are the
- * living family in shares by closeness. Null when they set none up, or have
- * no one to leave it to.
+ * trait table, at the decision's own weight) plus how far the estate runs past
+ * `trustWealthMidpointMinor`, per e-fold. The share in the trust is the estate
+ * over the estate plus that midpoint, so it grows smoothly with wealth. Its
+ * beneficiaries are the living family in shares by closeness. Null when they
+ * set none up, or have no one to leave it to.
  */
 export function trustOf(
   api: CoreAPI,
@@ -201,18 +200,16 @@ export function trustOf(
 } | null {
   const p = (key: string) => api.parameter(key);
   if (estateMinor <= p("zero")) return null;
-  const lean = decisionLean(
+  const set = leanedYes(
     api.state,
     person,
     "estates.trust",
     "set-up-trust",
     "leave-it",
-  );
-  const score =
-    lean +
     p("trustWealthWeight") *
-      Math.log(estateMinor / p("trustWealthMidpointMinor"));
-  if (score <= p("zero")) return null;
+      Math.log(estateMinor / p("trustWealthMidpointMinor")),
+  );
+  if (!set) return null;
   const beneficiaries = closenessShares(api, person);
   if (!beneficiaries) return null;
   const share = estateMinor / (estateMinor + p("trustWealthMidpointMinor"));

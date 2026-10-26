@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/release-play-api-figures
-pr:
+pr: #6071
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T18:19:26.911Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T18:19:26.911Z
 
 **Rules.** Red main comes first (owner, Oct 15). A fix lands where the failure reproduces.
 
-**Done when.** desktop/scripts/build-play-api.mjs bundles the play server on the fix branch and fails on main with the same message; the next main release run's desktop package jobs pass staging.
+**Done when.** desktop/scripts/build-play-api.mjs bundles the play server on the fix branch and fails on main with the same message; the next main release run's desktop package jobs pass staging. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/bench/handler.ts
 

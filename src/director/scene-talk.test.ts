@@ -8,11 +8,13 @@ import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { createDirector } from "./ledger";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
-import type { Fact } from "./render";
+import type { Fact } from "../english/scene-talk-words";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
+import { traitLean } from "../core2/choice";
+import { decisionKinds } from "../core2/trait-decisions";
 
-// Scenes with a purpose (owner, Oct 15, evening): a setup, a person with a
+// Scenes with a purpose: a setup, a person with a
 // purpose, stakes, and an exchange that plays to resolved or refused, worded
 // only from data/english/parts/scene-talk.json.
 const seed = process.env.GOLDEN_PATH_SEED ?? "scene-talk-test";
@@ -138,7 +140,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       const where = `${type.key}: ${JSON.stringify(talk.lines.slice(-3).map((l) => [l.role, l.move, l.text]))}`;
       expect(/\?$/.test(final.text.trim()), where).toBe(false);
       expect(/\?$/.test(spoken.text.trim()), where).toBe(false);
-      if (spoken.role !== "asker")
+      // The player's character may end the talk by walking away; the close
+      // after it can be the narrator's, so their leaving is the last spoken line.
+      if (spoken.role !== "asker" && spoken.move !== "leave")
         expect(
           talk.gaps.some((row) => row.includes("question left unasked")),
           where,
@@ -264,5 +268,67 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(new Set(numbers).size).toBe(numbers.length);
       void lies;
     }
+  });
+  it("answers by the same lean every decision reads: two of the town's people with opposite leans answer the same reply each by their own", () => {
+    // The asker's answer reads each move's act kinds in the shared decision
+    // table (`scene-talk.move`), as every other decision does, never a pull
+    // sum of its own. Two adults of this town, with their own traits, ask the
+    // player the same thing. The answers written for a reply line are the same
+    // whoever answers it, so where the player gives both the same first-round
+    // line and their answers part, each took the move their own traits lean
+    // toward more. Later rounds are not compared: the two talks reach them by
+    // different words, and each line has its own answers written for it.
+    const lean = (id: string, move: string) =>
+      traitLean(
+        core,
+        core.people.get(id)!,
+        decisionKinds("scene-talk.move", move),
+      );
+    const tilt = (id: string) => lean(id, "press") - lean(id, "accept");
+    const pool = adults.slice(1, 120).map((person) => person.id);
+    const [pushy] = [...pool].sort((a, b) => tilt(b) - tilt(a));
+    const [yielding] = [...pool].sort((a, b) => tilt(a) - tilt(b));
+    expect(tilt(pushy!)).toBeGreaterThan(tilt(yielding!));
+    let parted = 0;
+    for (const type of types) {
+      const treeOf = (id: string) => {
+        const result = composeSceneTalk(
+          core,
+          director,
+          { askerId: id, askedId },
+          type,
+          facts,
+          {},
+          HELD,
+        );
+        return result.kind === "composed" ? result.talk.tree : undefined;
+      };
+      const first = treeOf(pushy!);
+      const second = treeOf(yielding!);
+      if (!first || !second) continue;
+      // The same lines before the first replies (an unprompted line and its
+      // answer), so neither asker has said a piece the other could still say.
+      const before = (node: NonNullable<typeof first>) =>
+        node.lines.map((line) => line.parts[0]).join("|");
+      if (before(first) !== before(second)) continue;
+      const answerTo = (node: NonNullable<typeof first>, piece?: string) =>
+        node.replies.find((reply) => reply.line.parts[0] === piece)?.next
+          ?.lines[0];
+      for (const reply of first.replies) {
+        const a = answerTo(first, reply.line.parts[0]);
+        const b = answerTo(second, reply.line.parts[0]);
+        if (!a || !b || a.move === b.move) continue;
+        if (a.step !== "follow" || b.step !== "follow") continue;
+        parted += 1;
+        const said = `${type.key} after "${reply.line.text}"`;
+        expect(lean(pushy!, a.move), said).toBeGreaterThanOrEqual(
+          lean(pushy!, b.move),
+        );
+        expect(lean(yielding!, b.move), said).toBeGreaterThanOrEqual(
+          lean(yielding!, a.move),
+        );
+      }
+    }
+    expect(parted).toBeGreaterThan(0);
   });
 });
