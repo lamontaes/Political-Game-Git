@@ -1,0 +1,148 @@
+import { randomBytes } from "node:crypto";
+import { expect, it } from "vitest";
+import bankJson from "../../data/english/parts/journal.json" with { type: "json" };
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { setBookkeeping } from "../core2/bookkeeping";
+import { gameStartDate } from "../core2/game-start";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import type { PersonId } from "../core2/types";
+import { composeJournal } from "./journal";
+
+// The journal from day one (play-first-10-journal-from-day-one). On the first
+// evening the journal's opening chapter tells where the family came from,
+// each parent (the one who raised the player, or the one who lived apart, by
+// the household each is in) and each brother and sister (by their birth
+// against the player's), each line citing the family fact that records them.
+// Places are drawn in turn until the player has a parent and a sibling.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+const ATTEMPTS = 6;
+
+/** The bank's wordings of one journal row, as patterns over the told line. */
+function wordings(kindPrefix: string): RegExp[] {
+  const parts = (
+    bankJson as {
+      parts: {
+        text: string;
+        uses: { journal?: { kindPrefix: string }[] }[];
+      }[];
+    }
+  ).parts;
+  return parts
+    .filter((part) =>
+      part.uses.some((use) =>
+        use.journal?.some((row) => row.kindPrefix === kindPrefix),
+      ),
+    )
+    .map(
+      (part) =>
+        new RegExp(
+          `^${part.text
+            .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
+            .replace(/\{\w+\}/g, ".+")}$`,
+          "i",
+        ),
+    );
+}
+
+it(`the first evening's journal names the family from their records (seed ${seed})`, () => {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
+    const place = drawPlace(`${seed}:${attempt}`, "journal-opening");
+    const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
+    setBookkeeping(false);
+    const { core, director, playerId } = buildBenchWorld(
+      place.seed,
+      gameStartDate(),
+      { twoLevel: true, placeKey: place.key },
+    );
+    const player = core.people.get(playerId!)!;
+    const family = (player.pastFacts ?? []).filter(
+      (fact) =>
+        ["family:parent", "family:other-parent", "family:sibling"].includes(
+          fact.kind,
+        ) && core.people.get(fact.facts?.otherPersonId ?? "")?.alive,
+    );
+    if (
+      !family.some((fact) => fact.kind !== "family:sibling") ||
+      !family.some((fact) => fact.kind === "family:sibling")
+    ) {
+      tried.push(`${place.name} (no parent and sibling on record)`);
+      continue;
+    }
+    // Play watches the player and their household (src/bench/player.ts).
+    director.watch(core, player.id);
+    for (const id of core.households.get(player.householdId)?.memberIds ?? [])
+      if (id !== player.id) director.watch(core, id as PersonId);
+    const [opening] = composeJournal(core, director, player.id);
+    expect(opening, `${where}: no opening chapter`).toBeDefined();
+    const lines = opening!.lines;
+    const told = new Set<string>();
+    for (const fact of family) {
+      const relative = core.people.get(fact.facts!.otherPersonId!)!;
+      if (told.has(relative.id)) continue;
+      told.add(relative.id);
+      const line = lines.find(
+        (row) =>
+          row.sourceRecordIds.includes(fact.id) &&
+          row.sourceRecordIds.includes(relative.id),
+      );
+      const here = `${where}: ${fact.kind} ${relative.id} (${fact.id})`;
+      expect(line, here).toBeDefined();
+      // By relation and name: "My mother Helen raised me."
+      expect(line!.text, here).toContain(relative.givenName);
+      const kind =
+        fact.kind === "family:sibling"
+          ? relative.birthDate > player.birthDate
+            ? "household:sibling-born"
+            : relative.birthDate < player.birthDate
+              ? "household:sibling-older"
+              : "household:sibling-twin"
+          : relative.householdId === player.householdId
+            ? "household:raised-by"
+            : "household:parent-apart";
+      expect(
+        wordings(kind).some((pattern) => pattern.test(line!.text)),
+        `${here}: "${line!.text}" is not a ${kind} line`,
+      ).toBe(true);
+      console.log(`JOURNAL OPENING ${here}: "${line!.text}"`);
+    }
+    // Where the family came from comes before the people in it, when the
+    // record names the place; how the parents met, before both.
+    const factOf = (kind: string) =>
+      (player.pastFacts ?? []).find((fact) => fact.kind === kind);
+    const lineOf = (id: string) =>
+      lines.findIndex((row) => row.sourceRecordIds.includes(id));
+    const firstPerson = Math.min(
+      ...family.map((fact) => lineOf(fact.id)).filter((at) => at >= 0),
+    );
+    const roots = factOf("household:roots");
+    const origin = roots?.facts?.parentBirthplaces
+      ?.split(" ")
+      .map((id) => corePlaceByJurisdictionId(id as never))
+      .find(Boolean);
+    if (roots && origin) {
+      const at = lineOf(roots.id);
+      expect(at, `${where}: no roots line`).toBeGreaterThanOrEqual(0);
+      expect(lines[at]!.text, where).toContain(origin.displayName);
+      expect(at, `${where}: roots after a person`).toBeLessThan(firstPerson);
+    }
+    const met = factOf("household:parents-met");
+    if (
+      met &&
+      (met.facts?.setting === "school" ||
+        corePlaceByJurisdictionId((met.facts?.placeId ?? "") as never))
+    ) {
+      const at = lineOf(met.id);
+      expect(at, `${where}: no line for ${met.id}`).toBeGreaterThanOrEqual(0);
+      expect(at, `${where}: the parents met after`).toBeLessThan(firstPerson);
+    }
+    console.log(
+      `JOURNAL OPENING ${where}: ${lines.map((row) => `"${row.text}"`).join(" ")}`,
+    );
+    return;
+  }
+  throw new Error(
+    `no parent and sibling on record in ${tried.join("; ")} (seed ${seed})`,
+  );
+}, 1_800_000);

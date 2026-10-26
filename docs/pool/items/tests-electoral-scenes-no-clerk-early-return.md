@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T19:09:05.594Z
 
 **Rules.** Never narrow or skip a test. Keep a drawn-place case from all 56, require positive filing and campaign-stop evidence, and fail after bounded redraw exhaustion; a no-contest case may separately assert its own negative behavior.
 
-**Done when.** A test in buildBenchWorld in a drawn place with its seed named reaches positive filing and campaign-stop assertions by record id; removing the clerk or stop producer fails the positive case, and bounded redraw exhaustion fails rather than returning green.
+**Done when.** A test in buildBenchWorld in a drawn place with its seed named reaches positive filing and campaign-stop assertions by record id; removing the clerk or stop producer fails the positive case, and bounded redraw exhaustion fails rather than returning green. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/director/electoral-scenes.test.ts
 

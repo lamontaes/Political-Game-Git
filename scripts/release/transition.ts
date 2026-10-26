@@ -200,6 +200,16 @@ function pushBranchPoint(
 }
 
 /**
+ * Shared lane files written straight to main by the play-first lane: the
+ * progress log and the lead sheets. None of them changes the client.
+ */
+export const LANE_STATUS_PATHS: ReadonlySet<string> = new Set([
+  "docs/play-first/PROGRESS.md",
+  "docs/coordination/LEADS-2026-10-24.md",
+  "docs/coordination/MERGE-FIRST.md",
+]);
+
+/**
  * Enforce the declaration convention only for work demonstrably created after
  * rollout. A branch whose merge-base is at or before the recorded cutoff keeps
  * the promised legacy exemption; an unresolved comparison never gets one.
@@ -243,12 +253,15 @@ export function checkDeclarationTransition(
 
   const paths = changedPaths(root, comparisonBase, head);
   // Session status files (docs/coordination) and the pool (docs/pool, whose
-  // claims are pushed straight to main) carry no release impact.
+  // claims are pushed straight to main) carry no release impact, and so does
+  // the play-first lane's progress log (docs/play-first/PROGRESS.md), which
+  // every lane session appends to straight on main.
   const eligiblePaths = paths.filter(
     (path) =>
       !isDeclarationPath(path) &&
       !path.startsWith("docs/coordination/") &&
-      !path.startsWith("docs/pool/"),
+      !path.startsWith("docs/pool/") &&
+      !LANE_STATUS_PATHS.has(path),
   );
   const declarationPaths = paths.filter(
     (path) => isDeclarationPath(path) && gitFile(root, head, path) !== null,

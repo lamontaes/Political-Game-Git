@@ -10,6 +10,10 @@ import { residentsRuntime } from "./modules/residents";
 import { BUDGETS_MODULE_ID } from "./modules/budgets";
 import { EMPLOYER_TAXES_MODULE_ID } from "./modules/employer-taxes";
 import { coreAPI } from "./state";
+import { setKeepEveryonesWhy } from "./why-kept";
+
+// Reads an owner's withholding record for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 // An owner-run business's profit is its owner's income (pool:
 // gov-town-payers-vehicle-and-owner-tax): at each quarter's end the owner pays
