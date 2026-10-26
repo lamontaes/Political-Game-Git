@@ -2,6 +2,7 @@
 id: prices-sales-tax-shifts-to-shelf-price
 title: "A sales tax change moves the shelf price buyers pay, by researched pass-through, not only what sellers remit"
 area: world
+lead: laws
 kind: research
 priority: 2
 size: M

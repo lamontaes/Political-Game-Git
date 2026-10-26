@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/issues-tax-levels
 pr: #6047
 blocked-on:
