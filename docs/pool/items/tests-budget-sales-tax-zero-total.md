@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** The exact named seed reproduces on clean main, and the repaired test passes with an explained purchase and tax-journal trail or an independently proven absence of an eligible taxable purchase. Two fresh drawn places are named with their seeds and results, changed-file checks pass, and no missing payment is hidden by a predicate that only reads missing tax output.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/budgets.test.ts, src/core2/modules/budgets.ts
 
 **Notes.** Merger 3, October 26: baseline-budget.log and tests.log under /workspace/scratch/merger3-oct26-6067 retain the matching source-main and branch failure; this is separate from the bounded circle-retention repair.
