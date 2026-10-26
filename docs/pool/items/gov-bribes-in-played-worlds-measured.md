@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Real data checks the simulation and never decides one official's choice: no dice, a bribe stays the offerer's and the official's own decision. Research before building: rates are fetched and quoted. One rule, all 56 places.
 
-**Done when.** A research note under data/research gives the real rate with its source and spread; a played-world measurement across at least four drawn places (seeds named) reports offered, taken, surfaced and reported bribes per place-year against it; and either the counts fall in the real range or a follow-up item names the decision term that keeps them out of it.
+**Done when.** A research note under data/research gives the real rate with its source and spread; a played-world measurement across at least four drawn places (seeds named) reports offered, taken, surfaced and reported bribes per place-year against it; and either the counts fall in the real range or a follow-up item names the decision term that keeps them out of it. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/corruption.ts, src/core2/modules/contracts.ts, src/core2/modules/interest-groups.ts
 
