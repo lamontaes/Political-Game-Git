@@ -4496,7 +4496,7 @@ async function listTowns() {
       const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
       const b = el(
         "button",
-        // In the state buttons' font, name and count alike (owner, Oct 24).
+        // In the state buttons' font, name and count alike.
         { type: "button", className: "item town" },
         el("span", { textContent: t.name }),
         el("small", {
