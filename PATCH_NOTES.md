@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.30.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **The title shows the Lincoln Memorial at night** The title screen's rotation
+  of national scenes now includes a painting of the Lincoln Memorial at night,
+  full-window behind the menu.
+
 ## PRE-ALPHA 0.29.8
 
 _Released October 26, 2026._
