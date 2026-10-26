@@ -803,7 +803,40 @@ export function announce(
       filedWith: filing.filedWith,
     },
   });
+  // The ballot is public: each candidate already on it learns who filed
+  // against them, a record of their own.
+  for (const other of ballot(api, contest.id))
+    if (
+      other.personId !== filing.personId &&
+      other.status === "on-ballot" &&
+      api.state.people.get(other.personId)?.alive
+    )
+      api.emit({
+        id: `${RIVAL_FILED_EVENT}:${filing.id}:${other.personId}`,
+        date: api.state.date,
+        kind: RIVAL_FILED_EVENT,
+        personIds: [
+          other.personId,
+          ...(api.state.people.has(filing.personId) ? [filing.personId] : []),
+        ],
+        placeId: town(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `Filing ${filing.id}, on the ballot beside ${other.id}`,
+          asOf: api.state.date,
+        },
+        facts: {
+          invitedId: other.personId,
+          rivalId: filing.personId,
+          filingId: filing.id,
+          contestId: contest.id,
+          office: contest.title,
+        },
+      });
 }
+
+/** The kind of a candidate's own record that someone filed against them. */
+export const RIVAL_FILED_EVENT = "rival-filed";
 
 /**
  * Everyone on the ballot for a contest, filed so far. A candidate who has

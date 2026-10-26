@@ -1247,6 +1247,24 @@
       "tag": "TUNABLE",
       "source": "How far against a bill a member must stand (their position's size, a full stance about 1) before bending the rules to sink it with an amendment is worth the standing it costs them; below it the member votes no and lets it pass. Compared with the member's own position, so a stronger opponent moves a pill whatever their temperament, and temperament moves the members near the bar.",
       "spread": [0.25, 1]
+    },
+    "volunteerOfferThreshold": {
+      "value": 0,
+      "tag": "TUNABLE",
+      "source": "How strong the pull must be, before personality, for someone who knows a candidate and heard they filed to offer to help unasked: the same reasons as an ask (warmth, closeness, family, against work hours) against this bar instead of the ask's. Set where about one in ten of a candidate's ties who hear of the filing offer (campaign guides put a local candidate's first volunteers among friends and family, docs/research/words-scenes-2026-10-26.md section 1); checked by src/director/campaign-season.test.ts, which prints the share.",
+      "spread": [-0.5, 1]
+    },
+    "rivalWordDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "source": "How long a rival's paid message stays news someone passes on to a candidate, and how often at most a candidate hears of one: a week, the campaigns engine's own turn. Checked by src/director/campaign-season.test.ts.",
+      "spread": [3, 14]
+    },
+    "offerSpacingDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "source": "The fewest days between two offers to help the same campaign: word of a filing reaches a candidate's people over weeks, and a campaign takes on its first helpers one at a time, not all in one week (docs/research/words-scenes-2026-10-26.md, section 1: team building is front-loaded over the first months). Checked by src/director/campaign-season.test.ts.",
+      "spread": [3, 14]
     }
   }
 }

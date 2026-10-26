@@ -68,7 +68,7 @@
     "warm": "Friendly and open."
   },
   "scheduling": {
-    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a printed story that runs against them or their bill) that are met the same day, at home or, for an officeholder, at the office or by phone (ownRecordSettings), as those records say.",
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, someone's offer to help their campaign, word of a rival's paid message passed on by someone it reached, a rival filing against them) that are met the same day, at home or, for an officeholder, at the office or by phone (ownRecordSettings), as those records say.",
     "paces": {
       "early-childhood": 1,
       "middle-childhood": 2,
@@ -109,7 +109,12 @@
     "ownRecordScenes": [
       "cause:event:candidate-filed",
       "cause:event:election-result",
-      "cause:event:press-story"
+      "cause:event:press-story",
+      "cause:event:interview-invited",
+      "cause:event:debate-invited",
+      "cause:event:volunteer-offered",
+      "cause:event:rival-word",
+      "cause:event:rival-filed"
     ],
     "ownRecordSettings": ["home", "office", "phone"]
   },
@@ -2945,8 +2950,14 @@
             "label": "cause:event:bill-amendment",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "kind", "equals": ["trade-amendment"] },
-              { "key": "movedBy", "is": "subject" }
+              {
+                "key": "kind",
+                "equals": ["trade-amendment"]
+              },
+              {
+                "key": "movedBy",
+                "is": "subject"
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -3179,7 +3190,12 @@
           "match": {
             "label": "cause:event:office.approached",
             "selfNamed": true,
-            "causeFacts": [{ "key": "officialId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "officialId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "constituent-cases",
           "causeRecord": "office.approached",
@@ -3193,11 +3209,19 @@
         {
           "match": {
             "label": "cause:event:town-hall",
-            "causeFacts": [{ "key": "hostId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "hostId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "meetings",
           "causeRecord": "town-hall",
-          "bind": { "constituent": "town-hall-askers", "you": "subject" },
+          "bind": {
+            "constituent": "town-hall-askers",
+            "you": "subject"
+          },
           "opener": "constituent"
         }
       ],
@@ -3235,7 +3259,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "cause:event:candidate-filed" },
+          "match": {
+            "label": "cause:event:candidate-filed"
+          },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -3281,7 +3307,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFacts": [{ "key": "winnerId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -3328,7 +3359,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFacts": [{ "key": "winnerId", "is": "other" }]
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -3464,7 +3500,12 @@
           "match": {
             "label": "cause:event:bill-presented",
             "selfNamed": true,
-            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-presented",
@@ -3478,7 +3519,12 @@
           "match": {
             "label": "cause:event:bill-presented",
             "selfNamed": true,
-            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-presented",
@@ -3527,13 +3573,22 @@
             "label": "cause:event:press-story",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "sponsorId", "is": "subject" },
-              { "key": "billFraming", "equals": ["against"] }
+              {
+                "key": "sponsorId",
+                "is": "subject"
+              },
+              {
+                "key": "billFraming",
+                "equals": ["against"]
+              }
             ]
           },
           "causeEngine": "press",
           "causeRecord": "press-story",
-          "bind": { "aide": "staff", "you": "subject" },
+          "bind": {
+            "aide": "staff",
+            "you": "subject"
+          },
           "opener": "aide"
         },
         {
@@ -3541,13 +3596,22 @@
             "label": "cause:event:press-story",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "subjectId", "is": "subject" },
-              { "key": "subjectFraming", "equals": ["against"] }
+              {
+                "key": "subjectId",
+                "is": "subject"
+              },
+              {
+                "key": "subjectFraming",
+                "equals": ["against"]
+              }
             ]
           },
           "causeEngine": "press",
           "causeRecord": "press-story",
-          "bind": { "aide": "staff", "you": "subject" },
+          "bind": {
+            "aide": "staff",
+            "you": "subject"
+          },
           "opener": "aide"
         },
         {
@@ -3599,8 +3663,14 @@
             "label": "cause:event:bill-amendment",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "kind", "equals": ["trade-amendment"] },
-              { "key": "movedBy", "is": "other" }
+              {
+                "key": "kind",
+                "equals": ["trade-amendment"]
+              },
+              {
+                "key": "movedBy",
+                "is": "other"
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -3712,6 +3782,323 @@
       "asker": "recruiter",
       "asked": "invited",
       "stakes": ["cause"]
+    },
+    {
+      "key": "interview-invite",
+      "note": "An outlet covering the race asks a candidate to sit for an interview: the press engine's interview-invited record names the candidate, the reporter who asks (the outlet's reporter closest to them) and the outlet. The reporter calls. A yes is read by the press engine as sitting for it, answered from the candidate's own filed platform; a no is a refusal on the record the outlet's people may take as a snub; anything else leaves it open.",
+      "roles": [
+        {
+          "key": "reporter",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise",
+            "warn"
+          ],
+          "wants": ["engage"],
+          "bearing": "curious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:interview-invited",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "invitedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "press",
+          "causeRecord": "interview-invited",
+          "bind": {
+            "reporter": "counterpart",
+            "you": "subject"
+          },
+          "opener": "reporter",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "invite-interview",
+      "asker": "reporter",
+      "asked": "you",
+      "stakes": ["outlet", "race", "views"]
+    },
+    {
+      "key": "debate-invite",
+      "note": "The race's debate on the town's widest-reaching outlet waits on the candidate: the meetings engine's debate-invited record names the candidate and the host outlet's reporter closest to them. The host calls. A yes takes the stage with the candidate's filed platform as their answers; a no lets the debate go on without them; anything else leaves it waiting.",
+      "roles": [
+        {
+          "key": "host",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise",
+            "warn"
+          ],
+          "wants": ["engage"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "braced"
+        }
+      ],
+      "setting": ["phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:debate-invited",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "invitedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "meetings",
+          "causeRecord": "debate-invited",
+          "bind": {
+            "host": "counterpart",
+            "you": "subject"
+          },
+          "opener": "host",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "invite-debate",
+      "asker": "host",
+      "asked": "you",
+      "stakes": ["race", "outlet", "opponent"]
+    },
+    {
+      "key": "volunteer-offer",
+      "note": "Someone who knows a candidate heard they filed (the press's story of the filing, read or passed on in talk) and offers to help: the campaigns engine's volunteer-offered record names the candidate and the one who offers, who weighed it by their liking, closeness and work hours. They come by. A yes puts them on the campaign's volunteers.",
+      "roles": [
+        {
+          "key": "helper",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise"
+          ],
+          "wants": ["help-others"],
+          "bearing": "eager"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:volunteer-offered",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "invitedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "volunteer-offered",
+          "bind": {
+            "helper": "counterpart",
+            "you": "subject"
+          },
+          "opener": "helper",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "offer-help",
+      "asker": "helper",
+      "asked": "you",
+      "stakes": ["race", "tie", "team"]
+    },
+    {
+      "key": "rival-word",
+      "note": "A rival's paid message (mail, an ad) reached someone the candidate knows, and the next time they are in touch they pass it on: the campaigns engine's rival-word record names the candidate, the one who tells, the rival and what the message argued. The one who tells comes by. The candidate's reply is a scene reply, read by the core's relationship writer as time together.",
+      "roles": [
+        {
+          "key": "teller",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "tell",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise"
+          ],
+          "wants": ["help-others"],
+          "bearing": "curious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "promise", "deflect", "thank", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:rival-word",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "invitedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "rival-word",
+          "bind": {
+            "teller": "counterpart",
+            "you": "subject"
+          },
+          "opener": "teller",
+          "opening": "tell"
+        }
+      ],
+      "tag": {
+        "key": "news-received",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "rival-word",
+      "asker": "teller",
+      "asked": "you",
+      "stakes": ["race", "opponent", "views"]
+    },
+    {
+      "key": "rival-filed",
+      "note": "Someone files against a candidate: the elections engine's rival-filed record names the candidate already on the ballot and the rival who filed, for the race. A member of the candidate's household brings the news home. The reply is a scene reply the core's relationship writer reads as time together.",
+      "roles": [
+        {
+          "key": "teller",
+          "fill": "household",
+          "count": "one",
+          "moves": [
+            "greet",
+            "tell",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise"
+          ],
+          "wants": ["help-others"],
+          "bearing": "curious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "promise", "deflect", "thank", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "braced"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:rival-filed",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "invitedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "rival-filed",
+          "bind": {
+            "teller": "household",
+            "you": "subject"
+          },
+          "opener": "teller",
+          "opening": "tell"
+        }
+      ],
+      "tag": {
+        "key": "news-received",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "rival-filed",
+      "asker": "teller",
+      "asked": "you",
+      "stakes": ["race", "opponent"]
     }
   ]
 }

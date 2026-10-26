@@ -84620,6 +84620,3982 @@
         "move": "blame",
         "key": "news-received"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-from-outlet-is-on-the-line",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} from {outlet} is on the line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-a-reporter-at-outlet",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The phone rings. It's {name}, a reporter at {outlet}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.is-this-first-name-with-outlet",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Is this {first}? {name}, with {outlet}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-it-s-name-i-m-calling-about-work-this-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, it's {name}. I'm calling about work this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hello-is-this-the-first-who-s-running-for-office",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hello. Is this the {first} who's running for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["stranger", "office"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-talking-to-everyone-running-for-office-would-you-sit-down-with-us-for-an-interview",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're talking to everyone running for {office}. Would you sit down with us for an interview?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-to-interview-you-about-your-run-for-office-the-questions-are-about-where-you-stan",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like to interview you about your run for {office}. The questions are about where you stand on the issues.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-putting-together-our-coverage-of-the-office-race-can-i-get-you-on-the-record",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're putting together our coverage of the {office} race. Can I get you on the record?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-know-i-cover-place-i-d-like-to-do-a-proper-interview-about-the-office-race",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You know I cover {place}. I'd like to do a proper interview about the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["acquainted", "place", "office"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-want-to-ask-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you want to ask me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-are-you-talking-to",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else are you talking to?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.sure-set-it-up",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sure. Set it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-do-it-tell-me-when",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll do it. Tell me when.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-pass-on-this-one",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll pass on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-rather-let-the-campaign-speak-for-itself",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd rather let the campaign speak for itself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-look-at-my-week-and-call-you-back",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me look at my week and call you back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.can-i-think-about-it",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Can I think about it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-call-me-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. Call me later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.now-s-not-a-good-time",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Now's not a good time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.where-you-stand-on-the-questions-people-in-place-care-about-and-why-you-re-running",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Where you stand on the questions people in {place} care about, and why you're running.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.your-positions-mostly-you-can-say-as-much-or-as-little-as-you-like",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Your positions, mostly. You can say as much or as little as you like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-send-the-questions-over",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll send the questions over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-i-ll-be-in-touch-to-set-a-time",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll be in touch to set a time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.readers-will-notice-if-you-re-not-in-the-piece",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Readers will notice if you're not in the piece.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.it-s-your-chance-to-say-it-in-your-own-words",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It's your chance to say it in your own words.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-your-call-the-offer-stands-until-the-election",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's your call. The offer stands until the election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-if-you-change-your-mind-you-have-my-number",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. If you change your mind, you have my number.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-good-luck-out-there",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. Good luck out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.talk-soon",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Talk soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-quote-you-fairly-you-have-my-word",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll quote you fairly. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.we-ll-run-the-piece-either-way",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll run the piece either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-it-s-better-coming-from-you",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over. It's better coming from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-from-outlet-is-calling-about-the-debate",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} from {outlet} is calling about the debate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-who-s-hosting-the-office-debate",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The phone rings. It's {name}, who's hosting the {office} debate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hello-first-this-is-name-with-outlet",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hello, {first}. This is {name} with {outlet}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-it-s-name-i-m-calling-as-the-debate-s-host-not-as-a-friend",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}? It's {name}. I'm calling as the debate's host, not as a friend.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-hosting-the-office-debate-before-the-election-and-there-s-a-podium-for-you-will-you-",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're hosting the {office} debate before the election, and there's a podium for you. Will you be there?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.every-candidate-on-the-ballot-for-office-gets-a-place-at-our-debate-can-we-count-on-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Every candidate on the ballot for {office} gets a place at our debate. Can we count on you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-other-candidates-for-office-have-been-asked-to-debate-on-outlet-i-need-your-answer",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The other candidates for {office} have been asked to debate on {outlet}. I need your answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.first-you-know-how-these-go-we-re-putting-on-the-office-debate-and-i-want-you-on-that-stag",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{first}, you know how these go. We're putting on the {office} debate, and I want you on that stage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["acquainted", "office"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-does-it-work-opening-statements-then-questions",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How does it work? Opening statements, then questions?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-s-asking-the-questions",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who's asking the questions?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in-invite-debate",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-be-there",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-going-to-debate",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not going to debate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-sit-this-one-out",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll sit this one out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.when-do-you-need-an-answer",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "When do you need an answer?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-think-it-over-and-call-you-back",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me think it over and call you back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-talk-right-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't talk right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.call-me-back-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Call me back later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.each-candidate-gets-an-opening-then-the-same-questions-in-turn-nobody-interrupts",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Each candidate gets an opening, then the same questions in turn. Nobody interrupts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ask-the-questions-they-come-from-what-people-in-place-send-in",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I ask the questions. They come from what people in {place} send in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-we-ll-send-you-the-format",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. We'll send you the format.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-it-makes-for-a-better-debate-with-everyone-there",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. It makes for a better debate with everyone there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.an-empty-podium-makes-its-own-story",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "An empty podium makes its own story.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.voters-will-want-to-see-you-next-to-the-others",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Voters will want to see you next to the others.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.your-choice-we-ll-go-ahead-with-whoever-comes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Your choice. We'll go ahead with whoever comes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-the-offer-stands-until-we-go-on-the-air",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. The offer stands until we go on the air.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-take-care",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. Take care.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.see-you-on-the-night",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "See you on the night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.it-ll-be-fair-same-questions-for-everyone",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "It'll be fair. Same questions for everyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.we-ll-say-on-the-air-that-you-were-invited",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll say on the air that you were invited.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-wait-too-long",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't wait too long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-by",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-s-a-knock-at-the-door-it-s-name",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There's a knock at the door. It's {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-hoped-i-d-catch-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}! I hoped I'd catch you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-minute-it-s-about-the-campaign",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a minute? It's about the campaign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-heard-you-re-running-for-office-put-me-to-work",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I heard you're running for {office}. Put me to work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.if-you-need-someone-to-knock-on-doors-for-the-office-race-i-m-in",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If you need someone to knock on doors for the {office} race, I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.so-you-re-really-running-for-office-what-can-i-do-to-help",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "So you're really running for {office}? What can I do to help?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-saw-the-news-about-the-office-race-i-want-to-help-whatever-you-need",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I saw the news about the {office} race. I want to help, whatever you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.family-helps-family-what-do-you-need-for-the-campaign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Family helps family. What do you need for the campaign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-kind-of-help-were-you-thinking",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What kind of help were you thinking?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-much-time-can-you-give-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How much time can you give it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-could-use-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I could use you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.welcome-aboard",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Welcome aboard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.thanks-but-i-ve-got-it-covered-for-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Thanks, but I've got it covered for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-appreciate-it-but-i-d-rather-keep-this-small",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I appreciate it, but I'd rather keep this small.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-see-what-i-need-first-and-i-ll-call-you",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me see what I need first, and I'll call you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.can-i-get-back-to-you-on-that",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Can I get back to you on that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-talk-now-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't talk now. Later?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-s-talk-another-time",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's talk another time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.doors-phones-envelopes-whatever-needs-doing",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Doors, phones, envelopes. Whatever needs doing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.evenings-and-weekends-mostly-i-can-make-calls-or-walk-a-street",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Evenings and weekends, mostly. I can make calls or walk a street.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.great-just-tell-me-where-to-be",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Great. Just tell me where to be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-tell-me-when-and-where",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Tell me when and where.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-can-t-do-it-all-yourself",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You can't do it all yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.everybody-needs-help-with-a-race-like-this",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Everybody needs help with a race like this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-the-offer-stands",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. The offer stands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-you-know-where-i-am",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. You know where I am.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.good-luck-with-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Good luck with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.see-you-out-there",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "See you out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-be-there-when-you-call",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be there when you call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-be-too-proud-to-ask",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't be too proud to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-calling-about-the-race",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The phone rings. It's {name}, calling about the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-calling-about-the-debate",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The phone rings. It's {name}, calling about the debate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-by-with-news-from-the-race",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come by, with news from the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-s-a-knock-at-the-door-it-s-name-rival-word",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There's a knock at the door. It's {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-rival-word",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-good-you-re-home",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, good, you're home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-minute-it-s-about-your-race",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a minute? It's about your race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-s-campaign-reached-me-this-week-it-was-all-about-cause",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent}'s campaign reached me this week. It was all about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "cause"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-heard-from-opponent-s-campaign-they-re-running-on-cause",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I heard from {opponent}'s campaign. They're running on {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "cause"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-is-making-cause-the-issue-you-ll-want-an-answer",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent} is making {cause} the issue. You'll want an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-don-t-know-if-you-ve-seen-it-but-opponent-s-campaign-is-talking-about-cause",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I don't know if you've seen it, but {opponent}'s campaign is talking about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "cause"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.first-opponent-s-people-got-to-me-about-cause-thought-you-should-know",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{first}, {opponent}'s people got to me about {cause}. Thought you should know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["acquainted", "opponent", "cause"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-s-campaign-reached-me-this-week-thought-you-should-know",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent}'s campaign reached me this week. Thought you should know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-it-say-exactly",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did it say, exactly?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.did-it-change-your-mind",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Did it change your mind?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-answer-that-thanks-for-telling-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll answer that. Thanks for telling me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-d-better-say-where-i-stand-on-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'd better say where I stand on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let them talk. I'm running my own race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-not-going-to-chase-every-flyer",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not going to chase every flyer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-i-appreciate-you-telling-me",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. I appreciate you telling me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.good-to-know-thank-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Good to know. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-go-thanks-though",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to go. Thanks, though.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.can-we-talk-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Can we talk later?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-their-side-of-it-you-should-see-it-yourself",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly their side of it. You should see it yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-made-their-case-on-cause-that-s-all",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It made their case on {cause}, that's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-people-want-to-hear-it-from-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. People want to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-hoped-you-d-say",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I hoped you'd say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-read-these-things-though",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People read these things, though.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.folks-around-here-will-ask-you-about-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Folks around here will ask you about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.your-call-just-thought-you-should-know",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Your call. Just thought you should know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-you-know-your-race",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. You know your race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.anyway-good-luck",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Anyway. Good luck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "close",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.take-care",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Take care.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "close",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-tell-you-if-i-hear-more",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll tell you if I hear more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-let-them-have-the-last-word",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't let them have the last word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "close",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-in-with-news-about-the-race",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes in with news about the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-something-to-tell-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has something to tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.did-you-hear-rival-filed",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Did you hear?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-sit-down-a-second",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, sit down a second.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-filed-for-office-you-ve-got-a-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent} filed for {office}. You've got a race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-re-not-running-alone-anymore-opponent-filed",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You're not running alone anymore. {opponent} filed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.guess-who-filed-for-office-opponent",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Guess who filed for {office}? {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-is-running-for-office-too-i-wanted-you-to-hear-it-from-me",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent} is running for {office} too. I wanted you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.do-you-know-much-about-opponent",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do you know much about {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-is-running",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else is running?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.good-now-it-s-a-real-race",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Good. Now it's a real race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-d-better-get-to-work",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'd better get to work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.doesn-t-change-anything-for-me",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Doesn't change anything for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-them-run",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let them run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-telling-me-rival-filed",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for telling me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-m-glad-i-heard-it-from-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I'm glad I heard it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-a-minute",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-s-talk-about-it-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's talk about it later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.not-much-only-what-was-filed",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not much. Only what was filed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-the-name-for-now-we-ll-hear-more",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just the name for now. We'll hear more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-the-spirit",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's the spirit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-we-re-behind-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. We're behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-take-it-lightly",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't take it lightly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-will-compare-the-two-of-you-now",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People will compare the two of you now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-just-thought-you-should-know",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I just thought you should know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-m-here-if-you-want-to-talk",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'm here if you want to talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-leave-you-to-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll leave you to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "close",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.go-get-them",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Go get them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "close",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.whatever-you-need-we-re-here",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Whatever you need, we're here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.start-thinking-about-what-you-ll-say",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Start thinking about what you'll say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "close",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
     }
   ]
 }

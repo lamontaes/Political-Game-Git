@@ -2941,6 +2941,216 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-interview-invite-other.a-call-from-other-a-reporter",
+      "move": "lead-interview-invite-other",
+      "kind": "spoken",
+      "text": "A call from {other}, a reporter.",
+      "uses": [
+        {
+          "move": "lead-interview-invite-other",
+          "subject": "lead",
+          "role": "interview-invite",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-interview-invite-alone.a-reporter-is-calling",
+      "move": "lead-interview-invite-alone",
+      "kind": "spoken",
+      "text": "A reporter is calling.",
+      "uses": [
+        {
+          "move": "lead-interview-invite-alone",
+          "subject": "lead",
+          "role": "interview-invite",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-debate-invite-other.other-is-calling-about-the-debate",
+      "move": "lead-debate-invite-other",
+      "kind": "spoken",
+      "text": "{other} is calling about the debate.",
+      "uses": [
+        {
+          "move": "lead-debate-invite-other",
+          "subject": "lead",
+          "role": "debate-invite",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-debate-invite-alone.a-call-about-the-debate",
+      "move": "lead-debate-invite-alone",
+      "kind": "spoken",
+      "text": "A call about the debate.",
+      "uses": [
+        {
+          "move": "lead-debate-invite-alone",
+          "subject": "lead",
+          "role": "debate-invite",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-volunteer-offer-other.other-has-come-by-to-offer-a-hand",
+      "move": "lead-volunteer-offer-other",
+      "kind": "spoken",
+      "text": "{other} has come by to offer a hand.",
+      "uses": [
+        {
+          "move": "lead-volunteer-offer-other",
+          "subject": "lead",
+          "role": "volunteer-offer",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-volunteer-offer-alone.someone-has-come-by-to-offer-a-hand",
+      "move": "lead-volunteer-offer-alone",
+      "kind": "spoken",
+      "text": "Someone has come by to offer a hand.",
+      "uses": [
+        {
+          "move": "lead-volunteer-offer-alone",
+          "subject": "lead",
+          "role": "volunteer-offer",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-word-other.other-has-come-by-with-news-from-the-race",
+      "move": "lead-rival-word-other",
+      "kind": "spoken",
+      "text": "{other} has come by with news from the race.",
+      "uses": [
+        {
+          "move": "lead-rival-word-other",
+          "subject": "lead",
+          "role": "rival-word",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-word-alone.someone-has-come-by-with-news-from-the-race",
+      "move": "lead-rival-word-alone",
+      "kind": "spoken",
+      "text": "Someone has come by with news from the race.",
+      "uses": [
+        {
+          "move": "lead-rival-word-alone",
+          "subject": "lead",
+          "role": "rival-word",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-filed-other.other-has-news-about-the-race",
+      "move": "lead-rival-filed-other",
+      "kind": "spoken",
+      "text": "{other} has news about the race.",
+      "uses": [
+        {
+          "move": "lead-rival-filed-other",
+          "subject": "lead",
+          "role": "rival-filed",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-filed-alone.there-s-news-about-the-race",
+      "move": "lead-rival-filed-alone",
+      "kind": "spoken",
+      "text": "There's news about the race.",
+      "uses": [
+        {
+          "move": "lead-rival-filed-alone",
+          "subject": "lead",
+          "role": "rival-filed",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

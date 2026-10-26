@@ -67,6 +67,11 @@
     "campaign-stop",
     "address",
     "hearing",
-    "verdict"
+    "verdict",
+    "interview-invite",
+    "debate-invite",
+    "volunteer-offer",
+    "rival-word",
+    "rival-filed"
   ]
 }

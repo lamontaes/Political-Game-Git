@@ -23,7 +23,14 @@ import { coreAPI, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
-import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import type {
+  CoreAPI,
+  CoreEventInput,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
@@ -51,12 +58,16 @@ import {
   type BillRow,
 } from "./legislature";
 import {
+  ACCEPTING_MOVES,
   candidateAnswers,
   followersOf,
   interviewQuestions,
   outletsHere,
+  platformAnswers,
+  REFUSING_MOVES,
   type InterviewAnswer,
 } from "./press";
+import { closenessBetween } from "../closeness";
 import { personLean, questionAxis, type Stance } from "../campaign-views";
 import { agreementWith, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -129,6 +140,9 @@ export const MEETINGS_MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => debateWeek(api, work),
+  // The player answers a debate's invitation in the scene it stages.
+  eventKinds: ["scene.reply"],
+  onEvent: (api, event) => answerDebateInvitation(api, event),
 };
 
 const table = (api: CoreAPI, name: string) =>
@@ -872,6 +886,85 @@ export function answerDebate(
   return holdDebate(api, row, answers);
 }
 
+/** The kind of an outlet's invitation to a candidate to its race's debate. */
+export const DEBATE_INVITED_EVENT = "debate-invited";
+
+/**
+ * A debate's invitation, on the record for the candidate it waits on and the
+ * host outlet's reporter who brings it, the one closest to them (a reporter
+ * who is in the race never hosts it). The director stages it as a call; the
+ * answer there is read back here (`answerDebateInvitation`).
+ */
+function debateInvited(
+  api: CoreAPI,
+  row: DebateRow,
+  contest: ContestRow,
+  candidateId: string,
+): void {
+  const rivals = new Set(ballot(api, contest.id).map((f) => f.personId));
+  const outlet = outletsHere(api).find((o) => o.id === row.outletId);
+  const host = (outlet?.reporterIds ?? [])
+    .filter((id) => api.state.people.get(id)?.alive && !rivals.has(id))
+    .map((id) => ({
+      id,
+      tie: closenessBetween(api.state, id as PersonId, candidateId as PersonId),
+    }))
+    .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))[0]?.id;
+  api.emit({
+    id: `${DEBATE_INVITED_EVENT}:${row.id}`,
+    date: api.state.date,
+    kind: DEBATE_INVITED_EVENT,
+    personIds: host ? [candidateId, host] : [candidateId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Debate ${row.id}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      debateId: row.id,
+      contestId: contest.id,
+      invitedId: candidateId,
+      office: contest.title,
+      ...(outlet ? { outletId: outlet.organizationId } : {}),
+      ...(host ? { reporterId: host } : {}),
+      candidates: String(rivals.size),
+    },
+  });
+}
+
+/**
+ * The answer to a debate's invitation, said in its scene: a yes takes the
+ * stage with the candidate's filed platform as their answers; a no lets the
+ * debate go on without them (every question left unanswered); anything else
+ * leaves it waiting.
+ */
+function answerDebateInvitation(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): void {
+  const facts = event.facts ?? {};
+  const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
+  if (cause?.kind !== DEBATE_INVITED_EVENT) return;
+  const row = table(api, "debates").get(
+    String(cause.facts?.debateId ?? ""),
+  ) as unknown as DebateRow | undefined;
+  const candidateId = String(cause.facts?.invitedId ?? "");
+  if (row?.status !== "invited" || !event.personIds.includes(candidateId))
+    return;
+  const move = String(facts.move);
+  if (ACCEPTING_MOVES.has(move)) {
+    const filing = ballot(api, row.contestId).find(
+      (f) => f.personId === candidateId,
+    );
+    holdDebate(
+      api,
+      row,
+      platformAnswers(api, filing?.id ?? null, row.questions),
+    );
+  } else if (REFUSING_MOVES.has(move)) holdDebate(api, row, []);
+}
+
 export function debatesIn(
   api: CoreAPI,
   contestId: string,
@@ -926,6 +1019,8 @@ function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       audience: 0,
     };
     table(api, "debates").put(row as unknown as ModuleRow);
-    if (!filings.some((f) => f.personId === playerId)) holdDebate(api, row);
+    const own = filings.find((f) => f.personId === playerId);
+    if (!own) holdDebate(api, row);
+    else debateInvited(api, row, contest, own.personId);
   }
 }
