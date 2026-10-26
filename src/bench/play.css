@@ -710,6 +710,29 @@ input[type="range"]::-moz-range-thumb {
 .field input {
   width: 170px;
 }
+/* The creator's fields always show their box, empty or filled. */
+#cr-character .field input,
+#cr-character .field select {
+  border-color: rgba(242, 237, 228, 0.28);
+  background-color: rgba(8, 8, 9, 0.45);
+}
+/* Month, day and year on one line, each label over its box, one height. */
+.date-row {
+  display: grid;
+  grid-template-columns: 3fr 1.4fr 2.6fr;
+  gap: 10px;
+  margin: 6px 0 8px;
+}
+.date-row .field {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding: 0;
+}
+.date-row select {
+  width: 100%;
+  max-width: none;
+}
 
 /* ---- Title screen ---- */
 .menu {
@@ -2243,6 +2266,7 @@ body.dev .dev-ring {
   margin: 12px 0 22px;
 }
 .government-body h3,
+.key-people h3,
 .party-section h3,
 .budget-content h3,
 .law-card h3 {
@@ -2256,6 +2280,9 @@ body.dev .dev-ring {
 }
 .government-body {
   max-width: 1000px;
+}
+.key-people {
+  break-inside: avoid;
 }
 .government-chamber {
   float: left;

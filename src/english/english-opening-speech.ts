@@ -47,6 +47,7 @@ export type OpeningSpeechKind = "state-of-the-union" | "inaugural";
 
 /** Where the camera is while a section is spoken. */
 export type OpeningLevel =
+  | "salutation"
   | "occasion"
   | "country"
   | "congress"
@@ -61,7 +62,12 @@ interface SectionMove {
   required?: boolean;
   /** Only the sentences of this role that say this. */
   only?: RegExp;
+  /** The country's number the sentence reports, for the director's order. */
+  topic?: string;
 }
+
+/** One move of a section, with the number it reports when it reports one. */
+export type OpeningMove = AddressMove & { readonly topic?: string };
 
 /** The sections in order, each the moves it is composed from. */
 export const OPENING_SECTIONS: readonly {
@@ -70,7 +76,7 @@ export const OPENING_SECTIONS: readonly {
   moves: readonly SectionMove[];
 }[] = [
   {
-    level: "occasion",
+    level: "salutation",
     required: true,
     moves: [
       // The formal address to the chamber or the nation, not "Thank you, everybody."
@@ -80,21 +86,41 @@ export const OPENING_SECTIONS: readonly {
         required: true,
         only: /Speaker|fellow|evening/,
       },
-      { role: "occasion", act: "tell" },
     ],
   },
+  { level: "occasion", moves: [{ role: "occasion", act: "tell" }] },
   // One sentence per kind of number, each only when the world records it.
   {
     level: "country",
     moves: [
-      { role: "report", act: "tell", only: /econom|grew/i },
-      { role: "report", act: "tell", only: /unemploy|out of work/i },
-      { role: "report", act: "tell", only: /jobs|manufacturing/i },
-      { role: "report", act: "tell", only: /wages/i },
-      { role: "report", act: "tell", only: /^(?!Wages).*(inflation|prices)/i },
-      { role: "report", act: "tell", only: /housing|rent|interest|mortgage/i },
-      { role: "report", act: "tell", only: /deficit|debt/i },
-      { role: "report", act: "tell", only: /crime|murder/i },
+      { role: "report", act: "tell", only: /econom|grew/i, topic: "growth" },
+      {
+        role: "report",
+        act: "tell",
+        only: /unemploy|out of work/i,
+        topic: "unemployment",
+      },
+      {
+        role: "report",
+        act: "tell",
+        only: /jobs|manufacturing/i,
+        topic: "jobs",
+      },
+      { role: "report", act: "tell", only: /wages/i, topic: "wages" },
+      {
+        role: "report",
+        act: "tell",
+        only: /^(?!Wages).*(inflation|prices)/i,
+        topic: "inflation",
+      },
+      {
+        role: "report",
+        act: "tell",
+        only: /housing|rent|interest|mortgage/i,
+        topic: "mortgage",
+      },
+      { role: "report", act: "tell", only: /deficit|debt/i, topic: "deficit" },
+      { role: "report", act: "tell", only: /crime|murder/i, topic: "crime" },
     ],
   },
   // "Pass it." follows only an ask that names what "it" is.
@@ -175,27 +201,30 @@ function variantsFor(
 export function openingMoves(
   kind: OpeningSpeechKind,
   level: OpeningLevel,
-): AddressMove[] {
+): OpeningMove[] {
   const section = OPENING_SECTIONS.find((entry) => entry.level === level);
   if (!section) throw new Error(`No opening section ${level}`);
-  return section.moves.flatMap(({ role, act, required, only }, index) => {
-    const variants = variantsFor(kind, role, only);
-    if (!variants.length) return [];
-    const bank: ComposedLineBank = {
-      key: `opening-speech.${kind}.${level}.${index}-${role}`,
-      version: "words-opening-speech-v1",
-      surface: "dialogue",
-      act,
-      parts: { core: { variants } },
-    };
-    return [
-      {
-        key: `${level}-${index}-${role}`,
-        bank,
-        ...(required ? { required } : {}),
-      },
-    ];
-  });
+  return section.moves.flatMap(
+    ({ role, act, required, only, topic }, index) => {
+      const variants = variantsFor(kind, role, only);
+      if (!variants.length) return [];
+      const bank: ComposedLineBank = {
+        key: `opening-speech.${kind}.${level}.${index}-${role}`,
+        version: "words-opening-speech-v1",
+        surface: "dialogue",
+        act,
+        parts: { core: { variants } },
+      };
+      return [
+        {
+          key: `${level}-${index}-${role}`,
+          bank,
+          ...(required ? { required } : {}),
+          ...(topic ? { topic } : {}),
+        },
+      ];
+    },
+  );
 }
 
 export interface OpeningSection {

@@ -70,8 +70,8 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 53,
-    "partly": 33,
+    "wired": 54,
+    "partly": 32,
     "stopgapped": 3,
     "byLink": {
       "exists": {
@@ -110,8 +110,8 @@
         "n/a": 7
       },
       "web": {
-        "wired": 50,
-        "partial": 1,
+        "wired": 51,
+        "partial": 0,
         "missing": 3,
         "stopgap": 21,
         "n/a": 14
@@ -3992,7 +3992,7 @@
       "family": "justice",
       "reachGroup": "A",
       "mechanic": "staffing",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -4020,9 +4020,9 @@
           "why": ""
         },
         "web": {
-          "status": "partial",
+          "status": "wired",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-violent-crime -0.0241; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-property-crime -0.0120; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 police-to-violent-crime -0.0241",
-          "why": "links not built: police-to-low-level-arrests (size-not-set)"
+          "why": ""
         },
         "knowing": {
           "status": "wired",

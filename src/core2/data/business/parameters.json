@@ -49,9 +49,9 @@
     "citation": "Mean days per month (365/12)."
   },
   "businessFoundBaseline": {
-    "value": -4,
+    "value": -2,
     "tag": "TUNABLE",
-    "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year).",
+    "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year). Set at -2.5 so the founders' best weighings sit within reach of a trait lean (at -4 the best weighing of 46,674 in a played year was still 1.1 below not starting, and personality turned none).",
     "spread": {
       "low": -6,
       "high": -2,
