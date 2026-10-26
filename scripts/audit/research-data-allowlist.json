@@ -168,10 +168,6 @@
     {
       "file": "data/research/stand-in-figures-2026-10-12.json",
       "reason": "Research on the number stand-ins open on Oct 12, 2026 (class, current value, recommended value or bounds, source); builders apply rows into the parameter tables."
-    },
-    {
-      "file": "data/research/jobs/employer-callback-gaps.json",
-      "reason": "Sourced callback-gap evidence (field experiments and the between-employer spread) kept as research until the hiring engine reads employer attitudes (pool items world-hiring-bias-reasons and world-sale-eligibility-reads); nothing in the engine reads it yet, so it is not an engine table."
     }
   ],
   "awaitingReader": [
@@ -216,6 +212,12 @@
       "engine": "Elections",
       "readerOwner": "Cloud C",
       "reason": "State populations for 2024; nothing reads them yet. Owner: an electorate is population times turnout (A110)."
+    },
+    {
+      "file": "data/research/jobs/employer-callback-gaps.json",
+      "engine": "Financial",
+      "readerOwner": "Team 3",
+      "reason": "Sourced callback gaps from field experiments, waiting for the hiring engine to read employer attitudes (pool items world-hiring-bias-reasons and world-sale-eligibility-reads); nothing in the engine reads it yet. Owner: Team 3 owns pay and jobs, where an employer's answer to an applicant is decided."
     }
   ],
   "unreadFound": [

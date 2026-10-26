@@ -25,9 +25,10 @@
       "reference": "white applicants",
       "callbackRatio": {
         "value": 0.806,
-        "low": 0.7,
-        "high": 0.9,
-        "tag": "SOURCED"
+        "low": 0.75,
+        "high": 0.87,
+        "tag": "SOURCED",
+        "boundsNote": "The study's 95% confidence interval: \"White applicants receive on average 24% more callbacks than Latinos (95% confidence interval of 15–33% more).\" 1 / 1.33 = 0.75 and 1 / 1.15 = 0.87."
       },
       "ratioMeaning": "1 / 1.24: white applicants receive 24% more callbacks than Latino applicants (studies since 1989, modest evidence of a decline)",
       "source": "Quillian, Pager, Hexel and Midtbøen 2017, PNAS 114(41) (https://pmc.ncbi.nlm.nih.gov/articles/PMC5642692/)",
@@ -42,7 +43,9 @@
         "value": 0.667,
         "low": 0.6,
         "high": 0.75,
-        "tag": "SOURCED"
+        "tag": "SOURCED",
+        "boundsTag": "ESTIMATED",
+        "boundsNote": "Two cities; the low and high are this table's own bracket around the study, not a published interval."
       },
       "ratioMeaning": "White-sounding names receive 50% more callbacks (1 / 1.5), Boston and Chicago, uniform across occupation, industry and employer size",
       "source": "Bertrand and Mullainathan 2004, American Economic Review 94(4) (https://www.nber.org/papers/w9873)",
@@ -55,16 +58,21 @@
       "reference": "applicants aged 29 to 31",
       "callbackRatio": {
         "value": 0.65,
-        "low": 0.6,
+        "low": 0.53,
         "high": 0.82,
-        "tag": "ESTIMATED"
+        "tag": "SOURCED",
+        "boundsNote": "Value: all four occupations, applicants 64 to 66 (about 35% lower). High: all four occupations, applicants 49 to 51 (about 18% lower). Low: administrative jobs, applicants 64 to 66 (7.6% against 14.4%, 0.53)."
       },
-      "ratioMeaning": "Compared to the youngest group, middle-aged (49 to 51) applicants received 18% fewer callbacks and seniors (64 to 66) 35% fewer, in a secondary summary of the study; women 64 to 66 were called back 12% of the time against 19% for women 29 to 31, and older men showed little gap except in some jobs",
-      "source": "Neumark, Burn and Button 2019, Journal of Political Economy; the 18% and 35% figures are from a press summary, so this row is ESTIMATED until read from the paper (https://admin.nber.org/data-appendix/w21669/On%20line%20appendix%20for%20JPE%2010-16%20final.pdf)",
+      "ratioMeaning": "Callbacks for applicants aged 64 to 66 relative to applicants aged 29 to 31 with otherwise matched resumes, all four occupations combined; the study's middle-aged (49 to 51) figure and its lowest occupation ratio bound the spread.",
+      "source": "Neumark, Burn and Button, \"Is It Harder for Older Workers to Find Jobs? New and Improved Evidence from a Field Experiment\", NBER Working Paper 21669 (the version published in the Journal of Political Economy, 2019), printed p. 26 (PDF p. 28), read from https://www.nber.org/system/files/working_papers/w21669/w21669.pdf",
       "spreadAcrossPlaces": {
         "note": "Study range, not a place measure. The study's design has been debated (identical resumes leave older applicants with gaps in their history).",
         "tag": "ESTIMATED"
-      }
+      },
+      "quotes": [
+        "Combining all four occupations, in Panel A we find strong overall evidence of age discrimination, with callback rates statistically significantly lower by about 18% for middle-aged workers, and about 35% for older workers.",
+        "the callback rate is 14.4% for young applicants aged 29-31. It is about 29% lower for 49-51 year-old applicants (10.3%), and about 47% lower for 64-66 year-old applicants (7.6%)."
+      ]
     },
     "applicants-with-a-criminal-record": {
       "reference": "the same applicant without a record",
@@ -72,7 +80,9 @@
         "value": 0.5,
         "low": 0.36,
         "high": 0.5,
-        "tag": "ESTIMATED"
+        "tag": "ESTIMATED",
+        "boundsTag": "ESTIMATED",
+        "boundsNote": "One city (Milwaukee); the low and high are this table's own bracket around the study."
       },
       "ratioMeaning": "A prison record cut callbacks by 50% for white applicants and by over 60% for Black applicants; callbacks with a record were 17% (white) and 5% (Black)",
       "source": "Pager 2003, American Journal of Sociology 108(5), 937-975; the no-record callback rates were not confirmed here, so this row is ESTIMATED until read from the article (https://users.ssc.wisc.edu/~gwallace/Papers/Pager%20(2003).pdf)",

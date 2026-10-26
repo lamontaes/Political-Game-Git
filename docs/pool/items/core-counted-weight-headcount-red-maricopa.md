@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/counted-weight-headcount-maricopa
+pr: #5874
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T01:58:26.670Z
 ---
 
 **What.** On clean main, src/core2/counted-weight-headcount.test.ts with the draw seed 7711218484ef671e9cff54d840d18ec70aa0caa29cb1bcc74aa732d3a8b2f5ff (Maricopa Colony, Arizona, place 0444450) fails at line 53: the counted workers' household weights average 3.115 when the town opens at countScale 3, above the test's 3 percent band (3.09). The test only opens the town, so the number comes from the representative weights collapseToTwoLevels fits to the census, not from play. Either the worker households' fitted weights drift above the scale in small places by design, which the band does not allow for, or the fit gives working households more weight than it should.

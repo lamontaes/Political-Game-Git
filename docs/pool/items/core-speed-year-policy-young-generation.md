@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/speed-year-policy-semi-space
-pr:
+pr: #5820
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T00:14:16.654Z

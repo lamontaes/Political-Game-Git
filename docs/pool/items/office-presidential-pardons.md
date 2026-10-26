@@ -3,7 +3,7 @@ id: office-presidential-pardons
 title: "Presidential pardons the court and prison read"
 area: office
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/office-day-federal-president.ts, src/core2/modules/justice.ts, src/core2/modules/executive.ts
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.

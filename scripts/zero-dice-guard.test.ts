@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   ALLOWLIST_PATH,
   REPO_ROOT,
+  SCANNED_ROOTS,
   compare,
   describeAdded,
   growth,
@@ -54,7 +55,8 @@ describe("zero-dice guard", () => {
     const unowned = allowlist.entries.filter(
       (entry: { build: unknown; kind: string }) =>
         entry.kind !== "list-pick" &&
-        (typeof entry.build !== "string" || !/^Build \d+$/.test(entry.build)),
+        (typeof entry.build !== "string" ||
+          !/^(Build \d+|pool:[a-z0-9-]+)$/.test(entry.build)),
     );
     expect(unowned).toEqual([]);
   });
@@ -72,10 +74,20 @@ describe("zero-dice guard", () => {
       const introduced = !onMain.entries.some(
         (entry: { kind: string }) => entry.kind === "list-pick",
       );
+      // The change that points the guard at the live engine in full records
+      // that engine's inventory the same way; once main carries a roll, share
+      // or place case there, no file may grow it.
+      const live = (file: string) =>
+        SCANNED_ROOTS.some((root: string) => file.startsWith(`${root}/`));
+      const repointed = !onMain.entries.some(
+        (entry: { kind: string; file: string }) =>
+          entry.kind !== "list-pick" && live(entry.file),
+      );
       expect(
         growth(onMain, allowlist).filter(
-          (grown: { kind: string }) =>
-            !introduced || grown.kind !== "list-pick",
+          (grown: { kind: string; file: string }) =>
+            !(introduced && grown.kind === "list-pick") &&
+            !(repointed && live(grown.file)),
         ),
       ).toEqual([]);
     },

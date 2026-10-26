@@ -430,6 +430,8 @@ function readyChoice(
       s.personId,
       prepared.offers,
       prepared.context,
+      false,
+      false,
     );
     s.decisions++;
     return publishChoice(
@@ -468,7 +470,7 @@ function readyChoice(
     day.discretionaryOffered = true;
     return;
   }
-  const decision = chooseAct(core, s.personId, offers);
+  const decision = chooseAct(core, s.personId, offers, undefined, false, false);
   s.decisions++;
   const actual = core.people.get(s.personId),
     date = core.date;
@@ -548,7 +550,7 @@ function closeDay(core: CoreState, s: Session, day: Day): void {
           throw new Error(
             "A module attempted an autonomous controlled choice.",
           );
-        return chooseAct(core, actorId, offers, context);
+        return chooseAct(core, actorId, offers, context, false, false);
       };
       const refresh = (
         actor: Parameters<typeof refreshNeeds>[2],

@@ -21,6 +21,7 @@ export interface LawAppliedRow {
   /** The policy key (a question, a series, or "budget-line:<line>"). */
   readonly key: string;
   readonly lawId: string;
+  /** Whom: a person, household or organization by id, or a counted group by its own id, the id its fund is named by (so the journal's postings on the fund are the group's own money). */
   readonly targetId: string;
   readonly target: AppliedTarget;
   /** The people a counted group stands for; 1 for anyone else. */
@@ -124,6 +125,22 @@ export function appliedOn(api: CoreAPI, key: string): readonly LawAppliedRow[] {
       .query("byKey", [key, null]) as unknown as LawAppliedRow[]
   )
     .slice()
+    .sort((a, b) => a.since.localeCompare(b.since) || a.id.localeCompare(b.id));
+}
+
+/** Every applied row on a key, open and ended (a repeal ends rows, it keeps them), oldest first. */
+export function appliedEver(
+  api: CoreAPI,
+  key: string,
+): readonly LawAppliedRow[] {
+  if (!api.state.modules.has(HOST_ID)) return [];
+  return (
+    api
+      .moduleState(HOST_ID)
+      .table(LAW_APPLIED_TABLE)
+      .rows() as unknown as LawAppliedRow[]
+  )
+    .filter((r) => r.key === key)
     .sort((a, b) => a.since.localeCompare(b.since) || a.id.localeCompare(b.id));
 }
 
