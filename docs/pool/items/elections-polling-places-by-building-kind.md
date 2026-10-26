@@ -3,7 +3,7 @@ id: elections-polling-places-by-building-kind
 title: "Precincts vote in the town's own buildings of fitting kinds"
 area: elections
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/voting.ts, data/research/elections/eavs-2024-polling-places.json
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.

@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all56 places and no dice: keep the drawn-place case and its existing work, quality, payroll and record assertions; no skipped assertions, wider tolerance or convenient seed substitution. Preserve the existing staff-aides-miss-every-scheduled-day claim and investigate any shared cause before changing it.
 
-**Done when.** The named seed passes the staff-work case at one worker without loosening its assertions, and an independent random draw passes. Name the gate that rejected each place and the positive staff/work/payroll record ids. If an engine changes, a drawn buildBenchWorld run demonstrates the corrected staff behavior with place and seed named.
+**Done when.** The named seed passes the staff-work case at one worker without loosening its assertions, and an independent random draw passes. Name the gate that rejected each place and the positive staff/work/payroll record ids. If an engine changes, a drawn buildBenchWorld run demonstrates the corrected staff behavior with place and seed named. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/staff.test.ts, src/core2/modules/staff.ts, src/core2/work-attendance.ts if that is the diagnosed cause
 
