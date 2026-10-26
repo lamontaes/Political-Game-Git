@@ -23,7 +23,9 @@ const EVERYWHERE: readonly OfficeFamily[] = [
 
 it("lists every place where no office is open to an 18-year-old, from its own records", () => {
   const listed: string[] = [];
+  const examined: string[] = [];
   for (const stateKey of [...placeStateKeys()].sort()) {
+    examined.push(stateKey);
     let county = false;
     let municipal = false;
     for (const locality of placeLocalities(stateKey)) {
@@ -58,5 +60,11 @@ it("lists every place where no office is open to an 18-year-old, from its own re
   process.stdout.write(
     `NO CONTEST AT 18 in ${listed.length} of 56 places:\n${listed.join("\n")}\n`,
   );
+  // All 56 places were read, and the regression this test guards is real:
+  // at least one place's records open nothing at 18, and not all of them.
+  expect(examined.length).toBe(56);
+  expect(listed.length).toBeGreaterThan(0);
+  for (const line of listed)
+    expect(line).toMatch(/youngest (1[9]|[2-9]\d)\b.*https?:/);
   expect(listed.length).toBeLessThan(56);
 });
