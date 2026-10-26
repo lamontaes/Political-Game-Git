@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-continue-hides-first-night-news
+pr: #6155
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-26T07:07:19.114Z
 ---
 
 **What.** In Juntura, Oregon, seed bb88a211-1ebd-485d-9dea-d6955997be7d, the opening creates the first-night news with national and regional unemployment lines. Reloading that same life and choosing Continue at the same opening-evening date leaves the news surface hidden, so its reader cannot be opened from the table. The kept opening API still contains the regional sentence and the quoted address. The surface is shown only by the fresh-life path, while Continue refreshes the room without restoring it; this was observed while reviewing a test-only PR whose runtime is unchanged from main.
