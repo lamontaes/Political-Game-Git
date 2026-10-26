@@ -6742,5 +6742,17 @@
     "addedAt": "2026-10-20",
     "replacement": "An engine that records fire.civilian-casualties for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
     "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-shared-relative-kin-address",
+    "kind": "missing-engine",
+    "file": "src/director/conversation.ts",
+    "line": 892,
+    "whatItFakes": "Conversations omit introducing or asking after relatives shared by the speaker and listener instead of naming their shared relation naturally.",
+    "why": "The English banks have no shared-parent kin address yet; first names and possessive parent phrases give the wrong relation in these conversations.",
+    "addedBy": "merger0",
+    "addedAt": "2026-10-26",
+    "replacement": "words-family-talk-kin-address: select shared-relative wording through the English engine, then restore these topics with positive played-world conversation evidence.",
+    "status": "open"
   }
 ]
