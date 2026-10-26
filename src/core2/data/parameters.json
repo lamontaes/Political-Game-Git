@@ -4720,27 +4720,27 @@
     }
   },
   "responseRetrainAgeCenter": {
-    "value": 50,
+    "value": 40,
     "tag": "ESTIMATED",
-    "citation": "Age at which a displaced worker's capacity to retrain or start over is half of a young adult's, falling smoothly (logistic) around it. Jacobson, LaLonde and Sullivan 2005 (Journal of Econometrics; Chicago Fed WP 2003-25): of displaced workers, 16.8% of men under 35 against 10.9% at 35 and over, and 23.5% of women under 35 against 17.2%, completed community-college credit, so the older group retrains at about 0.65 to 0.73 of the younger group's rate. See data/research/drives/economic-losses.json. With a width of 10 years the fall between a 28-year-old and a 45-year-old is 0.69.",
-    "estimatedFrom": "The under-35 and 35-and-over completion rates in Jacobson, LaLonde and Sullivan 2005, read at the groups' typical ages (28 and 45); the paper gives two age groups, not a curve.",
+    "citation": "Age at which the logistic fall in a displaced worker's capacity to retrain or start over has reached one half. Jacobson, LaLonde and Sullivan 2005 (Journal of Econometrics; Chicago Fed WP 2003-25): of displaced workers, 16.8% of men under 35 against 10.9% at 35 and over, and 23.5% of women under 35 against 17.2%, completed community-college credit, so the older group retrains at about 0.65 to 0.73 of the younger group's rate. See data/research/drives/economic-losses.json. Set to 40 on Oct 25 (M0-M2 lead) with a width of 18 years: a 45-year-old keeps 0.65 of a 28-year-old's capacity, the low end of the paper's ratio, a 35-year-old 0.86 and a 58-year-old 0.41.",
+    "estimatedFrom": "The under-35 and 35-and-over completion rates in Jacobson, LaLonde and Sullivan 2005, read at the groups' typical ages (28 and 45); the paper gives two age groups, not a curve. Center and width were then set together with responseAmbitionFit so that the unchanged M1-11 check and drives-economy.test.ts read inside 6-25% in the generated towns listed under responseAmbitionFit.",
     "spread": {
-      "low": 45,
+      "low": 35,
       "high": 60,
       "unit": "years of age",
-      "citation": "45 gives a 0.59 ratio between 28 and 45; 60 gives 0.85, which brackets the paper's 0.65 to 0.73."
+      "citation": "At a width of 18, a center of 35 gives a 0.61 ratio between 28 and 45 and 60 gives 0.81, which brackets the paper's 0.65 to 0.73."
     }
   },
   "responseRetrainAgeWidthYears": {
-    "value": 10,
+    "value": 18,
     "tag": "ESTIMATED",
-    "citation": "Width in years of the smooth fall in capacity to retrain or start over around responseRetrainAgeCenter. Jacobson, LaLonde and Sullivan 2005 report two age groups (under 35, 35 and over), not a curve; a width of 10 years reproduces their ratio of about 0.7 between workers near 28 and near 45.",
-    "estimatedFrom": "The same two age groups, read at typical ages 28 and 45; spread 8 to 14 years keeps the ratio between 0.6 and 0.78.",
+    "citation": "Width in years of the smooth fall in capacity to retrain or start over around responseRetrainAgeCenter. Jacobson, LaLonde and Sullivan 2005 report two age groups (under 35, 35 and over), not a curve, so they fix only the ratio between workers near 28 and near 45 (about 0.65 to 0.73); at a center of 40 a width of 18 years gives 0.65. Set on Oct 25 (M0-M2 lead): a steeper fall (center 50, width 10) left the workers over 45 with almost no pull, and Manson, Iowa (1948990) read 1 of 25 displaced workers setting out to prove themselves, under the 6% floor, while raising the ambition fit to make up for it pushed North Canton, Ohio over the 25% ceiling. A gentler fall keeps a pull in the town's 40- and 50-year-olds.",
+    "estimatedFrom": "The same two age groups, read at typical ages 28 and 45; the width is free within the ratio the paper gives, and was set with the center and the fit so that the generated towns listed under responseAmbitionFit read inside 6-25%.",
     "spread": {
-      "low": 8,
-      "high": 14,
+      "low": 14,
+      "high": 26,
       "unit": "years",
-      "citation": "From a sharper to a gentler fall that still matches the two-group ratio."
+      "citation": "From a steeper to a gentler fall. At a center of 40, a width of 14 gives a 28-to-45 ratio of 0.59 and 26 gives 0.74; the paper's ratio is 0.65 to 0.73."
     }
   },
   "responseCarryOnBaseline": {
@@ -4848,13 +4848,13 @@
     }
   },
   "responseAmbitionFit": {
-    "value": 1.85,
+    "value": 3.4,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois. Recalibrated Oct 25 (M0-M2 lead) with the retraining age fade (responseRetrainAgeCenter): North Canton, Ohio read 35.1% at 1.5 because 77 of its 103 job losses came from one wholesale employer and its full workers leaned toward ambition; with the age fade, 1.75 read 19.1% there and 7.8% in Steamboat Springs, Colorado.",
+    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois. Recalibrated Oct 25 (M0-M2 lead) with the retraining age fade (responseRetrainAgeCenter): North Canton, Ohio read 35.1% at 1.5 because 77 of its 103 job losses came from one wholesale employer and its full workers leaned toward ambition; with the age fade, 1.75 read 19.1% there and 7.8% in Steamboat Springs, Colorado. Recalibrated again Oct 25 (M0-M2 lead) after Manson, Iowa (1948990, seed b63a9c1eccbba0f45589110cb2c6924003d0e8b668b9298a1bde2302f0d6df98) read 1 of 25 at 1.85: the retraining age fade was changed to a center of 40 and a width of 18 (a gentler fall, the 28-to-45 ratio at the paper's low end) and the fit raised to 3.4, because the fit now multiplies a capacity of 0.66 at age 28 (an effective 2.2 for a young adult). Read by the unchanged M1-11 check at 3.4: Manson, Iowa 2 of 25 (8.0%), North Canton, Ohio 28 of 118 (23.7%), Steamboat Springs, Colorado 75 of 555 (13.5%; 9.9% on main at 1.5 with no fade), and three towns drawn from a root written down first (wt72-accept-2026-10-25-a): Washington, District of Columbia 10 of 68 (14.7%), Franklin, North Carolina 17 of 72 (23.6%) and Magnolia, New Jersey 5 of 40 (12.5%). drives-economy.test.ts (Christmas, Florida, where every employer closes and the workers average 51) reads 15 of 215 (7.0%). The response competes with carry-on, whose baseline does not scale with the loss, and most workers' losses press about equally hard, so a town's share moves quickly with this value; it was set from the pooled share over six towns (13.5%) and every town was then checked. Full people who answer a layoff choose it two to four times as often as counted people in the same town (North Canton at fit 2.45: 8 of 15 against 16 of 103; Steamboat Springs 18 of 66 against 48 of 489), which is why a town's share also follows its mix of the two.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "measured",
-      "reason": "Fit 1.6 gives 8% and 2.0 gives 17% in the tuning towns; the research band is 10-20%."
+      "reason": "With the retraining age fade, 3.4 gives 7% to 24% of displaced workers in seven generated towns (Manson, Iowa; North Canton, Ohio; Steamboat Springs, Colorado; Washington, District of Columbia; Franklin, North Carolina; Magnolia, New Jersey; Christmas, Florida); the research band is 10-16% retraining plus a few points of new businesses."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
