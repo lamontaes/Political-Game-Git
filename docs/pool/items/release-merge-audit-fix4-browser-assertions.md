@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/audit-fix4-browser
 pr: #5818
 blocked-on:
