@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/speed-official-pay-outside-once
 pr: #6145
 blocked-on:

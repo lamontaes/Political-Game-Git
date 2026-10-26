@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/justice-low-level-offenses
 pr: #6056
 blocked-on:

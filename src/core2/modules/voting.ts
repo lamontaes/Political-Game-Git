@@ -96,7 +96,7 @@ import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
 import { drawOfficialIdentity } from "../officials-identity";
 export { candidateIdentity } from "../candidate-identity";
-import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
+import { PARTIES_MODULE_ID, joinParty, partiesHere, partyTie } from "./parties";
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { nationalParty, partySide } from "../appointments";
 import { recordAppeal, type RecordReason } from "./record";
@@ -1140,7 +1140,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  if (api.state.modules.has("candidacy")) return;
+  const candidacy = api.state.modules.has("candidacy");
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
   // Whoever holds the seat when filing closes stands as its incumbent: an
@@ -1190,6 +1190,50 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     filings.put(filing as unknown as ModuleRow);
     announce(api, filing, contest);
   };
+  if (candidacy) {
+    // Who runs is candidacy's, from people's own records. A statewide
+    // partisan race (no district) still draws each major party's nominee
+    // where no one of that side filed: parties field statewide tickets.
+    const partisan =
+      incumbent?.party ??
+      (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("seats")
+          .get(contest.seatId) as unknown as
+          { party?: string | null } | undefined
+      )?.party;
+    if (
+      (contest.level === "federal" || contest.level === "state") &&
+      !contest.district &&
+      partisan
+    )
+      for (const party of [-1, 1].map((side) => partyOnSide(api, side)))
+        if (
+          !ballot(api, contestId).some(
+            (f) =>
+              f.status === "on-ballot" &&
+              partySide(f.party ?? null) === partySide(party),
+          )
+        ) {
+          const nominee =
+            officialCandidate(api, contest, party) ??
+            officialCandidateId(`nominee:${party}:${contest.id}`);
+          // The party's nominee is its member: a person filled in to run
+          // for it joins it the day they file.
+          const partyHere = api.state.modules.has(PARTIES_MODULE_ID)
+            ? partiesHere(api).find((row) => row.name === party)
+            : undefined;
+          if (
+            partyHere &&
+            api.state.people.has(nominee) &&
+            !partyTie(api, nominee)
+          )
+            joinParty(api, nominee, partyHere.id);
+          put(nominee, party, "party nominee");
+        }
+    return;
+  }
   const alive =
     incumbent &&
     incumbent.status === "serving" &&

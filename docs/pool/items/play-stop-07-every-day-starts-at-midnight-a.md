@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #6059
 blocked-on:
@@ -34,3 +34,5 @@ claimed-at:
 Sent back 2026-10-25 ~21:55 UTC from PR #6059 (branch claude/quirky-ride-vrwwz4-play-stop-07, head 5fcd0cb01b with main merged in): both body screenshots are wrapped in backticks so they render as code, not images; unwrap the image tags and it goes back in the queue; finish on that branch, merge main into it first.
 
 Sent back 2026-10-26 from PR #6059 (branch claude/quirky-ride-vrwwz4-play-stop-07): Native Cacao PR held-state image at 1440x900 shows the player card covering filing-story reply controls even though clock assertions pass; resolve play-story-replies-covered-by-player-card and rerun pointer/keyboard plus native visual acceptance, keeping installed-owner acceptance separate.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #6059 (branch claude/quirky-ride-vrwwz4-play-stop-07): The overlap is fixed, but Mark gap and Say nothing remain visibly enabled and inert in the real held filing story with both pointer and Enter (zero requests, unchanged state); play.mjs handlers return when talk is unset, while clock.browser.mjs only Tab-walks those controls, so the every-response activation acceptance is unmet; finish on that branch, merge main into it first.
