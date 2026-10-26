@@ -9,6 +9,7 @@ import { BenchPlayer } from "./player";
 import { buildBenchWorld, buildBenchWorldInStages } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
+import { knownDepartures, townMoves } from "./town-moves";
 import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import {
@@ -1013,7 +1014,12 @@ export async function benchRequest(
         const id = url.searchParams.get("id");
         // What you heard first, then your town's public record; not every
         // news event in the world.
-        const heard = id ? heardItems(requireCore(), id) : [];
+        const heard = id
+          ? [
+              ...heardItems(requireCore(), id),
+              ...knownDepartures(requireCore(), id),
+            ].sort((a, b) => b.date.localeCompare(a.date))
+          : [];
         const seen = new Set(heard.map((row) => row.id));
         send(200, [
           ...heard,
@@ -1021,6 +1027,10 @@ export async function benchRequest(
             (row) => row.visibility === "public" && !seen.has(row.id),
           ),
         ]);
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/town") {
+        send(200, townMoves(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/opening") {

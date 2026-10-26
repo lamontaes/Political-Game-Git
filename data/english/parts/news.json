@@ -528,6 +528,72 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.person-moved-away.name-moved-away",
+      "move": "person-moved-away",
+      "kind": "spoken",
+      "text": "{name} moved away.",
+      "uses": [
+        {
+          "move": "person-moved-away",
+          "subject": "news",
+          "role": "person.moved-away",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-town-moves-on-screen)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "announce",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "news.person-moved-away.name-moved-out-of-town",
+      "move": "person-moved-away",
+      "kind": "spoken",
+      "text": "{name} moved out of town.",
+      "uses": [
+        {
+          "move": "person-moved-away",
+          "subject": "news",
+          "role": "person.moved-away",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-town-moves-on-screen)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "announce",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "news.person-moved-away.name-moved-to-place",
+      "move": "person-moved-away",
+      "kind": "spoken",
+      "text": "{name} moved to {place}.",
+      "uses": [
+        {
+          "move": "person-moved-away",
+          "subject": "news",
+          "role": "person.moved-away",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-town-moves-on-screen)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "announce",
+        "key": "departure"
+      }
     }
   ]
 }

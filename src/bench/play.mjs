@@ -2478,10 +2478,19 @@ const sheets = {
           ),
         ),
       );
+    const town = await api("/api/town").catch(() => null);
+    const count = (value) => Number(value).toLocaleString("en-US");
     rows.push(
       recordSection(
         c.age < 18 ? labels.householdHome : labels.home,
         el("p", { textContent: c.home?.placeName ?? me.placeName }),
+        ...(town
+          ? [
+              row(labels.population, count(town.population)),
+              row(labels.movedIn, count(town.arrivals)),
+              row(labels.movedOut, count(town.departures)),
+            ]
+          : []),
         el(
           "ul",
           { className: "character-household" },

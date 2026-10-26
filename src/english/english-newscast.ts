@@ -45,6 +45,7 @@ export const STORY_KINDS = {
     lede: ["election-result"],
   },
   filing: { story: "filing", headline: [], lede: ["candidate-filed"] },
+  moved: { story: "moved", headline: [], lede: ["person.moved-away"] },
   "vote-or-law": {
     story: "vote-or-law",
     headline: ["council", "law-took-effect"],

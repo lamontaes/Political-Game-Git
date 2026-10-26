@@ -252,7 +252,10 @@
     "money": "Money",
     "family": "Family",
     "views": "Politics",
-    "traits": "Traits"
+    "traits": "Traits",
+    "population": "People living here",
+    "movedIn": "Moved in this year",
+    "movedOut": "Moved out this year"
   },
   "people": {
     "all": "All",

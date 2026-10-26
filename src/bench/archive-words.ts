@@ -116,13 +116,27 @@ export function wordArchiveStory(
       date: fact(sayDate(story.date)),
     };
   } else return null;
+  return worded(core, story.id, kind, speaker, facts, options);
+}
+
+type StoryFact = { text: string; sourceRecordIds: EntityId[] };
+
+/** One story worded by the English engine from its record's facts. */
+function worded(
+  core: CoreState,
+  storyId: string,
+  kind: StoryKind,
+  speaker: string,
+  facts: Record<string, StoryFact>,
+  options: { heldFirst?: boolean } = {},
+): WordedStory | null {
   const packet: GroundedEnglishPacket = {
     surface: "dialogue",
-    momentKey: `archive-news:${story.id}`,
+    momentKey: `archive-news:${storyId}`,
     worldSeed: core.seed,
     bankVersion: "words-newscast-v1",
     stage: "default",
-    sourceRecordIds: ids,
+    sourceRecordIds: [storyId as EntityId],
     facts,
     speaker: { personId: speaker as EntityId, traits: {} },
     knowledge: Object.entries(facts).map(([factKey, row]) => ({
@@ -138,4 +152,33 @@ export function wordArchiveStory(
     ...(composed.lede ? { lede: composed.lede } : {}),
     sourceRecordIds: composed.sourceRecordIds,
   };
+}
+
+/**
+ * Someone leaving town, as the paper tells it: their name and, where the
+ * record names it, where they went, from the moved-away record.
+ */
+export function wordMovedAway(
+  core: CoreState,
+  record: { id: string; topic?: string },
+  personId: string,
+  placeName: string | undefined,
+): WordedStory | null {
+  const person = core.people.get(personId);
+  if (!person) return null;
+  const ids = [record.id] as EntityId[];
+  return worded(core, record.id, "moved", personId, {
+    name: {
+      text: `${person.givenName} ${person.familyName}`,
+      sourceRecordIds: [...ids, person.id as EntityId],
+    },
+    ...(placeName
+      ? {
+          place: {
+            text: placeName,
+            sourceRecordIds: [...ids, (record.topic ?? record.id) as EntityId],
+          },
+        }
+      : {}),
+  });
 }
