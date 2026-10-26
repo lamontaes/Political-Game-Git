@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** The named seed and an independent drawn staff.test.ts case pass at one worker on current main, with the fixture explicitly arranging the required focus or debug retention and restoring it for ordinary-play checks. Name the positive staff/work/payroll record ids, keep task experience and quality assertions, and show that unfocused play still omits the why rows while counting tasks.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/staff.test.ts, src/core2/why-kept.ts, src/core2/modules/staff.ts
 
 **Notes.** TODO
