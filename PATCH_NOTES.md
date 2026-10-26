@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.32.5
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **No parent at home was younger than 15 when their child was born.** A new
+  life could open with a parent who was 14 when the player or a sibling was
+  born. Parents and children at home are now always far enough apart in age that
+  the parent was at least 15 on the day of the birth.
+
 ## PRE-ALPHA 0.32.4
 
 _Released October 26, 2026._
