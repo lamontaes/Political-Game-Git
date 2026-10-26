@@ -130,17 +130,57 @@ function levelsSayingYes(api: CoreAPI, key: string) {
   });
 }
 
-function repeal(api: CoreAPI, key: string, tag: string) {
-  for (const { level, jurisdiction } of levelsSayingYes(api, key))
+/**
+ * The latest row at each level of the town's chain, whatever its effective
+ * date, says yes. The played world legislates on its own: a bill it has
+ * already passed takes effect on its date, whatever the test did before it.
+ */
+function levelsHoldingYes(api: CoreAPI, key: string) {
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  return lawChain(api).levels.flatMap(({ level, jurisdiction }) => {
+    const latest = [
+      ...(laws.query("bySeries", [
+        jurisdiction,
+        key,
+      ]) as unknown as LawRowInput[]),
+    ].sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+    return latest?.value === 1
+      ? [{ level, jurisdiction, effectiveDate: latest.effectiveDate }]
+      : [];
+  });
+}
+
+/**
+ * Repeal at every level that says yes now or by a bill already passed (a
+ * repeal that took effect before that bill would be undone by it, so it
+ * takes effect the day after). Returns the day the last repeal takes effect.
+ */
+function repeal(api: CoreAPI, key: string, tag: string): string {
+  let last: string = tomorrow(api);
+  for (const { level, jurisdiction, effectiveDate } of levelsHoldingYes(
+    api,
+    key,
+  )) {
+    const day =
+      effectiveDate > api.state.date
+        ? addDays(makeIsoDate(effectiveDate), 1)
+        : tomorrow(api);
+    if (day !== tomorrow(api))
+      console.info(
+        `repeal of ${key} at the ${level} waits for a bill already passed, in force ${effectiveDate}; repeal takes effect ${day}`,
+      );
     enactLaw(api, {
       jurisdiction,
       level,
       series: key,
       value: 0,
-      effectiveDate: tomorrow(api),
+      effectiveDate: day,
       measureId: `health-schools-${tag}`,
       citation: "Health and schools test: repeal",
     });
+    if (day > last) last = day;
+  }
+  return last;
 }
 
 /** Enact at the state, else the county, else the city (a level that may hold it). */
@@ -829,13 +869,40 @@ function play(where: string, seed: string, core: CoreState): void {
   );
 
   // Repeal ends every payment and every applied row.
-  for (const q of QUESTIONS) repeal(api, q, "off");
-  advance(core, 3);
-  for (const q of QUESTIONS)
+  let lastRepeal: string = tomorrow(api);
+  for (const q of QUESTIONS) {
+    const day = repeal(api, q, "off");
+    if (day > lastRepeal) lastRepeal = day;
+  }
+  advanceCore(core, addDays(makeIsoDate(lastRepeal), 3));
+  for (const q of QUESTIONS) {
+    const lawsTable = api.moduleState(LAWS_MODULE_ID).table("laws");
+    const left = appliedOn(api, q);
     expect(
-      appliedOn(api, q).length,
-      say(`${q} still applies after repeal`),
+      left.length,
+      say(
+        `${q} still applies after repeal (date ${api.state.date}); open: ${left
+          .slice(0, 3)
+          .map(
+            (r) =>
+              `${r.id} law ${r.lawId} ${r.what} since ${r.since} last ${r.lastOn} x${r.times} n${r.count}`,
+          )
+          .join(" | ")}; law rows: ${lawChain(api)
+          .levels.map(
+            ({ level, jurisdiction }) =>
+              `${level}[${(
+                lawsTable.query("bySeries", [
+                  jurisdiction,
+                  q,
+                ]) as unknown as LawRowInput[]
+              )
+                .map((r) => `${r.id}@${r.effectiveDate}=${r.value}`)
+                .join(",")}]`,
+          )
+          .join(" ")}`,
+      ),
     ).toBe(0);
+  }
   expect(open(`coverage|${EXPAND}`).length, say("Medicaid still pays")).toBe(0);
   expect(
     open(`preschool|${PRESCHOOL}`).length,
