@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/regional-rest-state-rate
 pr: #6019
 blocked-on:
