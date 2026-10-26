@@ -141,8 +141,13 @@ describe("people in a room", () => {
         let story: ReturnType<typeof storyScene>;
         try {
           story = storyScene(core, world.director, me, entry.momentId, 18 * 60);
-        } catch {
-          continue; // a moment with no scene stages no one
+        } catch (error) {
+          if (
+            error instanceof Error &&
+            error.message === "This moment has no scene."
+          )
+            continue; // a moment with no scene stages no one
+          throw error;
         }
         seen.moments++;
         check(
@@ -166,6 +171,7 @@ describe("people in a room", () => {
         `${seen.scenes} scenes, ${seen.people} people drawn, ${seen.moments} moments: ${where}`,
       );
       expect(seen.scenes, where).toBeGreaterThan(60);
+      expect(seen.moments, where).toBeGreaterThan(0);
       // Someone besides the player was drawn: the checks above read real rooms.
       expect(seen.people, where).toBeGreaterThan(seen.scenes);
     },
