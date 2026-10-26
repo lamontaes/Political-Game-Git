@@ -373,15 +373,21 @@ it("names, for each law, the record, the journal entry and who it reached", () =
       what: string,
       paidWhat?: string,
     ) => {
-      const govRow = rowsOn(key, what).find((r) => r.target === "government");
-      const group = rowsOn(key, what).find((r) => r.target === "group");
+      // What the law added is paid on its own row (one per level that says yes); a move between lines is recorded on the government's.
+      const governments = rowsOn(key, what).filter(
+        (r) => r.target === "government",
+      );
+      const paid = paidWhat
+        ? rowsOn(key, paidWhat).find((r) => r.amountMinor > 0)
+        : governments[0];
+      // The government whose treasury paid it is the one whose level's law row paid.
+      const govRow =
+        governments.find((r) => r.lawId === paid?.lawId) ?? governments[0];
+      const groups = rowsOn(key, what).filter((r) => r.target === "group");
+      const group = groups.find((r) => r.lawId === govRow?.lawId) ?? groups[0];
       expect(group?.count ?? 0, `${where}: ${label} residents`).toBeGreaterThan(
         0,
       );
-      // What the law added is paid on its own row; a move between lines is recorded on the government's.
-      const paid = paidWhat
-        ? rowsOn(key, paidWhat).find((r) => r.amountMinor > 0)
-        : govRow;
       expect(
         paid?.amountMinor ?? 0,
         `${where}: ${label} money`,
@@ -509,7 +515,10 @@ it("names, for each law, the record, the journal entry and who it reached", () =
     expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
       core.cashJournal.totals.grossCreditMinor,
     );
-    govReport("law-wiring-rights-env", JSON.stringify({ where, chains }));
+    govReport(
+      "law-wiring-rights-env",
+      JSON.stringify({ where, tried, chains }),
+    );
   } finally {
     setJournalTrace(null);
     setBookkeeping(true);
