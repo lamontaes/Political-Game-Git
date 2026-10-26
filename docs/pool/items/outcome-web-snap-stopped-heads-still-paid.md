@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/snap-stopped-head-paid
-pr:
+pr: #6180
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T20:00:51.026Z
