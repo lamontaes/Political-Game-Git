@@ -17,7 +17,7 @@ source: "repo audit Oct 19 (docs/reports/repo-audit-2026-10-19.md)"
 
 **Rules.** Red main comes first: a gate that depends on code being deleted is a defect fixed at the root, so this item lands before the deletion it blocks. Replace, never layer: the old-core step is removed from the gate, not kept beside a new core2 check. Recheck the present import graph and existing pool claims before removing or moving any path; preserve current consumers, guards and provenance.
 
-**Done when.** `npm run typecheck` passes on a branch where `src/simulation` is removed, no tsconfig or script under scripts/ names `src/simulation`, the release-workflow test passes, and the PR body lists the configs changed.
+**Done when.** `npm run typecheck` passes on a branch where `src/simulation` is removed, no tsconfig or script under scripts/ names `src/simulation`, the release-workflow test passes, and the PR body lists the configs changed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** package.json, tsconfig*.json, scripts/law-consequence-modules/generate-manifest.mjs, scripts/law-consequence-modules/generate-manifest.test.mjs
 

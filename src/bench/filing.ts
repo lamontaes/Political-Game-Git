@@ -17,7 +17,7 @@ import {
   pickContest,
   type FilingVisit,
 } from "../director/filing-visit";
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFile, stagePeople, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -126,12 +126,20 @@ export function openBenchFilingVisit(
   const visit = openFilingVisit(core, playerId, contests, clerk ?? undefined);
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
-  const cast = [
-    { id: playerId, name: `${player.givenName} ${player.familyName}` },
+  const cast: { id: string; name: string; reason: StageReason }[] = [
+    {
+      id: playerId,
+      name: `${player.givenName} ${player.familyName}`,
+      reason: "you",
+    },
   ];
   if (clerk) {
     const row = core.people.get(clerk)!;
-    cast.push({ id: clerk, name: `${row.givenName} ${row.familyName}` });
+    cast.push({
+      id: clerk,
+      name: `${row.givenName} ${row.familyName}`,
+      reason: "clerk",
+    });
   }
   return {
     visit,

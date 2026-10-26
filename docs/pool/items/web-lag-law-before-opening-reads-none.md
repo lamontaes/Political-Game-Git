@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T15:19:59.748Z
 
 **Rules.** Sliding scales and causes: a lagged effect follows its law's change by the researched lag, never the opening's bookkeeping. One rule, all 56 places: the fix reads every place's opening law the same way, from data.
 
-**Done when.** In a played world (buildBenchWorld, a drawn place, seed named) where a policy-question law is in force at the opening, a test repeals it and shows its lagged web link moving only after lagMonths, naming the month row ids, while the control world shows no effect.
+**Done when.** In a played world (buildBenchWorld, a drawn place, seed named) where a policy-question law is in force at the opening, a test repeals it and shows its lagged web link moving only after lagMonths, naming the month row ids, while the control world shows no effect. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/outcome-web.ts, src/core2/modules/laws.ts
 
