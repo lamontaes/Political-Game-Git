@@ -20,7 +20,7 @@ import {
   lineWithoutBills,
   type GovernmentRow,
 } from "../modules/budgets";
-import { countedStaffOf } from "../modules/residents";
+import { countedStaffOf, residentsRuntime } from "../modules/residents";
 import { countedJobsOf } from "../residents-economy";
 import {
   fundedOpenings,
@@ -243,6 +243,47 @@ export const staffing: PolicyHandler = (api, change) => {
   paysPositions(api, change, gov.organizationId, added, employers.length > 0);
 };
 
+/**
+ * An employer's staff, named and counted, in the order a cut lets them go:
+ * the newest hires first across both tiers (latest start, then last job id).
+ * One model, two tiers: a counted worker's start is the date of their work
+ * commitment in the household, the same date a full person's carries, so
+ * filling one in does not move them.
+ */
+export function layoffOrder(
+  api: CoreAPI,
+  organizationId: string,
+): readonly {
+  jobId: string;
+  personId: string;
+  startsAt: string;
+  counted: boolean;
+}[] {
+  const state = api.state as CoreState;
+  const named = currentStaff(api, organizationId)
+    .filter((s) => state.people.has(s.personId))
+    .map((s) => ({ ...s, counted: false }));
+  const rt = residentsRuntime(state);
+  const wider = countedJobsOf(state, organizationId).map((job) => {
+    const household = rt?.households.get(
+      rt.householdOfPerson.get(job.personId) ?? "",
+    );
+    const commitment = household?.workCommitments.find(
+      (c) => c.jobId === job.id,
+    );
+    return {
+      jobId: job.id,
+      personId: job.personId,
+      startsAt: commitment?.startsAt ?? "",
+      counted: true,
+    };
+  });
+  return [...named, ...wider].sort(
+    (a, b) =>
+      b.startsAt.localeCompare(a.startsAt) || b.jobId.localeCompare(a.jobId),
+  );
+}
+
 onReachCalendar(STAFFING_KIND, (api, work) => {
   const row = reachTable(api, "staffing").get(
     work.sourceRecordIds[0]!,
@@ -285,29 +326,26 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
         .filter((r) => r.what === "hired-on-budget-line")
         .map((r) => [r.targetId, r.since]),
     );
-    const named = staff
-      .filter((s) => api.state.people.has(s.personId))
-      .map((s) => ({ id: s.personId, jobId: s.jobId, counted: false }));
-    const wider = counted.map((job) => ({
-      id: job.personId,
-      jobId: job.id,
-      counted: true,
-    }));
-    const hiredOnLine = [...named, ...wider]
-      .filter((o) => lineHires.has(o.id))
-      .sort((a, b) => lineHires.get(b.id)!.localeCompare(lineHires.get(a.id)!));
-    // The rest: the newest named staff first (staff is oldest first), then
-    // the counted workers.
+    const everyone = layoffOrder(api, row.organizationId);
+    const hiredOnLine = everyone
+      .filter((o) => lineHires.has(o.personId))
+      .sort((a, b) =>
+        lineHires.get(b.personId)!.localeCompare(lineHires.get(a.personId)!),
+      );
+    // The rest: the newest hires first across both tiers (the same order for
+    // a named person and a counted one).
     for (const s of [
       ...hiredOnLine,
-      ...named.filter((o) => !lineHires.has(o.id)).reverse(),
-      ...wider.filter((o) => !lineHires.has(o.id)),
+      ...everyone.filter((o) => !lineHires.has(o.personId)),
     ]) {
       if (over <= 0) break;
       if (s.counted) {
         if (!layOffCounted(api, s.jobId)) continue;
       } else api.endJob(s.jobId, work.key);
-      laidOff.push({ id: s.id, target: s.counted ? "group" : "person" });
+      laidOff.push({
+        id: s.personId,
+        target: s.counted ? "group" : "person",
+      });
       over -= 1;
     }
   }

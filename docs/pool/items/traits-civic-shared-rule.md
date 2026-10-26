@@ -6,11 +6,11 @@ kind: wiring
 priority: 1
 size: M
 status: in-pr
-claimed-by:
+claimed-by: claude/traits-civic
 pr: #5657
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-26T06:43:12.200Z
 ---
 
 **What.** The bounded part of traits-wire-civic that its open PR delivers. Believing a story (conversation.believe-claim), going to party meetings (parties.attend), joining an interest group (interest-groups.member-join) and passing on news (news.pass-on) read their case through the shared two-way rule and weigh temperament at the size their studies give: a hearer weighs the teller's closeness and the claim's fit, a member weighs work hours and distance, a resident weighs a friend already in the group. Every other decision in the civic family runs in a played election-window year, and where its rate is not yet at its study's size its gap row names the cause and the numbers.
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-25 from PR #5657 (branch claude/traits-civic): prior bounded-acceptance/director fixes acknowledged; current main integration conflicts in production src/core2/modules/voting.ts; preserve both voting/traits readers and rerun bounded gate; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 ~22:25 UTC from PR #5657 (branch claude/traits-civic, head e7ce5944ef with main merged in clean): eslint fails on src/core2/modules/voting.ts:63, unused `parameter` import left by the PR's own edit; remove that line and it goes back in the queue; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5657 (branch claude/traits-civic): final Done-when row requires both actual decision record IDs, but civic-traits-played.traits.test.ts:62-81 only prints probe actor/date/lean data and optional yes membership, without asserting or naming retained yes/no decision records; add generated-world durable-record lookups and matching evidence; finish on that branch, merge main into it first.
