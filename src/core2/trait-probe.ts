@@ -28,11 +28,15 @@ export interface FormulaProbeRow {
   bare?: number;
   yes?: boolean;
   turned?: boolean;
+  /** The `person.weighed` record the call kept, where it kept one (the player, the people in focus, or everyone while the probe asks). */
+  recordId?: string;
 }
 
 export interface TraitProbe {
   chooser?(row: ChooserProbeRow): void;
   formula?(row: FormulaProbeRow): void;
+  /** Keep every full person's two-way formula decision as a `person.weighed` record, as the player's are, so a check can name both sides by record. */
+  keepWeighed?: boolean;
 }
 
 let active: TraitProbe | undefined;
