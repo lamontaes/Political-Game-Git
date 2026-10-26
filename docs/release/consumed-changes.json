@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.36.5",
+      "releasedOn": "2026-10-26",
+      "revision": "8f62029e2f5528ffeeaa03974ab274ec456b3e4c",
+      "changeIds": ["screens-ui-button", "screens-ui-panel"]
+    },
+    {
+      "version": "0.36.4",
+      "releasedOn": "2026-10-26",
+      "revision": "b39a1d42402ad5196717b049fe4287ac3e797c38",
+      "changeIds": ["gov-town-officers-paid-under-minimum-wage"]
+    },
+    {
       "version": "0.36.3",
       "releasedOn": "2026-10-26",
       "revision": "e75949aefe9a9284b7cbfca64ab61d01c44f0003",

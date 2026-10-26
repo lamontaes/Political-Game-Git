@@ -1,5 +1,5 @@
 /* global document */
-// The one panel part (owner, Oct 26: one UI system, not one-off controls). A panel is
+// Shared panel behavior and close controls. A panel is
 // the `.panel` frame in play.css; this file is how the play screen opens and closes it
 // and where every panel's close control comes from.
 const $ = (id) => document.getElementById(id);

@@ -2209,8 +2209,8 @@ function recordImage(url, className) {
   return image;
 }
 /** Small pages keep all records reachable without scrolling a menu. */
-function menuPages(items, size = 5) {
-  let at = 0;
+function menuPages(items, size = 5, start = 0) {
+  let at = Math.floor(Math.max(0, start) / size);
   const box = el("div", { className: "record-pages" });
   const draw = () => {
     const back = makeButton({
@@ -3490,9 +3490,10 @@ const sheets = {
       api(`/api/opening?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.news;
+    // What you heard, newest first, ahead of the opening night's paper.
     const stories = [
-      ...(opening?.news?.stories ?? []),
       ...rows.filter((r) => r.headline || r.lede),
+      ...(opening?.news?.stories ?? []),
     ].filter((s) => s.headline || s.lede);
     const outlets = new Map();
     for (const story of stories) {
@@ -4034,7 +4035,9 @@ const sheets = {
     const labels = controls.politics;
     const levelOf = (s) =>
       ["state", "federal"].includes(s.level) ? s.level : "local";
-    let level = "local";
+    // The race you ran in opens first: its level, its office, its seat.
+    const race = v.ownRace;
+    let level = race ? levelOf(race) : "local";
     let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
@@ -4090,6 +4093,9 @@ const sheets = {
         if (!offices.has(s.officeId)) offices.set(s.officeId, []);
         offices.get(s.officeId).push(s);
       }
+      const raceOffice = [...offices.values()].findIndex((seats) =>
+        seats.some((s) => s.seatId === race?.seatId),
+      );
       content.replaceChildren(
         menuPages(
           [...offices.values()].map((seats) => {
@@ -4167,9 +4173,34 @@ const sheets = {
                 elect.dataset.contest = s.elect.contestId;
                 line.append(elect);
               }
+              // Your race for this seat: won or lost, and the votes each side got.
+              if (race && s.seatId === race.seatId) {
+                const result = controls.results;
+                const own = listRow("own-race", {
+                  textContent: [
+                    result.yourRace,
+                    race.won ? result.won : result.lost,
+                    `${result.you} ${race.votes.toLocaleString("en-US")}`,
+                    race.rival
+                      ? `${race.rival.name} ${race.rival.votes.toLocaleString("en-US")}`
+                      : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · "),
+                });
+                own.dataset.contest = race.contestId;
+                own.dataset.record = race.recordId;
+                line.append(own);
+              }
               return line;
             });
-            card.append(menuPages(members, 6));
+            card.append(
+              menuPages(
+                members,
+                6,
+                seats.findIndex((s) => s.seatId === race?.seatId),
+              ),
+            );
             // Future public view records can supply these without changing the layout.
             for (const vote of first.votes ?? [])
               card.append(
@@ -4187,6 +4218,7 @@ const sheets = {
             return card;
           }),
           1,
+          raceOffice,
         ),
       );
       chooseTab(picker, "level", level);
