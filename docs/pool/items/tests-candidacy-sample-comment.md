@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: merger3/candidacy-sample-comment-oct26
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T06:54:43.036Z
 ---
 
 **What.** The comment introduced by PR 5999 says its adult sample is about 1200 at the smallest. The same fixture in Santa Ana contains 903 adults. Correct the factual explanation while preserving the all-adult sample and both assertions.
