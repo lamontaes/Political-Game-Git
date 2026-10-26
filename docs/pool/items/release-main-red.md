@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: merger0/recheck-6071-oct26-0154
-pr: #6119
+pr: #6071
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T01:54:16.441Z
