@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: a test that draws a place must pass in every place it can draw. Ask why: name the record behind each failure, not a flake.
 
-**Done when.** In a played world on seed 3d7f19f27037978915428ed7093ff881432c851d (Linganore, Maryland), journal.test.ts passes, with the cause of the relative's-race failure named by record id in the PR body and a test that failed before the fix.
+**Done when.** In a played world on seed 3d7f19f27037978915428ed7093ff881432c851d (Linganore, Maryland), journal.test.ts passes, with the cause of the relative's-race failure named by record id in the PR body and a test that failed before the fix. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/director/journal.test.ts, src/director/journal.ts
 

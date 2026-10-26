@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Speed: no change makes a year more than 20 percent slower; measure each cut on the same machine one process at a time. One model, two tiers: results are identical, shown by a played-year record comparison before and after.
 
-**Done when.** The sampled allocation of the first 60 days of Long Hill (seed m7b) falls by at least 30 percent, the same played world finishes its year faster by the same measurement, and a record-for-record comparison of the year's journal before and after is identical.
+**Done when.** The sampled allocation of the first 60 days of Long Hill (seed m7b) falls by at least 30 percent, the same played world finishes its year faster by the same measurement, and a record-for-record comparison of the year's journal before and after is identical. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/births-counted.ts,src/core2/journal.ts,src/core2/counted-groups.ts
 

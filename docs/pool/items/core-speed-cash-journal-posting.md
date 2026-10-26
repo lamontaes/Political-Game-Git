@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T01:43:25.293Z
 
 **Rules.** Speed (AGENTS.md): no change may make a year more than 20 percent slower, and no daily scan of the whole world or a whole history; use indexes or act on the day something changed. Every dollar must still balance, and the check draws its place from all 56 and names it and the seed.
 
-**Done when.** npm run speed:year -- --seed m7b --exclusive on one machine shows postCashJournal, projectCashJournal and portfolios together under 6 s self time in a fresh cpu profile and the year faster by at least 6 s, with the journal tests (src/core2/journal*.test.ts) passing in a drawn place with its seed named.
+**Done when.** npm run speed:year -- --seed m7b --exclusive on one machine shows postCashJournal, projectCashJournal and portfolios together under 6 s self time in a fresh cpu profile and the year faster by at least 6 s, with the journal tests (src/core2/journal*.test.ts) passing in a drawn place with its seed named. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/journal-state.ts, src/core2/journal.ts
 

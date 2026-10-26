@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: enrollment follows money, beliefs and the schools nearby, never a percentage; real shares check the town total only. An effect is a read: the tuition flow and the school's roll read the enrollment record. One model, two tiers: counted families follow the same rule times their count. Replace, never layer: the opening-only ranking is deleted when the continuing rule replaces it.
 
-**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (name place and seed) a family whose income falls drops a child from a private school and a family that gains enrolls one, each by record id with the cash journal balanced; the town's private share stays within the NCES spread; src/core2/opening-private-tuition.test.ts and private-tuition-reenroll.test.ts cover it and SG-CORE-private-tuition-average is resolved in stopgaps.json.
+**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (name place and seed) a family whose income falls drops a child from a private school and a family that gains enrolls one, each by record id with the cash journal balanced; the town's private share stays within the NCES spread; src/core2/opening-private-tuition.test.ts and private-tuition-reenroll.test.ts cover it and SG-CORE-private-tuition-average is resolved in stopgaps.json. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/opening-private-tuition.ts,src/core2/private-tuition-reenroll.ts,src/core2/private-tuition-choice.ts,src/core2/data/stopgaps.json
 
