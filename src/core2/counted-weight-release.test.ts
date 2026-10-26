@@ -3,8 +3,8 @@
  * at its Census size carries a sample of its households, each standing for
  * many; filling one in spreads the households it stood for over its group.
  * The jobs they held stay with their employers: no employer's heads move when
- * a household is filled in, and a year later no more employers stand over
- * their sales staff than in the same town at the sample size. Washington,
+ * a household is filled in, and a year later the worst ratio of staff to
+ * sales-supported staff stays within a tenth of the sample town's. Washington,
  * D.C. (pinned, where Dixon's Bowling Lanes grew 26 percent over its sales
  * staff with no hire and closed) and one more city above 100,000 drawn from
  * all 56.
@@ -152,7 +152,7 @@ function check(where: string, seed: string, key: string, reference: number) {
   ).toBeLessThanOrEqual(worst(sample) * 1.1);
 }
 
-it("Washington, D.C. at its Census size: a fill-in moves no employer's heads, and a year later no more employers stand over their sales staff than at the sample size", () => {
+it("Washington, D.C. at its Census size: a fill-in moves no employer's heads, and the worst staffing ratio stays within a tenth of the sample town's", () => {
   const reference = placeReferencePopulation(WASHINGTON.key)?.value;
   expect(reference).toBeGreaterThan(LARGE);
   check(
