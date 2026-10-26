@@ -296,6 +296,21 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.36.5
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Every button on the play screen is built by one shared part** The play
+  screen's buttons, and the Back and Continue pair that pages a long list, now
+  come from one shared part instead of dozens of hand-written copies. They look
+  and work the same.
+
+- **Every window on the play screen closes with the same control** The close
+  button on the sheets, the person card and the news reader now comes from one
+  shared part instead of three hand-written copies. It looks and works the same.
+
 ## PRE-ALPHA 0.36.4
 
 _Released October 26, 2026._
