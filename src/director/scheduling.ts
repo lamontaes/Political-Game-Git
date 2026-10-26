@@ -655,7 +655,6 @@ export function scheduleMoment(
     if (!sitting.joined.some((entry) => entry.momentId === moment.id))
       sitting.joined.push({ momentId: moment.id, causeId: moment.causeId });
   }
-  const filteredOut = staged.length > zero && !bindings.length;
   // News from the household's own records (a parent's lost job, a death, a
   // serious illness) is a family scene at home whatever its size (owner,
   // Oct 14, 2026, night: the director picks the family scene the
@@ -678,9 +677,11 @@ export function scheduleMoment(
     bindings.every(
       (row) => library.types.find((type) => type.key === row.typeKey)?.waits,
     );
+  // Only a staged scene stops the day: a moment no situation stages has
+  // nothing to show or answer, so it is the journal's line, never a stop.
   const interrupt =
+    bindings.length > zero &&
     (moment.impact >= options.interruptImpact || familyNews) &&
-    !filteredOut &&
     !waits;
   if (!found.length)
     coverage ??= {
