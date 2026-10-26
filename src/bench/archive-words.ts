@@ -2,6 +2,7 @@ import type { EntityId } from "../core2/kernel/brands";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
+import { lineName } from "./budget";
 import { policyNames } from "./words";
 
 /** A story as the news engine keeps it. */
@@ -45,11 +46,13 @@ function sayDate(iso: string): string {
   return `${MONTHS[month! - 1]} ${day}, ${year}`;
 }
 
+const MINOR_PER_DOLLAR = 100;
 let NAMES: Record<string, string> | undefined;
 
 export function wordArchiveStory(
   core: CoreState,
   story: StoredStory,
+  options: { heldFirst?: boolean } = {},
 ): WordedStory | null {
   if (story.kind !== "press.archived") return null;
   const recordKind = story.facts.recordKind;
@@ -81,6 +84,24 @@ export function wordArchiveStory(
       date: fact(sayDate(story.date)),
       [recordKind === "law-enacted" ? "enacted" : "effective"]: fact("yes"),
     };
+  } else if (recordKind === "budget-adopted") {
+    // The money is the largest spending line, named by the line's own table.
+    const line = String(story.facts.largestLine ?? "");
+    const name = lineName(line);
+    const minor = Number(story.facts.largestLineMinor);
+    if (!name || !Number.isFinite(minor)) return null;
+    kind = "vote-or-law";
+    facts = {
+      money: fact(
+        new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 0,
+        }).format(minor / MINOR_PER_DOLLAR),
+        [String(story.facts.governmentId ?? "")],
+      ),
+      purpose: fact(/^[A-Z][a-z]/.test(name) ? name.toLowerCase() : name),
+    };
   } else if (recordKind === "parent-died") {
     // Reported once, to the survivor: the parent is named from the fact's own names.
     const survivor = String(story.facts.survivorId ?? "");
@@ -110,7 +131,7 @@ export function wordArchiveStory(
       sourceRecordIds: row.sourceRecordIds,
     })),
   };
-  const composed = composeNewsStory(packet, kind);
+  const composed = composeNewsStory(packet, kind, options);
   if (!composed.headline && !composed.lede) return null;
   return {
     ...(composed.headline ? { headline: composed.headline } : {}),

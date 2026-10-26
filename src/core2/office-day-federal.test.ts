@@ -19,6 +19,8 @@ import { buildBenchWorld } from "../bench/world";
 import { BenchPlayer } from "../bench/player";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
+import { coarsePlace } from "./coarse-place";
+import { ageOn } from "./counted-groups";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./modules/offices";
 import {
   billOf,
@@ -240,6 +242,32 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     expect(met.length).toBeGreaterThan(0);
     for (const p of met)
       expect(core.people.get(president)!.knownIds.has(p.id)).toBe(true);
+    // Each is a worker of the town's coarse population: a job its counts show
+    // and the age that job is open at.
+    const counts = coarsePlace(town.key);
+    for (const p of met) {
+      const work = p.pastFacts?.find((f) => f.kind === "identity:work");
+      const where = `${town.name} (${town.key}), seed ${seed}, ${p.id}`;
+      if (!counts) {
+        expect(work, where).toBeUndefined();
+        continue;
+      }
+      expect(work, where).toBeDefined();
+      const row = counts.jobs.find(
+        (j) =>
+          j.workplace === work!.facts?.workplace &&
+          j.title === work!.facts?.title,
+      );
+      expect(row, where).toBeDefined();
+      expect(ageOn(p.birthDate, core.date), where).toBeGreaterThanOrEqual(
+        row!.minAge,
+      );
+    }
+    const first = met[0]!;
+    const work = first.pastFacts?.find((f) => f.kind === "identity:work");
+    process.stdout.write(
+      `TRIP RESIDENT ${town.name} (${town.key}), seed ${seed}: ${first.id}, age ${ageOn(first.birthDate, core.date)}, ${work ? `${work.id}: ${work.facts?.title} at ${work.facts?.workplace}` : "no counts for this place"}\n`,
+    );
     expect(
       officeActsOf(api, president).filter((a) => a.kind === "daily-brief")
         .length,
@@ -321,10 +349,10 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
 
   it("casts and records the vote of a senator the player controls on a House bill", () => {
     const seat = townSeats(api).find((s) => s.office.kind === "us-senate");
-    // A territory has no senators: its town has no Senate seat to play.
+    // A territory and D.C. have no senators: their towns have no Senate seat to play.
     if (!seat) {
       expect(place.state, `${place.name}, seed ${seed}`).toMatch(
-        /^US-(AS|GU|MP|PR|VI)$/,
+        /^US-(AS|DC|GU|MP|PR|VI)$/,
       );
       return;
     }

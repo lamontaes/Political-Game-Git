@@ -3,14 +3,14 @@ id: research-opening-customers-sourced-parameters
 title: "Research: sourced parameters for the opening's customers and public buyers"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
-status: in-pr
-claimed-by: claude/dreamy-tesla-bgi3ui-opening-customers
-pr: #5864
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-customers-estimated-opening-customer-prior, core-stopgap-opening-customers-unresolved-external-product-buyer-demand-crosswalk, core-stopgap-opening-public-owner-estimated-historical-government-identity-continuity, core-stopgap-opening-public-owner-estimated-public-buyer-geographic-reach"
-claimed-at: 2026-10-23T20:24:03.845Z
+claimed-at:
 ---
 
 **What.** Source the numbers behind the opening's customers and public buyers. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 4 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -23,8 +23,14 @@ claimed-at: 2026-10-23T20:24:03.845Z
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/data/opening-customers.json, src/core2/opening-public-owner.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, docs/research/pool-feeder-oct20/research-opening-customers-sourced-parameters.md
 
 **Notes.** Folded from: core-stopgap-opening-customers-estimated-opening-customer-prior, core-stopgap-opening-customers-unresolved-external-product-buyer-demand-crosswalk, core-stopgap-opening-public-owner-estimated-historical-government-identity-continuity, core-stopgap-opening-public-owner-estimated-public-buyer-geographic-reach. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read. Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-opening-customers-sourced-parameters.md (5 rows: 0 sourced, 4 estimated, 1 mechanic).
+
+Oct 24, 2026: split. PR 5864 (item research-opening-customers-cleaning-coverage) delivers the public cleaning share (0.124), the buyer coverage (0.8), sampling intervals for the 60 household service means, and four research files for buyer classes, county identity and public building spending. Still open here: openingCustomerPeriodMonths and openingCustomerAgreementLeadDays stay TUNABLE because no published table gives them. The 8 national service components, the size top code and the 104 Census and BEA rows have no spread to give. All five stopgaps stay open as estimates or mechanics, and the cleaning share and coverage were not yet seen in a played year, because the drawn town had no building-services firm.
+
+Sent back 2026-10-23 from PR #5864 (branch claude/dreamy-tesla-bgi3ui-opening-customers): Two parameter rows, required spreads and all five stopgap resolutions remain unmet, and the year has no public-cleaning reader; give the completed research bounded acceptance with positive generated-world proof; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

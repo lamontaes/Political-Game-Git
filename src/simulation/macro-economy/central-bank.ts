@@ -62,7 +62,7 @@ import { currentStateExecutiveHolders } from "../nationwide-world/state-executiv
 import { prepareOpeningFederalGeography } from "../opening-federal-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { personTrait } from "../people-traits";
-import type { TraitValue } from "../people-trait-definitions";
+import type { TraitValue } from "../../core2/people-trait-definitions";
 import { generatePersonIdentity } from "../person-identity";
 import { currentHistoricalCutoff } from "../queries";
 import { SeededRng } from "../../core2/kernel/rng";
