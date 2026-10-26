@@ -38,11 +38,21 @@ page.on("response", async (r) => {
 const draws = [];
 const runSeed = process.env.BENCH_SEED ?? randomUUID();
 console.log("Run seed:", runSeed);
+// The creator draws its world seed from /api/seed; derive it from the run
+// seed and the draw number so BENCH_SEED alone replays the same worlds.
+let drawNumber = 0;
+await page.route("**/api/seed", (route) =>
+  route.fulfill({
+    contentType: "application/json",
+    body: JSON.stringify({ seed: `${runSeed}-world-${drawNumber}` }),
+  }),
+);
 try {
   // A life with a parties module (tiny towns have none): redraw, all draws logged.
   let seed = "";
   let place = "";
   for (let attempt = 0; attempt < 6; attempt += 1) {
+    drawNumber = attempt;
     const titled = page.waitForResponse((r) => r.url().endsWith("/api/title"));
     await page.goto(`${BASE}/play`);
     await titled;
@@ -79,6 +89,9 @@ try {
     );
     await page.locator("#cr-begin").click();
     seed = new URL((await made).url()).searchParams.get("seed");
+    // The world seed the creator obtained: with the drawn place this
+    // reproduces the world (BENCH_SEED only reproduces the draws).
+    console.log("World seed (creator):", seed, "run seed:", runSeed);
     await page
       .locator("#opening-box:not([hidden])")
       .waitFor({ timeout: 300000 });
@@ -595,6 +608,15 @@ try {
   // Page on until the player's own race (candidate "Test Voter") shows.
   // The pager hides (not disables) its ends, so stop at a hidden Continue.
   let found = false;
+  // The turn check above left the ballot on page 2; the own race may be on
+  // page 1, so go back to the first page and scan forward from there.
+  for (let back = 0; back < 20; back += 1) {
+    const prev = page.locator("#ballot-pager button").nth(0);
+    if (!(await prev.count()) || !(await prev.isVisible().catch(() => false)))
+      break;
+    await prev.evaluate((e) => e.click());
+    await page.waitForTimeout(800);
+  }
   for (let p = 0; p < 20; p += 1) {
     console.log(`Ballot page ${p + 1}:`, (await titles()).join(" | "));
     console.log(
@@ -630,6 +652,12 @@ try {
     path: "docs/reports/ballot-pages-2026-10-24/own-race.png",
   });
   // Mark the own race; the mark response carries the ballot (visit) id.
+  const sceneBefore = await (
+    await page.request.get(`${BASE}/api/polling-place`)
+  ).json();
+  const ownPersonId = sceneBefore?.people?.find(
+    (x) => x.reason === "you",
+  )?.personId;
   const marked = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/polling-place/mark",
     { timeout: 30000 },
@@ -640,10 +668,37 @@ try {
     })
     .first()
     .click();
-  const record = (await (await marked).json()).record ?? {};
+  const markBody = await (await marked).json();
+  const record = markBody.record ?? {};
   console.log("Ballot id:", record.id ?? "?");
   assert.ok(record.id, "mark response carried no ballot id");
-  console.log("PASS marking: vote recorded with ballot id", record.id);
+  // The visit id exists before any vote (marked: {}), so assert the mark
+  // itself: the player's candidateId under the filed contest's id.
+  const playerId = ownPersonId;
+  assert.ok(playerId, "scene named no 'you' person before marking");
+  assert.ok(filedContest, "no accepted filing contest id captured");
+  assert.equal(
+    record.marked?.[filedContest],
+    playerId,
+    `mark response: marked[${filedContest}] is not the player ${playerId}: ${JSON.stringify(record.marked)}`,
+  );
+  const readBack = await (
+    await page.request.get(`${BASE}/api/polling-place`)
+  ).json();
+  const readContest = readBack?.contests?.find((c) => c.id === filedContest);
+  assert.equal(
+    readContest?.marked?.candidateId,
+    playerId,
+    `polling scene read back does not show the player's mark on ${filedContest}`,
+  );
+  console.log(
+    "PASS marking: marked",
+    filedContest,
+    "=",
+    playerId,
+    "in the response and the scene; ballot id",
+    record.id,
+  );
   await page.waitForTimeout(1500);
   await page.screenshot({
     path: "docs/reports/ballot-pages-2026-10-24/after-mark.png",
