@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: merger0/recheck-6071-oct26-0154
 pr: #6071
 blocked-on:
