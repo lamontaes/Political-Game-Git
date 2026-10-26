@@ -296,6 +296,24 @@
   "news": {
     "title": "News",
     "records": "Public record",
+    "economy": {
+      "nation": "Nation",
+      "region": "Region",
+      "jobsHere": "Jobs here",
+      "unemployment": "Unemployment",
+      "inflation": "Inflation",
+      "policyRate": "Policy rate",
+      "mortgage": "Mortgage",
+      "employed": "employed",
+      "looking": "looking",
+      "open": "open",
+      "series": {
+        "unemploymentPct": { "label": "Unemployment", "unit": "percent" },
+        "jobsThousands": { "label": "Jobs", "unit": "thousands" },
+        "hourlyEarnings": { "label": "Hourly pay", "unit": "dollars" },
+        "priceLevelPct": { "label": "Price level", "unit": "index" }
+      }
+    },
     "back": "Back to front page",
     "previous": "Back",
     "next": "Continue"
