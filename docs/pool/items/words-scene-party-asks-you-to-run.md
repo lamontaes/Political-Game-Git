@@ -31,3 +31,4 @@ claimed-at:
 **Files.** src/director/situations/, src/director/scene.ts, src/director/scene-talk.ts, src/core2/modules/candidacy.ts (read only), data/english/parts/, src/bench/play.mjs
 
 **Notes.** Owner, Oct 25: "will give me the seats"; build all three scenes without asking (OWNER-DECISIONS, Oct 25). The party officer is a person on the record, introduced before speaking (Oct 15 ruling).
+Sent back 2026-10-26 from PR #6146 (branch words/party-asks-you-to-run): owner-decision question and stopgap SG-P15-party-ask-order lack the Read line; finish on that branch, merge main into it first.
