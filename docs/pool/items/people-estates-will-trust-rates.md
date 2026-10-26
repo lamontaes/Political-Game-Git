@@ -3,7 +3,7 @@ id: people-estates-will-trust-rates
 title: "Making a will and setting up a trust follow researched rates by age and wealth, so temperament can tip them"
 area: people
 kind: research
-priority: 2
+priority: 3
 size: S
 status: open
 claimed-by:
@@ -28,7 +28,10 @@ Oct 25 (traits lead, research gathered; not built). Wills by age, Pew Research C
 Why it is not built: wills and trusts need the person's wealth, and the estate the game hands them is their liquid balance, which a quarter of adults hold at exactly $29,838 (Haledon, New Jersey, seed fc8bf1311d0f, and Kenvir, Kentucky, seed 32bb83941552). Fitted on age, liquid savings and the lean together, the model gives nobody under 50 a will and ties the top two wealth quarters at 100%. A builder needs net worth on record: the liquid balance plus home equity (housing's owned dwelling value less what is owed). With it, fit the age term, a wealth term and the trait weight together to Pew's age bands, the CRR wealth quarters and Ryser et al.'s odds ratio of 1.42 for wills among adults 55+ (1.34 for trusts). Wills and trusts already read their own weight through the shared yes-or-no rule (#6009).
 
 Oct 25 (traits lead): researched and measured, then set back to open; build on PR #6009's branch, which moves both decisions onto the shared rule at their own weights.
+
 - **Wills by age (fetched):** Gallup, May 3-18, 2021 (1,016 adults): 50-64 years old 53%, 65+ 76%; by household income, under $40,000 30%, $40,000-$99,999 49%, $100,000 or more 61%. Pew, September 2-8, 2025 (8,750 adults): 32% of all adults; "Among adults in their 60s, 46% have a will"; 70s 66%; "About eight-in-ten of those in their 80s or older"; 83% of upper-income adults 70+.
 - **Trusts (fetched):** Caring.com 2025 (YouGov, 2,500+ adults): "13% reported a living trust". Trust & Will 2026 (Talker Research, 5,000 adults, Jan 28 to Feb 5, 2026): "Trust ownership rose from 11% to 14%". Neither gives an age or wealth breakdown.
 - **Why an age term alone cannot fit:** over the adults 55+ of three drawn towns at the opening (Tavares, Florida, 1271225, 1,533 adults; Reserve, Montana, 3062125, 1,478; Goulds, Florida, 1226950, 1,241), the best age-only case (midpoint 65, weight 1.5, trait weight 0.5) gives shares of 0.21 to 0.24 at 55-64, 0.73 to 0.78 at 65-74 and 0.98 to 0.99 at 75+, against the surveys' 0.39-0.53, 0.46-0.76 and 0.66-0.80, with crossed net odds of 9.7 to 9.9 against the study's 1.42. The surveys' gentle rise with age means most of who has a will is something other than age, and with no second circumstance temperament takes that place at many times the study's size.
 - **What the second circumstance needs:** income or wealth (Gallup's 30% to 61% by income). A person's own savings at the opening are no basis yet: 78% to 83% of adults 55+ hold zero `liquidMinor`, and the rest a median of $794 to $1,302, so the household's money is not on the members who would die with it. Education and marital status are not on the person record. settleEstate weighs a will or trust only for a death with a positive balance, so the population that matters is the dead with an estate.
+
+Deferred Oct 25: nothing on screen reads it yet.

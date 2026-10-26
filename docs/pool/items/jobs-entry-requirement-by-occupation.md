@@ -5,10 +5,10 @@ area: world
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
+blocked-on:
 after: jobs-no-openings-in-small-towns
 source: added with npm run pool -- add
 ---
@@ -17,8 +17,10 @@ source: added with npm run pool -- add
 
 **Rules.** Research before building: each row cites the BLS Employment Projections table and year, SOURCED, with an ESTIMATED row and its spread where the occupation is not listed (the nearest listed occupation, named). One rule, all 56 places: occupations are national classifications, no place is named, and the table is data. No dice: the table only sets what a job asks, never who is hired. Estimate, never UNKNOWN: an occupation with no row starts from the table's all-occupations share and says so.
 
-**Done when.** `src/core2/data/jobs/entry-requirements.json` holds a row for every occupation classification the generated world's positions use, each with experience asked, typical entry education, source and tag; a test in `src/core2/jobs.test.ts` draws a place from all 56, names it and the seed, builds the played world (`buildBenchWorld`) and shows every position's occupation reads back a row with a source. The owner plays it: nothing at once; the entry-experience item reads this table.
+**Done when.** `src/core2/data/jobs/entry-requirements.json` holds a row for every occupation classification the generated world's positions use, each with experience asked, typical entry education, source and tag; a test in `src/core2/jobs.test.ts` draws a place from all 56, names it and the seed, builds the played world (`buildBenchWorld`) and shows every position's occupation reads back a row with a source. The owner plays it: nothing at once; the entry-experience item reads this table. **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
 
 **Files.** src/core2/data/jobs/entry-requirements.json, src/core2/modules/jobs.ts, src/core2/jobs.test.ts
 
 **Notes.** Written Oct 20 (claude/entry-spec) from the code. `experienceYears` (jobs.ts about line 2271) sums a person's commitments in the occupation; the counted tier keeps its own `countedExperience`. The follow-up is `jobs-occupation-entry-experience`. Waits on `jobs-no-openings-in-small-towns` per its `after:`.
+
+Oct 25 audit: unblocked; the spec was written Oct 20, so the empty-shell block no longer holds.

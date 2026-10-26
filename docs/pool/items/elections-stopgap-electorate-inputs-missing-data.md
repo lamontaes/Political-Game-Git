@@ -4,7 +4,7 @@ title: "Stopgaps in electorate-inputs (missing-data): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** First row: The national mood that moves every voter's choice for the president's party is read from the national economy since the opening (unemployment and inflation) and the midterm penalty, with no presidential approval behind i
 
 Oct 20 (pool feeder): spec written and split into two parts.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

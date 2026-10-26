@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/township-counted-votes
-pr:
+pr: #6055
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:20:20.012Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T16:20:20.012Z
 
 **Rules.** One model, two tiers: a counted voter group is read by the same voting rule as a full person, times its count. One rule, all 56 places: no state or township named in logic.
 
-**Done when.** tests/golden-path/played-world.node-test.ts passes M0-13 in Mansfield, South Dakota (key 4640580, seed c9aba455b21b5ac25b8c9611a32aa95ff6460c8d08e9bb1c89c6c35a790b9410) and in two more places drawn from all 56 that hold a township board race, each named with its seed in the PR body.
+**Done when.** tests/golden-path/played-world.node-test.ts passes M0-13 in Mansfield, South Dakota (key 4640580, seed c9aba455b21b5ac25b8c9611a32aa95ff6460c8d08e9bb1c89c6c35a790b9410) and in two more places drawn from all 56 that hold a township board race, each named with its seed in the PR body. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/voting.ts, tests/golden-path/played-world.node-test.ts
 

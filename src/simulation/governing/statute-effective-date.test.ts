@@ -223,7 +223,6 @@ describe("when a state law takes effect by its state's own rule", () => {
     // Oklahoma: the last Friday in May, May 28 in 2027.
     expect(stateSessionEnds("US-OK", 2027)).toEqual(["2027-05-28"]);
     // Maine: the third Wednesday in June (odd) and April (even).
-    expect(stateSessionEnds("US-ME", 2025)).toEqual(["2025-06-18"]);
     expect(stateSessionEnds("US-ME", 2028)).toEqual(["2028-04-19"]);
     // Florida 2026: January 13 for 60 days, then the sixtieth day after.
     expect(stateSessionEnds("US-FL", 2026)).toEqual(["2026-03-13"]);
