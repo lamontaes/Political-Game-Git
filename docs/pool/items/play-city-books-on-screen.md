@@ -5,13 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-city-books-on-screen
+pr: #6153
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from core-city-treasury-trillions-dickens)
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-26T06:50:08.563Z
 ---
 
 **What.** A small city's books reached trillions in a year, and core-city-treasury-trillions-dickens is fixing the flows. Budgets shows the adopted plan but not what the treasury actually took in and paid, so a broken treasury is invisible. Add a So far this year line under the town's budget: taken in, paid out and cash on hand in plain dollars, read from the treasury journal, with a plain warning when spending runs past the budget.
