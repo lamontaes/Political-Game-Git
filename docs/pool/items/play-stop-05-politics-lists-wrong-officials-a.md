@@ -5,13 +5,14 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-05-politics-lists-wrong-officials-a
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-26T01:43:26.060Z
 ---
 
 **What.** In Anson, Texas the v0.22.10 release listed three U.S. senators, the U.S. Speaker from New York as one of my representatives, and about 180 state legislators in one column. The owner ruled Oct 16 that every legislator stays, behind a division filter, and Oct 15 that the player's own representatives are the key people. This part shows the player's own federal and state members first and puts the rest behind the filter.
