@@ -32,6 +32,7 @@
     "start": "Shift starts",
     "end": "Shift ends",
     "moment": "Something needs you",
+    "job-offered": "A job offer",
     "results": "Election results",
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
@@ -158,7 +159,10 @@
       "district-residency": "District residency",
       "party-member": "Party membership",
       "term-limit": "Term limit"
-    }
+    },
+    "seat": "Seat",
+    "heldBy": "Held by",
+    "openSeat": "No one holds it now"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",
@@ -264,7 +268,16 @@
     "card": "View person",
     "talk": "Talk",
     "back": "Back",
-    "next": "Continue"
+    "next": "Continue",
+    "joined": "Closer this year",
+    "left": "Drifted away",
+    "noChange": "Your five closest are the same as a year ago",
+    "causes": {
+      "person.moved-away": "Moved away",
+      "life.death": "Died",
+      "no-time-together": "No time together lately",
+      "chosen-act": "Time together"
+    }
   },
   "news": {
     "title": "News",
@@ -284,17 +297,22 @@
     "deadline": "Answer by",
     "accept": "Take it",
     "decline": "Turn it down",
+    "notNow": "Not now",
     "noJob": "No current job",
     "unavailable": "Offer no longer available",
     "failed": "Could not send your answer. Try again."
   },
   "politics": {
     "seats": "Seats",
+    "yourMembers": "Your members",
+    "leaders": "Leaders",
     "notChosenHere": "Not chosen by this place's voters",
     "votes": "Votes",
     "yes": "Yes",
     "no": "No",
     "vacant": "Vacant",
+    "elected": "Elected",
+    "takesOffice": "Takes office",
     "searchIssues": "Search issues",
     "back": "Back",
     "next": "Continue",
@@ -308,12 +326,19 @@
     "ownState": "Your state"
   },
   "results": {
-    "turnout": "Turnout",
+    "cast": "Ballots cast",
     "exitPoll": "Exit poll",
     "wonIn": "Where it was won",
     "you": "You",
+    "yourRace": "Your race",
+    "won": "Won",
+    "lost": "Lost",
     "unopposed": "Unopposed",
-    "abstained": "—"
+    "abstained": "—",
+    "nation": "Governor races across the country",
+    "marginBy": "by",
+    "points": "points",
+    "noNation": "No governor races have been counted yet"
   },
   "money": {
     "cash": "Cash available",

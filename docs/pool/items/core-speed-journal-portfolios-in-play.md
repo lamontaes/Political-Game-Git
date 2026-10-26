@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/speed-journal-portfolios-in-play
+pr: #6131
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-26T02:39:38.900Z
 ---
 
 **What.** For every cash-journal posting, portfolios() in src/core2/journal-state.ts builds a set of touched accounts per owner, copies each touched owner's whole account index into an array, rechecks the index's completeness and the outside-flow totals (with BigInt), and checks each account's mode and partition metadata, even with bookkeeping off. Long Hill, Connecticut (seed m7b) posts about 160,000 entries a year, so this is one of the largest parts left of the journal's cost after core-speed-journal-posting-in-play. Keep every check under the bookkeeping switch and read the index directly in play, so a posting builds only the snapshots its arithmetic reads.

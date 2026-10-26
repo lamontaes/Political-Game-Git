@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/twins-crime-reports
-pr:
+pr: #6132
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T00:24:13.324Z
