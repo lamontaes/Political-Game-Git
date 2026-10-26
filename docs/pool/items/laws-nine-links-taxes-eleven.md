@@ -23,3 +23,7 @@ claimed-at:
 **Files.** scripts/law-wiring/check.ts, scripts/law-wiring/matrix.ts, src/core2/law-wiring-taxes.test.ts
 
 **Notes.** Laws lead, Oct 25. PR #5649 moves to this item; `laws-nine-links-taxes` stays open for the estate tax, blocked on `people-estate-wealth-top-tail`.
+
+Laws lead, Oct 26: Merger 0's 22:52 send-back fixed at 108f1ef150 (eligibility from opening records; a missing applied record fails the test), with the two CI failures on the merger's head; back in PR #5649.
+
+Merger 2: Sent back 2026-10-26 from PR #5649 (branch claude/law-wiring-taxes), checked head fe7eb9296ab7e06e29239c5f6d0eba45da67487b: opening-input eligibility repair is present, but the Laws session also authors data/english/bill-sections.json:403-406 and changes src/english/bill-sections.ts:152-157,227-239 plus src/english/policy-names.ts:25-27; the governing cto/docs-fresh-2026-10-23 merger skill reserves these edits to Words until #5844 merges. Words must own the correction, or remove the Laws-authored English changes and track the Words work; retain the tax/eligibility repair, finish on that branch and merge main first. Exact return: https://github.com/lamontaes/Political-Game-Git/pull/5649#issuecomment-6406076867. Unfinished local gate stopped; no green gate claimed.

@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/own-race-margin
+pr: #6125
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T00:45:34.960Z
 ---
 
 **What.** The own-race journal lines 'It was very close.' and 'It wasn't close.' are picked by outcome alone (won or lost); the journal never reads the race's totals. In Diaz, Arkansas (seed c478c1f6939bdba921c3a05e72ccdfb8cac3380b), candidates who ran unopposed for sheriff, coroner and prosecutor (for example contest:seat:gus2025:160865:sheriff:0:2026-11-03, one candidate) are told 'It was very close.', which their own result record contradicts. The election-result record carries the totals (facts.totals), so the margin is on record and can be read.
