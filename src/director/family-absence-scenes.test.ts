@@ -65,7 +65,10 @@ it(`a member who moves away is told at home in one scene citing the move (seed $
           expect(departure.withIds, at).toContain(about.personIds[0]);
           const bearer = binding!.roles.find((r) => r.role === "bearer")!
             .personIds[0]!;
-          expect(core.people.get(bearer)?.householdId, at).toBe(home);
+          // The bearer stayed: they are not among those who left, nor the
+          // one being told (they may move later in the year themselves).
+          expect(departure.withIds, at).not.toContain(bearer);
+          expect(bearer, at).not.toBe(personId);
           // The scene stands on the move's record and cites it.
           const scene = composeScene(core, director, personId, entry)!;
           expect(scene.typeKey, at).toBe("news-arrives");
