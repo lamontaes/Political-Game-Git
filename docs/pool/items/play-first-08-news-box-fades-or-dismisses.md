@@ -29,4 +29,4 @@ claimed-at:
 
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/play.html
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): News toast (top right) never left; the Journal toast (bottom right, "I ran for Council member.") sat from Jan 22 into May. Owner: "there's no way to get rid of it and it doesn't leave for any reason. Same thing with a journal on the bottom right." Extend the item's done-when to the Journal toast.

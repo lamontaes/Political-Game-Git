@@ -29,4 +29,4 @@ claimed-at:
 
 **Files.** src/director/opening-story.ts, src/bench/opening.ts, src/bench/family.ts, src/bench/scene.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:52; screenshots 11, 13, 23. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:52; screenshots 11, 13, 23. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2. Playtest Oct 26 sitting 1 (installed v0.34.0): Player Jackson Knox, brother Leo Roberts, parent Kendall Roberts, father Brian; nothing explains the surnames and nobody is introduced. Calendar also lists birthdays of Aditi and Wesley Roberts, never introduced.
