@@ -32,6 +32,7 @@ import {
 // The web module first: gov-measures reaches it through a cycle.
 import "../../src/core2/modules/outcome-web";
 import { GOV_MEASURES } from "../../src/core2/gov-measures";
+import { WORLD_METRICS_MODULE_ID } from "../../src/core2/modules/world-metrics";
 
 type Status = "pass" | "partial" | "fail" | "n/a";
 interface Point {
@@ -103,6 +104,18 @@ const linksText = readFileSync(join(ROOT, linksPath), "utf8").split("\n");
 const lineOf = (key: string) =>
   linksText.findIndex((line) => line.includes(`"key": "${key}"`)) + 1;
 
+/**
+ * Where an engine measure's value comes from, as the web's `readEngine` reads
+ * it: a named reader of the engine's own record, or a month row of the engine
+ * that keeps it (the economy's world-metrics rows by default).
+ */
+function engineSource(measure: string): string {
+  const definition = engineMeasure(measure)!;
+  return definition.reader
+    ? `the ${definition.reader} reader (ENGINE_READERS, src/core2/modules/outcome-web.ts)`
+    : `${definition.module ?? WORLD_METRICS_MODULE_ID} ${definition.table ?? "months"}.${definition.field}`;
+}
+
 /** How a link's cause is read today. */
 function causeKind(measure: string): string {
   if (isLaw(measure)) return "law";
@@ -130,7 +143,7 @@ function cause(link: WebLink): Point {
     case "engine":
       return {
         status: "pass",
-        evidence: `world-metrics months.${engineMeasure(link.from)!.field}, lagged by causeAt (src/core2/modules/outcome-web.ts)`,
+        evidence: `${engineSource(link.from)}, lagged by causeAt (src/core2/modules/outcome-web.ts)`,
       };
     case "gov":
       return {
@@ -264,7 +277,7 @@ function reachPoint(
     return {
       status: "fail",
       evidence: engineMeasure(link.to)
-        ? `world-metrics months.${engineMeasure(link.to)!.field}`
+        ? engineSource(link.to)
         : "src/core2/gov-measures.ts",
       why: `engine doesn't read the factor: an engine records ${link.to}, but nothing multiplies its rates by the link's effect`,
     };
@@ -468,7 +481,7 @@ export function matrix(): {
         status,
         evidence: recorded
           ? engineMeasure(measure)
-            ? `world-metrics months.${engineMeasure(measure)!.field}`
+            ? engineSource(measure)
             : "src/core2/gov-measures.ts"
           : engine.length
             ? where(engine)
