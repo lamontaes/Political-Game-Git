@@ -4,7 +4,7 @@ title: "Stopgaps in content (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Prototype civic availability and organization/approach consequences, rather than complete procedures.
 
 Oct 20: Switched from blocked to the automatic after: gate on research-content-sourced-parameters, so it opens by itself the moment those items are done.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

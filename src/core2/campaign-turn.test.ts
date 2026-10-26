@@ -264,10 +264,37 @@ describe("campaigns that raise and spend", () => {
   }, 300_000);
 
   it("a rival chooses between calls and doors by their money and standing, sliding with each", () => {
-    const { core, api, where } = world("rival-chooser");
-    const pair = twoCandidates(api, core);
-    expect(pair, where).not.toBeNull();
-    const { rival } = pair!;
+    // The bank can only slide the day between calls and doors for a candidate
+    // the records offer both: someone left to ask, and doors in their town.
+    // Everyone a candidate can reach may already have given (Simsboro,
+    // Louisiana), so take either of the pair, and draw again if neither.
+    const offeredBoth = (api: CoreAPI, filing: FilingRow) => {
+      const day = campaignDayChoices(api, filing.id, true);
+      return ["raise-money", "canvass"].every(
+        (kind) => day.find((c) => c.kind === kind)?.available,
+      );
+    };
+    const tried: string[] = [];
+    let found: {
+      core: CoreState;
+      api: CoreAPI;
+      where: string;
+      rival: FilingRow;
+    } | null = null;
+    for (let attempt = 0; attempt < 8 && !found; attempt += 1) {
+      const w = world(attempt ? `rival-chooser:${attempt}` : "rival-chooser");
+      const pair = twoCandidates(w.api, w.core);
+      const rival =
+        pair && [pair.rival, pair.you].find((f) => offeredBoth(w.api, f));
+      if (rival) found = { ...w, rival };
+      else
+        tried.push(
+          `${w.where}: ${pair ? "neither candidate is offered both calls and doors" : "no two candidates"}`,
+        );
+    }
+    expect(found, tried.join("\n")).not.toBeNull();
+    const { core, api, where, rival } = found!;
+    process.stdout.write(`rival chooser: ${where}, ${rival.id}\n`);
     const campaign = campaignFor(api, rival.id);
     const candidate = core.people.get(campaign.candidateId)!;
     const town = candidate.placeId;

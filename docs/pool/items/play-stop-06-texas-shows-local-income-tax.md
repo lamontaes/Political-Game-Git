@@ -5,14 +5,14 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: blocked
-claimed-by: claude/issues-tax-levels
-pr:
+status: open
+claimed-by:
+pr: #6111
 blocked-on: politics-issues-taxes-named-by-level
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T15:37:35.531Z
+claimed-at:
 ---
 
 **What.** Politics → Issues in Anson, Texas on the v0.22.10 release reads "Local income tax rate 37% top rate". Texas has no state income tax and Anson no local one; 37 percent is the federal top rate, shown under a local label. The other rows (minimum wage $7.25 an hour, local sales tax 8.201 percent, property tax 1.591 percent of home value) look plausible. A player choosing what to run on would believe the town taxes income at 37 percent.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-25T15:37:35.531Z
 **Files.** src/core2/modules/laws.ts, src/core2/data/legislature/bill-catalog.json, src/core2/data/laws/starting-law.json, src/bench/government.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:57; screenshot 27. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was effects.
+
+Sent back 2026-10-26 from PR #6111 (branch play-first/play-stop-06-texas-shows-local-income-tax): Merging current main conflicts in src/bench/government.ts and src/bench/play.mjs; resolve code on this branch and drop its main-only PROGRESS.md hunk under the October25 ruling.; finish on that branch, merge main into it first.

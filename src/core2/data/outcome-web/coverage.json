@@ -7,6 +7,7 @@
     "unemployment-to-assault",
     "police-to-violent-crime",
     "police-to-property-crime",
+    "police-to-low-level-arrests",
     "child-access-law-to-youth-gun-deaths",
     "stand-your-ground-to-homicide",
     "min-age-to-youth-gun-suicide",
@@ -17,6 +18,7 @@
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
+    "minimum-wage-to-low-wage-jobs",
     "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
@@ -107,6 +109,9 @@
     "tuition-freeze-to-college-completion",
     "income-tax-to-out-migration",
     "graduated-income-tax-to-out-migration",
+    "income-tax-rate-to-out-migration",
+    "estate-tax-to-out-migration",
+    "inheritance-tax-to-out-migration",
     "balanced-budget-to-borrowing-cost",
     "pension-funding-to-borrowing-cost",
     "reserve-balance-to-borrowing-cost",
@@ -118,19 +123,19 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "parks-spending-to-exercise-access"
   ],
   "waiting": {
-    "police-to-low-level-arrests": {
-      "waitingOn": ["justice.low-level-arrests"],
-      "needsSize": true
-    },
     "summer-jobs-to-youth-violence": {
       "waitingOn": ["program.summer-jobs-slots", "crime.youth-violent-arrests"],
       "needsSize": true
     },
     "incarceration-to-crime": {
       "waitingOn": ["crime.all"]
+    },
+    "fire-spending-to-fire-deaths": {
+      "waitingOn": ["budget.fire-added-pct", "fire.civilian-casualties"]
     },
     "pretrial-detention-to-future-crime": {
       "waitingOn": ["crime.reoffense"]
@@ -231,9 +236,6 @@
     "minimum-wage-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/modules/jobs.ts wageFloor raises pay; src/core2/world-poverty.ts counts it"
-    },
-    "minimum-wage-to-low-wage-jobs": {
-      "waitingOn": ["labor.minimum-wage-to-median"]
     },
     "unemployment-to-poverty": {
       "waitingOn": [],
@@ -522,8 +524,29 @@
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
-    "parks-spending-to-exercise-access": {
-      "waitingOn": ["budget.parks-added-pct"]
+    "income-tax-rate-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
+    "social-security-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "medicare-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "federal-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "state-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "unemployment-insurance-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
+    "unemployment-weekly-maximum-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
     },
     "revolving-door-ban-to-ex-legislator-lobbyists": {
       "waitingOn": [],
@@ -550,6 +573,10 @@
     "school.graduation": {
       "owner": "OPUS-GOV",
       "links": 6
+    },
+    "labor.unemployment-pct": {
+      "owner": "OPUS-WORLD",
+      "links": 5
     },
     "school.test-scores": {
       "owner": "OPUS-GOV",
@@ -607,7 +634,7 @@
       "owner": "OPUS-GOV",
       "links": 2
     },
-    "budget.parks-added-pct": {
+    "budget.fire-added-pct": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -669,6 +696,10 @@
     },
     "federal.rail-expansion-pct": {
       "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "fire.civilian-casualties": {
+      "owner": "OPUS-CORE",
       "links": 1
     },
     "gov.nondisaster-transfers": {
@@ -755,10 +786,6 @@
       "owner": "OPUS-GOV",
       "links": 1
     },
-    "justice.low-level-arrests": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
     "justice.parent-incarcerated": {
       "owner": "OPUS-GOV",
       "links": 1
@@ -784,14 +811,6 @@
       "links": 1
     },
     "labor.formal-employment": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.minimum-wage-to-median": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "labor.unemployment-pct": {
       "owner": "OPUS-WORLD",
       "links": 1
     },
