@@ -17,10 +17,12 @@ claimed-at:
 
 **Rules.** No hand-written player text: words come from the English engine and its banks (words-engine). Owner, Oct 24 playtest: a sister calls our father Dad.
 
-**Done when.** Two relatives who share a parent and live apart can ask after them from the bank as Dad or Mom (by the parent's recorded gender), never by first name; the pieces are in a grading batch. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
+**Done when.** In a generated world from buildBenchWorld in a drawn place, two relatives who share a parent and live apart can ask after that parent from the existing bank as Dad or Mom according to recorded gender, never the parent's first name or a possessive 'your' or 'my'. A test names the seed, parent and both family source record ids, and checks that an asker living with that relative is excluded. The current owner scene-review ruling applies; this change adds no new bank sentences. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** data/english/parts/conversation.json, src/director/conversation.ts, src/director/data/journal-rows.json
 
 **Notes.** Split from play-stop-20 by the speed lead (Oct 25); the shared-relative skip is on that PR.
 
 Merger 0: Sent back 2026-10-26 from PR #6156 (branch play-first/words-family-talk-kin-address): own merged-tree validation blocked by this merger workspace's invalid GH_TOKEN/HTTP401, preventing real-head fetch and main integration/push; no code defect claimed. Status/Notes updated through connected GitHub because the pool CLI cannot authenticate. Finish validation on that branch with working checkout credentials, merge main into it first.
+
+Merger 0: Clarified the existing generated-world acceptance and retired the stale grading-batch clause under the owner's October 24 ruling in OWNER-DECISIONS.md: scene review replaces batch-style grading, and the hold is released. The existing bank lines are reused; the required parent-address behavior and record proof are retained.
