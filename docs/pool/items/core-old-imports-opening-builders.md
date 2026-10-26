@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Follows core-old-imports-14 (PR #4773). One module per session; start with the smallest leaf the opening builders share.
 
 Oct 20 (pool feeder): spec written; the grep on this branch also lists opening-people.ts, town-workplaces.ts, work-schedules.ts and tooling/generated-world.ts, which no child covered, so three split items were created; the rest already have children.
+
+Dropped by the Oct 25 audit: a roll-up superseded by the core-old-engine-02 to -07 chain; core-old-imports-opening-people stays as its own item.

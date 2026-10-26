@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T12:18:56.125Z
 
 **Rules.** Wire to the world: a policy row without a handler is an unregistered placeholder; fix the handler or remove the row in the same change. One rule, all 56 places: the sales-tax check names its place and seed and must hold in any drawn place. A test is never loosened to pass.
 
-**Done when.** src/core2/law-reach-group-b.test.ts passes in full on a drawn place and on seed fe0ccacfdc69466b7eaf7b6844dcd892c394fb70e12524e00314298c091b21de (Pecktonville, Maryland), with the handler count equal to the policy rows, named by policy id, and 253 price records for the sales tax in that world.
+**Done when.** src/core2/law-reach-group-b.test.ts passes in full on a drawn place and on seed fe0ccacfdc69466b7eaf7b6844dcd892c394fb70e12524e00314298c091b21de (Pecktonville, Maryland), with the handler count equal to the policy rows, named by policy id, and 253 price records for the sales tax in that world. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/law-reach-group-b.test.ts, src/core2/law-reach/
 

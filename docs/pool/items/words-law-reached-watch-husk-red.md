@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Two-level population: a counted heir the story needs is filled in from the records before the director watches them, matching what the records already say. One rule, all 56 places: the fix holds for any drawn place and seed, never a named one.
 
-**Done when.** The test passes on seed 23ba48d50ea16bbef679fb1ed07c82c110943a90 and on three more places drawn from all 56 with seeds the builder did not choose, each named in the PR body.
+**Done when.** The test passes on seed 23ba48d50ea16bbef679fb1ed07c82c110943a90 and on three more places drawn from all 56 with seeds the builder did not choose, each named in the PR body. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/director/law-reached-scenes.test.ts, src/director/ledger.ts
 

@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T05:57:23.686Z
 
 **Rules.** Wire to the world: a firm that sells to residents sells a kind of good the residents engine records, from the sector's own row. Estimate, never UNKNOWN: a missing kind is filled from the sector's real purchase kinds, not skipped. One rule, all 56 places: the check draws its place and names it with the seed.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place, seed named in the PR body) a professional-services founding enters the resident market with at least one purchase kind, named by organization record id, and the candidacy calibration run that found it (CALIBRATION_RUN=1 with the stay-out pull at 3.8, seeds c1 to c6) reaches its count without this error; a test beside src/core2/business tests covers it.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place, seed named in the PR body) a professional-services founding enters the resident market with at least one purchase kind, named by organization record id, and the candidacy calibration run that found it (CALIBRATION_RUN=1 with the stay-out pull at 3.8, seeds c1 to c6) reaches its count without this error; a test beside src/core2/business tests covers it. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/business.ts, src/core2/modules/residents.ts
 
