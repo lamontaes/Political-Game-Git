@@ -31,7 +31,8 @@
     "campaigner": "The campaigner whose people came by, by name, from the campaign record.",
     "title": "How the person is addressed (their office), from their term.",
     "issue": "The bill's question, named as the bill catalog records it.",
-    "tally": "A vote's count, against to for, from the legislature's record of the bill that lost."
+    "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
+    "reporter": "The reporter who wrote a story, by name, from the press record."
   },
   "maxWords": 70,
   "parts": [
@@ -5998,7 +5999,8 @@
           "move": "blame",
           "role": "asked",
           "purpose": "staff-news",
-          "key": "news-received"
+          "key": "news-received",
+          "requiresFacts": ["story"]
         }
       ],
       "bearing": "braced",
@@ -8825,7 +8827,8 @@
           "move": "promise",
           "role": "asker",
           "purpose": "staff-news",
-          "key": "news-received"
+          "key": "news-received",
+          "requiresFacts": ["story"]
         }
       ],
       "bearing": "braced",
@@ -8850,7 +8853,8 @@
           "move": "offer",
           "role": "asker",
           "purpose": "staff-news",
-          "key": "news-received"
+          "key": "news-received",
+          "requiresFacts": ["story"]
         }
       ],
       "bearing": "calm",
@@ -17853,7 +17857,8 @@
           "move": "thank",
           "role": "asked",
           "purpose": "staff-news",
-          "key": "news-received"
+          "key": "news-received",
+          "requiresFacts": ["story"]
         }
       ],
       "bearing": "calm",
@@ -20915,7 +20920,8 @@
           "role": "asked",
           "purpose": "staff-news",
           "key": "news-received",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["bill-lost"]
         }
       ],
       "bearing": "braced",
@@ -21019,7 +21025,8 @@
           "role": "asker",
           "purpose": "staff-news",
           "key": "news-received",
-          "after": "scene-talk.reply-ask.did-anybody-call-us-first"
+          "after": "scene-talk.reply-ask.did-anybody-call-us-first",
+          "requiresFacts": ["bill-lost"]
         }
       ],
       "bearing": "solemn",
@@ -21045,7 +21052,8 @@
           "role": "asker",
           "purpose": "staff-news",
           "key": "news-received",
-          "after": "scene-talk.reply-ask.what-are-they-saying"
+          "after": "scene-talk.reply-ask.what-are-they-saying",
+          "requiresFacts": ["bill-lost"]
         }
       ],
       "bearing": "solemn",
@@ -84164,6 +84172,453 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-in-with-the-story-outlet-ran-on-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes in with the story {outlet} ran on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-in-with-the-story-outlet-ran-about-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes in with the story {outlet} ran about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-you"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.outlet-ran-a-story-on-bill-and-it-comes-out-against-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{outlet} ran a story on {bill}, and it comes out against it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-bill"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.outlet-has-a-story-out-on-bill-it-isn-t-kind",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{outlet} has a story out on {bill}. It isn't kind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-bill"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.outlet-ran-a-story-about-you-and-it-isn-t-flattering",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{outlet} ran a story about you, and it isn't flattering.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-you"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.you-re-in-outlet-and-not-in-a-good-way",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "You're in {outlet}, and not in a good way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-you"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-it-say",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does it say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-bill-is-the-wrong-call",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That {bill} is the wrong call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-bill"],
+          "after": "scene-talk.reply-ask.what-does-it-say"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-good-you-should-read-it-yourself",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing good. You should read it yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-you"],
+          "after": "scene-talk.reply-ask.what-does-it-say"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-wrote-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who wrote it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "reporter"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.reporter-wrote-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{reporter} wrote it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "reporter"],
+          "after": "scene-talk.reply-ask.who-wrote-it"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-re-saying-bill-is-the-wrong-call",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They're saying {bill} is the wrong call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-bill"],
+          "after": "scene-talk.reply-ask.what-are-they-saying"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-kind-read-it-before-you-call-anyone",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing kind. Read it before you call anyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story", "about-you"],
+          "after": "scene-talk.reply-ask.what-are-they-saying"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-offer.you-could-call-outlet-and-give-them-your-side",
+      "move": "follow-offer",
+      "kind": "spoken",
+      "text": "You could call {outlet} and give them your side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "offer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-get-you-a-copy-of-the-whole-story",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll get you a copy of the whole story.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-telling-me",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for telling me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.of-course-outlet-would-run-that",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "Of course {outlet} would run that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["press-story"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
       }
     }
   ]
