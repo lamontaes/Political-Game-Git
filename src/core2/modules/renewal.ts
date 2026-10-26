@@ -16,7 +16,7 @@ import {
 } from "../births-unplanned";
 import { transferCash } from "../world-transfer";
 import { lawApplied } from "../law-reach/applied";
-import { applyCountedFlows } from "../births-counted";
+import { applyCountedFlows, partnerByAge } from "../births-counted";
 import { nextMonthDay } from "../residents";
 import type { CoreAPI, CoreModule, Source } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -204,8 +204,6 @@ function conceiveUnplanned(
     api.state.people.get(row.motherId)?.householdId === playerHome
   )
     return;
-  // Full couples only: the counted households do not carry exposure yet.
-  api.stopgap("SG-PEOPLE-unplanned-counted-tier");
 
   const carryRow = table(api, "exposure").get(row.id);
   const exposure = unplannedExposure(api, row, api.state.date);
@@ -354,6 +352,109 @@ function conceiveUnplanned(
     source: planSource,
     facts: { ...facts, dueDate, conceivedAt: api.state.date },
   });
+}
+
+/**
+ * A counted woman filled in keeps what the counts held for her: with her
+ * partner she is a couple the births engine reviews, her own exposure toward
+ * an unplanned pregnancy carries over unchanged, and a pregnancy under way
+ * ends at its due date as a full one.
+ */
+function fillInCounted(api: CoreAPI, memberIds: readonly string[]): void {
+  const date = api.state.date;
+  const people = memberIds
+    .map((id) => api.state.people.get(id))
+    .filter((person) => person?.alive);
+  for (const mother of people) {
+    if (mother!.looks?.gender !== "female") continue;
+    const exposure = table(api, "countedExposure").get(mother!.id);
+    const pregnant = (
+      table(api, "countedUnplanned").query("byMother", [
+        mother!.id,
+      ]) as ModuleRow[]
+    ).find((row) => row.status === "pregnant");
+    if (!exposure && !pregnant) continue;
+    const partner = people.find(
+      (other) =>
+        other!.id !== mother!.id &&
+        mother!.familyIds.has(other!.id) &&
+        partnerByAge(mother!, other!, date),
+    );
+    if (!partner) {
+      if (pregnant)
+        table(api, "countedUnplanned").put({ ...pregnant, status: "left" });
+      continue;
+    }
+    const id = `fill-in:${mother!.id}:${partner.id}`;
+    const children = childrenByParent(api);
+    const row: BirthCouple = (table(api, "couples").get(id) as
+      (BirthCouple & ModuleRow) | undefined) ?? {
+      id,
+      motherId: mother!.id,
+      otherParentId: partner.id,
+      startedAt: api.state.startedAt,
+      childIds: [
+        ...new Set([
+          ...(children.get(mother!.id) ?? []),
+          ...(children.get(partner.id) ?? []),
+        ]),
+      ],
+    };
+    table(api, "couples").put({
+      ...row,
+      childIds: [...row.childIds],
+      status: "active",
+    });
+    if (exposure) {
+      table(api, "exposure").put({ id, carry: Number(exposure.carry ?? 0) });
+      table(api, "countedExposure").remove(mother!.id);
+    }
+    if (pregnant) {
+      // Due on its own date, or tomorrow when the counts had not yet run it.
+      const tomorrow = dateAfter(api, renewalParameter(api, "one"));
+      const dueDate =
+        String(pregnant.dueDate) > date ? String(pregnant.dueDate) : tomorrow;
+      const pregnancyId = `${pregnant.id}:pregnancy`;
+      const planSource: Source = {
+        tag: "ESTIMATED",
+        asOf: date,
+        citation:
+          "Unplanned pregnancy decided in the counts from her record, filled in with her.",
+        estimatedFrom: `Counted decision ${pregnant.id}. SG-PEOPLE-unplanned-pregnancy.`,
+      };
+      table(api, "pregnancies").put({
+        id: pregnancyId,
+        planId: String(pregnant.id),
+        coupleId: id,
+        motherId: mother!.id,
+        otherParentId: partner.id,
+        conceivedAt: String(pregnant.date),
+        opening: false,
+        unplanned: true,
+        dueDate,
+        status: "pregnant",
+        lawId: (pregnant.lawId as string | null) ?? null,
+        source: planSource as unknown as ModuleRow["source"],
+      });
+      api.moduleCalendar(RENEWAL_MODULE_ID).schedule({
+        key: `${pregnancyId}:delivery`,
+        date: dueDate,
+        kind: "delivery",
+        source: planSource,
+        sourceRecordIds: [pregnancyId],
+      });
+      table(api, "countedUnplanned").put({
+        ...pregnant,
+        status: "filled-in",
+        pregnancyId,
+      });
+    } else
+      scheduleReview(
+        api,
+        row,
+        dateAfter(api, renewalParameter(api, "renewalReviewDays")),
+      );
+  }
 }
 
 /** The counted population's flows run on the first of each month. */
@@ -597,6 +698,15 @@ export const RENEWAL_MODULE: CoreModule = {
       },
       /** Each place's fractional flows carried to next month. */
       countedCarry: {},
+      /** Unplanned pregnancies in counted households: the decision, its reasons and how it ended. */
+      countedUnplanned: {
+        indexes: {
+          byPlace: { fields: ["placeId"] },
+          byMother: { fields: ["motherId"] },
+        },
+      },
+      /** Each counted woman's own exposure toward an unplanned pregnancy, by her id. */
+      countedExposure: {},
       kin: {
         indexes: {
           byPerson: { fields: ["personId"] },
@@ -641,6 +751,9 @@ export const RENEWAL_MODULE: CoreModule = {
     });
     review(api, row);
   },
+  onFillIn(api, { memberIds }) {
+    fillInCounted(api, memberIds);
+  },
   onDay(api) {
     if (!initialized.has(api.state)) {
       initialized.add(api.state);
@@ -651,7 +764,14 @@ export const RENEWAL_MODULE: CoreModule = {
     const id = work.sourceRecordIds[0]!;
     if (work.kind === "delivery") deliver(api, id);
     else if (work.kind === "counted") {
-      applyCountedFlows(api, "countedCarry", "counts", "births");
+      applyCountedFlows(
+        api,
+        "countedCarry",
+        "counts",
+        "births",
+        "countedUnplanned",
+        "countedExposure",
+      );
       scheduleCounted(api);
     } else if (work.kind === "review") {
       const row = table(api, "couples").get(id);
