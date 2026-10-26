@@ -296,6 +296,30 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.33.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A household's former home keeps its last rent or value.** When a household
+  is evicted, loses its home to foreclosure or sells it, the home it left now
+  keeps the rent it paid, the value its home held or the price it sold for, with
+  how it held the home. The town's homes no longer count those former homes as
+  homes with no price.
+
+## PRE-ALPHA 0.33.1
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Count minor offenses and let police staffing move their arrests** The
+  justice case flow now records minor quality-of-life offenses (disorderly
+  conduct, drunkenness, liquor law violations, loitering, vagrancy and drug
+  possession) as cases, and the police staffing a place funds moves how many of
+  those arrests happen.
+
 ## PRE-ALPHA 0.33.0
 
 _Released October 26, 2026._
