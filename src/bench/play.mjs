@@ -2877,20 +2877,26 @@ const sheets = {
     const earlier = races.slice(night.length, night.length + 8);
     // After your own night's races, every other state's governor race that
     // night, from the world's race records: who won and by how much.
-    const nationRows = [
-      el("h3", { textContent: labels.nation }),
-      ...(nation.length
-        ? nation.map((race) => {
-            const line = row(
-              race.state,
-              `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints.toFixed(1)} ${labels.points}`,
-            );
-            line.classList.add("nation-race");
-            line.dataset.race = race.id;
-            return line;
-          })
-        : [el("p", { className: "label", textContent: labels.noNation })]),
-    ];
+    const nationBlock = el(
+      "div",
+      { className: "row race nation" },
+      el("b", { textContent: labels.nation }),
+      nation.length
+        ? el(
+            "div",
+            { className: "nation-grid" },
+            ...nation.map((race) => {
+              const line = row(
+                race.state,
+                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints.toFixed(1)} ${labels.points}`,
+              );
+              line.classList.add("nation-race");
+              line.dataset.race = race.id;
+              return line;
+            }),
+          )
+        : el("div", { className: "label", textContent: labels.noNation }),
+    );
     const rows = [...night, ...earlier].map((race) =>
       el(
         "div",
@@ -2949,7 +2955,7 @@ const sheets = {
     );
     return [
       ...rows.slice(0, night.length),
-      ...nationRows,
+      nationBlock,
       ...rows.slice(night.length),
     ];
   },

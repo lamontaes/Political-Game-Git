@@ -1232,6 +1232,15 @@ body.dev .dev-ring {
 #sheet-body .campaign input {
   margin-right: 12px;
 }
+/* Every other state's governor race that night, three to a line. */
+#sheet-body .nation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 32px;
+}
+#sheet-body .nation-grid .row {
+  padding: 3px 0;
+}
 .race .winner {
   color: var(--gold);
   font-weight: 600;
