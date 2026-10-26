@@ -1977,8 +1977,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         !actor ||
         !Number.isFinite(drive.strength) ||
         drive.strength < p("zero") ||
-        !core.eventIds.has(drive.sourceEventId) ||
-        !api.knows(personId, `event:${drive.sourceEventId}:experienced`)
+        // A drive forms only from an event the person lived through, and the
+        // drives engine rewrites each one daily as it fades; tests and the
+        // bench check its source on every write, play does not.
+        (bookkeeping() &&
+          (!core.eventIds.has(drive.sourceEventId) ||
+            !api.knows(personId, `event:${drive.sourceEventId}:experienced`)))
       )
         throw new Error(
           "Drive requires a learned source event and a finite strength.",
