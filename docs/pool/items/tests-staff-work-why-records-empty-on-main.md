@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/staff-work-why-fixture
+pr: #6170
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T18:10:36.001Z
 ---
 
 **What.** On clean main a53dd0ba22428d89712ebfbd06c050e35ed6b93b, staff.test.ts:150 expects workOf(api, aide.id).length to be five but receives zero. It reproduces at GOLDEN_PATH_SEED=196612b7b9cc3d9b7c955d1fdc5446b2 in an isolated one-worker run, and on PR5769 with both that seed and an independent draw. The five briefing results exist, but the fixture does not request retention for an aide outside the player circle under the current keepsWhy rule.

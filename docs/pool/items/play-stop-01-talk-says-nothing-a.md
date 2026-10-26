@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/play-stop-01-talk-a
 pr: #6078
 blocked-on:

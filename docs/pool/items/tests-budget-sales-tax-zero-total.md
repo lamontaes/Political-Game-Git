@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/budget-sales-tax-zero
-pr:
+pr: #6169
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T17:55:40.000Z

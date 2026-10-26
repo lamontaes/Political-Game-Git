@@ -258,7 +258,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months.officersPer1000, lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "core2-public-safety-v1 months.officersPer1000, lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -305,7 +305,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months.officersPer1000, lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "core2-public-safety-v1 months.officersPer1000, lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -351,7 +351,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months.officersPer1000, lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "core2-public-safety-v1 months.officersPer1000, lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -886,7 +886,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months.reportedPerResident, lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "core2-crime-v1 months.reportedPerResident, lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -3726,7 +3726,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months., lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "the property-tax-rate reader (ENGINE_READERS, src/core2/modules/outcome-web.ts), lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -3969,7 +3969,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months., lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "the state-corporate-rate reader (ENGINE_READERS, src/core2/modules/outcome-web.ts), lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -7455,7 +7455,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months.violentIndex, lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "core2-crime-v1 months.violentIndex, lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -7501,7 +7501,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months.violentIndex, lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "core2-crime-v1 months.violentIndex, lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -7547,7 +7547,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months.violentIndex, lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "core2-crime-v1 months.violentIndex, lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -7593,7 +7593,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "world-metrics months.violentIndex, lagged by causeAt (src/core2/modules/outcome-web.ts)"
+          "evidence": "core2-crime-v1 months.violentIndex, lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -11621,7 +11621,7 @@
     {
       "measure": "crime.reported-per-capita",
       "status": "engine-record",
-      "evidence": "world-metrics months.reportedPerResident",
+      "evidence": "core2-crime-v1 months.reportedPerResident",
       "countedTwice": false,
       "asCause": ["crime-to-out-migration"],
       "asOutcome": []
@@ -11666,7 +11666,7 @@
     {
       "measure": "crime.violent-victimization-index",
       "status": "engine-record",
-      "evidence": "world-metrics months.violentIndex",
+      "evidence": "core2-crime-v1 months.violentIndex",
       "countedTwice": false,
       "asCause": [
         "crime-level-to-burglary",
@@ -12397,7 +12397,7 @@
     {
       "measure": "housing.property-tax-rate",
       "status": "engine-record",
-      "evidence": "world-metrics months.",
+      "evidence": "the property-tax-rate reader (ENGINE_READERS, src/core2/modules/outcome-web.ts)",
       "countedTwice": false,
       "asCause": ["property-tax-to-rent"],
       "asOutcome": []
@@ -12795,7 +12795,7 @@
     {
       "measure": "police.officers-per-1000",
       "status": "engine-record",
-      "evidence": "world-metrics months.officersPer1000",
+      "evidence": "core2-public-safety-v1 months.officersPer1000",
       "why": "measure counted twice: an engine records it and the web also keeps it",
       "countedTwice": true,
       "asCause": [
@@ -13148,7 +13148,7 @@
     {
       "measure": "tax.state-corporate-rate-in-force",
       "status": "engine-record",
-      "evidence": "world-metrics months.",
+      "evidence": "the state-corporate-rate reader (ENGINE_READERS, src/core2/modules/outcome-web.ts)",
       "countedTwice": false,
       "asCause": ["corporate-tax-incidence"],
       "asOutcome": []
