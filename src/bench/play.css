@@ -1528,7 +1528,8 @@ body.dev .dev-ring {
   min-height: 0;
   overflow-y: auto;
 }
-#game.filing-open #news-surface {
+#game.filing-open #news-surface,
+#game.filing-open #journal-note {
   visibility: hidden;
 }
 #filing-overlay .name {
