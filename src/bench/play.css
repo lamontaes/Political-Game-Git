@@ -2317,6 +2317,19 @@ body.dev .dev-ring {
 .government-body {
   max-width: 1000px;
 }
+/* A member's line: name and party, then the term, who won the seat and your
+   race for it, each on a line of its own. */
+.government-body .row:has(> .row) {
+  flex-wrap: wrap;
+}
+.government-body .row > .row {
+  flex-basis: 100%;
+  justify-content: flex-end;
+  padding: 2px 0;
+}
+.government-body .row.own-race {
+  color: var(--gold);
+}
 .key-people {
   break-inside: avoid;
 }
