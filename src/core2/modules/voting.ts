@@ -53,7 +53,8 @@ import {
 } from "../turnout";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
-import { decisionLean, leanedYes } from "../trait-decisions";
+import { decisionLean } from "../trait-decisions";
+import { standsAgain } from "../stand-again";
 import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -95,7 +96,7 @@ import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
 import { drawOfficialIdentity } from "../officials-identity";
 export { candidateIdentity } from "../candidate-identity";
-import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
+import { PARTIES_MODULE_ID, joinParty, partiesHere, partyTie } from "./parties";
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { nationalParty, partySide } from "../appointments";
 import { recordAppeal, type RecordReason } from "./record";
@@ -313,44 +314,7 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 
-/**
- * Whether a serving incumbent who is a full person stands again: the base
- * reason, less what their age takes from it, and the person's calibrated
- * trait lean toward standing over retiring.
- */
-export function standsAgain(
-  api: CoreAPI,
-  incumbent: Readonly<PersonState>,
-): boolean {
-  return leanedYes(
-    api.state,
-    incumbent,
-    "voting.stand-again",
-    "stand",
-    "retire",
-    standAgainReason(api, incumbent),
-  );
-}
-
-/** The reasons to stand again before personality: the base, less the weight of age past the pivot. */
-export function standAgainReason(
-  api: CoreAPI,
-  incumbent: Readonly<PersonState>,
-): number {
-  return (
-    campaignParameter("votingStandAgainBase") -
-    campaignParameter("votingStandAgainAgeWeight") *
-      Math.min(
-        1,
-        Math.max(
-          0,
-          (ageOn(incumbent, api.state.date) -
-            campaignParameter("votingStandAgainAgePivot")) /
-            campaignParameter("votingStandAgainAgeSpan"),
-        ),
-      )
-  );
-}
+export { standAgainReason } from "../stand-again";
 
 /** Put every contest's election day and the winner's first day on the calendar. */
 export function openVoting(core: CoreState): void {
@@ -1176,7 +1140,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  if (api.state.modules.has("candidacy")) return;
+  const candidacy = api.state.modules.has("candidacy");
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
   // Whoever holds the seat when filing closes stands as its incumbent: an
@@ -1226,6 +1190,50 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     filings.put(filing as unknown as ModuleRow);
     announce(api, filing, contest);
   };
+  if (candidacy) {
+    // Who runs is candidacy's, from people's own records. A statewide
+    // partisan race (no district) still draws each major party's nominee
+    // where no one of that side filed: parties field statewide tickets.
+    const partisan =
+      incumbent?.party ??
+      (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("seats")
+          .get(contest.seatId) as unknown as
+          { party?: string | null } | undefined
+      )?.party;
+    if (
+      (contest.level === "federal" || contest.level === "state") &&
+      !contest.district &&
+      partisan
+    )
+      for (const party of [-1, 1].map((side) => partyOnSide(api, side)))
+        if (
+          !ballot(api, contestId).some(
+            (f) =>
+              f.status === "on-ballot" &&
+              partySide(f.party ?? null) === partySide(party),
+          )
+        ) {
+          const nominee =
+            officialCandidate(api, contest, party) ??
+            officialCandidateId(`nominee:${party}:${contest.id}`);
+          // The party's nominee is its member: a person filled in to run
+          // for it joins it the day they file.
+          const partyHere = api.state.modules.has(PARTIES_MODULE_ID)
+            ? partiesHere(api).find((row) => row.name === party)
+            : undefined;
+          if (
+            partyHere &&
+            api.state.people.has(nominee) &&
+            !partyTie(api, nominee)
+          )
+            joinParty(api, nominee, partyHere.id);
+          put(nominee, party, "party nominee");
+        }
+    return;
+  }
   const alive =
     incumbent &&
     incumbent.status === "serving" &&
@@ -2256,8 +2264,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     }
     if (choice) namedVotes[choice] = (namedVotes[choice] ?? 0) + 1;
     // The reasons behind a ballot (each candidate's appeal terms, the record
-    // reasons, why they turned out) are kept for the player's circle and when
-    // bookkeeping is on; everyone else's ballot keeps who voted and the choice,
+    // reasons, why they turned out) are kept for the player's circle (and
+    // everyone's under the keep-everyone's-why switch); everyone else's ballot
+    // keeps who voted and the choice,
     // which is all the turnout and results reads take.
     const why = keepsWhy(api.state as CoreState, voter.id);
     table(api, "ballots").put({

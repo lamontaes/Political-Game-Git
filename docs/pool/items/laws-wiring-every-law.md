@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read: the engine that pays or decides reads the law and records whom it applied it to. One model, two tiers: counted groups take the same rule as full people. Wire to the world: every law moves money or people in a played world.
 
-**Done when.** In two places drawn from all 56, the checker scripts/law-wiring/check.ts on buildBenchWorld shows every law wired on all nine links or carrying a specific stopgap row, docs/reports/law-wiring-matrix.json shows it, and each family test names record ids.
+**Done when.** In two places drawn from all 56, the checker scripts/law-wiring/check.ts on buildBenchWorld shows every law wired on all nine links or carrying a specific stopgap row, docs/reports/law-wiring-matrix.json shows it, and each family test names record ids. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/law-wiring/check.ts, src/core2/law-reach/applied.ts, src/core2/law-reach/host.ts, docs/reports/law-wiring-2026-10-20.md
 
@@ -36,3 +36,5 @@ Sent back 2026-10-23 from PR #5589 (branch claude/law-wiring-labor): Missing Don
 Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): Debt-repeal fix is present, but the table explicitly leaves family acceptance unmet and committed matrix links missing/partial; complete it or use a valid bounded cost/debt item with full evidence; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5589 (branch claude/law-wiring-labor): The table leaves 14 of 16 laws short of nine-link acceptance, and idFromBody resolves the bare first-line laws-wiring-every-law token to the unfinished umbrella; route the completed slice to bounded acceptance or finish the missing links; finish on that branch, merge main into it first.
+
+Merger 0: Sent back 2026-10-26 from status-report PR #6164 (branch claude/law-wiring-report-oct26): own merged-tree/report validation blocked by this merger workspace's invalid GH_TOKEN/HTTP401, preventing actual-head fetch and main integration/push; no code defect claimed. This report completes no pool item; laws-wiring-every-law remains open with its existing PR/claim metadata. Notes recorded via connected GitHub while the pool CLI cannot authenticate. Finish validation on that branch with working checkout credentials, merge main into it first.

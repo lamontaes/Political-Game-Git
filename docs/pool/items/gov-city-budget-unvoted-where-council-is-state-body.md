@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: the route comes from the place's government records, never a place named in logic. No dice: the council's vote decides by its members' views, duty and the law. Replace, never layer: the carried-forward default stays only for a budget whose body did not vote.
 
-**Done when.** In a one-year played world (buildBenchWorld) of a place whose council is its state-level legislature, drawn from all 56 by that record and named with its seed in the PR, the mayor's proposed administration change goes to a council budget bill by record id, the vote is recorded, and when it passes the city's adopted budget for the next fiscal year carries the change (the adopted line differs from the carried-forward one); src/core2/budget-line-administration-staffing.test.ts passes for such a draw.
+**Done when.** In a one-year played world (buildBenchWorld) of a place whose council is its state-level legislature, drawn from all 56 by that record and named with its seed in the PR, the mayor's proposed administration change goes to a council budget bill by record id, the vote is recorded, and when it passes the city's adopted budget for the next fiscal year carries the change (the adopted line differs from the carried-forward one); src/core2/budget-line-administration-staffing.test.ts passes for such a draw. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/budgets.ts, src/core2/office-day-acts.ts, src/core2/budget-line-administration-staffing.test.ts
 

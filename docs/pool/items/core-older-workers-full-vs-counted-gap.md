@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: the counted group is read by the same rule as a full person, times its count. Estimate, never UNKNOWN: the starting share comes from the real average by age with a per-world spread. No dice.
 
-**Done when.** In a drawn place and seed named in the PR body, buildBenchWorld one year in shows the working share of people 62 to 67 within 8 points between full and counted people, and each within the BLS CPS band for the age, shown by job record ids, with a test that names the place and seed.
+**Done when.** In a drawn place and seed named in the PR body, buildBenchWorld one year in shows the working share of people 62 to 67 within 8 points between full and counted people, and each within the BLS CPS band for the age, shown by job record ids, with a test that names the place and seed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/opening-employment.ts, src/core2/modules/residents.ts
 
