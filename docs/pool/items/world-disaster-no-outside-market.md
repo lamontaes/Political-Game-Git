@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5260 (branch claude/disaster-no-outside-market): T
 Sent back 2026-10-23 from PR #5260 (branch claude/disaster-no-outside-market): the changed outside-market repair test returned no result after the full-file run exceeded ten minutes and its solo retry timed out at 620 seconds (exit 124), GOLDEN_PATH_SEED=ff3b9368f7978883b379ccd3bf9f31d2; the existing test passed its solo retry and other gates passed apart from main-only pool warnings; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5260 (branch claude/disaster-no-outside-market): the corrective repair case replaces the explicitly required buildBenchWorld with createLifeCore(generatedOpening(...)), omitting the bench modules/openings, while its evidence table still claims the old builder and bounds; keep the bounded FEMA damage screen, restore the full bench-world proof, align the table and finish on that branch, merge main into it first.
+
+Found on main at 2a524c1757 by the Oct 25 audit: PR #5260 merged Oct 25 with this item on line 1; the pool-done flip missed it.

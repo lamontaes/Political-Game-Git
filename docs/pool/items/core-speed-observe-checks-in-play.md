@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Filed Oct 25 by the speed lead; all 39 callers outside tests pass an object literal (grep of api.observe).
 
 Built and measured Oct 25 (speed lead), not shipped: branch `claude/speed-observe-in-play` at b34c71d947 is exact (deep fingerprints identical: Long Hill year one `3350c66a3805f1e8`; Stanardsville years one to three `176370fb6d3c2ba1`, `3ccb0a9002236aa5`, `4be9e9254da3aaf3`), but in a profiled pair of Long Hill's year (152.8 against 150.8 s, 0.987) `observe` falls only from 1.7 to 1.4 s (18 percent), short of this item's third. Most of its time is the write into each person's knowledge map, not the checks or the copy. Recommend dropping the item; claim released.
+
+Dropped by the Oct 25 audit: the speed lead measured it short of its third and recommended dropping it.

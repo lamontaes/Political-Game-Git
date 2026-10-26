@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T07:13:49.604Z
 
 **Rules.** No hand-written player text: every line comes from the bank. Research before building: questions are mined from public hearing transcripts and tagged SOURCED. No dice: which question follows the bill's sections and the witness's side, not a roll. One rule, all 56 places: the lines name no place.
 
-**Done when.** In a drawn state (name and seed in the PR body) a committee-day hearing record id from committeeSitting has a chair question and a witness reply worded from hearing.json parts, shown in the state day result, with a test in src/core2/office-day-state.test.ts.
+**Done when.** In a drawn state (name and seed in the PR body) a committee-day hearing record id from committeeSitting has a chair question and a witness reply worded from hearing.json parts, shown in the state day result, with a test in src/core2/office-day-state.test.ts. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** data/english/parts/hearing.json, scripts/english-mining/mine-hearings.py, src/director/office-scene.ts, src/core2/office-day-state.ts
 
