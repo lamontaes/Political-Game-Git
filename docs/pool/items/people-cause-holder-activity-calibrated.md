@@ -6,11 +6,11 @@ kind: research
 priority: 2
 size: M
 status: in-pr
-claimed-by: claude/cause-activity-research
+claimed-by:
 pr: #6077
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T23:10:26.888Z
+claimed-at:
 ---
 
 **What.** Bedford, Wyoming (key 5606045, seed 9a4dd331ace7), main 01f5cd4715, three played years, counted at each year's end: cause holders 10, 74 and 74; drives 17, 329 and 367; acts on drives that year 3,483, 15,495 and 34,301 (about 460 a holder in year three); cause groups 3, 31 and 34; group memberships 209, 1,045 and 1,906 among 69, 101 and 115 members (about 17 each in year three). Nothing in the drives engine checks these against how often real people volunteer, give, contact officials or attend meetings, or how many groups they belong to, and it is the main reason a town's third year runs slower than its first (core-later-years-slower-drive-holders-offers). Find sourced rates for each and calibrate how a holder's time, money and traits limit their cause acts and how each further group pulls less, so the totals land in the sourced bands.
@@ -30,3 +30,5 @@ Ready Oct 25 (speed lead), not opened while the play-first freeze holds: branch 
 Oct 25 (CTO ruling): this calibration is the band for how often a cause-holder acts; the speed lead ships people-drives-cause-acts-pull-less against it. No owner question.
 
 Sent back 2026-10-25 from PR #6077 (branch claude/cause-activity-research): report treats unlike activities and age populations as calibrated bands: meeting organizing vs attendance, cause-only volunteering vs all volunteering, annual joins vs membership prevalence, 18+ vs source16+; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #6077 (branch claude/cause-activity-research): corrective report still includes15-year-olds in claimed16+ universe by subtracting years only; use birthday-aware age, and remove remaining unsupported upper-bound/broader-set claims for nonnested donations and selected full-person sample while retaining neutral proxy report; finish on that branch, merge main into it first.

@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/empty-ballot-late-vacancy
-pr:
+pr: #6124
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T20:52:03.460Z

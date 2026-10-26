@@ -180,10 +180,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         ]),
       },
     } as Director;
+    // The household's own past still tells the family; the visits tell nothing.
+    const contactIds = [seen("2021-03-01").id, seen("2021-03-08").id];
     expect(
       composeJournal(core, fixture, player.id, {
         through: makeIsoDate("2021-04-01"),
-      }).flatMap((row) => row.lines),
+      })
+        .flatMap((row) => row.lines)
+        .filter((line) => line.momentIds.some((id) => contactIds.includes(id))),
     ).toEqual([]);
     for (const line of chapters.flatMap((row) => row.lines))
       expect(line.text).not.toMatch(
@@ -554,6 +558,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         moverId,
       )
         .flatMap((row) => row.lines)
+        .filter((line) =>
+          line.momentIds.some((id) => [own.id, movedMoment.id].includes(id)),
+        )
         .map((line) => line.text);
     const named = told(mover.placeId);
     const moved = named.filter((line) => /^We /.test(line));
@@ -605,9 +612,29 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         people: new Map([[player.id, { ...book, moments: [moment] }]]),
       },
     } as Director;
-    // Nothing happened there, and nobody from it holds office: no chapter.
+    // The household's own past is told whatever else the ledger holds; the
+    // school's moment adds nothing to it.
+    const family = new Set(
+      composeJournal(
+        core,
+        {
+          ...fixture,
+          ledger: {
+            ...fixture.ledger,
+            people: new Map([[player.id, { ...book, moments: [] }]]),
+          },
+        } as Director,
+        player.id,
+        { officeOf: () => undefined },
+      ).flatMap((row) => row.lines.map((line) => line.id)),
+    );
+    const beyond = (rows: { lines: { id: string }[] }[]) =>
+      rows.flatMap((row) => row.lines).filter((line) => !family.has(line.id));
+    // Nothing happened there, and nobody from it holds office: no line.
     expect(
-      composeJournal(core, fixture, player.id, { officeOf: () => undefined }),
+      beyond(
+        composeJournal(core, fixture, player.id, { officeOf: () => undefined }),
+      ),
     ).toEqual([]);
     // Years later the schoolmate holds office: they are remembered, in a
     // chapter the school does not title.
@@ -618,7 +645,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const schoolName = String(school.facts?.schoolName ?? "");
     for (const chapter of chapters)
       if (schoolName) expect(chapter.title).not.toContain(schoolName);
-    const lines = chapters.flatMap((row) => row.lines);
+    const lines = beyond(chapters) as (typeof chapters)[number]["lines"];
     expect(lines).toHaveLength(1);
     expect(lines[0]!.text).not.toMatch(/^Except/);
     expect(lines[0]!.text).toMatch(/mayor/);
