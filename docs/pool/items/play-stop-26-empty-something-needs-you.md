@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #6126
 blocked-on:
@@ -31,3 +31,5 @@ claimed-at:
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:25, 16:27, 16:34; screenshots 65, 83-dec-needs-2 to 6. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
 Claim released Oct 25: branch never pushed (`play-first/play-stop-26-empty-something-needs-you`).
+
+Sent back 2026-10-26 from PR #6126 (branch play-first/play-stop-26-empty-something-needs-you, head6b5edcfbbce8e40b3b27adeef09c02c96a7eb09e): stops-answerable.test.ts can pass with no observed story/stopped entries and never asserts the year completed; require explicit completion, nonempty actual staged/family-stop preservation and an observed unstaged journal-only moment, with a no-stops negative that fails and no output-conditioned redraw. Main merged cleanly; no runtime failure claimed. Words approval stands, installed-build owner acceptance remains open; finish on that branch, merge main into it first.
