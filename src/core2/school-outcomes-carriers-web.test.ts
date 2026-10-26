@@ -30,9 +30,13 @@ import { linkCoverage, WEB_LINKS, WIRED_INTO } from "./outcome-web-model";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
 import {
   SCHOOL_MEASURE,
+  schoolStartYear,
+  studentsByPlace,
   type SchoolGroupRow,
   type SchoolResultRow,
 } from "./school-outcomes";
+import schoolData from "./data/school/outcomes.json" with { type: "json" };
+import schoolDays from "./data/school-days.json" with { type: "json" };
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -124,6 +128,34 @@ function play(drawn: Drawn, link?: string) {
   return { core, placeId: built.placeId };
 }
 
+/**
+ * Whether a drawn place can show every carrier, from what its opening holds:
+ * seniors to graduate this school year, and full students in the tested math
+ * grade, since only a full student keeps a math result. What the played year
+ * then makes of them is under test, so a place that passes here is never
+ * drawn again.
+ */
+function ineligible(drawn: Drawn): string | null {
+  const opening = gameStartDate();
+  const built = buildBenchWorld(drawn.seed, opening, {
+    twoLevel: true,
+    placeKey: drawn.key,
+  });
+  const api = coreAPI(built.core as CoreState);
+  const startYear = schoolStartYear(opening, schoolDays.schoolYear.firstDay);
+  const of = (grade: number) =>
+    studentsByPlace(api, grade, startYear, () => undefined).get(
+      built.placeId,
+    ) ?? [];
+  const missing = [
+    ...(of(schoolData.tested.graduation).length ? [] : ["no seniors"]),
+    ...(of(schoolData.tested.math).some((student) => student.full)
+      ? []
+      : [`no full student in grade ${schoolData.tested.math}`]),
+  ];
+  return missing.length ? `${missing.join(" and ")} this school year` : null;
+}
+
 const groupsOf = (core: CoreState, placeId: string, measure: string) =>
   rows<SchoolGroupRow>(core, "groups").filter(
     (g) => g.measure === measure && g.placeId === placeId,
@@ -155,37 +187,32 @@ describe(`the carried school links reach students through their carriers (seed $
       ).toContain(c.link);
     }
 
-    // A town with students in both measures, and full students with a result
-    // in each, so every carrier has groups and named students to move.
+    // The place is chosen from what its opening holds, before anything is
+    // played: seniors, and full students in the tested math grade.
     const tried: string[] = [];
     let drawn: Drawn | null = null;
-    let base: ReturnType<typeof play> | null = null;
-    for (let attempt = 0; attempt < ATTEMPTS && !base; attempt += 1) {
+    for (let attempt = 0; attempt < ATTEMPTS && !drawn; attempt += 1) {
       const candidate = drawPlace(`${seed}:${attempt}`, "school-carriers-web");
-      const world = play(candidate);
-      const measures = [SCHOOL_MEASURE.graduation, SCHOOL_MEASURE.math];
-      const missing = [
-        ...measures
-          .filter((m) => !groupsOf(world.core, world.placeId, m).length)
-          .map((m) => `no ${m} groups`),
-        ...measures
-          .filter((m) => !resultsOf(world.core, world.placeId, m).length)
-          .map((m) => `no full student with a ${m} result`),
-      ];
-      if (missing.length)
-        tried.push(
-          `${candidate.name}, ${candidate.state}: ${missing.join(" and ")}`,
-        );
-      else {
-        drawn = candidate;
-        base = world;
-      }
+      const why = ineligible(candidate);
+      if (why) tried.push(`${candidate.name}, ${candidate.state}: ${why}`);
+      else drawn = candidate;
     }
-    if (!drawn || !base)
+    if (!drawn)
       throw new Error(
         `no drawn place in ${ATTEMPTS} draws had students in both measures: ${tried.join("; ")}`,
       );
     const where = `${drawn.name}, ${drawn.state}, seed ${drawn.seed}`;
+    const base = play(drawn);
+    for (const measure of [SCHOOL_MEASURE.graduation, SCHOOL_MEASURE.math]) {
+      expect(
+        groupsOf(base.core, base.placeId, measure).length,
+        `${where}: ${measure} groups`,
+      ).toBeGreaterThan(0);
+      expect(
+        resultsOf(base.core, base.placeId, measure).length,
+        `${where}: ${measure} results`,
+      ).toBeGreaterThan(0);
+    }
     const lines: string[] = [];
 
     for (const c of CARRIERS) {

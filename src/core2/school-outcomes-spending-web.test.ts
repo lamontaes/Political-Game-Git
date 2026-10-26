@@ -28,13 +28,22 @@ import {
 } from "./modules/budgets";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { subjectWeight } from "./outcome-web-reach";
-import { linkCoverage, WEB_LINKS, WIRED_INTO } from "./outcome-web-model";
+import {
+  linkCoverage,
+  WEB_LINKS,
+  WEB_SETTINGS,
+  WIRED_INTO,
+} from "./outcome-web-model";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
 import {
   SCHOOL_MEASURE,
+  schoolStartYear,
+  studentsByPlace,
   type SchoolGroupRow,
   type SchoolResultRow,
 } from "./school-outcomes";
+import schoolData from "./data/school/outcomes.json" with { type: "json" };
+import schoolDays from "./data/school-days.json" with { type: "json" };
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -77,8 +86,8 @@ const webRows = (core: CoreState, placeId: string) =>
       .query("byPlace", [placeId]) as unknown as WebMonth[]),
   ].sort((a, b) => a.month.localeCompare(b.month));
 
-/** The raise: the schools line of the first city or county budget in the town that has one. */
-function raiseSchoolsLine(core: CoreState, placeId: string, raise: number) {
+/** The schools line of the first city or county budget in the town that has one, and the town's schools lines in all. */
+function townSchoolsLine(core: CoreState, placeId: string) {
   const api = coreAPI(core);
   const town = governments(api).filter(
     (gov) =>
@@ -86,7 +95,7 @@ function raiseSchoolsLine(core: CoreState, placeId: string, raise: number) {
       core.organizations.get(gov.organizationId)?.placeId === placeId,
   );
   let totalBase = 0;
-  let pick: { id: string; line: number } | null = null;
+  let pick: { id: string; line: number; fiscalYearStart: string } | null = null;
   for (const gov of town) {
     const budget = [...budgetsOf(api, gov.id)]
       .filter((row) => row.startsOn <= core.date)
@@ -95,8 +104,51 @@ function raiseSchoolsLine(core: CoreState, placeId: string, raise: number) {
       ? (baseBudget(api, gov, budget.fiscalYear).spendingMinor["schools"] ?? 0)
       : 0;
     totalBase += base;
-    if (!pick && base > 0) pick = { id: gov.id, line: base };
+    if (!pick && base > 0)
+      pick = { id: gov.id, line: base, fiscalYearStart: gov.fiscalYearStart };
   }
+  return pick ? { ...pick, totalBase } : null;
+}
+
+/**
+ * Whether a drawn place can show the link, from what its opening holds: a
+ * city or county schools line whose fiscal year does not turn over before the
+ * web's next month row reads the raise, and seniors in the town this school
+ * year. What the played year then makes of them is under test, so a place that
+ * passes here is never drawn again.
+ */
+function ineligible(drawn: Drawn): string | null {
+  const opening = gameStartDate();
+  const built = buildBenchWorld(drawn.seed, opening, {
+    twoLevel: true,
+    placeKey: drawn.key,
+  });
+  const core = built.core as CoreState;
+  const line = townSchoolsLine(core, built.placeId);
+  if (!line) return "no city or county schools line";
+  const [year, month] = opening.split("-").map(Number) as [number, number];
+  const nextRow = `${month === 12 ? year + 1 : year}-${String((month % 12) + 1).padStart(2, "0")}-${String(WEB_SETTINGS.schedule.dayOfMonth).padStart(2, "0")}`;
+  const turnover = [year, year + 1]
+    .map((y) => `${y}-${line.fiscalYearStart}`)
+    .find((date) => date > opening)!;
+  if (turnover <= nextRow)
+    return `its fiscal year turns over on ${turnover}, before the web's month row of ${nextRow}`;
+  const startYear = schoolStartYear(opening, schoolDays.schoolYear.firstDay);
+  const seniors =
+    studentsByPlace(
+      coreAPI(core),
+      schoolData.tested.graduation,
+      startYear,
+      () => undefined,
+    ).get(built.placeId) ?? [];
+  if (!seniors.length) return "no seniors this school year";
+  return null;
+}
+
+/** The raise on the town's schools line. */
+function raiseSchoolsLine(core: CoreState, placeId: string, raise: number) {
+  const api = coreAPI(core);
+  const pick = townSchoolsLine(core, placeId);
   if (!pick) return null;
   const deltaMinor = Math.round(pick.line * raise);
   const amended = amendBudget(api, {
@@ -110,15 +162,12 @@ function raiseSchoolsLine(core: CoreState, placeId: string, raise: number) {
     governmentId: pick.id,
     budgetId: amended.id,
     deltaMinor,
-    pct: (deltaMinor / totalBase) * 100,
+    pct: (deltaMinor / pick.totalBase) * 100,
   };
 }
 
-/** Plays the world for a full year from the game start; null where the amended world gives no signal. */
-function play(
-  drawn: Drawn,
-  how: { amend?: number },
-): World | { skipped: string } {
+/** Plays the world for a full year from the game start. */
+function play(drawn: Drawn, how: { amend?: number }): World {
   const opening = gameStartDate();
   const built = buildBenchWorld(drawn.seed, opening, {
     twoLevel: true,
@@ -137,16 +186,18 @@ function play(
     // so that row reads the budget at its Census base.
     if (how.amend && step === 1) {
       const raised = raiseSchoolsLine(core, built.placeId, how.amend);
-      if (!raised) return { skipped: "no city or county schools line" };
-      amended = raised;
+      expect(raised, `${drawn.name}: the schools line is raised`).toBeTruthy();
+      amended = raised!;
     }
-    if (how.amend && step === 45) {
-      // A fiscal year that turned over has dropped the raise from the budget in force.
-      const signal = webRows(core, built.placeId).some(
-        (row) => (row.values[CAUSE] ?? 0) > 0,
-      );
-      if (!signal) return { skipped: "the raise left the budget in force" };
-    }
+    if (how.amend && step === 45)
+      // The place was chosen for a fiscal year that keeps the raise in force
+      // past the web's next month row, which must read it.
+      expect(
+        webRows(core, built.placeId).some(
+          (row) => (row.values[CAUSE] ?? 0) > 0,
+        ),
+        `${drawn.name}: the web reads the raise by day 45`,
+      ).toBe(true);
   }
   expect(core.date, `${drawn.name}: full-year boundary`).toBe(end);
   return { core, placeId: built.placeId, amended };
@@ -168,33 +219,32 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
     const link = WEB_LINKS.find((row) => row.key === LINK)!;
     expect(linkCoverage(link).wired).toBe(true);
 
-    // The amended world picks the place: one whose town budgets carry a schools
-    // line that stays in force, and has seniors to graduate.
+    // The place is chosen from what its opening holds, before anything is
+    // played: a schools line that stays in force, and seniors to graduate.
     const tried: string[] = [];
     let drawn: Drawn | null = null;
-    let amended: World | null = null;
-    for (let attempt = 0; attempt < ATTEMPTS && !amended; attempt += 1) {
+    for (let attempt = 0; attempt < ATTEMPTS && !drawn; attempt += 1) {
       const candidate = drawPlace(`${seed}:${attempt}`, "school-spending-web");
-      const world = play(candidate, { amend: RAISE });
-      const where = `${candidate.name}, ${candidate.state} (seed ${candidate.seed})`;
-      if ("skipped" in world) tried.push(`${where}: ${world.skipped}`);
-      else if (!groupsOf(world.core, world.placeId).length)
-        tried.push(`${where}: no seniors graduated`);
-      else {
-        drawn = candidate;
-        amended = world;
-      }
+      const why = ineligible(candidate);
+      if (why)
+        tried.push(
+          `${candidate.name}, ${candidate.state} (seed ${candidate.seed}): ${why}`,
+        );
+      else drawn = candidate;
     }
-    if (!drawn || !amended)
+    if (!drawn)
       throw new Error(
         `no drawn place in ${ATTEMPTS} draws fit: ${tried.join("; ")}`,
       );
     const where = `${drawn.name}, ${drawn.state}, seed ${drawn.seed}`;
 
-    const base = play(drawn, {}) as World;
+    const amended = play(drawn, { amend: RAISE });
+    expect(
+      groupsOf(amended.core, amended.placeId).length,
+      `${where}: the seniors at the opening have graduation groups`,
+    ).toBeGreaterThan(0);
+    const base = play(drawn, {});
     const shifted = play(drawn, { amend: FAR_RAISE });
-    if ("skipped" in shifted)
-      throw new Error(`${where}: raised far: ${shifted.skipped}`);
     expect(base.placeId).toBe(amended.placeId);
     expect(shifted.placeId).toBe(amended.placeId);
     const placeId = amended.placeId;
