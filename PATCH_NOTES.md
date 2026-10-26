@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.32.9
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Appointed officials and aides work an office week** A town's city
+  administrator, department heads and the aides of its officials now work an
+  ordinary office week instead of a firefighter's 24-hour rotation, so aides can
+  actually turn up to work and be paid for it.
+
 ## PRE-ALPHA 0.32.8
 
 _Released October 26, 2026._
