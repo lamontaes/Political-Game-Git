@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/m003-job-ends-greenland
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T05:18:14.856Z
 ---
 
 **What.** The accepted golden-path spec M0-03 (the day skip that stops at the earliest interrupt, src/bench/m0-check.ts) fails on main at 9528e5e2c4 with GOLDEN_PATH_SEED=f6d4683271130ca439df7dc7c21319bcde607fca7a7f6419e917579c8e7f8e00 and GOLDEN_PATH_PLACE_KEY=0528660 (Greenland, Arkansas). It throws 'A job ends before its day's work, from calendar work.' from src/core2/job-lifecycle.ts:129, reached through player-v1.ts drive. The same error was fixed for office jobs (core-office-job-ends-before-days-work, #4917) and for a year run (core-year-crash-job-end-before-work, #4664), so a new path ends a job on a day its work is still scheduled; CI's golden-path check draws a random seed, so any PR can go red on it, as #6057 did.
