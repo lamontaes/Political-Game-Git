@@ -1,0 +1,945 @@
+{
+  "seed": "f58455b90eaa1e4f",
+  "place": {
+    "seed": "2a1437661140ea46f28b5dadea9e9561790df097bf81a53c2b74dabdbcaf9eb7",
+    "key": "5401900",
+    "name": "Anmoore, West Virginia",
+    "state": "US-WV"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:fiscal.balanced-operating-budget",
+      "kind": "question",
+      "family": "taxes-finance",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-WV:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
+        "law:US-WV:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-0b01ff0e",
+        "law:US-WV:state:us-policy-positions:fiscal.balanced-operating-budget:general:2026-01-22:law-wiring-0b01ff0e-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:fiscal.balanced-operating-budget|US-WV"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [
+        {
+          "id": "law:US-WV:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-06-03:HB 1",
+          "level": "state",
+          "effectiveDate": "2025-06-03",
+          "value": 1
+        }
+      ],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:168": 470,
+        "src/core2/modules/legislature.ts:2116": 422,
+        "src/core2/modules/world-legislating.ts:253": 160,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:695": 38,
+        "src/core2/policy-authority.ts:47": 12,
+        "src/core2/life.ts:556": 8,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-WV:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:967",
+            "treatment": 702386448326571,
+            "control": 702385423918340,
+            "ids": [
+              "journal:2025-02-01:1754",
+              "journal:2025-02-01:1755",
+              "journal:2025-02-01:1756"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1222",
+            "treatment": 1174959993,
+            "control": 1204014024,
+            "ids": [
+              "journal:2025-02-01:3342",
+              "journal:2025-02-01:3343",
+              "journal:2025-02-01:3344"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1240",
+            "treatment": 2176225583,
+            "control": 2147172857,
+            "ids": [
+              "journal:2025-01-21:1555",
+              "journal:2025-01-21:1556",
+              "journal:2025-01-21:1557"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 230006213,
+            "control": 208237006,
+            "ids": [
+              "journal:2025-01-21:1608",
+              "journal:2025-02-01:1914",
+              "journal:2025-02-01:1915"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/housing.ts:1127",
+            "treatment": 1900183,
+            "control": 0,
+            "ids": ["journal:2026-01-06:106448"]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 449517177,
+            "control": 449636602,
+            "ids": [
+              "journal:2025-01-28:1655",
+              "journal:2025-01-29:1694",
+              "journal:2025-01-30:1703"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 49055889,
+            "control": 48939223,
+            "ids": [
+              "journal:2025-01-28:1658",
+              "journal:2025-02-16:8765",
+              "journal:2025-02-21:8951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1212 <- src/core2/budgets-treasury.ts:695",
+            "treatment": 90403473,
+            "control": 90306990,
+            "ids": [
+              "journal:2025-02-01:1730",
+              "journal:2025-03-01:9223",
+              "journal:2025-04-01:18101"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 397868433,
+            "control": 397790715,
+            "ids": [
+              "journal:2025-01-21:1583",
+              "journal:2025-01-21:1584",
+              "journal:2025-01-21:1585"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1560",
+            "treatment": 3198176140,
+            "control": 3198236175,
+            "ids": [
+              "journal:2025-01-28:1656",
+              "journal:2025-01-29:1695",
+              "journal:2025-01-30:1704"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:934",
+            "treatment": 176906649875365,
+            "control": 176906649847706,
+            "ids": [
+              "journal:2025-02-01:1744",
+              "journal:2025-02-01:1745",
+              "journal:2025-02-01:1746"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:713",
+            "treatment": 446006825113917,
+            "control": 446006825135188,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          }
+        ],
+        "diffKinds": 34,
+        "cited": [],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "US-WV",
+            "line": "administration",
+            "moved": -112478111,
+            "treatment": 41956056107,
+            "control": 41954720383,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1826",
+              "journal:2025-02-01:1827",
+              "journal:2025-02-01:1828"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "corrections",
+            "moved": -42653910,
+            "treatment": 16017416397,
+            "control": 16017024380,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1815",
+              "journal:2025-02-01:1816",
+              "journal:2025-03-01:9442"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "healthAndHospitals",
+            "moved": -67324045,
+            "treatment": 25281557262,
+            "control": 25280938509,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1808",
+              "journal:2025-02-01:1809",
+              "journal:2025-03-01:9435"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "higherEducation",
+            "moved": -218645774,
+            "treatment": 82105964732,
+            "control": 82103955223,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1803",
+              "journal:2025-02-01:1804",
+              "journal:2025-03-01:9430"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "highways",
+            "moved": -205844708,
+            "treatment": 77298902183,
+            "control": 77297010328,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1810",
+              "journal:2025-02-01:1811",
+              "journal:2025-02-01:1812"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "housing",
+            "moved": -3772478,
+            "treatment": 1416642583,
+            "control": 1416607911,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1820",
+              "journal:2025-02-01:1821",
+              "journal:2025-02-01:1822"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "localAid",
+            "moved": -456358575,
+            "treatment": 170732036149,
+            "control": 170725901084,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1833",
+              "journal:2025-03-01:9460",
+              "journal:2025-04-01:18338"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "naturalResources",
+            "moved": -29007595,
+            "treatment": 10892945726,
+            "control": 10892679125,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1824",
+              "journal:2025-02-01:1825",
+              "journal:2025-03-01:9451"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "otherPrograms",
+            "moved": -104023401,
+            "treatment": 39062916938,
+            "control": 39061960896,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1830",
+              "journal:2025-02-01:1831",
+              "journal:2025-02-01:1832"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "parks",
+            "moved": -10138534,
+            "treatment": 3807226944,
+            "control": 3807133763,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1817",
+              "journal:2025-02-01:1818",
+              "journal:2025-02-01:1819"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "police",
+            "moved": -12111522,
+            "treatment": 4548124337,
+            "control": 4548013022,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1813",
+              "journal:2025-02-01:1814",
+              "journal:2025-03-01:9440"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "schools",
+            "moved": -127710379,
+            "treatment": 47956155504,
+            "control": 47954979931,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1800",
+              "journal:2025-02-01:1801",
+              "journal:2025-02-01:1802"
+            ]
+          },
+          {
+            "government": "US-WV",
+            "line": "welfareAndMedicaid",
+            "moved": -784953386,
+            "treatment": 294765397278,
+            "control": 294758182297,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1805",
+              "journal:2025-02-01:1806",
+              "journal:2025-02-01:1807"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "balanced-budget-to-borrowing-cost",
+            "status": "built",
+            "to": "gov.borrowing-cost"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-01",
+            "link": "balanced-budget-to-borrowing-cost",
+            "effect": 8
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-02",
+            "link": "balanced-budget-to-borrowing-cost",
+            "effect": 8
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-03",
+            "link": "balanced-budget-to-borrowing-cost",
+            "effect": 8
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-04",
+            "link": "balanced-budget-to-borrowing-cost",
+            "effect": 8
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-05",
+            "link": "balanced-budget-to-borrowing-cost",
+            "effect": 8
+          }
+        ],
+        "firedCount": 5,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-01",
+            "month": "2025-01",
+            "link": "balanced-budget-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-02",
+            "month": "2025-02",
+            "link": "balanced-budget-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-03",
+            "month": "2025-03",
+            "link": "balanced-budget-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-04",
+            "month": "2025-04",
+            "link": "balanced-budget-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-05",
+            "month": "2025-05",
+            "link": "balanced-budget-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-WV:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-06-03:HB 1",
+          "level": "state",
+          "effectiveDate": "2025-06-03",
+          "value": 1
+        }
+      },
+      "heard": {
+        "people": 94,
+        "sample": [
+          "person_11780bbcb29e4a35:budget-line-changed:budget:US-WV:2024:administration:law:US-WV:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting#balance#2025-01-20",
+          "person_c274c86ae0b1a92b:budget-line-changed:budget:US-WV:2024:administration:law:US-WV:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting#balance#2025-01-20",
+          "person_f1729ad31cef77bd:budget-line-changed:budget:US-WV:2024:administration:law:US-WV:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting#balance#2025-01-20"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:fiscal.balanced-operating-budget|US-WV"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 77
+    },
+    {
+      "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "kind": "question",
+      "family": "taxes-finance",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-WV:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
+        "law:US-WV:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-01-21:law-wiring-89d5b8d0",
+        "law:US-WV:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2026-01-22:law-wiring-89d5b8d0-b"
+      ],
+      "openingReach": {
+        "fullPeople": 14,
+        "countedGroups": 1,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 16,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|US-WV",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_cdf9abc0f4adf4b7",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_868df26b9d3b7f3e",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_c274c86ae0b1a92b"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [
+        {
+          "id": "law:US-WV:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-06-03:HB 13",
+          "level": "state",
+          "effectiveDate": "2025-06-03",
+          "value": 1
+        }
+      ],
+      "readers": {
+        "src/core2/modules/legislature.ts:2116": 902,
+        "src/core2/modules/outcome-web.ts:168": 508,
+        "src/core2/modules/world-legislating.ts:253": 222,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/policy-authority.ts:47": 43,
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:695": 24,
+        "src/core2/life.ts:556": 13,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-WV:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:967",
+            "treatment": 702387489463589,
+            "control": 702385423918340,
+            "ids": [
+              "journal:2025-02-01:1754",
+              "journal:2025-02-01:1755",
+              "journal:2025-02-01:1756"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1222",
+            "treatment": 1191122565,
+            "control": 1204014024,
+            "ids": [
+              "journal:2025-02-01:3339",
+              "journal:2025-02-01:3340",
+              "journal:2025-02-01:3341"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1240",
+            "treatment": 2159756870,
+            "control": 2147172857,
+            "ids": [
+              "journal:2025-01-21:1555",
+              "journal:2025-01-21:1556",
+              "journal:2025-01-21:1557"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:771",
+            "treatment": 31550333,
+            "control": 33199428,
+            "ids": [
+              "journal:2025-02-03:8143",
+              "journal:2025-02-03:8144",
+              "journal:2025-02-03:8145"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:362",
+            "treatment": 5609561,
+            "control": 4132155,
+            "ids": [
+              "journal:2025-04-01:18624",
+              "journal:2025-04-01:18625",
+              "journal:2025-05-01:27663"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 398906941,
+            "control": 397790715,
+            "ids": [
+              "journal:2025-01-21:1583",
+              "journal:2025-01-21:1584",
+              "journal:2025-01-21:1585"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:934",
+            "treatment": 176906650946858,
+            "control": 176906649847706,
+            "ids": [
+              "journal:2025-02-01:1744",
+              "journal:2025-02-01:1745",
+              "journal:2025-02-01:1746"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 352068492,
+            "control": 352497949,
+            "ids": [
+              "journal:2025-02-01:1932",
+              "journal:2025-02-01:1933",
+              "journal:2025-02-01:1934"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:574",
+            "treatment": 1037025734,
+            "control": 1036659039,
+            "ids": [
+              "journal:2025-01-25:1624",
+              "journal:2025-01-25:1626",
+              "journal:2025-01-26:1628"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:330",
+            "treatment": 17047197,
+            "control": 17218572,
+            "ids": [
+              "journal:2025-07-01:52820",
+              "journal:2025-07-01:52825",
+              "journal:2025-07-01:52834"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1825",
+            "treatment": 9508863,
+            "control": 9660104,
+            "ids": [
+              "journal:2025-01-31:1729",
+              "journal:2025-02-19:8921",
+              "journal:2025-02-19:8923"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1560",
+            "treatment": 3198363936,
+            "control": 3198236175,
+            "ids": [
+              "journal:2025-01-28:1656",
+              "journal:2025-01-29:1695",
+              "journal:2025-01-30:1704"
+            ]
+          }
+        ],
+        "diffKinds": 35,
+        "cited": [],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "US-WV",
+            "line": "retirementContributions",
+            "moved": 12389853000,
+            "treatment": 0,
+            "control": 5087121240,
+            "before": "2025-06-03",
+            "ids": [
+              "journal:2025-02-01:1834",
+              "journal:2025-02-01:1835",
+              "journal:2025-02-01:1836"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "pension-funding-to-borrowing-cost",
+            "status": "built",
+            "to": "gov.borrowing-cost"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-01",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 3
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-02",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 3
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-03",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 3
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-04",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 3
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-05",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 3
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-06",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-07",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-08",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-09",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-10",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-11",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-12",
+            "link": "pension-funding-to-borrowing-cost",
+            "effect": 0
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-01",
+            "month": "2025-01",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-02",
+            "month": "2025-02",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-03",
+            "month": "2025-03",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-04",
+            "month": "2025-04",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-05",
+            "month": "2025-05",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-06",
+            "month": "2025-06",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-07",
+            "month": "2025-07",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-08",
+            "month": "2025-08",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-09",
+            "month": "2025-09",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-10",
+            "month": "2025-10",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-11",
+            "month": "2025-11",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_fc265898a4e136c0:2025-12",
+            "month": "2025-12",
+            "link": "pension-funding-to-borrowing-cost",
+            "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "lagMonths": 36,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-WV:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-06-03:HB 13",
+          "level": "state",
+          "effectiveDate": "2025-06-03",
+          "value": 1
+        }
+      },
+      "heard": {
+        "people": 93,
+        "sample": [
+          "person_11780bbcb29e4a35:budget-line-changed:budget:US-WV:2024:retirementContributions:law:US-WV:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting#2025-01-20",
+          "person_c274c86ae0b1a92b:budget-line-changed:budget:US-WV:2024:retirementContributions:law:US-WV:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting#2025-01-20",
+          "person_f1729ad31cef77bd:budget-line-changed:budget:US-WV:2024:retirementContributions:law:US-WV:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting#2025-01-20"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 14,
+        "countedGroups": 1,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 16,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|US-WV",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_cdf9abc0f4adf4b7",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_868df26b9d3b7f3e",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_c274c86ae0b1a92b"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 77
+    }
+  ]
+}
