@@ -15,7 +15,11 @@ import type { ChooserProbeRow } from "./trait-probe";
 const SEED = `${RUN_SEED}:life-daily-act`;
 const VISIT = "contact-known-person";
 const DAYS = 60;
-const MIN_PICKS = 300;
+// Fewer picks than this leave the thirds' gap mostly noise: at the weight,
+// four drawn towns with 697 to 1,223 picks sat at 0.42 to 0.60 against the
+// study's 0.43, while two with 204 and 332 sat at 0.33 and 1.03 (Franktown,
+// Virginia and Hartland Colony, Montana).
+const MIN_PICKS = 600;
 
 const picks: { lean: number; chose: number; flat: number }[] = [];
 
