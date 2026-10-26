@@ -5,23 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: M
-<<<<<<< HEAD
-status: open
-claimed-by:
-=======
 status: claimed
 claimed-by: words/campaign-season-scenes
->>>>>>> origin/main
 pr:
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words
 milestone: play-first
-<<<<<<< HEAD
-claimed-at:
-=======
 claimed-at: 2026-10-26T22:20:03.008Z
->>>>>>> origin/main
 ---
 
 **What.** After the one family scene on January 22, 2025, two days after the player filed, the game ran week by week to May 6 and nothing happened: no scene, no toast, no news item, no campaign event; the March 11 filing deadline and two family birthdays passed unmarked. The owner: "See, there's nothing happening. This is where scenes should be happening. You know, getting ready for the election, having interviews, a debate, assembling, you know, an election team, meeting people, having moments that, you know, change your life, working with other candidates, working with current elected officials, holding rallies, etc. That maybe, you know, participating in corruption if it comes up, etc. This is where the scenes need to come in." This item makes the director fire scenes and the press print stories about the player's own race through the season, drawn from the owner's list as the records support each: an outlet asking for an interview, a volunteer or relative offering to join the team, a debate invitation, a rally, a meeting with another candidate or an incumbent, and corruption where a record shows it.
