@@ -4,7 +4,7 @@ title: "Stopgaps in counted-groups (faked-mechanic): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #4500
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at: 2026-10-20T00:26:28.869Z
 **Split (Oct 15).** The row names seven engines, so the claiming session split the item by engine: `world-counted-reads-jobs`, `world-counted-reads-business`, `world-counted-reads-housing`, `gov-counted-reads-campaigns`, `gov-counted-reads-retirement-claims`, `core-counted-views-delete`. The item is done when the last one is.
 
 Oct 20: Switched from blocked to the automatic after: gate on core-counted-views-delete, so it opens by itself the moment those items are done.
+
+Dropped by the Oct 25 audit: a roll-up that core-counted-views-delete carries whole.

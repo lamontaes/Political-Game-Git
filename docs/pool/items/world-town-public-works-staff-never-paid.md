@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T06:21:27.295Z
 
 **Rules.** Wire to the world: a town job pays from the town's budget through the journal, one dollar followed from the budget line to the worker. One rule, all 56 places: no place named. No dice: the budget and the law in force decide whether the department is funded.
 
-**Done when.** Running GOLDEN_PATH_SEED=35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3 GOLDEN_PATH_PLACE_KEY=4049450 npx vitest run src/core2/player-money-year.test.ts passes: the department receives money from the town's budget, work-payroll posts to the maintenance worker's household by journal record id, and a one-year buildBenchWorld run in three other random places shows every town department with staff paid.
+**Done when.** Running GOLDEN_PATH_SEED=35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3 GOLDEN_PATH_PLACE_KEY=4049450 npx vitest run src/core2/player-money-year.test.ts passes: the department receives money from the town's budget, work-payroll posts to the maintenance worker's household by journal record id, and a one-year buildBenchWorld run in three other random places shows every town department with staff paid. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/official-pay.ts, src/core2/opening-economy.ts, src/core2/player-money-year.test.ts
 

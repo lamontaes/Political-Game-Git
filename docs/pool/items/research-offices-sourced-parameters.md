@@ -3,7 +3,7 @@ id: research-offices-sourced-parameters
 title: "Research: sourced parameters for offices and statewide parties"
 area: office
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -29,3 +29,5 @@ claimed-at:
 Looked at Oct 20 (claude/political-game-pool-b6g0dl), not built. SG-GOV-term-end-estimate is mostly replaced already: `termEnd` in src/core2/modules/offices.ts reads the office's own election calendar (`electionInYear`, `staggeredSeatElection`, `termStartAfter`) first, and only falls back to the office's `termStarts` (default 01-01) where no calendar row exists, so what is left to source is which offices still reach that fallback, found by counting them in a played world across drawn places, before any state's start rule is researched. SG-GOV-statewide-parties-unverified is 60 rows to check one by one against Ballotpedia or state records, which needs an agent with page access for each state; a web search summary is not enough to resolve a row.
 
 Oct 24, 2026: split. PR 5859 (item research-offices-term-starts-statewide-parties) delivers governors' and legislators' term-start rows for all 56 places and the live-page check of 60 statewide parties, which resolves SG-GOV-statewide-parties-unverified. Still open here: SG-GOV-term-end-estimate for town offices and county offices with no county calendar row, which start on the table's default of January 1 because their start day is each charter's or the state's municipal law's. Eight governor rows and ten legislature rows stay ESTIMATED because the start day is not read from the text. Bug gov-officeholder-parties-opening-date records that the rosters hold October 2026 holders, not those of January 20, 2025.
+
+Deferred Oct 25: nothing on screen reads it yet.

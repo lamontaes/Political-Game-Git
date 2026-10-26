@@ -4,7 +4,7 @@ title: "Stopgaps in residents (housing-and-leakage): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Each household's assigned living cost (CEX basket plus HUD Fair Market Rent) not bought from a recorded local seller is paid to one outside account on the 1st: no landlord, mortgage, utility or outside store.
 
 Oct 20 (pool feeder): spec written; the rent and mortgage half of the replacement is already done (world-rent-flows, #4872); only the non-local basket by category remains. The stopgap row text still says "no landlord" and should be updated when it is resolved.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

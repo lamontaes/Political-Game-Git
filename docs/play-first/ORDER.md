@@ -73,6 +73,26 @@ What makes it his game: the people are the ones he made, nobody stands around wi
 53. `play-stop-25-door-count-stops-growing` [in PR #6065] · 3 h · The door count grows each week he knocks; a grayed act says why.
 54. `play-stop-24-every-statewide-race-unopposed` [open] · 4 h · Statewide races draw candidates from more than one party, one total each.
 
+## Tier 4: on screen (Oct 25 pool audit)
+
+Backend items whose Done when named no screen; each puts its result where the player looks. Build the screen against what the engine gives today.
+
+55. `play-local-races-on-screen` [open] · 3 h · Before an election, Campaigns lists each local seat in your town and who is running for it.
+56. `play-prior-budgets-on-screen` [open] · 3 h · Budgets shows what your town spent last year next to this year, and which lines went up or down.
+57. `play-circle-changes-on-screen` [open] · 3 h · After a year, the People web marks who has become close to you and who has drifted away, and why.
+58. `play-other-states-news-on-screen` [open] · 3 h · News tells you when another state's jobs picture changes, not only your own.
+59. `play-town-moves-on-screen` [open] · 3 h · Your town's population and who moved in or out this year show on Who you are and in the news.
+60. `play-local-layoffs-on-screen` [open] · 3 h · When a business in town lays people off or hires, the news says who and how many.
+61. `play-home-sales-on-screen` [open] · 3 h · The news tells you which homes in town sold and for how much.
+62. `play-official-ties-on-screen` [open] · 3 h · Click an official and see who they know in government.
+63. `play-governor-races-on-screen` [open] · 3 h · On election night you also see who won the governor races around the country.
+64. `play-town-paper-on-screen` [open] · 3 h · Each local story says which paper ran it, and if the paper closes, the news says so.
+65. `play-city-books-on-screen` [open] · 3 h · Budgets tells you how much your town has actually collected and spent so far this year.
+66. `play-move-out-on-screen` [open] · 3 h · When you are old enough and can afford it, you can move out of your parents' home.
+67. `play-job-openings-on-screen` [open] · 3 h · Out of work, you can see the jobs open in town and apply for one.
+68. `play-issue-stances-on-screen` [open] · 3 h · Campaigns tells you which issues your race turns on and which way the town leans.
+69. `play-why-they-chose-on-screen` [open] · 3 h · Click someone and read why they made their last big choice.
+
 ## When a line is done
 
 The merger flips the item to done when the PR merges (line 1 `Pool item: <id>`). The agent who saw it merge adds `done #N` to `PROGRESS.md`. The CTO removes nothing from this file; a done line stays so the numbering never moves.
