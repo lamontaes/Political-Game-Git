@@ -1,6 +1,28 @@
 {
   "entries": [
     {
+      "version": "0.34.3",
+      "releasedOn": "2026-10-26",
+      "revision": "85fdd0512b80a3095ec001cfcf85fdd115332857",
+      "changeIds": ["play-stop-24-every-statewide-race-unopposed"]
+    },
+    {
+      "version": "0.34.2",
+      "releasedOn": "2026-10-26",
+      "revision": "785a06a70f2459e9463640f5946b7703ba4e17ac",
+      "changeIds": [
+        "core-speed-focus-daily-recent-contact",
+        "effect-report-after-crime",
+        "play-continue-hides-first-night-news",
+        "play-stop-08-no-high-school-at-seventeen",
+        "tests-m2-07-drawn-place-without-race",
+        "tests-official-pay-death-pinned-red-on-main",
+        "tests-voting-compact-ballot-appeal-missing",
+        "web-twin-unmoved-causes-report",
+        "world-twins-crime-reports-flat-west-lawn"
+      ]
+    },
+    {
       "version": "0.34.1",
       "releasedOn": "2026-10-26",
       "revision": "8ac620aa87c56c7ebcadc62958ebda3e0776223b",

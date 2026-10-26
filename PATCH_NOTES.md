@@ -296,6 +296,47 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.34.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Statewide races draw a Democrat and a Republican, and each result shows one
+  vote total** On the first general election night, races for governor, U.S.
+  senator and the other statewide offices were often won unopposed, because a
+  major party with no sitting officeholder never put up a nominee. Each major
+  party now fields one in every statewide partisan race. Each result shows its
+  candidates' votes and the ballots cast in the race, instead of a turnout
+  figure for a handful of named neighbors and a second total under every county.
+
+## PRE-ALPHA 0.34.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Continuing a life on its first evening keeps that night's paper on the
+  table.** If you leave a new life on its first evening and come back with
+  Continue, the night's news is still on the table to pick up and read, with the
+  same stories and unemployment rates as before. It goes away when you live on
+  to the next day, as it always did.
+
+- **A 17-year-old's high school shows on Who you are and Jobs and study.**
+  Teenagers now have the high school (and, for younger ones, the middle school)
+  they started after 2020, so a 17-year-old sees their high school at the top of
+  their schools. School names from the national directory are written out in
+  full: "Anson H S" and "Anson El" now read "Anson High School" and "Anson
+  Elementary School".
+
+### Changed
+
+- **People you met choose every day only while you keep in touch** Everyone you
+  met used to be run in full every day for the rest of the game, so a town
+  slowed down as your circle grew. Now someone outside your family and household
+  chooses daily only while the two of you have been in touch in the last 30
+  days, and at their own pace otherwise, until you meet again.
+
 ## PRE-ALPHA 0.34.1
 
 _Released October 26, 2026._

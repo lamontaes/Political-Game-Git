@@ -6,12 +6,12 @@ lead: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-nine-links-prices
 pr: #5986
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at:
+claimed-at: 2026-10-26T17:46:23.482Z
 ---
 
 **What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the prices and sales taxes family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): sales-tax, exempt-groceries-from-sales-tax, fare-free-transit, mileage-fee-replaces-fuel-tax, public-broadband, clean-electricity-standard, bottle-deposit, price-carbon, ban-new-gas-hookups and legalize-cannabis-sales.
