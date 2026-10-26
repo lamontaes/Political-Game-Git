@@ -49,6 +49,12 @@ function milesFor(state: string) {
   )[state]!;
 }
 
+/** Whether a restriction puts the nearest provider farther away in the state: only there can it add miles to a trip. */
+function restrictionAddsMiles(state: string) {
+  const miles = milesFor(state);
+  return miles.milesNow.miles > miles.milesBefore.miles;
+}
+
 /** The decision kept on a plan read the law in force and her state's miles, and reading it again gives the same. */
 function expectDistance(
   api: ReturnType<typeof coreAPI>,
@@ -540,13 +546,28 @@ it(
   "where a restriction is law, the miles it adds to a counted household's trip are money its counted group paid under it",
   () => {
     const tried: string[] = [];
-    for (let attempt = 0; attempt < PLACES; attempt += 1) {
+    let passedOver = 0;
+    let built = 0;
+    // A draw in a state where the restriction adds no miles is passed over
+    // before its town is built: no trip there is lengthened by the law. A
+    // built town may still have no counted pregnancy (a small one often has
+    // none), so up to ORDINARY_PLACES towns are built.
+    for (
+      let attempt = 0;
+      attempt < ORDINARY_PLACES * 16 && built < ORDINARY_PLACES;
+      attempt += 1
+    ) {
       const draw = drawPlace(
         createHash("sha256")
           .update(`${base}:counted-restricted:${attempt}`)
           .digest("hex"),
         "unplanned-counted-restricted",
       );
+      if (!restrictionAddsMiles(draw.state)) {
+        passedOver += 1;
+        continue;
+      }
+      built += 1;
       setBookkeeping(false);
       const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
         twoLevel: true,
@@ -610,10 +631,10 @@ it(
       return;
     }
     throw new Error(
-      `No counted household ended a pregnancy under a restriction in any drawn place: ${tried.join("; ")}`,
+      `No counted household ended a pregnancy under a restriction in any drawn place (base ${base}, ${passedOver} draws passed over where the restriction adds no miles): ${tried.join("; ")}`,
     );
   },
-  PLACES * 300_000,
+  ORDINARY_PLACES * 300_000,
 );
 
 it(

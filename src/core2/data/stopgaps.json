@@ -6789,7 +6789,7 @@
     "file": "src/core2/jobs-age-bias.ts",
     "line": 26,
     "whatItFakes": "The ban on discrimination in housing and work is wired through age alone: small employers weigh older applicants down where no ban is law, and the ban removes it. The world records a gender and a birth date for each person and no race, so a ban on discrimination by race or sex has nothing to bar.",
-    "why": "The owner ruled on Oct 24 (docs/coordination/OWNER-DECISIONS.md, 'Sex and race on the record') that sex and race go on each person's record; the build is its own pool item, people-protected-traits-on-record, and is not part of this change. Until it lands the ban reads age, which the world already records, from sourced shares.",
+    "why": "The owner ruled on Oct 24 (docs/coordination/OWNER-DECISIONS.md, 'Sex and race on the record') that sex and race go on each person's record and a discrimination ban refuses a decision whose reasons cite a protected trait, and on Oct 26 that discrimination is yes and is not asked again, so no question goes to the owner; the build is its own pool item, people-protected-traits-on-record, and is not part of this change. Until it lands the ban reads age, which the world already records, from sourced shares.",
     "addedBy": "Claude (laws lead helper, rights-env)",
     "addedAt": "2026-10-24",
     "replacement": "Pool item people-protected-traits-on-record: sex and race on people and counted groups (sourced shares), read by the hiring step and the rental applicant pool the ban refuses on, and by a complaint the justice engine hears (pool items world-hiring-discrimination-ban-refusal, justice-discrimination-complaint).",

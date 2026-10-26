@@ -359,12 +359,6 @@ const UNWIRED: ReadonlyArray<{
       "no child benefit is paid and no engine counts child poverty apart from the poverty measure",
   },
   {
-    outcome: "household.vehicle-costs",
-    links: ["road-condition-to-vehicle-costs"],
-    stopgap: "SG-EFFECT-WEB-prices-roads-condition",
-    reason: "no engine keeps road condition or a household's vehicle costs",
-  },
-  {
     outcome: "finance.past-due-debt",
     links: [
       "abortion-denied-to-financial-distress",
