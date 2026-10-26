@@ -296,6 +296,422 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.34.4
+
+_Released October 26, 2026._
+
+### Changed
+
+- **People give to their causes about as often as real people do** Someone with
+  a cause volunteered, donated or shared it nearly every day. Now what a person
+  has lately given to a cause weighs against giving more of the same, fading
+  over the weeks, so a volunteer gives a few dozen hours a year instead of
+  several hundred.
+
+## PRE-ALPHA 0.34.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Statewide races draw a Democrat and a Republican, and each result shows one
+  vote total** On the first general election night, races for governor, U.S.
+  senator and the other statewide offices were often won unopposed, because a
+  major party with no sitting officeholder never put up a nominee. Each major
+  party now fields one in every statewide partisan race. Each result shows its
+  candidates' votes and the ballots cast in the race, instead of a turnout
+  figure for a handful of named neighbors and a second total under every county.
+
+## PRE-ALPHA 0.34.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Continuing a life on its first evening keeps that night's paper on the
+  table.** If you leave a new life on its first evening and come back with
+  Continue, the night's news is still on the table to pick up and read, with the
+  same stories and unemployment rates as before. It goes away when you live on
+  to the next day, as it always did.
+
+- **A 17-year-old's high school shows on Who you are and Jobs and study.**
+  Teenagers now have the high school (and, for younger ones, the middle school)
+  they started after 2020, so a 17-year-old sees their high school at the top of
+  their schools. School names from the national directory are written out in
+  full: "Anson H S" and "Anson El" now read "Anson High School" and "Anson
+  Elementary School".
+
+### Changed
+
+- **People you met choose every day only while you keep in touch** Everyone you
+  met used to be run in full every day for the rest of the game, so a town
+  slowed down as your circle grew. Now someone outside your family and household
+  chooses daily only while the two of you have been in touch in the last 30
+  days, and at their own pace otherwise, until you meet again.
+
+## PRE-ALPHA 0.34.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Every state opens at its own published average hourly pay.** A state's
+  regions took their pay from the state's pay moved by each region's income, and
+  those moves did not average out, because a metro's income takes in neighboring
+  states. Virginia opened at $38.24 an hour against its published $35.35, and
+  Hawaii at $36.63 against $37.29. Every state now opens at its published pay,
+  and its regions still differ by their incomes.
+
+## PRE-ALPHA 0.34.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Candidates answer reporters from their voting record, and some shade it.** A
+  candidate who has voted on a question now answers a reporter from that vote,
+  or shades the answer toward where the town stands. Who shades follows their
+  honesty and how far the vote sits from the town: about a quarter of people
+  would shade a vote the town opposes as strongly as a town can, fewer when the
+  town is divided, and nobody when the town stands with the vote. A shaded
+  answer names the vote it contradicts, so the town's reporter can check it and
+  print the record against the candidate's word.
+
+### Fixed
+
+- **When a state repeals and grants a city's power to set its own minimum wage
+  on the same day, the later law now governs.** A state's answer on local wage
+  authority always beat a statute taking effect the same day, even one enacted
+  after it, so a council could be refused under a repeal the state had already
+  undone. Laws enacted in play now carry the order they were enacted in, and the
+  later one governs.
+
+- **The President's opening address cites the country's numbers and takes its
+  President's shape** The opening address now cites unemployment and three or
+  four more of the country's numbers, from inflation, mortgage rates, wage
+  growth and the economy's growth. Which numbers, and in what order, follow the
+  President's own goals. A President whose first goal is about the economy opens
+  with the numbers and cites one more for each such goal; any other opens with
+  the occasion. Before, every address cited only unemployment and kept one
+  shape.
+
+- **Politics lists your own members first and every chamber leader by post**
+  Politics no longer lists a chamber's leader from another state as one of your
+  own members, or every member of your state's legislature in one long column.
+  It shows your own U.S. senators, U.S. representative and state legislators
+  first, then the President, the Vice President and each chamber's leader named
+  by post, chamber and the state they serve. Every other member is under the
+  State and Federal filters.
+
+- **Town stance retains its counted-resident reader after press changes.** Keep
+  both existing counted-resident queries available to the press: town stance
+  needs household and trait records, while audience counts use the smaller
+  age-and-weight projection. This fixes the release build's missing import
+  without changing either calculation.
+
+## PRE-ALPHA 0.33.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **The creator's birthday fields line up** In the creator, month, day and year
+  sit on one line at one height, each under its label, and every name and
+  birthday field shows its box whether it is empty or filled.
+
+## PRE-ALPHA 0.33.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A household's former home keeps its last rent or value.** When a household
+  is evicted, loses its home to foreclosure or sells it, the home it left now
+  keeps the rent it paid, the value its home held or the price it sold for, with
+  how it held the home. The town's homes no longer count those former homes as
+  homes with no price.
+
+## PRE-ALPHA 0.33.1
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Count minor offenses and let police staffing move their arrests** The
+  justice case flow now records minor quality-of-life offenses (disorderly
+  conduct, drunkenness, liquor law violations, loitering, vagrancy and drug
+  possession) as cases, and the police staffing a place funds moves how many of
+  those arrests happen.
+
+## PRE-ALPHA 0.33.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Bottle deposits and carbon prices follow what people return and emit** In a
+  state with a bottle deposit, how much of the deposit a household loses depends
+  on how many containers the state's people bring back, and that share climbs
+  once a new deposit has been law for about half a year. A carbon price is owed
+  on the tons a household emits, so it eases a little as the state's emissions
+  fall. The families you meet and the wider population pay by the same rule.
+
+## PRE-ALPHA 0.32.9
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Appointed officials and aides work an office week** A town's city
+  administrator, department heads and the aides of its officials now work an
+  ordinary office week instead of a firefighter's 24-hour rotation, so aides can
+  actually turn up to work and be paid for it.
+
+## PRE-ALPHA 0.32.8
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Georgia's, Wyoming's and Kansas's own minimum wage laws now show as state
+  law.** Those states file their one state rate under a tier for certain
+  employers, so they showed only the federal minimum wage. Each now has its
+  state rate as state law. The federal rate still sets pay where it is higher.
+
+## PRE-ALPHA 0.32.7
+
+_Released October 26, 2026._
+
+### Improved
+
+- **A long game holds less in memory** The people around you no longer keep
+  every small choice they weighed, or every cause they heard about, for the
+  whole game. Their routine records now fade on the same schedule as their other
+  daily acts, so a game played for years uses less memory.
+
+- **Personality shapes jobs, borrowing, homes and businesses** How people handle
+  money and work now bends to who they are, at sizes taken from research.
+  Cautious and bold people, in the same circumstances, differ in whether they
+  start looking for work, take an offer, borrow, buy a home, found a business or
+  leave town, and the people not yet named in your town follow the same rules as
+  the named ones. Households that can afford a down payment now weigh a home by
+  the interest it costs over rent, not the whole mortgage payment. Whether to
+  apply for a job, buy a home, take a draw from the business or start a business
+  now rests on each person's own circumstances, so temperament can tip them: a
+  seeker's push to apply eases the longer they have looked, a renter weighs the
+  share of the down payment they are short, an owner weighs the business's cash
+  against a month of everything it pays out, and starting a business sits within
+  reach of a strong lean. A household behind on rent settles part of what it
+  owes each month from the cash it holds beyond a month's living, as far as its
+  temperament leans toward paying what is owed.
+
+## PRE-ALPHA 0.32.6
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A scene says who came and why once** A scene's narration now says once who
+  has come and why. Before, a scene could announce the same person twice before
+  anyone spoke: "Your mother has news for you. Your mother has something to tell
+  you."
+
+## PRE-ALPHA 0.32.5
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **No parent at home was younger than 15 when their child was born.** A new
+  life could open with a parent who was 14 when the player or a sibling was
+  born. Parents and children at home are now always far enough apart in age that
+  the parent was at least 15 on the day of the birth.
+
+## PRE-ALPHA 0.32.4
+
+_Released October 26, 2026._
+
+### Improved
+
+- **A recession costs men their employer health plans** When unemployment rises
+  in a town, fewer working people hold an employer health plan, and men lose
+  theirs faster than women do. The research behind it finds that a rise in
+  unemployment lowers men's coverage far more than women's.
+
+### Fixed
+
+- **Washington, D.C. and Rhode Island open at their own published unemployment
+  rates.** A place whose state is made up only of metro areas used to open at
+  the whole metro area's unemployment rate, which takes in neighboring states.
+  Washington, D.C. opened at 2.9 percent instead of its own 5.6, and Rhode
+  Island at 4.2 instead of 4.5. Both now open at their published rates.
+
+## PRE-ALPHA 0.32.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Brothers and sisters are born months apart, and no 17-year-old runs a city
+  department** A new life could open with a sister born a week after the player,
+  and a 17-year-old could be named the city's Public Works Director. Brothers
+  and sisters at home are now born at least nine months apart, and a birthday
+  chosen at the start moves a sibling born too close to it. Only residents who
+  have turned 18 by their birthday are weighed for a department. Two relatives
+  no longer ask each other after a relative they share by first name or as "your
+  father".
+
+## PRE-ALPHA 0.32.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A budget cut now lets the newest public hires go first, named or counted**
+  When a city or county cuts the line that pays a department (schools, police,
+  fire), the layoffs now follow one order across the employer's whole staff: the
+  newest hire goes first, whether the game follows that worker closely or counts
+  them in the wider town.
+
+- **A raise or cut to a public-school budget line is checked end to end in a
+  drawn town** A new test follows a mayor's schools-line change through the
+  council's budget bill to the district's teachers. A place where the council
+  recorded its own amendment, rejection or veto is skipped by that record; a
+  place where the line was not adopted with no such record now fails the test.
+
+- **Layoffs after a budget cut follow the same newest-first order for named and
+  counted staff** When a budget cut forces a department to let staff go, the
+  line's own recent hires go first, then the employer's remaining staff, named
+  and counted together, newest hire first. A counted worker's start date is the
+  date their household committed to the job, the same date a named person's job
+  carries, so filling a counted worker in does not move them in the order.
+
+- **The journal says a race was close only when the count shows it** A
+  candidate's journal now says "It was very close." or "It wasn't close." only
+  when the result's vote totals bear it out. Before, those lines were picked by
+  win or loss alone, so someone who ran unopposed could write that it was very
+  close. A race with one candidate now reads "I won." or "We won.".
+
+## PRE-ALPHA 0.32.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Every town now opens with someone your age at 18** Some towns opened with
+  nobody aged 18 among the people you can meet and play, so the life you start
+  at 18 had no one to start from. Every town now opens with at least one full
+  18-year-old wherever its households can hold one.
+
+- **The menu icons stay clickable above your card** The six menu icons now stand
+  on top of your card in the bottom-left corner instead of under it, so the card
+  never covers them, whether the window is wide or as small as the desktop
+  allows, and whatever your card is showing after you knock on doors. Your name
+  stays on one line.
+
+- **A job offer no longer locks the game** When an employer's offer holds your
+  clock, the play screen now shows the offer itself — the employer, the job, the
+  pay and the day to answer by — with Take it and Turn it down. Either answer
+  releases the hold and Day and Week work again; an offer that just arrived can
+  also wait at the Jobs tab until its deadline.
+
+## PRE-ALPHA 0.32.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **A resident's visit to your office hours is a scene** When a resident brings
+  you a problem at office hours, out of work with their savings running thin or
+  paid under the minimum wage, they come to your office and say it in their own
+  words. You can promise the referral the office really makes (the workforce
+  office or the labor standards office), ask more, or turn them away. The visit
+  is on the office's record, and the scene stands on it.
+
+### Improved
+
+- **Tax laws reach the people who pay them** When a government changes an income
+  tax, a property tax or a corporate tax, the new rate is now what comes out of
+  paychecks, home tax bills and company profits, for named residents and for the
+  wider population alike, and each payer's record names the law that took the
+  money. A graduated income tax follows a changed top rate. Businesses owned by
+  a corporation now pay the state's tax as well as the federal one: a company
+  short of cash owes each government its own share, and still pays a state whose
+  tax was repealed. A higher state corporate rate now lowers pay a little in the
+  town. An estate settles under the death taxes in force and names who paid
+  them, for a resident of the wider population as well as a named one. When no
+  one inherits and the state takes the estate, it pays the state's inheritance
+  tax only where that state's own statute taxes a government heir; each state
+  with the tax carries its statute's wording. A town council's draft of an
+  income tax is checked against the state's grant of that power in force. Each
+  month, as it closes its books, a treasury reads its balanced-budget, pension
+  and reserve rules before it pays, and the pension rule names the public
+  workers whose pensions it funds.
+
+## PRE-ALPHA 0.31.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Everyone in town pays for health coverage** The wider population now holds
+  employer health plans and pays premiums the same way the people you meet do:
+  the same ranking by employer size and pay, the same single and family
+  premiums, once for every household each record stands for. A household you
+  meet keeps the plan and premium it had when it was counted.
+
+### Fixed
+
+- **Repealing a law a place began with now takes effect after its delay.** When
+  a legislature repeals a law that was in force when the game began, its effects
+  on people's health, births and other outcomes now arrive after the delay the
+  research measured, rather than on the first day.
+
+### Changed
+
+- **Some residents of a new town have a different first name, drawn by the same
+  rule as everyone else.** The town's opening residents now get their first
+  names from the same rule the rest of the opening uses: how often a decade's
+  popular names were given, as measured from Social Security records. Before,
+  part of each town used an older fixed share. Last names, ages, genders and
+  birthdays are unchanged.
+
+## PRE-ALPHA 0.30.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **The title shows the Lincoln Memorial at night** The title screen's rotation
+  of national scenes now includes a painting of the Lincoln Memorial at night,
+  full-window behind the menu.
+
+## PRE-ALPHA 0.29.8
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A layoff no longer stops the game on a day you already worked** If your
+  employer decided to let you go on a day you had already worked, the game
+  stopped with an error. The layoff now comes at the next review instead.
+
+- **Follow justice payments to the people and treasuries they reach** Justice
+  laws record the counted groups, households and treasuries they reach. Public
+  safety staffing can use the state budget where no city or county funds it, and
+  fire losses follow changes to the local fire budget. Nine justice laws have
+  wiring evidence; police, corrections and restoring the vote remain unfinished.
+
+- **The town list reads in one font, with the population the world opens with**
+  The creator's town list is set in the state buttons' font, names and counts
+  alike, and each town's count is the one the world opens with; a town with no
+  recorded count shows the size its world opens at, marked "about".
+
+- **People say how long they have worked somewhere, not the month they started**
+  Asked how long they have been at their job, people in a conversation now
+  answer the way people talk ("For seven years now."), not with a calendar date
+  like "Since January 2018."
+
 ## PRE-ALPHA 0.29.7
 
 _Released October 25, 2026._

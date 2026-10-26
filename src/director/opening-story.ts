@@ -62,6 +62,8 @@ import {
 import openingData from "./data/opening-story.json" with { type: "json" };
 import { ADDRESS_FACT } from "./opening-facts";
 import { NAMED_QUESTIONS, questionTo } from "../english/question-names";
+import { questionSubject } from "../english/policy-names";
+import addressData from "./data/opening-address.json" with { type: "json" };
 import {
   openingChambers,
   openingSequence,
@@ -152,6 +154,7 @@ interface OpeningData {
     decimals: number;
     jobsPerSeriesUnit: number;
     jobsPerMillion: number;
+    percentPerRatio: number;
   };
   townStoryKinds: Readonly<Record<string, StoryKind>>;
   speechTitles: Readonly<Record<OpeningSpeechKind, string>>;
@@ -260,6 +263,7 @@ function countryFacts(core: CoreState, kind: OpeningSpeechKind): Facts {
   const facts: Facts = {
     "unemployment-rate": fact(now.unemploymentPct.toFixed(N.decimals), now.id),
     "inflation-rate": fact(now.inflationPct.toFixed(N.decimals), now.id),
+    "mortgage-rate": fact(now.mortgage30Pct.toFixed(N.decimals), now.id),
   };
   const claim = (key: string, holds: boolean) => {
     if (holds) facts[key] = fact("yes", ...ids);
@@ -277,6 +281,19 @@ function countryFacts(core: CoreState, kind: OpeningSpeechKind): Facts {
   claim("inflation-up", now.inflationPct > before.inflationPct);
   claim("wages-up", now.hourlyEarnings > before.hourlyEarnings);
   claim("growth-up", now.realOutput > before.realOutput);
+  // A change over the year, as a percent of where it stood.
+  const change = (to: number, from: number) =>
+    ((to / from - P.one) * N.percentPerRatio).toFixed(N.decimals);
+  if (now.hourlyEarnings > before.hourlyEarnings)
+    facts["wage-growth"] = fact(
+      change(now.hourlyEarnings, before.hourlyEarnings),
+      ...ids,
+    );
+  if (now.realOutput > before.realOutput)
+    facts["growth-rate"] = fact(
+      change(now.realOutput, before.realOutput),
+      ...ids,
+    );
   const added = now.payrollJobsThousands - before.payrollJobsThousands;
   // A new President can't claim the last administration's jobs as "we
   // created": an inaugural address says only that jobs are up.
@@ -297,6 +314,13 @@ function countryFacts(core: CoreState, kind: OpeningSpeechKind): Facts {
  * two Presidents with different views or issues ask for different things.
  */
 function presidentGoals(official: OfficialRow): GroundedEnglishFact[] {
+  return presidentQuestions(official).map((question) =>
+    fact(questionTo(question)!, official.id, `question:${question}`),
+  );
+}
+
+/** The questions behind the President's goals, most wanted first. */
+function presidentQuestions(official: OfficialRow): string[] {
   const own = new Set(official.signature.map((row) => row.question));
   return NAMED_QUESTIONS.map((question) => ({
     question,
@@ -310,9 +334,62 @@ function presidentGoals(official: OfficialRow): GroundedEnglishFact[] {
         b.stance - a.stance ||
         a.question.localeCompare(b.question),
     )
-    .map((row) =>
-      fact(questionTo(row.question)!, official.id, `question:${row.question}`),
+    .map((row) => row.question);
+}
+
+interface AddressShape {
+  numbersBySubject: Readonly<Record<string, readonly string[]>>;
+  otherNumbers: readonly string[];
+  parameters: Record<
+    "addressNumbersAtLeast" | "addressGoalsRead",
+    { value: number }
+  >;
+}
+const SHAPE = addressData as unknown as AddressShape;
+/** The speech fact each of the country's numbers is said with. */
+const NUMBER_FACT: Readonly<Record<string, string>> = {
+  unemployment: "unemployment-rate",
+  inflation: "inflation-rate",
+  growth: "growth-rate",
+  wages: "wage-growth",
+  mortgage: "mortgage-rate",
+  jobs: "jobs-added",
+};
+
+/**
+ * The address's shape, from the President's own record
+ * (`data/opening-address.json`): the country's numbers it cites, in order,
+ * and whether the agenda comes before them. Each of the President's leading
+ * goals bears on the numbers its catalog subject names; those come first,
+ * the rest after, and each goal that bears on one the record holds adds one
+ * to the count. A President whose first goal bears on one opens with the
+ * numbers, right after the salutation; any other opens with the occasion.
+ * Unemployment is always said, first among the numbers.
+ */
+function addressShape(
+  official: OfficialRow,
+  country: Facts,
+): { numbers: string[]; numbersFirst: boolean } {
+  const held = (number: string) => !!country[NUMBER_FACT[number] ?? ""];
+  const bears = (question: string) =>
+    (SHAPE.numbersBySubject[questionSubject(question) ?? ""] ?? []).filter(
+      held,
     );
+  const goals = presidentQuestions(official).slice(
+    P.zero,
+    SHAPE.parameters.addressGoalsRead.value,
+  );
+  const count =
+    SHAPE.parameters.addressNumbersAtLeast.value +
+    goals.filter((question) => bears(question).length).length;
+  const numbers = [
+    ...new Set([...goals.flatMap(bears), ...SHAPE.otherNumbers.filter(held)]),
+  ].slice(P.zero, count);
+  const first = goals[P.zero];
+  return {
+    numbers: ["unemployment", ...numbers],
+    numbersFirst: !!first && bears(first).length > P.zero,
+  };
 }
 
 /**
@@ -356,6 +433,7 @@ function sectionFacts(
       : undefined;
   const place = visitedPlace(president, townState);
   return {
+    salutation: {},
     occasion: third ? { goal: third } : {},
     country,
     congress: first ? { goal: first } : {},
@@ -401,9 +479,28 @@ function composeAddressOf(
   );
   const stage = chairStage(core);
   const sentences: OpeningSentence[] = [];
-  for (const section of OPENING_SECTIONS) {
+  // The President's record shapes the address: which numbers, in what
+  // order, and whether they come before the occasion. Both are said on the
+  // President's own stage, so the camera's order holds.
+  const shape = addressShape(official, facts.country);
+  const sections = shape.numbersFirst
+    ? OPENING_SECTIONS.map((section, at, all) =>
+        section.level === "occasion"
+          ? all.find((row) => row.level === "country")!
+          : section.level === "country"
+            ? all.find((row) => row.level === "occasion")!
+            : section,
+      )
+    : OPENING_SECTIONS;
+  for (const section of sections) {
     const own = facts[section.level];
     const moves = openingMoves(kind, section.level)
+      .filter((move) => !move.topic || shape.numbers.includes(move.topic))
+      .sort(
+        (a, b) =>
+          shape.numbers.indexOf(a.topic ?? "") -
+          shape.numbers.indexOf(b.topic ?? ""),
+      )
       .map((move) => ({
         ...move,
         bank: {
@@ -419,9 +516,13 @@ function composeAddressOf(
                       variant.text,
                     )) &&
                   // The country is told by its figures: a sentence that
-                  // carries the number and what it is, never a bare claim
-                  // ("Prices are too high", owner, Oct 14, 2026).
-                  (section.level !== "country" || variant.text.includes("{{")),
+                  // carries the number it reports, never a bare claim
+                  // ("Prices are too high", owner, Oct 14, 2026), nor
+                  // another number's ("Our wages grew" is not the economy's).
+                  (section.level !== "country" ||
+                    variant.text.includes(
+                      `{{${NUMBER_FACT[move.topic ?? ""] ?? ""}}}`,
+                    )),
               ),
             },
           },
@@ -755,8 +856,9 @@ export function composeOpeningStory(
 
 /**
  * Record the address once, as a public event on the opening day: the news
- * engine carries it to the town, the player saw it, and anyone who hears it
- * can bring it up. Returns the story it recorded, or null.
+ * engine carries it to the town, the player and the household watching it
+ * with them on the news at home saw it, and anyone who hears it can bring it
+ * up. Returns the story it recorded, or null.
  */
 export function recordOpeningStory(
   core: CoreState,
@@ -775,7 +877,13 @@ export function recordOpeningStory(
     date: core.date as never,
     kind: OPENING_ADDRESS_EVENT,
     personIds: [story.president.id],
-    witnessIds: [playerId],
+    // The household watches it with the player, on the news they have on.
+    witnessIds: [
+      playerId,
+      ...story.home.memberIds.filter(
+        (id) => id !== playerId && core.people.has(id),
+      ),
+    ],
     placeId: core.people.get(playerId)!.placeId,
     source: {
       tag: "SOURCED",

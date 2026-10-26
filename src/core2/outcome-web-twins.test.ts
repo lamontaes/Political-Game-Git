@@ -121,7 +121,8 @@ function fingerprint(core: CoreState): Map<string, number> {
 /**
  * Shift a cause in the record the web reads it from: an engine measure in
  * the economy's month rows (written on the 2nd, read on the 3rd), a kept
- * outcome in the web's own month row (read by the links the month after).
+ * outcome or a government measure in the web's own month row (read by the
+ * links the month after).
  */
 function shift(core: CoreState, cause: Shift): string[] {
   const api = coreAPI(core);
@@ -156,7 +157,12 @@ function shift(core: CoreState, cause: Shift): string[] {
     }
     return touched;
   }
-  if (keptOutcome(cause.measure)) {
+  // A kept outcome, or a government measure the web writes into its month
+  // row from the engines' records (a budget line): both are read from the row.
+  if (
+    keptOutcome(cause.measure) ||
+    (GOV_MEASURES as readonly string[]).includes(cause.measure)
+  ) {
     const table = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
     for (const row of table.rows() as unknown as WebMonth[]) {
       if (row.month !== month || row.values[cause.measure] === undefined)
@@ -174,6 +180,35 @@ function shift(core: CoreState, cause: Shift): string[] {
     }
   }
   return touched;
+}
+
+/**
+ * How many of the town's records hold a value for a cause: the engine's rows
+ * with the field, or the web's month rows with the kept outcome. A town with
+ * none (no parks line in a place no city governs) has no cause there to shift.
+ */
+function heldBy(core: CoreState, cause: Shift): string[] {
+  const api = coreAPI(core);
+  const engine = engineMeasure(cause.measure) as
+    | (ReturnType<typeof engineMeasure> & { module?: string; table?: string })
+    | undefined;
+  if (engine)
+    return (
+      api
+        .moduleState(engine.module ?? WORLD_METRICS_MODULE_ID)
+        .table(engine.table ?? "months")
+        .rows() as unknown as Record<string, unknown>[]
+    )
+      .filter((row) => typeof row[engine.field] === "number")
+      .map((row) => String(row.id));
+  return (
+    api
+      .moduleState(OUTCOME_WEB_MODULE_ID)
+      .table("months")
+      .rows() as unknown as WebMonth[]
+  )
+    .filter((row) => row.values[cause.measure] !== undefined)
+    .map((row) => row.id);
 }
 
 /** The date stamped on this month's web rows (they all carry the day the web last ran). */
@@ -322,9 +357,16 @@ describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${se
       const noise = diff(control, again);
       expect(noise, "unshifted twins differ").toEqual([]);
       const results = [];
+      const absent: string[] = [];
       for (const cause of CAUSES) {
         const shifted = play(cause);
-        expect(shifted.touched.length, cause.measure).toBeGreaterThan(0);
+        // A cause the twin could not shift is one the town's own records
+        // never hold: read from them, never assumed.
+        if (!shifted.touched.length) {
+          expect(heldBy(shifted.core, cause), cause.measure).toEqual([]);
+          absent.push(cause.measure);
+          continue;
+        }
         const moved = diff(control, fingerprint(shifted.core));
         const movedRecords = changedIds(controlRecords, shifted.core, moved);
         const links = WEB_LINKS.filter(
@@ -345,6 +387,8 @@ describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${se
         place: `${place.name}, ${place.state} (${place.key})`,
         months: MONTHS,
         seconds: Math.round((Date.now() - started) / 1000),
+        // Causes the town holds no record of, so none could be shifted here.
+        absent,
         results,
       };
       if (process.env.EFFECT_TWINS_WRITE) {

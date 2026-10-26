@@ -71,8 +71,7 @@ export function electionResults(core: CoreState, playerId: string) {
       unopposed: Object.keys(result.totals).length === 1,
       winner: result.winnerId ? name(result.winnerId) : null,
       takesOffice: result.takesOffice,
-      namedTurnout: result.namedTurnout,
-      namedEligible: result.namedEligible,
+      /** Every ballot cast in the race: the town's and the rest of its electorate's. */
       electorate: result.electorate,
       /** Where the race was won: each place's leader, with the votes cast there. */
       places: placesOf(api, contest.id)
