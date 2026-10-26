@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.32.7",
+      "releasedOn": "2026-10-26",
+      "revision": "4ccd7b349f5d5374ce6939d72ae6e4d1d63f5d3c",
+      "changeIds": [
+        "core-memory-circle-retention-leaks",
+        "core-speed-official-pay-outside-once",
+        "tests-apply-need-no-town-with-spread",
+        "tests-law-reach-group-a-age-check-empty-town",
+        "traits-money"
+      ]
+    },
+    {
       "version": "0.32.6",
       "releasedOn": "2026-10-26",
       "revision": "9090e25d2ce8f6a6bf3ef1dbae4f97dcb03941b6",
