@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5796
 blocked-on:
 source: added with npm run pool -- add
 ---
