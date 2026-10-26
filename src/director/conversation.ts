@@ -889,6 +889,10 @@ export function subjectsBetween(
     });
   }
   // The speaker's relatives the listener has not met, named by relation.
+  // stopgapId: SG-DIRECTOR-shared-relative-kin-address
+  // A relative the two share is neither introduced nor asked after: "my
+  // father", "your father" or "How's John?" is not how a brother and sister
+  // speak of their own father. Shared-kin wording replaces this suppression.
   const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
@@ -897,6 +901,7 @@ export function subjectsBetween(
       !relative?.alive ||
       !row ||
       listener.knownIds.has(id) ||
+      listener.familyIds.has(id) ||
       id === listenerId
     )
       continue;
@@ -924,7 +929,8 @@ export function subjectsBetween(
     const relative = core.people.get(id);
     const row = relationOf.get(id);
     if (!relative?.alive || !row || !listener.knownIds.has(id)) continue;
-    if (id === listenerId || !happened(id)) continue;
+    if (id === listenerId || listener.familyIds.has(id) || !happened(id))
+      continue;
     const phrase = relationPhrase(
       row.relation,
       relative.looks?.gender ?? "other",
@@ -951,7 +957,8 @@ export function subjectsBetween(
     const relative = core.people.get(id);
     const row = theirRelation.get(id);
     if (!relative?.alive || !row || !speaker.knownIds.has(id)) continue;
-    if (id === speakerId || !happened(id)) continue;
+    if (id === speakerId || speaker.familyIds.has(id) || !happened(id))
+      continue;
     const phrase = relationPhrase(
       row.relation,
       relative.looks?.gender ?? "other",

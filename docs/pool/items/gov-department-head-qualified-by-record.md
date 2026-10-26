@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/department-head-by-record
-pr:
+status: open
+claimed-by:
+pr: #6149
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T06:16:50.634Z
+claimed-at:
 ---
 
 **What.** The owner's playtest (play-stop-20): by December 2025 his sister, 18 and with no college shown, was Public Works Director of Anson, Texas. #6080 stops residents under 18 from being weighed, but the town appointer's qualification (src/core2/modules/executive.ts, qualification and experienceFromAge) uses age as a stand-in for experience: a base, the person's reliability and deliberation, a saturating curve of years past 18, and a flat bonus when they work at an organization whose name contains the post's first word. A reliable, deliberate 18-year-old with no job or schooling can still outrank older residents, most of all in a small pool (gov-appointments-weigh-counted-adults). The appointer's ranking should read what the records say each candidate has done: years of related work (their jobs and the deep past's work records) and their schooling.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T06:16:50.634Z
 **Files.** src/core2/modules/executive.ts, src/core2/data/campaigns/parameters.json, src/core2/executive.test.ts
 
 **Notes.** Filed by the speed lead on Merger 0's send-back of #6080 (Oct 26), which asked that the intended qualification rule be proven, not fixed with an arbitrary new age threshold. play-stop-20 stays open on this item and words-family-talk-kin-address.
+
+Sent back 2026-10-26 from PR #6149 (branch claude/department-head-by-record): normal current-main integration conflicts in src/core2/executive.test.ts; merge aborted with no source push, reconcile the new record-based qualification checks with current main coverage before the local gate; finish on that branch, merge main into it first.

@@ -296,6 +296,155 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.33.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Bottle deposits and carbon prices follow what people return and emit** In a
+  state with a bottle deposit, how much of the deposit a household loses depends
+  on how many containers the state's people bring back, and that share climbs
+  once a new deposit has been law for about half a year. A carbon price is owed
+  on the tons a household emits, so it eases a little as the state's emissions
+  fall. The families you meet and the wider population pay by the same rule.
+
+## PRE-ALPHA 0.32.9
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Appointed officials and aides work an office week** A town's city
+  administrator, department heads and the aides of its officials now work an
+  ordinary office week instead of a firefighter's 24-hour rotation, so aides can
+  actually turn up to work and be paid for it.
+
+## PRE-ALPHA 0.32.8
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Georgia's, Wyoming's and Kansas's own minimum wage laws now show as state
+  law.** Those states file their one state rate under a tier for certain
+  employers, so they showed only the federal minimum wage. Each now has its
+  state rate as state law. The federal rate still sets pay where it is higher.
+
+## PRE-ALPHA 0.32.7
+
+_Released October 26, 2026._
+
+### Improved
+
+- **A long game holds less in memory** The people around you no longer keep
+  every small choice they weighed, or every cause they heard about, for the
+  whole game. Their routine records now fade on the same schedule as their other
+  daily acts, so a game played for years uses less memory.
+
+- **Personality shapes jobs, borrowing, homes and businesses** How people handle
+  money and work now bends to who they are, at sizes taken from research.
+  Cautious and bold people, in the same circumstances, differ in whether they
+  start looking for work, take an offer, borrow, buy a home, found a business or
+  leave town, and the people not yet named in your town follow the same rules as
+  the named ones. Households that can afford a down payment now weigh a home by
+  the interest it costs over rent, not the whole mortgage payment. Whether to
+  apply for a job, buy a home, take a draw from the business or start a business
+  now rests on each person's own circumstances, so temperament can tip them: a
+  seeker's push to apply eases the longer they have looked, a renter weighs the
+  share of the down payment they are short, an owner weighs the business's cash
+  against a month of everything it pays out, and starting a business sits within
+  reach of a strong lean. A household behind on rent settles part of what it
+  owes each month from the cash it holds beyond a month's living, as far as its
+  temperament leans toward paying what is owed.
+
+## PRE-ALPHA 0.32.6
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A scene says who came and why once** A scene's narration now says once who
+  has come and why. Before, a scene could announce the same person twice before
+  anyone spoke: "Your mother has news for you. Your mother has something to tell
+  you."
+
+## PRE-ALPHA 0.32.5
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **No parent at home was younger than 15 when their child was born.** A new
+  life could open with a parent who was 14 when the player or a sibling was
+  born. Parents and children at home are now always far enough apart in age that
+  the parent was at least 15 on the day of the birth.
+
+## PRE-ALPHA 0.32.4
+
+_Released October 26, 2026._
+
+### Improved
+
+- **A recession costs men their employer health plans** When unemployment rises
+  in a town, fewer working people hold an employer health plan, and men lose
+  theirs faster than women do. The research behind it finds that a rise in
+  unemployment lowers men's coverage far more than women's.
+
+### Fixed
+
+- **Washington, D.C. and Rhode Island open at their own published unemployment
+  rates.** A place whose state is made up only of metro areas used to open at
+  the whole metro area's unemployment rate, which takes in neighboring states.
+  Washington, D.C. opened at 2.9 percent instead of its own 5.6, and Rhode
+  Island at 4.2 instead of 4.5. Both now open at their published rates.
+
+## PRE-ALPHA 0.32.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Brothers and sisters are born months apart, and no 17-year-old runs a city
+  department** A new life could open with a sister born a week after the player,
+  and a 17-year-old could be named the city's Public Works Director. Brothers
+  and sisters at home are now born at least nine months apart, and a birthday
+  chosen at the start moves a sibling born too close to it. Only residents who
+  have turned 18 by their birthday are weighed for a department. Two relatives
+  no longer ask each other after a relative they share by first name or as "your
+  father".
+
+## PRE-ALPHA 0.32.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A budget cut now lets the newest public hires go first, named or counted**
+  When a city or county cuts the line that pays a department (schools, police,
+  fire), the layoffs now follow one order across the employer's whole staff: the
+  newest hire goes first, whether the game follows that worker closely or counts
+  them in the wider town.
+
+- **A raise or cut to a public-school budget line is checked end to end in a
+  drawn town** A new test follows a mayor's schools-line change through the
+  council's budget bill to the district's teachers. A place where the council
+  recorded its own amendment, rejection or veto is skipped by that record; a
+  place where the line was not adopted with no such record now fails the test.
+
+- **Layoffs after a budget cut follow the same newest-first order for named and
+  counted staff** When a budget cut forces a department to let staff go, the
+  line's own recent hires go first, then the employer's remaining staff, named
+  and counted together, newest hire first. A counted worker's start date is the
+  date their household committed to the job, the same date a named person's job
+  carries, so filling a counted worker in does not move them in the order.
+
+- **The journal says a race was close only when the count shows it** A
+  candidate's journal now says "It was very close." or "It wasn't close." only
+  when the result's vote totals bear it out. Before, those lines were picked by
+  win or loss alone, so someone who ran unopposed could write that it was very
+  close. A race with one candidate now reads "I won." or "We won.".
+
 ## PRE-ALPHA 0.32.1
 
 _Released October 26, 2026._
