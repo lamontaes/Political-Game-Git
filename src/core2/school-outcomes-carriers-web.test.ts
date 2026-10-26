@@ -58,6 +58,11 @@ const CARRIERS = [
     measure: SCHOOL_MEASURE.math,
   },
 ] as const;
+/** The carriers played together in one twin world: prek and income move different measures. */
+const CARRIER_TWINS: readonly (readonly string[])[] = [
+  ["universal-prek-to-graduation", "poverty-to-math-proficiency"],
+  ["uninsured-to-graduation"],
+];
 /** Many times the researched sizes, so a small town's students can show the read. */
 const SHIFT = 0.3;
 /** A full played year, including the graduation records from its school year. */
@@ -73,7 +78,7 @@ const rows = <T>(core: CoreState, name: string) =>
     .rows() as unknown as T[];
 
 /** Plays a full year from the game start, the twin with one link's effect on every month row. */
-function play(drawn: Drawn, link?: string) {
+function play(drawn: Drawn, links: readonly string[] = []) {
   const t0 = Date.now();
   const opening = gameStartDate();
   const built = buildBenchWorld(drawn.seed, opening, {
@@ -92,27 +97,30 @@ function play(drawn: Drawn, link?: string) {
   // through.
   let laying = false;
   let written = true;
-  const lay = (shifted: string) => {
+  const lay = () => {
     laying = true;
     try {
       for (const row of months.rows() as unknown as WebMonth[])
-        if (row.effects[shifted] !== SHIFT)
+        if (links.some((shifted) => row.effects[shifted] !== SHIFT))
           months.put({
             ...row,
-            effects: { ...row.effects, [shifted]: SHIFT },
+            effects: {
+              ...row.effects,
+              ...Object.fromEntries(links.map((shifted) => [shifted, SHIFT])),
+            },
           } as never);
     } finally {
       laying = false;
     }
   };
-  if (link)
+  if (links.length)
     setTableTrace((moduleId, table, op) => {
       if (laying || moduleId !== OUTCOME_WEB_MODULE_ID || table !== "months")
         return;
       if (op === "put" || op === "remove") written = true;
       else if (written) {
         written = false;
-        lay(link);
+        lay();
       }
     });
   try {
@@ -124,11 +132,37 @@ function play(drawn: Drawn, link?: string) {
     setTableTrace(null);
   }
   // A row the web rewrote after its last read is shifted back to what was read.
-  if (link) lay(link);
-  console.error(`TIMING play ${link ?? "base"} ${(Date.now() - t0) / 1000}s`);
+  if (links.length) lay();
+  console.error(
+    `school carriers: played ${links.join(" + ") || "base"} in ${(Date.now() - t0) / 1000}s`,
+  );
   expect(core.date, `${drawn.name}: full-year boundary`).toBe(end);
-  return { core, placeId: built.placeId };
+  return snapshot(core, built.placeId);
 }
+
+/**
+ * What the assertions read, copied out of a played year so the world itself
+ * can be dropped: one town's year is several gigabytes with bookkeeping on, and
+ * the base and a twin held side by side ran the test out of heap.
+ */
+function snapshot(core: CoreState, placeId: string) {
+  const measures = new Map<string, SchoolMeasureRow>();
+  const groups = new Map<string, SchoolGroupRow[]>();
+  const results = new Map<string, SchoolResultRow[]>();
+  const web = new Map<string, WebMonth>();
+  for (const measure of [SCHOOL_MEASURE.graduation, SCHOOL_MEASURE.math]) {
+    const row = measureOf(core, placeId, measure);
+    if (row) {
+      measures.set(measure, structuredClone(row));
+      const month = webRow(core, row.webRecordId);
+      if (month) web.set(month.id, structuredClone(month));
+    }
+    groups.set(measure, structuredClone(groupsOf(core, placeId, measure)));
+    results.set(measure, structuredClone(resultsOf(core, placeId, measure)));
+  }
+  return { placeId, measures, groups, results, web };
+}
+type Played = ReturnType<typeof snapshot>;
 
 /**
  * Whether a drawn place can show every carrier, from what its opening holds:
@@ -207,30 +241,38 @@ describe(`the carried school links reach students through their carriers (seed $
     const base = play(drawn);
     for (const measure of [SCHOOL_MEASURE.graduation, SCHOOL_MEASURE.math]) {
       expect(
-        groupsOf(base.core, base.placeId, measure).length,
+        base.groups.get(measure)!.length,
         `${where}: ${measure} groups`,
       ).toBeGreaterThan(0);
       expect(
-        resultsOf(base.core, base.placeId, measure).length,
+        base.results.get(measure)!.length,
         `${where}: ${measure} results`,
       ).toBeGreaterThan(0);
     }
     const lines: string[] = [];
 
+    // The prek and income carriers move different measures (graduation and
+    // math), so one twin carries both; the coverage carrier moves graduation
+    // too and has its own twin, so each measure still has one carrier at a time.
+    const twins = new Map<readonly string[], Played>();
+    const twinOf = (c: (typeof CARRIERS)[number]) => {
+      const links = CARRIER_TWINS.find((group) => group.includes(c.link))!;
+      if (!twins.has(links)) twins.set(links, play(drawn, links));
+      return twins.get(links)!;
+    };
     for (const c of CARRIERS) {
-      const twin = play(drawn, c.link);
+      const twin = twinOf(c);
       expect(twin.placeId).toBe(base.placeId);
-      const placeId = base.placeId;
-      const baseMeasure = measureOf(base.core, placeId, c.measure)!;
-      const twinMeasure = measureOf(twin.core, placeId, c.measure)!;
-      const baseWeb = webRow(base.core, baseMeasure.webRecordId)!;
-      const twinWeb = webRow(twin.core, twinMeasure.webRecordId)!;
+      const baseMeasure = base.measures.get(c.measure)!;
+      const twinMeasure = twin.measures.get(c.measure)!;
+      const baseWeb = base.web.get(baseMeasure.webRecordId)!;
+      const twinWeb = twin.web.get(twinMeasure.webRecordId)!;
       expect(twinWeb.effects[c.link], `${where}: ${twinWeb.id}`).toBe(SHIFT);
       const baseEffect = baseWeb.effects[c.link] ?? 0;
 
       // Each income fifth's factor carries the carrier's part.
-      const baseGroups = groupsOf(base.core, placeId, c.measure);
-      const twinGroups = groupsOf(twin.core, placeId, c.measure);
+      const baseGroups = base.groups.get(c.measure)!;
+      const twinGroups = twin.groups.get(c.measure)!;
       expect(twinGroups.length, `${where}: ${c.measure}`).toBeGreaterThan(0);
       let moved = 0;
       for (const group of twinGroups) {
@@ -246,10 +288,10 @@ describe(`the carried school links reach students through their carriers (seed $
 
       // Each full student's result reads the shifted row, and none is made worse.
       const baseResults = new Map(
-        resultsOf(base.core, placeId, c.measure).map((r) => [r.id, r]),
+        base.results.get(c.measure)!.map((r) => [r.id, r]),
       );
       const raised: string[] = [];
-      for (const result of resultsOf(twin.core, placeId, c.measure)) {
+      for (const result of twin.results.get(c.measure)!) {
         const before = baseResults.get(result.id);
         if (!before) continue;
         expect(result.webRecordId, result.id).toBe(twinMeasure.webRecordId);
