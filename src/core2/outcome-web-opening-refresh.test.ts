@@ -35,8 +35,8 @@ import type { CoreEventInput, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED || randomBytes(8).toString("hex");
 const LINK = "school-spending-to-attainment";
-/** Places drawn at most: an island area or a town with no city or county schools line has nothing to raise. */
-const DRAWS = 6;
+/** Places drawn at most: an island area, or a town whose schools are a separate district's, has no city or county schools line to raise. */
+const DRAWS = 10;
 
 it(`an opening-month change reads as one month of a phased link's average, not every month before it (seed ${seed})`, () => {
   const link = WEB_LINKS.find((row) => row.key === LINK)!;
@@ -55,21 +55,29 @@ it(`an opening-month change reads as one month of a phased link's average, not e
       // The day after the opening month's row is written.
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
       const town = lawChain(api).townPlaceId;
-      const gov = governments(api).find(
-        (row) =>
-          (row.level === "city" || row.level === "county") &&
-          core.organizations.get(row.organizationId)?.placeId === town,
-      );
-      const budget = gov
-        ? [...budgetsOf(api, gov.id)]
-            .filter((row) => row.startsOn <= core.date)
-            .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]
-        : undefined;
-      const line =
-        gov && budget
-          ? (baseBudget(api, gov, budget.fiscalYear).spendingMinor["schools"] ??
+      // The first city or county budget in the town with a schools line, as
+      // the spending test raises it.
+      let gov: ReturnType<typeof governments>[number] | undefined;
+      let line = 0;
+      for (const row of governments(api)) {
+        if (
+          (row.level !== "city" && row.level !== "county") ||
+          core.organizations.get(row.organizationId)?.placeId !== town
+        )
+          continue;
+        const budget = [...budgetsOf(api, row.id)]
+          .filter((b) => b.startsOn <= core.date)
+          .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
+        const base = budget
+          ? (baseBudget(api, row, budget.fiscalYear).spendingMinor["schools"] ??
             0)
           : 0;
+        if (base > 0) {
+          gov = row;
+          line = base;
+          break;
+        }
+      }
       if (!gov || line <= 0) {
         tried.push(`${where}: no city or county schools line`);
         continue;
