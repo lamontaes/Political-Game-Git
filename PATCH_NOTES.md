@@ -296,6 +296,21 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.32.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Brothers and sisters are born months apart, and no 17-year-old runs a city
+  department** A new life could open with a sister born a week after the player,
+  and a 17-year-old could be named the city's Public Works Director. Brothers
+  and sisters at home are now born at least nine months apart, and a birthday
+  chosen at the start moves a sibling born too close to it. Only residents who
+  have turned 18 by their birthday are weighed for a department. Two relatives
+  no longer ask each other after a relative they share by first name or as "your
+  father".
+
 ## PRE-ALPHA 0.32.2
 
 _Released October 26, 2026._
