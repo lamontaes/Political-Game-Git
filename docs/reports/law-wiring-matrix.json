@@ -46,8 +46,8 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 36,
-    "partly": 51,
+    "wired": 34,
+    "partly": 53,
     "stopgapped": 2,
     "byLink": {
       "exists": {
@@ -66,10 +66,10 @@
       },
       "reach": {
         "wired": 56,
-        "partial": 7,
+        "partial": 9,
         "missing": 8,
         "stopgap": 14,
-        "n/a": 4
+        "n/a": 2
       },
       "systems": {
         "wired": 61,
@@ -108,10 +108,10 @@
       },
       "allPlaces": {
         "wired": 63,
-        "partial": 2,
+        "partial": 4,
         "missing": 22,
         "stopgap": 0,
-        "n/a": 2
+        "n/a": 0
       }
     }
   },
@@ -3664,7 +3664,7 @@
       "family": "energy-environment",
       "reachGroup": "B",
       "mechanic": "compliance-cost",
-      "overall": "wired",
+      "overall": "partly",
       "links": {
         "exists": {
           "status": "wired",
@@ -3677,9 +3677,9 @@
           "why": ""
         },
         "reach": {
-          "status": "n/a",
+          "status": "partial",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): 3 open (full 0, counted groups 0/0 people, households 0, orgs 3, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e175247754c32e",
-          "why": "The plan's duty falls on stationary sources in counties EPA designates as missing an air standard (Clean Air Act sec. 107(d) and 172, 42 U.S.C. 7407(d) and 7502; the game reads the designations through countyNonattainment in src/core2/business-operating-rules.ts). The two audit towns' counties, Ogemaw County, Michigan (FIPS 26129, Prescott) and Dodge County, Nebraska (FIPS 31053, Uehling), have no designation in 2025, so the statute binds no source there and the plan's rows are empty by law, in play and in the checker. Where a county is designated (Hunterdon County, New Jersey, FIPS 34019, Lebanon: two ozone standards) the same engine bound 3 emitting businesses (rights-env-subject-cleanair-US-NJ-3439630.json)."
+          "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10), Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
         },
         "systems": {
           "status": "wired",
@@ -3707,9 +3707,9 @@
           "why": ""
         },
         "allPlaces": {
-          "status": "n/a",
+          "status": "partial",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c)",
-          "why": "One code path serves every place (business.ts routeCompliance reads the county's designations); it binds nobody only where the statute binds nobody: counties with no designation (Ogemaw, Michigan; Dodge, Nebraska), and it binds the emitters in a county that has one (Hunterdon, New Jersey: 3 businesses)."
+          "why": "reached people in one drawn place and not the other"
         }
       },
       "runs": [
@@ -5890,7 +5890,7 @@
       "family": "agriculture",
       "reachGroup": "B",
       "mechanic": "farm-output",
-      "overall": "wired",
+      "overall": "partly",
       "links": {
         "exists": {
           "status": "wired",
@@ -5903,9 +5903,9 @@
           "why": ""
         },
         "reach": {
-          "status": "n/a",
+          "status": "partial",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_2c4415fc453bce44",
-          "why": "A withdrawal cap binds the farms that draw the water; the researched response is the output a farm gives up under a cap (Kansas Local Enhanced Management Areas, K.S.A. 82a-1041; Nebraska natural resources district allocations; groundwaterWithdrawalShare in the business parameters), and the engine applies it to farms only (business.ts readGroundwaterLaw). The Nebraska audit town (Uehling) has no farm among its generated organizations, so the law has no subject there; the Michigan audit town (Prescott) has one farm (organization_4b47f062ac052d9a, an applied row in rights-env-year-US-MI-2666300.json) and the Oregon subject town (Troutdale) has one (organization_2c4415fc453bce44). The policy row also names mining and utilities, for which no response is researched, so none is applied (a research gap, not a link this entry covers)."
+          "why": "reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
         },
         "systems": {
           "status": "wired",
@@ -5933,9 +5933,9 @@
           "why": ""
         },
         "allPlaces": {
-          "status": "n/a",
+          "status": "partial",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Troutdale, Oregon, US-OR (seed dcb716723dd3881c)",
-          "why": "One code path serves every place (business.ts readGroundwaterLaw); it binds nobody only where the town has no farm (Uehling, Nebraska) and binds the farm where there is one (Prescott, Michigan; Troutdale, Oregon)."
+          "why": "reached people in one drawn place and not the other"
         }
       },
       "runs": [

@@ -5,24 +5,6 @@
       "money": {
         "status": "n/a",
         "why": "The clean air plan question moves no payment of its own in the game's model. EPA designates the nonattainment areas and the duty on their stationary sources follows the designation (Clean Air Act sec. 107(d) and 172, 42 U.S.C. 7407(d) and 7502), and where a state has no plan the federal plan applies instead (sec. 110(c), 42 U.S.C. 7410(c)), so the sources are charged either way. The engine does the same: src/core2/modules/business.ts:937 sets the share from the county's missed standards alone, :949-951 uses the plan's law row only for the citation when one is in force, and :959 makes the charge with or without it (tested in src/core2/clean-air-law.test.ts; the earlier ruling is pool item laws-family-clean-air, 'the cost is federal either way'). What the plan changes is the air, through the outcome web (emission-rules-to-particulates). In the drawn places for this law no journal post differs from the control world; the audit-town reading that looked like money (Uehling, Nebraska: interest-group-dues, journal:2025-02-01:1885, 400000 in the control world against 250000 with the plan in force) is interest groups' dues, not a payment the plan causes."
-      },
-      "reach": {
-        "status": "n/a",
-        "why": "The plan's duty falls on stationary sources in counties EPA designates as missing an air standard (Clean Air Act sec. 107(d) and 172, 42 U.S.C. 7407(d) and 7502; the game reads the designations through countyNonattainment in src/core2/business-operating-rules.ts). The two audit towns' counties, Ogemaw County, Michigan (FIPS 26129, Prescott) and Dodge County, Nebraska (FIPS 31053, Uehling), have no designation in 2025, so the statute binds no source there and the plan's rows are empty by law, in play and in the checker. Where a county is designated (Hunterdon County, New Jersey, FIPS 34019, Lebanon: two ozone standards) the same engine bound 3 emitting businesses (rights-env-subject-cleanair-US-NJ-3439630.json)."
-      },
-      "allPlaces": {
-        "status": "n/a",
-        "why": "One code path serves every place (business.ts routeCompliance reads the county's designations); it binds nobody only where the statute binds nobody: counties with no designation (Ogemaw, Michigan; Dodge, Nebraska), and it binds the emitters in a county that has one (Hunterdon, New Jersey: 3 businesses)."
-      }
-    },
-    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
-      "reach": {
-        "status": "n/a",
-        "why": "A withdrawal cap binds the farms that draw the water; the researched response is the output a farm gives up under a cap (Kansas Local Enhanced Management Areas, K.S.A. 82a-1041; Nebraska natural resources district allocations; groundwaterWithdrawalShare in the business parameters), and the engine applies it to farms only (business.ts readGroundwaterLaw). The Nebraska audit town (Uehling) has no farm among its generated organizations, so the law has no subject there; the Michigan audit town (Prescott) has one farm (organization_4b47f062ac052d9a, an applied row in rights-env-year-US-MI-2666300.json) and the Oregon subject town (Troutdale) has one (organization_2c4415fc453bce44). The policy row also names mining and utilities, for which no response is researched, so none is applied (a research gap, not a link this entry covers)."
-      },
-      "allPlaces": {
-        "status": "n/a",
-        "why": "One code path serves every place (business.ts readGroundwaterLaw); it binds nobody only where the town has no farm (Uehling, Nebraska) and binds the farm where there is one (Prescott, Michigan; Troutdale, Oregon)."
       }
     }
   }
