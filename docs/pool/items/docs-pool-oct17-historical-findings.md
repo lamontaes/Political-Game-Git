@@ -5,7 +5,7 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #4955
 blocked-on:
