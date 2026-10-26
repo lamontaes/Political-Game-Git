@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/official-pay-death
+pr: #6144
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T05:25:56.612Z
 ---
 
 **What.** src/core2/official-pay-death.test.ts pins seed 9a11da355dc8b557 (draw official-salary-payroll, Whitefield, New Hampshire, place 3384340) and checks that every official who died within the year has no pay row left. On main 8abee77ef0, Oct 26, it fails: official:seat:US-SC:upper:sample:Republican:2 is dead and its pay row is still there. payMonth in src/core2/modules/official-pay.ts removes a dead official's row only on a payday, so an official who dies after the year's last payday keeps a row until the next one; whether that is what happened here was not checked.
