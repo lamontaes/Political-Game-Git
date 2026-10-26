@@ -406,6 +406,7 @@ const NEWS_KINDS: Readonly<Record<string, string>> = {
   "feeling:event:life.death": "death-news",
   "feeling:event:health.serious-illness": "illness-news",
   "feeling:event:justice.imprisoned": "prison-news",
+  "feeling:event:person.moved-away": "moved-news",
 };
 
 const EVICTION_LABEL = "feeling:event:housing.eviction";
@@ -736,7 +737,7 @@ export function subjectsBetween(
       },
     });
   // Hard news about a relative, told by the household member who has it: a
-  // death, a serious illness, a prison sentence. The listener's own moment
+  // death, a serious illness, a prison sentence, a move away. The listener's own moment
   // names the person it is about; the listener's family record names how
   // they are related ("Your grandmother passed away.").
   for (const moment of recentMoments(core, director, listenerId)) {
@@ -1489,6 +1490,7 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "death-news",
   "illness-news",
   "prison-news",
+  "moved-news",
   "job-new",
   "job-new-told",
 ]);
@@ -1648,6 +1650,7 @@ export function openConversation(
     [
       ...SITUATION_LIBRARY.scheduling.householdScenes,
       ...(SITUATION_LIBRARY.scheduling.householdRecordScenes ?? []),
+      ...(SITUATION_LIBRARY.scheduling.departureScenes ?? []),
     ].includes(occasion.label);
   const opener =
     housemate && familyNews

@@ -18012,6 +18012,190 @@
       }
     },
     {
+      "key": "conversation.moved-news-raise-raise.relation-moved-away",
+      "move": "moved-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} moved away.",
+      "uses": [
+        {
+          "move": "moved-news-raise-raise",
+          "subject": "moved-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-26",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.moved-news-raise-raise.relation-moved-out-of-town",
+      "move": "moved-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} moved out of town.",
+      "uses": [
+        {
+          "move": "moved-news-raise-raise",
+          "subject": "moved-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-26",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.moved-news-reply-answer-ask.where-did-they-go",
+      "move": "moved-news-reply-answer-ask",
+      "kind": "spoken",
+      "text": "Where did they go?",
+      "uses": [
+        {
+          "move": "moved-news-reply-answer-ask",
+          "subject": "moved-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-26",
+      "bearing": "braced",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.moved-news-reply-answer-ask.when-did-they-leave",
+      "move": "moved-news-reply-answer-ask",
+      "kind": "spoken",
+      "text": "When did they leave?",
+      "uses": [
+        {
+          "move": "moved-news-reply-answer-ask",
+          "subject": "moved-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-26",
+      "bearing": "braced",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.moved-news-reply-answer-brief.i-didn-t-know",
+      "move": "moved-news-reply-answer-brief",
+      "kind": "spoken",
+      "text": "I didn't know.",
+      "uses": [
+        {
+          "move": "moved-news-reply-answer-brief",
+          "subject": "moved-news-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-26",
+      "bearing": "braced",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.moved-news-reply-answer-comfort.that-s-a-big-change-for-the-house",
+      "move": "moved-news-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's a big change for the house.",
+      "uses": [
+        {
+          "move": "moved-news-reply-answer-comfort",
+          "subject": "moved-news-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-26",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.moved-news-reply-answer-promise.we-should-call-them",
+      "move": "moved-news-reply-answer-promise",
+      "kind": "spoken",
+      "text": "We should call them.",
+      "uses": [
+        {
+          "move": "moved-news-reply-answer-promise",
+          "subject": "moved-news-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-26",
+      "bearing": "tender",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.moved-news-reply-answer-promise.we-ll-keep-in-touch",
+      "move": "moved-news-reply-answer-promise",
+      "kind": "spoken",
+      "text": "We'll keep in touch.",
+      "uses": [
+        {
+          "move": "moved-news-reply-answer-promise",
+          "subject": "moved-news-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-26",
+      "bearing": "tender",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
       "key": "conversation.farewell-leave-home.we-ll-talk-more-later",
       "move": "farewell-leave-home",
       "kind": "spoken",

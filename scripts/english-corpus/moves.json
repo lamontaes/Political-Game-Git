@@ -577,7 +577,7 @@
         "key": "honor"
       },
       {
-        "move": "^(death|illness|prison)-news-raise",
+        "move": "^(death|illness|prison|moved)-news-raise",
         "tag": "deliver-news",
         "key": "loss"
       },
@@ -587,17 +587,17 @@
         "key": "loss"
       },
       {
-        "move": "^(death|illness|prison)-news-reply-answer-(help|comfort|brief)$",
+        "move": "^(death|illness|prison|moved)-news-reply-answer-(help|comfort|brief)$",
         "tag": "comfort",
         "key": "loss"
       },
       {
-        "move": "^prison-news-reply-answer-promise$",
+        "move": "^(prison|moved)-news-reply-answer-promise$",
         "tag": "promise",
         "key": "loss"
       },
       {
-        "move": "^(death|illness|prison)-news-reply-answer-ask$",
+        "move": "^(death|illness|prison|moved)-news-reply-answer-ask$",
         "tag": "ask",
         "key": "loss"
       },

@@ -1277,7 +1277,8 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
 }
 
 /** The departure record rides on its event, for tests and proofs that watch departures. */
-const DEPARTURE_FACT = "moves:departure";
+/** The fact on a move-away event that holds its departure record. */
+export const DEPARTURE_FACT = "moves:departure";
 const watched = new WeakMap<object, Departure[]>();
 
 /**

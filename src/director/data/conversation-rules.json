@@ -81,6 +81,10 @@
       "kind": "prison-news-reply",
       "stage": "default"
     },
+    "moved-news": {
+      "kind": "moved-news-reply",
+      "stage": "default"
+    },
     "job-new-told": {
       "kind": "job-new-told-reply",
       "stage": "default"

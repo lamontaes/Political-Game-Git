@@ -12,6 +12,7 @@
  */
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { DEPARTURE_FACT } from "../core2/modules/moves";
 import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
@@ -120,6 +121,8 @@ export interface SituationLibrary {
     householdRecordScenes?: readonly string[];
     /** Records of the subject's own life the household meets at home: a filing, the count of their race. */
     ownRecordScenes?: readonly string[];
+    /** A member's move away, a family scene for each member of the household they left. */
+    departureScenes?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -551,6 +554,20 @@ function bindType(
 }
 
 /**
+ * The household a move left, from the move's departure record (the moves
+ * engine names it on the event), so a member who moved out is still family
+ * news for the people they left behind.
+ */
+function departedFrom(
+  core: Readonly<CoreState>,
+  causeId: string,
+): string | undefined {
+  const fact = core.durableLog.get(causeId)?.facts?.[DEPARTURE_FACT];
+  if (typeof fact !== "string") return undefined;
+  return (JSON.parse(fact) as { householdId?: string }).householdId;
+}
+
+/**
  * Decides one stored moment's outcome. Pure over the core and the ledger;
  * the caller stores the entry.
  */
@@ -671,7 +688,9 @@ export function scheduleMoment(
       (library.scheduling.householdRecordScenes?.includes(moment.label) ??
         false) ||
       ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
-        moment.selfNamed === true)) &&
+        moment.selfNamed === true) ||
+      ((library.scheduling.departureScenes?.includes(moment.label) ?? false) &&
+        departedFrom(core, moment.causeId) === household)) &&
     bindings.some((row) => row.setting.kind === "home");
   const waits =
     bindings.length > zero &&
