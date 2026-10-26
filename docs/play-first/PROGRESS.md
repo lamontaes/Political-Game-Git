@@ -6,6 +6,7 @@ The handoff log. Newest first. Every agent adds one line before it stops, in the
 
 ## Log
 
+- 2026-10-26 02:06 · builder/Claude · play-stop-05-politics-lists-wrong-officials-a · play-first/play-stop-05-politics-lists-wrong-officials-a · b056dbfc93 · PR opened #6127 · a merger checks #6127: own members first, leaders by post, Federal filter added; screenshots in the body · needs-from: laws gov-territory-delegate-not-own-representative
 - 2026-10-26 01:43 · builder/Claude · play-first-04-town-list-font-and-populations · play-first/play-first-04-town-list-font-and-populations · 8d306614ff · ready for recheck #6088 · a merger checks #6088 again: main merged, its screenshots now show as images, the after retaken on the merged head (Texas), towns check and population test pass · none
 - 2026-10-26 01:43 · builder/Claude · play-first-01-start-a-life-first · play-first/play-first-01-start-a-life-first · e1038f16fd · ready for recheck #6091 · a merger checks #6091 again: main merged, its screenshots now show as images, title check passes on the merged head (Cortland West, New York, seed 4a41c0d0-cffe-46aa-a54f-493e13eaa4a1) · none
 - 2026-10-25 22:25 · speed lead/Claude · play-stop-25-door-count-stops-growing · claude/play-stop-25-door-count · see the PR head · pushed · a merger checks #6065 again: the send-back is fixed, people reached now grow every week (Dix 6 to 16 a week, Anson 3 to 26), and campaigns-canvass-reaches-nobody-for-months rides with it · none
