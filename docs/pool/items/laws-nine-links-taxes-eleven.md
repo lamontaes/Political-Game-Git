@@ -6,7 +6,7 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: "#5649"
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at:
 **Files.** scripts/law-wiring/check.ts, scripts/law-wiring/matrix.ts, src/core2/law-wiring-taxes.test.ts
 
 **Notes.** Laws lead, Oct 25. PR #5649 moves to this item; `laws-nine-links-taxes` stays open for the estate tax, blocked on `people-estate-wealth-top-tail`.
+
+Laws lead, Oct 26: Merger 0's 22:52 send-back fixed at 108f1ef150 (eligibility from opening records; a missing applied record fails the test), with the two CI failures on the merger's head; back in PR #5649.
