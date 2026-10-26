@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #6128
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -17,9 +17,11 @@ claimed-at:
 
 **Rules.** No dice: the case and the lean decide, through the shared rule. Real rates check totals only. Ask why: each interview record keeps the reasons it was weighed on, so a test can trace every answer.
 
-**Done when.** In the named candidates of drawn race towns' played windows (src/core2/trait-test-kit.ts drawnRaceWorld), seeds named, the share who accept is within 0.4 to 0.62 and the crossed net odds between thirds of lean are within a factor of 1.5 of the study's 2.47; the base and known-share weights carry their sources and spreads; a test checks every answer against its kept reasons; and the press.accept-interview gap row is removed. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
+**Done when.** In the played election-window years of two drawn places (`scripts/traits/trait-wiring-audit.ts` with `TRAIT_AUDIT_ELECTION=1`), seeds named, the share of candidates who accept is within 0.4 to 0.62 and the crossed odds between the thirds of lean are within a factor of 1.5 of the research target (2.70 after the Oct 24 rescale); the base, reach and incumbency weights carry their sources and spreads; a test checks every answer against its kept reasons; and the press.accept-interview gap row is removed.
 
 **Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/modules/press.traits.test.ts
 
 **Notes.** TODO
 Claim released Oct 25: branch never pushed (`claude/traits-accept-interview`).
+
+Oct 26 (traits lead): done-when corrected before the PR to the measure the audit gives (played election-window years, not drawn test windows) and to the target after the Oct 24 rescale (2.70, not 2.47). Name recognition was tried first as the case and dropped: in drawn towns nearly every candidate is known to the whole town.

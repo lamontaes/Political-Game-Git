@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/in-state-move-causes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T03:41:14.940Z
 ---
 
 **What.** In a played year of Dewey Beach, Delaware (seed 8dc5ab39afc8614e5bd07ce55e2928c003d310c3b9981c71b90843bc8e7c60e8), 79 of 89 counted moves had empty reasons: every move between the town and the rest of its state. src/core2/modules/counted-moves.ts records reasons: {} when the destination or origin is the town's own state (lines 659 and 873), because it weighs no pull between the town and the rest of its state.
