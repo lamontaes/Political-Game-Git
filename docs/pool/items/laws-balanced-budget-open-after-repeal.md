@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/balanced-budget-repeal
 pr: #6171
 blocked-on:
