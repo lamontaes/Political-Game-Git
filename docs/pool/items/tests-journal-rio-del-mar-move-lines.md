@@ -25,3 +25,5 @@ source: added with npm run pool -- add
 Merger 1, Oct 25 23:38 UTC: a second natural wording variant reproduces on clean main7565bdc4d5 and #6093 integration5171426206, North Weeki Wachee FL, root e9539f3aa58c00a1: When I was 13, my brother moved away. is rejected by the strict My-relation regex (main line452, PR456). Preserve the moved subject and source-ID proof while admitting a valid age preface. Raise/missing-household-move failures on this draw have their own item tests-journal-north-weeki-raise-and-move.
 
 Folded into tests-journal-red-on-seed-3d7f-linganore (Oct 25 audit).
+
+Merger 1, Oct 26 01:07 UTC: Hampton NJ root427da196cca2c54f reproduces the strict relative-move wording failure on both clean main add8156284 (When I was 10, my sister moved away.) and #6093 integration92b7cdd67c (When I was 10, Caroline moved away.; family has already been introduced). Both also lack the fixture household We move line, as on the North Weeki Wachee follow-up. Preserve subject/source checks while accepting valid age-prefaced and named-relative wording.

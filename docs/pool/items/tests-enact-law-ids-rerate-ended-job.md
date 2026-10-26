@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/floor-ended-job
-pr:
+pr: #6122
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T00:10:10.554Z

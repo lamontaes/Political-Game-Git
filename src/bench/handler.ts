@@ -313,9 +313,14 @@ export async function benchRequest(
         request.method === "GET" &&
         /^\/art\/people-engine\/v2\/figures\/[\w.-]+\.png$/.test(url.pathname)
       ) {
-        // Standing people: the v2 figures, served as they are.
+        // Standing people: the v2 figures, served as they are. The folder is
+        // written out so the desktop build copies it (it reads the fixed part
+        // of this path, desktop/scripts/build-play-api.mjs).
         const content = await readFile(
-          new URL(`../..${url.pathname}`, import.meta.url),
+          new URL(
+            `../../art/people-engine/v2/figures/${url.pathname.split("/").at(-1)}`,
+            import.meta.url,
+          ),
         );
         response.writeHead(200, {
           "Content-Type": "image/png",
@@ -1073,6 +1078,7 @@ export async function benchRequest(
           legislators: stateLegislators(
             requireCore(),
             url.searchParams.get("state") ?? "",
+            url.searchParams.get("level") === "federal" ? "federal" : "state",
           ),
         });
         return;

@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/speed-counted-renewal
+pr: #6072
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T05:31:04.601Z
 ---
 
 **What.** src/core2/counted-births-weight.test.ts:73 draws fresh crypto bytes inside each attempt and ignores the usual seed bindings. During local review of PR #6072 at f8b7d1ff41951522df88bae7cc2adccdac5daa66 its worker was OOM-killed after 84.70 seconds, before returning a test result or printing its input draw. The unrecorded input cannot be replayed on exact main, so this failure remains unclassified and no baseline equivalence is claimed.

@@ -5,13 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-circle-changes-on-screen
+pr: #6138
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from people-circle-turnover-too-low)
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-26T04:01:17.213Z
 ---
 
 **What.** A person's closest ties change over the years, and people-circle-turnover-too-low is fixing how often they do. The People web draws the circle as it is today with no sense of change, so a friend who drifted or a new coworker who became close is never noticed. Mark the people who joined the player's five closest in the last year and the ones who left it, with the reason on their card (moved away, new job, a falling-out), read from the tie records.

@@ -7,6 +7,7 @@
     "unemployment-to-assault",
     "police-to-violent-crime",
     "police-to-property-crime",
+    "police-to-low-level-arrests",
     "child-access-law-to-youth-gun-deaths",
     "stand-your-ground-to-homicide",
     "min-age-to-youth-gun-suicide",
@@ -96,6 +97,7 @@
     "carry-permit-to-violent-crime",
     "end-cash-bail-to-violent-crime",
     "cannabis-sales-to-violent-crime",
+    "sales-tax-to-prices",
     "mandatory-minimums-to-violent-crime",
     "clean-electricity-to-particulates",
     "carbon-price-to-particulates",
@@ -121,21 +123,21 @@
     "farmland-easements-to-farmland-lost",
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
+    "mileage-fee-to-vehicle-miles",
     "fix-it-first-to-poor-roads",
     "poor-roads-to-prices",
     "parks-spending-to-exercise-access"
   ],
   "waiting": {
-    "police-to-low-level-arrests": {
-      "waitingOn": ["justice.low-level-arrests"],
-      "needsSize": true
-    },
     "summer-jobs-to-youth-violence": {
       "waitingOn": ["program.summer-jobs-slots", "crime.youth-violent-arrests"],
       "needsSize": true
     },
     "incarceration-to-crime": {
       "waitingOn": ["crime.all"]
+    },
+    "fire-spending-to-fire-deaths": {
+      "waitingOn": ["budget.fire-added-pct", "fire.civilian-casualties"]
     },
     "pretrial-detention-to-future-crime": {
       "waitingOn": ["crime.reoffense"]
@@ -524,6 +526,10 @@
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
+    "income-tax-rate-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
     "social-security-tax-to-unemployment": {
       "waitingOn": ["labor.unemployment-pct"]
     },
@@ -630,6 +636,10 @@
       "owner": "OPUS-GOV",
       "links": 2
     },
+    "budget.fire-added-pct": {
+      "owner": "OPUS-GOV",
+      "links": 1
+    },
     "crime.all": {
       "owner": "OPUS-CORE",
       "links": 1
@@ -688,6 +698,10 @@
     },
     "federal.rail-expansion-pct": {
       "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "fire.civilian-casualties": {
+      "owner": "OPUS-CORE",
       "links": 1
     },
     "gov.nondisaster-transfers": {
@@ -771,10 +785,6 @@
       "links": 1
     },
     "justice.incarceration-risk": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "justice.low-level-arrests": {
       "owner": "OPUS-GOV",
       "links": 1
     },

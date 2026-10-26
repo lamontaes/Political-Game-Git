@@ -127,24 +127,18 @@
       "source": "Arkansas LEARNS Act (Act 237 of 2023); New Mexico HB 13 (2022)"
     },
     "us-policy-positions:fiscal.adopt-income-tax": {
+      "appliedByEngine": true,
       "mechanic": "income-tax-adopt",
       "effect": "income-tax-adopted",
       "kind": "rule",
-      "people": {
-        "ageFrom": "adultAge",
-        "employed": true
-      },
       "enforcer": "department of revenue",
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025; Local Income Taxes (2019)"
     },
     "us-policy-positions:fiscal.graduated-income-tax": {
+      "appliedByEngine": true,
       "mechanic": "income-tax-graduated",
       "effect": "income-tax-graduated",
       "kind": "rule",
-      "people": {
-        "ageFrom": "adultAge",
-        "employed": true
-      },
       "enforcer": "department of revenue",
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025"
     },
@@ -152,10 +146,6 @@
       "mechanic": "property-assessment",
       "effect": "property-tax-growth-capped",
       "kind": "right",
-      "people": {
-        "ageFrom": "adultAge",
-        "householdHead": true
-      },
       "terms": {
         "capShare": "propertyTaxGrowthCapShare"
       },
@@ -177,6 +167,8 @@
       "employersGain": true
     },
     "us-policy-positions:fiscal.balanced-operating-budget": {
+      "appliedByEngine": true,
+      "reviewedByTreasury": true,
       "mechanic": "balanced-budget",
       "effect": "balanced-budget-required",
       "kind": "rule",
@@ -208,6 +200,8 @@
       }
     },
     "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "appliedByEngine": true,
+      "reviewedByTreasury": true,
       "mechanic": "pension-funding",
       "effect": "pension-contribution-funded",
       "kind": "rule",
@@ -218,6 +212,8 @@
       "source": "Pew, The State Pension Funding Gap (2023): paying the actuarially determined contribution"
     },
     "us-policy-positions:fiscal.minimum-reserve-balance": {
+      "appliedByEngine": true,
+      "reviewedByTreasury": true,
       "mechanic": "reserve",
       "effect": "minimum-reserve-held",
       "kind": "rule",
