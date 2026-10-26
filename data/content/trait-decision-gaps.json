@@ -7,6 +7,9 @@
     "src/core2/modules/jobs.ts:2587": "jobs.counted-look",
     "src/core2/modules/business.ts:1542": "business.counted-found"
   },
+  "openingRecordKinds": {
+    "appointments.weigh": "official-appointed"
+  },
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
@@ -174,9 +177,9 @@
       "fix": "Fold the age term (standAgainReason, voting.ts:334) into candidacy's reasons for an incumbent and delete standsAgain and the stand-in branch, or measure the decision only in a world built without candidacy (pool item elections-stand-again-dead-with-candidacy)."
     },
     "appointments.weigh": {
-      "class": "runs only at the opening and on a vacancy",
-      "why": "The appointer's loyalty against merit (src/core2/appointments.ts:56) is read whenever a post is filled. The town's department heads and the state's cabinet are filled when the executive module opens (src/core2/modules/executive.ts:151-152), before the audit's probe is on; afterward only a department head who dies or moves away (executive.ts:1168-1172) or a newly seated governor (:1197) fills one, and neither happened in the election window.",
-      "fix": "Count the opening's calls apart from the played year, with an appointment's record id (traits-audit-opening-appointments)."
+      "class": "runs at the opening; in the played year only on a vacancy",
+      "why": "The appointer's loyalty against merit (src/core2/appointments.ts:46) is weighed whenever a town's mayor or council fills a department post (src/core2/modules/executive.ts:276) and when a governor the player plays nominates a cabinet member (:815); the world's governors fill their cabinets without it (appointStateCabinet). The audit now counts the opening apart from the year (its `opening`): in Canton City (Hensel), North Dakota (place key 3812060, seed d6aed6c1ceaf, January 20, 2025) the mayor weighed all 8 department posts; retained opening records include appointed:appointment:town:city-administrator:2025-01-20, appointed:appointment:town:police-chief:2025-01-20 and appointed:appointment:town:fire-chief:2025-01-20 on the integrated main result. The played year still lacks a call: afterward only a department head who dies or moves away fills a post (executive.ts:1165-1172), and none did in the original played-year audit.",
+      "fix": "The opening's calls are counted (callsAtOpening in the matrix); a played-year call needs a drawn year in which a department head dies or moves away, as traits-accept-appointment-vacancy-proof finds for a local seat."
     },
     "housing.settle-arrears": {
       "class": "no trigger (fill-in only)",
