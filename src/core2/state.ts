@@ -1,8 +1,10 @@
 import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
+  CLOSENESS,
   closenessAfter,
   openingClosenessHours,
+  openingPeerHours,
   temperedHours,
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
@@ -240,6 +242,36 @@ function admitOwnerCashAccount(
 
 /** Opening family ties: closeness from the kind of tie (P15 part 2). */
 const OPENING_FAMILY_CAUSE = "opening-family";
+
+/**
+ * Opening peer ties: a person ties to each classmate and coworker the opening
+ * records name (the generated peer circles), at the closeness those shared
+ * hours leave. Full people and counted ones are read the same way. A world
+ * built to play (createLifeCore) opens these for every resident; people filled
+ * in or promoted later open theirs as they join.
+ */
+export function openOpeningPeerTies(
+  core: CoreState,
+  api: CoreAPI,
+  actor: PersonState,
+): void {
+  for (const id of actor.knownIds) {
+    if (actor.familyIds.has(id)) continue;
+    const relationshipId = pairKey(actor.id, id);
+    if (core.relationships.has(relationshipId)) continue;
+    if (!core.people.has(id) && !core.husks.has(id)) continue;
+    const hours = openingPeerHours(core, actor, id);
+    if (hours <= api.parameter("zero")) continue;
+    api.relationship(
+      actor.id,
+      id,
+      CLOSENESS.peerTies.kind as Relationship["kind"],
+      hours,
+      undefined,
+      { cause: CLOSENESS.peerTies.cause },
+    );
+  }
+}
 
 function assertKnownIdSources(
   core: CoreState,
@@ -681,7 +713,12 @@ export function resolveOperation<
   return undefined;
 }
 
-export function retainLog(core: CoreState, event: LogRecord): void {
+export function retainLog(
+  core: CoreState,
+  event: LogRecord,
+  /** A debug check (the audit's trait probe, off in play) asks for the record as the observer would keep it. */
+  debugKeep = false,
+): void {
   const circle = [...event.personIds, ...(event.witnessIds ?? [])].some(
     (id) =>
       core.focusPersonIds.has(id) ||
@@ -693,7 +730,7 @@ export function retainLog(core: CoreState, event: LogRecord): void {
   const publicRecord =
     event.publicRecord && core.visiblePlaceIds.has(event.placeId);
   const news = event.news;
-  if (!core.observer && !circle && !publicRecord && !news) return;
+  if (!core.observer && !debugKeep && !circle && !publicRecord && !news) return;
   if (core.durableLog.has(event.id)) return;
   const row: LogRecord = {
     ...event,
@@ -706,13 +743,14 @@ export function retainLog(core: CoreState, event: LogRecord): void {
           ),
         }
       : {}),
-    visibility: core.observer
-      ? "observer"
-      : circle
-        ? "circle"
-        : publicRecord
-          ? "public"
-          : "news",
+    visibility:
+      core.observer || !(circle || publicRecord || news)
+        ? "observer"
+        : circle
+          ? "circle"
+          : publicRecord
+            ? "public"
+            : "news",
   };
   core.durableLog.set(row.id, row);
   // The circle's reasons are condensed once they're older than the detail
@@ -2379,6 +2417,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             api.parameter("relationInitial"),
           );
       }
+    openOpeningPeerTies(core, api, actor);
     for (const id of actor.knownIds) {
       const other = core.people.get(id) ?? core.husks.get(id);
       if (!other) continue;
@@ -2654,6 +2693,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
       { cause: OPENING_FAMILY_CAUSE },
     );
   }
+  openOpeningPeerTies(core, api, actor);
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
     api.observe(actor.id, {
