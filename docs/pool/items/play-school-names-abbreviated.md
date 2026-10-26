@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/play.mjs, src/core2/data
 
-**Notes.** TODO
+**Notes.** TODO Playtest Oct 26 sitting 1 (installed v0.34.0): Who you are lists "Northwestern MS" and "Northwestern El Sch" in Albion; raise priority from 3 to 2.

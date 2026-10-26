@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
-pr: #5180
+pr:
 blocked-on:
 source: added with npm run pool -- add
 ---
@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.
