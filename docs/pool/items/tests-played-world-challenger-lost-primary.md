@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/challenger-lost-primary
 pr: #5939
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at: 2026-10-25T08:31:10.801Z
 **Notes.** TODO
 
 Sent back 2026-10-24 UTC from PR #5950 (branch claude/challenger-lost-primary): code already reached main via5939; remaining diff restores already consumed release declaration and local release PR check fails duplicate consumed ID; resolve obsolete declaration/PR closeout without duplicating released change; finish on that branch, merge main into it first.
+
+Found on main at 2a524c1757 by the Oct 25 audit: the fix reached main through PR #5939 (merged Oct 24); the remaining branch diff was only a consumed release declaration.

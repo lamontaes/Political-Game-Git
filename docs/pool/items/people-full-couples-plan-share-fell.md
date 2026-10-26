@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: the plan share follows the couples' own ages, money, health and tie, never a percentage; real birth rates check totals only. One model, two tiers: the full couples' births must stay in line with the counted women's by age.
 
-**Done when.** In a one-year buildBenchWorld run in three drawn places (named, with seeds), full couples' births per thousand women by age band fall within the CDC natality rate for that band's spread, and the share of active couples with a mother aged 20 to 39 who plan a child is reported with the couples' record ids.
+**Done when.** In a one-year buildBenchWorld run in three drawn places (named, with seeds), full couples' births per thousand women by age band fall within the CDC natality rate for that band's spread, and the share of active couples with a mother aged 20 to 39 who plan a child is reported with the couples' record ids. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/births-plan.ts,src/core2/modules/renewal.ts,src/core2/births-full-web.test.ts
 

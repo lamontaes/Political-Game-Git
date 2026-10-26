@@ -3,7 +3,7 @@ id: gov-corruption-small-territory-bribe
 title: "Golden-path M3-09: no bribe is offered in a small territory village"
 area: gov
 kind: bug
-priority: 2
+priority: 3
 size: S
 status: open
 claimed-by:
@@ -20,3 +20,5 @@ source: added by EFFECT-WEB-WIRING
 **Done when.** The corruption test passes on that seed and place, and on three fresh seeds in a drawn place each, and the golden-path runner on the fix branch shows M3-09 passed.
 
 **Files.** src/core2/corruption.test.ts, src/core2/modules/corruption.ts
+
+**Notes.** Deferred Oct 25: nothing on screen reads it yet.

@@ -189,6 +189,8 @@ export interface BillRow {
   readonly bodyOfficeId: string;
   readonly sponsorId: string;
   readonly introduced: string;
+  /** The day it passed its last chamber; a state act's session is the one sitting then, whenever it is signed. */
+  readonly passedOn?: string;
   /** The committee record that reported the bill to the floor of its first chamber, where its body has committees. */
   readonly committeeId?: string;
   /** The pre-vote hooks that already ran on the bill's committee day; the floor day does not run them again. */
@@ -1347,7 +1349,12 @@ export function effectiveRule(
       cite: "Gozlon-Peretz v. United States, 498 U.S. 395 (1991)",
     };
   if (state) {
-    const stateDate = stateActEffectiveDate(chain.stateKey, api.state.date);
+    // Counted from the session the act passed in, though signed later.
+    const stateDate = stateActEffectiveDate(
+      chain.stateKey,
+      api.state.date,
+      bill.passedOn,
+    );
     // Every state's rule is data; a state act with no rule is a data gap to
     // fix, never a silent ordinance delay.
     if (!stateDate)
@@ -3508,7 +3515,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       return failed;
     }
   }
-  const passed: BillRow = { ...bill, status: "passed" };
+  const passed: BillRow = {
+    ...bill,
+    status: "passed",
+    passedOn: api.state.date,
+  };
   table(api, "bills").put(passed as unknown as ModuleRow);
   return executiveAction(api, passed, tallies);
 }
@@ -3647,6 +3658,33 @@ function executiveAction(
         kind: "signing-deadline",
         source: deadline.source,
         sourceRecordIds: [bill.id],
+      });
+      // Presentment: the bill on the executive's desk is public record, and
+      // the scene where it is brought to them stands on it.
+      api.emit({
+        id: `bill-presented:${bill.id}`,
+        date: api.state.date,
+        kind: "bill-presented",
+        personIds: [key, bill.sponsorId].filter(
+          (id, index, ids) =>
+            api.state.people.has(id) && ids.indexOf(id) === index,
+        ),
+        placeId: lawChain(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `${bill.number} presented for signature by ${deadline.date}`,
+          asOf: api.state.date,
+        },
+        publicRecord: true,
+        news: true,
+        facts: {
+          billId: bill.id,
+          number: bill.number,
+          level: billReach(api, bill).level,
+          executiveId: key,
+          officeId: executiveOffice!.id,
+          signBy: deadline.date,
+        },
       });
       for (const hook of deskHooks)
         hook(api, {
