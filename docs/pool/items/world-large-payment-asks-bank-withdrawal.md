@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** Wire to the world: the withdrawal moves a real dollar and the books balance. Sliding scales and causes: the reserve follows the household's own spending, not a threshold. Replace, never layer: delete the monthly-only path's fake in the same change and resolve SG-WORLD-deposit-wallet-buffer.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed and place named in the PR body) a payment larger than the wallet triggers a withdrawal at the bank, shown by the deposit and withdrawal record ids with balanced books, in src/core2/bank-deposits.test.ts, and SG-WORLD-deposit-wallet-buffer is resolved in stopgaps.json.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed and place named in the PR body) a payment larger than the wallet triggers a withdrawal at the bank, shown by the deposit and withdrawal record ids with balanced books, in src/core2/bank-deposits.test.ts, and SG-WORLD-deposit-wallet-buffer is resolved in stopgaps.json. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/credit-deposits.ts,src/core2/data/stopgaps.json,src/core2/bank-deposits.test.ts
 

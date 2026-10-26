@@ -1,0 +1,25 @@
+---
+id: elections-incumbents-stand-again-above-band
+title: "Candidacy test fails on main in Heimdal, North Dakota: 95.5% of incumbents stand again, above the test's 95% ceiling"
+area: elections
+lead: traits
+kind: bug
+priority: 1
+size: S
+status: open
+claimed-by:
+pr:
+blocked-on:
+source: laws lead, Oct 26
+claimed-at:
+---
+
+**What.** `src/core2/candidacy.test.ts` (golden-path spec M2-04, accepted) fails on clean main at 050736344b with `GOLDEN_PATH_SEED=5d0f088701175cfc5d1b1671a35cd38cf6d72a4e3106e538c56d05443e5d6563 GOLDEN_PATH_PLACE_KEY=3837020` (Heimdal, North Dakota): "has most incumbents run again, as about 81% really do: expected 0.955 to be less than 0.95". CI's golden-path check drew that place for PR #5986's merge head (run 40266274366), so any PR whose commit draws it goes red. The incumbent's decision is the stand-again rule merged from `claude/traits-stand-again` (205ed71e9e, 9ffe21aff0). Whether the rule runs high in small towns, or the test's band is too narrow for a town with few seats, is not traced.
+
+**Rules.** No dice: an incumbent's decision comes from their age, temperament, record and circumstances. Real rates check totals; they never pick one person. One rule, all 56 places.
+
+**Done when.** `src/core2/candidacy.test.ts` passes on the seed and place above and on two fresh random places named in the PR body, and the PR says whether the rule or the band changed, with the share of incumbents standing again in each place.
+
+**Files.** src/core2/candidacy.test.ts, src/core2/stand-again.ts
+
+**Notes.** Laws lead, Oct 26: found on PR #5986's CI; reproduced on clean main.

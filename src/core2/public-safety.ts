@@ -218,7 +218,7 @@ function serviceOf(
 
 // ---- the town's people, both tiers ------------------------------------------
 
-interface FullPerson {
+export interface FullPerson {
   readonly id: PersonId;
   readonly householdId: string;
   readonly age: number;
@@ -228,7 +228,7 @@ interface FullPerson {
   readonly childHome: boolean;
 }
 
-interface GroupCensus {
+export interface GroupCensus {
   readonly index: number;
   readonly id: string;
   /** People 12 and older by age band. */
@@ -247,7 +247,7 @@ interface GroupCensus {
   readonly cash: number;
 }
 
-interface Census {
+export interface Census {
   readonly placeId: string;
   readonly stateKey: string;
   readonly gunRate: number;
@@ -264,7 +264,8 @@ const bandOf = (age: number): number => {
   return BANDS.length - 1;
 };
 
-function takeCensus(api: CoreAPI): Census {
+/** The town as the engine reads it each month: its named people and counted groups, by the facts the laws select on. */
+export function takeCensus(api: CoreAPI): Census {
   const core = api.state as CoreState;
   const chain = lawChain(api);
   const placeId = chain.townPlaceId;
@@ -486,6 +487,32 @@ function treasuryPays(
     source,
     partial: true,
   }).paidMinor;
+}
+
+/**
+ * The treasury that pays what a law moves, recorded on the law's key: the
+ * county (else the city or state) is charged the added cost of cases a law
+ * sends to juvenile court, spared the days it keeps people out of jail, and
+ * so on, as the counted groups the money is for are. Paid out is negative.
+ */
+function treasuryApplied(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  what: string,
+  amountMinor: number,
+): void {
+  const gov = govAt(api, ["county", "city", "state"]);
+  if (!gov || Math.abs(amountMinor) < 1) return;
+  lawApplied(api, {
+    key,
+    lawId,
+    targetId: gov.id,
+    target: "government",
+    engine: PUBLIC_SAFETY_MODULE_ID,
+    what,
+    amountMinor,
+  });
 }
 
 // ---- records ----------------------------------------------------------------
@@ -1055,38 +1082,65 @@ function batchCase(
       const perDiem =
         safetyParameter("jailPerDiemMinor") *
         safetyParameter("marginalCostShare");
+      let spared = 0;
       for (const [gid, n] of Object.entries(input.groups)) {
         const g = byId.get(gid)!;
         const cash = unableToPost(api, g);
+        const amountMinor = -(
+          n *
+          Math.max(0, cash - dangerous) *
+          days *
+          perDiem
+        );
+        spared += amountMinor;
         lawApplied(api, {
           key: CASH_BAIL,
           lawId: input.bailLaw,
-          targetId: `group:${gid}`,
+          targetId: gid,
           target: "group",
           engine: PUBLIC_SAFETY_MODULE_ID,
           what: "released-without-bail",
           count: Math.max(1, Math.round(n * cash)),
-          amountMinor: -(n * Math.max(0, cash - dangerous) * days * perDiem),
+          amountMinor,
         });
       }
+      // The county that would have paid those jail days is spared them.
+      treasuryApplied(
+        api,
+        CASH_BAIL,
+        input.bailLaw,
+        "jail-days-avoided",
+        -spared,
+      );
     }
   }
   if (input.court === "juvenile" && input.juvenileLaw) {
     // Young adults whose cases the raised age sends to juvenile court.
+    let added = 0;
     for (const [gid, n] of Object.entries(input.groups)) {
       if (BANDS[input.band]!.from < safetyParameter("juvenileAgeDefault"))
         break;
+      const amountMinor = n * juvenileMinusAdultCost(input.offense);
+      added += amountMinor;
       lawApplied(api, {
         key: JUVENILE_AGE,
         lawId: input.juvenileLaw,
-        targetId: `group:${gid}`,
+        targetId: gid,
         target: "group",
         engine: PUBLIC_SAFETY_MODULE_ID,
         what: "case-in-juvenile-court",
         count: Math.max(1, Math.round(n)),
-        amountMinor: n * juvenileMinusAdultCost(input.offense),
+        amountMinor,
       });
     }
+    // The county pays the added cost of those cases.
+    treasuryApplied(
+      api,
+      JUVENILE_AGE,
+      input.juvenileLaw,
+      "juvenile-court-cost",
+      -added,
+    );
   }
   // Self-defense claims end at charging: all of them where there is no duty
   // to retreat, and the ones with no safe retreat where there is one.
@@ -1098,12 +1152,16 @@ function batchCase(
     const saved = claims * retreat;
     count = input.count - dismissed;
     detained *= input.count > 0 ? count / input.count : 1;
-    if (input.syg)
-      for (const [gid, n] of Object.entries(input.groups))
+    if (input.syg) {
+      let spared = 0;
+      for (const [gid, n] of Object.entries(input.groups)) {
+        const amountMinor =
+          -(saved * (n / input.count)) * adultCaseCost(input.offense);
+        spared += amountMinor;
         lawApplied(api, {
           key: STAND_GROUND,
           lawId: input.syg,
-          targetId: `group:${gid}`,
+          targetId: gid,
           target: "group",
           engine: PUBLIC_SAFETY_MODULE_ID,
           what: "force-claim-dismissed",
@@ -1111,9 +1169,12 @@ function batchCase(
             1,
             Math.round(n * safetyParameter("forceClaimShare") * retreat),
           ),
-          amountMinor:
-            -(saved * (n / input.count)) * adultCaseCost(input.offense),
+          amountMinor,
         });
+      }
+      // The county is spared the cost of the cases that end at charging.
+      treasuryApplied(api, STAND_GROUND, input.syg, "cases-dismissed", -spared);
+    }
   }
   return {
     id,
@@ -1275,16 +1336,19 @@ function serveTerms(
   const terms = table(api, "terms");
   const cases = table(api, "cases");
   const owed = { jail: 0, prison: 0, juvenile: 0 };
+  let movedByLine = 0;
   // Who the corrections line houses this month, by counted group: the people
-  // in pretrial custody and serving a term, with what their days cost.
-  const housed = new Map<string, { people: number; amount: number }>();
-  const house = (c: CaseRow | undefined, people: number, amount: number) => {
+  // in pretrial custody and serving a term, with what the line's capacity
+  // changed of their days' cost (nothing while the line houses everyone who is
+  // held, less when it cannot).
+  const housed = new Map<string, { people: number; moved: number }>();
+  const house = (c: CaseRow | undefined, people: number, moved: number) => {
     const total = c ? Object.values(c.groups).reduce((n, v) => n + v, 0) : 0;
     if (!c || total <= 0 || people <= 0) return;
     for (const [gid, n] of Object.entries(c.groups)) {
-      const held = housed.get(gid) ?? { people: 0, amount: 0 };
+      const held = housed.get(gid) ?? { people: 0, moved: 0 };
       held.people += (people * n) / total;
-      held.amount += (amount * n) / total;
+      held.moved += (moved * n) / total;
       housed.set(gid, held);
     }
   };
@@ -1292,11 +1356,7 @@ function serveTerms(
   let pretrialDays = 0;
   for (const c of cases.query("byStatus", ["open"]) as unknown as CaseRow[]) {
     pretrialDays += c.detained * days;
-    house(
-      c,
-      c.detained,
-      c.detained * days * safetyParameter("jailPerDiemMinor") * share,
-    );
+    house(c, c.detained, 0);
   }
   owed.jail += pretrialDays * safetyParameter("jailPerDiemMinor") * share;
   for (const t of terms.query("byStatus", [
@@ -1310,10 +1370,12 @@ function serveTerms(
           ? safetyParameter("juvenilePerDiemMinor")
           : safetyParameter("jailPerDiemMinor");
     owed[t.court] += t.count * billed * served * perDiem * share;
+    const cut = t.count * billed * (served - 1) * perDiem * share;
+    if (t.court !== "juvenile") movedByLine += cut;
     house(
       cases.get(t.caseId) as unknown as CaseRow | undefined,
       t.count * served,
-      t.count * billed * served * perDiem * share,
+      cut,
     );
     tally.jailDays += t.count * billed * served;
     const left = t.daysLeft - billed;
@@ -1363,18 +1425,18 @@ function serveTerms(
       target: "government",
       engine: PUBLIC_SAFETY_MODULE_ID,
       what: "jail-capacity-served",
-      amountMinor: owed.jail + owed.prison,
+      amountMinor: movedByLine,
     });
     for (const [gid, held] of housed)
       lawApplied(api, {
         key: CORRECTIONS_LINE,
         lawId: corrections.lawId,
-        targetId: `group:${gid}`,
+        targetId: gid,
         target: "group",
         engine: PUBLIC_SAFETY_MODULE_ID,
         what: "jail-capacity-served",
         count: Math.max(1, Math.round(held.people)),
-        amountMinor: held.amount,
+        amountMinor: held.moved,
       });
   }
 }
@@ -1401,7 +1463,7 @@ function detainers(
     lawApplied(api, {
       key: IMMIGRATION,
       lawId,
-      targetId: `group:${g.id}`,
+      targetId: g.id,
       target: "group",
       engine: PUBLIC_SAFETY_MODULE_ID,
       what: "detainer-hold",
@@ -1410,7 +1472,7 @@ function detainers(
     });
   }
   tally.detainerHolds += total;
-  treasuryPays(
+  const paid = treasuryPays(
     api,
     govAt(api, ["county", "city", "state"]),
     `public-safety:detainer:${api.state.date}`,
@@ -1422,6 +1484,8 @@ function detainers(
       "Marginal share of the jail per diem.",
     ),
   );
+  // The county that paid the holds.
+  treasuryApplied(api, IMMIGRATION, lawId, "detainer-hold-cost", -paid);
 }
 
 // ---- firearm laws -----------------------------------------------------------
@@ -1463,7 +1527,7 @@ function firearms(api: CoreAPI, census: Census): void {
         lawApplied(api, {
           key: CHILD_ACCESS,
           lawId: cap,
-          targetId: `group:${g.id}`,
+          targetId: g.id,
           target: "group",
           engine: PUBLIC_SAFETY_MODULE_ID,
           what: "storage-duty",
@@ -1488,7 +1552,7 @@ function firearms(api: CoreAPI, census: Census): void {
         lawApplied(api, {
           key: CHILD_ACCESS,
           lawId: cap,
-          targetId: `group:${g.id}`,
+          targetId: g.id,
           target: "group",
           engine: PUBLIC_SAFETY_MODULE_ID,
           what: "storage-duty",
@@ -1587,7 +1651,7 @@ function firearms(api: CoreAPI, census: Census): void {
         lawApplied(api, {
           key: CARRY_PERMIT,
           lawId: permit,
-          targetId: `group:${g.id}`,
+          targetId: g.id,
           target: "group",
           engine: PUBLIC_SAFETY_MODULE_ID,
           what: "permit-fee",
@@ -1600,7 +1664,7 @@ function firearms(api: CoreAPI, census: Census): void {
         lawApplied(api, {
           key: CARRY_PERMIT,
           lawId: permit,
-          targetId: `group:${g.id}:under-age`,
+          targetId: `${g.id}:under-age`,
           target: "group",
           engine: PUBLIC_SAFETY_MODULE_ID,
           what: "permit-refused-under-age",
@@ -1632,7 +1696,7 @@ function firearms(api: CoreAPI, census: Census): void {
       lawApplied(api, {
         key: HANDGUN_AGE,
         lawId: age,
-        targetId: `group:${g.id}`,
+        targetId: g.id,
         target: "group",
         engine: PUBLIC_SAFETY_MODULE_ID,
         what: "sale-refused-under-age",
@@ -1780,12 +1844,25 @@ function fireService(api: CoreAPI, census: Census, fire: Service): number {
       lawApplied(api, {
         key: FIRE_LINE,
         lawId: fire.lawId,
-        targetId: `group:${g.id}`,
+        targetId: g.id,
         target: "group",
         engine: PUBLIC_SAFETY_MODULE_ID,
         what: "fire-response",
         count: Math.max(1, Math.round(g.households)),
         amountMinor: paid.groups.get(g.index) ?? 0,
+      });
+  // A full household's head whose home burned paid the loss the department's
+  // response left them with, as a counted group's households do.
+  if (fire.lawId)
+    for (const [personId, amount] of paid.people)
+      lawApplied(api, {
+        key: FIRE_LINE,
+        lawId: fire.lawId,
+        targetId: personId,
+        target: "person",
+        engine: PUBLIC_SAFETY_MODULE_ID,
+        what: "fire-response",
+        amountMinor: amount,
       });
   return incidents;
 }
@@ -1880,9 +1957,10 @@ function retireGoneGroups(api: CoreAPI, census: Census): void {
     STAND_GROUND,
   ])
     for (const row of appliedOn(api, key)) {
+      // Only a census group's own row: other group rows (the town's youth) stand for no one group.
       if (row.target !== "group" || !row.targetId.startsWith("group:"))
         continue;
-      const id = row.targetId.slice("group:".length).replace(/:under-age$/, "");
+      const id = row.targetId.replace(/:under-age$/, "");
       if (!live.has(id)) lawNoLongerApplies(api, key, row.targetId);
     }
 }
@@ -1894,7 +1972,7 @@ function policeApplied(api: CoreAPI, census: Census, police: Service): void {
     lawApplied(api, {
       key: POLICE_LINE,
       lawId: police.lawId,
-      targetId: `group:${g.id}`,
+      targetId: g.id,
       target: "group",
       engine: PUBLIC_SAFETY_MODULE_ID,
       what: "police-service",

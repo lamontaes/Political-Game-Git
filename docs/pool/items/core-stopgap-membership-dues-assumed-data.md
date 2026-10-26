@@ -4,7 +4,7 @@ title: "Stopgaps in membership-dues (assumed-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by: claude/political-game-pool-pdqjm6
 pr:
 blocked-on: deferred to 1.0: unions, membership rules and strikes come with 1.0 (owner, Oct 20)
@@ -26,3 +26,5 @@ claimed-at: 2026-10-19T22:42:08.819Z
 Oct 20: Owner ruled that unions and membership rules come with 1.0, so replacing the assumed union membership rate waits for 1.0.
 
 Oct 20 (pool feeder): not specced; the owner ruled Oct 20 that unions and membership rules come with 1.0 (OWNER-DECISIONS.md), so it stays blocked on 1.0. The membership record itself is world-union-membership-record.
+
+Dropped by the Oct 25 audit: the owner deferred unions and membership rules to 1.0 (Oct 20); the row stays in the stopgap register.

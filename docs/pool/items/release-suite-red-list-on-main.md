@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Replace, never layer: a test that is red is fixed in place or filed as a pool item, never skipped or loosened to shorten the list. Look before you ask: each red test is checked against the register and the pool before it is filed.
 
-**Done when.** Every test directory has been run on main and each red test is either fixed in the pull request or has its own pool item, named below.
+**Done when.** Every test directory has been run on main and each red test is either fixed in the pull request or has its own pool item, named below. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** docs/pool/items/release-suite-red-list-on-main.md
 

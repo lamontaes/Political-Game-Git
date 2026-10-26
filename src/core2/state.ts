@@ -1,7 +1,10 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
+  CLOSENESS,
   closenessAfter,
   openingClosenessHours,
+  openingPeerHours,
   temperedHours,
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
@@ -71,6 +74,7 @@ import {
   settleFinanceContract,
   retireFinanceBudget,
   transferCredit,
+  transferWageFlowCredit,
   reviewBusiness,
   closeBusinessByChoice,
   closeEmployer,
@@ -238,6 +242,36 @@ function admitOwnerCashAccount(
 
 /** Opening family ties: closeness from the kind of tie (P15 part 2). */
 const OPENING_FAMILY_CAUSE = "opening-family";
+
+/**
+ * Opening peer ties: a person ties to each classmate and coworker the opening
+ * records name (the generated peer circles), at the closeness those shared
+ * hours leave. Full people and counted ones are read the same way. A world
+ * built to play (createLifeCore) opens these for every resident; people filled
+ * in or promoted later open theirs as they join.
+ */
+export function openOpeningPeerTies(
+  core: CoreState,
+  api: CoreAPI,
+  actor: PersonState,
+): void {
+  for (const id of actor.knownIds) {
+    if (actor.familyIds.has(id)) continue;
+    const relationshipId = pairKey(actor.id, id);
+    if (core.relationships.has(relationshipId)) continue;
+    if (!core.people.has(id) && !core.husks.has(id)) continue;
+    const hours = openingPeerHours(core, actor, id);
+    if (hours <= api.parameter("zero")) continue;
+    api.relationship(
+      actor.id,
+      id,
+      CLOSENESS.peerTies.kind as Relationship["kind"],
+      hours,
+      undefined,
+      { cause: CLOSENESS.peerTies.cause },
+    );
+  }
+}
 
 function assertKnownIdSources(
   core: CoreState,
@@ -993,6 +1027,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     repayCredit(id, minor, reason, sourceId) {
       return transferCredit(core, api, id, minor, reason, sourceId, true);
+    },
+    drawWageFlowCredit(id, minor, flowId) {
+      return transferWageFlowCredit(core, api, id, minor, flowId);
     },
     reviewBusiness(id) {
       reviewBusiness(core, api, id);
@@ -2237,6 +2274,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
           job.id,
         );
         api.updatePerson(row.id, { jobId: job.id });
+        refreshOfficeStaff(core, job.organizationId);
       }
       admitted.push(core.people.get(row.id)!);
       continue;
@@ -2266,6 +2304,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+      refreshOfficeStaff(core, job.organizationId);
     }
   }
   // Their economic life moves from the merged flows to their own records.
@@ -2302,6 +2341,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     const calendarId = `${original.id}:filled:${commitment.id}`;
     api.addWorkCommitment({
       ...commitment,
+      // Work and pay run from today; the job has been theirs since the
+      // counted record's own start.
+      heldSince: commitment.heldSince ?? commitment.startsAt,
       startsAt: makeIsoDate(core.date),
       hourlyMinor: job.hourlyMinor ?? commitment.hourlyMinor,
       payrollCalendarId: calendarId,
@@ -2369,6 +2411,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             api.parameter("relationInitial"),
           );
       }
+    openOpeningPeerTies(core, api, actor);
     for (const id of actor.knownIds) {
       const other = core.people.get(id) ?? core.husks.get(id);
       if (!other) continue;
@@ -2644,6 +2687,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
       { cause: OPENING_FAMILY_CAUSE },
     );
   }
+  openOpeningPeerTies(core, api, actor);
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
     api.observe(actor.id, {
