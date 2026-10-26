@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-circle-changes-on-screen
-pr:
+pr: #6138
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from people-circle-turnover-too-low)
 lead: play-first

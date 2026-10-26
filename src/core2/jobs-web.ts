@@ -264,7 +264,6 @@ export function lowWageStaffFactor(
 /** The links this family cannot yet wire, marked where the jobs engine runs. */
 export function markUnwiredLaborLinks(): void {
   stopgap("SG-LABOR-no-legal-status");
-  stopgap("SG-LABOR-minimum-wage-ratio");
   stopgap("SG-LABOR-person-exposure");
   stopgap("SG-LABOR-unsized-links");
   stopgap("SG-LABOR-pretrial-employment");

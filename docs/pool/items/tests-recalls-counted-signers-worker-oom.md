@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/recalls-oom
+pr: #6158
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T07:13:55.334Z
 ---
 
 **What.** The two tests in src/core2/recalls.test.ts that count the town's counted residents as signers and voters (whole and fractional weights) never finish: the vitest fork worker exits with a JavaScript heap out of memory error after about two minutes, with NODE_OPTIONS=--max-old-space-size=6144 and without it. It happens on main as merged October 23, 2026, not only on a branch, so the file's two other tests pass and these two are never checked. Find what each test holds that grows (a whole town built per attempt, kept references between attempts, or a year of records) and bring it under the worker's heap, so the counted-signer rule is checked again on every change to recalls.

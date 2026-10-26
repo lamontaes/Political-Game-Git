@@ -6,7 +6,9 @@ import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../core2/modules/legislature";
-import { billTitleOf } from "../english/bill-names";
+import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import type { LawRowInput } from "../core2/laws-starting";
+import { billTitleOf, billTitleSaid } from "../english/bill-names";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -25,6 +27,7 @@ import {
   type JournalWords,
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
+import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import { properName } from "./words";
 import type { Moment } from "./types";
 import {
@@ -72,9 +75,10 @@ type JournalMoment = Pick<
 > & { readonly actFacts?: Facts };
 
 /**
- * A bill's real name, from the legislature's own record of it: "Wage Floor
- * Increase Act". Undefined where the bill is not on record or has no name,
- * and the line that would name it is left out.
+ * A bill's real name, from the legislature's own record of it, as a
+ * sentence says it: "the Wage Floor Increase Act". Undefined where the bill
+ * is not on record or has no name, and the line that would name it is left
+ * out.
  */
 function billName(
   core: Readonly<CoreState>,
@@ -86,7 +90,59 @@ function billName(
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("bills")
     .get(billId) as unknown as BillRow | undefined;
-  return row ? (billTitleOf(row)?.title ?? undefined) : undefined;
+  const title = row ? billTitleOf(row)?.title : undefined;
+  return title ? billTitleSaid(title) : undefined;
+}
+
+/**
+ * A law's name, from the bill that enacted it, as a sentence says it ("the
+ * Bottle Deposit Act"), with the records it rests on. Undefined for a law no
+ * bill enacted, and the line that would name it is left out.
+ */
+function lawName(
+  core: Readonly<CoreState>,
+  lawId: string | undefined,
+): { text: string; recordIds: string[] } | undefined {
+  if (!lawId || !core.modules.has(LAWS_MODULE_ID)) return undefined;
+  const law = coreAPI(core as CoreState)
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(lawId) as unknown as LawRowInput | undefined;
+  const billId = law?.terms?.enactedByBill;
+  const text = typeof billId === "string" ? billName(core, billId) : undefined;
+  return text ? { text, recordIds: [lawId, billId as string] } : undefined;
+}
+
+/**
+ * How a race was decided, from its result record's totals: "alone" when one
+ * candidate stood, "close" or "wide" by the winner's lead over the runner-up
+ * as a share of the votes cast, and "middle" between them or when the totals
+ * are not on record, so no line claims a margin the record does not show.
+ */
+function raceMargin(
+  core: Readonly<CoreState>,
+  resultId: string,
+): (typeof RACE_MARGINS)[number] {
+  let votes: number[] = [];
+  try {
+    votes = Object.values(
+      JSON.parse(String(core.durableLog.get(resultId)?.facts?.totals ?? "{}")),
+    )
+      .map(Number)
+      .filter(Number.isFinite)
+      .sort((a, b) => b - a);
+  } catch {
+    votes = [];
+  }
+  if (votes.length === one) return "alone";
+  const cast = votes.reduce((sum, count) => sum + count, zero);
+  if (votes.length < P.two || !(cast > zero)) return "middle";
+  const lead = (votes[zero]! - votes[one]!) / cast;
+  const { journalRaceCloseMargin, journalRaceWideMargin } =
+    DEFAULT_DIRECTOR_DATA.parameters;
+  if (lead <= journalRaceCloseMargin!.value) return "close";
+  if (lead >= journalRaceWideMargin!.value) return "wide";
+  return "middle";
 }
 
 /** The person's relatives by id, with the family fact that records each. */
@@ -379,13 +435,20 @@ export function composeJournal(
     );
     const logged = core.durableLog.get(moment.causeId);
     for (const [key, spec] of Object.entries(row?.eventFacts ?? {})) {
+      // A law is named from the bill that enacted it, citing both.
+      const law =
+        spec.format === "lawName"
+          ? lawName(core, logged?.facts?.[spec.fact])
+          : undefined;
       // An organization the event is about is named from its own record.
       const value =
         spec.format === "organization"
           ? core.organizations.get(logged?.topic ?? "")?.name
           : spec.format === "billName"
             ? billName(core, logged?.facts?.[spec.fact])
-            : logged?.facts?.[spec.fact];
+            : spec.format === "lawName"
+              ? law?.text
+              : logged?.facts?.[spec.fact];
       if (value === undefined) return null;
       facts[key] = {
         text:
@@ -398,7 +461,7 @@ export function composeJournal(
         sourceRecordIds:
           spec.format === "organization"
             ? [moment.causeId, logged!.topic!]
-            : [moment.causeId],
+            : [moment.causeId, ...(law?.recordIds ?? [])],
       };
     }
     const hasOwnLine = Boolean(row?.hasOwnLine);
@@ -658,7 +721,7 @@ export function composeJournal(
     let event: ReturnType<typeof render> = null;
     if (row.hasOwnLine && own) {
       const won = facts.winner?.text === personId;
-      const stage = won ? "won" : "lost";
+      const stage = `${won ? "won" : "lost"}:${raceMargin(core, moment.causeId)}`;
       // Losing a first race is the start of a story, not its end.
       const first = !won && !wonBefore && !lostBefore;
       event =
