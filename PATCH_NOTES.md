@@ -296,6 +296,113 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.31.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Everyone in town pays for health coverage** The wider population now holds
+  employer health plans and pays premiums the same way the people you meet do:
+  the same ranking by employer size and pay, the same single and family
+  premiums, once for every household each record stands for. A household you
+  meet keeps the plan and premium it had when it was counted.
+
+### Fixed
+
+- **Repealing a law a place began with now takes effect after its delay.** When
+  a legislature repeals a law that was in force when the game began, its effects
+  on people's health, births and other outcomes now arrive after the delay the
+  research measured, rather than on the first day.
+
+### Changed
+
+- **Some residents of a new town have a different first name, drawn by the same
+  rule as everyone else.** The town's opening residents now get their first
+  names from the same rule the rest of the opening uses: how often a decade's
+  popular names were given, as measured from Social Security records. Before,
+  part of each town used an older fixed share. Last names, ages, genders and
+  birthdays are unchanged.
+
+## PRE-ALPHA 0.30.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **The title shows the Lincoln Memorial at night** The title screen's rotation
+  of national scenes now includes a painting of the Lincoln Memorial at night,
+  full-window behind the menu.
+
+## PRE-ALPHA 0.29.8
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A layoff no longer stops the game on a day you already worked** If your
+  employer decided to let you go on a day you had already worked, the game
+  stopped with an error. The layoff now comes at the next review instead.
+
+- **Follow justice payments to the people and treasuries they reach** Justice
+  laws record the counted groups, households and treasuries they reach. Public
+  safety staffing can use the state budget where no city or county funds it, and
+  fire losses follow changes to the local fire budget. Nine justice laws have
+  wiring evidence; police, corrections and restoring the vote remain unfinished.
+
+- **The town list reads in one font, with the population the world opens with**
+  The creator's town list is set in the state buttons' font, names and counts
+  alike, and each town's count is the one the world opens with; a town with no
+  recorded count shows the size its world opens at, marked "about".
+
+- **People say how long they have worked somewhere, not the month they started**
+  Asked how long they have been at their job, people in a conversation now
+  answer the way people talk ("For seven years now."), not with a calendar date
+  like "Since January 2018."
+
+## PRE-ALPHA 0.29.7
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **The filing panel keeps its party and platform choices reachable** The
+  journal note steps aside while the filing panel is open, so the party picker
+  and platform choices stay reachable. The browser check uses keyboard
+  navigation and verifies the party and stands recorded by filing.
+
+- **Election night opens on your own race** After an election you ran in,
+  election night opens on your own race with every candidate's votes and whether
+  you won. Campaigns marks your filing won or lost, the journal tells it the
+  next day even against someone you never met, News carries the result, and
+  Government shows who was elected to each seat and when they take office.
+
+- **The journal note no longer covers the party picker when you file** At the
+  filing counter, the journal note in the corner used to sit over the party
+  picker at the bottom of the filing panel. It now steps aside while the panel
+  is open, as the news card already did, so you can see and choose your party
+  before you file.
+
+## PRE-ALPHA 0.29.6
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Unplanned pregnancies happen across the whole town, not only to the people
+  you know** The households in town that are counted rather than named now have
+  unplanned pregnancies by the same rule as the people you know: the same
+  exposure, the same weighing of the law and the miles to a provider, and the
+  same trip paid from their own cash. A pregnancy carried to term adds a birth
+  to the town's count.
+
+### Fixed
+
+- **Neighbors in a small town know each other from the start** People in a small
+  town now open with ties to the classmates and coworkers the town's records
+  name, so news and talk travel between them from the first week instead of only
+  through relatives elsewhere.
+
 ## PRE-ALPHA 0.29.5
 
 _Released October 25, 2026._

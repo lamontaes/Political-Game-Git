@@ -1,14 +1,16 @@
-/* global process, console, document */
+/* global process, console, document, getComputedStyle */
 // The creator's town list in a real browser, on the bench (npm run bench): in
 // Texas and in one state drawn from the whole place list, the list must reach
 // every town, each row must show a population and no two rows may read the
 // same. Set BENCH_PORT for a server not on 3000; screenshots go to
 // docs/reports/towns-2026-10-25/.
 import assert from "node:assert/strict";
+import { createHash, randomBytes } from "node:crypto";
 import { mkdirSync, readFileSync } from "node:fs";
 import { chromium } from "playwright";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
-const out = "docs/reports/towns-2026-10-25";
+const out = process.env.BENCH_SCREENSHOT_DIR ?? "docs/reports/towns-2026-10-25";
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 mkdirSync(out, { recursive: true });
 const rows = (file) => JSON.parse(readFileSync(file, "utf8")).rows;
 const localities = rows("src/core2/data/places/localities.json");
@@ -30,14 +32,17 @@ try {
   const states = await (
     await page.request.get(`${base}/api/creator/states`)
   ).json();
-  const drawn = states[Math.floor(Math.random() * states.length)];
-  console.log("Drawn state:", drawn.name);
+  const draw = createHash("sha256")
+    .update(`${seed}:towns-browser`)
+    .digest("hex");
+  const drawn = states[parseInt(draw.slice(0, 8), 16) % states.length];
+  console.log("Drawn state:", drawn.name, "seed:", seed);
   for (const state of [states.find((row) => row.key === "US-TX"), drawn]) {
     try {
       await page.goto(`${base}/play`);
       await page.locator("#new-life").click();
       await page.locator("#new-custom").click();
-      await page.locator("#seed").fill("towns-check");
+      await page.locator("#seed").fill(seed);
       await page.locator("#custom-next").click();
       await page.locator("#cr-character:not([hidden])").waitFor();
       await page.locator("[data-gender=male]").click();
@@ -46,6 +51,14 @@ try {
         () => document.getElementById("cr-given").value,
       );
       await page.locator("#cr-character-next").click();
+      // The state buttons' font, which the town list must read in.
+      const fontOf = (node) => {
+        const s = getComputedStyle(node);
+        return `${s.fontFamily} ${s.fontSize} ${s.fontWeight} ${s.textTransform}`;
+      };
+      const stateFont = await page
+        .locator(`[data-testid="state-${state.key}"]`)
+        .evaluate(fontOf);
       await page.locator(`[data-testid="state-${state.key}"]`).click();
       await page.locator("#cr-towns button").first().waitFor();
       await page.waitForTimeout(1500);
@@ -56,6 +69,23 @@ try {
       await page.screenshot({
         path: `${out}/${state.key}-end-of-list.png`,
       });
+      const townFonts = await page
+        .locator("#cr-towns button")
+        .first()
+        .evaluate(
+          (b, f) =>
+            [...b.children].map((child) =>
+              new Function(`return ${f}`)()(child),
+            ),
+          fontOf.toString(),
+        );
+      console.log(
+        `${state.name}: states ${stateFont}; town rows ${townFonts.join(" | ")}`,
+      );
+      assert.ok(
+        townFonts.length && townFonts.every((font) => font === stateFont),
+        `${state.name}: the town list is not in the state buttons' font`,
+      );
       const usps = state.key.slice(3);
       console.log(
         `${state.name}: ${texts.length} rows, last "${texts.at(-1)}"`,
