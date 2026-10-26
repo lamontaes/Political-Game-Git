@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/talk-lived-crime
+status: open
+claimed-by:
 pr: #5935
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T09:53:42.026Z
+claimed-at:
 ---
 
 **What.** The director is getting a conversation subject for a household's victimization (director-talk-lived-crime), the scene step of the effects lead's end-to-end proof. The conversation bank has no lines for it, and the four bring-it-up lines for a story read (bring-it-up parts 31 to 34, I read in {subject} about {topic}) are held until graded. Mine or author the speaker's lines (raising it, by what happened: a break-in, a theft, a robbery, an assault) and the listener's replies, as bank pieces held until the owner grades them, and put them with the four held read lines in the next grading batch.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T09:53:42.026Z
 **Files.** data/english/parts/conversation.json, data/english/parts/bring-it-up.json, src/director/conversation-crime.test.ts
 
 **Notes.** Added Oct 24 by the effects lead (effects-end-to-end-proof's scene step); see director-talk-lived-crime and the Effects status in the leads' channel.
+
+Sent back 2026-10-26 from PR #5935 (branch claude/lived-crime-lines): After prerequisite5922 and main integrate only batch23/page/declaration remain; the page says12lines are held until graded, but all12parts already ship under OWNER-DECISIONS.md:46 releasing the hold and replacing batch-style grading with scene/voice-note review; reconcile the item and page with that ruling without reverting shipped flags, or retire this obsolete batch-only PR; finish on that branch, merge main into it first.
