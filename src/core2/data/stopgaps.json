@@ -6699,12 +6699,24 @@
     "id": "SG-P15-party-ask-after-player",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/candidacy.ts",
-    "line": 1113,
+    "line": 1128,
     "whatItFakes": "A party's asks for a seat stop at the player: when the player says no or not now in the ask's scene, the party asks none of its other members for that seat.",
     "why": "The party asks on the day filing opens, and the player's answer comes later, from the scene; nothing returns the party to its list once the player has answered.",
     "addedBy": "words/party-asks-you-to-run",
     "addedAt": "2026-10-26",
     "replacement": "The candidacy engine reads the player's no or not-now reply (a scene.reply naming the party-asked record) and asks the party's next member for the seat while filing is open.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-party-ask-order",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 1065,
+    "whatItFakes": "The order a party's chair asks its members to run: those the chair is closest to first, then those the most people know. A new 18-year-old member is rarely first unless they are close to the chair or the party has few members.",
+    "why": "The owner's Oct 14 ruling ties the approach to standing (a player with a high-standing job may be propositioned), and Oct 25 asked for the scene; how soon a new member is asked is a call about the player's experience.",
+    "addedBy": "words/party-asks-you-to-run",
+    "addedAt": "2026-10-26",
+    "replacement": "The owner's answer on how soon the party reaches a new member: keep standing first, or let a member's own recent engagement (joining, attending its meetings) count toward being asked.",
     "status": "open"
   }
 ]

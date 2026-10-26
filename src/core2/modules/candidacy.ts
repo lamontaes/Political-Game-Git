@@ -998,9 +998,20 @@ const AGREEING_MOVES: ReadonlySet<string> = new Set(["agree", "relent"]);
  * first who decides to run files, and the party asks no one else. A member
  * whose choices are the player's answers in the scene the ask stages.
  */
+/** Members asked today, so a chair asks one member to run for one seat a day. */
+const askedOn = new WeakMap<object, { date: string; ids: Set<string> }>();
+function askedToday(api: CoreAPI): Set<string> {
+  const held = askedOn.get(api.state);
+  if (held?.date === api.state.date) return held.ids;
+  const today = { date: api.state.date, ids: new Set<string>() };
+  askedOn.set(api.state, today);
+  return today.ids;
+}
+
 /**
  * A seat's open asks: each party in town with no one filed under its label
- * for a partisan seat, its chair, and the members it would ask in turn.
+ * for a partisan seat, its chair, and the members it would ask in turn (none
+ * already asked today for another seat).
  */
 export function partyProspects(
   api: CoreAPI,
@@ -1024,6 +1035,7 @@ export function partyProspects(
   const committed = committedOn(api, contest.electionDate, contest.id);
   const ties = api.moduleState(PARTIES_MODULE_ID).table("ties");
   const rules = filingRulesFor(api, contest, "party");
+  const asked = askedToday(api);
   const out: {
     party: PartyRow;
     chairId: PersonId;
@@ -1042,6 +1054,7 @@ export function partyProspects(
           !!person?.alive &&
           person.id !== chairId &&
           person.placeId === town.townPlaceId &&
+          !asked.has(person.id) &&
           ageOnDate(person.birthDate, date) >= rules.minimumAge &&
           !committed.has(person.id) &&
           !filings.some((row) => row.personId === person.id) &&
@@ -1049,6 +1062,7 @@ export function partyProspects(
             (check) => !check.met,
           ),
       )
+      // stopgapId: SG-P15-party-ask-order
       .map((person) => ({
         person,
         closeness: closenessBetween(api.state, person.id, chairId),
@@ -1086,6 +1100,7 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
     for (const person of members) {
       const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
       if (api.state.eventIds.has(recordId)) continue;
+      askedToday(api).add(person.id);
       api.emit({
         id: recordId,
         date,
