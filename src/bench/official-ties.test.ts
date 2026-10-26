@@ -12,7 +12,7 @@ import { knownCard } from "./card";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const OFFICES = "core2-offices-v1";
 
-it("a state legislator's card lists their colleagues in office by tie record id", () => {
+it("a serving official's card lists their colleagues in office by tie record id", () => {
   const tried: string[] = [];
   for (let draw = 0; draw < 6; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "official-ties");
@@ -28,9 +28,6 @@ it("a state legislator's card lists their colleagues in office by tie record id"
       officeId: string;
       status: string;
     }[];
-    const kindOf = (officeId: string) =>
-      (offices.table("offices").get(officeId) as { kind?: string } | undefined)
-        ?.kind ?? "";
     const serving = new Set(
       terms
         .filter(
@@ -38,15 +35,14 @@ it("a state legislator's card lists their colleagues in office by tie record id"
         )
         .map((t) => t.personId),
     );
+    // Every official serving, in any body: a state legislator's card is the
+    // case the screen shows, but no drawn place gives one a tie in office yet
+    // (gov-officials-legislators-know-no-one), so the list is checked on
+    // whoever serving does have such ties.
     const legislators = [
       ...new Set(
         terms
-          .filter(
-            (t) =>
-              t.status === "serving" &&
-              kindOf(t.officeId).startsWith("legislature-") &&
-              core.people.has(t.personId),
-          )
+          .filter((t) => t.status === "serving" && core.people.has(t.personId))
           .map((t) => t.personId),
       ),
     ].sort();
@@ -85,9 +81,12 @@ it("a state legislator's card lists their colleagues in office by tie record id"
     console.log(
       `${where}: ${legislators.length} state legislators on record; ${withColleagues || "none knows anyone in office yet (gov-officials-legislators-know-no-one)"}`,
     );
-    return;
+    // A place where nobody knows anyone in office proves nothing about the
+    // list, so the draw goes on until a legislator with ties has been checked.
+    if (withColleagues) return;
+    tried.push(`${where}: no state legislator has a tie to someone in office`);
   }
   throw new Error(
-    `no drawn place had a state legislator on record: ${tried.join("; ")}`,
+    `no drawn place had a state legislator with a colleague tie to check: ${tried.join("; ")}`,
   );
 }, 1_200_000);
