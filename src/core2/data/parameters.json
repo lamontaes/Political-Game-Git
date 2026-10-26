@@ -144,6 +144,11 @@
     "tag": "SOURCED",
     "citation": "IEC 80000-13: one mebibyte is 2^20 bytes."
   },
+  "votingAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "U.S. Constitution, Twenty-sixth Amendment (1971): the right to vote of citizens eighteen years of age or older shall not be denied on account of age."
+  },
   "targetPopulation": {
     "value": 10000,
     "tag": "SOURCED",
@@ -717,6 +722,19 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "openingPeerTieHours": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Hours of time together two people have at the opening when the records say they shared a school class or a workgroup in the town. Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): about 50 hours of time together to move from acquaintance to casual friend (the same study that sets closenessHoursAtHalf).",
+    "estimatedFrom": "Hall's roughly 50 hours to a casual friend, used as the estimated initial time together for every recorded school classmate and coworker. Shared hours and stint lengths are not measured per pair; the tie fades by the closeness half-life from the recorded day the shared context began, including for a current coworker. This is the registered opening approximation, not an observed duration for each pair.",
+    "spread": {
+      "low": 40,
+      "high": 60,
+      "unit": "hours together",
+      "citation": "Hall (2019): 40 to 60 hours to a casual friend, 80 to 100 to a friend."
+    },
+    "stopgapId": "SG-P15-closeness-model"
   },
   "closenessKinHalfLifeDays": {
     "value": 1095,

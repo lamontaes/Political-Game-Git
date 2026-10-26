@@ -34,6 +34,7 @@ import { stableHash } from "../core2/kernel/ids";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
@@ -66,7 +67,7 @@ import {
 } from "../english/conversation-words";
 import { relationPhrase } from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
-import { properName, spoken, spokenMonth, spokenWhen } from "./words";
+import { properName, spoken, spokenWhen } from "./words";
 
 const zero = P.zero;
 const one = P.one;
@@ -246,6 +247,23 @@ function schoolStage(core: Readonly<CoreState>, person: Readonly<PersonState>) {
     P.benchmarkAdultMinimumAge
     ? "graduated"
     : "enrolled";
+}
+
+/**
+ * How long someone has held their job, in completed years, counted to the
+ * anniversary of the day they started: what people say ("for seven years"),
+ * never the month they started. Nobody says a date in speech. Under two
+ * years there is no count to say.
+ */
+export function tenureYears(
+  started: { date: string; factId: string } | null,
+  today: string,
+): { text: string; sourceRecordIds: readonly string[] } | undefined {
+  if (!started) return undefined;
+  const years = ageOnDate(started.date, today);
+  return years > one
+    ? { text: String(years), sourceRecordIds: [started.factId] }
+    : undefined;
 }
 
 /** When the person started their current job, from their own record. */
@@ -501,6 +519,48 @@ function evictionSubjects(
   return out;
 }
 
+const VICTIMIZED_LABEL = `feeling:event:${CRIME_EVENT}`;
+
+/**
+ * The speaker's latest victimization as they can tell it, from the crime
+ * engine's record: what happened (the crime's kind, the stage the line is
+ * worded for) and when. Only the speaker's own moment counts: the record
+ * names whom it happened to (every member for a crime against the household,
+ * only the victim for a robbery or an assault), and the lines are told in the
+ * first person.
+ */
+function victimizationSubjects(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  speakerId: PersonId,
+): Subject[] {
+  if (!core.modules.has(CRIME_MODULE_ID)) return [];
+  const moment = recentMoments(core, director, speakerId).find(
+    (row) =>
+      row.label === VICTIMIZED_LABEL &&
+      row.causeId.startsWith(`${CRIME_EVENT}:`),
+  );
+  if (!moment) return [];
+  // The record's id is the crime's kind, the household and the day.
+  const [type] = moment.causeId.slice(CRIME_EVENT.length + one).split(":");
+  if (!type) return [];
+  return [
+    {
+      id: `victimization:${moment.causeId}`,
+      kind: "victimization",
+      aboutId: moment.causeId,
+      stage: type,
+      facts: {
+        victimized: { text: "", sourceRecordIds: [moment.causeId] },
+        when: {
+          text: spokenWhen(moment.date, core.date),
+          sourceRecordIds: [moment.causeId],
+        },
+      },
+    },
+  ];
+}
+
 /**
  * The justice engine's events a person can talk about, by the ledger label
  * of the moment they made and the subject each is told as.
@@ -728,6 +788,7 @@ export function subjectsBetween(
     });
   }
   out.push(...evictionSubjects(core, director, speakerId, listenerId));
+  out.push(...victimizationSubjects(core, director, speakerId));
   out.push(...justiceSubjects(core, director, speakerId, listenerId));
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
@@ -1015,18 +1076,8 @@ function replyFacts(
         : { facts: {}, stage: "none" };
     }
     case "their-tenure": {
-      const started = startedOf(listener);
-      return started
-        ? {
-            facts: {
-              since: {
-                text: spokenMonth(started.date),
-                sourceRecordIds: [started.factId],
-              },
-            },
-            stage: "default",
-          }
-        : null;
+      const years = tenureYears(startedOf(listener), core.date);
+      return years ? { facts: { years }, stage: "default" } : null;
     }
     case "shared-work": {
       const theirs = jobOf(core, listener);
@@ -1105,14 +1156,11 @@ function playerFacts(
       text: properName(mine.org.name),
       sourceRecordIds: [mine.job.id, mine.org.id],
     };
-  const started = startedOf(player);
-  if (started) {
-    facts.since = {
-      text: spokenMonth(started.date),
-      sourceRecordIds: [started.factId],
-    };
-    facts["my-since"] = facts.since;
-  }
+  // How long the player has worked there; a home answer counts its own years.
+  const tenure = last.kind.startsWith("home")
+    ? undefined
+    : tenureYears(startedOf(player), core.date);
+  if (tenure) facts.years = tenure;
   const place = corePlaceByJurisdictionId(player.placeId as never);
   if (place)
     facts["my-place"] = {
@@ -1441,6 +1489,7 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "eviction",
   "eviction-cause",
   "eviction-where",
+  "victimization",
   "death-news",
   "illness-news",
   "prison-news",

@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5657
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split Oct 25 by the traits lead from traits-wire-civic after Merger 1's second send-back of PR 5657 (branch claude/traits-civic), which allows routing a completed bounded slice while the family stays open. Left on traits-wire-civic: the ballot-measure vote in both years, and backing the incumbent, telling an exit pollster, holding a town hall, joining a party, a lobbyist speaking up, accepting an interview and taking part at a meeting at their research rates. The director's reader of the player's claims moves through words-director-claims-shared-rule.
 
 Sent back 2026-10-25 from PR #5657 (branch claude/traits-civic): prior bounded-acceptance/director fixes acknowledged; current main integration conflicts in production src/core2/modules/voting.ts; preserve both voting/traits readers and rerun bounded gate; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 ~22:25 UTC from PR #5657 (branch claude/traits-civic, head e7ce5944ef with main merged in clean): eslint fails on src/core2/modules/voting.ts:63, unused `parameter` import left by the PR's own edit; remove that line and it goes back in the queue; finish on that branch, merge main into it first.

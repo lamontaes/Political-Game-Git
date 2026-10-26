@@ -50,7 +50,11 @@ import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
 import { startPublicJob } from "../public-payroll";
 import { giveLivingCost, spendLivingCost } from "../official-living";
-import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
+import {
+  postPayCapDaily,
+  publicPayRoom,
+  treasuryParameter,
+} from "../budgets-treasury";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -708,6 +712,11 @@ export function hireStaff(
   // On the payroll of the government the official serves, at the post's
   // pay; each payday counts against the budget line the post draws on.
   const employer = employerOf(api, input.officialId);
+  // Paid what the post's budget line can still carry, as a town's department
+  // heads are (executive.ts): an aide's pay draws on the same line.
+  const maxDailyMinor = employer
+    ? postPayCapDaily(api, employer, `staff:${input.officialId}`, 1)
+    : undefined;
   const jobId = employer
     ? startPublicJob(api, {
         personId: input.personId,
@@ -715,6 +724,7 @@ export function hireStaff(
         post: `staff:${input.officialId}`,
         title: input.role,
         hourlyMinor: campaignParameter("staffHourlyMinor"),
+        ...(maxDailyMinor !== undefined ? { maxDailyMinor } : {}),
         // A state or federal office with no staff schedule of its own follows the town's.
         scheduleFromPlaceId: lawChain(api).townPlaceId,
         citation: `Hired as ${input.role} to ${input.officialId}`,
@@ -775,7 +785,8 @@ function budgetLean(api: CoreAPI, officialId: string): number {
 }
 
 /** The treasury of the government whose seat the official holds. */
-function employerOf(api: CoreAPI, officialId: string): string | null {
+/** The government an official's staff are on the payroll of: the one whose seat they hold. */
+export function employerOf(api: CoreAPI, officialId: string): string | null {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
   const seat = townSeats(api).find((s) => s.holder?.personId === officialId);
   if (!seat) return null;

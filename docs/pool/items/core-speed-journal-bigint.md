@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Every dollar must still balance (the journal tests are the check); Speed: no change may make a year more than 20 percent slower, and a year in the dense town must come under two minutes.
 
-**Done when.** A fresh allocation profile of npm run speed:year on seed m7a shows plusTotals and volumes together under half their 770 MB, and src/core2/journal*.test.ts and the accounts tests pass, shown in the PR body.
+**Done when.** A fresh allocation profile of npm run speed:year on seed m7a shows plusTotals and volumes together under half their 770 MB, and src/core2/journal*.test.ts and the accounts tests pass, shown in the PR body. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/journal-state.ts
 
