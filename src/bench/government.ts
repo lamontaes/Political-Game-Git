@@ -1,13 +1,17 @@
+import { ageOnDate } from "../core2/kernel/dates";
+import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import { keyPeopleOf } from "../core2/opening-key-people";
 import {
+  OFFICES_MODULE_ID,
   officesOfState,
   pastElections,
   seatsOfOffices,
   townSeats,
 } from "../core2/modules/offices";
 import { choosesPresident } from "../core2/electorate-places";
+import { federalOffices } from "../core2/offices-state";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { lawChain } from "../core2/modules/laws";
 import {
@@ -15,8 +19,10 @@ import {
   fileCandidacy,
   filingOfficeFor,
   openContests,
+  type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
+import { candidateIdentity, resultOf } from "../core2/modules/voting";
 import {
   PARTIES_MODULE_ID,
   joinParty,
@@ -27,6 +33,20 @@ import {
 import type { CoreState } from "../core2/types";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
+
+/** A state's seats in Congress, as the offices engine kinds them. */
+const CONGRESS_KINDS = new Set(["us-senate", "us-house"]);
+
+/** The key-people reasons Politics lists, in the order it lists them. */
+const POLITICS_KEY_ORDER: readonly string[] = [
+  "own-us-senator",
+  "own-us-representative",
+  "own-state-legislator",
+  "own-council-member",
+  "president",
+  "vice-president",
+  "chamber-leader",
+];
 
 const ELECTIONS = "core2-elections-v1";
 
@@ -67,17 +87,24 @@ export function joinPartyAs(
 }
 
 /**
- * Every sitting member of one state's legislature, for the Politics screen's
- * state filter: the chambers the offices engine seats for that state (made the
- * first time anything reads them), each seat with its holder. None for a key
- * that is not a state or territory.
+ * Every sitting member one state sends to a level's legislature, for the
+ * Politics screen's filter: its own legislature's chambers at the state level,
+ * its U.S. senators and representatives at the federal level. The offices
+ * engine seats them the first time anything reads them; each seat comes with
+ * its holder. None for a key that is not a state or territory.
  */
-export function stateLegislators(core: CoreState, stateKey: string) {
+export function stateLegislators(
+  core: CoreState,
+  stateKey: string,
+  level: "state" | "federal" = "state",
+) {
   if (!corePlaceStateIdentities().some((s) => s.jurisdictionKey === stateKey))
     return [];
   const api = coreAPI(core);
   const chambers = officesOfState(api, stateKey).filter((office) =>
-    office.kind.startsWith("legislature-"),
+    level === "federal"
+      ? CONGRESS_KINDS.has(office.kind)
+      : office.kind.startsWith("legislature-"),
   );
   return seatsOfOffices(api, chambers).map(({ office, seat, holder }) => ({
     officeId: office.id,
@@ -109,6 +136,26 @@ export function politicsStates() {
  * they live, who holds each seat over them, and the open contests with the
  * filing office's rules checked for them today. Record data only.
  */
+/** The winner of a seat's decided race who takes office later, if any. */
+function electOf(api: ReturnType<typeof coreAPI>, seatId: string) {
+  for (const contest of api
+    .moduleState(ELECTIONS)
+    .table("contests")
+    .query("bySeat", [seatId]) as unknown as ContestRow[]) {
+    const result = resultOf(api, contest.id);
+    if (!result?.winnerId || !result.takesOffice) continue;
+    if (result.takesOffice <= api.state.date) continue;
+    const who = candidateIdentity(api, result.winnerId);
+    return {
+      personId: result.winnerId,
+      name: who ? `${who.givenName} ${who.familyName}` : result.winnerId,
+      contestId: contest.id,
+      takesOffice: result.takesOffice,
+    };
+  }
+  return null;
+}
+
 export function governmentView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const filings = api
@@ -148,6 +195,8 @@ export function governmentView(core: CoreState, personId: string) {
       district: seat.district,
       // The seat's elections, oldest first, each named by the term it seated.
       elections: pastElections(api, seat.id),
+      // Who won the seat's last race and has not taken office yet.
+      elect: electOf(api, seat.id),
       holder: holder && {
         termId: holder.id,
         personId: holder.personId,
@@ -162,24 +211,8 @@ export function governmentView(core: CoreState, personId: string) {
         reached: holder.reached,
       },
     })),
-    // The key people the opening names (owner, Oct 15): one list, both screens.
     keyPeople: core.people.has(personId)
-      ? keyPeopleOf(core, personId).map((row) => ({
-          personId: row.id,
-          resident: core.people.has(row.id),
-          name: row.name,
-          officeTitle: row.officeTitle,
-          stateKey: row.stateKey,
-          post: row.leads?.post ?? null,
-          // The President and Vice President are known to everyone, but a
-          // territory's voters do not choose them (owner ruling, Oct 19).
-          chosenByHere: row.reasons.some(
-            (reason) => reason === "president" || reason === "vice-president",
-          )
-            ? choosesPresident(lawChain(api).stateKey)
-            : null,
-          reasons: row.reasons,
-        }))
+      ? politicsKeyPeople(core, personId)
       : [],
     contests: openContests(api).map((contest) => ({
       contest,
@@ -189,8 +222,87 @@ export function governmentView(core: CoreState, personId: string) {
         : [],
     })),
     filings,
+    ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
   };
+}
+
+/**
+ * Who Politics names as key, in the order the player reads them: their own
+ * members first (U.S. senators, U.S. representative, state legislators,
+ * council member), then the President and Vice President, then the person who
+ * leads each chamber, named by that post and chamber. The opening's other key
+ * people, the rest of the state's legislators, stay reachable behind the
+ * State filter (`stateLegislators`), so this list is not a roll of the
+ * legislature.
+ */
+function politicsKeyPeople(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const stateName = new Map(
+    corePlaceStateIdentities().map((s) => [s.jurisdictionKey, s.name]),
+  );
+  const order = (reasons: readonly string[]) =>
+    Math.min(
+      ...reasons.map((reason) => {
+        const i = POLITICS_KEY_ORDER.indexOf(reason);
+        return i < 0 ? POLITICS_KEY_ORDER.length : i;
+      }),
+    );
+  return keyPeopleOf(core, personId)
+    .filter((row) => order(row.reasons) < POLITICS_KEY_ORDER.length)
+    .map((row, index) => ({ row, index }))
+    .sort(
+      (a, b) =>
+        order(a.row.reasons) - order(b.row.reasons) || a.index - b.index,
+    )
+    .map(({ row }) => {
+      const own = row.reasons.some((reason) => reason.startsWith("own-"));
+      // A member of Congress sits in their own state's seat, which this
+      // world may not have loaded (a territory's world has no Senate seat at
+      // all): the office is read from that state's federal offices, without
+      // seating them, so a read-only screen makes no record.
+      const office = (offices.get(row.officeId) ??
+        (row.stateKey
+          ? federalOffices(row.stateKey, "", core.date)
+              .map((entry) => entry.office)
+              .find((o) => o.kind === row.officeKind)
+          : undefined)) as unknown as
+        { governmentName?: string; title?: string } | undefined;
+      return {
+        personId: row.id,
+        resident: core.people.has(row.id),
+        name: row.name,
+        officeTitle: row.officeTitle || (office?.title ?? ""),
+        stateKey: row.stateKey,
+        own,
+        post: row.leads?.post ?? null,
+        // The chamber a leader leads, by its record's name, and the state a
+        // member of Congress serves, so a leader from elsewhere never reads
+        // as the player's own member.
+        chamber: row.leads ? (office?.governmentName ?? null) : null,
+        stateName:
+          row.leads && !own && row.stateKey
+            ? (stateName.get(row.stateKey) ?? null)
+            : null,
+        // The President and Vice President are known to everyone, but a
+        // territory's voters do not choose them (owner ruling, Oct 19).
+        chosenByHere: row.reasons.some(
+          (reason) => reason === "president" || reason === "vice-president",
+        )
+          ? choosesPresident(lawChain(api).stateKey)
+          : null,
+        reasons: row.reasons,
+      };
+    });
+}
+
+/** Whether the person is old enough to vote today. */
+function ofVotingAge(core: CoreState, personId: string): boolean {
+  const person = core.people.get(personId);
+  return Boolean(
+    person && ageOnDate(person.birthDate, core.date) >= parameter("votingAge"),
+  );
 }
 
 export function fileForOffice(

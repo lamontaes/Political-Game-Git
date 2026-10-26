@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T06:35:18.953Z
 
 **Rules.** Estimate, never UNKNOWN: a place without a public owner record starts from the average, marked ESTIMATED. One rule, all 56 places: no place named in the fix. Wire to the world: the record is read by the finance check that throws.
 
-**Done when.** GOLDEN_PATH_SEED=5e6f7a8b npx vitest run src/core2/player-money-year.test.ts no longer throws at opening, and three other random seeds open without the error.
+**Done when.** GOLDEN_PATH_SEED=5e6f7a8b npx vitest run src/core2/player-money-year.test.ts no longer throws at opening, and three other random seeds open without the error. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/opening-finance.ts, src/core2/opening-capital.ts
 

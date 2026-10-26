@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Speed: a town's year runs under two minutes and the opening must not scan or hold the whole world needlessly; MEMORY-FLAT's ceilings apply to every drawn place. One rule, all 56 places: the largest drawn place must build.
 
-**Done when.** buildBenchWorld with twoLevel on builds Fountain, Colorado (key 0827865) and the largest place in the corpus under Node's default heap, measured after collection and named with seed in the PR body; src/core2/voter-groups.test.ts passes there without NODE_OPTIONS.
+**Done when.** buildBenchWorld with twoLevel on builds Fountain, Colorado (key 0827865) and the largest place in the corpus under Node's default heap, measured after collection and named with seed in the PR body; src/core2/voter-groups.test.ts passes there without NODE_OPTIONS. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/bench/world.ts, src/core2/modules/residents.ts
 

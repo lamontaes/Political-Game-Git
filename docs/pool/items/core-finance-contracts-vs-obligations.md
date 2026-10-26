@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Replace, never layer: the layer that loses is deleted, not kept beside the winner. Wire to the world: every household's rent and bill still posts the same dollars on the journal, shown in a played year. Speed: a year must stay within 20 percent of its base, measured on the same machine.
 
-**Done when.** A one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, a seed the builder did not choose) shows rent, a bill and a retirement claim each posted from the one layer by journal record id, a missed rent accruing arrears that housing reads when it files an eviction, the old layer gone from src/core2, and `npm run speed:year` within 20 percent of base.
+**Done when.** A one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, a seed the builder did not choose) shows rent, a bill and a retirement claim each posted from the one layer by journal record id, a missed rent accruing arrears that housing reads when it files an eviction, the old layer gone from src/core2, and `npm run speed:year` within 20 percent of base. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/finance-state.ts, src/core2/accounts.ts, src/core2/modules/housing.ts, src/core2/housing-occupancy.ts
 

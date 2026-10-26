@@ -7,11 +7,12 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #6127
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at:
 ---
 
 **What.** In Anson, Texas the v0.22.10 release listed three U.S. senators, the U.S. Speaker from New York as one of my representatives, and about 180 state legislators in one column. The owner ruled Oct 16 that every legislator stays, behind a division filter, and Oct 15 that the player's own representatives are the key people. This part shows the player's own federal and state members first and puts the rest behind the filter.
@@ -29,3 +30,5 @@ milestone: play-first
 **Files.** src/bench/government.ts, src/core2/opening-key-people.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-05-politics-lists-wrong-officials (Oct 24, lane). LAW.md conflicts: the Oct 16 ruling keeps everyone behind a filter, so the parent's "one per chamber" means the player's own, not a cut list. Engine changes in opening-key-people are the laws lead's (`needs-from: laws`). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Merger 3, October26: PR6127 completes bounded play-politics-own-members-ui-implementation with own native Blanchard Louisiana seedbcab8da5-a556-4a59-b171-23988a6edc1b, responsive own-member/leader pages, real pointer and keyboard filters, and four government cases. This original stays open for owner installed-build acceptance under the October25 ruling. Existing territory delegate ownership is separately gov-territory-delegate-not-own-representative.

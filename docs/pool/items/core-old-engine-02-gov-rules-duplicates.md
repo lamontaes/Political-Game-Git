@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: blocked
+status: open
 claimed-by:
 pr: #5921
 after: core-old-engine-01-zero-dice-guard-repoint
@@ -27,3 +27,5 @@ claimed-at:
 Sent back 2026-10-24 from PR #5921 (branch claude/old-engine-02-gov-rules): its explicit carried-stack prerequisite #5031 remains open and unmerged; the body also has no completed golden-path pass, so no local green gate is claimed; finish on that branch, merge main into it first after #5031 merges.
 
 Fixer handed PR 5921 back Oct 24, 2026: its src/simulation lines come from the stacked parent #5031 (core-old-imports-town-households), which waits on the CTO call about the cohort selector; it stays blocked on that.
+
+Sent back 2026-10-26 from PR #5921 (branch claude/old-engine-02-gov-rules): parent #5031 is merged, but current main integration has a modify/delete code conflict in src/core2/gov-rules.test.ts (branch deletion versus main modification); merge aborted, reconcile current coverage and retain the actual cohort test, then supply the required golden-path evidence; finish on that branch, merge main into it first.
