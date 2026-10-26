@@ -5,9 +5,9 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by: claude/peaceful-ritchie-03780x
-pr: #5076
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:01:59.913Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T00:01:59.913Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.

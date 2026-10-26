@@ -29,7 +29,7 @@ claimed-at:
 
 **Files.** src/director/opening-story.ts, src/bench/opening.ts, src/bench/family.ts, src/bench/scene.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:52; screenshots 11, 13, 23. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:52; screenshots 11, 13, 23. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2. Playtest Oct 26 sitting 1 (installed v0.34.0): Player Jackson Knox, brother Leo Roberts, parent Kendall Roberts, father Brian; nothing explains the surnames and nobody is introduced. Calendar also lists birthdays of Aditi and Wesley Roberts, never introduced.
 
 Sent back 2026-10-26 from PR #6096 at unchanged 09f75acc38ea810bc0df360a150c85dcd559e8f9 (branch play-first/play-stop-15-family-unexplained): the Words session 02:26 required fix is still absent; src/director/household-intro.ts:117 composes the English possessive side phrase in the director. Pass the sourced parent relation as its own fact and let the English bank pieces and slot declaration own the phrase, retaining the record/side tests and the Words-approved nine pieces. The household-name ruling is already approved; the stale owner question and screenshot backticks were corrected in the body. No local gate or screenshot inspection claimed on this source-blocked attempt. Finish on that branch, merge main into it first.
 
