@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-local-races-on-screen
-pr:
+pr: #6160
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from elections-local-races-too-uncontested)
 lead: play-first
