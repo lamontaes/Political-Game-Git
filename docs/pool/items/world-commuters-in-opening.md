@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: the shares come from commuting data per place, never a named town. One model, two tiers: a counted group commutes by the same rule as a full person, times its count. Estimate, never UNKNOWN: a place without commuting data starts from the real national average marked ESTIMATED with source and spread. No dice: who commutes follows from the jobs and homes the data places, not a roll. Replace, never layer: the all-residents-live-here assumption is deleted where it stood.
 
-**Done when.** A test in src/core2 matches the commuter share to the place's figure within its spread in a drawn place (buildBenchWorld, seed named in the PR body), and a named commuter's paycheck is traced by record id. The owner plays it: Commuting shares per place from flow data.
+**Done when.** A test in src/core2 matches the commuter share to the place's figure within its spread in a drawn place (buildBenchWorld, seed named in the PR body), and a named commuter's paycheck is traced by record id. The owner plays it: Commuting shares per place from flow data. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/opening-employment.ts, src/core2/population.ts, src/core2/data/opening-employment.json
 

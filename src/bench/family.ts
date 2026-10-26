@@ -38,7 +38,8 @@ export function familyView(core: CoreState, personId: string) {
       doing: why,
       backdrop: backdropFile(place, 12 * 60).url,
       // Their approved whole figure where they are, on that place's lead spot.
-      figureUrl: stagePeople(core, place, [{ id, name }]).people[0]?.figureUrl,
+      figureUrl: stagePeople(core, place, [{ id, name, reason: "subject" }])
+        .people[0]?.figureUrl,
     };
   });
 }
