@@ -9,6 +9,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
 import { openingFrames } from "./opening";
+import { applyChosenPerson } from "./creator";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
@@ -164,6 +165,57 @@ describe("the first evening at home names the household", () => {
         givenName,
         familyName: before,
         birthDate: player.birthDate,
+        looks: {},
+      });
+    }
+  });
+  it("labels everyone the camera points out by the name the narrator says, after the creator renames the player", () => {
+    const player = core.people.get(playerId)!;
+    const { givenName, familyName: before, birthDate } = player;
+    const [year, month, day] = birthDate.split("-").map(Number);
+    const gender = player.looks?.gender === "male" ? "male" : "female";
+    // The creator's own call, as the new-life screen makes it.
+    applyChosenPerson(core, playerId, {
+      givenName: "Bo",
+      familyName: "Snider",
+      gender,
+      birthYear: year,
+      birthMonth: month,
+      birthDay: day,
+    });
+    try {
+      const { frames } = openingFrames(core, playerId, story);
+      const named = (id: string) => {
+        const row = core.people.get(id);
+        return row ? `${row.givenName} ${row.familyName}` : undefined;
+      };
+      for (const frame of frames)
+        for (const figure of [...frame.pointOut, ...frame.cast]) {
+          const now = named(figure.id);
+          if (now)
+            expect(
+              figure.name,
+              `${frame.stage}: ${figure.id} labeled by the name it carries now: ${where}`,
+            ).toBe(now);
+        }
+      // The narrator and the camera agree on the household, by person id.
+      const frame = frames.find((row) => row.stage === "home")!;
+      const narration = frame.lines
+        .filter((row) => row.speaker === "narrator")
+        .map((row) => row.text)
+        .join(" ");
+      const household = frame.pointOut.filter((row) => row.id !== playerId);
+      expect(
+        household.length,
+        `a household to point out: ${where}`,
+      ).toBeGreaterThan(0);
+      for (const figure of household)
+        expect(narration, `${figure.id}: ${where}`).toContain(figure.name);
+    } finally {
+      coreAPI(core).chooseIdentityV1(playerId, {
+        givenName,
+        familyName: before,
+        birthDate,
         looks: {},
       });
     }
