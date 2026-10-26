@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Wire to the world: an owner's draw is paid from profit the business's own sales earned, read from its journal entries, never from a loan or the owner's own money coming back.
 
-**Done when.** The cause is named by line in the PR body; m1-08-check.ts in Cochituate, Massachusetts (seed above) passes its owner-draw clauses; a test borrowing money into a business with no sales shows no draw follows.
+**Done when.** The cause is named by line in the PR body; m1-08-check.ts in Cochituate, Massachusetts (seed above) passes its owner-draw clauses; a test borrowing money into a business with no sales shows no draw follows. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/business.ts
 

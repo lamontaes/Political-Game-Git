@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Speed: never scan the whole world each day; use indexes or act on the day something changed. No dice: the same people are candidates with the same reasons, by record id.
 
-**Done when.** In Long Hill, Connecticut (seed m7b), a CPU profile of the played year shows staffReview's inclusive time back near 1 s, the staff hired in the year are the same people by record id before and after, and staff.test.ts passes.
+**Done when.** In Long Hill, Connecticut (seed m7b), a CPU profile of the played year shows staffReview's inclusive time back near 1 s, the staff hired in the year are the same people by record id before and after, and staff.test.ts passes. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/modules/staff.ts
 

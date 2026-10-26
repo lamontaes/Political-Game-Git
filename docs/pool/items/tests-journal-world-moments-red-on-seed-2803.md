@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: a test that draws a place must pass in every place it can draw, or skip the draw only for a reason on record. Ask why: name the record that is missing in each place, not a flake.
 
-**Done when.** In a played world on seed 28031889fda9c4e2a7d67d921b18e16b696b5d72, journal.test.ts and world-moments.test.ts pass in Juncal, Puerto Rico and Oak Grove, Tennessee, with the cause of each failure named by record id in the PR body and a test that failed before the fix.
+**Done when.** In a played world on seed 28031889fda9c4e2a7d67d921b18e16b696b5d72, journal.test.ts and world-moments.test.ts pass in Juncal, Puerto Rico and Oak Grove, Tennessee, with the cause of each failure named by record id in the PR body and a test that failed before the fix. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/director/journal.test.ts, src/director/world-moments.test.ts, src/director/journal.ts
 

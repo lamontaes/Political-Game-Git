@@ -296,6 +296,132 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.29.6
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Unplanned pregnancies happen across the whole town, not only to the people
+  you know** The households in town that are counted rather than named now have
+  unplanned pregnancies by the same rule as the people you know: the same
+  exposure, the same weighing of the law and the miles to a provider, and the
+  same trip paid from their own cash. A pregnancy carried to term adds a birth
+  to the town's count.
+
+### Fixed
+
+- **Neighbors in a small town know each other from the start** People in a small
+  town now open with ties to the classmates and coworkers the town's records
+  name, so news and talk travel between them from the first week instead of only
+  through relatives elsewhere.
+
+## PRE-ALPHA 0.29.5
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **At a filing office each race names its seat, its election day and who holds
+  it now.** Under each office you can ask to run for, the counter now shows the
+  seat, the election day in words and the seat's current holder (or that no one
+  holds it), so several seats on the same body no longer read alike.
+
+## PRE-ALPHA 0.29.4
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Budgets appear under Politics once they are your business.** At 17, with no
+  office and no filing, Politics has no Budgets tab. It appears once you hold
+  office, file for one, or come of age to vote, and its sums read in rounded
+  words ("$5.2 trillion").
+
+## PRE-ALPHA 0.29.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **The Journal opens on the first evening with your family** On the first
+  evening, the Journal's first chapter tells where your family came from, how
+  your parents met, the parent who raised you and the one who lived apart, and
+  each brother and sister by name, older or younger. Before, it had one line
+  about where the family came from.
+
+- **A town's aides are paid only what its budget can carry** An official's aides
+  are now paid from the same budget line as the town's department heads, and
+  only what that line can still carry. A small town whose council members hired
+  full-time aides it could not afford no longer leaves its police chief and
+  other staff unpaid for months.
+
+## PRE-ALPHA 0.29.2
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Knocking on doors keeps counting after every door in town has been knocked,
+  and reaches someone every evening** Once a campaign had knocked on every door
+  in town, Knock on doors stopped adding to its door count and then grayed out
+  with no reason. The canvass now goes round again, the doors knocked longest
+  ago first, and every door knocked counts. Every evening of knocking also
+  reaches someone: a home opens in the share of knocks its readiness says, so a
+  street of younger, reluctant homes still opens a few doors, and a quarter to a
+  third of the doors knocked open over a campaign. A grayed campaign action
+  (Hold an event, Ask for an interview or Call donors) now says why on its
+  button.
+
+## PRE-ALPHA 0.29.1
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Only people with a reason stand in a room** A room now shows only people the
+  records give a reason to be there: you, your household at home, coworkers at
+  work, the person you went to see, the people a moment is about, the clerk at
+  the counter and the voters you reach. Scenes no longer open by announcing that
+  someone "is with you" or "is here".
+
+## PRE-ALPHA 0.29.0
+
+_Released October 25, 2026._
+
+### Improved
+
+- **People who were burglarized, robbed or attacked can tell the people close to
+  them** When a household is burglarized or someone is robbed or attacked, the
+  people it happened to now remember it. In a talk with a housemate, the victim
+  can bring it up and say what happened.
+
+### Changed
+
+- **People answer in a scene the way they decide everywhere else** In a scene
+  with a purpose, the person asking now answers each of your replies by the same
+  temperament read every other decision in the game uses, so someone who presses
+  in a negotiation presses in talk too. The lines your character leads with
+  follow the same read, a lie included.
+
+## PRE-ALPHA 0.28.2
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **A journal looks back on someone who turned out to matter, even if it never
+  wrote about them then** A journal now revises an early moment that seemed
+  small and later grew ("I did not know then what Robert would mean to me."),
+  whether or not the journal wrote about it at the time. Before, it needed both
+  moments written down, and almost no journal ever revised.
+
+- **Playing as a neighbor whose out-of-town job never started no longer stops
+  the clock** A neighbor who was given a job out of town and then went back into
+  the town's counts the same day kept a schedule that ended before it began.
+  Playing as them stopped the day from moving. That job now simply never starts,
+  and the clock moves.
+
 ## PRE-ALPHA 0.28.1
 
 _Released October 25, 2026._
