@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5715
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-24 from PR #5715 (branch claude/traits-integrity): Six of sixteen family decisions have zero calls in both audit years despite all-positive-call acceptance, and case/help calibration remains saturated or overwhelmingly lopsided while the whole family is completion-routed; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5715 (branch claude/traits-integrity): corrective head c1c006b6ce has a current-main conflict in data/content/trait-decision-gaps.json in addition to stopgaps.json; reconcile the trait-gap rows and preserve every stopgap ID before the family gate; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5715 (branch claude/traits-integrity): Prior trait-gap conflicts repaired and all556stopgap IDs retained at main integration e188940d26, but the first Done-when row requires positive calls for every decision in both played years while the table still reports0/0 for taking/telling bribes, three recall decisions, tips, three justice decisions and appointments; complete those runtime witnesses or explicitly bound the pool scope without marking the full family done; finish on that branch, merge main into it first.

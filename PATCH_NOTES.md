@@ -296,6 +296,44 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.31.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Everyone in town pays for health coverage** The wider population now holds
+  employer health plans and pays premiums the same way the people you meet do:
+  the same ranking by employer size and pay, the same single and family
+  premiums, once for every household each record stands for. A household you
+  meet keeps the plan and premium it had when it was counted.
+
+### Fixed
+
+- **Repealing a law a place began with now takes effect after its delay.** When
+  a legislature repeals a law that was in force when the game began, its effects
+  on people's health, births and other outcomes now arrive after the delay the
+  research measured, rather than on the first day.
+
+### Changed
+
+- **Some residents of a new town have a different first name, drawn by the same
+  rule as everyone else.** The town's opening residents now get their first
+  names from the same rule the rest of the opening uses: how often a decade's
+  popular names were given, as measured from Social Security records. Before,
+  part of each town used an older fixed share. Last names, ages, genders and
+  birthdays are unchanged.
+
+## PRE-ALPHA 0.30.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **The title shows the Lincoln Memorial at night** The title screen's rotation
+  of national scenes now includes a painting of the Lincoln Memorial at night,
+  full-window behind the menu.
+
 ## PRE-ALPHA 0.29.8
 
 _Released October 26, 2026._
