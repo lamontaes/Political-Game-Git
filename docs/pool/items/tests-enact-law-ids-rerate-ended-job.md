@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Fix at the root: the floor reads only jobs still open on the day it takes effect, by the same rule for full and counted jobs. Never skip or narrow the test.
 
-**Done when.** src/core2/enact-law-ids.test.ts passes on GOLDEN_PATH_SEED a1, b2 and c3 and two fresh seeds named in the PR; the PR names by file and line where the ended job entered the floor's list, and a test fails if an ended job is handed to rerateJob.
+**Done when.** src/core2/enact-law-ids.test.ts passes on GOLDEN_PATH_SEED a1, b2 and c3 and two fresh seeds named in the PR; the PR names by file and line where the ended job entered the floor's list, and a test fails if an ended job is handed to rerateJob. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/wage-floor.ts, src/core2/enact-law-ids.test.ts
 

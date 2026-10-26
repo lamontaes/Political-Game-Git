@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: the case and the lean decide, through the shared rule. Real rates check totals only. Ask why: each interview record keeps the reasons it was weighed on, so a test can trace every answer.
 
-**Done when.** In the named candidates of drawn race towns' played windows (src/core2/trait-test-kit.ts drawnRaceWorld), seeds named, the share who accept is within 0.4 to 0.62 and the crossed net odds between thirds of lean are within a factor of 1.5 of the study's 2.47; the base and known-share weights carry their sources and spreads; a test checks every answer against its kept reasons; and the press.accept-interview gap row is removed.
+**Done when.** In the named candidates of drawn race towns' played windows (src/core2/trait-test-kit.ts drawnRaceWorld), seeds named, the share who accept is within 0.4 to 0.62 and the crossed net odds between thirds of lean are within a factor of 1.5 of the study's 2.47; the base and known-share weights carry their sources and spreads; a test checks every answer against its kept reasons; and the press.accept-interview gap row is removed. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/modules/press.traits.test.ts
 

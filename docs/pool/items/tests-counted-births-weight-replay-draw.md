@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: preserve an independent root and every original cohort rather than selecting a passing place. No vacuous tests: retain the full simulation, six-attempt bound, bookkeeping and positive expected and booked birth and death assertions while making failed input reproducible.
 
-**Done when.** The original full birth-weight test accepts a replayable independent root or recorded draw sequence and prints each place and seed before building or playing. The same recorded input can be rerun on main and the PR, without replacing a failed draw, reducing the cohort, disabling bookkeeping or weakening its positive assertions.
+**Done when.** The original full birth-weight test accepts a replayable independent root or recorded draw sequence and prints each place and seed before building or playing. The same recorded input can be rerun on main and the PR, without replacing a failed draw, reducing the cohort, disabling bookkeeping or weakening its positive assertions. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/counted-births-weight.test.ts
 
