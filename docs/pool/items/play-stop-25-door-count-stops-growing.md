@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/play-stop-25-door-count
 pr: #6065
 blocked-on:
