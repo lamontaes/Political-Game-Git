@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/staff-bad-news
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T07:39:54.952Z
 ---
 
 **What.** The first half of words-scene-staff-bad-news, split because the player cannot hire an aide yet (play-officeholder-hires-aide). When a printed story runs against an officeholder or a bill they sponsored, one of their own serving aides brings it in as the staff-news scene: who ran it, what it is about, and the reporter. The press desk records who a printed story names and whether it runs for or against them; the director stages the scene from that record and the day stops for it, as for the person's own filing. A story for them, or one naming neither them nor their bill, stages none, and an officeholder without an aide gets no scene.
