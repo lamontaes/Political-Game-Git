@@ -23,6 +23,7 @@ import {
 } from "./modules/budgets";
 import {
   LEGISLATURE_MODULE_ID,
+  governingMembers,
   memberKey,
   votesOn,
   type BillRow,
@@ -58,9 +59,20 @@ function councilReason(
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("bills")
     .rows() as unknown as (BillRow & { kind?: string })[];
+  // Bill numbers repeat between governments: only this government's
+  // budget-voting bodies can explain its adopted line.
+  const government = governments(api).find(
+    (g) => g.id === adopted.governmentId,
+  );
+  const votingBodies = new Set(
+    (government ? governingMembers(api, government) : []).map(
+      (m) => m.officeId,
+    ),
+  );
   const own = bills.filter(
     (b) =>
       b.kind === "budget" &&
+      votingBodies.has(b.bodyOfficeId) &&
       new RegExp(`(^|[ ,])${b.number.replace(/\W/g, "\\$&")}( |$)`).test(
         adopted.adoptedBy,
       ),
