@@ -4,7 +4,7 @@ title: "Stopgaps in parameters (estimated-industry-priors): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ after:
 Looked at Oct 20 (claude/political-game-pool-3xfqef-6), released unbuilt: SG-P8-business-books-priors names its replacement as recorded firm budgets or cohort-matched individual firm data with measured distributions. That is a data-sourcing task (an established source such as the Census Annual Business Survey or BLS/SOI size-class tables, matched by industry and size), not an engine change; a builder with web access starts there, and the priors in `parameters.json` keep their ESTIMATED tag until then.
 
 Oct 20 (pool feeder): spec written; a data-sourcing task first (an earlier look on Oct 20 said so); the research-reachable-sources-oct20 item found census.gov hosts reachable, so SUSB and ABS can be fetched, bls.gov cannot. The credit-line probability in data/research/stopgaps-oct19/B-people-behavior-2.json (0.26, 0.15 to 0.40) is used only as the total check, because a per-firm probability would be a dice roll.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.
