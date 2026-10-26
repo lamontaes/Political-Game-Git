@@ -241,7 +241,7 @@ function researchBlocker(
 }
 
 function reaches(link: WebLink & { carriedBy?: string }): Point {
-  const point = reachPoint(link);
+  const point = unrun(link, reachPoint(link));
   if (point.status === "pass") return point;
   // An engine that reads the same cause by its own mechanic does not carry
   // this row's size and lag; the link stays unwired and says so.
@@ -252,6 +252,29 @@ function reaches(link: WebLink & { carriedBy?: string }): Point {
       `an engine reads the cause its own way: ${link.engineGap}`,
   ].filter(Boolean);
   return { ...point, why: why.join("; ") };
+}
+
+/**
+ * A link the web does not run moves nothing, however many engines read its
+ * outcome: it fails, waiting on what its coverage row names. A carried link
+ * is read by its engine instead.
+ */
+function unrun(link: WebLink & { carriedBy?: string }, point: Point): Point {
+  const coverage = linkCoverage(link);
+  if (point.status !== "pass" || link.carriedBy || coverage.wired) return point;
+  const waits = [
+    ...(coverage.waitingOn.length
+      ? [`it waits on ${coverage.waitingOn.join(", ")}`]
+      : []),
+    ...("needsSize" in coverage && coverage.needsSize
+      ? ["it has no researched size"]
+      : []),
+  ];
+  return {
+    status: "fail",
+    evidence: `outcome read by ${point.evidence}`,
+    why: `the web does not run it: ${waits.join(", and ")}`,
+  };
 }
 
 function reachPoint(

@@ -334,7 +334,11 @@
     "won": "Won",
     "lost": "Lost",
     "unopposed": "Unopposed",
-    "abstained": "—"
+    "abstained": "—",
+    "nation": "Governor races across the country",
+    "marginBy": "by",
+    "points": "points",
+    "noNation": "No governor races have been counted yet"
   },
   "money": {
     "cash": "Cash available",

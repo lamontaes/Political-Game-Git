@@ -151,10 +151,15 @@ export function raiseOne(
   if (!commitment || commitment.hourlyMinor >= floor) return false;
   if (commitment.endsAt !== undefined && commitment.endsAt <= core.date)
     return false;
+  // The pay is the job record's: a job that has ended takes no raise, even
+  // where its commitment still runs (a job ended the day before it was to
+  // start keeps a commitment to that start day).
+  const job = core.jobs.get(commitment.jobId);
+  if (!job || job.endsAt !== undefined) return false;
   const employer = core.organizations.get(commitment.organizationId);
   if (!employer || (town.size && !town.has(employer.placeId))) return false;
   const from = commitment.hourlyMinor;
-  const dailyBefore = core.jobs.get(commitment.jobId)?.wageDailyMinor ?? 0;
+  const dailyBefore = job.wageDailyMinor;
   // The pay change through the core's own job record.
   api.rerateJob(commitment.jobId, floor, { ...source, asOf: core.date });
   raises.put({
