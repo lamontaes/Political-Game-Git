@@ -1,7 +1,7 @@
 ---
 id: tests-journal-clarkfield-channels-undefined
 title: "journal.test.ts fails in Clarkfield, Minnesota (seed 0c7cebcc3d2046e5) on main"
-area: tests
+area: director
 kind: bug
 priority: 2
 size: S
