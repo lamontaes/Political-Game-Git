@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/release-play-api-figures
+status: open
+claimed-by:
 pr: #6071
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T18:19:26.911Z
+claimed-at:
 ---
 
 **What.** Main release run 40215933110 (source 8d0dd8f295, the merge of #6049) built the game on macOS and Windows, then both desktop package jobs failed at 'Stage the compiled game and its play server': 'Play API reads /Users/runner/work/Political-Game-Git, outside the repository.' desktop/scripts/build-play-api.mjs copies every folder a bundled module names with new URL(..., import.meta.url), reading the static part of a template; src/bench/handler.ts serves the v2 standing figures with new URL(`../..${url.pathname}`, import.meta.url) (4a0c9c8ee4, Oct 24), whose static part '../..' resolves to the repository root, so the script takes its parent. No desktop release publishes until this is fixed.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T18:19:26.911Z
 **Files.** src/bench/handler.ts
 
 **Notes.** Found by the speed lead while confirming #6049's release run.
+
+Merger 0, Oct 26: PR #6071 lands the bounded local repair release-play-api-figure-staging-local after an exact-main bundle failure, corrected bundle and HTTP figure-byte proof in the merger environment. This parent stays open for its unchanged next-platform-staging Done when; no queued or green GitHub badge substitutes for the local gate. The newer failed Release 40253254777 also stops at this route, Windows job 121352482445 reporting the outside-repository path.
