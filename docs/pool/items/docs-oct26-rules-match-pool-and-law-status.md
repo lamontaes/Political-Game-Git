@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #6166
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** PR #6166 introduces useful owner rulings and a SMART process rule, but two added documentation claims are stale or broader than implemented behavior. The new rule claims all open items without time boxes are flagged by the pool CLI, which currently enforces that field only for play-first items. The added LAW-LINK package describes old handler counts and a parallel historical owner as current guidance, conflicting with the existing laws and effects lead; correct those statements without weakening any runtime or release guard.
