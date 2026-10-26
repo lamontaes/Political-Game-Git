@@ -19,6 +19,8 @@ claimed-at: 2026-10-26T20:58:53.247Z
 
 **Done when.** In a played year of `buildBenchWorld` in two drawn places (seeds named), including a small town, every officer job holds hours and pay that match its source (a part-time stipend where the place pays one), no officer's hourly pay sits under the floor unless the law exempts the office, and a minimum wage raise in that town leaves exempt officers' pay unchanged while raising covered workers by the floor's change, named by record id. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/public-payroll.ts, src/core2/wage-floor.ts, src/core2/state.ts
 
 **Notes.** Found by the laws lead, Oct 25, while tracing why a 10% state wage raise lifted some Prescott paychecks six to fourteen times over. A commuter's job at an outside employer in the same town opened at $5.91 an hour too (`person_02518494bd09c0bd`, the "works outside the town" employer), which the wage engine also raised.
