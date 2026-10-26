@@ -19,6 +19,8 @@ claimed-at: 2026-10-26T22:23:01.326Z
 
 **Done when.** budget-line-schools-staffing.test.ts passes with SCHOOLS_LINE_SEED=7fb19dc163f97df0 in Washington, D.C. (both cut and raise), with the mayor's proposal, the council's adoption and the adopted line named by record id in the PR body, and passes on a fresh seed.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/modules/budgets.ts,src/core2/office-day-acts.ts,src/core2/budget-line-schools-staffing.test.ts
 
 **Notes.** Found Oct 26 while fixing tests-schools-line-base-staff-fairport; reproduced on clean main a368aa787a.
