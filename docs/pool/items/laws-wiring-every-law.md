@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read: the engine that pays or decides reads the law and records whom it applied it to. One model, two tiers: counted groups take the same rule as full people. Wire to the world: every law moves money or people in a played world.
 
-**Done when.** In two places drawn from all 56, the checker scripts/law-wiring/check.ts on buildBenchWorld shows every law wired on all nine links or carrying a specific stopgap row, docs/reports/law-wiring-matrix.json shows it, and each family test names record ids.
+**Done when.** In two places drawn from all 56, the checker scripts/law-wiring/check.ts on buildBenchWorld shows every law wired on all nine links or carrying a specific stopgap row, docs/reports/law-wiring-matrix.json shows it, and each family test names record ids. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/law-wiring/check.ts, src/core2/law-reach/applied.ts, src/core2/law-reach/host.ts, docs/reports/law-wiring-2026-10-20.md
 

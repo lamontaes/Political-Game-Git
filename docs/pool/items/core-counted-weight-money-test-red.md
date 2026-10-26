@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T03:23:35.922Z
 
 **Rules.** One model, two tiers: a counted group is paid by the same rule as a full person, times its count, so the books balance. No dice. Wire to the world: the fix is shown in a generated world.
 
-**Done when.** src/core2/counted-weight-money.test.ts passes on the drawn place and seed it failed on (Ostrander, Ohio; seed in the test output) and on two other seeds, with the flow and journal record ids named, and the played world's year-end money held is unchanged for a place the test did not fail on.
+**Done when.** src/core2/counted-weight-money.test.ts passes on the drawn place and seed it failed on (Ostrander, Ohio; seed in the test output) and on two other seeds, with the flow and journal record ids named, and the played world's year-end money held is unchanged for a place the test did not fail on. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/counted-weight-money.test.ts, src/core2/modules/residents.ts
 

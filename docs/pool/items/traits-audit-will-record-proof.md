@@ -17,7 +17,7 @@ source: Merger 2 Done-when review of PR #5886
 
 **Rules.** Bookkeeping is a debug switch: keep additional trace collection inside audit tooling and do not add production why-history for every counted person. Wire to the world: the witness comes from buildBenchWorld and the existing estate producer, with the actual deciding person and owning record. Never weaken a test: preserve a fresh drawn-place case beside any pinned reproduction.
 
-**Done when.** In a played year of buildBenchWorld with every module in a drawn place and seed the builder did not choose, the audit names an actual estates.will call and its retained decision or owning estate record id, verifies that record exists and carries the relevant outcome, and gives the person, place and seed in the PR body. A test or bounded audit check fails if the cited record is absent. The existing gap row then names the measured witness instead of claiming that no work is needed.
+**Done when.** In a played year of buildBenchWorld with every module in a drawn place and seed the builder did not choose, the audit names an actual estates.will call and its retained decision or owning estate record id, verifies that record exists and carries the relevant outcome, and gives the person, place and seed in the PR body. A test or bounded audit check fails if the cited record is absent. The existing gap row then names the measured witness instead of claiming that no work is needed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/traits/trait-wiring-audit.ts, scripts/traits/trait-wiring-matrix.ts, data/content/trait-decision-gaps.json, src/core2/estates.ts
 

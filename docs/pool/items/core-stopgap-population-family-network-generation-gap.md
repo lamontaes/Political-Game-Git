@@ -4,7 +4,7 @@ title: "Stopgaps in population (family-network-generation-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr: #5305
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: Opening generation omits substantial family connections and cannot route losses to missing relatives.
 
 Oct 21 (CTO merger, PR #5305): this PR adds the opening family-coverage guard only. SG-P8-family-network-coverage remains open for source-qualified relation-type and household coverage and actual event recipients; merging this partial test does not complete this item.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

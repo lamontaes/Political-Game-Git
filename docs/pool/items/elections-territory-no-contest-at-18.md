@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T20:41:04.433Z
 
 **Rules.** One rule, all 56 places: the offices a player can file for come from each place's records (its elected boards and their filing rules), never a named territory in code. Research before building: each board's eligibility and filing rules are read from the territory's code with citations; an estimate is tagged. Wire to the world: a filed candidacy reaches the ballot through the same engines as every other contest.
 
-**Done when.** The M2-03 command passes in Christiansted, U.S. Virgin Islands with the seed above and in two more places drawn from all 56 that have no municipal government, named with seeds; the PR names which board contests the player could enter at 18 by contest id and cites each rule's source; a check over all 56 places lists any place where an 18-year-old has no contest within the next general election cycle.
+**Done when.** The M2-03 command passes in Christiansted, U.S. Virgin Islands with the seed above and in two more places drawn from all 56 that have no municipal government, named with seeds; the PR names which board contests the player could enter at 18 by contest id and cites each rule's source; a check over all 56 places lists any place where an 18-year-old has no contest within the next general election cycle. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/elections.ts, src/core2/data/elections/, data/research/elections/
 

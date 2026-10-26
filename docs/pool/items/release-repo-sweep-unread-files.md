@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Slim the repository like a real game (owner, Oct 15): unneeded files go, the guards stay (`tests/guards/`, `tests/golden-path/`, `scripts/core2-guard/`, `scripts/zero-dice-guard.mjs`, `scripts/release/`, `scripts/audit/`, `scripts/report-check/` are not on the list and are not touched). Replace, never layer: the `.claude/skills/` copy is replaced by a symlink in the same PR, and the PR body counts what was removed. Recheck the present import graph and existing pool claims before removing or moving any path; preserve current consumers, guards and provenance.
 
-**Done when.** Every path in the audit's G1 list is gone from main; `npm run build`, `npm run typecheck` and the golden-path suite pass on a drawn place from `buildBenchWorld`; `tests/assumption-markers.test.ts` and the release workflow still find what they read; and the PR body counts the files and MB removed.
+**Done when.** Every path in the audit's G1 list is gone from main; `npm run build`, `npm run typecheck` and the golden-path suite pass on a drawn place from `buildBenchWorld`; `tests/assumption-markers.test.ts` and the release workflow still find what they read; and the PR body counts the files and MB removed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** docs/reports/repo-audit-2026-10-19.md, package.json, vite.config.*, .github/workflows/browser.yml, public/data/
 
