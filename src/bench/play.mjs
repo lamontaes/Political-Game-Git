@@ -3,6 +3,7 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
+import { mountMenu } from "./ui/menu.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
@@ -4379,6 +4380,22 @@ async function openSheet(tab) {
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
+// The Menu list: the screens by name, in this order, nothing under the names.
+mountMenu(
+  [
+    "calendar",
+    "people",
+    "politics",
+    "news",
+    "journal",
+    "who",
+    "money",
+    "jobs",
+    "travel",
+    "guide",
+    "options",
+  ].map((key) => ({ key, label: titles[key] })),
+);
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
