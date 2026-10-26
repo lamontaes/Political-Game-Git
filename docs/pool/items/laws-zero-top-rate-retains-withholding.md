@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/zero-rate-withholding
 pr: #6193
 blocked-on:
@@ -19,6 +19,8 @@ claimed-at: 2026-10-26T21:36:01.625Z
 **Rules.** An effect is a read, not a record: withholding must follow the effective law rate, with its journal naming the actual row. One model, two tiers: both named and counted payroll read the same zero-rate rule and stop collecting at that level.
 
 **Done when.** A regression checks zero with retained nonzero brackets beside a positive scaled rate, then a buildBenchWorld run in a drawn place with its seed and law row id changes an eligible income-tax rate to zero without deleting its schedule and proves a later named and counted paycheck collect no income tax for that jurisdiction while other levels still balance. The test must fail with the prior calculation; do not merely assert the old law id disappears from applied rows. **On screen.** None by design: this is a simulation correction; later paychecks reflect the rate in force.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/tax-withholding.ts, src/core2/tax-withholding.test.ts, src/core2/law-wiring-taxes.test.ts
 

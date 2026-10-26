@@ -21,6 +21,6 @@ claimed-at:
 
 **Files.** src/bench/play.mjs, src/bench/play.html, src/bench/campaign.ts, src/bench/data/controls.json, src/bench/plain-text.browser.mjs
 
-**Notes.** TODO
+**Notes.** TODO Playtest Oct 26 sitting 1 (installed v0.34.0): Politics rows "2018-01-01 – 2026-01-01 · in office at the opening · 2021-11-02 60%", "Republican · Views fit 0.87"; filing panel "FILING DEADLINE 2025-01-20 / 2025-03-11", "AGE 35 / 18", residency line; Campaigns "ON-BALLOT · COUNCIL-1 2025-11-04"; clerk said "on-ballot". Owner: "politics there's more dev language again how does this keep happening" / "I don't even know what the hell that's supposed to mean."
 
 Sent back 2026-10-26 from PR #6058 (branch claude/quirky-ride-vrwwz4-play-stop-02, head f7303a8135e2abe216a7c461013ef3e5aa774f3f): main merge conflicts in src/bench/play.mjs renderFiling and src/bench/data/controls.json government labels; preserve main seat/election/holder facts and this change, drop progress hunk per CTO ruling, repair screenshot markup; finish on that branch, merge main into it first. Owner installed-build confirmation is explicitly not a merge gate under the later CTO ruling.
