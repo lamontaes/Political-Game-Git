@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.39.1",
+      "releasedOn": "2026-10-26",
+      "revision": "13034532b1e0d34f42d28092af0538fff723643f",
+      "changeIds": [
+        "elections-territory-no-contest-at-18",
+        "gov-dc-mayor-budget-proposal-not-adopted",
+        "screens-ui-list-row"
+      ]
+    },
+    {
       "version": "0.39.0",
       "releasedOn": "2026-10-26",
       "revision": "50327e6868cc362bbc447f725f18a0e93a81d60c",
