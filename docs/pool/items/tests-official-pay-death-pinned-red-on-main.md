@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/official-pay-death
-pr:
+pr: #6144
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T05:25:56.612Z
