@@ -122,7 +122,7 @@ export function storyScene(
       )
       .find((row): row is string => !!row && PICTURED.has(row)) ??
     homeOf(core, personId, minuteOfDay);
-  // Who stands in the room needs a reason on record (owner, Oct 24): the
+  // Who stands in the room needs a reason on record: the
   // people the moment is about (who opened it, whom it names, who asks), and
   // at home the household who live there. Anyone else the situation listed
   // is not drawn.

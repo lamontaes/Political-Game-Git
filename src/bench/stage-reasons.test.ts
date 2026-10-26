@@ -1,7 +1,5 @@
 /**
- * Nobody stands in a room without a reason on record (play-first-07; owner,
- * Oct 24: people in the house need a reason to be there; no "X is with
- * you"). The first month of a drawn life is played day by day: every person
+ * Nobody stands in a room without a reason on record (play-first-07). The first month of a drawn life is played day by day: every person
  * the home or work scene draws, and every person a stopping moment's scene
  * draws, carries a reason the records bear out, and no narration announces
  * someone as merely there.

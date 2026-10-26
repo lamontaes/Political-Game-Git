@@ -60,8 +60,8 @@ export interface BenchScene {
   unplaced: { personId: string; reason: string }[];
 }
 /**
- * Why a person stands in a room, from the records (owner, Oct 24: people in a
- * room need a reason to be there). Nobody is staged without one.
+ * Why a person stands in a room, from the records. Nobody is staged without
+ * a recorded reason.
  */
 export type StageReason =
   /** The person whose scene it is. */

@@ -177,7 +177,7 @@ export function composeScene(
   );
   if (setting) sentences.push(setting);
 
-  // Nobody is announced as merely there (owner, Oct 24: no "X is with you");
+  // Nobody is announced as merely there;
   // the scene's lead says who came and why.
   const opener = binding.roles.find((row) => row.role === binding.opener);
 
