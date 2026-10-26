@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.34.4",
+      "releasedOn": "2026-10-26",
+      "revision": "738f5da98e0237b5d562b26570e360f267d03483",
+      "changeIds": [
+        "core-voter-groups-town-cast-zero",
+        "people-drives-cause-acts-pull-less",
+        "web-matrix-engine-source-evidence"
+      ]
+    },
+    {
       "version": "0.34.3",
       "releasedOn": "2026-10-26",
       "revision": "85fdd0512b80a3095ec001cfcf85fdd115332857",
