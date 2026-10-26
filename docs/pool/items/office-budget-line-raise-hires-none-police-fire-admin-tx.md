@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/law-reach/group-a-staffing.ts,src/core2/law-reach-group-a.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-26 from PR #5809 (branch claude/budget-line-hires-tx): parent #5632 merged and PR retargeted to main, but current normal integration conflicts in production src/core2/law-reach/group-a-staffing.ts and test src/core2/law-reach-group-a.test.ts; merge aborted without code resolution; preserve both current hiring/payroll readers and unfilled-reason proof, then finish on that branch and merge main first; no completed gate claimed.
