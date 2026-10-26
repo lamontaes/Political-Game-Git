@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** Research before building: quoted sources, fetched. One rule, all 56 places. Estimate, never UNKNOWN.
 
-**Done when.** `starting-law.json` holds a sourced or estimated `local-income-tax-authority` row for all six, each with its citation; the redraw for "a state local income tax authority row" in `src/core2/law-wiring-taxes.test.ts` is removed; and the test passes on a seed that draws one of the six (name it).
+**Done when.** `starting-law.json` holds a sourced or estimated `local-income-tax-authority` row for all six, each with its citation; the redraw for "a state local income tax authority row" in `src/core2/law-wiring-taxes.test.ts` is removed; and the test passes on a seed that draws one of the six (name it). **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/research/build-starting-law.py, src/core2/data/laws/starting-law.json, src/core2/law-wiring-taxes.test.ts
 

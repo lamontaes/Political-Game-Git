@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: the counted-signer tests are what prove a counted voter row counts by its weight, the same rule as a full person, so they must run. Speed: a test builds the smallest world that proves its claim, never one that outgrows the worker.
 
-**Done when.** npx vitest run src/core2/recalls.test.ts passes all four tests in one run on a clean checkout, with each counted-signer test naming its drawn place, seed and the recall record id whose signatures and votes it summed, and the worker stays under its heap limit.
+**Done when.** npx vitest run src/core2/recalls.test.ts passes all four tests in one run on a clean checkout, with each counted-signer test naming its drawn place, seed and the recall record id whose signatures and votes it summed, and the worker stays under its heap limit. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/recalls.test.ts, src/core2/modules/recalls.ts
 

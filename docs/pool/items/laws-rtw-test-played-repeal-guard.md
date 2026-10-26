@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T21:14:02.775Z
 
 **Rules.** One rule, all 56 places: the guard must read the law in force on each day it checks, never name a state or skip a place, so every drawn place still runs the test.
 
-**Done when.** src/core2/right-to-work-law.test.ts reads the right-to-work law in force on the days it checks and asserts its effect only while it stands; when a played bill repeals it inside the window, the test asserts the dues are charged again after the repeal. It passes on the seed that drew the Nevada repeal and on two fresh random seeds, each named in the PR body.
+**Done when.** src/core2/right-to-work-law.test.ts reads the right-to-work law in force on the days it checks and asserts its effect only while it stands; when a played bill repeals it inside the window, the test asserts the dues are charged again after the repeal. It passes on the seed that drew the Nevada repeal and on two fresh random seeds, each named in the PR body. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/right-to-work-law.test.ts
 

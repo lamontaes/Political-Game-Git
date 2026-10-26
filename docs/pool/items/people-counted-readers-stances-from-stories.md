@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: a counted group reached by a story moves by the full reader's rule (the speaker's standing, the heard-event amount, the repeat wear-out) times the count it stands for. Ask why: the group's moved view cites the story's news record. No dice: which groups the story reached follows the press's delivery shares, never a roll.
 
-**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named), a printed story's counted followers have their group view on the story's question moved by the full reader's rule times their count, citing the story record id, and filling in a member of that group gives a person whose view matches it; src/core2/views-counted-readers.test.ts proves it and fails when the counted step is removed.
+**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named), a printed story's counted followers have their group view on the story's question moved by the full reader's rule times their count, citing the story record id, and filling in a member of that group gives a person whose view matches it; src/core2/views-counted-readers.test.ts proves it and fails when the counted step is removed. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
 
 **Files.** src/core2/modules/views.ts, src/core2/modules/news.ts, src/core2/modules/press.ts
 
