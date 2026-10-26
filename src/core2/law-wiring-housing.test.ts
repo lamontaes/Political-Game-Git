@@ -36,7 +36,7 @@ import {
   LAW_APPLIED_TABLE,
   type LawAppliedRow,
 } from "./law-reach/applied";
-import { housingLineMeasureId } from "./law-reach/group-a-money";
+import { budgetToday, housingLineMeasureId } from "./law-reach/group-a-money";
 import { mechanicRow } from "./law-reach/group-a-records";
 import { LAW_REACH_HOST_ID } from "./law-reach/host";
 import type { LawRowInput } from "./laws-starting";
@@ -171,6 +171,49 @@ function personIn(core: CoreState, householdId: string): string | undefined {
     .get(householdId)
     ?.memberIds.filter((id) => core.people.get(id)?.alive)
     .sort()[0];
+}
+
+/**
+ * The vouchers a raised housing line must buy to reach a full household.
+ * Rent help goes to the renters with the least income per member first
+ * (housing-assistance.ts); a counted group takes one voucher for each
+ * household it stands for, and a government whose line already stands above
+ * its base pays the poorest before this one. Where most renters are counted,
+ * a hundred vouchers all go to counted groups, so the raise is sized from the
+ * records at the raise: the weight of every renter ranked ahead of the third
+ * full household that no other government's vouchers cover, plus that
+ * household. Three, not one, because renters' incomes move over the month.
+ */
+function vouchersToReachFullHouseholds(
+  api: CoreAPI,
+  gov: { readonly id: string },
+): number {
+  const annual = parameters.parameters.housingAssistanceAnnualMinor.value;
+  const covered = governments(api)
+    .filter((g) => g.id !== gov.id)
+    .reduce((sum, g) => {
+      const budget = budgetToday(api, g);
+      if (!budget) return sum;
+      const extra =
+        (budget.spendingMinor.housing ?? 0) -
+        (baseBudget(api, g, budget.fiscalYear).spendingMinor.housing ?? 0);
+      return sum + Math.max(0, Math.floor(extra / annual));
+    }, 0);
+  const ranked = tenants(api)
+    .filter((t) => t.memberIds.length > 0)
+    .sort(
+      (a, b) =>
+        a.incomeMinor / a.memberIds.length -
+          b.incomeMinor / b.memberIds.length || a.id.localeCompare(b.id),
+    );
+  let ahead = 0;
+  let reached = 0;
+  for (const t of ranked) {
+    if (t.tier === "full" && ahead >= covered) reached += 1;
+    ahead += t.weight;
+    if (reached === 3) break;
+  }
+  return reached === 0 ? 100 : Math.ceil(ahead);
 }
 
 /** The drawn place's year, played once; a message when the place has no subject for these laws. */
@@ -632,7 +675,7 @@ function play(
     );
   }
 
-  // The housing line, raised after the year above: enough extra to cover a hundred vouchers.
+  // The housing line, raised after the year above: enough extra to cover the vouchers that reach a full household.
   const gov =
     governments(api).find((g) => g.level === "city") ??
     governments(api).find((g) => g.level === "county") ??
@@ -640,7 +683,8 @@ function play(
   check("housing", Boolean(gov), "no government to fund the housing line");
   if (gov) {
     const delta =
-      parameters.parameters.housingAssistanceAnnualMinor.value * 100;
+      parameters.parameters.housingAssistanceAnnualMinor.value *
+      vouchersToReachFullHouseholds(api, gov);
     check(
       "housing",
       budgetsOf(api, gov.id).length > 0,
