@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Find and fix retained memory growth at its source. Keep the full 730-day generated world, bookkeeping validation, drawn-place coverage and all positive committee-trade and floor-vote assertions. Never clear this failure by disabling bookkeeping, weakening the assertions, selecting a convenient replacement seed or raising the container budget.
 
-**Done when.** The unchanged committee test completes on the recorded input with one worker and a 5 GiB Node heap in the 8 GiB environment, all three assertions pass with positive trade and honored-floor-vote records, and a freshly drawn place completes with the same checks; the PR names the places, seeds, actual record IDs and measured before/after memory behavior.
+**Done when.** The unchanged committee test completes on the recorded input with one worker and a 5 GiB Node heap in the 8 GiB environment, all three assertions pass with positive trade and honored-floor-vote records, and a freshly drawn place completes with the same checks; the PR names the places, seeds, actual record IDs and measured before/after memory behavior. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/legislature-committees.test.ts, src/core2/bookkeeping.ts, src/core2/state.ts
 

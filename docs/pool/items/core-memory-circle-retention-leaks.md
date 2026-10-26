@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/committee-heap
-pr:
+pr: #6067
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:44:16.717Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T16:44:16.717Z
 
 **Rules.** Bookkeeping is validation, tracing, copying and freezing, never retention. Keep the player's own entries, public records and news. Never weaken a test's assertions; a test that reads a stranger's reasons turns the retention on explicitly.
 
-**Done when.** In a one-year or longer run of the played world (buildBenchWorld, a drawn place named with its seed), the circle's weighed choices go after circleDecisionDetailDays and their other entries after circleActRetentionMonths, old experienced keys go with bookkeeping on, and keepsWhy follows the play rule under bookkeeping; a test in src/core2/condense-decisions.test.ts proves the drops by record id, and the PR names the measured heap before and after at the same days.
+**Done when.** In a one-year or longer run of the played world (buildBenchWorld, a drawn place named with its seed), the circle's weighed choices go after circleDecisionDetailDays and their other entries after circleActRetentionMonths, old experienced keys go with bookkeeping on, and keepsWhy follows the play rule under bookkeeping; a test in src/core2/condense-decisions.test.ts proves the drops by record id, and the PR names the measured heap before and after at the same days. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/decision-detail.ts, src/core2/state.ts, src/core2/knowledge-retention.ts, src/core2/why-kept.ts
 

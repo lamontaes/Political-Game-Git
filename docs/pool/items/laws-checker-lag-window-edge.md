@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** scripts/law-wiring/matrix.ts
 
 **Notes.** From the laws lead, Oct 25, on the rights-env helper's report.
+
+Folded into laws-checker-grade-each-link-across-runs (Oct 25 audit).

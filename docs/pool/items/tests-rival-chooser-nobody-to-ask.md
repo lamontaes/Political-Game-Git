@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/rival-chooser-calls
+pr: #6089
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T19:19:39.104Z
 ---
 
 **What.** src/core2/campaign-turn.test.ts, 'a rival chooses between calls and doors by their money and standing, sliding with each', fails on clean main in Simsboro, Louisiana (2270630, run seed 4f45d3c2526616ba66fcc1878d9fd59603eb8b0694d8f0ee880816a19e615a83): 'empty bank leans on calls: expected 0 to be greater than 0'. The share of the rival's hours spent on calls is 0 with an empty bank and with a full one, which happens when Call donors is not offered to the rival at all (nobody they can reach is left to ask), so the bank has nothing to slide. The test draws a random place each run, so it fails on some draws and passes on others.
