@@ -5,10 +5,10 @@
     "lawLinks": 132,
     "webCoverageWired": 123,
     "allEightPoints": 0,
-    "reachesOrCarried": 136,
-    "namedInAStopgap": 109,
+    "reachesOrCarried": 139,
+    "namedInAStopgap": 106,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 136,
+    "reachesTheWorld": 139,
     "withAnyModerator": 22,
     "byPoint": {
       "cause": {
@@ -24,9 +24,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 136,
+        "pass": 139,
         "partial": 0,
-        "fail": 101,
+        "fail": 98,
         "n/a": 0
       },
       "varied": {
@@ -1326,7 +1326,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger energy.electricity-price, which src/core2/modules/place-prices.ts:880, src/core2/modules/place-prices.ts:945 reads into its own records"
+          "evidence": "web ledger energy.electricity-price, which src/core2/modules/place-prices.ts:892, src/core2/modules/place-prices.ts:973 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -2266,7 +2266,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2450, src/core2/modules/jobs.ts:2459, src/core2/modules/jobs.ts:2488, src/core2/modules/jobs.ts:2490, src/core2/modules/jobs.ts:2510, src/core2/modules/jobs.ts:2512"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2486, src/core2/modules/jobs.ts:2495, src/core2/modules/jobs.ts:2524, src/core2/modules/jobs.ts:2526, src/core2/modules/jobs.ts:2546, src/core2/modules/jobs.ts:2548"
         },
         "varied": {
           "status": "fail",
@@ -3005,7 +3005,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:903 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:931 reads into its own records"
         },
         "size": {
           "status": "partial",
@@ -3826,7 +3826,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:903 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:931 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3875,7 +3875,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:903 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:931 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -3883,7 +3883,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2448, src/core2/modules/jobs.ts:2457"
+          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2484, src/core2/modules/jobs.ts:2493"
         },
         "varied": {
           "status": "pass",
@@ -3979,7 +3979,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1576"
+          "evidence": "src/core2/modules/jobs.ts:1597"
         },
         "varied": {
           "status": "pass",
@@ -4605,7 +4605,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2447, src/core2/modules/jobs.ts:2456"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2483, src/core2/modules/jobs.ts:2492"
         },
         "varied": {
           "status": "fail",
@@ -6047,7 +6047,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2447, src/core2/modules/jobs.ts:2456"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2483, src/core2/modules/jobs.ts:2492"
         },
         "varied": {
           "status": "fail",
@@ -6093,9 +6093,8 @@
           "evidence": "data/research/outcome-web/links.json:3378 size -0.03, range [-0.08, 0], Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/place-prices.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -6121,8 +6120,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-env-emissions"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "container-deposit-to-litter",
@@ -6237,7 +6236,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:880, src/core2/modules/place-prices.ts:945"
+          "evidence": "src/core2/modules/place-prices.ts:892, src/core2/modules/place-prices.ts:973"
         },
         "varied": {
           "status": "fail",
@@ -6331,9 +6330,8 @@
           "evidence": "data/research/outcome-web/links.json:3480 size 43.7, range [20, 55], Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.container-recycling-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/place-prices.ts:67"
         },
         "varied": {
           "status": "fail",
@@ -6359,8 +6357,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-env-container-recycling-pct"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "unemployment-to-uninsured",
@@ -6474,7 +6472,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2450, src/core2/modules/jobs.ts:2459, src/core2/modules/jobs.ts:2488, src/core2/modules/jobs.ts:2490, src/core2/modules/jobs.ts:2510, src/core2/modules/jobs.ts:2512"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2486, src/core2/modules/jobs.ts:2495, src/core2/modules/jobs.ts:2524, src/core2/modules/jobs.ts:2526, src/core2/modules/jobs.ts:2546, src/core2/modules/jobs.ts:2548"
         },
         "varied": {
           "status": "fail",
@@ -6568,9 +6566,8 @@
           "evidence": "data/research/outcome-web/links.json:3656 size -0.026, range [-0.08, -0.014], EPA 2024 Regulatory Impact Analysis, Clean Air Act section 111 carbon pollution standards (fact sheet); Resources for the Future 2024; EIA U.S. energy-related CO2, 2023"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/place-prices.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -6596,8 +6593,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-env-emissions"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "power-plant-carbon-to-particulates",
@@ -6759,7 +6756,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2449, src/core2/modules/jobs.ts:2458, src/core2/modules/jobs.ts:2478"
+          "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2485, src/core2/modules/jobs.ts:2494, src/core2/modules/jobs.ts:2514"
         },
         "varied": {
           "status": "pass",
@@ -9460,7 +9457,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1577"
+          "evidence": "src/core2/modules/jobs.ts:1598"
         },
         "varied": {
           "status": "pass",
@@ -9553,7 +9550,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:903"
+          "evidence": "src/core2/modules/place-prices.ts:931"
         },
         "varied": {
           "status": "pass",
@@ -10074,7 +10071,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:898, src/core2/modules/place-prices.ts:949"
+          "evidence": "src/core2/modules/place-prices.ts:926, src/core2/modules/place-prices.ts:977"
         },
         "varied": {
           "status": "fail",
@@ -10217,7 +10214,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1577"
+          "evidence": "src/core2/modules/jobs.ts:1598"
         },
         "varied": {
           "status": "fail",
@@ -10360,7 +10357,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "through transit-service-to-ridership: src/core2/modules/place-prices.ts:898, src/core2/modules/place-prices.ts:949"
+          "evidence": "through transit-service-to-ridership: src/core2/modules/place-prices.ts:926, src/core2/modules/place-prices.ts:977"
         },
         "varied": {
           "status": "fail",
@@ -10409,7 +10406,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts) reads this law and cuts the town's single-family starts by its own land elasticity, not this row's size and five-year lag, and no engine keeps the acres converted"
         },
         "varied": {
           "status": "fail",
@@ -10452,12 +10449,12 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5783 size -0.31, range [-0.4, -0.21], Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)"
+          "evidence": "data/research/outcome-web/links.json:5784 size -0.31, range [-0.4, -0.21], Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)"
         },
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts) reads this law and cuts each farm's water by its own estimated share the day the law takes effect, not this row's size and one-year lag, and no engine keeps the groundwater pumped"
         },
         "varied": {
           "status": "fail",
@@ -10470,7 +10467,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5783 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:5784 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10496,17 +10493,17 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5804",
+          "evidence": "data/research/outcome-web/links.json:5806",
           "why": "no measure: nothing in the core records federal.defense-boost-pct"
         },
         "size": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5804 size 0.015",
+          "evidence": "data/research/outcome-web/links.json:5806 size 0.015",
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1577"
+          "evidence": "src/core2/modules/jobs.ts:1598"
         },
         "varied": {
           "status": "fail",
@@ -10519,7 +10516,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5804 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5806 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10545,12 +10542,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5824",
+          "evidence": "data/research/outcome-web/links.json:5826",
           "why": "no measure: nothing in the core records federal.farm-payments-cut-pct-of-land-value"
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5824 size -0.215, range [-0.3, -0.13], Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026"
+          "evidence": "data/research/outcome-web/links.json:5826 size -0.215, range [-0.3, -0.13], Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026"
         },
         "reaches": {
           "status": "fail",
@@ -10568,7 +10565,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5824 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:5826 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10599,11 +10596,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5844 size 0.005, range [0.003, 0.01], Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf"
+          "evidence": "data/research/outcome-web/links.json:5846 size 0.005, range [0.003, 0.01], Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf"
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:898, src/core2/modules/place-prices.ts:949"
+          "evidence": "src/core2/modules/place-prices.ts:926, src/core2/modules/place-prices.ts:977"
         },
         "varied": {
           "status": "fail",
@@ -10616,7 +10613,7 @@
         },
         "timing": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5844 lag 0, phase-in 24, fade none"
+          "evidence": "data/research/outcome-web/links.json:5846 lag 0, phase-in 24, fade none"
         },
         "knowing": {
           "status": "fail",
@@ -10641,12 +10638,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5867",
+          "evidence": "data/research/outcome-web/links.json:5869",
           "why": "no measure: nothing in the core records federal.deficit-change-pct-of-gdp"
         },
         "size": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5867 size 25",
+          "evidence": "data/research/outcome-web/links.json:5869 size 25",
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
@@ -10665,7 +10662,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5867 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5869 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10695,7 +10692,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5888 size -0.18, range [-0.3, -0.08], Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty"
+          "evidence": "data/research/outcome-web/links.json:5890 size -0.18, range [-0.3, -0.08], Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty"
         },
         "reaches": {
           "status": "pass",
@@ -10713,7 +10710,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5888 lag 60 months",
+          "evidence": "data/research/outcome-web/links.json:5890 lag 60 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10744,7 +10741,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5909 size 0.00031, range [0.00015, 0.0005], TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does"
+          "evidence": "data/research/outcome-web/links.json:5911 size 0.00031, range [0.00015, 0.0005], TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does"
         },
         "reaches": {
           "status": "pass",
@@ -10761,7 +10758,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5909 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5911 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10787,12 +10784,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5930",
+          "evidence": "data/research/outcome-web/links.json:5932",
           "why": "no measure: nothing in the core records federal.rail-expansion-pct"
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5930 size 0.00486, range [0.00205, 0.00767], Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026"
+          "evidence": "data/research/outcome-web/links.json:5932 size 0.00486, range [0.00205, 0.00767], Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026"
         },
         "reaches": {
           "status": "fail",
@@ -10810,7 +10807,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5930 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5932 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10840,7 +10837,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5951 size 0.000157, range [-0.000279, 0.000575], Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)"
+          "evidence": "data/research/outcome-web/links.json:5953 size 0.000157, range [-0.000279, 0.000575], Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)"
         },
         "reaches": {
           "status": "fail",
@@ -10858,7 +10855,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5951 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:5953 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10888,7 +10885,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5971 size 0, range [0, 0], U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html)"
+          "evidence": "data/research/outcome-web/links.json:5973 size 0, range [0, 0], U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html)"
         },
         "reaches": {
           "status": "pass",
@@ -10906,7 +10903,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5971 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5973 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10936,7 +10933,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5994 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+          "evidence": "data/research/outcome-web/links.json:5996 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
           "status": "fail",
@@ -10955,7 +10952,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5994 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5996 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10985,7 +10982,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6016 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+          "evidence": "data/research/outcome-web/links.json:6018 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
           "status": "fail",
@@ -11004,7 +11001,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6016 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6018 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11034,7 +11031,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6038 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+          "evidence": "data/research/outcome-web/links.json:6040 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
           "status": "fail",
@@ -11053,7 +11050,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6038 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6040 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11083,7 +11080,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6060 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+          "evidence": "data/research/outcome-web/links.json:6062 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
           "status": "fail",
@@ -11102,7 +11099,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6060 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6062 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11132,7 +11129,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6082 size -0.007, range [-0.0121, -0.0047], U.S. Census Bureau, Poverty in the United States: 2023 (P60-283), Tables B-6 and B-7"
+          "evidence": "data/research/outcome-web/links.json:6084 size -0.007, range [-0.0121, -0.0047], U.S. Census Bureau, Poverty in the United States: 2023 (P60-283), Tables B-6 and B-7"
         },
         "reaches": {
           "status": "pass",
@@ -11150,7 +11147,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6082 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6084 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11180,7 +11177,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6105",
+          "evidence": "data/research/outcome-web/links.json:6107",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -11199,7 +11196,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6105 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6107 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11229,7 +11226,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6128 size 0, range [-0.05, 0.05], Strickland 2020, The Declining Value of Revolving-Door Lobbyists: Evidence from the American States, American Journal of Political Science 64(1):67-81 (doi 10.1111/ajps.12485); abstract read at https://ideas.repec.org/a/wly/amposc/v64y2020i1p67-81.html"
+          "evidence": "data/research/outcome-web/links.json:6130 size 0, range [-0.05, 0.05], Strickland 2020, The Declining Value of Revolving-Door Lobbyists: Evidence from the American States, American Journal of Political Science 64(1):67-81 (doi 10.1111/ajps.12485); abstract read at https://ideas.repec.org/a/wly/amposc/v64y2020i1p67-81.html"
         },
         "reaches": {
           "status": "pass",
@@ -11246,7 +11243,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6128 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6130 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11276,7 +11273,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6151 size -0.182, range [-0.25, -0.11], Fisman, Leder-Luis, O'Donnell and Vannutelli 2025, Revolving Door Laws and Political Selection, NBER Working Paper 33626 (https://www.nber.org/system/files/working_papers/w33626/w33626.pdf), abstract and section V; state legislative candidates 1968 to 2022, staggered adoption"
+          "evidence": "data/research/outcome-web/links.json:6153 size -0.182, range [-0.25, -0.11], Fisman, Leder-Luis, O'Donnell and Vannutelli 2025, Revolving Door Laws and Political Selection, NBER Working Paper 33626 (https://www.nber.org/system/files/working_papers/w33626/w33626.pdf), abstract and section V; state legislative candidates 1968 to 2022, staggered adoption"
         },
         "reaches": {
           "status": "pass",
@@ -11293,7 +11290,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6151 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6153 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11319,12 +11316,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6173",
+          "evidence": "data/research/outcome-web/links.json:6175",
           "why": "no measure: nothing in the core records budget.administration-added-pct"
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6173 size 0, range [-0.05, 0.05], Faggio and Overman 2014, The effect of public sector employment on local labour markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/"
+          "evidence": "data/research/outcome-web/links.json:6175 size 0, range [-0.05, 0.05], Faggio and Overman 2014, The effect of public sector employment on local labour markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/"
         },
         "reaches": {
           "status": "pass",
@@ -11342,7 +11339,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6173 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6175 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11372,7 +11369,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6196",
+          "evidence": "data/research/outcome-web/links.json:6198",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -11390,7 +11387,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6196 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6198 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11420,7 +11417,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6217 size 0, range [-0.05, 0.05], Derenoncourt and Weil 2024, Voluntary Minimum Wages, NBER Working Paper 32546 (doi 10.3386/w32546), abstract; full text read at https://gceps.princeton.edu/wp-content/uploads/2024/06/wp333_Derenoncourt_VolMinWages.pdf (payroll data for thousands of firms, 2014 to 2023)"
+          "evidence": "data/research/outcome-web/links.json:6219 size 0, range [-0.05, 0.05], Derenoncourt and Weil 2024, Voluntary Minimum Wages, NBER Working Paper 32546 (doi 10.3386/w32546), abstract; full text read at https://gceps.princeton.edu/wp-content/uploads/2024/06/wp333_Derenoncourt_VolMinWages.pdf (payroll data for thousands of firms, 2014 to 2023)"
         },
         "reaches": {
           "status": "pass",
@@ -11437,7 +11434,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6217 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6219 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11492,7 +11489,7 @@
     {
       "measure": "broadband.home-access",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:903",
+      "evidence": "src/core2/modules/place-prices.ts:931",
       "countedTwice": false,
       "asCause": [
         "home-internet-to-scores",
@@ -11770,7 +11767,7 @@
     {
       "measure": "energy.electricity-price",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:880, src/core2/modules/place-prices.ts:945",
+      "evidence": "src/core2/modules/place-prices.ts:892, src/core2/modules/place-prices.ts:973",
       "countedTwice": false,
       "asCause": ["energy-price-to-ac-use"],
       "asOutcome": ["clean-electricity-to-price"]
@@ -11786,9 +11783,8 @@
     },
     {
       "measure": "env.container-recycling-pct",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/modules/place-prices.ts:67",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["container-deposit-to-recycling"]
@@ -11804,9 +11800,8 @@
     },
     {
       "measure": "env.emissions",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/modules/place-prices.ts:66",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12583,7 +12578,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2450, src/core2/modules/jobs.ts:2459, src/core2/modules/jobs.ts:2488, src/core2/modules/jobs.ts:2490, src/core2/modules/jobs.ts:2510, src/core2/modules/jobs.ts:2512",
+      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2486, src/core2/modules/jobs.ts:2495, src/core2/modules/jobs.ts:2524, src/core2/modules/jobs.ts:2526, src/core2/modules/jobs.ts:2546, src/core2/modules/jobs.ts:2548",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12594,7 +12589,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2448, src/core2/modules/jobs.ts:2457",
+      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2484, src/core2/modules/jobs.ts:2493",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -12602,7 +12597,7 @@
     {
       "measure": "labor.median-earnings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1577",
+      "evidence": "src/core2/modules/jobs.ts:1598",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12638,7 +12633,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2447, src/core2/modules/jobs.ts:2456",
+      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2483, src/core2/modules/jobs.ts:2492",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12649,7 +12644,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2449, src/core2/modules/jobs.ts:2458, src/core2/modules/jobs.ts:2478",
+      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2485, src/core2/modules/jobs.ts:2494, src/core2/modules/jobs.ts:2514",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -12708,7 +12703,7 @@
     {
       "measure": "labor.wages",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1576",
+      "evidence": "src/core2/modules/jobs.ts:1597",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13172,7 +13167,7 @@
     {
       "measure": "transit.ridership",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:898, src/core2/modules/place-prices.ts:949",
+      "evidence": "src/core2/modules/place-prices.ts:926, src/core2/modules/place-prices.ts:977",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [

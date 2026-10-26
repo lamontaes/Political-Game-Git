@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-continue-hides-first-night-news
-pr:
+pr: #6155
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
