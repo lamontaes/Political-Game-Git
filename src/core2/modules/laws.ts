@@ -49,6 +49,8 @@ import {
 
 export const LAWS_MODULE_ID = "core2-laws-v1";
 const CHAIN_ID = "chain";
+/** The count of laws enacted in play, across every series: their order. */
+const ORDER_ID = "enactment-order";
 /** The calibration date the starting policy answers are read as of. */
 const ANSWERS_AS_OF = "2024-07-01";
 
@@ -517,6 +519,16 @@ export function enactLaw(
   )
     id = `${baseId}:${n}`;
   const replaced = lawsTable.get(id) !== undefined;
+  // The order it was enacted in, so of two state laws on one power taking
+  // effect the same day the later governs, whichever table holds it.
+  const chainTable = api.moduleState(LAWS_MODULE_ID).table("chain");
+  const enactedSequence =
+    ((chainTable.get(ORDER_ID) as unknown as { next?: number } | undefined)
+      ?.next ?? 0) + 1;
+  chainTable.put({
+    id: ORDER_ID,
+    next: enactedSequence,
+  } as unknown as ModuleRow);
   const row: LawRowInput = {
     id,
     jurisdiction: input.jurisdiction,
@@ -530,7 +542,11 @@ export function enactLaw(
     retrieved: api.state.date,
     estimate: input.estimate === true,
     ...(input.unit ? { unit: input.unit } : {}),
-    terms: { ...(input.terms ?? {}), enactedBy: input.measureId },
+    terms: {
+      ...(input.terms ?? {}),
+      enactedBy: input.measureId,
+      enactedSequence,
+    },
   };
   api
     .moduleState(LAWS_MODULE_ID)

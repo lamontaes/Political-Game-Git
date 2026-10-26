@@ -19,6 +19,10 @@ import type { ModuleRow } from "./module-data";
 import { outsideGovernment } from "./outside-governments";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { corePlaceStateIdentities, searchCorePlaces } from "./place-lookup";
+import { setKeepEveryonesWhy } from "./why-kept";
+
+// Reads a payer's withholding record for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "withholding-outside-governments");
