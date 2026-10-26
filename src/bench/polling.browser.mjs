@@ -66,9 +66,10 @@ try {
     console.log("Drawn place:", drawn.key, drawn.name, drawn.state);
     await page.locator(`[data-testid="state-${drawn.state}"]`).click();
     await page.locator("#cr-towns .item").first().waitFor();
-    await page.locator("#cr-town-search").fill(drawn.name);
+    const townName = drawn.name.split(",")[0];
+    await page.locator("#cr-town-search").fill(townName);
     const townItems = page.locator("#cr-towns .item", {
-      has: page.locator("b", { hasText: drawn.name }),
+      has: page.locator("span", { hasText: townName }),
     });
     await townItems.first().waitFor();
     await townItems.first().click();
@@ -214,10 +215,7 @@ try {
         for (const c of order) {
           if (!/I want to run for/i.test(texts[c])) continue;
           console.log("Filing as:", texts[c]);
-          await page
-            .locator("#talk-choices button", { hasText: texts[c] })
-            .first()
-            .click();
+          await choices.nth(c).click();
           await page.waitForTimeout(2000);
           console.log(
             "Overlay open:",
