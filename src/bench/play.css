@@ -2360,6 +2360,32 @@ body.dev .dev-ring {
 .record-value {
   text-align: right;
 }
+/* A person in a list (ui/list-row.mjs): face, the name that opens their card, office, party. */
+.person-row {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.person-row-face {
+  flex: none;
+  width: 32px;
+  height: 36px;
+  object-fit: cover;
+  object-position: top;
+  background: var(--iron);
+}
+.person-row .people-initial {
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  font: 15px var(--name);
+}
+.person-row .member-name {
+  flex: 1;
+}
+.person-row-note {
+  color: var(--text-2);
+}
 .record-total {
   display: block;
   font: 600 30px var(--name);

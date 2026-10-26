@@ -3,6 +3,7 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
+import { listRow, personRow } from "./ui/list-row.mjs";
 import { show, mountCloseButtons } from "./ui/panel.mjs";
 mountCloseButtons();
 mountPagers();
@@ -160,9 +161,9 @@ function plain(value) {
 /** One labeled line; a value that can't be put in a reader's words hides the line. */
 function row(label, value) {
   const text = plain(value);
-  const line = el(
-    "div",
-    { className: "row" },
+  const line = listRow(
+    "",
+    {},
     termLabel(label),
     el("span", { className: "record-value", textContent: text ?? "" }),
   );
@@ -1289,9 +1290,9 @@ function renderFilingOverlay(value) {
   );
   $("filing-platform").replaceChildren(
     ...overlay.questions.map((question) =>
-      el(
-        "div",
-        { className: "row" },
+      listRow(
+        "",
+        {},
         el("b", { textContent: policyLabel(question) }),
         el(
           "select",
@@ -1366,9 +1367,9 @@ function debatePanel(debate) {
     );
     return { question, pick };
   });
-  return el(
-    "div",
-    { className: "row campaign" },
+  return listRow(
+    "campaign",
+    {},
     el("b", { textContent: `${words.title} · ${debate.date}` }),
     ...picks.map(({ question, pick }) =>
       el("label", {}, ` ${policyLabel(question)} `, pick),
@@ -1528,9 +1529,9 @@ async function campaignRows() {
       return b;
     };
     rows.push(
-      el(
-        "div",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        {},
         el("b", {
           textContent: [
             contest?.title,
@@ -1600,8 +1601,7 @@ async function campaignRows() {
         ...(causes ?? [])
           .filter((who) => who.acts.length)
           .map((who) =>
-            el("div", {
-              className: "row",
+            listRow("", {
               textContent: `${who.you ? "" : `${who.name} · `}${who.acts
                 .map(
                   (a) =>
@@ -1888,9 +1888,9 @@ async function officeRows() {
   });
   return [
     ...v.jobs.map((job) =>
-      el(
-        "div",
-        { className: "row campaign", title: job.citation },
+      listRow(
+        "campaign",
+        { title: job.citation },
         el("b", { textContent: job.title }),
         ` ${dollars(job.annualMinor)} · ${job.weeklyHours} h · ${job.payer}`,
         job.lastPaid
@@ -1899,13 +1899,13 @@ async function officeRows() {
         job.nextMeeting ? ` · ${job.nextMeeting}` : "",
       ),
     ),
-    el("div", { className: "row campaign" }, ...toggles),
+    listRow("campaign", {}, ...toggles),
     // The outlet the next interview asks; left on the character's own, the widest reach.
     ...(v.outlets?.length
       ? [
-          el(
-            "label",
-            { className: "row campaign" },
+          listRow(
+            "campaign",
+            { as: "label" },
             `${words.interviewOutlet ?? ""} `,
             (() => {
               const pick = el(
@@ -1933,9 +1933,9 @@ async function officeRows() {
       : []),
     // An open town post you appoint: the people it could go to, best first; left on the official's own choice, the first stands.
     ...(v.heads ?? []).map((head) =>
-      el(
-        "label",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        { as: "label" },
         `${head.title} · ${words.nameHeadPick ?? ""} `,
         (() => {
           const pick = el(
@@ -1962,9 +1962,9 @@ async function officeRows() {
     // The budget you may send now: the change to each line, in steps of its amount.
     ...(v.budget
       ? [
-          el(
-            "div",
-            { className: "row campaign" },
+          listRow(
+            "campaign",
+            {},
             el("b", { textContent: controls.budgetEditor.title }),
             ...v.budget.lines.map((row) => {
               const pick = el(
@@ -1996,9 +1996,9 @@ async function officeRows() {
       : []),
     // The deal to offer each colleague who votes on a bill of yours when you talk to them.
     ...(v.deals ?? []).map((bill) =>
-      el(
-        "div",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        {},
         el("b", { textContent: `${bill.number} · ${controls.deals.title}` }),
         ...bill.colleagues.map((colleague) => {
           const pick = el(
@@ -2117,9 +2117,9 @@ async function seatRows() {
       });
     });
     rows.push(
-      el(
-        "div",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        {},
         el("b", { textContent: body.title }),
         body.members.map((m) => m.name).join(" · "),
         el("div", {}, pick, value, draft),
@@ -2128,9 +2128,9 @@ async function seatRows() {
   }
   for (const { bill, votes } of v.bills)
     rows.push(
-      el(
-        "div",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        {},
         el("b", { textContent: `${bill.number} · ${bill.status}` }),
         // The title's subjects name each section (record keys, then words).
         bill.provisions
@@ -2154,17 +2154,14 @@ async function seatRows() {
     );
   for (const left of v.incompatibilities ?? [])
     rows.push(
-      el("div", {
-        className: "row campaign",
+      listRow("campaign", {
         textContent: `${left.date} · ${left.left} → ${left.took} · ${left.law}`,
       }),
     );
   if (seatResult)
     rows.push(
-      el("div", { className: "row campaign", textContent: seatResult }),
-      ...seatText.map((line) =>
-        el("div", { className: "row", textContent: line }),
-      ),
+      listRow("campaign", { textContent: seatResult }),
+      ...seatText.map((line) => listRow("", { textContent: line })),
     );
   return rows;
 }
@@ -2937,9 +2934,9 @@ const sheets = {
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
     return chapters.map((c) =>
-      el(
-        "div",
-        { className: "row narrative" },
+      listRow(
+        "narrative",
+        {},
         el("b", { textContent: c.title }),
         c.lines.map((l) => l.text).join(" "),
       ),
@@ -2959,9 +2956,9 @@ const sheets = {
     const earlier = races.slice(night.length, night.length + 8);
     // After your own night's races, every other state's governor race that
     // night, from the world's race records: who won and by how much.
-    const nationBlock = el(
-      "div",
-      { className: "row race nation" },
+    const nationBlock = listRow(
+      "race nation",
+      {},
       el("b", { textContent: labels.nation }),
       nation.length
         ? el(
@@ -2980,9 +2977,9 @@ const sheets = {
         : el("div", { className: "label", textContent: labels.noNation }),
     );
     const rows = [...night, ...earlier].map((race) =>
-      el(
-        "div",
-        { className: `row race${race.mine ? " own" : ""}` },
+      listRow(
+        `race${race.mine ? " own" : ""}`,
+        {},
         race.mine
           ? el(
               "div",
@@ -3074,7 +3071,7 @@ const sheets = {
       );
       legend.push(row(district.name, district.holders.join(" · ")));
     }
-    return [el("div", { className: "row map" }, svg), ...legend];
+    return [listRow("map", {}, svg), ...legend];
   },
   async handoff() {
     const people = [
@@ -3737,9 +3734,9 @@ const sheets = {
     return [
       ...yours,
       ...v.law.map((law) =>
-        el(
-          "div",
-          { className: "row narrative" },
+        listRow(
+          "narrative",
+          {},
           termLabel(policyLabel(law.series)),
           ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
           el(
@@ -3769,9 +3766,9 @@ const sheets = {
     seenChanges = { ahead: ahead.length, took: took.length };
     // Enacted, waiting for its date: the measure, what it sets, and when.
     const coming = ahead.map((law) =>
-      el(
-        "div",
-        { className: "row narrative" },
+      listRow(
+        "narrative",
+        {},
         el("b", {
           textContent: `${law.date} · ${policyLabel(law.series)} · ${amount(law.value, law.unit)}`,
         }),
@@ -3781,9 +3778,9 @@ const sheets = {
     return [
       ...coming,
       ...took.map((law) =>
-        el(
-          "div",
-          { className: "row narrative" },
+        listRow(
+          "narrative",
+          {},
           el("b", {
             textContent: `${law.date} · ${policyLabel(law.series)} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
           }),
@@ -3810,9 +3807,9 @@ const sheets = {
       );
       list.replaceChildren(
         ...rows.map((t) => {
-          const line = el(
-            "details",
-            { className: "row narrative", open: rows.length === 1 },
+          const line = listRow(
+            "narrative",
+            { as: "details", open: rows.length === 1 },
             el("summary", {}, el("b", { textContent: t.term }), ` ${t.short}`),
             el("p", { textContent: t.explanation }),
           );
@@ -4112,14 +4109,22 @@ const sheets = {
               const name = s.holder
                 ? `${s.holder.givenName} ${s.holder.familyName}`
                 : labels.vacant;
-              const line = row(name, s.holder?.party ?? "");
+              const line = s.holder?.personId
+                ? personRow({
+                    name,
+                    party: s.holder.party,
+                    onOpen: () => {
+                      closeSheet();
+                      showPerson({ personId: s.holder.personId });
+                    },
+                  })
+                : row(name, s.holder?.party ?? "");
               // Years of service and how the holder won, from the term and the seat's elections.
               if (s.holder) {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
-                const history = el("div", {
-                  className: "row",
+                const history = listRow("", {
                   textContent: [
                     `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
                     labels.reached?.[s.holder.reached] ?? s.holder.reached,
@@ -4137,8 +4142,7 @@ const sheets = {
               }
               // Elected and not yet seated: who won the seat, and when they take office.
               if (s.elect) {
-                const elect = el("div", {
-                  className: "row elect",
+                const elect = listRow("elect", {
                   textContent: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${proseDate(s.elect.takesOffice)}`,
                 });
                 elect.dataset.contest = s.elect.contestId;
@@ -4147,8 +4151,7 @@ const sheets = {
               // Your race for this seat: won or lost, and the votes each side got.
               if (race && s.seatId === race.seatId) {
                 const result = controls.results;
-                const own = el("div", {
-                  className: "row own-race",
+                const own = listRow("own-race", {
                   textContent: [
                     result.yourRace,
                     race.won ? result.won : result.lost,
@@ -4163,17 +4166,6 @@ const sheets = {
                 own.dataset.contest = race.contestId;
                 own.dataset.record = race.recordId;
                 line.append(own);
-              }
-              if (s.holder?.personId) {
-                const b = makeButton({
-                  className: "member-name",
-                  textContent: name,
-                });
-                b.addEventListener("click", () => {
-                  closeSheet();
-                  showPerson({ personId: s.holder.personId });
-                });
-                line.replaceChild(b, line.firstChild);
               }
               return line;
             });
