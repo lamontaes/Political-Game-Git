@@ -6,12 +6,20 @@
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
-import { adultsOf, drawnRaceWorld, RUN_SEED } from "../trait-test-kit";
+import {
+  adultsOf,
+  drawnRaceWorld,
+  RUN_SEED,
+  studyLogOdds,
+  thirdsLogOdds,
+  weightOf,
+} from "../trait-test-kit";
 import { campaignParameter } from "../campaign-views";
 import { homeDistanceMiles } from "../home-distance";
 import { decisionLean } from "../trait-decisions";
 import {
   attendCase,
+  joinCase,
   PARTIES_MODULE_ID,
   partyMeetings,
   type PartyRow,
@@ -149,5 +157,40 @@ describe("parties.join reads the person's calibrated lean toward joining", () =>
     expect(joined.length).toBeGreaterThan(0);
     expect(notJoined.length).toBeGreaterThan(0);
     expect(mean(joined)).toBeGreaterThan(mean(notJoined));
+  });
+
+  it("about seven in ten of the people tied to a party join it, and the third leaning most toward joining joins at the study's odds over the third leaning least, crossed over every tied person's case", () => {
+    const { joined, notJoined } = tiedChoices(core, api);
+    const share = joined.length / (joined.length + notJoined.length);
+    const tied = (
+      api.moduleState(PARTIES_MODULE_ID).table("ties").rows() as unknown as {
+        personId: string;
+        partyId: string | null;
+      }[]
+    )
+      .filter((t) => t.partyId && core.people.has(t.personId))
+      .map((t) => core.people.get(t.personId)!);
+    const cases = tied.map((p) => joinCase(core, p));
+    const leans = tied.map((p) =>
+      decisionLean(core, p, "parties.join", "join", "stay-out"),
+    );
+    const w = weightOf(core, "parties.join");
+    const gapAt = (weight: number) =>
+      thirdsLogOdds(
+        leans.flatMap((lean) =>
+          cases.map((c) => ({ lean, p: c + weight * lean > 0 ? 1 : 0 })),
+        ),
+      );
+    const net = gapAt(w) - gapAt(0);
+    const target = studyLogOdds("parties.join", "extraversion")!;
+    console.log(
+      `party joining: ${tied.length} tied, ${(share * 100).toFixed(1)}% joined; crossed net log odds ${net.toFixed(3)} against the study's ${target.toFixed(3)}`,
+    );
+    // The join base is set from 39% belonging over 56% identifying (GSS).
+    expect(share).toBeGreaterThan(0.5);
+    expect(share).toBeLessThan(0.9);
+    // Ten drawn towns sat from a third of the study's size to twice it.
+    expect(net).toBeGreaterThan(target / 3.5);
+    expect(net).toBeLessThan(target * 2.5);
   });
 });

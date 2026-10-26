@@ -5933,14 +5933,14 @@
     }
   },
   "traitWeightPartiesJoin": {
-    "value": 0.75,
+    "value": 0.5,
     "tag": "ESTIMATED",
-    "citation": "Linkov 2020, Political party membership and personality characteristics in the Czech Republic (2005), E-psychologie 14(2): members of eight Czech parties (194, NEO-FFI) scored higher on extraversion than the population, a standardized difference of 0.346 that the research helper turned into an odds ratio of 1.41 per standard deviation (row parties.join in data/research/trait-effect-sizes.json: derived from the printed party means, not printed as one number, and a proxy: party membership in another country, 2005). Carried to the thirds of tied people leaning most and least toward joining (2.18 standard deviations apart), that is a log odds gap of 0.748 (odds ratio 2.11). Weight found with scripts/traits/trait-calibrate.ts on a played year of Marblehead, Ohio (place key 3947502, seed 7772ab1c8196, 66 calls; Halfway, Missouri weighed only 13): 0.75 reaches 3.1, the nearest step to 2.1 because the case (the tie to the party) sorts people into a few lumps. The case it weighs against is partiesJoinBase for a person already tied to a party.",
+    "citation": "Linkov 2020, Political party membership and personality characteristics in the Czech Republic (2005), E-psychologie 14(2): members of eight Czech parties (194, NEO-FFI) scored higher on extraversion than the population, a standardized difference of 0.346 that the research helper turned into an odds ratio of 1.41 per standard deviation (row parties.join in data/research/trait-effect-sizes.json: derived from the printed party means, not printed as one number, and a proxy: party membership in another country, 2005). Carried to the thirds of tied people leaning most and least toward joining (2.18 standard deviations apart), that is a log odds gap of 0.748 (odds ratio 2.11). Weight found with the join base on every tied adult at the opening of six drawn towns (seed joinfit2: Juntura, Oregon; Geyser, Montana; Sedalia, Kentucky; Sunset Colony, South Dakota; Ashby, Minnesota; Pinewood, South Carolina; 608 tied adults), each one's case being the join base plus what membership asks of their free time and travel (attendCase), crossed with every tied adult's lean: at 0.5 the towns' net log odds are 0.65, 0.47, 0.66, 0.68, 0.85 and 0.84 (geometric mean 0.68, against 0.748) and 69.9% join. Four earlier towns (seed joinfit1: Browntown, South Carolina; Volin, South Dakota; Fairview, Alabama; Ribera, New Mexico) give 0.80, 1.43, 0.25 and 0.39 at the same weight.",
     "spread": {
-      "low": 0.4,
-      "high": 1,
+      "low": 0.28,
+      "high": 0.73,
       "unit": "weight",
-      "citation": "Weight scales with the log odds ratio: the helper's interval for extraversion is 1.21 to 1.65 per standard deviation (1.41 gives 0.75)."
+      "citation": "Weight scales with the log odds ratio: the helper's interval for extraversion is 1.21 to 1.65 per standard deviation (1.41 gives 0.5)."
     }
   },
   "traitWeightPartiesAttend": {

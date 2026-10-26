@@ -52,6 +52,8 @@ export function studyLogOdds(
     return e.traitSd === undefined
       ? null
       : Math.abs(e.value) * e.traitSd * THIRDS_APART;
+  if (e.kind === "odds-ratio-per-sd")
+    return Math.abs(Math.log(e.value)) * THIRDS_APART;
   if (e.kind === "standardized-beta" || e.kind === "correlation")
     return Math.abs(
       ((LOGIT_PER_SD * e.value) / Math.sqrt(1 - e.value ** 2)) * THIRDS_APART,

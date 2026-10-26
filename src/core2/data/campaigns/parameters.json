@@ -680,10 +680,10 @@
       "spread": [1, 8]
     },
     "partiesJoinBase": {
-      "value": 0.5,
-      "tag": "TUNABLE",
-      "source": "Most people tied to a party affiliate (Pew Research Center party-identification surveys: about two thirds of adults identify with or lean toward a party); the trait lean toward joining (about -1 to 1) is added, so only the most reluctant stay out.",
-      "spread": [0.25, 0.75]
+      "value": -0.08,
+      "tag": "ESTIMATED",
+      "source": "The reason every person tied to a party has to join its organization, before what membership asks of their time and travel (attendCase) and their temperament. Set so about 70% of identifiers join: 39.1% of adults belong to a political party (General Social Survey, grppartyr: 12.2% belong and take part, 26.9% belong without taking part) and 56% identify with one (partyIdentifierShare), so 0.391 / 0.56 = 0.70. Fitted with the trait weight on every tied adult at the opening of six drawn towns (seed joinfit2: Juntura, Oregon; Geyser, Montana; Sedalia, Kentucky; Sunset Colony, South Dakota; Ashby, Minnesota; Pinewood, South Carolina; 608 tied adults): 69.9% join.",
+      "spread": [-0.3, 0.15]
     },
     "incumbentRecognition": {
       "value": 0.15,

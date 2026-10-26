@@ -340,7 +340,7 @@ export function openParties(core: CoreState): void {
           "parties.join",
           "join",
           "stay-out",
-          value("partiesJoinBase"),
+          joinCase(core, member),
         )
       )
         api.join(member.id, party.organizationId);
@@ -634,6 +634,19 @@ export function chooseChair(
 }
 
 /**
+ * A person's case for joining the party they are tied to, before
+ * temperament: the reason every identifier has (partiesJoinBase) and what
+ * membership asks of them, the same free time and distance as going to its
+ * meetings (attendCase). Both slide: a retiree next door joins most readily.
+ */
+export function joinCase(
+  core: CoreState,
+  person: Readonly<PersonState>,
+): number {
+  return value("partiesJoinBase") + attendCase(core, person);
+}
+
+/**
  * A member's case for going to a party meeting, before temperament: the
  * reason every member has to go, less the hours their work already takes of a working
  * week (free time) and less how far from the meeting their home is (the
@@ -751,7 +764,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           "parties.join",
           "join",
           "stay-out",
-          value("partiesJoinBase"),
+          joinCase(core, p),
         )
       )
         api.join(p.id, party.organizationId);
