@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/bench/calendar.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-19-turning-eighteen-and-journal-silent (Oct 24, lane; the work order's calendar half). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Merger 0: Sent back 2026-10-26 from PR #6108 (branch play-first/play-stop-19-turning-eighteen-and-journal-silent-a): main merge conflicts in data/english/parts/journal.json, src/director/data/journal-rows.json, and src/director/journal.ts; aborted without hand-merging banks or code; finish on that branch, merge main into it first.
