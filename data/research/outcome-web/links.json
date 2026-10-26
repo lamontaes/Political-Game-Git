@@ -262,6 +262,26 @@
       "evidence": "about-zero"
     },
     {
+      "key": "fire-spending-to-fire-deaths",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "to": "fire.civilian-casualties",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percent added to the fire line",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "O",
+      "anchor": "Insignificant correlations: civilian casualties v. response time",
+      "source": "Jennings 2002 (Memphis, 4,990 residential fires); Shoffner 2023",
+      "from": "budget.fire-added-pct",
+      "evidence": "about-zero",
+      "notes": "Fetched Oct 24, 2026. Jennings, \"A Conceptual Model for Measurement of Fire Service Equivalency under NFPA 1710\" (Second International Conference on Fire Service Deployment, 2002; https://christianregenhardcenter.org/wp-content/uploads/2019/09/Jennings.pdf), three years of Memphis residential structure fires: \"Insignificant Correlations » Civilian Casualties v. RT\"; for dollar loss, \"Each additional minute of response time adds ~$500 to loss\" in one- and two-family dwellings and \"~$900\" in apartments, and \"Given the current magnitude of coefficients for time of day, and smoke detector status, we do not expect staffing level to be a major determinant.\" Shoffner, \"Firefighter Staffing Model Implications on Fire Casualties and Fire Loss\" (PhD dissertation, Liberty University, 2023; https://digitalcommons.liberty.edu/doctoral/4559), career departments in the United States and Canada, three- against four-person engines and ladders: \"it is questionable if staffing levels impact fire loss and human casualties.\" Neither source sizes deaths from spending or staffing, and both find no significant effect, so the link is about zero. Property loss rises a few hundred dollars per fire per minute of response time (Jennings), a small share of a fire's loss; the web keeps no fire-loss measure, so that link is not built."
+    },
+    {
       "key": "pretrial-detention-to-future-crime",
       "status": "about-zero",
       "unsupportedReason": null,
@@ -1086,7 +1106,7 @@
       "from": "program.snap-receipt:moved-by-causes",
       "evidence": "researched",
       "range": [-0.026, -0.015],
-      "notes": "Not carried: no engine keeps SNAP receipt or food insecurity, so both stay ledger numbers (stopgaps SG-WEB-snap-receipt-ledger and SG-WEB-food-insecurity-ledger). Once a benefits writer pays SNAP to households, the household's food spending and a food-insecurity record should read it."
+      "notes": "Not carried: the SNAP benefit pays households, but no field counts its recipients into program.snap-receipt and no engine keeps food insecurity, so both stay ledger numbers and this link has no moved part to read (stopgaps SG-WEB-snap-receipt-ledger and SG-WEB-food-insecurity-ledger). A food-insecurity record should read each household's SNAP benefit and food prices."
     },
     {
       "key": "minimum-wage-to-poverty",
@@ -1172,7 +1192,7 @@
       "source": "Dobbie, Goldin and Yang 2018",
       "from": "justice.parent-incarcerated",
       "evidence": "researched",
-      "notes": "Carried by the engine once sized: src/core2/modules/justice.ts:928 calls imprison (line 1053), which ends the prisoner's jobs (jobsEnded, line 889), so the household's earnings fall in the jobs and world-metrics records without the web. The web keeps no household-income outcome, so the link stays unsized. Earlier note: Unsupported until measured: the effect is one family losing an earner's pay, the game records no share of parents incarcerated by place, and household income by this key is not a kept place outcome."
+      "notes": "Waits until a played year shows it. The justice engine's sentence ends the prisoner's jobs (imprison, then api.endJob in src/core2/modules/justice.ts), so a parent's prison term would lower the household's pay in the jobs records, and a web outcome on top would take the same pay a second time. But the engine imprisons only those sentenced for bribery today, so no ordinary played year reaches a parent's prison term, and the link stays unwired with its stopgap until one does. The research gives no size the game can apply and the web keeps no household-income outcome, so the link stays unsized."
     },
     {
       "key": "school-spending-to-attainment",
@@ -2114,17 +2134,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": 0.35,
-      "per": "workers bear 30-35% of the tax",
+      "size": -0.039,
+      "per": "percentage point of the state's top corporate income tax rate, in dollars of average hourly earnings of private employees",
       "lagMonths": 0,
       "group": "workers",
       "owner": "B",
-      "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%",
-      "source": "Suarez Serrato and Zidar 2016 (AER)",
+      "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%: workers bear about a third of the tax, which a point of the state rate spreads over the hours private employees work",
+      "source": "Suarez Serrato and Zidar 2016 (AER 106(9)), NBER w20289, abstract; state corporation net income tax collections, U.S. Census Bureau via FRED USCORPINCTX; private employment and hours, BLS CES via FRED USPRIV and AWHAETP",
       "from": "tax.state-corporate-rate",
       "evidence": "researched",
-      "range": [0, 0.7],
-      "notes": "Sized, with its cause recorded and its outcome missing: each place's top corporate income tax rate is now a place outcome (Tax Foundation, 2026), but wages by this key are not a kept place outcome (median earnings is a different measure), so the link moves nothing until one is produced. Varied by sex and age from Fuest, Peichl and Siegloch 2018 Table 5 (German local business tax; the US incidence size above is Suarez Serrato and Zidar). Skill is not a subject, so the finding that high-skilled workers bear none is not applied.",
+      "range": [-0.045, -0.031],
+      "notes": "Re-sized Oct 24, 2026 so the link can run on the law. The earlier size, +0.35, was the workers' share of the tax read as dollars an hour per point: forty times too large, and positive, which would have raised pay when the tax rose. The cause is now read from the state corporate rate in force (the laws module's row, src/core2/modules/outcome-web.ts reader state-corporate-rate), against the rate at the web's opening; the jobs engine reads the labor.wages factor when it sets new pay (src/core2/modules/jobs.ts payLevel). The estimate assumes collections scale with the statutory top rate; a real base shifts with apportionment and credits (ESTIMATED). Varied by sex and age from Fuest, Peichl and Siegloch 2018 Table 5 (German local business tax; the US incidence share above is Suarez Serrato and Zidar). Skill is not a subject, so the finding that high-skilled workers bear none is not applied.",
       "varies": [
         {
           "by": "sex",
@@ -2170,7 +2190,9 @@
           "quote": "Age: Young -0.516, Medium -0.420, Old -0.419 (all workers). \"we do not find strong evidence for different effects by age\"",
           "estimatedFrom": "The paper does not give its age cutoffs; they are set here at under 30, 30 to 49 and 50 and over. Shares are the 2025 CPS employed by age with the 25-34 and 45-54 bands split evenly. The paper also finds no negative wage effect for high-skilled workers (-0.011 against -0.431 medium and -0.454 low), which is not applied because a worker's skill is not a subject the engines carry."
         }
-      ]
+      ],
+      "rangeSource": "Derived Oct 24, 2026 from fetched figures. Workers' share of the incidence: the 2016 paper's text, \"the estimated share of the burden for workers is only 28%\", and its abstract, \"workers and landowners bear 30-35% and 25-30%\"; the authors' 2023 update (\"Further Results\", AEA Papers and Proceedings) finds \"firm owners bear roughly half of the incidence\" with workers and landowners at \"25-40 percent\". So 0.28 to 0.40 with 0.35 central. Tax per point: 2023 state corporation net income tax collections of $153,665,988 thousand (Census via FRED USCORPINCTX) over the 5.8-point mean top rate of the 56 places (place-outcome-bases-2024.json) is about $26.5 billion a point. Hours: 133,766 thousand private employees (FRED USPRIV, December 2023) times 34.4 weekly hours (FRED AWHAETP) times 52 weeks is about 239.3 billion hours a year. So a point costs workers 0.35 x $26.5 billion / 239.3 billion hours = $0.039 an hour (a 0.28 share gives $0.031 and 0.40 gives $0.044; the range is rounded out to $0.045). The sign is negative: a higher rate lowers pay.",
+      "readFrom": "tax.state-corporate-rate-in-force"
     },
     {
       "key": "incentive-deal-to-industry-jobs",
@@ -2680,7 +2702,8 @@
       "from": "gov.corruption-exposed",
       "evidence": "researched",
       "range": [-0.21, -0.13],
-      "notes": "Unsupported until measured: the game records no exposed corruption by place and keeps no incumbent reelection rate as a place outcome."
+      "notes": "Unsupported until measured: the game records no exposed corruption by place and keeps no incumbent reelection rate as a place outcome.",
+      "carriedBy": "the voting engine's scandal term (scandalTerm and scandalAppeal in src/core2/modules/voting.ts), which reads a candidate's bribes reported to the press and convictions the court made public (scandalStoriesOf) and lowers the candidate's appeal with each voter the story reached, weighed by how far they trust the press; counted voters take it at the share of the town's named adults it reached. It uses its own size, the 5 points of the two-party vote a tainted U.S. incumbent loses (scandalShare in src/core2/data/electorate/parameters.json), not this row's 17% fall in a Brazilian mayor's chance of reelection"
     },
     {
       "key": "press-attacks-to-media-trust",
@@ -2779,7 +2802,8 @@
       "source": "to confirm",
       "from": "economy.real-income-growth",
       "evidence": "to-confirm",
-      "notes": "Unsupported until confirmed: the row is marked to confirm with no size, and the game keeps no incumbent approval as a place outcome."
+      "notes": "Unsupported until confirmed: the row is marked to confirm with no size, and the game keeps no incumbent approval as a place outcome.",
+      "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
     },
     {
       "key": "medicaid-expansion-to-coverage",
@@ -2954,7 +2978,8 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "notes": "Not carried: the core pays no SNAP benefit and keeps no SNAP enrollment, so program.snap-receipt stays a ledger number (stopgap SG-WEB-snap-receipt-ledger). The law handler that should pay the benefit and count each person's own months is pool item laws-reach-b-snap-benefit (stopgap SG-GOV-REACH-B-assistance-benefits)."
+      "notes": "Carried by the engine, so the web does not run it: the SNAP benefit pays each qualifying household itself and stops each head the work requirement reaches after their own three months of benefit in 36, so a web cut to the share of residents receiving SNAP would count the law twice. The web's program.snap-receipt stays a ledger number held at its USDA level until a world-metrics field counts the engine's recipients by weight (stopgap SG-WEB-snap-receipt-ledger); snap-to-food-insecurity reads that number's moved part and so has nothing to read until then.",
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which reads the work-requirement law in force through assistanceTimeLimit (src/core2/law-reach/group-b.ts) and stops each head the law reaches after their own three months of benefit in 36 (timeLimitedNow in src/core2/law-reach/group-b-money.ts), named and counted households alike"
     },
     {
       "key": "universal-prek-to-graduation",
@@ -2997,7 +3022,7 @@
       "who": "Actual enrolled preschool cohorts as they reach high-school age; not present-day adults or all children in the state.",
       "lagWhy": "The existing168-month lag follows four-year-olds toward high-school graduation. It is fourteen years, so a24-month audit must report not-yet-due rather than missing firing.",
       "aboutZero": false,
-      "notes": "Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
+      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "equalized-funding-to-spending",
@@ -3061,7 +3086,8 @@
       "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
       "to": "justice.pretrial-detained",
       "range": [-0.44, -0.14],
-      "notes": "Not hooked by design: the justice code already decides each defendant's detention from the bail law in force, so a pretrial-detained place rate would count the law twice."
+      "notes": "Not hooked by design: the justice code already decides each defendant's detention from the bail law in force, so a pretrial-detained place rate would count the law twice.",
+      "carriedBy": "the justice engine's pretrial decision (decidePretrial in src/core2/justice-pretrial.ts, called from src/core2/modules/justice.ts), which reads the end-cash-bail law in force and the defendant's cash when each charged defendant waits for trial: where the law has ended cash bail nobody is held for want of money (released-no-bail-law), elsewhere they are held or post bail"
     },
     {
       "key": "mandatory-minimums-to-incarceration",
@@ -3727,8 +3753,6 @@
       "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "to": "labor.older-employment",
       "range": [0.04, 0.22],
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers.",
-      "carriedBy": "the jobs engine's retirement onset (retirementOnsetYears in src/core2/modules/jobs.ts), which reads the earliest Social Security claim age under the law in force when each worker decides whether to keep working",
       "varies": [
         {
           "by": "sex",
@@ -3748,7 +3772,8 @@
           "source": "Mastrobuoni 2009 (Journal of Public Economics), working paper version CEPS 136 (https://swh.princeton.edu/~ceps/workingpapers/136mastrobuoni.pdf), Table 8, column (1), estimated change in average retirement age (months), treated 1938-40 cohorts against the control, female and male samples; shares from Census Bureau Vintage 2023 population estimates by sex and single year of age (nc-est2023-agesex-res.csv), ages 55 to 69, July 1 2023",
           "quote": "Table 8 Panel A: Female Sample, T - C: 1.08 (0.36). Panel B: Male Sample, T - C: 1.22 (0.38). \"The main result is that for all three models and for both men and women, the estimated difference in CDFs between the 1938, 1939, and 1940 cohorts, and the 1937 cohort, is mostly negative.\""
         }
-      ]
+      ],
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers. The jobs engine reads this link's factor in participationShift (src/core2/jobs-web.ts), on the retire, leave and enter choices of people from 62 to 66, weighted by jobsOlderWorkWebWeight."
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
@@ -3877,7 +3902,7 @@
       "who": "Enrolled preschool pupils at the study follow-up ages and programs; statewide dilution remains a separate unverified conversion.",
       "lagWhy": "The outcome is eighth-grade math. A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months), the same lag as the reading link (CTO ruling 8).",
       "aboutZero": false,
-      "notes": "Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
+      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "universal-prek-to-reading-proficiency",
@@ -3920,7 +3945,7 @@
       "who": "Enrolled preschool cohorts once they take the eighth-grade reading test; not current students who never had the program.",
       "lagWhy": "A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months).",
       "aboutZero": false,
-      "notes": "Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
+      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "universal-prek-to-violent-crime",
@@ -4005,7 +4030,43 @@
       "reverseOnRepeal": "Repeal can end future input funding; it does not subtract a pupil learned skill or erase an earlier assessment. A future assessment needs newly observed conditions, not an immediate negative score.",
       "who": "Pupils actually exposed in qualifying districts; statewide proficiency needs enrollment-weighted cohort evidence.",
       "lagWhy": "The existing36-month lag approximates resource delivery and several school years of exposure. The cited study horizon and statewide proficiency conversion remain unverified.",
-      "aboutZero": false
+      "aboutZero": false,
+      "varies": [
+        {
+          "by": "incomeFifth",
+          "bands": [
+            {
+              "is": 0,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 1,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 2,
+              "weight": 0.5,
+              "share": 0.2
+            },
+            {
+              "is": 3,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 4,
+              "weight": 0,
+              "share": 0.2
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Lafortune, Rothstein and Schanzenbach 2018, School Finance Reform and the Distribution of Student Achievement, AEJ: Applied Economics 10(2), abstract (https://www.aeaweb.org/articles?id=10.1257/app.20160567; NBER w22011)",
+          "quote": "\"reforms lead to sharp, immediate, and sustained increases in spending in low-income school districts.\" The abstract finds that achievement rose in \"these districts\" and that the rise phases in gradually over the years after each reform; it reports no gain for higher-income districts.",
+          "estimatedFrom": "The paper's gains are for students in low-income districts. The two lowest national household-income fifths are taken as the students of those districts, the middle fifth as half in them, and the two highest as none, with equal national shares; the paper gives no finer split, so the weights are scaled so the national average is the researched size."
+        }
+      ]
     },
     {
       "key": "equalized-funding-to-graduation",
@@ -4047,7 +4108,43 @@
       "reverseOnRepeal": "Repeal affects future support for still-enrolled cohorts. A completed diploma remains a historical fact and cannot be undone by a law-answer reversal.",
       "who": "Exposed school-age cohorts, particularly the low-income districts studied; not all adult residents.",
       "lagWhy": "The existing60-month lag represents progression toward completion. Actual ages, exposure years and completion dates must replace a generic five-year switch.",
-      "aboutZero": false
+      "aboutZero": false,
+      "varies": [
+        {
+          "by": "incomeFifth",
+          "bands": [
+            {
+              "is": 0,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 1,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 2,
+              "weight": 0.5,
+              "share": 0.2
+            },
+            {
+              "is": 3,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 4,
+              "weight": 0,
+              "share": 0.2
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Lafortune, Rothstein and Schanzenbach 2018, School Finance Reform and the Distribution of Student Achievement, AEJ: Applied Economics 10(2), abstract (https://www.aeaweb.org/articles?id=10.1257/app.20160567; NBER w22011)",
+          "quote": "\"reforms lead to sharp, immediate, and sustained increases in spending in low-income school districts.\" The abstract finds that achievement rose in \"these districts\" and that the rise phases in gradually over the years after each reform; it reports no gain for higher-income districts.",
+          "estimatedFrom": "The paper's gains are for students in low-income districts. The two lowest national household-income fifths are taken as the students of those districts, the middle fifth as half in them, and the two highest as none, with equal national shares; the paper gives no finer split, so the weights are scaled so the national average is the researched size."
+        }
+      ]
     },
     {
       "key": "vouchers-to-math-proficiency",
@@ -4154,7 +4251,7 @@
       "from": "household.poverty-pct",
       "to": "school.math-proficient-pct",
       "range": [-0.02, 0],
-      "notes": "Dahl and Lochner (NBER w14599, Table 6) split the income effect by mother's education, race, marital status, AFQT, child's age and gender; only the maternal-education difference is statistically significant, marital status is imprecise (0.0807 not married against 0.0432 married) and cannot be mapped onto the subject's household kinds (a one-adult household and a household with children overlap), so no moderator is set."
+      "notes": "The school engine also orders students by household income, but that only decides who within an income fifth passes; the place's count comes from the base times this factor, so the poverty effect is not counted twice. Dahl and Lochner (NBER w14599, Table 6) split the income effect by mother's education, race, marital status, AFQT, child's age and gender; only the maternal-education difference is statistically significant, marital status is imprecise (0.0807 not married against 0.0432 married) and cannot be mapped onto the subject's household kinds (a one-adult household and a household with children overlap), so no moderator is set."
     },
     {
       "key": "uninsured-to-graduation",
@@ -4245,7 +4342,8 @@
       "floor": 0.25,
       "ceiling": 3,
       "readFrom": "crime.violent-victimization-index",
-      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure.",
+      "carriedBy": "the victimization records themselves: the index this link reads (crime months.violentIndex, src/core2/modules/crime.ts) is robbery and assault per person 12 and older, so every move in it is already these offenses' own; scaling them by it again would count each move twice and feed the next month's index one for one, a loop that grows without end"
     },
     {
       "key": "crime-level-to-assault",
@@ -4269,7 +4367,8 @@
       "floor": 0.25,
       "ceiling": 3,
       "readFrom": "crime.violent-victimization-index",
-      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure.",
+      "carriedBy": "the victimization records themselves: the index this link reads (crime months.violentIndex, src/core2/modules/crime.ts) is robbery and assault per person 12 and older, so every move in it is already these offenses' own; scaling them by it again would count each move twice and feed the next month's index one for one, a loop that grows without end"
     },
     {
       "key": "crime-level-to-vandalism",
@@ -5368,6 +5467,72 @@
       "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
+      "key": "income-tax-rate-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:income-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the income tax rate in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"for the general population, there is no significant tax-migration effect\": Table 2, Model 3 (all filers, the income tax rate at the median) gives +0.014 with a standard error of 0.020 per percentage point; millionaires respond (-0.077, standard error 0.037), but \"outside of Florida, differences in tax rates between states have no effect on elite migration.\"",
+      "source": "Young, Varner, Lurie and Prisinzano 2016, Millionaire Migration and Taxation of the Elite: Evidence from Administrative Data, American Sociological Review 81(3):421-446 (doi 10.1177/0003122416639625); full text read at https://eml.berkeley.edu/~saez/course/Millionaire_Migration_and_the_Taxtion_of_the_Elite.pdf (Table 2, Models 2 to 4; the Results and Implied Optimal Tax Rates sections)",
+      "range": [-0.053, 0.025],
+      "rangeSource": "ESTIMATED from Young et al. 2016, Table 2, Model 3: the coefficient on the destination-minus-origin income tax rate difference is +0.014 with a standard error of 0.020, a 95% interval (coefficient plus or minus 1.96 standard errors) of -0.025 to +0.053 per percentage point. A place that raises its own rate lowers that difference for the flows leaving it, so the response of its out-migration is the reverse, -0.053 to +0.025, as a proportional change per percentage point. The interval holds zero.",
+      "notes": "About zero for the population, kept at zero. This is the rate series (a change in the rate in force) where income-tax-to-out-migration and graduated-income-tax-to-out-migration are the adopt and graduated questions; the same paper measures rates: it regresses state-to-state migration counts on the difference in top income tax rates between each pair of states, and for all filers at all income levels, with the income tax rate at the median, finds \"no significant tax-migration effect\" (Model 3, +0.014, standard error 0.020). The response it does find is among millionaires (Model 2, -0.077, standard error 0.037; \"a 10 percent increase in the top tax rate leads to a 1 percent loss of millionaire population\"), and Model 4 shows it comes from Florida: \"outside of Florida, differences in tax rates between states have no effect on elite migration.\" Millionaires also move less than everyone else: \"The annual millionaire migration rate is 2.4 percent, which is lower than the migration rate of the general population (2.9 percent).\" The engines already carry the researched response from their own records, by wage: counted-moves.ts (stateIncomeTax and pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, so a web read on the same rate would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). Limits: the paper measures state rates; the series also carries local and federal rows, and this research pass did not look for a study of local rates, so the zero for a local rate is the paper's reading carried over, not a local measurement. The web's law cause reads what a law says on a yes-or-no question (lawValue in modules/outcome-web.ts); a built link on a rate would need a rate measure the way property-tax-rate has one (ENGINE_READERS), and at a size of zero nothing is read. No moderator rows: a weight on a size of zero moves nothing."
+    },
+    {
+      "key": "estate-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:estate-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the estate tax rate in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"a one percentage point increase in the wealth-class-specific effective state EI average tax rate is associated with 1.4 percent to 2.7 percent decline in the number of federal estate tax returns filed in the state\": the response is among the few estates large enough to file, and \"just 0.20 percent of adults who died left an estate large enough to be taxed\" in 2016.",
+      "source": "Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Moretti and Wilson 2023, Taxing Billionaires: Estate Taxes and the Geographical Location of the Ultra-Wealthy, American Economic Journal: Economic Policy 15(2):424-466; text read from NBER Working Paper 26387 (revised September 2020) at https://www.nber.org/papers/w26387.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403)",
+      "range": [0, 0.019],
+      "rangeSource": "ESTIMATED ceiling, not a sampled interval: 0.02 (the generous ceiling on the share of adults who die with an estate that owes a death tax, ITEP) x 0.027 (Bakija and Slemrod's largest all-estates response per point) = 0.00054 of residents per point, divided by the 2.9 percent annual moving rate of the general population (Young et al. 2016) = 0.019 of one year's out-migration. The lower end is zero, the null of Brulhart and Parchet, who also report that Conway and Rork \"detected no statistically significant evidence of a link between bequest tax burdens and migration flows of elderly residents.\"",
+      "notes": "About zero for the place's population, kept at zero. Bakija and Slemrod (federal estate tax returns by state and wealth class, 1965 to 1998): \"high state inheritance and estate taxes and sales taxes have statistically significant, but modest, negative impacts on the number of federal estate tax returns filed in a state\"; one point of the combined estate and inheritance rate cuts the filers in a state by 1.4 to 2.7 percent, and by \"3.9 percent\" for estates over $5 million. They read it as \"consistent with the notion that wealthy elderly people change their real (or reported) state of residence\", \"although it could partly reflect other modes of tax avoidance as well.\" Brulhart and Parchet (Swiss cantons, 36 years): \"the relevant tax base, high-income retirees, to be relatively inelastic with respect to tax rates\"; the elasticities of the tax base run from -0.026 to -0.223 and \"we can never reject the hypothesis of a zero elasticity but always reject the hypothesis of a unit elasticity.\" They add that in later work Conway and Rork \"detected no statistically significant evidence of a link between bequest tax burdens and migration flows of elderly residents.\" Moretti and Wilson (the Forbes 400 list): \"the number of Forbes 400 individuals in estate tax states fell by 35% after 2001 compared to non-estate tax states\", a semi-elasticity of -0.33 for estate tax status, a response that is large and belongs to 400 people. Ceiling, ESTIMATED: at most about 2 percent of adults who die leave an estate that owes a death tax. ITEP: when the federal exemption rose to $1 million in 2002 \"the percentage of deaths resulting in federal estate tax liability was cut in about half, dropping from about 2 percent to around 1 percent\", and \"In 2016, just 0.20 percent of adults who died left an estate large enough to be taxed.\" Oregon's $1,000,000 is the lowest exemption in data/research/money/death-taxes-2026.json, so 2 percent is a generous ceiling. Bakija and Slemrod's largest all-estates response is 2.7 percent fewer filers per point, so one point of the rate moves at most 0.02 x 0.027 = 0.00054 of a place's residents, against an annual moving rate of 2.9 percent for the general population (Young et al. 2016): at most 0.019 of one year's out-migration per point, and about a tenth of that at today's 0.2 percent. That is an upper bound reached only if the whole response came in one year; the size stays at zero and the bound is recorded as the range. The response is real for the wealthy elderly and for billionaires; it is a few people in a place, so the place's out-migration rate does not move. No engine gives a full person an estate-tax pull (nothing reads the estate-tax series in moves.ts or counted-moves.ts); whether the game should is the owner's question (a game, not a spreadsheet): the mechanic would act on the few estates above the exemption, by their own wealth and age. The outcome the gap file named, wealth transfers and charitable giving, is not a measure the web keeps. No moderator rows: a weight on a size of zero moves nothing."
+    },
+    {
+      "key": "inheritance-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:inheritance-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the inheritance tax rate in force",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"we fail to uncover a statistically significant within-sample relationship between bequest tax rates and the relevant tax base, high-income elderly individuals\": Swiss bequest taxes \"are levied on inheritances\", and the tax base \"to be relatively inelastic with respect to tax rates\".",
+      "source": "Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403)",
+      "range": [0, 0.019],
+      "rangeSource": "ESTIMATED ceiling, not a sampled interval, the same arithmetic as estate-tax-to-out-migration: 0.02 (the generous ceiling on the share of adults who die with an estate that owes a death tax, ITEP) x 0.027 (Bakija and Slemrod's largest all-estates response per point of the estate and inheritance rate) = 0.00054 of residents per point, divided by the 2.9 percent annual moving rate of the general population (Young et al. 2016) = 0.019 of one year's out-migration. The lower end is zero, the null of Brulhart and Parchet, who also report that Conway and Rork \"detected no statistically significant evidence of a link between bequest tax burdens and migration flows of elderly residents.\"",
+      "notes": "About zero for the place's population, kept at zero. Brulhart and Parchet's setting is an inheritance tax: \"In most cases, bequest taxes are levied on inheritances, such that tax rates vary in two main dimensions: the amount inherited (progressive taxation) and family ties with the deceased\"; with panel data over several reforms they \"fail to uncover a statistically significant within-sample relationship between bequest tax rates and the relevant tax base, high-income elderly individuals\", and cannot reject a zero elasticity (point estimates -0.026 to -0.223). Bakija and Slemrod's rate is the combined estate and inheritance (EI) rate: one point cuts the filers in a state by 1.4 to 2.7 percent, \"statistically significant, but modest\", among the wealthy elderly. Ceiling, ESTIMATED: at most about 2 percent of adults who die leave an estate that owes a death tax. ITEP: when the federal exemption rose to $1 million in 2002 \"the percentage of deaths resulting in federal estate tax liability was cut in about half, dropping from about 2 percent to around 1 percent\", and \"In 2016, just 0.20 percent of adults who died left an estate large enough to be taxed.\" Oregon's $1,000,000 is the lowest exemption in data/research/money/death-taxes-2026.json, so 2 percent is a generous ceiling. Bakija and Slemrod's largest all-estates response is 2.7 percent fewer filers per point, so one point of the rate moves at most 0.02 x 0.027 = 0.00054 of a place's residents, against an annual moving rate of 2.9 percent for the general population (Young et al. 2016): at most 0.019 of one year's out-migration per point, and about a tenth of that at today's 0.2 percent. That is an upper bound reached only if the whole response came in one year; the size stays at zero and the bound is recorded as the range. Scope limit: both studies follow high-income estates. Pennsylvania's inheritance tax in data/research/money/death-taxes-2026.json takes 4.5 percent of what a child inherits from the first dollar, so it reaches heirs of modest estates that no study here follows; this research pass found no study of how they move, so the zero is the studies' reading carried over, and the web adds nothing on top. No engine gives a full person an inheritance-tax pull (nothing reads the inheritance-tax series in moves.ts or counted-moves.ts); whether the game should is the owner's question. No moderator rows: a weight on a size of zero moves nothing."
+    },
+    {
       "key": "balanced-budget-to-borrowing-cost",
       "status": "built",
       "unsupportedReason": null,
@@ -5801,6 +5966,275 @@
       "anchor": "Across the 50 states and D.C., each doubling of state and local parks spending per resident goes with 0.9 points more of residents near a park or recreation facility, with a 95% range of -1.6 to +3.3 points, once the rural share is held fixed: about zero, a cross-section fit and not a causal estimate (Research 1, from County Health Rankings 2025 and Census 2022 finances). A one percent rise in spending is 0.0144 of a doubling, 0.0129 points, 0.0157% of the median 82.25%, so the size is 0.000157 for each percent, and the range -0.000279 to +0.000575. A dedication adds about $9.26 a resident to a place that spends about $136, 6.8%, so access moves about 0.1% either way. The lag is the year a parks agency needs to spend new money on sites and hours, judged, not measured.",
       "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)",
       "range": [-0.000279, 0.000575]
+    },
+    {
+      "key": "income-tax-rate-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:income-tax",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the income tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "The official poverty measure counts money income before taxes, so an income tax rate cannot move it",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html)",
+      "range": [0, 0],
+      "rangeSource": "Census official poverty definition (fetched Oct 24, 2026): \"The official poverty definition uses money income before taxes and does not include capital gains or noncash benefits.\" A tax rate has no path to the official poverty rate by definition, so the range [0, 0] is the definitional zero, not a sampled interval.",
+      "notes": "Carried by definition: the poverty measure counts income before taxes. What a higher rate does to a household's take-home pay is paid by the withholding engine on each payday (src/core2/modules/budgets.ts, src/core2/counted-money.ts), by named worker and counted group, not by the web.",
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
+    {
+      "key": "social-security-tax-to-unemployment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:social-security-tax",
+      "to": "labor.unemployment-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the payroll tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Payroll taxes land on wages, not on a place's employment: Gruber finds the tax \"fully on wages, with no effect on employment\"; Anderson and Meyer find the unemployment insurance payroll tax \"largely passed on to workers in the form of lower earnings\"; Saez, Schoefer and Seim find employment gains of about 2-3 percentage points for one group, young workers, whose employer tax fell 16 points.",
+      "source": "Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))",
+      "range": [0, 0.19],
+      "rangeSource": "Range [0, 0.19] percentage points of the place's unemployment rate for each percentage point of payroll tax rate. Gruber and Anderson and Meyer put the effect on employment at zero (wages absorb the tax). Saez, Schoefer and Seim's cut was 16 points (31% to 15%) and raised the treated group's employment rate 2 to 3 points, 0.125 to 0.1875 points of employment for each point of tax, for young workers only; applied to every worker it is the upper end, 0.19. Higher tax means more unemployment, so the range is zero or above.",
+      "notes": "About zero for a place's unemployment rate; the weight of the three studies. Gruber, The Incidence of Payroll Taxation: Evidence from Chile (J. Labor Econ. 15(3) S72-S101, 1997; NBER Working Paper 5053, https://www.nber.org/papers/w5053): \"I find strong evidence that the incidence of payroll taxation was fully on wages, with no effect on employment.\" The sample's average payroll tax rate fell from 30% to 5% over six years. Anderson and Meyer, The effects of the unemployment insurance payroll tax on wages, employment, claims and denials (J. Public Econ. 78(1-2) 81-106, 2000; NBER Working Paper 6808, https://www.nber.org/papers/w6808): \"industry average tax rates are largely passed on to workers in the form of lower earnings.\" Saez, Schoefer and Seim, Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden (Am. Econ. Rev. 109(5) 1717-1763, 2019; NBER Working Paper 23976, https://www.nber.org/papers/w23976): a cut \"from 31% down to 15% for young workers (aged 26 or less)\" had \"a zero effect on net-of-tax wages of young treated workers\" but \"compelling positive effects on the employment rate of the treated young workers, of about 2-3 percentage points.\"  No engine carries the wage incidence: the game's pay does not fall when a payroll tax rises, so this link records the employment result only (a pay response is a missing engine, not a link). The worker and employer each pay 6.2% of wages up to the wage base (12.4% combined) (26 U.S.C. 3101(a) and 3111(a)); the studies' statutory incidence (employer or employee) does not change the result for employment."
+    },
+    {
+      "key": "medicare-tax-to-unemployment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:medicare-tax",
+      "to": "labor.unemployment-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the payroll tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Payroll taxes land on wages, not on a place's employment: Gruber finds the tax \"fully on wages, with no effect on employment\"; Anderson and Meyer find the unemployment insurance payroll tax \"largely passed on to workers in the form of lower earnings\"; Saez, Schoefer and Seim find employment gains of about 2-3 percentage points for one group, young workers, whose employer tax fell 16 points.",
+      "source": "Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))",
+      "range": [0, 0.19],
+      "rangeSource": "Range [0, 0.19] percentage points of the place's unemployment rate for each percentage point of payroll tax rate. Gruber and Anderson and Meyer put the effect on employment at zero (wages absorb the tax). Saez, Schoefer and Seim's cut was 16 points (31% to 15%) and raised the treated group's employment rate 2 to 3 points, 0.125 to 0.1875 points of employment for each point of tax, for young workers only; applied to every worker it is the upper end, 0.19. Higher tax means more unemployment, so the range is zero or above.",
+      "notes": "About zero for a place's unemployment rate; the weight of the three studies. Gruber, The Incidence of Payroll Taxation: Evidence from Chile (J. Labor Econ. 15(3) S72-S101, 1997; NBER Working Paper 5053, https://www.nber.org/papers/w5053): \"I find strong evidence that the incidence of payroll taxation was fully on wages, with no effect on employment.\" The sample's average payroll tax rate fell from 30% to 5% over six years. Anderson and Meyer, The effects of the unemployment insurance payroll tax on wages, employment, claims and denials (J. Public Econ. 78(1-2) 81-106, 2000; NBER Working Paper 6808, https://www.nber.org/papers/w6808): \"industry average tax rates are largely passed on to workers in the form of lower earnings.\" Saez, Schoefer and Seim, Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden (Am. Econ. Rev. 109(5) 1717-1763, 2019; NBER Working Paper 23976, https://www.nber.org/papers/w23976): a cut \"from 31% down to 15% for young workers (aged 26 or less)\" had \"a zero effect on net-of-tax wages of young treated workers\" but \"compelling positive effects on the employment rate of the treated young workers, of about 2-3 percentage points.\"  No engine carries the wage incidence: the game's pay does not fall when a payroll tax rises, so this link records the employment result only (a pay response is a missing engine, not a link). The worker and employer each pay the base Medicare rate of 1.45% of all wages (2.9% combined) (26 U.S.C. 3101(b)(1) and 3111(b)); the studies' statutory incidence (employer or employee) does not change the result for employment."
+    },
+    {
+      "key": "federal-unemployment-tax-to-unemployment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:federal-unemployment-tax",
+      "to": "labor.unemployment-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the payroll tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Payroll taxes land on wages, not on a place's employment: Gruber finds the tax \"fully on wages, with no effect on employment\"; Anderson and Meyer find the unemployment insurance payroll tax \"largely passed on to workers in the form of lower earnings\"; Saez, Schoefer and Seim find employment gains of about 2-3 percentage points for one group, young workers, whose employer tax fell 16 points.",
+      "source": "Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))",
+      "range": [0, 0.19],
+      "rangeSource": "Range [0, 0.19] percentage points of the place's unemployment rate for each percentage point of payroll tax rate. Gruber and Anderson and Meyer put the effect on employment at zero (wages absorb the tax). Saez, Schoefer and Seim's cut was 16 points (31% to 15%) and raised the treated group's employment rate 2 to 3 points, 0.125 to 0.1875 points of employment for each point of tax, for young workers only; applied to every worker it is the upper end, 0.19. Higher tax means more unemployment, so the range is zero or above.",
+      "notes": "About zero for a place's unemployment rate; the weight of the three studies. Gruber, The Incidence of Payroll Taxation: Evidence from Chile (J. Labor Econ. 15(3) S72-S101, 1997; NBER Working Paper 5053, https://www.nber.org/papers/w5053): \"I find strong evidence that the incidence of payroll taxation was fully on wages, with no effect on employment.\" The sample's average payroll tax rate fell from 30% to 5% over six years. Anderson and Meyer, The effects of the unemployment insurance payroll tax on wages, employment, claims and denials (J. Public Econ. 78(1-2) 81-106, 2000; NBER Working Paper 6808, https://www.nber.org/papers/w6808): \"industry average tax rates are largely passed on to workers in the form of lower earnings.\" Saez, Schoefer and Seim, Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden (Am. Econ. Rev. 109(5) 1717-1763, 2019; NBER Working Paper 23976, https://www.nber.org/papers/w23976): a cut \"from 31% down to 15% for young workers (aged 26 or less)\" had \"a zero effect on net-of-tax wages of young treated workers\" but \"compelling positive effects on the employment rate of the treated young workers, of about 2-3 percentage points.\"  No engine carries the wage incidence: the game's pay does not fall when a payroll tax rises, so this link records the employment result only (a pay response is a missing engine, not a link). The tax is paid by the employer only, 0.6% of the first $7,000 of each worker's wages after the credit (26 U.S.C. 3301, 3302, 3306(b)(1)); Anderson and Meyer study this kind of tax."
+    },
+    {
+      "key": "state-unemployment-tax-to-unemployment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:state-unemployment-tax",
+      "to": "labor.unemployment-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the payroll tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Payroll taxes land on wages, not on a place's employment: Gruber finds the tax \"fully on wages, with no effect on employment\"; Anderson and Meyer find the unemployment insurance payroll tax \"largely passed on to workers in the form of lower earnings\"; Saez, Schoefer and Seim find employment gains of about 2-3 percentage points for one group, young workers, whose employer tax fell 16 points.",
+      "source": "Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))",
+      "range": [0, 0.19],
+      "rangeSource": "Range [0, 0.19] percentage points of the place's unemployment rate for each percentage point of payroll tax rate. Gruber and Anderson and Meyer put the effect on employment at zero (wages absorb the tax). Saez, Schoefer and Seim's cut was 16 points (31% to 15%) and raised the treated group's employment rate 2 to 3 points, 0.125 to 0.1875 points of employment for each point of tax, for young workers only; applied to every worker it is the upper end, 0.19. Higher tax means more unemployment, so the range is zero or above.",
+      "notes": "About zero for a place's unemployment rate; the weight of the three studies. Gruber, The Incidence of Payroll Taxation: Evidence from Chile (J. Labor Econ. 15(3) S72-S101, 1997; NBER Working Paper 5053, https://www.nber.org/papers/w5053): \"I find strong evidence that the incidence of payroll taxation was fully on wages, with no effect on employment.\" The sample's average payroll tax rate fell from 30% to 5% over six years. Anderson and Meyer, The effects of the unemployment insurance payroll tax on wages, employment, claims and denials (J. Public Econ. 78(1-2) 81-106, 2000; NBER Working Paper 6808, https://www.nber.org/papers/w6808): \"industry average tax rates are largely passed on to workers in the form of lower earnings.\" Saez, Schoefer and Seim, Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden (Am. Econ. Rev. 109(5) 1717-1763, 2019; NBER Working Paper 23976, https://www.nber.org/papers/w23976): a cut \"from 31% down to 15% for young workers (aged 26 or less)\" had \"a zero effect on net-of-tax wages of young treated workers\" but \"compelling positive effects on the employment rate of the treated young workers, of about 2-3 percentage points.\"  No engine carries the wage incidence: the game's pay does not fall when a payroll tax rises, so this link records the employment result only (a pay response is a missing engine, not a link). The tax is paid by the employer only, on a state wage base of at least the $7,000 federal base (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, Financing); Anderson and Meyer study this tax in Washington State."
+    },
+    {
+      "key": "unemployment-insurance-to-poverty",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "to": "household.poverty-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.007,
+      "per": "the unemployment insurance program paying benefits, against none",
+      "lagMonths": 0,
+      "group": "families whose earner lost a job",
+      "owner": "C",
+      "anchor": "Unemployment insurance moved 308,000 people out of poverty in 2023: -0.09 percentage points of the 12.89 percent rate, so -0.7 percent of the rate",
+      "source": "U.S. Census Bureau, Poverty in the United States: 2023 (P60-283), Tables B-6 and B-7",
+      "from": "law:unemployment-insurance",
+      "evidence": "researched",
+      "range": [-0.0121, -0.0047],
+      "rangeSource": "Table B-6 margins: 2023 -0.09 +/- 0.03 over 12.89 = -0.0093 to -0.0047; 2022 -0.12 +/- 0.03 over 12.37 = -0.0121 to -0.0073. The range is the union of the two years' intervals.",
+      "notes": "Carried by the engine: src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted. U.S. Census Bureau, Poverty in the United States: 2023 (Current Population Reports P60-283, September 2024, https://www2.census.gov/library/publications/2024/demo/p60-283.pdf), Table B-6 (effect of individual elements on SPM rates): unemployment insurance -0.09 percentage points (margin of error 0.03) of the 12.89 percent rate in 2023 and -0.12 (0.03) of 12.37 in 2022; Table B-7: -308,000 people (margin of error 87,000) in 2023 and -404,000 (95,000) in 2022. The report: \"Some of the programs in the figure—such as Social Security and unemployment insurance benefits—are included in both the official poverty measure and the SPM.\" 2023 and 2022 are years after the pandemic expansions ended, so the figure is the ordinary program's. In 2020, with expanded benefits, the Census found the official rate 1.4 percentage points lower (\"Without unemployment insurance, 4.7 million more people would have been in poverty\", Census, Did Unemployment Insurance Lower Official Poverty Rates in 2020?, 2021), which is not the ordinary program. The Supplemental Poverty Measure figure stands for the official one because both count unemployment compensation as income and the Census publishes no ordinary-year official figure. The web adds nothing on top: the jobs engine pays the benefit and the poverty measure counts it as income, so the figure is the check on the measure's response (the family-poverty test and the generated world's claims).",
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
+    {
+      "key": "unemployment-weekly-maximum-to-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "to": "household.poverty-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "the weekly maximum, as a share of the program's whole effect",
+      "lagMonths": 0,
+      "group": "families whose earner lost a job",
+      "owner": "C",
+      "anchor": "The weekly maximum caps what each claimant is paid, so its whole effect on poverty lies between none and the program's: unemployment insurance as a whole moved 308,000 people out of poverty in 2023",
+      "source": "U.S. Census Bureau, Poverty in the United States: 2023 (P60-283), Tables B-6 and B-7",
+      "from": "law:unemployment-weekly-maximum",
+      "evidence": "provisional",
+      "range": [-0.0121, 0],
+      "rangeSource": "The cap can only lower what the program pays, so the most it can move the poverty rate is the whole program's effect, -0.0121 to -0.0047 of the rate (the unemployment-insurance-to-poverty range), and at least none. No source isolates the cap's own effect; the size is not set.",
+      "notes": "Carried by the engine: src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted (jobs-benefits.ts caps each weekly benefit at the maximum in force when the claim is filed). The size is not set because no source isolates the cap from the program: U.S. Census Bureau, Poverty in the United States: 2023 (Current Population Reports P60-283, September 2024, https://www2.census.gov/library/publications/2024/demo/p60-283.pdf), Table B-6 (effect of individual elements on SPM rates): unemployment insurance -0.09 percentage points (margin of error 0.03) of the 12.89 percent rate in 2023 and -0.12 (0.03) of 12.37 in 2022; Table B-7: -308,000 people (margin of error 87,000) in 2023 and -404,000 (95,000) in 2022. The report: \"Some of the programs in the figure—such as Social Security and unemployment insurance benefits—are included in both the official poverty measure and the SPM.\" 2023 and 2022 are years after the pandemic expansions ended, so the figure is the ordinary program's. In 2020, with expanded benefits, the Census found the official rate 1.4 percentage points lower (\"Without unemployment insurance, 4.7 million more people would have been in poverty\", Census, Did Unemployment Insurance Lower Official Poverty Rates in 2020?, 2021), which is not the ordinary program. The Supplemental Poverty Measure figure stands for the official one because both count unemployment compensation as income and the Census publishes no ordinary-year official figure. The web adds nothing on top: the jobs engine pays the benefit and the poverty measure counts it as income, so the figure is the check on the measure's response (the family-poverty test and the generated world's claims).",
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
+    {
+      "key": "revolving-door-ban-to-ex-legislator-lobbyists",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:us-policy-positions:government-operations.ban-lobbying-after-office",
+      "to": "politics.ex-legislator-lobbyists",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force (a cooling-off period before a former legislator may lobby)",
+      "lagMonths": 0,
+      "group": "former state legislators",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"Other factors, such as longer cooling-off periods or increased legislative staff resources, produce slight or no substantive effects on rates of revolving.\" The ban delays a former member's lobbying; it barely changes how many end up lobbying.",
+      "source": "Strickland 2020, The Declining Value of Revolving-Door Lobbyists: Evidence from the American States, American Journal of Political Science 64(1):67-81 (doi 10.1111/ajps.12485); abstract read at https://ideas.repec.org/a/wly/amposc/v64y2020i1p67-81.html",
+      "notes": "Carried by the engine: the interest-groups engine chooses each group's lobbyist and passes over anyone the ban still bars (lobbyingBarredUntil in src/core2/law-reach/group-a-voting.ts, read in src/core2/modules/interest-groups.ts), so during the cooling-off period no former member lobbies and after it they may. The research puts the lasting effect on the rate of revolving at about zero, so the web adds nothing.",
+      "carriedBy": "src/core2/modules/interest-groups.ts passes over a former officeholder the ban still bars (lobbyingBarredUntil, src/core2/law-reach/group-a-voting.ts) when it chooses a group's lobbyist",
+      "range": [-0.05, 0.05],
+      "rangeSource": "Strickland 2020 reports cooling-off periods produce slight or no substantive effects on rates of revolving; the band allows a small effect either way"
+    },
+    {
+      "key": "revolving-door-ban-to-candidate-entry",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
+      "from": "law:us-policy-positions:government-operations.ban-lobbying-after-office",
+      "to": "elections.new-candidate-entry",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.182,
+      "range": [-0.25, -0.11],
+      "per": "law in force (a revolving-door law, most often a one- or two-year cooling-off period)",
+      "lagMonths": 0,
+      "group": "would-be candidates for the state legislature who do not hold the seat",
+      "owner": "GOV",
+      "evidence": "researched",
+      "anchor": "\"We find that fewer new candidates enter politics in treated states and that incumbent legislators are less likely to leave office, leading to an increase in uncontested elections.\" Entry falls 18.2% against its base; the probability an election is unopposed rises 8.5 points from 31%; incumbents rerun 3.1 points more often from 78%.",
+      "source": "Fisman, Leder-Luis, O'Donnell and Vannutelli 2025, Revolving Door Laws and Political Selection, NBER Working Paper 33626 (https://www.nber.org/system/files/working_papers/w33626/w33626.pdf), abstract and section V; state legislative candidates 1968 to 2022, staggered adoption",
+      "notes": "Carried by the engine: the candidacy chooser reads the law when someone who does not hold a legislative seat weighs running for it, so fewer newcomers enter; the web does not move a rate on top. The range is the paper's entry estimates across specifications (0.11 to 0.25 of the base).",
+      "carriedBy": "src/core2/modules/candidacy.ts weighs the law when a would-be newcomer, named or counted, decides whether to run for a legislative seat (afterOffice, read through revolvingDoorFor in src/core2/law-reach/group-a-voting.ts; candidacyRevolvingDoorWeight is calibrated to the paper's 18.2% fewer entrants)"
+    },
+    {
+      "key": "public-jobs-to-private-employment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "budget.administration-added-pct",
+      "to": "labor.unemployment-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "public sector job added",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"public sector employment has no identifiable effect on total private sector employment\": each public job creates 0.5 jobs in non-tradables and crowds out 0.4 in tradables (local government areas in England, 2003 to 2007).",
+      "source": "Faggio and Overman 2014, The effect of public sector employment on local labour markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/",
+      "notes": "Carried by the engine: the administration line funds positions at the town's government employer (src/core2/law-reach/group-a-staffing.ts), which posts openings that the jobs engine fills from named and counted seekers (postFundedOpenings, src/core2/modules/jobs.ts); each hire leaves the unemployed and the unemployment measure counts it. The research puts the spillover on private jobs at about zero, so the web adds nothing on top. Over 1999 to 2007 the paper finds some crowding out of private jobs; the 2003 to 2007 estimate is the one it leads with.",
+      "carriedBy": "src/core2/modules/jobs.ts fills the openings the line funds (postFundedOpenings, posted by src/core2/law-reach/group-a-staffing.ts) from named and counted seekers, and the unemployment measure counts each hire",
+      "range": [-0.05, 0.05],
+      "rangeSource": "Faggio and Overman 2014: no identifiable effect on total private employment over 2003 to 2007, some crowding out over 1999 to 2007; the band allows a small effect either way"
+    },
+    {
+      "key": "home-rule-to-local-spending",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "from": "law:us-policy-positions:government-operations.broaden-local-authority",
+      "to": "gov.local-spending-mix",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "law in force (the state grants home rule)",
+      "lagMonths": 0,
+      "group": "towns and counties",
+      "owner": "GOV",
+      "evidence": "researched",
+      "anchor": "Adopting home rule has significant and positive effects on allocational expenditures, and developmental expenditures fall (Illinois, fuzzy regression discontinuity); home rule cities expand their boundaries and tax bases more than general law cities (Texas).",
+      "source": "Chen 2024, Local autonomy and service delivery: how does home rule shape the provision of local public services?, Public Management Review 26(1):1-24 (doi 10.1080/14719037.2022.2039953); Zhang, Nguyen-Hoang and Chen 2022, The impact of home rule on municipal boundary and fiscal expansion: Evidence from Texas, Journal of Regional Science 62(5):1442-1466 (doi 10.1111/jors.12610); abstracts read at ideas.repec.org",
+      "notes": "Carried by the engine: home rule is what lets a town or county body legislate on what the state's law leaves to it (policyAuthority, src/core2/policy-authority.ts, read when the legislature drafts a bill), so the ordinances and the spending they fund come from the bodies' own bills, not from a rate the web moves. The abstracts give no effect size, so none is set.",
+      "carriedBy": "src/core2/policy-authority.ts lets a town or county body legislate on what the state leaves to home rule, read by src/core2/modules/legislature.ts when a bill is drafted; the bills it passes set the ordinances and spending"
+    },
+    {
+      "key": "public-pay-floor-to-other-employers-wages",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:public-pay-floor",
+      "to": "labor.wages",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force (an employer-wide pay floor for the public employers it binds)",
+      "lagMonths": 0,
+      "group": "workers at other employers in the town",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"we find that VMWs result in sizable wage increases and reductions in turnover at the companies that implemented them. Turning to wages at other companies, including those connected to the large retailer by worker flows, we estimate precise, economically negligible spillover effects.\" An employer-wide pay floor raises its own staff's pay; other employers' wages do not follow.",
+      "source": "Derenoncourt and Weil 2024, Voluntary Minimum Wages, NBER Working Paper 32546 (doi 10.3386/w32546), abstract; full text read at https://gceps.princeton.edu/wp-content/uploads/2024/06/wp333_Derenoncourt_VolMinWages.pdf (payroll data for thousands of firms, 2014 to 2023)",
+      "notes": "Carried by the engine: the floor raises the pay of the public employers it binds (holdPublicPay in src/core2/public-pay-floor.ts re-rates each named and counted job under it the day it takes effect and at each monthly review; the jobs engine posts a public opening at it, payFor in src/core2/modules/jobs.ts), and the wages measure reads that pay. Whether private employers follow is the owner's what-if question (OWNER-DECISIONS.md, the $70,000 public pay base); the research, on employer-wide minimums at the largest retailers, puts the spillover on other employers' wages at about zero, so the web adds nothing on top. The study's own-employer drop in turnover has no measure the web keeps (a missing measure, not a link).",
+      "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay",
+      "range": [-0.05, 0.05],
+      "rangeSource": "Derenoncourt and Weil 2024 estimate precise zero cross-employer wage elasticities in the six months after an employer-wide minimum; the band allows a small effect either way"
     }
   ],
   "calibratedAt": "2024-07-01"

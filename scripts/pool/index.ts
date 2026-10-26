@@ -39,6 +39,7 @@ export const STATUSES = [
 export const PRIORITIES = ["1", "2", "3"];
 export const SIZES = ["S", "M", "L"];
 const SIZE_RANK: Record<string, number> = { S: 0, M: 1, L: 2 };
+const PLAY_FIRST = ["play-stop-23", "play-stop-21", "play-stop-22"];
 const sizeOf = (i: { size?: string }): string => i.size || "M";
 
 export interface Item {
@@ -146,19 +147,27 @@ export function section(text: string, name: string): string {
   return (re.exec(body)?.[1] ?? "").trim();
 }
 
-/** Quality gate for open or claimed priority 1 and 2 items. Returns "<id>: <field> ..." problems. */
+/** Quality gate for open or claimed priority 1 and 2 items, and play-first items at any priority. Returns "<id>: <field> ..." problems. */
 export function quality(
   file: string,
   fm: Record<string, string>,
   text: string,
 ): string[] {
-  if (
-    !["open", "claimed"].includes(fm.status) ||
-    !["1", "2"].includes(fm.priority)
-  )
-    return [];
   const id = file.replace(/\.md$/, "");
-  const errs: string[] = [];
+  const live = ["open", "claimed"].includes(fm.status);
+  // The play-first lane (docs/play-first/README.md): every item is time-boxed
+  // at four hours or less and says what the owner will see, at any priority.
+  const lane: string[] = [];
+  if (live && fm.milestone === "play-first") {
+    const box = /^(\d+(?:\.\d+)?) hours?\b/.exec(section(text, "Time box"));
+    if (!box || Number(box[1]) <= 0 || Number(box[1]) > 4)
+      lane.push(`${id}: a play-first item needs a Time box of 4 hours or less`);
+    for (const name of ["You will see", "Screenshot"])
+      if (!section(text, name))
+        lane.push(`${id}: a play-first item needs its ${name} line`);
+  }
+  if (!live || !["1", "2"].includes(fm.priority)) return lane;
+  const errs: string[] = [...lane];
   const what = section(text, "What");
   const sentences = what.split(/[.!?](?:\s|$)/).filter((x) => x.trim()).length;
   if (sentences < 3 || words(what) < 40)
@@ -206,24 +215,38 @@ export function buildIndex(items: Item[]): string {
     i.status === "open" && waiting(i).length > 0;
   const by = (s: string): Item[] =>
     items.filter((i) => i.status === s && !gated(i));
-  const sorted = (xs: Item[]): Item[] =>
-    [...xs].sort(
-      (a, b) =>
+  const order = (a: Item, b: Item): number =>
+    a.priority.localeCompare(b.priority) ||
+    SIZE_RANK[sizeOf(a)] - SIZE_RANK[sizeOf(b)] ||
+    a.area.localeCompare(b.area) ||
+    a.id.localeCompare(b.id);
+  const sorted = (xs: Item[]): Item[] => [...xs].sort(order);
+  const playRank = (i: Item): number => {
+    const k = PLAY_FIRST.findIndex((p) => i.id.startsWith(p));
+    return k < 0 ? PLAY_FIRST.length : k;
+  };
+  const nextUp = (xs: Item[]): Item[] =>
+    [...xs].sort((a, b) => {
+      const pa = a.milestone === "play-first";
+      const pb = b.milestone === "play-first";
+      if (pa !== pb) return pa ? -1 : 1;
+      if (!pa) return order(a, b);
+      return (
         a.priority.localeCompare(b.priority) ||
-        SIZE_RANK[sizeOf(a)] - SIZE_RANK[sizeOf(b)] ||
-        a.area.localeCompare(b.area) ||
-        a.id.localeCompare(b.id),
-    );
+        playRank(a) - playRank(b) ||
+        a.id.localeCompare(b.id)
+      );
+    });
   const gatedItems = items.filter(gated);
   const counts = STATUSES.map(
     (s) => `${items.filter((i) => i.status === s).length} ${s}`,
   ).join(", ");
   const table = (xs: Item[]): string[] => [
-    "| id | title | area | kind | priority | size | claimed-by | pr | blocked-on |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    "| id | title | area | lead | kind | priority | size | claimed-by | pr | blocked-on |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ...sorted(xs).map(
       (i) =>
-        `| [${i.id}](items/${i.id}.md) | ${cell(i.title)} | ${i.area} | ${i.kind} | ${i.priority} | ${sizeOf(i)} | ${cell(i["claimed-by"])} | ${cell(i.pr)} | ${cell(i["blocked-on"])} |`,
+        `| [${i.id}](items/${i.id}.md) | ${cell(i.title)} | ${i.area} | ${cell(i.lead)} | ${i.kind} | ${i.priority} | ${sizeOf(i)} | ${cell(i["claimed-by"])} | ${cell(i.pr)} | ${cell(i["blocked-on"])} |`,
     ),
   ];
   const out = [
@@ -244,11 +267,11 @@ export function buildIndex(items: Item[]): string {
     "",
     "## Next up",
     "",
-    ...sorted(by("open"))
+    ...nextUp(by("open"))
       .slice(0, 15)
       .map(
         (i, n) =>
-          `${n + 1}. [${i.id}](items/${i.id}.md) (${i.area}, ${i.kind}, p${i.priority}, ${sizeOf(i)}) — ${cell(i.title)}`,
+          `${n + 1}. [${i.id}](items/${i.id}.md) (${i.area}${i.lead ? `, lead ${i.lead}` : ""}, ${i.kind}, p${i.priority}, ${sizeOf(i)}) — ${cell(i.title)}`,
       ),
     "",
   ];

@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** An effect is a read: every fixed test must assert the feature through the records an engine wrote and fail when nothing is found, never return early. No hand-written player text: journal lines stay not shippable until the English engine has graded them. Replace, never layer: duplicated pool sections, old-engine imports and stale stopgap lines are deleted, not kept beside the fix. Look before you ask: each child item cites the audit report line it fixes rather than reopening what was decided.
 
-**Done when.** Every child item release-audit-01 to release-audit-19 is done or carries a written reason, each fixed test fails on the old code and passes in a drawn place of a played-world year built with buildBenchWorld on a seed the builder did not choose, and docs/reports/merge-audit-2026-10-20.md lists the PR for every numbered fix.
+**Done when.** Every child item release-audit-01 to release-audit-19 is done or carries a written reason, each fixed test fails on the old code and passes in a drawn place of a played-world year built with buildBenchWorld on a seed the builder did not choose, and docs/reports/merge-audit-2026-10-20.md lists the PR for every numbered fix. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** docs/reports/merge-audit-2026-10-20.md
 

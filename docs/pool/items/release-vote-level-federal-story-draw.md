@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: glm/vote-level-federal-story-draw
 pr: #5845
 blocked-on:

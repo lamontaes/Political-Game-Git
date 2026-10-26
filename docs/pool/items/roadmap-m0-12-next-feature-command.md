@@ -5,12 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-m0-12
-pr:
+pr: #5872
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T00:59:01.349Z
+claimed-at: 2026-10-24T04:24:37.875Z
 ---
 
 **What.** Roadmap M0-12 says a fresh session can read the feature list and the progress file, pick the top unfinished feature and start without asking. It has no command, so it cannot pass. Since the owner's Oct 15 ruling the pool's INDEX is the progress file, so the command reads docs/roadmap/features.json and docs/pool/items, prints the first unfinished spec in milestone order with the open item that carries it, and fails when that spec has no item.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T00:59:01.349Z
 **Files.** scripts/roadmap/next-feature.ts, scripts/roadmap/next-feature.node-test.ts, docs/roadmap/features.json
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5872 (branch claude/quirky-ride-vrwwz4-m0-12): next-feature.ts:75-80 recommends an open item despite its unfinished after prerequisite; the real pool claim command rejects that recommendation, so share eligibility and add gated/claimable regression coverage; finish on that branch, merge main into it first.

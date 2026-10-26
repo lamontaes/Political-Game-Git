@@ -14,7 +14,7 @@ statement is unchanged and not up for negotiation by anything below.
 ## What exists today, and what is wrong with it
 
 Five traits — deliberation, sociability, conflict, reliability, risk — are a
-`as const` tuple in `src/simulation/people-trait-definitions.ts`, which yields a
+`as const` tuple in `src/core2/people-trait-definitions.ts`, which yields a
 `PeopleTrait` union type, which a hand-written `TRAIT_SHAPES` record must cover
 exactly. Each is held as an ordinal −2…+2, drawn once from the person's own
 seeded stream and written as an ordinary `PersonalityTendencyRecord` the first

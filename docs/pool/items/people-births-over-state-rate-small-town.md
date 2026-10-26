@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/quirky-ride-vrwwz4-births
+pr: #5919
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T05:22:02.495Z
 ---
 
 **What.** The M1-09 command (src/core2/moves.test.ts) on main b09ba675cd fails in Roche Harbor, Washington (seed 2cff037427070ab820471240abf093b2a383133b4fe484274019a40fd2076e26): 'brings births at about the state's 2024 rates for the women in town' expected at most 9.8 births in half a year and saw 14. The other nine moves tests pass there. Find whether the births engine over-weights a small or old town's women, or the expectation reads the wrong population, and fix the cause.

@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/gracious-edison-eu0prk
 pr: #5846
 blocked-on:
