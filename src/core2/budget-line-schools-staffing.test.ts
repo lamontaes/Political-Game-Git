@@ -182,8 +182,8 @@ function amendSchoolsLine(
     expect(budgetProposalDue(api, officeHost, mayorId), where).not.toBeNull();
     const staffBefore = teachers(district.id).map((j) => j.personId);
     const staffInPlace = staffBefore.length;
-    // A row set earlier in the same fiscal year keeps its base: the engine
-    // funds a line change against the staff the year began with.
+    // A row set earlier keeps the base the engine funds against: within its
+    // fiscal year the base it took, and in a new year the positions it funded.
     const earlier = staffingOf(api, "budget-line:schools", district.id);
     // The job each full person held when the line was proposed: a hire must
     // not have been taken from a job still running.
@@ -266,9 +266,11 @@ it("a cut to the city's schools line ends named teachers' jobs at the public sch
   const row = staffingOf(r.api, "budget-line:schools", r.district.id);
   expect(row, r.where).not.toBeNull();
   expect(row!.baseStaff, r.where).toBe(
-    r.earlier && r.earlier.fiscalYear === row!.fiscalYear
-      ? r.earlier.baseStaff
-      : baseDay(r, row!.setOn),
+    !r.earlier
+      ? baseDay(r, row!.setOn)
+      : r.earlier.fiscalYear === row!.fiscalYear
+        ? r.earlier.baseStaff
+        : r.earlier.positions,
   );
   expect(row!.positions, r.where).toBeCloseTo(
     row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
@@ -292,9 +294,11 @@ it("a raise to the city's schools line hires named adults who had no work at the
   const row = staffingOf(r.api, "budget-line:schools", r.district.id);
   expect(row, r.where).not.toBeNull();
   expect(row!.baseStaff, r.where).toBe(
-    r.earlier && r.earlier.fiscalYear === row!.fiscalYear
-      ? r.earlier.baseStaff
-      : baseDay(r, row!.setOn),
+    !r.earlier
+      ? baseDay(r, row!.setOn)
+      : r.earlier.fiscalYear === row!.fiscalYear
+        ? r.earlier.baseStaff
+        : r.earlier.positions,
   );
   expect(row!.positions, r.where).toBeCloseTo(
     row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
