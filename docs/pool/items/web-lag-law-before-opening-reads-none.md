@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/web-reach-health-played
 pr: #6006
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-26T02:07:02.849Z
 ---
 
 **What.** The outcome web reads a law's value lagMonths back (lawValue in src/core2/modules/outcome-web.ts:145, used by effectOf). A starting policy-question row is dated at the opening (src/core2/modules/laws.ts:194, the earlier of today and the answers' date), so for any month before the opening the web reads no law. When a law in force at the opening is repealed, its lagged value reads as none, not yes, and the repeal's full effect shows in the first month instead of after the lag. Seen in the laws lead's checker run: right-to-work-to-turnout (lag 12 months) at 0.031 in Uehling, Nebraska (seed 5e27b0c4196fd3a8) in 2025-01, the month right-to-work was repealed.
