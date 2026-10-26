@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: done
+status: in-pr
 claimed-by:
 pr: #6112
 blocked-on:
