@@ -504,7 +504,7 @@ select:focus-visible {
   stroke: rgba(242, 237, 228, 0.28);
 }
 .reply.lying,
-.said.lying {
+.history.lying {
   color: var(--lying);
   text-shadow: 0 0 3px rgba(214, 88, 64, 0.4);
 }
@@ -1080,11 +1080,23 @@ body.dev .dev-ring {
 #talk-lines li + li {
   margin-top: 6px;
 }
-#talk-lines .said {
+/* What was said before: a separate block above the line being said now, quieter, with a
+   rule under it and the speaker named. */
+#talk-lines .history {
   font: 400 13px/1.35 var(--ui);
   color: var(--text-3);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
-#talk-lines .said.lying {
+#talk-lines .history-who {
+  display: block;
+  font: 600 10.5px/1.5 var(--ui);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+#talk-lines .history.lying {
   color: var(--lying);
 }
 #talk-lines .narration {

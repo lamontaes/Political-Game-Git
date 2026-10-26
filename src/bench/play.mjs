@@ -1092,10 +1092,19 @@ function spokenLines(lines, speakerOf) {
   return [
     ...(lastMine >= 0
       ? [
-          el("li", {
-            className: `said${lines[lastMine].act === "lie" ? " lying" : ""}`,
-            textContent: lines[lastMine].text,
-          }),
+          // What was said before sits apart from the line being said now: its own
+          // block, quieter, with the speaker named (owner, Oct 26).
+          el(
+            "li",
+            {
+              className: `history${lines[lastMine].act === "lie" ? " lying" : ""}`,
+            },
+            el("span", {
+              className: "history-who",
+              textContent: $("card-name").textContent,
+            }),
+            lines[lastMine].text,
+          ),
         ]
       : []),
     ...theirs.map((line) =>
