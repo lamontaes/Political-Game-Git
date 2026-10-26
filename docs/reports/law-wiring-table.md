@@ -20,19 +20,19 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | public funds for private schooling           | education          | yes    | yes    | yes   | part    | part  | SG  | yes     | yes    | yes       | partly     |
 | raise teacher minimum salary                 | education          | yes    | yes    | yes   | part    | NO    | NO  | yes     | yes    | yes       | partly     |
 | Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | part  | SG  | NO      | yes    | yes       | partly     |
-| Income tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | NO    | n/a | yes     | NO     | yes       | partly     |
+| Income tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | Sales tax rate                               | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | NO     | yes       | partly     |
-| Property tax rate                            | taxes-finance      | yes    | yes    | NO    | yes     | yes   | NO  | yes     | NO     | NO        | partly     |
-| Corporate income tax rate                    | taxes-finance      | yes    | yes    | NO    | NO      | NO    | NO  | yes     | NO     | NO        | partly     |
-| Estate tax rate                              | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a | yes     | NO     | NO        | partly     |
-| Inheritance tax rate                         | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a | yes     | NO     | NO        | partly     |
-| adopt income tax                             | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a | yes     | NO     | NO        | partly     |
-| cap property tax growth                      | taxes-finance      | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
+| Property tax rate                            | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| Corporate income tax rate                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| Estate tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | part  | n/a | yes     | yes    | yes       | partly     |
+| Inheritance tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
+| adopt income tax                             | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| cap property tax growth                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | NO    | NO  | yes     | yes    | yes       | partly     |
-| graduated income tax                         | taxes-finance      | yes    | yes    | part  | part    | part  | n/a | yes     | yes    | part      | partly     |
-| balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | part    | NO    | yes | yes     | yes    | yes       | partly     |
-| fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | part    | part  | yes | yes     | yes    | yes       | partly     |
-| minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | part    | part  | yes | yes     | yes    | yes       | partly     |
+| graduated income tax                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | SNAP maximum benefit                         | assistance         | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
 | Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | part  | SG  | NO      | yes    | yes       | partly     |
 | Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
@@ -90,7 +90,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | limit groundwater withdrawal                 | agriculture        | yes    | yes    | SG    | yes     | part  | yes | yes     | NO     | NO        | partly     |
 | protect farmland from development            | agriculture        | yes    | yes    | SG    | yes     | part  | yes | yes     | NO     | NO        | partly     |
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | part  | SG  | yes     | NO     | yes       | partly     |
-| local-income-tax-authority                   | starting law       | yes    | NO     | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
+| local-income-tax-authority                   | starting law       | yes    | NO     | yes   | yes     | n/a   | n/a | yes     | yes    | yes       | partly     |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | yes   | yes     | n/a   | yes | yes     | yes    | yes       | wired      |
 | unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | yes | yes     | n/a    | yes       | wired      |
 
@@ -200,93 +200,24 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure college enrollment and completion (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
-**Income tax rate** (`income-tax`)
-
-- money: no money flow: nobody pays or receives anything because of it
-- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
-
 **Sales tax rate** (`sales-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household prices and local retail sales (SG-LAW-outcome-link-unresearched)
 - repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
-**Property tax rate** (`property-tax`)
-
-- reach: no law-reach row: nothing records who it applies to
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**Corporate income tax rate** (`corporate-income-tax`)
-
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
 **Estate tax rate** (`estate-tax`)
 
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **Inheritance tax rate** (`inheritance-tax`)
 
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**adopt income tax** (`us-policy-positions:fiscal.adopt-income-tax`)
-
-- reach: handler registered (group B, mechanic income-tax-adopt) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**cap property tax growth** (`us-policy-positions:fiscal.cap-property-tax-growth`)
-
-- reach: handler registered (group B, mechanic property-assessment) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-property-tax-bills)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **exempt groceries from sales tax** (`us-policy-positions:fiscal.exempt-groceries-from-sales-tax`)
 
 - money: no money flow: nobody pays or receives anything because of it
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-
-**graduated income tax** (`us-policy-positions:fiscal.graduated-income-tax`)
-
-- reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- allPlaces: reached people in one drawn place and not the other
-
-**balanced operating budget** (`us-policy-positions:fiscal.balanced-operating-budget`)
-
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- money: no money flow: nobody pays or receives anything because of it
-
-**fund pensions to schedule** (`us-policy-positions:fiscal.fund-pensions-to-schedule`)
-
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-
-**minimum reserve balance** (`us-policy-positions:fiscal.minimum-reserve-balance`)
-
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 
 **SNAP maximum benefit** (`snap-maximum`)
 
@@ -501,12 +432,8 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **local-income-tax-authority** (`local-income-tax-authority`)
 
 - change: no bill catalog policy and no series-powers row: no body can propose, enact or repeal it
-- reach: no law-reach row: nothing records who it applies to
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure local income tax adoption (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- money: the law only grants or withholds a power: a state's permission for its localities to levy an income tax; the grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)
+- web: The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own.
 
 **local-minimum-wage-authority** (`local-minimum-wage-authority`)
 
