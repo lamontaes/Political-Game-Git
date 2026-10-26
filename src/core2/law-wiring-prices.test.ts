@@ -18,6 +18,7 @@ import { LAW_REACH_HOST_ID } from "./law-reach/host";
 import { LAW_APPLIED_TABLE, type LawAppliedRow } from "./law-reach/applied";
 import { WEB_LINKS } from "./outcome-web-model";
 import type { LawRowInput } from "./laws-starting";
+import { BUDGETS_MODULE_ID } from "./modules/budgets";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { licensedSellers } from "./modules/place-prices";
@@ -235,10 +236,17 @@ function run(
   recording = true;
   for (const key of YES_LAWS) setAll(api, key, 1, "on");
   const lawIds = new Map<string, string>();
+  /** Every row the test enacted for each law, one per level of the chain. */
+  const ownRows = new Map<string, Set<string>>();
   for (const key of YES_LAWS) {
-    const row = lawInForce(api, key).governing;
+    const answer = lawInForce(api, key);
+    const row = answer.governing;
     expect(row, `${where}: ${key} in force`).toBeTruthy();
     lawIds.set(key, row!.id);
+    ownRows.set(
+      key,
+      new Set(answer.levels.flatMap((l) => (l.row ? [l.row.id] : []))),
+    );
     watched.push(row!.id);
   }
   advanceCore(core, addDays(makeIsoDate(core.date), PLAYED_DAYS));
@@ -260,8 +268,20 @@ function run(
   for (const law of PRICE_LAWS) {
     const rule = rules.find((r) => r.cause.includes(law.key));
     expect(rule, `${where}: ${law.key} price rule`).toBeDefined();
-    const rows = current(applied(core, law.key), enactedOn);
+    const all = current(applied(core, law.key), enactedOn);
     const lawId = lawIds.get(law.key)!;
+    // The budgets engine also reaches each government whose lines the law
+    // moves (a fare-free system's lost fares), under that government's own
+    // row of the law; every other record is the price engine's.
+    for (const row of all.filter((r) => r.engine !== "place-prices")) {
+      expect(row.engine, `${where}: ${row.id}`).toBe(BUDGETS_MODULE_ID);
+      expect(row.target, `${where}: ${row.id}`).toBe("government");
+      expect(
+        ownRows.get(law.key)!.has(row.lawId),
+        `${where}: ${row.id} names ${row.lawId}`,
+      ).toBe(true);
+    }
+    const rows = all.filter((r) => r.engine === "place-prices");
     const households = rows.filter((r) => r.target === "household");
     const groups = rows.filter((r) => r.target === "group");
     expect(
