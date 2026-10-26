@@ -63,74 +63,77 @@ function randomPlace(salt = "") {
   return pick(places, `place${salt}`);
 }
 
-/** A random place with a local or state race open at the start (some, like Virginia's towns, vote in odd years). */
-function placeWithOpenRace(): string {
-  for (let n = 0; n < 8; n += 1) {
-    const key = randomPlace(n ? `:${n}` : "").key;
-    const core = createLifeCore(
-      buildPopulation({
-        seed,
-        placeKey: key,
-        startedAt: START,
-        minimumPeople: 60,
-      }),
-    );
-    openOffices(core, seed);
-    openElections(core);
-    if (openContests(coreAPI(core)).some((c) => c.level !== "federal"))
-      return key;
+/**
+ * A place's world at the start, with two residents filed for the soonest open
+ * local or state race they qualify for; undefined when no race takes both
+ * (none open at the start, as in a state whose filing closed the autumn
+ * before, or every filing refused).
+ */
+function filedRace(place: string) {
+  const core = createLifeCore(
+    buildPopulation({
+      seed,
+      placeKey: place,
+      startedAt: START,
+      // A small town: the year of daily work the election runs through
+      // costs time per person.
+      minimumPeople: 60,
+    }),
+  );
+  openOffices(core, seed);
+  openElections(core);
+  openCampaigns(core);
+  openParties(core);
+  const api = coreAPI(core);
+  const adults = [...core.people.values()]
+    .filter(
+      (p) => Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+    )
+    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const platform = [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
+  for (const open of openContests(api).filter((c) => c.level !== "federal")) {
+    const filed: FilingRow[] = [];
+    for (const person of adults.slice(0, 2)) {
+      const result = fileCandidacy(api, {
+        personId: person.id,
+        contestId: open.id,
+        platform,
+      });
+      if (result.status === "refused") break;
+      if (result.filing.status === "on-ballot") filed.push(result.filing);
+    }
+    if (filed.length === 2) return { core, api, contest: open, filed };
   }
-  return randomPlace().key;
+  return undefined;
 }
 
 describe("M2-07 elections", () => {
   it("votes come from each person's own reasons, the wider electorate votes on the same engine, and the winner takes the seat on its date", () => {
-    const place = process.env.GOLDEN_PATH_PLACE_KEY ?? placeWithOpenRace();
-    const core = createLifeCore(
-      buildPopulation({
-        seed,
-        placeKey: place,
-        startedAt: START,
-        // A small town: the year of daily work the election runs through
-        // costs time per person.
-        minimumPeople: 60,
-      }),
-    );
-    openOffices(core, seed);
-    openElections(core);
-    openCampaigns(core);
-    openParties(core);
-    const api = coreAPI(core);
-    // Two residents file for the soonest open race they qualify for.
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
-    const platform = [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
-    let filed: FilingRow[] = [];
-    let contest: ContestRow | undefined;
-    for (const open of openContests(api).filter((c) => c.level !== "federal")) {
-      filed = [];
-      for (const person of adults.slice(0, 2)) {
-        const result = fileCandidacy(api, {
-          personId: person.id,
-          contestId: open.id,
-          platform,
-        });
-        if (result.status === "refused") break;
-        const filing = result.filing;
-        if (filing.status === "on-ballot") filed.push(filing);
-      }
-      if (filed.length === 2) {
-        contest = open;
-        break;
-      }
+    // The runner's place first, then places drawn from the same seed, until
+    // one holds a race two residents can file for at the start.
+    const tried: string[] = [];
+    const draws = [
+      ...(process.env.GOLDEN_PATH_PLACE_KEY
+        ? [process.env.GOLDEN_PATH_PLACE_KEY]
+        : []),
+      ...Array.from({ length: 8 }, (_, n) => randomPlace(n ? `:${n}` : "").key),
+    ];
+    let place = "";
+    let world: ReturnType<typeof filedRace>;
+    for (place of draws) {
+      world = filedRace(place);
+      if (world) break;
+      tried.push(place);
     }
-    expect(contest, `no open local or state race in ${place}`).toBeDefined();
+    if (tried.length)
+      console.log(
+        `M2-07: seed ${seed}; no race two residents could file for in ${tried.join(", ")}; ran in ${place}`,
+      );
+    expect(
+      world,
+      `no open local or state race in ${tried.join(", ")}`,
+    ).toBeDefined();
+    const { core, api, contest, filed } = world!;
     openVoting(core);
     knockDoors(api, {
       filingId: filed[0]!.id,
