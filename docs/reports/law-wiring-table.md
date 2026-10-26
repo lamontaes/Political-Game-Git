@@ -55,7 +55,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | SG    | yes  | yes     | NO     | NO        | partly     |
 | ban new gas hookups                          | energy-environment | yes    | yes    | SG    | yes     | part  | SG   | yes     | NO     | NO        | partly     |
 | clean electricity standard                   | energy-environment | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
-| clean air plan for polluted counties         | energy-environment | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     |
+| clean air plan for polluted counties         | energy-environment | yes    | yes    | n/a   | yes     | yes   | yes  | yes     | yes    | n/a       | wired      |
 | Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
 | bottle deposit                               | energy-environment | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
 | price carbon                                 | energy-environment | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
@@ -87,7 +87,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | age verification for social media            | technology         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped |
 | restrict government facial recognition       | technology         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      |
-| limit groundwater withdrawal                 | agriculture        | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     |
+| limit groundwater withdrawal                 | agriculture        | yes    | yes    | n/a   | yes     | yes   | yes  | yes     | yes    | n/a       | wired      |
 | protect farmland from development            | agriculture        | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | local-income-tax-authority                   | starting law       | yes    | NO     | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
@@ -368,8 +368,8 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **clean air plan for polluted counties** (`us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties`)
 
-- reach: reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10), Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- allPlaces: reached people in one drawn place and not the other
+- reach: The plan's duty falls on stationary sources in counties EPA designates as missing an air standard (Clean Air Act sec. 107(d) and 172, 42 U.S.C. 7407(d) and 7502; the game reads the designations through countyNonattainment in src/core2/business-operating-rules.ts). The two audit towns' counties, Ogemaw County, Michigan (FIPS 26129, Prescott) and Dodge County, Nebraska (FIPS 31053, Uehling), have no designation in 2025, so the statute binds no source there and the plan's rows are empty by law, in play and in the checker. Where a county is designated (Hunterdon County, New Jersey, FIPS 34019, Lebanon: two ozone standards) the same engine bound 3 emitting businesses (rights-env-subject-cleanair-US-NJ-3439630.json).
+- allPlaces: One code path serves every place (business.ts routeCompliance reads the county's designations); it binds nobody only where the statute binds nobody: counties with no designation (Ogemaw, Michigan; Dodge, Nebraska), and it binds the emitters in a county that has one (Hunterdon, New Jersey: 3 businesses).
 
 **Spending: naturalResources** (`budget-line:naturalResources`)
 
@@ -491,8 +491,8 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **limit groundwater withdrawal** (`us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal`)
 
-- reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- allPlaces: reached people in one drawn place and not the other
+- reach: A withdrawal cap binds the farms that draw the water; the researched response is the output a farm gives up under a cap (Kansas Local Enhanced Management Areas, K.S.A. 82a-1041; Nebraska natural resources district allocations; groundwaterWithdrawalShare in the business parameters), and the engine applies it to farms only (business.ts readGroundwaterLaw). The Nebraska audit town (Uehling) has no farm among its generated organizations, so the law has no subject there; the Michigan audit town (Prescott) has one farm (organization_4b47f062ac052d9a, an applied row in rights-env-year-US-MI-2666300.json) and the Oregon subject town (Troutdale) has one (organization_2c4415fc453bce44). The policy row also names mining and utilities, for which no response is researched, so none is applied (a research gap, not a link this entry covers).
+- allPlaces: One code path serves every place (business.ts readGroundwaterLaw); it binds nobody only where the town has no farm (Uehling, Nebraska) and binds the farm where there is one (Prescott, Michigan; Troutdale, Oregon).
 
 **local-income-tax-authority** (`local-income-tax-authority`)
 
