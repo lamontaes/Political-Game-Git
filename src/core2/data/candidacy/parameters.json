@@ -99,9 +99,9 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyOpenSeatWeight": {
-    "value": 1.2,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them, counting a seat whose incumbent stands down as open. Measured in played towns (buildBenchWorld, one year from the opening): at 0.5, the open county treasurer seat in St. Johnsbury, Vermont (seed f915eb03) drew 2 candidates, and the open mayor's seat in Las Marías, Puerto Rico (seed a5ba2b1a) drew none, its closest resident 0.61 short of running. At 1.2, the treasurer seat drew 4 candidates, and Las Marías's two open seats (mayor and a municipal legislator) drew 1 each. A seat an incumbent defends does not read this weight. Spread 0.5 to 1.5.",
+    "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Set at the low end so one open seat in a town of about a thousand adults still draws only a handful. Spread 0.5 to 1.5.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyRecordGapWeight": {
