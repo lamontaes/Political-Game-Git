@@ -115,5 +115,13 @@
     "window": "July 1 over July 1, 2000-2024, the 50 states and D.C., within each vintage (Census Bureau intercensal 2000-2010, Vintage 2020, Vintage 2024 state population estimates)",
     "source": "U.S. Census Bureau, Population Estimates Program, state population totals: https://www2.census.gov/programs-surveys/popest/datasets/",
     "tag": "SOURCED"
+  },
+  "territoryOneYearPopulationChangePct": {
+    "p05": -2.3194921514963385,
+    "p95": 0.6492140443979499,
+    "n": 96,
+    "window": "Each year over the one before, 2000-2024, American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands (World Bank, total population)",
+    "source": "World Bank, World Development Indicators, Population, total (SP.POP.TOTL): https://data.worldbank.org/indicator/SP.POP.TOTL, retrieved 2026-10-26",
+    "tag": "SOURCED"
   }
 }

@@ -11,6 +11,14 @@ Raw files (www2.census.gov/programs-surveys/popest/datasets/, retrieved
 2020-2024/state/totals/NST-EST2024-ALLDATA.csv.
 Each change is July 1 over July 1 within one vintage, so no change spans the
 seam between an intercensal series and the next vintage's base.
+
+The four territories without state estimates (American Samoa, Guam, the
+Northern Mariana Islands, the U.S. Virgin Islands) get their own range from
+the World Bank's World Development Indicators, total population (SP.POP.TOTL),
+2000-2024: raw file wb-territories.json, from
+https://api.worldbank.org/v2/country/ASM;GUM;MNP;VIR/indicator/SP.POP.TOTL?format=json&date=2000:2024&per_page=200
+(retrieved 2026-10-26, last updated 2026-10-08, not kept). Writes
+territoryOneYearPopulationChangePct.
 """
 import csv, json, pathlib, sys
 import numpy as np
@@ -45,5 +53,26 @@ stats["stateOneYearPopulationChangePct"] = {
     "source": "U.S. Census Bureau, Population Estimates Program, state population totals: https://www2.census.gov/programs-surveys/popest/datasets/",
     "tag": "SOURCED",
 }
+# The territories: each year over the one before, from the World Bank series.
+rows = json.loads((RAW / "wb-territories.json").read_text())[1]
+by = {}
+for row in rows:
+    if row["value"] is not None:
+        by.setdefault(row["countryiso3code"], {})[int(row["date"])] = row["value"]
+territory = [
+    (years[y + 1] / years[y] - 1) * 100
+    for years in by.values()
+    for y in sorted(years)
+    if y + 1 in years
+]
+stats["territoryOneYearPopulationChangePct"] = {
+    "p05": float(np.percentile(territory, 5)),
+    "p95": float(np.percentile(territory, 95)),
+    "n": len(territory),
+    "window": "Each year over the one before, 2000-2024, American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands (World Bank, total population)",
+    "source": "World Bank, World Development Indicators, Population, total (SP.POP.TOTL): https://data.worldbank.org/indicator/SP.POP.TOTL, retrieved 2026-10-26",
+    "tag": "SOURCED",
+}
 OUT.write_text(json.dumps(stats, indent=2) + "\n")
 print(json.dumps(stats["stateOneYearPopulationChangePct"], indent=1))
+print(json.dumps(stats["territoryOneYearPopulationChangePct"], indent=1))

@@ -92,30 +92,44 @@ check(
 );
 
 // 2. Within real ranges: each region's change over the year against the 5th
-// to 95th percentile of the real one-year state change (Census Bureau state
-// estimates, data/research/regional/series/stats.json). A tenth of real
-// state-years fall outside that band, so no more than a tenth of the regions
-// may. The band is the states' and D.C.'s; a territory's region is not held
-// to it.
-const band = stats.stateOneYearPopulationChangePct;
+// to 95th percentile of the real one-year change where it lies: a state's
+// metro or rest of state against the states' and D.C.'s (Census Bureau state
+// estimates), a territory against the four territories' (World Bank), both
+// in data/research/regional/series/stats.json. A tenth of real years fall
+// outside such a band, so no more than a tenth of the regions may.
+const bands = {
+  state: stats.stateOneYearPopulationChangePct,
+  territory: stats.territoryOneYearPopulationChangePct,
+};
 const territories = new Set(
   REGIONS.filter((row) => row.kind === "territory").map((row) => row.id),
 );
 const changes = [...opening].flatMap(([id, before]) => {
   const after = year.get(id);
-  return after && before.population && !territories.has(id)
-    ? [{ id, pct: (after.population / before.population - 1) * 100 }]
+  return after && before.population
+    ? [
+        {
+          id,
+          pct: (after.population / before.population - 1) * 100,
+          band: territories.has(id) ? bands.territory : bands.state,
+        },
+      ]
     : [];
 });
 const outside = changes.filter(
-  (row) => row.pct < band.p05 || row.pct > band.p95,
+  (row) => row.pct < row.band.p05 || row.pct > row.band.p95,
 );
+const checkedTerritories = changes.filter((row) => territories.has(row.id));
 check(
   changes.length > 0 && outside.length <= changes.length * 0.1,
-  `${where}: ${outside.length} of ${changes.length} regions' one-year population change sit outside the real ${band.p05.toFixed(2)}% to ${band.p95.toFixed(2)}% (${band.window}): ${outside
+  `${where}: ${outside.length} of ${changes.length} regions' one-year population change sit outside their real band (states ${bands.state.p05.toFixed(2)}% to ${bands.state.p95.toFixed(2)}%, territories ${bands.territory.p05.toFixed(2)}% to ${bands.territory.p95.toFixed(2)}%): ${outside
     .slice(0, 5)
     .map((row) => `${row.id} ${row.pct.toFixed(2)}%`)
     .join(", ")}`,
+);
+check(
+  checkedTerritories.length === territories.size,
+  `${where}: ${checkedTerritories.length} of ${territories.size} territory regions' population changes were checked`,
 );
 // 3. Other places' voters' views: no engine keeps views for places outside
 // the town (the views engine holds the town's people only).
@@ -147,12 +161,20 @@ console.log(
       from: openingMonth,
       through: stepped,
       changed,
-      populationBand: [band.p05, band.p95],
-      regionsOutsideBand: outside.length,
-      widestChange: changes.reduce(
-        (top, row) => (Math.abs(row.pct) > Math.abs(top.pct) ? row : top),
-        changes[0] ?? { id: "", pct: 0 },
+      populationBands: {
+        state: [bands.state.p05, bands.state.p95],
+        territory: [bands.territory.p05, bands.territory.p95],
+      },
+      territoriesChecked: checkedTerritories.map(
+        (row) => `${row.id} ${row.pct.toFixed(2)}%`,
       ),
+      regionsOutsideBand: outside.length,
+      widestChange: changes
+        .map(({ id, pct }) => ({ id, pct }))
+        .reduce(
+          (top, row) => (Math.abs(row.pct) > Math.abs(top.pct) ? row : top),
+          { id: "", pct: 0 },
+        ),
       countedMoves: moves.length,
       sampleMove: moves.at(-1)
         ? `${moves.at(-1)!.id}: ${Object.keys(moves.at(-1)!.reasons).join(", ")}`
