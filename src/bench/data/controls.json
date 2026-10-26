@@ -29,8 +29,6 @@
     "about": "about"
   },
   "endedBy": {
-    "start": "Shift starts",
-    "end": "Shift ends",
     "moment": "Something needs you",
     "job-offered": "A job offer",
     "results": "Election results",
