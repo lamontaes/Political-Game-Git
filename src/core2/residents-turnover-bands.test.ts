@@ -56,12 +56,12 @@ it("reports a played year's monthly turnover rates against JOLTS, by record id",
   });
   const from = core.date;
   const to = addDays(makeIsoDate(from), 365);
-  // The CPS absence measure is the share of workers absent in a survey week:
-  // a week at a time, each full person's completed work weeks (planned days,
-  // and any missed) are read from the work engine's weekly rollups before
-  // they age out. The counted tier has no absence mechanic yet
-  // (SG-CORE-residents-cadence), so its share is zero by construction and is
-  // reported apart.
+  // Attendance diagnostic only: completed job-weeks with any missed work
+  // segment, read before rollups age out. This is not the CPS absence rate:
+  // it does not select full-time workers' main jobs, hours below 35, or the
+  // survey's included reasons. The comparable report and counted absence
+  // mechanic remain in research-residents-cadence-sourced and
+  // people-residents-cadence-mechanic.
   const seen = new Set<string>();
   let plannedWeeks = 0;
   let absentWeeks = 0;
@@ -98,11 +98,11 @@ it("reports a played year's monthly turnover rates against JOLTS, by record id",
     `turnover: ${where}; ${report.employed} employed; changes ${JSON.stringify(report.counts)}; ${lines.join("; ")}; ids ${JSON.stringify(report.ids)}\n`,
   );
   process.stdout.write(
-    `absence: ${where}; full people absent in ${absentWeeks} of ${plannedWeeks} work weeks (${absenceShare.toFixed(2)} percent) against CPS ${absenceRate("Private sector")} private and ${absenceRate("Public sector")} public, e.g. ${absentSample.join("; ")}; counted workers 0 by construction (SG-CORE-residents-cadence)\n`,
+    `attendance diagnostic: ${where}; full-person job-weeks with a missed work segment ${absentWeeks} of ${plannedWeeks} (${absenceShare.toFixed(2)} percent), e.g. ${absentSample.join("; ")}; not comparable to CPS absence rates (${absenceRate("Private sector")} private, ${absenceRate("Public sector")} public); counted absence not measured (SG-CORE-residents-cadence)\n`,
   );
   expect(report.employed, where).toBeGreaterThan(0);
   expect(Object.keys(report.counts).length, where).toBeGreaterThan(0);
-  // The absence share is measured from the full people's own weeks.
+  // The diagnostic has a nonempty denominator from actual work rollups.
   expect(
     plannedWeeks,
     `${where}: full people's work weeks read`,
