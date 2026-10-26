@@ -3,6 +3,7 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
+import { makeCard } from "./ui/card.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
 import { show, mountCloseButtons } from "./ui/panel.mjs";
 mountCloseButtons();
@@ -2806,9 +2807,9 @@ const sheets = {
     ])
       for (const item of finances[key] ?? [])
         root.append(
-          el(
-            "section",
-            { className: "money-item" },
+          makeCard(
+            "money-item",
+            { as: "section" },
             el("span", { className: "label", textContent: label }),
             el("h3", { textContent: item.name }),
             el("strong", { textContent: dollars(item.minor) }),
@@ -2823,9 +2824,9 @@ const sheets = {
     const labels = controls.jobs;
     const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`);
     const job = me.card.job;
-    const work = el(
-      "section",
-      { className: "work-overview" },
+    const work = makeCard(
+      "work-overview",
+      { as: "section" },
       el("h3", { textContent: labels.work }),
     );
     if (job) {
@@ -2875,9 +2876,9 @@ const sheets = {
         el("h3", { className: "work-heading", textContent: labels.offers }),
       );
     for (const offer of view.offers) {
-      const card = el(
-        "section",
-        { className: "job-offer" },
+      const card = makeCard(
+        "job-offer",
+        { as: "section" },
         el("h3", { textContent: offer.title }),
         el("p", { textContent: offer.employer }),
         row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
@@ -3107,7 +3108,7 @@ const sheets = {
     return members
       .filter((m) => m.name)
       .map((m) => {
-        const card = el("div", { className: "family-card" });
+        const card = makeCard("family-card", {});
         if (m.backdrop) {
           const pic = el(
             "div",
@@ -4332,9 +4333,9 @@ const sheets = {
                 .includes(search.value.toLowerCase()),
             )
             .map((law) => {
-              const detail = el(
-                "details",
-                { className: "law-card" },
+              const detail = makeCard(
+                "law-card",
+                { as: "details" },
                 el(
                   "summary",
                   {},
