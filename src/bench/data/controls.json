@@ -268,7 +268,16 @@
     "card": "View person",
     "talk": "Talk",
     "back": "Back",
-    "next": "Continue"
+    "next": "Continue",
+    "joined": "Closer this year",
+    "left": "Drifted away",
+    "noChange": "Your five closest are the same as a year ago",
+    "causes": {
+      "person.moved-away": "Moved away",
+      "life.death": "Died",
+      "no-time-together": "No time together lately",
+      "chosen-act": "Time together"
+    }
   },
   "news": {
     "title": "News",
@@ -295,6 +304,8 @@
   },
   "politics": {
     "seats": "Seats",
+    "yourMembers": "Your members",
+    "leaders": "Leaders",
     "notChosenHere": "Not chosen by this place's voters",
     "votes": "Votes",
     "yes": "Yes",
@@ -315,7 +326,7 @@
     "ownState": "Your state"
   },
   "results": {
-    "turnout": "Turnout",
+    "cast": "Ballots cast",
     "exitPoll": "Exit poll",
     "wonIn": "Where it was won",
     "you": "You",
@@ -323,7 +334,11 @@
     "won": "Won",
     "lost": "Lost",
     "unopposed": "Unopposed",
-    "abstained": "—"
+    "abstained": "—",
+    "nation": "Governor races across the country",
+    "marginBy": "by",
+    "points": "points",
+    "noNation": "No governor races have been counted yet"
   },
   "money": {
     "cash": "Cash available",

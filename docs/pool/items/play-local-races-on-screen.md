@@ -5,14 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
-claimed-by: play-first/play-local-races-on-screen
+status: open
+claimed-by:
 pr: #6160
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from elections-local-races-too-uncontested)
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-26T08:26:28.006Z
+claimed-at:
 ---
 
 **What.** The candidacy engine decides who runs for each council, mayor and county seat, and elections-local-races-too-uncontested is fixing how many do. The player cannot see any of it: Campaigns shows only the player's own race, so an empty or one-name race is invisible until election night. Add a Local races block to Politics → Campaigns that lists each seat on the town's next ballot with every filer by name, read from the filing records, and says Unopposed or No one has filed where that is the record.
@@ -30,3 +30,7 @@ claimed-at: 2026-10-26T08:26:28.006Z
 **Files.** src/bench/campaign.ts, src/bench/play.mjs, src/bench/data/controls.json
 
 **Notes.** Filed by the Oct 25 pool audit: elections-local-races-too-uncontested's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with elections-local-races-too-uncontested (needs-from in the handoff line).
+
+Merger 0: Sent back 2026-10-26 from PR #6160 (branch play-first/play-local-races-on-screen): own merged-tree validation blocked by this merger workspace's invalid GH_TOKEN/HTTP401, preventing real-head fetch and main integration/push; no code defect claimed. Status/Notes updated through connected GitHub because the pool CLI cannot authenticate. Finish validation on that branch with working checkout credentials, merge main into it first.
+
+Merger 0: Rechecked after authentication recovered, 2026-10-26, PR #6160 branch play-first/play-local-races-on-screen at bc5ef27171104470e47d2818e89be79ad02ab12f. Sent back for a code conflict in src/bench/government.ts when integrating current main; merge aborted without a hand resolution, push or gate/screenshot-verification claim. Preserve current government-view changes while integrating this route, then rerun the real filing-record and visible Campaigns proofs. Malformed screenshot markup repaired as pinned links; owner screenshot confirmation is not a PR gate under the current ruling. Current open CLI succeeds; this actual conflict reason supersedes the resolved authentication blocker. Finish on that branch, merge main into it first.
