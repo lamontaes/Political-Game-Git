@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T23:42:13.390Z
 
 **Rules.** Red main comes first: repair the package build at its root, keeping every check it runs. Replace, never layer: change the existing step's heap setting; add no second build and skip no typecheck project.
 
-**Done when.** The package job's "Build the game" step uses the same measured 5 GB heap as candidate validation; on current main `typecheck-test-imports.ts` fails at 4 GB and both typecheck scripts pass at 5 GB in a local run, with peak memory recorded in the PR; the release workflow test passes; and the PR names the failed run.
+**Done when.** The package job's "Build the game" step uses the same measured 5 GB heap as candidate validation; on current main `typecheck-test-imports.ts` fails at 4 GB and both typecheck scripts pass at 5 GB in a local run, with peak memory recorded in the PR; the release workflow test passes; and the PR names the failed run. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** .github/workflows/release.yml, docs/release/changes/release-package-build-heap.md
 
