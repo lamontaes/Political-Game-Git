@@ -23,3 +23,5 @@ claimed-at: 2026-10-26T18:00:13.351Z
 **Files.** scripts/law-wiring/check.ts, scripts/law-wiring/matrix.ts, src/core2/law-wiring-rights-env.test.ts, src/core2/budgets-treasury.ts
 
 **Notes.** Laws lead, Oct 26. PR #5669 moves to this item; `laws-nine-links-rights-env` stays open for the five.
+
+Laws-effects lead, Oct 26 19:55 UTC: PR #5669 moved to laws-nine-links-rights-six. On main's checker the two parks laws move only parks.access-to-exercise, which no engine reads, so this item's eight cannot be met as written. The CTO may drop it; the parks two stay on laws-nine-links-rights-env.
