@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #4945
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found while fixing gov-body-named-by-member-title, which names the bodies (bodyName) but not the screen's government label. That item left the Play-owned files alone.
 
 Sent back 2026-10-18 from PR #4945 (branch claude/government-screen-capitals): Merging current main (35745bc5b7) conflicts in docs/pool/items/play-government-screen-capitals.md, docs/release/changes/play-government-screen-capitals.md, src/core2/offices-local-names.test.ts, src/core2/offices-local.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Found on main at 2a524c1757 by the Oct 25 audit: PR #4945 merged Oct 23 with this item on line 1; the pool-done flip missed it.

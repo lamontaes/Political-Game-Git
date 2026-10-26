@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Wire to the world: owners pay on the dates their place's law sets. One rule, all 56 places: due dates and installment counts come from each place's data. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), an owner without escrow pays on the place's due dates and the treasury receives it, with the bill and payment record ids, named by record id. The test in src/core2/housing-property-tax.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: own a house and see the tax bill arrive when your town says.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), an owner without escrow pays on the place's due dates and the treasury receives it, with the bill and payment record ids, named by record id. The test in src/core2/housing-property-tax.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: own a house and see the tax bill arrive when your town says. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/housing-property-tax.ts, src/core2/data/stopgaps.json, src/core2/housing-property-tax.test.ts
 

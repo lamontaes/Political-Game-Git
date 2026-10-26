@@ -34,6 +34,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
+import NATALITY from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   residentCounts,
@@ -268,10 +269,13 @@ function playWorld(seed: string) {
   const countedAtStart = residentCounts(core).reduce((n, r) => n + r.people, 0);
   // Counted adults are read from the residents' own books, not from the
   // voting engine's output, so a missing counted ballot can't hide itself.
-  const countedAdultsAtStart = residentCounts(core).reduce(
-    (n, r) => n + r.adults,
-    0,
-  );
+  // Only the town's own vote in its local races: a small town whose people
+  // are all filled in has none, though the places around it do.
+  const townAdultsCounted = () =>
+    residentCounts(core)
+      .filter((r) => r.placeId === world.placeId)
+      .reduce((n, r) => n + r.adults, 0);
+  const countedAdultsAtStart = townAdultsCounted();
   const countedIdsAtStart = new Set(
     [...(residentsRuntime(core)?.households.values() ?? [])].flatMap((h) =>
       h.people.map((p) => p.id),
@@ -302,7 +306,8 @@ function playWorld(seed: string) {
     ) {
       withheldPaychecks++;
       for (const p of entry.postings) {
-        const named = /:tax:\d+:([a-z]+):([a-z-]+)$/.exec(p.id);
+        // The posting id ends in its level and tax, then the law row it took.
+        const named = /:tax:\d+:([a-z]+):([a-z-]+)(?::law:.+)?$/.exec(p.id);
         if (named && p.deltaMinor > 0)
           withheldTaxes.add(`${named[1]}:${named[2]}`);
       }
@@ -355,10 +360,7 @@ function playWorld(seed: string) {
     day = next;
   }
   const runSeconds = (performance.now() - runStarted) / 1000;
-  const countedAdultsAtEnd = residentCounts(core).reduce(
-    (n, r) => n + r.adults,
-    0,
-  );
+  const countedAdultsAtEnd = townAdultsCounted();
   const endHeapMiB = heapMiB();
   const heapMB = (endHeapMiB * 2 ** 20) / 1e6;
   const growthMiBPerMonth =
@@ -743,7 +745,11 @@ function playWorld(seed: string) {
             : `${local.length} local races decided and the residents' books show no counted adult in the town (${countedAdultsAtStart} at the start, ${countedAdultsAtEnd} at the end)`,
         )
       : !silent.length
-        ? pass(`counted voters voted in all ${judged.length} local races`)
+        ? pass(
+            `counted voters voted in all ${judged.length} local races (${[
+              ...new Set(judged.map((c) => c.title)),
+            ].join("; ")})`,
+          )
         : fail(
             `${silent.length} of ${judged.length} local races decided in the run had no votes from the counted population, ${unkept.length} of them with no counted ballot record although the town has ${countedAdultsAtEnd} counted adults (for example ${silent
               .slice(0, 3)
@@ -776,14 +782,39 @@ function playWorld(seed: string) {
   const countedMoves = rowsOf(core, "core2-counted-moves-v1", "moves").filter(
     (m) => String(m.date) >= start,
   ).length;
+  // How many counted births the year should hold at the nation's birth rate
+  // per resident (NCHS 2024): a town of three counted people can go a year
+  // with none, so the check judges only a counted population that expects a
+  // few births. Deaths and moves would add to it, so this is the low side.
+  const expectedBirths =
+    (countedAtStart *
+      NATALITY.areas["United States"].birthsPer1000Residents *
+      years) /
+    1000;
+  // People moved between the tiers are not births, deaths or moves: fill-ins
+  // are taken out above, and a household returned to the counts (demotion)
+  // adds to them. With the counted engine switched off, Hartland, Wisconsin
+  // still changed by 485, with 490 people demoted, so the change alone never
+  // passes: the engine's own birth and move records do.
+  const demoted = rowsOf(core, "core2-counted-demotion-v1", "demotions").filter(
+    (d) => String(d.date) >= start,
+  );
+  const demotedPeople = demoted.reduce(
+    (n, d) => n + ((d.personIds as unknown[] | undefined)?.length ?? 0),
+    0,
+  );
   verdicts["the counted population changes"] =
-    countedChange || countedBirths || countedMoves
+    countedBirths || countedMoves
       ? pass(
-          `counted population changed by ${countedChange}, with ${countedBirths} counted births and ${countedMoves} counted moves`,
+          `counted population changed by ${countedChange} (${demotedPeople} people returned to the counts), with ${countedBirths} counted births and ${countedMoves} counted moves`,
         )
-      : fail(
-          `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
-        );
+      : expectedBirths < 2
+        ? unobserved(
+            `${countedAtStart} counted people expect ${expectedBirths.toFixed(2)} births in ${years} year(s) at the nation's ${NATALITY.areas["United States"].birthsPer1000Residents} per 1,000 residents (NCHS 2024), and none was born, died or moved`,
+          )
+        : fail(
+            `No counted births or moves in ${years} year(s) for ${countedAtStart} counted people, who expect ${expectedBirths.toFixed(0)} births at the nation's rate; the count changed by ${countedChange}, with ${filledIn} people filled in and ${demotedPeople} returned to the counts (src/core2/births-counted.ts, src/core2/modules/counted-moves.ts).`,
+          );
   verdicts["a baby is born"] = births.length
     ? pass(`${births.length} births`)
     : fail(

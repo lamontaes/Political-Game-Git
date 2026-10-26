@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** tests/guards/research-data-has-reader.test.ts, scripts/audit/research-data-allowlist.json
 
 **Notes.** Found while checking the gate for #6070, Oct 25.
+
+Duplicate of release-red-research-reader-census-rerun (Oct 25 audit). Same research-data-has-reader failure.
