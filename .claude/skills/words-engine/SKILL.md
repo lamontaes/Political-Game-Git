@@ -5,11 +5,17 @@ description: Explains how Our Civic Duty's English engine and story director wor
 
 # The words engine and the director: the handoff
 
-Any session, on any model, can take this line over from this file. Read `AGENTS.md` first. Then this file. Then `docs/coordination/words.md` (the Words session's status and log, newest first) and `docs/coordination/OWNER-DECISIONS.md` (search "Oct 14 night playthrough", "Scenes carry the consequential dialogue", "batches grade content").
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: scenes like Wildermyth; the hold on hand-written lines is released; grading by scenes with voice notes, not batches; the play-first lane may edit director and English files with this session's review)
+
+Any session, on any model, can take this line over from this file (the owner runs it on Opus at medium effort). Read `AGENTS.md` first. Then this file. Then the Words section and the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`: sessions never message each other; your status goes in your section every two hours), `docs/play-first/LAW.md` sections 3, 4, 5 and 7, and `docs/coordination/OWNER-DECISIONS.md` (search "Oct 24", "Scenes like Wildermyth", "Grading").
+
+## The target: scenes like Wildermyth (owner, Oct 24)
+
+Scenes "that come out of what is actually happening in the world, narrated into a moment, played out with real dialogue and choices, the outcome back into the game; the current opening is the right shape, the words are wrong." That is the measure of every piece of this line: a record fires it, the narrator sets it, people with purposes play it out with four real replies, and what the player chose goes back into the records.
 
 ## The one rule that explains everything
 
-No hand-written player text in screens or code. Words come from the English engine's banks (`data/english/parts/`) and control names. The banks are built at development time: pieces are written to calibrated patterns, drawing on any source for the patterns (books, other games, transcripts, the internet), and copying no one's copyrighted text. At play the engine arranges the pieces; the director decides which moment is happening and who is in it. Neither types a line. Public-domain records remain a fine source of pieces, not a requirement. The old "two documents, one public-domain" attestation rule was never the owner's and is withdrawn (OWNER-DECISIONS.md, "The text rule", Oct 15, evening). Research and real data calibrate how pieces are arranged; they never decide a person's outcome.
+Words come from the English engine; hand-written lines ship once the owner has graded or liked them (owner, Oct 24; this replaces "no hand-written player text" and the Oct 20 "held until graded" hold). Words come from the English engine's banks (`data/english/parts/`) and control names. The banks are built at development time: pieces are written to calibrated patterns, drawing on any source for the patterns (books, other games, transcripts, the internet), and copying no one's copyrighted text. At play the engine arranges the pieces; the director decides which moment is happening and who is in it. Neither types a line. Public-domain records remain a fine source of pieces, not a requirement. The old "two documents, one public-domain" attestation rule was never the owner's and is withdrawn (OWNER-DECISIONS.md, "The text rule", Oct 15, evening). Research and real data calibrate how pieces are arranged; they never decide a person's outcome.
 
 ## The three layers, and where each lives
 
@@ -27,7 +33,9 @@ Full history of the existing mined banks: `docs/research/english-corpus/README.m
 - **Tests.** `<bank>-bank.test.ts` composes a whole exchange through the real engine in a generated place (every record id resolving, no feeling words, both chairs where a chair exists). Add a bank by adding a shape or an authored set, a script and its test.
 - **What "calibration" means.** Research sets how pieces are arranged and how often: the length of a public comment, how a concession opens and closes, which moves follow which. It never picks which line a particular person says: traits, relationship, the record and the owner's grades do.
 
-## Grading batches: the loop with the owner
+## Grading: scenes with voice notes, not batches (owner, Oct 24)
+
+Batch-style line grading is not how the owner grades. He plays or watches a scene or a scenario and reacts with a voice note; the session turns each note into grades on the parts the scene used (`data/english/grades/`, applied with `apply-grades.ts`) and into fixes at the root. What he liked ships; what he rejected never plays again. The batch tooling below still builds the scene pages he reacts to; it is no longer the unit he grades.
 
 - **The batch is the grading bench** (`scripts/dialogue-batch/grading-bench.ts`, Order 2 of `docs/work-orders/words-and-director-2026-10-15.md`), and grades feed `data/english/calibration.json`, which the engine reads.
 - A batch is a Markdown page, `docs/grading/words-batch-N.md`, built by `npm run dialogue:coverage -- --id batch-N --seed batch-N --days 365` (`scripts/dialogue-batch/coverage-batch.ts`), from one played place (drawn by `drawPlace`, never chosen; draws go on until a year fires what the batch needs), built as the bench builds it (`buildBenchWorld`, two-level), watched by the director for a year. Every scene is one the engine composed, with how it was made (the record id that fired it, the function, the bank), and tests one thing: the wording of a bold line on one axis (formality, word choice, length) with alternatives; an opening and closing pair; or a conversation's choice set (four replies, the lies, say nothing). A phrase appears once in a batch. The batch JSON is `data/english/batches/batch-N.json`; the owner's grades go to `data/english/grades/batch-N.json` (`{"i","grade","prefer"}` or `{"i","choices":{...}}`) and `node --import tsx scripts/dialogue-batch/apply-grades.ts` folds them into the part ledger so a failed part never ships and a preferred alternative is promoted.
@@ -52,5 +60,14 @@ In-session, on changed files only: typecheck, eslint, prettier, the bank's own t
 
 ## Boundaries
 
-- This line owns `src/director/`, `src/english/`, `data/english/`, `scripts/english-corpus/`, `scripts/dialogue-batch/`, `docs/grading/`, `docs/coordination/words.md`. It does not edit the engines (`src/core2/modules/*`): when a record is missing or wrong (a winner that is a seat-term id, a bill with no title), it writes the defect under **Needs from other sessions** in `words.md` and at the top of the PR body, builds against the smallest registered stand-in, and keeps going.
+- This line owns `src/director/`, `src/english/`, `data/english/`, `scripts/english-corpus/`, `scripts/dialogue-batch/`, `docs/grading/`. **The play-first lane may edit `src/director`, `src/english` and `data/english` for its items** (owner, Oct 24); its PRs carry `Review: words`, and this session reviews them: read the diff, comment once on the PR with what to change or "Words: reviewed", and never block a merger on it beyond that comment. It does not edit the engines (`src/core2/modules/*`): when a record is missing or wrong (a winner that is a seat-term id, a bill with no title), it writes the defect as a `Needs from others:` line in its channel section and a pool item with `lead:` set to that area, builds against the smallest registered stand-in, and keeps going.
 - Where a design is the owner's call and he has not ruled, build the simplest version that follows `AGENTS.md`, register an `owner-decision` stopgap, and write the question under **OWNER DECISIONS NEEDED** at the top of the PR body and in `OWNER-DECISIONS.md`.
+
+## The prompt
+
+> Read AGENTS.md and .agents/skills/words-engine/SKILL.md in lamontaes/Political-Game-Git, then the Words and CTO sections of docs/coordination/LEADS-2026-10-24.md and docs/play-first/LAW.md.
+> You are the Words session. The target is scenes like Wildermyth: a record fires the scene, the narrator sets it, people with purposes play it out with four real replies, the outcome goes back into the game.
+> Build and fix scenes, situations and banks; the owner grades by reacting to scenes with voice notes, and what he liked ships. Review every play-first lane PR marked "Review: words" with one comment.
+> Write your status block in your channel section every two hours (commit to main: `leads: words status <time>`); a need from another role is a Needs-from line there and a pool item with lead: set.
+> One PR per item, body line 1 the item id, "Lead: words" in the body. Never merge your own PR, never force-push.
+> In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

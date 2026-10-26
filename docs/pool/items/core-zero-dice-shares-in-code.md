@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: core-old-engine-01-zero-dice-guard-repoint (PR 5832 adds six of the seven allowlist entries this item removes)
+blocked-on:
 source: added with npm run pool -- add
 ---
 
@@ -16,8 +16,10 @@ source: added with npm run pool -- add
 
 **Rules.** Every number lives in a parameter table, tagged SOURCED, ESTIMATED or TUNABLE. Research before building: a sourced value comes from a fetched page with a quote. The allowlist only shrinks.
 
-**Done when.** The seven fixed-share entries are gone from scripts/zero-dice-allowlist.json, each value read from a parameter row with its tag, npm run zero-dice passes, and the tests of the changed files pass.
+**Done when.** The seven fixed-share entries are gone from scripts/zero-dice-allowlist.json, each value read from a parameter row with its tag, npm run zero-dice passes, and the tests of the changed files pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/town-households.ts, src/core2/town-workplaces.ts, src/core2/gov-rules/typical-council-size.ts, src/core2/electorate-places.ts, src/core2/modules/campaigns.ts, src/bench/scene.ts, scripts/zero-dice-allowlist.json
 
 **Notes.** TODO
+
+Oct 25 audit: unblocked; core-old-engine-01-zero-dice-guard-repoint is done (PR #5832 merged).

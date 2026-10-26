@@ -91,4 +91,6 @@ it(`a resident's visit to office hours is the official's scene, about the proble
   throw new Error(
     `no resident brought a problem to an official in ${DAYS} days in ${tried.join("; ")} (seed ${seed})`,
   );
-}, 3_600_000);
+  // The visit case measured 12 seconds; allow four drawn towns plus runner
+  // overhead without giving this 45-day check an hour to finish.
+}, 600_000);
