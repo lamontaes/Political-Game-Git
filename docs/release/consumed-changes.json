@@ -1,6 +1,54 @@
 {
   "entries": [
     {
+      "version": "0.32.3",
+      "releasedOn": "2026-10-26",
+      "revision": "dc56f04f43e92d9d4ed9c330f3b0b73af7eabc0b",
+      "changeIds": [
+        "play-siblings-spaced-adults-by-birthday",
+        "tests-candidacy-incumbents-rerun-ceiling"
+      ]
+    },
+    {
+      "version": "0.32.2",
+      "releasedOn": "2026-10-26",
+      "revision": "206d10274b843a70db883fbabb24b293c7dd9a28",
+      "changeIds": [
+        "law-reach-staffing-before-bill",
+        "office-budget-line-schools-raise-hires",
+        "schools-raise-hires-counted",
+        "words-own-race-margin-unread"
+      ]
+    },
+    {
+      "version": "0.32.1",
+      "releasedOn": "2026-10-26",
+      "revision": "4055613f064fa20603c3fe4b6beb06f45f76f8fb",
+      "changeIds": [
+        "people-no-full-18-year-old",
+        "play-bench-card-intercepts-calendar-pointer",
+        "play-stop-23-job-offer-hold-locks-the-game",
+        "words-journal-own-race-unknown-rival"
+      ]
+    },
+    {
+      "version": "0.32.0",
+      "releasedOn": "2026-10-26",
+      "revision": "174196989bb9b04acc149867f31c684b86c3027e",
+      "changeIds": ["law-wiring-taxes", "words-office-hours-scene"]
+    },
+    {
+      "version": "0.31.0",
+      "releasedOn": "2026-10-26",
+      "revision": "26b4fa079bf9a3ac6cdd1f61e94435c713a280b0",
+      "changeIds": [
+        "core-old-imports-town-households",
+        "people-coverage-counted",
+        "tests-journal-world-moments-red-on-seed-2803",
+        "web-repeal-of-starting-law-waits-its-lag"
+      ]
+    },
+    {
       "version": "0.30.0",
       "releasedOn": "2026-10-26",
       "revision": "134eceeb5ffce40784dbea7ff602626be192262a",

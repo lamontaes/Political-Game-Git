@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #6056
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Filed by the laws lead on Oct 24 from the owner's ruling. Research already on file (laws lead, Oct 24): `data/research/outcome-web/unsized-links-source-checks-2026-10-05.json`, row police-to-low-level-arrests, from https://pmc.ncbi.nlm.nih.gov/articles/PMC10062144/: 7 to 22 additional quality-of-life arrests a year per additional full-time sworn officer (range across two instrumental-variable strategies; 242 large U.S. cities, 1981 to 2018), checked but not admitted to runtime because the game kept no low-level arrest measure. Use it before searching.
 
 In PR #6056 (Oct 25, laws lead): built by a helper, stacked on #6012; owner question on drug possession flagged.
+
+Laws lead, Oct 26: back in PR #6056 at 6ffa0b1e95, on the fixer's main merge (f279854b6e). Drug possession is the sixth minor-offense category per the CTO's Oct 25 ruling (SG-LAW-justice-low-level-drug-possession resolved), and #6083's state minimum wage fix is ported for CI's M1-01.

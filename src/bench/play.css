@@ -944,14 +944,26 @@ body.dev .dev-ring {
 }
 
 /* ---- The play HUD: the player card, bottom left (the only place the date and time appear) ---- */
-.me {
+/* The menu icons and the card stand in one column, bottom left: the icons
+   always above the card, however tall the card's status line makes it. */
+#dock {
+  position: absolute;
   left: var(--gutter);
   bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+#dock > .panel {
+  position: relative;
+}
+.me {
   display: flex;
   gap: 11px;
   align-items: center;
   padding: 7px 18px 7px 7px;
-  max-width: calc(50vw - 380px);
+  max-width: calc(100vw - 2 * var(--gutter));
 }
 /* With a menu open the card keeps to the menu's column. */
 #game.sheet-open .me {
@@ -991,9 +1003,6 @@ body.dev .dev-ring {
   margin-bottom: 4px;
 }
 #rings {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 108px;
   display: flex;
   gap: 8px;
 }
@@ -1701,7 +1710,8 @@ body.dev .dev-ring {
    heading and actions; positions only. */
 #ballot,
 #meeting,
-#desk {
+#desk,
+#job-offer {
   top: var(--gutter);
   right: var(--gutter);
   bottom: calc(9vh + 18px);
@@ -1709,6 +1719,18 @@ body.dev .dev-ring {
   width: min(420px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
   overflow: hidden;
+}
+/* A job offer's moment (jobs): the employer's offer over the scene. */
+#job-offer-employer {
+  font: 500 20px var(--speech);
+  margin: 4px 0 2px;
+}
+#job-offer-facts {
+  margin: 8px 0 18px;
+}
+#job-offer-status {
+  min-height: 18px;
+  margin: 12px 0 0;
 }
 #ballot {
   display: flex;

@@ -5,14 +5,15 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/voter-groups-cast-zero
+pr: #6152
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T06:48:27.253Z
 ---
 
-**What.** src/core2/voter-groups.test.ts fails on clean main for Ceex Haci, Wisconsin (5513587), seed 3050e3fdcb63b57a763c6a47974171ebd405b29c2f4100823cd3f64e8a012bcf (the test's own draw from GOLDEN_PATH_SEED 59807099296d91428042c64b143c38aaa564706f15f126a1ca8a7d60256219f6): countPlaces gives the town place cast 0, so the assertion at line 154 (counted.places[0].cast > 0) fails. It reddens golden-path spec M0-09 on any PR whose commit draws this seed (seen on #5914, head 12359e3cda; reproduced on main 1852663b02).
+**What.** src/core2/voter-groups.test.ts fails on clean main for Ceex Haci, Wisconsin (5513587), seed 3050e3fdcb63b57a763c6a47974171ebd405b29c2f4100823cd3f64e8a012bcf (the test's own draw from GOLDEN_PATH_SEED 59807099296d91428042c64b143c38aaa564706f15f126a1ca8a7d60256219f6): countPlaces gives the town place cast 0. So the assertion at line 154 (counted.places[0].cast > 0) fails. It reddens golden-path spec M0-09 on any PR whose commit draws this seed (seen on #5914, head 12359e3cda; reproduced on main 1852663b02).
 
 **Rules.** Ask why: follow the sample's weights, the town's eligible count and the turnout rule to the zero before changing any assertion. One rule, all 56 places: the fix holds for every drawn place, not this one.
 
@@ -20,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/voter-groups.test.ts, src/core2/voter-groups.ts
 
-**Notes.** TODO
+**Notes.** Oct 26, PR #6152 (claude/voter-groups-cast-zero): the town's sample is one counted adult, person_a61cb1f6694e422b, weight 1, expected to turn out at 0.483 voters, which rounds to 0. The assertion is replaced by the rounding invariant, measured on the recorded seed and three fresh ones.
