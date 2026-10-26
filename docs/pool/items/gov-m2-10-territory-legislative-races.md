@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** M2-10 on the recorded Santa Rita input names the territory legislative calendar, actual election and winner records, and every applicable legislative race from that calendar with correct seating dates; the positive legislative assertion passes without an exemption or weaker count, and the command also passes for a fresh drawn place with seed and records in the PR body.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/bench/m2-10-check.ts, src/core2/modules/world-races.ts, src/core2/offices-state.ts
 
 **Notes.** Found during Merger 1 review of #5969 on October 24, 2026. The clean-main legislative clause is separate from the bounded governor-race-counting change. Existing gov-territory-legislature-districts remains the research follow-up for district geography.
