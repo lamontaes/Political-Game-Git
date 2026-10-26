@@ -155,19 +155,26 @@ describe(`the carried school links reach students through their carriers (seed $
       ).toContain(c.link);
     }
 
-    // A town with students in both measures, so every carrier has records to move.
+    // A town with students in both measures, and full students with a result
+    // in each, so every carrier has groups and named students to move.
     const tried: string[] = [];
     let drawn: Drawn | null = null;
     let base: ReturnType<typeof play> | null = null;
     for (let attempt = 0; attempt < ATTEMPTS && !base; attempt += 1) {
       const candidate = drawPlace(`${seed}:${attempt}`, "school-carriers-web");
       const world = play(candidate);
-      const missing = [SCHOOL_MEASURE.graduation, SCHOOL_MEASURE.math].filter(
-        (m) => !groupsOf(world.core, world.placeId, m).length,
-      );
+      const measures = [SCHOOL_MEASURE.graduation, SCHOOL_MEASURE.math];
+      const missing = [
+        ...measures
+          .filter((m) => !groupsOf(world.core, world.placeId, m).length)
+          .map((m) => `no ${m} groups`),
+        ...measures
+          .filter((m) => !resultsOf(world.core, world.placeId, m).length)
+          .map((m) => `no full student with a ${m} result`),
+      ];
       if (missing.length)
         tried.push(
-          `${candidate.name}, ${candidate.state}: no ${missing.join(" or ")} groups`,
+          `${candidate.name}, ${candidate.state}: ${missing.join(" and ")}`,
         );
       else {
         drawn = candidate;
