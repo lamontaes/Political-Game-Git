@@ -4,7 +4,7 @@ title: "The budget season:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #5533
 blocked-on:
