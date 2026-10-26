@@ -41,6 +41,12 @@ const words = new Set([
   "co-op",
   "e-mail",
   "x-ray",
+  "territory-wide",
+  "state-wide",
+  "county-wide",
+  "city-wide",
+  "town-wide",
+  "district-wide",
 ]);
 async function read(screen, selector) {
   // Each visible text node by itself, so neighboring buttons never run together.
