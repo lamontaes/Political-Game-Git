@@ -38,8 +38,12 @@ const post = (path) => api(path, "POST");
 /**
  * Nothing inside a menu scrolls: what does not fit in `box` is split into pages, and the
  * pager's Back and Continue turn them. Columns flow sideways; a plain list pages at a row.
+ *
+ * A pager keeps its page when only the measure changes (paging itself resizes the box,
+ * which must not throw the player back to the first page); new content starts at page 0.
  */
-function pageIn(box, pager) {
+const pagerPage = new WeakMap();
+function pageIn(box, pager, keepPage = false) {
   box.scrollTo(0, 0);
   const [back, next] = pager.querySelectorAll("button");
   // Measure with every row showing; a page then hides the rows that are not its own.
@@ -67,9 +71,10 @@ function pageIn(box, pager) {
       });
     }
   }
-  let at = 0;
+  let at = keepPage ? (pagerPage.get(pager) ?? 0) : 0;
   const go = (index) => {
     at = index;
+    pagerPage.set(pager, at);
     if (sideways) box.scrollTo(stops[at], 0);
     else {
       // A plain list shows one page of rows: the rest are out of the box, not scrolled past.
@@ -89,7 +94,7 @@ function pageIn(box, pager) {
   back.onclick = () => go(at - 1);
   next.onclick = () => go(at + 1);
   pager.hidden = stops.length === 1;
-  go(0);
+  go(Math.min(at, stops.length - 1));
 }
 /** Pages again whenever the box's contents change (a search narrowing a list, a redrawn ballot). */
 function pageWhenChanged(box, pager) {
@@ -97,7 +102,7 @@ function pageWhenChanged(box, pager) {
     requestAnimationFrame(() => pageIn(box, pager)),
   ).observe(box, { childList: true, subtree: true });
   new ResizeObserver(() =>
-    requestAnimationFrame(() => pageIn(box, pager)),
+    requestAnimationFrame(() => pageIn(box, pager, true)),
   ).observe(box);
 }
 const dollars = (minor) =>
@@ -1066,7 +1071,8 @@ let seenChanges = { ahead: 0, took: 0 };
 let seenNews = 0;
 async function newsCount() {
   const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
-  return rows.filter((r) => r.headline || r.lede).length;
+  // Every row News lists (its public records), the same rows its screen draws.
+  return rows.length;
 }
 async function markNews(read) {
   const count = await newsCount();
@@ -1830,6 +1836,26 @@ async function showPerson(person) {
             { className: "dossier-detail" },
             el("h3", { className: "label", textContent: labels.place }),
             el("p", { textContent: c.placeName }),
+          ),
+        ]
+      : []),
+    // An officeholder's colleagues in office, closest first, from their ties.
+    ...(c.colleagues
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail colleagues" },
+            el("h3", { className: "label", textContent: labels.knows }),
+            ...(c.colleagues.length
+              ? c.colleagues.map((k) => {
+                  const line = row(
+                    k.name,
+                    `${k.office} · ${k.level < 0 ? labels.rival : (labels.tieWords?.[k.kind] ?? "")}`,
+                  );
+                  line.dataset.tie = k.recordId;
+                  return line;
+                })
+              : [el("p", { textContent: labels.noColleagues })]),
           ),
         ]
       : []),
@@ -4590,7 +4616,6 @@ $("front-continue").addEventListener("click", async () => {
     portrait: life.portrait,
   };
   seenChanges = await changeCount();
-  seenNews = await newsCount();
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5090,7 +5115,6 @@ async function startLife({ custom = false, placeKey, person }) {
     };
     // What was already law at the start isn't news; only what changes after.
     seenChanges = await changeCount();
-    seenNews = await newsCount();
     show("front", false);
     await playOpening();
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;

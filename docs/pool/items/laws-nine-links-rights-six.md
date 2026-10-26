@@ -6,7 +6,7 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/law-wiring-rights-env
 pr: "#5669"
 blocked-on:
