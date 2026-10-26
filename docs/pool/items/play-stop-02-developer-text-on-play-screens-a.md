@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: play-first/play-stop-02-developer-text-on-play-screens-a
+status: open
+claimed-by:
 pr: #6086
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T19:14:21.117Z
+claimed-at:
 ---
 
 **What.** On the v0.22.10 release News showed "REGION · 2025-01 unemploymentPct 4.4 · jobsThousands 6909.0 · hourlyEarnings 30.3 · priceLevelPct 92.9", public records reading "Press.archived" and "Press.printed", and three entries reading only "Official appointed" with no names. These are code field names and record keys on the player's screen. This part makes every News line read as record data in plain labels or engine text, with dates as November 3, 2026.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-25T19:14:21.117Z
 **Files.** src/bench/play.mjs, src/bench/economy.ts, src/bench/story.ts, src/bench/data/controls.json
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-02-developer-text-on-play-screens (Oct 24, lane). Mark gap is its own item (play-first-15-mark-gap-off-player-screen); the filing panel's labels landed in PR #5888. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+Sent back 2026-10-26 from PR #6086 (branch play-first/play-stop-02-developer-text-on-play-screens-a): browser check flags 'territory-wide' on a drawn territory; add hyphenated office words to its allowlist; finish on that branch, merge main into it first.
+Sent back 2026-10-26 from PR #6086 (branch play-first/play-stop-02-developer-text-on-play-screens-a): News also printed 'Record kind Business.closed' in a drawn place; finish on that branch, merge main into it first.

@@ -4,6 +4,7 @@ import {
   makeIsoDate,
   daysBetweenText,
 } from "./kernel/dates";
+import { pairKey } from "./kernel/ids";
 import { parameter } from "./parameters";
 import type { CoreState, IsoDate, PersonState, TierDefinition } from "./types";
 
@@ -91,9 +92,33 @@ function hasDailyFocus(core: CoreState, actor: Readonly<PersonState>): boolean {
   return (
     core.observer ||
     actor.id === core.playerId ||
-    core.focusPersonIds.has(actor.id) ||
+    (core.focusPersonIds.has(actor.id) && seenLately(core, actor)) ||
     core.focusPlaceIds.has(actor.placeId) ||
     (actor.countyId !== undefined && core.focusPlaceIds.has(actor.countyId))
+  );
+}
+
+/**
+ * A focus person chooses daily while the player sees them: the player's
+ * family and household always, anyone else while their tie
+ * with the player had contact in the last `focusDailyContactDays` days, read
+ * from that one tie. Out of touch, they choose at their tier's cadence until
+ * the two meet again. Someone in focus with no tie to the player (a coworker,
+ * or a person a caller put in focus) keeps choosing daily.
+ */
+function seenLately(core: CoreState, actor: Readonly<PersonState>): boolean {
+  const player = core.playerId ? core.people.get(core.playerId) : undefined;
+  if (
+    !player ||
+    player.familyIds.has(actor.id) ||
+    player.householdId === actor.householdId
+  )
+    return true;
+  const tie = core.relationships.get(pairKey(player.id, actor.id));
+  return (
+    !tie ||
+    daysBetweenText(tie.lastContactDate, core.date) <=
+      parameter("focusDailyContactDays", core.data.parameters)
   );
 }
 

@@ -7,6 +7,8 @@ import {
 } from "../core2/modules/voting";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
+import { racesOf, WORLD_RACES_MODULE_ID } from "../core2/modules/world-races";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { backdropFile, hasBackdrop, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -71,8 +73,7 @@ export function electionResults(core: CoreState, playerId: string) {
       unopposed: Object.keys(result.totals).length === 1,
       winner: result.winnerId ? name(result.winnerId) : null,
       takesOffice: result.takesOffice,
-      namedTurnout: result.namedTurnout,
-      namedEligible: result.namedEligible,
+      /** Every ballot cast in the race: the town's and the rest of its electorate's. */
       electorate: result.electorate,
       /** Where the race was won: each place's leader, with the votes cast there. */
       places: placesOf(api, contest.id)
@@ -106,6 +107,47 @@ export function electionResults(core: CoreState, playerId: string) {
   const rank = (race: { mine: unknown; ballot: unknown }) =>
     race.mine ? 0 : race.ballot ? 1 : 2;
   return out.sort((a, b) => b.date.localeCompare(a.date) || rank(a) - rank(b));
+}
+
+/**
+ * The governor races the world held on the newest election night so far,
+ * every state's by its race record: the party that won, each party's votes
+ * and the margin. Empty before any governor race has been counted.
+ */
+export function governorRacesTonight(core: CoreState) {
+  const api = coreAPI(core);
+  if (!core.modules.has(WORLD_RACES_MODULE_ID)) return [];
+  const held = racesOf(api).filter(
+    (race) =>
+      race.office === "governor" && race.date <= core.date && race.votes,
+  );
+  const night = held.reduce(
+    (last, race) => (race.date > last ? race.date : last),
+    "",
+  );
+  const names = new Map(
+    corePlaceStateIdentities().map((row) => [row.jurisdictionKey, row.name]),
+  );
+  return held
+    .filter((race) => race.date === night)
+    .map((race) => {
+      const stateKey = race.seatId.split(":")[1] ?? "";
+      const { republican, democratic } = race.votes!;
+      const cast = republican + democratic;
+      return {
+        id: race.id,
+        stateKey,
+        state: names.get(stateKey) ?? stateKey,
+        date: race.date,
+        winnerParty: race.winnerParty,
+        republican,
+        democratic,
+        marginPoints: cast
+          ? (100 * Math.abs(republican - democratic)) / cast
+          : 0,
+      };
+    })
+    .sort((a, b) => a.state.localeCompare(b.state));
 }
 
 /**
