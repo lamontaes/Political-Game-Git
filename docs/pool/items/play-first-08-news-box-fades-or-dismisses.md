@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: claimed
 claimed-by: play-first/play-first-08-news-box-fades-or-dismisses
 pr: #6100
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T19:56:38.998Z
+claimed-at: 2026-10-26T20:47:26.310Z
 ---
 
 **What.** On the v0.22.10 release the NEWS box sat top right over the scene from the first evening until opened. The owner's read: the news box fades or can be dismissed. The Oct 14 mock makes it a toast for a story that just reached you. This item makes the toast fade after a short time and close with one click, leaving the story in News.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-25T19:56:38.998Z
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/play.html
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Sent back 2026-10-26 14:42 UTC from PR #6100, checked branch c6f13970738fc13bedb912c3774d9b56333b3e72 (main 984e3ee8 integrated), branch play-first/play-first-08-news-box-fades-or-dismisses: play.css:1658-1665 animates inherited pointer-events to none before opacity fades. At 4.5 seconds opacity 1 / hidden false but no close hit target; a real mouse click at the close bounds leaves the toast showing. Retain root 0d9387dd1ec976838652a39696d2827f: Skyland NV world 1f27563b8c1b5c2e5ca025630c91ec41a91aa6d2bfc31102c047cb6811670caa and Claverack-Red Mills NY world c6edb5562987c95507a805ec77c20ee328eefd2b44584966a894a08caf2d44a6. Original fade 7.4s/immediate-close/story-retention proof passes but real late-visible click fails; preserve all assertions and make controls targetable throughout the visible interval. Static gates pass, pool 36 equals main; no overall green browser gate. PROGRESS hunk dropped, optional replay/screenshot directory support added, all own browser/bench processes stopped. Body owner label/backticks corrected, not blockers. Finish on that branch, merge main into it first.

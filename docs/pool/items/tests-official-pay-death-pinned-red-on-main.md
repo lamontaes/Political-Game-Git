@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/official-pay-death
+status: done
+claimed-by:
 pr: #6144
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T05:25:56.612Z
+claimed-at:
 ---
 
 **What.** src/core2/official-pay-death.test.ts pins seed 9a11da355dc8b557 (draw official-salary-payroll, Whitefield, New Hampshire, place 3384340) and checks that every official who died within the year has no pay row left. On main 8abee77ef0, Oct 26, it fails: official:seat:US-SC:upper:sample:Republican:2 is dead and its pay row is still there. payMonth in src/core2/modules/official-pay.ts removes a dead official's row only on a payday, so an official who dies after the year's last payday keeps a row until the next one; whether that is what happened here was not checked.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T05:25:56.612Z
 **Files.** src/core2/modules/official-pay.ts, src/core2/official-pay-death.test.ts
 
 **Notes.** Found Oct 26 by the speed lead running the official pay tests for core-speed-official-pay-outside-once; main fails it identically (one run, 91.8 s), so it is not that branch's.
+
+Merger 0: Sent back 2026-10-26 from PR #6144 (branch claude/official-pay-death): own merged-tree validation blocked by this merger workspace's invalid GH_TOKEN/HTTP401, preventing real-head fetch and main integration/push; no code defect claimed. Status/Notes updated through connected GitHub because the pool CLI cannot authenticate. Finish validation on that branch with working checkout credentials, merge main into it first.

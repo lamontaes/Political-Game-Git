@@ -6,6 +6,7 @@ The handoff log. Newest first. Every agent adds one line before it stops, in the
 
 ## Log
 
+- 2026-10-26 12:00 · Claude Sonnet 5.5 · play-stop-21-ballot-stuck-on-first-page · play-first/play-stop-21-ballot-stuck-on-first-page · 625dff6612 · ready for recheck #6062 · merger merges #6062 (CTO's three asks done; proof Lake Oswego, Oregon, seed polling-proof-2; separate finding: Runge, Texas draw f6ccb40e-f134-47d6-91a5-c9fe93ab1256 shows no Test Voter on the Senate page) · none
 - 2026-10-26 08:50 · Claude (m0-m2 lead) · play-stop-26-empty-something-needs-you · play-first/play-stop-26-empty-something-needs-you · 6b5edcfbbc · PR ready #6126 · a merger checks #6126: in Murraysville, North Carolina main stops on January 10, 2026 with no box and then an empty one; with the change the year's only stop is the father's news, with Talk · none
 - 2026-10-26 08:40 · builder/Claude · play-official-ties-on-screen · play-first/play-official-ties-on-screen · 718b3d3d2a · PR opened #6162 · a merger checks #6162: an officeholder's card lists their ties in office (Knows) by record id · needs-from: gov-officials-legislators-know-no-one (legislators lack chamber colleagues)
 - 2026-10-26 08:33 · builder/Claude · play-local-races-on-screen · play-first/play-local-races-on-screen · bc5ef27171 · PR opened #6160 · a merger checks #6160: Campaigns lists each local seat on the next ballot with its filers by record id · none

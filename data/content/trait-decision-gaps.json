@@ -117,9 +117,9 @@
       "fix": "Player-only by design."
     },
     "press.dig": {
-      "class": "no trigger (player only)",
-      "why": "Two routes. An interview answer whose move is a lie schedules the reporter's check (src/core2/modules/press.ts:1773-1780, read at :1845), but candidateAnswers gives every candidate who is not the player the move 'plain' (:1929, :1935), so only the player's interview can lie: 168 interviews were accepted in the election window and none dug. A tipped crime reaches the dig at :2166, which needs a taken bribe.",
-      "fix": "Let a simulated candidate whose stated position contradicts their recorded vote answer with the lie move, from their own honesty, ties and the record; the reporter's check then runs from the press engine's own rule (pool item press-world-candidates-answer-from-record)."
+      "class": "no study number",
+      "why": "Runs in play since world candidates shade answers about their votes (press.shade-answer): in a played year of Frederiksted Southeast, U.S. Virgin Islands (run seed shadeproof1, December 3, 2025 to December 3, 2026) reporters weighed checking all 24 shaded answers and dug into 14, and 837 readers' views cite the printed stories. No study gives the odds that a reporter checks a claim by trait, so the general weight of 1 stands.",
+      "fix": "Calibrate when a study gives journalists' fact-checking by trait (traits-wire-civic)."
     },
     "estates.will": {
       "class": "circumstances saturate the choice",

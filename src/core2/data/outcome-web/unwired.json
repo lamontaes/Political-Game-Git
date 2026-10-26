@@ -92,6 +92,12 @@
       "stopgapId": "SG-WEB-unread-gov-nondisaster-transfers"
     },
     {
+      "link": "disaster-to-out-migration",
+      "outcome": "population.out-migration",
+      "reason": "the web does not run it: it waits on disaster.severe; nothing in the core records its cause, disaster.severe",
+      "stopgapId": "SG-WEB-unread-population-out-migration"
+    },
+    {
       "link": "disaster-to-home-values",
       "outcome": "housing.home-prices",
       "reason": "engine doesn't read the factor: an engine records housing.home-prices, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, disaster.severe",
@@ -120,6 +126,12 @@
       "outcome": "health.blood-pressure",
       "reason": "no measure: the web does not keep health.blood-pressure and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
       "stopgapId": "SG-EW-HEALTH-unsized-links"
+    },
+    {
+      "link": "coverage-to-mortality-55-64",
+      "outcome": "health.mortality-55-64",
+      "reason": "the web does not run it: it waits on person:health.coverage-pct; it needs each person's own exposure record, which no engine keeps",
+      "stopgapId": "SG-WEB-unread-health-mortality-55-64"
     },
     {
       "link": "work-requirement-to-employment",
@@ -284,6 +296,24 @@
       "stopgapId": "SG-EW-HEALTH-unsized-links"
     },
     {
+      "link": "new-apartments-to-nearby-rent",
+      "outcome": "housing.rent",
+      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
+      "stopgapId": "SG-WEB-unread-housing-rent"
+    },
+    {
+      "link": "rent-burden-to-homelessness",
+      "outcome": "housing.homelessness",
+      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
+      "stopgapId": "SG-WEB-unread-housing-homelessness"
+    },
+    {
+      "link": "eviction-to-homelessness",
+      "outcome": "housing.homelessness",
+      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
+      "stopgapId": "SG-WEB-unread-housing-homelessness"
+    },
+    {
       "link": "eviction-to-hospital-visits",
       "outcome": "health.hospital-visits",
       "reason": "no measure: the web does not keep health.hospital-visits and no engine produces it; its research gives no size the game can apply, so the web does not run it",
@@ -332,10 +362,28 @@
       "stopgapId": "SG-LABOR-no-legal-status"
     },
     {
+      "link": "child-tax-credit-to-births",
+      "outcome": "births.rate",
+      "reason": "the web does not run it: it waits on program.child-benefit-dollars; its research finds no effect (about zero), so an engine would multiply by one",
+      "stopgapId": "SG-WEB-unread-births-rate"
+    },
+    {
+      "link": "baby-bonus-to-births",
+      "outcome": "births.rate",
+      "reason": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
+      "stopgapId": "SG-WEB-unread-births-rate"
+    },
+    {
       "link": "marriage-equality-to-marriages",
       "outcome": "family.same-sex-marriages",
       "reason": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-family-same-sex-marriages"
+    },
+    {
+      "link": "marriage-equality-to-coverage",
+      "outcome": "health.uninsured-pct",
+      "reason": "the web does not run it: it waits on law.marriage-equality; nothing in the core records its cause, law.marriage-equality",
+      "stopgapId": "SG-EW-HEALTH-medical-debt-reader"
     },
     {
       "link": "abortion-denied-to-financial-distress",
@@ -476,6 +524,12 @@
       "stopgapId": "SG-WEB-unread-crime-rate-index"
     },
     {
+      "link": "housing-vouchers-to-graduation",
+      "outcome": "school.graduation-pct",
+      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
+      "stopgapId": "SG-WEB-unread-school-graduation-pct"
+    },
+    {
       "link": "housing-vouchers-to-crime",
       "outcome": "crime.rate-index",
       "reason": "no measure: the web does not keep crime.rate-index and no engine produces it; its research gives no size the game can apply, so the web does not run it",
@@ -524,6 +578,12 @@
       "stopgapId": "SG-WEB-unread-government-member-market-returns"
     },
     {
+      "link": "library-materials-to-reading",
+      "outcome": "school.reading-proficient-pct",
+      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
+      "stopgapId": "SG-WEB-unread-school-reading-proficient-pct"
+    },
+    {
       "link": "farmland-easements-to-farmland-lost",
       "outcome": "farmland.developed-acres",
       "reason": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts) reads this law and cuts the town's single-family starts by its own land elasticity, not this row's size and five-year lag, and no engine keeps the acres converted",
@@ -534,6 +594,12 @@
       "outcome": "water.irrigation-groundwater",
       "reason": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts) reads this law and cuts each farm's water by its own estimated share the day the law takes effect, not this row's size and one-year lag, and no engine keeps the groundwater pumped",
       "stopgapId": "SG-WEB-unread-water-irrigation-groundwater"
+    },
+    {
+      "link": "defense-contracts-to-earnings",
+      "outcome": "labor.median-earnings",
+      "reason": "the web does not run it: it waits on federal.defense-boost-pct",
+      "stopgapId": "SG-LABOR-defense-cause"
     },
     {
       "link": "farm-payments-cut-to-land-values",

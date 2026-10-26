@@ -186,12 +186,23 @@ export function openingRegionMonths(
             0,
           ) +
             stateU * restPop);
+    // Each region's pay is the state's moved by its income against the
+    // state's. A metro's income covers its whole area, which can cross state
+    // lines, so the ratios are scaled to average one over the state's people:
+    // the state's people-weighted pay is its published pay.
+    const ratioOf = (row: RegionRow) =>
+      row.perCapitaIncome && state.perCapitaIncome
+        ? row.perCapitaIncome / state.perCapitaIncome
+        : p("one");
+    const people = rows.reduce((sum, row) => sum + row.population, 0);
+    const meanRatio =
+      people > 0
+        ? rows.reduce((sum, row) => sum + ratioOf(row) * row.population, 0) /
+          people
+        : p("one");
     for (const row of rows) {
       const share = state.population ? row.population / state.population : 1;
-      const incomeRatio =
-        row.perCapitaIncome && state.perCapitaIncome
-          ? row.perCapitaIncome / state.perCapitaIncome
-          : p("one");
+      const incomeRatio = ratioOf(row) / meanRatio;
       const unemploymentPct =
         row.kind === "metro"
           ? metroU.get(row.id)! * unemploymentScale
