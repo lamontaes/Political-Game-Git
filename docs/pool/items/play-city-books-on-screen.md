@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-city-books-on-screen
-pr:
+pr: #6153
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from core-city-treasury-trillions-dickens)
 lead: play-first
