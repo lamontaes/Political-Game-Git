@@ -1,6 +1,22 @@
 {
   "entries": [
     {
+      "version": "0.36.0",
+      "releasedOn": "2026-10-26",
+      "revision": "fccb4e01d460010abab5c1b7b25684aa5c082071",
+      "changeIds": [
+        "core-speed-contact-offers-grow-with-ties",
+        "elections-counted-ballots-nan-faith",
+        "laws-balanced-budget-open-after-repeal",
+        "laws-matrix-unread-outcome-grades-wired",
+        "play-governor-races-on-screen",
+        "tests-budget-sales-tax-zero-total",
+        "tests-government-scenes-no-allowed-policy",
+        "tests-group-b-draw-joint-subjects",
+        "tests-recalls-counted-signers-worker-oom"
+      ]
+    },
+    {
       "version": "0.35.0",
       "releasedOn": "2026-10-26",
       "revision": "23e99edf5e0e8ac940a95d49b864bbd702608f07",
