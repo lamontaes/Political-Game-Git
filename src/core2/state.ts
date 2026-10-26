@@ -1529,8 +1529,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (makeIsoDate(identity.birthDate) > core.date)
         throw new Error("A birth date cannot be in the future.");
       // The household that carried the player's drawn family name carries the
-      // chosen one, so the family the player meets shares it.
-      // stopgapId: SG-PLAY-creator-family-shares-name
+      // chosen one, so the family the player meets shares it (owner ruling,
+      // Oct 25, 2026: the household takes the name).
       const drawn = actor.familyName;
       for (const id of core.households.get(actor.householdId)?.memberIds ??
         []) {

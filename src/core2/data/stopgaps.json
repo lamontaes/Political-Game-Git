@@ -6658,17 +6658,5 @@
     "addedAt": "2026-10-24",
     "replacement": "A generated-year sensitivity check in drawn places: each weight run across its window, the town's unplanned pregnancies and endings per 1,000 women 15 to 44 against the state's published rates, and each spread replaced by the measured window (pool item people-unplanned-calibration).",
     "status": "open"
-  },
-  {
-    "id": "SG-PLAY-creator-family-shares-name",
-    "kind": "owner-decision",
-    "file": "src/core2/state.ts",
-    "line": 1533,
-    "whatItFakes": "When the player types or draws a family name in the creator, everyone in the household who carried the drawn family name takes the chosen one, so the parents and siblings the player meets share it.",
-    "why": "Owner playtest, Oct 24: the player was Snider and the family at home was Stein, with nothing saying why. No ruling says whether a chosen name renames the family, or the player keeps a different name with a reason on record.",
-    "addedBy": "play-first/play-stop-15-family-unexplained",
-    "addedAt": "2026-10-25",
-    "replacement": "The owner's ruling on whether the creator's family name renames the household or stays the player's alone with a recorded reason (docs/coordination/OWNER-DECISIONS.md).",
-    "status": "open"
   }
 ]
