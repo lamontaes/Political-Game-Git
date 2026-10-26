@@ -1022,6 +1022,52 @@ describe("retained counted family relationships", () => {
   });
 });
 
+describe("relocating a household with a member who has died", () => {
+  // Two people share the witness's household; the second has died and stays
+  // listed with it, as an eviction finds it.
+  function shared(): CoreState {
+    const opening = input();
+    const late = person("person:late", {
+      householdId: `household:${witness}`,
+    });
+    opening.people.push(late);
+    opening.households
+      .find((row) => row.id === `household:${witness}`)!
+      .memberIds.push(late.id);
+    const core = createCore(opening);
+    core.people.get(late.id)!.alive = false;
+    return core;
+  }
+  const move = (householdId: string) => ({
+    personIds: [witness],
+    placeId: away,
+    countyId: "county:fixture-away",
+    householdId,
+    source,
+  });
+
+  it("moves the household whole under its own id, the member who died still listed", () => {
+    const core = shared();
+    coreAPI(core).relocatePeopleV1(move(`household:${witness}`));
+    const household = core.households.get(`household:${witness}`)!;
+    expect(household.placeId).toBe(away);
+    expect(household.memberIds).toEqual([witness, "person:late"]);
+    expect(core.people.get(witness)!.placeId).toBe(away);
+    expect(core.peopleByPlace.get(away)!.has(witness)).toBe(true);
+  });
+
+  it("still splits the living member off under a new id", () => {
+    const core = shared();
+    coreAPI(core).relocatePeopleV1(move("household:witness-moved"));
+    expect(core.households.get(`household:${witness}`)!.memberIds).toEqual([
+      "person:late",
+    ]);
+    const moved = core.households.get("household:witness-moved")!;
+    expect(moved.memberIds).toEqual([witness]);
+    expect(moved.placeId).toBe(away);
+  });
+});
+
 describe("relocating a person who holds a job", () => {
   const moveInput = (placeId: string) => ({
     personIds: [player],

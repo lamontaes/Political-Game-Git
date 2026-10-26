@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/speed-official-pay-outside-once
-pr:
+pr: #6145
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T04:54:03.422Z
