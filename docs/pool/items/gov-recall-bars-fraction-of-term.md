@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/recalls.ts, src/core2/recalls.test.ts, src/core2/data/campaigns/recall-bars.json, data/research/core/recall-timing-statutes-2026.json, scripts/research/check-core-research.ts, src/core2/data/stopgaps.json
 
 **Notes.** Filed Oct 24, 2026 from the merger's send-back of PR 5853 (research-core-recall-petition-windows): the fractional bar was tagged SOURCED while the engine returned 365 days for a three-year term, so the row was retagged ESTIMATED with a 182 to 365 day spread. Today the place's council, mayor and county seats all take four-year terms, where the stored value is exact; the gap appears when a three-year term is read. The researcher left the engine untouched.
+
+Folded into gov-recall-bars-election-clock (Oct 25 audit).

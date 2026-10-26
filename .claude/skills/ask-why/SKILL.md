@@ -38,4 +38,4 @@ Run this checklist over every result before it goes out. Each hit needs a cause,
 - Mark each claim measured or inferred.
 - A cause that is a seeded roll or fixed percentage deciding one actor's outcome breaks `no-dice`.
 - Nobody attributes a change to a law unless they learned of it; cite the source (news, conversation, notice).
-- Put findings in the PR body or progress file, in plain American English, per `civic-reports`. Run `npm run report:check -- <file>`.
+- Put findings in the PR body, your channel section or `docs/play-first/PROGRESS.md`, in plain American English, per `civic-reports`. Run `npm run report:check -- <file>`.

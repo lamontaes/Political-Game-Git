@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Speed: a town's month must be measured within the guard's budget in every one of the 56 places' towns, so the guard's deadline must fit the largest town it can draw, or the measured span must scale with the town.
 
-**Done when.** The paired guard completes base and head runs within its deadline for the town drawn on the voter-groups test change's head 671bcd7d16 (or the largest town in the place records), shown in a run log named in the PR; a test-only PR never fails it on time alone.
+**Done when.** The paired guard completes base and head runs within its deadline for the town drawn on the voter-groups test change's head 671bcd7d16 (or the largest town in the place records), shown in a run log named in the PR; a test-only PR never fails it on time alone. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/core2-guard/paired.mjs, scripts/core2-guard/policies.json, .github/workflows
 
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-24 from PR #5943 (branch claude/speed-guard-deadline): Second Done-when line remains unmet: body admits slower towns can time out in first pair; paired.mjs:147-154 and161-168 start first warmup/pair unconditionally without a span/admission guarantee. Complete the remaining all-town deadline proof or bound scheduling completion while retaining this acceptance open; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5943 (branch claude/speed-guard-deadline): Span repair still permits fewer pairs despite always-three release claim; Done-when table and Derry log describe prior implementation, with universal deadline clause still unmet; finish on that branch, merge main into it first.
+
+Oct 24, 19:35 (speed lead): PR 5943 now carries the span scaling and is re-pointed at `core-guard-measured-span-scales-with-town`, the bounded part it completes (Derry, New Hampshire measured with three pairs and both profiles inside the budget). What stays open here is the universal clause: a drawn town too slow for even its warmups and first pair at a month's span would still run out of time. Meeting that needs a rule the CTO or owner sets, either reporting such a town as not measured instead of failing, or a span shorter than a month, so the question is in the speed lead's channel status of 18:45.
