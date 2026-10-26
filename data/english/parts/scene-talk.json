@@ -84167,10 +84167,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.after-the-town-hall-name-works-the-room-and-stops-to-shake-your-hand",
+      "key": "scene-talk.narrate-narrate.after-the-speech-name-works-the-room-and-stops-to-shake-your-hand",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "After the town hall, {name} works the room and stops to shake your hand.",
+      "text": "After the speech, {name} works the room and stops to shake your hand.",
       "uses": [
         {
           "subject": "scene",
@@ -84217,10 +84217,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.thanks-for-coming-out-tonight",
+      "key": "scene-talk.open-greet.thanks-for-coming-out",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Thanks for coming out tonight.",
+      "text": "Thanks for coming out.",
       "uses": [
         {
           "subject": "scene",
@@ -84567,10 +84567,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.start-with-what-i-said-tonight-and-do-it-in-the-first-year",
+      "key": "scene-talk.follow-answer.start-with-what-i-said-up-there-and-do-it-in-the-first-year",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Start with what I said tonight, and do it in the first year.",
+      "text": "Start with what I said up there, and do it in the first year.",
       "uses": [
         {
           "subject": "scene",
@@ -84923,10 +84923,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.go-on-thanks-for-coming-tonight",
+      "key": "scene-talk.close-accept.go-on-thanks-for-coming",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Go on. Thanks for coming tonight.",
+      "text": "Go on. Thanks for coming.",
       "uses": [
         {
           "subject": "scene",
@@ -84950,10 +84950,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.of-course-have-a-good-night",
+      "key": "scene-talk.close-accept.of-course-take-care",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Of course. Have a good night.",
+      "text": "Of course. Take care.",
       "uses": [
         {
           "subject": "scene",

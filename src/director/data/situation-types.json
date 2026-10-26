@@ -2745,8 +2745,8 @@
       "stakes": ["race", "issue"]
     },
     {
-      "key": "town-hall-afterward",
-      "note": "A candidate's campaign speech moved a listener (the listener's moment, on the cause channel, names the speaker); afterward the candidate comes over to ask for their support. The speech.heard record names the speaker, and the campaign act names the occasion.",
+      "key": "speech-afterward",
+      "note": "A candidate's campaign speech, heard in person at a town hall or a campaign event, moved a listener (the listener's moment, on the cause channel, names the speaker); afterward the candidate comes over to ask for their support. The speech.heard record names the speaker, and the campaign act names the occasion. A debate is heard through the outlet's broadcast, so the candidate is not there to come over.",
       "roles": [
         {
           "key": "listener",
@@ -2781,6 +2781,7 @@
           "match": {
             "label": "cause:event:speech.heard",
             "occasion": "campaign",
+            "act": ["town-hall", "speech"],
             "counterpart": "some",
             "causeFacts": [
               {

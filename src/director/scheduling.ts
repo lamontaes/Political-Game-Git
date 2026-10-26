@@ -57,6 +57,8 @@ export interface SituationCause {
     }[];
     /** What a heard speech was given at: "campaign", "remark" at a meeting, a "hearing" (see speechOccasion). */
     occasion?: string;
+    /** How a candidate gave a heard speech, one of these: "town-hall", "speech", "debate" (see speechAct). */
+    act?: readonly string[];
     /**
      * The cause's own record names the moment's person (a public comment's
      * speakers): someone who only heard of it from a tie matches nothing, so
@@ -231,6 +233,17 @@ export function speechOccasion(
   return act === "attack" ? "press" : "campaign";
 }
 
+/**
+ * How a candidate gave a heard speech: the campaign act its record id names
+ * ("speech:<speaker>:<date>:<act>:<venue>"), so a town hall heard in the room
+ * is told apart from a debate heard on the broadcast.
+ */
+export function speechAct(causeId: string): string | undefined {
+  // stopgapId: SG-DIRECTOR-speech-occasion (read from the id, as the occasion is).
+  const [head, , , act] = causeId.split(":");
+  return head === "speech" ? act : undefined;
+}
+
 export function causeMatches(
   cause: SituationCause,
   book: PersonLedger,
@@ -250,6 +263,8 @@ export function causeMatches(
     match.occasion !== undefined &&
     speechOccasion(core, moment.causeId) !== match.occasion
   )
+    return false;
+  if (match.act && !match.act.includes(speechAct(moment.causeId) ?? ""))
     return false;
   if (
     match.causeNames === "subject" &&

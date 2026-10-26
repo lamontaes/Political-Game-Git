@@ -2943,15 +2943,15 @@
       }
     },
     {
-      "key": "scene-words.lead-town-hall-afterward-other.other-comes-your-way-as-the-town-hall-empties",
-      "move": "lead-town-hall-afterward-other",
+      "key": "scene-words.lead-speech-afterward-other.other-comes-your-way-as-the-room-empties",
+      "move": "lead-speech-afterward-other",
       "kind": "spoken",
-      "text": "{other} comes your way as the town hall empties.",
+      "text": "{other} comes your way as the room empties.",
       "uses": [
         {
-          "move": "lead-town-hall-afterward-other",
+          "move": "lead-speech-afterward-other",
           "subject": "lead",
-          "role": "town-hall-afterward",
+          "role": "speech-afterward",
           "choice": "other"
         }
       ],
@@ -2964,15 +2964,15 @@
       }
     },
     {
-      "key": "scene-words.lead-town-hall-afterward-alone.the-candidate-who-spoke-is-coming-your-way",
-      "move": "lead-town-hall-afterward-alone",
+      "key": "scene-words.lead-speech-afterward-alone.the-candidate-who-spoke-is-coming-your-way",
+      "move": "lead-speech-afterward-alone",
       "kind": "spoken",
       "text": "The candidate who spoke is coming your way.",
       "uses": [
         {
-          "move": "lead-town-hall-afterward-alone",
+          "move": "lead-speech-afterward-alone",
           "subject": "lead",
-          "role": "town-hall-afterward",
+          "role": "speech-afterward",
           "choice": "alone"
         }
       ],
