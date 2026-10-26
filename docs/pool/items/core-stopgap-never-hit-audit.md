@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-7xkkii
-pr: #5196
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:01:31.699Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T01:01:31.699Z
 
 **Files.** src/core2/data/stopgaps.json, src/core2/stopgaps.ts
 
-**Notes.** Measured Oct 20 (claude). The list comes from reading core.stopgapHits after 730 days in three drawn places; to rerun it, advance a bench world two years and read the set. Making `stopgap()` record into the core as `api.stopgap` does would remove the blind spot first.
+**Notes.** Measured Oct 20 (claude). The list comes from reading core.stopgapHits after 730 days in three drawn places; to rerun it, advance a bench world two years and read the set. Making `stopgap()` record into the core as `api.stopgap` does would remove the blind spot first. Released from idle draft #5196 by the CTO, Oct 26.
