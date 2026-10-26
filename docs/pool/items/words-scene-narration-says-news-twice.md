@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: words/scene-narration-news-twice
-pr:
+pr: #6129
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T01:53:40.852Z

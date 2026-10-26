@@ -18,7 +18,7 @@ import {
   type CampaignDayChoice,
   type CampaignDayKind,
 } from "../core2/campaign-day";
-import type { FilingRow } from "../core2/modules/elections";
+import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
 import { retellingsOf } from "../core2/modules/speech";
@@ -123,11 +123,24 @@ export function campaignView(core: CoreState, personId: string) {
         answers: Record<string, number>;
       }[];
       const causes = contestCauses(core, filing.contestId, personId);
+      // The race by its own record: the office and the day it is decided.
+      const contest = api
+        .moduleState(ELECTIONS)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow | undefined;
       return {
         filing,
         // The other candidates on the contest's filings, by name: what the
         // standing's opponents sentence names.
         opponents: causes.filter((who) => !who.you).map((who) => who.name),
+        contest: contest
+          ? {
+              title: contest.district
+                ? `${contest.title} (${contest.district})`
+                : contest.title,
+              electionDate: contest.electionDate,
+            }
+          : null,
         campaign: {
           ...campaign,
           volunteers: campaign.volunteerIds.length,
@@ -226,7 +239,7 @@ function contestCauses(core: CoreState, contestId: string, personId: string) {
  * the last poll's answers, and what a poll would cost (the Poll action's
  * sample at the campaign engine's price per interview).
  */
-function raceStanding(
+export function raceStanding(
   core: CoreState,
   filing: FilingRow,
   lastPoll:
@@ -245,14 +258,23 @@ function raceStanding(
   ) => standingLine(core.seed, filing.personId, move, recordId, slots);
   return [
     mine && mine.reached > 0
-      ? line("reached", id, { reached: mine.reached })
+      ? line(mine.reached === 1 ? "reached-one" : "reached", id, {
+          reached: mine.reached,
+        })
       : line("reached-none", id, {}),
     ...(mine && mine.reached > 0
       ? [
-          line("moved", id, {
-            warmer: mine.warmer,
-            cooler: mine.cooler,
-          }),
+          line(
+            mine.warmer > 0 && mine.cooler > 0
+              ? "moved-both"
+              : mine.warmer > 0
+                ? "moved-warmer"
+                : mine.cooler > 0
+                  ? "moved-cooler"
+                  : "moved-none",
+            id,
+            { warmer: mine.warmer, cooler: mine.cooler },
+          ),
         ]
       : []),
     others.length
@@ -263,27 +285,32 @@ function raceStanding(
     ...others
       .filter((who) => who.reached > 0)
       .map((who) =>
-        line("opponent-reached", `${id}|${who.candidateId}`, {
-          name: who.name,
-          reached: who.reached,
-        }),
+        line(
+          who.reached === 1 ? "opponent-reached-one" : "opponent-reached",
+          `${id}|${who.candidateId}`,
+          { name: who.name, reached: who.reached },
+        ),
       ),
     ...(lastPoll
       ? [
-          line("poll-result", id, {
-            date: dateWords(lastPoll.date),
-            contacted: lastPoll.contacted,
-            // The candidates' answers, by name; the bank has no words for
-            // the undecided yet, so they are left out of the tally.
-            tally: Object.entries(lastPoll.answers)
-              .flatMap(([who, n]) => {
-                const name = causes.find((c) => c.candidateId === who)?.name;
-                return name ? [[name, n] as const] : [];
-              })
-              .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-              .map(([name, n]) => `${name} ${n}`)
-              .join(", "),
-          }),
+          line(
+            lastPoll.contacted === 1 ? "poll-result-one" : "poll-result",
+            id,
+            {
+              date: dateWords(lastPoll.date),
+              contacted: lastPoll.contacted,
+              // The candidates' answers, by name; the bank has no words for
+              // the undecided yet, so they are left out of the tally.
+              tally: Object.entries(lastPoll.answers)
+                .flatMap(([who, n]) => {
+                  const name = causes.find((c) => c.candidateId === who)?.name;
+                  return name ? [[name, n] as const] : [];
+                })
+                .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+                .map(([name, n]) => `${name} ${n}`)
+                .join(", "),
+            },
+          ),
         ]
       : []),
     line("poll-cost", id, {

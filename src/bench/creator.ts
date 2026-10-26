@@ -17,6 +17,7 @@ import {
 } from "../core2/reference/government-units";
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
+import { parameter } from "../core2/parameters";
 import type { LookRecipe } from "./appearance";
 
 /**
@@ -110,10 +111,7 @@ export function creatorStates() {
     .map((state) => ({ key: state.jurisdictionKey, name: state.name }));
 }
 
-const TOWNS_BY_STATE = new Map<
-  string,
-  { median: number; apart: ReadonlyMap<string, string> }
->();
+const TOWNS_BY_STATE = new Map<string, ReadonlyMap<string, string>>();
 
 /** The county (or Puerto Rico municipio) a town lies mostly in. */
 function townCounty(sourceGeoid: string | undefined) {
@@ -139,9 +137,9 @@ function otherName(place: { displayName: string; formalName: string | null }) {
 }
 
 /**
- * What a state's whole list shares: its median town count, and for each town
- * whose name the state repeats, what tells it apart: its county, then (where
- * two share a county) its formal name or kind of government.
+ * For each town whose name the state repeats, what tells it apart: its
+ * county, then (where two share a county) its formal name or kind of
+ * government.
  */
 function stateTownFacts(stateKey: string) {
   const known = TOWNS_BY_STATE.get(stateKey);
@@ -150,19 +148,13 @@ function stateTownFacts(stateKey: string) {
     stateJurisdictionKey: stateKey,
     scope: "locality",
   });
-  const counts: number[] = [];
   const byName = new Map<string, typeof places>();
   for (const place of places) {
     byName.set(place.displayName, [
       ...(byName.get(place.displayName) ?? []),
       place,
     ]);
-    const population = place.sourceGeoid
-      ? placeReferencePopulation(place.sourceGeoid)
-      : null;
-    if (population) counts.push(population.value);
   }
-  counts.sort((a, b) => a - b);
   const apart = new Map<string, string>();
   for (const same of byName.values()) {
     if (same.length < 2) continue;
@@ -178,22 +170,20 @@ function stateTownFacts(stateKey: string) {
         .length > 1;
     for (const place of same) apart.set(place.key, label(place, tied(place)));
   }
-  const facts = {
-    median: counts[Math.floor(counts.length / 2)] ?? 0,
-    apart,
-  };
-  TOWNS_BY_STATE.set(stateKey, facts);
-  return facts;
+  TOWNS_BY_STATE.set(stateKey, apart);
+  return apart;
 }
 
 /**
- * A state's cities and towns matching a search, all of them, with their
- * population. A town the records hold no count for reads the state's median
- * town count, marked `estimated`; a name the state repeats carries its county.
+ * A state's cities and towns matching a search, all of them, each with the
+ * population the world opens with: the town's Census count, the one source
+ * the opening reads (`buildPopulation`). A town the records hold no count for
+ * opens at the model's own size, so it reads that, marked `estimated`; a name
+ * the state repeats carries its county.
  * stopgapId: SG-PLAY-town-count-estimate
  */
 export function creatorTowns(stateKey: string, query: string) {
-  const { median, apart } = stateTownFacts(stateKey);
+  const apart = stateTownFacts(stateKey);
   return searchCorePlaces(query, Infinity, {
     stateJurisdictionKey: stateKey,
     scope: "locality",
@@ -205,7 +195,7 @@ export function creatorTowns(stateKey: string, query: string) {
     return {
       key: place.key,
       name: place.displayName,
-      population: population ? population.value : median,
+      population: population ? population.value : parameter("targetPopulation"),
       ...(population ? {} : { estimated: true }),
       ...(county ? { county } : {}),
     };
