@@ -2345,7 +2345,14 @@ function hireCounted(
   store(api)
     .table("positions")
     .put({ ...position, status: "filled", filledBy: seeker.personId });
-  fundedHire(api, position, seeker.personId, "group", positionHeads(position));
+  fundedHire(
+    api,
+    position,
+    seeker.personId,
+    "group",
+    positionHeads(position),
+    job.wageDailyMinor,
+  );
   store(api).table("countedSeekers").remove(seeker.personId);
   endClaim(api, store(api).table("claims"), seeker.personId);
   record(api, {
@@ -3259,7 +3266,7 @@ function hire(
         ? { ...position, heads: left }
         : { ...position, status: "filled", filledBy: person.id },
     );
-  fundedHire(api, position, person.id, "person", 1);
+  fundedHire(api, position, person.id, "person", 1, job.wageDailyMinor);
   store(api).table("seekers").remove(person.id);
   endSpell(api, person.id);
   // The new hire meets the full people already working there.
@@ -3291,7 +3298,9 @@ function hire(
 /**
  * A hire to an opening a budget line funds: the jobs engine applied the
  * line's change to this worker (a named person, or a counted worker standing
- * for the jobs the opening stood for).
+ * for the jobs the opening stood for). The row names the pay the line commits
+ * to them for a year (their daily wage over a year, times the jobs the
+ * opening stood for), so the money the line pays is on the payee's own record.
  */
 function fundedHire(
   api: CoreAPI,
@@ -3299,6 +3308,7 @@ function fundedHire(
   personId: string,
   target: "person" | "group",
   count: number,
+  wageDailyMinor: number,
 ): void {
   if (!position.fundedBy) return;
   lawApplied(api, {
@@ -3309,6 +3319,7 @@ function fundedHire(
     engine: JOBS_MODULE_ID,
     what: "hired-on-budget-line",
     count,
+    amountMinor: wageDailyMinor * count * api.parameter("jobsDaysPerYear"),
   });
 }
 

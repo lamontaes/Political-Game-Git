@@ -296,6 +296,29 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.29.7
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **The filing panel keeps its party and platform choices reachable** The
+  journal note steps aside while the filing panel is open, so the party picker
+  and platform choices stay reachable. The browser check uses keyboard
+  navigation and verifies the party and stands recorded by filing.
+
+- **Election night opens on your own race** After an election you ran in,
+  election night opens on your own race with every candidate's votes and whether
+  you won. Campaigns marks your filing won or lost, the journal tells it the
+  next day even against someone you never met, News carries the result, and
+  Government shows who was elected to each seat and when they take office.
+
+- **The journal note no longer covers the party picker when you file** At the
+  filing counter, the journal note in the corner used to sit over the party
+  picker at the bottom of the filing panel. It now steps aside while the panel
+  is open, as the news card already did, so you can see and choose your party
+  before you file.
+
 ## PRE-ALPHA 0.29.6
 
 _Released October 25, 2026._

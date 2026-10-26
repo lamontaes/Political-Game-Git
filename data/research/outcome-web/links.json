@@ -270,6 +270,26 @@
       "evidence": "about-zero"
     },
     {
+      "key": "fire-spending-to-fire-deaths",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "to": "fire.civilian-casualties",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percent added to the fire line",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "O",
+      "anchor": "Insignificant correlations: civilian casualties v. response time",
+      "source": "Jennings 2002 (Memphis, 4,990 residential fires); Shoffner 2023",
+      "from": "budget.fire-added-pct",
+      "evidence": "about-zero",
+      "notes": "Fetched Oct 24, 2026. Jennings, \"A Conceptual Model for Measurement of Fire Service Equivalency under NFPA 1710\" (Second International Conference on Fire Service Deployment, 2002; https://christianregenhardcenter.org/wp-content/uploads/2019/09/Jennings.pdf), three years of Memphis residential structure fires: \"Insignificant Correlations » Civilian Casualties v. RT\"; for dollar loss, \"Each additional minute of response time adds ~$500 to loss\" in one- and two-family dwellings and \"~$900\" in apartments, and \"Given the current magnitude of coefficients for time of day, and smoke detector status, we do not expect staffing level to be a major determinant.\" Shoffner, \"Firefighter Staffing Model Implications on Fire Casualties and Fire Loss\" (PhD dissertation, Liberty University, 2023; https://digitalcommons.liberty.edu/doctoral/4559), career departments in the United States and Canada, three- against four-person engines and ladders: \"it is questionable if staffing levels impact fire loss and human casualties.\" Neither source sizes deaths from spending or staffing, and both find no significant effect, so the link is about zero. Property loss rises a few hundred dollars per fire per minute of response time (Jennings), a small share of a fire's loss; the web keeps no fire-loss measure, so that link is not built."
+    },
+    {
       "key": "pretrial-detention-to-future-crime",
       "status": "about-zero",
       "unsupportedReason": null,
