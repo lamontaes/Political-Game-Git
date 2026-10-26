@@ -8,11 +8,7 @@ import {
   plannedWorkMinutesBetween,
   plannedWorkMinutesOnDate,
 } from "./modules/work";
-import {
-  earliestWorkBoundaryV1,
-  workBoundaryIdV1,
-  workSpansOnDateV1,
-} from "./work-spans-v1";
+import { workSpansOnDateV1 } from "./work-spans-v1";
 import type {
   CoreInput,
   CoreState,
@@ -115,8 +111,7 @@ function fixture(
     gaps: [],
   };
 }
-const hour = p("minutesPerHour"),
-  day = p("hoursPerDay") * hour;
+const hour = p("minutesPerHour");
 function slot(startHour: number, minutes: number): WorkScheduleSlot {
   return { offsetDays: p("zero"), startMinute: startHour * hour, minutes };
 }
@@ -151,34 +146,7 @@ function query(core: CoreState, date = at) {
     date,
   });
 }
-function boundary(
-  core: CoreState,
-  date: string,
-  from: number,
-  through: number,
-) {
-  return earliestWorkBoundaryV1(coreAPI(core), {
-    controlledPersonId: personId,
-    from: { date, minuteOfDay: from },
-    through: { date, minuteOfDay: through },
-  });
-}
-
 describe("recorded exact work spans v1 (SOURCE-ONLY author fixtures)", () => {
-  it("advances the query past only acknowledged exact frontier identities without epsilon or duration changes", () => {
-    const core = createCore(fixture([slot(9, hour)])),
-      api = coreAPI(core),
-      first = boundary(core, at, 9 * hour, 12 * hour)!;
-    const next = earliestWorkBoundaryV1(api, {
-      controlledPersonId: personId,
-      from: first.at,
-      through: { date: at, minuteOfDay: 12 * hour },
-      acknowledgedBoundaryIds: first.reasons.map(workBoundaryIdV1),
-    })!;
-    expect(next.at).toEqual({ date: at, minuteOfDay: 10 * hour });
-    expect(next.reasons[0]!.span.minutes).toBe(hour);
-    expect(boundary(core, at, 9 * hour, 12 * hour)!.at).toEqual(first.at);
-  });
   it("rejects a missing own Source citation without invoking an inherited getter", () => {
     const core = createCore(fixture([slot(9, hour)])),
       row = core.work.commitments.get("actual-work")!,
@@ -228,10 +196,6 @@ describe("recorded exact work spans v1 (SOURCE-ONLY author fixtures)", () => {
       plannedWorkMinutesBetween(row, at, at, core.data.parameters),
     );
     expect(result.totalPlannedMinutes).toBe(6 * hour);
-    expect(boundary(core, at, p("zero"), 18 * hour)!.at).toEqual({
-      date: at,
-      minuteOfDay: 9 * hour,
-    });
     expect(owner.commitment.scheduleSource).toEqual(row.scheduleSource);
     expect(owner.commitment.scheduleSource).not.toBe(row.scheduleSource);
     expect(Object.isFrozen(owner.commitment.scheduleSource)).toBe(true);
@@ -246,7 +210,7 @@ describe("recorded exact work spans v1 (SOURCE-ONLY author fixtures)", () => {
     expect(core.focusPersonIds.size).toBe(p("zero"));
   });
 
-  it("keeps original slot order and returns all adjacent start/end ties with exact unclamped duration", () => {
+  it("keeps original slot order with exact unclamped duration evidence", () => {
     const core = createCore(fixture([slot(12, hour), slot(9, 3 * hour)])),
       result = query(core);
     expect(result.owners[0]!.spans.map((span) => span.startMinute)).toEqual([
@@ -254,23 +218,17 @@ describe("recorded exact work spans v1 (SOURCE-ONLY author fixtures)", () => {
       9 * hour,
     ]);
     expect(
-      boundary(core, at, p("zero"), 14 * hour)!.reasons[0]!.span.slotIndex,
-    ).toBe(1);
-    const tied = boundary(core, at, 11.5 * hour, 13.5 * hour)!;
-    expect(tied.at).toEqual({ date: at, minuteOfDay: 12 * hour });
-    expect(
-      tied.reasons.map((reason) => [
-        reason.boundary,
-        reason.span.slotIndex,
-        reason.span.durationEvidence.minutes,
+      result.owners[0]!.spans.map((span) => [
+        span.slotIndex,
+        span.durationEvidence.minutes,
       ]),
     ).toEqual([
-      ["start", 0, hour],
-      ["end", 1, 3 * hour],
+      [0, hour],
+      [1, 3 * hour],
     ]);
     expect(
-      tied.reasons.every((reason) =>
-        reason.span.durationEvidence.recordRefs.some(
+      result.owners[0]!.spans.every((span) =>
+        span.durationEvidence.recordRefs.some(
           (ref) => ref.id === "actual-work",
         ),
       ),
@@ -306,35 +264,30 @@ describe("recorded exact work spans v1 (SOURCE-ONLY author fixtures)", () => {
     core.jobs.get("actual-job")!.endsAt = core.date; // Genuine completed date, exclusive for new work.
     const before = evidence(core);
     expect(query(core, core.date).totalPlannedMinutes).toBe(p("zero"));
-    expect(boundary(core, core.date, p("one"), day - p("one"))).toBeUndefined();
     expect(evidence(core)).toEqual(before);
   });
 
-  it("keeps exact midnight spill start/end ties and next eligible recurrence without expanding dates", () => {
+  it("keeps exact midnight spill segments and the next weekly recurrence without expanding dates", () => {
     const core = createCore(fixture([slot(22, 4 * hour)])),
       before = evidence(core);
-    const tied = boundary(core, "2021-01-02", p("zero"), hour)!;
-    expect(tied.at).toEqual({ date: "2021-01-02", minuteOfDay: p("zero") });
     expect(
-      tied.reasons.map((reason) => [
-        reason.boundary,
-        reason.span.date,
-        reason.span.originDate,
-        reason.span.minutes,
+      query(core, "2021-01-02").owners[0]!.spans.map((span) => [
+        span.originDate,
+        span.startMinute,
+        span.minutes,
       ]),
     ).toEqual([
-      ["end", at, at, 2 * hour],
-      ["start", "2021-01-02", at, 2 * hour],
+      [at, p("zero"), 2 * hour],
+      ["2021-01-02", 22 * hour, 2 * hour],
     ]);
     const periodic = createCore(
       fixture([slot(9, hour)], { periodDays: p("daysPerWeek") }),
     );
-    const next = earliestWorkBoundaryV1(coreAPI(periodic), {
-      controlledPersonId: personId,
-      from: { date: "2021-01-02", minuteOfDay: p("zero") },
-      through: { date: "2021-01-09", minuteOfDay: p("zero") },
+    expect(query(periodic, "2021-01-03").totalPlannedMinutes).toBe(p("zero"));
+    expect(query(periodic, "2021-01-08").owners[0]!.spans[0]!).toMatchObject({
+      startMinute: 9 * hour,
+      minutes: hour,
     });
-    expect(next!.at).toEqual({ date: "2021-01-08", minuteOfDay: 9 * hour });
     expect(evidence(core)).toEqual(before);
   });
 
@@ -418,9 +371,6 @@ describe("recorded exact work spans v1 (SOURCE-ONLY author fixtures)", () => {
     });
     try {
       expect(query(core).totalPlannedMinutes).toBe(hour);
-      expect(boundary(core, at, p("zero"), 12 * hour)!.at.minuteOfDay).toBe(
-        9 * hour,
-      );
       expect(calls).toBe(p("zero"));
       expect(evidence(core)).toEqual(before);
     } finally {
@@ -495,9 +445,6 @@ describe("recorded exact work spans v1 (SOURCE-ONLY author fixtures)", () => {
     });
     try {
       expect(query(core).totalPlannedMinutes).toBe(hour);
-      expect(boundary(core, at, p("zero"), 12 * hour)!.at.minuteOfDay).toBe(
-        9 * hour,
-      );
       expect(calls).toBe(p("zero"));
     } finally {
       for (const table of [
