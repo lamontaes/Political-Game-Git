@@ -6,10 +6,10 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/law-wiring-rights-env
 pr: "#5669"
-blocked-on:
+blocked-on: laws-nine-links-rights-six
 source: laws lead, Oct 26
 claimed-at: 2026-10-26T18:00:13.351Z
 ---
