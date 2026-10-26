@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by: claude/web-reach-environment
 pr: #5915
 blocked-on:
@@ -28,3 +28,5 @@ Sent back 2026-10-24 from PR #5915 (branch claude/web-reach-environment): Missin
 Sent back 2026-10-24 from PR #5915 (branch claude/web-reach-environment): After-lag played-proof repair is present, but current main integration conflicts in production modules/jobs.ts plus effect-web matrix and stopgaps registry; integrate current writers, retain all SG rows, regenerate reports and refresh Done-when evidence; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5915 (branch claude/web-reach-environment): two carriedBy rows at links.json:5690 and :5712 use existing stand-ins with different sizes or timing rather than the researched after-lag effects; supply true witnesses or retain both specific unwired reasons/stopgaps instead of resolving their unread rows; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5915 (branch claude/web-reach-environment): repaired source integrated main and regenerated coverage/matrix at 97c96d0d2fc6c20372fd72992c59913c1d58df86, retaining every main stopgap ID, but cloud execution environment became unavailable before the required own changed-file gate; no code defect or green merge claimed; finish on that branch, merge main into it first.
