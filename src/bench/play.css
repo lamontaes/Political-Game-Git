@@ -60,6 +60,8 @@
   color-scheme: dark;
   --glass-top: rgba(42, 42, 44, 0.72);
   --glass-bottom: rgba(22, 22, 24, 0.82);
+  --solid-top: #262628;
+  --solid-bottom: #151517;
   --brass: #9c8350;
   --iron: #1c1a18;
   --gold: #d6bd84;
@@ -1290,11 +1292,18 @@ body.dev .dev-ring {
   visibility: hidden;
 }
 
-/* Calendar uses the existing panel frame and Kit 13 controls. */
-#sheet:has(.calendar-layout) {
-  background: linear-gradient(#262628, #151517);
+/* Reading screens (the menu, every menu sheet and a person's card) are
+   solid: the scene never shows through text meant to be read. Glass stays
+   for panels over a scene, such as the talk box. */
+#menu,
+#sheet,
+#person {
+  background: linear-gradient(var(--solid-top), var(--solid-bottom));
   backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
+
+/* Calendar uses the existing panel frame and Kit 13 controls. */
 #sheet-body:has(.calendar-layout) {
   max-width: none;
 }
@@ -1791,10 +1800,6 @@ body.dev .dev-ring {
 }
 
 /* Outlet layouts use the approved outer frame and record-fed stories. */
-#sheet:has(.paper) {
-  background: linear-gradient(#262628, #151517);
-  backdrop-filter: none;
-}
 #sheet-body:has(.paper) {
   max-width: none;
 }
