@@ -1,6 +1,8 @@
 /* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
+import { show, mountCloseButtons } from "./ui/panel.mjs";
+mountCloseButtons();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
@@ -187,9 +189,6 @@ function screenArtwork({ portraitUrl, backgroundUrl, name }) {
     img.addEventListener("error", () => img.remove(), { once: true });
     media.append(img);
   }
-}
-function show(id, on) {
-  $(id).hidden = !on;
 }
 
 /** Soft contact shadows on the floor at each person's feet, under everyone. */
@@ -3405,26 +3404,55 @@ const sheets = {
     // The nation, region and job numbers above the paper, from the economy's records.
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
+    const econ = controls.news?.economy ?? {};
+    // A month of record ("2025-01") as a reader says it: January 2025.
+    const monthWords = (month) =>
+      /^\d{4}-\d{2}$/.test(String(month))
+        ? new Date(`${month}-15T12:00:00Z`).toLocaleDateString("en-US", {
+            month: "long",
+            year: "numeric",
+            timeZone: "UTC",
+          })
+        : "";
+    // A region's series by its control name and unit; a series with no
+    // control name is not shown.
+    const count = new Intl.NumberFormat("en-US");
+    const value = (unit, v) =>
+      unit === "percent"
+        ? `${v.toFixed(1)}%`
+        : unit === "thousands"
+          ? count.format(Math.round(v * 1000))
+          : unit === "dollars"
+            ? dollars(Math.round(v * 100))
+            : v.toFixed(1);
     const economy = e.nation
       ? [
           row(
-            `Nation · ${e.nation.month}`,
-            `Unemployment ${pct(e.nation.unemploymentPct)} · Inflation ${pct(e.nation.inflationPct)} · Policy rate ${pct(e.nation.policyRatePct)} · Mortgage ${pct(e.nation.mortgage30Pct)}`,
+            `${econ.nation} · ${monthWords(e.nation.month)}`,
+            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
           ),
           ...(e.region
             ? [
                 // The region's rate under the area it covers, beside the nation's.
                 row(
-                  `${(e.region.name ?? "").replace(/^./, (c) => c.toUpperCase())} · ${e.region.month ?? ""}`,
-                  `Unemployment ${pct(e.region.unemploymentPct)}`,
+                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
+                  Object.entries(e.region)
+                    .filter(
+                      ([k, v]) => typeof v === "number" && econ.series?.[k],
+                    )
+                    .map(
+                      ([k, v]) =>
+                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
+                    )
+                    .join(" · "),
                 ),
               ]
             : []),
           ...(e.jobs
             ? [
                 row(
-                  "Jobs here",
-                  `${e.jobs.employed} employed · ${e.jobs.seekers} looking · ${e.jobs.openPositions} open`,
+                  econ.jobsHere,
+                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
                 ),
               ]
             : []),
@@ -3572,11 +3600,37 @@ const sheets = {
                         ]
                       : []),
                   ].join(" · ")
-                : [
+                : // Who the record is about, each by their role in it.
+                  [
                     ...new Set(
-                      Object.values(record.facts ?? {})
-                        .filter((v) => typeof v === "string" && me.names?.[v])
-                        .map((v) => me.names[v]),
+                      Object.entries(record.facts ?? {}).flatMap(
+                        ([role, v]) => {
+                          // The record's kind is the heading already.
+                          if (typeof v !== "string" || role === "recordKind")
+                            return [];
+                          const label = words(role.replace(/Id$/, ""));
+                          const name = record.names?.[v] ?? me.names?.[v];
+                          // A person by name, a date in words, a plain value
+                          // by its label; record ids are never shown.
+                          if (name) return [`${label} ${name}`];
+                          // A yes-or-no fact reads as its label when true.
+                          if (v === "true") return [label];
+                          if (v === "false") return [];
+                          if (/^\d{4}-\d{2}-\d{2}$/.test(v))
+                            return [`${label} ${proseDate(v)}`];
+                          // A code with no name (a jurisdiction key, a
+                          // status) is never shown.
+                          if (
+                            /[:_]/.test(v) ||
+                            !v.trim() ||
+                            /^[A-Z0-9]+(?:-[A-Z0-9]+)+$/.test(v) ||
+                            /^[a-z]+(?:\.[a-z-]+)+$/.test(v)
+                          )
+                            return [];
+                          // A proper name keeps its own capitals.
+                          return [`${label} ${/[A-Z]/.test(v) ? v : words(v)}`];
+                        },
+                      ),
                     ),
                   ].join(" · "),
             }),

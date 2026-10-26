@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/snap-stopped-head-paid
 pr: #6180
 blocked-on:
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T20:00:51.026Z
 **Rules.** No dice; the law in force and the person's records decide who is stopped and paid; fix at the root, never skip the test.
 
 **Done when.** The test passes in a played world built with buildBenchWorld on seed 5bc87701eb9c1641 (Washington, District of Columbia) and on two fresh drawn places named with their seeds, and the cause of the stopped-but-paid owner is named by file and line, with the record id of the payment.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/outcome-web-public-finance.test.ts
 

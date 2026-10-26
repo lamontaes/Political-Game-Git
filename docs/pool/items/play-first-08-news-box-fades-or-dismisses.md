@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-first-08-news-box-fades-or-dismisses
 pr: #6100
 blocked-on:
