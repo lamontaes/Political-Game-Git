@@ -10,7 +10,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.26,
         "low": 0.378,
-        "high": 2.142
+        "high": 2.142,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -19,9 +20,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Voter turnout (N = 1,062)\", column Openness to Experience: \"1.26∗∗\", standard error \"(0.45)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "voting.turnout",
@@ -31,7 +32,8 @@
         "kind": "logit-coef-full-range",
         "value": -1.42,
         "low": -2.204,
-        "high": -0.636
+        "high": -0.636,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -40,9 +42,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Voter turnout (N = 1,062)\", column Emotional Stability: \"−1.42∗∗∗\", standard error \"(0.40)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Emotional stability: Scale Mean (SD) \"0.40\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Negative sign for emotional stability (higher neuroticism raises turnout) is flagged by the authors as inconsistent with Gerber et al."
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Negative sign for emotional stability (higher neuroticism raises turnout) is flagged by the authors as inconsistent with Gerber et al. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "campaigns.volunteer",
@@ -52,7 +54,8 @@
         "kind": "logit-coef-full-range",
         "value": 2.02,
         "low": 0.57,
-        "high": 3.47
+        "high": 3.47,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -61,9 +64,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Work for a party or candidate (1,066)\", column Openness to Experience: \"2.02∗∗∗\", standard error \"(0.74)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "campaigns.volunteer",
@@ -73,7 +76,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.15,
         "low": -0.104,
-        "high": 2.404
+        "high": 2.404,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -82,9 +86,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Work for a party or candidate (1,066)\", column Extraversion: \"1.15#\", standard error \"(0.64)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table."
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.26 of the 0 to 1 range."
     },
     {
       "id": "campaigns.donate",
@@ -94,7 +98,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.25,
         "low": 0.407,
-        "high": 2.093
+        "high": 2.093,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -103,9 +108,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Respondent contributed money to a political party or candidate (1,066)\" (the label is set over two lines in the paper), column Openness to Experience: \"1.25∗∗\", standard error \"(0.43)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "campaigns.endorse",
@@ -115,7 +120,8 @@
         "kind": "logit-coef-full-range",
         "value": 2.07,
         "low": 1.404,
-        "high": 2.736
+        "high": 2.736,
+        "traitSd": 0.22
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -124,9 +130,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Try to convince people to vote for/against a candidate (1,064)\" (the label is set over two lines in the paper), column Openness to Experience: \"2.07∗∗∗\", standard error \"(0.34)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.22 of the 0 to 1 range."
     },
     {
       "id": "campaigns.endorse",
@@ -136,7 +142,8 @@
         "kind": "logit-coef-full-range",
         "value": 0.51,
         "low": -0.039,
-        "high": 1.059
+        "high": 1.059,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -145,9 +152,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Try to convince people to vote for/against a candidate (1,064)\" (the label is set over two lines in the paper), column Extraversion: \"0.51#\", standard error \"(0.28)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table."
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Only p<.10 in the source table. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.26 of the 0 to 1 range."
     },
     {
       "id": "campaigns.open-door",
@@ -157,7 +164,8 @@
         "kind": "pp-full-range",
         "value": 0.22,
         "low": null,
-        "high": null
+        "high": null,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -168,7 +176,7 @@
       },
       "quote": "With other variables held constant at mean or modal values, the predicted probability of having contacted a member of Congress rises from 0.28 to 0.45 across the values of openness to experience, and from 0.27 to 0.49 across extraversion.",
       "quoteVerified": true,
-      "notes": "Predicted probability rises 0.27 to 0.49 (22 points) across the full extraversion range; logit coefficient 0.92 (SE .27). This describes a citizen contacting an official, used here as a proxy; no study of officials opening their doors to constituents by personality was found. Not per SD."
+      "notes": "Predicted probability rises 0.27 to 0.49 (22 points) across the full extraversion range; logit coefficient 0.92 (SE .27). This describes a citizen contacting an official, used here as a proxy; no study of officials opening their doors to constituents by personality was found. Not per SD. Table 1 gives Extraversion's standard deviation as 0.26 of the 0 to 1 range (\"Scale Mean (SD) 0.41 (0.26)\"); the swing per standard deviation uses it."
     },
     {
       "id": "meetings.take-part",
@@ -178,7 +186,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.92,
         "low": 1.195,
-        "high": 2.645
+        "high": 2.645,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -187,9 +196,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Attended a public meeting with House member or senator in past two years (1,063)\" (the label is set over two lines in the paper), column Extraversion: \"1.92∗∗∗\", standard error \"(0.37)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.26 of the 0 to 1 range."
     },
     {
       "id": "meetings.take-part",
@@ -199,7 +208,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.65,
         "low": 0.67,
-        "high": 2.63
+        "high": 2.63,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -208,9 +218,9 @@
         "venue": "American Political Science Review 104(1), 85-110",
         "url": "https://doi.org/10.1017/S0003055409990359"
       },
-      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quote": "Table 2, row \"Attend meetings or election rallies (1,066)\" (the label is set over two lines in the paper), column Extraversion: \"1.65∗∗\", standard error \"(0.50)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. "
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by the trait's Table 1 standard deviation, 0.26 of the 0 to 1 range."
     },
     {
       "id": "candidacy.run",
@@ -232,6 +242,115 @@
       "quote": "an IQR increase in honesty-humility (i.e., from 4.5 to 6 on a seven-point scale) corresponds to a 6 percent decrease in the chance of having thought about running, a 9 percent decrease in the chance of feeling qualified to run, a 2 percent decrease in the chance of having been asked to run, and finally, a 3 percent decrease in the chance of actually having run.",
       "quoteVerified": true,
       "notes": "Five-country survey (Canada, Denmark, Israel, Netherlands, Switzerland), not the US. Effect is per interquartile range (4.5 to 6 on a 7-point scale), not per SD; source says 'percent' and appears to mean percentage points (it uses 'percentage points' for the gender gap). Lower honesty-humility raises considering (-0.06), feeling qualified (-0.09), being asked (-0.02)."
+    },
+    {
+      "id": "campaigns.retell",
+      "trait": "openness to experience",
+      "outcome": "tried to convince people to vote for or against a candidate",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 2.07,
+        "low": 1.404,
+        "high": 2.736,
+        "traitSd": 0.22
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: telling family and friends about a campaign is the same act as trying to convince people how to vote (Mondak et al. 2010, openness); no study of retelling a campaign message by personality was found. Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Openness's standard deviation is 0.22 of its full range (the paper's Table 1, as in the meetings.take-part row)."
+    },
+    {
+      "id": "press.accept-interview",
+      "trait": "openness to experience",
+      "outcome": "tried to convince people to vote for or against a candidate",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 2.07,
+        "low": 1.404,
+        "high": 2.736,
+        "traitSd": 0.22
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: agreeing to a reporter's interview is speaking up to persuade (Mondak et al. 2010, trying to convince people how to vote, openness); no study of accepting interviews by personality was found. Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Openness's standard deviation is 0.22 of its full range (the paper's Table 1, as in the meetings.take-part row)."
+    },
+    {
+      "id": "campaigns.rival-hours",
+      "trait": "openness to experience",
+      "outcome": "worked for a party or candidate",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 2.02,
+        "low": 0.57,
+        "high": 3.47,
+        "traitSd": 0.22
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: a candidate's own hours campaigning are working for a party or candidate (Mondak et al. 2010, openness); no study of a candidate's campaigning hours by personality was found. Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Openness's standard deviation is 0.22 of its full range (the paper's Table 1, as in the meetings.take-part row)."
+    },
+    {
+      "id": "campaigns.party-firmness",
+      "trait": "openness to experience",
+      "outcome": "worked for a party or candidate",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 2.02,
+        "low": 0.57,
+        "high": 3.47,
+        "traitSd": 0.22
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: joining and holding a party is working for a party or candidate (Mondak et al. 2010, openness); no study of how firmly a candidate holds a party line by personality was found. Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Openness's standard deviation is 0.22 of its full range (the paper's Table 1, as in the meetings.take-part row)."
+    },
+    {
+      "id": "voting.stand-again",
+      "trait": "honesty-humility (HEXACO)",
+      "outcome": "actually having run for political office",
+      "effect": {
+        "kind": "pp-per-iqr",
+        "value": -0.03,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "van de Wardt, M., Bundi, P., Loewen, P. J., Rasmussen, A., Sheffer, L., & Varone, F.",
+        "year": 2026,
+        "title": "Too honest and humble to run for office? Citizens' personality traits, nascent ambition, and recruitment",
+        "venue": "European Journal of Political Research 65, 307-327",
+        "url": "https://doi.org/10.1017/S1475676525100224"
+      },
+      "quote": "an IQR increase in honesty-humility (i.e., from 4.5 to 6 on a seven-point scale) corresponds to a 6 percent decrease in the chance of having thought about running, a 9 percent decrease in the chance of feeling qualified to run, a 2 percent decrease in the chance of having been asked to run, and finally, a 3 percent decrease in the chance of actually having run.",
+      "quoteVerified": true,
+      "notes": "Proxy: an incumbent standing again is running for office (van de Wardt et al. 2026, honesty-humility); no study of incumbents' decisions to retire by personality was found. Five-country survey (Canada, Denmark, Israel, Netherlands, Switzerland), not the US. Effect is per interquartile range (4.5 to 6 on a 7-point scale), not per SD; source says 'percent' and appears to mean percentage points (it uses 'percentage points' for the gender gap). Lower honesty-humility raises considering (-0.06), feeling qualified (-0.09), being asked (-0.02)."
     },
     {
       "id": "moves.move-away",
@@ -364,6 +483,48 @@
       "quote": "Meta-analytic results indicated that all antecedent variables, except optimism, were significantly related to job search behavior, with estimated population correlations ranging from -.15 to .46.",
       "quoteVerified": true,
       "notes": "The abstract gives only the range across all antecedents (-.15 to .46), not trait-specific values; the full text was not retrievable (host failed TLS verification through the proxy and a second fetch returned 503), so no trait-level number is given."
+    },
+    {
+      "id": "jobs.raise-for-opening",
+      "trait": "agreeableness (FFM)",
+      "outcome": "how much a proposer offers a responder in the Ultimatum Game (meta-analysis, 16 independent samples); proxy for an employer's offer to attract a worker",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.08,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Thielmann, I., Spadaro, G., & Balliet, D.",
+        "year": 2020,
+        "title": "Personality and prosocial behavior: A theoretical framework and meta-analysis",
+        "venue": "Psychological Bulletin 146(1), 30-90",
+        "url": "https://zenodo.org/record/3731374"
+      },
+      "quote": "Table 8 \"Between Traits and Prosocial Behavior Within Each Game, Including the Number of Independent Samples (k; in Parentheses)\", columns DG, UG proposer, UG responder, TG trustor, TG trustee, SDG; row \"FFM agreeableness\": \".16ⴱ (51) .08ⴱ⫺ (16) .07ⴱ⫺ (18) .09ⴱ⫺ (28) .13ⴱ (28) .07ⴱ⫺ (47)\", so UG proposer = \".08ⴱ⫺ (16)\".",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation between the trait and the share a proposer offers to a responder who can reject (k = 16 samples; significance marks only, so low/high are null). The Ultimatum Game is the nearest published bargaining analogue to an owner choosing how far to raise an offer to fill a seat: the proposer decides how much to give up knowing the other side can walk away. It is a one-shot lab game with strangers and students, the outcome is the size of the offer (not a two-way choice), so trait-calibrate.ts cannot fit it as a probability; use it only to size the pull on how much is added. No study of an employer's own personality and the wage they offer was found. HEXACO agreeableness for the UG proposer is .06 (k = 14). Dictator Game giving (no rejection threat) is stronger: FFM agreeableness .16 (k = 51), honesty-humility .26 (k = 43)."
+    },
+    {
+      "id": "jobs.raise-for-opening",
+      "trait": "honesty-humility (HEXACO)",
+      "outcome": "how much a proposer offers a responder in the Ultimatum Game (meta-analysis, 16 independent samples); proxy for an employer's offer to attract a worker",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.09,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Thielmann, I., Spadaro, G., & Balliet, D.",
+        "year": 2020,
+        "title": "Personality and prosocial behavior: A theoretical framework and meta-analysis",
+        "venue": "Psychological Bulletin 146(1), 30-90",
+        "url": "https://zenodo.org/record/3731374"
+      },
+      "quote": "Table 8 \"Between Traits and Prosocial Behavior Within Each Game, Including the Number of Independent Samples (k; in Parentheses)\", columns DG, UG proposer, UG responder, TG trustor, TG trustee, SDG; row \"Honesty-humility\": \".26ⴱ (43) .09ⴱ⫺ (16) .02⫺ (15) .11ⴱ⫺ (12) .22ⴱ (7) .18ⴱ⫺ (27)\", so UG proposer = \".09ⴱ⫺ (16)\".",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation between the trait and the share a proposer offers to a responder who can reject (k = 16 samples; significance marks only, so low/high are null). The Ultimatum Game is the nearest published bargaining analogue to an owner choosing how far to raise an offer to fill a seat: the proposer decides how much to give up knowing the other side can walk away. It is a one-shot lab game with strangers and students, the outcome is the size of the offer (not a two-way choice), so trait-calibrate.ts cannot fit it as a probability; use it only to size the pull on how much is added. No study of an employer's own personality and the wage they offer was found. Conscientiousness for the UG proposer is .02 (k = 25), i.e. no pull. Dictator Game giving (no rejection threat) is stronger: FFM agreeableness .16 (k = 51), honesty-humility .26 (k = 43)."
     },
     {
       "id": "business.found",
@@ -714,13 +875,25 @@
     },
     {
       "id": "campaigns.answer-poll",
-      "trait": "none found",
-      "outcome": "responding to political polls and surveys",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a personality effect size on survey or poll response was found and verified."
+      "trait": "extraversion",
+      "outcome": "contacted a member of Congress in the past two years (proxy for answering a pollster's call)",
+      "effect": {
+        "kind": "pp-full-range",
+        "value": 0.22,
+        "low": null,
+        "high": null,
+        "traitSd": 0.26
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://doi.org/10.1017/S0003055409990359"
+      },
+      "quote": "With other variables held constant at mean or modal values, the predicted probability of having contacted a member of Congress rises from 0.28 to 0.45 across the values of openness to experience, and from 0.27 to 0.49 across extraversion.",
+      "quoteVerified": true,
+      "notes": "Proxy: taking a stranger's call to give an opinion is reaching across to a public figure or institution (Mondak et al. 2010, extraversion, predicted probability 0.27 to 0.49); no study of poll response by personality was found. Predicted probability rises 0.27 to 0.49 (22 points) across the full extraversion range; logit coefficient 0.92 (SE .27). This describes a citizen contacting an official, used here as a proxy; no study of officials opening their doors to constituents by personality was found. Not per SD. Extraversion's standard deviation is 0.26 of its full range (the paper's Table 1, as in the meetings.take-part row)."
     },
     {
       "id": "parties.join",
@@ -810,13 +983,66 @@
     },
     {
       "id": "retirement.claim-age",
-      "trait": "conscientiousness (later), agreeableness and neuroticism (earlier)",
-      "outcome": "Social Security claiming age",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "Only a conference-abstract summary seen in search results; unverified and not attributable to a named paper, so no number given."
+      "trait": "openness to experience",
+      "outcome": "intended Social Security claiming age in years (US adults 40 to 61 who imagined being 60; MTurk; N about 3,420)",
+      "effect": {
+        "kind": "standardized-beta",
+        "value": 0.0779,
+        "low": 0.045,
+        "high": 0.1108
+      },
+      "source": {
+        "authors": "Greenberg, A. E., Hershfield, H. E., Shu, S. B., & Spiller, S. A.",
+        "year": 2018,
+        "title": "What Motivates Social Security Claiming Age Intentions? Testing Behaviorally-Informed Interventions Alongside Individual Differences",
+        "venue": "Working paper presented at the 20th Annual Joint Meeting of the Retirement Research Consortium, August 2-3, 2018 (published later in Journal of Marketing Research 2023)",
+        "url": "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/Greenberg-Shu-Spiller_SSClaimingNBER_2018.pdf"
+      },
+      "quote": "Table 2, row \"Big 5 – Openness to Experience\": \"0.218***\" with SE \"0.047\". Table 2 note: \"Each variable was standardized prior to inclusion in the model, such that the coefficient represents the expected change in claiming age (in years) given a one standard deviation increase in the individual difference.\" Results: \"participants intended to claim later (median = 68; mean = 67.1; sd = 2.8) than the current distribution of true claiming ages would suggest.\" Text: \"Agreeableness, Openness to Experience, and Emotional Stability are each related to delayed claiming intentions. Neither conscientiousness nor extraversion are related to claiming intentions.\"",
+      "quoteVerified": true,
+      "notes": "The paper prints the change in intended claiming age in YEARS per 1 SD of the trait: 0.218 years (SE 0.047). The helper divided by the SD of intended claiming age printed in the paper (2.8 years) to get a standardized beta (0.078); the raw size is the number the game's claimTraitPullYears can use directly (about 2.6 months of delay per SD of the trait). Limits: intentions stated by online panelists aged 40 to 61 who imagined being 60, not actual claims; Ten-Item Personality Inventory; the version fetched is an August 2018 working paper whose authors call the results preliminary (data collection continuing, N = 3,420 here); each trait was entered in a separate model with gender, age, income and the 13 treatment indicators as controls. Same table, other traits: agreeableness 0.211*** (SE .049), openness 0.218*** (SE .047), stability 0.105** (SE .048), conscientiousness 0.022 (SE .048), extraversion 0.008 (SE .048). Largest individual difference of any kind: discount factor (patience) 0.370*** years per SD, life expectation 0.300***, perceived ownership of benefits -0.424***. Direction: higher openness, agreeableness and emotional stability go with LATER claiming (waiting), the opposite of the existing note that agreeableness and neuroticism claim earlier. Largest Big Five coefficient."
+    },
+    {
+      "id": "retirement.claim-age",
+      "trait": "agreeableness",
+      "outcome": "intended Social Security claiming age in years (US adults 40 to 61 who imagined being 60; MTurk; N about 3,420)",
+      "effect": {
+        "kind": "standardized-beta",
+        "value": 0.0754,
+        "low": 0.0411,
+        "high": 0.1097
+      },
+      "source": {
+        "authors": "Greenberg, A. E., Hershfield, H. E., Shu, S. B., & Spiller, S. A.",
+        "year": 2018,
+        "title": "What Motivates Social Security Claiming Age Intentions? Testing Behaviorally-Informed Interventions Alongside Individual Differences",
+        "venue": "Working paper presented at the 20th Annual Joint Meeting of the Retirement Research Consortium, August 2-3, 2018 (published later in Journal of Marketing Research 2023)",
+        "url": "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/Greenberg-Shu-Spiller_SSClaimingNBER_2018.pdf"
+      },
+      "quote": "Table 2, row \"Big 5 - Agreeableness\": \"0.211***\" with SE \"0.049\". Table 2 note: \"Each variable was standardized prior to inclusion in the model, such that the coefficient represents the expected change in claiming age (in years) given a one standard deviation increase in the individual difference.\" Results: \"participants intended to claim later (median = 68; mean = 67.1; sd = 2.8) than the current distribution of true claiming ages would suggest.\" Text: \"Agreeableness, Openness to Experience, and Emotional Stability are each related to delayed claiming intentions. Neither conscientiousness nor extraversion are related to claiming intentions.\"",
+      "quoteVerified": true,
+      "notes": "The paper prints the change in intended claiming age in YEARS per 1 SD of the trait: 0.211 years (SE 0.049). The helper divided by the SD of intended claiming age printed in the paper (2.8 years) to get a standardized beta (0.075); the raw size is the number the game's claimTraitPullYears can use directly (about 2.5 months of delay per SD of the trait). Limits: intentions stated by online panelists aged 40 to 61 who imagined being 60, not actual claims; Ten-Item Personality Inventory; the version fetched is an August 2018 working paper whose authors call the results preliminary (data collection continuing, N = 3,420 here); each trait was entered in a separate model with gender, age, income and the 13 treatment indicators as controls. Same table, other traits: agreeableness 0.211*** (SE .049), openness 0.218*** (SE .047), stability 0.105** (SE .048), conscientiousness 0.022 (SE .048), extraversion 0.008 (SE .048). Largest individual difference of any kind: discount factor (patience) 0.370*** years per SD, life expectation 0.300***, perceived ownership of benefits -0.424***. Direction: higher openness, agreeableness and emotional stability go with LATER claiming (waiting), the opposite of the existing note that agreeableness and neuroticism claim earlier. "
+    },
+    {
+      "id": "retirement.claim-age",
+      "trait": "emotional stability",
+      "outcome": "intended Social Security claiming age in years (US adults 40 to 61 who imagined being 60; MTurk; N about 3,420)",
+      "effect": {
+        "kind": "standardized-beta",
+        "value": 0.0375,
+        "low": 0.0039,
+        "high": 0.0711
+      },
+      "source": {
+        "authors": "Greenberg, A. E., Hershfield, H. E., Shu, S. B., & Spiller, S. A.",
+        "year": 2018,
+        "title": "What Motivates Social Security Claiming Age Intentions? Testing Behaviorally-Informed Interventions Alongside Individual Differences",
+        "venue": "Working paper presented at the 20th Annual Joint Meeting of the Retirement Research Consortium, August 2-3, 2018 (published later in Journal of Marketing Research 2023)",
+        "url": "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/Greenberg-Shu-Spiller_SSClaimingNBER_2018.pdf"
+      },
+      "quote": "Table 2, row \"Big 5 - Stability\": \"0.105**\" with SE \"0.048\". Table 2 note: \"Each variable was standardized prior to inclusion in the model, such that the coefficient represents the expected change in claiming age (in years) given a one standard deviation increase in the individual difference.\" Results: \"participants intended to claim later (median = 68; mean = 67.1; sd = 2.8) than the current distribution of true claiming ages would suggest.\" Text: \"Agreeableness, Openness to Experience, and Emotional Stability are each related to delayed claiming intentions. Neither conscientiousness nor extraversion are related to claiming intentions.\"",
+      "quoteVerified": true,
+      "notes": "The paper prints the change in intended claiming age in YEARS per 1 SD of the trait: 0.105 years (SE 0.048). The helper divided by the SD of intended claiming age printed in the paper (2.8 years) to get a standardized beta (0.037); the raw size is the number the game's claimTraitPullYears can use directly (about 1.3 months of delay per SD of the trait). Limits: intentions stated by online panelists aged 40 to 61 who imagined being 60, not actual claims; Ten-Item Personality Inventory; the version fetched is an August 2018 working paper whose authors call the results preliminary (data collection continuing, N = 3,420 here); each trait was entered in a separate model with gender, age, income and the 13 treatment indicators as controls. Same table, other traits: agreeableness 0.211*** (SE .049), openness 0.218*** (SE .047), stability 0.105** (SE .048), conscientiousness 0.022 (SE .048), extraversion 0.008 (SE .048). Largest individual difference of any kind: discount factor (patience) 0.370*** years per SD, life expectation 0.300***, perceived ownership of benefits -0.424***. Direction: higher openness, agreeableness and emotional stability go with LATER claiming (waiting), the opposite of the existing note that agreeableness and neuroticism claim earlier. Stability is the reverse of neuroticism, so neuroticism pulls toward claiming earlier."
     },
     {
       "id": "life.daily-act",
@@ -830,13 +1056,47 @@
     },
     {
       "id": "drives.respond",
+      "option": "hold-grudge",
+      "trait": "agreeableness (low agreeableness keeps a grievance)",
+      "outcome": "forgiving a single offender rather than keeping a grievance (forgiveness and unforgiveness measures pooled)",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.22,
+        "low": -0.27,
+        "high": -0.17
+      },
+      "source": {
+        "authors": "Fehr, R., Gelfand, M. J., & Nag, M.",
+        "year": 2010,
+        "title": "The road to forgiveness: A meta-analytic synthesis of its situational and dispositional correlates",
+        "venue": "Psychological Bulletin 136(5), 894-914",
+        "url": "https://doi.org/10.1037/a0019993"
+      },
+      "quote": "Table 2, row Agreeableness (k = 10, total n = 1,732): weighted mean r = .22, SE .02, 95% CI [.17, .27]. Text: \"For agreeableness, r = .22, indicating that agreeable people tend to forgive their offenders.\"",
+      "quoteVerified": true,
+      "notes": "Read from the Psychological Bulletin PDF (data/research/people/fehr-forgiveness-correlates-2010.json). The authors do not separate forgiveness from unforgiveness measures (benevolence from revenge), so the sign is reversed for holding a grudge: value -0.22, low/high the reversed 95% interval. A correlation with forgiving one offender, not with a choice among responses to a loss; it sizes the pull a temperament gives toward keeping a grievance and is checked, not obeyed (scripts/research/people-year.ts reports the thirds). The game's people-mind-v1:conflict trait is agreeableness compliance reversed. Neuroticism r = -.24 [-.32, -.16] (k = 9) and trait anger r = -.18 [-.23, -.13] (k = 18) in the same table."
+    },
+    {
+      "id": "drives.respond",
+      "option": "hold-grudge",
       "trait": "neuroticism",
-      "outcome": "responses to stressors and drives",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No dedicated study; see outcome.stress-reactivity."
+      "outcome": "forgiving a single offender rather than keeping a grievance (forgiveness and unforgiveness measures pooled)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.24,
+        "low": 0.16,
+        "high": 0.32
+      },
+      "source": {
+        "authors": "Fehr, R., Gelfand, M. J., & Nag, M.",
+        "year": 2010,
+        "title": "The road to forgiveness: A meta-analytic synthesis of its situational and dispositional correlates",
+        "venue": "Psychological Bulletin 136(5), 894-914",
+        "url": "https://doi.org/10.1037/a0019993"
+      },
+      "quote": "Table 2, row Neuroticism (k = 9, total n = 1,551): weighted mean r = -.24, SE .03, 95% CI [-.32, -.16].",
+      "quoteVerified": true,
+      "notes": "Sign reversed for holding a grudge, as for agreeableness. The game has no neuroticism trait of its own; its defensive, brooding and sensitive facets are the nearest (data/content/trait-act-pulls.json)."
     },
     {
       "id": "legislature.member-position",
@@ -1095,24 +1355,72 @@
     },
     {
       "id": "credit.borrow",
-      "trait": "extraversion",
-      "outcome": "unsecured debt, single individuals (BHPS, UK)",
+      "trait": "conscientiousness",
+      "outcome": "holding any unsecured debt (probability), single-adult households, BHPS UK 1995/2000/2005 (probit average marginal effect per SD)",
       "effect": {
         "kind": "pp-per-sd",
-        "value": 21.7,
-        "low": null,
-        "high": null
+        "value": -3.37,
+        "low": -6.03,
+        "high": -0.71
       },
+      "baseRate": 0.4847,
+      "outcomeIsProbability": true,
       "source": {
         "authors": "Brown, S., & Taylor, K.",
         "year": 2014,
         "title": "Household finances and the 'Big Five' personality traits",
         "venue": "Journal of Economic Psychology 45, 197-212",
-        "url": "https://doi.org/10.1016/j.joep.2014.10.006"
+        "url": "https://eprints.whiterose.ac.uk/82777/3/WRRO_82777.pdf"
       },
-      "quote": "For example, a one standard deviation increase in extraversion is associated with a 21.70 percentage point increase in unsecured debt.",
+      "quote": "Table 3, Panel C (SAMPLE=SINGLES, MEAN BIG5 OF HEAD), column HOLDING DEBT, row Conscientiousness: \"-0.0337 (2.48)\"; Extraversion \"0.0307 (2.35)\"; Openness to experience \"0.0335 (2.45)\". Table 3 notes: \"The resulting personality trait is based on the standardised residual from this process, i.e. zero mean and unit standard deviation.\" ... \"Marginal effects are reported throughout.\" Text: \"The probit analysis of the probability of holding debt across the different samples, irrespective of type of debt held, reveals that conscientiousness, that is being hard-working and achievement oriented, is inversely associated with holding unsecured debt which is consistent with the tobit analysis and the findings of Donnelly et al. (2012), whilst the other four personality traits are positively associated with debt holding where statistically significant.\" Table 1A, singles, Holding debt mean: \"0.4847\".",
       "quoteVerified": true,
-      "notes": "UK British Household Panel Survey. The paper's unit for the debt outcome is ambiguous (reads as percent change in the level of debt, not a probability). Couples: one SD of agreeableness is associated with an increase in unsecured debt of over 22 percentage points. Conscientiousness is inversely associated with unsecured debt in every sample. Probability of holding other debt: extraversion +2.44 pp per SD (singles). Greene, Shy & Stavins (2023) separately find that less conscientious, more open, and more agreeable card holders are more likely to revolve credit card debt (no coefficients extracted)."
+      "notes": "Accepted-manuscript PDF on White Rose Research Online (CC-BY-NC-ND). Marginal effects are on the probability of holding any unsecured debt (credit card, hire purchase, personal loan, private loan, other), per 1 SD of the age-residualized trait, so -0.0337 = -3.37 percentage points; value is entered in percentage points as the calibrator's pp-per-sd expects. low/high = value +/- 1.96 x SE with SE = |ME| / t (t = 2.48). baseRate 0.4847 is the singles-sample share holding debt (Table 1A; couples 0.5853). Other traits in the same column: extraversion +3.07 pp (t 2.35), openness +3.35 pp (t 2.45), agreeableness +1.68 pp (t 1.27, ns), neuroticism +1.21 pp (t 0.92, ns). Couples (mean Big Five of the couple, Panel A, base 0.5853): conscientiousness -3.27 pp, extraversion +3.49 pp, agreeableness +3.45 pp, openness +2.59 pp. Credit card debt specifically (Panel A couples): openness +4.11 pp (t 3.97); singles openness +2.72 pp (t 2.81), neuroticism +2.16 pp (t 2.34). This is the probability of holding debt in a household, a stock measure observed in three waves, used as the nearest published proxy for the chance of taking on credit; the paper stresses these are correlations, not causal. Replaces the level-of-debt finding (21.70 pp per SD of extraversion) in the existing null row, which is a change in the amount, not a chance."
+    },
+    {
+      "id": "credit.borrow",
+      "trait": "extraversion",
+      "outcome": "holding any unsecured debt (probability), single-adult households, BHPS UK (probit average marginal effect per SD)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 3.07,
+        "low": 0.51,
+        "high": 5.63
+      },
+      "baseRate": 0.4847,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Brown, S., & Taylor, K.",
+        "year": 2014,
+        "title": "Household finances and the 'Big Five' personality traits",
+        "venue": "Journal of Economic Psychology 45, 197-212",
+        "url": "https://eprints.whiterose.ac.uk/82777/3/WRRO_82777.pdf"
+      },
+      "quote": "Table 3, Panel C (SAMPLE=SINGLES, MEAN BIG5 OF HEAD), column HOLDING DEBT, row Extraversion: \"0.0307 (2.35)\". Notes: \"Each of the personality traits has been conditioned on a polynomial in age to net out life cycle influences. The resulting personality trait is based on the standardised residual from this process, i.e. zero mean and unit standard deviation.\" \"Marginal effects are reported throughout.\"",
+      "quoteVerified": true,
+      "notes": "Same table as the conscientiousness row: +3.07 percentage points on the probability of holding unsecured debt per SD of extraversion (t 2.35; SE = 0.0307/2.35). low/high = value +/- 1.96 x SE. baseRate 0.4847 is Table 1A's singles share holding debt. For overdraft-type 'other debt' singles extraversion is +2.44 pp (t 2.88)."
+    },
+    {
+      "id": "credit.borrow",
+      "trait": "openness to experience",
+      "outcome": "holding any unsecured debt (probability), single-adult households, BHPS UK (probit average marginal effect per SD)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 3.35,
+        "low": 0.67,
+        "high": 6.03
+      },
+      "baseRate": 0.4847,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Brown, S., & Taylor, K.",
+        "year": 2014,
+        "title": "Household finances and the 'Big Five' personality traits",
+        "venue": "Journal of Economic Psychology 45, 197-212",
+        "url": "https://eprints.whiterose.ac.uk/82777/3/WRRO_82777.pdf"
+      },
+      "quote": "Table 3, Panel C (SAMPLE=SINGLES, MEAN BIG5 OF HEAD), column HOLDING DEBT, row Openness to experience: \"0.0335 (2.45)\". Text: \"In both the samples of couples and single individuals, the personality trait which has the largest correlation with the probability of having credit card debt is openness to experience. For example, a one standard deviation increase in openness to experience is associated with a 4.1 percentage point higher probability of having credit card debt in the couples sample (Panel A).\"",
+      "quoteVerified": true,
+      "notes": "Same table: +3.35 pp on the probability of holding unsecured debt per SD of openness (t 2.45). low/high = value +/- 1.96 x SE. baseRate 0.4847 (singles, Table 1A). Credit-card debt specifically: couples +4.11 pp, singles +2.72 pp (t 2.81)."
     },
     {
       "id": "outcome.marriage-formation",
@@ -1133,7 +1441,8 @@
       },
       "quote": "The effects of individual personality traits on the marriage probabilities of men and women are quite distinct, though there are two common elements in all specifications—openness to experience decreases marriage for both men and women, while conscientiousness increases the probability of marriage.",
       "quoteVerified": true,
-      "notes": "Value is the average marginal effect of conscientiousness for men from Table 3 column 2 (0.055, SE 0.013), as a probability change (0.055 = 5.5 points) per SD; women 0.031 (SE 0.010). Openness: women -0.044 (SE 0.010), men -0.034 (SE 0.014). Women: extraversion +0.037 (SE 0.013). Traits were standardized by gender (source text). CI is value +/- 1.96 SE. Germany, cohorts born 1945-1970."
+      "notes": "Value is the average marginal effect of conscientiousness for men from Table 3 column 2 (0.055, SE 0.013), as a probability change (0.055 = 5.5 points) per SD; women 0.031 (SE 0.010). Openness: women -0.044 (SE 0.010), men -0.034 (SE 0.014). Women: extraversion +0.037 (SE 0.013). Traits were standardized by gender (source text). CI is value +/- 1.96 SE. Germany, cohorts born 1945-1970.",
+      "outcomeIsProbability": true
     },
     {
       "id": "outcome.stress-reactivity",
@@ -1197,6 +1506,48 @@
       "quote": "Again, high extraversion was positively associated with the odds of becoming a parent and becoming a parent earlier whereas high openness to experience had the opposite effect.",
       "quoteVerified": true,
       "notes": "Table 3 all participants OR 0.74 (SE .02); women 0.70, men 0.79. Cohort note: Jokela (2012) finds the openness effect grows in younger cohorts."
+    },
+    {
+      "id": "renewal.plan-child",
+      "trait": "agreeableness",
+      "outcome": "intending to add another child, ever-married Indonesian women aged 15-49, IFLS 2014 (logistic regression, odds per SD)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 1.067,
+        "low": 1.011,
+        "high": 1.126
+      },
+      "source": {
+        "authors": "Wahyuningsih",
+        "year": 2018,
+        "title": "Do Personality Traits Affect Fertility Intention in Indonesia?",
+        "venue": "Advances in Economics, Business and Management Research 89 (1st Asia Pacific Business and Economics Conference, APBEC 2018), 473-475",
+        "url": "https://www.atlantis-press.com/article/125913799.pdf"
+      },
+      "quote": "Table I \"RESULT OF LOGISTIC BINARY REGRESSION\", row Agreeableness: \"0.065\" \"0.018*\" \"1.067\" (B, Sig., Exp). Text: \"each trait score was standardized by transforming to a mean value of 0 and standard deviation of 1 so that the odds ratio expressed the difference in the odds of intending to add children by one SD difference in the personality trait level.\"",
+      "quoteVerified": true,
+      "notes": "A conference paper (not peer-reviewed journal), one wave of the Indonesian Family Life Survey 2014, ever-married women; BFI-15 (three items per trait); logistic regression of the intention to add another child on the five standardized traits plus parity, age, schooling, area and workforce. The table prints B, p and Exp(B) but no standard errors: low/high were derived by the research helper from the p-value (z from the two-sided p, SE = |B| / z, CI = exp(B +/- 1.96 SE)). The odds ratios are small (0.94 to 1.08 per SD) and the signs for extraversion and openness are the OPPOSITE of the Jokela et al. (2011) US realized-fertility rows already in the file (extraversion 1.28, openness 0.74); the paper itself notes the extraversion sign did not match its hypothesis. A different outcome (intention for a further child, among women who already have children, in a high-fertility country) from the existing rows (becoming a parent), so the two sets are not a conflict but they do not agree; use as evidence that the trait pull on planning a child is small when the outcome is an intention. Neuroticism: B 0.030, p 0.259, Exp 1.030 (not significant)."
+    },
+    {
+      "id": "renewal.plan-child",
+      "trait": "conscientiousness",
+      "outcome": "intending to add another child, ever-married Indonesian women aged 15-49, IFLS 2014 (logistic regression, odds per SD)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 0.937,
+        "low": 0.887,
+        "high": 0.99
+      },
+      "source": {
+        "authors": "Wahyuningsih",
+        "year": 2018,
+        "title": "Do Personality Traits Affect Fertility Intention in Indonesia?",
+        "venue": "Advances in Economics, Business and Management Research 89 (1st Asia Pacific Business and Economics Conference, APBEC 2018), 473-475",
+        "url": "https://www.atlantis-press.com/article/125913799.pdf"
+      },
+      "quote": "Table I \"RESULT OF LOGISTIC BINARY REGRESSION\", row Conscientiousness: \"−0.065\" \"0.020*\" \"0.937\" (B, Sig., Exp). Text: \"each trait score was standardized by transforming to a mean value of 0 and standard deviation of 1 so that the odds ratio expressed the difference in the odds of intending to add children by one SD difference in the personality trait level.\"",
+      "quoteVerified": true,
+      "notes": "A conference paper (not peer-reviewed journal), one wave of the Indonesian Family Life Survey 2014, ever-married women; BFI-15 (three items per trait); logistic regression of the intention to add another child on the five standardized traits plus parity, age, schooling, area and workforce. The table prints B, p and Exp(B) but no standard errors: low/high were derived by the research helper from the p-value (z from the two-sided p, SE = |B| / z, CI = exp(B +/- 1.96 SE)). The odds ratios are small (0.94 to 1.08 per SD) and the signs for extraversion and openness are the OPPOSITE of the Jokela et al. (2011) US realized-fertility rows already in the file (extraversion 1.28, openness 0.74); the paper itself notes the extraversion sign did not match its hypothesis. A different outcome (intention for a further child, among women who already have children, in a high-fertility country) from the existing rows (becoming a parent), so the two sets are not a conflict but they do not agree; use as evidence that the trait pull on planning a child is small when the outcome is an intention. Neuroticism: B 0.030, p 0.259, Exp 1.030 (not significant)."
     },
     {
       "id": "outcome.marriage-formation",
@@ -1276,6 +1627,146 @@
       "quote": "",
       "quoteVerified": false,
       "notes": "Jensen-Campbell & Graziano (2001, Journal of Personality 69(2), 323-362, doi 10.1111/1467-6494.00148) and Bono, Boles, Judge & Lauver (2002) were found, but their abstracts could not be retrieved (one repository returned 503, the other abstract was for an unrelated paper), so there is no verified quote or number. Search summaries say agreeableness was the Big Five trait most closely tied to conflict processes and outcomes."
+    },
+    {
+      "id": "estates.trust",
+      "trait": "openness to experience",
+      "outcome": "having a durable power of attorney for financial, legal or administrative matters, adults 55+, Switzerland (SHARE); proxy for setting up a trust",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 3.24,
+        "low": null,
+        "high": null
+      },
+      "baseRate": 0.386,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Ryser, V.-A., Vilpert, S., & Maurer, J.",
+        "year": 2026,
+        "title": "Personality traits and end-of-life planning in older adults: insights from a population-based survey",
+        "venue": "European Journal of Ageing 23(1), 19",
+        "url": "https://doi.org/10.1007/s10433-026-00916-x"
+      },
+      "quote": "Table 2, row Openness, column Having a power of attorney (yes): \"3.6 **\"; Table 1 row \"Openness | 3.7 (0.9)\"; Table 1 share having a power of attorney \"Yes | 38.6\". Table 2 source note: \"Average marginal effects (AMEs) based on logit regression models. All probabilities are multiplied by 100 to express AMEs in percentage points.\" Table 1 note: \"Personality traits’ statistics are mean (standard deviation).\"",
+      "quoteVerified": true,
+      "notes": "Average marginal effect (percentage points) from a logistic regression on the 1-5 BFI-10 trait score ('each unit'), SHARE Switzerland waves 6 and 7 (2015 and 2017), adults 55+, n = 1,524, controls gender, age, education, partner, children, finances, region, health. The paper prints the effect per unit of the 5-point trait score; the helper multiplied it by the trait SD in points from the paper's Table 1 (openness 0.9, conscientiousness 0.7, extraversion 1.0, agreeableness 0.8, neuroticism 1.0) to get the per-SD value, which assumes the effect is linear in the trait. The paper prints significance stars, not SEs, so low/high are null. Switzerland only; the instruments were new in Swiss law two years before the survey (the SHARE summary cautions on this). 3.6 pp per unit x SD 0.9 = 3.24 pp per SD (p<.01). Proxy: no study of setting up a trust was found; a power of attorney for financial and legal matters is the nearest legal-planning instrument that study measured. Same column: conscientiousness 2.9 (ns; SD 0.7, so 2.03 pp per SD), extraversion 1.2 (ns), agreeableness -2.4 (ns), neuroticism 1.1 (ns).",
+      "option": "set-up-trust"
+    },
+    {
+      "id": "estates.trust",
+      "trait": "conscientiousness",
+      "outcome": "having a durable power of attorney for financial, legal or administrative matters, adults 55+, Switzerland (SHARE); proxy for setting up a trust",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 2.03,
+        "low": null,
+        "high": null
+      },
+      "baseRate": 0.386,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Ryser, V.-A., Vilpert, S., & Maurer, J.",
+        "year": 2026,
+        "title": "Personality traits and end-of-life planning in older adults: insights from a population-based survey",
+        "venue": "European Journal of Ageing 23(1), 19",
+        "url": "https://doi.org/10.1007/s10433-026-00916-x"
+      },
+      "quote": "Table 2, row Conscientiousness, column Having a power of attorney (yes): \"2.9\"; Table 1 row \"Conscientiousness | 4.3 (0.7)\". Table 2 source note: \"Average marginal effects (AMEs) based on logit regression models. All probabilities are multiplied by 100 to express AMEs in percentage points.\" Table 1 note: \"Personality traits’ statistics are mean (standard deviation).\"",
+      "quoteVerified": true,
+      "notes": "Average marginal effect (percentage points) from a logistic regression on the 1-5 BFI-10 trait score ('each unit'), SHARE Switzerland waves 6 and 7 (2015 and 2017), adults 55+, n = 1,524, controls gender, age, education, partner, children, finances, region, health. The paper prints the effect per unit of the 5-point trait score; the helper multiplied it by the trait SD in points from the paper's Table 1 (openness 0.9, conscientiousness 0.7, extraversion 1.0, agreeableness 0.8, neuroticism 1.0) to get the per-SD value, which assumes the effect is linear in the trait. The paper prints significance stars, not SEs, so low/high are null. Switzerland only; the instruments were new in Swiss law two years before the survey (the SHARE summary cautions on this). 2.9 pp per unit x SD 0.7 = 2.03 pp per SD, not significant, shown because the estates.trust lean is built from follow-rules, commit and play-safe, which conscientiousness carries.",
+      "option": "set-up-trust"
+    },
+    {
+      "id": "estates.will",
+      "trait": "extraversion",
+      "outcome": "having a testament (will), adults 55+, Switzerland (SHARE)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 3.8,
+        "low": null,
+        "high": null
+      },
+      "baseRate": 0.374,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Ryser, V.-A., Vilpert, S., & Maurer, J.",
+        "year": 2026,
+        "title": "Personality traits and end-of-life planning in older adults: insights from a population-based survey",
+        "venue": "European Journal of Ageing 23(1), 19",
+        "url": "https://doi.org/10.1007/s10433-026-00916-x"
+      },
+      "quote": "Table 2, row Extraversion, column Having a testament (yes): \"3.8 **\"; Table 1 row \"Extraversion | 3.5 (1)\"; Table 1 share having a testament \"Yes | 37.4\". Table 2 source note: \"Average marginal effects (AMEs) based on logit regression models. All probabilities are multiplied by 100 to express AMEs in percentage points.\" Table 1 note: \"Personality traits’ statistics are mean (standard deviation).\"",
+      "quoteVerified": true,
+      "notes": "Average marginal effect (percentage points) from a logistic regression on the 1-5 BFI-10 trait score ('each unit'), SHARE Switzerland waves 6 and 7 (2015 and 2017), adults 55+, n = 1,524, controls gender, age, education, partner, children, finances, region, health. The paper prints the effect per unit of the 5-point trait score; the helper multiplied it by the trait SD in points from the paper's Table 1 (openness 0.9, conscientiousness 0.7, extraversion 1.0, agreeableness 0.8, neuroticism 1.0) to get the per-SD value, which assumes the effect is linear in the trait. The paper prints significance stars, not SEs, so low/high are null. Switzerland only; the instruments were new in Swiss law two years before the survey (the SHARE summary cautions on this). 3.8 pp per scale unit x SD 1.0 = 3.8 pp per SD (p<.01), the only significant trait for a testament apart from openness. Base rate 37.4 percent. The paper reads extraversion as social ties making the question of who inherits more salient. A will is made by the dying person's own choice in this study; the game's estates.will runs at the death of someone with an estate.",
+      "option": "make-will"
+    },
+    {
+      "id": "estates.will",
+      "trait": "openness to experience",
+      "outcome": "having a testament (will), adults 55+, Switzerland (SHARE)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 2.7,
+        "low": null,
+        "high": null
+      },
+      "baseRate": 0.374,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Ryser, V.-A., Vilpert, S., & Maurer, J.",
+        "year": 2026,
+        "title": "Personality traits and end-of-life planning in older adults: insights from a population-based survey",
+        "venue": "European Journal of Ageing 23(1), 19",
+        "url": "https://doi.org/10.1007/s10433-026-00916-x"
+      },
+      "quote": "Table 2, row Openness, column Having a testament (yes): \"3.0 *\"; Table 1 row \"Openness | 3.7 (0.9)\". Table 2 source note: \"Average marginal effects (AMEs) based on logit regression models. All probabilities are multiplied by 100 to express AMEs in percentage points.\" Table 1 note: \"Personality traits’ statistics are mean (standard deviation).\"",
+      "quoteVerified": true,
+      "notes": "Average marginal effect (percentage points) from a logistic regression on the 1-5 BFI-10 trait score ('each unit'), SHARE Switzerland waves 6 and 7 (2015 and 2017), adults 55+, n = 1,524, controls gender, age, education, partner, children, finances, region, health. The paper prints the effect per unit of the 5-point trait score; the helper multiplied it by the trait SD in points from the paper's Table 1 (openness 0.9, conscientiousness 0.7, extraversion 1.0, agreeableness 0.8, neuroticism 1.0) to get the per-SD value, which assumes the effect is linear in the trait. The paper prints significance stars, not SEs, so low/high are null. Switzerland only; the instruments were new in Swiss law two years before the survey (the SHARE summary cautions on this). 3.0 pp per unit x SD 0.9 = 2.7 pp per SD (p<.05). Other traits for a testament: conscientiousness 2.4 (ns; SD 0.7), agreeableness -1.3 (ns), neuroticism 1.4 (ns). The SHARE summary calls the missing conscientiousness effect a surprising null.",
+      "option": "make-will"
+    },
+    {
+      "id": "contracts.award",
+      "trait": "honesty-humility: Fairness facet (HEXACO)",
+      "outcome": "workplace deviance (voluntary behavior that violates significant organizational norms; k = 16, N = 5055); proxy for an official bending procurement rules to favor a known firm",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.519,
+        "low": -0.558,
+        "high": -0.48
+      },
+      "source": {
+        "authors": "Pletzer, J. L., Oostrom, J. K., Bentvelzen, M., & de Vries, R. E.",
+        "year": 2020,
+        "title": "Comparing domain- and facet-level relations of the HEXACO personality model with workplace deviance: A meta-analysis",
+        "venue": "Personality and Individual Differences 152, 109539",
+        "url": "https://repub.eur.nl/pub/123154/Pletzer-et-al.-2020-PAID.pdf"
+      },
+      "quote": "Table 2, row Fairness: \"16\" studies, N \"5055\", r \"−0.424\", ρ \"−0.519\", SEρ \"0.020\", 95% CI \"−0.558, −0.480\". Text: \"Among the Honesty-Humility facets, Fairness (ρ = −0.519) exhibited the strongest correlation with WD.\" Table 2 note: \"ρ = meta-analytic correlation corrected for unreliability\" and \"95% CI = 95% confidence interval for ρ\". Text: \"WD, also known as counterproductive work behavior, is defined as voluntary behavior by employees that violates significant organizational norms and thereby harms the organization and/or its members (Bennett & Robinson, 2000).\"",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation (corrected for unreliability, rho) between the HEXACO scale and self- or other-rated workplace deviance, 29 studies. Used as a proxy because no study of public officials awarding contracts by personality was found: awarding to a known firm instead of the lowest bidder is an organizational-norm violation for self-interest, which is what workplace deviance measures. The honesty-humility domain alone is rho = -0.420 (k = 27, N = 8,875; 95% CI -0.483, -0.358) in the same table and Pletzer et al. 2019 (rho = -0.482), already used for corruption.take and corruption.offer. The Fairness facet (HEXACO: avoiding fraud and corruption, not taking what is not one's own) is the facet nearest this decision and has the largest correlation of any facet; the paper reports that Fairness alone explains almost as much variance as all six domains. Correlations are with self-reported deviance in mostly employee and student samples; they check the size of the trait's pull and do not make the official corrupt. Fairness is a facet of Honesty-Humility; the game's trait set uses the domain-level and Greed Avoidance pulls, so the domain row (-0.420) may map more directly if the lean has no fairness facet. CALIBRATION CAUTION: trait-calibrate.ts turns a correlation of this size into a log-odds gap between the top and bottom thirds of about 2.4 (an odds ratio near 11 for the Fairness row) and about 1.7 (near 5 for conscientiousness). The existing corruption.take and corruption.offer rows (rho -0.482) imply about 9 under the same conversion, so this is consistent with how they were treated, but treat it as an upper bound: the correlation is with a self-reported deviance scale across many behaviors, not with one official's choice among bidders.",
+      "option": "award-known-firm"
+    },
+    {
+      "id": "contracts.award",
+      "trait": "conscientiousness (HEXACO)",
+      "outcome": "workplace deviance (voluntary behavior that violates significant organizational norms; k = 18, N = 5714); proxy for an official bending procurement rules to favor a known firm",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.391,
+        "low": -0.452,
+        "high": -0.329
+      },
+      "source": {
+        "authors": "Pletzer, J. L., Oostrom, J. K., Bentvelzen, M., & de Vries, R. E.",
+        "year": 2020,
+        "title": "Comparing domain- and facet-level relations of the HEXACO personality model with workplace deviance: A meta-analysis",
+        "venue": "Personality and Individual Differences 152, 109539",
+        "url": "https://repub.eur.nl/pub/123154/Pletzer-et-al.-2020-PAID.pdf"
+      },
+      "quote": "Table 2, row Conscientiousness: \"18\" studies, N \"5714\", r \"−0.328\", ρ \"−0.391\", SEρ \"0.031\", 95% CI \"−0.452, −0.329\". Text: \"Honesty-Humility exhibited the strongest relation with WD (ρ = −0.420), followed by Conscientiousness (ρ = −0.391), Agreeableness (ρ = −0.206)\". Table 2 note: \"ρ = meta-analytic correlation corrected for unreliability\" and \"95% CI = 95% confidence interval for ρ\". Text: \"WD, also known as counterproductive work behavior, is defined as voluntary behavior by employees that violates significant organizational norms and thereby harms the organization and/or its members (Bennett & Robinson, 2000).\"",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation (corrected for unreliability, rho) between the HEXACO scale and self- or other-rated workplace deviance, 29 studies. Used as a proxy because no study of public officials awarding contracts by personality was found: awarding to a known firm instead of the lowest bidder is an organizational-norm violation for self-interest, which is what workplace deviance measures. The honesty-humility domain alone is rho = -0.420 (k = 27, N = 8,875; 95% CI -0.483, -0.358) in the same table and Pletzer et al. 2019 (rho = -0.482), already used for corruption.take and corruption.offer. The Fairness facet (HEXACO: avoiding fraud and corruption, not taking what is not one's own) is the facet nearest this decision and has the largest correlation of any facet; the paper reports that Fairness alone explains almost as much variance as all six domains. Correlations are with self-reported deviance in mostly employee and student samples; they check the size of the trait's pull and do not make the official corrupt. Conscientiousness maps to the follow-rules pull (low conscientiousness bends rules); agreeableness is -0.206 (k = 18) and emotionality -0.091 in the same table. CALIBRATION CAUTION: trait-calibrate.ts turns a correlation of this size into a log-odds gap between the top and bottom thirds of about 2.4 (an odds ratio near 11 for the Fairness row) and about 1.7 (near 5 for conscientiousness). The existing corruption.take and corruption.offer rows (rho -0.482) imply about 9 under the same conversion, so this is consistent with how they were treated, but treat it as an upper bound: the correlation is with a self-reported deviance scale across many behaviors, not with one official's choice among bidders.",
+      "option": "award-known-firm"
     }
   ]
 }

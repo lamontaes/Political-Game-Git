@@ -65,6 +65,8 @@ describe("deterministic validation workflow capacity", () => {
     expect(validate).toContain(
       "on:\n  pull_request:\n  push:\n    branches: [main]",
     );
+    // Pool-only commits to main start no run; any push touching other files does.
+    expect(validate).toMatch(/paths-ignore:\n\s+- "docs\/pool\/\*\*"/);
     expect(browserWorkflow).toContain(
       "cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}",
     );

@@ -38,7 +38,7 @@ describe("pool index", () => {
     const text = readFileSync(join(dir, "INDEX.md"), "utf8");
     expect(text).toContain("**2 items:** 1 open, 0 claimed, 1 in-pr");
     expect(text).toContain(
-      "[laws-b](items/laws-b.md) | Title of laws-b | laws | wiring | 1 | M |  | #12 |",
+      "[laws-b](items/laws-b.md) | Title of laws-b | laws |  | wiring | 1 | M |  | #12 |",
     );
     expect(run(dir, true).errors).toEqual([]);
     writeFileSync(join(dir, "items", "laws-c.md"), item("laws-c"));
@@ -166,6 +166,116 @@ describe("claims and gates", () => {
   });
 });
 
+/**
+ * A working repo with docs/pool under it and a bare origin whose main holds
+ * the same commit. `reject` is how many pushes the origin's pre-receive hook
+ * refuses before it accepts; the hook counts every attempt in `attempts`.
+ */
+function pushFixture(reject: number): {
+  dir: string;
+  origin: string;
+  attempts: string;
+  pool: string;
+  g: (...a: string[]) => string;
+} {
+  const dir = mkdtempSync(join(tmpdir(), "pool-push-"));
+  const origin = join(dir, "origin.git");
+  const attempts = join(dir, "attempts");
+  const pool = join(dir, "work", "docs", "pool");
+  mkdirSync(join(pool, "items"), { recursive: true });
+  const g = (...a: string[]): string =>
+    execFileSync("git", a, { cwd: join(dir, "work"), encoding: "utf8" });
+  execFileSync("git", ["init", "-q", "--bare", "-b", "main", origin]);
+  g("init", "-q", "-b", "main");
+  g("config", "user.email", "t@t");
+  g("config", "user.name", "t");
+  writeFileSync(join(pool, "items", "laws-a.md"), item("laws-a"));
+  run(pool, false);
+  g("add", ".");
+  g("commit", "-qm", "init");
+  g("remote", "add", "origin", origin);
+  g("push", "-q", "origin", "main");
+  // The hook goes in after the seed push so only the pool command's pushes count.
+  writeFileSync(
+    join(origin, "hooks", "pre-receive"),
+    `#!/bin/sh\nn=$(cat "${attempts}" 2>/dev/null || echo 0)\nn=$((n+1))\necho "$n" > "${attempts}"\nif [ "$n" -le ${reject} ]; then echo "busy" >&2; exit 1; fi\nexit 0\n`,
+    { mode: 0o755 },
+  );
+  writeFileSync(attempts, "0\n");
+  return { dir, origin, attempts, pool, g };
+}
+
+describe("push retries and the nothing-staged path", () => {
+  it("a claim already on main stages nothing and finishes without error", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-noop-"));
+    const pool = join(dir, "docs", "pool");
+    mkdirSync(join(pool, "items"), { recursive: true });
+    const g = (...a: string[]): string =>
+      execFileSync("git", a, { cwd: dir, encoding: "utf8" });
+    g("init", "-q");
+    g("config", "user.email", "t@t");
+    g("config", "user.name", "t");
+    writeFileSync(join(pool, "items", "laws-a.md"), item("laws-a"));
+    run(pool, false);
+    g("add", ".");
+    g("commit", "-qm", "init");
+    const cwd = process.cwd();
+    process.chdir(dir);
+    try {
+      expect(
+        command(["claim", "laws-a", "--branch", "b1", "--no-push"]),
+      ).toBeNull();
+      const after = g("rev-parse", "HEAD");
+      // The same claim again: the edit is a no-op, the index is unchanged,
+      // git has nothing staged, and the command must not report an error.
+      expect(
+        command(["claim", "laws-a", "--branch", "b1", "--no-push"]),
+      ).toBeNull();
+      expect(g("rev-parse", "HEAD")).toBe(after);
+      expect(g("status", "--porcelain")).toBe("");
+    } finally {
+      process.chdir(cwd);
+    }
+  });
+
+  it("gives up after exactly eight rejected pushes and restores the branch", () => {
+    const { dir, attempts, g } = pushFixture(100);
+    const cwd = process.cwd();
+    process.chdir(join(dir, "work"));
+    try {
+      const err = command(["claim", "laws-a", "--branch", "b1"]);
+      expect(err).toMatch(/^push to main failed 8 times: /);
+      expect(readFileSync(attempts, "utf8").trim()).toBe("8");
+      expect(g("rev-parse", "--abbrev-ref", "HEAD").trim()).toBe("main");
+      expect(g("branch", "--list", "pool-claim-laws-a").trim()).toBe("");
+      expect(g("show", "origin/main:docs/pool/items/laws-a.md")).toContain(
+        "status: open",
+      );
+    } finally {
+      process.chdir(cwd);
+    }
+  });
+
+  it("a push refused three times then accepted lands the claim on main", () => {
+    const { dir, origin, attempts } = pushFixture(3);
+    const cwd = process.cwd();
+    process.chdir(join(dir, "work"));
+    try {
+      expect(command(["claim", "laws-a", "--branch", "b1"])).toBeNull();
+      expect(readFileSync(attempts, "utf8").trim()).toBe("4");
+      const onMain = execFileSync(
+        "git",
+        ["show", "main:docs/pool/items/laws-a.md"],
+        { cwd: origin, encoding: "utf8" },
+      );
+      expect(onMain).toContain("status: claimed");
+      expect(onMain).toContain("claimed-by: b1");
+    } finally {
+      process.chdir(cwd);
+    }
+  });
+});
+
 describe("flags", () => {
   it("reads --key value, --key=value and POOL_BY", () => {
     expect(flags(["status", "x", "done", "--by", "cto"], {}).f.by).toBe("cto");
@@ -200,6 +310,24 @@ describe("quality gate", () => {
     const withPr = GOOD.replace("the test in", "after #12 lands the test in");
     expect(quality("x-a.md", fm, withPr).join()).toMatch(/PR number/);
     expect(quality("x-a.md", { ...fm, after: "x-b" }, withPr)).toEqual([]);
+  });
+  it("holds a play-first item to a time box of 4 hours or less, You will see and Screenshot", () => {
+    const lane = { ...fm, milestone: "play-first" };
+    const three =
+      "**Time box.** 3 hours; if not done, push what exists.\n\n**You will see.** The ballot pages to his race.\n\n**Screenshot.** Before and after, from a drawn place.\n\n**Files.**";
+    const shaped = GOOD.replace("**Files.**", three);
+    expect(quality("x-a.md", lane, shaped)).toEqual([]);
+    expect(quality("x-a.md", fm, GOOD)).toEqual([]);
+    const e = quality("x-a.md", lane, GOOD).join("\n");
+    expect(e).toMatch(/x-a: a play-first item needs a Time box/);
+    expect(e).toMatch(/needs its You will see line/);
+    expect(e).toMatch(/needs its Screenshot line/);
+    const long = shaped.replace("3 hours", "5 hours");
+    expect(quality("x-a.md", lane, long).join()).toMatch(/4 hours or less/);
+    expect(quality("x-a.md", { ...lane, priority: "3" }, GOOD).join()).toMatch(
+      /Time box/,
+    );
+    expect(quality("x-a.md", { ...lane, status: "blocked" }, GOOD)).toEqual([]);
   });
   it("check fails with the item id, plain run warns", () => {
     const dir = fixture();

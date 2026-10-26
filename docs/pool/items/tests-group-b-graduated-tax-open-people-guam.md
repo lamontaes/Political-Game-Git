@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: claude/group-b-guam-flake
-pr:
+pr: #5363
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:57:57.521Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T00:57:57.521Z
 
 **Files.** src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b.ts
 
-**Notes.** Found Oct 20 while testing the keyed-benefit change (PR #5356); it did not reproduce on the rerun, so it may predate that change.
+**Notes.** Found Oct 20 while testing the keyed-benefit change (PR #5356); it did not reproduce on the rerun, so it may predate that change. Done by #5363 from the claimed branch, merged Oct 20 (reconcile Oct 23).

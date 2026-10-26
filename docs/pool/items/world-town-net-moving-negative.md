@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: done
+status: open
 claimed-by:
 pr: #4938
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: movers come from the pull of income, prices and jobs, never a roll. One model, two tiers: a counted household and a full person leave and arrive by the same rule. One rule, all 56 places. Never tune a seed.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in six places drawn from all 56 and seeds the builder did not choose (names in the PR body), each town's net moving (in-moves less out-moves, counted and full, over its residents at the start) is within 1.5 percent of its state's net migration, shown by move record ids, and a test in src/core2 states it.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in six places drawn from all 56 and seeds the builder did not choose (names in the PR body), each town's net moving (in-moves less out-moves, counted and full, over its residents at the start) is within 1.5 percent of its state's net migration, shown by move record ids, and a test in src/core2 states it. **On screen.** Nothing yet: filed play-town-moves-on-screen, which puts it on Who you are and News.
 
 **Files.** src/core2/modules/counted-moves.ts, src/core2/modules/moves.ts, src/core2/place-lookup.ts
 
@@ -39,3 +39,5 @@ _Measured_ (net moving as a percent of the town's residents at the start, in-mov
 _Left._ (a) A full person who moves away is never replaced by a full arrival: arrivals are always counted households, so the town's full people only shrink. In the small towns the full people are most of the town, and their departures (`departuresOf`, 14 to 30 people a year) are 3 to 11 percent of residents against 1 to 3 percent arriving. (b) The pull toward another state is not normalized: a destination's weight is its people times `exp(income + jobs pull)` and the sum over destinations is not one, so a state poorer or with fewer jobs than the nation's average loses more than the ACS rate (`month` in counted-moves.ts, both for counted groups and for the states' coarse flows). Whether to hold the gross leaving at the ACS rate and let the pull set only where people go is the owner's call; I built nothing for it. (c) Tiny towns (Colon, Nebraska, 128 people) get fewer than one arrival a year from their share of the state's inflow, so a year shows none.
 
 Sent back 2026-10-18 from PR #4938 (branch claude/town-net-moving): Merging current main (adce5acbe2) conflicts in src/core2/modules/counted-moves.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #4935 (branch claude/arrivals-by-place): The remaining arrival-rounding edit has no regression or six-place played-year acceptance, while its release note repeats already-shipped behavior and incorrectly says carried balances are discarded yearly; finish on that branch, merge main into it first.

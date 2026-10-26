@@ -27,7 +27,7 @@ import {
 import { votesOf } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
-import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { ageOnDate } from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -60,9 +60,11 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
-import { residentPerson } from "./residents";
+import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
+import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
+import { standAgainReason, standsAgain } from "../stand-again";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -287,7 +289,7 @@ export function countedCandidacyReasons(
   contest: OpenContest,
 ): Record<string, number> {
   const zero = api.parameter("zero");
-  const record = residentPerson(api.state as CoreState, voter.id);
+  const record = residentFacts(api.state as CoreState, voter.id);
   const reasons = reasonsFrom(
     api,
     {
@@ -326,10 +328,7 @@ function reasonsFrom(
   // Personality enters once, through the chooser's trait term on the two
   // options' act kinds; no second temperament term here.
   const hours = person.workHoursDaily / c(api, "candidacyFullShiftHours");
-  const age = ageOnDate(
-    makeIsoDate(person.birthDate),
-    makeIsoDate(api.state.date),
-  );
+  const age = ageOnDate(person.birthDate, api.state.date);
   const distance =
     (age - c(api, "candidacyAgeCenter")) / c(api, "candidacyAgeSpread");
   // Standing in town: how many people know them, against the circle a local
@@ -342,10 +341,6 @@ function reasonsFrom(
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,
     time: -c(api, "candidacyTimeWeight") * Math.min(one, hours),
-    incumbency:
-      contest.incumbentId === person.id
-        ? c(api, "candidacyIncumbencyWeight")
-        : zero,
     incumbentTie: -c(api, "candidacyIncumbentTieWeight") * person.incumbentTie,
     // A seat no one holds draws people in; an incumbent whose record goes
     // against one's views draws a challenge.
@@ -359,6 +354,13 @@ function reasonsFrom(
       (two * Math.exp(-distance * distance) - one),
     // A countywide race: more ground and more voters to reach than a town seat.
     reach: contest.countywide ? -c(api, "candidacyCountywideWeight") : zero,
+    // A revolving-door law in force: a legislative seat is worth less to a
+    // newcomer who could not lobby for a time after leaving it.
+    afterOffice:
+      contest.incumbentId !== person.id &&
+      revolvingDoorFor(api, contest.contestId)
+        ? -c(api, "candidacyRevolvingDoorWeight")
+        : zero,
   };
 }
 
@@ -405,6 +407,23 @@ export function decideToRun(
   const id = `${contest.contestId}:${personId}`;
   const held = table(api).get(id) as unknown as CandidacyDecision | undefined;
   if (held && (held.run || !reconsider)) return held;
+  // A serving incumbent's choice is whether to stand again: their age and
+  // temperament, the one rule for it (voting.stand-again, calibrated so about
+  // four in five stand), not a newcomer's case for entering the race.
+  if (contest.incumbentId === personId) {
+    const row: CandidacyDecision = {
+      id,
+      personId,
+      contestId: contest.contestId,
+      date: api.state.date,
+      run: standsAgain(api, person),
+      reasons: { standAgain: standAgainReason(api, person) },
+      scores: [],
+      sourceIds: [...contest.sourceIds, person.id, person.householdId],
+    };
+    table(api).put(row as unknown as { id: string });
+    return row;
+  }
   pending.set(api.state, contest);
   const offers: ActOffer[] = [STAY_OUT, RUN].map((definition) => ({
     definition,
@@ -666,12 +685,21 @@ export function weighContest(
     .moduleState(ELECTIONS_MODULE_ID)
     .table("town")
     .get("town") as unknown as { townPlaceId: string };
-  const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
-    : undefined;
+  // Whoever serves the seat today, so a member seated by a special election
+  // after the contest was recorded is its incumbent; else the term the
+  // contest names.
+  const termTable = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const incumbent =
+    (
+      termTable.query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+    )[0] ??
+    (contest.incumbentTermId
+      ? (termTable.get(contest.incumbentTermId) as unknown as
+          TermRow | undefined)
+      : undefined);
   const incumbentId =
     incumbent?.status === "serving"
       ? (incumbent.personId ?? undefined)
@@ -740,8 +768,7 @@ export function weighContest(
         p.alive &&
         (p.placeId === town.townPlaceId || pool.has(p.id)) &&
         !appointed.has(p.id) &&
-        ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(date)) >=
-          rules.minimumAge &&
+        ageOnDate(p.birthDate, date) >= rules.minimumAge &&
         !isExplicitlyControlledPersonV1(api.state, p.id) &&
         !committed.has(p.id) &&
         !(incumbentFiled && p.id === incumbentId) &&
@@ -842,7 +869,9 @@ function countedScreen(
             filingDeadline: open.filingDeadline,
             sourceIds: open.sourceIds,
           });
-          let base = api.parameter("zero");
+          // A seat's own law (a revolving-door law) only lowers the pull,
+          // so it is left out of the bound.
+          let base = -(reasons.afterOffice ?? api.parameter("zero"));
           for (const value of Object.values(reasons)) base += value;
           return { voter, base };
         })
@@ -911,6 +940,26 @@ export function fileRunners(
       ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
+  }
+  // A runner the filing day's weighing no longer holds (gone from the town,
+  // dead) is refused for the rules they no longer meet, so every decision to
+  // run ends with a filing or a refusal.
+  for (const decision of candidatesFor(api, contest.id)) {
+    if (decision.filing || row.runIds.includes(decision.personId)) continue;
+    const person = api.state.people.get(decision.personId);
+    const unmet = person?.alive
+      ? checkEligibility(api, decision.personId, contest.id, null)
+          .filter((check) => !check.met)
+          .map((check) => check.rule)
+      : [];
+    table(api).put({
+      ...decision,
+      filing: {
+        status: "refused",
+        filingId: null,
+        unmet: unmet.length ? unmet : ["not-available"],
+      },
+    } as unknown as { id: string });
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;

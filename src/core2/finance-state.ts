@@ -1,3 +1,4 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import {
   countedWagesEarned,
@@ -7,12 +8,13 @@ import {
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { countedJobsOf } from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
-import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import { webFactorFor } from "./outcome-web-reach";
 import {
   settleFinanceContractJournal,
   transferFinanceCreditJournal,
+  transferWageFlowCreditJournal,
 } from "./finance-cash";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -1199,10 +1201,7 @@ export function repriceCreditFacility(
   if (!row) throw new Error("Repricing requires a recorded credit facility.");
   currentSource(source, core.date);
   amount(api, annualInterestRate, "repriced annual interest rate");
-  const elapsed = daysBetween(
-    makeIsoDate(row.lastAccruedAt),
-    makeIsoDate(core.date),
-  );
+  const elapsed = daysBetweenText(row.lastAccruedAt, core.date);
   const oldRate =
     row.annualInterestRate ?? api.parameter(row.annualInterestParameter);
   const days = api.parameter(
@@ -1321,6 +1320,24 @@ export function transferCredit(
     reasonKey,
     sourceId,
     repayment,
+  );
+}
+
+/** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+export function transferWageFlowCredit(
+  core: CoreState,
+  api: CoreAPI,
+  facilityId: string,
+  requested: number,
+  flowId: string,
+): CreditReceipt {
+  policy(api);
+  return transferWageFlowCreditJournal(
+    core,
+    api,
+    facilityId,
+    requested,
+    flowId,
   );
 }
 
@@ -1782,6 +1799,7 @@ function windDownEmployer(
   for (const jobId of endedJobIds) {
     const job = core.jobs.get(jobId)!;
     job.endsAt = core.date;
+    refreshOfficeStaff(core, job.organizationId);
     const actor = core.people.get(job.personId)!;
     if (actor.jobId === jobId) delete actor.jobId;
     for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??

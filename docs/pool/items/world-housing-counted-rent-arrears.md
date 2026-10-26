@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/counted-rent-g08lgv
 pr: #5222
 blocked-on:

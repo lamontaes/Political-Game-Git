@@ -98,6 +98,20 @@ export function housingStatusCounts(
   return out;
 }
 
+/** Year-round shelter beds per 10,000 people: the state's (HUD HIC 2025), an island area with no Continuum of Care at the island-area median, else the nation's. */
+export function shelterRateFor(usps: string): number {
+  return (
+    (shelterData.bedsPer10k as Record<string, number>)[usps] ??
+    (
+      shelterData.estimated as Record<
+        string,
+        { bedsPer10k: number } | undefined
+      >
+    )[usps]?.bedsPer10k ??
+    shelterData.nationalBedsPer10k
+  );
+}
+
 /** The place's year-round shelter beds: the state's beds per 10,000 (HUD HIC 2025) times its people. */
 export function shelterBeds(
   api: CoreAPI,
@@ -106,9 +120,7 @@ export function shelterBeds(
 ): number {
   // stopgapId: SG-WORLD-housing-shelter-beds-state-rate
   stopgap("SG-WORLD-housing-shelter-beds-state-rate");
-  const rate =
-    (shelterData.bedsPer10k as Record<string, number>)[usps] ??
-    shelterData.nationalBedsPer10k;
+  const rate = shelterRateFor(usps);
   // stopgapId: SG-WORLD-housing-shelter-territory
   if (!(usps in shelterData.bedsPer10k))
     stopgap("SG-WORLD-housing-shelter-territory");
@@ -279,7 +291,7 @@ export function placeRemovedHousehold(
     // With no job holding them here, they go to the relative's town.
     if (host.placeId !== placeId)
       api.relocatePeopleV1({
-        personIds: household.memberIds,
+        personIds: memberIds,
         placeId: host.placeId,
         householdId: household.id,
         source: {
@@ -339,7 +351,12 @@ export function reviewHomeless(
     "statuses",
   ).rows() as unknown as HousingStatusRow[]) {
     const household = c.households.get(row.id);
-    const living = row.memberIds.filter((id) => c.people.get(id)?.alive);
+    // Those still alive and still in this household: a member who moved out or
+    // married away does not sign or pay the lease, and a household whose
+    // homeless members all left it has nobody to rehouse.
+    const living = row.memberIds.filter(
+      (id) => c.people.get(id)?.alive && household?.memberIds.includes(id),
+    );
     if (!household || !living.length) {
       setStatus(
         api,

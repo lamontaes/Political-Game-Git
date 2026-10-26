@@ -4,7 +4,7 @@ title: "Stopgaps in closeness (relationship-closeness-model): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at: 2026-10-19T23:28:43.862Z
 Looked at Oct 19 (claude/political-game-pool-b6g0dl), not built: the row's own replacement is closeness calibrated against a measured panel of tie strength and contact (Roberts and Dunbar network data or a US panel), with per-pair opening histories from the shared past. No such panel is in the repository, and the hour thresholds the model uses come from Hall (2019). This is a research item first: a session with web access must source the panel and its decay curve, then replace the half-closeness point and half-life in src/core2/data/closeness.json. Per-pair opening histories wait on the shared-past work (core-stopgap-deep-past-shared-past-generation-gap).
 
 Oct 20: Switched from blocked to the automatic after: gate on research-core-sourced-parameters, so it opens by itself the moment those items are done.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

@@ -24,7 +24,7 @@ import moverRates from "../../../data/research/migration/mover-rates-acs-2024.js
 import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { moveRecipientIncomeHome } from "../finance-state";
 import { sellHome } from "../housing-sale";
@@ -151,7 +151,7 @@ function savePull(api: CoreAPI, pull: Pull): void {
 }
 
 function ageOf(api: CoreAPI, person: Readonly<PersonState>): number {
-  return ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(api.state.date));
+  return ageOnDate(person.birthDate, api.state.date);
 }
 
 /** The ACS age band a person is in, or none below the youngest. */
@@ -333,7 +333,7 @@ export function holdsOf(
       : zero,
     // A lean toward change and risk loosens the hold; one toward keeping
     // things the same tightens it.
-    temperament: -m(api, "movesRiskWeight") * temperament,
+    temperament: -decisionTraitWeight(core, "moves.move-away") * temperament,
   };
 }
 
@@ -978,6 +978,17 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
   const playerId = (api.state as CoreState).playerId;
   if (playerId && (going.includes(playerId) || partner?.id === playerId))
     return null;
+  // The player's own home is not taken apart by the engine before 1.0: when
+  // the player lives in the household and is not going, the household stays
+  // as it is.
+  if (
+    playerId &&
+    (api.state as CoreState).households
+      .get(person.householdId)
+      ?.memberIds.includes(playerId)
+  ) {
+    return null;
+  }
   if (
     going.length > api.parameter("one") &&
     ownsWithMortgage(api.state as CoreState, person.householdId) &&

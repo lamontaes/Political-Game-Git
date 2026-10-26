@@ -22,9 +22,14 @@
 import salaries from "../../../data/research/offices/official-salaries-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
-import { notePublicPay } from "../budgets-treasury";
+import { notePublicPay, outsideAccountOf } from "../budgets-treasury";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  daysBetweenText,
+} from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import { giveLivingCost, spendLivingCost } from "../official-living";
@@ -262,6 +267,9 @@ function keepHousehold(
 function payMonth(api: CoreAPI): void {
   const accounts = api.accounts();
   const today = makeIsoDate(api.state.date);
+  // The town's outside account, the same for every official this payday:
+  // paying them adds no organization.
+  const outside = outsideAccountOf(api);
   for (const raw of table(api, "pay").rows()) {
     const row = raw as unknown as PayRow;
     // An official who died is paid no more: their row ends with them, not
@@ -271,10 +279,7 @@ function payMonth(api: CoreAPI): void {
       continue;
     }
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
-    const days = Math.max(
-      0,
-      daysBetween(makeIsoDate(row.paidFrom), makeIsoDate(through)),
-    );
+    const days = Math.max(0, daysBetweenText(row.paidFrom, through));
     const yearDays = daysBetween(
       makeIsoDate(`${Number(today.slice(0, 4)) - 1}${today.slice(4)}`),
       today,
@@ -314,7 +319,7 @@ function payMonth(api: CoreAPI): void {
           throughAt: addDays(makeIsoDate(through), -1),
         });
       }
-      if (row.spends) spendLivingCost(api, row.personId, days);
+      if (row.spends) spendLivingCost(api, row.personId, days, outside);
     } else if (dueMinor <= 0 && days <= 0) continue;
     if (row.endedOn && row.endedOn <= today && owedMinor === 0)
       table(api, "pay").remove(row.id);

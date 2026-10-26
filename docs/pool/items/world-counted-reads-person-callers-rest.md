@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5080
 blocked-on:
@@ -14,16 +14,18 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** This is the remainder of world-counted-reads-person-callers: the business, candidacy and fill-in callers that still build a counted person from a group's packed columns with residentPerson or store.peopleOf. Each of them reads only a place, traits or a living cost that the counted group already holds, so each should read the group directly (reachOf and the group's fields), as the finished counted-reads items did. When the last caller moves, nothing but fill-in (takeResidentHousehold) builds a counted person, and core-counted-views-delete can delete the views. PR #5080 (branch claude/political-game-pool-8defjq) holds the work and was sent back for merge conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish it on that branch after merging main.
 
-**Rules.** TODO
+**Rules.** One model, two tiers: a counted group is read with the same rule as a full person, times its count, never through a built person. Replace, never layer: each residentPerson call is deleted as its caller moves, and nothing keeps the old path beside the new one.
 
-**Done when.** TODO
+**Done when.** grep -rn "residentPerson(\|peopleOf(" src/core2 finds nothing outside fill-in, and a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body) gives the same businesses founded, candidates filed and fill-ins as before, checked in src/core2/modules/business.test.ts and the candidacy tests.
 
-**Files.** TODO
+**Files.** src/core2/modules/business.ts, src/core2/modules/candidacy.ts, src/core2/state.ts, src/core2/modules/residents.ts
 
-**Notes.** TODO
+**Notes.** Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
 
-Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
+Oct 20 (pool feeder): write-up filled from the parent item world-counted-reads-person-callers and the send-back line.
 
 Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): The formatting/conflict repair addresses the previous return. The primary item still requires no residentPerson/peopleOf/householdOfPerson callers outside fill-in and a one-year before/after equality of jobs, taxes and loans. The body explicitly leaves the shared chooser calling residentPerson outside fill-in; counted-facts-year.test.ts checks that jobs and employer-tax rows exist and the ledger balances, rather than the required before/after jobs-tax-loan equality. A split follow-up item does not change this primary item\x27s still-global Done when, and the rest item remains a TODO shell. Supply the named elimination/equivalence proof, or give the completed bounded stage its own valid item while preserving the unfinished removal and research work as open.; finish on that branch, merge main into it first.
+
+Dropped: business and candidacy moved in world-counted-reads-six-engines; fill-in and the remaining callers stay with world-counted-reads-person-callers.
