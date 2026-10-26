@@ -594,7 +594,8 @@ describe("the ban on new gas hookups reaches a builder and the cost of its proje
     const tried: string[] = [];
     try {
       // A builder starting a project is the ban's subject: where none started
-      // in the window, draw again (every place tried is named on failure).
+      // in the window, draw again (every place tried is named on failure);
+      // once one has, a missing read or record fails.
       let ran = false;
       for (let attempt = 0; attempt < GAS_DRAWS && !ran; attempt += 1) {
         const drawn = drawPlace(seed, `law-wiring-prices-gas:${attempt}`);
@@ -618,6 +619,7 @@ interface ProjectRow {
   startedAt: string;
   payerId: string;
   builderId: string;
+  placeId: string;
   monthlyCostMinor: number;
   lawIds?: { allElectric?: string };
 }
@@ -675,6 +677,11 @@ function runGasBan(drawn: ReturnType<typeof drawPlace>): boolean {
       .moduleState("housing")
       .table("projects")
       .rows() as unknown as ProjectRow[];
+  // A builder starting a project in the town is the ban's subject, and the
+  // start is the housing engine's own choice, not the ban's record: where none
+  // started in the window, the place is redrawn. A project started on the day
+  // of enactment was decided before it.
+  const townPlaceId = lawChain(api).townPlaceId;
   let project: ProjectRow | undefined;
   for (
     let played = 0;
@@ -683,10 +690,15 @@ function runGasBan(drawn: ReturnType<typeof drawPlace>): boolean {
   ) {
     advanceCore(core, addDays(makeIsoDate(core.date), GAS_STEP_DAYS));
     project = projects().find(
-      (p) => p.lawIds?.allElectric === lawId && p.startedAt >= enactedOn,
+      (p) => p.placeId === townPlaceId && p.startedAt > enactedOn,
     );
   }
   if (!project) return false;
+  // Once a builder has started one, the ban must have been read for it.
+  expect(
+    project.lawIds?.allElectric,
+    `${where}: ${project.id} started under the ban without reading it`,
+  ).toBe(lawId);
 
   // The builder who started it is on an applied row that records the cost the
   // code changed, and its first payment is on the journal.
