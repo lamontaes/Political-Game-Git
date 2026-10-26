@@ -6705,7 +6705,10 @@
     "addedBy": "claude/justice-low-level-offenses",
     "addedAt": "2026-10-25",
     "replacement": "The owner's ruling on where drug possession arrests sit (docs/coordination/OWNER-DECISIONS.md), built as a second stream in the case flow with its own FBI arrest rate by state and the same police link.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Resolved by the Oct. 25, 2026 ruling (docs/coordination/OWNER-DECISIONS.md, laws lead, \"Drug possession counts as low-level where the research class the PR uses says so\"): drug possession is the sixth category of the minor offenses, on the same police-staffing link, with its own FBI arrest rate for each place (the sum of the FBI's five drug possession series, data/research/justice/low-level-arrests-2024.json, recorded ESTIMATED with the source), read by lowLevelStreams in src/core2/public-safety.ts through src/core2/low-level-offenses.ts; proved by src/core2/justice-low-level.test.ts.",
+    "resolvedAt": "2026-10-26",
+    "resolvedBy": "claude/justice-low-level-offenses"
   },
   {
     "id": "SG-WEB-unread-fire-civilian-casualties",

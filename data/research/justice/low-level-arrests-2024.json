@@ -1,6 +1,6 @@
 {
   "id": "justice-low-level-arrests-2024",
-  "about": "Arrests for the minor quality-of-life offenses the justice case flow models (disorderly conduct, drunkenness, liquor law violations, curfew and loitering violations, vagrancy), per 1,000 residents a year, by state, D.C. and territory, for 2024. This is the real recent level the outcome web's justice.low-level-arrests starts from (src/core2/data/outcome-web/outcome-web.json keptOutcomes holds the same per-place numbers; src/core2/justice-low-level.test.ts checks the two agree). Real rates check totals; they never decide whether one person is arrested.",
+  "about": "Arrests for the minor quality-of-life offenses the justice case flow models (disorderly conduct, drunkenness, liquor law violations, curfew and loitering violations, vagrancy and drug possession), per 1,000 residents a year, by state, D.C. and territory, for 2024. This is the real recent level the outcome web's justice.low-level-arrests starts from (src/core2/data/outcome-web/outcome-web.json keptOutcomes holds the same per-place numbers; src/core2/justice-low-level.test.ts checks the two agree). The case flow reads each category's own rate from `categories` and `places` here (src/core2/low-level-offenses.ts). Real rates check totals; they never decide whether one person is arrested.",
   "source": {
     "publisher": "FBI Crime Data Explorer, arrest data",
     "url": "https://cde.ucr.cjis.gov/LATEST/arrest/state/{ST}/{offenseCode}?type=counts&from=01-2024&to=12-2024",
@@ -8,28 +8,119 @@
     "readOn": "2026-10-25",
     "readBy": "claude/justice-low-level-offenses",
     "offenseCodes": {
-      "290": "Disorderly Conduct",
-      "280": "Drunkenness",
       "270": "Liquor Law Violations",
-      "330": "Curfew and Loitering Law Violations",
-      "300": "Vagrancy"
+      "280": "Drunkenness",
+      "290": "Disorderly Conduct",
+      "300": "Vagrancy",
+      "330": "Curfew and Loitering Law Violations"
     },
     "offenseCodeList": "The offense codes are the FBI Crime Data Explorer API's own arrest_offense list (https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/docApi).",
-    "method": "Each value is the sum of the 12 monthly arrest rates (arrests per 100,000 people the reporting agencies serve) of the five offenses, divided by 100 to read per 1,000 residents. This is the method the web's crime.violent base uses for the FBI's monthly rates. The rates cover the population of agencies that reported that month (minCoverage is the lowest monthly share of the state's population covered, across the five offenses).",
-    "classDefinition": "Chalfin, Hansen, Weisburst and Williams (2022) call this group 'quality-of-life' arrests: 'lower-level \u201cquality-of-life\u201d offenses (including disorderly conduct, liquor violations, loitering, and drug possession)'. The game's class leaves drug possession out (it belongs with the drug laws, an owner question in the pull request) and keeps the owner's examples (disorderly conduct, loitering, public intoxication). Since 2021 the FBI collects arrests through NIBRS, and agencies that did not convert report fewer categories: a state whose agencies report no drunkenness arrests shows 0.0 for it here, which is how the source reads, not a measured zero."
+    "drugPossession": {
+      "readOn": "2026-10-26",
+      "readBy": "claude/justice-low-level-offenses",
+      "tag": "ESTIMATED",
+      "offenseCodes": {
+        "156": "Drug Possession (Unspecified)",
+        "157": "Drug Possession - Opium or Cocaine or Their Derivatives",
+        "158": "Drug Possession - Marijuana",
+        "159": "Drug Possession - Synthetic Narcotics",
+        "160": "Drug Possession - Other - Dangerous Nonnarcotic Drugs"
+      },
+      "method": "The FBI Crime Data Explorer publishes drug possession only as five series, one per kind of drug (arrest_offense codes 156, 157, 158, 159 and 160, the same URLs as above with those codes). Each place's value is the sum of the 12 monthly arrest rates of all five (arrests per 100,000 people the reporting agencies serve), the method the other five categories use, so the five series add up to the place's drug possession arrests. The rates cover the population of agencies that reported that month (minCoverage is the lowest monthly share of the state's population covered, across the five series). The method was checked against the nine rows of the first five categories read the same way (AK, AL, CA, DC, FL, GU, NY, TX, WI disorderly conduct): every month, rate, arrest count and coverage figure matched.",
+      "whyEstimated": "Recorded ESTIMATED by the laws lead's Oct 25 ruling (docs/coordination/OWNER-DECISIONS.md): \"Drug possession counts as low-level where the research class the PR uses says so ... it is the sixth category on the same police-staffing link, with its own FBI arrest rate by place, recorded ESTIMATED with the source.\" It is also an estimate on its face: the FBI has no single drug possession series, so the figure is a sum of five, and arrests the source books only as 'Drug Abuse Violations' (code 150: 41,074 arrests nationally in 2024, 0.124 per 1,000) carry no split between sale and possession and are left out, so a place's rate reads a little low.",
+      "notIncluded": "Drug sale and manufacturing (codes 151 to 155) are not part of the class. Code 150, 'Drug Abuse Violations', is left out for the reason above."
+    },
+    "method": "Each value is the sum of the 12 monthly arrest rates (arrests per 100,000 people the reporting agencies serve) of an offense (the five offenses above; drug possession is five series, see drugPossession.method), divided by 100 to read per 1,000 residents. This is the method the web's crime.violent base uses for the FBI's monthly rates. The rates cover the population of agencies that reported that month (minCoverage is the lowest monthly share of the state's population covered, across the five offenses).",
+    "classDefinition": "Chalfin, Hansen, Weisburst and Williams (2022) call this group 'quality-of-life' arrests: 'lower-level “quality-of-life” offenses (including disorderly conduct, liquor violations, loitering, and drug possession)'. The game's class is the same list: the owner's examples (disorderly conduct, loitering, public intoxication) with the paper's other named offenses, liquor law violations and drug possession. Drug possession joined on the laws lead's Oct 25 ruling (docs/coordination/OWNER-DECISIONS.md), as the sixth category on the same police-staffing link, with its own rate by place; the stopgap SG-LAW-justice-low-level-drug-possession is resolved. Since 2021 the FBI collects arrests through NIBRS, and agencies that did not convert report fewer categories: a state whose agencies report no drunkenness arrests shows 0.0 for it here, which is how the source reads, not a measured zero."
   },
+  "categories": [
+    {
+      "key": "disorderlyConduct",
+      "label": "Disorderly Conduct",
+      "codes": ["290"],
+      "tag": "SOURCED"
+    },
+    {
+      "key": "drunkenness",
+      "label": "Drunkenness",
+      "codes": ["280"],
+      "tag": "SOURCED"
+    },
+    {
+      "key": "liquorLaw",
+      "label": "Liquor Law Violations",
+      "codes": ["270"],
+      "tag": "SOURCED"
+    },
+    {
+      "key": "loiteringCurfew",
+      "label": "Curfew and Loitering Law Violations",
+      "codes": ["330"],
+      "tag": "SOURCED"
+    },
+    {
+      "key": "vagrancy",
+      "label": "Vagrancy",
+      "codes": ["300"],
+      "tag": "SOURCED"
+    },
+    {
+      "key": "drugPossession",
+      "label": "Drug Possession",
+      "codes": ["156", "157", "158", "159", "160"],
+      "tag": "ESTIMATED"
+    }
+  ],
   "national": {
-    "per1000": 1.15,
-    "note": "The United States row of the same source: all reporting agencies together."
+    "per1000": 3.258,
+    "byOffense": {
+      "Disorderly Conduct": {
+        "months": 12,
+        "ratePer100k": 77.08,
+        "arrests": 255373,
+        "minCoverage": 96.08
+      },
+      "Drunkenness": {
+        "months": 12,
+        "ratePer100k": 1.82,
+        "arrests": 6027,
+        "minCoverage": 96.08
+      },
+      "Liquor Law Violations": {
+        "months": 12,
+        "ratePer100k": 27.27,
+        "arrests": 90333,
+        "minCoverage": 96.08
+      },
+      "Curfew and Loitering Law Violations": {
+        "months": 12,
+        "ratePer100k": 1.99,
+        "arrests": 6588,
+        "minCoverage": 96.08
+      },
+      "Vagrancy": {
+        "months": 12,
+        "ratePer100k": 6.87,
+        "arrests": 22770,
+        "minCoverage": 96.08
+      },
+      "Drug Possession": {
+        "months": 12,
+        "ratePer100k": 210.77,
+        "arrests": 698372,
+        "minCoverage": 96.08
+      }
+    },
+    "note": "The United States row of the same source: all reporting agencies together, each category summed over the 12 monthly rates as for a place. per1000 is the six categories together and is what a place the source holds no arrests for starts from, split by these categories. The five categories before drug possession came to 1.15 per 1,000."
   },
   "notReported": {
     "places": ["AS", "MP", "PR", "VI"],
-    "note": "No arrest counts for these categories in the source for 2024 (American Samoa, the Northern Mariana Islands and the U.S. Virgin Islands return no months; Puerto Rico returns twelve months of zero for every category and for all arrests). The web starts each of them from the national value above, marked ESTIMATED, and never from zero."
+    "note": "No arrest counts for these categories in the source for 2024 (American Samoa, the Northern Mariana Islands and the U.S. Virgin Islands return no months; Puerto Rico returns twelve months of zero for every category, drug possession included, and for all arrests). The web starts each of them from the national value above, marked ESTIMATED, and never from zero."
   },
   "places": {
     "US-AK": {
       "reported": true,
-      "per1000": 1.288,
+      "per1000": 2.421,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -60,13 +151,46 @@
           "ratePer100k": 24.68,
           "arrests": 182,
           "minCoverage": 99.67
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 113.32,
+          "arrests": 836,
+          "minCoverage": 99.67,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 39.47,
+              "arrests": 291
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 9.89,
+              "arrests": 73
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 16.93,
+              "arrests": 125
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 10.02,
+              "arrests": 74
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 37.01,
+              "arrests": 273
+            }
+          }
         }
       },
       "allArrestsPer1000": 28.49
     },
     "US-AL": {
       "reported": true,
-      "per1000": 1.768,
+      "per1000": 5.277,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -97,13 +221,46 @@
           "ratePer100k": 0,
           "arrests": 0,
           "minCoverage": 98.09
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 350.92,
+          "arrests": 17914,
+          "minCoverage": 98.09,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 41.26,
+              "arrests": 2106
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 144.95,
+              "arrests": 7400
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 22.55,
+              "arrests": 1151
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 142.16,
+              "arrests": 7257
+            }
+          }
         }
       },
       "allArrestsPer1000": 28.01
     },
     "US-AR": {
       "reported": true,
-      "per1000": 1.687,
+      "per1000": 5.582,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -134,13 +291,46 @@
           "ratePer100k": 9.14,
           "arrests": 278,
           "minCoverage": 98.12
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 389.46,
+          "arrests": 11847,
+          "minCoverage": 98.12,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 26.7,
+              "arrests": 812
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 147.96,
+              "arrests": 4501
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 13.22,
+              "arrests": 402
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 201.58,
+              "arrests": 6132
+            }
+          }
         }
       },
       "allArrestsPer1000": 35.05
     },
     "US-AS": {
       "reported": false,
-      "per1000": 0.0,
+      "per1000": 0,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 0,
@@ -171,13 +361,46 @@
           "ratePer100k": 0,
           "arrests": 0,
           "minCoverage": null
+        },
+        "Drug Possession": {
+          "months": 0,
+          "ratePer100k": 0,
+          "arrests": 0,
+          "minCoverage": null,
+          "codes": {
+            "156": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "158": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "159": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "160": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            }
+          }
         }
       },
-      "allArrestsPer1000": 0.0
+      "allArrestsPer1000": 0
     },
     "US-AZ": {
       "reported": true,
-      "per1000": 2.64,
+      "per1000": 6.296,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -199,7 +422,7 @@
         },
         "Curfew and Loitering Law Violations": {
           "months": 12,
-          "ratePer100k": 7.0,
+          "ratePer100k": 7,
           "arrests": 527,
           "minCoverage": 99.29
         },
@@ -208,13 +431,46 @@
           "ratePer100k": 25.94,
           "arrests": 1954,
           "minCoverage": 99.29
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 365.51,
+          "arrests": 27560,
+          "minCoverage": 99.29,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 97.7,
+              "arrests": 7366
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 80.51,
+              "arrests": 6072
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 11.2,
+              "arrests": 846
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 41.4,
+              "arrests": 3121
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 134.7,
+              "arrests": 10155
+            }
+          }
         }
       },
       "allArrestsPer1000": 31.4
     },
     "US-CA": {
       "reported": true,
-      "per1000": 1.143,
+      "per1000": 2.689,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -245,13 +501,46 @@
           "ratePer100k": 11.1,
           "arrests": 4365,
           "minCoverage": 99.46
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 154.64,
+          "arrests": 60803,
+          "minCoverage": 99.46,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 14.93,
+              "arrests": 5866
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 2.23,
+              "arrests": 878
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 13.18,
+              "arrests": 5187
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 124.3,
+              "arrests": 48872
+            }
+          }
         }
       },
       "allArrestsPer1000": 15.81
     },
     "US-CO": {
       "reported": true,
-      "per1000": 1.366,
+      "per1000": 3.271,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -282,13 +571,46 @@
           "ratePer100k": 4.65,
           "arrests": 275,
           "minCoverage": 98.78
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 190.49,
+          "arrests": 11261,
+          "minCoverage": 98.78,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 40.69,
+              "arrests": 2406
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 26.56,
+              "arrests": 1570
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 23.97,
+              "arrests": 1417
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 99.27,
+              "arrests": 5868
+            }
+          }
         }
       },
       "allArrestsPer1000": 30.79
     },
     "US-CT": {
       "reported": true,
-      "per1000": 2.862,
+      "per1000": 3.52,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -319,13 +641,46 @@
           "ratePer100k": 0.08,
           "arrests": 3,
           "minCoverage": 100
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 65.83,
+          "arrests": 2419,
+          "minCoverage": 100,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 45.21,
+              "arrests": 1661
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 5.43,
+              "arrests": 200
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 6.5,
+              "arrests": 239
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 8.69,
+              "arrests": 319
+            }
+          }
         }
       },
       "allArrestsPer1000": 20.79
     },
     "US-DC": {
       "reported": true,
-      "per1000": 0.993,
+      "per1000": 2.965,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -356,13 +711,46 @@
           "ratePer100k": 0.14,
           "arrests": 1,
           "minCoverage": 100
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 197.22,
+          "arrests": 1385,
+          "minCoverage": 100,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 65.51,
+              "arrests": 460
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 91.29,
+              "arrests": 641
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 3.12,
+              "arrests": 22
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 37.3,
+              "arrests": 262
+            }
+          }
         }
       },
       "allArrestsPer1000": 57.13
     },
     "US-DE": {
       "reported": true,
-      "per1000": 1.368,
+      "per1000": 3.327,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -393,13 +781,46 @@
           "ratePer100k": 5.82,
           "arrests": 61,
           "minCoverage": 99.89
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 195.89,
+          "arrests": 2060,
+          "minCoverage": 99.89,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 132.82,
+              "arrests": 1397
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 19.5,
+              "arrests": 205
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 5.45,
+              "arrests": 57
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 38.12,
+              "arrests": 401
+            }
+          }
         }
       },
       "allArrestsPer1000": 25.5
     },
     "US-FL": {
       "reported": true,
-      "per1000": 0.438,
+      "per1000": 1.577,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -430,13 +851,46 @@
           "ratePer100k": 10.97,
           "arrests": 2115,
           "minCoverage": 80.8
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 113.93,
+          "arrests": 21942,
+          "minCoverage": 80.8,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 33,
+              "arrests": 6356
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 29.58,
+              "arrests": 5697
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 9.02,
+              "arrests": 1735
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 42.33,
+              "arrests": 8154
+            }
+          }
         }
       },
       "allArrestsPer1000": 13.69
     },
     "US-GA": {
       "reported": true,
-      "per1000": 1.185,
+      "per1000": 3.367,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -467,13 +921,46 @@
           "ratePer100k": 17.75,
           "arrests": 1841,
           "minCoverage": 92.04
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 218.12,
+          "arrests": 22611,
+          "minCoverage": 92.04,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 27.08,
+              "arrests": 2805
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 94.08,
+              "arrests": 9754
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 9.66,
+              "arrests": 1001
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 87.3,
+              "arrests": 9051
+            }
+          }
         }
       },
       "allArrestsPer1000": 19.32
     },
     "US-GU": {
       "reported": true,
-      "per1000": 1.001,
+      "per1000": 3.933,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -504,13 +991,46 @@
           "ratePer100k": 0.65,
           "arrests": 1,
           "minCoverage": 100
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 293.15,
+          "arrests": 451,
+          "minCoverage": 100,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 1.3,
+              "arrests": 2
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 7.8,
+              "arrests": 12
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 284.05,
+              "arrests": 437
+            }
+          }
         }
       },
       "allArrestsPer1000": 16.8
     },
     "US-HI": {
       "reported": true,
-      "per1000": 2.031,
+      "per1000": 3.05,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -541,13 +1061,46 @@
           "ratePer100k": 38.58,
           "arrests": 558,
           "minCoverage": 100
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 101.88,
+          "arrests": 1473,
+          "minCoverage": 100,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 10.59,
+              "arrests": 153
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 18.53,
+              "arrests": 268
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 2.51,
+              "arrests": 36
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 70.25,
+              "arrests": 1016
+            }
+          }
         }
       },
       "allArrestsPer1000": 27.85
     },
     "US-IA": {
       "reported": true,
-      "per1000": 0.827,
+      "per1000": 3.817,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -569,7 +1122,7 @@
         },
         "Curfew and Loitering Law Violations": {
           "months": 12,
-          "ratePer100k": 1.0,
+          "ratePer100k": 1,
           "arrests": 31,
           "minCoverage": 95.61
         },
@@ -578,13 +1131,46 @@
           "ratePer100k": 0.38,
           "arrests": 12,
           "minCoverage": 95.61
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 299.07,
+          "arrests": 9371,
+          "minCoverage": 95.61,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 17.48,
+              "arrests": 547
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 165.92,
+              "arrests": 5200
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 3.68,
+              "arrests": 115
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 111.99,
+              "arrests": 3509
+            }
+          }
         }
       },
       "allArrestsPer1000": 25.09
     },
     "US-ID": {
       "reported": true,
-      "per1000": 1.498,
+      "per1000": 6.012,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -615,13 +1201,46 @@
           "ratePer100k": 0.5,
           "arrests": 10,
           "minCoverage": 99.07
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 451.4,
+          "arrests": 9003,
+          "minCoverage": 99.07,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 24,
+              "arrests": 479
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 241.64,
+              "arrests": 4819
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 13.53,
+              "arrests": 270
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 172.23,
+              "arrests": 3435
+            }
+          }
         }
       },
       "allArrestsPer1000": 25.53
     },
     "US-IL": {
       "reported": true,
-      "per1000": 0.616,
+      "per1000": 2.038,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -652,13 +1271,46 @@
           "ratePer100k": 0.05,
           "arrests": 5,
           "minCoverage": 93.34
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 142.17,
+          "arrests": 17047,
+          "minCoverage": 93.34,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 39.51,
+              "arrests": 4738
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 48.14,
+              "arrests": 5772
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 3.56,
+              "arrests": 428
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 50.96,
+              "arrests": 6109
+            }
+          }
         }
       },
       "allArrestsPer1000": 16.41
     },
     "US-IN": {
       "reported": true,
-      "per1000": 0.752,
+      "per1000": 3.965,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -689,13 +1341,46 @@
           "ratePer100k": 0.08,
           "arrests": 4,
           "minCoverage": 86
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 321.36,
+          "arrests": 19400,
+          "minCoverage": 86,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 38.67,
+              "arrests": 2336
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 145.23,
+              "arrests": 8765
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 15.3,
+              "arrests": 923
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 122.16,
+              "arrests": 7376
+            }
+          }
         }
       },
       "allArrestsPer1000": 22.03
     },
     "US-KS": {
       "reported": true,
-      "per1000": 1.162,
+      "per1000": 4.518,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -726,13 +1411,46 @@
           "ratePer100k": 0,
           "arrests": 0,
           "minCoverage": 95.61
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 335.66,
+          "arrests": 9581,
+          "minCoverage": 95.61,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 23.79,
+              "arrests": 679
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 166.48,
+              "arrests": 4752
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 14.33,
+              "arrests": 409
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 131.06,
+              "arrests": 3741
+            }
+          }
         }
       },
       "allArrestsPer1000": 24.85
     },
     "US-KY": {
       "reported": true,
-      "per1000": 0.707,
+      "per1000": 3.669,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -763,13 +1481,46 @@
           "ratePer100k": 0.32,
           "arrests": 16,
           "minCoverage": 100
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 296.17,
+          "arrests": 13589,
+          "minCoverage": 100,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 47.23,
+              "arrests": 2167
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 53.5,
+              "arrests": 2455
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 9.24,
+              "arrests": 424
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 186.2,
+              "arrests": 8543
+            }
+          }
         }
       },
       "allArrestsPer1000": 40.07
     },
     "US-LA": {
       "reported": true,
-      "per1000": 0.856,
+      "per1000": 5.188,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -800,13 +1551,46 @@
           "ratePer100k": 0.16,
           "arrests": 6,
           "minCoverage": 80.3
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 433.16,
+          "arrests": 16352,
+          "minCoverage": 80.3,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 35.37,
+              "arrests": 1334
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 253.98,
+              "arrests": 9593
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 14.85,
+              "arrests": 560
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 128.96,
+              "arrests": 4865
+            }
+          }
         }
       },
       "allArrestsPer1000": 23.51
     },
     "US-MA": {
       "reported": true,
-      "per1000": 0.49,
+      "per1000": 0.979,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -837,13 +1621,46 @@
           "ratePer100k": 0.39,
           "arrests": 28,
           "minCoverage": 99.63
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 48.89,
+          "arrests": 3477,
+          "minCoverage": 99.63,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 36.78,
+              "arrests": 2615
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 1.04,
+              "arrests": 74
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 3.55,
+              "arrests": 252
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 7.52,
+              "arrests": 536
+            }
+          }
         }
       },
       "allArrestsPer1000": 13.28
     },
     "US-MD": {
       "reported": true,
-      "per1000": 0.458,
+      "per1000": 1.189,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -874,13 +1691,46 @@
           "ratePer100k": 0.66,
           "arrests": 40,
           "minCoverage": 100
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 73.03,
+          "arrests": 4572,
+          "minCoverage": 100,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0.75,
+              "arrests": 48
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 44.63,
+              "arrests": 2795
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 6.11,
+              "arrests": 382
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 5.4,
+              "arrests": 337
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 16.14,
+              "arrests": 1010
+            }
+          }
         }
       },
       "allArrestsPer1000": 18.59
     },
     "US-ME": {
       "reported": true,
-      "per1000": 1.105,
+      "per1000": 2.869,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -911,13 +1761,46 @@
           "ratePer100k": 0.07,
           "arrests": 1,
           "minCoverage": 99.28
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 176.37,
+          "arrests": 2462,
+          "minCoverage": 99.28,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 78.28,
+              "arrests": 1093
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 6.16,
+              "arrests": 86
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 22.93,
+              "arrests": 320
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 69,
+              "arrests": 963
+            }
+          }
         }
       },
       "allArrestsPer1000": 23.26
     },
     "US-MI": {
       "reported": true,
-      "per1000": 0.7,
+      "per1000": 1.664,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -948,13 +1831,46 @@
           "ratePer100k": 1.77,
           "arrests": 177,
           "minCoverage": 97.41
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 96.37,
+          "arrests": 9575,
+          "minCoverage": 97.41,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 40.09,
+              "arrests": 3982
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 2.62,
+              "arrests": 262
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 3.92,
+              "arrests": 392
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 49.74,
+              "arrests": 4939
+            }
+          }
         }
       },
       "allArrestsPer1000": 18.04
     },
     "US-MN": {
       "reported": true,
-      "per1000": 1.522,
+      "per1000": 2.745,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -985,13 +1901,46 @@
           "ratePer100k": 2.76,
           "arrests": 160,
           "minCoverage": 99.81
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 122.3,
+          "arrests": 7077,
+          "minCoverage": 99.81,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 19.68,
+              "arrests": 1139
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 12.65,
+              "arrests": 732
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 9.89,
+              "arrests": 572
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 80.08,
+              "arrests": 4634
+            }
+          }
         }
       },
       "allArrestsPer1000": 20.62
     },
     "US-MO": {
       "reported": true,
-      "per1000": 1.111,
+      "per1000": 2.903,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1022,13 +1971,46 @@
           "ratePer100k": 3.88,
           "arrests": 238,
           "minCoverage": 97.87
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 179.16,
+          "arrests": 10999,
+          "minCoverage": 97.87,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 24.32,
+              "arrests": 1492
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 15.58,
+              "arrests": 957
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 10.2,
+              "arrests": 626
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 129.06,
+              "arrests": 7924
+            }
+          }
         }
       },
       "allArrestsPer1000": 22.39
     },
     "US-MP": {
       "reported": false,
-      "per1000": 0.0,
+      "per1000": 0,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 0,
@@ -1059,13 +2041,46 @@
           "ratePer100k": 0,
           "arrests": 0,
           "minCoverage": null
+        },
+        "Drug Possession": {
+          "months": 0,
+          "ratePer100k": 0,
+          "arrests": 0,
+          "minCoverage": null,
+          "codes": {
+            "156": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "158": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "159": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "160": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            }
+          }
         }
       },
-      "allArrestsPer1000": 0.0
+      "allArrestsPer1000": 0
     },
     "US-MS": {
       "reported": true,
-      "per1000": 2.614,
+      "per1000": 7.197,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1096,13 +2111,46 @@
           "ratePer100k": 0.5,
           "arrests": 10,
           "minCoverage": 64.26
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 458.36,
+          "arrests": 8782,
+          "minCoverage": 64.26,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 43.19,
+              "arrests": 828
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 200.01,
+              "arrests": 3832
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 18.38,
+              "arrests": 352
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 196.78,
+              "arrests": 3770
+            }
+          }
         }
       },
       "allArrestsPer1000": 32.62
     },
     "US-MT": {
       "reported": true,
-      "per1000": 3.407,
+      "per1000": 4.874,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1133,13 +2181,46 @@
           "ratePer100k": 0.45,
           "arrests": 5,
           "minCoverage": 99.92
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 146.69,
+          "arrests": 1667,
+          "minCoverage": 99.92,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 19.88,
+              "arrests": 226
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 6.95,
+              "arrests": 79
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 13.19,
+              "arrests": 150
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 106.67,
+              "arrests": 1212
+            }
+          }
         }
       },
       "allArrestsPer1000": 26.35
     },
     "US-NC": {
       "reported": true,
-      "per1000": 0.456,
+      "per1000": 3.237,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1170,13 +2251,46 @@
           "ratePer100k": 1.2,
           "arrests": 128,
           "minCoverage": 96.62
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 278.08,
+          "arrests": 29870,
+          "minCoverage": 96.62,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 67.64,
+              "arrests": 7266
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 102.2,
+              "arrests": 10978
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 13.29,
+              "arrests": 1428
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 94.95,
+              "arrests": 10198
+            }
+          }
         }
       },
       "allArrestsPer1000": 21.89
     },
     "US-ND": {
       "reported": true,
-      "per1000": 4.994,
+      "per1000": 9.566,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1207,13 +2321,46 @@
           "ratePer100k": 0,
           "arrests": 0,
           "minCoverage": 99.85
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 457.25,
+          "arrests": 3637,
+          "minCoverage": 99.85,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 27.78,
+              "arrests": 221
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 202.03,
+              "arrests": 1607
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 23.77,
+              "arrests": 189
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 203.67,
+              "arrests": 1620
+            }
+          }
         }
       },
       "allArrestsPer1000": 42.54
     },
     "US-NE": {
       "reported": true,
-      "per1000": 3.703,
+      "per1000": 7.254,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1244,13 +2391,46 @@
           "ratePer100k": 51.17,
           "arrests": 999,
           "minCoverage": 96.56
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 355.18,
+          "arrests": 6935,
+          "minCoverage": 96.56,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 21.21,
+              "arrests": 414
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 198.04,
+              "arrests": 3867
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 5.33,
+              "arrests": 104
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 130.6,
+              "arrests": 2550
+            }
+          }
         }
       },
       "allArrestsPer1000": 29.79
     },
     "US-NH": {
       "reported": true,
-      "per1000": 1.512,
+      "per1000": 3.375,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1281,13 +2461,46 @@
           "ratePer100k": 6.82,
           "arrests": 96,
           "minCoverage": 99.86
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 186.28,
+          "arrests": 2623,
+          "minCoverage": 99.86,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 85.87,
+              "arrests": 1209
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 50.78,
+              "arrests": 715
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 5.96,
+              "arrests": 84
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 43.67,
+              "arrests": 615
+            }
+          }
         }
       },
       "allArrestsPer1000": 27.19
     },
     "US-NJ": {
       "reported": true,
-      "per1000": 0.874,
+      "per1000": 1.952,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1318,13 +2531,46 @@
           "ratePer100k": 3.21,
           "arrests": 297,
           "minCoverage": 94.88
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 107.78,
+          "arrests": 9998,
+          "minCoverage": 94.88,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 26.07,
+              "arrests": 2419
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 58.36,
+              "arrests": 5413
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 1.55,
+              "arrests": 144
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 4.63,
+              "arrests": 430
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 17.17,
+              "arrests": 1592
+            }
+          }
         }
       },
       "allArrestsPer1000": 17.92
     },
     "US-NM": {
       "reported": true,
-      "per1000": 1.69,
+      "per1000": 3.965,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1355,13 +2601,46 @@
           "ratePer100k": 13.37,
           "arrests": 268,
           "minCoverage": 92.55
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 227.54,
+          "arrests": 4553,
+          "minCoverage": 92.55,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 28.61,
+              "arrests": 572
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 12.01,
+              "arrests": 241
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 87.76,
+              "arrests": 1756
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 99.16,
+              "arrests": 1984
+            }
+          }
         }
       },
       "allArrestsPer1000": 27.99
     },
     "US-NV": {
       "reported": true,
-      "per1000": 1.856,
+      "per1000": 4.354,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1392,13 +2671,46 @@
           "ratePer100k": 32.55,
           "arrests": 1059,
           "minCoverage": 99.41
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 249.82,
+          "arrests": 8123,
+          "minCoverage": 99.41,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 35.69,
+              "arrests": 1160
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 50.94,
+              "arrests": 1656
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 7.26,
+              "arrests": 236
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 155.93,
+              "arrests": 5071
+            }
+          }
         }
       },
       "allArrestsPer1000": 35.5
     },
     "US-NY": {
       "reported": true,
-      "per1000": 0.162,
+      "per1000": 1.876,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1429,13 +2741,46 @@
           "ratePer100k": 0.91,
           "arrests": 175,
           "minCoverage": 91.42
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 171.36,
+          "arrests": 33206,
+          "minCoverage": 91.42,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 22.39,
+              "arrests": 4333
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 31.03,
+              "arrests": 6020
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 3.71,
+              "arrests": 722
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 11.26,
+              "arrests": 2181
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 102.97,
+              "arrests": 19950
+            }
+          }
         }
       },
       "allArrestsPer1000": 20.02
     },
     "US-OH": {
       "reported": true,
-      "per1000": 1.172,
+      "per1000": 2.219,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1466,13 +2811,46 @@
           "ratePer100k": 0.02,
           "arrests": 2,
           "minCoverage": 93.84
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 104.67,
+          "arrests": 11731,
+          "minCoverage": 93.84,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 27.96,
+              "arrests": 3135
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 12.87,
+              "arrests": 1442
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 5.54,
+              "arrests": 620
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 58.3,
+              "arrests": 6534
+            }
+          }
         }
       },
       "allArrestsPer1000": 16.17
     },
     "US-OK": {
       "reported": true,
-      "per1000": 0.948,
+      "per1000": 3.522,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1503,13 +2881,46 @@
           "ratePer100k": 3.11,
           "arrests": 127,
           "minCoverage": 99.76
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 257.44,
+          "arrests": 10528,
+          "minCoverage": 99.76,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 13.56,
+              "arrests": 554
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 92.8,
+              "arrests": 3795
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 6.82,
+              "arrests": 279
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 144.26,
+              "arrests": 5900
+            }
+          }
         }
       },
       "allArrestsPer1000": 22.11
     },
     "US-OR": {
       "reported": true,
-      "per1000": 1.708,
+      "per1000": 3.202,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1540,13 +2951,46 @@
           "ratePer100k": 4.62,
           "arrests": 194,
           "minCoverage": 98.04
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 149.41,
+          "arrests": 6280,
+          "minCoverage": 98.04,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 7.73,
+              "arrests": 325
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 13.87,
+              "arrests": 583
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 21.15,
+              "arrests": 890
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 106.66,
+              "arrests": 4482
+            }
+          }
         }
       },
       "allArrestsPer1000": 29.06
     },
     "US-PA": {
       "reported": true,
-      "per1000": 2.382,
+      "per1000": 5.15,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1577,13 +3021,46 @@
           "ratePer100k": 11.18,
           "arrests": 1454,
           "minCoverage": 98.88
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 276.83,
+          "arrests": 36002,
+          "minCoverage": 98.88,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 88.85,
+              "arrests": 11556
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 42.3,
+              "arrests": 5500
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 85.95,
+              "arrests": 11179
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 11.89,
+              "arrests": 1546
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 47.84,
+              "arrests": 6221
+            }
+          }
         }
       },
       "allArrestsPer1000": 22.34
     },
     "US-PR": {
       "reported": false,
-      "per1000": 0.0,
+      "per1000": 0,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1614,13 +3091,46 @@
           "ratePer100k": 0,
           "arrests": 0,
           "minCoverage": 100
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 0,
+          "arrests": 0,
+          "minCoverage": 100,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            }
+          }
         }
       },
-      "allArrestsPer1000": 0.0
+      "allArrestsPer1000": 0
     },
     "US-RI": {
       "reported": true,
-      "per1000": 2.241,
+      "per1000": 3.13,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1651,13 +3161,46 @@
           "ratePer100k": 0,
           "arrests": 0,
           "minCoverage": 99.87
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 88.92,
+          "arrests": 988,
+          "minCoverage": 99.87,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 43.29,
+              "arrests": 481
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 10.71,
+              "arrests": 119
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 11.61,
+              "arrests": 129
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 23.31,
+              "arrests": 259
+            }
+          }
         }
       },
       "allArrestsPer1000": 21.72
     },
     "US-SC": {
       "reported": true,
-      "per1000": 1.981,
+      "per1000": 5.729,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1688,13 +3231,46 @@
           "ratePer100k": 10.48,
           "arrests": 573,
           "minCoverage": 99.5
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 374.8,
+          "arrests": 20483,
+          "minCoverage": 99.5,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 68.48,
+              "arrests": 3742
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 176.46,
+              "arrests": 9644
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 17.73,
+              "arrests": 969
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 112.13,
+              "arrests": 6128
+            }
+          }
         }
       },
       "allArrestsPer1000": 28.5
     },
     "US-SD": {
       "reported": true,
-      "per1000": 6.231,
+      "per1000": 13.116,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1725,13 +3301,46 @@
           "ratePer100k": 58.5,
           "arrests": 485,
           "minCoverage": 89.19
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 688.48,
+          "arrests": 5707,
+          "minCoverage": 89.19,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 31.6,
+              "arrests": 262
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 250.58,
+              "arrests": 2077
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 14.95,
+              "arrests": 124
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 391.35,
+              "arrests": 3244
+            }
+          }
         }
       },
       "allArrestsPer1000": 54.97
     },
     "US-TN": {
       "reported": true,
-      "per1000": 1.063,
+      "per1000": 5.081,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1762,13 +3371,46 @@
           "ratePer100k": 0.12,
           "arrests": 9,
           "minCoverage": 99.39
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 401.77,
+          "arrests": 28929,
+          "minCoverage": 99.39,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 52.1,
+              "arrests": 3751
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 161.38,
+              "arrests": 11620
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 32.21,
+              "arrests": 2320
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 156.08,
+              "arrests": 11238
+            }
+          }
         }
       },
       "allArrestsPer1000": 35.86
     },
     "US-TX": {
       "reported": true,
-      "per1000": 0.463,
+      "per1000": 3.237,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1799,13 +3441,46 @@
           "ratePer100k": 8.68,
           "arrests": 2695,
           "minCoverage": 99.31
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 277.4,
+          "arrests": 86229,
+          "minCoverage": 99.31,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 49.46,
+              "arrests": 15376
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 85.94,
+              "arrests": 26714
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 12.94,
+              "arrests": 4022
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 129.06,
+              "arrests": 40117
+            }
+          }
         }
       },
       "allArrestsPer1000": 18.64
     },
     "US-UT": {
       "reported": true,
-      "per1000": 1.949,
+      "per1000": 6.182,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1836,13 +3511,46 @@
           "ratePer100k": 8.3,
           "arrests": 286,
           "minCoverage": 92.78
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 423.28,
+          "arrests": 14382,
+          "minCoverage": 92.78,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 48.81,
+              "arrests": 1660
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 205.18,
+              "arrests": 6970
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 20.54,
+              "arrests": 696
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 148.75,
+              "arrests": 5056
+            }
+          }
         }
       },
       "allArrestsPer1000": 31.51
     },
     "US-VA": {
       "reported": true,
-      "per1000": 1.178,
+      "per1000": 2.547,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1873,13 +3581,46 @@
           "ratePer100k": 0.74,
           "arrests": 64,
           "minCoverage": 99.63
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 136.94,
+          "arrests": 12056,
+          "minCoverage": 99.63,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 48.85,
+              "arrests": 4301
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 10.41,
+              "arrests": 917
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 12.6,
+              "arrests": 1109
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 65.08,
+              "arrests": 5729
+            }
+          }
         }
       },
       "allArrestsPer1000": 23.75
     },
     "US-VI": {
       "reported": false,
-      "per1000": 0.0,
+      "per1000": 0,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 0,
@@ -1910,13 +3651,46 @@
           "ratePer100k": 0,
           "arrests": 0,
           "minCoverage": null
+        },
+        "Drug Possession": {
+          "months": 0,
+          "ratePer100k": 0,
+          "arrests": 0,
+          "minCoverage": null,
+          "codes": {
+            "156": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "158": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "159": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "160": {
+              "months": 0,
+              "ratePer100k": 0,
+              "arrests": 0
+            }
+          }
         }
       },
-      "allArrestsPer1000": 0.0
+      "allArrestsPer1000": 0
     },
     "US-VT": {
       "reported": true,
-      "per1000": 0.865,
+      "per1000": 2.031,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1947,13 +3721,46 @@
           "ratePer100k": 0,
           "arrests": 0,
           "minCoverage": 100
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 116.58,
+          "arrests": 756,
+          "minCoverage": 100,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 88.67,
+              "arrests": 575
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 3.69,
+              "arrests": 24
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 10.33,
+              "arrests": 67
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 13.89,
+              "arrests": 90
+            }
+          }
         }
       },
       "allArrestsPer1000": 21.17
     },
     "US-WA": {
       "reported": true,
-      "per1000": 0.431,
+      "per1000": 1.632,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -1984,13 +3791,46 @@
           "ratePer100k": 6.92,
           "arrests": 548,
           "minCoverage": 99.37
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 120.02,
+          "arrests": 9498,
+          "minCoverage": 99.37,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 16.2,
+              "arrests": 1281
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 4.25,
+              "arrests": 337
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 21.14,
+              "arrests": 1673
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 78.43,
+              "arrests": 6207
+            }
+          }
         }
       },
       "allArrestsPer1000": 19.66
     },
     "US-WI": {
       "reported": true,
-      "per1000": 5.336,
+      "per1000": 8.782,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -2021,13 +3861,46 @@
           "ratePer100k": 14.66,
           "arrests": 854,
           "minCoverage": 95.43
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 344.58,
+          "arrests": 20071,
+          "minCoverage": 95.43,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 46.43,
+              "arrests": 2704
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 190.16,
+              "arrests": 11076
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 14.33,
+              "arrests": 835
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 93.66,
+              "arrests": 5456
+            }
+          }
         }
       },
       "allArrestsPer1000": 32.83
     },
     "US-WV": {
       "reported": true,
-      "per1000": 0.447,
+      "per1000": 3.958,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -2058,13 +3931,46 @@
           "ratePer100k": 2.5,
           "arrests": 41,
           "minCoverage": 91.61
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 351.05,
+          "arrests": 5733,
+          "minCoverage": 91.61,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 67.94,
+              "arrests": 1110
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 107.52,
+              "arrests": 1756
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 27.4,
+              "arrests": 447
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 148.19,
+              "arrests": 2420
+            }
+          }
         }
       },
       "allArrestsPer1000": 20.87
     },
     "US-WY": {
       "reported": true,
-      "per1000": 4.494,
+      "per1000": 10.41,
       "byOffense": {
         "Disorderly Conduct": {
           "months": 12,
@@ -2095,6 +4001,39 @@
           "ratePer100k": 12.51,
           "arrests": 66,
           "minCoverage": 88.89
+        },
+        "Drug Possession": {
+          "months": 12,
+          "ratePer100k": 591.61,
+          "arrests": 3127,
+          "minCoverage": 88.89,
+          "codes": {
+            "156": {
+              "months": 12,
+              "ratePer100k": 0,
+              "arrests": 0
+            },
+            "157": {
+              "months": 12,
+              "ratePer100k": 25.01,
+              "arrests": 132
+            },
+            "158": {
+              "months": 12,
+              "ratePer100k": 263.42,
+              "arrests": 1392
+            },
+            "159": {
+              "months": 12,
+              "ratePer100k": 13.8,
+              "arrests": 73
+            },
+            "160": {
+              "months": 12,
+              "ratePer100k": 289.38,
+              "arrests": 1530
+            }
+          }
         }
       },
       "allArrestsPer1000": 35.99

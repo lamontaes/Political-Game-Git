@@ -1,9 +1,10 @@
 /**
  * The minor offenses (disorderly conduct, drunkenness, liquor law violations,
- * loitering and vagrancy) in the justice case flow: their real starting rate
- * in all 56 places, the sized link from police staffing to their arrests, the
- * parameters the cases run on, and a played world where a raised police line
- * makes more of these arrests and a cut makes fewer, by record id.
+ * loitering, vagrancy and drug possession) in the justice case flow: each
+ * category's real starting rate in all 56 places, the sized link from police
+ * staffing to their arrests, the parameters the cases run on, and a played
+ * world where a raised police line makes more of these arrests and a cut makes
+ * fewer, drug possession among them, by record id.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -24,6 +25,7 @@ import {
   WEB_LINKS,
   COVERAGE_DATA,
 } from "./outcome-web-model";
+import { LOW_LEVEL_CATEGORIES, lowLevelRates } from "./low-level-offenses";
 import { placeStateKeys } from "./places";
 import {
   LOW_LEVEL_MEASURE,
@@ -38,7 +40,9 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const LINK = "police-to-low-level-arrests";
 
 describe("the minor offenses' starting rate, in all 56 places", () => {
-  it("starts every place from a real rate, never zero: sourced where the FBI reports it, estimated from the national rate where not", () => {
+  const drug = LOW_LEVEL_CATEGORIES.find((c) => c.key === "drugPossession");
+
+  it("starts every place from a real rate, never zero: the FBI's own for each category where it reports, the national rate marked ESTIMATED where not", () => {
     const keys = placeStateKeys();
     expect(keys).toHaveLength(56);
     const notReported = new Set(research.notReported.places);
@@ -46,19 +50,48 @@ describe("the minor offenses' starting rate, in all 56 places", () => {
       const base = baseOf(LOW_LEVEL_MEASURE, key);
       expect(base.value, key).toBeGreaterThan(0);
       const missing = notReported.has(key.slice("US-".length));
-      expect(base.source.tag, key).toBe(missing ? "ESTIMATED" : "SOURCED");
+      // Drug possession is ESTIMATED everywhere, so the six together are too.
+      expect(base.source.tag, key).toBe("ESTIMATED");
       if (missing) {
         expect(base.value, key).toBe(research.national.per1000);
         expect(base.source.estimatedFrom?.length ?? 0, key).toBeGreaterThan(40);
       } else {
         expect(base.source.citation, key).toContain("cde.ucr.cjis.gov");
+        expect(base.source.estimatedFrom, key).toContain("Drug possession");
       }
+      // Each category has its own rate, tagged: the five before drug
+      // possession SOURCED where the state reports, drug possession
+      // ESTIMATED in every place, and the national rate ESTIMATED where the
+      // state has none.
+      const rates = lowLevelRates(key);
+      expect(
+        rates.map((r) => r.category.key),
+        key,
+      ).toEqual(LOW_LEVEL_CATEGORIES.map((c) => c.key));
+      for (const r of rates) {
+        expect(
+          r.ratePer1000,
+          `${key} ${r.category.key}`,
+        ).toBeGreaterThanOrEqual(0);
+        expect(r.fromNational, `${key} ${r.category.key}`).toBe(missing);
+        expect(r.tag, `${key} ${r.category.key}`).toBe(
+          missing ? "ESTIMATED" : r.category.tag,
+        );
+      }
+      // Drug possession is its own, nonzero rate in every place: the largest
+      // part of the class, and what the sixth category exists to carry.
+      const own = rates.find((r) => r.category.key === "drugPossession")!;
+      expect(own.tag, key).toBe("ESTIMATED");
+      expect(own.ratePer1000, `${key} drug possession`).toBeGreaterThan(0);
     }
+    expect(drug?.tag).toBe("ESTIMATED");
     expect(notReported.size).toBeLessThan(10);
   });
 
-  it("agrees with the research file: each place's value is the sum of its five offenses' 12 monthly rates, per 1,000", () => {
+  it("agrees with the research file: each place's value is the sum of its six categories' 12 monthly rates, per 1,000, and drug possession is the sum of the FBI's five drug possession series", () => {
+    const labels = LOW_LEVEL_CATEGORIES.map((c) => c.label);
     for (const [key, place] of Object.entries(research.places)) {
+      expect(Object.keys(place.byOffense), key).toEqual(labels);
       if (!place.reported) continue;
       const sum = Object.values(place.byOffense).reduce(
         (n, o) => n + o.ratePer100k,
@@ -71,7 +104,38 @@ describe("the minor offenses' starting rate, in all 56 places", () => {
       expect(baseOf(LOW_LEVEL_MEASURE, key).value, key).toBe(place.per1000);
       for (const offense of Object.values(place.byOffense))
         expect(offense.months, key).toBe(12);
+      // The sixth category is five series added: its rate and its arrests.
+      const row = place.byOffense["Drug Possession"];
+      const codes = Object.values(row.codes);
+      expect(Object.keys(row.codes), key).toEqual(drug!.codes);
+      expect(
+        Math.abs(
+          row.ratePer100k - codes.reduce((n, c) => n + c.ratePer100k, 0),
+        ),
+        `${key} drug possession rate`,
+      ).toBeLessThanOrEqual(0.005 + 1e-9);
+      expect(row.arrests, `${key} drug possession arrests`).toBe(
+        codes.reduce((n, c) => n + c.arrests, 0),
+      );
+      // The case flow's rates add up to the web's start, to the file's rounding.
+      expect(
+        Math.abs(
+          lowLevelRates(key).reduce((n, r) => n + r.ratePer1000, 0) -
+            place.per1000,
+        ),
+        key,
+      ).toBeLessThanOrEqual(0.0005 + 1e-9);
     }
+    // The national row the four places the source leaves out start from.
+    const national = research.national;
+    const natSum = Object.values(national.byOffense).reduce(
+      (n, o) => n + o.ratePer100k,
+      0,
+    );
+    expect(Object.keys(national.byOffense)).toEqual(labels);
+    expect(Math.abs(national.per1000 - natSum / 100)).toBeLessThanOrEqual(
+      0.0005 + 1e-9,
+    );
   });
 });
 
@@ -351,6 +415,32 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
           expect(m.arrests, `${where}: ${name}`).toBeGreaterThanOrEqual(
             m.lowLevelArrests,
           );
+          // Each category's cases are its own real rate's share of the
+          // month's arrests: the state's rate for it over the six added up.
+          // Drug possession is one of them, read the same way.
+          const rates = lowLevelRates(stateKey);
+          const all = rates.reduce((n, r) => n + r.ratePer1000, 0);
+          for (const r of rates) {
+            const mine = phase.cases.filter(
+              (c) => c.category === r.category.key,
+            );
+            expect(
+              mine.reduce((n, c) => n + c.count, 0),
+              `${where}: ${name} ${r.category.key} arrests`,
+            ).toBeCloseTo(m.lowLevelArrests * (r.ratePer1000 / all), 6);
+            for (const c of mine) {
+              expect(c.offense, c.id).toBe("lowlevel");
+              expect(c.id, c.id).toContain(`:${r.category.key}:`);
+            }
+          }
+          expect(
+            phase.cases.every((c) => c.category !== undefined),
+            `${where}: ${name} every minor case names its category`,
+          ).toBe(true);
+          expect(
+            phase.cases.some((c) => c.category === "drugPossession"),
+            `${where}: ${name} drug possession cases (${phase.cases.map((c) => c.id).join(", ")})`,
+          ).toBe(true);
         }
         // The police line's funded officers moved, and the arrests followed.
         if (!(raised.officersRow.officersPer1000 > opening.officersPer1000)) {
@@ -369,8 +459,16 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
         expect(cut.month.lowLevelArrests, where).toBeLessThan(
           began.month.lowLevelArrests,
         );
+        // Drug possession moved with the line like the rest: more arrests
+        // when the police line was raised, fewer when it was cut.
+        const drugArrests = (phase: Phase) =>
+          phase.cases
+            .filter((c) => c.category === "drugPossession")
+            .reduce((n, c) => n + c.count, 0);
+        expect(drugArrests(raised), where).toBeGreaterThan(drugArrests(began));
+        expect(drugArrests(cut), where).toBeLessThan(drugArrests(began));
         console.log(
-          `justice-low-level in ${where}: court costs ${raised.court?.id}; state rate ${base}/1,000; began ${began.month.id} -> ${began.web.id} (${began.cases[0]!.id}) rate ${began.month.lowLevelRatePer1000.toFixed(4)}; raised ${raised.month.id} -> ${raised.web.id} (${raised.cases[0]!.id}) officers ${raised.officersRow.id} ${raised.officersRow.officersPer1000.toFixed(3)} (read into ${raised.earlier.id}) rate ${raised.month.lowLevelRatePer1000.toFixed(4)} arrests ${raised.month.lowLevelArrests.toFixed(3)}; cut ${cut.month.id} -> ${cut.web.id} (${cut.cases[0]!.id}) officers ${cut.officersRow.id} ${cut.officersRow.officersPer1000.toFixed(3)} (read into ${cut.earlier.id}) rate ${cut.month.lowLevelRatePer1000.toFixed(4)} arrests ${cut.month.lowLevelArrests.toFixed(3)}`,
+          `justice-low-level in ${where}: court costs ${raised.court?.id}; state rate ${base}/1,000; began ${began.month.id} -> ${began.web.id} (${began.cases[0]!.id}) rate ${began.month.lowLevelRatePer1000.toFixed(4)}; raised ${raised.month.id} -> ${raised.web.id} (${raised.cases[0]!.id}) officers ${raised.officersRow.id} ${raised.officersRow.officersPer1000.toFixed(3)} (read into ${raised.earlier.id}) rate ${raised.month.lowLevelRatePer1000.toFixed(4)} arrests ${raised.month.lowLevelArrests.toFixed(3)}; cut ${cut.month.id} -> ${cut.web.id} (${cut.cases[0]!.id}) officers ${cut.officersRow.id} ${cut.officersRow.officersPer1000.toFixed(3)} (read into ${cut.earlier.id}) rate ${cut.month.lowLevelRatePer1000.toFixed(4)} arrests ${cut.month.lowLevelArrests.toFixed(3)}; drug possession ${raised.cases.find((c) => c.category === "drugPossession")!.id} ${drugArrests(raised).toFixed(3)} arrests raised, ${drugArrests(began).toFixed(3)} began, ${drugArrests(cut).toFixed(3)} cut`,
         );
         return;
       }

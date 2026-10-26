@@ -553,7 +553,8 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
 
       // The minor offenses were recorded as cases, read the web's police
       // factor, and the sized link moved their rate: the raised police line
-      // reached these arrests (disorderly conduct, loitering and the like).
+      // reached these arrests (disorderly conduct, loitering, drug possession
+      // and the like).
       expect(
         a.minorCases.length,
         `${a.where}: minor-offense cases`,
@@ -571,8 +572,13 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
         minor,
         `${a.where}: a minor case that names its web row`,
       ).toBeDefined();
+      const drug = a.minorCases.find((c) => c.category === "drugPossession");
+      expect(
+        drug?.webRecordId,
+        `${a.where}: a drug possession case that names its web row`,
+      ).toBeTruthy();
       console.log(
-        `law-wiring-justice minor offenses in ${a.where}: ${a.minorCases.length} cases, e.g. ${minor?.id} read ${minor?.webRecordId} at ${minor?.officersPer1000?.toFixed(3)} officers per 1,000`,
+        `law-wiring-justice minor offenses in ${a.where}: ${a.minorCases.length} cases, e.g. ${minor?.id} read ${minor?.webRecordId} at ${minor?.officersPer1000?.toFixed(3)} officers per 1,000; drug possession ${drug?.id} read ${drug?.webRecordId}`,
       );
 
       // Every law recorded an application, and the counted tier by count.

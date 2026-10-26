@@ -16,12 +16,14 @@
  * corrections lines set how much service the departments give.
  *
  * Minor quality-of-life offenses (disorderly conduct, drunkenness, liquor law
- * violations, loitering and vagrancy) are a fifth stream: police start them,
- * so no victimization stands behind them. Their count is the state's real
- * 2024 arrest rate times the outcome web's factor for the place, and that
- * factor is the police staffing the town's budget line funds, read through
- * the sized police-to-low-level-arrests link (`webReach`). A larger force
- * makes more of these arrests; a cut makes fewer.
+ * violations, loitering, vagrancy and drug possession) are six more streams,
+ * one per category: police start them, so no victimization stands behind
+ * them. Their count is the state's real 2024 arrest rate for each category
+ * times the outcome web's factor for the place, and that factor is the police
+ * staffing the town's budget line funds, read through the sized
+ * police-to-low-level-arrests link (`webReach`). A larger force makes more of
+ * these arrests; a cut makes fewer. Every category takes the same ages and
+ * case outcomes (see low-level-offenses.ts for the rates).
  *
  * Every application is recorded with `lawApplied` where the engine reads
  * the law. Nothing here is rolled: counts come from rates and the person's
@@ -38,6 +40,7 @@ import {
 } from "./firearm-ownership";
 import { transfer, transferSplit } from "./accounts";
 import { justiceParameter } from "./justice-law";
+import { lowLevelRates } from "./low-level-offenses";
 import { END_CASH_BAIL } from "./justice-pretrial";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import type { ModuleRow } from "./module-data";
@@ -117,9 +120,9 @@ const OFFENSES = [
 
 /**
  * The minor offenses police start themselves: disorderly conduct,
- * drunkenness, liquor law violations, loitering and vagrancy. The web keeps
- * their arrests per 1,000 residents a year, from the state's real rate, moved
- * by the police staffing link.
+ * drunkenness, liquor law violations, loitering, vagrancy and drug possession.
+ * The web keeps their arrests per 1,000 residents a year, from the state's
+ * real rates added together, moved by the police staffing link.
  */
 export const LOW_LEVEL_MEASURE = "justice.low-level-arrests";
 const LOW_LEVEL = "lowlevel" as const;
@@ -523,6 +526,8 @@ export interface CaseRow {
   readonly kind: "batch" | "person";
   readonly month: string;
   readonly offense: OffenseKey;
+  /** For the minor offenses, which of the six categories (disorderly conduct, drug possession and the rest) the case is. */
+  readonly category?: string;
   readonly court: "adult" | "juvenile";
   readonly band: number;
   /** The people this record stands for. */
@@ -786,6 +791,8 @@ function adultCourtAge(api: CoreAPI): { age: number; lawId: string | null } {
 /** One kind of offense this month: how many arrests are expected and how the age bands share them. */
 interface Stream {
   readonly key: OffenseKey;
+  /** Which minor-offense category the stream is (only the minor offenses have one). */
+  readonly category?: string;
   readonly violent: boolean;
   readonly expected: number;
   /** Each age band's arrest ratio and the weight of the town's people under it. */
@@ -796,21 +803,22 @@ interface Stream {
 }
 
 /**
- * The minor offenses this month. Police start these arrests, so there is no
- * victimization to clear: the count is the state's real 2024 rate (a
- * check on the total) times the web's factor for the place, which the sized
- * police-to-low-level-arrests link moves with the officers per 1,000 the
- * police lines fund. The case flow reads the factor and the web month row it
- * stands on here, the moment it records the month's arrests.
+ * The minor offenses this month, one stream per category. Police start these
+ * arrests, so there is no victimization to clear: the count is the state's
+ * real 2024 rate (a check on the total) times the web's factor for the place,
+ * which the sized police-to-low-level-arrests link moves with the officers per
+ * 1,000 the police lines fund. The web holds one rate for the six categories
+ * together; each category gets its own share of it, its real rate in the state
+ * over the six added up, so the streams add to the web's month exactly. The
+ * case flow reads the factor and the web month row it stands on here, the
+ * moment it records the month's arrests.
  */
-function lowLevelStream(
+function lowLevelStreams(
   api: CoreAPI,
   census: Census,
   police: Service,
   tally: Tally,
-): Stream | null {
-  // stopgapId: SG-LAW-justice-low-level-drug-possession
-  api.stopgap("SG-LAW-justice-low-level-drug-possession");
+): Stream[] {
   const reach = webReach(api, census.placeId, LOW_LEVEL_MEASURE);
   const rate = baseOf(LOW_LEVEL_MEASURE, census.stateKey).value * reach.factor;
   tally.lowLevelRatePer1000 = rate;
@@ -819,19 +827,25 @@ function lowLevelStream(
     (n, ratio, i) => n + ratio * census.bandTotals[i]!,
     0,
   );
-  if (weight <= 0) return null;
-  return {
+  const rates = lowLevelRates(census.stateKey);
+  const all = rates.reduce((n, r) => n + r.ratePer1000, 0);
+  if (weight <= 0 || all <= 0) return [];
+  const read = {
+    webRecordId: reach.recordId ?? "",
+    officers: officersPer1000(census.stateKey, police),
+  };
+  return rates.map((r) => ({
     key: LOW_LEVEL,
+    category: r.category.key,
     violent: false,
     expected:
-      (rate * census.residents) / 1000 / safetyParameter("monthsPerYear"),
+      (rate * (r.ratePer1000 / all) * census.residents) /
+      1000 /
+      safetyParameter("monthsPerYear"),
     ratios: LOW_LEVEL_RATIOS,
     weight,
-    read: {
-      webRecordId: reach.recordId ?? "",
-      officers: officersPer1000(census.stateKey, police),
-    },
-  };
+    read,
+  }));
 }
 
 /** New arrests this month by offense, shared out by age and then run through charging and bail. */
@@ -884,9 +898,16 @@ function arrest(
       weight: weightTotal,
     });
   }
-  const minor = lowLevelStream(api, census, police, tally);
-  if (minor) streams.push(minor);
-  for (const { key, violent, expected, ratios, weight, read } of streams) {
+  streams.push(...lowLevelStreams(api, census, police, tally));
+  for (const {
+    key,
+    category,
+    violent,
+    expected,
+    ratios,
+    weight,
+    read,
+  } of streams) {
     if (expected <= 0) continue;
     // Counted groups and the named residents' unnamed share, by band weights.
     const byBand = new Map<
@@ -926,6 +947,7 @@ function arrest(
       cases.push(
         batchCase(api, pool, {
           offense: key,
+          category,
           violent,
           read,
           band,
@@ -1050,6 +1072,7 @@ function batchCase(
   census: Census,
   input: {
     offense: OffenseKey;
+    category?: string;
     violent: boolean;
     read?: Stream["read"];
     band: number;
@@ -1063,7 +1086,7 @@ function batchCase(
     juvenileLaw: string | null;
   },
 ): CaseRow {
-  const id = `case:${input.month}:${input.offense}:${input.court}:${input.band}`;
+  const id = `case:${input.month}:${input.offense}${input.category ? `:${input.category}` : ""}:${input.court}:${input.band}`;
   let detained = 0;
   const byId = new Map(census.groups.map((g) => [g.id, g]));
   if (input.court === "adult") {
@@ -1181,6 +1204,7 @@ function batchCase(
     kind: "batch",
     month: input.month,
     offense: input.offense,
+    ...(input.category ? { category: input.category } : {}),
     court: input.court,
     band: input.band,
     count,
