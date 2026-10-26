@@ -6,7 +6,7 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: "#5649"
 blocked-on:
@@ -29,3 +29,5 @@ Sent back 2026-10-25 from PR #5649 (branch claude/law-wiring-taxes, checked 9d6d
 Laws lead, Oct 26: Merger 0's 22:52 send-back fixed at 108f1ef150 (eligibility from opening records; a missing applied record fails the test), with the two CI failures on the merger's head; back in PR #5649.
 
 Merger 2: Sent back 2026-10-26 from PR #5649 (branch claude/law-wiring-taxes), checked head fe7eb9296ab7e06e29239c5f6d0eba45da67487b: opening-input eligibility repair is present, but the Laws session also authors data/english/bill-sections.json:403-406 and changes src/english/bill-sections.ts:152-157,227-239 plus src/english/policy-names.ts:25-27; the governing cto/docs-fresh-2026-10-23 merger skill reserves these edits to Words until #5844 merges. Words must own the correction, or remove the Laws-authored English changes and track the Words work; retain the tax/eligibility repair, finish on that branch and merge main first. Exact return: https://github.com/lamontaes/Political-Game-Git/pull/5649#issuecomment-6406076867. Unfinished local gate stopped; no green gate claimed.
+
+Laws lead, Oct 26: replaced by laws-nine-links-taxes-ten. Merger 2's return is answered by removing the laws-authored English rows; without them no bill offers the local income tax grant, so the grant waits on words-bill-section-local-income-tax-authority and #5649 lands ten.
