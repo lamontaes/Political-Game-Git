@@ -24,6 +24,7 @@ import { spendLivingCost } from "../official-living";
 import {
   decisionLean,
   decisionTraitWeight,
+  leanedScore,
   leanedYes,
   reportOutcome,
 } from "../trait-decisions";
@@ -2344,9 +2345,17 @@ function weighTip(
   const tip =
     reporterId === knowerId || input.leak
       ? 1
-      : decisionLean(api.state, knower, "press.tip", "tip", "keep") +
-        closeness(api, knowerId, reporterId) -
-        regard(api, p, knowerId, officialId);
+      : // Taking it to the nearest reporter, weighed against how they regard
+        // the official, with the knower's temperament at its calibrated weight.
+        leanedScore(
+          api.state,
+          knower,
+          "press.tip",
+          "tip",
+          "keep",
+          closeness(api, knowerId, reporterId) -
+            regard(api, p, knowerId, officialId),
+        );
   const row: Record<string, unknown> = {
     id: crimeId,
     crimeId,

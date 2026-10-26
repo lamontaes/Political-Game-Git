@@ -13,13 +13,13 @@
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
-      "why": "Ran 4,407 times in the election-window audit (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03): at a lobbyist's first meeting with a member on a bill with employer costs (src/core2/modules/interest-groups.ts:396) and at contract awards (src/core2/modules/contracts.ts:150). Every offer was declined in the drawn, flat and mirrored worlds: the yes score never beats corruptionHonestPull 3 (src/core2/modules/corruption.ts:322), so personality never turns one.",
-      "fix": "Weigh the stake against the official's own money need and calibrate the honesty pull from the honesty-humility effect size (pool item people-corruption-honest-pull-calibrated)."
+      "why": "Runs when a lobbyist meets a member on a bill with employer costs (src/core2/modules/interest-groups.ts). Honesty now weighs it person by person: in South Windham, Connecticut's year 190 of 1,142 offers the money alone would have made were withheld for the lobbyist's honesty, and in Langley, Washington's 5 of 1,082; no offer was made in either, so taking and the chain behind it did not run.",
+      "fix": "Calibrate the offer's honest pull to the asks play makes, so some offers are made (pool item people-corruption-honest-pull-calibrated)."
     },
     "corruption.take": {
-      "class": "trigger needs a record nobody writes",
-      "why": "Weighed only after an offer says yes (src/core2/modules/corruption.ts:187). None of the 4,407 offers in the election window did; a declined offer returns at :220 before any crime row is written.",
-      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+      "class": "circumstances saturate the choice",
+      "why": "Runs after an offer says yes (src/core2/modules/corruption.ts, considerBribe): once in Jerry City, Ohio's played year (taken) and 1,156 times in New Britain, Connecticut's, where the third leaning most toward taking took 0.5 percent and the least none. Too few takes in either year show the study's odds (Pletzer et al. 2019, honesty-humility rho -0.48).",
+      "fix": "Calibrate the offer side so offers vary by person (pool item people-corruption-honest-pull-calibrated)."
     },
     "corruption.tell": {
       "class": "trigger needs a record nobody writes",
@@ -47,19 +47,19 @@
       "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "recalls.organize": {
-      "class": "no trigger",
-      "why": "Only a city or county ordinance taking effect starts one (src/core2/modules/recalls.ts:83 onEvent, :349 weighOrdinance), and it returns before weighing anyone where the state's municipal doctrine allows no petition recall (:338, recallRule is null) and where the state requires grounds (:368). Over the 56 places (resolveMunicipalRecallRule), 14 allow a recall without grounds, 8 only for cause and 34 not at all (17 whose state prohibits it, 15 with no state row that take the national estimate of prohibited, 2 judicial-trial states). The election-window place is one of the 15, so no organizer was ever weighed.",
-      "fix": "Let a reported scandal or crime start a for-cause recall where the state requires grounds, and read each of the 34 places' own rule instead of the national estimate of prohibited (pool item gov-recall-for-cause-start)."
+      "class": "needs a petition's cause",
+      "why": "A petition starts from a county or city ordinance where the state allows recall without grounds (src/core2/modules/recalls.ts, weighOrdinance), or, where it requires grounds, from a charge or a press exposure of a serving local official that the town heard of (noteMisconduct, weighMisconduct). Neither South Windham, Connecticut nor Langley, Washington held either in its year; with a fixture charge in Sylvan Grove, Kansas, the printed story reached 71 of 76 named residents and a petition started two weeks later (src/core2/recall-for-cause.test.ts).",
+      "fix": "Charges come from the bribe chain once offers are made (pool item people-corruption-honest-pull-calibrated)."
     },
     "recalls.sign": {
-      "class": "no trigger",
-      "why": "Follows an organizer: startRecall (src/core2/modules/recalls.ts:480) weighs each signer at :502.",
-      "fix": "Same as recalls.organize (pool item gov-recall-for-cause-start)."
+      "class": "needs a petition's cause",
+      "why": "Follows an organizer (src/core2/modules/recalls.ts, startRecall); see recalls.organize.",
+      "fix": "Same as recalls.organize (pool item people-corruption-honest-pull-calibrated)."
     },
     "recalls.vote": {
-      "class": "no trigger",
-      "why": "Needs a recall on the ballot after a petition with enough signatures (src/core2/modules/recalls.ts:565-616).",
-      "fix": "Same as recalls.organize (pool item gov-recall-for-cause-start)."
+      "class": "needs a petition's cause",
+      "why": "Needs a petition that reached the ballot (src/core2/modules/recalls.ts, recallWork); see recalls.organize.",
+      "fix": "Same as recalls.organize (pool item people-corruption-honest-pull-calibrated)."
     },
     "ballot-measures.vote": {
       "class": "no study number",
@@ -92,9 +92,9 @@
       "fix": "Audit a drawn year that holds a local vacancy filled by appointment (traits-accept-appointment-vacancy-proof)."
     },
     "constituent-cases.handle-case": {
-      "class": "rare (staff takes the case first)",
-      "why": "The official's own read (src/core2/modules/constituent-cases.ts:437, ownCaseDecision) runs only for an official with no staffer: officeHandles hands every case to a staffer first (:451). Ran 2 times in one election-window run (first 2026-01-09) and none in a later one.",
-      "fix": "The official decides every case first and the staffer carries it out (traits-wire-integrity, PR 5715); its circumstances vary with traits-integrity-cases-vary."
+      "class": "circumstances do not vary",
+      "why": "The official's own call now comes first, and their staffer carries it out (src/core2/modules/constituent-cases.ts, officeHandles). It ran 17 times in Jerry City, Ohio's played year and 438 times in New Britain, Connecticut's, and every official helped: the case is the same constant every time (constituentHelpBase), so a weight only sets a trait bar and cannot reach the study's odds (Barrick and Mount 1991, conscientiousness r .22, 2.44 between the thirds). The general weight of 1 stands.",
+      "fix": "Give the case its own circumstances (the problem's severity, the office's open cases), then calibrate (traits-integrity-cases-vary)."
     },
     "conversation.reply-reach": {
       "class": "no trigger (player only)",
@@ -290,6 +290,26 @@
       "class": "no study number",
       "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
       "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "constituent-cases.bring-case": {
+      "class": "circumstances saturate the choice",
+      "why": "Most residents out of work weigh a case at the same severity (no savings left), so where caseEffort falls in that pile temperament alone sorts them, and the thirds split at lopsided odds whatever the weight (net 44 in Jerry City, Ohio at the general weight). The weight is set from Mondak et al. 2010 (odds ratio 1.68 between thirds) over the lean gap between thirds, 0.51.",
+      "fix": "Cases that vary, so a problem's own weight spreads the pile (traits-integrity-cases-vary)."
+    },
+    "staff.dismiss": {
+      "class": "no study number",
+      "why": "No study gives the odds of dismissing an absent aide by trait; the decision has no weight row of its own and reads the general weight of 1.",
+      "fix": "Add a weight row when a study gives a size."
+    },
+    "staff.follow-through": {
+      "class": "circumstances saturate the choice",
+      "why": "A staffer's follow-through ran 17 times in Jerry City, Ohio's played year and 438 times in New Britain, Connecticut's, where every staffer saw every case through: the work's quality always clears staffCaseFollowThrough, so personality turns none and the study's odds (Barrick and Mount 1991, r .22, 2.44 between the thirds) cannot be reached. The general weight of 1 stands.",
+      "fix": "Let the case's difficulty vary against the staffer's quality, then calibrate (traits-integrity-cases-vary)."
+    },
+    "staff.hire": {
+      "class": "circumstances saturate the choice",
+      "why": "An official's case varies only with the office's budget, so the willing and unwilling thirds split at lopsided odds whatever the weight (net 20 in Jerry City, Ohio at the general weight). The weight is set from Kardaslar et al. 2026 (odds ratio 1.74 between thirds) over the lean gap between thirds, 0.65.",
+      "fix": "A case that reads the office's workload (traits-integrity-cases-vary)."
     }
   }
 }
