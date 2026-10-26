@@ -6499,23 +6499,25 @@
     }
   },
   "traitWeightViewsPersuasion": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the views.persuasion outcome: the hearer's traits toward yielding (openness and agreeableness) scale how far an argument or a story moves their view. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
-    "stopgapId": "SG-TRAITS-persuasion-size",
+    "value": 0.34,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the views.persuasion outcome: the hearer's lean toward yielding (openness and agreeableness side) scales how far an argument or a story moves their view, by e to the weight times the lean. Hibbing, Ritchie and Anderson (2011) give openness 0.66 on the log odds of being moved toward a discussion partner's view over the trait's full range (standard deviation 0.22 of it): odds 1.37 between the thirds. Read as the ratio of the thirds' mean moves, net of the moves with temperament left out, it moves with the weight on the log scale: at the general weight of 1 the two audit towns gave 2.76 and 2.53 net, so 1.37 is reached at ln 1.37 / ln 2.53 = 0.34. A study of how far traits scale one occasion's move does not exist, so the size across occasions stands in (SG-TRAITS-persuasion-size).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.057,
+      "high": 0.625,
+      "unit": "weight",
+      "citation": "The study's 95% interval for the coefficient, 0.111 to 1.209, carried the same way."
     }
   },
   "traitWeightViewsTrust": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the views.trust outcome: the hearer's traits toward trusting (agreeableness) scale how far they trust a speaker. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
-    "stopgapId": "SG-TRAITS-persuasion-size",
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the views.trust outcome: the hearer's lean toward trusting (agreeableness) scales a speaker's standing with them, by e to the weight times the lean. Thielmann, Spadaro and Balliet (2020), a meta-analysis of 28 samples of the Trust Game, give agreeableness r 0.09 with how much a person entrusts to a stranger: a log odds gap of 0.357 between the thirds. Read as the log ratio of the thirds' mean standing, net of the standing with temperament left out, it moves with the weight: at the general weight of 1 the two audit towns gave net ratios of 1.63 and 1.38 (log 0.32 at the lower), and a drawn town's speech in the views trait test gave log 0.65 at 2.5, so the study's size is reached between 1.1 and 1.4. Sindermann et al. (2021), a smaller survey of general trust, give r 0.20, the top of the spread. A study of trust in one speaker on one occasion does not exist, so trust in a stranger stands in (SG-TRAITS-persuasion-size).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.6,
+      "high": 2.5,
+      "unit": "weight",
+      "citation": "Half the meta-analysis's size at the low end; Sindermann et al.'s r 0.20 (log odds 0.81 between the thirds) at the high end."
     }
   },
   "workAbsenceIllnessWeight": {
