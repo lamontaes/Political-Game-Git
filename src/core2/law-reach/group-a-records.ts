@@ -424,7 +424,7 @@ function countedStaff(api: CoreAPI, employers: ReadonlySet<string>): number {
   return people;
 }
 
-function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
+export function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
   const select = spec.select ?? {};
   switch (spec.target) {
     case "people": {

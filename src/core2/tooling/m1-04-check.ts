@@ -121,7 +121,11 @@ for (const row of inTown) {
   }
   if (row.kind === "hire") counts.hires[at]! += n;
   else if (row.kind === "quit") counts.quits[at]! += n;
-  else if (row.kind === "layoff" || row.kind === "closure")
+  else if (
+    row.kind === "layoff" ||
+    row.kind === "staff-shed" ||
+    row.kind === "closure"
+  )
     counts.layoffs[at]! += n;
 }
 if (withoutHeads)
