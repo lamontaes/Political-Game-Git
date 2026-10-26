@@ -5,12 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/justice-low-level-offenses
+status: open
+claimed-by:
 pr: #6056
 blocked-on:
 source: laws lead, Oct 24, from the owner's ruling
-claimed-at: 2026-10-25T13:30:06.748Z
+claimed-at:
 ---
 
 **What.** The owner ruled on Oct 24 that the game models low-level offenses (OWNER-DECISIONS.md, Oct 24, "Low-level offenses"). The justice case flow in src/core2/public-safety.ts and src/core2/modules/crime.ts carries ordinary crime but no class of minor quality-of-life offenses (disorderly conduct, loitering, public intoxication and the like), so the outcome web's police-to-low-level-arrests link has no size and no kept measure, and budget-line:police grades its web link partial (justice regrade, Oct 24, branch claude/laws-nine-links-justice). The class needs its own counts by place from real arrest data and a research-sized link from police staffing to these arrests.
