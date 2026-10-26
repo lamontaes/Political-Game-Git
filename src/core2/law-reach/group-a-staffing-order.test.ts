@@ -11,7 +11,7 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../bench/world";
 import { setBookkeeping } from "../bookkeeping";
 import { gameStartDate } from "../game-start";
-import { residentsRuntime } from "../modules/residents";
+import { countedJobsOf } from "../residents-economy";
 import { coreAPI, fillInPerson } from "../state";
 import { layoffOrder } from "./group-a-staffing";
 
@@ -32,25 +32,47 @@ function drawTown() {
       placeKey: place.key,
     });
     const api = coreAPI(core);
-    const rt = residentsRuntime(core);
-    const employer = [...core.organizations.values()].find((o) => {
-      const counted = [...(rt?.jobs.values() ?? [])].filter(
-        (j) => j.organizationId === o.id && j.endsAt === undefined,
-      );
-      return counted.length >= 3 && layoffOrder(api, o.id).length >= 3;
-    });
+    // The employer is chosen from the staff records alone (named current jobs
+    // and counted jobs); layoffOrder is what the test then proves.
+    const staffOf = (organizationId: string) =>
+      new Set([
+        ...[...core.jobs.values()]
+          .filter(
+            (j) =>
+              j.organizationId === organizationId &&
+              j.endsAt === undefined &&
+              core.people.has(j.personId),
+          )
+          .map((j) => j.id),
+        ...countedJobsOf(core, organizationId).map((j) => j.id),
+      ]);
+    const employer = [...core.organizations.values()].find(
+      (o) => countedJobsOf(core, o.id).length >= 3 && staffOf(o.id).size >= 3,
+    );
     if (!employer) {
       tried.push(`${where}: no employer with counted staff`);
       continue;
     }
-    return { where, core, api, employerId: employer.id };
+    return {
+      where,
+      core,
+      api,
+      employerId: employer.id,
+      staff: staffOf(employer.id),
+    };
   }
   throw new Error(`no drawn place had the pieces: ${tried.join("; ")}`);
 }
 
 it("layoffs go to the newest hire across both tiers, and filling one in does not move anyone", () => {
-  const { where, core, api, employerId } = drawTown();
+  const { where, core, api, employerId, staff } = drawTown();
   const order = layoffOrder(api, employerId);
+  // The order is complete: every staff record once, none missing or extra.
+  expect(order.length, `${where}: order at ${employerId}`).toBe(staff.size);
+  expect(new Set(order.map((s) => s.jobId)), where).toEqual(staff);
+  process.stdout.write(
+    `staffing order: ${where}: ${employerId}: ${order.map((s) => `${s.jobId}${s.counted ? "*" : ""}@${s.startsAt}`).join(", ")}\n`,
+  );
   for (let i = 1; i < order.length; i += 1)
     expect(
       order[i]!.startsAt <= order[i - 1]!.startsAt,

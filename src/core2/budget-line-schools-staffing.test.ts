@@ -114,15 +114,11 @@ function councilReason(
  * year turns. `breakProducer` runs after the world is built and breaks the
  * council's budget vote itself (the negative control).
  */
-function amendSchoolsLine(
-  direction: -1 | 1,
-  breakProducer?: () => void,
-  salt = "",
-) {
+function amendSchoolsLine(direction: -1 | 1, breakProducer?: () => void) {
   const tried: string[] = [];
   for (let draw = 0; draw < 25; draw += 1) {
     // A failure names its place and seed; these replay exactly that town.
-    const drawn = drawPlace(`${seed}${salt}:${draw}`, "schools-line");
+    const drawn = drawPlace(`${seed}:${draw}`, "schools-line");
     const place =
       process.env.SCHOOLS_LINE_PLACE_KEY && process.env.SCHOOLS_LINE_PLACE_SEED
         ? {
@@ -197,11 +193,17 @@ function amendSchoolsLine(
     // A row set earlier keeps the base the engine funds against: within its
     // fiscal year the base it took, and in a new year the positions it funded.
     const earlier = staffingOf(api, "budget-line:schools", district.id);
-    // The job each full person held when the line was proposed: a hire must
-    // not have been taken from a job still running.
-    const priorJob = new Map(
-      [...core.people.values()].map((person) => [person.id, person.jobId]),
-    );
+    // The jobs each person held when the line was proposed, both tiers: a
+    // named person's current jobs and a counted resident's (the residents
+    // runtime's jobs). A hire must not have been taken from one still running.
+    const priorJobs = new Map<string, string[]>();
+    const holdBefore = (personId: string, jobId: string) =>
+      priorJobs.set(personId, [...(priorJobs.get(personId) ?? []), jobId]);
+    for (const job of core.jobs.values())
+      if (job.endsAt === undefined) holdBefore(job.personId, job.id);
+    for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+      if (job.endsAt === undefined && !core.jobs.has(job.id))
+        holdBefore(job.personId, job.id);
     const fullBefore = new Set(core.people.keys());
     const change = direction * Math.floor(priorLine / 3);
     prepareAct(api, mayorId, "propose-budget", {
@@ -249,7 +251,7 @@ function amendSchoolsLine(
       adopted,
       staffBefore,
       activeNow,
-      priorJob,
+      priorJobs,
       fullBefore,
       teachers,
     };
@@ -323,27 +325,52 @@ it("a raise to the city's schools line hires named adults who had no work at the
   console.log(
     `schools raise: ${r.where}: ${hired.length} hired at ${r.district.id}; budget ${r.adopted.id} (${r.adopted.adoptedBy}); jobs ${jobIds.slice(0, 5).join(", ")}; people ${hired.slice(0, 5).join(", ")}`,
   );
-  // Each hire is a counted resident filled in, or a full person whose earlier
-  // job (if any) had ended by the day they were hired; none was taken from a
-  // job still running. The job is a record at the district.
+  // Each hire, named or counted, held no job still running when hired: every
+  // job the person held when the line was proposed had ended on or before the
+  // day they started at the district. The job is a record at the district.
+  const rt = residentsRuntime(r.core);
+  const startOf = (jobId: string, personId: string): string | undefined => {
+    for (const c of r.core.work.commitments.values())
+      if (c.jobId === jobId) return c.startsAt;
+    const household = rt?.households.get(
+      rt.householdOfPerson.get(personId) ?? "",
+    );
+    return household?.workCommitments.find((c) => c.jobId === jobId)?.startsAt;
+  };
+  const endOf = (jobId: string) =>
+    (r.core.jobs.get(jobId) ?? rt?.jobs.get(jobId))?.endsAt;
+  const report: string[] = [];
   for (const personId of hired) {
-    const prior = r.priorJob.get(personId);
-    const earlier = prior ? r.core.jobs.get(prior) : undefined;
+    const tier = r.fullBefore.has(personId) ? "named" : "counted";
+    const hireJob = r
+      .teachers(r.district.id)
+      .find((j) => j.personId === personId)!;
+    const hiredOn = startOf(hireJob.id, personId);
     expect(
-      !r.fullBefore.has(personId) || !earlier || earlier.endsAt !== undefined,
-      `${r.where}: ${personId} was hired at ${r.district.id} while ${prior} was still running (jobs ${jobIds.join(", ")})`,
-    ).toBe(true);
+      hiredOn,
+      `${r.where}: no start record for ${hireJob.id}`,
+    ).toBeDefined();
+    const prior = r.priorJobs.get(personId) ?? [];
+    for (const jobId of prior) {
+      const endsAt = endOf(jobId);
+      expect(
+        endsAt !== undefined && endsAt <= hiredOn!,
+        `${r.where}: ${tier} ${personId} was hired at ${r.district.id} on ${hiredOn} while ${jobId} was ${endsAt === undefined ? "still running" : `running until ${endsAt}`} (jobs ${jobIds.join(", ")})`,
+      ).toBe(true);
+    }
+    report.push(
+      `${tier} ${personId} hired ${hiredOn} (${hireJob.id}); previous ${prior.length ? prior.map((id) => `${id} ended ${endOf(id)}`).join(", ") : "none"}`,
+    );
   }
+  process.stdout.write(
+    `schools raise hires by tier: ${r.where}: ${report.slice(0, 8).join(" | ")}; counted hires ${report.filter((x) => x.startsWith("counted")).length} of ${report.length}\n`,
+  );
 }, 1_800_000);
 
 it("negative control: with the council's budget vote broken, an eligible place fails instead of drawing on", () => {
   let failure = "";
   try {
-    amendSchoolsLine(
-      1,
-      () => registerBudgetVote(() => null),
-      ":producer-break",
-    );
+    amendSchoolsLine(1, () => registerBudgetVote(() => null));
   } catch (error) {
     failure = (error as Error).message;
   }
