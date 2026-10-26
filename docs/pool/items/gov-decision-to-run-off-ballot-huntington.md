@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Never weaken a test: the check keeps failing when a decision to run never reaches a filing. Ask why: name the person's candidacy decision row, their filing record or its absence, and the race, from the records of that played year.
 
-**Done when.** In the played world for Huntington, Utah on that seed, the decision to run is followed by record id to its filing and the ballot (or the reason it stops is named and fixed in candidacy.ts), M0-13 passes on that seed and on two fresh drawn places named in the PR, and no test is weakened.
+**Done when.** In the played world for Huntington, Utah on that seed, the decision to run is followed by record id to its filing and the ballot (or the reason it stops is named and fixed in candidacy.ts), M0-13 passes on that seed and on two fresh drawn places named in the PR, and no test is weakened. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/candidacy.ts, tests/golden-path/played-world.node-test.ts
 

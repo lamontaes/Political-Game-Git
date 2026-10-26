@@ -3,7 +3,7 @@ id: gov-justice-facial-recognition
 title: "An investigation uses or is barred from facial recognition by the warrant rule in force"
 area: gov
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/modules/justice.ts, src/core2/justice-law.ts, src/core2/data/laws/reach-group-a.json
 
 **Notes.** Closes SG-GOV-REACH-A-facial-recognition in src/core2/data/stopgaps.json only when the engine reads the law, never by deleting the row. Check docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md before adding any player-facing step. Remainder of gov-justice-incident-records.
+
+Deferred Oct 25: nothing on screen reads it yet.
