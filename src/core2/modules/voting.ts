@@ -60,7 +60,6 @@ import {
   reportOutcome,
 } from "../trait-decisions";
 import { standsAgain } from "../stand-again";
-import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";

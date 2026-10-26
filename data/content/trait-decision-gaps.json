@@ -93,6 +93,11 @@
       "why": "Read only to rank the replies offered to the player in a conversation the player opens (src/director/conversation.ts:2003, :2036) and in the player's speech builder (src/director/speech-builder.ts:281, from src/bench/campaign.ts).",
       "fix": "Player-only by design; covered by the player's conversations."
     },
+    "scene-talk.move": {
+      "class": "no trigger (player only)",
+      "why": "Read only when the director composes a scene with a purpose for the player (src/director/scene-talk.ts): the asker's answer and the reply the player's character leans toward.",
+      "fix": "Player-only by design; covered by scene-talk.test.ts on a generated town."
+    },
     "bring-it-up.blame": {
       "class": "no trigger (player only)",
       "why": "Read only when a person raises a change in a conversation the player opens: leansToBlame (src/director/bring-it-up.ts:125, decision read at :133) is reached from believedCause (:141), which bringItUp (:206) calls from the bench handler (src/bench/handler.ts:382) and the grading tool.",
@@ -237,11 +242,6 @@
       "class": "size, not a choice",
       "why": "Temperament scales a resident's drive to stand up at a meeting (src/core2/modules/meetings.ts:159), a size: the drive with temperament is 1.16 times the drive without it between the thirds in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 1.17 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026), at weight 0.16. The study's 2.97 is an odds ratio for attending, and the audit does not yet measure who stood up by thirds.",
       "fix": "Measure who stood up at each meeting by thirds of lean against the study's odds, then refit the weight (traits-wire-civic)."
-    },
-    "meetings.hold-town-hall": {
-      "class": "few deciders",
-      "why": "An official weighs a town hall against its cause and effort (src/core2/modules/meetings.ts:802): 82 weighings by 13 officials in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 95 by 15 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026). With so few deciders the thirds compare four or five people, and temperament turned 37% and 23% of the calls. Net odds 104 and 24 (crossed over every weighing and every official's lean, 112 and 47) against the study's 2.97 at weight 0.79.",
-      "fix": "Spread the cause so the case sits away from zero for most weighings, then refit the weight on the crossed measure (traits-wire-civic)."
     },
     "press.accept-interview": {
       "class": "circumstances saturate the choice",

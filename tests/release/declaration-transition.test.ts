@@ -186,6 +186,27 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
+  it("needs no declaration for the play-first lane's progress log", () => {
+    const fixture = historyFixture();
+    try {
+      fixture.run("checkout", "-q", "-b", "lane", fixture.rollout);
+      mkdirSync(join(fixture.root, "docs", "play-first"), { recursive: true });
+      writeFileSync(
+        join(fixture.root, "docs", "play-first", "PROGRESS.md"),
+        "# Progress\n",
+      );
+      const head = fixture.commit("Lane progress line");
+      const result = checkDeclarationTransition(fixture.root, {
+        base: fixture.rollout,
+        head,
+        mode: "push",
+      });
+      expect(result.problems).toEqual([]);
+    } finally {
+      fixture.dispose();
+    }
+  });
+
   it("needs no declaration for a pool-only change, as a claim pushed to main is", () => {
     const fixture = historyFixture();
     try {

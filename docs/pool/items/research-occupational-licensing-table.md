@@ -26,3 +26,5 @@ claimed-at:
 Partly done Oct 21 (claude, PR #5802): the national table by 22 major occupation groups (BLS CPS 2023 Table 53) with a reader is in. Still open: a state table (Institute for Justice's 14 to 27 percent across states could not be fetched; the page returned 403; try BLS state tables, the Minneapolis Fed licensing dashboard, or the Census SIPP), and the crosswalk from the jobs data's classes to these groups.
 
 Sent back 2026-10-23 from PR #5802 (branch claude/licensing-table): Required drawn-place reader proof is explicitly not done; production consumer or named PR and registered placeholder band are missing; release declaration is present (initial missing-declaration claim corrected); finish on that branch, merge main into it first.
+
+Oct 25 audit: From the dropped research-occupational-licensing-shares: the state table (licensed share by state) is the open half; branch claude/licensing-shares holds a start.

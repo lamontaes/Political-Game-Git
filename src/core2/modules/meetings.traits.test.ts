@@ -51,14 +51,16 @@ beforeAll(() => {
     },
     2,
     // A place whose officials weighed too few town halls has nothing for the hosting test to read.
-    () =>
-      hostCases.length > MIN_HOST_CASES
+    () => {
+      console.log(`meetings draw: ${hostCases.length} town halls weighed`);
+      return hostCases.length > MIN_HOST_CASES
         ? null
-        : `${hostCases.length} town halls weighed`,
+        : `${hostCases.length} town halls weighed`;
+    },
   ));
   adults = adultsOf(core);
-  // Reason for the hook's time: the drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine.
-}, 600_000);
+  // Reason for the hook's time: each drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine, and a small town's officials often weigh too few town halls, so several places may be built before one fits (seed d60345f2ab0b7229abdb17fd1eeee43bbaff5d24 passed over three, at 6, 10 and 6 town halls, before Clatonia, Nebraska held 144).
+}, 1_800_000);
 
 describe("meetings.take-part reads one calibrated trait term", () => {
   it("the third leaning most toward taking part stands up at public comment at Mondak's extraversion-sized odds over the third leaning least, net of circumstances", () => {
@@ -158,8 +160,9 @@ describe("meetings.hold-town-hall reads the calibrated lean of the host", () => 
     console.log(
       `hold-town-hall: ${hostCases.length} cases, weight ${w}, net log odds ${net.toFixed(3)} against the study's ${target.toFixed(3)}`,
     );
-    // A town's officials weigh tens of cases, so its gap swings: drawn towns so far
-    // sit from a third of the study's size to twice it; flat personality nets 0.
+    // A town's officials weigh tens of cases, so its gap swings: six drawn towns
+    // at the fitted weight sat from 0.6 to 1.5 times the study's size; flat
+    // personality nets 0.
     expect(net).toBeGreaterThan(target / 3.5);
     expect(net).toBeLessThan(target * 2.5);
   });
