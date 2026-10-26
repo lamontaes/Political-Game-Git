@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/tests-m2-07-race-draw
 pr: #6135
 blocked-on:
