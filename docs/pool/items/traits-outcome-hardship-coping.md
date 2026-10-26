@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/traits-outcome-hardship-coping
+status: open
+claimed-by:
 pr: #5979
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T20:00:36.736Z
+claimed-at:
 ---
 
 **What.** A layoff or an eviction now raises a person's stress by their temperament (src/core2/emotion.ts, weights from Bolger and Schilling 1991). But what they do next does not read that stress. Filing for unemployment, applying for a loan and moving away are weighed the same as on any other day, and falling behind on a debt gives no stress at all. Make the coping decisions that already run (jobs-benefits.file-claim, credit.borrow, moves.move-away) read the hardship's stress through the shared trait helper at a size taken from a study, and give missed debt payments the same Holmes and Rahe stress as a layoff, so outcome.hardship-coping is read by its owning engine.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T20:00:36.736Z
 **Files.** src/core2/emotion.ts, src/core2/jobs-benefits.ts, src/core2/modules/credit.ts, src/core2/modules/moves.ts, data/content/trait-outcomes.json
 
 **Notes.** Split Oct 24 by the traits lead from traits-outcomes-unread.
+
+Sent back 2026-10-26 from PR #5979 (branch claude/traits-outcome-hardship-coping): Declared parent5587 remains open with its unsourced-weight return unresolved; this child still carries jobs.apply0.7 and owner-draw0.35 against assumed targets, so merging it would bypass that return; land the repaired parent or isolate coping on main, preserving its new witnesses and research gaps, before the own local gate; finish on that branch, merge main into it first.
