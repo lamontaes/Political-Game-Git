@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.36.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **Election night also shows who won the governor races around the country.**
+  After your own races, the election results now list every other state's
+  governor race that night: which party won and by how many points. Before the
+  first governor races are counted, the results say so.
+
 ## PRE-ALPHA 0.35.0
 
 _Released October 26, 2026._
