@@ -1,6 +1,6 @@
-# Most laws take effect and change nothing a player can follow to a person or a dollar
+# Half the laws now reach people, move money and stop on repeal; the other half still have gaps
 
-When a law takes effect, people hear about it on the news, but for most laws nothing else follows. Of the 89 laws the game has, none yet passes all nine wiring checks. The worst gap is reach: a law in force often names no one it applies to, even where an engine quietly reads it. Inclusionary zoning, the right to counsel in eviction, rent stabilization and the consumer loan rate cap all show this. Money and the outcome web follow the same pattern. The fixes are under way, one family of laws per pull request, and this report and its matrix are updated as each one lands.
+As of October 26, 45 of the game's 89 laws pass all nine wiring checks, each link either wired or ruled not applicable by the law's own terms. On October 20 none did. The government, labor, taxes, housing and death tax families have merged. The rights and environment family is still open. The remaining gaps are mostly money that cannot yet be traced to the law (17 partly wired), repeals that do not stop the law in the run (20 missing) and laws missing from some places (18 missing).
 
 ## A played year, before the fixes
 
@@ -13,9 +13,27 @@ Two places drawn at random from all 56 places each played one year on current ma
 
 In Williamsburg, rent stabilization took effect five times and reached no one each time. The right to counsel in eviction, the multifamily rule, the shift of highway funds to transit and the state's minimum wage raise also reached no one. "Engine recorded money" counts the record each engine now writes when it applies a law with money. Main has no such record yet, so a zero there means no engine named the money a law moved, not that no money changed hands. The same two seeds are run again once the family fixes land.
 
-## Where things stand
+## Where things stand on October 26
 
-Grades come from two towns drawn at random from all 56 places: Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8). Each world was built the way the game builds it: two levels of population, with the economy on. All 89 laws were measured in both towns. These are the grades before any family fix lands.
+Main's matrix (`docs/reports/law-wiring-matrix.json`, last rebuilt in cb5c2a9ee5) grades every law in eight places. The places are Prescott, Michigan and Uehling, Nebraska, plus six drawn for laws that bind only where a town has their subject: Reddington, Indiana; Cambridge Springs, Pennsylvania; Kingston, Utah; Parkland, Florida; Anmoore, West Virginia; and Scissors, Texas. Each family's year runs on the checker that looks for a law's own payment.
+
+| Link                                | Wired | Not applicable | Partial | Missing | Stopgap |
+| ----------------------------------- | ----- | -------------- | ------- | ------- | ------- |
+| 1. Exists in all 56 places          | 89    | 0              | 0       | 0       | 0       |
+| 2. A body can enact and repeal it   | 88    | 0              | 0       | 1       | 0       |
+| 3. Reaches people and organizations | 66    | 2              | 3       | 3       | 15      |
+| 4. Read by the engine it changes    | 73    | 0              | 6       | 3       | 7       |
+| 5. Moves money                      | 48    | 7              | 17      | 5       | 12      |
+| 6. Moves its outcome-web measures   | 43    | 15             | 1       | 5       | 25      |
+| 7. People learn of it by a read     | 82    | 0              | 0       | 7       | 0       |
+| 8. Repeal stops it                  | 68    | 1              | 0       | 20      | 0       |
+| 9. Same code path everywhere        | 70    | 0              | 1       | 18      | 0       |
+
+Counts are laws, out of 89. A stopgap is a gap with a registered row, not wiring. The per-law test (`tests/law-wiring-matrix.test.ts`, on #5675) fails today on the 44 laws with a partial or missing link. The played year at the top has not been re-run on main since the families merged; it runs again once #5669 lands.
+
+## Where things stood on October 20
+
+Grades come from two towns drawn at random from all 56 places: Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8). Each world was built the way the game builds it: two levels of population, with the economy on. All 89 laws were measured in both towns. These were the grades before any family fix landed.
 
 | Link                                | Wired | Partial | Missing | Stopgap |
 | ----------------------------------- | ----- | ------- | ------- | ------- |
@@ -46,11 +64,9 @@ The full row-by-row grades, each with its evidence and the reason a link is miss
 
 ## Family fixes so far
 
-- Government and elections, #5582: the four voting laws reach named voters and counted groups. The county, city or state pays to mail ballots, issue IDs and register voters out of its administration line. Term limits, the lobbying ban, home rule and ward lines record whom they applied to.
-- Labor and pay, #5589: every minimum wage raise names the workers it raised, full and counted. Payroll taxes name each worker and employer with the tax. Unemployment benefits are paid from the state fund, and counted claimants are paid times the people they stand for.
-- Prices and sales taxes, #5629: the price laws record each household, counted group, seller and treasury they charged or paid at the monthly settlement. The grocery exemption now spares tax on groceries; before, it matched no seller. The sales tax names its buyers and sellers.
-- Justice, #5642: a monthly public-safety engine runs the town's ordinary crime through arrest, court, bail, jail and prison under the laws in force. It counts arrests by group and never names a person by age alone. Firearm laws reach gun-owning households with their costs and fees. Oversight and immigration partnership cost the city and county. The police, fire and corrections lines set service.
-- In progress: housing and credit, health and schools, taxes and public finance, and rights, environment, farms and parks.
+- Merged: government and elections (#5582), labor and pay (#5589), taxes and public finance (#5649), the death tax terms (#5744), housing and credit (#5688), and before them the audit, prices and justice PRs (#5547, #5629, #5642, #5652).
+- Open: rights, technology, environment, farms and parks (#5669), now finished by the laws lead.
+- Superseded: this report's own matrix PR (#5675) is a draft. Main's own-payment checker and matrix replace its October 20 checker changes.
 
 ## What happens next
 
