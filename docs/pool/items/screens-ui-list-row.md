@@ -5,14 +5,14 @@ area: play
 kind: cleanup
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/screens-ui-list-row
-pr:
+status: open
+claimed-by:
+pr: #6181
 blocked-on:
 source: added with npm run pool -- add
 lead: screens
 milestone: play-first
-claimed-at: 2026-10-26T20:26:48.551Z
+claimed-at:
 ---
 
 **What.** The owner ruled on Oct 26 that the play screen's controls come from one shared set. This is the third part: the list row. Today play.mjs writes the row element by hand in 25 places, and the Politics government list shows each member as a bare line of text. They move to src/bench/ui/list-row.mjs: one listRow for a label and value or a record's line, and one personRow that shows a face, the name that opens their card, their office and their party. The old copies are deleted. Looks do not change except that members now show a face.
@@ -30,3 +30,4 @@ claimed-at: 2026-10-26T20:26:48.551Z
 **Files.** src/bench/ui/list-row.mjs, src/bench/play.mjs, src/bench/play.css
 
 **Notes.** Work order docs/work-orders/lead-screens-2026-10-26.md, part 3. Stacked on claude/screens-ui-button (#6179), which is stacked on claude/screens-ui-panel (#6178); merge those first.
+Sent back 2026-10-26 from PR #6181 (branch claude/screens-ui-list-row): merge of main conflicts in src/bench/play.mjs after #6178 and #6179 landed; finish on that branch, merge main into it first.

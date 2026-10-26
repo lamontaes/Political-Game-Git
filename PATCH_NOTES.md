@@ -296,6 +296,65 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.36.5
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Every button on the play screen is built by one shared part** The play
+  screen's buttons, and the Back and Continue pair that pages a long list, now
+  come from one shared part instead of dozens of hand-written copies. They look
+  and work the same.
+
+- **Every window on the play screen closes with the same control** The close
+  button on the sheets, the person card and the news reader now comes from one
+  shared part instead of three hand-written copies. It looks and works the same.
+
+## PRE-ALPHA 0.36.4
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A minimum wage raise no longer multiplies the pay of a town's appointed
+  officers** When a state raised its minimum wage, a small town's department
+  heads, city clerk and attorney could see their paychecks jump several times
+  over, because their part-time stipend was counted as a full-time hourly wage.
+  Elected officials, their staff and their appointed policy heads are now left
+  out of the minimum wage, as the federal wage law leaves them out, so their pay
+  stays what the town budgets for it.
+
+## PRE-ALPHA 0.36.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **News reads in plain words** News names the region's numbers as a reader
+  would ("Unemployment 3.5% · Jobs 1,455,895 · Hourly pay $27.86"), gives months
+  in words, and names who each public record is about, with its dates in words,
+  instead of record keys and field names.
+
+## PRE-ALPHA 0.36.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Play screens show dates and statuses in words** News, Politics, the filing
+  counter and Campaigns now show dates as "November 3, 2026" and a filing as
+  "You are on the ballot", never a record's code or field name. Archived public
+  records are named by what they record, and the Mark gap button is gone from
+  the player's talk box.
+
+- **The day no longer stops for a moment with nothing to show** A big moment the
+  story had no scene for, such as hearing a parent's speech or a candidate at a
+  debate, stopped the day under "Something needs you" with an empty box: only
+  the day and the place, and no one to answer. Such a moment is now a line in
+  the journal and no longer stops the day. Every stop left has a scene with
+  someone to talk to.
+
 ## PRE-ALPHA 0.36.1
 
 _Released October 26, 2026._

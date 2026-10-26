@@ -1,6 +1,43 @@
 {
   "entries": [
     {
+      "version": "0.36.5",
+      "releasedOn": "2026-10-26",
+      "revision": "8f62029e2f5528ffeeaa03974ab274ec456b3e4c",
+      "changeIds": ["screens-ui-button", "screens-ui-panel"]
+    },
+    {
+      "version": "0.36.4",
+      "releasedOn": "2026-10-26",
+      "revision": "b39a1d42402ad5196717b049fe4287ac3e797c38",
+      "changeIds": ["gov-town-officers-paid-under-minimum-wage"]
+    },
+    {
+      "version": "0.36.3",
+      "releasedOn": "2026-10-26",
+      "revision": "e75949aefe9a9284b7cbfca64ab61d01c44f0003",
+      "changeIds": [
+        "outcome-web-snap-stopped-heads-still-paid",
+        "play-stop-02-developer-text-on-play-screens-a",
+        "web-gov-measure-causes-and-places"
+      ]
+    },
+    {
+      "version": "0.36.2",
+      "releasedOn": "2026-10-26",
+      "revision": "329f2d013f76826352fb2b7a4e27856d4c46b2a3",
+      "changeIds": [
+        "laws-starting-rows-next-year-override-play",
+        "merger0-returns-2026-10-25-1455",
+        "play-stop-02-developer-text-on-play-screens-b",
+        "play-stop-26-empty-something-needs-you",
+        "release-repo-sweep-unread-files",
+        "research-stopgaps-oct19-apply-spreads",
+        "web-twins-skip-gov-measures",
+        "world-employer-callback-table-data"
+      ]
+    },
+    {
       "version": "0.36.1",
       "releasedOn": "2026-10-26",
       "revision": "1418c3ea103177de44ebf53ae084c00241f12ffc",
