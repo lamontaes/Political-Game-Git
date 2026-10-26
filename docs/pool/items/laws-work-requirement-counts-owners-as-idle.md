@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** An owner's hours at their own business count toward the work requirement's hours, read from a recorded source (the business's records or a sourced owner-hours parameter), and in a played world (`buildBenchWorld`, Montgomery, Michigan, seed above, and a random place named in the PR) the newspaper owner keeps coverage while an adult with no job and no business still loses it, both named by record id; the health-schools family test passes on its named seed.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/law-reach/group-b-people.ts, src/core2/law-reach/group-b.ts
 
 **Notes.** From the laws lead's health-schools PR review, Oct 25. Self-employment counts toward the federal requirement (Pub. L. 119-21 sec. 71119; recalled, not checked here), so the researcher confirms the statute's terms.
