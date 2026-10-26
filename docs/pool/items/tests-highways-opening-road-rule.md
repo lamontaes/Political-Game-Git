@@ -1,7 +1,7 @@
 ---
 id: tests-highways-opening-road-rule
 title: "Highways test: a town whose highways line opens below its base already has a road rule, so the test fails before any change"
-area: tests
+area: laws
 lead: laws-effects
 kind: bug
 priority: 2
