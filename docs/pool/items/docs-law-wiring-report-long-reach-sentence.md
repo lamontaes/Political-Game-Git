@@ -5,7 +5,7 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/law-table-long-sentence
 pr: #6192
 blocked-on:
