@@ -28,8 +28,12 @@ let adults: PersonState[];
 const hostCases: number[] = [];
 /** Each resident weighed for a meeting's room that could not hold everyone driven: their lean, whether they took part, and whether they would have with temperament left out. */
 const tookPart: { lean: number; value: number; flat: number }[] = [];
-/** Fewer weighed residents than this leave the thirds' gap mostly noise. */
-const MIN_TAKE_PART = 100;
+/**
+ * Fewer weighed residents than this leave the thirds' gap mostly noise. Every
+ * weighing comes from a room that turned someone away: Lonerock, Oregon's 77
+ * sat at 1.40 against the study's 1.09.
+ */
+const MIN_TAKE_PART = 60;
 /** Fewer weighed cases than this leave the thirds' gap mostly noise. */
 const MIN_HOST_CASES = 10;
 
