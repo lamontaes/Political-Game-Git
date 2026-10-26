@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No hand-written player text: words come from the English engine and its banks (words-engine). Owner, Oct 24 playtest: a sister calls our father Dad.
 
-**Done when.** Two relatives who share a parent and live apart can ask after them from the bank as Dad or Mom (by the parent's recorded gender), never by first name; the pieces are in a grading batch.
+**Done when.** Two relatives who share a parent and live apart can ask after them from the bank as Dad or Mom (by the parent's recorded gender), never by first name; the pieces are in a grading batch. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** data/english/parts/conversation.json, src/director/conversation.ts, src/director/data/journal-rows.json
 

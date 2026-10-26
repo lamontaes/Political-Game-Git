@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/work-attendance.ts,src/core2/residents-turnover-bands.test.ts
 
 **Notes.** TODO
+
+Merger 0, Oct 26 source review: the cited 21.68 percent is job-weeks with any missed work segment, not the CPS absence measure. CPS Table 47 footnotes 1 and 2 select full-time wage-and-salary workers and main jobs, require fewer than 35 hours for included reasons, and exclude vacation and holidays (https://www.bls.gov/cps/cpsaat47.htm). Establish a comparable measure before attributing a CPS calibration gap; the historical diagnostic is retained, not treated as fivefold comparable evidence. PR #5796 labels the diagnostic explicitly and leaves research-residents-cadence-sourced open.

@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Sliding scales and causes: a row opens or ends from a cause, the record of a birth, a birthday or a move, never on a schedule. An effect is a read: the engines that read the rows must see the household as it is now. One model, two tiers: counted households follow the same rule as full people, times their count.
 
-**Done when.** In a one-year played world (buildHouseholdFirearms via worldWith in a drawn place, the seed and place named) a person who turns 18 gains the age-gated rows, and the adults of a household whose last child turns 18 have their storage duty row ended on that date, named by row id; src/core2/household-firearms.test.ts checks the open set against the household records on a later date than the law's effective date.
+**Done when.** In a one-year played world (buildHouseholdFirearms via worldWith in a drawn place, the seed and place named) a person who turns 18 gains the age-gated rows, and the adults of a household whose last child turns 18 have their storage duty row ended on that date, named by row id; src/core2/household-firearms.test.ts checks the open set against the household records on a later date than the law's effective date. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-a-records.ts, src/core2/law-reach/group-a.ts, src/core2/household-firearms.test.ts
 

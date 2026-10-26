@@ -8,7 +8,7 @@ size: M
 status: in-pr
 claimed-by:
 pr: #5180
-blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
+blocked-on:
 after: people-words
 source: added with npm run pool -- add
 claimed-at:
@@ -23,3 +23,7 @@ claimed-at:
 **Files.** src/bench/play.mjs, src/bench/dev-api.ts, src/core2/modules/press.ts, data/english/parts/interview.json
 
 **Notes.** Written Oct 20 (claude/interview-screen-spec) from the code; `after: people-words` still applies. The core's stopgap `SG-PEOPLE-press-interview-conversation` is marked in `answerInterview`; this item is where it is resolved or kept with a reason.
+
+Oct 25 audit: From the dropped gov-press-interview-conversation: branch claude/press-interview-conversation (PR #5602) holds src/director/press-interview.ts; finish there or take it over.
+
+Oct 25 audit: cleared the empty-shell block; the spec was written Oct 20.

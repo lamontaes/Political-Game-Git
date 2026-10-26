@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5090
 blocked-on: owner: meeting the 1.2 times target changes who a holder contacts (rank known people weekly or offer only contacts whose tie pull can top the day); the exact cut does not move the time (PR 5734)
@@ -26,6 +26,9 @@ claimed-at:
 Offers admitted, by act, in Bedford (counted at `availableActs` after `admits`): year one 87,000 `contact-known-person`, 15,000 `care-for-relative`, 11,000 `rest`, 2,100 `volunteer-for-cause`, 490 `donate-to-cause`; year two 233,000 contact, 50,000 volunteer, 42,000 `join-cause-group`, 40,000 donate, 17,000 `share-cause`; year three 675,000 contact, 360,000 volunteer, 211,000 donate, 45,000 join, 23,000 share. So the offers to contact a known person triple a year (people with up to 69 known people are choosing often), and the volunteer and donate offers grow 170 and 430 times from year one. Choosing among the offers is the cost; cutting it without changing who does what means scoring the same offers fewer times (once a day per person, cached across the act kinds), or ranking the known people once a week.
 
 Tried Oct 18 (claude, measured, not shipped): a repeat interval per drive and act, so a holder is not offered a donation again for 30 days or a volunteer session again for 7 (the drive's date of its latest act of each kind, filtered in `servingDrives`). Bedford, Wyoming years one to three fell from 37, 55 and 82 s to 29, 40 and 56 s (year three 32 percent faster), donations from 7,190 to 1,319 a year and volunteer sessions from 6,805 to 3,859, while `cause.shared` rose from 3,888 to 4,715 as the freed days went to other acts. Bethany Beach, Delaware shows the same pattern in its profile (daily choices 5.7 s in year one to 99.7 s in year three; years 39, 73 and 144 s). It is not enough alone: a bigger town's third year would still be several times the two-minute rule, and the gifts change the money the giving check reads. `scripts/core2-year/giving-proof.ts` (Trenton, North Carolina, seed bdbb4f011961, two years) gives 40 givers making 4,159 gifts and $15,157 now; with a 91-day interval 100 give 1,007 gifts and $2,825; raising `donationShareOfSpare` from 0.001 to 0.005 brings the full people to $12,475 but the counted raises, which read the same share, rise from $2,855 to $12,143. The note in the parameter says real donors give a few times a year where the model has them give about 80, so an interval is the faithful shape; doing it needs the share split between full givers and counted raises and the giving total re-checked against its Giving USA figure.
+
+Duplicate of core-speed-contact-offers-grow-with-ties (Oct 25 audit). Same Bedford, Wyoming slowdown (offers per drive holder growing each year).
+
 **What.** A town's second and third years run 1.5 and 2.3 times slower than its first because activists are offered more acts each year. The drives engine keeps growing the list of acts it offers and re-reads it for every holder every day. Make the daily cost depend on what changed that day, with the offer list kept bounded by what a holder can actually act on, so a later year costs about what the first did.
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower than its base; never scan a whole history every day. Sliding scales and causes: trimming offers must follow from the holder's drives and means, not a cutoff or a roll.
