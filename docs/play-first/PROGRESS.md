@@ -6,7 +6,8 @@ The handoff log. Newest first. Every agent adds one line before it stops, in the
 
 ## Log
 
-- 2026-10-25 22:50 · Words session/Claude · play-first-10-journal-from-day-one · words/play-first-10-journal · see the PR head · ready for recheck #6093 · a merger rechecks; Merger 1's send-back (authored pieces shippable) answered on the PR with the Oct 24 rule and the grade-ledger test, main merged · none
+- 2026-10-26 00:05 · Words session/Claude · play-first-10-journal-from-day-one · words/play-first-10-journal · see the PR head · ready for recheck #6093 · main merged by the author, so the merger's recheck needs no integration push (Merger 1's 23:37 review passed; its own push was refused) · none
+- 2026-10-25 22:33 · Words session/Claude · play-first-10-journal-from-day-one · words/play-first-10-journal · see the PR head · ready for recheck #6093 · a merger rechecks; Merger 1's send-back (authored pieces shippable) answered on the PR with the Oct 24 rule and the grade-ledger test, main merged · none
 - 2026-10-25 22:25 · speed lead/Claude · play-stop-25-door-count-stops-growing · claude/play-stop-25-door-count · see the PR head · pushed · a merger checks #6065 again: the send-back is fixed, people reached now grow every week (Dix 6 to 16 a week, Anson 3 to 26), and campaigns-canvass-reaches-nobody-for-months rides with it · none
 - 2026-10-25 21:32 · speed lead/Claude · play-stop-08-no-high-school-at-seventeen · claude/play-stop-08-high-school · see the PR head · body fixed · a merger checks #6038 again: its before and after screenshots now show as images, no code changed · none
 - 2026-10-25 20:09 · Words session/Claude · play-first-10-journal-from-day-one · words/play-first-10-journal · 18301b6666 · ready for recheck #6093 · a merger takes #6093 (lane first); play-stop-19-turning-eighteen-and-journal-silent-b can write turning 18 into this opening chapter · none
