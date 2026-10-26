@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/journal-own-unopposed-win
-pr:
+pr: #6123
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T00:14:27.187Z
