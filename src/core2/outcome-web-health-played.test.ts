@@ -24,10 +24,20 @@
  * and the month each link first moved in the treated world shows no effect in
  * the control wherever its law then stood at the base.
  *
- * The two links into the uninsured share run on their lags here; the engine
- * that reads them is the coverage review (web-coverage-reads), so this test
- * checks only that they run. Played in a place drawn from all 56 on a seed
- * nobody chose.
+ * The two links into the uninsured share (the Medicaid expansion and its work
+ * requirement) run on their lags here. The coverage review, which reads the
+ * uninsured share, gives employer plans only, so it leaves both out
+ * (`readerGap`) while it keeps reading the job-loss link; every look checks
+ * that. The web keeps both on the uninsured share, which the graduation link
+ * reads five years on. A run long enough for a graduation to read that
+ * (HEALTH_PLAYED_DAYS=2345 reaches the June 2031 one, the first after the work
+ * requirement's) follows each to the school engine's graduation measure: the
+ * web month it read, the graduation link's effect there, and that effect's
+ * part owed to the Medicaid link, from the uninsured share five years
+ * earlier. Such a run first draws again, from the opening alone, until the
+ * place lacked the expansion at the base: the change enacts it there, and the
+ * work requirement acts only where the expansion stands. Played in a place
+ * drawn from all 56 on a seed nobody chose.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -47,8 +57,15 @@ import {
 } from "./modules/outcome-web";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { countedHouseholdsByPlace } from "./modules/residents";
-import { CALIBRATED_AT, moderatorScale, WEB_LINKS } from "./outcome-web-model";
+import {
+  CALIBRATED_AT,
+  moderatorScale,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
+import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
+import { SCHOOL_MEASURE, type SchoolResultRow } from "./school-outcomes";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -85,6 +102,27 @@ const LAWS = [...new Set(FAMILY.map(seriesOf))];
 const LAW_LINKS = WEB_LINKS.filter(
   (row) => isLaw(row.from) && LAWS.includes(seriesOf(row)),
 );
+/** The links into the uninsured share its reader cannot apply, and those it reads. */
+const GAPPED = FAMILY.filter((row) => row.to === UNINSURED && row.readerGap);
+const READ_INTO_UNINSURED = (WIRED_INTO.get(UNINSURED) ?? []).filter(
+  (row) => !row.readerGap,
+);
+/** The running link from the uninsured share to graduation, which carries the gapped links on. */
+const ONWARD = (WIRED_INTO.get(SCHOOL_MEASURE.graduation) ?? []).find(
+  (row) => row.from === UNINSURED,
+)!;
+/** A run long enough for a graduation to read the uninsured share as a gapped link moved it. */
+const KNOCK_ON = DAYS >= ONWARD.lagMonths * 30 + 365;
+/** The laws a gapped link acts only under: a knock-on run needs the change to enact them. */
+const GATING = [
+  ...new Set(
+    GAPPED.flatMap((row) =>
+      row.moderator?.mode === "only-when" && isLaw(row.moderator.measure)
+        ? [row.moderator.measure.replace(/^law:/, "")]
+        : [],
+    ),
+  ),
+];
 const MUST_RUN = FAMILY.filter(
   (row) =>
     `${monthsAfter(gameStartDate(), row.lagMonths + 1).slice(0, 8)}05` <=
@@ -145,11 +183,38 @@ function changeLaw(
     enact(row.jurisdiction, row.level, row.effectiveDate);
 }
 
+/**
+ * The seed a run plays. A knock-on run draws again, from the opening alone,
+ * until the place lacked every gating law at the base, so the change enacts
+ * it and each gapped link can run; any other run plays the seed as given.
+ */
+function playedSeed(base: string): string {
+  if (!KNOCK_ON || !GATING.length) return base;
+  const passed: string[] = [];
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    const drawSeed = attempt ? `${base}:${attempt}` : base;
+    const place = drawPlace(drawSeed, "health-played");
+    const { core } = buildBenchWorld(drawSeed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    const held = GATING.filter(
+      (series) => lawValue(api, series, CALIBRATED_AT, true) === 1,
+    );
+    if (!held.length) return drawSeed;
+    passed.push(`${place.name}, ${place.state} (${held.join(", ")})`);
+  }
+  throw new Error(`no place lacked ${GATING.join(", ")}: ${passed.join("; ")}`);
+}
+
 /** On each 4th, after the death engine's refresh: the month it read, the web's reach for each death outcome, and each full person's factor. */
 interface Look {
   readonly date: string;
   readonly rowId: string;
   readonly reach: Readonly<Record<string, ReturnType<typeof webReach>>>;
+  /** The links in the factor the coverage review reads for a worker of 40. */
+  readonly uninsuredLinks: readonly string[];
   readonly people: ReadonlyMap<
     string,
     { age: number; factor: number; reads: boolean; links: string[] }
@@ -253,6 +318,9 @@ function play(drawSeed: string, change = true) {
             webReach(api, town, measure, { age: ages.from }),
           ]),
         ),
+        uninsuredLinks: webReach(api, town, UNINSURED, { age: 40 }).parts.map(
+          (part) => part.link,
+        ),
         people,
         counted: Object.fromEntries(
           Object.entries(DEATHS).map(([measure, ages]) => [
@@ -277,6 +345,30 @@ function play(drawSeed: string, change = true) {
       webDeathRecordId: string | null;
     }[]
   ).filter((row) => !row.placeId || row.placeId === town);
+  // The town's graduation measures, each with the web month it read, and a
+  // few of the full seniors it decided.
+  const school = api.moduleState(SCHOOL_MODULE_ID);
+  const seniors = new Map<string, string[]>();
+  for (const result of school
+    .table("results")
+    .rows() as unknown as SchoolResultRow[])
+    if (
+      result.measure === SCHOOL_MEASURE.graduation &&
+      result.placeId === town &&
+      result.weight === undefined
+    )
+      seniors.set(result.measureId, [
+        ...(seniors.get(result.measureId) ?? []),
+        result.id,
+      ]);
+  const graduations = (
+    school.table("measures").rows() as unknown as SchoolMeasureRow[]
+  )
+    .filter(
+      (row) =>
+        row.placeId === town && row.measure === SCHOOL_MEASURE.graduation,
+    )
+    .map((row) => ({ ...row, seniors: seniors.get(row.id) ?? [] }));
   return {
     core,
     place,
@@ -287,6 +379,7 @@ function play(drawSeed: string, change = true) {
     rows: townRows(),
     looks,
     counts,
+    graduations,
   };
 }
 
@@ -357,8 +450,9 @@ describe(`health laws reach people's death risk on the web's own lags in a playe
   it("each law's links run while the law a lag earlier differs from the base, and the death engine reads them for full and counted people", () => {
     const priorBookkeeping = setBookkeeping(false);
     try {
-      const ctl = control(seed);
-      const run = play(seed);
+      const drawSeed = playedSeed(seed);
+      const ctl = control(drawSeed);
+      const run = play(drawSeed);
       const { atBase, effective, rows, looks, counts } = run;
       const where = `${run.place.name}, ${run.place.state}, seed ${run.drawSeed}`;
       const byId = new Map(rows.map((row) => [row.id, row]));
@@ -508,9 +602,82 @@ describe(`health laws reach people's death risk on the web's own lags in a playe
           };
         });
 
+      // The coverage review leaves out each link it cannot apply, at every
+      // look, and keeps the job-loss link in whatever month that one moved.
+      for (const look of looks) {
+        const month = byId.get(look.rowId)!;
+        for (const row of GAPPED)
+          expect(
+            look.uninsuredLinks,
+            `${where}: the coverage review on ${look.date} (${month.id})`,
+          ).not.toContain(row.key);
+        for (const row of READ_INTO_UNINSURED)
+          if ((month.effects[row.key] ?? 0) !== 0)
+            expect(
+              look.uninsuredLinks,
+              `${where}: the coverage review on ${look.date} reads ${row.key}`,
+            ).toContain(row.key);
+      }
+
+      // Each gapped link that ran, five years on: the first graduation whose
+      // web month's graduation link read the uninsured share in a month the
+      // gapped link moved, and that link's part of the graduation effect.
+      // The uninsured share is its base times each link's factor, so the
+      // part owed to one link is the graduation link's size times the share
+      // less the share without that link's factor.
+      const monthBefore = (month: string, months: number) =>
+        monthsAfter(`${month}-01`, -months).slice(0, 7);
+      const knockOns = GAPPED.filter((row) => firstMoved.has(row.key)).map(
+        (row) => {
+          const read = run.graduations
+            .map((measure) => {
+              const month = measure.webRecordId
+                ? byId.get(measure.webRecordId)
+                : undefined;
+              const cause = month
+                ? rows.find(
+                    (m) =>
+                      m.month === monthBefore(month.month, ONWARD.lagMonths),
+                  )
+                : undefined;
+              return { measure, month, cause };
+            })
+            .filter(
+              (r): r is typeof r & { month: WebMonth; cause: WebMonth } =>
+                r.month !== undefined && r.cause !== undefined,
+            )
+            .sort((a, b) => a.month.month.localeCompare(b.month.month));
+          const due = read.filter(
+            (r) => expected(row, r.cause.date).sign !== 0,
+          );
+          const hit = read.find((r) => (r.cause.effects[row.key] ?? 0) !== 0);
+          if (KNOCK_ON && due.length)
+            expect(
+              hit,
+              `${where}: a graduation reads ${ONWARD.key} on a month ${row.key} moved`,
+            ).toBeDefined();
+          if (!hit) return { row, due: due.length, hit: undefined };
+          const share = hit.cause.values[UNINSURED]!;
+          const own = hit.cause.effects[row.key]!;
+          const part = ONWARD.size! * (share - share / (1 + own));
+          const onward = hit.month.effects[ONWARD.key] ?? 0;
+          const at = `${where}: ${row.key} through ${ONWARD.key}, ${hit.measure.id} read ${hit.month.id}, which read ${hit.cause.id}`;
+          expect(ONWARD.sizeByPlace, at).toBeUndefined();
+          expect(sign(part), at).toBe(sign(ONWARD.size!) * sign(own));
+          expect(onward, at).not.toBe(0);
+          return { row, due: due.length, hit, share, own, part, onward };
+        },
+      );
+
       console.log(
         [
           `health played: ${where}; laws changed from ${effective}, ${DAYS} days played`,
+          ...knockOns.map((k) =>
+            k.hit
+              ? `${k.row.key} through ${ONWARD.key}: graduation ${k.hit.measure.id} (${k.hit.measure.date}) read ${k.hit.month.id}, whose ${ONWARD.key} effect ${k.onward} read the uninsured share ${k.share} in ${k.hit.cause.id}, where ${k.row.key} was ${k.own}: its part ${k.part}; ${k.hit.measure.passed} of ${k.hit.measure.students} seniors graduated (expected ${k.hit.measure.expected}), full seniors e.g. ${k.hit.measure.seniors.slice(0, 2).join(", ") || "none"}`
+              : `${k.row.key} through ${ONWARD.key}: no graduation in the run read a month it moved (${k.due} due)`,
+          ),
+          `the coverage review read ${[...new Set(looks.flatMap((look) => look.uninsuredLinks))].join(", ") || "no link"} at its looks, never ${GAPPED.map((row) => row.key).join(" or ")}`,
           ...contrasts.map(
             (c) =>
               `${c.key}: first moves in ${c.monthId} (${c.treated}), after ${c.before}; the control's ${c.monthId}: ${c.control}`,
