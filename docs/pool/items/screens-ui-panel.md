@@ -5,13 +5,14 @@ area: play
 kind: cleanup
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/screens-ui-panel
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: screens
 milestone: play-first
+claimed-at: 2026-10-26T20:01:01.331Z
 ---
 
 **What.** The owner ruled on Oct 26 that the play screen's controls come from one shared set, not one-off copies in play.mjs. This is the first part: how a panel opens and closes, and the close control every panel carries. Today the sheet, the person card and the news reader each hand-write their own close button in play.html, and play.mjs holds its own show(). They move to src/bench/ui/panel.mjs, and the old copies are deleted. Looks and behavior do not change.
