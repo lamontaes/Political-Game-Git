@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/web-unwired-fire-link-row
-pr:
+pr: #6141
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T04:51:45.085Z
