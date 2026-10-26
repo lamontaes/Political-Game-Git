@@ -25,7 +25,8 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
-import { spoken } from "./words";
+import { properName, spoken } from "./words";
+import { PRESS_STORY_EVENT } from "../core2/press-desk";
 
 export interface PurposeScene {
   typeKey: string;
@@ -154,6 +155,41 @@ function composeBinding(
       text: said.problem,
       sourceRecordIds: [moment.causeId],
     };
+  // A printed story that runs against the person or their bill (press-desk.ts
+  // recordNamed): the outlet that ran it, who wrote it, and what it is about.
+  if (record?.kind === PRESS_STORY_EVENT) {
+    const outlet = core.organizations.get(said.outletId ?? "");
+    const cited = [moment.causeId, said.storyId ?? moment.causeId];
+    if (outlet) {
+      facts.outlet = {
+        text: properName(outlet.name),
+        sourceRecordIds: [...cited, outlet.id],
+      };
+      facts["press-story"] = facts.outlet;
+    }
+    const reporter = core.people.get((said.reporterId ?? "") as PersonId);
+    if (reporter)
+      facts.reporter = {
+        text: `${reporter.givenName} ${reporter.familyName}`,
+        sourceRecordIds: [...cited, reporter.id],
+      };
+    const bill =
+      said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
+        ? billOf(coreAPI(core as CoreState), said.billId)
+        : undefined;
+    if (
+      bill?.number &&
+      said.sponsorId === askedId &&
+      said.billFraming === "against"
+    ) {
+      facts.bill = {
+        text: spokenDesignation(bill.number, bill.form.kind),
+        sourceRecordIds: [bill.id, ...cited],
+      };
+      facts["about-bill"] = facts.bill;
+    } else if (said.subjectId === askedId && said.subjectFraming === "against")
+      facts["about-you"] = { text: asked.givenName, sourceRecordIds: cited };
+  }
   if (said.office)
     facts.office = {
       text: said.office,
