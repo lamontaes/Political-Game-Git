@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-official-ties-on-screen
-pr:
+pr: #6162
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from gov-officials-legislators-know-no-one)
 lead: play-first
