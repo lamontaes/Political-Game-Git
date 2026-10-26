@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/budgets.test.ts
 
 **Notes.** Run logs: the six files are budgets-public-pay, budgets-treasury-reserve, budgets, withholding-outside-governments, tax-withholding and official-pay-withholding. budgets-public-pay.test.ts passed in all ten.
+
+Folded into tests-world-tests-outgrow-worker-heap (Oct 25 audit).

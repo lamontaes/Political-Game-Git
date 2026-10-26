@@ -718,7 +718,7 @@
     "doorAnswerThreshold": {
       "value": 0.46,
       "tag": "TUNABLE",
-      "source": "How ready the adult home who is most willing must be to open to a canvasser, before personality: their age term. Personality adds the calibrated campaigns.open-door weight times their lean. Set so the same 18% of adults open as under the earlier hand-set trait scale, measured over Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each; field contact rates run a quarter to a third of doors knocked, which counts a home once any adult opens (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005).",
+      "source": "Where a home opens to a canvasser one knock in two: the readiness of its most willing adult home, before personality, is their age term less this. Personality adds the calibrated campaigns.open-door weight times their lean, and doorAnswerScale slides the share either side. Kept where 18% of adults stood past it under the earlier hand-set trait scale (Newfane VT, Ute IA, Clifton KS and Cameron SC, a played year each); with doorAnswerScale it puts a quarter to a third of doors knocked open, the field contact rate, which counts a home once any adult opens (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005).",
       "spread": [0.2, 0.9]
     },
     "volunteerClosenessWeight": {
@@ -732,6 +732,12 @@
       "tag": "TUNABLE",
       "source": "How strong someone's pull to volunteer must be, before personality: their warmth and closeness to the candidate, less their hours of work. Personality adds the calibrated campaigns.volunteer weight times their lean. Set at the value where about 0.9% of the people a candidate asks say yes across Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each, and where the share of a candidate's acquaintances who volunteer stays inside the 31% top of the range src/core2/campaign-calibration.test.ts holds (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that). A weaker, researched personality term leaves closeness to decide, so the threshold sits above where the earlier hand-set trait scale put the pool's rate.",
       "spread": [0.6, 1.4]
+    },
+    "doorAnswerScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far readiness slides the share of knocks a home opens (a logistic step): a home whose most willing adult is right at the threshold opens one knock in two, one this far past it about three in four, one this far short about one in four. Set with doorAnswerThreshold so a quarter to a third of the doors knocked open, the field contact rate (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005): over a played weekly canvass of every door, 30% in Anson TX and 27% in Dix NE.",
+      "spread": [0.2, 0.8]
     },
     "doorAnswerPivotAge": {
       "value": 55,

@@ -15,6 +15,7 @@ import type { Stance } from "../core2/campaign-views";
 import {
   campaignDayChoices,
   takeCampaignDayChoice,
+  type CampaignDayChoice,
   type CampaignDayKind,
 } from "../core2/campaign-day";
 import type { FilingRow } from "../core2/modules/elections";
@@ -57,6 +58,41 @@ const OUTINGS: Partial<
   event: "event",
   interview: "interview",
 };
+
+/**
+ * Why the records keep a campaign outing from the player today, as the key of
+ * its words in the screen's controls and the record figures they show.
+ */
+function whyNot(
+  choice: CampaignDayChoice,
+): { key: string; priceMinor?: number; cashMinor?: number } | undefined {
+  switch (choice.kind) {
+    case "canvass":
+      return choice.facts.households > 0 ? undefined : { key: "noHouseholds" };
+    case "event":
+      if (choice.facts.platformStances === 0) return { key: "noPlatform" };
+      return choice.facts.cashMinor < choice.facts.venuePriceMinor
+        ? {
+            key: "eventMoney",
+            priceMinor: choice.facts.venuePriceMinor,
+            cashMinor: choice.facts.cashMinor,
+          }
+        : undefined;
+    case "interview": {
+      const { outletsHere, outletsDone, outletsFull } = choice.facts;
+      if (outletsHere === 0) return { key: "noOutlet" };
+      if (outletsDone === outletsHere) return { key: "interviewed" };
+      // The rest have no room this week, or (television) want a better-known candidate.
+      return { key: outletsFull > 0 ? "outletsFull" : "notKnown" };
+    }
+    case "raise-money":
+      return {
+        key: choice.facts.reachable === 0 ? "nobodyReached" : "allGave",
+      };
+    default:
+      return undefined;
+  }
+}
 
 /** The outlet to ask first: the town's own before a regional or national one. */
 function townFirst(api: CoreAPI, outletIds: readonly string[]) {
@@ -118,12 +154,14 @@ export function campaignView(core: CoreState, personId: string) {
                   choice.facts.outlets.map((o) => o.outletId),
                 ))
               : undefined;
+          const why = choice.available ? undefined : whyNot(choice);
           return [
             {
               outing,
               hours: choice.hours,
               available: choice.available,
               ...(outletId ? { outletId } : {}),
+              ...(why ? { why } : {}),
             },
           ];
         }),
@@ -353,7 +391,11 @@ function speechScene(
       place,
       ids.map((id) => {
         const row = core.people.get(id)!;
-        return { id, name: `${row.givenName} ${row.familyName}` };
+        return {
+          id,
+          name: `${row.givenName} ${row.familyName}`,
+          reason: id === personId ? ("you" as const) : ("reached" as const),
+        };
       }),
     ),
   };
@@ -422,7 +464,11 @@ function outingScene(
       place,
       ids.map((id) => {
         const row = core.people.get(id)!;
-        return { id, name: `${row.givenName} ${row.familyName}` };
+        return {
+          id,
+          name: `${row.givenName} ${row.familyName}`,
+          reason: id === personId ? ("you" as const) : ("reached" as const),
+        };
       }),
     ),
   };

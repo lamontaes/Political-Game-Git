@@ -91,6 +91,22 @@ function pageWhenChanged(box, pager) {
 }
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+const compactWords = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  compactDisplay: "long",
+  maximumFractionDigits: 1,
+});
+/**
+ * A government's sum in a readable unit: "$5.2 trillion", or whole dollars
+ * to three figures below a million ("$48,300", "$12").
+ */
+const roundedDollars = (minor) => {
+  const whole = Math.round(Math.abs(minor / 100));
+  const sign = minor < 0 && whole > 0 ? "−" : "";
+  return whole >= 1e6
+    ? `${sign}$${compactWords.format(whole)}`
+    : `${sign}$${Math.round(Number(whole.toPrecision(3))).toLocaleString("en-US")}`;
+};
 /** The player card's date, and the time under it: the only place either appears. */
 function setClock(at) {
   const day = new Date(`${at.date}T12:00:00`).toLocaleDateString("en-US", {
@@ -1099,19 +1115,37 @@ function renderFiling(value) {
   }));
   $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
   renderFilingOverlay(value);
-  $("talk-choices").replaceChildren(
-    ...replies(value.visit.choices.slice(0, 6), async (choice) => {
-      // Filing carries the platform and party chosen on the overlay.
-      const params = new URLSearchParams({ key: choice.key });
-      if (choice.action.kind === "file") {
-        for (const select of $("filing-platform").querySelectorAll("select"))
-          if (select.value)
-            params.append("stance", `${select.name}=${select.value}`);
-        params.set("party", $("filing-party").value);
-      }
-      renderFiling(await post(`/api/filing/choose?${params}`));
-    }),
-  );
+  const choices = value.visit.choices.slice(0, 6);
+  const buttons = replies(choices, async (choice) => {
+    // Filing carries the platform and party chosen on the overlay.
+    const params = new URLSearchParams({ key: choice.key });
+    if (choice.action.kind === "file") {
+      for (const select of $("filing-platform").querySelectorAll("select"))
+        if (select.value)
+          params.append("stance", `${select.name}=${select.value}`);
+      params.set("party", $("filing-party").value);
+    }
+    renderFiling(await post(`/api/filing/choose?${params}`));
+  });
+  // Each race told apart before the pick: its seat, its election day and
+  // who holds the seat now, from the contest's records.
+  const counter = controls.filing;
+  choices.forEach((choice, i) => {
+    const seat =
+      choice.action.kind === "pick" && value.seats?.[choice.action.contestId];
+    if (!seat) return;
+    buttons[i].append(
+      el("small", {
+        className: "reply-facts",
+        textContent: [
+          ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
+          proseDate(seat.electionDate),
+          seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
+        ].join(" · "),
+      }),
+    );
+  });
+  $("talk-choices").replaceChildren(...buttons);
   // The filing's record once it is made: its status.
   if (value.result)
     $("talk-lines").append(
@@ -1401,10 +1435,17 @@ async function campaignRows() {
           "div",
           {},
           ...(outings ?? []).map((choice) => {
+            // A grayed outing says why, from the records.
+            const why = choice.why
+              ? (controls.campaignUnavailable[choice.why.key] ?? "")
+                  .replace("{price}", dollars(choice.why.priceMinor ?? 0))
+                  .replace("{cash}", dollars(choice.why.cashMinor ?? 0))
+              : "";
             const b = el("button", {
               type: "button",
-              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
+              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
               disabled: !choice.available,
+              title: why,
             });
             b.addEventListener("click", () =>
               goOut(choice.outing, choice.outletId),
@@ -2890,7 +2931,7 @@ const sheets = {
             el("span", { className: "label", textContent: label }),
             el("strong", {
               className: "record-total",
-              textContent: dollars(value),
+              textContent: roundedDollars(value),
             }),
           ),
         );
@@ -2903,7 +2944,7 @@ const sheets = {
         const chart = comparison(
           lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
           label,
-          dollars,
+          roundedDollars,
         );
         const rows = [...chart.children];
         if (gov.youAreExecutive && label === labels.spending)
@@ -4018,11 +4059,11 @@ async function openSheet(tab) {
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
-  const holdsOffice =
-    group === "politics" &&
-    (await api(`/api/government?id=${encodeURIComponent(me.id)}`)).seats.some(
-      (s) => s.holder?.personId === me.id,
-    );
+  const politics =
+    group === "politics"
+      ? await api(`/api/government?id=${encodeURIComponent(me.id)}`)
+      : { seats: [], filings: [], ofVotingAge: false };
+  const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
@@ -4031,7 +4072,13 @@ async function openSheet(tab) {
       .filter(
         (name) =>
           (name !== "results" || seenResults > 0) &&
-          (name !== "office" || holdsOffice),
+          (name !== "office" || holdsOffice) &&
+          // Budgets wait until they are the player's business: an office, a
+          // filing, or the age to vote.
+          (name !== "budgets" ||
+            holdsOffice ||
+            politics.filings.length > 0 ||
+            politics.ofVotingAge),
       )
       .map((name) => {
         const b = el("button", {
