@@ -1401,10 +1401,17 @@ async function campaignRows() {
           "div",
           {},
           ...(outings ?? []).map((choice) => {
+            // A grayed outing says why, from the records.
+            const why = choice.why
+              ? (controls.campaignUnavailable[choice.why.key] ?? "")
+                  .replace("{price}", dollars(choice.why.priceMinor ?? 0))
+                  .replace("{cash}", dollars(choice.why.cashMinor ?? 0))
+              : "";
             const b = el("button", {
               type: "button",
-              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
+              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
               disabled: !choice.available,
+              title: why,
             });
             b.addEventListener("click", () =>
               goOut(choice.outing, choice.outletId),
