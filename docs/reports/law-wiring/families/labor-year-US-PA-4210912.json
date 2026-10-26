@@ -32,14 +32,14 @@
         "sample": []
       },
       "reach": {
-        "fullPeople": 63,
+        "fullPeople": 65,
         "countedGroups": 13,
         "countedPeople": 1140,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 76,
+        "open": 78,
         "ended": 0,
         "sample": [
           "reach:law:US-PA:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4:workers:person_9fc566fe39ded2c7:2025-01-21",
@@ -49,14 +49,14 @@
         ]
       },
       "reachAtEnd": {
-        "fullPeople": 63,
+        "fullPeople": 65,
         "countedGroups": 13,
         "countedPeople": 1140,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 76,
+        "open": 78,
         "ended": 0,
         "sample": [
           "reach:law:US-PA:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4:workers:person_9fc566fe39ded2c7:2025-01-21",
@@ -70,7 +70,7 @@
         "src/core2/modules/legislature.ts:2126": 1229,
         "src/core2/modules/world-legislating.ts:253": 222,
         "src/core2/modules/world-legislating.ts:183": 90,
-        "src/core2/wage-floor.ts:127": 12,
+        "src/core2/wage-floor.ts:127": 14,
         "src/core2/modules/world-legislating.ts:333": 4,
         "src/core2/law-reach/group-a-records.ts:260 <- src/core2/question-wages.ts:188": 4,
         "src/core2/life.ts:556": 3,
@@ -81,123 +81,123 @@
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
-            "treatment": 12348675467,
-            "control": 12275156779,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 2813433844,
+            "control": 2745656065,
             "ids": [
-              "journal:2025-01-21:1671",
-              "journal:2025-01-21:1672",
-              "journal:2025-01-21:1673"
+              "journal:2025-02-01:4180",
+              "journal:2025-02-01:4181",
+              "journal:2025-02-01:4182"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-            "treatment": 4688856827,
-            "control": 4626410741,
+            "treatment": 4666266509,
+            "control": 4598851091,
             "ids": [
-              "journal:2025-01-21:1716",
-              "journal:2025-01-25:1735",
-              "journal:2025-01-25:1737"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
-            "treatment": 2809286069,
-            "control": 2757624727,
-            "ids": [
-              "journal:2025-02-01:3908",
-              "journal:2025-02-01:3909",
-              "journal:2025-02-01:3910"
+              "journal:2025-01-21:1779",
+              "journal:2025-01-25:1799",
+              "journal:2025-01-25:1801"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-            "treatment": 8714403396,
-            "control": 8760241576,
+            "treatment": 8794360419,
+            "control": 8759768392,
             "ids": [
-              "journal:2025-02-01:4346",
-              "journal:2025-02-01:4347",
-              "journal:2025-02-01:4348"
-            ]
-          },
-          {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-            "treatment": 1525093852,
-            "control": 1502968003,
-            "ids": [
-              "journal:2025-02-01:2329",
-              "journal:2025-02-01:2330",
-              "journal:2025-02-01:2331"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 748029274,
-            "control": 765409955,
-            "ids": [
-              "journal:2025-01-21:1699",
-              "journal:2025-01-21:1700",
-              "journal:2025-01-21:1701"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:904",
-            "treatment": 177165306079671,
-            "control": 177165323349386,
-            "ids": [
-              "journal:2025-02-01:1858",
-              "journal:2025-02-01:1859",
-              "journal:2025-02-01:1860"
+              "journal:2025-02-01:4618",
+              "journal:2025-02-01:4619",
+              "journal:2025-02-01:4620"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-            "treatment": 1484234545,
-            "control": 1496932313,
+            "treatment": 1542378151,
+            "control": 1507972969,
             "ids": [
-              "journal:2025-01-21:1717",
-              "journal:2025-02-01:2287",
-              "journal:2025-02-01:2289"
+              "journal:2025-01-21:1780",
+              "journal:2025-01-21:1781",
+              "journal:2025-02-01:2351"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 722102999,
+            "control": 751677299,
+            "ids": [
+              "journal:2025-01-21:1762",
+              "journal:2025-01-21:1763",
+              "journal:2025-01-21:1764"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 1532517665,
+            "control": 1503421105,
+            "ids": [
+              "journal:2025-02-01:2393",
+              "journal:2025-02-01:2394",
+              "journal:2025-02-01:2395"
             ]
           },
           {
             "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-            "treatment": 611565720,
-            "control": 602390280,
+            "treatment": 602892659,
+            "control": 628101188,
             "ids": [
-              "journal:2025-01-29:1800",
-              "journal:2025-01-29:1803",
-              "journal:2025-01-30:1816"
+              "journal:2025-01-29:1864",
+              "journal:2025-01-29:1867",
+              "journal:2025-01-30:1880"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 713784534599740,
+            "control": 713784524355998,
+            "ids": [
+              "journal:2025-02-01:1932",
+              "journal:2025-02-01:1933",
+              "journal:2025-02-01:1934"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177165320354267,
+            "control": 177165329717495,
+            "ids": [
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1923",
+              "journal:2025-02-01:1924"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
+            "treatment": 293280096,
+            "control": 300964466,
+            "ids": [
+              "journal:2025-02-01:2350",
+              "journal:2025-02-03:9779",
+              "journal:2025-02-03:9780"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/life.ts:558",
-            "treatment": 215386112,
-            "control": 223378645,
+            "treatment": 228414579,
+            "control": 235370828,
             "ids": [
-              "journal:2025-02-21:10851",
-              "journal:2025-02-21:10852",
-              "journal:2025-02-21:10853"
+              "journal:2025-01-21:1690",
+              "journal:2025-01-21:1691",
+              "journal:2025-01-21:1692"
             ]
           },
           {
-            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-            "treatment": 118646855,
-            "control": 113447053,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:859",
+            "treatment": 145033333,
+            "control": 150220383,
             "ids": [
-              "journal:2025-01-25:1736",
-              "journal:2025-01-25:1738",
-              "journal:2025-01-25:1740"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-            "treatment": 196464939,
-            "control": 192035441,
-            "ids": [
-              "journal:2025-02-01:2367",
-              "journal:2025-02-01:2370",
-              "journal:2025-02-01:2373"
+              "journal:2025-02-01:4171",
+              "journal:2025-03-01:14917",
+              "journal:2025-04-01:27075"
             ]
           }
         ],
@@ -205,54 +205,55 @@
         "cited": [],
         "controlCited": [],
         "own": {
-          "targets": 70,
+          "targets": 31,
+          "among": "paid",
           "pairs": [
             {
               "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
               "way": "out",
-              "targets": 36,
-              "moved": 1197158,
-              "earliest": "2025-03-01",
+              "targets": 19,
+              "moved": 1064706,
+              "earliest": "2025-02-01",
               "sample": [
                 {
-                  "target": "person_001696f03f862595",
-                  "row": "reach:law:US-PA:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4:workers:person_001696f03f862595:2025-01-21",
-                  "date": "2025-03-01",
+                  "target": "person_32081234a0b3128e",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_32081234a0b3128e",
+                  "date": "2025-02-01",
                   "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
                   "way": "out",
-                  "treatment": -237706,
-                  "control": -230427,
-                  "journal": "journal:2025-03-01:14079"
+                  "treatment": -22213,
+                  "control": -21712,
+                  "journal": "journal:2025-02-01:3744"
                 },
                 {
-                  "target": "person_00bc0623849f5767",
-                  "row": "reach:law:US-PA:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4:workers:person_00bc0623849f5767:2025-01-21",
-                  "date": "2025-03-01",
+                  "target": "person_4827a24b37f835aa",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_4827a24b37f835aa",
+                  "date": "2025-02-01",
                   "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
                   "way": "out",
-                  "treatment": -91283,
-                  "control": -88666,
-                  "journal": "journal:2025-03-01:14584"
+                  "treatment": -64433,
+                  "control": -63029,
+                  "journal": "journal:2025-02-01:3029"
                 },
                 {
-                  "target": "person_00fb7405f2c0ca9b",
-                  "row": "reach:law:US-PA:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4:workers:person_00fb7405f2c0ca9b:2025-01-21",
-                  "date": "2025-03-01",
+                  "target": "person_edbba7b9cb4f27fc",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_edbba7b9cb4f27fc",
+                  "date": "2025-02-01",
                   "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
                   "way": "out",
-                  "treatment": -91283,
-                  "control": -88666,
-                  "journal": "journal:2025-03-01:14375"
+                  "treatment": -9300,
+                  "control": -7444,
+                  "journal": "journal:2025-02-01:3358"
                 },
                 {
-                  "target": "person_0142a00e7a0ea020",
-                  "row": "reach:law:US-PA:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4:workers:person_0142a00e7a0ea020:2025-01-21",
+                  "target": "person_5c22b2b8998442ee",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_5c22b2b8998442ee",
                   "date": "2025-03-01",
                   "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
                   "way": "out",
-                  "treatment": -91283,
-                  "control": -88666,
-                  "journal": "journal:2025-03-01:14333"
+                  "treatment": -81627,
+                  "control": -52308,
+                  "journal": "journal:2025-03-01:12311"
                 }
               ]
             },
@@ -260,7 +261,7 @@
               "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
               "way": "in",
               "targets": 19,
-              "moved": 646189,
+              "moved": 773357,
               "earliest": "2025-01-31",
               "sample": [
                 {
@@ -271,7 +272,7 @@
                   "way": "in",
                   "treatment": 23963,
                   "control": 22390,
-                  "journal": "journal:2025-01-31:1833"
+                  "journal": "journal:2025-01-31:1897"
                 },
                 {
                   "target": "person_32081234a0b3128e",
@@ -281,7 +282,7 @@
                   "way": "in",
                   "treatment": 24469,
                   "control": 23908,
-                  "journal": "journal:2025-02-01:2323"
+                  "journal": "journal:2025-02-01:2387"
                 },
                 {
                   "target": "person_934813480875e20d",
@@ -291,7 +292,7 @@
                   "way": "in",
                   "treatment": 30464,
                   "control": 22858,
-                  "journal": "journal:2025-02-01:2320"
+                  "journal": "journal:2025-02-01:2384"
                 },
                 {
                   "target": "person_edbba7b9cb4f27fc",
@@ -301,7 +302,7 @@
                   "way": "in",
                   "treatment": 23710,
                   "control": 21631,
-                  "journal": "journal:2025-02-01:2326"
+                  "journal": "journal:2025-02-01:2390"
                 }
               ]
             },
@@ -309,7 +310,7 @@
               "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
               "way": "out",
               "targets": 19,
-              "moved": 114355,
+              "moved": 136412,
               "earliest": "2025-01-31",
               "sample": [
                 {
@@ -320,7 +321,7 @@
                   "way": "out",
                   "treatment": -2569,
                   "control": -2400,
-                  "journal": "journal:2025-01-31:1834"
+                  "journal": "journal:2025-01-31:1898"
                 },
                 {
                   "target": "person_32081234a0b3128e",
@@ -330,7 +331,7 @@
                   "way": "out",
                   "treatment": -2623,
                   "control": -2563,
-                  "journal": "journal:2025-02-01:2324"
+                  "journal": "journal:2025-02-01:2388"
                 },
                 {
                   "target": "person_934813480875e20d",
@@ -340,7 +341,7 @@
                   "way": "out",
                   "treatment": -3436,
                   "control": -2450,
-                  "journal": "journal:2025-02-01:2321"
+                  "journal": "journal:2025-02-01:2385"
                 },
                 {
                   "target": "person_edbba7b9cb4f27fc",
@@ -350,15 +351,15 @@
                   "way": "out",
                   "treatment": -2542,
                   "control": -2319,
-                  "journal": "journal:2025-02-01:2327"
+                  "journal": "journal:2025-02-01:2391"
                 }
               ]
             },
             {
               "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
               "way": "out",
-              "targets": 10,
-              "moved": 517738,
+              "targets": 8,
+              "moved": 452832,
               "earliest": "2025-02-01",
               "sample": [
                 {
@@ -369,27 +370,7 @@
                   "way": "out",
                   "treatment": 66610,
                   "control": 79731,
-                  "journal": "journal:2025-02-01:2300"
-                },
-                {
-                  "target": "person_5c22b2b8998442ee",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_5c22b2b8998442ee",
-                  "date": "2025-02-03",
-                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-                  "way": "out",
-                  "treatment": -397,
-                  "control": -389,
-                  "journal": "journal:2025-02-03:9491"
-                },
-                {
-                  "target": "person_edbba7b9cb4f27fc",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_edbba7b9cb4f27fc",
-                  "date": "2025-02-03",
-                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-                  "way": "out",
-                  "treatment": -292,
-                  "control": -285,
-                  "journal": "journal:2025-02-03:9471"
+                  "journal": "journal:2025-02-01:2364"
                 },
                 {
                   "target": "person_4827a24b37f835aa",
@@ -397,97 +378,58 @@
                   "date": "2025-03-01",
                   "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
                   "way": "out",
-                  "treatment": 77516,
-                  "control": 518627,
-                  "journal": "journal:2025-03-01:11701"
-                }
-              ]
-            },
-            {
-              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-              "way": "out",
-              "targets": 8,
-              "moved": 36218,
-              "earliest": "2025-02-01",
-              "sample": [
-                {
-                  "target": "person_4827a24b37f835aa",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_4827a24b37f835aa",
-                  "date": "2025-02-01",
-                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-                  "way": "out",
-                  "treatment": -12015,
-                  "control": -10611,
-                  "journal": "journal:2025-02-01:4356"
+                  "treatment": 99435,
+                  "control": 539113,
+                  "journal": "journal:2025-03-01:11974"
                 },
                 {
-                  "target": "person_5e422c4f81859765",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_5e422c4f81859765",
-                  "date": "2025-02-05",
-                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "target": "person_7a0de4932468791b",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_7a0de4932468791b",
+                  "date": "2025-07-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
                   "way": "out",
-                  "treatment": -28304,
-                  "control": -26903,
-                  "journal": "journal:2025-02-05:9696"
-                },
-                {
-                  "target": "person_8ed78aa9dcfe0b83",
-                  "row": "reach:law:US-PA:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4:workers:person_8ed78aa9dcfe0b83:2025-01-21",
-                  "date": "2025-04-01",
-                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-                  "way": "out",
-                  "treatment": -43291,
-                  "control": -38860,
-                  "journal": "journal:2025-04-01:27286"
-                },
-                {
-                  "target": "person_934813480875e20d",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_934813480875e20d",
-                  "date": "2025-04-01",
-                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-                  "way": "out",
-                  "treatment": -179,
+                  "treatment": -11,
                   "control": 0,
-                  "journal": "journal:2025-04-01:27312"
+                  "journal": "journal:2025-07-03:73592"
+                },
+                {
+                  "target": "person_8479e083d9865b8e",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_8479e083d9865b8e",
+                  "date": "2025-07-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": -7,
+                  "control": 0,
+                  "journal": "journal:2025-07-03:73607"
                 }
               ]
             },
             {
               "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
               "way": "in",
-              "targets": 7,
-              "moved": 459942,
-              "earliest": "2025-03-01",
+              "targets": 8,
+              "moved": 130536,
+              "earliest": "2025-02-01",
               "sample": [
+                {
+                  "target": "person_934813480875e20d",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_934813480875e20d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -31028,
+                  "control": -37529,
+                  "journal": "journal:2025-02-01:3104"
+                },
                 {
                   "target": "person_4827a24b37f835aa",
                   "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_4827a24b37f835aa",
                   "date": "2025-03-01",
                   "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
                   "way": "in",
-                  "treatment": -173195,
+                  "treatment": -209014,
                   "control": -215280,
-                  "journal": "journal:2025-03-01:12901"
-                },
-                {
-                  "target": "person_934813480875e20d",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_934813480875e20d",
-                  "date": "2025-03-01",
-                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-                  "way": "in",
-                  "treatment": -40435,
-                  "control": -205632,
-                  "journal": "journal:2025-03-01:13000"
-                },
-                {
-                  "target": "person_3cd462a552af7be9",
-                  "row": "reach:law:US-PA:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4:workers:person_3cd462a552af7be9:2025-01-21",
-                  "date": "2025-04-01",
-                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-                  "way": "in",
-                  "treatment": -261276,
-                  "control": -268590,
-                  "journal": "journal:2025-04-01:23634"
+                  "journal": "journal:2025-03-01:13181"
                 },
                 {
                   "target": "person_73a8eed534f4c5c4",
@@ -497,15 +439,74 @@
                   "way": "in",
                   "treatment": -103369,
                   "control": -109024,
-                  "journal": "journal:2025-05-01:39549"
+                  "journal": "journal:2025-05-01:39765"
+                },
+                {
+                  "target": "person_89cb220341ef23e1",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_89cb220341ef23e1",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -168986,
+                  "control": -171187,
+                  "journal": "journal:2025-05-01:38465"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 6,
+              "moved": 160414,
+              "earliest": "2025-08-06",
+              "sample": [
+                {
+                  "target": "person_b8c0d21788b1f297",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_b8c0d21788b1f297",
+                  "date": "2025-08-06",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 80200,
+                  "control": 0,
+                  "journal": "journal:2025-08-06:89877"
+                },
+                {
+                  "target": "person_b20c9405793d4c57",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_b20c9405793d4c57",
+                  "date": "2025-09-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -4,
+                  "journal": ""
+                },
+                {
+                  "target": "person_06e61f1395ca0a66",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_06e61f1395ca0a66",
+                  "date": "2025-10-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -4,
+                  "journal": ""
+                },
+                {
+                  "target": "person_107748e44f9c56c3",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_107748e44f9c56c3",
+                  "date": "2025-10-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -4,
+                  "journal": ""
                 }
               ]
             },
             {
               "kind": "accounts.transfer @ src/core2/life.ts:558",
               "way": "out",
-              "targets": 7,
-              "moved": 102032,
+              "targets": 6,
+              "moved": 94599,
               "earliest": "2025-02-21",
               "sample": [
                 {
@@ -516,7 +517,7 @@
                   "way": "out",
                   "treatment": 25300,
                   "control": 26400,
-                  "journal": "journal:2025-02-21:10858"
+                  "journal": "journal:2025-02-21:11133"
                 },
                 {
                   "target": "person_4827a24b37f835aa",
@@ -526,17 +527,7 @@
                   "way": "out",
                   "treatment": 76925,
                   "control": 80225,
-                  "journal": "journal:2025-02-21:10861"
-                },
-                {
-                  "target": "person_5e422c4f81859765",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_5e422c4f81859765",
-                  "date": "2025-04-21",
-                  "kind": "accounts.transfer @ src/core2/life.ts:558",
-                  "way": "out",
-                  "treatment": 0,
-                  "control": 7425,
-                  "journal": ""
+                  "journal": "journal:2025-02-21:11136"
                 },
                 {
                   "target": "person_5fb7f3ba5549f8c7",
@@ -546,66 +537,86 @@
                   "way": "out",
                   "treatment": 48825,
                   "control": 70025,
-                  "journal": "journal:2025-04-21:34317"
+                  "journal": "journal:2025-04-21:34562"
+                },
+                {
+                  "target": "person_06e61f1395ca0a66",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_06e61f1395ca0a66",
+                  "date": "2025-09-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 26632,
+                  "journal": ""
                 }
               ]
             },
             {
-              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-              "way": "in",
-              "targets": 7,
-              "moved": 6333,
-              "earliest": "2025-02-06",
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 6,
+              "moved": 81549,
+              "earliest": "2025-05-01",
               "sample": [
                 {
-                  "target": "person_934813480875e20d",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_934813480875e20d",
-                  "date": "2025-02-06",
-                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-                  "way": "in",
-                  "treatment": -22557,
-                  "control": -23927,
-                  "journal": "journal:2025-02-06:10149"
+                  "target": "person_5fb7f3ba5549f8c7",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_5fb7f3ba5549f8c7",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -14838,
+                  "control": -14805,
+                  "journal": "journal:2025-05-01:40486"
                 },
                 {
-                  "target": "person_4827a24b37f835aa",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_4827a24b37f835aa",
-                  "date": "2025-03-06",
-                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-                  "way": "in",
-                  "treatment": -31491,
-                  "control": -33150,
-                  "journal": "journal:2025-03-06:21072"
-                },
-                {
-                  "target": "person_edbba7b9cb4f27fc",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_edbba7b9cb4f27fc",
-                  "date": "2025-03-06",
-                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-                  "way": "in",
-                  "treatment": -26302,
-                  "control": -26309,
-                  "journal": "journal:2025-03-06:21064"
+                  "target": "person_89cb220341ef23e1",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_89cb220341ef23e1",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -20770,
+                  "control": 0,
+                  "journal": "journal:2025-05-01:40494"
                 },
                 {
                   "target": "person_7a0de4932468791b",
                   "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_7a0de4932468791b",
-                  "date": "2025-07-03",
-                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-                  "way": "in",
-                  "treatment": 925,
+                  "date": "2025-07-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -3947,
                   "control": 0,
-                  "journal": "journal:2025-07-03:73324"
+                  "journal": "journal:2025-07-01:68177"
+                },
+                {
+                  "target": "person_8479e083d9865b8e",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_8479e083d9865b8e",
+                  "date": "2025-07-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -4053,
+                  "control": 0,
+                  "journal": "journal:2025-07-01:68136"
                 }
               ]
             },
             {
               "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
               "way": "out",
-              "targets": 4,
-              "moved": 174367,
+              "targets": 5,
+              "moved": 226834,
               "earliest": "2025-06-01",
               "sample": [
+                {
+                  "target": "person_7a0de4932468791b",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_7a0de4932468791b",
+                  "date": "2025-06-01",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+                  "way": "out",
+                  "treatment": -52467,
+                  "control": 0,
+                  "journal": "journal:2025-06-01:59372"
+                },
                 {
                   "target": "person_89cb220341ef23e1",
                   "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_89cb220341ef23e1",
@@ -614,132 +625,112 @@
                   "way": "out",
                   "treatment": -16966,
                   "control": 0,
-                  "journal": "journal:2025-06-01:58997"
+                  "journal": "journal:2025-06-01:59383"
                 },
                 {
-                  "target": "person_7a0de4932468791b",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_7a0de4932468791b",
-                  "date": "2025-07-01",
+                  "target": "person_8479e083d9865b8e",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_8479e083d9865b8e",
+                  "date": "2025-08-01",
                   "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
                   "way": "out",
                   "treatment": -52467,
                   "control": 0,
-                  "journal": "journal:2025-07-01:73100"
+                  "journal": "journal:2025-08-01:88485"
                 },
+                {
+                  "target": "person_b8c0d21788b1f297",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_b8c0d21788b1f297",
+                  "date": "2025-08-01",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+                  "way": "out",
+                  "treatment": -52467,
+                  "control": 0,
+                  "journal": "journal:2025-08-01:88472"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+              "way": "in",
+              "targets": 3,
+              "moved": 119049,
+              "earliest": "2025-09-01",
+              "sample": [
                 {
                   "target": "person_46ab75b8d0840e0d",
                   "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_46ab75b8d0840e0d",
                   "date": "2025-09-01",
                   "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-                  "way": "out",
-                  "treatment": -52467,
-                  "control": 0,
-                  "journal": "journal:2025-09-01:103520"
-                },
-                {
-                  "target": "person_8479e083d9865b8e",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_8479e083d9865b8e",
-                  "date": "2025-09-01",
-                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-                  "way": "out",
-                  "treatment": -52467,
-                  "control": 0,
-                  "journal": "journal:2025-09-01:103518"
-                }
-              ]
-            },
-            {
-              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-              "way": "in",
-              "targets": 4,
-              "moved": 47893,
-              "earliest": "2025-02-12",
-              "sample": [
-                {
-                  "target": "person_5e422c4f81859765",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_5e422c4f81859765",
-                  "date": "2025-02-12",
-                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
                   "way": "in",
                   "treatment": 0,
-                  "control": -1401,
+                  "control": -52467,
                   "journal": ""
                 },
                 {
-                  "target": "person_8ed789a9dcfe09d0",
-                  "row": "reach:law:US-PA:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4:workers:person_8ed789a9dcfe09d0:2025-01-21",
-                  "date": "2025-04-01",
-                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
-                  "way": "in",
-                  "treatment": -8672,
-                  "control": -13103,
-                  "journal": "journal:2025-04-01:27285"
-                },
-                {
-                  "target": "person_107748e44f9c56c3",
-                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_107748e44f9c56c3",
+                  "target": "person_06e61f1395ca0a66",
+                  "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_06e61f1395ca0a66",
                   "date": "2025-10-01",
-                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
                   "way": "in",
-                  "treatment": 0,
-                  "control": -16556,
-                  "journal": ""
+                  "treatment": -38352,
+                  "control": -52467,
+                  "journal": "journal:2025-10-01:119414"
                 },
                 {
                   "target": "person_b20c9405793d4c57",
                   "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_b20c9405793d4c57",
                   "date": "2025-10-01",
-                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
                   "way": "in",
-                  "treatment": -2665,
-                  "control": -28170,
-                  "journal": "journal:2025-10-01:113576"
+                  "treatment": 0,
+                  "control": -52467,
+                  "journal": ""
                 }
               ]
             }
           ],
           "paid": 19,
-          "pick": "work-payroll @ src/core2/work-payroll-cash.ts:2386|in",
+          "pick": "accounts.transfer @ src/core2/cost-of-living.ts:327|out",
           "sample": [
-            {
-              "target": "person_4827a24b37f835aa",
-              "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_4827a24b37f835aa",
-              "date": "2025-01-31",
-              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-              "way": "in",
-              "treatment": 23963,
-              "control": 22390,
-              "journal": "journal:2025-01-31:1833"
-            },
             {
               "target": "person_32081234a0b3128e",
               "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_32081234a0b3128e",
               "date": "2025-02-01",
-              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-              "way": "in",
-              "treatment": 24469,
-              "control": 23908,
-              "journal": "journal:2025-02-01:2323"
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "treatment": -22213,
+              "control": -21712,
+              "journal": "journal:2025-02-01:3744"
             },
             {
-              "target": "person_934813480875e20d",
-              "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_934813480875e20d",
+              "target": "person_4827a24b37f835aa",
+              "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_4827a24b37f835aa",
               "date": "2025-02-01",
-              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-              "way": "in",
-              "treatment": 30464,
-              "control": 22858,
-              "journal": "journal:2025-02-01:2320"
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "treatment": -64433,
+              "control": -63029,
+              "journal": "journal:2025-02-01:3029"
             },
             {
               "target": "person_edbba7b9cb4f27fc",
               "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_edbba7b9cb4f27fc",
               "date": "2025-02-01",
-              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-              "way": "in",
-              "treatment": 23710,
-              "control": 21631,
-              "journal": "journal:2025-02-01:2326"
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "treatment": -9300,
+              "control": -7444,
+              "journal": "journal:2025-02-01:3358"
+            },
+            {
+              "target": "person_5c22b2b8998442ee",
+              "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_5c22b2b8998442ee",
+              "date": "2025-03-01",
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "treatment": -81627,
+              "control": -52308,
+              "journal": "journal:2025-03-01:12311"
             }
           ],
           "near": [
@@ -755,7 +746,7 @@
                 "way": "in",
                 "treatment": 23963,
                 "control": 22390,
-                "journal": "journal:2025-01-31:1833"
+                "journal": "journal:2025-01-31:1897"
               }
             },
             {
@@ -770,7 +761,22 @@
                 "way": "out",
                 "treatment": -2569,
                 "control": -2400,
-                "journal": "journal:2025-01-31:1834"
+                "journal": "journal:2025-01-31:1898"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 19,
+              "first": {
+                "target": "person_32081234a0b3128e",
+                "row": "applied|us-policy-positions:labor-workforce.raise-minimum-wage|person_32081234a0b3128e",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                "way": "out",
+                "treatment": -22213,
+                "control": -21712,
+                "journal": "journal:2025-02-01:3744"
               }
             }
           ]
@@ -813,32 +819,32 @@
           {
             "id": "web:jurisdiction_21d7ec2928a420d4:2025-06",
             "link": "minimum-wage-to-low-wage-jobs",
-            "effect": -0.06989130434782609
+            "effect": -0.07128646441073513
           },
           {
             "id": "web:jurisdiction_21d7ec2928a420d4:2025-07",
             "link": "minimum-wage-to-low-wage-jobs",
-            "effect": -0.06989130434782609
+            "effect": -0.07128646441073513
           },
           {
             "id": "web:jurisdiction_21d7ec2928a420d4:2025-08",
             "link": "minimum-wage-to-low-wage-jobs",
-            "effect": -0.06989130434782609
+            "effect": -0.07128646441073513
           },
           {
             "id": "web:jurisdiction_21d7ec2928a420d4:2025-09",
             "link": "minimum-wage-to-low-wage-jobs",
-            "effect": -0.06989130434782609
+            "effect": -0.07128646441073513
           },
           {
             "id": "web:jurisdiction_21d7ec2928a420d4:2025-10",
             "link": "minimum-wage-to-low-wage-jobs",
-            "effect": -0.06989130434782609
+            "effect": -0.07128646441073513
           },
           {
             "id": "web:jurisdiction_21d7ec2928a420d4:2025-11",
             "link": "minimum-wage-to-low-wage-jobs",
-            "effect": -0.06989130434782609
+            "effect": -0.07128646441073513
           },
           {
             "id": "web:jurisdiction_21d7ec2928a420d4:2025-12",
@@ -888,7 +894,7 @@
         "ended": 47,
         "sample": []
       },
-      "seconds": 157
+      "seconds": 149
     }
   ]
 }
