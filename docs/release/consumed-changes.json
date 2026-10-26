@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "version": "0.32.2",
+      "releasedOn": "2026-10-26",
+      "revision": "206d10274b843a70db883fbabb24b293c7dd9a28",
+      "changeIds": [
+        "law-reach-staffing-before-bill",
+        "office-budget-line-schools-raise-hires",
+        "schools-raise-hires-counted",
+        "words-own-race-margin-unread"
+      ]
+    },
+    {
       "version": "0.32.1",
       "releasedOn": "2026-10-26",
       "revision": "4055613f064fa20603c3fe4b6beb06f45f76f8fb",

@@ -296,6 +296,37 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.32.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A budget cut now lets the newest public hires go first, named or counted**
+  When a city or county cuts the line that pays a department (schools, police,
+  fire), the layoffs now follow one order across the employer's whole staff: the
+  newest hire goes first, whether the game follows that worker closely or counts
+  them in the wider town.
+
+- **A raise or cut to a public-school budget line is checked end to end in a
+  drawn town** A new test follows a mayor's schools-line change through the
+  council's budget bill to the district's teachers. A place where the council
+  recorded its own amendment, rejection or veto is skipped by that record; a
+  place where the line was not adopted with no such record now fails the test.
+
+- **Layoffs after a budget cut follow the same newest-first order for named and
+  counted staff** When a budget cut forces a department to let staff go, the
+  line's own recent hires go first, then the employer's remaining staff, named
+  and counted together, newest hire first. A counted worker's start date is the
+  date their household committed to the job, the same date a named person's job
+  carries, so filling a counted worker in does not move them in the order.
+
+- **The journal says a race was close only when the count shows it** A
+  candidate's journal now says "It was very close." or "It wasn't close." only
+  when the result's vote totals bear it out. Before, those lines were picked by
+  win or loss alone, so someone who ran unopposed could write that it was very
+  close. A race with one candidate now reads "I won." or "We won.".
+
 ## PRE-ALPHA 0.32.1
 
 _Released October 26, 2026._
