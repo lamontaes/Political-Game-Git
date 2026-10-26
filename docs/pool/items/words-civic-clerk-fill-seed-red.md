@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Ask why: the clerk is the person the filing office's records name on the scene's date. One rule, all 56 places: the test passes on any drawn place and seed.
 
-**Done when.** The test passes on Plandome Heights, New York, seed f38fd92f521cda30, and on three more places drawn from all 56 with seeds the builder did not choose, each named in the PR body.
+**Done when.** The test passes on Plandome Heights, New York, seed f38fd92f521cda30, and on three more places drawn from all 56 with seeds the builder did not choose, each named in the PR body. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/director/civic-roles.ts, src/director/civic-roles.test.ts
 
