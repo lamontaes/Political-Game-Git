@@ -9,6 +9,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
   billOf,
+  castMemberVote,
   draftBill,
   scheduleVote,
   votesOn,
@@ -66,6 +67,10 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
     sponsorId: memberId,
     provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
   });
+  // The member's own vote, cast the way the bench casts a chosen vote before
+  // the sitting (castMemberVote), so the engine's own reasons cannot leave
+  // this member absent or abstaining and the vote line is always checked.
+  castMemberVote(api, bill.id, memberId, "yes");
   scheduleVote(api, bill.id);
   // A watched person who is not the player forgets older moments, so the
   // journal is read the day the vote is on record.
@@ -98,22 +103,22 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
   console.log(
     `JOURNAL BILL ${place.name} (${place.key}), seed ${seed}, ${bill.id}: "${introduced!.text}" cites ${introduced!.sourceRecordIds.join(", ")}; vote ${cast?.vote}`,
   );
-  if (cast && (cast.vote === "yes" || cast.vote === "no")) {
-    const voted = lines.find(
-      (line) => line.text.includes(name) && /voted/i.test(line.text),
-    );
-    expect(
-      voted,
-      `${bill.id}: no vote line in ${lines.map((l) => l.text).join(" | ")} (cast ${cast.vote}; ${core.durableLog.get(`office.voted:${bill.id}:${memberId}`) ? "event logged" : "no event"})`,
-    ).toBeDefined();
-    expect(voted!.text).toContain(
-      `${cast.vote === "yes" ? "voted for" : "voted against"} ${said}.`,
-    );
-    expect(voted!.sourceRecordIds).toContain(
-      `office.voted:${bill.id}:${memberId}`,
-    );
-    console.log(
-      `JOURNAL BILL ${place.name}: "${voted!.text}" cites ${voted!.sourceRecordIds.join(", ")}`,
-    );
-  }
+  expect(
+    cast?.vote,
+    `${place.name} (${place.key}) seed ${seed} ${bill.id}: no yes or no vote on record for ${memberId}`,
+  ).toBe("yes");
+  const voted = lines.find(
+    (line) => line.text.includes(name) && /voted/i.test(line.text),
+  );
+  expect(
+    voted,
+    `${bill.id}: no vote line in ${lines.map((l) => l.text).join(" | ")} (cast ${cast!.vote}; ${core.durableLog.get(`office.voted:${bill.id}:${memberId}`) ? "event logged" : "no event"})`,
+  ).toBeDefined();
+  expect(voted!.text).toContain(`voted for ${said}.`);
+  expect(voted!.sourceRecordIds).toContain(
+    `office.voted:${bill.id}:${memberId}`,
+  );
+  console.log(
+    `JOURNAL BILL ${place.name}: "${voted!.text}" cites ${voted!.sourceRecordIds.join(", ")}`,
+  );
 }, 600_000);
