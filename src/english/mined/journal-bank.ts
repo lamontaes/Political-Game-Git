@@ -44,8 +44,7 @@ const MEMOIR = "memoir:";
 
 /**
  * Whether one's own race was won or lost, read from the sentence's own verb:
- * "I won.", "We lost." A sentence that says neither ("It was close.") tells
- * nothing of the result.
+ * "I won.", "We lost." A sentence that says neither ("It was close.") fits both.
  */
 function resultStages(text: string): string[] | undefined {
   if (/\b(?:lost|didn't win)\b/i.test(text)) return ["lost"];
