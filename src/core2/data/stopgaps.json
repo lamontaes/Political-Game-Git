@@ -5505,7 +5505,9 @@
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
     "replacement": "A reader in the jobs engine of the wage floor over the place's median hourly pay, added to the engine measures.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-25",
+    "resolution": "gov-measures.ts records labor.minimum-wage-to-median (the governing minimum wage over the median hourly pay of the town's current jobs), and the web's model counts government measures as causes (src/core2/gov-measure-keys.ts), so minimum-wage-to-low-wage-jobs runs. Its reach to employers is SG-LABOR-low-wage-unreviewed's."
   },
   {
     "id": "SG-LABOR-person-exposure",
@@ -6865,6 +6867,18 @@
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
     "replacement": "The engine that owns school.reading-proficient-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"school.reading-proficient-pct\", subject), as counted births do, so these links change its records.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-officer-stipend-hours",
+    "kind": "estimated-rule",
+    "file": "src/core2/public-payroll.ts",
+    "line": 107,
+    "whatItFakes": "A small town's appointed department heads work a full-time public-office week at a cut hourly rate (a Prescott, Michigan planning director at $1.07 an hour for 8.5 hours) when their budget line carries only a part-time stipend. The pay in total matches the line; the hours and the hourly rate do not. The minimum wage skips these posts by law (data/laws/minimum-wage-exempt.json), so a wage raise no longer multiplies their pay.",
+    "why": "The work schedule a post follows is a template's full-time slots, and the payroll pays the hourly rate for the minutes scheduled; fitting hours to a stipend needs a part-time schedule for the post.",
+    "addedBy": "gov-town-officers-paid-under-minimum-wage",
+    "addedAt": "2026-10-26",
+    "replacement": "A post whose line carries less than a full-time week takes a part-time schedule sized to the stipend at the going rate (Census ASPEP part-time municipal payroll), so its hours and hourly rate both match the source.",
     "status": "open"
   }
 ]
