@@ -5,14 +5,15 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-stop-22-election-win-never-shown-b
+pr: #6147
 blocked-on:
 after: play-stop-22-election-win-never-shown-a
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-26T05:13:46.100Z
 ---
 
 **What.** After the win in the playtest, the Journal still said "I ran for Council member.", News had no election story, Who you are showed no seat and Government listed the old council. The result never left the results record. This part makes the next day's Journal, News and Government read the player's result.

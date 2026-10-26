@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Builds on the branch of words-office-hours-scene (#5955), which carries the staff cast fill from words-desk-bill-scene (#5953); the PR carries that chain until it merges.
 
 Sent back 2026-10-24 from PR #5965 (branch words/staff-news-bill-lost): head 7a1ef9044f explicitly carries parent feature #5955 and the #5953/#5949/#5914/#5942 stack; #5955 and #5953 checked live still open/unmerged, so await their reviewed main delivery, then finish on this branch, merge main into it first. No completed local scene gate or new runtime defect claimed.
+
+Sent back 2026-10-26 from PR #5965 (branch words/staff-news-bill-lost): parent stack is merged and integration clean; test can pass on joined losses without any composed-dialogue proof and checks selected aide against historical staffOf rather than serving staff; require positive composed record-linked bill/count dialogue and actual serving-aide evidence, then finish on that branch and merge main first.

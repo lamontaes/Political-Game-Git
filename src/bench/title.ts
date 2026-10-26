@@ -1,12 +1,12 @@
 import { backdropFile } from "./scene";
 
 /**
- * The title's scenes: national places and events that hold people (owner,
- * Oct 8 and Oct 14, 2026: a rally, the convention, the White House at night;
- * never a state capitol, the community room, an office or a parking lot).
+ * The title rotates through national places and events: the White House,
+ * Lincoln Memorial, conventions and rallies, rather than local rooms.
  */
 export const TITLE_SCENES = [
   "white-house-exterior",
+  "lincoln-memorial",
   "national-convention-floor",
   "national-convention-stage",
   "rally-stage",
