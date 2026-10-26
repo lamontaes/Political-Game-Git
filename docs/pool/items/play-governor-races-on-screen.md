@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-governor-races-on-screen
-pr:
+pr: #6159
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from gov-world-races-run-no-governors)
 lead: play-first

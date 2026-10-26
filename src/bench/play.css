@@ -3,7 +3,7 @@
    .panel (dark glass, brass frame, brass corner ornaments), .bust (a figure cropped to head and
    shoulders), .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
-   plain is Back, .small the second size; the brass corner mark shows only while .active or
+   plain is Back; one size for all; the brass corner mark shows only while .active or
    pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
    .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
    The chevron rule: a mark appears only on a static button while it is activated; never in
@@ -60,6 +60,8 @@
   color-scheme: dark;
   --glass-top: rgba(42, 42, 44, 0.72);
   --glass-bottom: rgba(22, 22, 24, 0.82);
+  --solid-top: #262628;
+  --solid-bottom: #151517;
   --brass: #9c8350;
   --iron: #1c1a18;
   --gold: #d6bd84;
@@ -282,10 +284,11 @@ select:focus-visible {
 #person-facts button {
   position: relative;
   display: inline-block;
-  min-height: 38px;
-  padding: 7px 26px;
+  /* One button size across the game (owner, Oct 24: buttons are the same size). */
+  min-height: 34px;
+  padding: 6px 20px;
   margin: 0 12px 0 0;
-  font: 500 16px/1.2 var(--ui);
+  font: 500 15px/1.2 var(--ui);
   color: var(--text-strong);
   text-align: center;
   background:
@@ -296,14 +299,6 @@ select:focus-visible {
   box-shadow:
     0 2px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
-}
-.action.small,
-#sheet-body button,
-#person-facts button,
-.me .action {
-  min-height: 30px;
-  padding: 4px 16px;
-  font-size: 14px;
 }
 .action.primary {
   min-width: 120px;
@@ -710,6 +705,29 @@ input[type="range"]::-moz-range-thumb {
 .field input {
   width: 170px;
 }
+/* The creator's fields always show their box, empty or filled. */
+#cr-character .field input,
+#cr-character .field select {
+  border-color: rgba(242, 237, 228, 0.28);
+  background-color: rgba(8, 8, 9, 0.45);
+}
+/* Month, day and year on one line, each label over its box, one height. */
+.date-row {
+  display: grid;
+  grid-template-columns: 3fr 1.4fr 2.6fr;
+  gap: 10px;
+  margin: 6px 0 8px;
+}
+.date-row .field {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding: 0;
+}
+.date-row select {
+  width: 100%;
+  max-width: none;
+}
 
 /* ---- Title screen ---- */
 .menu {
@@ -763,6 +781,17 @@ input[type="range"]::-moz-range-thumb {
   margin-top: 10px;
   color: var(--text-3);
   font: 400 11px var(--ui);
+}
+.item small:empty {
+  display: none;
+}
+/* On the title, Continue's saved life sits beside it, so every entry is one height. */
+#front-main .item b,
+#front-main .item small {
+  display: inline;
+}
+#front-main .item small {
+  margin-left: 10px;
 }
 .item small {
   display: block;
@@ -1088,6 +1117,8 @@ body.dev .dev-ring {
 .nav-item {
   display: block;
   width: 100%;
+  /* Every menu entry one height, with a description line or without. */
+  min-height: 50px;
   padding: 8px 18px;
 }
 .nav-item .nl {
@@ -1276,11 +1307,18 @@ body.dev .dev-ring {
   visibility: hidden;
 }
 
-/* Calendar uses the existing panel frame and Kit 13 controls. */
-#sheet:has(.calendar-layout) {
-  background: linear-gradient(#262628, #151517);
+/* Reading screens (the menu, every menu sheet and a person's card) are
+   solid: the scene never shows through text meant to be read. Glass stays
+   for panels over a scene, such as the talk box. */
+#menu,
+#sheet,
+#person {
+  background: linear-gradient(var(--solid-top), var(--solid-bottom));
   backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
+
+/* Calendar uses the existing panel frame and Kit 13 controls. */
 #sheet-body:has(.calendar-layout) {
   max-width: none;
 }
@@ -1777,10 +1815,6 @@ body.dev .dev-ring {
 }
 
 /* Outlet layouts use the approved outer frame and record-fed stories. */
-#sheet:has(.paper) {
-  background: linear-gradient(#262628, #151517);
-  backdrop-filter: none;
-}
 #sheet-body:has(.paper) {
   max-width: none;
 }
@@ -2252,6 +2286,7 @@ body.dev .dev-ring {
   margin: 12px 0 22px;
 }
 .government-body h3,
+.key-people h3,
 .party-section h3,
 .budget-content h3,
 .law-card h3 {
@@ -2265,6 +2300,9 @@ body.dev .dev-ring {
 }
 .government-body {
   max-width: 1000px;
+}
+.key-people {
+  break-inside: avoid;
 }
 .government-chamber {
   float: left;
@@ -2490,4 +2528,17 @@ body.dev .dev-ring {
   margin-top: 2px;
   font-size: 0.85em;
   opacity: 0.8;
+}
+
+.people-node .circle-mark {
+  font: 600 12px var(--ui);
+  font-style: normal;
+  color: var(--gold);
+}
+.people-node.circle-left {
+  opacity: 0.7;
+}
+.people-selection .circle-why,
+.people-selection .circle-none {
+  color: var(--gold);
 }

@@ -2244,7 +2244,31 @@ const sheets = {
         ],
       });
     }
-    const people = [...records.values()];
+    // Who joined or left the player's five closest this year, each with the
+    // record that changed the tie; one who left and is no longer among the
+    // card's ties is still drawn, marked.
+    const circle = me.card.circle ?? { joined: [], left: [] };
+    const dateText = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    const change = new Map([
+      ...circle.joined.map((c) => [c.personId, { ...c, mark: "joined" }]),
+      ...circle.left.map((c) => [c.personId, { ...c, mark: "left" }]),
+    ]);
+    for (const c of circle.left)
+      if (!records.has(c.personId))
+        records.set(c.personId, {
+          personId: c.personId,
+          name: c.name,
+          groups: [],
+        });
+    // Changed ties first, so the first page shows them.
+    const people = [...records.values()].sort(
+      (a, b) => Number(change.has(b.personId)) - Number(change.has(a.personId)),
+    );
     let group = "all";
     let selected;
     let page = 0;
@@ -2332,7 +2356,8 @@ const sheets = {
           selected = p.personId;
           draw();
         });
-        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`;
+        const changed = change.get(p.personId);
+        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
         node.setAttribute("aria-pressed", String(selected === p.personId));
         node.setAttribute("aria-label", p.name);
         node.style.left = `${x}%`;
@@ -2342,17 +2367,46 @@ const sheets = {
           el("b", { textContent: p.name }),
           el("span", { textContent: p.relation ?? "" }),
         );
+        if (changed)
+          node.append(
+            el("em", {
+              className: "circle-mark",
+              textContent:
+                changed.mark === "joined" ? labels.joined : labels.left,
+            }),
+          );
         canvas.append(node);
       });
       const person = people.find((p) => p.personId === selected);
       detail.replaceChildren();
+      // Nothing changed in the five closest this year: said, never an empty box.
+      if (!change.size)
+        detail.append(
+          el("span", {
+            className: "circle-none",
+            textContent: labels.noChange,
+          }),
+        );
       if (person) {
+        const changed = change.get(person.personId);
         detail.append(
           el("span", {
             textContent: [person.name, person.relation]
               .filter(Boolean)
               .join(" · "),
           }),
+          ...(changed
+            ? [
+                el("span", {
+                  className: "circle-why",
+                  textContent: [
+                    changed.mark === "joined" ? labels.joined : labels.left,
+                    labels.causes?.[changed.cause] ?? words(changed.cause),
+                    dateText(changed.date),
+                  ].join(" · "),
+                }),
+              ]
+            : []),
           button(labels.card, () => {
             closeSheet();
             showPerson(person);
@@ -2918,11 +2972,13 @@ const sheets = {
             textContent: `${c.name}${c.party ? ` (${c.party})` : ""} · ${number(c.votes)}`,
           }),
         ),
+        // One total for the race: every ballot cast in it, the town's and
+        // the rest of the electorate's.
         el(
           "div",
           {},
-          el("b", { textContent: `${labels.turnout} ` }),
-          `${number(race.namedTurnout)} / ${number(race.namedEligible)}`,
+          el("b", { textContent: `${labels.cast} ` }),
+          number(race.electorate),
         ),
         el(
           "div",
@@ -2939,7 +2995,7 @@ const sheets = {
               el("b", { textContent: `${labels.wonIn} ` }),
               race.places
                 .slice(0, 6)
-                .map((p) => `${p.name} ${p.leader ?? ""} · ${number(p.cast)}`)
+                .map((p) => `${p.name} ${p.leader ?? ""}`)
                 .join(" · "),
             )
           : "",
@@ -3874,10 +3930,11 @@ const sheets = {
     let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
-    // Another state's legislature: every sitting member, by chamber.
+    // Another state's members at this level, its legislature or its members
+    // of Congress: every sitting member, by chamber.
     const drawOtherState = async () => {
       const other = await api(
-        `/api/government/state?${new URLSearchParams({ state: otherState })}`,
+        `/api/government/state?${new URLSearchParams({ state: otherState, level })}`,
       );
       const chambers = new Map();
       for (const s of other.legislators) {
@@ -3914,8 +3971,8 @@ const sheets = {
     };
     const statePick = el("select", { className: "government-state" });
     const draw = () => {
-      statePick.hidden = level !== "state";
-      if (level === "state" && otherState) {
+      statePick.hidden = level === "local";
+      if (level !== "local" && otherState) {
         drawOtherState();
         for (const b of picker.querySelectorAll("button"))
           b.classList.toggle("on", b.dataset.level === level);
@@ -4059,9 +4116,18 @@ const sheets = {
     });
     picker.append(statePick);
     draw();
-    // The key people the opening names: one list for both screens.
-    const keyPeople = v.keyPeople.map((k) => {
-      const line = row(k.officeTitle, k.name);
+    // The key people: the player's own members first, then the President,
+    // the Vice President and each chamber's leader by post and chamber (a
+    // leader from another state names the state they serve). Every other
+    // member is behind the State and Federal filters.
+    const keyLine = (k) => {
+      const line =
+        k.post && !k.own
+          ? row(`${words(k.post)}, ${k.chamber ?? k.officeTitle}`, k.name)
+          : row(k.officeTitle, k.name);
+      for (const text of [k.own && k.post ? words(k.post) : null, k.stateName])
+        if (text)
+          line.append(el("span", { className: "label", textContent: text }));
       // The President and Vice President a territory's voters do not choose.
       if (k.chosenByHere === false)
         line.append(
@@ -4081,7 +4147,23 @@ const sheets = {
         line.append(b);
       }
       return line;
-    });
+    };
+    const own = v.keyPeople.filter((k) => k.own);
+    const leaders = v.keyPeople.filter((k) => !k.own);
+    // Each group stays in one column with its heading.
+    const keyPeople = [
+      [labels.yourMembers, own],
+      [labels.leaders, leaders],
+    ]
+      .filter(([, rows]) => rows.length)
+      .map(([title, rows]) =>
+        el(
+          "section",
+          { className: "key-people" },
+          el("h3", { textContent: title }),
+          ...rows.map(keyLine),
+        ),
+      );
     // The party the player belongs to, with the tie's record and how their
     // views fit it; the parties they could join otherwise. Never joined: files
     // unaffiliated.
@@ -4358,6 +4440,12 @@ $("front-continue").addEventListener("click", async () => {
   if (life.packet) renderPacket(life.packet);
   await refresh();
   await openOfferMoment();
+  // Still the opening evening: the night's paper is back on the table, read
+  // from the kept opening, until living on clears it.
+  const opening = await api(
+    `/api/opening?id=${encodeURIComponent(life.personId)}`,
+  );
+  if (opening?.home?.date === life.date) showNewsSurface(opening.news);
 });
 // The desktop window closes (and the app quits); a browser tab has no Quit.
 if (window.location.protocol === "app:") {

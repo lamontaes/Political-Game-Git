@@ -5,8 +5,8 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/tests-group-a-age-check-empty-town
 pr: #6027
 blocked-on:
 source: added with npm run pool -- add
@@ -26,3 +26,5 @@ claimed-at:
 Laws lead, Oct 25 11:50: in PR #6027 (head e3e7c567e4); ported into the family PRs that hit it.
 
 Sent back 2026-10-26 from PR #6027 (branch claude/tests-group-a-age-check-empty-town): The code repair is already in merged #6012 and this PR now changes only a release declaration; the remaining explicit Done-when detail is selector-specific no-subject logging, which the body admits and main confirms is currently only a law-key message.; finish on that branch, merge main into it first.
+
+Laws lead, Oct 26: Merger 3's 07:12 UTC point fixed at 4bc1f77895: the log names each selector that found nobody (and says so for a law with no group A selector). Back in PR #6027.
