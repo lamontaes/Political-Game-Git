@@ -14,6 +14,8 @@
  *   unwired: no engine names its outcome, so none can multiply its own rate
  *   by the web's factor. When one does, the test fails and the link is wired.
  */
+import { townFacts, selectResidents } from "./law-reach/group-b-people";
+import { groupBPolicy } from "./law-reach/group-b";
 import { randomBytes } from "node:crypto";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
@@ -193,6 +195,15 @@ function play(place: ReturnType<typeof drawPlace>, requirement: boolean) {
       .filter((r) => r.id.startsWith("draw|"))
       .map((r) => [r.id.slice("draw|".length), r.months ?? []]),
   );
+  // Who the requirement reaches on the last day: a head who aged out of it,
+  // took work, or gained a child is no longer under it and may draw again.
+  const reachedNow = new Set(
+    selectResidents(
+      townFacts(api, lawChain(api).townPlaceId),
+      groupBPolicy(ASSIST_WORK)!.people!,
+      lawChain(api).stateKey,
+    ).map((r) => r.id),
+  );
   const web = (
     api
       .moduleState(OUTCOME_WEB_MODULE_ID)
@@ -210,6 +221,7 @@ function play(place: ReturnType<typeof drawPlace>, requirement: boolean) {
   return {
     api,
     drawing,
+    reachedNow,
     stopped,
     draws,
     web,
@@ -242,6 +254,7 @@ describe(`the SNAP work requirement is the benefit's, not the web's (seed ${seed
       // The shifted world's stops cite a work-requirement law row and the head's own months.
       const lawsTable = shifted.api.moduleState(LAWS_MODULE_ID).table("laws");
       const limit = 3;
+      let held = 0;
       for (const stop of shifted.stopped) {
         expect(
           (lawsTable.get(stop.lawId!) as unknown as LawRowInput).series,
@@ -250,12 +263,22 @@ describe(`the SNAP work requirement is the benefit's, not the web's (seed ${seed
         expect(
           shifted.draws.get(stop.recipientId)?.length,
         ).toBeGreaterThanOrEqual(limit);
-        // A head the benefit stopped draws nothing from the federal treasury.
-        expect(
-          shifted.drawing.has(stop.recipientId),
-          `${where}: ${stop.recipientId} is stopped and still paid`,
-        ).toBe(false);
+        // A head the benefit stopped draws nothing from the federal treasury
+        // while the requirement still reaches them. One it no longer reaches
+        // (Washington, DC: a newspaper owner stopped at 64 who turned 65, past
+        // the requirement's age) draws again, by the law's own terms.
+        if (shifted.reachedNow.has(stop.recipientId)) {
+          expect(
+            shifted.drawing.has(stop.recipientId),
+            `${where}: ${stop.recipientId} is stopped, still reached and still paid`,
+          ).toBe(false);
+          held += 1;
+        }
       }
+      expect(
+        held,
+        `${where}: a stopped head the law still reaches`,
+      ).toBeGreaterThan(0);
       // The same heads still draw in the twin: the law is what stopped them.
       const stillDrawingInTwin = shifted.stopped.filter((stop) =>
         twin.drawing.has(stop.recipientId),

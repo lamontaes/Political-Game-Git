@@ -6,6 +6,10 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 26: acting-lead rulings (words-and-scenes lead; standing rules, the owner may overrule)
+
+- **The order a party asks its members to run is decided, not asked (words-and-scenes lead, Oct 26; `words-scene-party-asks-you-to-run`, #6146).** The owner ruled "The party asks someone to run only with some inroads on record" (Oct 15, night, batch 13 review) and that "a player with a high-standing job may be propositioned to run for a seat someone needs filled" (Oct 14). So the chair asks members by inroads first (closeness to the chair), then standing (how many people know them). `SG-P15-party-ask-order` resolves as decided. The question is withdrawn from the owner's list. Read: OWNER-DECISIONS (Oct 26, evening), DECISION-REGISTER, prior-rulings/elections.md and prior-rulings/words.md, LAW; searched: party asks, propositioned, recruit, Pendergast.
+
 ## Oct 25: rulings (owner, via the acting CTO)
 
 - **OWNER SCREENSHOT NEEDED is not a merge gate (owner, Oct 25: "remove that block").** A lane PR merges on the agent's before and after screenshots (linked or embedded) and the merger's checks. The owner's installed-build check closes the pool item afterward, never the PR. Mergers: merge the 26 lane PRs carrying that line on their own evidence. Supersedes the Oct 14 "a look that changed needs the owner's yes on the screenshot" line as a merge rule; the owner still sees every changed look, on the installed build, and the item closes on his yes.
