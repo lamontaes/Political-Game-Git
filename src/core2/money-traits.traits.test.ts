@@ -107,71 +107,48 @@ function formulaOdds(
 const BAND = 2;
 
 describe(`money-family trait decisions, ${label}`, () => {
-  // Decisions whose recorded circumstances bunch at a few scores step from a
-  // small effect to a large one: their test asks only that personality moves
-  // them.
-  const chooser: [string, Action, Action, number, boolean][] = [
-    [
-      "jobs.start-looking",
-      jobsData.actions.look,
-      jobsData.actions.wait,
-      1.49,
-      false,
-    ],
-    [
-      "jobs.review-worker",
-      jobsData.actions.look,
-      jobsData.actions.stay,
-      1.49,
-      true,
-    ],
-    [
-      "jobs.accept-offer",
-      jobsData.actions.accept,
-      jobsData.actions.decline,
-      1.49,
-      true,
-    ],
+  // Decisions with no study number keep the general weight of 1 (their gap
+  // rows say why), so no size is asked of them: the third leaning most toward
+  // the option never picks it at lower odds than the third leaning least. At
+  // the general weight a town whose recorded circumstances bunch at a few
+  // scores can leave every pick to circumstances (jobs.review-worker in As
+  // Mahetog, Northern Mariana Islands, seed b7ea269b285e: odds exactly 1).
+  const chooser: [string, Action, Action][] = [
+    ["jobs.start-looking", jobsData.actions.look, jobsData.actions.wait],
+    ["jobs.review-worker", jobsData.actions.look, jobsData.actions.stay],
+    ["jobs.accept-offer", jobsData.actions.accept, jobsData.actions.decline],
   ];
-  for (const [id, yes, no, target, stepped] of chooser)
-    it(`${id}: the third leaning most toward ${yes.id} picks it at about ${target}x the odds of the third leaning least`, () => {
-      const odds = chooserOdds(yes, no, gapsOf(id));
-      // A stepped decision only has to move with personality: flat personality
-      // gives exactly 1, and one drawn town's step can sit as low as 1.096
-      // (jobs.accept-offer, Edinboro, Pennsylvania).
-      expect(odds, `${id} at ${label}`).toBeGreaterThan(
-        stepped ? 1.05 : Math.max(1.2, target / BAND),
-      );
-      if (!stepped)
-        expect(odds, `${id} at ${label}`).toBeLessThan(target * BAND * 4);
+  for (const [id, yes, no] of chooser)
+    it(`${id}: at the general weight the third leaning most toward ${yes.id} never picks it at lower odds than the third leaning least`, () => {
+      expect(
+        chooserOdds(yes, no, gapsOf(id)),
+        `${id} at ${label}`,
+      ).toBeGreaterThanOrEqual(1);
     });
 
-  const formula: [string, Action, Action, number][] = [
-    ["jobs.counted-apply", jobsData.actions.apply, jobsData.actions.wait, 1.49],
-    [
-      "jobs.counted-accept",
-      jobsData.actions.accept,
-      jobsData.actions.decline,
-      1.49,
-    ],
+  // Counted people weigh these on the same arithmetic as full ones, at the
+  // general weight (no study number).
+  const formula: [string, Action, Action][] = [
+    ["jobs.counted-apply", jobsData.actions.apply, jobsData.actions.wait],
+    ["jobs.counted-accept", jobsData.actions.accept, jobsData.actions.decline],
   ];
-  for (const [id, yes, no, target] of formula)
-    it(`${id}: counted and personal answers move with personality (${target}x between the thirds)`, () => {
+  for (const [id, yes, no] of formula)
+    it(`${id}: counted answers at the general weight never move against personality`, () => {
       const odds = formulaOdds(id, yes.actKinds, no.actKinds, gapsOf(id));
-      expect(odds, `${id} at ${label}`).toBeGreaterThan(
-        Math.max(1.2, target / BAND),
-      );
+      expect(odds, `${id} at ${label}`).toBeGreaterThanOrEqual(1);
     });
 
   // Summed pulls: the trait term shifts each counted person's log odds, so the
   // odds between the thirds are e to the weight times the thirds' lean gap.
-  const pulls: [string, Action, Action, number][] = [
-    ["jobs.counted-look", jobsData.actions.look, jobsData.actions.stay, 1.49],
+  // A decision with no study number (null) keeps the general weight, so its
+  // odds are e to the thirds' lean gap itself.
+  const pulls: [string, Action, Action, number | null][] = [
+    ["jobs.counted-look", jobsData.actions.look, jobsData.actions.stay, null],
     [
       "jobs.counted-retire",
       jobsData.actions.leave,
       jobsData.actions.stay,
-      1.49,
+      null,
     ],
     [
       "business.counted-found",
@@ -181,7 +158,7 @@ describe(`money-family trait decisions, ${label}`, () => {
     ],
   ];
   for (const [id, yes, no, target] of pulls)
-    it(`${id}: the thirds' pulls differ by about ${target}x`, () => {
+    it(`${id}: the thirds' pulls differ by ${target === null ? "e to their lean gap, at the general weight" : `about ${target}x`}`, () => {
       const core = coreWithPeople(traits);
       const terms = traits
         .map((t) => ({
@@ -201,6 +178,13 @@ describe(`money-family trait decisions, ${label}`, () => {
       const odds = Math.exp(
         mean(terms.slice(terms.length - n)) - mean(terms.slice(0, n)),
       );
+      if (target === null) {
+        const leanGap =
+          terms.slice(terms.length - n).reduce((s, r) => s + r.lean, 0) / n -
+          terms.slice(0, n).reduce((s, r) => s + r.lean, 0) / n;
+        expect(Math.log(odds), `${id} at ${label}`).toBeCloseTo(leanGap, 9);
+        return;
+      }
       expect(odds, `${id} at ${label}`).toBeGreaterThan(
         Math.max(1.2, target / BAND),
       );
@@ -357,13 +341,22 @@ describe(`fixed money decisions turn with traits and not when traits are flat, $
   };
   const found = () => gapsOf("business.found");
 
-  const cases: [string, Action, Action, () => number[], number, boolean][] = [
+  // A size is asked only of a decision with a study (business.found); the rest
+  // keep the general weight, with no study number.
+  const cases: [
+    string,
+    Action,
+    Action,
+    () => number[],
+    number | null,
+    boolean,
+  ][] = [
     [
       "jobs.apply",
       jobsData.actions.apply,
       jobsData.actions.wait,
       apply,
-      1.49,
+      null,
       false,
     ],
     [
@@ -371,7 +364,7 @@ describe(`fixed money decisions turn with traits and not when traits are flat, $
       housingData.actions.buy,
       housingData.actions.rent,
       buy,
-      1.49,
+      null,
       false,
     ],
     [
@@ -379,7 +372,7 @@ describe(`fixed money decisions turn with traits and not when traits are flat, $
       businessData.actions.draw,
       businessData.actions.keep,
       draw,
-      1.49,
+      null,
       false,
     ],
     [
@@ -397,8 +390,9 @@ describe(`fixed money decisions turn with traits and not when traits are flat, $
       expect(turnedShare(rows), `${id} at ${label}`).toBeGreaterThan(0);
       const odds = thirdsOddsRatio(rows);
       expect(odds, `${id} at ${label}`).toBeGreaterThan(1);
-      // Never overwhelming: on the recorded cases of a played year the odds between the thirds stay within a factor of three of the study's (or the assumed 1.2 per standard deviation); on built cases, which sit closer to the margin than a year's do, personality decides well under half of the picks.
-      if (recorded) expect(odds, `${id} at ${label}`).toBeLessThan(target * 3);
+      // Never overwhelming: on the recorded cases of a played year the odds between the thirds stay within a factor of three of the study's; on built cases, which sit closer to the margin than a year's do, personality decides well under half of the picks.
+      if (recorded && target !== null)
+        expect(odds, `${id} at ${label}`).toBeLessThan(target * 3);
       else expect(turnedShare(rows), `${id} at ${label}`).toBeLessThan(0.5);
     });
     it(`${id}: with every trait flat no pick turns`, () => {

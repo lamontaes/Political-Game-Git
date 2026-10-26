@@ -144,6 +144,11 @@
     "tag": "SOURCED",
     "citation": "IEC 80000-13: one mebibyte is 2^20 bytes."
   },
+  "votingAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "U.S. Constitution, Twenty-sixth Amendment (1971): the right to vote of citizens eighteen years of age or older shall not be denied on account of age."
+  },
   "targetPopulation": {
     "value": 10000,
     "tag": "SOURCED",
@@ -717,6 +722,19 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "openingPeerTieHours": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Hours of time together two people have at the opening when the records say they shared a school class or a workgroup in the town. Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): about 50 hours of time together to move from acquaintance to casual friend (the same study that sets closenessHoursAtHalf).",
+    "estimatedFrom": "Hall's roughly 50 hours to a casual friend, used as the estimated initial time together for every recorded school classmate and coworker. Shared hours and stint lengths are not measured per pair; the tie fades by the closeness half-life from the recorded day the shared context began, including for a current coworker. This is the registered opening approximation, not an observed duration for each pair.",
+    "spread": {
+      "low": 40,
+      "high": 60,
+      "unit": "hours together",
+      "citation": "Hall (2019): 40 to 60 hours to a casual friend, 80 to 100 to a friend."
+    },
+    "stopgapId": "SG-P15-closeness-model"
   },
   "closenessKinHalfLifeDays": {
     "value": 1095,
@@ -5207,6 +5225,17 @@
       "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
     }
   },
+  "siblingBirthGapDays": {
+    "value": 274,
+    "tag": "TUNABLE",
+    "citation": "The fewest days between two siblings' births in a household the opening draws: nine months, the owner's floor for siblings who are not twins (playtest, Oct 24, 2026, play-stop-20: siblings born at least nine months apart). A pregnancy begun right after a birth and carried to term, 39 to 40 weeks (American College of Obstetricians and Gynecologists, Committee Opinion 579, Definition of Term Pregnancy, 2013), ends 273 to 280 days later.",
+    "spread": {
+      "low": 245,
+      "high": 300,
+      "unit": "days",
+      "citation": "From a late-preterm birth at 35 weeks to a full-term birth a few weeks after a pregnancy begun at once."
+    }
+  },
   "minimumParentAgeAtBirth": {
     "value": 15,
     "tag": "SOURCED",
@@ -5407,6 +5436,17 @@
       "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
     }
   },
+  "playerEntryAge": {
+    "value": 18,
+    "tag": "TUNABLE",
+    "citation": "The turn-18 golden path's player entry age (AGENTS.md). The opening keeps at least one full resident of this age when one occurs in the place's generated households, selecting a household to keep full rather than creating an age cohort the place lacks. Matches the bench player's default entry age (src/bench/world.ts).",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years",
+      "citation": "Design sensitivity bounds around the turn-18 start, from 17 through 21 years."
+    }
+  },
   "cohortSearchMinimumHouseholds": {
     "value": 400,
     "tag": "TUNABLE",
@@ -5500,14 +5540,12 @@
     }
   },
   "traitWeightBusinessOwnerDraw": {
-    "value": 0.35,
-    "tag": "ESTIMATED",
-    "citation": "No study of owners' draws by personality has a number, so the target is assumed: an odds ratio of 1.49 between the thirds (1.2 per standard deviation, inside the 1.1 to 1.3 single-decision range of data/research/trait-effect-sizes.json). Weight set with scripts/traits/trait-calibrate.ts on played years of Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f, 192 calls: weight 0.35, odds ratio 1.62; 221 calls: 0.15, 1.62), Peacham, Vermont (place key 5054325, seed 58e683537f9b, 196 calls: 0.15, 1.71) and a third town (place key 2371780, seed c08fca61fc5c, 199 calls: 0.2, 1.62), with the draw weighed against the business's cash beyond a month of everything it pays out. Set at 0.35, the top of the fits, because at 0.15 one pick in 206 turned in a small town.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the business.owner-draw decision, at the general traitWeight (1): no study of owners' draws by personality gives a number, so by the pool item's rule this decision keeps the general weight, with its gap row in data/content/trait-decision-gaps.json. An owner weighs the business's cash against a month of everything it pays out before drawing.",
     "spread": {
-      "low": 0.15,
-      "high": 0.7,
-      "unit": "weight",
-      "citation": "The fits run 0.15 to 0.35; at 0.7 the odds ratio between the thirds is 3 in the same calls."
+      "status": "unmeasured",
+      "reason": "No study gives this decision a size; the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightBusinessOpenLocation": {
@@ -5531,47 +5569,39 @@
     }
   },
   "traitWeightJobsReviewWorker": {
-    "value": 4.05,
-    "tag": "ESTIMATED",
-    "citation": "Zimmerman 2008 (Personnel Psychology 61(2)): conscientiousness and agreeableness best predict actual turnover, direction only. Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 2,091 calls) to an odds ratio of 1.67 between the thirds, against an assumed 1.49 (1.2 per standard deviation, the 1.1 to 1.3 single-decision range of the research file). Large because staying scores about 2.5 above looking in the circumstances.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.review-worker decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 2,
-      "high": 6,
-      "unit": "weight",
-      "citation": "No interval in the study; 2 to 6 spans an odds ratio of about 1.2 to 2.5 in the same calls."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightJobsStartLooking": {
-    "value": 0.05,
-    "tag": "ESTIMATED",
-    "citation": "Zimmerman 2008, Understanding the impact of personality traits on individuals' turnover decisions (Personnel Psychology 61(2)): emotional stability best predicts intentions to quit, direction only, no number in the accessible text. Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 872 calls) so the odds of looking, third leaning most against third leaning least, net of the same gap without personality, is 1.33 against an assumed target of 1.49 (1.2 per standard deviation, inside the 1.1 to 1.3 single-decision range of data/research/trait-effect-sizes.json).",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.start-looking decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 0.03,
-      "high": 0.2,
-      "unit": "weight",
-      "citation": "Weights 0.05 to 0.2 keep the odds ratio between 1.2 and 2 in the same calls; the study gives no interval."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightJobsApply": {
-    "value": 0.7,
-    "tag": "ESTIMATED",
-    "citation": "Kanfer, Wanberg and Kantrowitz 2001, Job search and employment (Journal of Applied Psychology 86(5)): every antecedent but optimism relates to job search behavior, population correlations from -.15 to .46 (abstract; no per-trait number was retrievable, so the size is assumed). Weight set with scripts/traits/trait-calibrate.ts on played years with the seeker's push to apply easing over the weeks looked, to an assumed odds ratio of 1.49 between the thirds (1.2 per standard deviation, inside the 1.1 to 1.3 single-decision range of data/research/trait-effect-sizes.json): Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f) fit 0.2, 0.7 and 0.4 in three runs of 1,300 to 1,400 calls, and a third town (place key 2371780, seed c08fca61fc5c, 658 calls) 0.35; two small towns had too few to fit. Set at 0.7, the top of the fits, because below 0.6 no application turned in a town of 137 calls (at 1, 13 of 137 turn). Most applications are settled by the pay offered, so few turn.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.apply decision, at the general traitWeight (1): Kanfer, Wanberg and Kantrowitz 2001 (Journal of Applied Psychology 86(5)) report job search behavior's population correlations with its antecedents only as a range in the abstract (-.15 to .46), with no per-trait number retrieved, so by the pool item's rule this decision keeps the general weight, with its gap row in data/content/trait-decision-gaps.json. A seeker's push to apply eases with the weeks looked.",
     "spread": {
-      "low": 0.2,
-      "high": 1.0,
-      "unit": "weight",
-      "citation": "The fits run 0.2 to 0.7; at 1 the odds ratio between the thirds is 2.6 to 5.6 in the same calls."
+      "status": "unmeasured",
+      "reason": "No study gives this decision a size; the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightJobsAcceptOffer": {
-    "value": 1.2,
-    "tag": "ESTIMATED",
-    "citation": "Direction only (Zimmerman 2008, Personnel Psychology 61(2); Kanfer et al. 2001). Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 2,441 calls) to an odds ratio of 1.77 between the thirds against an assumed 1.49 (1.2 per standard deviation, the 1.1 to 1.3 single-decision range of the research file).",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.accept-offer decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 1,
-      "high": 1.5,
-      "unit": "weight",
-      "citation": "Calls cluster at one score, so the odds ratio steps from 1 to over 8 between weights 1.1 and 1.5; 1 to 1.5 brackets the step."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightHousingBuyHome": {
@@ -5662,47 +5692,39 @@
     }
   },
   "traitWeightJobsCountedRetire": {
-    "value": 0.59,
-    "tag": "ESTIMATED",
-    "citation": "Counted workers' retiring pull is a logistic of their reasons. Weight is ln(1.49) divided by 0.676, the mean lean gap between the thirds of counted adults (place key 3223500, seed 7ae8589566f5), an odds ratio of 1.49 between the thirds, an assumed 1.2 per standard deviation inside the 1.1 to 1.3 single-decision range (no retirement-timing study with a number was found).",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.counted-retire decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 0.4,
-      "high": 0.8,
-      "unit": "weight",
-      "citation": "Odds ratio of 1.3 to 1.7 between the thirds."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightJobsCountedLook": {
-    "value": 0.52,
-    "tag": "ESTIMATED",
-    "citation": "Counted workers' pull to look around and to quit is a logistic of their reasons, so a trait term multiplies the odds by e to the weight times lean. Weight is ln(1.49) divided by 0.756, the mean lean gap between the third of counted adults leaning most toward looking and the third leaning least (place key 3223500, seed 7ae8589566f5), so the odds ratio between the thirds is 1.49, the assumed 1.2 per standard deviation (direction only, Zimmerman 2008).",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.counted-look decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 0.35,
-      "high": 0.7,
-      "unit": "weight",
-      "citation": "Odds ratio of 1.3 to 1.7 between the thirds."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightJobsCountedApply": {
-    "value": 0.8,
-    "tag": "ESTIMATED",
-    "citation": "Counted seekers weigh applying on the chooser's arithmetic (leanedByKinds) with the same push to apply as full seekers, easing over the weeks looked. Direction only (Kanfer et al. 2001, Journal of Applied Psychology 86(5)). Weight set with scripts/traits/trait-calibrate.ts (place key 1515700, seed 6f7794a4906f, 365 played days, 16,818 calls) to an odds ratio of 1.50 against an assumed 1.49 (1.2 per standard deviation, inside the 1.1 to 1.3 single-decision range). Larger than the full-person weight because counted seekers' applications are settled one opening at a time, so more of them sit near the threshold.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.counted-apply decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 0.5,
-      "high": 1.0,
-      "unit": "weight",
-      "citation": "0.5 to 1 spans odds ratios of about 1.3 to 1.7 between the thirds in the same calls."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightJobsCountedAccept": {
-    "value": 1.5,
-    "tag": "ESTIMATED",
-    "citation": "Counted seekers answer an offer on the chooser's arithmetic (leanedByKinds). Direction only (Zimmerman 2008). Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 12,838 calls) to an odds ratio of 1.54 against an assumed 1.49 (1.2 per standard deviation). Close to the full-person weight of 1.2.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the jobs.counted-accept decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
-      "low": 1.2,
-      "high": 1.8,
-      "unit": "weight",
-      "citation": "1 to 1.6 spans odds ratios of about 1.0 to 2 in the same calls."
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightBusinessCountedFound": {

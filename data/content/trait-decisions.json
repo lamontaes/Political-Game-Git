@@ -570,6 +570,150 @@
       ]
     },
     {
+      "id": "scene-talk.move",
+      "site": "src/director/scene-talk.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "agree",
+          "actKinds": ["cooperate", "commit"]
+        },
+        {
+          "id": "accept",
+          "actKinds": ["concede", "cooperate"]
+        },
+        {
+          "id": "relent",
+          "actKinds": ["concede"]
+        },
+        {
+          "id": "refuse",
+          "actKinds": ["refuse", "confront"]
+        },
+        {
+          "id": "decline",
+          "actKinds": ["refuse", "play-safe"]
+        },
+        {
+          "id": "withdraw",
+          "actKinds": ["withdraw", "play-safe"]
+        },
+        {
+          "id": "bargain",
+          "actKinds": ["engage", "self-interest"]
+        },
+        {
+          "id": "stall",
+          "actKinds": ["delay", "play-safe"]
+        },
+        {
+          "id": "deflect",
+          "actKinds": ["delay", "stay-quiet"]
+        },
+        {
+          "id": "ask",
+          "actKinds": ["engage"]
+        },
+        {
+          "id": "request",
+          "actKinds": ["engage", "self-interest"]
+        },
+        {
+          "id": "answer",
+          "actKinds": ["speak-out", "trust"]
+        },
+        {
+          "id": "tell",
+          "actKinds": ["speak-out", "trust"]
+        },
+        {
+          "id": "thank",
+          "actKinds": ["cooperate"]
+        },
+        {
+          "id": "promise",
+          "actKinds": ["commit", "cooperate"]
+        },
+        {
+          "id": "offer",
+          "actKinds": ["help-others", "engage"]
+        },
+        {
+          "id": "comfort",
+          "actKinds": ["help-others"]
+        },
+        {
+          "id": "apologize",
+          "actKinds": ["concede", "help-others"]
+        },
+        {
+          "id": "blame",
+          "actKinds": ["confront", "self-interest"]
+        },
+        {
+          "id": "disagree",
+          "actKinds": ["confront", "speak-out"]
+        },
+        {
+          "id": "confront",
+          "actKinds": ["confront", "take-risk"]
+        },
+        {
+          "id": "boast",
+          "actKinds": ["speak-out", "take-risk"]
+        },
+        {
+          "id": "press",
+          "actKinds": ["confront", "engage"]
+        },
+        {
+          "id": "plea",
+          "actKinds": ["engage", "help-others"]
+        },
+        {
+          "id": "threaten",
+          "actKinds": ["confront", "self-interest"]
+        },
+        {
+          "id": "warn",
+          "actKinds": ["confront", "speak-out"]
+        },
+        {
+          "id": "lie",
+          "actKinds": ["bend-rules", "self-interest"]
+        },
+        {
+          "id": "confess",
+          "actKinds": ["follow-rules", "concede"]
+        },
+        {
+          "id": "leave",
+          "actKinds": ["withdraw", "play-safe"]
+        },
+        {
+          "id": "deny",
+          "actKinds": ["refuse", "self-interest"]
+        },
+        {
+          "id": "congratulate",
+          "actKinds": ["cooperate", "help-others"]
+        },
+        {
+          "id": "deliver-news",
+          "actKinds": ["speak-out", "trust"]
+        },
+        {
+          "id": "note",
+          "actKinds": ["stay-quiet"]
+        },
+        {
+          "id": "react",
+          "actKinds": ["speak-out"]
+        }
+      ]
+    },
+    {
       "id": "moves.move-away",
       "site": "src/core2/modules/moves.ts",
       "owner": "OPUS-PEOPLE",

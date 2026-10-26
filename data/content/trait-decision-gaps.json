@@ -7,6 +7,9 @@
     "src/core2/modules/jobs.ts:2587": "jobs.counted-look",
     "src/core2/modules/business.ts:1542": "business.counted-found"
   },
+  "openingRecordKinds": {
+    "appointments.weigh": "official-appointed"
+  },
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
@@ -103,6 +106,11 @@
       "why": "Read only to rank the replies offered to the player in a conversation the player opens (src/director/conversation.ts:2003, :2036) and in the player's speech builder (src/director/speech-builder.ts:281, from src/bench/campaign.ts).",
       "fix": "Player-only by design; covered by the player's conversations."
     },
+    "scene-talk.move": {
+      "class": "no trigger (player only)",
+      "why": "Read only when the director composes a scene with a purpose for the player (src/director/scene-talk.ts): the asker's answer and the reply the player's character leans toward.",
+      "fix": "Player-only by design; covered by scene-talk.test.ts on a generated town."
+    },
     "bring-it-up.blame": {
       "class": "no trigger (player only)",
       "why": "Read only when a person raises a change in a conversation the player opens: leansToBlame (src/director/bring-it-up.ts:125, decision read at :133) is reached from believedCause (:141), which bringItUp (:206) calls from the bench handler (src/bench/handler.ts:382) and the grading tool.",
@@ -130,8 +138,8 @@
     },
     "jobs.apply": {
       "class": "no study number",
-      "why": "Kanfer et al. 2001 give only the range of correlations across all antecedents of job search behavior (-.15 to .46; the abstract has no per-trait number), so the target is assumed (an odds ratio of 1.49 between the thirds, 1.2 per standard deviation). A seeker's push to apply now eases with the weeks looked (applyNeed, src/core2/modules/jobs.ts), so some applications sit near waiting; the weight fit 0.2, 0.7 and 0.4 in three runs of Holualoa's year (about 1,400 calls each) and 0.35 in a third town (658 calls), so 0.7, the top of the fits, stands. In small places (Peacham, 142 calls; 137 calls in a second drawn town) too few calls sit near waiting to fit, and at lower weights none turned.",
-      "fix": "A study that reports a per-trait size for job search intensity."
+      "why": "Kanfer et al. 2001 give only the range of correlations across all antecedents of job search behavior (-.15 to .46; the abstract has no per-trait number), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study). A seeker's push to apply eases with the weeks looked (applyNeed, src/core2/modules/jobs.ts), so some applications sit near waiting and temperament turns some of them.",
+      "fix": "Read Kanfer et al.'s per-trait correlations from the paper's tables and fit the weight to them (research-jobs-apply-kanfer-per-trait)."
     },
     "drives.respond": {
       "class": "circumstances saturate the choice",
@@ -159,9 +167,9 @@
       "fix": "Fold the age term (standAgainReason, voting.ts:334) into candidacy's reasons for an incumbent and delete standsAgain and the stand-in branch, or measure the decision only in a world built without candidacy (pool item elections-stand-again-dead-with-candidacy)."
     },
     "appointments.weigh": {
-      "class": "runs only at the opening and on a vacancy",
-      "why": "The appointer's loyalty against merit (src/core2/appointments.ts:56) is read whenever a post is filled. The town's department heads and the state's cabinet are filled when the executive module opens (src/core2/modules/executive.ts:151-152), before the audit's probe is on; afterward only a department head who dies or moves away (executive.ts:1168-1172) or a newly seated governor (:1197) fills one, and neither happened in the election window.",
-      "fix": "Count the opening's calls apart from the played year, with an appointment's record id (traits-audit-opening-appointments)."
+      "class": "runs at the opening; in the played year only on a vacancy",
+      "why": "The appointer's loyalty against merit (src/core2/appointments.ts:46) is weighed whenever a town's mayor or council fills a department post (src/core2/modules/executive.ts:276) and when a governor the player plays nominates a cabinet member (:815); the world's governors fill their cabinets without it (appointStateCabinet). The audit now counts the opening apart from the year (its `opening`): in Canton City (Hensel), North Dakota (place key 3812060, seed d6aed6c1ceaf, January 20, 2025) the mayor weighed all 8 department posts; retained opening records include appointed:appointment:town:city-administrator:2025-01-20, appointed:appointment:town:police-chief:2025-01-20 and appointed:appointment:town:fire-chief:2025-01-20 on the integrated main result. The played year still lacks a call: afterward only a department head who dies or moves away fills a post (executive.ts:1165-1172), and none did in the original played-year audit.",
+      "fix": "The opening's calls are counted (callsAtOpening in the matrix); a played-year call needs a drawn year in which a department head dies or moves away, as traits-accept-appointment-vacancy-proof finds for a local seat."
     },
     "housing.settle-arrears": {
       "class": "counted households have no arrears of their own",
@@ -200,13 +208,48 @@
     },
     "business.owner-draw": {
       "class": "no study number",
-      "why": "No study of owners' draws by personality has a number, so the target is assumed (an odds ratio of 1.49 between the thirds). An owner now weighs the business's cash against a month of everything it pays out, not only payroll (a firm with no payroll had no cushion, so all its cash looked spare and every owner drew), so 40 to 50 percent of weighings sit within a point of keeping. The weight fits 0.15 to 0.35 across four draws (Holualoa 192 and 221 weighings, Peacham 196, a third town 199; odds ratios 1.6 to 1.7), and 0.35, the top of the fits, stands because at 0.15 almost nothing turned in a small town (206 weighings).",
+      "why": "No study of owners' draws by personality has a number, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study). An owner weighs the business's cash against a month of everything it pays out, not only payroll, so 40 to 50 percent of weighings sit within a point of keeping, and temperament turns some of them.",
       "fix": "A study that reports owners' withdrawals by trait."
     },
     "jobs.raise-for-opening": {
       "class": "a size, not a choice",
       "why": "How much of the affordable raise an owner gives an unfilled seat is a share (open-handedness times what the seat can carry), not a two-way choice, so scripts/traits/trait-calibrate.ts cannot fit it. Thielmann, Spadaro and Balliet 2020 (Psychological Bulletin 146(1), Table 8) give the nearest size: agreeableness .08 and honesty-humility .09 with what an ultimatum proposer offers (data/research/trait-effect-sizes.json, jobs.raise-for-opening), a lab game with students, so the general weight of 1 stands.",
       "fix": "A study of employers' wage offers by trait, or a fit of the share against the correlation of .08."
+    },
+    "jobs.review-worker": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (conscientiousness and agreeableness best predict actual turnover), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.start-looking": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (emotional stability best predicts intentions to quit), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.accept-offer": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read and Kanfer et al. 2001 (Journal of Applied Psychology 86(5)) give only the range of correlations across all antecedents of job search behavior (-.15 to .46) in the abstract read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.counted-retire": {
+      "class": "no study number",
+      "why": "No retirement-timing study with a number by trait was found, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.counted-look": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (emotional stability best predicts intentions to quit), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.counted-apply": {
+      "class": "no study number",
+      "why": "Kanfer et al. 2001 (Journal of Applied Psychology 86(5)) give only the range of correlations across all antecedents of job search behavior (-.15 to .46) in the abstract read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-apply-kanfer-per-trait)."
+    },
+    "jobs.counted-accept": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
     }
   }
 }

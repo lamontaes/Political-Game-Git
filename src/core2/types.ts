@@ -513,6 +513,8 @@ export interface WorkCommitmentInput {
   personId: PersonId;
   organizationId: string;
   startsAt: IsoDate;
+  /** When the person first held this job, where that is earlier than this commitment: a counted worker filled in keeps the tenure their records gave them, while work and pay run from `startsAt`. */
+  heldSince?: IsoDate;
   endsAt?: IsoDate;
   anchorDate: IsoDate;
   periodDays: number;
