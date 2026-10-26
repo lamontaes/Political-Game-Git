@@ -10,6 +10,7 @@
 import { townOutsideOf } from "./opening-outside-market";
 import { transferCash } from "./world-transfer";
 import type { ModuleRow } from "./module-data";
+import { formerHome } from "./housing-former-home";
 import type { MortgageRow } from "./housing-foreclosure";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -118,14 +119,15 @@ export function sellHome(
     )
       api.endStandingContract(mortgage.id);
   }
-  table(api, "dwellings").put({
-    id: `dwelling:${householdId}`,
-    householdId,
-    tenure: "sold",
-    kind: dwelling.kind ?? "house",
-    since: c.date,
-    basis: "sale",
-  });
+  table(api, "dwellings").put(
+    formerHome(dwelling, {
+      householdId,
+      tenure: "sold",
+      basis: "sale",
+      date: c.date,
+      soldForMinor: price,
+    }) as unknown as ModuleRow,
+  );
   const sale: HomeSale = {
     id: `home-sale:${stamp}`,
     householdId,

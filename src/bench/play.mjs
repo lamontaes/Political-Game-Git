@@ -650,7 +650,7 @@ async function refresh() {
       $("backdrop").src = night.backdrop.url;
       drawPeople(night.people);
     }
-    await openSheet("campaigns");
+    await openSheet("results");
     return;
   }
   // A law that took effect: what changed in town.
@@ -689,6 +689,17 @@ async function act(path) {
         `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
       );
     }
+    // A job offer holds the clock: the offer itself, then the day goes on.
+    const offerStop = jobOfferStop(result.packet);
+    if (offerStop) {
+      const answered = await atTheOffer(offerStop);
+      if (answered) {
+        busy = false;
+        return act(
+          `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
+        );
+      }
+    }
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
   } catch (error) {
@@ -704,6 +715,18 @@ async function act(path) {
 function officeStop(value) {
   return value?.kind === "stop"
     ? value.stop.modules.find((row) => row.moduleId === "core2-office-day-v1")
+    : undefined;
+}
+/** A stop the jobs engine holds: an employer's offer to the player, when it
+ * arrives and again at its deadline. Every hold reason answers here, the
+ * offer-deadline kind included. */
+function jobOfferStop(value) {
+  return value?.kind === "stop"
+    ? value.stop.modules.find(
+        (row) =>
+          row.moduleId === "jobs" &&
+          (row.reasonKey === "job-offered" || row.kind === "offer-deadline"),
+      )
     : undefined;
 }
 const voteWords = () => controls.meeting ?? {};
@@ -924,6 +947,80 @@ function atThePolls(scene) {
     draw(scene);
     show("ballot", true);
   });
+}
+// ---- A job offer (jobs): the hold is the offer itself ----
+// The employer, the job and the pay with Take it and Turn it down: the
+// engine offers, the player decides. Either answer releases the
+// hold and the day goes on; before the deadline the offer can also wait,
+// answerable at the Jobs tab, until the deadline holds the clock.
+async function atTheOffer(stopRow) {
+  const labels = controls.jobs ?? {};
+  const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`).catch(
+    () => ({ offers: [] }),
+  );
+  const offer = (view.offers ?? []).find((row) =>
+    stopRow.recordId.startsWith(`${row.id}:`),
+  );
+  if (!offer) return false;
+  $("job-offer-title").textContent = offer.title;
+  $("job-offer-employer").textContent = offer.employer;
+  $("job-offer-facts").replaceChildren(
+    row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
+    row(labels.deadline, proseDate(offer.deadline)),
+  );
+  $("job-offer-take").textContent = labels.accept ?? "";
+  $("job-offer-turn").textContent = labels.decline ?? "";
+  $("job-offer-wait").textContent = labels.notNow ?? "";
+  $("job-offer-status").textContent = "";
+  // The deadline holds the clock: answering is the only way out. An offer
+  // that just arrived can wait.
+  $("job-offer-wait").hidden = Boolean(stopRow.hold);
+  return await new Promise((resolve) => {
+    const close = (answered) => {
+      show("job-offer", false);
+      resolve(answered);
+    };
+    const answer = async (kind) => {
+      for (const button of $("job-offer").querySelectorAll("button"))
+        button.disabled = true;
+      try {
+        const result = await post(
+          `/api/jobs/answer?${new URLSearchParams({
+            offerId: offer.id,
+            answer: kind,
+          })}`,
+        );
+        if (result.answered) close(true);
+        else {
+          // The employer withdrew it while the moment stood open.
+          $("job-offer-status").textContent = labels.unavailable ?? "";
+          setTimeout(() => close(false), 1500);
+        }
+      } catch {
+        $("job-offer-status").textContent = labels.failed ?? "";
+        for (const button of $("job-offer").querySelectorAll("button"))
+          button.disabled = false;
+      }
+    };
+    $("job-offer-take").onclick = () => answer("accept");
+    $("job-offer-turn").onclick = () => answer("decline");
+    $("job-offer-wait").onclick = () => close(false);
+    // A later offer's moment must not inherit an answered one's disabled buttons.
+    for (const button of $("job-offer").querySelectorAll("button"))
+      button.disabled = false;
+    show("job-offer", true);
+    $("job-offer-take").focus();
+  });
+}
+/** The offer moment for a hold already open when the page loads. */
+async function openOfferMoment() {
+  const stopRow = jobOfferStop(packet);
+  if (!stopRow) return;
+  const answered = await atTheOffer(stopRow);
+  if (answered)
+    await act(
+      `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: packet.pauseId })}`,
+    );
 }
 // Day and Week run the world forward (owner, Oct 15, 2026); a calendar day
 // runs it to that day. A scene the director fires stops any of them there.
@@ -2772,12 +2869,23 @@ const sheets = {
     const labels = controls.results;
     seenResults = races.length;
     const number = (n) => n.toLocaleString("en-US");
-    return races.slice(0, 8).map((race) =>
+    // The newest night in full, your own race first; earlier nights' races after.
+    const night = races.filter((race) => race.date === races[0]?.date);
+    const earlier = races.slice(night.length, night.length + 8);
+    return [...night, ...earlier].map((race) =>
       el(
         "div",
-        { className: "row race" },
+        { className: `row race${race.mine ? " own" : ""}` },
+        race.mine
+          ? el(
+              "div",
+              { className: "mine" },
+              el("b", { textContent: `${labels.yourRace} ` }),
+              race.mine.won ? labels.won : labels.lost,
+            )
+          : "",
         el("b", {
-          textContent: `${race.title} · ${race.date}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
+          textContent: `${race.title} · ${proseDate(race.date)}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
         }),
         ...race.candidates.map((c) =>
           el("div", {
@@ -3705,9 +3813,25 @@ const sheets = {
   },
   async campaigns() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    // A filing whose race has been decided reads as won or lost.
+    const decided = new Map(
+      (await api(`/api/results?id=${encodeURIComponent(me.id)}`))
+        .filter((race) => race.mine)
+        .map((race) => [race.contestId, race.mine.won]),
+    );
+    const labels = controls.results;
     return [
       ...(await campaignRows()),
-      ...v.filings.map((f) => row(words(f.status), f.filedWith)),
+      ...v.filings.map((f) =>
+        row(
+          decided.has(f.contestId)
+            ? decided.get(f.contestId)
+              ? labels.won
+              : labels.lost
+            : words(f.status),
+          f.filedWith,
+        ),
+      ),
       ...(await sheets.results()),
     ];
   },
@@ -3720,10 +3844,11 @@ const sheets = {
     let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
-    // Another state's legislature: every sitting member, by chamber.
+    // Another state's members at this level, its legislature or its members
+    // of Congress: every sitting member, by chamber.
     const drawOtherState = async () => {
       const other = await api(
-        `/api/government/state?${new URLSearchParams({ state: otherState })}`,
+        `/api/government/state?${new URLSearchParams({ state: otherState, level })}`,
       );
       const chambers = new Map();
       for (const s of other.legislators) {
@@ -3760,8 +3885,8 @@ const sheets = {
     };
     const statePick = el("select", { className: "government-state" });
     const draw = () => {
-      statePick.hidden = level !== "state";
-      if (level === "state" && otherState) {
+      statePick.hidden = level === "local";
+      if (level !== "local" && otherState) {
         drawOtherState();
         for (const b of picker.querySelectorAll("button"))
           b.classList.toggle("on", b.dataset.level === level);
@@ -3831,6 +3956,15 @@ const sheets = {
                 if (won) history.dataset.election = won.termId;
                 line.append(history);
               }
+              // Elected and not yet seated: who won the seat, and when they take office.
+              if (s.elect) {
+                const elect = el("div", {
+                  className: "row elect",
+                  textContent: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${proseDate(s.elect.takesOffice)}`,
+                });
+                elect.dataset.contest = s.elect.contestId;
+                line.append(elect);
+              }
               if (s.holder?.personId) {
                 const b = el("button", {
                   type: "button",
@@ -3896,9 +4030,18 @@ const sheets = {
     });
     picker.append(statePick);
     draw();
-    // The key people the opening names: one list for both screens.
-    const keyPeople = v.keyPeople.map((k) => {
-      const line = row(k.officeTitle, k.name);
+    // The key people: the player's own members first, then the President,
+    // the Vice President and each chamber's leader by post and chamber (a
+    // leader from another state names the state they serve). Every other
+    // member is behind the State and Federal filters.
+    const keyLine = (k) => {
+      const line =
+        k.post && !k.own
+          ? row(`${words(k.post)}, ${k.chamber ?? k.officeTitle}`, k.name)
+          : row(k.officeTitle, k.name);
+      for (const text of [k.own && k.post ? words(k.post) : null, k.stateName])
+        if (text)
+          line.append(el("span", { className: "label", textContent: text }));
       // The President and Vice President a territory's voters do not choose.
       if (k.chosenByHere === false)
         line.append(
@@ -3918,7 +4061,23 @@ const sheets = {
         line.append(b);
       }
       return line;
-    });
+    };
+    const own = v.keyPeople.filter((k) => k.own);
+    const leaders = v.keyPeople.filter((k) => !k.own);
+    // Each group stays in one column with its heading.
+    const keyPeople = [
+      [labels.yourMembers, own],
+      [labels.leaders, leaders],
+    ]
+      .filter(([, rows]) => rows.length)
+      .map(([title, rows]) =>
+        el(
+          "section",
+          { className: "key-people" },
+          el("h3", { textContent: title }),
+          ...rows.map(keyLine),
+        ),
+      );
     // The party the player belongs to, with the tie's record and how their
     // views fit it; the parties they could join otherwise. Never joined: files
     // unaffiliated.
@@ -4194,6 +4353,7 @@ $("front-continue").addEventListener("click", async () => {
   $("game").classList.add("in-play");
   if (life.packet) renderPacket(life.packet);
   await refresh();
+  await openOfferMoment();
 });
 // The desktop window closes (and the app quits); a browser tab has no Quit.
 if (window.location.protocol === "app:") {
@@ -4460,8 +4620,9 @@ async function listTowns() {
       const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
       const b = el(
         "button",
-        { type: "button", className: "item" },
-        el("b", { textContent: t.name }),
+        // In the state buttons' font, name and count alike.
+        { type: "button", className: "item town" },
+        el("span", { textContent: t.name }),
         el("small", {
           textContent: t.county ? `${t.county}, ${size}` : size,
         }),
@@ -4684,6 +4845,7 @@ async function startLife({ custom = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();
+    await openOfferMoment();
     showNewsSurface(opening?.news);
     coachFirstChoices();
   } catch (error) {

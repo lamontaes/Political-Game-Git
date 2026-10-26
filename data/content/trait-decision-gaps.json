@@ -7,6 +7,9 @@
     "src/core2/modules/jobs.ts:2587": "jobs.counted-look",
     "src/core2/modules/business.ts:1542": "business.counted-found"
   },
+  "openingRecordKinds": {
+    "appointments.weigh": "official-appointed"
+  },
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
@@ -114,9 +117,9 @@
       "fix": "Player-only by design."
     },
     "press.dig": {
-      "class": "no trigger (player only)",
-      "why": "Two routes. An interview answer whose move is a lie schedules the reporter's check (src/core2/modules/press.ts:1773-1780, read at :1845), but candidateAnswers gives every candidate who is not the player the move 'plain' (:1929, :1935), so only the player's interview can lie: 168 interviews were accepted in the election window and none dug. A tipped crime reaches the dig at :2166, which needs a taken bribe.",
-      "fix": "Let a simulated candidate whose stated position contradicts their recorded vote answer with the lie move, from their own honesty, ties and the record; the reporter's check then runs from the press engine's own rule (pool item press-world-candidates-answer-from-record)."
+      "class": "no study number",
+      "why": "Runs in play since world candidates shade answers about their votes (press.shade-answer): in a played year of Frederiksted Southeast, U.S. Virgin Islands (run seed shadeproof1, December 3, 2025 to December 3, 2026) reporters weighed checking all 24 shaded answers and dug into 14, and 837 readers' views cite the printed stories. No study gives the odds that a reporter checks a claim by trait, so the general weight of 1 stands.",
+      "fix": "Calibrate when a study gives journalists' fact-checking by trait (traits-wire-civic)."
     },
     "estates.will": {
       "class": "circumstances saturate the choice",
@@ -129,29 +132,19 @@
       "fix": "Same as corruption.offer: once any crime reaches a sentence, the governor's review has someone to weigh (pool item people-corruption-honest-pull-calibrated)."
     },
     "housing.buy-home": {
-      "class": "weight too small",
-      "why": "Runs at the housing review but every household keeps renting (the buy baseline and down-payment terms outweigh any lean).",
-      "fix": "Calibrate the buy reasons so some households buy, then the trait weight."
+      "class": "no study number",
+      "why": "No study of personality and becoming a homeowner was found, so the weight stays at the general 1 and the fits against an assumed 1.49 between the thirds are kept here: Holualoa, Hawaii 2.05 (341 weighings, 3 buyers, odds ratio 1.68); Peacham, Vermont none reachable (140 weighings, 1 purchase); place key 2371780 0.1 (791 weighings, 16 buyers, odds ratio 11 at weight 1). A renter now weighs the share of the down payment it is short, from none to all of it (homeBuyReasons, src/core2/modules/housing.ts), instead of a log that ran to minus thirty, and buying sits 0.6 below renting before cost, so households that can pay the down payment sit within reach of a lean. Counted renter households do not buy at all yet (pool item world-counted-renters-buy), so this decision has no counted counterpart.",
+      "fix": "A homeownership study with a trait number, and the counted renters' purchase path."
     },
     "jobs.apply": {
-      "class": "weight too small",
-      "why": "Ran 545 times; the pick never changed with personality.",
-      "fix": "Calibrate against job-search research."
-    },
-    "jobs.review-worker": {
-      "class": "weight too small",
-      "why": "Ran 2,059 times; the pick never changed with personality.",
-      "fix": "Calibrate against turnover research."
+      "class": "no study number",
+      "why": "Kanfer et al. 2001 give only the range of correlations across all antecedents of job search behavior (-.15 to .46; the abstract has no per-trait number), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study). A seeker's push to apply eases with the weeks looked (applyNeed, src/core2/modules/jobs.ts), so some applications sit near waiting and temperament turns some of them.",
+      "fix": "Read Kanfer et al.'s per-trait correlations from the paper's tables and fit the weight to them (research-jobs-apply-kanfer-per-trait)."
     },
     "drives.respond": {
       "class": "circumstances saturate the choice",
       "why": "Personality turned none of 1,471 drive responses in Ely, Nevada at any weight up to 8: the drive's own strength separates the options. No study gives a size (neuroticism and rumination is the direction).",
       "fix": "None until the options score closer or a study gives a size; the general trait weight of 1 stands."
-    },
-    "credit.borrow": {
-      "class": "rare",
-      "why": "Ran 16 times in the year.",
-      "fix": "Check what triggers borrowing; calibrate."
     },
     "school.attend": {
       "class": "circumstances saturate the choice",
@@ -174,14 +167,14 @@
       "fix": "Fold the age term (standAgainReason, voting.ts:334) into candidacy's reasons for an incumbent and delete standsAgain and the stand-in branch, or measure the decision only in a world built without candidacy (pool item elections-stand-again-dead-with-candidacy)."
     },
     "appointments.weigh": {
-      "class": "runs only at the opening and on a vacancy",
-      "why": "The appointer's loyalty against merit (src/core2/appointments.ts:56) is read whenever a post is filled. The town's department heads and the state's cabinet are filled when the executive module opens (src/core2/modules/executive.ts:151-152), before the audit's probe is on; afterward only a department head who dies or moves away (executive.ts:1168-1172) or a newly seated governor (:1197) fills one, and neither happened in the election window.",
-      "fix": "Count the opening's calls apart from the played year, with an appointment's record id (traits-audit-opening-appointments)."
+      "class": "runs at the opening; in the played year only on a vacancy",
+      "why": "The appointer's loyalty against merit (src/core2/appointments.ts:46) is weighed whenever a town's mayor or council fills a department post (src/core2/modules/executive.ts:276) and when a governor the player plays nominates a cabinet member (:815); the world's governors fill their cabinets without it (appointStateCabinet). The audit now counts the opening apart from the year (its `opening`): in Canton City (Hensel), North Dakota (place key 3812060, seed d6aed6c1ceaf, January 20, 2025) the mayor weighed all 8 department posts; retained opening records include appointed:appointment:town:city-administrator:2025-01-20, appointed:appointment:town:police-chief:2025-01-20 and appointed:appointment:town:fire-chief:2025-01-20 on the integrated main result. The played year still lacks a call: afterward only a department head who dies or moves away fills a post (executive.ts:1165-1172), and none did in the original played-year audit.",
+      "fix": "The opening's calls are counted (callsAtOpening in the matrix); a played-year call needs a drawn year in which a department head dies or moves away, as traits-accept-appointment-vacancy-proof finds for a local seat."
     },
     "housing.settle-arrears": {
-      "class": "no trigger (fill-in only)",
-      "why": "Runs only when a counted household with an open eviction case is filled in (src/core2/modules/housing.ts:2041 onFillIn, :2057), which happens when the player meets or clicks one of its members. The other engines' fill-ins (staff.ts:677, candidacy.ts:730, constituent-cases.ts:275, campaigns.ts:806, press.ts:2563, housing-homeless.ts:508, housing-foreclosure.ts:331) reached no such household.",
-      "fix": "A household behind on rent settles what it can each month from its spare cash, full and counted by the same rule, so a fill-in only carries the record (traits-wire-money, PR 5587: 20 and 5 weighings in its two drawn towns)."
+      "class": "counted households have no arrears of their own",
+      "why": "Runs each month for every full household with rent owed (src/core2/modules/housing.ts, review calls settleArrears and writes a `settlements` row per household and month; South Paris, Maine: 17 rows, 8 of them with a payment; Arroyo Hondo, New Mexico: 4 rows, none paid) and once when a counted household behind on rent is filled in. It does not run monthly for counted households: their rent is paid from a pool shared by place, and the pool repays its group's arrears every month before anything else (src/core2/counted-money.ts, chargeGroups asks rent plus the group's arrears), so there is no moment when a counted household holds cash and chooses between settling and letting it lapse. Households behind on rent seldom hold cash beyond a month's living, so most weighings paid nothing. Willingness is a share, so the general weight of 1 stands with no study.",
+      "fix": "Give counted households cash and arrears of their own (stopgap SG-WORLD-housing-counted-rent), then weigh them monthly like the full ones."
     },
     "legislature.poison-pill": {
       "class": "rare",
@@ -207,6 +200,56 @@
       "class": "circumstances saturate the choice",
       "why": "A couple's case for planning a child (src/core2/births-plan.ts, birthCircumstances) sits 3.6 to 18.3 below waiting in nine of ten reviews (Haledon, New Jersey, seed fc8bf1311d0f, 384 reviews), while temperament spans about plus or minus 0.4, so at the general weight it turned none. scripts/traits/trait-calibrate.ts fits 7.05 there (odds 1.74 against the study's 1.93), but at that weight the share of reviews that plan a child rises from 1.8% to 2.6%, about 40% more births; in Kenvir, Kentucky (32bb83941552, 210 reviews) no weight reaches it.",
       "fix": "Re-center the waiting side against the births rate, then set the weight (traits-plan-child-weight-recentered)."
+    },
+    "business.open-location": {
+      "class": "weight too small",
+      "why": "Owners never open a second location in 282 weighings: the expand score sits 6 to 9 below keeping (baseline -3, room term, src/core2/modules/business.ts:1551), and no study of owners' expansion by personality has a number.",
+      "fix": "Find a study of owner expansion and calibrate the expand baseline against it."
+    },
+    "business.owner-draw": {
+      "class": "no study number",
+      "why": "No study of owners' draws by personality has a number, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study). An owner weighs the business's cash against a month of everything it pays out, not only payroll, so 40 to 50 percent of weighings sit within a point of keeping, and temperament turns some of them.",
+      "fix": "A study that reports owners' withdrawals by trait."
+    },
+    "jobs.raise-for-opening": {
+      "class": "a size, not a choice",
+      "why": "How much of the affordable raise an owner gives an unfilled seat is a share (open-handedness times what the seat can carry), not a two-way choice, so scripts/traits/trait-calibrate.ts cannot fit it. Thielmann, Spadaro and Balliet 2020 (Psychological Bulletin 146(1), Table 8) give the nearest size: agreeableness .08 and honesty-humility .09 with what an ultimatum proposer offers (data/research/trait-effect-sizes.json, jobs.raise-for-opening), a lab game with students, so the general weight of 1 stands.",
+      "fix": "A study of employers' wage offers by trait, or a fit of the share against the correlation of .08."
+    },
+    "jobs.review-worker": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (conscientiousness and agreeableness best predict actual turnover), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.start-looking": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (emotional stability best predicts intentions to quit), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.accept-offer": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read and Kanfer et al. 2001 (Journal of Applied Psychology 86(5)) give only the range of correlations across all antecedents of job search behavior (-.15 to .46) in the abstract read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.counted-retire": {
+      "class": "no study number",
+      "why": "No retirement-timing study with a number by trait was found, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.counted-look": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (emotional stability best predicts intentions to quit), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
+    },
+    "jobs.counted-apply": {
+      "class": "no study number",
+      "why": "Kanfer et al. 2001 (Journal of Applied Psychology 86(5)) give only the range of correlations across all antecedents of job search behavior (-.15 to .46) in the abstract read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-apply-kanfer-per-trait)."
+    },
+    "jobs.counted-accept": {
+      "class": "no study number",
+      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
+      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
     }
   }
 }

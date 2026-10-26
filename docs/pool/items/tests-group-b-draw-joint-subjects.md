@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/law-reach-group-b.test.ts
 
 **Notes.** Found by the laws lead while gating PR #5649 (taxes), whose diff changes this test file, so CI runs it there.
+
+Merger 1, 2026-10-26: PR #5649 integration 36bdfe4d39 and clean main 8abee77ef0 both fail the same shared beforeAll at fresh seed 8158a83ca8b70cdf, with identical forty-town lists and missing joint subjects. Each has three passing cases and 29 skipped after the setup failure; the PR adds no skip. Clean-main single-file run took 53.89 seconds. This inherited failure does not gate the taxes PR.

@@ -359,5 +359,29 @@
     "addedAt": "2026-10-20",
     "replacement": "An occasion fact on every speech.heard record, and the campaign act on a candidate's, written by each producer (campaigns, meetings, legislature, parties, press, the governor's address), read here first.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-param-journalRaceCloseMargin",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "The lead below which a journal says one's own race was close.",
+    "why": "A wording threshold no source sets yet; it decides only which sentence a journal may say, never an outcome.",
+    "addedBy": "Words session",
+    "addedAt": "2026-10-26",
+    "replacement": "A band sourced from published margin-of-victory analyses of U.S. elections.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-param-journalRaceWideMargin",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "The lead above which a journal says one's own race was not close.",
+    "why": "A wording threshold no source sets yet; it decides only which sentence a journal may say, never an outcome.",
+    "addedBy": "Words session",
+    "addedAt": "2026-10-26",
+    "replacement": "A band sourced from published margin-of-victory analyses of U.S. elections.",
+    "status": "open"
   }
 ]
