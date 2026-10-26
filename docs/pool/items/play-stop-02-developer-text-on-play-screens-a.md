@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: play-first/play-stop-02-developer-text-on-play-screens-a
+status: open
+claimed-by:
 pr: #6086
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T19:14:21.117Z
+claimed-at:
 ---
 
 **What.** On the v0.22.10 release News showed "REGION · 2025-01 unemploymentPct 4.4 · jobsThousands 6909.0 · hourlyEarnings 30.3 · priceLevelPct 92.9", public records reading "Press.archived" and "Press.printed", and three entries reading only "Official appointed" with no names. These are code field names and record keys on the player's screen. This part makes every News line read as record data in plain labels or engine text, with dates as November 3, 2026.
