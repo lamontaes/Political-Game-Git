@@ -1,6 +1,84 @@
 {
   "entries": [
     {
+      "version": "0.33.0",
+      "releasedOn": "2026-10-26",
+      "revision": "b1ff38918ef1def92311a07d215b6ebb70ef0cee",
+      "changeIds": [
+        "audit-fix4-campaigns-browser-check",
+        "web-reach-environment"
+      ]
+    },
+    {
+      "version": "0.32.9",
+      "releasedOn": "2026-10-26",
+      "revision": "68b293f55772eafae977a086a20f0d4a4208e0f8",
+      "changeIds": [
+        "effects-end-to-end-talk-screenshot",
+        "play-bench-card-every-icon-opens",
+        "world-opening-city-administrator-shift-pattern"
+      ]
+    },
+    {
+      "version": "0.32.8",
+      "releasedOn": "2026-10-26",
+      "revision": "0a5d5d0a97dd70d91aebef037021742060de224a",
+      "changeIds": [
+        "core-speed-drive-write-checks-in-play",
+        "laws-georgia-state-minimum-wage-missing",
+        "research-regional-population-change-range"
+      ]
+    },
+    {
+      "version": "0.32.7",
+      "releasedOn": "2026-10-26",
+      "revision": "4ccd7b349f5d5374ce6939d72ae6e4d1d63f5d3c",
+      "changeIds": [
+        "core-memory-circle-retention-leaks",
+        "core-speed-official-pay-outside-once",
+        "tests-apply-need-no-town-with-spread",
+        "tests-law-reach-group-a-age-check-empty-town",
+        "traits-money"
+      ]
+    },
+    {
+      "version": "0.32.6",
+      "releasedOn": "2026-10-26",
+      "revision": "9090e25d2ce8f6a6bf3ef1dbae4f97dcb03941b6",
+      "changeIds": [
+        "tests-scandal-term-timeout",
+        "words-scene-narration-says-news-twice"
+      ]
+    },
+    {
+      "version": "0.32.5",
+      "releasedOn": "2026-10-26",
+      "revision": "1646215d362e2b78aa3e9b81a4ff943e8460e820",
+      "changeIds": [
+        "gov-played-world-counted-voters-township-board",
+        "people-m0-06-parent-fourteen-at-birth",
+        "traits-audit-opening-appointments"
+      ]
+    },
+    {
+      "version": "0.32.4",
+      "releasedOn": "2026-10-26",
+      "revision": "9fd9a633aa93d81938b403cbe46c53e7ef4b65c9",
+      "changeIds": [
+        "web-coverage-reads",
+        "world-regional-rest-floor-misses-state-rate"
+      ]
+    },
+    {
+      "version": "0.32.3",
+      "releasedOn": "2026-10-26",
+      "revision": "dc56f04f43e92d9d4ed9c330f3b0b73af7eabc0b",
+      "changeIds": [
+        "play-siblings-spaced-adults-by-birthday",
+        "tests-candidacy-incumbents-rerun-ceiling"
+      ]
+    },
+    {
       "version": "0.32.2",
       "releasedOn": "2026-10-26",
       "revision": "206d10274b843a70db883fbabb24b293c7dd9a28",

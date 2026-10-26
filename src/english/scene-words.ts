@@ -58,6 +58,8 @@ export interface Fact {
 export interface SceneLine {
   text: string;
   sourceRecordIds: readonly string[];
+  /** The facts the sentence names (its slots), so the director knows what it said. */
+  usedFactKeys?: readonly string[];
 }
 
 /**
@@ -165,6 +167,7 @@ export function wordSceneLine(request: {
   return {
     text: result.text.charAt(zero).toUpperCase() + result.text.slice(one),
     sourceRecordIds: result.sourceRecordIds,
+    usedFactKeys: result.usedFactKeys,
   };
 }
 

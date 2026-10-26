@@ -5,11 +5,12 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/web-matrix-engine-source-evidence
+pr: #6154
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T07:04:43.943Z
 ---
 
 **What.** The effect matrix reports every engine measure as world-metrics months.<field>, even when its configured provider is a named reader or another module. On clean main 636d375fe726ae99b927af83e8186a7f1b1cf87a, property-tax-to-rent is credited to world-metrics months. while housing.property-tax-rate is provided by the property-tax-rate reader. The report therefore points review evidence at a table that does not own that value, and the new schools-line reader inherits the same defect.

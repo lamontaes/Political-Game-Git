@@ -22,3 +22,7 @@ claimed-at: 2026-10-18T03:47:04.661Z
 **Files.** src/core2/budgets-treasury.ts, src/core2/data/budgets/spending-payees.json, src/core2/opening-capital.ts
 
 **Notes.** Measured Oct 17 (claude) with a wrapper on `api.postJournal` summing `work-payroll` postings by organization owner, for organizations with at least one current full-person job. The other states' delegations (`government-outside`, 17 jobs each) are also unpaid, by design for now. The nonprofit case is `world-private-zero-cash-employers-never-pay`.
+
+Historical note from Oct 17 (PR #5019; the status and acceptance above govern):
+
+Found while building world-public-employer-staff-never-paid (Oct 17, claude/public-staff-never-paid). That change leaves the district unlinked on purpose (it strips the copied government link) so the town's people count and year time do not grow. The county's and the state's opening employers have the same shape: their staff are full people only because they carry an authority.
