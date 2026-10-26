@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T12:58:48.926Z
 
 **Rules.** No dice. Sliding scales: the reasons grow smoothly. One model, two tiers. Research before building: how often people talk politics at home by political interest from a fetched survey, quoted; the weight from the row in data/research/trait-effect-sizes.json.
 
-**Done when.** In one year of buildBenchWorld in two places drawn from all 56, seeds named, a listener with no one at home to tell weighs no retelling, the retelling case reads the listener's engagement and the speech's move, and speech.retell reaches net odds from 1.2 to 3 between the thirds with its weight cited.
+**Done when.** In one year of buildBenchWorld in two places drawn from all 56, seeds named, a listener with no one at home to tell weighs no retelling, the retelling case reads the listener's engagement and the speech's move, and speech.retell reaches net odds from 1.2 to 3 between the thirds with its weight cited. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/modules/speech.ts, src/core2/data/parameters.json, data/content/trait-decision-gaps.json
 

@@ -3,12 +3,12 @@ id: world-police-patrol-and-grievance-causes
 title: "The causes the justice incident producer needs: a patrol-hours record from the police department, a crime-outcome measure, and a recorded grievance between two people"
 area: world
 kind: feature
-priority: 2
+priority: 3
 size: L
 status: blocked
 claimed-by: claude/police-patrol-causes
 pr:
-blocked-on: OWNER-DECISIONS Oct 16: the crime engine comes later, 'when it gets a little more fleshed out' (owner-crime-engine, p3); the crime measure here is that engine
+blocked-on: owner: the crime engine comes later (OWNER-DECISIONS.md, Oct 16)
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:01:01.986Z
 ---
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T06:01:01.986Z
 **Notes.** Found Oct 20 (claude/political-game-pool-yucp92-qq) while claiming gov-justice-incident-producer. Check docs/coordination/DECISION-REGISTER.md first; the owner may have ruled on crime.
 
 Oct 20 (claude/police-patrol-grievance): not built. The crime measure is the crime engine, and docs/coordination/OWNER-DECISIONS.md line 271 (owner, Oct 16) says it comes later, "when it gets a little more fleshed out", priority 3 as `owner-crime-engine`. The patrol-hours and grievance records could be built alone; the CTO should say whether to split them from the crime measure.
+
+Oct 25 audit: blocked-on rewritten as the owner's standing word; deferred to priority 3.

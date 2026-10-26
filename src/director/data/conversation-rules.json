@@ -101,6 +101,10 @@
     "address-view": {
       "kind": "address-view",
       "stage": "default"
+    },
+    "victimization": {
+      "kind": "victimization-reply",
+      "stage": "default"
     }
   },
   "follows": {
@@ -180,6 +184,7 @@
       "feeling:event:health.",
       "feeling:event:housing.",
       "feeling:event:justice.",
+      "feeling:event:crime.",
       "feeling:event:person-birth",
       "feeling:event:person.moved-away",
       "cause:event:election-result",

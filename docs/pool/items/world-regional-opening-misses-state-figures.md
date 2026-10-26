@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T12:44:28.114Z
 
 **Rules.** Estimate, never UNKNOWN: a state opens on its own sourced figure, and a derived figure is marked as an estimate with its source. One rule, all 56 places: the fix is in the rule, never a named state.
 
-**Done when.** The M1-03 command's opening clause passes for all 52 states and 78 metros in a place drawn from all 56 (place and seed in the PR body), and a test fails when a state's opening unemployment is taken from a metro.
+**Done when.** The M1-03 command's opening clause passes for all 52 states and 78 metros in a place drawn from all 56 (place and seed in the PR body), and a test fails when a state's opening unemployment is taken from a metro. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/regional-model.ts
 

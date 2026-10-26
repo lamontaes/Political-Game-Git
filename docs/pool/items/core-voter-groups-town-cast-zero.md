@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Ask why: follow the sample's weights, the town's eligible count and the turnout rule to the zero before changing any assertion. One rule, all 56 places: the fix holds for every drawn place, not this one.
 
-**Done when.** voter-groups.test.ts passes on the recorded seed and on three fresh drawn places named in the PR body, with the zero explained by record (which sample rows, which weights) and every existing assertion kept or replaced by a demonstrated invariant.
+**Done when.** voter-groups.test.ts passes on the recorded seed and on three fresh drawn places named in the PR body, with the zero explained by record (which sample rows, which weights) and every existing assertion kept or replaced by a demonstrated invariant. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/voter-groups.test.ts, src/core2/voter-groups.ts
 
