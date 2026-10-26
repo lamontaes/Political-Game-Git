@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: fix/main-red-2026-10-26-work-order-declaration
 pr: #6168
 blocked-on:
@@ -36,3 +36,5 @@ Merger 2, October 26 15:55 UTC: This owned compile incident is repaired by anoth
 Merger 2, October 26 17:57 UTC: Reopening for Release40371694575 source6c4acf01fcd01d3deb664b2952bf817652d41cdd job121743817196: exact range a6925bc62555eb31b1b913c2c272bdf6c8f6249b..6c4acf01fcd01d3deb664b2952bf817652d41cdd changes docs/work-orders/lead-laws-effects-2026-10-26.md without a declaration. Claim fix/main-red-2026-10-26-work-order-declaration; add the missing impact:none declaration, reproduce the failed range locally and show the repaired range passes, without exempting work orders or weakening the guard. Prior incidents/history preserved.
 
 Merger 2, October 26 18:07 UTC: Ready repair PR #6168, head85f04c188472c117154bdec98935eb2c331fc265/tree9f64467cf3dd6e465482811372589c640ce83951. Exact failed incoming range reproduces exit1; identical failed source plus only the missing declaration passes in isolated proof156ec97477bb778eaeeeec93565873f4de22aa34. Actual repair range passes, local typecheck502.60s/format/zero-dice/release pass; pool4507-byte exact clean-main baseline. This author cannot merge #6168; another merger must validate fresh main and pin the repair head. Completion target is release-laws-work-order-declaration, shared incident stays separately tracked. Earlier note's 17:57 timestamp was approximate; actual claim was17:55:32UTC.
+
+Merger 2, October 26: This owned work-order declaration incident was repaired by Merger3 in #6168, reviewed head61175440f00027228c553e7b24fd7da04f40a0cd, main merged20399d3e881dd2ad583641a5096b810a65a69d7 at18:40:55UTC. This author did not merge it. Official CLI closes the same owned incident and bounded item, preserving all history; this does not claim a finished published desktop release.
