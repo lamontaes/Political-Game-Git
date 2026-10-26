@@ -27,7 +27,6 @@ export interface SceneWords {
   version: string;
   and: string;
   settings: Readonly<Record<string, Variant[]>>;
-  present: Variant[];
   /** The day, as the narrator opens: "It's a Tuesday in March." */
   frame: Variant[];
   /**
@@ -70,7 +69,6 @@ export interface SceneLine {
 export type NarrationMove =
   | { part: "frame" }
   | { part: "setting"; kind: string }
-  | { part: "present" }
   | { part: "household" }
   | { part: "lead"; typeKey: string }
   | { part: "opening"; move: string }
@@ -88,8 +86,6 @@ const bankOf = (
         key: `scene-setting:${move.kind}`,
         variants: words.settings[move.kind],
       };
-    case "present":
-      return { key: "scene-present", variants: words.present };
     case "household":
       return { key: "scene-household", variants: words.household };
     case "lead": {
@@ -170,16 +166,6 @@ export function wordSceneLine(request: {
     text: result.text.charAt(zero).toUpperCase() + result.text.slice(one),
     sourceRecordIds: result.sourceRecordIds,
   };
-}
-
-/** The people who are there, named as one list: "Ana, Luis and your mother". */
-export function sceneNameList(
-  names: readonly string[],
-  words: SceneWords = SCENE_WORDS,
-): string {
-  return names.length === one
-    ? names[zero]!
-    : `${names.slice(zero, -one).join(", ")} ${words.and} ${names.at(-one)!}`;
 }
 
 /** The sentences of a scene's opening, said as one paragraph. */

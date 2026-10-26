@@ -16,7 +16,7 @@
     "issue": "The bill's question, named as the bill catalog records it.",
     "relation": "A household member as the player is kin to them, with the possessive, from the family fact (\"your father\").",
     "member": "A household member, by name, from the household record.",
-    "side": "Which parent's side of the family a member comes through, from the parent's own family fact (\"your mother's side\")."
+    "parent": "The player's parent a member comes through, with the possessive, from the parent's own family fact (\"your mother\")."
   },
   "maxWords": 10,
   "mining": {
@@ -295,137 +295,6 @@
         "date": "2024-02-27",
         "granule": "CREC-2024-02-27-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2024-02-27",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-is-here",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is here.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 108,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 7,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 2,
-        "crec": 1,
-        "dcpd": 89,
-        "hearings": 5,
-        "nasa2": 1,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
-        "date": "2026-08-19",
-        "granule": "DCPD-202600547",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-is-there",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is there.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 22,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 2,
-        "crec": 2,
-        "dcpd": 8,
-        "hearings": 2,
-        "nasa": 2,
-        "nasa2": 2,
-        "nps": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks and an Exchange With Reporters Upon Arrival in Morristown, New Jersey",
-        "date": "2025-09-14",
-        "granule": "DCPD-202500914",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500914/html/DCPD-202500914.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-is-with-you",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is with you.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on the National Day of Prayer",
-        "date": "2025-05-01",
-        "granule": "DCPD-202500543",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500543/html/DCPD-202500543.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-many-many.who-many-are-here",
-      "move": "present-many-many",
-      "kind": "spoken",
-      "text": "{who_many} are here.",
-      "uses": [
-        {
-          "move": "present-many-many",
-          "subject": "present",
-          "role": "many",
-          "choice": "many"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks at a State Dinner With Amir Tamim bin Hamad Al Thani of Qatar in Doha, Qatar",
-        "date": "2025-05-14",
-        "granule": "DCPD-202500603",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500603/html/DCPD-202500603.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -2909,27 +2778,6 @@
       }
     },
     {
-      "key": "scene-words.present-one-one.who-is-waiting-for-you",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is waiting for you.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.cause-birth-self.you-have-a-new-baby",
       "move": "cause-birth-self",
       "text": "You have a new baby.",
@@ -3164,7 +3012,7 @@
       "key": "scene-words.household-side.relation-member-is-on-side-and-lives-with-you",
       "move": "household-side",
       "kind": "spoken",
-      "text": "{relation}, {member}, is on {side}, and lives with you.",
+      "text": "{relation}, {member}, is on {parent}'s side and lives with you.",
       "uses": [
         {
           "move": "household-side",
@@ -3185,7 +3033,7 @@
       "key": "scene-words.household-side.member-is-relation-on-side-and-shares-your-home",
       "move": "household-side",
       "kind": "spoken",
-      "text": "{member} is {relation} on {side}, and shares your home.",
+      "text": "{member} is {relation} on {parent}'s side and shares your home.",
       "uses": [
         {
           "move": "household-side",

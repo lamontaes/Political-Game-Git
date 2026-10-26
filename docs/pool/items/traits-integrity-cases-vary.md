@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: cases come from each person's recorded circumstances, never a roll. Sliding scales: no constant case that turns the weight into a trait bar. Research before building: handle-case and follow-through calibrate to Barrick and Mount 1991, corruption to Pletzer et al. 2019, the rest to the single-decision range with a gap row.
 
-**Done when.** scripts/traits/trait-wiring-audit.ts played, flat and mirror twins and trait-wiring-matrix.ts on one year of buildBenchWorld in two places drawn from all 56, seeds named, show constituent-cases.handle-case and staff.follow-through with net odds ratios within a factor of two of 2.44, bring-case and staff.hire between 1.2 and 3, and corruption.take reading one trait term; a test names the record ids.
+**Done when.** scripts/traits/trait-wiring-audit.ts played, flat and mirror twins and trait-wiring-matrix.ts on one year of buildBenchWorld in two places drawn from all 56, seeds named, show constituent-cases.handle-case and staff.follow-through with net odds ratios within a factor of two of 2.44, bring-case and staff.hire between 1.2 and 3, and corruption.take reading one trait term; a test names the record ids. **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
 
 **Files.** src/core2/modules/constituent-cases.ts, src/core2/modules/staff.ts, src/core2/modules/corruption.ts, data/content/trait-decision-gaps.json
 

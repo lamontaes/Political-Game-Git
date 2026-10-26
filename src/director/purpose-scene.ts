@@ -7,10 +7,12 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { spokenDesignation } from "../english/bill-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
@@ -125,6 +127,33 @@ function composeBinding(
   const town = corePlaceByJurisdictionId(asked.placeId as never);
   if (town)
     facts.place = { text: spoken(town), sourceRecordIds: [asked.placeId] };
+  // A bill the record names, by its number, and the section a trade added.
+  if (said.number) {
+    // Said as a clerk reads it: a bare number takes its form's word first.
+    const bill =
+      said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
+        ? billOf(coreAPI(core as CoreState), said.billId)
+        : undefined;
+    facts.bill = {
+      text: spokenDesignation(said.number, bill?.form.kind ?? ""),
+      sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
+    };
+  }
+  if (said.section)
+    facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
+  // A vote trade puts the holdout's own section in (legislature.ts adopt()):
+  // the talk says it goes in, not that a section comes out.
+  if (said.kind === "trade-amendment" && said.section)
+    facts["section-added"] = {
+      text: said.section,
+      sourceRecordIds: [moment.causeId],
+    };
+  // A resident's problem from their case: the lines about that problem need it.
+  if (said.problem)
+    facts[`case-${said.problem}`] = {
+      text: said.problem,
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.office)
     facts.office = {
       text: said.office,

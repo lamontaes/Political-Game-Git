@@ -113,8 +113,9 @@ export function composeHouseholdIntro(
             )
           : undefined;
         if (through && link && parentWord) {
-          facts.side = {
-            text: `${parentWord}'s side`,
+          // The parent as a fact; the bank pieces say whose side it is.
+          facts.parent = {
+            text: parentWord,
             sourceRecordIds: [through.factId, link.factId],
           };
           stage = "side";

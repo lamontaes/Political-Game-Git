@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/law-reach-money-handlers-lazy
-pr: #6054
+pr: #6004
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:29:10.375Z

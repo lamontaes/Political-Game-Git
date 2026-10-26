@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: play-first/play-stop-15-family-unexplained
-pr:
+status: open
+claimed-by:
+pr: #6096
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T19:16:35.890Z
+claimed-at:
 ---
 
 **What.** I made Bo Snider on the v0.22.10 release. The first evening at home shows five people; hovering names John, Paula, Parker and Madison Stein, and nothing on screen says they are my family until I click one ("father"). The People web adds sisters Luna and Elizabeth Stein, grandmother Blair Stein and uncle Brandon Valentine; nobody shares my surname and nothing says why. The fifth person in the room is unnamed. I expected a line on the first night saying who lives with me.
