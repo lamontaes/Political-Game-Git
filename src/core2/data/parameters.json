@@ -734,6 +734,19 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "openingPeerTieHours": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Hours of time together two people have at the opening when the records say they shared a school class or a workgroup in the town. Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): about 50 hours of time together to move from acquaintance to casual friend (the same study that sets closenessHoursAtHalf).",
+    "estimatedFrom": "Hall's roughly 50 hours to a casual friend, used as the estimated initial time together for every recorded school classmate and coworker. Shared hours and stint lengths are not measured per pair; the tie fades by the closeness half-life from the recorded day the shared context began, including for a current coworker. This is the registered opening approximation, not an observed duration for each pair.",
+    "spread": {
+      "low": 40,
+      "high": 60,
+      "unit": "hours together",
+      "citation": "Hall (2019): 40 to 60 hours to a casual friend, 80 to 100 to a friend."
+    },
+    "stopgapId": "SG-P15-closeness-model"
+  },
   "closenessKinHalfLifeDays": {
     "value": 1095,
     "tag": "TUNABLE",
@@ -5223,6 +5236,17 @@
       "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
     }
   },
+  "siblingBirthGapDays": {
+    "value": 274,
+    "tag": "TUNABLE",
+    "citation": "The fewest days between two siblings' births in a household the opening draws: nine months, the owner's floor for siblings who are not twins (playtest, Oct 24, 2026, play-stop-20: siblings born at least nine months apart). A pregnancy begun right after a birth and carried to term, 39 to 40 weeks (American College of Obstetricians and Gynecologists, Committee Opinion 579, Definition of Term Pregnancy, 2013), ends 273 to 280 days later.",
+    "spread": {
+      "low": 245,
+      "high": 300,
+      "unit": "days",
+      "citation": "From a late-preterm birth at 35 weeks to a full-term birth a few weeks after a pregnancy begun at once."
+    }
+  },
   "minimumParentAgeAtBirth": {
     "value": 15,
     "tag": "SOURCED",
@@ -5421,6 +5445,17 @@
       "high": 2,
       "unit": "lean per e-fold of estate",
       "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
+    }
+  },
+  "playerEntryAge": {
+    "value": 18,
+    "tag": "TUNABLE",
+    "citation": "The turn-18 golden path's player entry age (AGENTS.md). The opening keeps at least one full resident of this age when one occurs in the place's generated households, selecting a household to keep full rather than creating an age cohort the place lacks. Matches the bench player's default entry age (src/bench/world.ts).",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years",
+      "citation": "Design sensitivity bounds around the turn-18 start, from 17 through 21 years."
     }
   },
   "cohortSearchMinimumHouseholds": {
