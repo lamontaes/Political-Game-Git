@@ -4,7 +4,7 @@ title: "Stopgaps in executive (missing-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** First row: Which orders an executive may issue, the state cabinets and the local department heads come from a research file written from memory (data/research/executive/executive-powers-2026.json, every row an estimate); only the v
 
 Oct 20 (pool feeder): spec written; this is a pure checking task, so it was never blocked on an engine. 'More orders offered as their engines exist' in the stopgap's replacement is separate: ORDERABLE in executive.ts grows with each engine, and office-presidential-orders-pardons-the-situation-room covers the president's.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

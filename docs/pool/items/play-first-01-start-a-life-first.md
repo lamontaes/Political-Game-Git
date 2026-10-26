@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: claimed
 claimed-by: play-first/play-first-01-start-a-life-first
 pr: #6091
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T19:16:43.285Z
+claimed-at: 2026-10-26T01:38:26.288Z
 ---
 
 **What.** On the v0.22.10 release New game opened Custom world, Start a life and New world with nothing saying which to pick. The owner's read of the screenshots: Start a life is the main one and goes first, and Custom world and New world are combined or explained. This item puts Start a life first and combines the two world modes into one choice, with the custom start kept where the Oct 14 ruling puts it (dev mode).
@@ -30,3 +30,5 @@ claimed-at: 2026-10-25T19:16:43.285Z
 **Files.** src/bench/title.ts, src/bench/play.html, src/bench/play.mjs, src/bench/data/controls.json
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Sent back 2026-10-25 ~22:20 UTC from PR #6091 (branch play-first/play-first-01-start-a-life-first, head 78e82b2fc1 with main merged in): all three body screenshots are wrapped in backticks so none render as images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.

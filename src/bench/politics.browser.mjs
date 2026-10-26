@@ -152,7 +152,15 @@ try {
   });
   await picker.selectOption("");
   await page.locator('[data-level="local"]').click();
-  for (const tab of ["Campaigns", "Parties", "Issues", "Budgets"]) {
+  // Budgets wait for an office, a filing or the age to vote (budgets.browser.mjs).
+  assert.equal(
+    await page
+      .locator("#sheet-tabs")
+      .getByRole("button", { name: "Budgets", exact: true })
+      .count(),
+    government?.ofVotingAge ? 1 : 0,
+  );
+  for (const tab of ["Campaigns", "Parties", "Issues"]) {
     await page
       .locator("#sheet-tabs")
       .getByRole("button", { name: tab, exact: true })
