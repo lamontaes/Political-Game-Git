@@ -6111,7 +6111,7 @@
     "id": "SG-WEB-unread-labor-unemployment-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 584,
+    "line": 566,
     "whatItFakes": "social-security-tax-to-unemployment, medicare-tax-to-unemployment, federal-unemployment-tax-to-unemployment, state-unemployment-tax-to-unemployment move labor.unemployment-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
     "addedBy": "EFFECT-WEB-WIRING",
