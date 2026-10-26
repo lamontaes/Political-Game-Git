@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-23 from PR #5828 (branch claude/research-reader-census-rerun): Ten rawSource additions clear a red research-reader guard through a bypass list, explicitly disallowed by the merger Guards rule; supply the reader/accounting repair; finish on that branch, merge main into it first.
 
 Oct 25 audit: From the dropped guards-research-data-reader-red-on-base: at 8911f21ed9 the guard listed eleven files under data/research/people/ (the Household Pulse homeschool replicate errors).
+
+Merger 2: 2026-10-26 own clean-main b3c06e202f33329975fea51180677e39df87afce rerun for the morning-audit acceptance returns3/5 in14.64s. The unaccounted set is eleven files: the nine census rerun files above, census-household-pulse-homeschool-replicate-errors-2023.json, and contact-frequency-by-tie.json. The second failure is now the data/research/jobs/series/ folder entry, which lists1 unread file but finds0, so lower or remove that stale count. No guard bypass or ceiling changes were made. The audit umbrella stays OPEN; #5818 completes only bounded browser assertions.

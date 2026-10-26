@@ -17,6 +17,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 
 it("is negative for the voters a scandal story reached and zero for the rest", () => {
   setBookkeeping(true);
+  const started = Date.now();
   const draw = drawPlace(seed, "scandal-term");
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
   const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
@@ -24,6 +25,10 @@ it("is negative for the voters a scandal story reached and zero for the rest", (
     placeKey: draw.key,
   });
   const api = coreAPI(core);
+  // How long the drawn town took to build: the timeout's measured reason.
+  process.stdout.write(
+    `scandal term: ${where}; ${core.people.size} people, built in ${((Date.now() - started) / 1000).toFixed(1)} s\n`,
+  );
   const today = makeIsoDate(core.date);
   const adults = [...core.people.values()].filter(
     (p) =>

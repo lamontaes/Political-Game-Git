@@ -22,7 +22,11 @@ import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { stateOfPlaceKey } from "./places";
 import { residentsRuntime } from "./modules/residents";
-import { isDemoted } from "./counted-groups";
+import {
+  type CountedHousehold,
+  type CountedStore,
+  isDemoted,
+} from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import viewsData from "./data/views/views.json" with { type: "json" };
@@ -64,21 +68,48 @@ export function countedSurveyCell(
   );
 }
 
+/**
+ * Each member of a counted household who is still counted, with their
+ * household: read straight from the counted groups' columns, no record per
+ * person (one model, two tiers). A full person returned to the counts is
+ * counted again.
+ */
+function eachCountedResident(
+  core: CoreState,
+  visit: (
+    store: CountedStore,
+    h: CountedHousehold,
+    m: number,
+    id: string,
+  ) => void,
+): void {
+  const store = residentsRuntime(core)?.store;
+  if (!store) return;
+  for (const h of store.liveHouseholds())
+    for (const m of store.countedMembers(h)) {
+      const id = store.ids[m]!;
+      const full = core.people.get(id);
+      if (full && !isDemoted(full)) continue;
+      visit(store, h, m, id);
+    }
+}
+
 /** Every counted resident still counted (not filled in), with their record's facts. */
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
   const hit = cache.get(core);
   // Kept for the day, until someone is filled in or the people change.
   const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   if (hit && hit.date === key) return hit.rows;
-  const rt = residentsRuntime(core);
   const rows: CountedVoter[] = [];
-  if (rt) {
-    // Read straight from the counted groups' columns: traits in place, no
-    // record per person (one model, two tiers).
-    const store = rt.store;
-    for (const h of store.liveHouseholds()) {
-      const minutes = new Map<string, number>();
-      const hourly = new Map<string, number>();
+  // Each household's scheduled work and best pay, worked out once for its members.
+  let at: CountedHousehold | undefined;
+  const minutes = new Map<string, number>();
+  const hourly = new Map<string, number>();
+  eachCountedResident(core, (store, h, m, id) => {
+    if (h !== at) {
+      at = h;
+      minutes.clear();
+      hourly.clear();
       for (const c of h.workCommitments) {
         if (c.endsAt !== undefined && c.endsAt <= core.date) continue;
         minutes.set(
@@ -90,26 +121,38 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
           Math.max(hourly.get(c.personId) ?? 0, c.hourlyMinor),
         );
       }
-      for (const m of store.countedMembers(h)) {
-        const id = store.ids[m]!;
-        // A full person returned to the counts votes as counted.
-        const full = core.people.get(id);
-        if (full && !isDemoted(full)) continue;
-        rows.push({
-          id,
-          birthDate: store.born[m]!,
-          placeId: store.text(store.placeIx[m]!)!,
-          householdId: h.id,
-          traits: store.packedTraits(m),
-          weeklyMinutes: minutes.get(id) ?? 0,
-          hourlyMinor: hourly.get(id) ?? 0,
-          weight: store.weightOf(h),
-        });
-      }
     }
-  }
+    rows.push({
+      id,
+      birthDate: store.born[m]!,
+      placeId: store.text(store.placeIx[m]!)!,
+      householdId: h.id,
+      traits: store.packedTraits(m),
+      weeklyMinutes: minutes.get(id) ?? 0,
+      hourlyMinor: hourly.get(id) ?? 0,
+      weight: store.weightOf(h),
+    });
+  });
   rows.sort((a, b) => a.id.localeCompare(b.id));
   cache.set(core, { date: key, rows });
+  return rows;
+}
+
+/**
+ * One place's counted residents still counted, in the same id order as
+ * `countedResidents`: their birth date and the real people their record
+ * stands for, for a reader that needs no more than that.
+ */
+export function countedResidentsOf(
+  core: CoreState,
+  placeId: string,
+): readonly Pick<CountedVoter, "id" | "birthDate" | "weight">[] {
+  const rows: Pick<CountedVoter, "id" | "birthDate" | "weight">[] = [];
+  eachCountedResident(core, (store, h, m, id) => {
+    if (store.text(store.placeIx[m]!) === placeId)
+      rows.push({ id, birthDate: store.born[m]!, weight: store.weightOf(h) });
+  });
+  rows.sort((a, b) => a.id.localeCompare(b.id));
   return rows;
 }
 

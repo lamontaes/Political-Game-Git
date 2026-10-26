@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: play-first/play-first-08-news-box-fades-or-dismisses
+status: open
+claimed-by:
 pr: #6100
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T19:56:38.998Z
+claimed-at:
 ---
 
 **What.** On the v0.22.10 release the NEWS box sat top right over the scene from the first evening until opened. The owner's read: the news box fades or can be dismissed. The Oct 14 mock makes it a toast for a story that just reached you. This item makes the toast fade after a short time and close with one click, leaving the story in News.

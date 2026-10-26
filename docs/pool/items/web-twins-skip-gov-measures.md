@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr:
+pr: #6151
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -23,3 +23,5 @@ claimed-at:
 
 **Notes.** TODO
 Claim released Oct 25: branch never pushed (`claude/web-twins-skip-gov-measures`).
+
+Sent back 2026-10-26 from PR #6151 (branch claude/web-twins-skip-gov-measures): Done-when drawn-place four-month proof is incomplete: body says first of six runs for6a3fb300aa4b91e3 passed and five remain, and the drawn-place per-cause moved-record-kind table is not published in the PR or current leads channel. Complete those two evidence rows; local main integration clean, no own full twin pass claimed.; finish on that branch, merge main into it first.

@@ -17,7 +17,7 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
   const titled = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
+  await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
   await titled;
   const made = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/newlife",
@@ -102,11 +102,24 @@ try {
     await page.screenshot({
       path: `docs/reports/card-2026-10-25/card-${size.width}x${size.height}.png`,
     });
-    // An ordinary pointer click opens Calendar, and so does the keyboard.
-    await page.locator('#rings [data-tab="calendar"]').click();
-    await page.locator("#sheet:not([hidden])").waitFor({ timeout: 10000 });
-    await page.locator("#sheet-close").click();
-    await page.locator("#sheet").waitFor({ state: "hidden", timeout: 10000 });
+    // With the door-knocking status line on the card, an ordinary pointer
+    // click opens each of the six icons' screens; the keyboard opens Calendar.
+    await page.evaluate((text) => {
+      document.getElementById("card-why").textContent = text;
+    }, "Knock on doors · 36 doors · 5 reached");
+    for (const tab of await page
+      .locator("#rings [data-tab]")
+      .evaluateAll((all) => all.map((ring) => ring.dataset.tab))) {
+      await page.locator(`#rings [data-tab="${tab}"]`).click();
+      await page
+        .locator("#sheet:not([hidden])")
+        .waitFor({ timeout: 10000 })
+        .catch(() =>
+          assert.fail(`${size.width}x${size.height}: ${tab} did not open`),
+        );
+      await page.locator("#sheet-close").click();
+      await page.locator("#sheet").waitFor({ state: "hidden", timeout: 10000 });
+    }
     await page.locator('#rings [data-tab="calendar"]').focus();
     await page.keyboard.press("Enter");
     await page.locator("#sheet:not([hidden])").waitFor({ timeout: 10000 });
@@ -118,7 +131,7 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the menu icons, its text inside it, name on one line; Calendar opens by pointer and keyboard",
+    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the menu icons, its text inside it, name on one line; each icon opens by pointer, Calendar by keyboard",
   );
 } finally {
   await browser.close();
