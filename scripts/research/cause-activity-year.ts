@@ -72,7 +72,7 @@ const ACTS: readonly {
     act: "organized a meeting",
     measure: "attendingPublicMeetings",
     differs:
-      "the survey counts attending a public meeting; organizing one is rarer",
+      "the survey counts attending a public meeting, not organizing one",
   },
   {
     kind: "cause-group.joined",
@@ -158,8 +158,8 @@ function main(): void {
     );
     const people16 = universe.size;
     const members = new Set(
-      [...core.memberships.keys()]
-        .map((key) => key.split(":")[0]!)
+      [...core.memberships.values()]
+        .map((membership) => membership.personId)
         .filter((id) => universe.has(id)),
     ).size;
     const { low: memberLow, high: memberHigh } = band(
