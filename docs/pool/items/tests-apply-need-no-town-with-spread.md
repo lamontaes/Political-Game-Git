@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/apply-need-spread
+pr: #6137
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T03:05:26.106Z
 ---
 
 **What.** src/core2/jobs-apply-need-varies.test.ts (from the runway-both-tiers work) plays each drawn place one week and needs at least two unemployed seekers with a finite runway in each tier, full and counted, whose runways differ by 30 days or more. On clean main at 2b3a89a2a4 with APPLY_NEED_SEED=moneycheck1 it found none in 12 draws and failed. Most small towns hold 1 to 5 unemployed full seekers after a week, and many hold no counted ones: Pierce, Idaho 3 and 3; Driscoll, North Dakota 2 and 0; Washington, District of Columbia 1 and 33; Auburn, Wyoming 3 and 0. The traits money branch failed the same way on a random seed.
