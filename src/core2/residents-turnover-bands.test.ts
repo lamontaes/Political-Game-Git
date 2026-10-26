@@ -1,8 +1,10 @@
 /**
  * How a played year's hires, quits, layoffs and separations land against the
- * BLS JOLTS 2025 annual averages and the CPS absence rate, in a place drawn
- * from all 56 on a seed nobody chose (pool item research-residents-cadence-
- * sourced). The bands check totals; they never decide one worker's outcome.
+ * BLS JOLTS 2025 annual averages, plus a separate attendance diagnostic, in
+ * a place drawn from all 56 on a seed nobody chose (pool item
+ * research-residents-turnover-rates-and-report). The reference data includes
+ * CPS absence rates; a comparable played-world absence report remains open.
+ * The bands check totals; they never decide one worker's outcome.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
