@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.29.4
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Budgets appear under Politics once they are your business.** At 17, with no
+  office and no filing, Politics has no Budgets tab. It appears once you hold
+  office, file for one, or come of age to vote, and its sums read in rounded
+  words ("$5.2 trillion").
+
 ## PRE-ALPHA 0.29.3
 
 _Released October 26, 2026._

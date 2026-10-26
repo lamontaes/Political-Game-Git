@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.29.4",
+      "releasedOn": "2026-10-26",
+      "revision": "bb901b62bed41a4cc2e62dfb340c5202bd6a9265",
+      "changeIds": [
+        "play-first-14-budgets-hidden-until-relevant",
+        "tests-played-world-counted-change-tiny-place"
+      ]
+    },
+    {
       "version": "0.29.3",
       "releasedOn": "2026-10-26",
       "revision": "8f48993193bc955cfa0186f05eab719abdf062bf",
