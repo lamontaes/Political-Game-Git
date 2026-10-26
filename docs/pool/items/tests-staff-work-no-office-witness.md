@@ -8,7 +8,7 @@ size: S
 status: blocked
 claimed-by: claude/staff-no-office-witness
 pr:
-blocked-on: world-opening-city-administrator-shift-pattern
+blocked-on: tests-staff-work-why-records-empty-on-main
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T02:56:19.248Z
 ---
