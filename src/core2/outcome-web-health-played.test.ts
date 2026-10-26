@@ -19,6 +19,11 @@
  *   hazard, changed from their factor before;
  * - a counted month reads a month the link moved.
  *
+ * A control world plays the same seed and place with no law changed, as far:
+ * each law link's month there follows the control's own laws a lag earlier,
+ * and the month each link first moved in the treated world shows no effect in
+ * the control wherever its law then stood at the base.
+ *
  * The two links into the uninsured share run on their lags here; the engine
  * that reads them is the coverage review (web-coverage-reads), so this test
  * checks only that they run. Played in a place drawn from all 56 on a seed
@@ -153,7 +158,7 @@ interface Look {
   readonly counted: Readonly<Record<string, number>>;
 }
 
-function play(drawSeed: string) {
+function play(drawSeed: string, change = true) {
   const place = drawPlace(drawSeed, "health-played");
   const world = buildBenchWorld(drawSeed, gameStartDate(), {
     twoLevel: true,
@@ -169,8 +174,9 @@ function play(drawSeed: string) {
     LAWS.map((series) => [series, atBase[series] === 1 ? 0 : 1]),
   ) as Record<string, number>;
   const effective = addDays(makeIsoDate(core.date), 1);
-  for (const series of LAWS)
-    changeLaw(api, series, changeTo[series]!, effective);
+  if (change)
+    for (const series of LAWS)
+      changeLaw(api, series, changeTo[series]!, effective);
   const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
   const townRows = () =>
     (months.rows() as unknown as WebMonth[])
@@ -284,53 +290,81 @@ function play(drawSeed: string) {
   };
 }
 
+const sign = (x: number) => Math.sign(x) || 0;
+
+/**
+ * Every link the web runs from these laws moves a month only while the law as
+ * it stood a lag earlier differs from the base, in the direction of the
+ * difference, and stops the day the law is back at the base; a link that acts
+ * only under another law (the work requirement under the Medicaid expansion)
+ * moves only while that law stood a lag earlier too. A legislature in the
+ * played world may change a law again, so this reads the world's own laws.
+ */
+function expectation(api: CoreAPI, atBase: Readonly<Record<string, number>>) {
+  return (row: (typeof WEB_LINKS)[number], date: string) => {
+    const series = seriesOf(row);
+    const base = atBase[series]!;
+    // Before the calibration date a law stands as it did then.
+    const back = monthsAfter(date, -row.lagMonths);
+    const lagged = back < CALIBRATED_AT ? CALIBRATED_AT : back;
+    const then = lawValue(api, series, lagged);
+    const now = lawValue(api, series, date);
+    const moderator = row.moderator;
+    const known = !moderator || isLaw(moderator.measure);
+    const scale =
+      moderator && known
+        ? moderatorScale(
+            moderator,
+            lawValue(api, moderator.measure.replace(/^law:/, ""), lagged),
+          )
+        : 1;
+    const moves =
+      then !== base && (row.lagMonths === 0 || now !== base) && scale !== 0;
+    return {
+      then,
+      now,
+      base,
+      known,
+      sign: moves ? sign(sign(row.size!) * sign(then - base) * sign(scale)) : 0,
+    };
+  };
+}
+
+/**
+ * The control: the same seed and place with no law changed, played as far.
+ * Its month rows for every law link, beside what its own laws a lag earlier
+ * say each should be, kept as plain values so its world is not held while the
+ * treated one plays.
+ */
+function control(drawSeed: string) {
+  const run = play(drawSeed, false);
+  const expected = expectation(coreAPI(run.core), run.atBase);
+  return {
+    placeKey: run.place.key,
+    entries: run.rows.flatMap((month) =>
+      LAW_LINKS.map((row) => ({
+        key: row.key,
+        monthId: month.id,
+        date: month.date,
+        effect: month.effects[row.key] ?? 0,
+        want: expected(row, month.date),
+      })),
+    ),
+  };
+}
+
 describe(`health laws reach people's death risk on the web's own lags in a played world (seed ${seed})`, () => {
   it("each law's links run while the law a lag earlier differs from the base, and the death engine reads them for full and counted people", () => {
     const priorBookkeeping = setBookkeeping(false);
     try {
+      const ctl = control(seed);
       const run = play(seed);
       const { atBase, effective, rows, looks, counts } = run;
       const where = `${run.place.name}, ${run.place.state}, seed ${run.drawSeed}`;
       const byId = new Map(rows.map((row) => [row.id, row]));
       const api = coreAPI(run.core);
-      const sign = (x: number) => Math.sign(x) || 0;
 
-      // Every link the web runs from these laws moves a month only while the
-      // law as it stood a lag earlier differs from the base, in the
-      // direction of the difference, and stops the day the law is back at
-      // the base; a link that acts only under another law (the work
-      // requirement under the Medicaid expansion) moves only while that law
-      // stood a lag earlier too. A legislature in the played world may
-      // change a law again.
-      const expected = (row: (typeof WEB_LINKS)[number], date: string) => {
-        const series = seriesOf(row);
-        const base = atBase[series]!;
-        // Before the calibration date a law stands as it did then.
-        const back = monthsAfter(date, -row.lagMonths);
-        const lagged = back < CALIBRATED_AT ? CALIBRATED_AT : back;
-        const then = lawValue(api, series, lagged);
-        const now = lawValue(api, series, date);
-        const moderator = row.moderator;
-        const known = !moderator || isLaw(moderator.measure);
-        const scale =
-          moderator && known
-            ? moderatorScale(
-                moderator,
-                lawValue(api, moderator.measure.replace(/^law:/, ""), lagged),
-              )
-            : 1;
-        const moves =
-          then !== base && (row.lagMonths === 0 || now !== base) && scale !== 0;
-        return {
-          then,
-          now,
-          base,
-          known,
-          sign: moves
-            ? sign(sign(row.size!) * sign(then - base) * sign(scale))
-            : 0,
-        };
-      };
+      const expected = expectation(api, atBase);
       const firstMoved = new Map<string, WebMonth>();
       const running = LAW_LINKS.filter((row) =>
         rows.some((month) => row.key in month.effects),
@@ -357,6 +391,39 @@ describe(`health laws reach people's death risk on the web's own lags in a playe
         ran.filter((row) => row.to in DEATHS).length,
         `${where}: a link into a death outcome ran`,
       ).toBeGreaterThan(0);
+
+      // The control world, with no law changed: every law link's month
+      // follows the control's own laws a lag earlier (its legislature may
+      // change one), and in the month each link first moved in the treated
+      // world, the control's same month row shows no effect wherever its own
+      // law then stood at the base.
+      expect(ctl.placeKey, `${where}: the control's place`).toBe(run.place.key);
+      for (const entry of ctl.entries)
+        if (entry.want.known)
+          expect(
+            sign(entry.effect),
+            `${where}: control ${entry.key} in ${entry.monthId}, written ${entry.date}: the law ${entry.want.then} a lag before, ${entry.want.base} at the base`,
+          ).toBe(entry.want.sign);
+      const contrasts = [...firstMoved].map(([key, month]) => {
+        const same = ctl.entries.find(
+          (entry) => entry.key === key && entry.monthId === month.id,
+        );
+        expect(same, `${where}: the control has ${month.id}`).toBeDefined();
+        if (same!.want.sign === 0)
+          expect(same!.effect, `${where}: control ${key} in ${month.id}`).toBe(
+            0,
+          );
+        const before = rows[rows.indexOf(month) - 1];
+        return {
+          key,
+          monthId: month.id,
+          treated: month.effects[key]!,
+          control: same!.effect,
+          before: before
+            ? `${before.id} ${before.effects[key] ?? 0}`
+            : "none before",
+        };
+      });
 
       // The death engine's look that first reads each link into a death
       // outcome, the full people of its ages who carry that month's factor,
@@ -444,6 +511,10 @@ describe(`health laws reach people's death risk on the web's own lags in a playe
       console.log(
         [
           `health played: ${where}; laws changed from ${effective}, ${DAYS} days played`,
+          ...contrasts.map(
+            (c) =>
+              `${c.key}: first moves in ${c.monthId} (${c.treated}), after ${c.before}; the control's ${c.monthId}: ${c.control}`,
+          ),
           ...LAWS.map(
             (series) =>
               `${series}: ${atBase[series] === 1 ? "in force at the base, repealed" : "not in force at the base, enacted"}`,
