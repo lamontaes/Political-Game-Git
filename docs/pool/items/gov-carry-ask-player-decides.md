@@ -10,7 +10,7 @@ claimed-by:
 pr: #6198
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** askToCarry in src/core2/modules/legislature.ts decides for whichever member is asked, by that member's own position and the asker's standing, and drafts the bill when the sum is for it. When the member asked is the player (an executive's proposeAsExecutive picks the most inclined member, and that can be the player), the engine makes the player's choice for them: the bill is filed or not before the player sees the ask. The carry-bill scene (words-carry-bill-scene, PR 6007) plays the ask to the member, and the player's reply is kept as a record (PR 5914), but the reply does not decide. An ask to the player should wait as a request the player answers, as a donation ask does (PR 5407).
