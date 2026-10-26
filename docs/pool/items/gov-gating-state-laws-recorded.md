@@ -3,7 +3,7 @@ id: gov-gating-state-laws-recorded
 title: "Each place's gating state laws are recorded so local questions can be introduced where state law allows them"
 area: gov
 kind: stopgap
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/policy-authority.ts, src/core2/policy-authority.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): the row SG-GOV-policy-power-unresolved stays open while its pool item is done.
+
+Deferred Oct 25: nothing on screen reads it yet.

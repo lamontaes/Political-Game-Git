@@ -70,6 +70,11 @@ export interface SituationCause {
   bind?: Readonly<Record<string, string>>;
   opener?: string;
   opening?: string;
+  /**
+   * Where this cause stages the type, when it is not the type's own order of
+   * settings: a vote trade is asked for in the chamber its record names.
+   */
+  setting?: readonly string[];
 }
 
 export interface SituationType {
@@ -442,17 +447,30 @@ function resolveSetting(
         ? { kind: "venue", recordId: seat.place.context.jurisdiction.id }
         : undefined;
     }
-    case "office":
-      // An officeholder's office is their post's employer on record.
+    case "office": {
+      // The office the cause record names (the executive's, for a bill on
+      // the desk); otherwise an officeholder's office is their post's
+      // employer on record.
+      const office = core.durableLog.get(moment.causeId)?.facts?.officeId;
+      if (typeof office === "string" && office)
+        return { kind, recordId: office };
       return job?.organizationId
         ? { kind, recordId: job.organizationId }
         : undefined;
+    }
     case "phone":
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
       return { kind, recordId: subject.placeId };
     case "venue":
       return moment.placeId ? { kind, recordId: moment.placeId } : undefined;
+    case "chamber": {
+      // The body the cause record names (the chamber a vote trade was made in).
+      const chamber = core.durableLog.get(moment.causeId)?.facts?.chamber;
+      return typeof chamber === "string" && chamber
+        ? { kind, recordId: chamber }
+        : undefined;
+    }
     default:
       // School and letter need records the new core does not keep yet.
       return undefined;
@@ -468,7 +486,8 @@ function bindType(
   library: SituationLibrary,
 ): SceneBinding | { failure: string; detail: string } {
   let failure: { failure: string; detail: string } | undefined;
-  for (const settingKind of type.setting) {
+  const settings = cause.setting ?? type.setting;
+  for (const settingKind of settings) {
     const taken = new Set<PersonId>();
     const roles: SceneBinding["roles"] = [];
     let unbound: string | undefined;
@@ -528,7 +547,7 @@ function bindType(
       ),
     };
   }
-  return failure ?? { failure: "no-place", detail: type.setting.join(",") };
+  return failure ?? { failure: "no-place", detail: settings.join(",") };
 }
 
 /**

@@ -9,12 +9,13 @@
  * they rise by the same. A state whose law stood at the opening already has
  * its effect in the membership rate the dues were set from.
  */
-import unionData from "../data/business/union-membership.json" with { type: "json" };
-import type { CoreAPI, CoreState, Source } from "../types";
+import type { CoreAPI, Source } from "../types";
 import type { ModuleRow } from "../module-data";
-import { lawChain } from "../modules/laws";
-import { residentsRuntime } from "../modules/residents";
-import { setResidentFlowAmount } from "../residents-economy";
+import {
+  membershipPoints,
+  setUnionDues,
+  type RtwRow,
+} from "../right-to-work-dues";
 import type { PolicyHandler } from "./host";
 import { onReachCalendar } from "./reach-workers";
 import {
@@ -27,46 +28,9 @@ import {
 
 const KIND = "law-reach-a-union-dues";
 const ROW = "right-to-work";
-const UNION_RATES = (
-  unionData as { states: Record<string, { membersPct: number }> }
-).states;
-const UNION_NATION_PCT = (unionData as { nationMembersPct: number })
-  .nationMembersPct;
-
-interface RtwRow {
-  readonly id: string;
-  /** Whether the law stood at the opening, so the dues already show it. */
-  readonly baseline: 0 | 1;
-  readonly applied: 0 | 1;
-  readonly changedOn: string;
-  /** The effect on membership, in points, the day the last change began. */
-  readonly startPoints: number;
-  readonly lawId: string;
-  /** Each local's dues before any change from this law. */
-  readonly baseMinor: Readonly<Record<string, number>>;
-}
-
 const daysBetween = (from: string, to: string) =>
   (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
   86_400_000;
-
-/** The law's effect on union membership in points, `date` days into its phase-in. */
-export function membershipPoints(row: RtwRow, date: string): number {
-  const target =
-    -reachParameter("rightToWorkMembershipPoints") *
-    (row.applied - row.baseline);
-  const done = Math.min(
-    1,
-    daysBetween(row.changedOn, date) /
-      (reachParameter("rightToWorkPhaseYears") * 365),
-  );
-  return row.startPoints + (target - row.startPoints) * done;
-}
-
-function localRate(api: CoreAPI): number {
-  const state = (api.state as CoreState).placeMetadata?.housingState ?? "";
-  return UNION_RATES[state]?.membersPct ?? UNION_NATION_PCT;
-}
 
 function table(api: CoreAPI) {
   return reachTable(api, "mechanics");
@@ -78,14 +42,6 @@ export function rightToWorkRow(api: CoreAPI): RtwRow | null {
   const found = table(api).get(ROW) as unknown as
     { facts?: RtwRow } | undefined;
   return found?.facts ?? null;
-}
-
-function duesFlows(api: CoreAPI) {
-  const rt = residentsRuntime(api.state as CoreState);
-  const town = lawChain(api).townPlaceId;
-  return [...(rt?.flows.values() ?? [])].filter(
-    (f) => f.id.startsWith("dues:") && !f.endedAt && f.placeId === town,
-  );
 }
 
 function save(api: CoreAPI, row: RtwRow, active: boolean): void {
@@ -100,17 +56,7 @@ function save(api: CoreAPI, row: RtwRow, active: boolean): void {
 
 /** Set each local's dues to the membership the law has brought it to. */
 function apply(api: CoreAPI, row: RtwRow): RtwRow {
-  const core = api.state as CoreState;
-  const factor = Math.max(
-    0,
-    1 + membershipPoints(row, core.date) / localRate(api),
-  );
-  const base: Record<string, number> = { ...row.baseMinor };
-  for (const flow of duesFlows(api)) {
-    base[flow.id] ??= flow.amountMinor;
-    setResidentFlowAmount(core, flow.id, base[flow.id]! * factor);
-  }
-  return { ...row, baseMinor: base };
+  return setUnionDues(api, row);
 }
 
 function schedule(api: CoreAPI, row: RtwRow): void {

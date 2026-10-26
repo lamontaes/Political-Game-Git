@@ -10,17 +10,19 @@ claimed-by: claude/justice-low-level-offenses
 pr: #6056
 blocked-on:
 source: laws lead, Oct 24, from the owner's ruling
-claimed-at: 2026-10-25T13:30:06.748Z
+claimed-at:
 ---
 
 **What.** The owner ruled on Oct 24 that the game models low-level offenses (OWNER-DECISIONS.md, Oct 24, "Low-level offenses"). The justice case flow in src/core2/public-safety.ts and src/core2/modules/crime.ts carries ordinary crime but no class of minor quality-of-life offenses (disorderly conduct, loitering, public intoxication and the like), so the outcome web's police-to-low-level-arrests link has no size and no kept measure, and budget-line:police grades its web link partial (justice regrade, Oct 24, branch claude/laws-nine-links-justice). The class needs its own counts by place from real arrest data and a research-sized link from police staffing to these arrests.
 
 **Rules.** Research before building: the offense counts come from real arrest data (FBI UCR or NIBRS) and the link's size from fetched and quoted research; real rates check totals and never decide one person's arrest. No dice. One model, two tiers. An effect is a read: the case flow reads the police line when it records an arrest.
 
-**Done when.** In a played year of buildBenchWorld in a drawn place (seed named), the case flow records low-level offense arrests named by record id; a raised police line changes their count through a sized link in data/research/outcome-web/links.json with source and anchor quote; and the law-wiring matrix grades budget-line:police's web link wired in Prescott, Michigan and Uehling, Nebraska.
+**Done when.** In a played year of buildBenchWorld in a drawn place (seed named), the case flow records low-level offense arrests named by record id; a raised police line changes their count through a sized link in data/research/outcome-web/links.json with source and anchor quote; and the law-wiring matrix grades budget-line:police's web link wired in Prescott, Michigan and Uehling, Nebraska. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/public-safety.ts, src/core2/modules/crime.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/outcome-web.json
 
 **Notes.** Filed by the laws lead on Oct 24 from the owner's ruling. Research already on file (laws lead, Oct 24): `data/research/outcome-web/unsized-links-source-checks-2026-10-05.json`, row police-to-low-level-arrests, from https://pmc.ncbi.nlm.nih.gov/articles/PMC10062144/: 7 to 22 additional quality-of-life arrests a year per additional full-time sworn officer (range across two instrumental-variable strategies; 242 large U.S. cities, 1981 to 2018), checked but not admitted to runtime because the game kept no low-level arrest measure. Use it before searching.
 
 In PR #6056 (Oct 25, laws lead): built by a helper, stacked on #6012; owner question on drug possession flagged.
+
+Laws lead, Oct 26: back in PR #6056 at 6ffa0b1e95, on the fixer's main merge (f279854b6e). Drug possession is the sixth minor-offense category per the CTO's Oct 25 ruling (SG-LAW-justice-low-level-drug-possession resolved), and #6083's state minimum wage fix is ported for CI's M1-01.

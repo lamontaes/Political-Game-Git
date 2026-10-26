@@ -1,34 +1,6 @@
 {
   "schema": "director-scene-talk-rules/1",
-  "note": "How a scene with a purpose picks the player's path. Moves only, no sentence. `moveActs` maps each reply move to the act kinds the trait engine scores (data/content/trait-act-pulls.json): a reply move is leaned toward when the player's traits pull toward its acts. Nothing here is a roll; a tie goes to the stable hash of the scene.",
-  "moveActs": {
-    "agree": ["cooperate", "commit"],
-    "accept": ["concede", "cooperate"],
-    "relent": ["concede"],
-    "refuse": ["refuse", "confront"],
-    "decline": ["refuse", "play-safe"],
-    "withdraw": ["withdraw", "play-safe"],
-    "bargain": ["engage", "self-interest"],
-    "stall": ["delay", "play-safe"],
-    "deflect": ["delay", "stay-quiet"],
-    "ask": ["engage"],
-    "request": ["engage", "self-interest"],
-    "answer": ["speak-out", "trust"],
-    "tell": ["speak-out", "trust"],
-    "thank": ["cooperate"],
-    "promise": ["commit", "cooperate"],
-    "offer": ["help-others", "engage"],
-    "comfort": ["help-others"],
-    "apologize": ["concede", "help-others"],
-    "blame": ["confront", "self-interest"],
-    "disagree": ["confront", "speak-out"],
-    "confront": ["confront", "take-risk"],
-    "boast": ["speak-out", "take-risk"],
-    "press": ["confront", "engage"],
-    "plea": ["engage", "help-others"],
-    "threaten": ["confront", "self-interest"],
-    "warn": ["confront", "speak-out"]
-  },
+  "note": "How a scene with a purpose picks the player's path. Moves only, no sentence. The player's character leans toward the reply whose act kinds (`scene-talk.move` in data/content/trait-decisions.json) its traits pull toward most, by the same lean the asker's answers read. Nothing here is a roll; a tie goes to the stable hash of the scene.",
   "terminalFollow": ["thank", "accept"],
   "tree": {
     "about": "Owner, Oct 15, night: a scene is a tree, a branch for each thing the player might say. The bounds keep a page readable: past maxNodes only the branch the player's traits lean toward is kept.",
@@ -74,19 +46,5 @@
     "tag": "TUNABLE",
     "spread": [0.5, 1.5],
     "checkedAgainst": "Batch 20: about one asker in six opens without a greeting, the share of adults a full level or more below the middle on the opening temperament's 10/20/40/20/10 cut."
-  },
-  "tags": {
-    "asked_out_of_work": "Out of work",
-    "asked_short_on_money": "Short on money",
-    "asked_kid": "Parent",
-    "asked_partner": "Partner at home",
-    "asked_employer": "Working",
-    "asked_blunt": "Blunt",
-    "asked_warm": "Warm",
-    "asked_guarded": "Guarded",
-    "asked_argumentative": "Argumentative",
-    "asked_against": "Disagrees",
-    "asked_wants_gone": "Against it",
-    "asked_wants_kept": "For it"
   }
 }

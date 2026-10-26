@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/former-home-priced
+pr: #6079
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T17:56:59.582Z
 ---
 
 **What.** M0-13's 'homes have values and rents' fails in all three places drawn: St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) has 9 of 2,830 dwellings unpriced, Decaturville, Tennessee (seed 1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809) 2 of 347 and Lawrenceville, Virginia (seed 9e8d7c6b5a49382716059e8d7c6b5a49382716059e8d7c6b5a49382716059e8d7c6b) 2 of 494. In St. Johnsbury all nine are tombstones left when a household stopped living there: eight tenure removed with basis eviction (src/core2/modules/housing.ts:1907, for example dwelling:household_134693eee12b95cb on 2025-06-10 and dwelling:household_53c1e1f1642578b1 on 2025-10-11; foreclosure writes the same shape at src/core2/housing-foreclosure.ts:321) and one tenure sold (dwelling:household_0185a6fa5385f11c on 2025-02-17, src/core2/housing-sale.ts:128). They carry no valueMinor or rentMinor, and the check treats every non-rent row as an owned home needing a value. Nothing else reads them as homes (ownsHome in moves.ts:248 falls back to the mortgage books, the rent review at housing.ts:1580 skips non-rent rows), but src/core2/home-sale.test.ts asserts the sold row exists, so deleting the rows would change that test's contract.

@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T02:11:16.830Z
 
 **Rules.** Wire to the world: each check plays buildBenchWorld with every module installed in a place drawn from all 56, never a hand-made world. No dice: real rates check totals only. Never edit a spec's test text; only command is written.
 
-**Done when.** docs/roadmap/features.json has a command for M1-05, M1-07 and M1-08; each runs a played year in the runner's drawn place, prints the place, seed and record ids, and exits nonzero naming the failed clause; each was run once on main with its result in the PR body, and each fails when its clause is broken.
+**Done when.** docs/roadmap/features.json has a command for M1-05, M1-07 and M1-08; each runs a played year in the runner's drawn place, prints the place, seed and record ids, and exits nonzero naming the failed clause; each was run once on main with its result in the PR body, and each fails when its clause is broken. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/tooling/m1-05-check.ts, src/core2/tooling/m1-07-check.ts, src/core2/tooling/m1-08-check.ts, docs/roadmap/features.json
 
