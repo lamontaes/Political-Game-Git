@@ -1789,6 +1789,26 @@ async function showPerson(person) {
           ),
         ]
       : []),
+    // An officeholder's colleagues in office, closest first, from their ties.
+    ...(c.colleagues
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail colleagues" },
+            el("h3", { className: "label", textContent: labels.knows }),
+            ...(c.colleagues.length
+              ? c.colleagues.map((k) => {
+                  const line = row(
+                    k.name,
+                    `${k.office} · ${k.level < 0 ? labels.rival : (labels.tieWords?.[k.kind] ?? "")}`,
+                  );
+                  line.dataset.tie = k.recordId;
+                  return line;
+                })
+              : [el("p", { textContent: labels.noColleagues })]),
+          ),
+        ]
+      : []),
     ...[
       c.tie &&
         row(
