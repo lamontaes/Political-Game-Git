@@ -2,9 +2,7 @@
 id: schools-raise-hires-counted
 impact: patch
 section: Fixed
-title: A raise to a budget line hires from the town's unemployed adults, not only the few the game follows closely
+title: Layoffs after a budget cut follow the same newest-first order for named and counted staff
 ---
 
-When a city or county raises the pay line of a department that hires (police, fire, schools), the new jobs now go to unemployed adults from the whole town, not only the handful of people the game already follows in detail.
-
-Hires now go to the most reliable jobless adult whether the game follows them closely or not, and layoffs let the newest hire go first across both groups.
+When a budget cut forces a department to let staff go, the line's own recent hires go first, then the employer's remaining staff, named and counted together, newest hire first. A counted worker's start date is the date their household committed to the job, the same date a named person's job carries, so filling a counted worker in does not move them in the order.

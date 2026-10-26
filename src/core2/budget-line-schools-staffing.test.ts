@@ -15,8 +15,18 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { staffingOf } from "./law-reach/group-a-staffing";
 import { advanceCore } from "./life";
-import { budgetsOf, governments } from "./modules/budgets";
-import { memberKey } from "./modules/legislature";
+import {
+  budgetsOf,
+  governments,
+  registerBudgetVote,
+  type BudgetRow,
+} from "./modules/budgets";
+import {
+  LEGISLATURE_MODULE_ID,
+  memberKey,
+  votesOn,
+  type BillRow,
+} from "./modules/legislature";
 import { residentsRuntime } from "./modules/residents";
 import { prepareAct, officeHost } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
@@ -29,12 +39,78 @@ afterAll(() => {
   setBookkeeping(before);
 });
 
-/** The mayor amends the city's schools line by a third, up or down, and the year turns. */
-function amendSchoolsLine(direction: -1 | 1) {
+/**
+ * Why a budget's schools line is not the mayor's request, by record: the
+ * council's own budget bill (its status and the schools section it kept) and
+ * its roll call. Only a recorded amendment, rejection or veto is a reason to
+ * draw another place; a missing bill, a missing roll call, or a different
+ * amount with the bill showing the request passed whole is a broken producer.
+ */
+function councilReason(
+  api: ReturnType<typeof coreAPI>,
+  adopted: BudgetRow | undefined,
+  requested: number,
+  change: number,
+): { recorded: true; note: string } | { recorded: false; note: string } {
+  if (!adopted)
+    return { recorded: false, note: "no budget record for the new year" };
+  const bills = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .rows() as unknown as (BillRow & { kind?: string })[];
+  const own = bills.filter(
+    (b) =>
+      b.kind === "budget" &&
+      new RegExp(`(^|[ ,])${b.number.replace(/\W/g, "\\$&")}( |$)`).test(
+        adopted.adoptedBy,
+      ),
+  );
+  const bill = own.at(-1);
+  if (!bill)
+    return {
+      recorded: false,
+      note: `budget ${adopted.id} (${adopted.adoptedBy}) names no recorded budget bill; adopted schools line ${adopted.spendingMinor.schools}, requested ${requested}`,
+    };
+  const rolls = votesOn(api, bill.id);
+  if (!rolls.length)
+    return {
+      recorded: false,
+      note: `budget bill ${bill.id} has no recorded vote; adopted schools line ${adopted.spendingMinor.schools}, requested ${requested}`,
+    };
+  const section = bill.provisions.find(
+    (p) => (p as { line?: string }).line === "schools",
+  ) as { value: number } | undefined;
+  const votes = `${rolls.length} votes recorded on ${bill.id}`;
+  if (bill.status === "failed")
+    return {
+      recorded: true,
+      note: `council rejected or the executive vetoed ${bill.id} (${votes}; ${adopted.adoptedBy})`,
+    };
+  if (!section || section.value !== change)
+    return {
+      recorded: true,
+      note: `council amended the schools section of ${bill.id} to ${section?.value ?? "dropped"} from ${change} (${votes}; ${adopted.adoptedBy})`,
+    };
+  return {
+    recorded: false,
+    note: `bill ${bill.id} passed the schools change ${change} whole (${votes}) yet the adopted line is ${adopted.spendingMinor.schools}, not ${requested}`,
+  };
+}
+
+/**
+ * The mayor amends the city's schools line by a third, up or down, and the
+ * year turns. `breakProducer` runs after the world is built and breaks the
+ * council's budget vote itself (the negative control).
+ */
+function amendSchoolsLine(
+  direction: -1 | 1,
+  breakProducer?: () => void,
+  salt = "",
+) {
   const tried: string[] = [];
   for (let draw = 0; draw < 25; draw += 1) {
     // A failure names its place and seed; these replay exactly that town.
-    const drawn = drawPlace(`${seed}:${draw}`, "schools-line");
+    const drawn = drawPlace(`${seed}${salt}:${draw}`, "schools-line");
     const place =
       process.env.SCHOOLS_LINE_PLACE_KEY && process.env.SCHOOLS_LINE_PLACE_SEED
         ? {
@@ -49,6 +125,7 @@ function amendSchoolsLine(direction: -1 | 1) {
       placeKey: place.key,
     });
     const api = coreAPI(core);
+    breakProducer?.();
     const mayor = townSeats(api).find(
       (s) => s.office.kind === "mayor" && s.holder?.personId,
     );
@@ -93,7 +170,10 @@ function amendSchoolsLine(direction: -1 | 1) {
         : `${year + 1}-${city.fiscalYearStart}`;
     const open = addDays(makeIsoDate(next), -(lead - 1));
     if (core.date < open) advanceCore(core, open);
-    if (core.date > open) continue;
+    if (core.date > open) {
+      tried.push(`${where}: the year was already past the proposal window`);
+      continue;
+    }
     const priorLine = budgetsOf(api, city.id).at(-1)!.spendingMinor.schools;
     if (!priorLine) {
       tried.push(`${where}: the city budget has no schools line`);
@@ -131,12 +211,16 @@ function amendSchoolsLine(direction: -1 | 1) {
     const adopted = budgetsOf(api, city.id).find(
       (b) => b.startsOn === next || b.adoptedOn === next,
     );
-    // A council that rewrites the mayor's proposal (the District of Columbia's)
-    // is another place's story: draw on until the amended line is adopted as asked.
+    // Only a recorded council amendment, rejection or veto (the budget bill
+    // and its roll call) sends the test to another place. A missing budget, a
+    // missing bill or vote, or a different amount with no such record fails.
     if (adopted?.spendingMinor.schools !== priorLine + change) {
-      tried.push(
-        `${where}: adopted schools line ${adopted?.spendingMinor.schools}, not ${priorLine + change}`,
-      );
+      const why = councilReason(api, adopted, priorLine + change, change);
+      if (!why.recorded)
+        throw new Error(
+          `${where}: the mayor's schools line was not adopted and no council amendment or rejection explains it: ${why.note}`,
+        );
+      tried.push(`${where}: ${why.note}`);
       continue;
     }
     const activeNow = new Set(teachers(district.id).map((j) => j.personId));
@@ -221,7 +305,7 @@ it("a raise to the city's schools line hires named adults who had no work at the
     `${r.where}: schools line ${r.priorLine} raised by ${r.change}, adopted ${r.adopted?.id}; ${r.staffBefore.length} teachers before`,
   ).toBeGreaterThan(0);
   console.log(
-    `schools raise: ${r.where}: ${hired.length} hired at ${r.district.id}; jobs ${jobIds.slice(0, 5).join(", ")}; people ${hired.slice(0, 5).join(", ")}`,
+    `schools raise: ${r.where}: ${hired.length} hired at ${r.district.id}; budget ${r.adopted.id} (${r.adopted.adoptedBy}); jobs ${jobIds.slice(0, 5).join(", ")}; people ${hired.slice(0, 5).join(", ")}`,
   );
   // Each hire is a counted resident filled in, or a full person whose earlier
   // job (if any) had ended by the day they were hired; none was taken from a
@@ -234,4 +318,22 @@ it("a raise to the city's schools line hires named adults who had no work at the
       `${r.where}: ${personId} was hired at ${r.district.id} while ${prior} was still running (jobs ${jobIds.join(", ")})`,
     ).toBe(true);
   }
+}, 1_800_000);
+
+it("negative control: with the council's budget vote broken, an eligible place fails instead of drawing on", () => {
+  let failure = "";
+  try {
+    amendSchoolsLine(
+      1,
+      () => registerBudgetVote(() => null),
+      ":producer-break",
+    );
+  } catch (error) {
+    failure = (error as Error).message;
+  }
+  console.log(`negative control failure: ${failure}`);
+  // The producer is restored by the next world build (openLegislature).
+  expect(failure).toMatch(
+    /was not adopted and no council amendment or rejection explains it: budget .* names no recorded budget bill/,
+  );
 }, 1_800_000);
