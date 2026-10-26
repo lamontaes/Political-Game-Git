@@ -4354,6 +4354,12 @@ $("front-continue").addEventListener("click", async () => {
   if (life.packet) renderPacket(life.packet);
   await refresh();
   await openOfferMoment();
+  // Still the opening evening: the night's paper is back on the table, read
+  // from the kept opening, until living on clears it.
+  const opening = await api(
+    `/api/opening?id=${encodeURIComponent(life.personId)}`,
+  );
+  if (opening?.home?.date === life.date) showNewsSurface(opening.news);
 });
 // The desktop window closes (and the app quits); a browser tab has no Quit.
 if (window.location.protocol === "app:") {
