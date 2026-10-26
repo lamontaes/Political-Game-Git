@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-retell-circumstances
 pr: #6039
 blocked-on:
