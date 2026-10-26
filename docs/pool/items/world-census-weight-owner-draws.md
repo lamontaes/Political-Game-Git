@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: the same dollars per household, times the count. Every dollar balances. No dice.
 
-**Done when.** In a drawn town above 10,000 opened at its Census scale (name place and seed), the owner-draw line per town resident is within 25 percent of the default-size town's over 30 days, and a test beside `counted-weight-money.test.ts` states it. File the other short lines (retirement, purchases) as their own items if they are not the same cause.
+**Done when.** In a drawn town above 10,000 opened at its Census scale (name place and seed), the owner-draw line per town resident is within 25 percent of the default-size town's over 30 days, and a test beside `counted-weight-money.test.ts` states it. File the other short lines (retirement, purchases) as their own items if they are not the same cause. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/business.ts, src/core2/modules/residents.ts
 

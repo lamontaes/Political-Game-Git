@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-press-town-adults
-pr:
+pr: #6075
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T08:51:28.947Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T08:51:28.947Z
 
 **Rules.** No dice: the adults counted, and every follower count and ad price read from them, stay exactly the same; the weights are summed in the same id order. One model, two tiers: the same rule decides who is a counted resident for both readers. Speed: measured before and after on the same base and machine, both checkouts in one process.
 
-**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, one year, and Stanardsville, Virginia, seed cc91f5444b53bd47, drawn from all 56, three years) the deep fingerprint is identical before and after; in a paired run's CPU profile split by checkout, townAdultsByBand's inclusive time falls by more than half and the year is no slower; the press, electorate and voting tests pass.
+**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, one year, and Stanardsville, Virginia, seed cc91f5444b53bd47, drawn from all 56, three years) the deep fingerprint is identical before and after; in a paired run's CPU profile split by checkout, townAdultsByBand's inclusive time falls by more than half and the year is no slower; the press, electorate and voting tests pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/modules/press.ts, src/core2/electorate.ts
 

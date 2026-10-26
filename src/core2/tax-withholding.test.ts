@@ -12,7 +12,7 @@ import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
 import { lawChain, lawInForce, openLaws } from "./modules/laws";
 import { openBudgets, withholdingOf } from "./modules/budgets";
-import { withholdingFor } from "./tax-withholding";
+import { scheduleTax, withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -144,15 +144,23 @@ describe("pay to a worker who lives outside the town (audit 12, 13)", () => {
       const stateLaw = lawInForce(api, "income-tax").levels.find(
         (l) => l.level === "state",
       );
-      const taxesIncome =
+      const single = (
+        stateLaw?.row?.terms?.schedules as
+          { single?: Parameters<typeof scheduleTax>[0] } | undefined
+      )?.single;
+      // A state's schedule taxes pay only above its standard deduction and any
+      // zero bracket, so a low-paid worker can owe it nothing.
+      const owesState =
         stateLaw?.row &&
         !stateLaw.setAside &&
         (stateLaw.row.value ?? 0) > 0 &&
-        ((
-          stateLaw.row.terms?.schedules as
-            { single?: { brackets: unknown[] } } | undefined
-        )?.single?.brackets.length ?? 0) > 0;
-      if (taxesIncome)
+        !!single?.brackets.length &&
+        records.some((r) => {
+          const periods = 365 / Math.max(1, r.periodDays);
+          const yearly = scheduleTax(single, (r.paidMinor / 100) * periods);
+          return Math.round((yearly / periods) * 100) > 0;
+        });
+      if (owesState)
         expect(
           lines.some((l) => l.level === "state" && l.tax === "income"),
           where,
@@ -169,5 +177,37 @@ describe("pay to a worker who lives outside the town (audit 12, 13)", () => {
       return;
     }
     throw new Error(`no employed worker found in forty draws (seed ${seed})`);
+  });
+});
+
+describe("a state rate changed without a new table", () => {
+  it("scales every bracket of the schedule to the row's top rate, and marks the tax graduated", () => {
+    const graduated = (value: number) =>
+      income([
+        {
+          level: "state",
+          row: {
+            value,
+            unit: "percent-top-rate",
+            terms: {
+              schedules: {
+                single: {
+                  standardDeduction: 0,
+                  brackets: [
+                    { over: 0, rate: 2 },
+                    { over: 10_000, rate: 4 },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      ]);
+    const asWritten = pay(graduated(4))[0]!;
+    const raised = pay(graduated(4.4))[0]!;
+    expect(asWritten.graduated).toBe(true);
+    // A 10% higher top rate raises each bracket's rate by 10%.
+    expect(raised.minor).toBeCloseTo(asWritten.minor * 1.1, -1);
+    expect(raised.minor).toBeGreaterThan(asWritten.minor);
   });
 });
