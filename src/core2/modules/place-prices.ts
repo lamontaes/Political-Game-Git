@@ -282,7 +282,12 @@ export function monthlyChange(
   scale: number,
   persons: number,
   /** What the outcome web carries into this household's use: trips taken, the share subscribing (each against its own base) and the share of deposit containers returned. */
-  web: { trips?: number; subscribe?: number; redemption?: number } = {},
+  web: {
+    trips?: number;
+    subscribe?: number;
+    redemption?: number;
+    miles?: number;
+  } = {},
 ): { payMinor: number; refundMinor: number } {
   const g = goods.goods;
   switch (rule.kind) {
@@ -890,7 +895,13 @@ function webUse(
   api: CoreAPI,
   rule: Rule,
   subject: Subject,
-): { rule: Rule; trips: number; subscribe: number; redemption?: number } {
+): {
+  rule: Rule;
+  trips: number;
+  subscribe: number;
+  redemption?: number;
+  miles?: number;
+} {
   const same = { rule, trips: 1, subscribe: 1 };
   if (rule.good === "electricity" && rule.kind === "share") {
     const reach = webReach(
