@@ -4,7 +4,7 @@ title: "A town opens at its real Census size (population.ts still caps above 10,
 area: core
 kind: bug
 priority: 1
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at:
 Split (Oct 15, L): the cap is real. `buildPopulation` still takes `Math.min(target, real)` (`src/core2/population.ts`), and a town cannot open at millions of household records. Parts: core-census-weight-model, core-census-weight-money, world-census-weight-economy, elections-census-weight-electorate, core-census-uncap-opening. This item closes when the last one merges.
 
 Oct 20 (pool feeder): spec written; the old blocker (owner draws) is only one of two readers still short at scale: businesses and job counts are sized by world-census-weight-economy and world-census-scaled-establishments-short; core-census-uncap-opening was dropped (PR #5295), so this item now carries the uncap itself.
+
+Duplicate of core-census-uncap-opening (Oct 25 audit). Same Math.min(target, real) cap in buildPopulation.

@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5757
 blocked-on:
@@ -34,3 +34,5 @@ Sent back 2026-10-23 from PR #5757 (branch claude/unplanned-counted-tier): place
 Sent back 2026-10-24 from PR #5757 (branch claude/unplanned-counted-tier): per-woman carry is repaired but the main-targeting stack still carries the parent’s unmeasured decision/travel coefficient gap tied to a resolved owner row; incorporate the parent calibration registration/evidence correction, retaining carry/fill-in proof; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5757 (branch claude/unplanned-counted-tier): own integrated typecheck fails births-unplanned.ts:137 TS2304 undefined asOf in extracted weighUnplanned; pass the decision date through full/counted callers, preserving parent historical-law repair, then rerun exact historical regression and counted fill-in proof; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #5757 (branch claude/unplanned-counted-tier): main-integrated morning review finds new unplanned deliveries added on top of unchanged total-natality births without reconciliation, and ordinary births do not exclude an existing counted pregnancy; unify birth accounting and prove no second independent birth while pregnant; finish on that branch, merge main into it first.

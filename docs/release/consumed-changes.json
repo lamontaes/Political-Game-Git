@@ -1,6 +1,39 @@
 {
   "entries": [
     {
+      "version": "0.29.1",
+      "releasedOn": "2026-10-25",
+      "revision": "6ef4a6d543207970f91fe3c7d06e74357da17bc0",
+      "changeIds": [
+        "core-speed-school-day-memo",
+        "play-first-07-no-random-people-in-rooms"
+      ]
+    },
+    {
+      "version": "0.29.0",
+      "releasedOn": "2026-10-25",
+      "revision": "d627bd0bd35f0153b3b8ef8284456874106beee4",
+      "changeIds": [
+        "director-talk-lived-crime",
+        "traits-scene-talk-shared-lean"
+      ]
+    },
+    {
+      "version": "0.28.2",
+      "releasedOn": "2026-10-25",
+      "revision": "01fd25c9a171f5598379ce883ae8052b4125d433",
+      "changeIds": [
+        "law-wiring-own-payments",
+        "laws-outcome-links-tax-migration",
+        "roadmap-m1-flip-proven-one",
+        "tests-rival-chooser-nobody-to-ask",
+        "tests-world-legislating-place-without-local-body",
+        "words-held-first-test-no-held-lines",
+        "words-journal-revision-none-in-four-places",
+        "work-span-commitment-malformed-full-adult"
+      ]
+    },
+    {
       "version": "0.28.1",
       "releasedOn": "2026-10-25",
       "revision": "ff43c50d9245e0c1124dabb61f3b57f5704d4d2f",

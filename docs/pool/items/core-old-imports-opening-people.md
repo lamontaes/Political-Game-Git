@@ -17,7 +17,7 @@ source: split from core-old-imports-opening-builders by pool feeder Oct 20
 
 **Rules.** Replace, never layer: each old import is deleted when its replacement lands, and the PR body counts what was removed. Build only what the golden path needs: port the small part the opening uses, not the old module. One rule, all 56 places: citizenship and household facts come from place data with no place named in code. One model, two tiers: counted people get the same household and citizenship facts as full ones. Same town by record id for a drawn place before and after.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), the opening builds the same people, households and citizenship records by record id as before the change, `grep -n 'simulation/' src/core2/opening-people.ts` prints nothing, and src/core2/opening-key-people.test.ts and src/core2/population.test.ts pass.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), the opening builds the same people, households and citizenship records by record id as before the change, `grep -n 'simulation/' src/core2/opening-people.ts` prints nothing, and src/core2/opening-key-people.test.ts and src/core2/population.test.ts pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/opening-people.ts, src/core2/opening-key-people.test.ts, src/core2/population.test.ts
 

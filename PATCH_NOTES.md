@@ -296,6 +296,55 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.29.1
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Only people with a reason stand in a room** A room now shows only people the
+  records give a reason to be there: you, your household at home, coworkers at
+  work, the person you went to see, the people a moment is about, the clerk at
+  the counter and the voters you reach. Scenes no longer open by announcing that
+  someone "is with you" or "is here".
+
+## PRE-ALPHA 0.29.0
+
+_Released October 25, 2026._
+
+### Improved
+
+- **People who were burglarized, robbed or attacked can tell the people close to
+  them** When a household is burglarized or someone is robbed or attacked, the
+  people it happened to now remember it. In a talk with a housemate, the victim
+  can bring it up and say what happened.
+
+### Changed
+
+- **People answer in a scene the way they decide everywhere else** In a scene
+  with a purpose, the person asking now answers each of your replies by the same
+  temperament read every other decision in the game uses, so someone who presses
+  in a negotiation presses in talk too. The lines your character leads with
+  follow the same read, a lie included.
+
+## PRE-ALPHA 0.28.2
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **A journal looks back on someone who turned out to matter, even if it never
+  wrote about them then** A journal now revises an early moment that seemed
+  small and later grew ("I did not know then what Robert would mean to me."),
+  whether or not the journal wrote about it at the time. Before, it needed both
+  moments written down, and almost no journal ever revised.
+
+- **Playing as a neighbor whose out-of-town job never started no longer stops
+  the clock** A neighbor who was given a job out of town and then went back into
+  the town's counts the same day kept a schedule that ended before it began.
+  Playing as them stopped the day from moving. That job now simply never starts,
+  and the clock moves.
+
 ## PRE-ALPHA 0.28.1
 
 _Released October 25, 2026._
