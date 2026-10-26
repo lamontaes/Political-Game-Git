@@ -206,12 +206,16 @@ function recordRoundTrip(
   const open = openReach(api, key);
   if (!subject && !open.length)
     console.log(
-      `${where}: ${key} selects no one here, so its mechanic is checked instead; selectors that found nobody: ${selected
-        .map(
-          ({ spec }) =>
-            `${spec.id} (${spec.target}${spec.select ? ` ${JSON.stringify(spec.select)}` : ""})`,
-        )
-        .join("; ")}`,
+      `${where}: ${key} selects no one here, so its mechanic is checked instead; ${
+        selected.length
+          ? `selectors that found nobody: ${selected
+              .map(
+                ({ spec }) =>
+                  `${spec.id} (${spec.target}${spec.select ? ` ${JSON.stringify(spec.select)}` : ""})`,
+              )
+              .join("; ")}`
+          : "it has no group A reach selector"
+      }`,
     );
   if ((mayBeEmpty || !subject) && !open.length) {
     between?.();
