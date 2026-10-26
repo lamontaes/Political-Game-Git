@@ -2,8 +2,8 @@
  * Public payroll for posts GOV fills mid-game (staff, appointed department
  * heads and cabinet members): the person takes a job whose employer is the
  * government's treasury, so their pay is drawn from it on paydays like any
- * job's. The schedule and pay calendar follow a full-time job already in the
- * town (a public employer's where there is one), as the jobs engine hires.
+ * job's. Posts follow the public-office week; their pay calendar follows a
+ * recorded local job where one exists, otherwise the government's calendar.
  */
 import { inCustody } from "./modules/justice";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -20,7 +20,7 @@ import type {
 } from "./types";
 import { publicPayFloorHourly } from "./public-pay-floor";
 
-/** Puts a person on a government's payroll today; returns the job id, or null without a schedule to follow. */
+/** Puts a person on a government's payroll today; returns the job id, or null if the person or employer cannot take the post. */
 export function startPublicJob(
   api: CoreAPI,
   input: {
@@ -31,7 +31,7 @@ export function startPublicJob(
     readonly hourlyMinor: number;
     /** The most the post may pay a day (what its budget line carries); the hourly rate is cut to fit. */
     readonly maxDailyMinor?: number;
-    /** Where to find a job whose schedule and payday the new one follows, when the employer's own place holds none (a state office with no staff schedule of its own follows the town's). */
+    /** Where to find a job whose payday the new post follows when the employer's own place holds none (a state office can follow the town's pay calendar). */
     readonly scheduleFromPlaceId?: string;
     readonly citation: string;
   },
