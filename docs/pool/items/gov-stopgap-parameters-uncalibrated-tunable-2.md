@@ -4,7 +4,7 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** First row: How much traits, ties, evidence, prominence, party, money and the prosecutor's record weigh at each step from a report to a sentence.
 
 Oct 20 (pool feeder): spec written; this is not the same as research-gov-sourced-parameters (that one folds gov-stopgap-parameters-uncalibrated-tunable and the bribery grade). A single town sees few corruption cases a year, so the test pools several drawn places before comparing to a band.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

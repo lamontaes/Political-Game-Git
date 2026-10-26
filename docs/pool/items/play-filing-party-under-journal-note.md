@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/quirky-ride-vrwwz4-play-stop-04
+status: done
+claimed-by:
 pr: #6052
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T16:17:52.101Z
+claimed-at:
 ---
 
 **What.** A bounded part of play-stop-04-filing-panel-runs-off-screen. On main the filing panel fits a 1440 by 900 window and its stands scroll inside it (For and Against menus), but the journal note in the bottom-right corner sits over the panel's Party row, so the party picker cannot be seen or clicked while filing (bench, Bushnell, Illinois, new life seed 55dcf8fb-9b25-49b0-a04a-1e3997a3e172). The news card is already hidden while the panel is open (src/bench/play.css, #game.filing-open #news-surface); the journal note is not.
