@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.36.1",
+      "releasedOn": "2026-10-26",
+      "revision": "1418c3ea103177de44ebf53ae084c00241f12ffc",
+      "changeIds": [
+        "tests-enact-law-ids-rerate-ended-job",
+        "web-matrix-unrun-links-not-reaching"
+      ]
+    },
+    {
       "version": "0.36.0",
       "releasedOn": "2026-10-26",
       "revision": "fccb4e01d460010abab5c1b7b25684aa5c082071",
