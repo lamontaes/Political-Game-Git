@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: people-leave-parents-home,core-household-membership-change
@@ -23,3 +23,5 @@ source: split from people-partnership-counted by pool feeder Oct 20
 **Files.** src/core2/modules/partnerships.ts, src/core2/counted-groups.ts, src/core2/modules/counted-moves.ts, src/core2/data/partnerships/parameters.json, src/core2/counted-home-leaving.test.ts
 
 **Notes.** Split from people-partnership-counted (which covered leaving, partnering and separating) Oct 20. The partnership stack (PRs 4948, 4959, 4961, 4963, 4970) is not on main yet; this builds on it.
+
+Folded into people-partnership-counted (Oct 25 audit).

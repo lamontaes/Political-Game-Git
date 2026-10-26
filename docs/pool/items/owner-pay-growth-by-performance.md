@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T07:34:58.920Z
 
 **Rules.** This is a game, not a spreadsheet: a new step in the player's or a resident's life needs the owner's word. Look before you ask: OWNER-DECISIONS.md holds no ruling on raises for people already in a job (only on raising an unfilled opening's pay, Oct 16).
 
-**Done when.** The owner answers yes or no in OWNER-DECISIONS.md; on yes a builder item is filed for raises and promotions read from the worker's record and temperament, tested in a played year of buildBenchWorld in a drawn place by record id; on no, outcome.earnings is graded read through hiring and layoffs alone.
+**Done when.** The owner answers yes or no in OWNER-DECISIONS.md; on yes a builder item is filed for raises and promotions read from the worker's record and temperament, tested in a played year of buildBenchWorld in a drawn place by record id; on no, outcome.earnings is graded read through hiring and layoffs alone. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** data/content/trait-outcomes.json, src/core2/modules/jobs.ts
 
