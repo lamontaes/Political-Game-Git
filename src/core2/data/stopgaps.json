@@ -1328,7 +1328,7 @@
     "why": "Two-level population (owner, Oct 11): only the circle is simulated person by person; the merged flows keep every monthly total equal to the full opening.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "Wider-population spending timed from the counts' pay dates and income, with absence and turnover rates by industry checked against BLS JOLTS and CPS.",
+    "replacement": "Wider-population spending timed from the counts' pay dates and income, and absence and turnover by industry read from the counts. The rows to check against are sourced (data/research/people/jolts-cps-turnover-absence-2025.json: BLS JOLTS 2025 annual hires, separations, quits and layoffs rates and CPS 2025 absence rates by industry), read by src/core2/turnover-check.ts; the mechanic that uses them is pool item people-residents-cadence-mechanic. Measured Oct 21 (Salem, Utah, seed 07f42052624493fd): hires 2.18 a month against JOLTS 3.3, quits 2.11 against 2.0, layoffs 0.27 against 1.1, separations 2.68 against 3.3.",
     "status": "open"
   },
   {
@@ -4365,7 +4365,7 @@
     "id": "SG-GOV-REACH-A-police-oversight",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 1394,
+    "line": 1487,
     "whatItFakes": "The civilian board costs the city a yearly amount per resident and is recorded against the police department, but no complaint against an officer is brought or reviewed.",
     "why": "No engine records a police-stop complaint, a board finding or officer discipline; the board's cost and its department are built.",
     "addedBy": "OPUS-GOV",
@@ -4606,8 +4606,8 @@
     "id": "SG-PLAY-town-count-estimate",
     "kind": "estimated-data",
     "file": "src/bench/creator.ts",
-    "line": 193,
-    "whatItFakes": "A town the Census Vintage 2025 estimates and the ACS 2020-2024 table hold no count for (34 of 32,508 places, mostly military posts and merged places) shows its state's median town count, marked as an estimate in the creator's list.",
+    "line": 183,
+    "whatItFakes": "A town the Census Vintage 2025 estimates and the ACS 2020-2024 table hold no count for (34 of 32,508 places, mostly military posts and merged places) opens at the model's own size (targetPopulation), and the creator's list shows that size, marked as an estimate, so the list and the opened world agree.",
     "why": "The records name the place but hold no count for it; the creator must show a number (estimate, never unknown) and the real count needs research per place.",
     "addedBy": "claude/quirky-ride-vrwwz4-play-stop-14",
     "addedAt": "2026-10-25",
@@ -5209,7 +5209,7 @@
     "id": "SG-LAW-justice-youth-firearm-harm",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 1537,
+    "line": 1630,
     "whatItFakes": "The web's youth firearm death and suicide rates become an expected count of young people lost in the town each month, but no named child dies of it.",
     "why": "Counted people die only through the illness-course engine (births-counted.ts); there is no injury death for a child.",
     "addedBy": "claude/law-wiring",
@@ -5221,7 +5221,7 @@
     "id": "SG-LAW-justice-enforcement-outcome-readers",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 1098,
+    "line": 1191,
     "whatItFakes": "The immigration partnership moves the web's Hispanic school enrollment, undocumented employment and U.S.-born employment, but no school or jobs engine reads those measures.",
     "why": "The detainer holds are built; the three outcomes are kept place measures that no engine consumes.",
     "addedBy": "claude/law-wiring",
@@ -5233,7 +5233,7 @@
     "id": "SG-LAW-justice-named-offender-acts",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 677,
+    "line": 732,
     "whatItFakes": "The named residents' share of ordinary-crime arrests is carried in an unnamed batch of cases; no named person is arrested, held or sentenced by this engine.",
     "why": "A named person is charged only through an act the engines record (corruption cases today); there is no engine that records an ordinary offense as a named person's own act.",
     "addedBy": "claude/law-wiring",
@@ -6628,7 +6628,7 @@
     "kind": "owner-decision",
     "file": "src/core2/modules/renewal.ts",
     "line": 1,
-    "whatItFakes": "A couple that chose to wait carries exposure each review from the mother's age curve and the household's cushion; a whole unit is an unplanned pregnancy, and the mother weighs carrying it against ending it. Ending a pregnancy pays the trip from the household's cash to the place's outside account (no provider is paid or recorded).",
+    "whatItFakes": "A couple that chose to wait carries exposure each review from the mother's age curve and the household's cushion; a whole unit is an unplanned pregnancy, and the mother weighs carrying it against ending it. Ending a pregnancy pays the trip from the household's cash to the place's outside account (no provider is paid or recorded). Counted households follow the same rule from their own record, times the households each stands for.",
     "why": "No ruling existed on what causes an unplanned pregnancy or whether the player's household can have one.",
     "addedBy": "claude/political-game-pool-pdqjm6",
     "addedAt": "2026-10-19",
@@ -6644,8 +6644,8 @@
     "why": "This change sources the trip to a provider for the full-tier rule; the counted tier's own exposure, per woman and couple times the households each record stands for, is its own piece of work.",
     "addedBy": "claude/provider-distance",
     "addedAt": "2026-10-24",
-    "replacement": "Counted households follow the same rule from their own record, times the households each stands for, with each woman's and couple's exposure kept as their own (pool item people-unplanned-counted-tier, PR #5757).",
-    "status": "open"
+    "replacement": "Resolved: counted households follow the same rule from their own records, each woman carrying her own exposure times the households her record stands for, kept across fill-in (pool item people-unplanned-counted-tier, PR #5757).",
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-unplanned-provider-distance",
@@ -6681,6 +6681,18 @@
     "replacement": "An adopting bill carries a schedule (an exemption, and for an inheritance tax the classes of heirs), drafted from the states that levy the tax.",
     "addedBy": "claude/law-wiring-death-tax-terms",
     "addedAt": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-counted-opening-exposure",
+    "kind": "estimated-behavior",
+    "file": "src/core2/births-counted.ts",
+    "line": 747,
+    "whatItFakes": "A counted woman first seen starts with the part of a whole exposure that her years since she could first be a parent would leave at today's rate (her age curve and her household's cushion now), not the exposure her own past would have left.",
+    "why": "Counted records keep no past, and starting every woman at zero would give no unplanned pregnancy for years and then the whole tier at once.",
+    "addedBy": "claude/unplanned-counted-tier",
+    "addedAt": "2026-10-24",
+    "replacement": "Her exposure since her last birth or partnering, read from a counted past once the opening reconstructs one (as SG-M1-opening-pregnancies does for full couples).",
     "status": "open"
   }
 ]

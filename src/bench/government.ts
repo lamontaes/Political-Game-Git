@@ -17,8 +17,10 @@ import {
   fileCandidacy,
   filingOfficeFor,
   openContests,
+  type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
+import { candidateIdentity, resultOf } from "../core2/modules/voting";
 import {
   PARTIES_MODULE_ID,
   joinParty,
@@ -111,6 +113,26 @@ export function politicsStates() {
  * they live, who holds each seat over them, and the open contests with the
  * filing office's rules checked for them today. Record data only.
  */
+/** The winner of a seat's decided race who takes office later, if any. */
+function electOf(api: ReturnType<typeof coreAPI>, seatId: string) {
+  for (const contest of api
+    .moduleState(ELECTIONS)
+    .table("contests")
+    .query("bySeat", [seatId]) as unknown as ContestRow[]) {
+    const result = resultOf(api, contest.id);
+    if (!result?.winnerId || !result.takesOffice) continue;
+    if (result.takesOffice <= api.state.date) continue;
+    const who = candidateIdentity(api, result.winnerId);
+    return {
+      personId: result.winnerId,
+      name: who ? `${who.givenName} ${who.familyName}` : result.winnerId,
+      contestId: contest.id,
+      takesOffice: result.takesOffice,
+    };
+  }
+  return null;
+}
+
 export function governmentView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const filings = api
@@ -150,6 +172,8 @@ export function governmentView(core: CoreState, personId: string) {
       district: seat.district,
       // The seat's elections, oldest first, each named by the term it seated.
       elections: pastElections(api, seat.id),
+      // Who won the seat's last race and has not taken office yet.
+      elect: electOf(api, seat.id),
       holder: holder && {
         termId: holder.id,
         personId: holder.personId,

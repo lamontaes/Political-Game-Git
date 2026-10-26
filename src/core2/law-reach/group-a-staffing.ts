@@ -108,10 +108,51 @@ export function staffingOf(
   );
 }
 
+/**
+ * The government pays the positions its line funds, so its own row names the
+ * pay the line commits to them for a year (paid out is negative): the funded
+ * positions themselves where the town has no such employer, else the ones
+ * its employers were funded for. The row is set to that pay, not added to.
+ */
+function paysPositions(
+  api: CoreAPI,
+  change: Parameters<PolicyHandler>[1],
+  governmentOrganizationId: string,
+  added: number,
+  employed: boolean,
+): void {
+  const what = added > 0 ? "staff-funded" : "staff-cut";
+  if (Math.abs(added) < 0.5) {
+    if (employed) lawNoLongerApplies(api, change.key, governmentOrganizationId);
+    return;
+  }
+  const held = appliedOn(api, change.key).find(
+    (r) => r.targetId === governmentOrganizationId && r.lawId === change.lawId,
+  );
+  const pay = -Math.round(added * reachParameter("publicPositionAnnualMinor"));
+  lawApplied(api, {
+    key: change.key,
+    lawId: change.lawId,
+    targetId: governmentOrganizationId,
+    target: "organization",
+    engine: REACH_A_MODULE_ID,
+    what: employed ? (added > 0 ? "positions-paid" : "positions-cut") : what,
+    count: Math.max(1, Math.round(Math.abs(added))),
+    amountMinor: pay - (held?.amountMinor ?? 0),
+  });
+}
+
 export const staffing: PolicyHandler = (api, change) => {
   ensureReachA(api);
   const rule = STAFFING[change.key];
-  if (!rule || !rule.levels.includes(change.level)) return;
+  if (!rule) return;
+  // A line funds the staff of the government that runs the town's department:
+  // its city or county. A place with no city or county government (a territory,
+  // the District) is run by its state-level government, whose line funds them.
+  const localIsState =
+    change.level === "state" &&
+    !governments(api).some((g) => g.level === "city" || g.level === "county");
+  if (!rule.levels.includes(change.level) && !localIsState) return;
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
   const line = change.key.slice("budget-line:".length);
   const gov = governments(api).find((g) => g.level === change.level);
@@ -120,13 +161,18 @@ export const staffing: PolicyHandler = (api, change) => {
   // The line before this year's own budget bill: the amount the staff in place
   // was sized for, so a bill's raise or cut reaches the people it funds.
   const base = lineBeforeBill(api, gov, budget.fiscalYear, line);
-  if (base <= 0) return;
-  const ratio = (budget.spendingMinor[line] ?? 0) / base;
   const employers = townOrganizations(api, rule.employers);
+  // An employer's staff grow with its line by the ratio of the line to what
+  // it began the year at, so a line that began at nothing has no ratio; with
+  // no such employer in the town, the positions are the added money over what
+  // a position costs, which a line that began at nothing has too.
+  if (base <= 0 && employers.length) return;
+  const ratio = base > 0 ? (budget.spendingMinor[line] ?? 0) / base : 1;
   const table = reachTable(api, "staffing");
   const funded = employers.length
     ? employers.map((o) => o.id)
     : [gov.organizationId];
+  let added = 0;
   for (const organizationId of funded) {
     const held = staffingOf(api, change.key, organizationId);
     const inPlace = employers.length
@@ -175,6 +221,7 @@ export const staffing: PolicyHandler = (api, change) => {
         count: Math.max(1, Math.round(row.positions)),
       });
     else lawNoLongerApplies(api, change.key, organizationId);
+    added += row.positions - baseStaff;
     // Two laws changing the same employer's staffing on one day (a city's
     // and a county's budgets adopted together) share one hiring round: the
     // round reads the latest staffing row when it runs.
@@ -193,6 +240,7 @@ export const staffing: PolicyHandler = (api, change) => {
         sourceRecordIds: [row.id],
       });
   }
+  paysPositions(api, change, gov.organizationId, added, employers.length > 0);
 };
 
 /**

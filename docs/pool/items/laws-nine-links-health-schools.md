@@ -26,3 +26,5 @@ claimed-at:
 Laws lead, Oct 25 11:40: in PR #6026 (head fee1a54619, #5582 merged in); merge after #5582.
 
 Sent back 2026-10-25 ~23:20 UTC from PR #6026 (branch claude/laws-nine-links-health-schools, head db8866631637, main NOT merged: conflicts in code src/core2/world-poverty.ts and src/core2/law-reach/group-b-money.ts plus data gaps/coverage/unwired/stopgaps and reports): resolve on the branch preserving both sides' reach/gap rows, rerun the family gate, and it goes back in the queue; finish on that branch, merge main into it first.
+
+Laws lead, Oct 26: PR #6026 moves to the bounded `laws-nine-links-health-schools-eight` (main merged in, conflicts resolved on the branch keeping both sides' rows). This item stays open for budget-line:healthAndHospitals, budget-line:schools and budget-line:higherEducation, which pay nothing under their own law id until the treasury change in PR #5669 lands, and for public-funds-for-private-schooling, which reached nobody in Prescott, Michigan.
