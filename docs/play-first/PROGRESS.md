@@ -6,6 +6,7 @@ The handoff log. Newest first. Every agent adds one line before it stops, in the
 
 ## Log
 
+- 2026-10-26 08:40 · builder/Claude · play-official-ties-on-screen · play-first/play-official-ties-on-screen · 718b3d3d2a · PR opened #6162 · a merger checks #6162: an officeholder's card lists their ties in office (Knows) by record id · needs-from: gov-officials-legislators-know-no-one (legislators lack chamber colleagues)
 - 2026-10-26 08:33 · builder/Claude · play-local-races-on-screen · play-first/play-local-races-on-screen · bc5ef27171 · PR opened #6160 · a merger checks #6160: Campaigns lists each local seat on the next ballot with its filers by record id · none
 - 2026-10-26 08:25 · builder/Claude · play-governor-races-on-screen · play-first/play-governor-races-on-screen · 362cd040e0 · PR opened #6159 · a merger checks #6159: election night lists every other state's governor race (party, margin) from the world race records · needs-from: gov-world-races-run-no-governors for candidate names on race records
 - 2026-10-26 08:25 · builder/Claude · words-family-talk-kin-address · play-first/words-family-talk-kin-address · 0c6a7f191f · PR opened #6156 · a merger checks #6156: a sibling living apart asks after a shared parent as Dad or Mom (Review: words) · none
