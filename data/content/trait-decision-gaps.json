@@ -148,11 +148,6 @@
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
     },
-    "voting.stand-again": {
-      "class": "dead while candidacy is installed",
-      "why": "standsAgain (src/core2/modules/voting.ts:319) is read only from fileStandingCandidates (:1126), which returns at :1132 whenever the candidacy module is installed, and candidacy owns every incumbent's decision to run or stay out (its own decision, candidacy.run). Every played world installs candidacy, so the call at :1196 is never reached, in the election window as in the default year.",
-      "fix": "Fold the age term (standAgainReason, voting.ts:334) into candidacy's reasons for an incumbent and delete standsAgain and the stand-in branch, or measure the decision only in a world built without candidacy (pool item elections-stand-again-dead-with-candidacy)."
-    },
     "appointments.weigh": {
       "class": "runs only at the opening and on a vacancy",
       "why": "The appointer's loyalty against merit (src/core2/appointments.ts:56) is read whenever a post is filled. The town's department heads and the state's cabinet are filled when the executive module opens (src/core2/modules/executive.ts:151-152), before the audit's probe is on; afterward only a department head who dies or moves away (executive.ts:1168-1172) or a newly seated governor (:1197) fills one, and neither happened in the election window.",
