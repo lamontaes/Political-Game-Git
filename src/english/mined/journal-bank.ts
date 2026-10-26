@@ -157,6 +157,7 @@ export function journalDataFromBank(
             return stages ? { ...variant, stages } : variant;
           })
         : mined(from, "otherLine");
+      // One's own race is told by how it went and by its margin.
       const ownLine = row.hasOwnLine
         ? (fields.get(`${from}|ownLine`) ?? []).map((variant) => {
             const stages = ownRaceStages(variant.text);

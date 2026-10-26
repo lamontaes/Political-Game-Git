@@ -517,8 +517,10 @@
     "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-driveWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.6,
+      "high": 1.2,
+      "unit": "dimensionless utility weight relative to needWeight = 1",
+      "citation": "Assumed sensitivity band from 0.6 to 1.2 around the unchanged tunable value 1, not a published interval or an empirically fitted coefficient. The low-confidence proposal is recorded under SG-P8-param-driveWeight in data/research/stopgaps-oct19/A-people-behavior-1.json. That file preserves the original contextual references and their stated retrieval limits; they do not establish these numeric bounds. Empirical calibration and the registered stopgap remain open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -595,8 +597,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Set by the M0-07 check against ATUS 2019 time with family outside the household (28 minutes a day, 170 hours a year): at 7 days adults visited relatives outside the home for 351 to 364 hours a year in four of six drawn places (2.1 times ATUS, over the check's limit of twice), at 14 days for 231 to 268 hours a year in twelve drawn places (1.4 to 1.6 times). Empirical calibration of the need itself is still pending.",
     "stopgapId": "SG-P8-param-companyHorizonDays",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 7,
+      "high": 30,
+      "unit": "days (contact gap at which the company need saturates)",
+      "citation": "Assumed sensitivity band from 7 to 30 around the unchanged tunable value 14, not a published interval or an empirically fitted coefficient. The low-confidence proposal is recorded under SG-P8-param-companyHorizonDays in data/research/stopgaps-oct19/A-people-behavior-1.json. That file preserves the original contextual references and their stated retrieval limits; they do not establish these numeric bounds. Empirical calibration and the registered stopgap remain open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -633,8 +637,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-appraisalRelationshipWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.5,
+      "high": 1,
+      "unit": "dimensionless multiplier on event appraisal by relationship closeness",
+      "citation": "Assumed sensitivity band from 0.5 to 1 around the unchanged tunable value 1, not a published interval or an empirically fitted coefficient. The low-confidence proposal is recorded under SG-P8-param-appraisalRelationshipWeight in data/research/stopgaps-oct19/A-people-behavior-1.json. That file preserves the original contextual references and their stated retrieval limits; they do not establish these numeric bounds. Empirical calibration and the registered stopgap remain open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4676,6 +4682,45 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No study measures how long people wait before confronting the same person again."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeGivenWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly what a person has lately given to their causes (volunteer sessions, donations, groups joined, causes shared, each one act, fading at causeGivenDays) weighs against a further act of the same kind (a reason in the chooser). Without it the cause acts scored the same pull each day, so in Bedford, Wyoming (seed 9a4dd331ace7) the third year's 63 volunteers gave a median of 158 sessions, about 340 hours, and 46 donors gave a median of 227 times. Set beside the Census Bureau's hours per formal volunteer (median 24 to 40 hours a year, CEV 2017 to 2023) in a played town's third year, as an exploratory proxy: the survey counts every formal volunteer through any organization, the game only cause volunteering.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures giving on the chooser's utility scale; the volunteer-hours measure is a broader proxy for the town's totals, not a band."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeGivenDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Days over which what a person gave to a cause fades by a factor of e in the weight against giving more (about two-thirds gone after a month).",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how the memory of one's own giving fades; the volunteer-hours measure is a broader proxy for the town's totals, not a band."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeJoinedDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Days over which joining a cause group fades by a factor of e in the weight against joining another (causeGivenWeight): a membership is a standing commitment, remembered for about a year, not a month. Set beside the share of people who belong to any group or organization (CEV 2017 to 2023, 23.8 to 27.1 percent) and the groups each member holds in a played town's third year, as an exploratory proxy: the survey counts any group, the game only cause groups.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how long one membership weighs against the next; the membership share is a broader proxy for the town's totals, not a band."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

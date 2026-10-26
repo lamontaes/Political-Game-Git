@@ -7,6 +7,7 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
+import { circleChanges } from "./circle";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
 import {
@@ -151,6 +152,8 @@ export function personCard(core: CoreState, personId: string) {
     affect: person.affect,
     needs: person.needs,
     ties,
+    // Who joined or left their five closest this year, from the tie records.
+    circle: circleChanges(core, personId),
     drives,
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).

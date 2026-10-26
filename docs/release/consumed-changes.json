@@ -1,6 +1,122 @@
 {
   "entries": [
     {
+      "version": "0.36.5",
+      "releasedOn": "2026-10-26",
+      "revision": "8f62029e2f5528ffeeaa03974ab274ec456b3e4c",
+      "changeIds": ["screens-ui-button", "screens-ui-panel"]
+    },
+    {
+      "version": "0.36.4",
+      "releasedOn": "2026-10-26",
+      "revision": "b39a1d42402ad5196717b049fe4287ac3e797c38",
+      "changeIds": ["gov-town-officers-paid-under-minimum-wage"]
+    },
+    {
+      "version": "0.36.3",
+      "releasedOn": "2026-10-26",
+      "revision": "e75949aefe9a9284b7cbfca64ab61d01c44f0003",
+      "changeIds": [
+        "outcome-web-snap-stopped-heads-still-paid",
+        "play-stop-02-developer-text-on-play-screens-a",
+        "web-gov-measure-causes-and-places"
+      ]
+    },
+    {
+      "version": "0.36.2",
+      "releasedOn": "2026-10-26",
+      "revision": "329f2d013f76826352fb2b7a4e27856d4c46b2a3",
+      "changeIds": [
+        "laws-starting-rows-next-year-override-play",
+        "merger0-returns-2026-10-25-1455",
+        "play-stop-02-developer-text-on-play-screens-b",
+        "play-stop-26-empty-something-needs-you",
+        "release-repo-sweep-unread-files",
+        "research-stopgaps-oct19-apply-spreads",
+        "web-twins-skip-gov-measures",
+        "world-employer-callback-table-data"
+      ]
+    },
+    {
+      "version": "0.36.1",
+      "releasedOn": "2026-10-26",
+      "revision": "1418c3ea103177de44ebf53ae084c00241f12ffc",
+      "changeIds": [
+        "tests-enact-law-ids-rerate-ended-job",
+        "web-matrix-unrun-links-not-reaching"
+      ]
+    },
+    {
+      "version": "0.36.0",
+      "releasedOn": "2026-10-26",
+      "revision": "fccb4e01d460010abab5c1b7b25684aa5c082071",
+      "changeIds": [
+        "core-speed-contact-offers-grow-with-ties",
+        "elections-counted-ballots-nan-faith",
+        "laws-balanced-budget-open-after-repeal",
+        "laws-matrix-unread-outcome-grades-wired",
+        "play-governor-races-on-screen",
+        "tests-budget-sales-tax-zero-total",
+        "tests-government-scenes-no-allowed-policy",
+        "tests-group-b-draw-joint-subjects",
+        "tests-recalls-counted-signers-worker-oom"
+      ]
+    },
+    {
+      "version": "0.35.0",
+      "releasedOn": "2026-10-26",
+      "revision": "23e99edf5e0e8ac940a95d49b864bbd702608f07",
+      "changeIds": [
+        "core-speed-api-parameter-once",
+        "laws-nine-links-prices",
+        "play-circle-changes-on-screen",
+        "play-first-17-buttons-same-size",
+        "play-panels-see-through",
+        "play-stop-01-talk-says-nothing-a",
+        "release-laws-work-order-declaration",
+        "tests-candidacy-sample-comment",
+        "tests-electoral-scenes-no-clerk-early-return",
+        "tests-officeholder-desk-bill-on-signing-stale",
+        "tests-staff-work-why-records-empty-on-main",
+        "tests-world-poverty-record-versus-live-drift",
+        "web-vehicle-miles-traveled-per-resident",
+        "words-law-reached-watch-husk-red",
+        "words-scene-staff-bad-news-a"
+      ]
+    },
+    {
+      "version": "0.34.4",
+      "releasedOn": "2026-10-26",
+      "revision": "738f5da98e0237b5d562b26570e360f267d03483",
+      "changeIds": [
+        "core-voter-groups-town-cast-zero",
+        "people-drives-cause-acts-pull-less",
+        "web-matrix-engine-source-evidence"
+      ]
+    },
+    {
+      "version": "0.34.3",
+      "releasedOn": "2026-10-26",
+      "revision": "85fdd0512b80a3095ec001cfcf85fdd115332857",
+      "changeIds": ["play-stop-24-every-statewide-race-unopposed"]
+    },
+    {
+      "version": "0.34.2",
+      "releasedOn": "2026-10-26",
+      "revision": "785a06a70f2459e9463640f5946b7703ba4e17ac",
+      "changeIds": [
+        "core-speed-focus-daily-recent-contact",
+        "effect-report-after-crime",
+        "play-continue-hides-first-night-news",
+        "play-stop-08-no-high-school-at-seventeen",
+        "tests-m2-07-drawn-place-without-race",
+        "tests-official-pay-death-pinned-red-on-main",
+        "tests-voting-compact-ballot-appeal-missing",
+        "web-twin-unmoved-causes-report",
+        "world-twins-crime-reports-flat-west-lawn"
+      ]
+    },
+    {
       "version": "0.34.1",
       "releasedOn": "2026-10-26",
       "revision": "8ac620aa87c56c7ebcadc62958ebda3e0776223b",
