@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: blocked
+status: open
 claimed-by:
 pr: #5921
 after: core-old-engine-01-zero-dice-guard-repoint
