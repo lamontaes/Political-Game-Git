@@ -389,7 +389,8 @@ it(
         "unplanned-counted-tier",
       );
       tried.push(`${draw.key} seed ${draw.seed}`);
-      setBookkeeping(false);
+      // The month's counts rows (expected births) are kept only with bookkeeping on.
+      setBookkeeping(true);
       const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: draw.key,
@@ -399,6 +400,7 @@ it(
         core,
         addDays(makeIsoDate(core.date), COUNTED_UNPLANNED_DAYS),
       );
+      setBookkeeping(false);
       const renewal = api.moduleState(RENEWAL_MODULE_ID);
       const rows = renewal.table("countedUnplanned").rows();
       if (!rows.length) continue;
@@ -443,8 +445,52 @@ it(
       // Another engine reads it: the counted birth record cites the decision.
       const birth = renewal.table("births").get(`${born.childId}:birth`);
       expect(birth?.unplannedId, String(born.id)).toBe(born.id);
+      // One flow: the state's rate counts every birth, so the place's counted
+      // births, rate-funded and unplanned alike, add up to its expected births
+      // less what it carries into next month; an unplanned birth is never
+      // added on top of the rate.
+      const placeId = String(born.placeId);
+      const births = renewal
+        .table("births")
+        .rows()
+        .filter((row) => row.counted === true && row.placeId === placeId);
+      const expected = renewal
+        .table("counts")
+        .rows()
+        .filter((row) => row.placeId === placeId)
+        .reduce((n, row) => n + (row.expected as { births: number }).births, 0);
+      const stood = births.reduce((n, row) => n + Number(row.stands), 0);
+      const carried = Number(
+        renewal.table("countedCarry").get(placeId)?.births ?? 0,
+      );
+      expect(
+        Math.abs(expected - stood - carried),
+        `${draw.key} seed ${draw.seed}: expected ${expected}, born ${stood}, carried ${carried}`,
+      ).toBeLessThan(1e-6 * Math.max(1, expected));
+      // A woman carrying a counted pregnancy has no other birth before it ends.
+      for (const pregnancy of rows) {
+        if (pregnancy.status !== "pregnant" && pregnancy.status !== "delivered")
+          continue;
+        const until =
+          pregnancy.status === "delivered"
+            ? String(
+                renewal.table("births").get(`${pregnancy.childId}:birth`)?.date,
+              )
+            : makeIsoDate(core.date);
+        const other = births.filter(
+          (row) =>
+            row.motherId === pregnancy.motherId &&
+            row.unplannedId !== pregnancy.id &&
+            String(row.date) >= String(pregnancy.date) &&
+            String(row.date) <= until,
+        );
+        expect(
+          other.map((row) => String(row.id)),
+          `${draw.key} seed ${draw.seed}: ${pregnancy.id}`,
+        ).toEqual([]);
+      }
       process.stderr.write(
-        `counted unplanned: place ${draw.key} (${draw.state}) seed ${draw.seed} decisions ${rows.length} record ${born.id} birth ${birth?.id} miles ${born.miles}\n`,
+        `counted unplanned: place ${draw.key} (${draw.state}) seed ${draw.seed} decisions ${rows.length} record ${born.id} birth ${birth?.id} miles ${born.miles}; ${births.length} counted births standing for ${stood.toFixed(3)} against ${expected.toFixed(3)} expected, ${carried.toFixed(3)} carried\n`,
       );
       return;
     }
