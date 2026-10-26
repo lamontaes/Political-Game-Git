@@ -20,6 +20,8 @@ claimed-at:
 
 **Done when.** `src/core2/candidacy.test.ts` passes on the seed and place above and on two fresh random places named in the PR body, and the PR says whether the rule or the band changed, with the share of incumbents standing again in each place.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers. Stopgap allowed: none needed; if the rule is right, widen the band with a sourced small-town spread.
+
 **Files.** src/core2/candidacy.test.ts, src/core2/stand-again.ts
 
 **Notes.** Laws lead, Oct 26: found on PR #5986's CI; reproduced on clean main.
