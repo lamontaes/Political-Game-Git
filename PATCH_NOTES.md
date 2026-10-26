@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.33.1
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Count minor offenses and let police staffing move their arrests** The
+  justice case flow now records minor quality-of-life offenses (disorderly
+  conduct, drunkenness, liquor law violations, loitering, vagrancy and drug
+  possession) as cases, and the police staffing a place funds moves how many of
+  those arrests happen.
+
 ## PRE-ALPHA 0.33.0
 
 _Released October 26, 2026._

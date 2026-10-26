@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "version": "0.33.1",
+      "releasedOn": "2026-10-26",
+      "revision": "eaef8e400494ea7a8384d0428b3aace60d6707a7",
+      "changeIds": [
+        "core-speed-press-town-adults",
+        "docs-school-staff-oct17-historical-note",
+        "justice-low-level-offenses",
+        "pool-notes-oct17-b"
+      ]
+    },
+    {
       "version": "0.33.0",
       "releasedOn": "2026-10-26",
       "revision": "b1ff38918ef1def92311a07d215b6ebb70ef0cee",
