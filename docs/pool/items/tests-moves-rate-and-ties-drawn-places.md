@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: departures follow people and household circumstances, with ACS rates checking totals. Diagnose the causal model or statistical assertion at the root; do not loosen the guard or choose favorable seeds to hide a failure.
 
-**Done when.** The M1-09 command passes its departure-total and ties-comparison assertions on all three recorded seeds and places, and on an additional independent drawn place; report actual counts and compared means, preserve positive birth-rate checks, and show the cause of each correction without broad test ceilings.
+**Done when.** The M1-09 command passes its departure-total and ties-comparison assertions on all three recorded seeds and places, and on an additional independent drawn place; report actual counts and compared means, preserve positive birth-rate checks, and show the cause of each correction without broad test ceilings. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/moves.test.ts, src/core2/modules/moves.ts, src/core2/data/moves/parameters.json
 

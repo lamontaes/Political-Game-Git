@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** The chain is the acceptance: one dollar or rule per family is followed to a named person and back out to a choice and a journal line. An effect is a read, not a record: another engine must read what each law writes. No dice: reach comes from traits, money and the law in force. Replace, never layer: each placeholder is deleted when its real effect lands. One rule, all 56 places: the place is drawn and named.
 
-**Done when.** After the child items are done, in a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), no law-reach policy has a mechanic of none or records, and src/core2/law-reach-group-a.test.ts and src/core2/law-reach-group-b.test.ts name, per family, the law record id, the changed payment or price record id, the person record id, the choice or view record id and the director line.
+**Done when.** After the child items are done, in a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), no law-reach policy has a mechanic of none or records, and src/core2/law-reach-group-a.test.ts and src/core2/law-reach-group-b.test.ts name, per family, the law record id, the changed payment or price record id, the person record id, the choice or view record id and the director line. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/law-reach/index.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/group-b.ts, src/core2/law-reach-group-a.test.ts, src/core2/law-reach-group-b.test.ts
 

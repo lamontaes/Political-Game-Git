@@ -17,8 +17,10 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: tests draw from all 56 and name the place and seed. One model, two tiers: where a case can assert on a counted group the same rule reaches, it may draw on counted residents too.
 
-**Done when.** `src/core2/law-reach-group-b.test.ts` passes on main on three fresh random seeds and on b859e7d6b13cc7f344a6475e1d26ffa00245ed91436791b312ab8794b75c52c9, each case naming the town it drew.
+**Done when.** `src/core2/law-reach-group-b.test.ts` passes on main on three fresh random seeds and on b859e7d6b13cc7f344a6475e1d26ffa00245ed91436791b312ab8794b75c52c9, each case naming the town it drew. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/law-reach-group-b.test.ts
 
 **Notes.** Found by the laws lead while gating PR #5649 (taxes), whose diff changes this test file, so CI runs it there.
+
+Merger 1, 2026-10-26: PR #5649 integration 36bdfe4d39 and clean main 8abee77ef0 both fail the same shared beforeAll at fresh seed 8158a83ca8b70cdf, with identical forty-town lists and missing joint subjects. Each has three passing cases and 29 skipped after the setup failure; the PR adds no skip. Clean-main single-file run took 53.89 seconds. This inherited failure does not gate the taxes PR.

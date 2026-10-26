@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/law-reach/group-b-people.ts, src/core2/law-reach/group-b.ts
 
 **Notes.** From the laws lead's health-schools PR review, Oct 25. Self-employment counts toward the federal requirement (Pub. L. 119-21 sec. 71119; recalled, not checked here), so the researcher confirms the statute's terms.
+
+Laws lead, Oct 26: the same owner shows up in the welfare line's reach. In the health and schools family test (PR #6026, seed e605d71b551e5dd49cb8, Provencal, Louisiana), `budget-line:welfareAndMedicaid|person:press:outlet:newspaper:0:jurisdiction_738b3e26bd5092c3:owner:0|2025-01-22` names the town newspaper's owner. Why the owner qualifies for cash assistance is not traced; check whether the owner's income reads as zero for the same reason.
