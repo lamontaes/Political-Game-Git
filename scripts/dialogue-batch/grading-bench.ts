@@ -360,7 +360,7 @@ export function orderForPage<
 const MONTHS =
   "January|February|March|April|May|June|July|August|September|October|November|December";
 /**
- * A date in speech (owner, Oct 15: nobody says a date): a month with its day
+ * A date in speech: a month with its day
  * or year ("March 3", "February 2015"), or a year. A month's name alone is
  * not one: it is also a given name ("Hey, April.").
  */

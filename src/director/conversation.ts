@@ -252,7 +252,7 @@ function schoolStage(core: Readonly<CoreState>, person: Readonly<PersonState>) {
 /**
  * How long someone has held their job, in completed years, counted to the
  * anniversary of the day they started: what people say ("for seven years"),
- * never the month they started (owner, Oct 15: nobody says a date). Under two
+ * never the month they started. Nobody says a date in speech. Under two
  * years there is no count to say.
  */
 export function tenureYears(
