@@ -1988,7 +1988,7 @@ const LIFE_CONTENT_92C_HOSTED_STAGES: readonly {
  * LIFE-CONTENT13 stages still awaiting an independent prose review.
  *
  * Empty: the breakroom, bus-stop and canvass encounters now carry reviewed
- * packets, outputs and PASS verdicts under prose-review/92c-wave-1. Kept as a
+ * packets, outputs and PASS verdicts (the review folder is in Git history). Kept as a
  * named seam so a later encounter can ship its gameplay ahead of review
  * without weakening the tracing test for everything else.
  */

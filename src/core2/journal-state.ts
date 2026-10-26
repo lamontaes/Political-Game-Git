@@ -521,7 +521,8 @@ function owner(host: CashJournalHost, id: string): CashJournalCashOwner {
   const row = person ?? organization!;
   if (row.id !== id)
     throw new Error("Cash account owner identity is inconsistent.");
-  directField(row, "liquidMinor");
+  // The shape check is bookkeeping; the commit writes the field in play too.
+  if (bookkeeping()) directField(row, "liquidMinor");
   return row;
 }
 
@@ -648,9 +649,14 @@ export function registerCashAccount(
     nativeMapSet.call(runtime.externalFlowsByOwner, row.ownerId, outsideTotals);
 }
 
+/** What play reads of a touched owner: whose cash the commit writes. */
 interface Portfolio {
   ownerId: string;
   cash: CashJournalCashOwner;
+}
+
+/** What bookkeeping also proves about the owner before the commit. */
+interface CheckedPortfolio extends Portfolio {
   beforeCash: number;
   index: Set<string>;
   ids: readonly string[];
@@ -667,15 +673,68 @@ interface Portfolio {
   }[];
 }
 
+interface Portfolios {
+  portfolios: readonly Portfolio[];
+  /** Bookkeeping's proofs per owner, in the same order; empty in play. */
+  checked: readonly CheckedPortfolio[];
+  owners: Map<string, CashOwnerSnapshot>;
+  accounts: ReadonlyMap<string, CashAccountSnapshot>;
+}
+
+const unchecked: readonly CheckedPortfolio[] = [];
+
+/**
+ * The touched owners of a posting, each with the complete account index the
+ * projection reads. Play reads the index and hands the projection the live
+ * account rows; bookkeeping builds the checked portfolios instead.
+ */
 function portfolios(
   runtime: CashJournalRuntime,
   host: CashJournalHost,
   postings: readonly CashJournalPosting[],
-): {
-  portfolios: Portfolio[];
-  owners: Map<string, CashOwnerSnapshot>;
-  accounts: Map<string, CashAccountSnapshot>;
-} {
+): Portfolios {
+  if (bookkeeping()) return checkedPortfolios(runtime, host, postings);
+  const result: Portfolio[] = [],
+    owners = new Map<string, CashOwnerSnapshot>();
+  for (const posting of postings) {
+    const account = runtime.accounts.get(posting.accountId);
+    if (!account || account.id !== posting.accountId)
+      throw new Error("Cash journal account is not registered.");
+    const ownerId = account.ownerId;
+    if (owners.has(ownerId)) continue;
+    const cash = owner(host, ownerId);
+    const index = runtime.accountsByOwner.get(ownerId);
+    if (!index)
+      throw new Error(
+        "Cash owner complete account index is absent or incomplete.",
+      );
+    const outsideTotals = runtime.externalFlowsByOwner.get(ownerId);
+    const snapshot: CashOwnerSnapshot = {
+      id: ownerId,
+      liquidMinor: cash.liquidMinor,
+      accountIds: [...index],
+    };
+    if (outsideTotals) snapshot.outsideNetMinor = outsideTotals.netMinor;
+    owners.set(ownerId, snapshot);
+    result.push({ ownerId, cash });
+  }
+  return {
+    portfolios: result,
+    checked: unchecked,
+    owners,
+    accounts: runtime.accounts,
+  };
+}
+
+/**
+ * Bookkeeping proves the complete index, the outside ledger and every account
+ * row, and snapshots them for the pre-commit staleness checks.
+ */
+function checkedPortfolios(
+  runtime: CashJournalRuntime,
+  host: CashJournalHost,
+  postings: readonly CashJournalPosting[],
+): Portfolios {
   const touched = new Map<string, Set<string>>();
   for (const posting of postings) {
     const account = runtime.accounts.get(posting.accountId);
@@ -685,7 +744,7 @@ function portfolios(
     ids.add(posting.accountId);
     touched.set(account.ownerId, ids);
   }
-  const result: Portfolio[] = [],
+  const result: CheckedPortfolio[] = [],
     owners = new Map<string, CashOwnerSnapshot>();
   const accounts = new Map<string, CashAccountSnapshot>();
   for (const [ownerId, postedIds] of touched) {
@@ -704,7 +763,7 @@ function portfolios(
         "Cash owner complete account index is absent or incomplete.",
       );
     const ids = [...index],
-      rows: Portfolio["rows"][number][] = [];
+      rows: CheckedPortfolio["rows"][number][] = [];
     const outsideSource = cash.outsideFlow;
     const outsideTotals = runtime.externalFlowsByOwner.get(ownerId);
     if ((outsideSource === undefined) !== (outsideTotals === undefined))
@@ -737,14 +796,10 @@ function portfolios(
         throw new Error(
           "Outside account mode or partition metadata is inconsistent.",
         );
-      // The shape check is bookkeeping; the commit writes the field in play too.
-      if (live.allocatedMinor !== undefined && bookkeeping())
+      if (live.allocatedMinor !== undefined)
         directField(live, "allocatedMinor");
-      // The copy exists to prove the live row didn't move before commit
-      // (bookkeeping); play reads the live row, which the projection never writes.
-      const snapshot = bookkeeping()
-        ? { ...live, source: { ...live.source } }
-        : live;
+      // The copy proves the live row didn't move before commit.
+      const snapshot = { ...live, source: { ...live.source } };
       accounts.set(id, snapshot);
       rows.push({ live, snapshot, source: live.source });
       if ((id === residualId) !== (live.allocatedMinor === undefined))
@@ -771,15 +826,13 @@ function portfolios(
       residualId,
       rows,
       outsideSource,
-      // Snapshots exist for the pre-commit staleness checks (bookkeeping).
-      outsideSourceSnapshot:
-        outsideSource && bookkeeping() ? { ...outsideSource } : undefined,
+      // Snapshots exist for the pre-commit staleness checks.
+      outsideSourceSnapshot: outsideSource ? { ...outsideSource } : undefined,
       outsideTotals,
-      outsideTotalsSnapshot:
-        outsideTotals && bookkeeping() ? { ...outsideTotals } : undefined,
+      outsideTotalsSnapshot: outsideTotals ? { ...outsideTotals } : undefined,
     });
   }
-  return { portfolios: result, owners, accounts };
+  return { portfolios: result, checked: result, owners, accounts };
 }
 
 function copyResolved(
@@ -1479,7 +1532,7 @@ export function postCashJournal(
         focus,
         beforeTotals,
         ...originalMaps.map(([, map]) => map),
-        ...portfolio.portfolios.flatMap((row) => [
+        ...portfolio.checked.flatMap((row) => [
           row.index,
           ...row.rows.map((account) => account.live),
         ]),
@@ -1492,7 +1545,7 @@ export function postCashJournal(
         reservedObjects.add(object);
       const requiredIndex = runtime.requiredBySource.get(resolved.kind);
       if (requiredIndex) reservedObjects.add(requiredIndex);
-      for (const row of portfolio.portfolios) {
+      for (const row of portfolio.checked) {
         if (row.outsideTotals) reservedObjects.add(row.outsideTotals);
         if (row.outsideSource) reservedObjects.add(row.outsideSource);
         cashRows.add(row.cash);
@@ -1523,14 +1576,14 @@ export function postCashJournal(
           row: row.cash,
           next: projection.owners.get(row.ownerId)!.afterMinor,
         });
+    // The projection holds a change for every account of every touched owner;
+    // only a fund that moved needs a write.
     const fundWrites: { row: CashAccountSnapshot; next: number }[] = [];
-    for (const row of portfolio.portfolios)
-      for (const account of row.rows) {
-        const next = projection.accounts.get(
-          account.snapshot.id,
-        )!.allocatedAfterMinor;
-        if (next !== undefined) fundWrites.push({ row: account.live, next });
-      }
+    for (const change of projection.accounts.values()) {
+      const next = change.allocatedAfterMinor;
+      if (next === undefined || next === change.allocatedBeforeMinor) continue;
+      fundWrites.push({ row: runtime.accounts.get(change.accountId)!, next });
+    }
     // This is the last external/module call. It must precede every stale-row check.
     // Bookkeeping re-resolves the source to prove nothing moved; play reuses it.
     const currentSlot = checks ? provider(request.sourceRef) : sourceSlot;
@@ -1568,7 +1621,7 @@ export function postCashJournal(
         originalMaps.some(([key, map]) => runtime[key] !== map)
       )
         throw new Error("Stale journal host/date/sequence/source registry.");
-      for (const row of portfolio.portfolios) {
+      for (const row of portfolio.checked) {
         if (
           owner(host, row.ownerId) !== row.cash ||
           row.cash.liquidMinor !== row.beforeCash ||

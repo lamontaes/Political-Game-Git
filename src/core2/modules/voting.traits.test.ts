@@ -153,6 +153,12 @@ describe("voting.exit-poll is told by the voters whose traits lean toward tellin
     const polled = polledBallots(api);
     console.log(`exit poll: ${polled.length} voters with a choice`);
     expect(polled.length).toBeGreaterThan(0);
+    // A lean within rounding of zero sits on the line (the decision sums its
+    // trait terms in another order), so each answer is checked to that
+    // rounding, never skipped; and at least one voter must lean clearly, or
+    // the check would hold for a town where every lean is zero.
+    const rounding = 1e-9;
+    let clear = 0;
     for (const b of polled) {
       const voter = core.people.get(b.voterId)!;
       const lean = decisionLean(
@@ -162,12 +168,11 @@ describe("voting.exit-poll is told by the voters whose traits lean toward tellin
         "tell",
         "decline",
       );
-      // A lean within rounding of zero sits on the line (the decision sums
-      // its trait terms in another order): either answer fits it.
-      if (Math.abs(lean) < 1e-9) continue;
+      if (Math.abs(lean) > rounding) clear += 1;
       if (b.toldPollster === "declined")
-        expect(lean, b.id).toBeLessThanOrEqual(0);
-      else expect(lean, b.id).toBeGreaterThan(0);
+        expect(lean, b.id).toBeLessThanOrEqual(rounding);
+      else expect(lean, b.id).toBeGreaterThan(-rounding);
     }
+    expect(clear, "voters whose lean is clear of zero").toBeGreaterThan(0);
   });
 });
