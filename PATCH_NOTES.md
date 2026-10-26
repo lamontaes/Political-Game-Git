@@ -296,6 +296,131 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.32.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A budget cut now lets the newest public hires go first, named or counted**
+  When a city or county cuts the line that pays a department (schools, police,
+  fire), the layoffs now follow one order across the employer's whole staff: the
+  newest hire goes first, whether the game follows that worker closely or counts
+  them in the wider town.
+
+- **A raise or cut to a public-school budget line is checked end to end in a
+  drawn town** A new test follows a mayor's schools-line change through the
+  council's budget bill to the district's teachers. A place where the council
+  recorded its own amendment, rejection or veto is skipped by that record; a
+  place where the line was not adopted with no such record now fails the test.
+
+- **Layoffs after a budget cut follow the same newest-first order for named and
+  counted staff** When a budget cut forces a department to let staff go, the
+  line's own recent hires go first, then the employer's remaining staff, named
+  and counted together, newest hire first. A counted worker's start date is the
+  date their household committed to the job, the same date a named person's job
+  carries, so filling a counted worker in does not move them in the order.
+
+- **The journal says a race was close only when the count shows it** A
+  candidate's journal now says "It was very close." or "It wasn't close." only
+  when the result's vote totals bear it out. Before, those lines were picked by
+  win or loss alone, so someone who ran unopposed could write that it was very
+  close. A race with one candidate now reads "I won." or "We won.".
+
+## PRE-ALPHA 0.32.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Every town now opens with someone your age at 18** Some towns opened with
+  nobody aged 18 among the people you can meet and play, so the life you start
+  at 18 had no one to start from. Every town now opens with at least one full
+  18-year-old wherever its households can hold one.
+
+- **The menu icons stay clickable above your card** The six menu icons now stand
+  on top of your card in the bottom-left corner instead of under it, so the card
+  never covers them, whether the window is wide or as small as the desktop
+  allows, and whatever your card is showing after you knock on doors. Your name
+  stays on one line.
+
+- **A job offer no longer locks the game** When an employer's offer holds your
+  clock, the play screen now shows the offer itself — the employer, the job, the
+  pay and the day to answer by — with Take it and Turn it down. Either answer
+  releases the hold and Day and Week work again; an offer that just arrived can
+  also wait at the Jobs tab until its deadline.
+
+## PRE-ALPHA 0.32.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **A resident's visit to your office hours is a scene** When a resident brings
+  you a problem at office hours, out of work with their savings running thin or
+  paid under the minimum wage, they come to your office and say it in their own
+  words. You can promise the referral the office really makes (the workforce
+  office or the labor standards office), ask more, or turn them away. The visit
+  is on the office's record, and the scene stands on it.
+
+### Improved
+
+- **Tax laws reach the people who pay them** When a government changes an income
+  tax, a property tax or a corporate tax, the new rate is now what comes out of
+  paychecks, home tax bills and company profits, for named residents and for the
+  wider population alike, and each payer's record names the law that took the
+  money. A graduated income tax follows a changed top rate. Businesses owned by
+  a corporation now pay the state's tax as well as the federal one: a company
+  short of cash owes each government its own share, and still pays a state whose
+  tax was repealed. A higher state corporate rate now lowers pay a little in the
+  town. An estate settles under the death taxes in force and names who paid
+  them, for a resident of the wider population as well as a named one. When no
+  one inherits and the state takes the estate, it pays the state's inheritance
+  tax only where that state's own statute taxes a government heir; each state
+  with the tax carries its statute's wording. A town council's draft of an
+  income tax is checked against the state's grant of that power in force. Each
+  month, as it closes its books, a treasury reads its balanced-budget, pension
+  and reserve rules before it pays, and the pension rule names the public
+  workers whose pensions it funds.
+
+## PRE-ALPHA 0.31.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Everyone in town pays for health coverage** The wider population now holds
+  employer health plans and pays premiums the same way the people you meet do:
+  the same ranking by employer size and pay, the same single and family
+  premiums, once for every household each record stands for. A household you
+  meet keeps the plan and premium it had when it was counted.
+
+### Fixed
+
+- **Repealing a law a place began with now takes effect after its delay.** When
+  a legislature repeals a law that was in force when the game began, its effects
+  on people's health, births and other outcomes now arrive after the delay the
+  research measured, rather than on the first day.
+
+### Changed
+
+- **Some residents of a new town have a different first name, drawn by the same
+  rule as everyone else.** The town's opening residents now get their first
+  names from the same rule the rest of the opening uses: how often a decade's
+  popular names were given, as measured from Social Security records. Before,
+  part of each town used an older fixed share. Last names, ages, genders and
+  birthdays are unchanged.
+
+## PRE-ALPHA 0.30.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **The title shows the Lincoln Memorial at night** The title screen's rotation
+  of national scenes now includes a painting of the Lincoln Memorial at night,
+  full-window behind the menu.
+
 ## PRE-ALPHA 0.29.8
 
 _Released October 26, 2026._
