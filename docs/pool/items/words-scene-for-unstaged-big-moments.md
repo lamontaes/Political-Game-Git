@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: words/unstaged-big-moments
+status: open
+claimed-by:
 pr: #6136
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T02:29:51.323Z
+claimed-at:
 ---
 
 **What.** Once #6126 (play-stop-26) lands, a moment stops the player's day only when a situation stages a scene for it. Big moments that no situation type stages then reach only the journal. #6126's two-year probe in Murraysville, North Carolina (seed stops-a) names two on main, on September 10 and October 27, 2026: a heard speech that moved the player's views, and a candidate's speech at a county board debate, whose scene was bound to nothing. The player never meets the person behind either moment.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-26T02:29:51.323Z
 **Files.** src/director/data/situation-types.json, data/english/parts/scene-words.json, data/english/parts/scene-talk.json, src/director/scheduling.ts
 
 **Notes.** TODO
+
+Merger 0: Sent back 2026-10-26 from PR #6136 (branch words/unstaged-big-moments): validation blocked by this merger workspace's invalid GH_TOKEN/HTTP401; cannot fetch the real head, integrate main or run the required merged-tree checks. No code defect claimed. Pool status/Notes updated through connected GitHub because the pool CLI's git authentication is broken; finish validation on that branch with working checkout credentials, merge main into it first.
+
+Merger 0: Rechecked after authentication recovered, 2026-10-26, PR #6136 branch words/unstaged-big-moments, merged head a54c854b39e6184e3220448c85929921e1186a12. Sent back for the final Done-when clause: it still requires a debate scene with the speaker present while the body/data deliberately keep broadcasts in the journal; the passing fresh Coffeeville test observes zero debates, so its conditional debate assertions prove no broadcast witness. Define accurate bounded acceptance and an unconditional observed debate/broadcast record proof without inventing physical presence, align the table, and keep broader work open if needed. Own scoped static checks and26 changed tests pass; current open CLI succeeded. The earlier authentication blocker is resolved; this acceptance reason supersedes it. Finish on that branch, merge main into it first.

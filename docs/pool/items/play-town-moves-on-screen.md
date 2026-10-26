@@ -5,13 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-town-moves-on-screen
 pr:
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from world-town-net-moving-negative)
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-26T08:55:02.387Z
 ---
 
 **What.** The moves engine moves households in and out of the town every month, and world-town-net-moving-negative is fixing a town that shrinks too fast. The player never sees the town's size change. Show the town's population under its name on Who you are, with this year's arrivals and departures, and let News print a line when someone the player knows moves away or a new family moves onto the street, read from the move records.

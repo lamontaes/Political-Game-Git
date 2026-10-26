@@ -7,11 +7,12 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #6153
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from core-city-treasury-trillions-dickens)
 lead: play-first
 milestone: play-first
+claimed-at:
 ---
 
 **What.** A small city's books reached trillions in a year, and core-city-treasury-trillions-dickens is fixing the flows. Budgets shows the adopted plan but not what the treasury actually took in and paid, so a broken treasury is invisible. Add a So far this year line under the town's budget: taken in, paid out and cash on hand in plain dollars, read from the treasury journal, with a plain warning when spending runs past the budget.
@@ -29,3 +30,5 @@ milestone: play-first
 **Files.** src/bench/budget.ts, src/bench/play.mjs
 
 **Notes.** Filed by the Oct 25 pool audit: core-city-treasury-trillions-dickens's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with core-city-treasury-trillions-dickens (needs-from in the handoff line).
+
+Sent back 2026-10-26 from PR #6153 (branch play-first/play-city-books-on-screen): own gates/quarter test pass, but live drawn Southwest Sandhill TX seed005a1d22-6b40-46ca-9a24-575b9ba63bd2 opens Budgets on federal plan because city-only default ignores its county-only local government; use applicable local books or explain absence and add scoped no-city browser regression; screenshot in PR; finish on that branch, merge main first.
