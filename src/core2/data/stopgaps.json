@@ -6694,5 +6694,17 @@
     "addedAt": "2026-10-24",
     "replacement": "Her exposure since her last birth or partnering, read from a counted past once the opening reconstructs one (as SG-M1-opening-pregnancies does for full couples).",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-party-ask-after-player",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 1113,
+    "whatItFakes": "A party's asks for a seat stop at the player: when the player says no or not now in the ask's scene, the party asks none of its other members for that seat.",
+    "why": "The party asks on the day filing opens, and the player's answer comes later, from the scene; nothing returns the party to its list once the player has answered.",
+    "addedBy": "words/party-asks-you-to-run",
+    "addedAt": "2026-10-26",
+    "replacement": "The candidacy engine reads the player's no or not-now reply (a scene.reply naming the party-asked record) and asks the party's next member for the seat while filing is open.",
+    "status": "open"
   }
 ]

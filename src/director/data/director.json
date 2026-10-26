@@ -1213,6 +1213,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "party-asked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "veto-override",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact",
