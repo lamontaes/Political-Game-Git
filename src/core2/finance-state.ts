@@ -1,3 +1,4 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import {
   countedWagesEarned,
@@ -7,11 +8,13 @@ import {
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { countedJobsOf } from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
-import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
+import { webFactorFor } from "./outcome-web-reach";
 import {
   settleFinanceContractJournal,
   transferFinanceCreditJournal,
+  transferWageFlowCreditJournal,
 } from "./finance-cash";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -1198,10 +1201,7 @@ export function repriceCreditFacility(
   if (!row) throw new Error("Repricing requires a recorded credit facility.");
   currentSource(source, core.date);
   amount(api, annualInterestRate, "repriced annual interest rate");
-  const elapsed = daysBetween(
-    makeIsoDate(row.lastAccruedAt),
-    makeIsoDate(core.date),
-  );
+  const elapsed = daysBetweenText(row.lastAccruedAt, core.date);
   const oldRate =
     row.annualInterestRate ?? api.parameter(row.annualInterestParameter);
   const days = api.parameter(
@@ -1323,6 +1323,24 @@ export function transferCredit(
   );
 }
 
+/** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+export function transferWageFlowCredit(
+  core: CoreState,
+  api: CoreAPI,
+  facilityId: string,
+  requested: number,
+  flowId: string,
+): CreditReceipt {
+  policy(api);
+  return transferWageFlowCreditJournal(
+    core,
+    api,
+    facilityId,
+    requested,
+    flowId,
+  );
+}
+
 export function settleFinanceContract(
   core: CoreState,
   api: CoreAPI,
@@ -1408,21 +1426,26 @@ export function reviewBusiness(
     options,
   );
   const pay = ownHourlyPay(core, id);
-  const price = projectBusinessPrice(
-    {
-      priorPrice: book.price,
-      annualPlannedPayMinor: book.annualPayrollMinor,
-      annualOtherCostsMinor: cost.annualOtherCostsMinor,
-      wagePriceFactor:
-        ownRaise(book.lastHourlyByJob, pay) ??
-        wagePrice / book.lastWagePriceFactor,
-      generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
-      annualDemandMinor: demand,
-      capacityMinor: book.capacityMinor,
-      priceLevel: book.price / book.anchorPrice,
-    },
-    options,
-  );
+  // What laws and other causes the outcome web carries into prices moves the
+  // business's own price by the change in that factor since its last review.
+  const webPrice = webFactorFor(api, place, "household.prices");
+  const price =
+    projectBusinessPrice(
+      {
+        priorPrice: book.price,
+        annualPlannedPayMinor: book.annualPayrollMinor,
+        annualOtherCostsMinor: cost.annualOtherCostsMinor,
+        wagePriceFactor:
+          ownRaise(book.lastHourlyByJob, pay) ??
+          wagePrice / book.lastWagePriceFactor,
+        generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
+        annualDemandMinor: demand,
+        capacityMinor: book.capacityMinor,
+        priceLevel: book.price / book.anchorPrice,
+      },
+      options,
+    ) *
+    (webPrice / (book.lastWebPriceFactor ?? p("one")));
   const next = financeNextDate(
     api,
     book.nextReviewedAt,
@@ -1444,6 +1467,7 @@ export function reviewBusiness(
   book.annualOtherCostsMinor = cost.annualOtherCostsMinor;
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
+  book.lastWebPriceFactor = webPrice;
   book.lastWagePriceFactor = wagePrice;
   book.lastHourlyByJob = pay.hourly;
   financeIndex(core.finance.reviewsDueAt, next, id);
@@ -1775,6 +1799,7 @@ function windDownEmployer(
   for (const jobId of endedJobIds) {
     const job = core.jobs.get(jobId)!;
     job.endsAt = core.date;
+    refreshOfficeStaff(core, job.organizationId);
     const actor = core.people.get(job.personId)!;
     if (actor.jobId === jobId) delete actor.jobId;
     for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??

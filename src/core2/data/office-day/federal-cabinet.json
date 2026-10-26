@@ -98,5 +98,13 @@
       "lines": ["communityAndRegionalDevelopment"]
     }
   ],
-  "lineNotes": "Budget functions per OMB: 150 International Affairs (State), 050 National Defense (Defense), 350 Agriculture, 600 Income Security (Labor's unemployment compensation), 550 Health and 570 Medicare (HHS), 450 Community and Regional Development (HUD's block grants and FEMA's disaster relief under Homeland Security), 400 Transportation, 500 Education, 700 Veterans, 900 Net Interest (Treasury). Departments whose spending falls in the budget's 'otherPrograms' remainder (Justice, Interior, Commerce, Energy) press for no line of their own."
+  "lineNotes": "Budget functions per OMB: 150 International Affairs (State), 050 National Defense (Defense), 350 Agriculture, 600 Income Security (Labor's unemployment compensation), 550 Health and 570 Medicare (HHS), 450 Community and Regional Development (HUD's block grants and FEMA's disaster relief under Homeland Security), 400 Transportation, 500 Education, 700 Veterans, 900 Net Interest (Treasury). Departments whose spending falls in the budget's 'otherPrograms' remainder (Justice, Interior, Commerce, Energy) press for no line of their own.",
+  "crises": {
+    "about": "Which department answers a disaster in the situation room, by the incident type of the FEMA declaration record. The Stafford Act's disaster response is run by FEMA, a part of the Department of Homeland Security (42 U.S.C. sec. 5121 et seq.; 6 U.S.C. sec. 313); a biological incident is a public health emergency declared by the Secretary of Health and Human Services (42 U.S.C. sec. 247d); a drought is answered by the Department of Agriculture's disaster designations (7 U.S.C. sec. 1961). Any type not listed goes to Homeland Security.",
+    "default": "homeland-security",
+    "answeredBy": {
+      "Biological": "health-and-human-services",
+      "Drought": "agriculture"
+    }
+  }
 }

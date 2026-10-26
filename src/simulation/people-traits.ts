@@ -7,10 +7,10 @@ import {
   peopleTraitId,
   type PeopleTrait,
   type TraitValue,
-} from "./people-trait-definitions";
+} from "../core2/people-trait-definitions";
 import { createMindProvenance, recordPersonalityTendency } from "./mind";
 import { ageOnDate } from "../core2/kernel/dates";
-import { PERSONALITY_PACK } from "./personality-catalogue";
+import { PERSONALITY_PACK } from "../core2/personality-catalogue";
 import {
   upbringingCoreValue,
   upbringingCoreValueFrom,
@@ -68,8 +68,11 @@ export {
   PEOPLE_TRAITS,
   peopleTraitDefinitions,
   peopleTraitId,
-} from "./people-trait-definitions";
-export type { PeopleTrait, TraitValue } from "./people-trait-definitions";
+} from "../core2/people-trait-definitions";
+export type {
+  PeopleTrait,
+  TraitValue,
+} from "../core2/people-trait-definitions";
 /**
  * Adds the trait definitions to a world that does not carry them yet. Worlds
  * made before this version gain exactly these definitions and nothing else.

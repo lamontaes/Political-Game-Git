@@ -3,7 +3,7 @@ id: research-opening-income-sourced-parameters
 title: "Research: sourced parameters for the opening's retirement income and its funding"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -20,10 +20,14 @@ claimed-at:
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/data/opening-income-funding.json, src/core2/data/opening-income.json, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
 **Notes.** Folded from: core-stopgap-opening-income-funding-opening-outside-flow-terms-prior, core-stopgap-opening-income-opening-generated-income-prior. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 
 Findings Oct 20 (claude), not built: (1) `openingRetirementBenefitMonthlyMinor` can move from the January 2021 COLA estimate ($1,543) to the measured December 2020 retired-worker mean, $1,544.15 across 46,329,595 people (SSA Annual Statistical Supplement 2021, Table 5.A, https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5a.pdf; Monthly Statistical Snapshot Dec 2020, https://www.ssa.gov/policy/docs/quickfacts/stat_snapshot/2020-12.html); the 1-dollar difference is why it stays ESTIMATED until a distribution (percentiles of awards) is read from Table 5.A's amount bands, which I did not extract, so no spread was written. (2) Career start age 18 has a sourced bracket: BLS NLSY79 reports 5.6 jobs held at ages 18 to 24 and employment in 77 percent of weeks from 18 to 58 (https://www.bls.gov/news.release/nlsoy.htm); no source gives an average age at first covered job, so the 18 and 4-year school-context rows stay ESTIMATED. Both stopgap rows' replacements are producers (a mechanic), which this item leaves to the builder.
+
+Deferred Oct 25: nothing on screen reads it yet.
+
+Oct 25 audit: set open; its block was a free-text note, not an item or an owner question (the note stays in Notes).

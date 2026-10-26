@@ -19,7 +19,6 @@ import countyNames from "./data/places/county-names.json" with { type: "json" };
 import localityData from "./data/places/localities.json" with { type: "json" };
 import states from "./data/places/states.json" with { type: "json" };
 import territoryPlaces from "./data/places/territory-places.json" with { type: "json" };
-import { stopgap } from "./stopgaps";
 
 export interface PlaceLocality {
   readonly key: string;
@@ -106,9 +105,7 @@ function buildIndex(): Map<string, PlaceLocality[]> {
       stateJurisdictionKey: `US-${usps}`,
     });
   }
-  // Island-area villages are a recorded list until Census Island Areas data
-  // gives them identities (stopgap SG-CORE-territory-places).
-  stopgap(territoryPlaces.stopgapId);
+  // Island-area villages come from the Census 2020 Island Areas files.
   for (const [key, name, usps] of territoryPlaces.rows as [
     string,
     string,

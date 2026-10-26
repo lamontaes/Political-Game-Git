@@ -176,12 +176,22 @@ function erase(table: Table, row: ModuleRow): void {
 }
 /**
  * A debug hook for the table trace (scripts/core2-year/table-trace.ts): called
- * on every table read and write with the module, the table and what was done.
+ * on every table read and write with the module, the table and what was done
+ * (a query also passes its index and key values; scripts/law-wiring/check.ts).
  * Off (null) in play and in tests, so the cost is one null check.
  */
 export type TableOp = "get" | "put" | "remove" | "query" | "rows";
 let tableTrace:
-  ((moduleId: string, table: string, op: TableOp) => void) | null = null;
+  | ((
+      moduleId: string,
+      table: string,
+      op: TableOp,
+      query?: {
+        readonly index: string;
+        readonly values: readonly ModuleIndexValue[];
+      },
+    ) => void)
+  | null = null;
 export function setTableTrace(hook: typeof tableTrace): void {
   tableTrace = hook;
 }
@@ -242,7 +252,7 @@ export function moduleState(
           });
         },
         query(index: string, values: readonly ModuleIndexValue[]) {
-          tableTrace?.(moduleId, name, "query");
+          tableTrace?.(moduleId, name, "query", { index, values });
           return operation(() => {
             const table = current(),
               def = table.definition.indexes?.[moduleKey(index)];

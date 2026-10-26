@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: dropped
 claimed-by: claude/political-game-pool-7xkkii
-pr:
+pr: #5196
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:05:20.866Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:05:20.866Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Duplicate of release-red-housing-calibration (Oct 25 audit). Same housing-calibration.test.ts failure on a handful of eviction cases.

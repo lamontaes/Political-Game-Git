@@ -13,6 +13,7 @@
  * housing arrears say how many of the group's owners are behind, the ones
  * with the least income first.
  */
+import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import foreclosureData from "./data/housing/foreclosure.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
@@ -211,10 +212,9 @@ export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
   const price = salePrice(api, row.householdId);
   const owed = mortgage.balanceMinor;
   // The town's outside market stands for the buyer at the sale.
-  const buyer = [...c.organizations.values()].find(
-    (org) =>
-      org.outsideFlow !== undefined &&
-      org.placeId === c.households.get(row.householdId)?.placeId,
+  const buyer = townOutsideOf(
+    c.organizations.values(),
+    c.households.get(row.householdId)?.placeId,
   );
   const source = {
     tag: "ESTIMATED" as const,
@@ -228,14 +228,19 @@ export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
   let toLender = 0;
   let surplus = 0;
   if (buyer && price > 0) {
-    toLender = transferCash(
-      api,
-      `foreclosure-sale:${caseId}`,
-      buyer.id,
-      row.holderId,
-      Math.min(price, owed),
-      source,
-    );
+    // The outside market that buys the home can also hold its mortgage:
+    // paying itself moves no cash, and the loan is settled all the same.
+    toLender =
+      row.holderId === buyer.id
+        ? Math.min(price, owed)
+        : transferCash(
+            api,
+            `foreclosure-sale:${caseId}`,
+            buyer.id,
+            row.holderId,
+            Math.min(price, owed),
+            source,
+          );
     if (price > owed && !row.counted) {
       const first = c.households.get(row.householdId)?.memberIds[0];
       if (first)

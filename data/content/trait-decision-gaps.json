@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
+  "formulaSiteAliases": {
+    "src/core2/modules/jobs.ts:2262": "jobs.counted-retire",
+    "src/core2/modules/jobs.ts:2517": "jobs.counted-look",
+    "src/core2/modules/jobs.ts:2587": "jobs.counted-look",
+    "src/core2/modules/business.ts:1542": "business.counted-found"
+  },
+  "gaps": {
+    "corruption.offer": {
+      "class": "weight too small",
+      "why": "Ran 4,407 times in the election-window audit (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03): at a lobbyist's first meeting with a member on a bill with employer costs (src/core2/modules/interest-groups.ts:396) and at contract awards (src/core2/modules/contracts.ts:150). Every offer was declined in the drawn, flat and mirrored worlds: the yes score never beats corruptionHonestPull 3 (src/core2/modules/corruption.ts:322), so personality never turns one.",
+      "fix": "Weigh the stake against the official's own money need and calibrate the honesty pull from the honesty-humility effect size (pool item people-corruption-honest-pull-calibrated)."
+    },
+    "corruption.take": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Weighed only after an offer says yes (src/core2/modules/corruption.ts:187). None of the 4,407 offers in the election window did; a declined offer returns at :220 before any crime row is written.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+    },
+    "corruption.tell": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Weighed only for a taken bribe: when a party's closeness to the other falls (src/core2/modules/corruption.ts:363, from onRelationshipChange) and when a told listener weighs going to the press (:437). Both need a crime row with taken true, and none was written.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+    },
+    "justice.report": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Justice's only source of crimes is the corruption table: the daily intake reads refused offers (src/core2/modules/justice.ts:250-260) and onTold reads a party's telling (:1465-1475). A declined offer writes no crime row (src/core2/modules/corruption.ts:220), so none arrived; the report's reasons are read at justice.ts:283.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+    },
+    "justice.prosecute": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Follows a report (src/core2/modules/justice.ts:371).",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+    },
+    "justice.plea": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Follows a charge (src/core2/modules/justice.ts:573).",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+    },
+    "press.tip": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts:275, :2081); the tip is weighed at :2144. leakToReporter (:2245) is the player's own leak.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+    },
+    "recalls.organize": {
+      "class": "no trigger",
+      "why": "Only a city or county ordinance taking effect starts one (src/core2/modules/recalls.ts:83 onEvent, :349 weighOrdinance), and it returns before weighing anyone where the state's municipal doctrine allows no petition recall (:338, recallRule is null) and where the state requires grounds (:368). Over the 56 places (resolveMunicipalRecallRule), 14 allow a recall without grounds, 8 only for cause and 34 not at all (17 whose state prohibits it, 15 with no state row that take the national estimate of prohibited, 2 judicial-trial states). The election-window place is one of the 15, so no organizer was ever weighed.",
+      "fix": "Let a reported scandal or crime start a for-cause recall where the state requires grounds, and read each of the 34 places' own rule instead of the national estimate of prohibited (pool item gov-recall-for-cause-start)."
+    },
+    "recalls.sign": {
+      "class": "no trigger",
+      "why": "Follows an organizer: startRecall (src/core2/modules/recalls.ts:480) weighs each signer at :502.",
+      "fix": "Same as recalls.organize (pool item gov-recall-for-cause-start)."
+    },
+    "recalls.vote": {
+      "class": "no trigger",
+      "why": "Needs a recall on the ballot after a petition with enough signatures (src/core2/modules/recalls.ts:565-616).",
+      "fix": "Same as recalls.organize (pool item gov-recall-for-cause-start)."
+    },
+    "ballot-measures.vote": {
+      "class": "runs only in an election window",
+      "why": "Runs on a measure's election date. The default audit year (January 20, 2025 to January 20, 2026) holds none (the earliest measure in data/elections/ballot-measures.json is June 16, 2026). With TRAIT_AUDIT_ELECTION=1 it ran 277 times (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-08-04).",
+      "fix": "None in the engine: audit the place's own election window (TRAIT_AUDIT_ELECTION=1 in scripts/traits/trait-wiring-audit.ts)."
+    },
+    "voting.turnout": {
+      "class": "runs only in an election window",
+      "why": "Runs on an election day. Most places hold no election in the default audit year (January 20, 2025 to January 20, 2026). With TRAIT_AUDIT_ELECTION=1 it ran 2,681 times (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-04-28).",
+      "fix": "None in the engine: audit the place's own election window (TRAIT_AUDIT_ELECTION=1 in scripts/traits/trait-wiring-audit.ts)."
+    },
+    "voting.back-incumbent": {
+      "class": "runs only in an election window",
+      "why": "Same as voting.turnout: 12,324 calls in the election window (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-04-28).",
+      "fix": "None in the engine: audit the place's own election window (TRAIT_AUDIT_ELECTION=1 in scripts/traits/trait-wiring-audit.ts)."
+    },
+    "voting.exit-poll": {
+      "class": "runs only in an election window",
+      "why": "Same as voting.turnout: 486 calls in the election window (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-11-03).",
+      "fix": "None in the engine: audit the place's own election window (TRAIT_AUDIT_ELECTION=1 in scripts/traits/trait-wiring-audit.ts)."
+    },
+    "campaigns.answer-poll": {
+      "class": "runs only in an election window",
+      "why": "Runs once a campaign has set aside enough for a poll (src/core2/modules/campaigns.ts, pollFund against pollMinimumInterviews). With TRAIT_AUDIT_ELECTION=1 it ran 12,215 times (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-06-25); no local campaign in four default-year places raised enough.",
+      "fix": "Weight calibrated from the adults of a drawn town (campaigns.traits.test.ts); audit the place's own election window (TRAIT_AUDIT_ELECTION=1)."
+    },
+    "offices.accept-appointment": {
+      "class": "rare",
+      "why": "Weighed only when a city, county or township seat falls vacant and the post fills by appointment: fillVacancy's appoint (src/core2/modules/offices.ts:1135, decision read at :1162) offers the post only to a city, county or township seat, only under a vacancy rule that appoints (successor, appointment, or appointment-then-special, called at :1216, :1218 and :1238), and only when no named successor is given first (:1190). A vacancy needs the serving official to die or move away; none did in the election window.",
+      "fix": "Audit a drawn year that holds a local vacancy filled by appointment (traits-accept-appointment-vacancy-proof)."
+    },
+    "constituent-cases.handle-case": {
+      "class": "rare (staff takes the case first)",
+      "why": "The official's own read (src/core2/modules/constituent-cases.ts:437, ownCaseDecision) runs only for an official with no staffer: officeHandles hands every case to a staffer first (:451). Ran 2 times in one election-window run (first 2026-01-09) and none in a later one.",
+      "fix": "The official decides every case first and the staffer carries it out (traits-wire-integrity, PR 5715); its circumstances vary with traits-integrity-cases-vary."
+    },
+    "conversation.believe-claim": {
+      "class": "no trigger (player only)",
+      "why": "Read only when the player's line makes a claim: say (src/director/conversation.ts:2295) asks doubtsClaim (:2272, decision read at :2281) of each hearer at :2346 for the player's lie.",
+      "fix": "Read it where people pass on claims to each other (speech retell, news pass-on) (pool item traits-wire-civic)."
+    },
+    "conversation.reply-reach": {
+      "class": "no trigger (player only)",
+      "why": "Read only to rank the replies offered to the player in a conversation the player opens (src/director/conversation.ts:2003, :2036) and in the player's speech builder (src/director/speech-builder.ts:281, from src/bench/campaign.ts).",
+      "fix": "Player-only by design; covered by the player's conversations."
+    },
+    "scene-talk.move": {
+      "class": "no trigger (player only)",
+      "why": "Read only when the director composes a scene with a purpose for the player (src/director/scene-talk.ts): the asker's answer and the reply the player's character leans toward.",
+      "fix": "Player-only by design; covered by scene-talk.test.ts on a generated town."
+    },
+    "bring-it-up.blame": {
+      "class": "no trigger (player only)",
+      "why": "Read only when a person raises a change in a conversation the player opens: leansToBlame (src/director/bring-it-up.ts:125, decision read at :133) is reached from believedCause (:141), which bringItUp (:206) calls from the bench handler (src/bench/handler.ts:382) and the grading tool.",
+      "fix": "Player-only by design."
+    },
+    "press.dig": {
+      "class": "no trigger (player only)",
+      "why": "Two routes. An interview answer whose move is a lie schedules the reporter's check (src/core2/modules/press.ts:1773-1780, read at :1845), but candidateAnswers gives every candidate who is not the player the move 'plain' (:1929, :1935), so only the player's interview can lie: 168 interviews were accepted in the election window and none dug. A tipped crime reaches the dig at :2166, which needs a taken bribe.",
+      "fix": "Let a simulated candidate whose stated position contradicts their recorded vote answer with the lie move, from their own honesty, ties and the record; the reporter's check then runs from the press engine's own rule (pool item press-world-candidates-answer-from-record)."
+    },
+    "estates.will": {
+      "class": "circumstances saturate the choice",
+      "why": "Runs when someone with an estate dies (src/core2/estates.ts, willOf): 5 and 1 times in the two played years, and 3 times in an election window (first 2026-10-08). Weighed for every adult 55 or older in Haledon, New Jersey as if at death, the age term puts all 858 over the line with temperament off, against the study's 37.4% (Ryser et al. 2026, Swiss adults 55+), so no weight can reach the study's odds of 1.42.",
+      "fix": "A will-making rate by age from research for the age term, then the weight (people-estates-will-trust-rates); the audit's witness of the retained decision or estate record is traits-audit-will-record-proof."
+    },
+    "office-day-state.clemency": {
+      "class": "no trigger (no prisoner)",
+      "why": "Weighed on a governor's weekly review day (src/core2/office-day-state.ts:422-427, read at :761-770) only when clemencyDue (:468) finds a state prisoner in custody (src/core2/modules/justice.ts:1305). Custody comes only from a sentence (justice.ts:932, imprison), and justice's only source of crimes is the corruption table, which wrote none, so no governor had a petition to review.",
+      "fix": "Same as corruption.offer: once any crime reaches a sentence, the governor's review has someone to weigh (pool item people-corruption-honest-pull-calibrated)."
+    },
+    "housing.buy-home": {
+      "class": "weight too small",
+      "why": "Runs at the housing review but every household keeps renting (the buy baseline and down-payment terms outweigh any lean).",
+      "fix": "Calibrate the buy reasons so some households buy, then the trait weight."
+    },
+    "jobs.apply": {
+      "class": "weight too small",
+      "why": "Ran 545 times; the pick never changed with personality.",
+      "fix": "Calibrate against job-search research."
+    },
+    "jobs.review-worker": {
+      "class": "weight too small",
+      "why": "Ran 2,059 times; the pick never changed with personality.",
+      "fix": "Calibrate against turnover research."
+    },
+    "drives.respond": {
+      "class": "circumstances saturate the choice",
+      "why": "Personality turned none of 1,471 drive responses in Ely, Nevada at any weight up to 8: the drive's own strength separates the options. No study gives a size (neuroticism and rumination is the direction).",
+      "fix": "None until the options score closer or a study gives a size; the general trait weight of 1 stands."
+    },
+    "credit.borrow": {
+      "class": "rare",
+      "why": "Ran 16 times in the year.",
+      "fix": "Check what triggers borrowing; calibrate."
+    },
+    "school.attend": {
+      "class": "circumstances saturate the choice",
+      "why": "Children attend 99.95% of school days (10,587 kept weighings, Ely, Nevada); personality turns none below a weight of 1 and at 1 the third least inclined misses at 11 times the odds. Real chronic absence is far higher and follows illness, family and poverty, which the school choice does not read (src/core2/modules/school.ts:149). Poropat 2009 (conscientiousness r 0.19) measures performance, not attendance.",
+      "fix": "Give the school choice the child's illness and the household's circumstances, then calibrate."
+    },
+    "life.daily-act": {
+      "class": "no study number",
+      "why": "Personality turned 14.8% of 29,520 daily-activity picks at the general trait weight of 1. Studies of extraversion and time spent socializing (Mehl et al. 2006) report no extractable coefficient, so the general weight stands.",
+      "fix": "Calibrate when a study gives a size for extraversion and social time."
+    },
+    "campaigns.volunteer": {
+      "class": "circumstances tie",
+      "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
+      "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
+    },
+    "voting.stand-again": {
+      "class": "dead while candidacy is installed",
+      "why": "standsAgain (src/core2/modules/voting.ts:319) is read only from fileStandingCandidates (:1126), which returns at :1132 whenever the candidacy module is installed, and candidacy owns every incumbent's decision to run or stay out (its own decision, candidacy.run). Every played world installs candidacy, so the call at :1196 is never reached, in the election window as in the default year.",
+      "fix": "Fold the age term (standAgainReason, voting.ts:334) into candidacy's reasons for an incumbent and delete standsAgain and the stand-in branch, or measure the decision only in a world built without candidacy (pool item elections-stand-again-dead-with-candidacy)."
+    },
+    "appointments.weigh": {
+      "class": "runs only at the opening and on a vacancy",
+      "why": "The appointer's loyalty against merit (src/core2/appointments.ts:56) is read whenever a post is filled. The town's department heads and the state's cabinet are filled when the executive module opens (src/core2/modules/executive.ts:151-152), before the audit's probe is on; afterward only a department head who dies or moves away (executive.ts:1168-1172) or a newly seated governor (:1197) fills one, and neither happened in the election window.",
+      "fix": "Count the opening's calls apart from the played year, with an appointment's record id (traits-audit-opening-appointments)."
+    },
+    "housing.settle-arrears": {
+      "class": "no trigger (fill-in only)",
+      "why": "Runs only when a counted household with an open eviction case is filled in (src/core2/modules/housing.ts:2041 onFillIn, :2057), which happens when the player meets or clicks one of its members. The other engines' fill-ins (staff.ts:677, candidacy.ts:730, constituent-cases.ts:275, campaigns.ts:806, press.ts:2563, housing-homeless.ts:508, housing-foreclosure.ts:331) reached no such household.",
+      "fix": "A household behind on rent settles what it can each month from its spare cash, full and counted by the same rule, so a fill-in only carries the record (traits-wire-money, PR 5587: 20 and 5 weighings in its two drawn towns)."
+    },
+    "legislature.poison-pill": {
+      "class": "rare",
+      "why": "movesPill (src/core2/modules/legislature.ts:3335) is asked only after floorAmendments (:3145) finds a bill that would pass (:3283), an opponent, and a section of the opponent's own that a majority of the roll would adopt and that leaves fewer than the votes needed (:3294-3319). No bill got that far in the election window; which of the guards held was not measured.",
+      "fix": "Measure which guard holds across a session; if the section search is too narrow (pillCandidates), widen it so a contested bill reaches the member's own decision (pool item gov-poison-pill-guards-measured)."
+    },
+    "relationships.fall-out": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Runs when a relationship change carries negative hours (src/core2/state.ts:1068, src/core2/closeness.ts:259). Two engines write them: a grudge drive's confrontation (src/core2/modules/drives.ts:1809), offered only against a living person (:1583) while the drive's target is the employer, landlord or closed business it blames (src/core2/data/drives.json:685-694), so no confrontation was offered; and a taken bribe the official voted against (src/core2/modules/corruption.ts:545), which needs a taken bribe.",
+      "fix": "Let a grudge drive name the person behind the organization (the manager who fired, the landlord who evicted) so a confrontation can be offered; the bribe route follows corruption.offer (pool item people-grudge-confront-person)."
+    },
+    "contracts.award": {
+      "class": "not a two-way choice",
+      "why": "Each member of a government's body ranks every bid by price against their tie to the firm's owner (src/core2/modules/contracts.ts), and temperament moves weight between the two: 1,450 and 1,740 calls in the two played years, with no yes or no for scripts/traits/trait-calibrate.ts to fit against Pletzer et al. 2020.",
+      "fix": "A ranking calibration: how often the most rule-bending third picks the known firm over the lowest bid against the least."
+    },
+    "estates.trust": {
+      "class": "circumstances saturate the choice",
+      "why": "Runs at death (src/core2/estates.ts, trustOf): 14 and 13 times in the two played years. Weighed for the 832 adults 55 or older with savings in Haledon, New Jersey, the wealth term keeps 98% far below the line, and temperament turns none at any weight up to 1, against the study's odds of 1.34.",
+      "fix": "A trust-holding rate by wealth from research for the wealth term, then the weight (people-estates-will-trust-rates)."
+    },
+    "renewal.plan-child": {
+      "class": "circumstances saturate the choice",
+      "why": "A couple's case for planning a child (src/core2/births-plan.ts, birthCircumstances) sits 3.6 to 18.3 below waiting in nine of ten reviews (Haledon, New Jersey, seed fc8bf1311d0f, 384 reviews), while temperament spans about plus or minus 0.4, so at the general weight it turned none. scripts/traits/trait-calibrate.ts fits 7.05 there (odds 1.74 against the study's 1.93), but at that weight the share of reviews that plan a child rises from 1.8% to 2.6%, about 40% more births; in Kenvir, Kentucky (32bb83941552, 210 reviews) no weight reaches it.",
+      "fix": "Re-center the waiting side against the births rate, then set the weight (traits-plan-child-weight-recentered)."
+    }
+  }
+}

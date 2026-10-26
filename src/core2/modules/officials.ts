@@ -25,10 +25,14 @@ import partyCounts from "../../../data/research/offices/legislature-party-counts
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import stateResearchJson from "../../../data/research/offices/state-offices.json" with { type: "json" };
+import holderParties from "../../../data/research/offices/unrecorded-holder-parties-2026.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { makeIsoDate } from "../kernel/dates";
+import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
+import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
@@ -45,6 +49,7 @@ import {
 } from "../officials-roster";
 import { recordPresident } from "../officials-president";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { filingRequirements } from "./elections";
 import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
@@ -102,8 +107,21 @@ export const OFFICIALS_MODULE: CoreModule = {
       candidates: { indexes: { byContest: { fields: ["contestId"] } } },
     },
   },
-  eventKinds: ["took-office"],
+  eventKinds: ["took-office", "life.death"],
   onEvent: (api, event) => {
+    // An official who dies leaves the seat that day; the pay and the seat's
+    // next holder follow from the row's end.
+    if (event.kind === "life.death") {
+      for (const personId of event.personIds) {
+        const row = officialOf(api, personId);
+        if (row && row.ended === null)
+          table(api, "officials").put({
+            ...row,
+            ended: api.state.date,
+          } as unknown as ModuleRow);
+      }
+      return;
+    }
     const seatId = event.facts?.["seatId"];
     const winner = event.personIds[0];
     if (typeof seatId === "string" && winner) tookOffice(api, winner, seatId);
@@ -185,8 +203,25 @@ function seatLean(
   bodyKind: BodyKind,
   district: string | null,
   party: string | null,
+  officeKind = "",
 ): { lean: number; source: string } {
   const state = stateLeanOf(stateKey);
+  const chamber = /^legislature-(upper|lower|unicameral)$/.exec(
+    officeKind,
+  )?.[1];
+  if (bodyKind === "legislature" && district !== null && chamber) {
+    const own = legislativeDistrictResult(
+      stateKey.slice(3),
+      chamber as "upper" | "lower" | "unicameral",
+      district,
+    );
+    if (own)
+      return {
+        lean:
+          (own.republican - own.democratic) / (own.republican + own.democratic),
+        source: "2024 state legislative vote in the district (MEDSL)",
+      };
+  }
   if (bodyKind === "us-house" && district !== null) {
     const code = /^\d+$/.test(district) ? district.padStart(2, "0") : "00";
     const share = houseShare.get(`${stateKey.slice(3)}-${code}`);
@@ -283,12 +318,30 @@ function nextEven(date: string): number {
   return year % 2 ? year + 1 : year;
 }
 
+const HOLDER_PARTIES = holderParties as unknown as {
+  places: Record<
+    string,
+    {
+      seats: Record<
+        string,
+        {
+          party: string | null;
+          appliesTo: "office" | "opening";
+          sourceId: string;
+        }
+      >;
+    }
+  >;
+};
+
 /**
  * The party of a holder the roster doesn't record (a statewide executive, a
- * seat whose roster row is missing): the governor's, for a lieutenant
- * governor elected on the governor's ticket; otherwise the party that carried
- * the state in 2024, as an estimate until the roster is read (stopgap
- * SG-OFFICIALS-unrecorded-party).
+ * seat whose roster row is missing): the party the research reads for that
+ * seat (data/research/offices/unrecorded-holder-parties-2026.json: none for
+ * an office elected without party labels; the opening holder's otherwise);
+ * the governor's, for a lieutenant governor elected on the governor's
+ * ticket; otherwise the party that carried the state in 2024, as an estimate
+ * until the seat is read (stopgap SG-OFFICIALS-unrecorded-party).
  */
 function unrecordedParty(
   api: CoreAPI,
@@ -297,6 +350,16 @@ function unrecordedParty(
   stateKey: string,
 ): { party: string | null; partySource?: string } {
   if (term.party) return { party: term.party };
+  const read =
+    HOLDER_PARTIES.places[term.identity.homeState]?.seats[term.seatId];
+  if (
+    read &&
+    (read.appliesTo === "office" || term.reached === "in office at the opening")
+  )
+    return {
+      party: read.party,
+      partySource: `unrecorded-holder-parties-2026 ${read.sourceId}`,
+    };
   const executives =
     (
       stateResearch.places[stateKey] as
@@ -531,6 +594,32 @@ export function openOfficials(core: CoreState): void {
   table(api, "loaded").put({ id: "opening", officials: all.length });
 }
 
+/** What the Constitution asks of the holder of a federal office, from the office kind (0 for any other). */
+function constitutionalAge(officeKind: string): number {
+  if (officeKind === "us-senate") return 30;
+  if (officeKind.startsWith("us-house")) return 25;
+  return officeKind === "president" || officeKind === "vice-president" ? 35 : 0;
+}
+
+/** What a state asks of a candidate for its legislature or its statewide offices (the filing rules' age). */
+function stateAge(
+  spec: Pick<Spec, "bodyKind" | "officeKind" | "stateKey">,
+): number {
+  if (!spec.stateKey.startsWith("US-")) return 0;
+  if (spec.bodyKind === "legislature")
+    return filingRequirements(spec.stateKey, "stateLegislative").minimumAge;
+  return [
+    "governor",
+    "lieutenant-governor",
+    "attorney-general",
+    "secretary-of-state",
+    "treasurer",
+    "auditor",
+  ].includes(spec.officeKind)
+    ? filingRequirements(spec.stateKey, "statewideExecutive").minimumAge
+    : 0;
+}
+
 function seatAll(
   api: CoreAPI,
   seed: string,
@@ -547,11 +636,19 @@ function seatAll(
   );
   const minimum = TENURE["minimumAgeAtFirstTerm"]!.value;
   const all = drafted.map((s): Spec => {
-    if (s.term) return s;
-    const earliest = `${
-      Number(identities.get(s.key)!.birthDate.slice(0, 4)) +
-      Math.max(minimum, s.legalMinimumAge ?? 0)
-    }${s.serviceStart.slice(4)}`;
+    // The day they turn the age (a February 29 birthday counts on March 1),
+    // held to a seat's holder from the offices engine too: its career start
+    // is a date it drew without their birthday.
+    const born = identities.get(s.key)!.birthDate;
+    const year =
+      Number(born.slice(0, 4)) +
+      Math.max(
+        minimum,
+        s.legalMinimumAge ?? constitutionalAge(s.officeKind),
+        stateAge(s),
+      );
+    const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    const earliest = `${year}-${born.slice(5) === "02-29" && !leap ? "03-01" : born.slice(5)}`;
     return s.serviceStart < earliest ? { ...s, serviceStart: earliest } : s;
   });
   // How far each seat leans its party's way against the party's other seats
@@ -559,7 +656,7 @@ function seatAll(
   const leans = new Map(
     all.map((s) => [
       s.key,
-      seatLean(s.stateKey, s.bodyKind, s.district, s.party),
+      seatLean(s.stateKey, s.bodyKind, s.district, s.party, s.officeKind),
     ]),
   );
   const groups = new Map<string, number[]>();
@@ -589,6 +686,10 @@ function seatAll(
     const roster = opening
       ? OFFICIALS_DATA.independents.caucus[spec.seatId]
       : undefined;
+    const identity = identities.get(spec.key)!;
+    const personId = spec.term
+      ? `official:${spec.term.id}`
+      : `official:${spec.key}`;
     const drawn = drawOfficial({
       seed,
       key: spec.key,
@@ -601,11 +702,8 @@ function seatAll(
       districtLean: lean.lean,
       leader: roles.has(spec.key),
       ...(roster ? { caucus: roster } : {}),
+      temperament: temperamentOf(api.state as CoreState, personId, identity),
     });
-    const identity = identities.get(spec.key)!;
-    const personId = spec.term
-      ? `official:${spec.term.id}`
-      : `official:${spec.key}`;
     fillInIdentity(api.state as CoreState, {
       id: personId,
       givenName: identity.givenName,
@@ -1244,6 +1342,7 @@ export function officialCandidate(
     facts.bodyKind,
     facts.seat.district,
     party,
+    facts.office.kind,
   ).lean;
   // Anyone already running somewhere this year runs only there.
   const running = new Set(
@@ -1279,6 +1378,13 @@ export function officialCandidate(
   // The newcomer: someone with no office who could run, drawn once from the
   // world's seed for this contest and party.
   const newcomerId = `official:candidate:${contest.id}:${partyKey(party)}`;
+  const newcomer = drawOfficialIdentity({
+    worldSeed: facts.seed,
+    seatKey: newcomerId,
+    stateUsps: facts.stateKey.slice(3),
+    role: "state-executive-challenger",
+    referenceDate: api.state.date,
+  });
   const drawn = drawOfficial({
     seed: facts.seed,
     key: newcomerId,
@@ -1287,6 +1393,7 @@ export function officialCandidate(
     districtZ: 0,
     districtLean: seatLeanNow,
     leader: false,
+    temperament: temperamentOf(api.state as CoreState, newcomerId, newcomer),
   });
   let best: {
     id: string;
@@ -1313,13 +1420,7 @@ export function officialCandidate(
       best = { id: row.id, row, parts };
   }
   if (!best.row) {
-    const identity = drawOfficialIdentity({
-      worldSeed: facts.seed,
-      seatKey: newcomerId,
-      stateUsps: facts.stateKey.slice(3),
-      role: "state-executive-challenger",
-      referenceDate: api.state.date,
-    });
+    const identity = newcomer;
     fillInIdentity(api.state as CoreState, {
       id: newcomerId,
       givenName: identity.givenName,
@@ -1398,6 +1499,7 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
     facts.bodyKind,
     facts.seat.district,
     party,
+    facts.office.kind,
   );
   const row: OfficialRow = {
     id: personId,
@@ -1473,4 +1575,30 @@ export function votesAreTownNews(api: CoreAPI, personId: string): boolean {
     .table("seats")
     .get(row.seatId) as unknown as { coversTown?: boolean } | undefined;
   return seat?.coversTown === true;
+}
+
+/**
+ * An official's level on every trait from the residents' temperament model,
+ * drawn from the world's seed and their id as any filled-in identity's is
+ * (src/core2/state.ts, fillInIdentity), so the same official comes back the
+ * same every time; the roster adds its selection shift (`drawOfficial`).
+ */
+function temperamentOf(
+  core: CoreState,
+  personId: string,
+  identity: { readonly birthDate: string; readonly gender?: string },
+): Record<string, number> {
+  return (
+    openingTemperaments(
+      [
+        {
+          id: personId,
+          birthDate: makeIsoDate(identity.birthDate),
+          ...(identity.gender ? { gender: identity.gender } : {}),
+          parents: [],
+        },
+      ],
+      { seed: core.seed, startedAt: makeIsoDate(core.startedAt) },
+    ).get(personId) ?? {}
+  );
 }

@@ -9,26 +9,39 @@
  * Attending takes a school day's hours and is recorded for the day.
  */
 import data from "../data/school-days.json" with { type: "json" };
+import tuition from "../data/opening-private-tuition.json" with { type: "json" };
+import stateDays from "../../../data/research/people/state-instructional-days-2018.json" with { type: "json" };
+import { LAWS_MODULE_ID, lawChain } from "./laws";
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds } from "../trait-decisions";
 import { offer } from "./life";
+import { reenrollPrivateTuition } from "../private-tuition-reenroll";
 import type {
   ActOffer,
   ActionDefinition,
   CoreAPI,
   CoreModule,
+  CoreState,
   PersonState,
 } from "../types";
 
-export const SCHOOL_MODULE_ID = "core2-school-days-v1";
+import { SCHOOL_MODULE_ID } from "../school-measures";
+import {
+  decideSchoolOutcome,
+  recordSchoolSpending,
+  schoolStartYear,
+} from "../school-outcomes";
+import outcomes from "../data/school/outcomes.json" with { type: "json" };
+
+export { SCHOOL_MODULE_ID };
 
 const ageOn = (birthDate: string, date: string) => {
   const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
   return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 };
 
-/** A weekday inside the school year, outside its recorded breaks. */
-export function isSchoolDay(date: string): boolean {
+/** A weekday inside the base school year, outside its recorded breaks. */
+function onBaseCalendar(date: string): boolean {
   const day = new Date(`${date}T00:00:00Z`).getUTCDay();
   if (day === 0 || day === 6) return false;
   const md = date.slice(5);
@@ -44,6 +57,71 @@ export function isSchoolDay(date: string): boolean {
   )
     return false;
   return !data.holidays.some((row) => onHoliday(date, row));
+}
+
+/** A state's minimum instructional days (ECS, 2018), where it sets one in days. */
+function minimumDays(usps: string | undefined): number | undefined {
+  const row = usps
+    ? (
+        stateDays.minimumDays as Record<
+          string,
+          { days: number | null } | undefined
+        >
+      )[usps]
+    : undefined;
+  return row?.days ?? undefined;
+}
+
+/** The last day of a school year that starts in the given year, by state: the base year cut at the state's minimum day count. */
+const cutoffs = new Map<string, string>();
+function lastDayOfYear(startYear: number, usps: string | undefined): string {
+  const days = minimumDays(usps);
+  const key = `${startYear}:${days ?? ""}`;
+  const hit = cutoffs.get(key);
+  if (hit) return hit;
+  let last = `${startYear + 1}-${data.schoolYear.lastDay}`;
+  if (days !== undefined) {
+    let counted = 0;
+    for (
+      let t = Date.UTC(startYear, 8, 1);
+      t <= Date.UTC(startYear + 1, 5, 30);
+      t += 86_400_000
+    ) {
+      const date = new Date(t).toISOString().slice(0, 10);
+      if (!onBaseCalendar(date)) continue;
+      counted += 1;
+      if (counted === days) {
+        last = date;
+        break;
+      }
+    }
+  }
+  cutoffs.set(key, last);
+  return last;
+}
+
+/** The last day asked about, with its state and answer. */
+let lastAsked: { date: string; usps: string | undefined; answer: boolean } = {
+  date: "",
+  usps: undefined,
+  answer: false,
+};
+
+/**
+ * A weekday of the school year, outside its recorded breaks. A state that
+ * requires a number of instructional days ends its year when they are done
+ * (a state that sets hours, or leaves it to the district, keeps the base year).
+ */
+export function isSchoolDay(date: string, usps?: string): boolean {
+  // Every school-age person asks about the same day: the answer depends on
+  // the date and the state alone, so the last one is kept.
+  if (date === lastAsked.date && usps === lastAsked.usps)
+    return lastAsked.answer;
+  const year = Number(date.slice(0, 4));
+  const startYear = date.slice(5) >= data.schoolYear.firstDay ? year : year - 1;
+  const answer = onBaseCalendar(date) && date <= lastDayOfYear(startYear, usps);
+  lastAsked = { date, usps, answer };
+  return answer;
 }
 
 /** The holiday's date that year: the nth (or, at -1, the last) given weekday of its month. */
@@ -94,9 +172,15 @@ function schoolFor(api: CoreAPI, actor: Readonly<PersonState>) {
   );
 }
 
+/** The two-letter postal code of the world's state, from the law chain where the laws are installed. */
+function stateOf(api: CoreAPI): string | undefined {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return undefined;
+  return lawChain(api).stateKey.slice(3);
+}
+
 function due(api: CoreAPI, actor: Readonly<PersonState>): boolean {
   const date = api.state.date;
-  if (!isSchoolDay(date)) return false;
+  if (!isSchoolDay(date, stateOf(api))) return false;
   const age = ageOn(actor.birthDate, date);
   if (
     age < api.parameter("openingSchoolAgeFirst") ||
@@ -126,7 +210,7 @@ const STAY_HOME: ActionDefinition = {
  */
 function schoolDay(api: CoreAPI): void {
   const date = api.state.date;
-  if (!isSchoolDay(date)) return;
+  if (!isSchoolDay(date, stateOf(api))) return;
   const action = api.state.data.actions.find((row) => row.id === data.actionId);
   if (!action) return;
   // Light relatives who live elsewhere (inactive tiers) make no choices here.
@@ -158,7 +242,67 @@ function schoolDay(api: CoreAPI): void {
 }
 
 function attended(api: CoreAPI, personId: string, schoolId: string): void {
-  table(api).put({ id: personId, date: api.state.date, schoolId });
+  const date = api.state.date;
+  const year = schoolStartYear(date, data.schoolYear.firstDay);
+  const row = table(api).get(personId) as unknown as
+    { year?: number; days?: number } | undefined;
+  // The year's tally is what the school engine ranks students by each spring.
+  const days = (row?.year === year ? (row.days ?? 0) : 0) + 1;
+  table(api).put({ id: personId, date, schoolId, year, days });
+}
+
+/**
+ * A full student's share of the school days since the year began (or since
+ * the world opened) that they attended; undefined where there was no school.
+ */
+function attendanceShare(api: CoreAPI, startYear: number) {
+  const opened = (api.state as CoreState).startedAt;
+  const first = `${startYear}-${data.schoolYear.firstDay}`;
+  const from = opened > first ? opened : first;
+  let held = 0;
+  for (
+    let t = Date.parse(`${from}T00:00:00Z`);
+    t <= Date.parse(`${api.state.date}T00:00:00Z`);
+    t += 86_400_000
+  )
+    if (isSchoolDay(new Date(t).toISOString().slice(0, 10), stateOf(api)))
+      held += 1;
+  return (personId: string): number | undefined => {
+    if (!held) return undefined;
+    const row = table(api).get(personId) as unknown as
+      { year?: number; days?: number } | undefined;
+    return Math.min(1, (row?.year === startYear ? (row.days ?? 0) : 0) / held);
+  };
+}
+
+/** The school year's outcome records, once a year each: the spring tests and the end-of-year graduation. */
+function schoolOutcomes(api: CoreAPI): void {
+  const date = api.state.date;
+  const startYear = schoolStartYear(date, data.schoolYear.firstDay);
+  const md = date.slice(5);
+  const done = api.moduleState(SCHOOL_MODULE_ID).table("done");
+  const testsKey = `tests:${startYear}`;
+  const lastDay = lastDayOfYear(startYear, stateOf(api));
+  if (date >= lastDay && !done.get(`graduation:${startYear}`)) {
+    done.put({ id: `graduation:${startYear}`, date } as never);
+    decideSchoolOutcome(
+      api,
+      "graduation",
+      startYear,
+      attendanceShare(api, startYear),
+    );
+  } else if (
+    md >= outcomes.testingDay &&
+    md < data.schoolYear.firstDay &&
+    date < lastDay &&
+    !done.get(testsKey)
+  ) {
+    done.put({ id: testsKey, date } as never);
+    const attendance = attendanceShare(api, startYear);
+    decideSchoolOutcome(api, "math", startYear, attendance);
+    decideSchoolOutcome(api, "reading", startYear, attendance);
+    recordSchoolSpending(api, startYear);
+  }
 }
 
 const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
@@ -166,9 +310,28 @@ const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
 
 export const SCHOOL_MODULE: CoreModule = {
   id: SCHOOL_MODULE_ID,
-  state: { schemaVersion: 1, tables: { attended: {} } },
+  state: {
+    schemaVersion: 1,
+    tables: {
+      attended: {},
+      done: {},
+      carry: {},
+      results: {
+        indexes: {
+          byPerson: { fields: ["personId"] },
+          byPlace: { fields: ["placeId"] },
+        },
+      },
+      groups: { indexes: { byPlace: { fields: ["placeId"] } } },
+      measures: { indexes: { byPlace: { fields: ["placeId"] } } },
+    },
+  },
   onDay: (api) => {
     schoolDay(api);
+    schoolOutcomes(api);
+    // A new school year: private enrollment is ranked again on what families hold.
+    if (api.state.date.slice(5) === tuition.reenrollOn)
+      reenrollPrivateTuition(api);
     return undefined;
   },
   needEvaluators: {

@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-v8txtd
 pr: #5205
 blocked-on:

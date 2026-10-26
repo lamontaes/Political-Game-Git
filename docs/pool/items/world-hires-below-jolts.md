@@ -5,12 +5,13 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/political-game-pool-3xfqef-5
-pr: #4716
-blocked-on: world-customers-move-between-sellers
+status: done
+claimed-by:
+pr: #5539
+blocked-on:
+after: world-customers-move-between-sellers
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:22:54.758Z
+claimed-at:
 ---
 
 **What.** In the played year in Anon Raices, Puerto Rico (seed 1977d40995, January 20, 2025 to January 20, 2026) businesses hired 15 times over 1,212 employed person-months, 1.24% a month, where the JOLTS band is 3.04% to 4.0%. Quits (1.57%) and layoffs (1.40%) are inside their bands, so employment falls from 99 to 89. A position opens only when someone leaves or the employer is under its target, so layoffs and closures never reopen and 15 hires replace only 25 of the quits, retirements and deaths, while 93 jobseekers wait with no open position. Find what limits openings (`need` and the gap in `src/core2/modules/jobs.ts`) and what a growing or recovering firm should read to open more.
@@ -52,3 +53,9 @@ Tried Oct 17 (claude, built, measured, not shipped): staff follows each firm's o
 Oct 17 (claude): merged main into claude/world-hires-below-jolts with no conflicts; the branch now differs from main in nothing (its note and declaration are already on main), so PR #4716 carries no change. The CTO may close it. The item itself stays open on world-customers-move-between-sellers.
 
 Measured Oct 20 (claude/political-game-pool-3xfqef-5), the same proof on main and on PR #5203's leaver-refill fix (`reviewEmployers` owes a leaver's job when the firm is short of staff, which a stale negative `need` had swallowed): Anon Raices, Puerto Rico (place 7203174, seed 1977d40995) hires 18 (1.42% a month) on main against 26 (2.04%) with the fix; Pistol River, Oregon (place 4158050, seed e1252a4b6f) 446 (2.03%) against 453 (2.06%). Both stay under the 3.04% floor; no position stands open at the end in either, cash error zero. So the fix recovers hires where firms were short and leaves the bulk of the gap to the item's root cause (targets set by sales, `world-customers-move-between-sellers`, `world-local-sales-below-opening-forecast`). Re-run after those two land.
+
+Oct 20: PR #4716 carried findings only, so its number is cleared; the item stays blocked on world-customers-move-between-sellers.
+
+Oct 20: Switched from blocked to the automatic after: gate on world-customers-move-between-sellers, so it opens by itself the moment those items are done.
+
+Oct 20 (claude, claimed, measured, released, nothing built). Re-ran the item's own proof on main (`npx tsx scripts/world-proofs/session-b-layoffs.ts 1977d40995`, Anon Raices, Puerto Rico, key 7203174, Jan 20 2025 to Jan 20 2026): hires 20 (1.52 percent a month, band 3.04 to 4.0), quits 23 (1.75, inside), layoffs 8 (0.61, band 1.2 to 1.7, now below), employment 103 to 100. A staffing-gap speed sweep inside the parameter's own sourced spread does not reach the band: `jobsStaffGapActedPerMonth` 0.15 (the value) gives 1.52 percent hires, 0.25 gives 1.46 (19 hires, 8 layoffs) and 0.35 gives 1.70 (22 hires, 12 layoffs, layoffs 0.93 percent). So the speed at which a firm closes its gap is not what limits hiring. What the run shows instead: firms listed with a fractional `need` of 0.2 to 1.3 and staff one or two under their opening staff, 93 jobseekers, and a first-month layoff with `salesMinor` 0 (a firm that has not yet traded is read as demand 0 and shrinks, `observedStaff` 0 in the layoff's values). Next: check whether a firm's first month without receipts should count as no demand at all (`observedStaff` in `src/core2/modules/jobs.ts`) and whether the target falls under staff because of `world-local-sales-below-opening-forecast`, before touching a rate.

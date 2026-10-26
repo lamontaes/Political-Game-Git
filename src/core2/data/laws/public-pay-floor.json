@@ -1,5 +1,5 @@
 {
-  "about": "The public pay floor law (CTO ruling on the owner's $70,000 question, Oct 14, 2026): a yearly salary floor a government sets for public jobs. A floor enacted at a level binds that level's own employers and every level under it (a state floor binds state, county, town and school employers). employerLevels maps each public employer class to the level of government it belongs to; later public hires are held to the floor at the law engine's monthly review.",
+  "about": "The public pay floor law (CTO ruling on the owner's $70,000 question, Oct 14, 2026): a yearly salary floor a government sets for public jobs. A floor enacted at a level binds that level's own employers and every level under it (a state floor binds state, county, town and school employers). employerLevels maps each public employer class to the level of government it belongs to; a later public hire is held to it on the day it is hired (the jobs engine reads it when it sets the hire's pay), and the law engine's monthly review catches any other job that falls under it.",
   "stopgapId": "SG-GOV-public-pay-floor-owner",
   "series": "public-pay-floor",
   "unit": "dollars/year",

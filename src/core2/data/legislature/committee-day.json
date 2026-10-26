@@ -1,0 +1,11 @@
+{
+  "about": "Which of the records' pre-vote hooks run on a committee's own day, ahead of the floor, instead of on the floor day. A hook named here fires once for a bill, at the committee stage; a hook not named fires on the floor day as before. Owner ruling Oct 19, 2026: the committee's day runs whatever the records already fire for a body on a sitting day, at the stage the body's own rules put them, from data, with nothing invented for the committee.",
+  "tag": "ESTIMATED",
+  "source": "Staff briefings, interest groups organizing, public comment and a member's own vote all happen before a committee reports in the state and local bodies that have committees (NCSL, 'Legislative Committee Structures', 2024; the hearing is where the public comments and the members are lobbied). The game runs each once per bill, at the committee, where the body has one.",
+  "committeeStage": [
+    "staff-brief",
+    "interest-organize",
+    "public-comment",
+    "own-vote"
+  ]
+}

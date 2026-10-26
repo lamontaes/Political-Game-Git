@@ -97,6 +97,19 @@ SERIES = {
     "sales-tax": ("taxes-finance", "Taxes", "Local sales tax rate", "percent", ["city"]),
     # Each government sets its own employees' pay floor (CTO ruling, Oct 14, 2026).
     "public-pay-floor": ("government", "Agencies and public employment", "Public pay floor", "dollars/year", ["federal", "state", "city"]),
+    # The other amounts the starting law holds, at the levels series-powers.json
+    # gives each (a local level is "city" here).
+    "property-tax": ("taxes-finance", "Taxes", "Property tax rate", "percent of home value per year", ["state", "city"]),
+    "corporate-income-tax": ("taxes-finance", "Taxes", "Corporate income tax rate", "percent-flat", ["federal", "state"]),
+    "estate-tax": ("taxes-finance", "Taxes", "Estate tax rate", "percent-top-rate", ["federal", "state"]),
+    "inheritance-tax": ("taxes-finance", "Taxes", "Inheritance tax rate", "percent-top-rate", ["state"]),
+    "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages", ["federal"]),
+    "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages", ["federal"]),
+    "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent", ["federal"]),
+    "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month", ["federal"]),
+    "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages", ["federal"]),
+    "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages", ["state"]),
+    "unemployment-weekly-maximum": ("assistance", "Unemployment benefits", "Unemployment weekly maximum", "USD/week", ["state"]),
 }
 
 

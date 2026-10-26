@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/special-election-races
 pr: #5095
 blocked-on:

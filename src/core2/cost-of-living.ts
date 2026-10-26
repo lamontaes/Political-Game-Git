@@ -73,6 +73,28 @@ function unindex(core: CoreState, dueAt: IsoDate, id: string): void {
   if (ids && !ids.size) core.finance.livingDueAt.delete(dueAt);
 }
 
+/**
+ * Set what a household's everyday-living plan pays one seller each month (zero
+ * removes the seller), keeping the plan's total in step. Returns false for a
+ * household that has no plan.
+ */
+export function setEverydayPurchase(
+  core: CoreState,
+  householdId: string,
+  payeeId: string,
+  monthlyMinor: number,
+): boolean {
+  const plan = core.finance.livingPlans.get(householdId);
+  if (!plan) return false;
+  if (!Number.isSafeInteger(monthlyMinor) || monthlyMinor < 0)
+    throw new Error(`Invalid household purchase amount: ${householdId}`);
+  const before = plan.sellers.get(payeeId) ?? 0;
+  if (monthlyMinor === 0) plan.sellers.delete(payeeId);
+  else plan.sellers.set(payeeId, monthlyMinor);
+  plan.monthlyMinor += monthlyMinor - before;
+  return true;
+}
+
 /** Folds one household purchase into the household's plan. */
 export function admitEverydayPurchase(
   core: CoreState,

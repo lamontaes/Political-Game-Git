@@ -1,21 +1,8 @@
 # PG Preflight Workflow
 
-1. run `npm run agent:preflight`;
-2. read `AGENTS.md` once for routing; do not reread the full preserved contract
-   stack unless the task needs commands or art gates from
-   `.agents/rules/repository-reference.md`;
-3. read root `CLAUDE.md` and follow it to the canonical Drive chain; take
-   continuation state from that chain and the owning `docs/plans/` file, not
-   from any repository handoff file;
-4. fetch origin;
-5. identify:
-   - absolute workspace;
-   - branch;
-   - local HEAD;
-   - upstream ref/SHA;
-   - dirty tracked state;
-   - untracked state;
-   - worktrees;
-6. identify whether another worktree is using the same implementation branch;
-7. identify the intended dev-server process/port where practical;
-8. STOP on ambiguous workspace or branch ownership.
+1. Run `npm run agent:preflight`.
+2. Read `AGENTS.md` once, then your pool item and its Notes. Open `.agents/rules/repository-reference.md` only when you need commands or art constraints.
+3. Fetch origin.
+4. Identify the absolute workspace, branch, local HEAD, upstream ref and SHA, dirty and untracked state.
+5. Check whether another session is working on the same branch (the item's `claimed-by`, open PRs on it).
+6. Stop on ambiguous workspace or branch ownership, and say so in the item's Notes.

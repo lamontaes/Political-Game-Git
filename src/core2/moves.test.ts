@@ -10,7 +10,8 @@ import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import rates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { advanceCore } from "./life";
 import {
-  departuresOf,
+  departuresSeen,
+  watchDepartures,
   holdsOf,
   MOVED_AWAY_EVENT,
   movesModule,
@@ -33,6 +34,7 @@ const input = generatedOpening(
 );
 const core = createRenewalCore(input, { modules: [movesModule] });
 const api = coreAPI(core);
+watchDepartures(core);
 const cash = () =>
   [...core.people.values(), ...core.organizations.values()].reduce(
     (sum, row) => sum + row.liquidMinor,
@@ -109,7 +111,7 @@ const expectedBirths =
 const end = new Date(`${input.startedAt}T00:00:00Z`);
 end.setUTCMonth(end.getUTCMonth() + MONTHS);
 advanceCore(core, end.toISOString().slice(0, 10));
-const departures = departuresOf(api);
+const departures = departuresSeen(core);
 const departedAdults = departures
   .flatMap((row) => row.withIds)
   .filter((id) => adults.some((row) => row.id === id));

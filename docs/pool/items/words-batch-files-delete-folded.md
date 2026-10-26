@@ -5,7 +5,7 @@ area: words
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/batch-delete
 pr: #5117
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T19:18:12.900Z
 **Files.** data/english/batches/batch-7.json, data/english/batches/batch-9.json, data/english/grades/batch-7.json, data/english/grades/batch-9.json, data/english/coverage.json
 
 **Notes.** Tried first Oct 19 without the coverage change and reverted (the coverage counts fell); with words-coverage-graded-counts-kept the four files are deleted and coverage.json is byte-identical and every count in part-grades.json is unchanged (only the order of two batch ids differs).
+
+Oct 20: PR #5117 reached main through #5116: batch-7 and batch-9 and their grade files are gone and the coverage counts are unchanged.

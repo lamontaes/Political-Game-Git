@@ -1,0 +1,406 @@
+{
+  "id": "nces-private-enrollment-share-fall-2021",
+  "publisher": "National Center for Education Statistics",
+  "vintage": "Fall 2021",
+  "table": "Digest of Education Statistics 2023, Table 205.80 (private K-12 enrollment, Private School Universe Survey) and Table 203.20 (public elementary and secondary enrollment, Common Core of Data)",
+  "title": "Private school share of elementary and secondary students, by state",
+  "universe": "Students enrolled in kindergarten through grade 12 in private schools, over those students plus all students enrolled in public prekindergarten through grade 12",
+  "geography": "50 states and the District of Columbia; the five territories take the median",
+  "sourceUrl": [
+    "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn205.80.xlsx",
+    "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn203.20.xlsx"
+  ],
+  "retrievedOn": "2026-10-20",
+  "limits": "The public count includes prekindergarten (about 3 percent of public enrollment) while the private count is kindergarten through grade 12, so each share reads about 3 percent low. Homeschooled children are in neither count. A share is a state's average: it calibrates a town's total private tuition and never decides whether one family sends a child to a private school.",
+  "national": 0.0874,
+  "median": 0.0893,
+  "states": {
+    "US-AK": {
+      "name": "Alaska",
+      "privateK12": 4470,
+      "publicPreK12": 129944,
+      "share": 0.0333,
+      "tag": "SOURCED"
+    },
+    "US-AL": {
+      "name": "Alabama",
+      "privateK12": 63190,
+      "publicPreK12": 748274,
+      "share": 0.0779,
+      "tag": "SOURCED"
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "privateK12": 23330,
+      "publicPreK12": 489565,
+      "share": 0.0455,
+      "tag": "SOURCED"
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "share": 0.0893,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The median of the 51 sourced states and the District: the survey has no row for this territory."
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "privateK12": 66950,
+      "publicPreK12": 1133284,
+      "share": 0.0558,
+      "tag": "SOURCED"
+    },
+    "US-CA": {
+      "name": "California",
+      "privateK12": 543280,
+      "publicPreK12": 5959858,
+      "share": 0.0835,
+      "tag": "SOURCED"
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "privateK12": 52070,
+      "publicPreK12": 880597,
+      "share": 0.0558,
+      "tag": "SOURCED"
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "privateK12": 54590,
+      "publicPreK12": 509748,
+      "share": 0.0967,
+      "tag": "SOURCED"
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "privateK12": 19110,
+      "publicPreK12": 88908,
+      "share": 0.1769,
+      "tag": "SOURCED"
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "privateK12": 19850,
+      "publicPreK12": 139935,
+      "share": 0.1242,
+      "tag": "SOURCED"
+    },
+    "US-FL": {
+      "name": "Florida",
+      "privateK12": 422170,
+      "publicPreK12": 2833186,
+      "share": 0.1297,
+      "tag": "SOURCED"
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "privateK12": 151510,
+      "publicPreK12": 1740875,
+      "share": 0.0801,
+      "tag": "SOURCED"
+    },
+    "US-GU": {
+      "name": "Guam",
+      "share": 0.0893,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The median of the 51 sourced states and the District: the survey has no row for this territory."
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "privateK12": 36470,
+      "publicPreK12": 173178,
+      "share": 0.174,
+      "tag": "SOURCED"
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "privateK12": 48410,
+      "publicPreK12": 510661,
+      "share": 0.0866,
+      "tag": "SOURCED"
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "privateK12": 19080,
+      "publicPreK12": 314258,
+      "share": 0.0572,
+      "tag": "SOURCED"
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "privateK12": 185920,
+      "publicPreK12": 1868482,
+      "share": 0.0905,
+      "tag": "SOURCED"
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "privateK12": 112390,
+      "publicPreK12": 1036625,
+      "share": 0.0978,
+      "tag": "SOURCED"
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "privateK12": 40570,
+      "publicPreK12": 485424,
+      "share": 0.0771,
+      "tag": "SOURCED"
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "privateK12": 64470,
+      "publicPreK12": 654239,
+      "share": 0.0897,
+      "tag": "SOURCED"
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "privateK12": 102440,
+      "publicPreK12": 683216,
+      "share": 0.1304,
+      "tag": "SOURCED"
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "privateK12": 102630,
+      "publicPreK12": 921180,
+      "share": 0.1002,
+      "tag": "SOURCED"
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "privateK12": 125070,
+      "publicPreK12": 881461,
+      "share": 0.1243,
+      "tag": "SOURCED"
+    },
+    "US-ME": {
+      "name": "Maine",
+      "privateK12": 17020,
+      "publicPreK12": 173215,
+      "share": 0.0895,
+      "tag": "SOURCED"
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "privateK12": 116870,
+      "publicPreK12": 1440090,
+      "share": 0.0751,
+      "tag": "SOURCED"
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "privateK12": 76630,
+      "publicPreK12": 870506,
+      "share": 0.0809,
+      "tag": "SOURCED"
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "privateK12": 95830,
+      "publicPreK12": 888823,
+      "share": 0.0973,
+      "tag": "SOURCED"
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "share": 0.0893,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The median of the 51 sourced states and the District: the survey has no row for this territory."
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "privateK12": 43340,
+      "publicPreK12": 442000,
+      "share": 0.0893,
+      "tag": "SOURCED"
+    },
+    "US-MT": {
+      "name": "Montana",
+      "privateK12": 10140,
+      "publicPreK12": 150195,
+      "share": 0.0632,
+      "tag": "SOURCED"
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "privateK12": 127730,
+      "publicPreK12": 1525223,
+      "share": 0.0773,
+      "tag": "SOURCED"
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "privateK12": 11560,
+      "publicPreK12": 116864,
+      "share": 0.09,
+      "tag": "SOURCED"
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "privateK12": 36820,
+      "publicPreK12": 327564,
+      "share": 0.101,
+      "tag": "SOURCED"
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "privateK12": 20880,
+      "publicPreK12": 170005,
+      "share": 0.1094,
+      "tag": "SOURCED"
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "privateK12": 179810,
+      "publicPreK12": 1372381,
+      "share": 0.1158,
+      "tag": "SOURCED"
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "privateK12": 22160,
+      "publicPreK12": 316785,
+      "share": 0.0654,
+      "tag": "SOURCED"
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "privateK12": 24400,
+      "publicPreK12": 486648,
+      "share": 0.0477,
+      "tag": "SOURCED"
+    },
+    "US-NY": {
+      "name": "New York",
+      "privateK12": 355310,
+      "publicPreK12": 2548490,
+      "share": 0.1224,
+      "tag": "SOURCED"
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "privateK12": 198750,
+      "publicPreK12": 1683612,
+      "share": 0.1056,
+      "tag": "SOURCED"
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "privateK12": 34500,
+      "publicPreK12": 698696,
+      "share": 0.0471,
+      "tag": "SOURCED"
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "privateK12": 43270,
+      "publicPreK12": 576201,
+      "share": 0.0698,
+      "tag": "SOURCED"
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "privateK12": 220600,
+      "publicPreK12": 1695092,
+      "share": 0.1152,
+      "tag": "SOURCED"
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "share": 0.0893,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The median of the 51 sourced states and the District: the survey has no row for this territory."
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "privateK12": 17020,
+      "publicPreK12": 138566,
+      "share": 0.1094,
+      "tag": "SOURCED"
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "privateK12": 59640,
+      "publicPreK12": 780878,
+      "share": 0.071,
+      "tag": "SOURCED"
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "privateK12": 13980,
+      "publicPreK12": 141307,
+      "share": 0.09,
+      "tag": "SOURCED"
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "privateK12": 101900,
+      "publicPreK12": 996709,
+      "share": 0.0928,
+      "tag": "SOURCED"
+    },
+    "US-TX": {
+      "name": "Texas",
+      "privateK12": 257560,
+      "publicPreK12": 5428613,
+      "share": 0.0453,
+      "tag": "SOURCED"
+    },
+    "US-UT": {
+      "name": "Utah",
+      "privateK12": 15770,
+      "publicPreK12": 690934,
+      "share": 0.0223,
+      "tag": "SOURCED"
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "privateK12": 118440,
+      "publicPreK12": 1249815,
+      "share": 0.0866,
+      "tag": "SOURCED"
+    },
+    "US-VI": {
+      "name": "U.S. Virgin Islands",
+      "share": 0.0893,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The median of the 51 sourced states and the District: the survey has no row for this territory."
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "privateK12": 8410,
+      "publicPreK12": 83975,
+      "share": 0.091,
+      "tag": "SOURCED"
+    },
+    "US-WA": {
+      "name": "Washington",
+      "privateK12": 97060,
+      "publicPreK12": 1081835,
+      "share": 0.0823,
+      "tag": "SOURCED"
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "privateK12": 134530,
+      "publicPreK12": 829359,
+      "share": 0.1396,
+      "tag": "SOURCED"
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "privateK12": 11740,
+      "publicPreK12": 252720,
+      "share": 0.0444,
+      "tag": "SOURCED"
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "privateK12": 1680,
+      "publicPreK12": 93093,
+      "share": 0.0177,
+      "tag": "SOURCED"
+    }
+  }
+}

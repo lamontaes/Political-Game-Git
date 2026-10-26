@@ -1,6 +1,6 @@
 # Workspaces and storage (full rules)
 
-Moved from AGENTS.md on Oct 10, 2026, unchanged. AGENTS.md keeps the short version.
+AGENTS.md keeps the short version; this is the full rule.
 
 On 2026-09-19 more than 100 GB of project copies had accumulated on the owner's Mac, and a manual cleanup removed the repository every worktree shared. `scripts/storage/` exists so that does not recur. It is a script, not an operating-system quota.
 

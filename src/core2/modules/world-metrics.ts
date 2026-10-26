@@ -8,6 +8,7 @@
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "./residents";
+import { povertyByPlace } from "../world-poverty";
 import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
@@ -96,12 +97,15 @@ export function townMetrics(api: CoreAPI) {
     if (!job || job.endsAt !== undefined || flow.endedAt || !placeId) continue;
     at(placeId).employed += 1;
     if (job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
-    const householdId = rt!.householdOfPerson.get(job.personId);
+    // The worker's group, read from its columns, not through a person record.
+    const m = rt!.store.countedMember(job.personId);
+    const home =
+      m === undefined
+        ? undefined
+        : rt!.store.households[rt!.store.household[m]!];
     earn(
-      householdId
-        ? rt!.households.get(householdId)?.household.placeId
-        : undefined,
-      householdId,
+      home && !home.gone ? home.placeId : undefined,
+      home?.id,
       job.wageDailyMinor,
     );
   }
@@ -117,7 +121,7 @@ export function townMetrics(api: CoreAPI) {
     if (!row.judgmentAt?.startsWith(lastMonth)) continue;
     const placeId =
       c.households.get(row.householdId)?.placeId ??
-      rt?.households.get(row.householdId)?.household.placeId;
+      rt?.store.liveHousehold(row.householdId)?.placeId;
     if (placeId) at(placeId).evictionOrders += 1;
   }
   for (const table of ["seekers", "countedSeekers"])
@@ -158,6 +162,7 @@ export function townMetrics(api: CoreAPI) {
   const loans = rows(api, "credit", "loans") as unknown as {
     open: boolean;
   }[];
+  const poverty = povertyByPlace(c);
   const housing = c.modules.has(HOUSING_MODULE_ID)
     ? townFiguresByPlace(api, new Set(places.keys()))
     : undefined;
@@ -197,6 +202,16 @@ export function townMetrics(api: CoreAPI) {
             ? (rent * api.parameter("macroMonthsPerYear")) / income
             : 0,
         evictionOrdersLastMonth: row.evictionOrders,
+        // People (named plus counted, by weight) in households whose yearly
+        // income is under the Census line for their size, over all people.
+        // A place with no recorded jobs has no incomes to read, so it keeps
+        // no share (the web then falls back to its estimate).
+        ...(row.employed > 0 && poverty.get(placeId)
+          ? {
+              povertyShare:
+                poverty.get(placeId)!.poor / poverty.get(placeId)!.people,
+            }
+          : {}),
       };
     });
 }

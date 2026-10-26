@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/journal-office-draw
 pr: #5231
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:47:13.970Z
 **Files.** src/director/journal-office.test.ts
 
 **Notes.** Found Oct 19 while checking whether people-journal-taking-office is the duplicate its notes say: the test it cites passes except when the drawn place has no local body.
+
+Oct 20: PR #5231 merged to main: the journal-office test draws another place when the first has no town body.

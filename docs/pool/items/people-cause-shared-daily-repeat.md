@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-udtiwn
-pr:
+pr: #5217
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:31:38.230Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T01:31:38.230Z
 
 **Rules.** TODO
 
-**Done when.** TODO
+**Done when.** TODO **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
 
 **Files.** TODO
 

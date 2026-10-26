@@ -73,6 +73,12 @@
       "tag": "TUNABLE",
       "source": "The minute of the morning (8 a.m.) at which the day's floor vote, the whip's ask, a vacant cabinet post or a duty due that day holds the player, before the House convenes (it usually meets at noon or 10 a.m. on legislative days, House Majority Leader's daily floor schedule).",
       "spread": [420, 600]
+    },
+    "situationRoomOpenDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "How many days a disaster stays on the situation room's list after its incident begins. FEMA incident periods run from a few days (a tornado) to months (a flood or fire season), and most declared incidents open the president's attention for about a month (FEMA OpenFEMA Disaster Declarations Summaries, incident begin and end dates).",
+      "spread": [7, 90]
     }
   }
 }

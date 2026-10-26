@@ -12,6 +12,9 @@ import { coreAPI } from "../core2/state";
 import { lawInForce } from "../core2/modules/laws";
 import { BenchPlayer } from "./player";
 import { residentsRuntime } from "../core2/modules/residents";
+import { setBookkeeping } from "../core2/bookkeeping";
+import { advanceCore } from "../core2/life";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { DevMode, devModeMarks } from "./dev-mode";
 
 const seed = process.env.DEV_MODE_SEED ?? randomBytes(8).toString("hex");
@@ -37,6 +40,27 @@ describe(`dev mode: ${world.place.displayName} (seed ${seed})`, () => {
     expect(core.date).toBe(date);
     expect(core.durableLog.size).toBe(records);
   });
+
+  it("says when the cash journal's checks were skipped and how to turn them on", () => {
+    const where = `${world.place.displayName} (seed ${seed})`;
+    const before = dev.journalChecks();
+    const previous = setBookkeeping(false);
+    try {
+      advanceCore(core, addDays(makeIsoDate(core.date), 14));
+      const skipping = dev.journalChecks();
+      expect(skipping.checking, where).toBe(false);
+      expect(skipping.skipped, where).toBeGreaterThan(before.skipped);
+      expect(skipping.rerunWith).toBe("CORE2_BOOKKEEPING=1");
+      setBookkeeping(true);
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      const checking = dev.journalChecks();
+      expect(checking.checking, where).toBe(true);
+      expect(checking.checked, where).toBeGreaterThan(skipping.checked);
+      expect(checking.skipped, where).toBe(skipping.skipped);
+    } finally {
+      setBookkeeping(previous);
+    }
+  }, 240_000);
 
   it("sets a law the law engine reads and the minimum-wage raise follows", () => {
     const api = coreAPI(core);

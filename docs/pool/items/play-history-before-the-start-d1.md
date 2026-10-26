@@ -4,7 +4,7 @@ title: "History before the start (D1):"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/politics-history-s11
 pr: #5154
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T21:02:46.510Z
 **Notes.** Checklist line from play.md; verify against main before starting.
 
 Checked Oct 19 (claude), nothing built: this is already on main. src/bench/play.mjs (the Politics sheet, near line 3557) prints each holder's service years, how they reached the seat and, from `pastElections`, the election date, share and the term id they won, and `src/bench/government.test.ts` (passes today) checks every holder carries serviceStart, how they reached the seat and a matching election in a drawn place. The loading card names each pass: src/bench/data/controls.json `loading` holds people, past, economy, core, government, opening, pictures and done, read at play.mjs line 4359. The one thing the done-when asks that no spec shows is the browser seeing the term id; the CTO can mark this done or ask for that spec as its own item.
+
+Oct 20: PR #5154 merged to main: Politics shows service years and the election per official with no raw term id.

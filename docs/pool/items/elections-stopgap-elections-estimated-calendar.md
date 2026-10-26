@@ -23,4 +23,4 @@ claimed-at:
 
 **Notes.** First row: A town's filing deadline where the state's municipal rule is unread (its row in filing-deadlines.json is 'unread'): the median number of days between the candidate filing deadline and the primary over the places with a 2
 
-Folded into research-elections-sourced-parameters (CTO, Oct 19, 2026).
+Folded into research-elections-sourced-parameters (CTO, Oct 19, 2026). PR #5274 sourced 14 of the 21 unread municipal filing deadlines (West Virginia, Arizona, Nevada, Wyoming, Michigan, New Hampshire, Rhode Island, Georgia, Kentucky, Mississippi, Pennsylvania, Oklahoma, Indiana, Connecticut). 7 places remain unread under research-elections-sourced-parameters.

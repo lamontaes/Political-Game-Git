@@ -25,9 +25,10 @@ import {
   spendingPaymentsOf,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
-import { treasuryMonthsOf } from "./budgets-treasury";
+import { chargedSinceClose, treasuryMonthsOf } from "./budgets-treasury";
 import { billPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
+import { residentsRuntime } from "./modules/residents";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -127,8 +128,14 @@ describe(
           closes +=
             month.aidReceivedMinor + month.borrowedMinor - month.aidPaidMinor;
           for (const line of Object.values(month.lines))
-            closes -= line.providersMinor + line.outsideMinor;
+            closes -=
+              line.providersMinor +
+              line.outsideMinor +
+              (line.chargedMinor ?? 0);
         }
+        // What it paid suppliers outside the town since its last close (a
+        // commission's month, an election's costs), not yet in a month.
+        closes -= chargedSinceClose(api, gov.id);
         // The wages it paid the opening's public employers' workers, less
         // what it couldn't cover (the authority paid those).
         for (const [authorityId, link] of publicPayTreasuries(core))
@@ -190,8 +197,12 @@ describe(
               .filter(
                 ([line]) => gov.level !== "federal" || line !== "netInterest",
               )
-              .reduce((a, [, row]) => a + row.outsideMinor, 0),
-          0,
+              .reduce(
+                (a, [, row]) => a + row.outsideMinor + (row.chargedMinor ?? 0),
+                0,
+              ),
+          // Paid between closes (`chargeLine`) and not yet in a month.
+          chargedSinceClose(api, gov.id),
         );
         expect(
           payments.reduce((n, p) => n + p.amountMinor, 0),
@@ -300,6 +311,17 @@ describe(
           (t) => t.ratePercent > 0,
         );
         const total = taxes.reduce((a, t) => a + t.collectedMinor, 0);
+        // The tax is on sales by sellers in the town; a town whose residents
+        // buy from no seller there (a few dozen people and no shop) has no
+        // taxable sale to collect on, so it cannot show the collection.
+        const town = lawChain(api).townPlaceId;
+        const localSeller = [...(residentsRuntime(core)?.flows.values() ?? [])]
+          .filter((f) => f.kind === "purchase" && !f.endedAt)
+          .some((f) => {
+            const seller = core.organizations.get(f.payeeId);
+            return seller?.placeId === town && seller.kind !== "outside-market";
+          });
+        if (total === 0 && !localSeller) continue;
         expect(total, where).toBeGreaterThan(0);
         // Each level's share of the tax inside a price is its rate over
         // (100 + the combined rate); the shares add up to the combined rate.

@@ -10,10 +10,20 @@ import {
   federalJurisdictionId,
   stateJurisdictionId,
 } from "./government-jurisdictions";
-import type { CorePlace } from "./place-lookup";
+import { makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
+import { OPENING_PUBLIC_PAY_STOPGAP } from "./opening-public-pay";
+import { corePlaceByKey, type CorePlace } from "./place-lookup";
+import { stopgap } from "./stopgaps";
 import { governmentUnitJurisdictionId } from "./reference/government-units";
 import type { PublicGovernmentIdentity } from "./kernel/brands";
-import type { OrganizationInput, Source } from "./types";
+import type {
+  CoreInput,
+  OrganizationInput,
+  PublicPayAuthorityInput,
+  Source,
+  WorkCommitmentInput,
+} from "./types";
 
 export interface OpeningDepartmentGovernment {
   readonly identity: PublicGovernmentIdentity;
@@ -97,5 +107,65 @@ export function departmentLinkSource(base: Source, profileId: string): Source {
     citation: `${base.citation} ${departments.source}; organization profile ${profileId}. The owner link is an assumption, not an appropriation.`,
     estimatedFrom:
       "A town's police, fire, public works and public health departments are paid by its own government; the Census of Governments does not name which unit employs a given opening department.",
+  };
+}
+
+/**
+ * The public school district as a department of the town's own government: it
+ * joins that government's pay group (the owner another department already
+ * holds, else the district itself) and carries its own pay authority, so the
+ * treasury pays its teachers on every payday like any other department.
+ */
+export function withDistrictPayAuthority(
+  input: Pick<CoreInput, "organizations" | "placeMetadata" | "startedAt">,
+  district: OrganizationInput,
+  commitments: readonly WorkCommitmentInput[],
+): {
+  district: OrganizationInput;
+  commitments: readonly WorkCommitmentInput[];
+} {
+  const key = input.placeMetadata?.placeKey;
+  const place = key ? corePlaceByKey(key) : null;
+  const town = place ? townGovernmentOf(place) : undefined;
+  if (!town || town.identity.kind !== "local-government")
+    return { district, commitments };
+  stopgap("SG-WORLD-department-government");
+  const at = makeIsoDate(input.startedAt);
+  const governmentKey = town.identity.governmentKey;
+  const ownerId =
+    input.organizations.find(
+      (row) => row.publicPayAuthority?.governmentKey === governmentKey,
+    )?.publicPayAuthority?.ownerId ?? district.id;
+  const link = departmentLinkSource(district.source, district.id);
+  const authority: PublicPayAuthorityInput = {
+    id: `opening-public-pay:${stableHash(
+      JSON.stringify([
+        district.id,
+        governmentKey,
+        town.identity.jurisdictionId,
+      ]),
+    )}`,
+    ownerId,
+    governmentKey,
+    jurisdictionId: town.identity.jurisdictionId,
+    workCommitmentIds: commitments.map((row) => row.id),
+    basisRecordIds: [district.id],
+    source: {
+      ...link,
+      asOf: at,
+      citation: `${link.citation} ${OPENING_PUBLIC_PAY_STOPGAP}`,
+    },
+  };
+  return {
+    district: {
+      ...district,
+      governmentFacts: town.governmentFacts,
+      publicPayAuthority: authority,
+      ...(ownerId === district.id ? { outsideFlow: authority.source } : {}),
+    },
+    commitments: commitments.map((row) => ({
+      ...row,
+      publicPayAuthorityId: authority.id,
+    })),
   };
 }

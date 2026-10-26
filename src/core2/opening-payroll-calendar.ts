@@ -598,6 +598,48 @@ function routeFor(
 }
 
 /**
+ * The pay calendar a government employer follows: the base biweekly option the
+ * data declares, advanced to the period before `at`. Used at the opening for
+ * every government employer and for a post filled later with no job to follow.
+ */
+export function governmentPayrollTerms(
+  at: string,
+  options: OpeningPayrollCalendarOptions = {},
+): Pick<
+  WorkPayrollCalendarInput,
+  | "rule"
+  | "periodDays"
+  | "firstPeriodStartsAt"
+  | "firstPaydayAt"
+  | "nonbusinessDayRule"
+  | "arrearsRule"
+> {
+  const { data, u } = settings(options);
+  if (
+    data.governmentProxy.frequency !== "biweekly" ||
+    data.governmentProxy.nonbusinessDayRule !== data.nonbusinessDayRule ||
+    !data.governmentProxy.limitation.trim()
+  )
+    throw new Error(
+      "Opening government payroll requires its declared qualified proxy convention",
+    );
+  const periodDays = u.daysPerWeek * u.two;
+  const original = date(data.governmentProxy.firstPeriodStartsAt),
+    firstDue = date(data.governmentProxy.firstPaydayAt);
+  const currentOffset =
+    Math.floor(daysBetween(original, date(at)) / periodDays) * periodDays;
+  const offset = currentOffset - periodDays;
+  return {
+    rule: "fixed-days-after-inclusive-period-end",
+    periodDays,
+    firstPeriodStartsAt: addDays(original, offset),
+    firstPaydayAt: addDays(firstDue, offset),
+    nonbusinessDayRule: data.nonbusinessDayRule,
+    arrearsRule: data.arrearsRule,
+  };
+}
+
+/**
  * Opening admission only. Existing calendar objects/Sources and organization/job/
  * person/attendance terms remain exact. New links clone only the commitment row.
  * Prior-period date bounds are a calendar phase, never invented opening earned wages.
@@ -718,20 +760,6 @@ export function openingWorkPayrollCalendars(
         "Opening payroll generated calendar ID collides with a supplied calendar",
       );
     if (route === "government-proxy") {
-      if (
-        data.governmentProxy.frequency !== "biweekly" ||
-        data.governmentProxy.nonbusinessDayRule !== data.nonbusinessDayRule ||
-        !data.governmentProxy.limitation.trim()
-      )
-        throw new Error(
-          "Opening government payroll requires its declared qualified proxy convention",
-        );
-      const periodDays = u.daysPerWeek * u.two;
-      const original = date(data.governmentProxy.firstPeriodStartsAt),
-        firstDue = date(data.governmentProxy.firstPaydayAt);
-      const currentOffset =
-        Math.floor(daysBetween(original, at) / periodDays) * periodDays;
-      const offset = currentOffset - periodDays;
       frequency = "biweekly";
       refs = ["daysPerWeek", "two"];
       terms = {
@@ -739,13 +767,8 @@ export function openingWorkPayrollCalendars(
         organizationId,
         workCommitmentIds: members.map((row) => row.id),
         basisRecordIds: [organizationId],
-        rule: "fixed-days-after-inclusive-period-end",
-        periodDays,
-        firstPeriodStartsAt: addDays(original, offset),
-        firstPaydayAt: addDays(firstDue, offset),
+        ...governmentPayrollTerms(at, options),
         effectiveFrom: at,
-        nonbusinessDayRule: data.nonbusinessDayRule,
-        arrearsRule: data.arrearsRule,
         source: { tag: "ESTIMATED", asOf: at, citation: "", estimatedFrom: "" },
       };
     } else {

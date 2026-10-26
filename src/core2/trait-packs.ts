@@ -1,8 +1,5 @@
 import { createPersonalityTendencyDefinition } from "./mind-catalog";
-import type {
-  MindStrength,
-  PersonalityTendencyDefinition,
-} from "../simulation/types";
+import type { MindStrength, PersonalityTendencyDefinition } from "./mind-types";
 
 /**
  * Traits as loaded data.

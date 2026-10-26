@@ -23,6 +23,7 @@ import {
 import { makeIsoDate } from "./kernel/dates";
 import { SeededRng } from "./kernel/rng";
 import * as oldBallot from "../simulation/municipal-ballot-rules";
+import { municipalRulePackFor } from "./gov-rules/municipal-election-rule-packs";
 import * as oldElectionRules from "../simulation/municipal-election-rules";
 import * as oldTownCalendar from "../simulation/nationwide-world/town-election-calendar";
 import * as oldCountyCalendar from "../simulation/nationwide-world/county-election-calendar";
@@ -94,6 +95,7 @@ function municipalProjection() {
         publisherId: government.identity?.publisherId || null,
         reading: {
           form: reading.form ?? null,
+          bodyName: reading.bodyName ?? null,
           bodySize: reading.bodySize ?? null,
           composition: reading.composition
             ? {
@@ -152,15 +154,52 @@ describe("ported government rule readers", () => {
       "judicial-cause-removal-trial",
       "prohibited",
     ] as const;
+    // The port carries the pack's scope, grounds and citation beside the old
+    // reader's fields, and those fields match the old reader's, except where
+    // a state's recall turns on a form or charter. There a town takes the
+    // doctrine state law gives it until it adopts one, not the national
+    // estimate the old reader used; and Wyoming's commission-form recall is
+    // read as such here, where the old pack read it as universal.
+    const oldFields = (
+      rule: ReturnType<typeof ballot.resolveMunicipalRecallRule>,
+    ) => ({
+      stateUsps: rule.stateUsps,
+      doctrine: rule.doctrine,
+      doctrineBasis: rule.doctrineBasis,
+      threshold: rule.threshold,
+      circulationDays: rule.circulationDays,
+      circulationBasis: rule.circulationBasis,
+      groundsRequired: rule.groundsRequired,
+    });
+    let defaulted = 0;
     for (const state of STATES) {
+      const pack = municipalRulePackFor(state.usps);
+      const conditional = pack?.recallDoctrine.kind === "locally-selectable";
+      const statutory =
+        pack?.recallDoctrine.kind === "locally-selectable"
+          ? pack.recallDoctrine.statutoryDefault
+          : null;
+      // The old reader read a state's own doctrine only where its pack knew
+      // one; anywhere else (a charter or form choice among them) it fell back
+      // to the national estimate.
+      const oldConditional =
+        oldBallot.resolveMunicipalRecallRule(state.usps).doctrineBasis ===
+        "national-estimated";
       for (const usps of [state.usps, state.usps.toLowerCase()]) {
-        for (const doctrine of doctrines)
-          expect(ballot.resolveMunicipalRecallRule(usps, doctrine)).toEqual(
-            oldBallot.resolveMunicipalRecallRule(usps, doctrine),
-          );
-        expect(ballot.resolveMunicipalRecallRule(usps)).toEqual(
-          oldBallot.resolveMunicipalRecallRule(usps),
-        );
+        for (const doctrine of doctrines) {
+          const now = ballot.resolveMunicipalRecallRule(usps, doctrine);
+          expect(now.citation).toBe(pack?.recallCitation ?? null);
+          if (doctrine === null && statutory !== null) {
+            defaulted += 1;
+            expect(now.doctrine, usps).toBe(statutory);
+            expect(now.doctrineBasis, usps).toBe("state-law-unverified");
+          } else if (conditional && !oldConditional)
+            expect(now.doctrine, usps).toBe(doctrine);
+          else
+            expect(oldFields(now)).toEqual(
+              oldBallot.resolveMunicipalRecallRule(usps, doctrine),
+            );
+        }
       }
       for (const place of sample(
         placesIn(state.jurisdictionKey, "locality"),
@@ -178,6 +217,8 @@ describe("ported government rule readers", () => {
           ),
         );
     }
+    // Wyoming's commission-form recall, among others, defaults a town to none.
+    expect(defaulted).toBeGreaterThan(0);
     for (const percent of [0.5, 5, 10, 12.5, 15, 25, 33.3, 100])
       for (const base of [0, 1, 7, 99, 1000, 123_457])
         expect(

@@ -14,7 +14,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-condense-decisions");
 
 describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`, () => {
-  it("keeps every option's score for recent and the player's acts, and only the chosen reasons for the circle's older ones", () => {
+  it("keeps every option's score for recent acts, a year of the player's own, and only the chosen reasons for the circle's older ones", () => {
     const core = createLifeCore(
       generatedOpening(place, {
         twoLevel: true,
@@ -40,12 +40,15 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
       expect(row.decision!.actorId).toBe(row.actorId);
       expect(row.decision!.reasonKey).toBeDefined();
     }
-    // The player's own act keeps every score, however old.
+    // The player's own routine act keeps every score for a year, then only
+    // its summary and reasons.
     const template = old[0]!;
     const own = {
       ...template,
       id: `${template.id}:player-copy`,
       actorId: core.playerId!,
+      publicRecord: false,
+      news: false,
       decision: {
         ...template.decision!,
         actorId: core.playerId!,
@@ -54,8 +57,20 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
     };
     core.durableLog.set(own.id, own);
     queueDecisionDetail(core, template.date, own.id);
+    const later = (days: number) => {
+      const day = new Date(`${core.date}T00:00:00Z`);
+      day.setUTCDate(day.getUTCDate() + days);
+      core.date = day.toISOString().slice(0, 10);
+    };
+    later(60);
     condenseCircleDecisions(core);
     expect(core.durableLog.get(own.id)!.decision!.scores).toEqual([]);
+    later(parameter("playerDecisionDetailDays") + 30);
+    condenseCircleDecisions(core);
+    const kept = core.durableLog.get(own.id)!.decision!;
+    expect(kept.scores).toBeUndefined();
+    expect(kept.reasonKey).toBeDefined();
+    expect(kept.actorId).toBe(core.playerId);
     expect(recent.some((row) => row.decision!.scores !== undefined)).toBe(true);
   }, 300_000);
 });

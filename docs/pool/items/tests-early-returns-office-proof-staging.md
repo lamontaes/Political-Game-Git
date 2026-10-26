@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/tests-early-returns-office-staging
+status: open
+claimed-by:
 pr: #5045
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T04:02:24.304Z
+claimed-at:
 ---
 
 **What.** `src/core2/office-proof.test.ts` plays ten days as a state legislator and as the governor, and returned at once when the single drawn place had no such seat (some territories have none), so it passed without playing a day. `src/bench/scene-staging.test.ts` returned when the two standing spots it picked sat at the same position, so it passed without checking which way two people turn. Both now draw until the case exists: the office test draws up to eight places until one seats a legislator and a governor and names every place it passed over, and the staging test only draws a painted place with two standing spots at different positions. The `src/director/civic-roles.test.ts` clerk test has the same early return, but that file belongs to the Words session, so it stays for them.
@@ -21,4 +21,8 @@ claimed-at: 2026-10-18T04:02:24.304Z
 
 **Files.** src/core2/office-proof.test.ts, src/bench/scene-staging.test.ts
 
-**Notes.** Left for the Words session: `src/director/civic-roles.test.ts` line 275 ("finds the same clerk from a filing's own record") returns when the drawn place's filing office is a state board; it should draw a further place with `worldWith` (`src/core2/tooling/world-with.ts`). The other bare returns the grep lists in `journal-state.test.ts` and `finance-plan.test.ts` sit inside a callback whose effect the test asserts afterward, so they are not skips.
+**Notes.** Sent back to open on 2026-10-20 (merger): merge-main conflict in src/core2/office-proof.test.ts. Left for the Words session: `src/director/civic-roles.test.ts` line 275 ("finds the same clerk from a filing's own record") returns when the drawn place's filing office is a state board; it should draw a further place with `worldWith` (`src/core2/tooling/world-with.ts`). The other bare returns the grep lists in `journal-state.test.ts` and `finance-plan.test.ts` sit inside a callback whose effect the test asserts afterward, so they are not skips.
+
+Sent back 2026-10-20 from PR #5045 (branch claude/tests-early-returns-office-staging): Merging current origin/main conflicts in src/core2/office-proof.test.ts. Resolve that test conflict on this branch, preserving current main assertions and this PRs bounded positive-case draws for both offices, then rerun both changed test files on the merged result. The staging improvement itself must retain its unconditional left/right assertions.; finish on that branch, merge main into it first.
+
+The remaining #5045 diff repairs only scene-staging.test.ts. The office-proof bounded search is already on main, but the latest builder receipt did not obtain a clean office-proof run. This partial staging merge does not complete the original paired office-proof/staging acceptance; keep that acceptance open for its named played-world proof.

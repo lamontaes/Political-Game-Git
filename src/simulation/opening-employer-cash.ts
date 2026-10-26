@@ -12,10 +12,7 @@ import {
 } from "./resource-queries";
 import { createResourcePosition, makeCurrencyCode, money } from "./resources";
 import { daysBetween, isoDateFromParts, yearOf } from "../core2/kernel/dates";
-import {
-  TOWN_WORKPLACES,
-  townWorkplaceFor,
-} from "./living-world/town-employment";
+import { TOWN_WORKPLACES, townWorkplaceFor } from "../core2/town-workplaces";
 import { townBusinessKindBooks } from "./living-world/town-business-books";
 import { ensureTownOpeningBusinessBooks } from "./living-world/town-finances";
 import { writeWithWorldIntegrityOnce } from "./world";

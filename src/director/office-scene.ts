@@ -1,6 +1,5 @@
 /**
- * The office scene (owner, Oct 14, 2026: scenes carry the consequential
- * dialogue): a floor vote where the goal is one member's vote. When the
+ * The office scene: a floor vote where the goal is one member's vote. When the
  * controlled person sits on the body taking up a bill, the scene finds the
  * one colleague whose recorded position is nearest the controlled person's
  * side while still against it, and offers what the player can do about it:
@@ -15,14 +14,12 @@
  * Saying nothing records nothing. No roll and no fixed share decides
  * anything here.
  *
- * Every line is a mined sentence (data/english/parts) with record facts in
- * its slots, chosen by part key in `data/office-scene.json`; a moment with no
- * mined sentence is left unsaid.
+ * Every line is a mined sentence with record facts in its slots, named by
+ * part key in `data/office-scene.json` and given by the English engine
+ * (`src/english/mined-part-words.ts`); a moment with no mined sentence is
+ * left unsaid.
  */
 import type { EnglishSurface } from "../english/grounded-english";
-import addressJson from "../../data/english/parts/address.json" with { type: "json" };
-import choiceNamesJson from "../../data/english/parts/choice-names.json" with { type: "json" };
-import sceneWordsJson from "../../data/english/parts/scene-words.json" with { type: "json" };
 import speechParameters from "../core2/data/speech/parameters.json" with { type: "json" };
 import { closenessBetween } from "../core2/closeness";
 import {
@@ -40,11 +37,14 @@ import { VIEWS_SPEAKER_KEY } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
-import { heldByGrades } from "../english/english-grades";
+import {
+  wordMinedParts,
+  type Fact,
+  type RenderedLine,
+} from "../english/mined-part-words";
 import { questionAbout } from "../english/question-names";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
-import { renderLine, type Fact, type RenderedLine } from "./render";
 import { spoken } from "./words";
 
 type Side = "yes" | "no";
@@ -62,7 +62,7 @@ interface ChoiceRow {
 export interface OfficeSceneRows {
   version: string;
   goal: { kind: string };
-  narration: { setting: PartRef; present: PartRef; lead: PartRef };
+  narration: { setting: PartRef; lead: PartRef };
   choices: readonly ChoiceRow[];
   reply: {
     bank: string;
@@ -71,44 +71,6 @@ export interface OfficeSceneRows {
   parameters: Readonly<Record<string, { value: number; tag: string }>>;
 }
 export const OFFICE_SCENE_ROWS = rowsJson as unknown as OfficeSceneRows;
-
-interface MinedPart {
-  key: string;
-  text: string;
-  shippable: boolean;
-}
-const BANKS: Readonly<Record<string, ReadonlyMap<string, MinedPart>>> = {
-  address: partsOf(addressJson),
-  "choice-names": partsOf(choiceNamesJson),
-  "scene-words": partsOf(sceneWordsJson),
-};
-function partsOf(bank: unknown): ReadonlyMap<string, MinedPart> {
-  return new Map(
-    (bank as { parts: MinedPart[] }).parts.map((part) => [part.key, part]),
-  );
-}
-
-/** The mined parts a row names, as renderer variants (bank slots as `{{slot}}`). */
-function variantsFor(
-  ref: PartRef | undefined,
-  keys: readonly string[] | undefined,
-) {
-  if (!ref || !keys) return [];
-  const bank = BANKS[ref.bank];
-  return keys.flatMap((key) => {
-    const part = bank?.get(key);
-    if (!part?.shippable || heldByGrades(key)) return [];
-    return [
-      {
-        key,
-        text: part.text.replace(
-          /\{(\w+)\}/g,
-          (_all, slot: string) => `{{${slot.replace(/_/g, "-")}}}`,
-        ),
-      },
-    ];
-  });
-}
 
 const parameter = (rows: OfficeSceneRows, key: string): number => {
   const row = rows.parameters[key];
@@ -184,7 +146,7 @@ function officialsCoverBody(
       : body.kind.startsWith("us-house")
         ? "US:us-house"
         : `${body.jurisdiction}:${body.kind}`;
-  return officialsIn(api, key).length > 0;
+  return Boolean(officialsIn(api, key).length);
 }
 
 /**
@@ -286,52 +248,48 @@ export function composeOfficeScene(
   if (named.length === questions.length && named.length === P.one)
     facts.issue = { text: named[P.zero]!, sourceRecordIds: [bill.id] };
 
+  // The rows name the parts each line may use; the English engine words it.
   const say = (
     surface: EnglishSurface,
     holderId: string,
     bankKey: string,
-    variants: { key: string; text: string }[],
+    ref: PartRef,
+    keys: readonly string[] | undefined,
     lineFacts: Record<string, Fact>,
     moment: string,
   ) =>
-    renderLine({
+    wordMinedParts({
       seed: core.seed,
       surface,
       holderId,
       bankKey,
       version: rows.version,
-      variants,
+      bank: ref.bank,
+      keys,
       facts: lineFacts,
       momentKey: `office-scene:${bill.id}:${playerId}:${moment}`,
       fallbackSourceId: bill.id,
     });
 
-  // Where you are and who is there. The chamber itself has no mined
-  // sentence yet; the town's does.
+  // Where you are and the consequential lead. The chamber itself has no
+  // mined sentence yet; the town's does.
   const narration: RenderedLine[] = [];
   const setting = say(
     "scene",
     playerId,
     "office-scene:setting",
-    variantsFor(rows.narration.setting, rows.narration.setting.keys),
+    rows.narration.setting,
+    rows.narration.setting.keys,
     facts.place ? { place: facts.place } : {},
     "setting",
   );
   if (setting) narration.push(setting);
-  const present = say(
-    "scene",
-    playerId,
-    "office-scene:present",
-    variantsFor(rows.narration.present, rows.narration.present.keys),
-    { who: facts.name! },
-    "present",
-  );
-  if (present) narration.push(present);
   const lead = say(
     "scene",
     playerId,
     "office-scene:lead",
-    variantsFor(rows.narration.lead, rows.narration.lead.keys),
+    rows.narration.lead,
+    rows.narration.lead.keys,
     facts.issue
       ? { name: facts.name!, issue: facts.issue }
       : { name: facts.name! },
@@ -348,7 +306,8 @@ export function composeOfficeScene(
       "menu",
       playerId,
       `office-scene:choice:${row.key}`,
-      variantsFor(row.label, row.label.keys),
+      row.label,
+      row.label.keys,
       { name: facts.name! },
       `choice:${row.key}`,
     );
@@ -358,7 +317,8 @@ export function composeOfficeScene(
           "dialogue",
           playerId,
           `office-scene:line:${row.key}`,
-          variantsFor(row.line, row.line.keysBySide?.[side]),
+          row.line,
+          row.line.keysBySide?.[side],
           facts.issue ? { issue: facts.issue } : {},
           `line:${row.key}`,
         )
@@ -463,19 +423,18 @@ export function chooseOfficeScene(
   const reply =
     row.records === "nothing"
       ? null
-      : renderLine({
+      : wordMinedParts({
           seed: core.seed,
           surface: "dialogue",
           holderId: scene.targetId,
           bankKey: `office-scene:reply:${lean}`,
           version: rows.version,
-          variants: variantsFor(
-            { bank: rows.reply.bank },
-            rows.reply.keysByLean[lean],
-          ),
+          bank: rows.reply.bank,
+          keys: rows.reply.keysByLean[lean],
           facts: {},
           momentKey: `office-scene:${scene.billId}:${scene.targetId}:reply:${choiceKey}`,
           fallbackSourceId: eventIds[P.zero] ?? scene.billId,
+          voiceTraits: core.people.get(scene.targetId)?.traits ?? {},
         });
   return {
     choiceKey,

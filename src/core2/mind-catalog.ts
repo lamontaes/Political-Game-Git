@@ -1,11 +1,11 @@
 import { createStableId } from "./kernel/ids";
+import type { EntityId } from "./kernel/brands";
 import type {
-  EntityId,
   MindCatalog,
   PersonalValueDefinition,
   PersonalityExpressionDefinition,
   PersonalityTendencyDefinition,
-} from "../simulation/types";
+} from "./mind-types";
 
 export interface MindCatalogInput {
   readonly catalogVersion: "mind-catalog-v1";
