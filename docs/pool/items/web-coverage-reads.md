@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/web-coverage-reads
 pr: #5661
 blocked-on:
