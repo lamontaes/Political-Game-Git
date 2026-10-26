@@ -24,7 +24,7 @@ import {
 import type { SpeechBuild } from "../director/speech-builder";
 import { storyReply, storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
-import { electionResults, resultsScene } from "./results";
+import { electionResults, governorRacesTonight, resultsScene } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
   deskDecide,
@@ -826,6 +826,10 @@ export async function benchRequest(
           200,
           electionResults(requireCore(), url.searchParams.get("id") ?? ""),
         );
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/results/nation") {
+        send(200, governorRacesTonight(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/results/scene") {

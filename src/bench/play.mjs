@@ -2864,7 +2864,10 @@ const sheets = {
     );
   },
   async results() {
-    const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
+    const [races, nation] = await Promise.all([
+      api(`/api/results?id=${encodeURIComponent(me.id)}`),
+      api("/api/results/nation"),
+    ]);
     await controlsReady;
     const labels = controls.results;
     seenResults = races.length;
@@ -2872,7 +2875,23 @@ const sheets = {
     // The newest night in full, your own race first; earlier nights' races after.
     const night = races.filter((race) => race.date === races[0]?.date);
     const earlier = races.slice(night.length, night.length + 8);
-    return [...night, ...earlier].map((race) =>
+    // After your own night's races, every other state's governor race that
+    // night, from the world's race records: who won and by how much.
+    const nationRows = [
+      el("h3", { textContent: labels.nation }),
+      ...(nation.length
+        ? nation.map((race) => {
+            const line = row(
+              race.state,
+              `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints.toFixed(1)} ${labels.points}`,
+            );
+            line.classList.add("nation-race");
+            line.dataset.race = race.id;
+            return line;
+          })
+        : [el("p", { className: "label", textContent: labels.noNation })]),
+    ];
+    const rows = [...night, ...earlier].map((race) =>
       el(
         "div",
         { className: `row race${race.mine ? " own" : ""}` },
@@ -2928,6 +2947,11 @@ const sheets = {
           : "",
       ),
     );
+    return [
+      ...rows.slice(0, night.length),
+      ...nationRows,
+      ...rows.slice(night.length),
+    ];
   },
   async map() {
     const m = await api("/api/map");
