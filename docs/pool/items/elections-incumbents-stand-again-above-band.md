@@ -6,9 +6,9 @@ lead: traits
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/incumbents-stand-again-band
-pr:
+pr: #6167
 blocked-on:
 source: laws lead, Oct 26
 claimed-at: 2026-10-26T17:41:32.870Z
