@@ -282,7 +282,12 @@ export function monthlyChange(
   scale: number,
   persons: number,
   /** What the outcome web carries into this household's use: trips taken, the share subscribing (each against its own base) and the share of deposit containers returned. */
-  web: { trips?: number; subscribe?: number; redemption?: number } = {},
+  web: {
+    trips?: number;
+    subscribe?: number;
+    redemption?: number;
+    miles?: number;
+  } = {},
 ): { payMinor: number; refundMinor: number } {
   const g = goods.goods;
   switch (rule.kind) {
@@ -307,8 +312,11 @@ export function monthlyChange(
     }
     case "per-unit": {
       if (rule.good === "vehicle-miles") {
+        // The miles the household drives are the average household's, scaled
+        // by its pay and by the web's factor on miles driven per resident
+        // (the fee against the fuel tax it replaces moves the cost of a mile).
         const v = g["vehicle-miles"],
-          miles = (v.milesPerHouseholdYear * scale) / MONTHS;
+          miles = (v.milesPerHouseholdYear * scale * (web.miles ?? 1)) / MONTHS;
         return {
           payMinor: miles * rule.value,
           refundMinor: rule.replacesFuelTax
@@ -395,7 +403,11 @@ interface Seller {
  * been serving): where a legal sale of a licensed good goes. Sorted so the
  * remainder of a rounded split always lands on the same seller.
  */
-function licensedSellers(c: CoreState, placeId: string): readonly Seller[] {
+/** The town's licensed sellers for a legal sale: its open retail businesses, weighted by their demand. */
+export function licensedSellers(
+  c: CoreState,
+  placeId: string,
+): readonly Seller[] {
   const sellers: Seller[] = [];
   for (const [id, book] of c.finance.businesses) {
     const org = c.organizations.get(id);
@@ -883,7 +895,13 @@ function webUse(
   api: CoreAPI,
   rule: Rule,
   subject: Subject,
-): { rule: Rule; trips: number; subscribe: number; redemption?: number } {
+): {
+  rule: Rule;
+  trips: number;
+  subscribe: number;
+  redemption?: number;
+  miles?: number;
+} {
   const same = { rule, trips: 1, subscribe: 1 };
   if (rule.good === "electricity" && rule.kind === "share") {
     const reach = webReach(
@@ -929,6 +947,12 @@ function webUse(
     return {
       ...same,
       subscribe: webReach(api, rule.placeId, "broadband.home-access", subject)
+        .factor,
+    };
+  if (rule.good === "vehicle-miles" && rule.kind === "per-unit")
+    return {
+      ...same,
+      miles: webReach(api, rule.placeId, "traffic.vehicle-miles", subject)
         .factor,
     };
   return same;

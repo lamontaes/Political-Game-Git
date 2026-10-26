@@ -24,7 +24,7 @@ import {
 import type { SpeechBuild } from "../director/speech-builder";
 import { storyReply, storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
-import { electionResults, resultsScene } from "./results";
+import { electionResults, governorRacesTonight, resultsScene } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
   deskDecide,
@@ -828,6 +828,10 @@ export async function benchRequest(
         );
         return;
       }
+      if (request.method === "GET" && url.pathname === "/api/results/nation") {
+        send(200, governorRacesTonight(requireCore()));
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/results/scene") {
         send(
           200,
@@ -1078,6 +1082,7 @@ export async function benchRequest(
           legislators: stateLegislators(
             requireCore(),
             url.searchParams.get("state") ?? "",
+            url.searchParams.get("level") === "federal" ? "federal" : "state",
           ),
         });
         return;

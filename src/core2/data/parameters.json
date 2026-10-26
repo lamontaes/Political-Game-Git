@@ -847,6 +847,17 @@
       "citation": "From the closest weekly layer to the monthly 'sympathy group' of personal-network studies; to be sourced from pages fetched by research before it leaves TUNABLE."
     }
   },
+  "focusDailyContactDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "How long after the player last had contact with someone in focus (outside the player's family and household) that person keeps choosing daily; after it they choose at their tier's cadence until the two meet again. The contact date is read from the indexed tie. A scheduling cadence, like the tiers' own, not a behavior. Measured Oct 25 in Bedford, Wyoming (seed 9a4dd331ace7) with a prototype: the third year fell from 2.05 to 1.28 times the first.",
+    "spread": {
+      "low": 14,
+      "high": 90,
+      "unit": "days",
+      "citation": "From two weeks, about the gap between a weekly group's meetings missed twice, to a season; checked against the year-three speed band (speed:year)."
+    }
+  },
   "extendedKinVisitShare": {
     "value": 0.25,
     "tag": "TUNABLE",
@@ -4670,6 +4681,45 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "causeGivenWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly what a person has lately given to their causes (volunteer sessions, donations, groups joined, causes shared, each one act, fading at causeGivenDays) weighs against a further act of the same kind (a reason in the chooser). Without it the cause acts scored the same pull each day, so in Bedford, Wyoming (seed 9a4dd331ace7) the third year's 63 volunteers gave a median of 158 sessions, about 340 hours, and 46 donors gave a median of 227 times. Set beside the Census Bureau's hours per formal volunteer (median 24 to 40 hours a year, CEV 2017 to 2023) in a played town's third year, as an exploratory proxy: the survey counts every formal volunteer through any organization, the game only cause volunteering.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures giving on the chooser's utility scale; the volunteer-hours measure is a broader proxy for the town's totals, not a band."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeGivenDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Days over which what a person gave to a cause fades by a factor of e in the weight against giving more (about two-thirds gone after a month).",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how the memory of one's own giving fades; the volunteer-hours measure is a broader proxy for the town's totals, not a band."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeJoinedDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Days over which joining a cause group fades by a factor of e in the weight against joining another (causeGivenWeight): a membership is a standing commitment, remembered for about a year, not a month. Set beside the share of people who belong to any group or organization (CEV 2017 to 2023, 23.8 to 27.1 percent) and the groups each member holds in a played town's third year, as an exploratory proxy: the survey counts any group, the game only cause groups.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how long one membership weighs against the next; the membership share is a broader proxy for the town's totals, not a band."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
   "responseCarryOnFit": {
     "value": 1,
     "tag": "TUNABLE",
@@ -6130,6 +6180,17 @@
     "spread": {
       "status": "unmeasured",
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPressShadeAnswer": {
+    "value": 1.09,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the press.shade-answer decision. Heck, Thielmann, Moshagen and Hilbig (2018), Judgment and Decision Making 13(4):356-371: honesty-humility lowers the odds of lying for gain, odds ratio 0.53 per standard deviation (\"The results show a medium to large effect of HH (odds ratio = 0.53)\"; \"The odds ratio for a z-standardized predictor\"), as the proxy for shading an answer about one's own vote toward the town: target log odds 1.38 between the top and bottom thirds (2.18 standard deviations apart). The gap between the vote and where the town stands is the only circumstance and the target is set on the latent-logit scale, as for press.accept-interview: the target divided by the gap between the top and bottom third's mean lean toward shading over owning (1.27 to 1.28, scaled and clamped as the formula reads it) across the adults of 16 towns drawn from all 56 places (seeds shadefit1 and shadefit2). Town by town the fitted weight runs 1.03 to 1.13 (measured across the 16 towns, separate from the study's own uncertainty).",
+    "spread": {
+      "low": 0.877,
+      "high": 1.296,
+      "unit": "weight",
+      "citation": "The weight scales with the log odds ratio: the study's 95% Bayesian credibility interval for the odds ratio is 0.47 to 0.60 (Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2: 0.53, 2.5% 0.47, 97.5% 0.60)."
     }
   },
   "traitWeightPressTip": {

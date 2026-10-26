@@ -1411,6 +1411,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "press-story",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "press.exposed",
       "channel": "feeling",
       "impactParameter": "directorChargedImpact"
