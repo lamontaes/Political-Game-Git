@@ -847,6 +847,17 @@
       "citation": "From the closest weekly layer to the monthly 'sympathy group' of personal-network studies; to be sourced from pages fetched by research before it leaves TUNABLE."
     }
   },
+  "focusDailyContactDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "How long after the player last had contact with someone in focus (outside the player's family and household) that person keeps choosing daily; after it they choose at their tier's cadence until the two meet again. The contact date is read from the indexed tie. A scheduling cadence, like the tiers' own, not a behavior. Measured Oct 25 in Bedford, Wyoming (seed 9a4dd331ace7) with a prototype: the third year fell from 2.05 to 1.28 times the first.",
+    "spread": {
+      "low": 14,
+      "high": 90,
+      "unit": "days",
+      "citation": "From two weeks, about the gap between a weekly group's meetings missed twice, to a season; checked against the year-three speed band (speed:year)."
+    }
+  },
   "extendedKinVisitShare": {
     "value": 0.25,
     "tag": "TUNABLE",
