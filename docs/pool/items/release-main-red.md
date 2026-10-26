@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: fix/main-red-2026-10-26-press-counted
 pr: #6165
 blocked-on:
@@ -30,3 +30,5 @@ Merger 2, October 26: Declaration incident completed separately by Merger 2 in #
 Merger 2, October 26 14:47 UTC: Reopened for new Release failure40340740222, source73a69bbb899dab6e208ae114365200fdac6db541, candidatef1c5c15db95aaef6188f8c22a81f4e8ff1a77e7b, job121635536031. Typecheck fails press.ts2108 TS2552: countedResidents is not defined; concurrent main optimized the import to countedResidentsOf while #5966 added the townStand call using the old symbol. Claiming fix/main-red-2026-10-26-press-counted to use the existing town-scoped query, retain weighted adults/fill-in behavior, reproduce the exact compile failure and run the scoped local gate. Prior incidents/spec/history remain below; this incident will use a bounded completion item and a PR another merger must merge.
 
 Merger 2, October 26 15:36 UTC: Ready bounded repair PR #6165 at93bf50847d1b55247f34d6f5588e7f82e72ddc61/tree7cd634e2deaab2293856974a71da10b3bf443d53. Actual fix restores countedResidents beside countedResidentsOf: the projected query lacks the household/trait fields required by countedLean, so both existing queries are retained. Clean-main typecheck fails TS2552 (exit2,606.86s); own repaired full build PASS1575.08s, focused fresh Guam test PASS331.43s, other scoped gates PASS and pool4416-byte exact baseline. This author cannot merge #6165; another merger validates/merges it. Only release-press-counted-town-query is its line-1 completion target; this shared incident remains separately tracked until repaired main is confirmed.
+
+Merger 2, October 26 15:55 UTC: This owned compile incident is repaired by another merger in PR #6165, checked head3c766036def7ec9a9dfa8077b2f8abf4bf682de2, main merge49bfe2f8b713eab81baf24b0a0f793eb86d8b3ce at15:47:26. Merger 2 authored the repair and did not merge it. The bounded item is already DONE on maincdf1d4c318; author local build/typecheck and focused Guam regression passed, and the reviewing merger integrated main before its pinned merge. Closing this same owned shared incident via the official CLI, preserving all prior history. Latest Release40352786029 is in progress on49bfe2f8; no published-release success is claimed while it runs.
