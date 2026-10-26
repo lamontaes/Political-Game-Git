@@ -485,48 +485,6 @@
       "notes": "The abstract gives only the range across all antecedents (-.15 to .46), not trait-specific values; the full text was not retrievable (host failed TLS verification through the proxy and a second fetch returned 503), so no trait-level number is given."
     },
     {
-      "id": "jobs.raise-for-opening",
-      "trait": "agreeableness (FFM)",
-      "outcome": "how much a proposer offers a responder in the Ultimatum Game (meta-analysis, 16 independent samples); proxy for an employer's offer to attract a worker",
-      "effect": {
-        "kind": "correlation",
-        "value": 0.08,
-        "low": null,
-        "high": null
-      },
-      "source": {
-        "authors": "Thielmann, I., Spadaro, G., & Balliet, D.",
-        "year": 2020,
-        "title": "Personality and prosocial behavior: A theoretical framework and meta-analysis",
-        "venue": "Psychological Bulletin 146(1), 30-90",
-        "url": "https://zenodo.org/record/3731374"
-      },
-      "quote": "Table 8 \"Between Traits and Prosocial Behavior Within Each Game, Including the Number of Independent Samples (k; in Parentheses)\", columns DG, UG proposer, UG responder, TG trustor, TG trustee, SDG; row \"FFM agreeableness\": \".16ⴱ (51) .08ⴱ⫺ (16) .07ⴱ⫺ (18) .09ⴱ⫺ (28) .13ⴱ (28) .07ⴱ⫺ (47)\", so UG proposer = \".08ⴱ⫺ (16)\".",
-      "quoteVerified": true,
-      "notes": "Meta-analytic correlation between the trait and the share a proposer offers to a responder who can reject (k = 16 samples; significance marks only, so low/high are null). The Ultimatum Game is the nearest published bargaining analogue to an owner choosing how far to raise an offer to fill a seat: the proposer decides how much to give up knowing the other side can walk away. It is a one-shot lab game with strangers and students, the outcome is the size of the offer (not a two-way choice), so trait-calibrate.ts cannot fit it as a probability; use it only to size the pull on how much is added. No study of an employer's own personality and the wage they offer was found. HEXACO agreeableness for the UG proposer is .06 (k = 14). Dictator Game giving (no rejection threat) is stronger: FFM agreeableness .16 (k = 51), honesty-humility .26 (k = 43)."
-    },
-    {
-      "id": "jobs.raise-for-opening",
-      "trait": "honesty-humility (HEXACO)",
-      "outcome": "how much a proposer offers a responder in the Ultimatum Game (meta-analysis, 16 independent samples); proxy for an employer's offer to attract a worker",
-      "effect": {
-        "kind": "correlation",
-        "value": 0.09,
-        "low": null,
-        "high": null
-      },
-      "source": {
-        "authors": "Thielmann, I., Spadaro, G., & Balliet, D.",
-        "year": 2020,
-        "title": "Personality and prosocial behavior: A theoretical framework and meta-analysis",
-        "venue": "Psychological Bulletin 146(1), 30-90",
-        "url": "https://zenodo.org/record/3731374"
-      },
-      "quote": "Table 8 \"Between Traits and Prosocial Behavior Within Each Game, Including the Number of Independent Samples (k; in Parentheses)\", columns DG, UG proposer, UG responder, TG trustor, TG trustee, SDG; row \"Honesty-humility\": \".26ⴱ (43) .09ⴱ⫺ (16) .02⫺ (15) .11ⴱ⫺ (12) .22ⴱ (7) .18ⴱ⫺ (27)\", so UG proposer = \".09ⴱ⫺ (16)\".",
-      "quoteVerified": true,
-      "notes": "Meta-analytic correlation between the trait and the share a proposer offers to a responder who can reject (k = 16 samples; significance marks only, so low/high are null). The Ultimatum Game is the nearest published bargaining analogue to an owner choosing how far to raise an offer to fill a seat: the proposer decides how much to give up knowing the other side can walk away. It is a one-shot lab game with strangers and students, the outcome is the size of the offer (not a two-way choice), so trait-calibrate.ts cannot fit it as a probability; use it only to size the pull on how much is added. No study of an employer's own personality and the wage they offer was found. Conscientiousness for the UG proposer is .02 (k = 25), i.e. no pull. Dictator Game giving (no rejection threat) is stronger: FFM agreeableness .16 (k = 51), honesty-humility .26 (k = 43)."
-    },
-    {
       "id": "business.found",
       "trait": "Big Five (conscientiousness and openness higher; neuroticism and agreeableness lower)",
       "outcome": "being an entrepreneur versus a manager",
@@ -982,69 +940,6 @@
       "notes": "Mesmer-Magnus & Viswesvaran (2005, Journal of Business Ethics 62(3), 277-297) is the relevant meta-analysis but the retrieved file was a different paper and the abstract could not be retrieved, so no number or quote is given."
     },
     {
-      "id": "retirement.claim-age",
-      "trait": "openness to experience",
-      "outcome": "intended Social Security claiming age in years (US adults 40 to 61 who imagined being 60; MTurk; N about 3,420)",
-      "effect": {
-        "kind": "standardized-beta",
-        "value": 0.0779,
-        "low": 0.045,
-        "high": 0.1108
-      },
-      "source": {
-        "authors": "Greenberg, A. E., Hershfield, H. E., Shu, S. B., & Spiller, S. A.",
-        "year": 2018,
-        "title": "What Motivates Social Security Claiming Age Intentions? Testing Behaviorally-Informed Interventions Alongside Individual Differences",
-        "venue": "Working paper presented at the 20th Annual Joint Meeting of the Retirement Research Consortium, August 2-3, 2018 (published later in Journal of Marketing Research 2023)",
-        "url": "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/Greenberg-Shu-Spiller_SSClaimingNBER_2018.pdf"
-      },
-      "quote": "Table 2, row \"Big 5 – Openness to Experience\": \"0.218***\" with SE \"0.047\". Table 2 note: \"Each variable was standardized prior to inclusion in the model, such that the coefficient represents the expected change in claiming age (in years) given a one standard deviation increase in the individual difference.\" Results: \"participants intended to claim later (median = 68; mean = 67.1; sd = 2.8) than the current distribution of true claiming ages would suggest.\" Text: \"Agreeableness, Openness to Experience, and Emotional Stability are each related to delayed claiming intentions. Neither conscientiousness nor extraversion are related to claiming intentions.\"",
-      "quoteVerified": true,
-      "notes": "The paper prints the change in intended claiming age in YEARS per 1 SD of the trait: 0.218 years (SE 0.047). The helper divided by the SD of intended claiming age printed in the paper (2.8 years) to get a standardized beta (0.078); the raw size is the number the game's claimTraitPullYears can use directly (about 2.6 months of delay per SD of the trait). Limits: intentions stated by online panelists aged 40 to 61 who imagined being 60, not actual claims; Ten-Item Personality Inventory; the version fetched is an August 2018 working paper whose authors call the results preliminary (data collection continuing, N = 3,420 here); each trait was entered in a separate model with gender, age, income and the 13 treatment indicators as controls. Same table, other traits: agreeableness 0.211*** (SE .049), openness 0.218*** (SE .047), stability 0.105** (SE .048), conscientiousness 0.022 (SE .048), extraversion 0.008 (SE .048). Largest individual difference of any kind: discount factor (patience) 0.370*** years per SD, life expectation 0.300***, perceived ownership of benefits -0.424***. Direction: higher openness, agreeableness and emotional stability go with LATER claiming (waiting), the opposite of the existing note that agreeableness and neuroticism claim earlier. Largest Big Five coefficient."
-    },
-    {
-      "id": "retirement.claim-age",
-      "trait": "agreeableness",
-      "outcome": "intended Social Security claiming age in years (US adults 40 to 61 who imagined being 60; MTurk; N about 3,420)",
-      "effect": {
-        "kind": "standardized-beta",
-        "value": 0.0754,
-        "low": 0.0411,
-        "high": 0.1097
-      },
-      "source": {
-        "authors": "Greenberg, A. E., Hershfield, H. E., Shu, S. B., & Spiller, S. A.",
-        "year": 2018,
-        "title": "What Motivates Social Security Claiming Age Intentions? Testing Behaviorally-Informed Interventions Alongside Individual Differences",
-        "venue": "Working paper presented at the 20th Annual Joint Meeting of the Retirement Research Consortium, August 2-3, 2018 (published later in Journal of Marketing Research 2023)",
-        "url": "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/Greenberg-Shu-Spiller_SSClaimingNBER_2018.pdf"
-      },
-      "quote": "Table 2, row \"Big 5 - Agreeableness\": \"0.211***\" with SE \"0.049\". Table 2 note: \"Each variable was standardized prior to inclusion in the model, such that the coefficient represents the expected change in claiming age (in years) given a one standard deviation increase in the individual difference.\" Results: \"participants intended to claim later (median = 68; mean = 67.1; sd = 2.8) than the current distribution of true claiming ages would suggest.\" Text: \"Agreeableness, Openness to Experience, and Emotional Stability are each related to delayed claiming intentions. Neither conscientiousness nor extraversion are related to claiming intentions.\"",
-      "quoteVerified": true,
-      "notes": "The paper prints the change in intended claiming age in YEARS per 1 SD of the trait: 0.211 years (SE 0.049). The helper divided by the SD of intended claiming age printed in the paper (2.8 years) to get a standardized beta (0.075); the raw size is the number the game's claimTraitPullYears can use directly (about 2.5 months of delay per SD of the trait). Limits: intentions stated by online panelists aged 40 to 61 who imagined being 60, not actual claims; Ten-Item Personality Inventory; the version fetched is an August 2018 working paper whose authors call the results preliminary (data collection continuing, N = 3,420 here); each trait was entered in a separate model with gender, age, income and the 13 treatment indicators as controls. Same table, other traits: agreeableness 0.211*** (SE .049), openness 0.218*** (SE .047), stability 0.105** (SE .048), conscientiousness 0.022 (SE .048), extraversion 0.008 (SE .048). Largest individual difference of any kind: discount factor (patience) 0.370*** years per SD, life expectation 0.300***, perceived ownership of benefits -0.424***. Direction: higher openness, agreeableness and emotional stability go with LATER claiming (waiting), the opposite of the existing note that agreeableness and neuroticism claim earlier. "
-    },
-    {
-      "id": "retirement.claim-age",
-      "trait": "emotional stability",
-      "outcome": "intended Social Security claiming age in years (US adults 40 to 61 who imagined being 60; MTurk; N about 3,420)",
-      "effect": {
-        "kind": "standardized-beta",
-        "value": 0.0375,
-        "low": 0.0039,
-        "high": 0.0711
-      },
-      "source": {
-        "authors": "Greenberg, A. E., Hershfield, H. E., Shu, S. B., & Spiller, S. A.",
-        "year": 2018,
-        "title": "What Motivates Social Security Claiming Age Intentions? Testing Behaviorally-Informed Interventions Alongside Individual Differences",
-        "venue": "Working paper presented at the 20th Annual Joint Meeting of the Retirement Research Consortium, August 2-3, 2018 (published later in Journal of Marketing Research 2023)",
-        "url": "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/Greenberg-Shu-Spiller_SSClaimingNBER_2018.pdf"
-      },
-      "quote": "Table 2, row \"Big 5 - Stability\": \"0.105**\" with SE \"0.048\". Table 2 note: \"Each variable was standardized prior to inclusion in the model, such that the coefficient represents the expected change in claiming age (in years) given a one standard deviation increase in the individual difference.\" Results: \"participants intended to claim later (median = 68; mean = 67.1; sd = 2.8) than the current distribution of true claiming ages would suggest.\" Text: \"Agreeableness, Openness to Experience, and Emotional Stability are each related to delayed claiming intentions. Neither conscientiousness nor extraversion are related to claiming intentions.\"",
-      "quoteVerified": true,
-      "notes": "The paper prints the change in intended claiming age in YEARS per 1 SD of the trait: 0.105 years (SE 0.048). The helper divided by the SD of intended claiming age printed in the paper (2.8 years) to get a standardized beta (0.037); the raw size is the number the game's claimTraitPullYears can use directly (about 1.3 months of delay per SD of the trait). Limits: intentions stated by online panelists aged 40 to 61 who imagined being 60, not actual claims; Ten-Item Personality Inventory; the version fetched is an August 2018 working paper whose authors call the results preliminary (data collection continuing, N = 3,420 here); each trait was entered in a separate model with gender, age, income and the 13 treatment indicators as controls. Same table, other traits: agreeableness 0.211*** (SE .049), openness 0.218*** (SE .047), stability 0.105** (SE .048), conscientiousness 0.022 (SE .048), extraversion 0.008 (SE .048). Largest individual difference of any kind: discount factor (patience) 0.370*** years per SD, life expectation 0.300***, perceived ownership of benefits -0.424***. Direction: higher openness, agreeableness and emotional stability go with LATER claiming (waiting), the opposite of the existing note that agreeableness and neuroticism claim earlier. Stability is the reverse of neuroticism, so neuroticism pulls toward claiming earlier."
-    },
-    {
       "id": "life.daily-act",
       "trait": "extraversion",
       "outcome": "time spent socializing",
@@ -1354,75 +1249,6 @@
       "notes": "Salgado (2002) meta-analysis found no Big Five trait predicted absenteeism; conscientiousness predicted deviant behaviors and turnover (validity about -.16 for conscientiousness and -.13 for agreeableness with counterproductive behavior per a secondary citation, unverified). Effect is null because no significant value exists; use a near-zero effect. Judge, Martocchio & Thoresen (1997) report extraversion and conscientiousness predicting absence in a small sample, but I could not retrieve the abstract."
     },
     {
-      "id": "credit.borrow",
-      "trait": "conscientiousness",
-      "outcome": "holding any unsecured debt (probability), single-adult households, BHPS UK 1995/2000/2005 (probit average marginal effect per SD)",
-      "effect": {
-        "kind": "pp-per-sd",
-        "value": -3.37,
-        "low": -6.03,
-        "high": -0.71
-      },
-      "baseRate": 0.4847,
-      "outcomeIsProbability": true,
-      "source": {
-        "authors": "Brown, S., & Taylor, K.",
-        "year": 2014,
-        "title": "Household finances and the 'Big Five' personality traits",
-        "venue": "Journal of Economic Psychology 45, 197-212",
-        "url": "https://eprints.whiterose.ac.uk/82777/3/WRRO_82777.pdf"
-      },
-      "quote": "Table 3, Panel C (SAMPLE=SINGLES, MEAN BIG5 OF HEAD), column HOLDING DEBT, row Conscientiousness: \"-0.0337 (2.48)\"; Extraversion \"0.0307 (2.35)\"; Openness to experience \"0.0335 (2.45)\". Table 3 notes: \"The resulting personality trait is based on the standardised residual from this process, i.e. zero mean and unit standard deviation.\" ... \"Marginal effects are reported throughout.\" Text: \"The probit analysis of the probability of holding debt across the different samples, irrespective of type of debt held, reveals that conscientiousness, that is being hard-working and achievement oriented, is inversely associated with holding unsecured debt which is consistent with the tobit analysis and the findings of Donnelly et al. (2012), whilst the other four personality traits are positively associated with debt holding where statistically significant.\" Table 1A, singles, Holding debt mean: \"0.4847\".",
-      "quoteVerified": true,
-      "notes": "Accepted-manuscript PDF on White Rose Research Online (CC-BY-NC-ND). Marginal effects are on the probability of holding any unsecured debt (credit card, hire purchase, personal loan, private loan, other), per 1 SD of the age-residualized trait, so -0.0337 = -3.37 percentage points; value is entered in percentage points as the calibrator's pp-per-sd expects. low/high = value +/- 1.96 x SE with SE = |ME| / t (t = 2.48). baseRate 0.4847 is the singles-sample share holding debt (Table 1A; couples 0.5853). Other traits in the same column: extraversion +3.07 pp (t 2.35), openness +3.35 pp (t 2.45), agreeableness +1.68 pp (t 1.27, ns), neuroticism +1.21 pp (t 0.92, ns). Couples (mean Big Five of the couple, Panel A, base 0.5853): conscientiousness -3.27 pp, extraversion +3.49 pp, agreeableness +3.45 pp, openness +2.59 pp. Credit card debt specifically (Panel A couples): openness +4.11 pp (t 3.97); singles openness +2.72 pp (t 2.81), neuroticism +2.16 pp (t 2.34). This is the probability of holding debt in a household, a stock measure observed in three waves, used as the nearest published proxy for the chance of taking on credit; the paper stresses these are correlations, not causal. Replaces the level-of-debt finding (21.70 pp per SD of extraversion) in the existing null row, which is a change in the amount, not a chance."
-    },
-    {
-      "id": "credit.borrow",
-      "trait": "extraversion",
-      "outcome": "holding any unsecured debt (probability), single-adult households, BHPS UK (probit average marginal effect per SD)",
-      "effect": {
-        "kind": "pp-per-sd",
-        "value": 3.07,
-        "low": 0.51,
-        "high": 5.63
-      },
-      "baseRate": 0.4847,
-      "outcomeIsProbability": true,
-      "source": {
-        "authors": "Brown, S., & Taylor, K.",
-        "year": 2014,
-        "title": "Household finances and the 'Big Five' personality traits",
-        "venue": "Journal of Economic Psychology 45, 197-212",
-        "url": "https://eprints.whiterose.ac.uk/82777/3/WRRO_82777.pdf"
-      },
-      "quote": "Table 3, Panel C (SAMPLE=SINGLES, MEAN BIG5 OF HEAD), column HOLDING DEBT, row Extraversion: \"0.0307 (2.35)\". Notes: \"Each of the personality traits has been conditioned on a polynomial in age to net out life cycle influences. The resulting personality trait is based on the standardised residual from this process, i.e. zero mean and unit standard deviation.\" \"Marginal effects are reported throughout.\"",
-      "quoteVerified": true,
-      "notes": "Same table as the conscientiousness row: +3.07 percentage points on the probability of holding unsecured debt per SD of extraversion (t 2.35; SE = 0.0307/2.35). low/high = value +/- 1.96 x SE. baseRate 0.4847 is Table 1A's singles share holding debt. For overdraft-type 'other debt' singles extraversion is +2.44 pp (t 2.88)."
-    },
-    {
-      "id": "credit.borrow",
-      "trait": "openness to experience",
-      "outcome": "holding any unsecured debt (probability), single-adult households, BHPS UK (probit average marginal effect per SD)",
-      "effect": {
-        "kind": "pp-per-sd",
-        "value": 3.35,
-        "low": 0.67,
-        "high": 6.03
-      },
-      "baseRate": 0.4847,
-      "outcomeIsProbability": true,
-      "source": {
-        "authors": "Brown, S., & Taylor, K.",
-        "year": 2014,
-        "title": "Household finances and the 'Big Five' personality traits",
-        "venue": "Journal of Economic Psychology 45, 197-212",
-        "url": "https://eprints.whiterose.ac.uk/82777/3/WRRO_82777.pdf"
-      },
-      "quote": "Table 3, Panel C (SAMPLE=SINGLES, MEAN BIG5 OF HEAD), column HOLDING DEBT, row Openness to experience: \"0.0335 (2.45)\". Text: \"In both the samples of couples and single individuals, the personality trait which has the largest correlation with the probability of having credit card debt is openness to experience. For example, a one standard deviation increase in openness to experience is associated with a 4.1 percentage point higher probability of having credit card debt in the couples sample (Panel A).\"",
-      "quoteVerified": true,
-      "notes": "Same table: +3.35 pp on the probability of holding unsecured debt per SD of openness (t 2.45). low/high = value +/- 1.96 x SE. baseRate 0.4847 (singles, Table 1A). Credit-card debt specifically: couples +4.11 pp, singles +2.72 pp (t 2.81)."
-    },
-    {
       "id": "outcome.marriage-formation",
       "trait": "conscientiousness (men +, women +); openness (negative)",
       "outcome": "ever married by age 35 (German SOEP, probit average marginal effects)",
@@ -1629,27 +1455,155 @@
       "notes": "Jensen-Campbell & Graziano (2001, Journal of Personality 69(2), 323-362, doi 10.1111/1467-6494.00148) and Bono, Boles, Judge & Lauver (2002) were found, but their abstracts could not be retrieved (one repository returned 503, the other abstract was for an unrelated paper), so there is no verified quote or number. Search summaries say agreeableness was the Big Five trait most closely tied to conflict processes and outcomes."
     },
     {
-      "id": "press.shade-answer",
-      "option": "shade",
-      "trait": "honesty-humility (HEXACO)",
-      "outcome": "lying for gain in an incentivized one-shot cheating task (die roll or coin toss reported in private; reanalysis of 16 studies, N = 5,002); proxy for shading an interview answer about one's own vote toward the town",
+      "id": "constituent-cases.bring-case",
+      "trait": "openness to experience",
+      "outcome": "contacted a House member or senator in the past two years (citizen-side measure of bringing a problem to an official)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 1.06,
+        "low": 0.433,
+        "high": 1.687,
+        "traitSd": 0.22
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/mondak_et_al._2010.pdf"
+      },
+      "quote": "Table 2, row \"Contacted House member or senator in past two years (1,065)\", column Openness to Experience: \"1.06∗∗\", standard error \"(0.32)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
+      "quoteVerified": true,
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,065; controls age, female, black); traits are scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by Table 1's SD, 0.22. Proxy: the survey item asks about any contact with a member of Congress, not specifically a casework request, so it measures the willingness to approach an official with something. Same row, other traits: conscientiousness -0.84 (SE .29, p<.01; traitSd 0.25), extraversion 0.92 (SE .27; traitSd 0.26), agreeableness 0.39 (ns), emotional stability -0.84 (SE .33, p<.05; traitSd 0.22). The paper's own illustration: predicted probability of having contacted a member of Congress rises from 0.28 to 0.45 across openness and from 0.27 to 0.49 across extraversion (Appendix B full models)."
+    },
+    {
+      "id": "constituent-cases.bring-case",
+      "trait": "extraversion",
+      "outcome": "contacted a House member or senator in the past two years (citizen-side measure of bringing a problem to an official)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.92,
+        "low": 0.391,
+        "high": 1.449,
+        "traitSd": 0.26
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/mondak_et_al._2010.pdf"
+      },
+      "quote": "Table 2, row \"Contacted House member or senator in past two years (1,065)\", column Extraversion: \"0.92∗∗\", standard error \"(0.27)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
+      "quoteVerified": true,
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,065; controls age, female, black); traits are scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation multiply by 0.26 (Table 1). Same row as the openness entry; see its note for the other traits (conscientiousness is negative, -0.84)."
+    },
+    {
+      "id": "constituent-cases.bring-case",
+      "trait": "extraversion",
+      "outcome": "contacted a local official (CT Survey, 2008; sample mean 33.3 percent)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.627,
+        "low": 0.272,
+        "high": 0.982,
+        "traitSd": 0.29
+      },
+      "source": {
+        "authors": "Gerber, A. S., Huber, G. A., Doherty, D., Dowling, C. M., Raso, C., & Ha, S. E.",
+        "year": 2011,
+        "title": "Personality Traits and Participation in Political Processes (On-line Appendix, Tables A12a and A13)",
+        "venue": "Journal of Politics 73(3), 692-706 (on-line appendix)",
+        "url": "https://huber.research.yale.edu/materials/21_appendix.pdf"
+      },
+      "quote": "Table A12a, column (4) \"Contact Local Official\", row Extraversion (0-1): \"0.627\" with robust standard error \"[0.181]***\". Note: \"Logit coefficients with robust standard errors in brackets.\" Table A1, CT Survey, Extraversion (0-1): mean \"0.607\" and SD \"[.29]\". Table A12a \"Mean\" row, Contact Local Official: \"0.333\".",
+      "quoteVerified": true,
+      "notes": "Logit coefficient from Table A12a of the on-line appendix to Gerber et al. (2011, Journal of Politics 73(3):692-706; DOI 10.1017/S0022381611000399), CT Survey (2008 Connecticut telephone-recruited survey, N = 1,924; controls race, age, age squared, income, education); trait scaled 0 to 1, so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x robust SE. Per SD multiply by the CT-survey SD from Table A1. Contacting a local official is the nearest measured act to a resident bringing a problem to an official. Same column: agreeableness -0.662 [0.249]***, openness 0.477 [0.235]**, conscientiousness -0.024 [0.277], emotional stability 0.176 [0.229]. Table A12b marginal effects for a 2 SD increase: extraversion +27.0 percent, agreeableness -20.6 percent, openness +17.4 percent of the 25.6 percent baseline."
+    },
+    {
+      "id": "constituent-cases.bring-case",
+      "trait": "agreeableness",
+      "outcome": "contacted a local official (CT Survey, 2008; sample mean 33.3 percent)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": -0.662,
+        "low": -1.15,
+        "high": -0.174,
+        "traitSd": 0.2088
+      },
+      "source": {
+        "authors": "Gerber, A. S., Huber, G. A., Doherty, D., Dowling, C. M., Raso, C., & Ha, S. E.",
+        "year": 2011,
+        "title": "Personality Traits and Participation in Political Processes (On-line Appendix, Tables A12a and A13)",
+        "venue": "Journal of Politics 73(3), 692-706 (on-line appendix)",
+        "url": "https://huber.research.yale.edu/materials/21_appendix.pdf"
+      },
+      "quote": "Table A12a, column (4) \"Contact Local Official\", row Agreeableness (0-1): \"-0.662\" with robust standard error \"[0.249]***\". Table A1, CT Survey, Agreeableness (0-1): mean \"0.791\" and SD \"[.2088]\". Text: \"An increase in Agreeableness is also associated with a decreased probability of contacting a local official (-20.6%). We interpret this as evidence that Agreeable individuals are disinclined to complain to elected officials\"",
+      "quoteVerified": true,
+      "notes": "Logit coefficient from Table A12a of the on-line appendix to Gerber et al. (2011, Journal of Politics 73(3):692-706; DOI 10.1017/S0022381611000399), CT Survey (2008 Connecticut telephone-recruited survey, N = 1,924; controls race, age, age squared, income, education); trait scaled 0 to 1, so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x robust SE. Per SD multiply by the CT-survey SD from Table A1. Negative sign: more agreeable residents are less likely to contact a local official, which the authors read as reluctance to complain to elected officials; this matches the bring-case lean, which pushes confrontation and speaking out toward low agreeableness."
+    },
+    {
+      "id": "staff.hire",
+      "trait": "extraversion",
+      "outcome": "running a business with at least one employee rather than alone (entrepreneurs, SOEP 2019, N = 2,473; logit of being solo, sign reversed)",
       "effect": {
         "kind": "odds-ratio-per-sd",
-        "value": 0.53,
-        "low": 0.47,
-        "high": 0.6
+        "value": 1.162,
+        "low": 1.042,
+        "high": 1.296
       },
-      "baseRate": 0.261,
       "source": {
-        "authors": "Heck, D. W., Thielmann, I., Moshagen, M., & Hilbig, B. E.",
-        "year": 2018,
-        "title": "Who lies? A large-scale reanalysis linking basic personality traits to unethical decision making",
-        "venue": "Judgment and Decision Making 13(4), 356-371",
-        "url": "https://dlab.sauder.ubc.ca/sjdm/journal/18/18322/jdm18322.html"
+        "authors": "Kardaslar, B., Kritikos, A. S., & Menkhoff, L.",
+        "year": 2026,
+        "title": "Personality Traits of Entrepreneurs and the Size of Their Firms",
+        "venue": "DIW Discussion Paper 2173 (DIW Berlin)",
+        "url": "https://www.diw.de/documents/publikationen/73/diw_01.c.1015593.de/dp2173.pdf"
       },
-      "quote": "Abstract: \"The results show a medium to large effect of HH (odds ratio = 0.53)\". Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2, honesty-humility: \"0.53\", 2.5% \"0.47\", 97.5% \"0.60\". Section 3: \"The odds ratio for a z-standardized predictor quantifies how strongly the odds in favor of dishonesty change\". \"Across studies, the overall probability d was estimated to be 26.1%, with a 95% Bayesian credibility interval (BCI) of [19.2%; 34.4%].\" Big Five Agreeableness: \"OR = 0.75\", with no incremental validity beyond HH.",
+      "quote": "Table 6, column (1) \"Solo\", row Extraversion: \"-0.134∗∗∗\" with p-value \"(0.007)\". Table 6 note: \"In column (1), a logit regression is conducted with the dependent variable being 1 if the entrepreneur is solo and 0 if she has at least one employee.\" Text: \"Solo-entrepreneurs are also more open to new experiences than entrepreneurs who hire employees.\" Traits: \"Participants rate the extent to which each characteristic applies to them by assigning a score between 1 and 7 for fifteen items - three items for each trait.\" SD of the same SOEP 1-7 scales, from a second fetched paper (Fritsch & Rusakova 2010, SOEPpaper 343, Table A2, SOEP 2005): extraversion \"1.122\" (SD column of Table A2).",
       "quoteVerified": true,
-      "notes": "Odds ratio per standard deviation of honesty-humility for being a liar (lower honesty, more lying); the calibration reads its size and the lean's direction. The base rate is the share prepared to lie when it pays, used for shadeBase at the largest gap between vote and town a town's stand allows."
+      "notes": "DERIVED by the research helper from two fetched papers. (1) Kardaslar et al. print logit coefficients per point of the raw 1-7 trait score (not standardized) for being a SOLO entrepreneur versus one with at least one employee; the sign is reversed here so that a positive log-odds means hiring. (2) The paper prints no trait SD, so the SD of the same SOEP three-item scales in points was taken from Fritsch & Rusakova (2010) Table A2 (SOEP 2005 adults: conscientiousness 0.864, extraversion 1.122, agreeableness 0.961, openness 1.161, neuroticism 1.204); the 2019 entrepreneur sample's SD may differ. odds-ratio-per-sd = exp(-coef_solo x SD in points). low/high from the SE implied by the printed p-value (openness p printed as 0.000, treated as 0.0005). Proxy: an entrepreneur taking on a first employee, not an elected official hiring a staff member; no study of officials was found. Same table: risk tolerance -0.145 (p<.01), agreeableness 0.004 (ns), neuroticism 0.020 (ns). The firm-size regressions (Table 5) point the same way: extraversion +0.108 per point on firm size, openness -0.107. Extraverts are less often solo, i.e. more likely to hire."
+    },
+    {
+      "id": "staff.hire",
+      "trait": "conscientiousness",
+      "outcome": "running a business with at least one employee rather than alone (entrepreneurs, SOEP 2019, N = 2,473; logit of being solo, sign reversed)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 1.138,
+        "low": 1.029,
+        "high": 1.26
+      },
+      "source": {
+        "authors": "Kardaslar, B., Kritikos, A. S., & Menkhoff, L.",
+        "year": 2026,
+        "title": "Personality Traits of Entrepreneurs and the Size of Their Firms",
+        "venue": "DIW Discussion Paper 2173 (DIW Berlin)",
+        "url": "https://www.diw.de/documents/publikationen/73/diw_01.c.1015593.de/dp2173.pdf"
+      },
+      "quote": "Table 6, column (1) \"Solo\", row Conscientiousness: \"-0.150∗∗\" with p-value \"(0.012)\". Table 6 note: \"In column (1), a logit regression is conducted with the dependent variable being 1 if the entrepreneur is solo and 0 if she has at least one employee.\" Text: \"Solo-entrepreneurs are also more open to new experiences than entrepreneurs who hire employees.\" Traits: \"Participants rate the extent to which each characteristic applies to them by assigning a score between 1 and 7 for fifteen items - three items for each trait.\" SD of the same SOEP 1-7 scales, from a second fetched paper (Fritsch & Rusakova 2010, SOEPpaper 343, Table A2, SOEP 2005): conscientiousness \"0.864\".",
+      "quoteVerified": true,
+      "notes": "DERIVED by the research helper from two fetched papers. (1) Kardaslar et al. print logit coefficients per point of the raw 1-7 trait score (not standardized) for being a SOLO entrepreneur versus one with at least one employee; the sign is reversed here so that a positive log-odds means hiring. (2) The paper prints no trait SD, so the SD of the same SOEP three-item scales in points was taken from Fritsch & Rusakova (2010) Table A2 (SOEP 2005 adults: conscientiousness 0.864, extraversion 1.122, agreeableness 0.961, openness 1.161, neuroticism 1.204); the 2019 entrepreneur sample's SD may differ. odds-ratio-per-sd = exp(-coef_solo x SD in points). low/high from the SE implied by the printed p-value (openness p printed as 0.000, treated as 0.0005). Proxy: an entrepreneur taking on a first employee, not an elected official hiring a staff member; no study of officials was found. Same table: risk tolerance -0.145 (p<.01), agreeableness 0.004 (ns), neuroticism 0.020 (ns). The firm-size regressions (Table 5) point the same way: extraversion +0.108 per point on firm size, openness -0.107. More conscientious entrepreneurs are less often solo."
+    },
+    {
+      "id": "staff.hire",
+      "trait": "openness to experience",
+      "outcome": "running a business with at least one employee rather than alone (entrepreneurs, SOEP 2019, N = 2,473; logit of being solo, sign reversed)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 0.776,
+        "low": 0.673,
+        "high": 0.895
+      },
+      "source": {
+        "authors": "Kardaslar, B., Kritikos, A. S., & Menkhoff, L.",
+        "year": 2026,
+        "title": "Personality Traits of Entrepreneurs and the Size of Their Firms",
+        "venue": "DIW Discussion Paper 2173 (DIW Berlin)",
+        "url": "https://www.diw.de/documents/publikationen/73/diw_01.c.1015593.de/dp2173.pdf"
+      },
+      "quote": "Table 6, column (1) \"Solo\", row Openness: \"0.218∗∗∗\" with p-value \"(0.000)\". Table 6 note: \"In column (1), a logit regression is conducted with the dependent variable being 1 if the entrepreneur is solo and 0 if she has at least one employee.\" Text: \"Solo-entrepreneurs are also more open to new experiences than entrepreneurs who hire employees.\" Traits: \"Participants rate the extent to which each characteristic applies to them by assigning a score between 1 and 7 for fifteen items - three items for each trait.\" SD of the same SOEP 1-7 scales, from a second fetched paper (Fritsch & Rusakova 2010, SOEPpaper 343, Table A2, SOEP 2005): openness to experience \"1.161\".",
+      "quoteVerified": true,
+      "notes": "DERIVED by the research helper from two fetched papers. (1) Kardaslar et al. print logit coefficients per point of the raw 1-7 trait score (not standardized) for being a SOLO entrepreneur versus one with at least one employee; the sign is reversed here so that a positive log-odds means hiring. (2) The paper prints no trait SD, so the SD of the same SOEP three-item scales in points was taken from Fritsch & Rusakova (2010) Table A2 (SOEP 2005 adults: conscientiousness 0.864, extraversion 1.122, agreeableness 0.961, openness 1.161, neuroticism 1.204); the 2019 entrepreneur sample's SD may differ. odds-ratio-per-sd = exp(-coef_solo x SD in points). low/high from the SE implied by the printed p-value (openness p printed as 0.000, treated as 0.0005). Proxy: an entrepreneur taking on a first employee, not an elected official hiring a staff member; no study of officials was found. Same table: risk tolerance -0.145 (p<.01), agreeableness 0.004 (ns), neuroticism 0.020 (ns). The firm-size regressions (Table 5) point the same way: extraversion +0.108 per point on firm size, openness -0.107. More open entrepreneurs are more often solo; the paper reads this as openness driving founding of ventures, not their growth."
     },
     {
       "id": "estates.trust",
@@ -1790,6 +1744,203 @@
       "quoteVerified": true,
       "notes": "Meta-analytic correlation (corrected for unreliability, rho) between the HEXACO scale and self- or other-rated workplace deviance, 29 studies. Used as a proxy because no study of public officials awarding contracts by personality was found: awarding to a known firm instead of the lowest bidder is an organizational-norm violation for self-interest, which is what workplace deviance measures. The honesty-humility domain alone is rho = -0.420 (k = 27, N = 8,875; 95% CI -0.483, -0.358) in the same table and Pletzer et al. 2019 (rho = -0.482), already used for corruption.take and corruption.offer. The Fairness facet (HEXACO: avoiding fraud and corruption, not taking what is not one's own) is the facet nearest this decision and has the largest correlation of any facet; the paper reports that Fairness alone explains almost as much variance as all six domains. Correlations are with self-reported deviance in mostly employee and student samples; they check the size of the trait's pull and do not make the official corrupt. Conscientiousness maps to the follow-rules pull (low conscientiousness bends rules); agreeableness is -0.206 (k = 18) and emotionality -0.091 in the same table. CALIBRATION CAUTION: trait-calibrate.ts turns a correlation of this size into a log-odds gap between the top and bottom thirds of about 2.4 (an odds ratio near 11 for the Fairness row) and about 1.7 (near 5 for conscientiousness). The existing corruption.take and corruption.offer rows (rho -0.482) imply about 9 under the same conversion, so this is consistent with how they were treated, but treat it as an upper bound: the correlation is with a self-reported deviance scale across many behaviors, not with one official's choice among bidders.",
       "option": "award-known-firm"
+    },
+    {
+      "id": "jobs.raise-for-opening",
+      "trait": "agreeableness (FFM)",
+      "outcome": "how much a proposer offers a responder in the Ultimatum Game (meta-analysis, 16 independent samples); proxy for an employer's offer to attract a worker",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.08,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Thielmann, I., Spadaro, G., & Balliet, D.",
+        "year": 2020,
+        "title": "Personality and prosocial behavior: A theoretical framework and meta-analysis",
+        "venue": "Psychological Bulletin 146(1), 30-90",
+        "url": "https://zenodo.org/record/3731374"
+      },
+      "quote": "Table 8 \"Between Traits and Prosocial Behavior Within Each Game, Including the Number of Independent Samples (k; in Parentheses)\", columns DG, UG proposer, UG responder, TG trustor, TG trustee, SDG; row \"FFM agreeableness\": \".16ⴱ (51) .08ⴱ⫺ (16) .07ⴱ⫺ (18) .09ⴱ⫺ (28) .13ⴱ (28) .07ⴱ⫺ (47)\", so UG proposer = \".08ⴱ⫺ (16)\".",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation between the trait and the share a proposer offers to a responder who can reject (k = 16 samples; significance marks only, so low/high are null). The Ultimatum Game is the nearest published bargaining analogue to an owner choosing how far to raise an offer to fill a seat: the proposer decides how much to give up knowing the other side can walk away. It is a one-shot lab game with strangers and students, the outcome is the size of the offer (not a two-way choice), so trait-calibrate.ts cannot fit it as a probability; use it only to size the pull on how much is added. No study of an employer's own personality and the wage they offer was found. HEXACO agreeableness for the UG proposer is .06 (k = 14). Dictator Game giving (no rejection threat) is stronger: FFM agreeableness .16 (k = 51), honesty-humility .26 (k = 43)."
+    },
+    {
+      "id": "jobs.raise-for-opening",
+      "trait": "honesty-humility (HEXACO)",
+      "outcome": "how much a proposer offers a responder in the Ultimatum Game (meta-analysis, 16 independent samples); proxy for an employer's offer to attract a worker",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.09,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Thielmann, I., Spadaro, G., & Balliet, D.",
+        "year": 2020,
+        "title": "Personality and prosocial behavior: A theoretical framework and meta-analysis",
+        "venue": "Psychological Bulletin 146(1), 30-90",
+        "url": "https://zenodo.org/record/3731374"
+      },
+      "quote": "Table 8 \"Between Traits and Prosocial Behavior Within Each Game, Including the Number of Independent Samples (k; in Parentheses)\", columns DG, UG proposer, UG responder, TG trustor, TG trustee, SDG; row \"Honesty-humility\": \".26ⴱ (43) .09ⴱ⫺ (16) .02⫺ (15) .11ⴱ⫺ (12) .22ⴱ (7) .18ⴱ⫺ (27)\", so UG proposer = \".09ⴱ⫺ (16)\".",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation between the trait and the share a proposer offers to a responder who can reject (k = 16 samples; significance marks only, so low/high are null). The Ultimatum Game is the nearest published bargaining analogue to an owner choosing how far to raise an offer to fill a seat: the proposer decides how much to give up knowing the other side can walk away. It is a one-shot lab game with strangers and students, the outcome is the size of the offer (not a two-way choice), so trait-calibrate.ts cannot fit it as a probability; use it only to size the pull on how much is added. No study of an employer's own personality and the wage they offer was found. Conscientiousness for the UG proposer is .02 (k = 25), i.e. no pull. Dictator Game giving (no rejection threat) is stronger: FFM agreeableness .16 (k = 51), honesty-humility .26 (k = 43)."
+    },
+    {
+      "id": "retirement.claim-age",
+      "trait": "openness to experience",
+      "outcome": "intended Social Security claiming age in years (US adults 40 to 61 who imagined being 60; MTurk; N about 3,420)",
+      "effect": {
+        "kind": "standardized-beta",
+        "value": 0.0779,
+        "low": 0.045,
+        "high": 0.1108
+      },
+      "source": {
+        "authors": "Greenberg, A. E., Hershfield, H. E., Shu, S. B., & Spiller, S. A.",
+        "year": 2018,
+        "title": "What Motivates Social Security Claiming Age Intentions? Testing Behaviorally-Informed Interventions Alongside Individual Differences",
+        "venue": "Working paper presented at the 20th Annual Joint Meeting of the Retirement Research Consortium, August 2-3, 2018 (published later in Journal of Marketing Research 2023)",
+        "url": "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/Greenberg-Shu-Spiller_SSClaimingNBER_2018.pdf"
+      },
+      "quote": "Table 2, row \"Big 5 – Openness to Experience\": \"0.218***\" with SE \"0.047\". Table 2 note: \"Each variable was standardized prior to inclusion in the model, such that the coefficient represents the expected change in claiming age (in years) given a one standard deviation increase in the individual difference.\" Results: \"participants intended to claim later (median = 68; mean = 67.1; sd = 2.8) than the current distribution of true claiming ages would suggest.\" Text: \"Agreeableness, Openness to Experience, and Emotional Stability are each related to delayed claiming intentions. Neither conscientiousness nor extraversion are related to claiming intentions.\"",
+      "quoteVerified": true,
+      "notes": "The paper prints the change in intended claiming age in YEARS per 1 SD of the trait: 0.218 years (SE 0.047). The helper divided by the SD of intended claiming age printed in the paper (2.8 years) to get a standardized beta (0.078); the raw size is the number the game's claimTraitPullYears can use directly (about 2.6 months of delay per SD of the trait). Limits: intentions stated by online panelists aged 40 to 61 who imagined being 60, not actual claims; Ten-Item Personality Inventory; the version fetched is an August 2018 working paper whose authors call the results preliminary (data collection continuing, N = 3,420 here); each trait was entered in a separate model with gender, age, income and the 13 treatment indicators as controls. Same table, other traits: agreeableness 0.211*** (SE .049), openness 0.218*** (SE .047), stability 0.105** (SE .048), conscientiousness 0.022 (SE .048), extraversion 0.008 (SE .048). Largest individual difference of any kind: discount factor (patience) 0.370*** years per SD, life expectation 0.300***, perceived ownership of benefits -0.424***. Direction: higher openness, agreeableness and emotional stability go with LATER claiming (waiting), the opposite of the existing note that agreeableness and neuroticism claim earlier. Largest Big Five coefficient."
+    },
+    {
+      "id": "retirement.claim-age",
+      "trait": "agreeableness",
+      "outcome": "intended Social Security claiming age in years (US adults 40 to 61 who imagined being 60; MTurk; N about 3,420)",
+      "effect": {
+        "kind": "standardized-beta",
+        "value": 0.0754,
+        "low": 0.0411,
+        "high": 0.1097
+      },
+      "source": {
+        "authors": "Greenberg, A. E., Hershfield, H. E., Shu, S. B., & Spiller, S. A.",
+        "year": 2018,
+        "title": "What Motivates Social Security Claiming Age Intentions? Testing Behaviorally-Informed Interventions Alongside Individual Differences",
+        "venue": "Working paper presented at the 20th Annual Joint Meeting of the Retirement Research Consortium, August 2-3, 2018 (published later in Journal of Marketing Research 2023)",
+        "url": "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/Greenberg-Shu-Spiller_SSClaimingNBER_2018.pdf"
+      },
+      "quote": "Table 2, row \"Big 5 - Agreeableness\": \"0.211***\" with SE \"0.049\". Table 2 note: \"Each variable was standardized prior to inclusion in the model, such that the coefficient represents the expected change in claiming age (in years) given a one standard deviation increase in the individual difference.\" Results: \"participants intended to claim later (median = 68; mean = 67.1; sd = 2.8) than the current distribution of true claiming ages would suggest.\" Text: \"Agreeableness, Openness to Experience, and Emotional Stability are each related to delayed claiming intentions. Neither conscientiousness nor extraversion are related to claiming intentions.\"",
+      "quoteVerified": true,
+      "notes": "The paper prints the change in intended claiming age in YEARS per 1 SD of the trait: 0.211 years (SE 0.049). The helper divided by the SD of intended claiming age printed in the paper (2.8 years) to get a standardized beta (0.075); the raw size is the number the game's claimTraitPullYears can use directly (about 2.5 months of delay per SD of the trait). Limits: intentions stated by online panelists aged 40 to 61 who imagined being 60, not actual claims; Ten-Item Personality Inventory; the version fetched is an August 2018 working paper whose authors call the results preliminary (data collection continuing, N = 3,420 here); each trait was entered in a separate model with gender, age, income and the 13 treatment indicators as controls. Same table, other traits: agreeableness 0.211*** (SE .049), openness 0.218*** (SE .047), stability 0.105** (SE .048), conscientiousness 0.022 (SE .048), extraversion 0.008 (SE .048). Largest individual difference of any kind: discount factor (patience) 0.370*** years per SD, life expectation 0.300***, perceived ownership of benefits -0.424***. Direction: higher openness, agreeableness and emotional stability go with LATER claiming (waiting), the opposite of the existing note that agreeableness and neuroticism claim earlier. "
+    },
+    {
+      "id": "retirement.claim-age",
+      "trait": "emotional stability",
+      "outcome": "intended Social Security claiming age in years (US adults 40 to 61 who imagined being 60; MTurk; N about 3,420)",
+      "effect": {
+        "kind": "standardized-beta",
+        "value": 0.0375,
+        "low": 0.0039,
+        "high": 0.0711
+      },
+      "source": {
+        "authors": "Greenberg, A. E., Hershfield, H. E., Shu, S. B., & Spiller, S. A.",
+        "year": 2018,
+        "title": "What Motivates Social Security Claiming Age Intentions? Testing Behaviorally-Informed Interventions Alongside Individual Differences",
+        "venue": "Working paper presented at the 20th Annual Joint Meeting of the Retirement Research Consortium, August 2-3, 2018 (published later in Journal of Marketing Research 2023)",
+        "url": "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/Greenberg-Shu-Spiller_SSClaimingNBER_2018.pdf"
+      },
+      "quote": "Table 2, row \"Big 5 - Stability\": \"0.105**\" with SE \"0.048\". Table 2 note: \"Each variable was standardized prior to inclusion in the model, such that the coefficient represents the expected change in claiming age (in years) given a one standard deviation increase in the individual difference.\" Results: \"participants intended to claim later (median = 68; mean = 67.1; sd = 2.8) than the current distribution of true claiming ages would suggest.\" Text: \"Agreeableness, Openness to Experience, and Emotional Stability are each related to delayed claiming intentions. Neither conscientiousness nor extraversion are related to claiming intentions.\"",
+      "quoteVerified": true,
+      "notes": "The paper prints the change in intended claiming age in YEARS per 1 SD of the trait: 0.105 years (SE 0.048). The helper divided by the SD of intended claiming age printed in the paper (2.8 years) to get a standardized beta (0.037); the raw size is the number the game's claimTraitPullYears can use directly (about 1.3 months of delay per SD of the trait). Limits: intentions stated by online panelists aged 40 to 61 who imagined being 60, not actual claims; Ten-Item Personality Inventory; the version fetched is an August 2018 working paper whose authors call the results preliminary (data collection continuing, N = 3,420 here); each trait was entered in a separate model with gender, age, income and the 13 treatment indicators as controls. Same table, other traits: agreeableness 0.211*** (SE .049), openness 0.218*** (SE .047), stability 0.105** (SE .048), conscientiousness 0.022 (SE .048), extraversion 0.008 (SE .048). Largest individual difference of any kind: discount factor (patience) 0.370*** years per SD, life expectation 0.300***, perceived ownership of benefits -0.424***. Direction: higher openness, agreeableness and emotional stability go with LATER claiming (waiting), the opposite of the existing note that agreeableness and neuroticism claim earlier. Stability is the reverse of neuroticism, so neuroticism pulls toward claiming earlier."
+    },
+    {
+      "id": "credit.borrow",
+      "trait": "conscientiousness",
+      "outcome": "holding any unsecured debt (probability), single-adult households, BHPS UK 1995/2000/2005 (probit average marginal effect per SD)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": -3.37,
+        "low": -6.03,
+        "high": -0.71
+      },
+      "baseRate": 0.4847,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Brown, S., & Taylor, K.",
+        "year": 2014,
+        "title": "Household finances and the 'Big Five' personality traits",
+        "venue": "Journal of Economic Psychology 45, 197-212",
+        "url": "https://eprints.whiterose.ac.uk/82777/3/WRRO_82777.pdf"
+      },
+      "quote": "Table 3, Panel C (SAMPLE=SINGLES, MEAN BIG5 OF HEAD), column HOLDING DEBT, row Conscientiousness: \"-0.0337 (2.48)\"; Extraversion \"0.0307 (2.35)\"; Openness to experience \"0.0335 (2.45)\". Table 3 notes: \"The resulting personality trait is based on the standardised residual from this process, i.e. zero mean and unit standard deviation.\" ... \"Marginal effects are reported throughout.\" Text: \"The probit analysis of the probability of holding debt across the different samples, irrespective of type of debt held, reveals that conscientiousness, that is being hard-working and achievement oriented, is inversely associated with holding unsecured debt which is consistent with the tobit analysis and the findings of Donnelly et al. (2012), whilst the other four personality traits are positively associated with debt holding where statistically significant.\" Table 1A, singles, Holding debt mean: \"0.4847\".",
+      "quoteVerified": true,
+      "notes": "Accepted-manuscript PDF on White Rose Research Online (CC-BY-NC-ND). Marginal effects are on the probability of holding any unsecured debt (credit card, hire purchase, personal loan, private loan, other), per 1 SD of the age-residualized trait, so -0.0337 = -3.37 percentage points; value is entered in percentage points as the calibrator's pp-per-sd expects. low/high = value +/- 1.96 x SE with SE = |ME| / t (t = 2.48). baseRate 0.4847 is the singles-sample share holding debt (Table 1A; couples 0.5853). Other traits in the same column: extraversion +3.07 pp (t 2.35), openness +3.35 pp (t 2.45), agreeableness +1.68 pp (t 1.27, ns), neuroticism +1.21 pp (t 0.92, ns). Couples (mean Big Five of the couple, Panel A, base 0.5853): conscientiousness -3.27 pp, extraversion +3.49 pp, agreeableness +3.45 pp, openness +2.59 pp. Credit card debt specifically (Panel A couples): openness +4.11 pp (t 3.97); singles openness +2.72 pp (t 2.81), neuroticism +2.16 pp (t 2.34). This is the probability of holding debt in a household, a stock measure observed in three waves, used as the nearest published proxy for the chance of taking on credit; the paper stresses these are correlations, not causal. Replaces the level-of-debt finding (21.70 pp per SD of extraversion) in the existing null row, which is a change in the amount, not a chance."
+    },
+    {
+      "id": "credit.borrow",
+      "trait": "extraversion",
+      "outcome": "holding any unsecured debt (probability), single-adult households, BHPS UK (probit average marginal effect per SD)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 3.07,
+        "low": 0.51,
+        "high": 5.63
+      },
+      "baseRate": 0.4847,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Brown, S., & Taylor, K.",
+        "year": 2014,
+        "title": "Household finances and the 'Big Five' personality traits",
+        "venue": "Journal of Economic Psychology 45, 197-212",
+        "url": "https://eprints.whiterose.ac.uk/82777/3/WRRO_82777.pdf"
+      },
+      "quote": "Table 3, Panel C (SAMPLE=SINGLES, MEAN BIG5 OF HEAD), column HOLDING DEBT, row Extraversion: \"0.0307 (2.35)\". Notes: \"Each of the personality traits has been conditioned on a polynomial in age to net out life cycle influences. The resulting personality trait is based on the standardised residual from this process, i.e. zero mean and unit standard deviation.\" \"Marginal effects are reported throughout.\"",
+      "quoteVerified": true,
+      "notes": "Same table as the conscientiousness row: +3.07 percentage points on the probability of holding unsecured debt per SD of extraversion (t 2.35; SE = 0.0307/2.35). low/high = value +/- 1.96 x SE. baseRate 0.4847 is Table 1A's singles share holding debt. For overdraft-type 'other debt' singles extraversion is +2.44 pp (t 2.88)."
+    },
+    {
+      "id": "credit.borrow",
+      "trait": "openness to experience",
+      "outcome": "holding any unsecured debt (probability), single-adult households, BHPS UK (probit average marginal effect per SD)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 3.35,
+        "low": 0.67,
+        "high": 6.03
+      },
+      "baseRate": 0.4847,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Brown, S., & Taylor, K.",
+        "year": 2014,
+        "title": "Household finances and the 'Big Five' personality traits",
+        "venue": "Journal of Economic Psychology 45, 197-212",
+        "url": "https://eprints.whiterose.ac.uk/82777/3/WRRO_82777.pdf"
+      },
+      "quote": "Table 3, Panel C (SAMPLE=SINGLES, MEAN BIG5 OF HEAD), column HOLDING DEBT, row Openness to experience: \"0.0335 (2.45)\". Text: \"In both the samples of couples and single individuals, the personality trait which has the largest correlation with the probability of having credit card debt is openness to experience. For example, a one standard deviation increase in openness to experience is associated with a 4.1 percentage point higher probability of having credit card debt in the couples sample (Panel A).\"",
+      "quoteVerified": true,
+      "notes": "Same table: +3.35 pp on the probability of holding unsecured debt per SD of openness (t 2.45). low/high = value +/- 1.96 x SE. baseRate 0.4847 (singles, Table 1A). Credit-card debt specifically: couples +4.11 pp, singles +2.72 pp (t 2.81)."
+    },
+    {
+      "id": "press.shade-answer",
+      "option": "shade",
+      "trait": "honesty-humility (HEXACO)",
+      "outcome": "lying for gain in an incentivized one-shot cheating task (die roll or coin toss reported in private; reanalysis of 16 studies, N = 5,002); proxy for shading an interview answer about one's own vote toward the town",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 0.53,
+        "low": 0.47,
+        "high": 0.6
+      },
+      "baseRate": 0.261,
+      "source": {
+        "authors": "Heck, D. W., Thielmann, I., Moshagen, M., & Hilbig, B. E.",
+        "year": 2018,
+        "title": "Who lies? A large-scale reanalysis linking basic personality traits to unethical decision making",
+        "venue": "Judgment and Decision Making 13(4), 356-371",
+        "url": "https://dlab.sauder.ubc.ca/sjdm/journal/18/18322/jdm18322.html"
+      },
+      "quote": "Abstract: \"The results show a medium to large effect of HH (odds ratio = 0.53)\". Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2, honesty-humility: \"0.53\", 2.5% \"0.47\", 97.5% \"0.60\". Section 3: \"The odds ratio for a z-standardized predictor quantifies how strongly the odds in favor of dishonesty change\". \"Across studies, the overall probability d was estimated to be 26.1%, with a 95% Bayesian credibility interval (BCI) of [19.2%; 34.4%].\" Big Five Agreeableness: \"OR = 0.75\", with no incremental validity beyond HH.",
+      "quoteVerified": true,
+      "notes": "Odds ratio per standard deviation of honesty-humility for being a liar (lower honesty, more lying); the calibration reads its size and the lean's direction. The base rate is the share prepared to lie when it pays, used for shadeBase at the largest gap between vote and town a town's stand allows."
     }
   ]
 }
