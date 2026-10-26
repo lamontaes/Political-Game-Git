@@ -6,11 +6,12 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/zero-rate-withholding
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T21:36:01.625Z
 ---
 
 **What.** A zero top income-tax rate can still withhold the old graduated schedule when an amendment retains its terms. Merger 1 reproduced this through the exported withholdingFor calculation on clean main 8abee77ef0 and on the integrated taxes PR #5649: a 100,000-minor-unit paycheck, fourteen-day period, no deduction and a single 4-percent bracket with law value 0 still produces a state income-tax line of 4,000 minor units. This is a boundary fixture, not evidence from a played world. The ordinary legislature shapedRate path already scales its brackets; the retained-terms enactLaw path used by the tax family checker and its repeal check needs the same semantics. The PR fixes positive scaling but leaves the baseline zero case; it is not a new regression.

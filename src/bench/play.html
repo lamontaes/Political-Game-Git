@@ -85,12 +85,7 @@
         </div>
         <div>
           <div class="acts">
-            <button
-              id="news-reader-close"
-              class="glyph close"
-              type="button"
-              aria-label="Close"
-            ></button>
+            <span data-close="news-reader-close"></span>
           </div>
           <div id="news-reader-more"></div>
         </div>
@@ -358,18 +353,20 @@
           </div>
           <fieldset class="group" data-testid="creator-birthday">
             <legend class="label">Birthday</legend>
-            <label class="field"
-              >Month
-              <select id="cr-month" data-testid="start-birth-month"></select
-            ></label>
-            <label class="field"
-              >Day
-              <select id="cr-day" data-testid="start-birth-day"></select
-            ></label>
-            <label class="field"
-              >Year
-              <select id="cr-year" data-testid="start-birth-year"></select
-            ></label>
+            <div class="date-row">
+              <label class="field"
+                >Month
+                <select id="cr-month" data-testid="start-birth-month"></select
+              ></label>
+              <label class="field"
+                >Day
+                <select id="cr-day" data-testid="start-birth-day"></select
+              ></label>
+              <label class="field"
+                >Year
+                <select id="cr-year" data-testid="start-birth-year"></select
+              ></label>
+            </div>
             <button
               id="cr-random-birthday"
               class="action small"
@@ -564,13 +561,7 @@
         <header class="sheet-head">
           <h2 id="sheet-title" class="heading"></h2>
           <div class="acts">
-            <button
-              id="sheet-close"
-              class="glyph close"
-              type="button"
-              aria-label="Close"
-              data-testid="sheet-close"
-            ></button>
+            <span data-close="sheet-close" data-testid="sheet-close"></span>
           </div>
         </header>
         <nav id="sheet-tabs" class="tabs"></nav>
@@ -611,9 +602,6 @@
         <ol id="talk-lines"></ol>
         <div id="talk-choices" class="replies"></div>
         <div class="acts">
-          <button id="talk-gap" class="action small" type="button">
-            Mark gap
-          </button>
           <button id="talk-silent" class="action small" type="button">
             Say nothing
           </button>
@@ -664,12 +652,7 @@
               class="action primary"
               type="button"
             ></button>
-            <button
-              id="person-close"
-              class="glyph close"
-              type="button"
-              aria-label="Close"
-            ></button>
+            <span data-close="person-close"></span>
           </div>
         </div>
       </section>

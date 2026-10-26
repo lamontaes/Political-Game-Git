@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: claimed
 claimed-by: claude/traits-integrity
 pr: #5715
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T07:03:14.420Z
+claimed-at: 2026-10-26T21:43:29.917Z
 ---
 
 **What.** The bounded part of traits-wire-integrity that its open PR delivers. The integrity decisions that run in an ordinary played year (constituent-cases.bring-case, constituent-cases.handle-case, staff.follow-through, staff.hire, staff.dismiss and corruption.offer) read their case through the shared two-way rule with the temperament term on record: the official's own call decides what the office does when they have staff, and a bribe's money pull is bounded so honesty can weigh against it. Every other decision in the family (taking or telling about a bribe, the three recall decisions, a reporter's tip, the three justice decisions and appointments) waits for a record nothing writes in an ordinary year, and each has a gap row naming the cause and the open item that writes it.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T07:03:14.420Z
 **Files.** src/core2/trait-decisions.ts, src/core2/modules/constituent-cases.ts, src/core2/modules/corruption.ts, src/core2/integrity-traits-played.traits.test.ts, data/content/trait-decision-gaps.json
 
 **Notes.** Split Oct 26 by the traits lead from traits-wire-integrity after Merger 3's Oct 26 send-back of PR 5715 (branch claude/traits-integrity), which offered an explicit bounded scope that keeps the uncompleted acceptance separately. Left on traits-wire-integrity: the ten decisions with no ordinary-year producer, until their records are written (people-corruption-honest-pull-calibrated, gov-recall-for-cause-start, traits-audit-opening-appointments).
+
+Sent back 2026-10-26 from PR #5715 (branch claude/traits-integrity): The bounded scope and both weighed-record checks address the prior return, but current-main integration conflicts in src/core2/trait-pairs.ts and data/content/trait-decision-gaps.json after #5587 and #6067; reconcile the shared helper without weakening record proof.; finish on that branch, merge main into it first.

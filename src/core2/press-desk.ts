@@ -378,7 +378,86 @@ export function printItem(
     receivedCounted: Math.round(ctx.countedFollowers(outlet) * share),
   };
   ctx.save(saved);
+  recordNamed(api, ctx, outlet, item, saved);
   return saved;
+}
+
+/** The record of who a printed story names (recordNamed). */
+export const PRESS_STORY_EVENT = "press-story";
+
+/**
+ * Who a printed story names, as a record the people it names read: the one
+ * person its record is about, and the sponsor of the bill it covers, each
+ * with whether the story runs for or against them. The story reaches its
+ * readers through the news engine; this record is how an officeholder's own
+ * office learns of it (a staffer brings it in). A story about one person runs
+ * against them when its slant does; a story about a bill runs against its
+ * sponsor when it argues for the opposite of the bill's own change.
+ */
+function recordNamed(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  item: WireItem,
+  story: PrintedStory,
+): void {
+  const full = (id: string | undefined): id is string =>
+    !!id && api.state.people.has(id);
+  const people = item.subjectIds.filter(full);
+  const subjectId = people.length === 1 ? people[0] : undefined;
+  const billId = item.facts?.billId;
+  const bill =
+    billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
+      ? (api.moduleState(LEGISLATURE_MODULE_ID).table("bills").get(billId) as
+          | {
+              readonly number?: string;
+              readonly sponsorId?: string;
+              readonly provisions?: readonly { readonly value?: number }[];
+            }
+          | undefined)
+      : undefined;
+  // A bill is talked of by its number; one never filed has none to name.
+  const sponsorId =
+    bill?.number && full(bill.sponsorId) ? bill.sponsorId : undefined;
+  if (!subjectId && !sponsorId) return;
+  const side = (sign: number) =>
+    sign < 0 ? "against" : sign > 0 ? "for" : "even";
+  // The bill's own change, as its first provision makes it (press-topics).
+  const billChange =
+    (bill?.provisions?.[0]?.value ?? 1) > 0 ? "enact" : "repeal";
+  api.emit({
+    id: `${PRESS_STORY_EVENT}:${story.id}`,
+    date: api.state.date,
+    kind: PRESS_STORY_EVENT,
+    personIds: [...new Set([subjectId, sponsorId].filter(full))],
+    placeId: ctx.townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Story ${story.id}, printed by ${outlet.organizationId}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      storyId: story.id,
+      outletId: outlet.organizationId,
+      reporterId: story.reporterId,
+      wireId: item.id,
+      topic: item.topic,
+      ...(subjectId ? { subjectId, subjectFraming: side(story.slant) } : {}),
+      ...(billId && sponsorId
+        ? {
+            billId,
+            sponsorId,
+            billFraming: side(
+              story.slant === 0
+                ? 0
+                : story.desiredChange === billChange
+                  ? 1
+                  : -1,
+            ),
+          }
+        : {}),
+    },
+  });
 }
 
 /** The kind of the news story the press writes about a record from before day one. */
