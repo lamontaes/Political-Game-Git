@@ -5,9 +5,9 @@ area: play
 kind: cleanup
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/screens-ui-list-row
-pr:
+pr: #6181
 blocked-on:
 source: added with npm run pool -- add
 lead: screens
