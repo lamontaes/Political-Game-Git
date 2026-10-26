@@ -77,8 +77,8 @@
         "wired": 38,
         "partial": 1,
         "missing": 7,
-        "stopgap": 29,
-        "n/a": 14
+        "stopgap": 26,
+        "n/a": 17
       },
       "knowing": {
         "wired": 82,
@@ -1216,7 +1216,7 @@
     },
     {
       "key": "income-tax",
-      "name": "Local income tax rate",
+      "name": "Income tax rate",
       "kind": "amount",
       "family": "taxes-finance",
       "reachGroup": "B",
@@ -1249,9 +1249,9 @@
           "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure household income after tax and out-migration (SG-LAW-outcome-link-unresearched)"
+          "status": "n/a",
+          "evidence": "income-tax-rate-to-out-migration: about-zero (Young, Varner, Lurie and Prisinzano 2016, Millionaire Migration and Taxation of the Elite: Evidence from Administrative Data, American Sociological Review 81(3):421-446 (doi 10.1177/0003122416639625); full text read at https://eml.berkeley.edu/~saez/course/Millionaire_Migration_and_the_Taxtion_of_the_Elite.pdf (Table 2, Models 2 to 4; the Results and Implied Optimal Tax Rates sections))",
+          "why": "the research puts every outcome link from it at about zero, so there is nothing for the web to move"
         },
         "knowing": {
           "status": "wired",
@@ -1285,7 +1285,7 @@
     },
     {
       "key": "sales-tax",
-      "name": "Local sales tax rate",
+      "name": "Sales tax rate",
       "kind": "amount",
       "family": "taxes-finance",
       "reachGroup": null,
@@ -1525,9 +1525,9 @@
           "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers and charitable giving (SG-LAW-outcome-link-unresearched)"
+          "status": "n/a",
+          "evidence": "estate-tax-to-out-migration: about-zero (Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Moretti and Wilson 2023, Taxing Billionaires: Estate Taxes and the Geographical Location of the Ultra-Wealthy, American Economic Journal: Economic Policy 15(2):424-466; text read from NBER Working Paper 26387 (revised September 2020) at https://www.nber.org/papers/w26387.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403))",
+          "why": "the research puts every outcome link from it at about zero, so there is nothing for the web to move"
         },
         "knowing": {
           "status": "wired",
@@ -1594,9 +1594,9 @@
           "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers to heirs (SG-LAW-outcome-link-unresearched)"
+          "status": "n/a",
+          "evidence": "inheritance-tax-to-out-migration: about-zero (Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403))",
+          "why": "the research puts every outcome link from it at about zero, so there is nothing for the web to move"
         },
         "knowing": {
           "status": "wired",

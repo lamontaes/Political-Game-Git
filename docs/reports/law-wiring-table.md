@@ -20,12 +20,12 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | public funds for private schooling           | education          | yes    | yes    | yes   | part    | part  | SG   | yes     | yes    | yes       | partly     |
 | raise teacher minimum salary                 | education          | yes    | yes    | yes   | part    | NO    | NO   | yes     | yes    | yes       | partly     |
 | Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | part  | SG   | NO      | yes    | yes       | partly     |
-| Local income tax rate                        | taxes-finance      | yes    | yes    | yes   | yes     | NO    | SG   | yes     | NO     | yes       | partly     |
-| Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
+| Income tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | NO    | n/a  | yes     | NO     | yes       | partly     |
+| Sales tax rate                               | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
 | Property tax rate                            | taxes-finance      | yes    | yes    | NO    | yes     | yes   | NO   | yes     | NO     | NO        | partly     |
 | Corporate income tax rate                    | taxes-finance      | yes    | yes    | NO    | NO      | NO    | NO   | yes     | NO     | NO        | partly     |
-| Estate tax rate                              | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
-| Inheritance tax rate                         | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
+| Estate tax rate                              | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a  | yes     | NO     | NO        | partly     |
+| Inheritance tax rate                         | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a  | yes     | NO     | NO        | partly     |
 | adopt income tax                             | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a  | yes     | NO     | NO        | partly     |
 | cap property tax growth                      | taxes-finance      | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
 | exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | NO    | NO   | yes     | yes    | yes       | partly     |
@@ -200,13 +200,13 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure college enrollment and completion (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
-**Local income tax rate** (`income-tax`)
+**Income tax rate** (`income-tax`)
 
 - money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household income after tax and out-migration (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 - repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
-**Local sales tax rate** (`sales-tax`)
+**Sales tax rate** (`sales-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household prices and local retail sales (SG-LAW-outcome-link-unresearched)
 - repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
@@ -232,7 +232,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - reach: no law-reach row: nothing records who it applies to
 - systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
 - money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers and charitable giving (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
@@ -241,7 +241,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - reach: no law-reach row: nothing records who it applies to
 - systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
 - money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers to heirs (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
