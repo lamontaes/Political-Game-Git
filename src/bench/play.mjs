@@ -1114,7 +1114,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
-  $("talk-gap").classList.remove("marked");
+  gapButton.classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1153,10 +1153,18 @@ async function talkTo(otherId, momentId) {
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
 // A line that does not read right is marked where it is said; no time passes.
-$("talk-gap").addEventListener("click", async () => {
+// Mark gap is a developer control: it joins the talk box only while dev
+// mode is on, and is never in the player's markup.
+const gapButton = el("button", {
+  id: "talk-gap",
+  className: "action small",
+  type: "button",
+  textContent: "Mark gap",
+});
+gapButton.addEventListener("click", async () => {
   if (!talk) return;
   await post("/api/gap");
-  $("talk-gap").classList.add("marked");
+  gapButton.classList.add("marked");
 });
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
@@ -1234,14 +1242,20 @@ function renderFiling(value) {
     );
   });
   $("talk-choices").replaceChildren(...buttons);
-  // The filing's record once it is made: its status.
+  // The filing's record once it is made: its status, shown as the record's
+  // label under the talk, not as words in the clerk's mouth.
   if (value.result)
     $("talk-lines").append(
       el("li", {
-        className: "speech",
+        className: "label",
         textContent: value.result.filing
-          ? value.result.status
-          : `${value.result.status} · ${(value.result.unmet ?? []).map((u) => u.rule).join(", ")}`,
+          ? (controls.filing?.status?.[value.result.status] ??
+            words(value.result.status))
+          : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
+              value.result.unmet ?? []
+            )
+              .map((u) => controls.filing?.rules?.[u.rule] ?? words(u.rule))
+              .join(", ")}`,
       }),
     );
   setScales({ available: false });
@@ -1263,7 +1277,7 @@ function renderFilingOverlay(value) {
     ...overlay.checks.map((check) => {
       const line = row(
         ruleNames[check.rule] ?? words(check.rule),
-        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
+        `${dateOrValue(check.actual ?? "")}${check.required ? ` / ${dateOrValue(check.required)}` : ""}${check.metOn ? ` · ${controls.filing?.metOn ?? ""} ${proseDate(check.metOn)}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
       return line;
@@ -1311,7 +1325,9 @@ function partyRows(party) {
     const m = party.member;
     const line = row(
       words.member,
-      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+      // How well their views fit the party's, in words: the first band the
+      // record's agreement (-1 to 1) reaches.
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)?.label ?? "")}`,
     );
     // The tie's record, for the checks that read it.
     line.dataset.tieId = m.tieId;
@@ -1433,6 +1449,7 @@ async function campaignRows() {
   const rows = [];
   for (const {
     filing,
+    contest,
     campaign,
     polls,
     outings,
@@ -1511,7 +1528,13 @@ async function campaignRows() {
         "div",
         { className: "row campaign" },
         el("b", {
-          textContent: `${filing.status} · ${filing.contestId.split(":").slice(-3).join(" ")}`,
+          textContent: [
+            contest?.title,
+            contest ? proseDate(contest.electionDate) : null,
+            controls.filing?.status?.[filing.status] ?? words(filing.status),
+          ]
+            .filter(Boolean)
+            .join(" · "),
         }),
         `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${campaign.volunteers} volunteers · ${campaign.doors} doors`,
         el(
@@ -2124,7 +2147,7 @@ async function seatRows() {
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
 const kindName = (kind) => {
-  const name = kind.split(":").pop();
+  const name = kind.split(/[:.]/).pop();
   return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
 };
 
@@ -3106,7 +3129,10 @@ const sheets = {
       const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
       content.append(
         el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
-        el("p", { className: "label", textContent: latest.adoptedOn }),
+        el("p", {
+          className: "label",
+          textContent: `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+        }),
       );
       const summary = el("div", { className: "budget-summary" });
       for (const [label, value] of [
@@ -3504,7 +3530,12 @@ const sheets = {
             el("h4", {
               textContent: record.staffing
                 ? record.staffing.employer
-                : kindName(record.kind),
+                : kindName(
+                    // A story the press archived is named by the record it tells of.
+                    record.kind === "press.archived"
+                      ? (record.facts?.recordKind ?? record.kind)
+                      : record.kind,
+                  ),
             }),
             el("p", {
               textContent: record.staffing
@@ -4005,9 +4036,11 @@ const sheets = {
                 const history = el("div", {
                   className: "row",
                   textContent: [
-                    `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
-                    s.holder.reached,
-                    won ? `${won.date} ${Math.round(won.share * 100)}%` : null,
+                    `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
+                    labels.reached?.[s.holder.reached] ?? s.holder.reached,
+                    won
+                      ? `${labels.electedOn} ${proseDate(won.date)} · ${Math.round(won.share * 100)}% ${labels.ofVote}`
+                      : null,
                   ]
                     .filter(Boolean)
                     .join(" · "),
@@ -4461,9 +4494,11 @@ function worldSettings() {
 }
 $("front-options").addEventListener("click", () => openSheet("options"));
 // The bench's developer controls sit behind one faint ring, off by default.
-$("dev-toggle").addEventListener("click", () =>
-  document.body.classList.toggle("dev"),
-);
+$("dev-toggle").addEventListener("click", () => {
+  const dev = document.body.classList.toggle("dev");
+  if (dev) $("talk-silent").before(gapButton);
+  else gapButton.remove();
+});
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
@@ -4499,13 +4534,18 @@ const MONTHS = Array.from({ length: 12 }, (_, i) =>
     timeZone: "UTC",
   }),
 );
-const proseDate = (iso) =>
-  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
+/** A record value as the player reads it: an ISO date in words, else as kept. */
+function dateOrValue(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? proseDate(value) : value;
+}
+function proseDate(iso) {
+  return new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC",
   });
+}
 const genderName = (g) =>
   document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(

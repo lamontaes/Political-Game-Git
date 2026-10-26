@@ -116,4 +116,92 @@ describe("in the played world", () => {
     }
     throw new Error("No drawn place had a later-dated state row.");
   }, 600_000);
+  it(`a scheduled row for a series nobody changed takes effect on its date (seed ${seed})`, () => {
+    for (let i = 0; i < 12; i += 1) {
+      const place = drawPlace(
+        i ? `${seed}:u${i}` : `${seed}:u`,
+        "law-scheduled",
+      );
+      const world = buildBenchWorld(place.seed, opening, {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const api = coreAPI(world.core);
+      const rows = api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .rows() as unknown as LawRowInput[];
+      const scheduled = rows
+        .filter(
+          (r) =>
+            r.effectiveDate > opening &&
+            r.level === "state" &&
+            !r.terms?.enactedBy &&
+            r.value !== null &&
+            !r.id.endsWith(":from-start") &&
+            // The tier lawInForce reads for a place: a general row.
+            r.tier === "general",
+        )
+        .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate))[0];
+      if (!scheduled) continue;
+      const answer = lawInForce(api, scheduled.series, scheduled.effectiveDate);
+      const level = answer.levels.find(
+        (l) => l.level === "state" && l.row,
+      )?.row;
+      expect(
+        level?.id,
+        `${place.name} (${place.key}): ${scheduled.id}, scheduled ${scheduled.effectiveDate}, with no act on ${scheduled.series}`,
+      ).toBe(scheduled.id);
+      return;
+    }
+    throw new Error("No drawn place had a later-dated state row.");
+  }, 600_000);
+  it(`a state income tax rate changed in play is still in force after the data's January 1 row (seed ${seed})`, () => {
+    for (let i = 0; i < 30; i += 1) {
+      const place = drawPlace(`${seed}:t${i}`, "law-scheduled");
+      const world = buildBenchWorld(place.seed, opening, {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const api = coreAPI(world.core);
+      const rows = api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .rows() as unknown as LawRowInput[];
+      const scheduled = rows.find(
+        (r) =>
+          r.series === "income-tax" &&
+          r.level === "state" &&
+          r.effectiveDate > opening &&
+          !r.terms?.enactedBy &&
+          r.value !== null &&
+          r.tier === "general",
+      );
+      if (!scheduled) continue;
+      const act = enactLaw(api, {
+        jurisdiction: scheduled.jurisdiction,
+        level: "state",
+        series: "income-tax",
+        value: (scheduled.value ?? 0) + 1,
+        unit: scheduled.unit ?? "percent",
+        effectiveDate: opening,
+        measureId: "fixture-income-tax-act",
+        citation: "fixture act",
+      });
+      const after = new Date(
+        Date.parse(`${scheduled.effectiveDate}T00:00:00Z`) + 31 * 86_400_000,
+      )
+        .toISOString()
+        .slice(0, 10);
+      const level = lawInForce(api, "income-tax", after).levels.find(
+        (l) => l.level === "state" && l.row,
+      )?.row;
+      expect(
+        level?.id,
+        `${place.name} (${place.key}): ${scheduled.id} took effect ${scheduled.effectiveDate}, ${act.id} is the act, read on ${after}`,
+      ).toBe(act.id);
+      return;
+    }
+    throw new Error("No drawn place had a scheduled state income tax row.");
+  }, 900_000);
 });
