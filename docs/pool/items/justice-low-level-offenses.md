@@ -10,7 +10,7 @@ claimed-by: claude/justice-low-level-offenses
 pr: #6056
 blocked-on:
 source: laws lead, Oct 24, from the owner's ruling
-claimed-at: 2026-10-25T13:30:06.748Z
+claimed-at:
 ---
 
 **What.** The owner ruled on Oct 24 that the game models low-level offenses (OWNER-DECISIONS.md, Oct 24, "Low-level offenses"). The justice case flow in src/core2/public-safety.ts and src/core2/modules/crime.ts carries ordinary crime but no class of minor quality-of-life offenses (disorderly conduct, loitering, public intoxication and the like), so the outcome web's police-to-low-level-arrests link has no size and no kept measure, and budget-line:police grades its web link partial (justice regrade, Oct 24, branch claude/laws-nine-links-justice). The class needs its own counts by place from real arrest data and a research-sized link from police staffing to these arrests.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-25T13:30:06.748Z
 **Notes.** Filed by the laws lead on Oct 24 from the owner's ruling. Research already on file (laws lead, Oct 24): `data/research/outcome-web/unsized-links-source-checks-2026-10-05.json`, row police-to-low-level-arrests, from https://pmc.ncbi.nlm.nih.gov/articles/PMC10062144/: 7 to 22 additional quality-of-life arrests a year per additional full-time sworn officer (range across two instrumental-variable strategies; 242 large U.S. cities, 1981 to 2018), checked but not admitted to runtime because the game kept no low-level arrest measure. Use it before searching.
 
 In PR #6056 (Oct 25, laws lead): built by a helper, stacked on #6012; owner question on drug possession flagged.
+
+Laws lead, Oct 26: back in PR #6056 at 6ffa0b1e95, on the fixer's main merge (f279854b6e). Drug possession is the sixth minor-offense category per the CTO's Oct 25 ruling (SG-LAW-justice-low-level-drug-possession resolved), and #6083's state minimum wage fix is ported for CI's M1-01.

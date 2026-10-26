@@ -235,6 +235,40 @@ export function openingClosenessHours(
 }
 
 /**
+ * Opening closeness between two people the records say shared a school class
+ * or a workgroup (the opening peer circles), in hours of time together: the
+ * hours it takes to become a casual friend, faded since the day the shared
+ * context began. Zero when no recorded peer fact joins them. Read the same
+ * for a full person and a counted one: only the recorded facts decide.
+ */
+export function openingPeerHours(
+  core: Pick<CoreState, "data" | "date">,
+  actor: Pick<PersonState, "pastFacts">,
+  otherId: PersonId,
+): number {
+  stopgap(data.stopgapId);
+  const p = lookup(core);
+  let hours = p("zero");
+  for (const fact of actor.pastFacts ?? []) {
+    if (
+      fact.facts?.otherPersonId !== otherId ||
+      !data.peerTies.factKinds.includes(fact.kind)
+    )
+      continue;
+    hours = Math.max(
+      hours,
+      faded(
+        p,
+        p(data.peerTies.hoursParameter),
+        elapsed(p, fact.date, core.date),
+        data.peerTies.kind,
+      ),
+    );
+  }
+  return hours;
+}
+
+/**
  * The hours a contact counts for, by the two people's temperaments: time
  * together builds closeness faster between warm, outgoing people and slower
  * between reserved ones (relationships.warm-to), and a falling-out (negative
