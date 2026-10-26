@@ -64,6 +64,15 @@ try {
       minutes(text) > 0 && minutes(text) < 12 * 60,
       `Day landed off the morning: ${text}`,
     );
+  const dates = mornings.map((text) =>
+    Date.parse(text.replace(/\s+\d+:\d+\s*(AM|PM)$/, "") + " UTC"),
+  );
+  assert.ok(dates.every(Number.isFinite), "both morning dates are readable");
+  assert.equal(
+    dates[1] - dates[0],
+    24 * 60 * 60 * 1000,
+    "Day advances one date",
+  );
   // File, then go out knocking on doors: the card's clock moves by the hours.
   const filed = await page.evaluate(async () => {
     const gov = await (await fetch("/api/government")).json();
@@ -79,10 +88,9 @@ try {
   });
   console.log("Filed for:", filed);
   assert.ok(filed, "the player could file for nothing in this town");
-  await page
-    .locator('[data-tab="politics"]')
-    .first()
-    .evaluate((e) => e.click());
+  if (!(await page.locator('[data-tab="politics"]:visible').count()))
+    await page.locator('#rings [data-tab="calendar"]').click();
+  await page.locator('[data-tab="politics"]:visible').first().click();
   await page
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Campaigns", exact: true })

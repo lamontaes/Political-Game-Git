@@ -176,7 +176,7 @@ export class BenchPlayer {
       throw new Error(
         "A calendar jump can't go backward: pick a day after today.",
       );
-    // Days start in the morning (owner playtest, Oct 24): Day lands on the
+    // Days start in the morning: Day lands on the
     // next morning, Week on the same morning seven days on, a calendar jump
     // on that day's morning; none lands on midnight.
     const start = this.dayStartMinute();
