@@ -25,6 +25,7 @@ import { stopgap } from "../stopgaps";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
+import { COUNTED_PLACE_PREFIX } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
@@ -1821,8 +1822,12 @@ function countedCaseWeight(api: CoreAPI, householdId: string): number {
 }
 
 /** The funding government pays the legal services provider for the case, through the ledger. */
-function payCounsel(api: CoreAPI, caseId: string, placeId: string) {
+function payCounsel(api: CoreAPI, caseId: string, caseSite: string) {
   const c = core(api);
+  // A counted household's place is the town's counted tier (`counted:<town>`); its case is the town's like a full household's.
+  const placeId = caseSite.startsWith(COUNTED_PLACE_PREFIX)
+    ? caseSite.slice(COUNTED_PLACE_PREFIX.length)
+    : caseSite;
   const row = store(api).table("counsel").get(placeId) as
     { inForce?: boolean; fundedById?: string } | undefined;
   const statute =
