@@ -91,8 +91,19 @@ try {
   );
   if (shot) {
     await page.screenshot({ path: `${shot}-night.png` });
-    await page.locator('[data-tab="news"]').first().press("Enter");
-    await page.locator(".paper").waitFor();
+    await page.locator("#news-surface").click();
+    await page.locator("#news-reader").waitFor();
+    const visibleRates = (
+      await page
+        .locator("#news-reader .prose, #news-reader .speech")
+        .allInnerTexts()
+    ).filter((text) => /unemployment/i.test(text) && /\d/.test(text));
+    assert.ok(visibleRates.length > 0, "the first-night reader shows a rate");
+    assert.deepEqual(
+      visibleRates.filter((text) => !scoped(text)),
+      [],
+    );
+    console.log("Visible first-night reader rates:", visibleRates);
     await page.screenshot({ path: `${shot}-news.png` });
   }
   console.log("PASS every unemployment rate names its place");
