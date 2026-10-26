@@ -1,5 +1,5 @@
 import drivesJson from "../data/drives.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { daysBetweenText } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { availableActs } from "../life";
 import { extendData } from "../data";
@@ -7,10 +7,17 @@ import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import { closenessBetween } from "../closeness";
+import { setTraitProbe, traitProbe } from "../trait-probe";
 import { bookkeeping } from "../bookkeeping";
 import { keepsWhy } from "../why-kept";
 import { adTimeForSale, buyAdTime } from "./campaigns";
-import { residentCounts, residentsAccountFor } from "./residents";
+import {
+  residentCounts,
+  residentsAccountFor,
+  residentsRuntime,
+} from "./residents";
+import { countedPersonOf } from "../counted-actor";
+import { initialPersonState } from "../person-state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
 import type {
@@ -27,6 +34,7 @@ import type {
   IsoDate,
   PersonId,
   PersonState,
+  ReasonBinding,
 } from "../types";
 
 /**
@@ -59,6 +67,8 @@ export interface DrivesData {
   volunteerAffordances: readonly string[];
   eventKinds: Readonly<Record<EventKindKey, string>>;
   civicActEvents: readonly { eventKind: string; actionId: string }[];
+  /** The event a business's closure is recorded by (its counted workers are found from the closure record). */
+  closureEventKind: string;
   factKeys: Readonly<Record<FactKey, string>>;
   driveKinds: readonly DriveKindRow[];
   responses: readonly ResponseRow[];
@@ -80,6 +90,12 @@ export interface DrivesData {
     responses: readonly string[];
     /** The impact used when the event's record holds no appraised impulse. */
     impulseParameter?: string;
+    /**
+     * How much harder this kind of event pushes toward a lasting drive than
+     * the responses' own fits say (a multiple of each drive response's fit,
+     * one when absent). Carrying on is not scaled.
+     */
+    fitScaleParameter?: string;
   }[];
   actions: readonly ActionDefinition[];
   gaps: readonly string[];
@@ -101,6 +117,7 @@ type EventKindKey =
   | "strengthened";
 type FactKey =
   | "responsible"
+  | "decidedBy"
   | "drive"
   | "origin"
   | "condition"
@@ -111,7 +128,10 @@ type FactKey =
   | "strengthAdded"
   | "response"
   | "role"
-  | "originEvent";
+  | "originEvent"
+  | "countedSubject"
+  | "countedPerceivers"
+  | "countedHousehold";
 
 export const DEFAULT_DRIVES_DATA = drivesJson as unknown as DrivesData;
 
@@ -125,6 +145,8 @@ export interface ScoredResponse {
 export interface FormationTrace {
   date: IsoDate;
   personId: PersonId;
+  /** The person was still in the wider population when they responded. */
+  counted?: true;
   eventId: string;
   eventKind: string;
   ruleId: string;
@@ -199,12 +221,26 @@ export interface HeldDrive {
 interface DrivesRuntime {
   drives: Map<string, HeldDrive>;
   byPerson: Map<PersonId, Map<string, HeldDrive>>;
+  /**
+   * Drives formed by people still in the wider population, kept by person
+   * until they are filled in (a counted record holds no drives of its own).
+   * Each stands for the household weight its person's record carries.
+   */
+  countedByPerson: Map<PersonId, Map<string, HeldDrive>>;
   groupsByTopic: Map<string, Set<string>>;
   groupFounder: Map<string, PersonId>;
   /** The change each cause group was founded to win (its founder's drive). */
   groupChange: Map<string, string>;
   formedByYearKind: Map<string, number>;
+  /** The same count for drives formed in the wider population. */
+  countedFormedByYearKind: Map<string, number>;
   responsesByRule: Map<string, number>;
+  /**
+   * The same count by the role the person held toward the event and whether
+   * they are old enough to form a drive of their own (agency at least half
+   * an adult's, from `responseAgencyTurnAge` on): rule:role:grown|young:response.
+   */
+  responsesByRole: Map<string, number>;
   perceived: number;
   decisions: FormationTrace[];
   /** Today's scored choice for each drive holder, matched against the act recorded. */
@@ -237,11 +273,14 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
     row = {
       drives: new Map(),
       byPerson: new Map(),
+      countedByPerson: new Map(),
       groupsByTopic: new Map(),
       groupFounder: new Map(),
       groupChange: new Map(),
       formedByYearKind: new Map(),
+      countedFormedByYearKind: new Map(),
       responsesByRule: new Map(),
+      responsesByRole: new Map(),
       perceived: zero,
       decisions: [],
       predicted: new Map(),
@@ -264,7 +303,7 @@ export function currentStrength(
   drive: Readonly<HeldDrive>,
   date: IsoDate = api.state.date,
 ): number {
-  const elapsed = daysBetween(makeIsoDate(drive.anchorDate), makeIsoDate(date));
+  const elapsed = daysBetweenText(drive.anchorDate, date);
   return (
     drive.anchorStrength *
     Math.pow(api.parameter("two"), -elapsed / drive.halfLifeDays)
@@ -272,6 +311,8 @@ export function currentStrength(
 }
 
 function writeDrive(api: CoreAPI, drive: HeldDrive, strength: number) {
+  // A counted person's drive is written on them when they are filled in.
+  if (!api.state.people.has(drive.personId)) return;
   const row: Drive = {
     id: drive.id,
     kind: drive.kind,
@@ -344,7 +385,11 @@ const roleOperations: Readonly<Record<string, RoleTest>> = {
       (id) =>
         id !== actor.id &&
         api.state.people.get(id)?.householdId === actor.householdId,
-    ),
+    ) ||
+    // A counted subject's household, named by the event itself.
+    (!!actor.householdId &&
+      event.facts?.["counted-household"] === actor.householdId &&
+      !event.personIds.includes(actor.id)),
   "known-to-subject": (api, actor, event) =>
     event.personIds.some(
       (id) =>
@@ -362,9 +407,19 @@ type RequirementTest = (
   event: CoreEventInput,
 ) => boolean;
 
-function responsibleId(data: DrivesData, event: CoreEventInput) {
+/** Who an event holds responsible for a harm: a person or institution its record names. */
+export function responsibleId(
+  data: DrivesData,
+  event: CoreEventInput,
+  people: ReadonlyMap<string, Readonly<PersonState>>,
+) {
   const named = event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
   if (named) return named;
+  // The person the record names as deciding the harm (the owner or manager
+  // who decided a layoff), when they are a living full person: a grudge can
+  // then be held against someone, not only the institution.
+  const decider = event.facts?.[data.factKeys.decidedBy];
+  if (decider && people.get(decider)?.alive) return decider;
   // Some engines name the responsible party as the event's topic (the
   // employer behind a layoff, the landlord behind an eviction).
   if (data.responsibleInTopic?.includes(event.kind) && event.topic)
@@ -382,7 +437,7 @@ const requirementOperations: Readonly<Record<string, RequirementTest>> = {
   "event-topic": (_api, _data, _actor, event) =>
     !!event.topic && !!event.desiredChange,
   "event-responsible": (api, data, actor, event) => {
-    const id = responsibleId(data, event);
+    const id = responsibleId(data, event, api.state.people);
     return (
       !!id &&
       id !== actor.id &&
@@ -467,8 +522,9 @@ function driveIdentity(
   kind: DriveKindRow,
   actor: Readonly<PersonState>,
   event: CoreEventInput,
+  people: ReadonlyMap<string, Readonly<PersonState>>,
 ) {
-  const responsible = responsibleId(data, event);
+  const responsible = responsibleId(data, event, people);
   const topic =
     kind.shareable && event.topic
       ? event.topic
@@ -563,6 +619,45 @@ function chooserContext(
 }
 
 /** The person's own decision about one perceived event; no roll, no assignment. */
+/** A counted person as the shared chooser reads them, from their counted record. */
+function countedActor(
+  state: CoreState,
+  personId: PersonId,
+): PersonState | undefined {
+  const row = countedPersonOf(state, personId);
+  return row ? initialPersonState(state, row, false) : undefined;
+}
+
+/**
+ * The people still in the wider population an event happened to: the
+ * counted workers a closure ended the jobs of, or the counted worker a
+ * layoff named. The event itself names only full people.
+ */
+function countedSubjects(
+  api: CoreAPI,
+  data: DrivesData,
+  event: CoreEventInput,
+): PersonId[] {
+  const state = api.state as CoreState;
+  const out = new Set<PersonId>();
+  const named = event.facts?.[data.factKeys.countedSubject];
+  if (named) out.add(named);
+  if (event.kind === data.closureEventKind) {
+    // The closure event's id ends with the closed business.
+    const closure = state.finance.closures.get(
+      event.id.split(":").slice(2).join(":"),
+    );
+    const jobs = residentsRuntime(state)?.jobs;
+    for (const id of closure?.endedCountedJobIds ?? []) {
+      const personId = jobs?.get(id)?.personId;
+      if (personId) out.add(personId);
+    }
+  }
+  return [...out].filter(
+    (id) => !state.people.has(id) && countedPersonOf(state, id) !== undefined,
+  );
+}
+
 export function respond(
   api: CoreAPI,
   data: DrivesData,
@@ -570,7 +665,12 @@ export function respond(
   event: CoreEventInput,
 ): FormationTrace[] {
   const p = (key: string) => api.parameter(key);
-  const actor = api.state.people.get(actorId);
+  // A person still in the wider population responds by the same rule, from
+  // their counted record (the shared chooser reads them the same way).
+  const counted = !api.state.people.has(actorId);
+  const actor = counted
+    ? countedActor(api.state as CoreState, actorId)
+    : api.state.people.get(actorId);
   if (!actor?.alive) return [];
   const out: FormationTrace[] = [];
   const params = parameterValues(api.state.data.parameters);
@@ -597,10 +697,12 @@ export function respond(
         : p(rule.impulseParameter) *
           (p("lifeEventMoodScale") + p("lifeEventStressScale"));
     const pressure = seen.attention * magnitude;
+    const fitScale = rule.fitScaleParameter
+      ? p(rule.fitScaleParameter)
+      : p("one");
     // Agency to form a lasting drive of one's own rises smoothly through adolescence.
     const age =
-      daysBetween(makeIsoDate(actor.birthDate), makeIsoDate(api.state.date)) /
-      p("daysPerMeanYear");
+      daysBetweenText(actor.birthDate, api.state.date) / p("daysPerMeanYear");
     const agency =
       p("one") /
       (p("one") +
@@ -639,7 +741,7 @@ export function respond(
       const alone = chooseAct(core(api), actor.id, [offer]);
       const lean =
         (alone.selectedReasons?.trait ?? p("zero")) / p("traitWeight");
-      const fit = p(row.fitParameter);
+      const fit = p(row.fitParameter) * (row.driveKind ? fitScale : p("one"));
       return {
         responseId: row.id,
         fit,
@@ -671,18 +773,70 @@ export function respond(
     const decision = chooseAct(core(api), actor.id, decided, context);
     const chosen = scored(decision);
     if (!chosen) continue;
+    // A debug switch, off in play: would the same person, with the same event
+    // and no trait lean, have answered differently? (the trait-wiring audit)
+    const probe = traitProbe();
+    if (probe?.formula) {
+      setTraitProbe(undefined);
+      const flat = scored(
+        chooseAct(
+          core(api),
+          actor.id,
+          decided,
+          chooserContext(
+            actor,
+            rows.map((row, position) => {
+              const entry = considered[position]!;
+              const [goalKind] = row.goalKinds;
+              const leaned = Math.max(
+                p("zero"),
+                entry.fit + p("responseTraitLeanGain") * entry.lean,
+              );
+              return {
+                id: goalKind!,
+                kind: goalKind!,
+                urgency:
+                  entry.urgency -
+                  pressure *
+                    (row.driveKind ? agency : p("one")) *
+                    (leaned - Math.max(p("zero"), entry.fit)),
+              };
+            }),
+          ),
+          false,
+          false,
+        ),
+      );
+      setTraitProbe(probe);
+      probe.formula({
+        decisionId: "drives.respond",
+        actorId: actor.id,
+        lean: considered.find(
+          (entry) => entry.responseId === chosen.responseId,
+        )!.lean,
+        bare: flat?.score ?? p("zero"),
+        yes:
+          rows.find((row) => row.id === chosen.responseId)!.driveKind !==
+          undefined,
+        turned: flat?.responseId !== chosen.responseId,
+      });
+    }
+    // The runner-up is a second look at the same choice, not a choice of its own.
     const runnerUp = scored(
       chooseAct(
         core(api),
         actor.id,
         decided.filter((offer) => offer !== decision.selected),
         context,
+        false,
+        false,
       ),
     );
     const row = rows.find((response) => response.id === chosen.responseId)!;
     const trace: FormationTrace = {
       date: api.state.date,
       personId: actor.id,
+      ...(counted ? { counted: true } : {}),
       eventId: event.id,
       eventKind: event.kind,
       ruleId: rule.id,
@@ -709,6 +863,11 @@ export function respond(
     };
     const runtime = runtimeFor(api.state);
     bump(runtime.responsesByRule, `${rule.id}:${row.id}`, api);
+    bump(
+      runtime.responsesByRole,
+      `${rule.id}:${seen.role}:${agency >= p("one") / p("two") ? "grown" : "young"}:${row.id}`,
+      api,
+    );
     runtime.perceived += p("one");
     const kind = row.driveKind
       ? data.driveKinds.find((entry) => entry.id === row.driveKind)
@@ -719,10 +878,17 @@ export function respond(
       const urgency = considered.find(
         (entry) => entry.responseId === row.id,
       )!.urgency;
-      const identity = driveIdentity(data, kind, actor, event);
+      const identity = driveIdentity(
+        data,
+        kind,
+        actor,
+        event,
+        api.state.people,
+      );
       trace.driveId = identity.id;
-      let mine = runtime.byPerson.get(actor.id);
-      if (!mine) runtime.byPerson.set(actor.id, (mine = new Map()));
+      const holders = counted ? runtime.countedByPerson : runtime.byPerson;
+      let mine = holders.get(actor.id);
+      if (!mine) holders.set(actor.id, (mine = new Map()));
       let drive = mine.get(identity.id);
       const isNew = !drive;
       if (!drive) {
@@ -746,9 +912,9 @@ export function respond(
           told: new Set(),
         };
         mine.set(drive.id, drive);
-        runtime.drives.set(`${actor.id}|${drive.id}`, drive);
+        if (!counted) runtime.drives.set(`${actor.id}|${drive.id}`, drive);
         bump(
-          runtime.formedByYearKind,
+          counted ? runtime.countedFormedByYearKind : runtime.formedByYearKind,
           `${api.state.date.slice(p("zero"), p("isoYearCharacters"))}:${kind.id}`,
           api,
         );
@@ -759,7 +925,13 @@ export function respond(
         drive,
         Math.exp(-urgency * p("driveStrengthScale")),
       );
-      // A moment for the story director: who, which event, how strong now.
+      // A moment for the story director: who, which event, how strong now
+      // (a counted person has no story until they are filled in).
+      if (counted) {
+        retain(api, runtime.decisions, trace);
+        out.push(trace);
+        continue;
+      }
       const momentKind = isNew
         ? data.eventKinds.formed
         : data.eventKinds.strengthened;
@@ -821,6 +993,15 @@ function servingDrives(
     )
     .map((row) => row.drive);
 }
+
+/** A grudge's confrontation weighs how recently the holder last had it out with the person. */
+const CONFRONT_RECENCY: readonly ReasonBinding[] = [
+  {
+    id: "confront-recency",
+    provider: "drives:confront-recency",
+    weightParameter: "grudgeConfrontRecencyWeight",
+  },
+];
 
 function driveOffer(
   api: CoreAPI,
@@ -909,13 +1090,24 @@ function predict(
 ): PredictedChoice {
   refresh(actor as PersonState);
   const offers = availableActs(core(api), actor.id);
-  const decision = chooseAct(core(api), actor.id, offers);
+  // A prediction of the day's act, not a choice: nothing is kept.
+  const decision = chooseAct(
+    core(api),
+    actor.id,
+    offers,
+    undefined,
+    false,
+    false,
+  );
   const selected = decision.selected;
   const runner = selected
     ? chooseAct(
         core(api),
         actor.id,
         offers.filter((offer) => offer !== selected),
+        undefined,
+        false,
+        false,
       )
     : undefined;
   const total = (reasons: DecisionReason | undefined) =>
@@ -1137,7 +1329,7 @@ function raiseFromCounted(
       // Adults, as the counted population's adults are counted.
       if (
         !person?.alive ||
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+        daysBetweenText(person.birthDate, c.date) /
           api.parameter("daysPerMeanYear") <
           api.parameter("benchmarkAdultMinimumAge")
       )
@@ -1274,6 +1466,31 @@ export function createDrivesModule(
         );
       },
     },
+    reasonProviders: {
+      // Having just had it out with someone weighs against doing it again,
+      // fading as the days pass: no cooldown, no cutoff.
+      [CONFRONT_RECENCY[0]!.provider]: (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        if (!drive) return;
+        // The latest confrontation among the drive's kept act traces.
+        let last: string | undefined;
+        for (const act of drive.acts)
+          if (
+            act.actionId === offer.definition.id &&
+            act.basis === "scored" &&
+            (!last || act.date > last)
+          )
+            last = act.date;
+        if (!last) return;
+        const days = daysBetweenText(last, api.state.date);
+        return {
+          value: -Math.exp(-days / api.parameter("grudgeConfrontRecencyDays")),
+          sourceIds: [drive.id],
+        };
+      },
+    },
     // Only the events a rule answers or a drive act emits reach this module.
     eventKinds: [
       ...new Set([
@@ -1286,6 +1503,20 @@ export function createDrivesModule(
       if (api.state.date.endsWith("-01")) {
         raiseFromCounted(api, data, runtime);
         spendGroupFunds(api, runtime);
+        // A counted person's faded drives, and those of anyone the counts no
+        // longer hold (died or moved away), are let go.
+        for (const [personId, mine] of runtime.countedByPerson) {
+          if (!countedPersonOf(api.state as CoreState, personId)) {
+            runtime.countedByPerson.delete(personId);
+            continue;
+          }
+          for (const drive of mine.values())
+            if (
+              currentStrength(api, drive) < api.parameter("driveRetireStrength")
+            )
+              mine.delete(drive.id);
+          if (!mine.size) runtime.countedByPerson.delete(personId);
+        }
       }
       for (const [personId, mine] of runtime.byPerson) {
         if (!api.state.people.get(personId)?.alive) {
@@ -1317,6 +1548,34 @@ export function createDrivesModule(
           refresh(actor as PersonState);
           runtime.predicted.delete(personId);
         }
+      }
+    },
+    // A person filled in from the counts holds the drives they formed there.
+    onFillIn(api, { memberIds }) {
+      const runtime = runtimeFor(api.state);
+      for (const personId of memberIds) {
+        const held = runtime.countedByPerson.get(personId);
+        if (!held || !api.state.people.has(personId)) continue;
+        runtime.countedByPerson.delete(personId);
+        const mine = runtime.byPerson.get(personId) ?? new Map();
+        runtime.byPerson.set(personId, mine);
+        for (const drive of held.values()) {
+          const strength = currentStrength(api, drive);
+          if (strength < api.parameter("driveRetireStrength")) continue;
+          // They lived through the event that formed it, as the core records
+          // for anyone an event names.
+          api.observe(personId, {
+            key: `event:${drive.sourceEventId}:experienced`,
+            value: drive.sourceEventId,
+            learnedAt: drive.formedAt,
+            sourceId: drive.sourceEventId,
+            access: "perceived",
+          });
+          mine.set(drive.id, drive);
+          runtime.drives.set(`${personId}|${drive.id}`, drive);
+          writeDrive(api, drive, strength);
+        }
+        if (!mine.size) runtime.byPerson.delete(personId);
       }
     },
     onEvent(api, event, learnedBy) {
@@ -1371,6 +1630,17 @@ export function createDrivesModule(
       if (!data.eventRules.some((rule) => rule.eventKind === event.kind))
         return;
       for (const id of learnedBy) respond(api, data, id, event);
+      // The counted people it happened to perceive it as its subjects, by the same rule.
+      for (const id of countedSubjects(api, data, event))
+        respond(api, data, id, { ...event, personIds: [id] });
+      // Counted people the event happened around (the household a counted
+      // death left), each perceiving it with the counted subject as its subject.
+      const subject = event.facts?.[data.factKeys.countedSubject];
+      const around = event.facts?.[data.factKeys.countedPerceivers];
+      if (subject && around)
+        for (const id of JSON.parse(around) as PersonId[])
+          if (!api.state.people.has(id))
+            respond(api, data, id, { ...event, personIds: [subject] });
     },
     offerProviders: {
       "drive-confidant": (api, actor, action) => {
@@ -1450,7 +1720,10 @@ export function createDrivesModule(
             (drive) =>
               drive.targetId && api.state.people.get(drive.targetId)?.alive,
           )
-          .map((drive) => driveOffer(api, action, drive.targetId!, drive)),
+          .map((drive) => ({
+            ...driveOffer(api, action, drive.targetId!, drive),
+            reasonBindings: CONFRONT_RECENCY,
+          })),
       "known-public-figure": (api, actor, action) => {
         const out: ActOffer[] = [];
         for (const drive of servingDrives(api, actor, action))
@@ -1462,7 +1735,6 @@ export function createDrivesModule(
               out.push(driveOffer(api, action, id, drive));
         return out;
       },
-      "unbuilt-system": () => [],
     },
     eligibilityRules: {
       "no-known-group-on-topic": (api, actor, offer) => {
@@ -1693,11 +1965,6 @@ export function createDrivesModule(
           ),
         );
       },
-      "unbuilt-system": () => {
-        throw new Error(
-          "No core2 system exists for this act; it is never offered.",
-        );
-      },
     },
   };
 }
@@ -1712,13 +1979,61 @@ export function withDrives(
   return extendData(base, { actions: data.actions });
 }
 
+/**
+ * The drives held in the wider population today: by person, each with its
+ * kind, the event that formed it and its strength now. Each person stands for
+ * the household weight of their counted record. Read-only.
+ */
+export function countedDrivesHeld(api: CoreAPI): {
+  personId: PersonId;
+  driveId: string;
+  kind: string;
+  sourceEventId: string;
+  strength: number;
+  /** How they stood toward the event that formed it, and that event's facts. */
+  role?: string;
+  sourceFacts?: Readonly<Record<string, string>>;
+}[] {
+  const out: {
+    personId: PersonId;
+    driveId: string;
+    kind: string;
+    sourceEventId: string;
+    strength: number;
+    role?: string;
+    sourceFacts?: Readonly<Record<string, string>>;
+  }[] = [];
+  for (const [personId, mine] of runtimeFor(api.state).countedByPerson)
+    for (const drive of mine.values())
+      out.push({
+        personId,
+        driveId: drive.id,
+        kind: drive.kind,
+        sourceEventId: drive.sourceEventId,
+        strength: currentStrength(api, drive),
+        ...(drive.formations[0]
+          ? {
+              role: drive.formations[0].role,
+              ...(drive.formations[0].event.facts
+                ? { sourceFacts: drive.formations[0].event.facts }
+                : {}),
+            }
+          : {}),
+      });
+  return out;
+}
+
 /** Read-only report for observers and proofs; writes nothing. */
 export function drivesReport(core: Readonly<CoreState>) {
   const runtime = runtimes.get(core);
   return {
     drives: runtime ? [...runtime.drives.values()] : [],
     formedByYearKind: Object.fromEntries(runtime?.formedByYearKind ?? []),
+    countedFormedByYearKind: Object.fromEntries(
+      runtime?.countedFormedByYearKind ?? [],
+    ),
     responsesByRule: Object.fromEntries(runtime?.responsesByRule ?? []),
+    responsesByRole: Object.fromEntries(runtime?.responsesByRole ?? []),
     perceived: runtime?.perceived,
     decisions: runtime?.decisions ?? [],
     groups: runtime

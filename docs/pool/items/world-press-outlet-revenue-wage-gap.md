@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/public-post-hours
 pr: #5013
 blocked-on:

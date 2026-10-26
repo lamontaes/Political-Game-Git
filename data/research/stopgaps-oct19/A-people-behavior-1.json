@@ -1,0 +1,616 @@
+[
+  {
+    "id": "SG-P8-param-stressHalfLifeDays",
+    "currentValue": 7,
+    "recommendedValue": 3,
+    "unit": "days (half-life of stress deviation from baseline)",
+    "low": 1.5,
+    "high": 10,
+    "basis": "Daily-diary work shows stressor-driven negative affect largely resolves within about 1 to 2 days, with a minority of lingering response (Bolger 1989: habituation by day 2 for most events except interpersonal conflict; Leger 2018: next-day carryover is common but partial). Lag-1 daily autocorrelations of negative affect of about 0.3 to 0.6 (assumed, not sourced here) imply half-life = ln2 / -ln(phi) = 0.6 to 1.4 days for mood; stress appraisal tied to ongoing demands and rumination lasts longer (Verduyn 2015: importance and rumination stretch episodes from hours to days). Chronic stress is carried by stressBaseline and the resting-stress terms, so the decay of deviation from baseline can be shorter than 7 days: 3 days is a defensible middle with mood at 1. Note: some figures here come from sources not fetched this session (marked retrieved:false); treat as estimate.",
+    "sources": [
+      {
+        "title": "Effects of daily stress on negative mood",
+        "url": "https://hcp.hms.harvard.edu/publication/effects-daily-stress-negative-mood",
+        "publisher": "Journal of Personality and Social Psychology (Bolger, DeLongis, Kessler, Schilling)",
+        "year": 1989,
+        "retrieved": true,
+        "quote": "daily stressors explained up to 20% of the variance in mood"
+      },
+      {
+        "title": "Let It Go: Lingering negative affect in response to daily stressors is associated with physical health years later",
+        "url": "https://journals.sagepub.com/doi/10.1177/0956797618763097",
+        "publisher": "Psychological Science (Leger, Charles, Almeida)",
+        "year": 2018,
+        "retrieved": true,
+        "quote": "negative emotional responses to stress carry over to the following day"
+      },
+      {
+        "title": "Which emotions last longest and why: the role of event importance and rumination",
+        "url": "https://doi.org/10.1007/s11031-014-9445-y",
+        "publisher": "Motivation and Emotion (Verduyn, Lavrijsen)",
+        "year": 2015,
+        "retrieved": false,
+        "quote": "not fetched; sadness 120 h figure taken from repo parameters.json citation"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "In parameters.json set stressHalfLifeDays value to 3 (spread 1.5 to 10); keep moodHalfLifeDays at 1; change tag to ESTIMATED and cite the sources."
+  },
+  {
+    "id": "SG-P8-param-needWeight",
+    "currentValue": 1,
+    "recommendedValue": 1,
+    "unit": "dimensionless utility weight relative to needWeight = 1",
+    "low": 1,
+    "high": 1,
+    "basis": "Need weight is the normalization anchor: all other weights are defined relative to it, so 1 is a convention rather than a measurement. Evidence only constrains ratios between components (see goal, drive, trait, emotion, effort rows). Check by confirming the share of choices that follow the largest unmet need matches ATUS category totals, not by moving this value.",
+    "sources": [
+      {
+        "title": "American Time Use Survey, Table 1 and Table 2 (sleep 9.03 h all days; 8.76 weekdays; 9.68 weekends)",
+        "url": "https://www.bls.gov/news.release/atus.t02.htm",
+        "publisher": "BLS",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "sleeping weekdays 8.76 hours; weekends and holidays 9.68"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": false,
+    "builderNote": "Keep value 1 and mark it as the reference scale (tag DEFINITION), with the others as ratios to it."
+  },
+  {
+    "id": "SG-P8-param-goalWeight",
+    "currentValue": 1,
+    "recommendedValue": 0.8,
+    "unit": "dimensionless utility weight relative to needWeight = 1",
+    "low": 0.5,
+    "high": 1.0,
+    "basis": "Intention-to-behavior links are real but incomplete: experiments that raise intention by d=0.66 change behavior by only d=0.36 (Webb and Sheeran 2006), a ratio of 0.55 for intervened intentions; correlational intention-behavior r is about 0.5. Active goals are slightly less binding than an acute unmet need, so 0.8 relative to need is an estimate in the 0.55 to 1.0 band.",
+    "sources": [
+      {
+        "title": "Does changing behavioral intentions engender behavior change? A meta-analysis of the experimental evidence",
+        "url": "https://doi.org/10.1037/0033-2909.132.2.249",
+        "publisher": "Psychological Bulletin (Webb, Sheeran)",
+        "year": 2006,
+        "retrieved": true,
+        "quote": "(d = 0.66) leads to a small-to-medium change in behavior (d = 0.36)"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Set goalWeight to 0.8 (spread 0.5 to 1.0) and validate with the whole-life activity totals."
+  },
+  {
+    "id": "SG-P8-param-driveWeight",
+    "currentValue": 1,
+    "recommendedValue": 1.0,
+    "unit": "dimensionless utility weight relative to needWeight = 1",
+    "low": 0.6,
+    "high": 1.2,
+    "basis": "An event-born drive (a salient recent trigger) is closest to a strong desire; desire strength predicts enactment at roughly the same size as intentions (r about 0.5), so parity with need is defensible. No direct measure of drive versus need exists, so 1.0 is retained as an estimate with a spread tied to the goal band.",
+    "sources": [
+      {
+        "title": "Does changing behavioral intentions engender behavior change? A meta-analysis of the experimental evidence",
+        "url": "https://doi.org/10.1037/0033-2909.132.2.249",
+        "publisher": "Psychological Bulletin (Webb, Sheeran)",
+        "year": 2006,
+        "retrieved": true,
+        "quote": "(d = 0.66) leads to a small-to-medium change in behavior (d = 0.36)"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Keep driveWeight at 1.0; record spread 0.6 to 1.2 and tag ESTIMATED."
+  },
+  {
+    "id": "SG-P8-param-traitWeight",
+    "currentValue": 1,
+    "recommendedValue": 0.6,
+    "unit": "dimensionless utility weight relative to needWeight = 1",
+    "low": 0.4,
+    "high": 0.9,
+    "basis": "Big Five standing predicts average behavior at r of about 0.42 to 0.56 over many occasions (Fleeson and Gallagher 2009) but single-act prediction is nearer r=0.3. Relative to an intention/need link of r about 0.5, a single-choice trait weight is about 0.3/0.5 = 0.6. The Oct 14 ruling set 1.0 (range 0.2 to 1.0); evidence favors the middle of that range. Note: some figures here come from sources not fetched this session (marked retrieved:false); treat as estimate.",
+    "sources": [
+      {
+        "title": "Fleeson & Gallagher, The implications of Big Five standing for the distribution of trait manifestation in behavior (trait-behavior r .42 to .56)",
+        "url": "https://scholars.duke.edu/publication/733213",
+        "publisher": "Journal of Personality and Social Psychology",
+        "year": 2009,
+        "retrieved": false,
+        "quote": "abstract fetched did not show the r range; from search snippet only"
+      },
+      {
+        "title": "Does changing behavioral intentions engender behavior change? A meta-analysis of the experimental evidence",
+        "url": "https://doi.org/10.1037/0033-2909.132.2.249",
+        "publisher": "Psychological Bulletin (Webb, Sheeran)",
+        "year": 2006,
+        "retrieved": true,
+        "quote": "(d = 0.66) leads to a small-to-medium change in behavior (d = 0.36)"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Set traitWeight to 0.6 (spread 0.4 to 0.9); the owner's Oct 14 equal-weight ruling should be revisited with this evidence."
+  },
+  {
+    "id": "SG-P8-param-emotionWeight",
+    "currentValue": 0.2,
+    "recommendedValue": 0.35,
+    "unit": "dimensionless utility weight relative to needWeight = 1",
+    "low": 0.15,
+    "high": 0.6,
+    "basis": "Affect shifts choices modestly: induced and naturally occurring mood effects on behavior are typically small to medium (d about 0.2 to 0.5), versus intention-behavior r about 0.5. Ratio 0.2/0.5 up to 0.5/0.5 gives 0.4 to 1, shrunk toward the lower end because the model also feeds affect through needs and stress. 0.35 is an estimate; the current 0.2 is inside the spread.",
+    "sources": [
+      {
+        "title": "Does changing behavioral intentions engender behavior change? A meta-analysis of the experimental evidence",
+        "url": "https://doi.org/10.1037/0033-2909.132.2.249",
+        "publisher": "Psychological Bulletin (Webb, Sheeran)",
+        "year": 2006,
+        "retrieved": true,
+        "quote": "(d = 0.66) leads to a small-to-medium change in behavior (d = 0.36)"
+      },
+      {
+        "title": "The Stressful Personality: A meta-analytical review of the relation between personality and stress (neuroticism strongest)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/35801622/",
+        "publisher": "Personality and Social Psychology Review (Luo, Zhang, Cao)",
+        "year": 2022,
+        "retrieved": false,
+        "quote": "search snippet only: neuroticism strongest link"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Set emotionWeight to 0.35 (spread 0.15 to 0.6); keep sign conventions unchanged."
+  },
+  {
+    "id": "SG-P8-param-effortWeight",
+    "currentValue": 0.2,
+    "recommendedValue": 0.3,
+    "unit": "dimensionless utility weight relative to needWeight = 1",
+    "low": 0.1,
+    "high": 0.5,
+    "basis": "People avoid effortful options at a roughly constant exchange rate, but no survey gives a normalized weight. Estimate: time and effort costs matter less than needs and goals but more than a pure tie-breaker, so 0.3 relative to need, spread 0.1 to 0.5. Anchor the resulting behavior to ATUS: work 8.1 h on days worked and sleep 9.03 h all days (as already used in this file) must still be chosen at realistic rates.",
+    "sources": [
+      {
+        "title": "American Time Use Survey, Table 1 and Table 2 (sleep 9.03 h all days; 8.76 weekdays; 9.68 weekends)",
+        "url": "https://www.bls.gov/news.release/atus.t02.htm",
+        "publisher": "BLS",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "sleeping weekdays 8.76 hours; weekends and holidays 9.68"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Set effortWeight to 0.3 and rerun the ATUS time-budget check; if work or care hours drift more than 20% from ATUS, adjust within 0.1 to 0.5."
+  },
+  {
+    "id": "SG-P8-param-restEffect",
+    "currentValue": 0.25,
+    "recommendedValue": 0.08,
+    "unit": "stress change per rest act, share of PSS-10 scale (points/40)",
+    "low": 0.05,
+    "high": 0.16,
+    "basis": "Micro-breaks of 10 minutes or less reduce fatigue by d=0.35 (Albulescu 2022). The PSS-10 norm SD is 6.42 points of 40 = 0.16 (fetched) of scale (Klein 2016). A short break therefore moves about 0.35*0.16 = 0.056 of scale; a multi-hour rest act should saturate near 0.5 SD = 0.08 and at most 1 SD = 0.16. The current 0.25 would be 1.6 SD from one act, too large.",
+    "sources": [
+      {
+        "title": "Give me a break! Systematic review and meta-analysis of micro-breaks (vigor d=.36, fatigue d=.35)",
+        "url": "https://doi.org/10.1371/journal.pone.0272460",
+        "publisher": "PLoS ONE (Albulescu et al.)",
+        "year": 2022,
+        "retrieved": true,
+        "quote": "boosting vigor (d = .36); reducing fatigue (d = .35)"
+      },
+      {
+        "title": "Psychological stress in the German general population: PSS-10 norm values",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813",
+        "publisher": "BMC Psychiatry (Klein et al.)",
+        "year": 2016,
+        "retrieved": true,
+        "quote": "overall mean 12.57, SD 6.42 (Table 3 total score)"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Set restEffect to 0.08 (spread 0.05 to 0.16), assuming the effect is applied to stress in 0 to 1 scale units; confirm the unit in the rest-act code."
+  },
+  {
+    "id": "SG-P8-param-careEffect",
+    "currentValue": 0.15,
+    "recommendedValue": 0.04,
+    "unit": "stress relief per completed care act, share of PSS-10 scale (points/40)",
+    "low": 0.02,
+    "high": 0.08,
+    "basis": "Respite and support interventions for caregivers show a pooled effect of 0.22 SD (CI 0.05 to 0.40) on caregiver outcomes; rigorous trials weaker. 0.22*0.16 (PSS SD as a share of scale) = 0.035. A completed care task relieves the worry of an unmet need but is itself burdensome, so about 0.04 with spread 0.02 to 0.08 is reasonable. Note: some figures here come from sources not fetched this session (marked retrieved:false); treat as estimate.",
+    "sources": [
+      {
+        "title": "Rodriguez-Alcazar et al., meta-analysis of caregiver interventions in dementia (respite effect 0.22, CI 0.05-0.40)",
+        "url": "https://www.mdpi.com/journal/nursrep",
+        "publisher": "Nursing Reports",
+        "year": 2024,
+        "retrieved": false,
+        "quote": "search snippet only: respite effect 0.22"
+      },
+      {
+        "title": "Effectiveness of respite care in supporting informal caregivers of persons with dementia: a systematic review",
+        "url": "https://archrespite.org/bibliography/effectiveness-of-respite-care-in-supporting-informal-caregivers-of-persons-with-dementia-a-systematic-review/",
+        "publisher": "International Journal of Geriatric Psychiatry (Vandepitte et al.)",
+        "year": 2016,
+        "retrieved": false,
+        "quote": "search snippet only"
+      },
+      {
+        "title": "Psychological stress in the German general population: PSS-10 norm values",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813",
+        "publisher": "BMC Psychiatry (Klein et al.)",
+        "year": 2016,
+        "retrieved": true,
+        "quote": "overall mean 12.57, SD 6.42 (Table 3 total score)"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Set careEffect to 0.04 (spread 0.02 to 0.08); verify the unit matches stress as share of scale."
+  },
+  {
+    "id": "SG-P8-param-companyHorizonDays",
+    "currentValue": 14,
+    "recommendedValue": 14,
+    "unit": "days (contact gap at which the company need saturates)",
+    "low": 7,
+    "high": 30,
+    "basis": "Contact-frequency layers in personal networks: the closest few ties are contacted about weekly (7 days) and the next layer about monthly (30 days) (Dunbar 2018 (not fetched this session, from memory, unverified)); the geometric mean of 7 and 30 is 14.5 days. Friendships decay unless contact is maintained (Roberts and Dunbar 2015), and about 50 hours together make a casual friend while 200+ make a close one (Hall 2018). The existing ATUS check (1.4 to 1.6 times observed family visiting) supports 14 as at least internally consistent.",
+    "sources": [
+      {
+        "title": "The anatomy of friendship (contact-frequency layers: inner circle about weekly, next layer about monthly)",
+        "url": "https://doi.org/10.1016/j.tics.2017.10.004",
+        "publisher": "Trends in Cognitive Sciences (Dunbar)",
+        "year": 2018,
+        "retrieved": false,
+        "quote": "not fetched; layer frequencies from memory, treat as unverified"
+      },
+      {
+        "title": "Managing Relationship Decay: Network, Gender, and Contextual Effects",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4626528/",
+        "publisher": "Human Nature (Roberts, Dunbar)",
+        "year": 2015,
+        "retrieved": true,
+        "quote": "decline in friendship quality was mitigated by increased effort"
+      },
+      {
+        "title": "How many hours does it take to make a friend?",
+        "url": "https://news.ku.edu/news/article/2018/03/06/study-reveals-number-hours-it-takes-make-friend",
+        "publisher": "Journal of Social and Personal Relationships (Hall) / KU release",
+        "year": 2018,
+        "retrieved": true,
+        "quote": "more than 200 hours before you can consider someone your close friend"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Keep companyHorizonDays at 14; add spread 7 to 30 and cite Dunbar 2018 and Roberts and Dunbar 2015. Consider layer-specific horizons (7 inner, 30 outer) later."
+  },
+  {
+    "id": "SG-P8-param-organizationReserveMonths",
+    "currentValue": 6,
+    "recommendedValue": 4,
+    "unit": "months of payroll held as opening cash (private firms)",
+    "low": 2.5,
+    "high": 6,
+    "basis": "Fetched: median small business holds 27 cash buffer days (2016; quartiles 13 and 62); a 2020 snapshot shows a median of 15 days (metros 11 to 18). Fetched: a typical employer small business has payroll outflows of 18 percent of all outflows. Buffer 15 to 27 days = 0.5 to 0.9 months of outflows; divided by payroll share 0.18 gives about 2.8 to 5 payroll-months, so 4 is recommended. Nonprofit reserves (about 2.5 months of expenses on Form 990 data, 2 to 6 by other measures) were seen only in search snippets, so they stay an estimate; public bodies carry zero prepaid stock.",
+    "sources": [
+      {
+        "title": "Cash flows, balances and buffer days (median small business 27 buffer days; quartiles 13 and 62)",
+        "url": "https://www.jpmorganchase.com/institute/all-topics/business-growth-and-entrepreneurship/report-cash-flows-balances-and-buffer-days",
+        "publisher": "JPMorgan Chase Institute",
+        "year": 2016,
+        "retrieved": true,
+        "quote": "The median small business holds 27 cash buffer days in reserve."
+      },
+      {
+        "title": "Cash buffer days by metro, April 2020 snapshot (median 15 days; metros 11 to 18)",
+        "url": "https://www.jpmorganchase.com/institute/all-topics/business-growth-and-entrepreneurship/small-business-cash-liquidity-in-25-metro-areas",
+        "publisher": "JPMorgan Chase Institute",
+        "year": 2020,
+        "retrieved": true,
+        "quote": "50 percent of small businesses are operating with fewer than 15 cash buffer days"
+      },
+      {
+        "title": "Fragility and resilience: the landscape of nonprofit financial health in the U.S. (median about 6 months of cash by revenue-loss definition)",
+        "url": "https://candid.org/blogs/fragility-and-resilience-the-landscape-of-nonprofit-financial-health-in-the-u-s/",
+        "publisher": "Candid",
+        "year": null,
+        "retrieved": false,
+        "quote": "search snippet only: median about 6 months of cash"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": "Varies by type and metro: restaurants 16 days, real estate 47 days; metros 12.8 to 24.1 days. Use industry buffer days where the industry is known.",
+    "builderNote": "Set private-firm reserve to 4 months of payroll (2.5 to 6); the current 6 is at the top of the range. Nonprofit about 4 to 5 (estimate), public bodies 0; vary by industry using JPMorgan Chase Institute buffer-day tables."
+  },
+  {
+    "id": "SG-P8-param-appraisalRelationshipWeight",
+    "currentValue": 1,
+    "recommendedValue": 1,
+    "unit": "dimensionless multiplier on event appraisal by relationship closeness",
+    "low": 0.5,
+    "high": 1,
+    "basis": "Interpersonal events carry the strongest daily mood effects (Bolger 1989), supporting an appraisal that scales fully with relationship closeness. No instrument estimates the share, so 1 (full scaling) is retained as an estimate with a lower bound of 0.5 if non-relational channels are added.",
+    "sources": [
+      {
+        "title": "Effects of daily stress on negative mood",
+        "url": "https://hcp.hms.harvard.edu/publication/effects-daily-stress-negative-mood",
+        "publisher": "Journal of Personality and Social Psychology (Bolger, DeLongis, Kessler, Schilling)",
+        "year": 1989,
+        "retrieved": true,
+        "quote": "daily stressors explained up to 20% of the variance in mood"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Keep at 1; add spread 0.5 to 1 and cite Bolger 1989."
+  },
+  {
+    "id": "SG-P8-param-appraisalDistressTraitWeight",
+    "currentValue": 0.5,
+    "recommendedValue": 0.5,
+    "unit": "fractional change in event appraisal at maximum trait value",
+    "low": 0.25,
+    "high": 0.75,
+    "basis": "Neuroticism is the strongest Big Five correlate of perceived stress and stress reactivity (Luo 2022); daily-diary work finds high-neuroticism people react to stressors roughly 1.3 to 2 times as strongly. A plus or minus 50% appraisal shift at the trait extreme matches the middle of that range. Distress concern is a facet of this reactivity, so the same weight is used. Note: some figures here come from sources not fetched this session (marked retrieved:false); treat as estimate.",
+    "sources": [
+      {
+        "title": "The Stressful Personality: A meta-analytical review of the relation between personality and stress (neuroticism strongest)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/35801622/",
+        "publisher": "Personality and Social Psychology Review (Luo, Zhang, Cao)",
+        "year": 2022,
+        "retrieved": false,
+        "quote": "search snippet only: neuroticism strongest link"
+      },
+      {
+        "title": "Effects of daily stress on negative mood",
+        "url": "https://hcp.hms.harvard.edu/publication/effects-daily-stress-negative-mood",
+        "publisher": "Journal of Personality and Social Psychology (Bolger, DeLongis, Kessler, Schilling)",
+        "year": 1989,
+        "retrieved": true,
+        "quote": "daily stressors explained up to 20% of the variance in mood"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Keep 0.5 and add spread 0.25 to 0.75; tag ESTIMATED citing Luo 2022."
+  },
+  {
+    "id": "SG-P8-param-appraisalBroodingTraitWeight",
+    "currentValue": 0.5,
+    "recommendedValue": 0.5,
+    "unit": "fractional change in event appraisal at maximum trait value",
+    "low": 0.25,
+    "high": 0.75,
+    "basis": "Rumination prolongs and intensifies episodes (Verduyn 2015) and goes with neuroticism-type reactivity (Luo 2022). The effect is more on duration than on intensity, so 0.5 for intensity is an upper-middle estimate; consider putting part of brooding into the half-life (longer tail) instead. Note: some figures here come from sources not fetched this session (marked retrieved:false); treat as estimate.",
+    "sources": [
+      {
+        "title": "Which emotions last longest and why: the role of event importance and rumination",
+        "url": "https://doi.org/10.1007/s11031-014-9445-y",
+        "publisher": "Motivation and Emotion (Verduyn, Lavrijsen)",
+        "year": 2015,
+        "retrieved": false,
+        "quote": "not fetched; sadness 120 h figure taken from repo parameters.json citation"
+      },
+      {
+        "title": "The Stressful Personality: A meta-analytical review of the relation between personality and stress (neuroticism strongest)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/35801622/",
+        "publisher": "Personality and Social Psychology Review (Luo, Zhang, Cao)",
+        "year": 2022,
+        "retrieved": false,
+        "quote": "search snippet only: neuroticism strongest link"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Keep 0.5 with spread 0.25 to 0.75; optionally lengthen stress half-life for high brooding."
+  },
+  {
+    "id": "SG-P8-emotion-model",
+    "currentValue": null,
+    "recommendedValue": "keep affine appraisal with exponential recovery; mood half-life 1 d, stress half-life 3 d, add slower rumination component",
+    "unit": "model structure",
+    "low": null,
+    "high": null,
+    "basis": "Affect literature supports exponential-like return to baseline for most emotions with median episode durations of hours and long tails for sadness (about 120 hours) and ruminated events (Verduyn 2015); daily-diary studies show partial next-day carryover (Leger 2018). Adult trajectories can be checked against PSS-10 norms (mean about 12.8 of 40, SD 6.42; Klein 2016). The affine structure is adequate; the gap is a slow component (rumination, chronic burden) which is currently only carried by baselines. Note: some figures here come from sources not fetched this session (marked retrieved:false); treat as estimate.",
+    "sources": [
+      {
+        "title": "Which emotions last longest and why: the role of event importance and rumination",
+        "url": "https://doi.org/10.1007/s11031-014-9445-y",
+        "publisher": "Motivation and Emotion (Verduyn, Lavrijsen)",
+        "year": 2015,
+        "retrieved": false,
+        "quote": "not fetched; sadness 120 h figure taken from repo parameters.json citation"
+      },
+      {
+        "title": "Let It Go: Lingering negative affect in response to daily stressors is associated with physical health years later",
+        "url": "https://journals.sagepub.com/doi/10.1177/0956797618763097",
+        "publisher": "Psychological Science (Leger, Charles, Almeida)",
+        "year": 2018,
+        "retrieved": true,
+        "quote": "negative emotional responses to stress carry over to the following day"
+      },
+      {
+        "title": "Psychological stress in the German general population: PSS-10 norm values",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813",
+        "publisher": "BMC Psychiatry (Klein et al.)",
+        "year": 2016,
+        "retrieved": true,
+        "quote": "overall mean 12.57, SD 6.42 (Table 3 total score)"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Keep emotion.ts structure; update half-lives as above, and add an optional second slow decay (half-life 14 to 30 days) for events flagged ruminated or chronic."
+  },
+  {
+    "id": "SG-P8-life-utility",
+    "currentValue": null,
+    "recommendedValue": "replace one-act-per-activation by an ATUS time-budget plan",
+    "unit": "design/time budget",
+    "low": null,
+    "high": null,
+    "basis": "ATUS reports daily primary-activity totals (this file already uses sleep 9.03 h, work 8.1 h on workdays, social 1.92 h, care 2.23 h). Instead of one scored act per activation, allocate each day's waking hours across ATUS categories by age and employment, with choice weights (need 1, goal 0.8, drive 1, trait 0.6, emotion 0.35, effort 0.3) deciding which act fills discretionary slots. Cadence by tier (daily for the player circle, weekly local, monthly state) is acceptable if the weekly or monthly step draws a full period's ATUS-matched totals, not one act.",
+    "sources": [
+      {
+        "title": "American Time Use Survey, Table 1 and Table 2 (sleep 9.03 h all days; 8.76 weekdays; 9.68 weekends)",
+        "url": "https://www.bls.gov/news.release/atus.t02.htm",
+        "publisher": "BLS",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "sleeping weekdays 8.76 hours; weekends and holidays 9.68"
+      },
+      {
+        "title": "Does changing behavioral intentions engender behavior change? A meta-analysis of the experimental evidence",
+        "url": "https://doi.org/10.1037/0033-2909.132.2.249",
+        "publisher": "Psychological Bulletin (Webb, Sheeran)",
+        "year": 2006,
+        "retrieved": true,
+        "quote": "(d = 0.66) leads to a small-to-medium change in behavior (d = 0.36)"
+      },
+      {
+        "title": "Fleeson & Gallagher, The implications of Big Five standing for the distribution of trait manifestation in behavior (trait-behavior r .42 to .56)",
+        "url": "https://scholars.duke.edu/publication/733213",
+        "publisher": "Journal of Personality and Social Psychology",
+        "year": 2009,
+        "retrieved": false,
+        "quote": "abstract fetched did not show the r range; from search snippet only"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Implement a per-period time budget by ATUS category; use the weights from these rows; test that simulated weekly totals are within 20% of ATUS by age/employment group."
+  },
+  {
+    "id": "SG-P8-civic-progress",
+    "currentValue": null,
+    "recommendedValue": "availability anchored to participation rates",
+    "unit": "share of adults",
+    "low": 0.2,
+    "high": 0.35,
+    "basis": "In 2023 28.3% of Americans age 16 and over formally volunteered and 54.2% helped neighbors (CEV). Formal civic organization availability should let about a quarter to a third of adults per year take part; public-meeting attendance is much rarer (single digits to low teens by CEV charts, exact value not retrieved). Estimate: yearly probability of a civic act is about 0.28 for volunteering, about 0.05 to 0.10 for attending a public meeting.",
+    "sources": [
+      {
+        "title": "Civic Engagement and Volunteering Supplement 2023 headline report (formal volunteering 28.3%; neighbor helping 54.2%)",
+        "url": "https://americorps.gov/sites/default/files/document/2025-01/CEV2023_HeadlineReport_12192024_508.pdf",
+        "publisher": "AmeriCorps and Census Bureau",
+        "year": 2024,
+        "retrieved": true,
+        "quote": "28.3% of the U.S. population age 16 and up formally volunteered"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": "State and metro rates differ (CEV publishes state estimates; e.g., Utah highest, Florida/Mississippi lower); use state rates per place.",
+    "builderNote": "Calibrate civic availability so simulated yearly formal volunteering is about 28% of adults 16+, by state using CEV state tables; keep meeting attendance low (5 to 10%)."
+  },
+  {
+    "id": "SG-P8-civic-inputs",
+    "currentValue": null,
+    "recommendedValue": "estimate: use current NCES/IPEDS directory with an era flag until historical directories exist",
+    "unit": "data vintage",
+    "low": null,
+    "high": null,
+    "basis": "No source gives historical directories of meeting access; NCES CCD/IPEDS identify institutions only. Reasonable estimate: treat school and campus meeting space as available by request in the current era and mark pre-2000 as unknown-then-sampled using current institution density. This is a data-sourcing gap rather than a parameter, so evidence here is limited to the CEV participation rates for how often meetings are used.",
+    "sources": [
+      {
+        "title": "Civic Engagement and Volunteering Supplement 2023 headline report (formal volunteering 28.3%; neighbor helping 54.2%)",
+        "url": "https://americorps.gov/sites/default/files/document/2025-01/CEV2023_HeadlineReport_12192024_508.pdf",
+        "publisher": "AmeriCorps and Census Bureau",
+        "year": 2024,
+        "retrieved": true,
+        "quote": "28.3% of the U.S. population age 16 and up formally volunteered"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": "Yes: institution counts differ by place; the directory is already per place (NCES CCD by district, IPEDS by campus).",
+    "builderNote": "Add an era field to each institution rule and keep permission as not-established until an era-specific record is added."
+  },
+  {
+    "id": "SG-P8-opening-peer-network",
+    "currentValue": null,
+    "recommendedValue": "keep group size 20; recognition about 0.9 within 15 years of leaving school, about 0.7 near 50 years",
+    "unit": "probability a cohort peer is still recognized by name",
+    "low": 0.6,
+    "high": 0.95,
+    "basis": "Class-sized groups average 17 to 22 (NCES), which supports peer group size of 20 for acquaintance. Recognition memory for classmates is high for a long time: about 90% name recognition up to about 15 years after graduation and roughly 60 to 80% after about 47 years (Bahrick 1975, secondary summaries disagree). So generated acquaintance can persist with recognition probability falling from 0.9 to about 0.7 across adulthood. Close friendship needs far more time (Hall 2018: about 50 hours casual, 200+ close), so most generated peers should be acquaintances, not friends. Note: some figures here come from sources not fetched this session (marked retrieved:false); treat as estimate.",
+    "sources": [
+      {
+        "title": "NTPS 2020-21 average public school class size",
+        "url": "https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n",
+        "publisher": "NCES",
+        "year": 2021,
+        "retrieved": true,
+        "quote": "average class size 17.1 to 22.0 across school levels"
+      },
+      {
+        "title": "Fifty years of memory for names and faces: a cross-sectional approach (about 90% name recognition within 15 years; roughly 60 to 80% after about 47 years, per secondary summaries)",
+        "url": "https://doi.org/10.1037/0096-3445.104.1.54",
+        "publisher": "Journal of Experimental Psychology: General (Bahrick, Bahrick, Wittlinger)",
+        "year": 1975,
+        "retrieved": false,
+        "quote": "search snippet of secondary summaries only"
+      },
+      {
+        "title": "How many hours does it take to make a friend?",
+        "url": "https://news.ku.edu/news/article/2018/03/06/study-reveals-number-hours-it-takes-make-friend",
+        "publisher": "Journal of Social and Personal Relationships (Hall) / KU release",
+        "year": 2018,
+        "retrieved": true,
+        "quote": "more than 200 hours before you can consider someone your close friend"
+      }
+    ],
+    "confidence": "low",
+    "perPlace": false,
+    "builderNote": "Add recognition decay: p = 0.9 up to 15 years since cohort, falling linearly to 0.7 at 47 years; mark peers acquaintance-only unless shared hours exceed Hall's thresholds."
+  },
+  {
+    "id": "SG-P8-attendance-choice",
+    "currentValue": null,
+    "recommendedValue": "calibrate to about 1.7% of scheduled hours missed",
+    "unit": "share of scheduled shifts missed",
+    "low": 0.012,
+    "high": 0.025,
+    "basis": "Fetched BLS CPS 2023 Table 46 total row: 120,777 thousand full-time wage and salary workers, absence rate 3.1% (share absent in a reference week), lost worktime rate 1.7%. The lost worktime rate is the share of scheduled hours missed, so the attendance choice should miss about 1.7% of scheduled shifts overall, more with young children or poor health.",
+    "sources": [
+      {
+        "title": "CPS annual averages Table 46/47: absences from work of full-time wage and salary workers (absence rate 3.1% in 2023, 3.2% in 2024; lost worktime rate 2.1%)",
+        "url": "https://www.bls.gov/cps/data/aa2023/cpsaat46.htm",
+        "publisher": "BLS",
+        "year": 2023,
+        "retrieved": true,
+        "quote": "2023 total: 120,777 thousand workers, absence rate 3.1, lost worktime rate 1.7"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": "Yes modestly: state paid sick leave laws (about 14+ states and DC) change absence; adjust by state.",
+    "builderNote": "Tune workCommitmentUrgency so unconditional missed-shift share is about 1.7% (1.2 to 2.5) for full-time workers; no random roll, moved by need, stress and health through the existing scoring."
+  },
+  {
+    "id": "SG-P8-work-time-reserve",
+    "currentValue": 9.03,
+    "recommendedValue": 8.76,
+    "unit": "hours of sleep reserved per workday",
+    "low": 8.4,
+    "high": 9.03,
+    "basis": "This file already uses the ATUS 2025 all-days sleep mean (9.03 h, from the file's own citation), with weekdays at 8.76 and weekends and holidays at 9.68. Workdays are weekdays for most workers, so reserve 8.76 h on a workday (and 9.68 off days) instead of 9.03 flat; employed-person-on-days-worked tables should lower this a little more, but I could not retrieve them. Waking recovery should come from ATUS relaxing/leisure categories rather than a guessed duration.",
+    "sources": [
+      {
+        "title": "American Time Use Survey, Table 1 and Table 2 (sleep 9.03 h all days; 8.76 weekdays; 9.68 weekends)",
+        "url": "https://www.bls.gov/news.release/atus.t02.htm",
+        "publisher": "BLS",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "sleeping weekdays 8.76 hours; weekends and holidays 9.68"
+      }
+    ],
+    "confidence": "medium",
+    "perPlace": "Mostly national; schedules differ by age and occupation (ATUS cuts by age and employment status).",
+    "builderNote": "Make workSleepReserveHours day-type specific: 8.76 on workdays, 9.68 on non-workdays; replace waking-recovery guess with ATUS relaxing and leisure totals by age."
+  }
+]

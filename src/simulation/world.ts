@@ -165,7 +165,7 @@ import {
   assertMindCatalogIntegrity,
   cloneMindCatalog,
   createSyntheticMindCatalog,
-} from "./mind-catalog";
+} from "../core2/mind-catalog";
 import { validateMindHistoryIntegrity } from "./mind-integrity";
 import { materializePersonRecord, personName } from "./people";
 import {

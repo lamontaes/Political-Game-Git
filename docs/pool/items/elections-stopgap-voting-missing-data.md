@@ -4,10 +4,10 @@ title: "Stopgaps in voting (missing-data): 2 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-elections-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/voting.ts, kind missing-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/voting.ts, kind missing
 **Files.** src/core2/modules/voting.ts
 
 **Notes.** First row: Where the town's records hold no government building, its polling places have no building and a kind of "unread"; where they hold one, every precinct votes in it.
+
+Folded into research-elections-sourced-parameters (CTO, Oct 19, 2026).

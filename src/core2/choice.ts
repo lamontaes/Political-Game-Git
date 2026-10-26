@@ -1,9 +1,11 @@
+import decisionTable from "../../data/content/trait-decisions.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
 import { initialPersonState } from "./person-state";
 import { countedPersonOf } from "./counted-actor";
 import { parameter } from "./parameters";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
-import { coreAPI } from "./state";
+import { coreAPI, retainLog } from "./state";
+import { traitProbe } from "./trait-probe";
 import type {
   ActOffer,
   CoreState,
@@ -40,8 +42,24 @@ const kindIndex = (kind: string) => {
   if (i === undefined) KIND_INDEX.set(kind, (i = KIND_INDEX.size));
   return i;
 };
-const kindLeans = new WeakMap<PersonState, KindLean>();
-const leansByTraits = new WeakMap<object, { sum: number; lean: KindLean }>();
+let kindLeans = new WeakMap<PersonState, KindLean>();
+let leansByTraits = new WeakMap<object, { sum: number; lean: KindLean }>();
+
+/**
+ * Drops one person's cached lean. A person whose traits object is replaced
+ * (a trait changed with age or after a life event) must not keep the lean
+ * computed from the old one; the by-traits cache is keyed by the object, so
+ * the new object misses it by itself.
+ */
+export function forgetTraitLean(actor: PersonState): void {
+  kindLeans.delete(actor);
+}
+
+/** Drops every cached lean: the trait audit rewrites traits in place before a twin world runs. */
+export function forgetTraitLeans(): void {
+  kindLeans = new WeakMap();
+  leansByTraits = new WeakMap();
+}
 
 /** Every trait value, weighted by its place, so any edit changes the sum. */
 function traitChecksum(traits: Readonly<Record<string, number>>): number {
@@ -190,6 +208,40 @@ export function traitLean(
     : zero;
 }
 
+/**
+ * The chooser decisions each action belongs to, by the `traitWeightParameter`
+ * their rows in `trait-decisions.json` name (each decision's weight is
+ * calibrated from research effect sizes). An action shared by several
+ * decisions (keeping the business, waiting) takes the weight of the decision
+ * its fellow offers name.
+ */
+const TRAIT_WEIGHT_KEYS = new Map<string, string[]>();
+for (const row of decisionTable.decisions as readonly {
+  route: string;
+  traitWeightParameter?: string;
+  options: readonly { id: string }[];
+}[]) {
+  if (row.route !== "chooser" || !row.traitWeightParameter) continue;
+  for (const option of row.options) {
+    const keys = TRAIT_WEIGHT_KEYS.get(option.id) ?? [];
+    if (!keys.includes(row.traitWeightParameter))
+      keys.push(row.traitWeightParameter);
+    TRAIT_WEIGHT_KEYS.set(option.id, keys);
+  }
+}
+
+/** The trait weight parameter of one chooser call: the decision its offers name. */
+export function traitWeightKey(offers: readonly ActOffer[]): string {
+  let shared: string | undefined;
+  for (const offer of offers) {
+    const keys = TRAIT_WEIGHT_KEYS.get(offer.definition.id);
+    if (!keys) continue;
+    if (keys.length === 1) return keys[0]!;
+    shared ??= keys[0];
+  }
+  return shared ?? "traitWeight";
+}
+
 function traitScore(
   core: CoreState,
   actor: PersonState,
@@ -210,6 +262,20 @@ export interface ScoredOffer {
   key: string;
 }
 
+/**
+ * Whose choices save their reasons: the player, the people they deal with
+ * (the focus), anyone a controller drives, and everyone while the debug
+ * observer is on. The rest keep each reason's number and no copy of its terms.
+ */
+function savesReasons(core: CoreState, actorId: string): boolean {
+  return (
+    core.observer ||
+    actorId === core.playerId ||
+    core.focusPersonIds.has(actorId) ||
+    isExplicitlyControlledPersonV1(core, actorId)
+  );
+}
+
 /** Scores every offer once with the chooser's reasons; it chooses nothing. */
 const NO_BINDINGS: readonly never[] = Object.freeze([]);
 
@@ -218,11 +284,15 @@ export function scoreOffers(
   personId: string,
   offers: readonly ActOffer[],
   context?: DecisionContext,
+  /** Keep every reason term for someone whose reasons are not saved (an original-answer capture). */
+  keepTerms = false,
 ): ScoredOffer[] {
   const actor = decisionActor(core, personId);
+  const keepReasonTerms = keepTerms || savesReasons(core, actor.id);
   const p = (key: string) => parameter(key, core.data.parameters);
   const scored: ScoredOffer[] = [];
   let nextOfferIndex = p("zero");
+  const traitWeight = p(traitWeightKey(offers));
   for (const offer of offers) {
     const offerIndex = nextOfferIndex++;
     const action = offer.definition;
@@ -255,7 +325,7 @@ export function scoreOffers(
           p("zero")) * p("needWeight"),
       goal: goal * p("goalWeight"),
       drive: (drive?.strength ?? p("zero")) * p("driveWeight"),
-      trait: traitScore(core, actor, offer) * p("traitWeight"),
+      trait: traitScore(core, actor, offer) * traitWeight,
       emotion:
         p("emotionWeight") *
         ((context?.affect ?? actor.affect).mood *
@@ -279,7 +349,7 @@ export function scoreOffers(
     let reasonTerms: readonly WeightedReason[] = NO_BINDINGS;
     if (bindings.length) {
       const terms: WeightedReason[] = [];
-      reasonTerms = terms;
+      if (keepReasonTerms) reasonTerms = terms;
       const api = coreAPI(core),
         ids = new Set<string>();
       let contribution = p("zero");
@@ -306,13 +376,14 @@ export function scoreOffers(
         contribution += weighted;
         if (!Number.isFinite(contribution))
           throw new Error("Non-finite module reason sum.");
-        terms.push({
-          ...binding,
-          arguments: binding.arguments ? { ...binding.arguments } : undefined,
-          value: result.value,
-          sourceIds: result.sourceIds ? [...result.sourceIds] : undefined,
-          contribution: weighted,
-        });
+        if (keepReasonTerms)
+          terms.push({
+            ...binding,
+            arguments: binding.arguments ? { ...binding.arguments } : undefined,
+            value: result.value,
+            sourceIds: result.sourceIds ? [...result.sourceIds] : undefined,
+            contribution: weighted,
+          });
       }
       reasons.module = contribution;
     }
@@ -346,12 +417,14 @@ export function chooseAct(
   offers: readonly ActOffer[],
   context?: DecisionContext,
   captureOriginalScores = false,
+  keepWeighed = true,
 ): DecisionResult {
   return decisionFromScores(
     core,
     personId,
-    scoreOffers(core, personId, offers, context),
+    scoreOffers(core, personId, offers, context, captureOriginalScores),
     captureOriginalScores,
+    keepWeighed,
   );
 }
 
@@ -386,19 +459,22 @@ function compact(row: ScoredOffer): Readonly<CompactChoiceScoreV1> {
   });
 }
 
-/** The chooser's pick from a scoring pass: the highest score, ties to the lowest key. */
+/**
+ * The chooser's pick from a scoring pass: the highest score, ties to the
+ * lowest key. A choice among two or more options by the player or someone in
+ * focus is kept as a `person.weighed` record (why-kept), unless the caller
+ * commits it as an act, whose record keeps the same reasons (`keepWeighed`
+ * false), or only predicts it.
+ */
 export function decisionFromScores(
   core: CoreState,
   personId: string,
   scored: readonly ScoredOffer[],
   captureOriginalScores = false,
+  keepWeighed = true,
 ): DecisionResult {
   const actor = decisionActor(core, personId);
-  const traced =
-    core.observer ||
-    actor.id === core.playerId ||
-    core.focusPersonIds.has(actor.id) ||
-    isExplicitlyControlledPersonV1(core, actor.id);
+  const traced = savesReasons(core, actor.id);
   let best: ScoredOffer | undefined, runnerUp: ScoredOffer | undefined;
   for (const row of scored) {
     if (
@@ -415,7 +491,10 @@ export function decisionFromScores(
     )
       runnerUp = row;
   }
-  return {
+  const probe = traitProbe();
+  if (probe?.chooser && best && runnerUp)
+    probeChooser(core, probe, personId, scored, best);
+  const decision: DecisionResult = {
     actorId: personId,
     date: core.date,
     selected: best?.offer,
@@ -455,4 +534,86 @@ export function decisionFromScores(
         }
       : {}),
   };
+  if (keepWeighed && best && runnerUp) keepChoice(core, decision, best);
+  return decision;
+}
+
+/**
+ * The player and the people in focus keep a record of a choice they weighed
+ * among options (why-kept: the player and the people they deal with), as
+ * their acts do: every option's score and reasons, on a `person.weighed` log
+ * record. The debug observer alone keeps none, so a full-trace run does not
+ * keep one for everyone.
+ */
+function keepChoice(
+  core: CoreState,
+  decision: DecisionResult,
+  best: ScoredOffer,
+): void {
+  const id = decision.actorId;
+  if (!core.focusPersonIds.has(id) && id !== core.playerId) return;
+  const actor = core.people.get(id);
+  if (!actor || !decision.scores) return;
+  const actionId = best.offer.definition.id;
+  const base = `weighed:${core.date}:${actionId}:${id}`;
+  let recordId = base;
+  for (let n = 2; core.durableLog.has(recordId); n++) recordId = `${base}:${n}`;
+  retainLog(core, {
+    id: recordId,
+    date: core.date,
+    kind: "person.weighed",
+    personIds: [id],
+    placeId: actor.placeId,
+    source: {
+      tag: "SOURCED",
+      asOf: core.date,
+      citation: "A choice weighed by the shared chooser.",
+    },
+    actorId: id,
+    actionId,
+    targetId: best.offer.targetId,
+    reasonKey: decision.reasonKey,
+    decision,
+  });
+}
+
+/** The audit probe's view of one pick: what the chooser would pick with the trait term removed. */
+function probeChooser(
+  core: CoreState,
+  probe: NonNullable<ReturnType<typeof traitProbe>>,
+  personId: string,
+  scored: readonly ScoredOffer[],
+  best: ScoredOffer,
+): void {
+  let bare: ScoredOffer | undefined,
+    low = best.reasons.trait,
+    high = best.reasons.trait;
+  for (const row of scored) {
+    const score = row.score - row.reasons.trait;
+    const bareScore = bare ? bare.score - bare.reasons.trait : -Infinity;
+    if (
+      !bare ||
+      score > bareScore ||
+      (score === bareScore && row.key < bare.key)
+    )
+      bare = row;
+    low = Math.min(low, row.reasons.trait);
+    high = Math.max(high, row.reasons.trait);
+  }
+  probe.chooser!({
+    actorId: personId,
+    actionIds: scored.map((row) => row.offer.definition.id),
+    traitTerms: scored.map((row) => row.reasons.trait),
+    bareScores: scored.map((row) => row.score - row.reasons.trait),
+    leans: scored.map((row) =>
+      traitLean(
+        core,
+        decisionActor(core, personId),
+        row.offer.definition.actKinds,
+      ),
+    ),
+    chosen: best.offer.definition.id,
+    withoutTrait: bare!.offer.definition.id,
+    traitGap: high - low,
+  });
 }

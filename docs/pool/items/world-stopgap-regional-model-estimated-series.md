@@ -4,10 +4,10 @@ title: "Stopgaps in regional-model (estimated-series): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-macro-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/regional-model.ts, kind estimated-series"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/regional-model.ts, kind estimat
 **Files.** src/core2/regional-model.ts
 
 **Notes.** First row: Guam, American Samoa, the Northern Marianas and the Virgin Islands start from their own latest published unemployment rate held flat (src/core2/data/regional/territories.json; American Samoa from the 2020 Census, the Mar
+
+Folded into research-macro-sourced-parameters (CTO, Oct 19, 2026).

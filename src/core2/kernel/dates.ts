@@ -19,8 +19,76 @@ function utcDate(year: number, month: number, day: number): Date {
   return date;
 }
 
-const VALID_ISO_DATES_LIMIT = 100_000;
-const VALID_ISO_DATES = new Set<string>();
+/**
+ * The day number (days since 1970-01-01) of a date written exactly as
+ * YYYY-MM-DD, or NaN for anything else or a day the calendar lacks. Plain
+ * arithmetic on the characters (the civil-calendar day count), so a date is
+ * read in a few operations with nothing remembered.
+ */
+function civilDay(value: string): number {
+  if (
+    value.length !== 10 ||
+    value.charCodeAt(4) !== 45 ||
+    value.charCodeAt(7) !== 45
+  )
+    return NaN;
+  const y1 = value.charCodeAt(0) - 48;
+  const y2 = value.charCodeAt(1) - 48;
+  const y3 = value.charCodeAt(2) - 48;
+  const y4 = value.charCodeAt(3) - 48;
+  if (
+    y1 < 0 ||
+    y1 > 9 ||
+    y2 < 0 ||
+    y2 > 9 ||
+    y3 < 0 ||
+    y3 > 9 ||
+    y4 < 0 ||
+    y4 > 9
+  )
+    return NaN;
+  const year = y1 * 1000 + y2 * 100 + y3 * 10 + y4;
+  const m1 = value.charCodeAt(5) - 48;
+  const m2 = value.charCodeAt(6) - 48;
+  const d1 = value.charCodeAt(8) - 48;
+  const d2 = value.charCodeAt(9) - 48;
+  if (
+    m1 < 0 ||
+    m1 > 9 ||
+    m2 < 0 ||
+    m2 > 9 ||
+    d1 < 0 ||
+    d1 > 9 ||
+    d2 < 0 ||
+    d2 > 9
+  )
+    return NaN;
+  const month = m1 * 10 + m2;
+  const day = d1 * 10 + d2;
+  if (month < 1 || month > 12 || day < 1) return NaN;
+  const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  const monthLength =
+    month === 2
+      ? leap
+        ? 29
+        : 28
+      : month === 4 || month === 6 || month === 9 || month === 11
+        ? 30
+        : 31;
+  if (day > monthLength) return NaN;
+  const y = month <= 2 ? year - 1 : year;
+  // Years before 0000 never occur; year 0 in January or February counts as -1.
+  const era = y >= 0 ? (y / 400) | 0 : -1;
+  const yearOfEra = y - era * 400;
+  const dayOfYear =
+    (((153 * (month + (month > 2 ? -3 : 9)) + 2) / 5) | 0) + day - 1;
+  const dayOfEra =
+    yearOfEra * 365 +
+    ((yearOfEra / 4) | 0) -
+    ((yearOfEra / 100) | 0) +
+    dayOfYear;
+  return era * 146097 + dayOfEra - 719468;
+}
 
 const SPOKEN_MONTHS = [
   "January",
@@ -49,11 +117,8 @@ export function spokenDate(date: IsoDate | string): string {
 }
 
 export function makeIsoDate(value: string): IsoDate {
-  if (VALID_ISO_DATES.has(value)) return value as IsoDate;
-  const date = validateIsoDate(value);
-  if (VALID_ISO_DATES.size >= VALID_ISO_DATES_LIMIT) VALID_ISO_DATES.clear();
-  VALID_ISO_DATES.add(value);
-  return date;
+  if (!Number.isNaN(civilDay(value))) return value as IsoDate;
+  return validateIsoDate(value);
 }
 
 function validateIsoDate(value: string): IsoDate {
@@ -106,33 +171,30 @@ export function addDays(date: IsoDate, days: number): IsoDate {
     parsed.getUTCMonth() + 1,
     parsed.getUTCDate(),
   );
-  if (DATE_OF_EPOCH_DAY.size >= EPOCH_DAY_CACHE_LIMIT)
+  if (DATE_OF_EPOCH_DAY.size >= DATE_OF_EPOCH_DAY_LIMIT)
     DATE_OF_EPOCH_DAY.clear();
   DATE_OF_EPOCH_DAY.set(target, result);
   return result;
 }
 
+const DATE_OF_EPOCH_DAY_LIMIT = 100_000;
 const DATE_OF_EPOCH_DAY = new Map<number, IsoDate>();
 
-/*
- * GOVERNING profile: integrity checks compare dates constantly on long saves.
- * The day number of a valid date string never changes, so it is remembered.
- */
-const EPOCH_DAY_CACHE_LIMIT = 100_000;
-const EPOCH_DAY_CACHE = new Map<string, number>();
-
 function epochDayOf(date: string): number {
-  const cached = EPOCH_DAY_CACHE.get(date);
-  if (cached !== undefined) return cached;
-  const valid = makeIsoDate(date);
-  const parts = ISO_DATE_PATTERN.exec(valid);
-  if (!parts) throw new Error("Unable to compare invalid ISO dates.");
-  const day =
-    utcDate(Number(parts[1]), Number(parts[2]), Number(parts[3])).getTime() /
-    86_400_000;
-  if (EPOCH_DAY_CACHE.size >= EPOCH_DAY_CACHE_LIMIT) EPOCH_DAY_CACHE.clear();
-  EPOCH_DAY_CACHE.set(date, day);
-  return day;
+  const day = civilDay(date);
+  if (!Number.isNaN(day)) return day;
+  // Not a plain valid date: the strict check says which way it is wrong.
+  makeIsoDate(date);
+  throw new Error("Unable to compare invalid ISO dates.");
+}
+
+/**
+ * `daysBetween` for dates held as plain text (a record's birth date, the
+ * core's date): the arithmetic reader validates each date, so a caller
+ * need not wrap each side in `makeIsoDate` on every read.
+ */
+export function daysBetweenText(start: string, end: string): number {
+  return daysBetween(start as IsoDate, end as IsoDate);
 }
 
 export function daysBetween(start: IsoDate, end: IsoDate): number {
@@ -465,7 +527,8 @@ export function yearOf(date: IsoDate): number {
   return Number(date.slice(0, 4));
 }
 
-export function ageOnDate(birthDate: IsoDate, comparisonDate: IsoDate): number {
+/** Whole years between two dates written YYYY-MM-DD; both are validated here, so callers pass the text as it is held. */
+export function ageOnDate(birthDate: string, comparisonDate: string): number {
   const validatedBirthDate = makeIsoDate(birthDate);
   const validatedComparisonDate = makeIsoDate(comparisonDate);
   let age = yearOf(validatedComparisonDate) - yearOf(validatedBirthDate);

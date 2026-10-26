@@ -10,6 +10,7 @@
  * each seat from the public-domain rosters in
  * `data/research/offices/legislature-party-counts-2026.json`.
  */
+import { corePlaceStateIdentities } from "./place-lookup";
 import representation from "./data/offices/federal-representation.json" with { type: "json" };
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
@@ -24,6 +25,14 @@ import { largestPopulationShareDistrict } from "../districts/place-population-sh
 import type { DistrictChamber, DistrictIdentity } from "../districts/types";
 import type { OfficeInput } from "./offices-local";
 import { stopgap } from "./stopgaps";
+
+/** A state's name as people write it, from its jurisdiction key (US-KS). */
+function stateNameOf(stateKey: string): string {
+  return (
+    corePlaceStateIdentities().find((row) => row.jurisdictionKey === stateKey)
+      ?.name ?? stateKey
+  );
+}
 
 export interface VacancyRule {
   readonly method:
@@ -79,6 +88,8 @@ interface ResearchExecutive {
   readonly title: string;
   readonly termYears?: number;
   readonly nextRegularElectionYear?: number;
+  /** The first day of the office's first term, for an office created after the game opens. */
+  readonly firstTermStart?: string;
   readonly vacancyRule?: ResearchVacancy;
   readonly source?: string;
   readonly citation?: string;
@@ -115,6 +126,11 @@ const governorParty = new Map(
     g.party ? g.party[0]!.toUpperCase() + g.party.slice(1) : null,
   ]),
 );
+
+/** The party holding a state's governorship when the game opens, or null. */
+export function governorPartyAtOpening(stateKey: string): string | null {
+  return governorParty.get(stateKey) ?? null;
+}
 const federalExecutive = federalExecutiveResearch as unknown as Record<
   "president" | "vicePresident",
   { party: string }
@@ -475,13 +491,12 @@ const STATEWIDE = statewideParties as unknown as {
 };
 /**
  * The party holding a statewide executive office at the start, where its
- * election carries party labels (null for a nonpartisan office). The research
- * was compiled without live sources: SG-GOV-statewide-parties-unverified.
+ * election carries party labels (null for a nonpartisan office, or a body no
+ * party holds a majority of). Every row was checked against a live page.
  */
 function statewidePartyOf(stateKey: string, key: string): string | null {
   const row = STATEWIDE.places[stateKey]?.[key];
   if (!row?.partisanElection) return null;
-  stopgap("SG-GOV-statewide-parties-unverified");
   return row.party;
 }
 
@@ -501,7 +516,7 @@ export function stateOffices(
         id,
         level: "state",
         jurisdiction: stateKey,
-        governmentName: stateKey,
+        governmentName: stateNameOf(stateKey),
         kind: executive.key,
         title: executive.title,
         seats: 1,
@@ -520,6 +535,9 @@ export function stateOffices(
         elected: true,
         districted: false,
         coversTown: true,
+        ...(executive.firstTermStart
+          ? { firstTermStart: executive.firstTermStart }
+          : {}),
         source: [executive.citation, executive.source]
           .filter(Boolean)
           .join(" "),
@@ -605,8 +623,13 @@ export function stateOffices(
         d.geoid === mine?.geoid,
       );
     }
+    // Roster districts the Census geography doesn't name (New Hampshire's
+    // floterial and county-numbered districts, Maryland's and Vermont's
+    // sub-districts, a tribe's delegate in Maine) still seat their sitting
+    // members, elected by their own district: none covers the town. An
+    // at-large seat is elected by the whole state, the town included.
     for (const [name, members] of Object.entries(rows))
-      if (!matched.has(name) && /large/i.test(name)) add(name, members, true);
+      if (!matched.has(name)) add(name, members, /large/i.test(name));
     // A chamber with a recorded size but no district geography or roster (a
     // territory's legislature): its seats are elected by the whole territory
     // until the districts are read, so the body can meet and vote.
@@ -623,8 +646,8 @@ export function stateOffices(
         id,
         level: "state",
         jurisdiction: stateKey,
-        governmentName: chamberRead?.name ?? stateKey,
-        bodyName: chamberRead?.name ?? stateKey,
+        governmentName: chamberRead?.name ?? stateNameOf(stateKey),
+        bodyName: chamberRead?.name ?? stateNameOf(stateKey),
         kind: `legislature-${key}`,
         title:
           key === "lower"

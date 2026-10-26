@@ -4,13 +4,13 @@ title: "Stopgaps in births-counted (generated-record): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/births-legacy-moves-delete
+pr: #4903
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/births-counted.ts, kind generated-record"
-claimed-at: 
+claimed-at: 2026-10-19T19:35:02.192Z
 ---
 
 **What.** Replace or clear the 1 open generated-record stopgap row(s) in src/core2/births-counted.ts: SG-PW8-counted-arrivals. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

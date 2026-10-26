@@ -1,0 +1,201 @@
+import { randomBytes } from "node:crypto";
+import { expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { billCatalog, provisionFor } from "../core2/bill-catalog";
+import { setBookkeeping } from "../core2/bookkeeping";
+import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
+import {
+  bodyOf,
+  draftBill,
+  executiveOf,
+  memberKey,
+  members,
+  scheduleVote,
+} from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
+import { coreAPI } from "../core2/state";
+
+// A floor vote, a signing and a veto are scenes: the roll
+// call reaches each member who is a watched person, and the executive's
+// signature or veto reaches the bill's sponsor, each citing the record the
+// legislature wrote.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// A drawn place may have no seat held by a full person, or a chamber that does
+// not vote in the run; draw again, a bounded number of times, and fail if none does.
+const ATTEMPTS = 8;
+const WEEK = 7;
+
+/** One drawn place: whether its bill was voted, and whether an executive's signature or veto on it was checked. */
+const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
+  const place = drawPlace(attemptSeed, "government-scenes");
+  const seed = attemptSeed;
+  setBookkeeping(false);
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const { core, director } = world;
+  const api = coreAPI(core);
+  // A body of several members that is the town's or county's own, with the
+  // sponsor and (where its form of government has one) the executive full people.
+  const lawmaking = townSeats(api)
+    .filter(
+      (row) =>
+        row.holder?.personId &&
+        core.people.has(row.holder.personId) &&
+        ["city", "county", "state"].includes(row.office.level) &&
+        members(api, row.office.id).length > 1 &&
+        bodyOf(api, row.office.id),
+    )
+    // The town's own body votes within weeks; a state chamber waits for its session.
+    .sort(
+      (a, b) =>
+        Number(a.office.level === "state") - Number(b.office.level === "state"),
+    );
+  if (!lawmaking.length) return { voted: false, acted: false };
+  const seats = lawmaking;
+  const withExecutive = seats.find((row) => {
+    const id = executiveOf(api, row.office.id).term?.personId;
+    return id && id !== row.holder!.personId && core.people.has(id);
+  });
+  const seat = withExecutive ?? seats[0];
+  const sponsorId = seat!.holder!.personId!;
+  const executiveId = executiveOf(api, seat!.office.id).term?.personId;
+  // A state official is a full person under the key the legislature gives them.
+  const everyone = members(api, seat!.office.id).flatMap((term) =>
+    core.people.has(memberKey(term)) ? [memberKey(term)] : [],
+  );
+  for (const id of [
+    sponsorId,
+    ...everyone,
+    ...(executiveId ? [executiveId] : []),
+  ])
+    director.watch(core, id);
+  const policy = billCatalog(
+    api,
+    seat!.office.level as "city" | "county" | "state",
+  )
+    .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
+    .find((row) => row.kind === "policy-question" && row.authority.allowed)!;
+  const bill = draftBill(api, {
+    bodyOfficeId: seat!.office.id,
+    sponsorId,
+    provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
+  });
+  scheduleVote(api, bill.id);
+  // Played a week at a time until the executive acts, so the vote and the
+  // act are read within weeks of happening: a watched resident's older
+  // moments fold into the director's summaries (its memory window; the
+  // player keeps all of theirs).
+  const end = addDays(
+    makeIsoDate(core.date),
+    seat!.office.level === "state" ? 400 : 120,
+  );
+  while (core.date < end && !core.durableLog.has(`executive-action:${bill.id}`))
+    advanceCore(core, [addDays(makeIsoDate(core.date), WEEK), end].sort()[0]!);
+
+  const scenesOf = (personId: string, cause: string) =>
+    (director.ledger.people.get(personId)?.schedule ?? [])
+      .filter((row) => row.momentId.includes(cause))
+      .flatMap((row) => row.bindings);
+  // The roll call reaches the members; the one who sits on it is in the floor
+  // scene with the chair and their colleagues named from the body's records.
+  const voteCause = `bill-vote:${bill.id}:${seat!.office.id}`;
+  // A state chamber's bill waits on its committee and session; nothing was voted.
+  if (!core.durableLog.has(voteCause)) return { voted: false, acted: false };
+  const seatedNow = members(api, seat!.office.id).map((term) =>
+    memberKey(term),
+  );
+  const heard = everyone.filter((id) =>
+    scenesOf(id, voteCause).some((row) => row.typeKey === "floor-vote"),
+  );
+  expect(heard.length, `${bill.id}: nobody heard the vote`).toBeGreaterThan(0);
+  for (const id of heard) {
+    const scene = scenesOf(id, voteCause).find(
+      (row) => row.typeKey === "floor-vote",
+    )!;
+    expect(scene.roles.find((row) => row.role === "member")!.personIds).toEqual(
+      [id],
+    );
+    const colleagues = scene.roles.find((row) => row.role === "colleagues")!;
+    // A chamber's seats can change hands over a long run: its members before the run or after it.
+    const sat = [...everyone, ...seatedNow];
+    for (const other of colleagues.personIds) expect(sat).toContain(other);
+  }
+
+  // The executive's act, where the body's form of government gives one.
+  const acted = core.durableLog.get(`executive-action:${bill.id}`);
+  const lines = [`${bill.id} floor-vote for ${heard.length}`];
+  let checked = false;
+  if (acted?.facts?.action) {
+    const action = acted.facts.action;
+    const type =
+      action === "signed" ? "bill-signed" : action === "vetoed" ? "veto" : null;
+    // A veto and the vote to override it come the same day, and one sitting
+    // covers a day (scheduling.ts): the sponsor's scene may stand on either,
+    // or be the day's sitting with the same people that took this bill's act
+    // in (two of the sponsor's bills vetoed in one afternoon are one sitting).
+    const causes = [`executive-action:${bill.id}`, `veto-override:${bill.id}`];
+    const actOf = (personId: string) =>
+      (director.ledger.people.get(personId)?.schedule ?? []).flatMap((row) =>
+        row.bindings.filter(
+          (binding) =>
+            causes.some((cause) => row.momentId.includes(cause)) ||
+            (binding.joined ?? []).some((entry) =>
+              causes.some((cause) => entry.momentId.includes(cause)),
+            ),
+        ),
+      );
+    const sponsorScenes = actOf(sponsorId);
+    // The act's own record names whoever sat at the desk that day, and the
+    // director casts the signer from it. The office can change hands, or its
+    // official be filled in, during the run: the one who acted held it when
+    // the run began or holds it now.
+    const actorId = String(acted.facts.executiveId ?? "");
+    const holders = [
+      executiveId,
+      executiveOf(api, seat!.office.id).term?.personId,
+    ];
+    // A signature or a veto names who acted.
+    if (type)
+      expect(actorId, `${bill.id}: the act names no executive`).not.toBe("");
+    if (type && actorId !== sponsorId) {
+      expect(holders, `${bill.id}: the act's executive`).toContain(actorId);
+      expect(sponsorScenes.map((row) => row.typeKey)).toContain(type);
+      const scene = sponsorScenes.find((row) => row.typeKey === type)!;
+      const executive = scene.roles.find(
+        (row) => row.role === (type === "veto" ? "executive" : "signer"),
+      )!;
+      expect(executive.personIds).toEqual([actorId]);
+      // The executive's own moment is not a scene about their own bill.
+      expect(actOf(actorId).map((row) => row.typeKey)).not.toContain(type);
+      lines.push(`${action} by ${actorId}`);
+      checked = true;
+    }
+  }
+  console.log(`SCENES ${place.name} ${seed}\n${lines.join("\n")}`);
+  return { voted: true, acted: checked };
+};
+
+it(`a bill's vote and the executive's act are scenes for the people they reach (up to ${ATTEMPTS} drawn places from seed ${seed})`, () => {
+  // Places are drawn until one has had a floor vote checked and one an
+  // executive's signature or veto on a bill someone else sponsored.
+  let voted = false;
+  let acted = false;
+  for (let attempt = 0; attempt < ATTEMPTS && !(voted && acted); attempt += 1) {
+    const result = run(`${seed}:${attempt}`);
+    voted ||= result.voted;
+    acted ||= result.acted;
+  }
+  expect(
+    voted,
+    `no drawn place from seed ${seed} voted a bill with a full-person seat`,
+  ).toBe(true);
+  expect(
+    acted,
+    `no drawn place from seed ${seed} had an executive sign or veto another's bill`,
+  ).toBe(true);
+}, 1_800_000);

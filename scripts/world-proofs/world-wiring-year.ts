@@ -13,7 +13,7 @@ import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
-import { departuresOf } from "../../src/core2/modules/moves";
+import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
 import { lawChain } from "../../src/core2/modules/laws";
 import { withholdingOf } from "../../src/core2/modules/budgets";
 import type { StafferRow } from "../../src/core2/modules/staff";
@@ -30,6 +30,7 @@ const t0 = performance.now();
 const world = buildBenchWorld(seed, start, { twoLevel: true, placeKey });
 const core = world.core;
 const api = coreAPI(core);
+watchDepartures(core);
 const end = new Date(`${start}T00:00:00Z`);
 end.setUTCDate(end.getUTCDate() + days);
 advanceCore(core, end.toISOString().slice(0, 10));
@@ -40,7 +41,7 @@ const name = (id: string) => {
   const p = core.people.get(id);
   return p ? `${p.givenName} ${p.familyName}` : id;
 };
-const departures = departuresOf(api);
+const departures = departuresSeen(core);
 const sample =
   departures.find((row) =>
     Object.keys(row.reasons).some((key) => key.startsWith("push:")),

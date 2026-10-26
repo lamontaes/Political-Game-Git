@@ -7,11 +7,18 @@ import {
   givenNamePoolForStatedGender,
 } from "../simulation/names-data";
 import {
+  corePlaceByKey,
   searchCorePlaces,
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
+import {
+  countyGeoidsForPlace,
+  governmentUnitsForPlace,
+} from "../core2/reference/government-units";
+import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
-import type { EngineRecipe } from "../presentation/appearance-engine/pack";
+import { parameter } from "../core2/parameters";
+import type { LookRecipe } from "./appearance";
 
 /**
  * The New game creator as the Oct 12 creator had it (src/player/SetupScreen,
@@ -104,20 +111,93 @@ export function creatorStates() {
     .map((state) => ({ key: state.jurisdictionKey, name: state.name }));
 }
 
-/** A state's cities and towns matching a search, with their population. */
+const TOWNS_BY_STATE = new Map<string, ReadonlyMap<string, string>>();
+
+/** The county (or Puerto Rico municipio) a town lies mostly in. */
+function townCounty(sourceGeoid: string | undefined) {
+  if (!sourceGeoid) return null;
+  const [municipio] = municipiosForPlace(sourceGeoid);
+  if (municipio) return municipio.name.replace(/ Municipio$/, "");
+  const [geoid] = countyGeoidsForPlace(sourceGeoid);
+  return geoid ? (corePlaceByKey(`county:${geoid}`)?.formalName ?? null) : null;
+}
+
+/** The kind of government the listing gives a town: "Village" of "VILLAGE OF X". */
+function townKind(sourceGeoid: string | undefined) {
+  const name = sourceGeoid ? governmentUnitsForPlace(sourceGeoid)[0]?.name : "";
+  const word = name?.split(" ")[0] ?? "";
+  return word ? word[0] + word.slice(1).toLowerCase() : null;
+}
+
+/** A formal name that says more than the town's plain name, else null. */
+function otherName(place: { displayName: string; formalName: string | null }) {
+  const plain = place.displayName.split(",")[0];
+  const formal = place.formalName?.split(",")[0];
+  return formal && formal !== plain ? formal : null;
+}
+
+/**
+ * For each town whose name the state repeats, what tells it apart: its
+ * county, then (where two share a county) its formal name or kind of
+ * government.
+ */
+function stateTownFacts(stateKey: string) {
+  const known = TOWNS_BY_STATE.get(stateKey);
+  if (known) return known;
+  const places = searchCorePlaces("", Infinity, {
+    stateJurisdictionKey: stateKey,
+    scope: "locality",
+  });
+  const byName = new Map<string, typeof places>();
+  for (const place of places) {
+    byName.set(place.displayName, [
+      ...(byName.get(place.displayName) ?? []),
+      place,
+    ]);
+  }
+  const apart = new Map<string, string>();
+  for (const same of byName.values()) {
+    if (same.length < 2) continue;
+    const label = (place: (typeof same)[number], deeper: boolean) =>
+      [
+        townCounty(place.sourceGeoid),
+        ...(deeper ? [townKind(place.sourceGeoid) ?? otherName(place)] : []),
+      ]
+        .filter(Boolean)
+        .join(", ");
+    const tied = (place: (typeof same)[number]) =>
+      same.filter((other) => label(other, false) === label(place, false))
+        .length > 1;
+    for (const place of same) apart.set(place.key, label(place, tied(place)));
+  }
+  TOWNS_BY_STATE.set(stateKey, apart);
+  return apart;
+}
+
+/**
+ * A state's cities and towns matching a search, all of them, each with the
+ * population the world opens with: the town's Census count, the one source
+ * the opening reads (`buildPopulation`). A town the records hold no count for
+ * opens at the model's own size, so it reads that, marked `estimated`; a name
+ * the state repeats carries its county.
+ * stopgapId: SG-PLAY-town-count-estimate
+ */
 export function creatorTowns(stateKey: string, query: string) {
-  // Engineering list length for the scrolling list, not a model value.
-  return searchCorePlaces(query, 400, {
+  const apart = stateTownFacts(stateKey);
+  return searchCorePlaces(query, Infinity, {
     stateJurisdictionKey: stateKey,
     scope: "locality",
   }).map((place) => {
     const population = place.sourceGeoid
       ? placeReferencePopulation(place.sourceGeoid)
       : null;
+    const county = apart.get(place.key);
     return {
       key: place.key,
       name: place.displayName,
-      ...(population ? { population: population.value } : {}),
+      population: population ? population.value : parameter("targetPopulation"),
+      ...(population ? {} : { estimated: true }),
+      ...(county ? { county } : {}),
     };
   });
 }
@@ -129,7 +209,7 @@ export interface ChosenPerson {
   birthYear: number;
   birthMonth: number;
   birthDay: number;
-  recipe?: EngineRecipe;
+  recipe?: LookRecipe;
 }
 
 /** Reads and checks the chosen person sent with New game. */
@@ -168,8 +248,8 @@ export function readChosenPerson(text: string): ChosenPerson {
 /**
  * Makes the new world's player the chosen person: name, birth date, gender
  * and appearance, through the core's identity call. The life's generated past
- * (school, work, household) stays as drawn for the original age; stopgap
- * SG-PLAY-creator-age-keeps-past.
+ * (school, work, household) stays as drawn for the original age.
+ * stopgapId: SG-PLAY-creator-age-keeps-past
  */
 export function applyChosenPerson(
   core: CoreState,

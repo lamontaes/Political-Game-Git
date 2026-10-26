@@ -1,6 +1,6 @@
 {
   "id": "territory-grant",
-  "about": "Where the powers catalog leaves a territory's cell UNKNOWN, a territorial legislature has the power the same question's state cell gives, because the organic acts give a territorial legislature power over all rightful subjects of legislation not inconsistent with federal law. An estimate, not a sourced cell: each territory's own act or constitution is to be read cell by cell (pool item laws-territory-powers-research). A question whose state cell is no stays no.",
+  "about": "Where the powers catalog leaves a territory's cell UNKNOWN, a territorial legislature has the power the same question's state cell gives, because the organic acts give a territorial legislature power over all rightful subjects of legislation not inconsistent with federal law. An estimate, not a sourced cell: each territory's own act or constitution is to be read cell by cell (pool item laws-territory-powers-research). A question whose state cell is no stays no. Citations for the Northern Mariana Islands and Puerto Rico added Oct 19; the cell-by-cell reading is not done.",
   "tag": "ESTIMATED",
   "inherits": "state",
   "citations": [
@@ -13,11 +13,26 @@
       "territory": "U.S. Virgin Islands",
       "text": "The legislative power of the Virgin Islands extends to all rightful subjects of legislation not inconsistent with the Revised Organic Act or the laws of the United States made applicable to the Virgin Islands.",
       "cite": "48 U.S.C. 1574(a)"
+    },
+    {
+      "territory": "Northern Mariana Islands",
+      "text": "The legislative power of the Commonwealth shall extend to all rightful subjects of legislation and shall be vested in a Northern Marianas Commonwealth legislature composed of a senate and a house of representatives.",
+      "cite": "Constitution of the Northern Mariana Islands, Art. II, sec. 1; Covenant to Establish a Commonwealth of the Northern Mariana Islands, sec. 202(c) (legislative power extends to all rightful subjects of legislation)"
+    },
+    {
+      "territory": "Puerto Rico",
+      "text": "The legislative authority shall extend to all matters of a legislative character not locally inapplicable.",
+      "cite": "48 U.S.C. 821 (Puerto Rico Federal Relations Act, carrying section 37 of the 1917 Organic Act); described by the Supreme Court in Puerto Rico v. Shell Co., 302 U.S. 253 (1937) as as broad and comprehensive as language could make it. The Constitution of Puerto Rico, Art. III, is still to be read."
+    },
+    {
+      "territory": "American Samoa",
+      "text": "The Legislature shall have authority to pass legislation with respect to subjects of local application, except that: (a) no such legislation may be inconsistent with this Constitution or the laws of the United States applicable in American Samoa; (b) none may conflict with treaties or international agreements of the United States; (c) money bills shall not appropriate more than the revenues raised under the territory's tax and revenue laws; (d) legislation spending funds other than as budgeted shall include revenue measures.",
+      "cite": "Revised Constitution of American Samoa, Art. II, sec. 1 (as amended 1971), text read from the FAOLEX copy (https://faolex.fao.org/docs/pdf/ams72562.pdf)",
+      "note": "Narrower than the 'all rightful subjects' grants of Guam, the Virgin Islands and the Northern Mariana Islands: the grant is for subjects of local application, with spending bound to the territory's own revenues. The state-cell inheritance overstates American Samoa on subjects that are not local and on spending beyond its revenues."
     }
   ],
   "toBeRead": [
-    "American Samoa (Revised Constitution)",
-    "Northern Mariana Islands (Covenant and Constitution)",
-    "Puerto Rico (Constitution and the Federal Relations Act)"
+    "Puerto Rico (Constitution, Art. III, sec. 1)",
+    "American Samoa: whether the 'local application' limit changes any question's cell (the cells themselves are not yet read)"
   ]
 }

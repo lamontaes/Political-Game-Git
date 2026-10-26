@@ -39,6 +39,7 @@ export const STATUSES = [
 export const PRIORITIES = ["1", "2", "3"];
 export const SIZES = ["S", "M", "L"];
 const SIZE_RANK: Record<string, number> = { S: 0, M: 1, L: 2 };
+const PLAY_FIRST = ["play-stop-23", "play-stop-21", "play-stop-22"];
 const sizeOf = (i: { size?: string }): string => i.size || "M";
 
 export interface Item {
@@ -51,7 +52,7 @@ export interface Item {
   "claimed-by": string;
   pr: string;
   "blocked-on": string;
-  size?: string;
+  size: string;
   [key: string]: string;
 }
 
@@ -146,19 +147,27 @@ export function section(text: string, name: string): string {
   return (re.exec(body)?.[1] ?? "").trim();
 }
 
-/** Quality gate for open or claimed priority 1 and 2 items. Returns "<id>: <field> ..." problems. */
+/** Quality gate for open or claimed priority 1 and 2 items, and play-first items at any priority. Returns "<id>: <field> ..." problems. */
 export function quality(
   file: string,
   fm: Record<string, string>,
   text: string,
 ): string[] {
-  if (
-    !["open", "claimed"].includes(fm.status) ||
-    !["1", "2"].includes(fm.priority)
-  )
-    return [];
   const id = file.replace(/\.md$/, "");
-  const errs: string[] = [];
+  const live = ["open", "claimed"].includes(fm.status);
+  // The play-first lane (docs/play-first/README.md): every item is time-boxed
+  // at four hours or less and says what the owner will see, at any priority.
+  const lane: string[] = [];
+  if (live && fm.milestone === "play-first") {
+    const box = /^(\d+(?:\.\d+)?) hours?\b/.exec(section(text, "Time box"));
+    if (!box || Number(box[1]) <= 0 || Number(box[1]) > 4)
+      lane.push(`${id}: a play-first item needs a Time box of 4 hours or less`);
+    for (const name of ["You will see", "Screenshot"])
+      if (!section(text, name))
+        lane.push(`${id}: a play-first item needs its ${name} line`);
+  }
+  if (!live || !["1", "2"].includes(fm.priority)) return lane;
+  const errs: string[] = [...lane];
   const what = section(text, "What");
   const sentences = what.split(/[.!?](?:\s|$)/).filter((x) => x.trim()).length;
   if (sentences < 3 || words(what) < 40)
@@ -206,24 +215,38 @@ export function buildIndex(items: Item[]): string {
     i.status === "open" && waiting(i).length > 0;
   const by = (s: string): Item[] =>
     items.filter((i) => i.status === s && !gated(i));
-  const sorted = (xs: Item[]): Item[] =>
-    [...xs].sort(
-      (a, b) =>
+  const order = (a: Item, b: Item): number =>
+    a.priority.localeCompare(b.priority) ||
+    SIZE_RANK[sizeOf(a)] - SIZE_RANK[sizeOf(b)] ||
+    a.area.localeCompare(b.area) ||
+    a.id.localeCompare(b.id);
+  const sorted = (xs: Item[]): Item[] => [...xs].sort(order);
+  const playRank = (i: Item): number => {
+    const k = PLAY_FIRST.findIndex((p) => i.id.startsWith(p));
+    return k < 0 ? PLAY_FIRST.length : k;
+  };
+  const nextUp = (xs: Item[]): Item[] =>
+    [...xs].sort((a, b) => {
+      const pa = a.milestone === "play-first";
+      const pb = b.milestone === "play-first";
+      if (pa !== pb) return pa ? -1 : 1;
+      if (!pa) return order(a, b);
+      return (
         a.priority.localeCompare(b.priority) ||
-        SIZE_RANK[sizeOf(a)] - SIZE_RANK[sizeOf(b)] ||
-        a.area.localeCompare(b.area) ||
-        a.id.localeCompare(b.id),
-    );
+        playRank(a) - playRank(b) ||
+        a.id.localeCompare(b.id)
+      );
+    });
   const gatedItems = items.filter(gated);
   const counts = STATUSES.map(
     (s) => `${items.filter((i) => i.status === s).length} ${s}`,
   ).join(", ");
   const table = (xs: Item[]): string[] => [
-    "| id | title | area | kind | priority | size | claimed-by | pr | blocked-on |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    "| id | title | area | lead | kind | priority | size | claimed-by | pr | blocked-on |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ...sorted(xs).map(
       (i) =>
-        `| [${i.id}](items/${i.id}.md) | ${cell(i.title)} | ${i.area} | ${i.kind} | ${i.priority} | ${sizeOf(i)} | ${cell(i["claimed-by"])} | ${cell(i.pr)} | ${cell(i["blocked-on"])} |`,
+        `| [${i.id}](items/${i.id}.md) | ${cell(i.title)} | ${i.area} | ${cell(i.lead)} | ${i.kind} | ${i.priority} | ${sizeOf(i)} | ${cell(i["claimed-by"])} | ${cell(i.pr)} | ${cell(i["blocked-on"])} |`,
     ),
   ];
   const out = [
@@ -244,11 +267,11 @@ export function buildIndex(items: Item[]): string {
     "",
     "## Next up",
     "",
-    ...sorted(by("open"))
+    ...nextUp(by("open"))
       .slice(0, 15)
       .map(
         (i, n) =>
-          `${n + 1}. [${i.id}](items/${i.id}.md) (${i.area}, ${i.kind}, p${i.priority}, ${sizeOf(i)}) — ${cell(i.title)}`,
+          `${n + 1}. [${i.id}](items/${i.id}.md) (${i.area}${i.lead ? `, lead ${i.lead}` : ""}, ${i.kind}, p${i.priority}, ${sizeOf(i)}) — ${cell(i.title)}`,
       ),
     "",
   ];
@@ -355,6 +378,9 @@ function applyAndCommit(id: string, edit: () => void, message: string): void {
   const { errors } = run(POOL(), false);
   if (errors.length) throw new Error(errors.join("\n"));
   git("add", "docs/pool/INDEX.md", `docs/pool/items/${id}.md`);
+  // Another writer (a merger, the CTO) may have made the same change on main
+  // between the read and the fetch; nothing to commit is then a finished job.
+  if (!git("diff", "--cached", "--name-only")) return;
   git(
     "commit",
     "-m",
@@ -376,7 +402,9 @@ function mutate(
   const tmp = `pool-claim-${id}`;
   let last: unknown;
   try {
-    for (let n = 0; n < 3; n++) {
+    // A merge burst runs many flips at once; each loses the push race to the
+    // one before it, so the retries cover a burst, not just a pair.
+    for (let n = 0; n < 8; n++) {
       git("fetch", "origin", "main");
       git("checkout", "-B", tmp, "origin/main");
       applyAndCommit(id, edit, message);
@@ -387,7 +415,7 @@ function mutate(
         last = e;
       }
     }
-    throw new Error(`push to main failed 3 times: ${String(last)}`);
+    throw new Error(`push to main failed 8 times: ${String(last)}`);
   } finally {
     try {
       git("checkout", prev === "HEAD" ? "-" : prev);
@@ -398,23 +426,42 @@ function mutate(
   }
 }
 
-function flags(argv: string[]): { pos: string[]; f: Record<string, string> } {
+/**
+ * Flags come as `--key value` or `--key=value`. `--by` may also come from
+ * POOL_BY: npm swallows a `--by` written without `--` before the arguments
+ * (`npm run pool status x done --by cto` reaches the tool as `done cto`), and
+ * an env var survives that.
+ */
+export function flags(
+  argv: string[],
+  env: NodeJS.ProcessEnv = process.env,
+): { pos: string[]; f: Record<string, string> } {
   const pos: string[] = [];
   const f: Record<string, string> = {};
+  if (env.POOL_BY) f.by = env.POOL_BY;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--no-push") f["no-push"] = "1";
-    else if (argv[i].startsWith("--")) f[argv[i].slice(2)] = argv[++i] ?? "";
-    else pos.push(argv[i]);
+    else if (argv[i].startsWith("--")) {
+      const eq = argv[i].indexOf("=");
+      if (eq > 2) f[argv[i].slice(2, eq)] = argv[i].slice(eq + 1);
+      else f[argv[i].slice(2)] = argv[++i] ?? "";
+    } else pos.push(argv[i]);
   }
   return { pos, f };
 }
 
+/** The body sections `add` takes; a priority 1 or 2 item must give every one. */
+const BODY_FLAGS = ["what", "rules", "done", "files"] as const;
+
 const TEMPLATE = (f: Record<string, string>, id: string): string =>
-  `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nclaimed-by:\npr:\nblocked-on:\n${f.after ? `after: ${f.after}\n` : ""}source: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** TODO\n\n**Rules.** TODO\n\n**Done when.** TODO\n\n**Files.** TODO\n\n**Notes.** TODO\n`;
+  `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nclaimed-by:\npr:\nblocked-on:\n${f.after ? `after: ${f.after}\n` : ""}source: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what || "TODO"}\n\n**Rules.** ${f.rules || "TODO"}\n\n**Done when.** ${f.done || "TODO"}\n\n**Files.** ${f.files || "TODO"}\n\n**Notes.** ${f.notes || "TODO"}\n`;
 
 /** Runs a subcommand; returns an error message or null. */
-export function command(argv: string[]): string | null {
-  const { pos, f } = flags(argv);
+export function command(
+  argv: string[],
+  env: NodeJS.ProcessEnv = process.env,
+): string | null {
+  const { pos, f } = flags(argv, env);
   const [cmd, id] = pos;
   const noPush = !!f["no-push"];
   try {
@@ -429,6 +476,13 @@ export function command(argv: string[]): string | null {
           );
         if (fm.status !== "open")
           throw new Error(`${id} is ${fm.status}, not open`);
+        const waiting = ids(fm.after).filter(
+          (a) => readItem(a).status !== "done",
+        );
+        if (waiting.length)
+          throw new Error(
+            `${id} waits on ${waiting.join(", ")}; take the top of Next up`,
+          );
         writeFileSync(
           itemPath(id),
           setFields(readFileSync(itemPath(id), "utf8"), {
@@ -442,9 +496,9 @@ export function command(argv: string[]): string | null {
     } else if (cmd === "status") {
       const st = pos[2];
       if (!id || !["in-pr", "done", "blocked", "open", "dropped"].includes(st))
-        return "usage: pool status <id> <in-pr|done|blocked|open> [--pr N] [--blocked-on <id>] [--by cto]";
+        return "usage: pool status <id> <in-pr|done|blocked|open|dropped> [--pr N] [--blocked-on <id>] [--by=cto]";
       if ((st === "done" || st === "dropped") && f.by !== "cto")
-        return `${st} is allowed only with --by cto`;
+        return `${st} is allowed only with --by=cto (or POOL_BY=cto in the environment)`;
       const edit = (): void => {
         readItem(id);
         const fields: Record<string, string> = { status: st };
@@ -467,11 +521,18 @@ export function command(argv: string[]): string | null {
       );
     } else if (cmd === "add") {
       if (!id)
-        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b]";
+        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --rules ... --done ... --files ... [--notes ...] (the four body flags are required for priority 1 and 2)";
       f.size = f.size || "M";
       const edit = (): void => {
         if (existsSync(itemPath(id))) throw new Error(`${id} already exists`);
         if (!f.title) throw new Error("--title is required");
+        // A priority 1 or 2 item left as the template fails the pool check on
+        // main, which every session's gate runs; refuse it before the push.
+        const missing = BODY_FLAGS.filter((name) => !f[name]);
+        if (f.priority !== "3" && missing.length)
+          throw new Error(
+            `a priority ${f.priority} item needs its body: missing ${missing.map((n) => `--${n}`).join(", ")}`,
+          );
         writeFileSync(itemPath(id), TEMPLATE(f, id));
       };
       mutate(id, edit, `pool: add ${id}`, noPush);

@@ -4,7 +4,7 @@ title: "Remaining port, the opening town builder (population.ts, opening-employm
 area: core
 kind: feature
 priority: 2
-status: blocked
+status: dropped
 claimed-by: claude/core-remaining-port-opening-builder
 pr: #4498
 blocked-on: core-port-world-scaffold

@@ -17,8 +17,10 @@ claimed-at:
 
 **Rules.** One model, two tiers: the same bar, applied to a group's convicted count, as to a full person. Real rates check totals and never pick one person's outcome. One rule, all 56 places.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) the counted electorate's barred count comes from the groups' conviction counts and the restoration law in force, shown by group ids, and its total lands within the state's real share's spread; SG-GOV-REACH-A-convictions is resolved and the test in src/core2/law-reach-group-a.test.ts passes.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) the counted electorate's barred count comes from the groups' conviction counts and the restoration law in force, shown by group ids, and its total lands within the state's real share's spread; SG-GOV-REACH-A-convictions is resolved and the test in src/core2/law-reach-group-a.test.ts passes. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-a-voting.ts, src/core2/modules/justice.ts, src/core2/counted-groups.ts, src/core2/data/elections/felony-disenfranchisement.json
 
-**Notes.** Split from laws-stopgap-reach-group-a-missing-record. The named-person half is in the group A voting PR (barredFromVoting).
+**Notes.** Split from laws-stopgap-reach-group-a-missing-record. The named-person half is in the group A voting PR (barredFromVoting). Claim released Oct 23: branch idle since Oct 19.
+
+Looked at Oct 19 (claude/convictions-counted-reach), not built: the justice engine (`src/core2/modules/justice.ts`) has no counted-level cases at all. `convictionsOf` and `sentenceUnfinished` read only full people's `cases` and `sentences` rows, and nothing in justice mentions counted groups, so there are no counted convictions for the electorate to subtract. `felonyDisenfranchisedShare` (`src/core2/law-reach/group-a-voting.ts`) is read in two places in `src/core2/electorate-inputs.ts` (lines 238 and 256). This item therefore needs a counted crime and sentencing model first (what moves a counted adult to a charge, from needs, drives and the town's conditions, with no roll). Split it before building: one item for counted cases by group in justice, then this one to read them. Size L.

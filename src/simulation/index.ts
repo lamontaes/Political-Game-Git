@@ -273,7 +273,7 @@ export * from "./executive-authority-rules";
 export * from "./executive-authority-rule-packs";
 export * from "./evidence";
 export * from "./mind";
-export * from "./mind-catalog";
+export * from "../core2/mind-catalog";
 export * from "./narrative-threads";
 export * from "./life-episodes";
 export * from "./episode-bank";

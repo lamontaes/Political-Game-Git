@@ -4,5 +4,720 @@
     "tag": "ESTIMATED",
     "citation": "ICMA Municipal Form of Government Survey: council is the collective elected municipal body; the compiled municipal reader currently omits charter-specific body names.",
     "stopgapId": "SG-GOV-municipal-body-name"
-  }
+  },
+  "municipalByKind": {
+    "city": {
+      "value": "City Council",
+      "tag": "ESTIMATED",
+      "citation": "https://nlc.org/resource/cities-101-forms-of-local-government: \"City council oversees the general administration, makes policy, sets budget\"",
+      "spread": "National League of Cities, Cities 101. Council is also the legislative body in the mayor-council form: Council is elected and maintains legislative powers."
+    },
+    "town": {
+      "value": "Town Council",
+      "tag": "ESTIMATED",
+      "citation": "https://en.wikipedia.org/wiki/City_council: \"a council can go by several names, including city council, town council, town board, community council, borough council\"",
+      "spread": "Wikipedia (marked; no better national page loaded), lead paragraph. State sources that name the town council: Utah Code (\"in a town, the governing body is the town council\"), Wyoming Statutes, Arkansas Code 14-45-101, Indiana Code 36-5-2-2. Exceptions: Board of Trustees in CO, IL, OK, SD, NM towns; Board of Aldermen in LA and MS towns."
+    },
+    "village": {
+      "value": "Board of Trustees",
+      "tag": "ESTIMATED",
+      "citation": "https://video.dos.ny.gov/lg/handbook/html/village_government.html: \"The legislative body of a village — the board of trustees — is composed of the mayor and four trustees.\"",
+      "spread": "No national page loaded; the state of New York, Illinois (IML guide), Nebraska, Missouri, New Mexico and Vermont villages all use a Board of Trustees. Exceptions: Village Council in OH, MI and FL; Village Board in WI; Board of Aldermen in LA and MS."
+    },
+    "borough": {
+      "value": "Borough Council",
+      "tag": "ESTIMATED",
+      "citation": "https://www.njlm.org/646/Borough: \"The council is the legislative body of the Borough.\"",
+      "spread": "New Jersey League of Municipalities; Pennsylvania Borough Code is the same: Borough council shall have the corporate powers and duties. Connecticut boroughs differ (Board of Burgesses, or Warden and Burgesses)."
+    }
+  },
+  "municipalByState": {
+    "AK": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.law.cornell.edu/regulations/alaska/3-AAC-110.710: \"The city council of a first class city determined ineligible based on failure to meet the requirements\"",
+        "spread": "3 AAC 110.710. Alaska statute AS 29.20.130 gives first and second class cities a council."
+      }
+    },
+    "AL": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.almonline.org/Assets/Files/LegalSelectedReadings/03.Forms-of-Municipal-Government-in-Alabama-2023.pdf: \"Section 11-43-64, Code of Alabama 1975, provides an additional means of increasing the size of the city council in a Class 3 municipality.\"",
+        "spread": "Alabama League of Municipalities; mayor-council form is found in most Alabama cities and towns."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://almonline.org/Assets/Files/2025-Handbook-for-Mayors-and-Councilmembers.pdf: \"Towns (municipalities of less than 2,000 inhabitants) are only required to meet once per month but the town council can adopt an ordinance to require two meetings per month.\"",
+        "spread": "Alabama League of Municipalities 2025 Handbook for Mayors and Councilmembers (Code of Alabama 11-43-50)."
+      }
+    },
+    "AR": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://codes.findlaw.com/ar/title-14-local-government/ar-code-sect-14-44-103.html: \"The city council of a city of the second class may refer to voters an ordinance\"",
+        "spread": "Ark. Code 14-44-103 (second-class cities); first-class cities also have a city council (Arkansas Code 14-43)."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://codes.findlaw.com/ar/title-14-local-government/ar-code-sect-14-45-101/: \"The corporate authority of incorporated towns shall vest in a town council composed of the five (5) council members\"",
+        "spread": "Ark. Code 14-45-101(a)."
+      }
+    },
+    "AZ": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.azleg.gov/ars/9/00232.htm: \"A person shall not be a member of a city or town council unless, at the time of the election, the person is eighteen years old\"",
+        "spread": "ARS 9-232."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.azleg.gov/ars/9/00232.htm: \"A person shall not be a member of a city or town council unless, at the time of the election, the person is eighteen years old\"",
+        "spread": "ARS 9-231 vests a town's corporate powers in a common council (https://www.azleg.gov/ars/9/00231.htm)."
+      }
+    },
+    "CA": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://codes.findlaw.com/ca/government-code/gov-sect-36501/: \"A city council of at least five members.\"",
+        "spread": "Cal. Gov. Code 36501(a): The government of a general law city is vested in a city council. Charter cities set their own body but nearly all also use a city council."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.woodsideca.gov/DocumentCenter/View/553/Committee-Handbook-Updated-December-2024-PDF: \"The Town Council established several standing boards, commissions, and committees\"",
+        "spread": "Town of Woodside handbook (a general law town); California towns are cities under state law and use a town council by local choice."
+      }
+    },
+    "CO": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://colorado.public.law/statutes/crs_31-4-101: \"shall be vested in a governing body, to be denominated the city council.\"",
+        "spread": "C.R.S. 31-4-101 (statutory cities)."
+      },
+      "town": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://colorado.public.law/statutes/crs_31-4-301: \"The legislative and corporate authority of towns shall be vested in a board of trustees\"",
+        "spread": "C.R.S. 31-4-301 (statutory towns; home-rule towns may differ)."
+      }
+    },
+    "CT": {
+      "borough": {
+        "value": "Board of Burgesses",
+        "tag": "ESTIMATED",
+        "citation": "https://boroughofnewtownct.gov/: \"The Borough is headed by the Board of Burgesses, who meet quarterly to discuss important topics and events.\"",
+        "spread": "Newtown borough page (municipal website). Some CT boroughs use Warden and Burgesses."
+      },
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://meridenct.gov/government/city-council: \"The page heading is City Council. The Council members hold exclusive legislative powers for the City of Meriden.\"",
+        "spread": "Meriden city website. Connecticut cities choose their title by charter: Hartford uses Court of Common Council, Middletown Common Council, Danbury Common Council, New Haven Board of Alders, Waterbury Board of Aldermen (Middletown charter background document)."
+      }
+    },
+    "DE": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://archivesfiles.delaware.gov/public-services/Wilmington_Additional_Information.pdf: \"In 1832, when Wilmington became a City, the Borough Council became a City Council, with responsibilities that remained largely unchanged.\"",
+        "spread": "Delaware Public Archives, about Wilmington; city charters are home rule and vary (Dover, Newark and others use Council)."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.legis.delaware.gov/SessionLaws/Chapter?id=28921: \"shall be vested in a Town Council.\"",
+        "spread": "Camden town charter (Delaware session law); most Delaware towns have charters naming a Town Council, some use Board of Commissioners."
+      }
+    },
+    "FL": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.flcities.com/wp-content/uploads/2026/08/Cities-101.pdf: \"Elected Body: Council or commission\"",
+        "spread": "Florida League of Cities; each city charter sets the title, many use City Commission."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.flcities.com/wp-content/uploads/2026/08/Cities-101.pdf: \"Elected Body: Council or commission\"",
+        "spread": "Florida League of Cities; each charter sets the title."
+      },
+      "village": {
+        "value": "Village Council",
+        "tag": "ESTIMATED",
+        "citation": "https://pinecrest-fl.gov/Government/Council: \"The Village of Pinecrest is governed by a five member Village Council.\"",
+        "spread": "Village of Pinecrest official site (example); Palmetto Bay and Key Biscayne also use a Village Council."
+      }
+    },
+    "GA": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.gacities.com/resources/city-charters: \"In a strong mayor-council system, the council remains responsible for enacting municipal legislation.\"",
+        "spread": "Georgia Municipal Association (council wording; charters choose the label, and a few cities such as Decatur use City Commission)."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.tallulahfallsga.gov/?p=1955: \"shall be vested in a town council to be composed of a mayor and four council members.\"",
+        "spread": "Town of Tallulah Falls charter (Georgia); Georgia law does not distinguish cities and towns and each charter chooses the label (Braselton, Tallulah Falls use Town Council; others use Mayor and Council)."
+      }
+    },
+    "IA": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.legis.iowa.gov/docs/code/2026/372.4.pdf: \"A city governed by the mayor-council form has a mayor and five council members elected at large\"",
+        "spread": "Iowa Code 372.4; statute says council."
+      }
+    },
+    "ID": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://legislature.idaho.gov/statutesrules/idstat/Title50/T50CH7/SECT50-701/: \"shall be vested in a council consisting of either four (4) or six (6) members\"",
+        "spread": "Idaho Code 50-701."
+      }
+    },
+    "IL": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.egovlink.com/public_documents300/sugargrove/published_documents/elections/2023%20Consolidated%20Election/IML%20Candidates%20Guide%20To%20Municipal%20Government%202023.pdf: \"THE CITY COUNCIL, BOARD OF TRUSTEES AND CORPORATE AUTHORITIES ... In cities, the corporate authorities are the mayor and the alderpersons.\"",
+        "spread": "Aldermanic city form is the standard; commission-form cities have a mayor and four commissioners."
+      },
+      "town": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://www.egovlink.com/public_documents300/sugargrove/published_documents/elections/2023%20Consolidated%20Election/IML%20Candidates%20Guide%20To%20Municipal%20Government%202023.pdf: \"In villages and towns, the corporate authorities are the president and board of trustees, who exercise the same powers and perform the same duties as a city council.\"",
+        "spread": "Only 14 Illinois municipalities are incorporated towns under pre-1870 charters (IML)."
+      },
+      "village": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://www.egovlink.com/public_documents300/sugargrove/published_documents/elections/2023%20Consolidated%20Election/IML%20Candidates%20Guide%20To%20Municipal%20Government%202023.pdf: \"In villages and towns, the corporate authorities are the president and board of trustees, who exercise the same powers and perform the same duties as a city council.\"",
+        "spread": "Illinois Municipal League candidates guide."
+      }
+    },
+    "IN": {
+      "city": {
+        "value": "Common Council",
+        "tag": "ESTIMATED",
+        "citation": "https://codes.findlaw.com/in/title-36-local-government/in-code-sect-36-4-6-2/: \"A common council, which is the city legislative body, shall be elected under IC 3-10-6 by the voters of each city.\"",
+        "spread": "Ind. Code 36-4-6-2 (second and third class cities); first-class cities also use a common council by statute, though some cities style it City Council."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://codes.findlaw.com/in/title-36-local-government/in-code-sect-36-5-2-2/: \"The town council elected under IC 3-10-6 or IC 3-10-7 is the town legislative body.\"",
+        "spread": "Ind. Code 36-5-2-2."
+      }
+    },
+    "KS": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://ksrevisor.gov/statutes/chapters/ch12/012_010a_0008.html: \"The city council shall act as the policy-making body of the city.\"",
+        "spread": "K.S.A. 12-10a08 (modified mayor-council form); Kansas statutes also call the body the governing body."
+      }
+    },
+    "KY": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.klc.org/News/13002/klc-city-census-the-origins-of-an-ordinance: \"The local council must meet at least once a month and has all legislative authority.\"",
+        "spread": "Kentucky League of Cities; 255 mayor-council cities (KLC). Statute KRS 83A.130 vests legislative authority in the council."
+      }
+    },
+    "LA": {
+      "city": {
+        "value": "Board of Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://www.townofhomer.com/downloads/lawrason_act_faq.pdf: \"The legislative powers are vested in and exercised by the Board of Aldermen/ Council.\"",
+        "spread": "Lawrason Act default; home-rule cities (for example, larger cities) use City Council."
+      },
+      "town": {
+        "value": "Board of Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://www.townofhomer.com/downloads/lawrason_act_faq.pdf: \"The legislative powers are vested in and exercised by the Board of Aldermen/ Council.\"",
+        "spread": "Lawrason Act FAQ; home-rule and charter municipalities may use council."
+      },
+      "village": {
+        "value": "Board of Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://www.townofhomer.com/downloads/lawrason_act_faq.pdf: \"The legislative powers are vested in and exercised by the Board of Aldermen/ Council.\"",
+        "spread": "Lawrason Act FAQ (La. Legislative Auditor); the same board for villages, towns and cities under the Lawrason Act (R.S. 33:321 et seq.)."
+      }
+    },
+    "MA": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleI/Chapter4/Section7: \"whether styled a city council, board of aldermen, town council, town meeting or by any other title.\"",
+        "spread": "M.G.L. c.4 s.7 Eighteenth B definition of legislative body; Massachusetts cities (Plans A-F) have a city council."
+      }
+    },
+    "MD": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://mgaleg.maryland.gov/Pubs/LegisLegal/Muni-Charters/2024-municipal-charter-Rockville.pdf: \"ARTICLE II The Mayor and Council ... The Council shall meet at some convenient public place in said City as often as may be necessary\"",
+        "spread": "Rockville charter (Maryland Dept. of Legislative Services); Maryland cities typically use Mayor and City Council."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://mgaleg.maryland.gov/Pubs/LegisLegal/Muni-Charters/2024-municipal-charter-riverdale-park.pdf: \"ARTICLE II The Town Council Section 201. Number, Selection, and Term. The legislative powers of the town are vested in the town council\"",
+        "spread": "Riverdale Park charter. Maryland charters vary: other towns use Board of Commissioners or Board of Town Commissioners (Eagle Harbor, Thurmont)."
+      },
+      "village": {
+        "value": "Board of Managers",
+        "tag": "ESTIMATED",
+        "citation": "https://msa.maryland.gov/msa/mdmanual/37mun/chevyvill/html/cchairs.html: \"CHAIRS OF BOARD OF MANAGERS\"",
+        "spread": "Maryland Manual, Chevy Chase Village. Another Maryland village, Martin's Additions, has an elected five-member Council (martinsadditions.org)."
+      }
+    },
+    "ME": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://legislature.maine.gov/statutes/30-a/title30-Asec2552.html: \"The board of assessment review shall consist of 3 members appointed by the city council.\"",
+        "spread": "Title 30-A section 2552 (Maine statute names the city council for cities)."
+      }
+    },
+    "MI": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://mml.org/wp-content/uploads/2024/12/HMO-CH-2-Structure-of-Local-Government.pdf: \"City councilmembers and village trustees are typically elected to two-year or four-year terms, about half at each election\"",
+        "spread": "Michigan Municipal League handbook; all Michigan cities are home rule cities."
+      },
+      "village": {
+        "value": "Village Council",
+        "tag": "ESTIMATED",
+        "citation": "https://mml.org/wp-content/uploads/2024/10/MR-Org-of-City-Village-Govt-in-MI-Oct-2024.pdf: \"However, the president need not be directly elected by the people but may be elected by the village council.\"",
+        "spread": "Michigan Municipal League. Most Michigan villages (206 of 252) are under the General Law Village Act; members are called trustees."
+      }
+    },
+    "MN": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.revisor.mn.gov/statutes/cite/412.191: \"The city council in a standard plan city shall consist of the mayor, the clerk, and the three or five council members.\"",
+        "spread": "Minn. Stat. 412.191 (statutory cities)."
+      }
+    },
+    "MO": {
+      "city": {
+        "value": "Board of Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://auditor.mo.gov/AuditReport/ViewReport?report=2017039: \"Wellston is a 3rd class city governed by a mayor and city council, while the comparison cities are 4th class cities governed by a mayor and board of aldermen.\"",
+        "spread": "Missouri State Auditor report 2017-039; fourth-class cities are the most numerous class. Third-class cities and charter cities use a city council."
+      },
+      "town": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://revisor.mo.gov/main/OneSection.aspx?section=80.090: \"Such board of trustees shall have power:\"",
+        "spread": "RSMo 80.090 (chapter 80, towns and villages; town means village in that chapter, RSMo 80.010)."
+      },
+      "village": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://revisor.mo.gov/main/OneSection.aspx?section=80.090: \"Such board of trustees shall have power:\"",
+        "spread": "RSMo 80.090 (chapter 80, towns and villages)."
+      }
+    },
+    "MS": {
+      "city": {
+        "value": "Board of Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://www.sos.ms.gov/content/documents/ed_pubs/pubs/BlueBook20-24/12%20Municipal%20Government.pdf: \"Voters elect a mayor and a board of aldermen, which varies from three, five, or seven members depending on the population of the municipality.\"",
+        "spread": "Mississippi Secretary of State Blue Book: the mayor-aldermen (code charter) form is used by about 95 percent of municipalities."
+      },
+      "town": {
+        "value": "Board of Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://www.sos.ms.gov/content/documents/ed_pubs/pubs/BlueBook20-24/12%20Municipal%20Government.pdf: \"Voters elect a mayor and a board of aldermen, which varies from three, five, or seven members depending on the population of the municipality.\"",
+        "spread": "Same code charter applies to cities, towns and villages."
+      },
+      "village": {
+        "value": "Board of Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://www.sos.ms.gov/content/documents/ed_pubs/pubs/BlueBook20-24/12%20Municipal%20Government.pdf: \"Voters elect a mayor and a board of aldermen, which varies from three, five, or seven members depending on the population of the municipality.\"",
+        "spread": "Same code charter applies to cities, towns and villages."
+      }
+    },
+    "MT": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0030/part_0420/section_0050/0070-0030-0420-0050.html: \"Each city must be governed by a mayor and council members, as provided in 7-3-4215\"",
+        "spread": "MCA 7-3-4205; statute says council members."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0040/part_0440/section_0010/0070-0040-0440-0010.html: \"A person is not eligible for the office of city council member unless the person is a resident for at least 60 days preceding\"",
+        "spread": "MCA 7-4-4401 (Part 44, Office of City Council Member) covers city or town; Montana statute names the office city council member for both, local usage is Town Council."
+      }
+    },
+    "NC": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-67.html: \"Except as otherwise provided by law, the government and general management of the city shall be vested in the council.\"",
+        "spread": "N.C.G.S. 160A-67; statute says the council. Some NC towns use a Board of Commissioners."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-67.html: \"Except as otherwise provided by law, the government and general management of the city shall be vested in the council.\"",
+        "spread": "N.C.G.S. 160A-67 (city includes towns and villages); many towns use Board of Commissioners."
+      },
+      "village": {
+        "value": "Village Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-67.html: \"Except as otherwise provided by law, the government and general management of the city shall be vested in the council.\"",
+        "spread": "N.C.G.S. 160A-67 (city includes villages); statute says the council."
+      }
+    },
+    "ND": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://ndlegis.gov/cencode/t40c08.pdf: \"The governing body of a city operating under the council form of government is the city council, which is composed of the mayor and council members.\"",
+        "spread": "N.D.C.C. 40-08-01. Some ND cities use a board of city commissioners."
+      }
+    },
+    "NE": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://nebraskalegislature.gov/laws/statutes.php?statute=16-401: \"Regular meetings of the city council of a city of the first class shall be held at such times as may be fixed by ordinance\"",
+        "spread": "Neb. Rev. Stat. 16-401 (first-class cities); second-class cities and villages are in chapter 17 (villages use a board of trustees)."
+      },
+      "village": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://nebraskalegislature.gov/laws/statutes.php?statute=17-207: \"The village board of trustees shall have power to pass ordinances: (1) To prevent and remove nuisances within the village\"",
+        "spread": "Neb. Rev. Stat. 17-207."
+      }
+    },
+    "NH": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://gc.nh.gov/rsa/html/III/49-C/49-C-8.htm: \"a city council, all of whom shall be elected\"",
+        "spread": "RSA 49-C:8 (council-manager plan); the mayor-aldermen plan uses a Board of Aldermen (for example Manchester and Nashua)."
+      }
+    },
+    "NJ": {
+      "borough": {
+        "value": "Borough Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.njlm.org/646/Borough: \"The council is the legislative body of the Borough.\"",
+        "spread": "New Jersey League of Municipalities; N.J.S.A. 40A:60-1 et seq."
+      },
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.njlm.org/Faq.aspx?QID=185: \"Exercises legislative power of municipality, approves appointment of department heads.\"",
+        "spread": "NJ League of Municipalities, council under the Faulkner Act mayor-council plan used by many New Jersey cities; the page says \"council\". Some NJ cities use a commission (Walsh Act)."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.njlm.org/644/Forms-of-Municipal-Government---New-Jers: \"Council has all executive responsibility of municipality not placed in office of mayor.\"",
+        "spread": "NJ League of Municipalities page on the Town form; the page says \"the council\" for the Town form, so the title Town Council is by form name."
+      },
+      "village": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://www.njlm.org/644/Forms-of-Municipal-Government---New-Jers: \"Executive responsibilities not vested in Village President belong to Board of Trustees.\"",
+        "spread": "NJ League of Municipalities page on the Village form."
+      }
+    },
+    "NM": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://codes.findlaw.com/nm/chapter-3-municipalities/nm-st-sect-3-1-2/: \"\"governing body\" means \"the city council or city commission of a city, the board of trustees of a town or village.\"\"",
+        "spread": "N.M. Stat. 3-1-2(F) via FindLaw."
+      },
+      "town": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://codes.findlaw.com/nm/chapter-3-municipalities/nm-st-sect-3-1-2/: \"\"governing body\" means \"the city council or city commission of a city, the board of trustees of a town or village.\"\"",
+        "spread": "N.M. Stat. 3-1-2(F) via FindLaw."
+      },
+      "village": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://codes.findlaw.com/nm/chapter-3-municipalities/nm-st-sect-3-1-2/: \"\"governing body\" means \"the city council or city commission of a city, the board of trustees of a town or village.\"\"",
+        "spread": "N.M. Stat. 3-1-2(F) via FindLaw; NM Municipal League pocket guide: Many villages use the term \"trustees\"."
+      }
+    },
+    "NV": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://nevada.public.law/statutes/nrs_266.015: \"The municipal government of all incorporated cities under this chapter is hereby vested in a mayor and a city council.\"",
+        "spread": "NRS 266.015."
+      }
+    },
+    "NY": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://video.dos.ny.gov/lg/handbook/html/city_government.html: \"Legislative body, e.g., City Council, Common Council, Board of Aldermen.\"",
+        "spread": "NY Department of State Local Government Handbook; charters set the title, so New York cities vary (Common Council is also common)."
+      },
+      "village": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://video.dos.ny.gov/lg/handbook/html/village_government.html: \"The legislative body of a village — the board of trustees — is composed of the mayor and four trustees.\"",
+        "spread": "NY Department of State Local Government Handbook."
+      }
+    },
+    "OH": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.omlohio.org/DocumentCenter/View/1821/OML-MGO-2022-: \"A city council under the statutory plan shall consist of not less than seven members, four of whom shall be elected by wards and three elected at-large.\"",
+        "spread": "Ohio Municipal League, Municipal Government in Ohio (2022); the statute text says legislative authority."
+      },
+      "village": {
+        "value": "Village Council",
+        "tag": "ESTIMATED",
+        "citation": "https://codes.ohio.gov/ohio-revised-code/section-731.09: \"all members of village council shall hold office for a term of four years.\"",
+        "spread": "ORC 731.09."
+      }
+    },
+    "OK": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=75802: \"The governing body of a statutory aldermanic city shall consist of the mayor, who is elected at large, and one or two councilmembers from each ward of the city.\"",
+        "spread": "11 O.S. 9-102 (statutory aldermanic form, the most common Oklahoma city form); the article titles the body Council (9-108 Powers Vested in Council). Charter cities set their own title."
+      },
+      "town": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=75865: \"The town board of trustees shall consist of either three (3) or five (5) trustees\"",
+        "spread": "11 O.S. 12-102, Governing Body - Board of Trustees (statutory town board of trustees form)."
+      }
+    },
+    "OR": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.orcities.org/application/files/3817/2797/6569/Handbook_-_Chapter_3_Municipal_Officials.pdf: \"Two primary functions of city councils are policy and administration.\"",
+        "spread": "League of Oregon Cities handbook, chapter 3."
+      },
+      "town": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.orcities.org/application/files/3817/2797/6569/Handbook_-_Chapter_3_Municipal_Officials.pdf: \"The city council clearly has the dominant voice in policy matters\"",
+        "spread": "Oregon law makes no difference between a city and a town (ORS 221); League of Oregon Cities handbook says city council. Local usage for towns may be Town Council."
+      }
+    },
+    "PA": {
+      "borough": {
+        "value": "Borough Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.daltonboroughpa.gov/government/: \"Boroughs are governed by an elected council.\"",
+        "spread": "Dalton Borough (Pennsylvania) government page; Pennsylvania Borough Code vests the borough in a borough council."
+      },
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://dced.pa.gov/download/?wpdmdl=124722: \"Under the Third Class City Code, the City's governing body is a five-member City Council, composed of a Mayor and four (4) additional Council Members.\"",
+        "spread": "Pennsylvania DCED recovery plan for Shamokin; most Pennsylvania cities are third class."
+      }
+    },
+    "RI": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://webserver.rilegislature.gov/Statutes/TITLE45/45-2/45-2-60.htm: \"may be granted by the Pawtucket city council sitting as the Pawtucket board of license commissioners.\"",
+        "spread": "R.I. Gen. Laws 45-2-60."
+      }
+    },
+    "SC": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.scstatehouse.gov/code/t05c007.php: \"All powers of the municipality are vested in the council, except as otherwise provided by law.\"",
+        "spread": "S.C. Code 5-7-160; statute says the council."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://www.scstatehouse.gov/code/t05c007.php: \"All powers of the municipality are vested in the council, except as otherwise provided by law.\"",
+        "spread": "S.C. Code 5-7-160 says the council for every municipality; naming it Town Council is by municipal class convention."
+      }
+    },
+    "SD": {
+      "city": {
+        "value": "Common Council",
+        "tag": "ESTIMATED",
+        "citation": "https://sdlegislature.gov/api/Statutes/9.html?all=true: \"\"Governing body,\" the board of trustees, the board of commissioners, or the common council of a municipality;\"",
+        "spread": "SDCL 9-1-1(2); statute uses common council for the aldermanic form (most SD cities); many cities style it City Council locally."
+      },
+      "town": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://sdlegislature.gov/api/Statutes/9-7-1.html: \"The board of trustees of a municipality consists of either three or five members elected at large.\"",
+        "spread": "SDCL 9-7-1 (third-class municipalities, towns)."
+      }
+    },
+    "TN": {
+      "city": {
+        "value": "Board of Mayor and Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://www.wkrn.com/news/tennessee-news/explainer-difference-between-alderman-and-council-member/amp/: \"These forms of government have a board made up of a mayor and two to eight aldermen.\"",
+        "spread": "WKRN explainer on MTAS charter forms: 66 municipalities use the general law Mayor-Alderman charter, 49 city manager-commission, 2 modified manager-council; MTAS (T.C.A. 6-3) calls it the board of mayor and aldermen. A news source; MTAS pages returned errors."
+      },
+      "town": {
+        "value": "Board of Mayor and Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://www.wkrn.com/news/tennessee-news/explainer-difference-between-alderman-and-council-member/amp/: \"These forms of government have a board made up of a mayor and two to eight aldermen.\"",
+        "spread": "Same as city; Tennessee law does not distinguish city and town governing bodies."
+      }
+    },
+    "TX": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://texascityattorneys.org/wp-content/uploads/2025/04/Types-of-Cities.pdf: \"The term alderman is often used interchangeably with the term city council, and the modern name of the board of aldermen is the city council.\"",
+        "spread": "Texas Municipal League paper on Type A cities; home-rule cities (most large ones) use city council."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://texascityattorneys.org/wp-content/uploads/2025/04/Types-of-Cities.pdf: \"The term alderman is often used interchangeably with the term city council, and the modern name of the board of aldermen is the city council.\"",
+        "spread": "Texas has no legal difference among city, town and village (TML); Type B towns have a statutory board of aldermen, home-rule and Type A towns use a council. Inferred naming for town from TML text."
+      },
+      "village": {
+        "value": "Board of Aldermen",
+        "tag": "ESTIMATED",
+        "citation": "https://texascityattorneys.org/wp-content/uploads/2025/04/Types-of-Cities.pdf: \"Type B general law cities operate under the aldermanic form of government in which the board of aldermen is the governing body of a Type B general law city.\"",
+        "spread": "Type B general-law cities are the old towns and villages (Tex. Loc. Gov't Code 23.021); some use Village Council by charter."
+      }
+    },
+    "UT": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://le.utah.gov/xcode/title10/C10_1800010118000101.pdf: \"in a city of the third, fourth, or fifth class, the governing body is the city council; and (c) in a town, the governing body is the town council.\"",
+        "spread": "Utah Code Title 10 Chapter 1 definitions; first-class and second-class cities may use other forms (commission form uses a city commission)."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://le.utah.gov/xcode/title10/C10_1800010118000101.pdf: \"in a town, the governing body is the town council.\"",
+        "spread": "Utah Code Title 10 Chapter 1 definitions."
+      }
+    },
+    "VA": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1400/: \"The qualified voters of every locality shall elect a governing body for such locality.\"",
+        "spread": "Va. Code 15.2-1400; statute says governing body, usually city council."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://law.lis.virginia.gov/vacode/title15.2/chapter1/section15.2-102/: \"\"Council\" means the governing body of a city or town.\"",
+        "spread": "Va. Code 15.2-102; the statute defines council for cities and towns, naming prefix by locality type."
+      }
+    },
+    "VT": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://legislature.vermont.gov/statutes/section/24APPENDIX/004/00202: \"There shall be a City Council consisting of five members.\"",
+        "spread": "24 V.S.A. Appendix ch. 4 section 202 (city charter); Vermont cities have charters that name a City Council (a few older charters add a board of aldermen)."
+      },
+      "village": {
+        "value": "Board of Trustees",
+        "tag": "ESTIMATED",
+        "citation": "https://townofwoodstock.org/village-trustees-2/: \"The Board of Village Trustees has five members who are elected at large.\"",
+        "spread": "Village of Woodstock page (example of a Vermont incorporated village)."
+      }
+    },
+    "WA": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://app.leg.wa.gov/RCW/default.aspx?cite=35A.12.010: \"the city council shall, by majority vote, pursuant to RCW 35A.12.050, appoint two persons\"",
+        "spread": "RCW 35A.12.010 (code cities)."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://app.leg.wa.gov/rcw/default.aspx?cite=35.27.280: \"Town council—Quorum—Rules—Journal.\"",
+        "spread": "RCW 35.27.280 (section title); town government is a mayor and a five-member council (RCW 35.27.070)."
+      }
+    },
+    "WI": {
+      "city": {
+        "value": "Common Council",
+        "tag": "ESTIMATED",
+        "citation": "https://cityofberlin.net/wp-content/uploads/sites/40/2020/12/New-Officials-Guidelines-2014-Update.pdf: \"Under this form, corporate authority is vested in a common council, consisting of alderpersons generally elected by districts and a mayor elected at large.\"",
+        "spread": "League of Wisconsin Municipalities guidance reproduced by City of Berlin; Wis. Stat. 62.11(1) also says the mayor and alderpersons shall be the common council."
+      },
+      "village": {
+        "value": "Village Board",
+        "tag": "ESTIMATED",
+        "citation": "https://cityofberlin.net/wp-content/uploads/sites/40/2020/12/New-Officials-Guidelines-2014-Update.pdf: \"Most of these 585 municipalities use the mayor-council or president-village board form of government.\"",
+        "spread": "Same guidance document; village government is the president and village board of trustees."
+      }
+    },
+    "WV": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://code.wvlegislature.gov/8-3A-2/: \"The council shall be the governing body;\"",
+        "spread": "W. Va. Code 8-3A-2 (plans for Class IV towns and villages) and 8-1-2 define governing body as the council; the statute does not prefix city, town or village."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://code.wvlegislature.gov/8-3A-2/: \"The council shall be the governing body;\"",
+        "spread": "W. Va. Code 8-3A-2 refers to the town or village council; name prefix is by municipal class."
+      },
+      "village": {
+        "value": "Village Council",
+        "tag": "ESTIMATED",
+        "citation": "https://code.wvlegislature.gov/8-3A-2/: \"The council shall be the governing body;\"",
+        "spread": "W. Va. Code 8-3A-2 refers to the town or village council; name prefix is by municipal class."
+      }
+    },
+    "WY": {
+      "city": {
+        "value": "City Council",
+        "tag": "ESTIMATED",
+        "citation": "https://wyoleg.gov/statutes/compress/title15.pdf: \"Governing body means the city council, town council or other governing board of any municipality of this state\"",
+        "spread": "Wyoming Statutes Title 15 (definition in the downtown development article)."
+      },
+      "town": {
+        "value": "Town Council",
+        "tag": "ESTIMATED",
+        "citation": "https://wyoleg.gov/statutes/compress/title15.pdf: \"Governing body means the city council, town council or other governing board of any municipality of this state\"",
+        "spread": "Wyoming Statutes Title 15."
+      }
+    }
+  },
+  "municipalAbout": "The usual elected body of each kind of municipality the Census Bureau's 2025 government-units listing names (\"CITY OF\", \"TOWN OF\", \"VILLAGE OF\", \"BOROUGH OF\"), nationally and by state, for a town whose own charter is not compiled. Each is the name the state's general law or municipal league gives the most common class of that kind, ESTIMATED because a town's charter may name its body otherwise; the spread notes the classes and towns that differ. Delaware's villages are left to the national default: they are governed by a town meeting of their residents (Delaware Public Archives, Ardentown), which seats no members."
 }

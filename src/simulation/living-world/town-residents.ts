@@ -29,6 +29,7 @@
  * the Census Bureau's.
  */
 
+import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -300,7 +301,12 @@ export function materializeTownHousehold(
 ): World {
   if (townHouseholdMaterialized(world, town, index)) return world;
   const skeleton = townHouseholdSkeleton(world.seed, town, index);
-  const inputs = namedMembers(world, town, skeleton);
+  const inputs = namedMembers(
+    world,
+    town,
+    skeleton,
+    nameCorpusVersionForWorld(world, town),
+  );
   let next = createCharacterHistoryContextPeople(world, inputs);
   const today = next.currentDate;
   const key = townHouseholdKey(town, index);

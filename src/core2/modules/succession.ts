@@ -19,7 +19,7 @@ import succession from "../../../data/research/offices/presidential-succession.j
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { ageOnDate } from "../kernel/dates";
 import { nominateAndConfirm, partySide } from "../appointments";
 import { boardAppointer } from "../board-appointer";
 import { registerBoardAppointer } from "../central-bank-appointments";
@@ -118,10 +118,7 @@ function cannotServe(api: CoreAPI, personId: string | null): string | null {
   const person = api.state.people.get(personId);
   if (!person) return "no one holds it";
   if (!person.alive) return "not living";
-  if (
-    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(api.state.date)) <
-    LAW.minimumAge.value
-  )
+  if (ageOnDate(person.birthDate, api.state.date) < LAW.minimumAge.value)
     return `under ${LAW.minimumAge.value}`;
   // Natural-born and fourteen years a resident (U.S. Const. art. II, sec. 1,
   // cl. 5), read from the person's own birth record.
@@ -133,8 +130,7 @@ function cannotServe(api: CoreAPI, personId: string | null): string | null {
   const since = birth.facts.residentSince;
   if (
     !since ||
-    ageOnDate(makeIsoDate(since), makeIsoDate(api.state.date)) <
-      LAW.minimumResidencyYears.value
+    ageOnDate(since, api.state.date) < LAW.minimumResidencyYears.value
   )
     return `under ${LAW.minimumResidencyYears.value} years a resident (${birth.id})`;
   return null;

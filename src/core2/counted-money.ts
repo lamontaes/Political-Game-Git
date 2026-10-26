@@ -17,9 +17,19 @@
  * (SG-CORE-counted-unkeyed-money).
  */
 import { transferSplit } from "./accounts";
-import { paidLeaveProgram, paidLeavePremium } from "./paid-leave";
+import {
+  PAID_LEAVE_KEY,
+  paidLeaveProgram,
+  paidLeavePremium,
+} from "./paid-leave";
 import { withholdingFor } from "./tax-withholding";
-import { governments } from "./modules/budgets";
+import { recordIncomeTaxApplied } from "./tax-applied";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+  PAYROLL_TAX_SERIES,
+} from "./modules/budgets";
+import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import { residentsRuntime, type ResidentsRuntime } from "./modules/residents";
 import type { CountedHousehold } from "./counted-groups";
@@ -82,6 +92,25 @@ function householdById(
   const ix = rt.store.householdOf.get(id);
   const h = ix === undefined ? undefined : rt.store.households[ix];
   return h && !h.gone ? h : undefined;
+}
+
+/**
+ * The people (counted members times weight) and real households a counted
+ * household record stands for, or nothing when the id is not a counted
+ * household here. Engines that apply a law to one record it with this count.
+ */
+export function countedHouseholdStands(
+  api: CoreAPI,
+  householdId: string,
+): { readonly people: number; readonly households: number } | undefined {
+  const rt = residentsRuntime(api.state as CoreState);
+  const h = rt ? householdById(rt, householdId) : undefined;
+  return h
+    ? {
+        people: Math.max(1, rt!.store.weightedCount(h)),
+        households: rt!.store.weightOf(h),
+      }
+    : undefined;
 }
 
 /** The counted household a flow part belongs to, from its key. */
@@ -423,10 +452,24 @@ export function groupWithholding(
   });
   rt.withholdingYtd.set(ytdKey, ytd + perWorker);
   const out: Withheld[] = [];
+  const kept: (typeof lines)[number][] = [];
   for (const line of lines) {
     if (row.placeId !== town && line.level === "city") continue;
     const accountId = accounts.get(line.jurisdiction);
     if (!accountId) continue;
+    kept.push(line);
+    const series = PAYROLL_TAX_SERIES[line.tax];
+    if (series && line.minor > 0)
+      lawApplied(api, {
+        key: series,
+        lawId: line.lawId,
+        targetId: `counted-workers:${row.id}`,
+        target: "group",
+        engine: BUDGETS_MODULE_ID,
+        what: "withheld",
+        count: workers,
+        amountMinor: Math.round(line.minor * workers),
+      });
     out.push({
       accountId,
       minor: Math.round(line.minor * workers),
@@ -434,6 +477,13 @@ export function groupWithholding(
       tax: line.tax,
     });
   }
+  // The group's workers were taxed by the law in force, as a full worker is.
+  recordIncomeTaxApplied(api, {
+    targetId: row.id,
+    target: "group",
+    count: workers,
+    lines: kept,
+  });
   return out;
 }
 
@@ -531,6 +581,16 @@ export function payGroups(
           deltaMinor: premium,
         });
         taxes += premium;
+        lawApplied(api, {
+          key: PAID_LEAVE_KEY,
+          lawId: leave.lawId,
+          targetId: `counted-workers:${rt.store.groups[group]!.id}`,
+          target: "group",
+          engine: BUDGETS_MODULE_ID,
+          what: "leave-premium-withheld",
+          count: workers!.get(group) ?? 0,
+          amountMinor: premium,
+        });
         const key = `${rt.store.groups[group]!.id}|${api.state.date.slice(0, 4)}|${leave.lawId}|paid-leave`;
         rt.withheld.set(key, (rt.withheld.get(key) ?? 0) + premium);
       }
@@ -577,9 +637,16 @@ export function chargeGroups(
     scaleOf?: (group: number) => number;
     /** Money a group keeps back from this payment (its housing due this month). */
     reserveOf?: (group: number) => number;
+    /** What each group still owes on a payment that is carried until paid (outside living costs); housing uses `rt.arrears`. */
+    carry?: Map<number, number>;
+    /** The charge-off age of what a group carries, in its own monthly bills: what it owes past that is written off, as for a full household. */
+    carryCeilingBills?: number;
   },
 ): {
   paid: number;
+  /** What the groups still owe after this payment, and what was written off past the charge-off age (carried payments only). */
+  carried: number;
+  writtenOff: number;
   /** What reached the first payee (the rest went to the others). */
   toPayee: number;
   byGroup: Map<number, { asked: number; paid: number }>;
@@ -587,14 +654,32 @@ export function chargeGroups(
   const weights = flowWeights(rt, input.flow);
   const housing = HOUSING_KINDS.has(input.flow.financeKind);
   const shares = splitWhole(input.requested, weights);
+  // On a day with no new bill, the groups that still owe are asked for what they owe.
+  if (input.carry && input.requested === 0)
+    for (const [group, owed] of input.carry)
+      if (owed > 0 && (weights.get(group) ?? 0) > 0) shares.set(group, 0);
+  // A group's monthly bill, for the charge-off ceiling on what it carries.
+  const bill =
+    input.carry && input.carryCeilingBills !== undefined
+      ? splitWhole(
+          Math.round(
+            ((input.flow as { amountMinor?: number }).amountMinor ?? 0) *
+              flowScale(rt, input.flow),
+          ),
+          weights,
+        )
+      : undefined;
   const byGroup = new Map<number, { asked: number; paid: number }>();
   const lines: { accountId: string; deltaMinor: number }[] = [];
   let paid = 0;
+  let carried = 0;
+  let writtenOff = 0;
   for (const [group, share] of shares) {
     const scaled = input.scaleOf
       ? Math.round(share * input.scaleOf(group))
       : share;
-    const arrears = housing ? (rt.arrears.get(group) ?? 0) : 0;
+    const book = housing ? rt.arrears : input.carry;
+    const arrears = book?.get(group) ?? 0;
     const asked = scaled + arrears;
     const pay = Math.max(
       0,
@@ -603,7 +688,18 @@ export function chargeGroups(
         fundBalance(api, rt, group) - (input.reserveOf?.(group) ?? 0),
       ),
     );
-    if (housing) rt.arrears.set(group, asked - pay);
+    let owes = asked - pay;
+    if (bill && book === input.carry) {
+      const ceiling = Math.round(
+        (bill.get(group) ?? 0) * input.carryCeilingBills!,
+      );
+      if (owes > ceiling) {
+        writtenOff += owes - ceiling;
+        owes = ceiling;
+      }
+      carried += owes;
+    }
+    book?.set(group, owes);
     byGroup.set(group, { asked, paid: pay });
     if (pay <= 0) continue;
     lines.push({ accountId: fundOf(api, rt, group), deltaMinor: -pay });
@@ -635,7 +731,7 @@ export function chargeGroups(
       source: input.source,
     });
   }
-  return { paid, toPayee, byGroup };
+  return { paid, carried, writtenOff, toPayee, byGroup };
 }
 
 /**
@@ -671,6 +767,8 @@ export function countedPayment(
     householdId?: string;
     otherOwnerId: string;
     amountMinor: number;
+    /** The amount is the whole record's, not one household's; the return is what moved. */
+    whole?: true;
     reasonKey: string;
     source: Source;
   },
@@ -691,7 +789,7 @@ export function countedPayment(
         ? householdById(rt, input.householdId)
         : undefined;
   // The engine's amount is for one household; the record stands for its weight.
-  const times = h && !h.gone ? rt.store.weightOf(h) : 1;
+  const times = h && !h.gone && !input.whole ? rt.store.weightOf(h) : 1;
   const amountMinor = times === 1 ? asked : Math.round(asked * times);
   // What the caller is told is in its own units: one household's.
   const perHousehold = (moved: number) =>

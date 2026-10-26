@@ -1,5 +1,10 @@
 import { coreAPI } from "../core2/state";
-import { ballotOf, candidateIdentity, resultOf } from "../core2/modules/voting";
+import {
+  ballotOf,
+  candidateIdentity,
+  placesOf,
+  resultOf,
+} from "../core2/modules/voting";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { backdropFile, hasBackdrop, stagePeople } from "./scene";
@@ -13,7 +18,11 @@ function candidateName(api: CoreAPI, id: string): string {
   return who ? `${who.givenName} ${who.familyName}` : id;
 }
 
-/** Election night: every race held so far, newest first, and the player's ballot. */
+/**
+ * Election night: every race held so far, newest night first and, within a
+ * night, the player's own race first, then the races on their ballot, and
+ * whether they won it.
+ */
 export function electionResults(core: CoreState, playerId: string) {
   const api = coreAPI(core);
   if (!core.modules.has(ELECTIONS)) return [];
@@ -40,12 +49,15 @@ export function electionResults(core: CoreState, playerId: string) {
     );
     const name = (id: string) => candidateName(api, id);
     const ballot = ballotOf(api, contest.id, playerId);
+    const ran = playerId in result.totals;
     out.push({
       contestId: contest.id,
       title: contest.district
         ? `${contest.title} (${contest.district})`
         : contest.title,
       date: contest.electionDate,
+      /** The player ran in it, and whether they won. */
+      mine: ran ? { won: result.winnerId === playerId } : null,
       candidates: Object.entries(result.totals)
         .map(([id, votes]) => ({
           id,
@@ -62,6 +74,20 @@ export function electionResults(core: CoreState, playerId: string) {
       namedTurnout: result.namedTurnout,
       namedEligible: result.namedEligible,
       electorate: result.electorate,
+      /** Where the race was won: each place's leader, with the votes cast there. */
+      places: placesOf(api, contest.id)
+        .map((place) => {
+          const leader = Object.entries(place.votes).sort(
+            (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+          )[0];
+          return {
+            id: place.placeId,
+            name: place.name,
+            cast: place.cast,
+            leader: leader && leader[1] > 0 ? name(leader[0]) : null,
+          };
+        })
+        .sort((a, b) => b.cast - a.cast || a.id.localeCompare(b.id)),
       exitPoll: Object.fromEntries(
         Object.entries(result.exitPoll).map(([id, n]) => [
           id.startsWith("official:") || core.people.has(id) ? name(id) : id,
@@ -75,7 +101,11 @@ export function electionResults(core: CoreState, playerId: string) {
       },
     });
   }
-  return out;
+  // Within a night: the player's race, then their ballot's, then the rest,
+  // each in the records' order (the sort is stable).
+  const rank = (race: { mine: unknown; ballot: unknown }) =>
+    race.mine ? 0 : race.ballot ? 1 : 2;
+  return out.sort((a, b) => b.date.localeCompare(a.date) || rank(a) - rank(b));
 }
 
 /**
@@ -85,9 +115,7 @@ export function electionResults(core: CoreState, playerId: string) {
 export function resultsScene(core: CoreState, playerId: string) {
   const races = electionResults(core, playerId);
   const newest = races.filter((race) => race.date === races[0]?.date);
-  const ran = newest.some((race) =>
-    race.candidates.some((c) => c.id === playerId),
-  );
+  const ran = newest.some((race) => race.mine);
   const voted = newest.some((race) => race.ballot?.voted);
   if (!ran && !voted) return null;
   const place = ran
@@ -105,7 +133,11 @@ export function resultsScene(core: CoreState, playerId: string) {
     : [playerId];
   const cast = ids.map((id) => {
     const row = core.people.get(id)!;
-    return { id, name: `${row.givenName} ${row.familyName}` };
+    return {
+      id,
+      name: `${row.givenName} ${row.familyName}`,
+      reason: id === playerId ? ("you" as const) : ("household" as const),
+    };
   });
   return {
     place,

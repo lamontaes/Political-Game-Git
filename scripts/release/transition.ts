@@ -39,8 +39,13 @@ function git(root: string, args: readonly string[]): string {
   } catch (error) {
     const stderr = (error as { stderr?: Buffer | string }).stderr;
     const detail = stderr?.toString().trim();
+    // A shallow clone (a cloud session's) lacks the base commit; say how to fetch it.
+    const shallow =
+      args[0] === "rev-parse" && /Needed a single revision/.test(detail ?? "")
+        ? " The clone may be shallow and lack that commit: run `git fetch --unshallow origin` (or `git fetch origin main`) and retry."
+        : "";
     throw new Error(
-      `Could not run 'git ${args.join(" ")}'${detail ? `: ${detail}` : "."}`,
+      `Could not run 'git ${args.join(" ")}'${detail ? `: ${detail}` : "."}${shallow}`,
     );
   }
 }
@@ -195,6 +200,16 @@ function pushBranchPoint(
 }
 
 /**
+ * Shared lane files written straight to main by the play-first lane: the
+ * progress log and the lead sheets. None of them changes the client.
+ */
+export const LANE_STATUS_PATHS: ReadonlySet<string> = new Set([
+  "docs/play-first/PROGRESS.md",
+  "docs/coordination/LEADS-2026-10-24.md",
+  "docs/coordination/MERGE-FIRST.md",
+]);
+
+/**
  * Enforce the declaration convention only for work demonstrably created after
  * rollout. A branch whose merge-base is at or before the recorded cutoff keeps
  * the promised legacy exemption; an unresolved comparison never gets one.
@@ -238,12 +253,15 @@ export function checkDeclarationTransition(
 
   const paths = changedPaths(root, comparisonBase, head);
   // Session status files (docs/coordination) and the pool (docs/pool, whose
-  // claims are pushed straight to main) carry no release impact.
+  // claims are pushed straight to main) carry no release impact, and so does
+  // the play-first lane's progress log (docs/play-first/PROGRESS.md), which
+  // every lane session appends to straight on main.
   const eligiblePaths = paths.filter(
     (path) =>
       !isDeclarationPath(path) &&
       !path.startsWith("docs/coordination/") &&
-      !path.startsWith("docs/pool/"),
+      !path.startsWith("docs/pool/") &&
+      !LANE_STATUS_PATHS.has(path),
   );
   const declarationPaths = paths.filter(
     (path) => isDeclarationPath(path) && gitFile(root, head, path) !== null,

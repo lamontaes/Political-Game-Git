@@ -7,7 +7,7 @@ priority: 3
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5076
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -32,3 +32,5 @@ Sent back 2026-10-18 from PR #4949 (branch claude/research-triage-starting-law):
 Sent back 2026-10-18 from PR #4950 (branch claude/research-triage-evidence): Merging current main (f359364281) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-18 from PR #4951 (branch claude/fhfa-growth-check): Merging current main (ca0832d084) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #4926 (branch claude/research-data-roadmap-triage): rawSource bypass additions clear a red reader guard despite missing consumers; preserve awaiting-reader ownership or add real readers, and supply the missing Done-when evidence table; finish on that branch, merge main into it first.

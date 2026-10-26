@@ -2,7 +2,7 @@ import {
   createMindCatalog,
   createPersonalValueDefinition,
   createPersonalityTendencyDefinition,
-} from "./mind-catalog";
+} from "../core2/mind-catalog";
 import type { MindCatalog } from "./types";
 import { canonicalJson } from "./canonical-json";
 import { compiledTraitPacks } from "./compiled-trait-packs";
@@ -11,7 +11,7 @@ import {
   packOfQualifiedKey,
   traitDefinitionFromPack,
   type TraitPack,
-} from "./trait-packs";
+} from "../core2/trait-packs";
 
 /** Authored fictional-life content, not a psychometric or empirical model. */
 export const LIFE_MIND_CONTENT_VERSION = "opening-life-mind-v1";

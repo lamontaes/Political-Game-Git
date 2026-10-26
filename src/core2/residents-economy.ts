@@ -5,9 +5,13 @@
  * flow (rent, a loan payment, spending that leaves town) at runtime.
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { ownMap, residentsRuntime } from "./modules/residents";
+import {
+  countedHouseholdJobChanged,
+  ownMap,
+  residentsRuntime,
+} from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
-import type { CoreState, JobInput } from "./types";
+import type { CoreState, JobInput, WorkCommitmentInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 
 type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
@@ -49,6 +53,7 @@ export function endCountedJob(
   rt.wageFlowByJob.delete(jobId);
   const ended = { ...job, endsAt: makeIsoDate(core.date) };
   rt.jobs.set(jobId, ended);
+  countedHouseholdJobChanged(core, ended);
   return ended;
 }
 
@@ -61,6 +66,8 @@ export function addCountedJob(
   core: CoreState,
   job: JobInput,
   templateJobId?: string,
+  /** The hire's schedule and payday, kept with the household for the day they are met. */
+  commitment?: WorkCommitmentInput,
 ): boolean {
   const rt = residentsRuntime(core);
   if (!rt || (rt.jobs.has(job.id) && rt.jobs.get(job.id)!.endsAt === undefined))
@@ -89,6 +96,15 @@ export function addCountedJob(
     const account =
       rt.input.accounts.find((row) => row.placeId === placeId)?.accountId ??
       template.payeeId;
+    // A public employer's wages come from the treasury that owns its pay
+    // authority, as its named staff's do (and a school district's counted
+    // staff's at the opening); any other employer pays its own.
+    const authorityOwner = core.organizations.get(job.organizationId)
+      ?.publicPayAuthority?.ownerId;
+    const payerId =
+      authorityOwner && core.organizations.has(authorityOwner)
+        ? authorityOwner
+        : job.organizationId;
     // A twice-monthly payroll starts as both paydays.
     const paydays = wageHalves(rt, template),
       base = `residents:wages:${job.organizationId}:${core.date}`,
@@ -100,7 +116,7 @@ export function addCountedJob(
         id: ids[index]!,
         kind: "wages",
         financeKind: payday.financeKind,
-        payerId: job.organizationId,
+        payerId,
         payeeId: account,
         residentsId: account,
         placeId: placeId ?? payday.placeId,
@@ -134,6 +150,7 @@ export function addCountedJob(
   }
   rt.jobs.set(job.id, job);
   rt.wageFlowByJob.set(job.id, flow);
+  countedHouseholdJobChanged(core, job, commitment);
   const index = jobIndexes.get(core);
   if (index?.date === core.date) {
     const set = index.byOrg.get(job.organizationId) ?? new Set<string>();
@@ -205,6 +222,27 @@ export function countedHeadcountOf(
   for (const job of countedJobsOf(core, organizationId))
     heads += countedHeadsOf(core, job.personId);
   return heads;
+}
+
+/**
+ * An employer's annual payroll for the weight of its counted workers: the
+ * book's payroll plus what each counted job's household stands for beyond one
+ * (the book counts one worker per counted job). Readers that size a cushion
+ * for the next paydays read this.
+ */
+export function weightedPayrollMinor(
+  core: CoreState,
+  organizationId: string,
+  annualPayrollMinor: number,
+  daysPerYear: number,
+): number {
+  let payroll = annualPayrollMinor;
+  for (const job of countedJobsOf(core, organizationId))
+    payroll +=
+      (countedHeadsOf(core, job.personId) - 1) *
+      job.wageDailyMinor *
+      daysPerYear;
+  return payroll;
 }
 
 /** How many people one counted person's record stands for: their household's weight (one where the counts no longer hold them). */
@@ -478,11 +516,13 @@ export function rerateCountedJobs(
       }
       (half.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
     }
-    rt.jobs.set(jobId, {
+    const rerated = {
       ...job,
       hourlyMinor,
       wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
-    });
+    };
+    rt.jobs.set(jobId, rerated);
+    countedHouseholdJobChanged(core, rerated);
     changed += 1;
   }
   for (const flow of touched) recompute(flow);
@@ -504,75 +544,6 @@ export function endFlowPart(
   flow.amountMinor = Math.max(0, flow.amountMinor - amount);
   return true;
 }
-
-/**
- * A counted worker retires: their place's retirees' income (Social Security
- * and pensions, paid from outside the town) gains them, at the average the
- * place's opening retirees draw. One flow per place carries every retiree
- * added during play, a part each.
- */
-export function addCountedRetiree(
-  core: CoreState,
-  placeId: string,
-  personId: string,
-): number {
-  const rt = residentsRuntime(core);
-  if (!rt) return 0;
-  const opening = [...rt.flows.values()].filter(
-    (flow) =>
-      flow.kind === "retirement" &&
-      !flow.endedAt &&
-      flow.placeId === placeId &&
-      !flow.id.startsWith(RETIREES_ADDED),
-  );
-  const parts = opening.reduce(
-    (n, flow) => n + Object.keys(flow.amountByContract ?? {}).length,
-    0,
-  );
-  const template = opening[0];
-  if (!template || !parts) return 0;
-  const monthly = Math.round(
-    opening.reduce((n, flow) => n + flow.amountMinor, 0) / parts,
-  );
-  const id = `${RETIREES_ADDED}${placeId}`;
-  const flow = rt.flows.get(id);
-  const key = `retiree:${personId}`;
-  // The average is at the benefit level the opening flows are paid at now
-  // (the federal line in force); the retiree's flow keeps its awards at its
-  // own recorded level, so a later change to the line moves them like the rest.
-  const level = rt.retirementLevel.get(template.id) ?? 1;
-  if (flow) {
-    if (flow.amountByContract?.[key] !== undefined) return 0;
-    const part = Math.round(
-      (monthly * (rt.retirementLevel.get(id) ?? 1)) / level,
-    );
-    flow.amountByContract = {
-      ...(flow.amountByContract ?? {}),
-      [key]: part,
-    };
-    flow.amountMinor += part;
-  } else {
-    rt.retirementLevel.set(id, level);
-    addResidentFlow(core, {
-      id,
-      kind: "retirement",
-      financeKind: template.financeKind,
-      payerId: template.payerId,
-      payeeId: template.payeeId,
-      residentsId: template.residentsId,
-      placeId,
-      amountMinor: monthly,
-      firstAt: template.nextAt,
-      cadence: template.cadence,
-      salesReceipt: false,
-      marketAdjusted: false,
-      amountByContract: { [key]: monthly },
-      source: template.source,
-    });
-  }
-  return monthly;
-}
-const RETIREES_ADDED = "residents:retirement:added:";
 
 /**
  * A counted household's standing flow (its rent) pays a new amount from its

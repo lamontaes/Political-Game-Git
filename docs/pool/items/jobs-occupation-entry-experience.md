@@ -9,15 +9,20 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: found building world-player-jobless-no-offers
+after: world-player-jobless-no-offers
+source: added with npm run pool -- add
 ---
 
-**What.** The jobs engine ranks every applicant to an opening by experience times a weight, plus reliability and a referral, so an 18-year-old with no experience loses every opening to a counted applicant who has some, even for a job that asks for none (the player made no offer in a whole year in Addison, West Virginia and Fort Laramie, Wyoming). The model has no record of what experience an occupation asks for, so the rule cannot tell an entry-level opening from one that needs years. Add to the jobs data, per occupation, the typical work experience in a related occupation and the typical on-the-job training, from the Bureau of Labor Statistics occupational outlook tables (SOURCED, with citation). Then let the weekly pick count experience only up to what the opening asks, on a sliding scale, so an opening that asks none ranks applicants by reliability and referral.
+**What.** A hire's fit for an opening counts experience in the occupation the same way whatever the job asks (`fit` in `src/core2/modules/jobs.ts`, about line 1660), so a first job in an entry-level role goes to whoever has the most years in the trade, and a young person with none is last in line. Make the fit read what the occupation asks (the table from `jobs-entry-requirement-by-occupation`): experience counts only up to the years the occupation asks, a shortfall below what it asks lowers the fit on a sliding scale, and where it asks for none the fit rests on reliability and a referral. Counted seekers use the same rule through `countedExperience`, times their count.
 
-**Rules.** No dice: the opening's stated requirement and the applicant's record decide, never a roll. Sliding scales and causes: experience counts in proportion up to the requirement, with no threshold that flips. Research before building: every requirement is read from the BLS table and cites it; real rates check totals and never pick one hire. One model, two tiers: counted and full applicants are scored by the same rule.
+**Rules.** One model, two tiers: a counted seeker's fit is read by the same rule as a full person's. No dice: the ranking is the fit, never a draw; nothing flips at a threshold, a shortfall costs a share of the fit in proportion to how far short. An effect is a read: the table is read at the moment the engine ranks applicants. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE with their spread.
 
-**Done when.** In a drawn place (name and seed in the PR body) a one-year run of the played world (buildBenchWorld) shows a jobless 18-year-old player matched to an entry-level opening they apply to, by position and offer record ids, in at least one town that made no offer before, and a test in src/core2/jobs-player-offers.test.ts holds it. Every occupation in the jobs data has a requirement row with its citation.
+**Done when.** In a one-year played world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) an opening whose occupation asks no experience goes to an applicant with none over one with ten years in a different trade, and an opening that asks five years goes to the applicant who has them, each shown by the position record id, both applicants' fit values and the hire record id; a test in `src/core2/jobs.test.ts` covers both and a counted seeker alike. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/jobs.json, src/core2/data/jobs/parameters.json
+**Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/parameters.json, src/core2/jobs.test.ts
 
-**Notes.** Found Oct 19 while reading world-player-jobless-no-offers: its notes say the fit rule has to let a first job exist, and the data it would need is not in the model. The item `world-player-jobless-no-offers` waits on this one.
+**Notes.** Written Oct 20 (claude/entry-spec) from the code. `after: world-player-jobless-no-offers`, and the table comes from `jobs-entry-requirement-by-occupation`. Weights `jobsFitExperienceWeight`, `jobsFitReliabilityWeight`, `jobsFitReferralWeight` are the ones the fit uses today.
+
+Oct 25 audit: unblocked; the spec was written Oct 20, so the empty-shell block no longer holds.
+
+Found Oct 19 while reading world-player-jobless-no-offers: its notes say the fit rule has to let a first job exist, and the data it would need is not in the model. The item `world-player-jobless-no-offers` waits on this one.

@@ -4,12 +4,14 @@ title: "Stopgaps in civic-inputs (civic-data-vintage-and-permission): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
+after: research-deep-past-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/civic-inputs.json, kind civic-data-vintage-and-permission"
+claimed-at: 2026-10-19T23:09:40.671Z
 ---
 
 **What.** Replace or clear the 1 open civic-data-vintage-and-permission stopgap row(s) in src/core2/data/civic-inputs.json: SG-P8-civic-inputs. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -21,3 +23,7 @@ source: "src/core2/data/stopgaps.json, src/core2/data/civic-inputs.json, kind ci
 **Files.** src/core2/data/civic-inputs.json
 
 **Notes.** First row: Current indexed institution and canonical generated employer classifications stand in for historical public directories. Meeting permissions, membership acceptance, and public authority are not established by these names
+
+Oct 20: Switched from blocked to the automatic after: gate on research-deep-past-sourced-parameters, so it opens by itself the moment those items are done.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

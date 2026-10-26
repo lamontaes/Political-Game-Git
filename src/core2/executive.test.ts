@@ -23,10 +23,12 @@ import {
   members,
   openLegislature,
 } from "./modules/legislature";
+import { ageOnDate } from "./kernel/dates";
 import {
   appoint,
   experienceFromAge,
   appointmentsIn,
+  headCandidates,
   issueOrder,
   openExecutive,
   orderableBy,
@@ -34,6 +36,7 @@ import {
 } from "./modules/executive";
 import { answerIn } from "./modules/world-legislating";
 import { governments, openBudgets } from "./modules/budgets";
+import { postPayCapDaily } from "./budgets-treasury";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -115,6 +118,11 @@ describe("the executive's desk", () => {
     for (const row of heads) {
       // A resident of the town, chosen for recorded reasons.
       expect(core.people.get(row.holderId)?.placeId, where).toBe(town);
+      // Grown by their birthday on the day they were appointed.
+      expect(
+        ageOnDate(core.people.get(row.holderId)!.birthDate, row.since),
+        `${where} ${row.title}`,
+      ).toBeGreaterThanOrEqual(18);
       expect(row.reasons[0]!.candidateId).toBe(row.holderId);
       if (row.confirmation)
         expect(row.confirmation.yes).toBeGreaterThan(row.confirmation.no);
@@ -135,8 +143,24 @@ describe("the executive's desk", () => {
       (s) => s.office.kind === "governor" && s.holder,
     );
     if (governor) expect(cabinet.length, where).toBeGreaterThan(0);
-    for (const row of cabinet)
+    for (const row of cabinet) {
       expect(row.identity?.familyName.length).toBeGreaterThan(0);
+      // A cabinet member the governor picked is a person on the state's payroll.
+      const job = core.jobs.get(core.people.get(row.holderId)?.jobId ?? "");
+      const stateGov = governments(api).find((g) => g.level === "state");
+      // A post whose budget line carries no wages is held unpaid (public payroll).
+      if (
+        !job &&
+        stateGov &&
+        !(postPayCapDaily(api, stateGov.organizationId, row.post, 1) ?? 1)
+      )
+        continue;
+      if (governments(api).some((g) => g.level === "state"))
+        expect(
+          governments(api).find((g) => g.level === "state")?.organizationId,
+          `${where} ${row.title}: ${row.holderId}`,
+        ).toBe(job?.organizationId);
+    }
     // The form follows the mayor's real powers.
     const veto = mayorVeto(api);
     if (form !== "council-manager")
@@ -224,6 +248,44 @@ describe("the executive's desk", () => {
     });
     advanceCore(core, "2026-01-10");
     expect(answerIn(api, state, question), where).toBe(-1);
+  }, 300_000);
+
+  it("weighs only residents who have turned 18 by their birthday, not by their year of birth (play-stop-20)", () => {
+    // A town with a resident who is 17 on the day, though the year they were
+    // born says 18 (the first of a few draws that has one).
+    const teensOf = ({ core, api }: ReturnType<typeof world>) =>
+      [...core.people.values()].filter(
+        (p) =>
+          p.alive &&
+          p.placeId === lawChain(api).townPlaceId &&
+          ageOnDate(p.birthDate, core.date) === 17 &&
+          Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) ===
+            18,
+      );
+    let drawn = world(all, "adults:0");
+    for (let n = 1; n < 4 && !teensOf(drawn).length; n += 1)
+      drawn = world(all, `adults:${n}`);
+    const { core, api, where } = drawn;
+    const form = townForm(api);
+    const teens = teensOf(drawn);
+    expect(teens.length, where).toBeGreaterThan(0);
+    const posts = ["police-chief", "city-manager", "public-works"];
+    const weighed = new Set(
+      posts.flatMap((post) =>
+        headCandidates(api, post).map((row) => row.candidateId),
+      ),
+    );
+    expect(weighed.size, `${where} (${form})`).toBeGreaterThan(0);
+    for (const teen of teens)
+      expect(
+        weighed.has(teen.id),
+        `${where}: ${teen.id} born ${teen.birthDate}`,
+      ).toBe(false);
+    for (const id of weighed)
+      expect(
+        ageOnDate(core.people.get(id)!.birthDate, core.date),
+        `${where}: ${id}`,
+      ).toBeGreaterThanOrEqual(18);
   }, 300_000);
 
   it("appointment qualification rises smoothly with adult years, so a young adult is eligible but rarely preferred", () => {

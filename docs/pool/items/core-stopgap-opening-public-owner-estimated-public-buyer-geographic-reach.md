@@ -4,10 +4,10 @@ title: "Stopgaps in opening-public-owner (estimated-public-buyer-geographic-reac
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-opening-customers-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-public-owner.ts, kind estimated-public-buyer-geographic-reach"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/opening-public-owner.ts, kind e
 **Files.** src/core2/opening-public-owner.ts
 
 **Notes.** First row: Uses existing generated person countyIds and the observed 2020 county-to-place relation to qualify the represented share of a bounded opening purchase plan. Recorded geography and residency do not observe public demand,
+
+Folded into research-opening-customers-sourced-parameters (CTO, Oct 19, 2026).

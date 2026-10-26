@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/school-staff-pay
 pr: #5044
 blocked-on:

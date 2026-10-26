@@ -1,4 +1,5 @@
 /** Pure CASH admission. Projection never mutates cash, accounts, receipts or IDs. */
+import { bookkeeping } from "./bookkeeping";
 import { makeIsoDate } from "./kernel/dates";
 import { P } from "./parameters";
 import type { IsoDate, Source } from "./types";
@@ -134,6 +135,26 @@ function datedSource(source: Source, at: IsoDate): void {
 }
 
 /** One atomic admission result; the owner supplies the separate synchronous writer. */
+let checkedPostings = 0;
+let skippedPostings = 0;
+
+/**
+ * How many postings ran the structural re-checks and how many skipped them
+ * (play skips them; see `bookkeeping`). A result produced with checks skipped
+ * can be rechecked by running the same seed with CORE2_BOOKKEEPING=1.
+ */
+export function journalCheckCounts(): {
+  checked: number;
+  skipped: number;
+  rerunWith: string;
+} {
+  return {
+    checked: checkedPostings,
+    skipped: skippedPostings,
+    rerunWith: "CORE2_BOOKKEEPING=1",
+  };
+}
+
 export function projectCashJournal(
   input: Readonly<CashJournalInput>,
   context: Readonly<CashJournalContext>,
@@ -167,6 +188,12 @@ export function projectCashJournal(
       );
     return result;
   };
+  // Bookkeeping is a debug switch: the structural re-checks below run in
+  // tests and the bench; play runs the same arithmetic without them. The
+  // sequence, source, balance and overflow checks always run.
+  const checked = bookkeeping();
+  if (checked) checkedPostings += 1;
+  else skippedPostings += 1;
   const at = makeIsoDate(context.date),
     date = makeIsoDate(input.date);
   if (date !== at)
@@ -182,8 +209,9 @@ export function projectCashJournal(
     throw new Error(
       "Journal identity must match its canonical current sequence.",
     );
-  for (const [field, value] of Object.entries(input.sourceRef))
-    identity(value, field);
+  if (checked)
+    for (const [field, value] of Object.entries(input.sourceRef))
+      identity(value, field);
   const cause = context.resolvedSource;
   if (
     !cause ||
@@ -195,92 +223,122 @@ export function projectCashJournal(
     throw new Error(
       "Journal requires its unposted current canonical source record.",
     );
-  datedSource(cause.source, at);
-  const relatedIds = new Map<string, Set<string>>();
-  for (const row of cause.relatedRecords) {
-    identity(row.kind, "related source kind");
-    identity(row.id, "related source id");
-    const ids = relatedIds.get(row.kind) ?? new Set<string>();
-    if (ids.has(row.id)) throw new Error("Duplicate related journal source.");
-    ids.add(row.id);
-    relatedIds.set(row.kind, ids);
-    if (makeIsoDate(row.date) > at)
-      throw new Error("Related journal source is in the future.");
-    datedSource(row.source, makeIsoDate(row.date));
-  }
-  const requiredIds = new Map<string, Set<string>>();
-  for (const row of cause.requiredRelatedRefs) {
-    identity(row.kind, "required source kind");
-    identity(row.id, "required source id");
-    const ids = requiredIds.get(row.kind) ?? new Set<string>();
-    if (ids.has(row.id)) throw new Error("Duplicate required journal source.");
-    ids.add(row.id);
-    requiredIds.set(row.kind, ids);
-    if (!relatedIds.get(row.kind)?.has(row.id))
-      throw new Error(
-        "Required act/work/authority source record was not resolved.",
-      );
+  if (checked) {
+    datedSource(cause.source, at);
+    const relatedIds = new Map<string, Set<string>>();
+    for (const row of cause.relatedRecords) {
+      identity(row.kind, "related source kind");
+      identity(row.id, "related source id");
+      const ids = relatedIds.get(row.kind) ?? new Set<string>();
+      if (ids.has(row.id)) throw new Error("Duplicate related journal source.");
+      ids.add(row.id);
+      relatedIds.set(row.kind, ids);
+      if (makeIsoDate(row.date) > at)
+        throw new Error("Related journal source is in the future.");
+      datedSource(row.source, makeIsoDate(row.date));
+    }
+    const requiredIds = new Map<string, Set<string>>();
+    for (const row of cause.requiredRelatedRefs) {
+      identity(row.kind, "required source kind");
+      identity(row.id, "required source id");
+      const ids = requiredIds.get(row.kind) ?? new Set<string>();
+      if (ids.has(row.id))
+        throw new Error("Duplicate required journal source.");
+      ids.add(row.id);
+      requiredIds.set(row.kind, ids);
+      if (!relatedIds.get(row.kind)?.has(row.id))
+        throw new Error(
+          "Required act/work/authority source record was not resolved.",
+        );
+    }
   }
   if (input.postings.length <= zero)
     throw new Error(
       "An unfilled budget without actual cash is not a cash journal posting.",
     );
   const expected = new Map<string, CashJournalPosting>();
-  for (const row of cause.expectedPostings) {
-    identity(row.id, "source posting");
-    if (expected.has(row.id))
-      throw new Error("Duplicate canonical source posting.");
-    expected.set(row.id, row);
-  }
+  if (checked)
+    for (const row of cause.expectedPostings) {
+      identity(row.id, "source posting");
+      if (expected.has(row.id))
+        throw new Error("Duplicate canonical source posting.");
+      expected.set(row.id, row);
+    }
   const ids = new Set<string>(),
     touchedOwners = new Set<string>();
-  const deltas = new Map<string, bigint>();
-  let credits = zeroExact,
-    debits = zeroExact,
-    sum = zeroExact;
+  const deltas = new Map<string, number>();
+  // Sums of safe integers stay exact while they stay safe; an unsafe running
+  // total is redone in BigInt below so the overflow errors read the same.
+  let credits = zero,
+    debits = zero,
+    sum = zero;
   for (const row of input.postings) {
-    identity(row.id, "posting");
-    identity(row.accountId, "account");
-    if (ids.has(row.id)) throw new Error("Duplicate cash journal posting.");
-    ids.add(row.id);
+    if (checked) {
+      identity(row.id, "posting");
+      identity(row.accountId, "account");
+      if (ids.has(row.id)) throw new Error("Duplicate cash journal posting.");
+      ids.add(row.id);
+    }
     if (!Number.isSafeInteger(row.deltaMinor) || row.deltaMinor === zero)
       throw new Error("Cash postings require nonzero integer actual amounts.");
-    const recorded = expected.get(row.id);
-    if (
-      !recorded ||
-      recorded.accountId !== row.accountId ||
-      recorded.deltaMinor !== row.deltaMinor
-    )
-      throw new Error(
-        "Journal amount/account differs from its resolved actual source posting.",
-      );
+    if (checked) {
+      const recorded = expected.get(row.id);
+      if (
+        !recorded ||
+        recorded.accountId !== row.accountId ||
+        recorded.deltaMinor !== row.deltaMinor
+      )
+        throw new Error(
+          "Journal amount/account differs from its resolved actual source posting.",
+        );
+    }
     const account = context.accounts.get(row.accountId);
     if (!account) throw new Error("Cash journal account is not registered.");
     touchedOwners.add(account.ownerId);
-    const delta = BigInt(row.deltaMinor);
-    deltas.set(row.accountId, (deltas.get(row.accountId) ?? zeroExact) + delta);
+    const delta = row.deltaMinor;
+    deltas.set(row.accountId, (deltas.get(row.accountId) ?? zero) + delta);
     sum += delta;
-    if (delta > zeroExact) credits += delta;
+    if (delta > zero) credits += delta;
     else debits -= delta;
   }
-  if (ids.size !== expected.size)
+  if (checked && ids.size !== expected.size)
     throw new Error("Journal omitted a canonical actual source posting.");
-  if (sum !== zeroExact || credits !== debits)
+  if (
+    !Number.isSafeInteger(credits) ||
+    !Number.isSafeInteger(debits) ||
+    !Number.isSafeInteger(sum)
+  ) {
+    let bigCredits = zeroExact,
+      bigDebits = zeroExact,
+      bigSum = zeroExact;
+    for (const row of input.postings) {
+      const delta = BigInt(row.deltaMinor);
+      bigSum += delta;
+      if (delta > zeroExact) bigCredits += delta;
+      else bigDebits -= delta;
+    }
+    if (bigSum !== zeroExact || bigCredits !== bigDebits)
+      throw new Error("Cash journal postings must balance exactly.");
+    exactMinor(bigCredits, "gross credits");
+    exactMinor(bigDebits, "gross debits");
+  }
+  if (sum !== zero || credits !== debits)
     throw new Error("Cash journal postings must balance exactly.");
-  const grossCreditMinor = exactMinor(credits, "gross credits"),
-    grossDebitMinor = exactMinor(debits, "gross debits");
+  const grossCreditMinor = credits,
+    grossDebitMinor = debits;
   // The internal adapter supplies only complete indexed portfolios for touched
   // owners. This rejects hidden fund rows without scanning the whole world.
-  for (const [id, account] of context.accounts) {
-    if (!touchedOwners.has(account.ownerId))
-      throw new Error(
-        "Journal context includes an unrelated owner's accounts.",
-      );
-    if (!context.owners.get(account.ownerId)?.accountIds.includes(id))
-      throw new Error(
-        "Registered account is missing from the complete owner index.",
-      );
-  }
+  if (checked)
+    for (const [id, account] of context.accounts) {
+      if (!touchedOwners.has(account.ownerId))
+        throw new Error(
+          "Journal context includes an unrelated owner's accounts.",
+        );
+      if (!context.owners.get(account.ownerId)?.accountIds.includes(id))
+        throw new Error(
+          "Registered account is missing from the complete owner index.",
+        );
+    }
   const owners = new Map<string, CashJournalOwnerChange>();
   const accounts = new Map<string, CashJournalAccountChange>();
   const externalFlows = new Map<string, CashJournalExternalFlowChange>();
@@ -288,15 +346,15 @@ export function projectCashJournal(
     const owner = context.owners.get(ownerId);
     if (!owner || owner.id !== ownerId)
       throw new Error("Registered cash account owner is absent.");
-    identity(owner.id, "cash owner");
+    if (checked) identity(owner.id, "cash owner");
     minor(owner.liquidMinor, "owner cash");
-    const accountIds = new Set(owner.accountIds);
-    if (accountIds.size !== owner.accountIds.length)
+    const accountIds = checked ? new Set(owner.accountIds) : undefined;
+    if (accountIds && accountIds.size !== owner.accountIds.length)
       throw new Error("Duplicate registered owner account index.");
     if (owner.outsideNetMinor !== undefined) {
       if (
         owner.liquidMinor !== zero ||
-        accountIds.size !== one ||
+        owner.accountIds.length !== one ||
         !Number.isSafeInteger(owner.outsideNetMinor)
       )
         throw new Error(
@@ -363,20 +421,24 @@ export function projectCashJournal(
       });
       continue;
     }
+    // Every net delta is bounded by the gross totals checked above, so these
+    // sums are exact while safe; an unsafe result fails `minor` as BigInt did.
     let residualId: string | undefined,
-      fundsBefore = zeroExact,
-      fundsAfter = zeroExact,
-      ownerDelta = zeroExact;
+      fundsBefore = zero,
+      fundsAfter = zero,
+      ownerDelta = zero;
     for (const id of owner.accountIds) {
       const account = context.accounts.get(id);
       if (!account || account.id !== id || account.ownerId !== ownerId)
         throw new Error("Owner account index is absent or inconsistent.");
       if (account.outsideFlow !== undefined)
         throw new Error("Ordinary cash cannot use outside flow authority.");
-      identity(account.id, "registered account");
-      identity(account.name, "account name");
-      datedSource(account.source, at);
-      const delta = deltas.get(id) ?? zeroExact;
+      if (checked) {
+        identity(account.id, "registered account");
+        identity(account.name, "account name");
+        datedSource(account.source, at);
+      }
+      const delta = deltas.get(id) ?? zero;
       ownerDelta += delta;
       if (account.allocatedMinor === undefined) {
         if (residualId !== undefined)
@@ -384,12 +446,10 @@ export function projectCashJournal(
         residualId = id;
       } else {
         minor(account.allocatedMinor, "fund allocation");
-        const after = exactMinor(
-          BigInt(account.allocatedMinor) + delta,
-          "fund after",
-        );
-        fundsBefore += BigInt(account.allocatedMinor);
-        fundsAfter += BigInt(after);
+        const after = account.allocatedMinor + delta;
+        minor(after, "fund after");
+        fundsBefore += account.allocatedMinor;
+        fundsAfter += after;
         accounts.set(id, {
           accountId: id,
           ownerId,
@@ -402,26 +462,21 @@ export function projectCashJournal(
     }
     if (residualId === undefined)
       throw new Error("Cash owner requires exactly one residual account.");
-    for (const row of input.postings)
-      if (
-        context.accounts.get(row.accountId)!.ownerId === ownerId &&
-        !accountIds.has(row.accountId)
-      )
-        throw new Error(
-          "Posted account is missing from the owner's complete fund index.",
-        );
-    const ownerAfter = exactMinor(
-      BigInt(owner.liquidMinor) + ownerDelta,
-      "owner after",
-    );
-    const residualBefore = exactMinor(
-        BigInt(owner.liquidMinor) - fundsBefore,
-        "residual before",
-      ),
-      residualAfter = exactMinor(
-        BigInt(ownerAfter) - fundsAfter,
-        "residual after",
-      );
+    if (accountIds)
+      for (const row of input.postings)
+        if (
+          context.accounts.get(row.accountId)!.ownerId === ownerId &&
+          !accountIds.has(row.accountId)
+        )
+          throw new Error(
+            "Posted account is missing from the owner's complete fund index.",
+          );
+    const ownerAfter = owner.liquidMinor + ownerDelta;
+    minor(ownerAfter, "owner after");
+    const residualBefore = owner.liquidMinor - fundsBefore;
+    minor(residualBefore, "residual before");
+    const residualAfter = ownerAfter - fundsAfter;
+    minor(residualAfter, "residual after");
     accounts.set(residualId, {
       accountId: residualId,
       ownerId,
@@ -434,18 +489,24 @@ export function projectCashJournal(
       afterMinor: ownerAfter,
     });
   }
+  // Play hands back the resolved source and the caller's postings as they are;
+  // the retained receipt is its own copy, and bookkeeping copies them here.
   return {
     id: input.id,
     date,
     sequence: context.nextSequence,
     nextSequence,
-    sourceRef: { ...input.sourceRef },
-    source: { ...cause.source },
-    relatedRecords: cause.relatedRecords.map((row) => ({
-      ...row,
-      source: { ...row.source },
-    })),
-    postings: input.postings.map((row) => ({ ...row })),
+    sourceRef: checked ? { ...input.sourceRef } : input.sourceRef,
+    source: checked ? { ...cause.source } : cause.source,
+    relatedRecords: checked
+      ? cause.relatedRecords.map((row) => ({
+          ...row,
+          source: { ...row.source },
+        }))
+      : cause.relatedRecords,
+    postings: checked
+      ? input.postings.map((row) => ({ ...row }))
+      : input.postings,
     grossDebitMinor,
     grossCreditMinor,
     owners,

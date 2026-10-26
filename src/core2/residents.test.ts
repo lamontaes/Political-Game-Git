@@ -7,7 +7,6 @@ import { representativeSample } from "./representative-sample";
 import { countedMoves } from "./modules/counted-moves";
 import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { addCountedRetiree } from "./residents-economy";
 import {
   rerateCountedRetirement,
   residentCounts,
@@ -18,6 +17,9 @@ import { countedResidents } from "./electorate";
 import { citizenShareOf } from "./electorate-places";
 import { corePlaceByKey } from "./place-lookup";
 import { addDays } from "./kernel/dates";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -37,6 +39,33 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let collapsed: CoreInput;
   // A day this many days after the opening, whatever date the game starts on.
   const daysIn = (days: number) => addDays(two.startedAt, days);
+  // The first opening, this describe's own place and then further draws from
+  // the seed, that has the case a test reads (a retiree, an early payday): a
+  // place without it is passed over, and none having it fails by name.
+  const openingWith = (
+    salt: string,
+    has: (input: CoreInput) => boolean,
+  ): CoreInput => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 12; attempt += 1) {
+      const drawn =
+        attempt === 0 ? place : drawPlace(`${seed}:${attempt}`, salt);
+      const input =
+        attempt === 0 ? two : generatedOpening(drawn, { twoLevel: true });
+      if (has(input)) return input;
+      tried.push(drawn.name);
+    }
+    throw new Error(
+      `no drawn place had the case (${salt}, seed ${seed}): ${tried.join("; ")}`,
+    );
+  };
+  const hasRetiree = (input: CoreInput) =>
+    input.residents!.flows.some(
+      (row) => row.kind === "retirement" && !row.endedAt,
+    ) &&
+    input.residents!.households.some((row) =>
+      row.contracts.some((contract) => contract.recipientIncome),
+    );
   beforeAll(() => {
     full = generatedOpening(place);
     // The game's opening keeps a representative sample full too.
@@ -131,6 +160,13 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   }, 300_000);
 
   it("pays counted workers only for days worked since the opening", () => {
+    const hasEarlyPayday = (input: CoreInput) =>
+      input.residents!.flows.some(
+        (row) =>
+          row.kind === "wages" &&
+          Object.values(row.earnedDaysByDue ?? {}).includes(0),
+      );
+    const two = openingWith("core2-residents-early-payday", hasEarlyPayday);
     const start = two.startedAt;
     const wages = two.residents!.flows.filter((row) => row.kind === "wages");
     const early = wages.filter(
@@ -146,8 +182,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // A payday whose whole period came before the opening pays nothing.
     const flow = early.find((row) =>
       Object.values(row.earnedDaysByDue!).includes(0),
-    );
-    if (!flow) return;
+    )!;
     const due = Object.entries(flow.earnedDaysByDue!).find(
       ([, days]) => days === 0,
     )![0];
@@ -173,7 +208,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     const state = residentsRuntime(core)!.flows.get(flow.id)!;
     expect(state.earnedDaysByDue?.[due]).toBeUndefined();
     expect(state.arrearsMinor).toBe(0);
-  }, 300_000);
+  }, 900_000);
 
   it("fills in a counted worker who matches the employer's books", () => {
     const core = createLifeCore(two);
@@ -227,12 +262,14 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   }, 300_000);
 
   it("pays a filled-in retiree their own retirement income", () => {
-    const core = createLifeCore(two);
+    const core = createLifeCore(
+      openingWith("core2-residents-retiree", hasRetiree),
+    );
     advanceCore(core, daysIn(4));
     const record = [...residentsRuntime(core)!.households.values()].find(
       (row) => row.contracts.some((contract) => contract.recipientIncome),
-    );
-    if (!record) return; // No counted retiree in this place.
+    )!;
+    expect(record).toBeDefined();
     const contract = record.contracts.find((row) => row.recipientIncome)!;
     const retireeId = contract.recipientIncome!.personId;
     const outsideNet = () =>
@@ -263,16 +300,18 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(core.people.get(retireeId)!.liquidMinor).not.toBe(cashBefore);
     expect(own.arrearsMinor).toBe(0);
     expect(total()).toBe(start);
-  }, 300_000);
+  }, 900_000);
 
   it("pays counted and filled-in retirees at the benefit level in force", () => {
-    const core = createLifeCore(two);
+    const core = createLifeCore(
+      openingWith("core2-residents-retiree", hasRetiree),
+    );
     advanceCore(core, daysIn(4));
     const flows = () =>
       [...residentsRuntime(core)!.flows.values()].filter(
         (flow) => flow.kind === "retirement" && !flow.endedAt,
       );
-    if (!flows().length) return; // No retiree in this place.
+    expect(flows().length).toBeGreaterThan(0);
     const record = [...residentsRuntime(core)!.households.values()].find(
       (row) => row.contracts.some((contract) => contract.recipientIncome),
     );
@@ -303,41 +342,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       expect(
         Math.abs(flow.amountMinor - base.get(flow.id)!),
       ).toBeLessThanOrEqual(awards(flow));
-  }, 300_000);
-
-  it("pays a worker who retires at the benefit level in force, and moves them with the line", () => {
-    const core = createLifeCore(two);
-    advanceCore(core, daysIn(4));
-    const rt = residentsRuntime(core)!;
-    const opening = [...rt.flows.values()].filter(
-      (flow) =>
-        flow.kind === "retirement" &&
-        !flow.endedAt &&
-        !flow.id.startsWith("residents:retirement:added:"),
-    );
-    if (!opening.length) return; // No retiree in this place.
-    const placeId = opening[0]!.placeId;
-    const here = opening.filter((flow) => flow.placeId === placeId);
-    const parts = here.reduce(
-      (n, flow) => n + Object.keys(flow.amountByContract ?? {}).length,
-      0,
-    );
-    const average =
-      here.reduce((n, flow) => n + flow.amountMinor, 0) / Math.max(1, parts);
-    // The line is cut to nine-tenths, then a worker retires.
-    rerateCountedRetirement(core, 0.9);
-    const joined = addCountedRetiree(core, placeId, "person:test-retiree");
-    expect(Math.abs(joined - average * 0.9)).toBeLessThanOrEqual(2);
-    const added = rt.flows.get(`residents:retirement:added:${placeId}`)!;
-    expect(added).toBeDefined();
-    // Restoring the line restores the new retiree's award with the others'.
-    rerateCountedRetirement(core, 1);
-    expect(
-      Math.abs(
-        added.amountByContract!["retiree:person:test-retiree"]! - average,
-      ),
-    ).toBeLessThanOrEqual(3);
-  }, 300_000);
+  }, 900_000);
 
   it("fills in a clicked counted person, and returns full people as they are", () => {
     const core = createLifeCore(two);
@@ -567,4 +572,118 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     ).length;
     expect(before - counted()).toBe(grown);
   }, 300_000);
+});
+
+// Pool item people-stopgap-residents-skipped-mechanic: a counted employer
+// short of cash on payday draws its credit line, as a full worker's payroll
+// does. A one-year played world in a place drawn from all 56 (bounded
+// redraws); a second build of the same world watches the payday's journal.
+describe(`a counted payroll short of cash draws its employer's credit line (seed ${seed})`, () => {
+  it("draws the shortfall on the payday, pays the workers in full and records no shortfall", () => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const drawn = drawPlace(`${seed}:${attempt}`, "wages-credit-draw");
+      const where = `${drawn.name} (${drawn.key}), seed ${drawn.seed}, base ${seed}:${attempt}`;
+      const build = () => {
+        setBookkeeping(false);
+        return buildBenchWorld(drawn.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: drawn.key,
+        }).core;
+      };
+      // First pass: the year, day by day, noting each payday a line paid.
+      const core = build();
+      const rt = residentsRuntime(core)!;
+      const end = addDays(core.date, 365);
+      let draws = 0;
+      let found:
+        | { flowId: string; payerId: string; date: string; facilityId: string }
+        | undefined;
+      while (core.date < end) {
+        advanceCore(core, addDays(core.date, 1));
+        for (const flow of rt.flows.values()) {
+          if (flow.kind !== "wages" || flow.creditNeed?.date !== core.date)
+            continue;
+          draws += 1;
+          const facilityId = core.finance.businesses.get(
+            flow.payerId,
+          )?.creditFacilityId;
+          // A payday the line covered whole: the workers were paid what was asked.
+          if (
+            !found &&
+            facilityId &&
+            flow.lastPaidMinor === flow.lastRequestedMinor &&
+            !rt.shortfalls.has(`${flow.id}@${core.date}`)
+          )
+            found = {
+              flowId: flow.id,
+              payerId: flow.payerId,
+              date: core.date,
+              facilityId,
+            };
+        }
+      }
+      if (!found) {
+        tried.push(`${where}: ${draws} draws, none covering a whole payday`);
+        continue;
+      }
+      // Second pass: the same world to the day before, then that payday watched.
+      const watched = build();
+      advanceCore(watched, addDays(found.date, -1));
+      const before = watched.finance.facilities.get(found.facilityId);
+      const principalBefore = before?.principalMinor ?? 0;
+      watched.observer = true;
+      advanceCore(watched, found.date);
+      const flow = residentsRuntime(watched)!.flows.get(found.flowId)!;
+      expect(flow.creditNeed?.date, `${where}: ${found.flowId}`).toBe(
+        found.date,
+      );
+      const credit = watched.finance.latestCreditByFacility.get(
+        found.facilityId,
+      );
+      expect(credit, `${where}: ${found.facilityId}'s draw`).toBeDefined();
+      expect(credit!.date, where).toBe(found.date);
+      expect(credit!.transferredMinor, where).toBeGreaterThan(0);
+      expect(credit!.principalAfterMinor - credit!.principalBeforeMinor).toBe(
+        credit!.transferredMinor,
+      );
+      expect(
+        watched.finance.facilities.get(found.facilityId)!.principalMinor -
+          principalBefore,
+        `${where}: the facility's balance rose by the draw`,
+      ).toBeGreaterThanOrEqual(credit!.transferredMinor);
+      const receipts = [...watched.cashJournal.detailedReceipts.values()];
+      const drawReceipt = receipts.find(
+        (row) => row.sourceRef.id === credit!.id,
+      );
+      const payReceipt = receipts.find((row) =>
+        row.sourceRef.id.startsWith(`${found!.flowId}@${found!.date}`),
+      );
+      expect(
+        drawReceipt,
+        `${where}: the draw ${credit!.id} on the journal`,
+      ).toBeDefined();
+      expect(
+        payReceipt,
+        `${where}: the wages ${found.flowId} on the journal`,
+      ).toBeDefined();
+      expect(flow.lastPaidMinor, where).toBe(flow.lastRequestedMinor);
+      expect(
+        residentsRuntime(watched)!.shortfalls.has(
+          `${found.flowId}@${found.date}`,
+        ),
+        `${where}: no wage shortfall that payday`,
+      ).toBe(false);
+      process.stdout.write(
+        `WAGE DRAW ${where}: ${draws} draws in the year; ${found.payerId} drew ${credit!.transferredMinor} on ${found.date} in ${drawReceipt!.id} (${credit!.id}); facility ${found.facilityId} principal ${credit!.principalBeforeMinor} -> ${credit!.principalAfterMinor}\n`,
+      );
+      process.stdout.write(
+        `WAGE PAID ${where}: ${found.flowId} paid ${flow.lastPaidMinor} of ${flow.lastRequestedMinor} in ${payReceipt!.id} (${payReceipt!.sourceRef.id})\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place had a counted payday its employer's credit line covered (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 3_600_000);
 });

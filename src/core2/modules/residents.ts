@@ -14,13 +14,20 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import { transfer, transferSplit } from "../accounts";
-import { livingCostParts } from "../living-cost-split";
+import { drawSavingsToCover, transfer, transferSplit } from "../accounts";
+import { livingCostParts, outsideCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
+import { openingWorkCommitments } from "./work";
+import { coreAPI } from "../state";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifyCountedWages, notifySalesReceipt } from "./finance";
-import type { ResidentWageShortfall } from "../finance-types";
+import type {
+  BusinessBooksState,
+  ResidentWageShortfall,
+} from "../finance-types";
+import { businessAvailableCredit } from "../finance-state";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
+import { admitPublicPayAuthority } from "../public-work-pay";
 import type {
   CoreAPI,
   CoreModule,
@@ -31,15 +38,18 @@ import type {
   PersonId,
   PlaceId,
   Source,
+  WorkCommitmentInput,
 } from "../types";
 import { registerSnapshotPart } from "../snapshot";
 import {
   ageBandOf,
   ageOn,
   CountedHouseholdMap,
+  type CountedFacts,
   CountedPersonHouseholdMap,
   CountedStore,
   decodeStore,
+  isDemoted,
   encodeStore,
   MemberState,
   type CountedHousehold,
@@ -50,9 +60,13 @@ import {
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
+import { incomeBandOf } from "../counted-income-fifth";
+
+export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
+import { weightedPayrollMinor } from "../residents-economy";
 import {
   chargeGroups,
   flowWeights,
@@ -86,6 +100,8 @@ const ORDER = {
 interface FlowState extends ResidentFlowInput {
   nextAt: IsoDate;
   arrearsMinor: number;
+  /** A household's living cost written off past the creditors' charge-off age (never paid, never asked again). */
+  writtenOffMinor?: number;
   /** Latest settled request and payment, read by lenders rather than opening cash or promised pay. */
   lastRequestedMinor?: number;
   lastPaidMinor?: number;
@@ -96,6 +112,10 @@ interface FlowState extends ResidentFlowInput {
   accruedCostMinor?: number;
   accrualHistory?: { date: IsoDate; accrued: number }[];
   outsidePaidMinor?: number;
+  /** What its payments sent to someone other than its payee (a business's ads in the town's outlets), all time. */
+  splitPaidMinor?: number;
+  /** wages: what the payer's cash could not pay on its latest short payday, the most its credit line may draw for it. */
+  creditNeed?: { date: IsoDate; minor: number };
   endedAt?: IsoDate;
   endedReason?: string;
 }
@@ -149,6 +169,8 @@ export interface ResidentsRuntime {
   funded: boolean;
   /** Housing payments each group still owes. */
   arrears: Map<number, number>;
+  /** Outside living costs each group could not pay, asked again each day until paid. */
+  livingArrears: Map<number, number>;
   /** Each group's monthly housing and outside living costs, kept back from its spending. */
   housingDue: Map<number, number>;
   /** Each group's latest month of housing payments: asked and paid. */
@@ -281,20 +303,6 @@ function householdKeys(
     out[part] = (out[part] ?? 0) + amount;
   }
   return out;
-}
-
-const cents = (dollars: number) => dollars * 100;
-
-/** The national household-income fifth a yearly income falls in (0 to 4). */
-export function incomeBandOf(incomeMinorYear: number): number {
-  let band = 0;
-  for (let i = 1; i <= 4; i++)
-    if (
-      incomeMinorYear >
-      cents(countedParameter(`countedIncomeFifthLimit${i}Dollars`))
-    )
-      band = i;
-  return band;
 }
 
 /** A counted household's yearly income: recorded pay, retirement awards and its unplaced workers' pay. */
@@ -436,7 +444,6 @@ function jobless(
 }
 
 export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
-const FILLED_UNPLACED_STOPGAP = "SG-CORE-filled-unplaced-income";
 
 /** The town's districts and their people (state House, else state Senate), by GEOID. */
 export function townDistricts(core: CoreState): [string, number][] {
@@ -650,6 +657,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     funds: new Map(),
     funded: false,
     arrears: new Map(),
+    livingArrears: new Map(),
     housingDue: new Map(),
     housingMonth: new Map(),
     withholdingYtd: new Map(),
@@ -699,6 +707,83 @@ function spendable(core: CoreState, ownerId: string): number {
   for (const id of core.cashJournal.accountsByOwner.get(ownerId) ?? [])
     allocated += core.cashJournal.accounts.get(id)?.allocatedMinor ?? 0;
   return Math.max(0, owner.liquidMinor - allocated);
+}
+
+/**
+ * What a business can pay now: its cash, and when that falls short of what
+ * it owes, the savings it holds at a local bank first (its own money, drawn
+ * before a payroll or a bill goes unpaid and the firm fails with money in
+ * the bank).
+ */
+function spendableFromSavings(
+  api: CoreAPI,
+  core: CoreState,
+  ownerId: string,
+  owed: number,
+  flowId: string,
+): number {
+  const cash = spendable(core, ownerId);
+  if (cash >= owed) return cash;
+  drawSavingsToCover(core, api, {
+    id: `savings-for-payment:${flowId}@${core.date}`,
+    holderId: ownerId,
+    owedMinor: owed,
+    asOf: core.date,
+    reason: `Flow ${flowId} asked ${owed} minor units against ${cash} in cash.`,
+  });
+  return spendable(core, ownerId);
+}
+
+/**
+ * What an employer can pay toward a wage flow today: its cash and savings,
+ * then its approved credit line for the rest, as a full worker's payroll
+ * draws it, so counted and full workers are paid by the same rule.
+ */
+function spendableWithCredit(
+  api: CoreAPI,
+  core: CoreState,
+  flow: FlowState,
+  owed: number,
+  payerBook: BusinessBooksState | undefined,
+): number {
+  const cash = spendableFromSavings(api, core, flow.payerId, owed, flow.id);
+  const facilityId = payerBook?.creditFacilityId;
+  if (flow.kind !== "wages" || cash >= owed || !facilityId) return cash;
+  const room = businessAvailableCredit(core, api, flow.payerId);
+  if (room <= 0) return cash;
+  flow.creditNeed = { date: core.date, minor: owed - cash };
+  const receipt = api.drawWageFlowCredit(
+    facilityId,
+    Math.min(owed - cash, room),
+    flow.id,
+  );
+  return cash + receipt.transferredMinor;
+}
+
+/**
+ * What a household's living cost takes from each member who can pay it: the
+ * bill's payer first, then the others living there in id order, each from what
+ * they hold, until the amount is met.
+ */
+function livingLegs(
+  core: CoreState,
+  householdId: string,
+  payerId: string,
+  amount: number,
+): { payerId: string; amount: number }[] {
+  const members = (core.households.get(householdId)?.memberIds ?? [])
+    .filter((id) => id !== payerId && core.people.get(id)?.alive)
+    .sort();
+  const legs: { payerId: string; amount: number }[] = [];
+  let left = amount;
+  for (const id of [payerId, ...members]) {
+    if (left <= 0) break;
+    const pay = Math.min(left, spendable(core, id));
+    if (pay <= 0) continue;
+    legs.push({ payerId: id, amount: pay });
+    left -= pay;
+  }
+  return legs;
 }
 
 function end(flow: FlowState, date: IsoDate, reason: string): void {
@@ -810,8 +895,6 @@ export function supplierBillsOwed(
   );
 }
 
-const WAGES_CREDIT_STOPGAP = "SG-WORLD-wages-skip-credit-line";
-
 /** The household's oldest living member who pays living costs, ties broken by id. */
 function livingPayerOf(
   core: CoreState,
@@ -919,8 +1002,16 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   }
   const fixed =
     flow.financeKind === FIXED_SPENDING || HOUSING_KINDS.has(flow.financeKind);
-  let requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
+  // A household's living cost it could not pay is carried and asked again each
+  // day until paid (like rent), so cash that arrives after the 1st still pays it.
+  const carries = flow.financeKind === FIXED_SPENDING && !countedPaid;
+  const askedBefore = carries ? flow.arrearsMinor : 0;
+  if (carries && date < flow.nextAt) base = 0;
+  let requested =
+    base + (flow.kind === "wages" || carries ? flow.arrearsMinor : 0);
   let paid: number;
+  let groupsCarried = 0;
+  let groupsWrittenOff = 0;
   if (countedPays) {
     // Each counted group pays its own part from its own account: purchases
     // that follow income at its month's scale, rent and mortgages as owed.
@@ -930,6 +1021,12 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       id: `${flow.id}@${date}`,
       flow,
       requested: base,
+      ...(carries
+        ? {
+            carry: rt.livingArrears,
+            carryCeilingBills: api.parameter("livingCostWriteOffBills"),
+          }
+        : {}),
       reasonKey: flow.financeKind,
       source: flow.source,
       ...(scaled
@@ -940,12 +1037,14 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       // A seller serves only what it can: spending beyond its capacity buys
       // the same thing outside the town.
       payees: (total) => {
-        // A part of the living cost is a government's charges (budgets).
+        // A part of the living cost is a government's charges or a paper's
+        // subscription.
         if (flow.financeKind === FIXED_SPENDING) {
           const governments = livingCostParts(
             core,
             flow.placeId,
             total,
+            flow.payerId,
           ).flatMap((row) => {
             const accountId = core.cashJournal.residualAccountByOwner.get(
               row.organizationId,
@@ -980,6 +1079,8 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         ];
       },
     });
+    groupsCarried = charged.carried;
+    groupsWrittenOff = charged.writtenOff;
     requested = 0;
     for (const [group, row] of charged.byGroup) {
       requested += row.asked;
@@ -992,9 +1093,20 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   } else {
     const payer = core.organizations.get(flow.payerId);
     const outside = payer?.outsideFlow !== undefined;
+    // A household's living cost is paid by the bill's payer first, then by the
+    // household's other living members, each from what they hold.
+    const legs =
+      carries && payerPerson && !outside
+        ? livingLegs(core, payerPerson.householdId, flow.payerId, requested)
+        : [{ payerId: flow.payerId, amount: 0 }];
     paid = outside
       ? requested
-      : Math.min(requested, spendable(core, flow.payerId));
+      : carries && payerPerson
+        ? legs.reduce((n, leg) => n + leg.amount, 0)
+        : Math.min(
+            requested,
+            spendableWithCredit(api, core, flow, requested, payerBook),
+          );
     if (countedPaid && paid > 0) {
       // Each counted group is paid its part, less what the law withholds.
       const net = payGroups(api, rt, {
@@ -1027,7 +1139,27 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
                 : Math.round((365 / 12) * flow.cadence.every),
           });
       }
+    } else if (paid > 0 && carries && payerPerson && !outside) {
+      for (const leg of legs)
+        if (leg.amount > 0) post(api, flow, leg.amount, leg.payerId);
     } else if (paid > 0) post(api, flow, paid);
+  }
+  if (carries) {
+    // What is still unpaid after the creditors' charge-off age (a number of
+    // monthly bills) is written off: it stays on the books as written off and
+    // is not asked again, so a household with no job and no cash does not owe
+    // a growing sum forever.
+    // Counted groups each hold their own balance, charged off at the same age.
+    const owed = requested - paid;
+    const ceiling = Math.round(
+      flow.amountMinor * api.parameter("livingCostWriteOffBills"),
+    );
+    flow.arrearsMinor = countedPays ? groupsCarried : Math.min(owed, ceiling);
+    const written = countedPays
+      ? groupsWrittenOff
+      : Math.max(0, owed - ceiling);
+    if (written > 0)
+      flow.writtenOffMinor = (flow.writtenOffMinor ?? 0) + written;
   }
   flow.lastRequestedMinor = requested;
   flow.lastPaidMinor = paid;
@@ -1053,11 +1185,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     payerBook.wagesUnpaidMinor += owed - flow.arrearsMinor;
     flow.arrearsMinor = owed;
     if (owed > 0) {
-      // stopgapId: SG-WORLD-wages-skip-credit-line
-      // Wages short of cash are recorded as a shortfall; an approved credit
-      // line on the employer is not drawn, because the credit engine draws
-      // only against a standing finance contract (drawCredit), not a flow.
-      if (payerBook.creditFacilityId) api.stopgap(WAGES_CREDIT_STOPGAP);
+      // What neither its cash nor its credit line could pay is a shortfall.
       const id = `${flow.id}@${date}`;
       rt.shortfalls.set(id, {
         kind: "residents.wages",
@@ -1101,30 +1229,43 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   };
   finance.totalsByKind.set(flow.financeKind, {
     ...totals,
-    requestedMinor: totals.requestedMinor + requested,
+    requestedMinor: totals.requestedMinor + requested - askedBefore,
     paidMinor: totals.paidMinor + paid,
-    unfundedMinor: totals.unfundedMinor + (requested - paid),
+    unfundedMinor: totals.unfundedMinor + (requested - askedBefore - paid),
   });
 }
 
-function post(api: CoreAPI, flow: FlowState, paid: number): void {
+function post(
+  api: CoreAPI,
+  flow: FlowState,
+  paid: number,
+  payerId: string = flow.payerId,
+): void {
   const core = api.state;
-  const governments =
+  // A part of a living cost is a government's charges or a paper's
+  // subscription; a part of a business's costs bought outside is advertising
+  // in the town's outlets.
+  const governments = (
     flow.financeKind === FIXED_SPENDING
-      ? livingCostParts(core, flow.placeId, paid).flatMap((row) => {
-          const accountId = core.cashJournal.residualAccountByOwner.get(
-            row.organizationId,
-          );
-          return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
-        })
-      : [];
+      ? livingCostParts(core, flow.placeId, paid, payerId)
+      : flow.kind === "outside-costs"
+        ? outsideCostParts(core, flow.placeId, paid, payerId)
+        : []
+  ).flatMap((row) => {
+    const accountId = core.cashJournal.residualAccountByOwner.get(
+      row.organizationId,
+    );
+    return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
+  });
   if (governments.length) {
     const toGovernments = governments.reduce((n, row) => n + row.deltaMinor, 0);
+    if (flow.kind === "outside-costs")
+      flow.splitPaidMinor = (flow.splitPaidMinor ?? 0) + toGovernments;
     transferSplit(core, api, {
-      id: `${flow.id}@${core.date}`,
+      id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
       lines: [
         {
-          accountId: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+          accountId: core.cashJournal.residualAccountByOwner.get(payerId)!,
           deltaMinor: -paid,
         },
         {
@@ -1139,8 +1280,8 @@ function post(api: CoreAPI, flow: FlowState, paid: number): void {
     return;
   }
   transfer(core, api, {
-    id: `${flow.id}@${core.date}`,
-    from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+    id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
+    from: core.cashJournal.residualAccountByOwner.get(payerId)!,
     to: core.cashJournal.residualAccountByOwner.get(flow.payeeId)!,
     amountMinor: paid,
     reasonKey: flow.financeKind,
@@ -1153,7 +1294,7 @@ function overCapacity(
   api: CoreAPI,
   rt: ResidentsRuntime,
   flow: FlowState,
-  book: { annualDemandMinor: number },
+  book: { annualDemandMinor: number; annualPayrollMinor: number },
   paid: number,
 ): number {
   const month = api.state.date.slice(0, 7);
@@ -1162,8 +1303,18 @@ function overCapacity(
     row = { month, receivedMinor: 0 };
     rt.sellerMonth.set(flow.payeeId, row);
   }
+  // A seller staffed by counted workers serves as many as they stand for.
+  const staffed =
+    book.annualPayrollMinor > 0
+      ? weightedPayrollMinor(
+          api.state as CoreState,
+          flow.payeeId,
+          book.annualPayrollMinor,
+          DAYS_PER_YEAR,
+        ) / book.annualPayrollMinor
+      : 1;
   const capacity =
-    book.annualDemandMinor /
+    (book.annualDemandMinor * staffed) /
     api.parameter("sellerCapacityUtilization") /
     api.parameter("monthsPerYear");
   const room = Math.max(0, Math.floor(capacity - row.receivedMinor));
@@ -1304,10 +1455,20 @@ function runResidentsDay(api: CoreAPI): void {
     .sort((a, b) => ORDER[a.kind] - ORDER[b.kind] || a.id.localeCompare(b.id));
   for (const flow of flows) {
     if (flow.endedAt) continue;
+    const retry = core.date < flow.nextAt;
     settle(api, rt, flow);
     if (flow.endedAt) continue;
-    flow.nextAt = advanceCadence(flow.nextAt, flow.cadence);
+    if (!retry) flow.nextAt = advanceCadence(flow.nextAt, flow.cadence);
     schedule(rt, flow);
+    // What a household could not pay is asked again tomorrow, until the next bill.
+    if (flow.arrearsMinor > 0 && flow.financeKind === FIXED_SPENDING) {
+      const tomorrow = makeIsoDate(addDays(makeIsoDate(core.date), 1));
+      if (tomorrow < flow.nextAt) {
+        const ids = rt.due.get(tomorrow) ?? new Set<string>();
+        ids.add(flow.id);
+        rt.due.set(tomorrow, ids);
+      }
+    }
   }
 }
 
@@ -1321,6 +1482,20 @@ export function countedJob(
   if (!rt || !job) return undefined;
   const flow = rt.wageFlowByJob.get(jobId);
   return flow && !flow.endedAt ? job : undefined;
+}
+
+/** How many jobs at an employer are held by people in the wider population, while their wages are still paid (by the employer or the treasury that funds it). */
+export function countedStaffOf(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const rt = runtimes.get(core);
+  if (!rt) return 0;
+  let jobs = 0;
+  for (const [jobId, job] of rt.jobs)
+    if (job.organizationId === organizationId && countedJob(core, jobId))
+      jobs += 1;
+  return jobs;
 }
 
 /**
@@ -1351,6 +1526,20 @@ export function residentPerson(
     .find((row) => row.id === id);
 }
 
+/** What the engines read about someone still counted: their columns, with no person record built. */
+export type ResidentFacts = CountedFacts;
+
+/** A counted person's place, birth date, job and traits read from the columns; undefined once they are filled in, dead or moved. */
+export function residentFacts(
+  core: CoreState,
+  personId: PersonId,
+): ResidentFacts | undefined {
+  const store = runtimes.get(core)?.store;
+  const m = store?.countedMember(personId);
+  if (!store || m === undefined) return undefined;
+  return store.factsOf(m);
+}
+
 registerCountedPersonSource(residentPerson);
 
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
@@ -1373,6 +1562,36 @@ export function countedHouseholdOf(
   return m === undefined
     ? undefined
     : rt!.store.households[rt!.store.household[m]!];
+}
+
+/**
+ * The flows a filled-in household can be taking its share back from: the
+ * pooled wage flows (they name jobs), the pooled retirement and purchase
+ * flows (they name contracts). Most flows are one household's own rent, which
+ * a fill-in finds by its id, so the scan skips them; the list keeps the order
+ * of the flows and grows with them, since flows are only ever added.
+ */
+const pooled = new WeakMap<object, { scanned: number; ids: string[] }>();
+export function* pooledFlows(rt: ResidentsRuntime): Generator<FlowState> {
+  let seen = pooled.get(rt.flows);
+  if (!seen) pooled.set(rt.flows, (seen = { scanned: 0, ids: [] }));
+  const pools = (flow: FlowState) =>
+    (flow.kind === "wages" && flow.perDayMinorByJob) ||
+    ((flow.kind === "retirement" || flow.kind === "purchase") &&
+      flow.amountByContract);
+  if (seen.scanned < rt.flows.size) {
+    let at = 0;
+    for (const [id, flow] of rt.flows) {
+      if (at++ < seen.scanned) continue;
+      if (pools(flow)) seen.ids.push(id);
+    }
+    seen.scanned = rt.flows.size;
+  }
+  // By id, so a flow replaced since is read as it stands now.
+  for (const id of seen.ids) {
+    const flow = rt.flows.get(id)!;
+    if (pools(flow)) yield flow;
+  }
 }
 
 const partsOf = (householdId: string) =>
@@ -1456,6 +1675,60 @@ function householdContracts(
 }
 
 /**
+ * The employer calendars by id and each place's group account, built once per
+ * input (the input is replaced when a calendar is added) rather than at every
+ * release.
+ */
+const calendarIndex = new WeakMap<
+  object,
+  Map<string, WorkPayrollCalendarInput>
+>();
+function calendarsOf(
+  rt: ResidentsRuntime,
+): ReadonlyMap<string, WorkPayrollCalendarInput> {
+  let index = calendarIndex.get(rt.input);
+  if (!index)
+    calendarIndex.set(
+      rt.input,
+      (index = new Map((rt.input.calendars ?? []).map((row) => [row.id, row]))),
+    );
+  return index;
+}
+const accountIndex = new WeakMap<object, Map<string, string>>();
+function groupAccountOf(rt: ResidentsRuntime, placeId: string) {
+  let index = accountIndex.get(rt.input.accounts);
+  if (!index) {
+    index = new Map();
+    // The first row of a place is its group's account.
+    for (const row of rt.input.accounts)
+      if (!index.has(row.placeId)) index.set(row.placeId, row.accountId);
+    accountIndex.set(rt.input.accounts, index);
+  }
+  return index.get(placeId);
+}
+/** A place's standing flow of its unplaced workers' pay, found once. */
+const unplacedIndex = new WeakMap<object, Map<string, string>>();
+function unplacedFlowOf(rt: ResidentsRuntime, placeId: string) {
+  let index = unplacedIndex.get(rt.flows);
+  if (!index) unplacedIndex.set(rt.flows, (index = new Map()));
+  const stands = (flow: FlowState | undefined) =>
+    flow !== undefined &&
+    !flow.endedAt &&
+    flow.financeKind === "work.unplaced-residents" &&
+    flow.placeId === placeId
+      ? flow
+      : undefined;
+  const known = stands(rt.flows.get(index.get(placeId) ?? ""));
+  if (known) return known;
+  for (const flow of rt.flows.values())
+    if (stands(flow)) {
+      index.set(placeId, flow.id);
+      return flow;
+    }
+  return undefined;
+}
+
+/**
  * What a filled-in household takes back from the merged flows: its workers'
  * share of each wage flow, its purchase parts, its mortgage part and its
  * rent. Returns the employer calendars its jobs were paid on and its share of
@@ -1467,7 +1740,7 @@ export function releaseResidentHousehold(
   /** False when the household is gone (its last member died): its payments just end. */
   options: { ownFlows?: boolean } = {},
 ): {
-  calendars: Map<string, WorkPayrollCalendarInput>;
+  calendars: ReadonlyMap<string, WorkPayrollCalendarInput>;
   cashShare: number;
   accountId?: string;
   /** This release's number, for naming its transfers. */
@@ -1484,11 +1757,11 @@ export function releaseResidentHousehold(
   const incomeIds = new Set(
     record.contracts.filter((row) => row.recipientIncome).map((row) => row.id),
   );
-  for (const flow of rt.flows.values()) {
-    if (flow.id === `rent:${householdId}` && !flow.endedAt) {
-      end(flow, core.date, "filled-in");
-      continue;
-    }
+  // The household's own rent ends; the scan below is of the pooled flows only.
+  const rent = rt.flows.get(`rent:${householdId}`);
+  if (rent && rent.id === `rent:${householdId}` && !rent.endedAt)
+    end(rent, core.date, "filled-in");
+  for (const flow of pooledFlows(rt)) {
     if (flow.kind === "wages" && flow.perDayMinorByJob) {
       // Copy only a flow that pays one of these jobs.
       const present = flow.perDayMinorByJob;
@@ -1538,7 +1811,7 @@ export function releaseResidentHousehold(
       let removed = 0;
       for (const id of parts) removed += present[id] ?? 0;
       if (!removed) continue;
-      const amounts = { ...present };
+      const amounts = ownMap(present);
       const outside =
         core.organizations.get(flow.payeeId)?.outsideFlow !== undefined;
       for (const id of parts) {
@@ -1601,38 +1874,32 @@ export function releaseResidentHousehold(
         source: rt.input.source,
       });
   }
-  const calendars = new Map(
-    (rt.input.calendars ?? []).map((row) => [row.id, row]),
-  );
+  const calendars = calendarsOf(rt);
   // The household now pays its own outside living costs from its payer.
   const payer = record.people.find((row) => row.livingCostDailyMinor > 0);
   // Its workers without a recorded job keep their pay: its share of the
-  // place's unplaced workers' flow becomes a flow of its own, to its
-  // working-age people (SG-CORE-filled-unplaced-income).
+  // place's unplaced workers' flow becomes a real job with an employer
+  // outside the town, paid from the place's outside account.
   if (ownFlows && cash && cash.unplaced > 0) {
-    const unplaced = [...rt.flows.values()].find(
-      (flow) =>
-        !flow.endedAt &&
-        flow.financeKind === "work.unplaced-residents" &&
-        flow.placeId === placeId,
-    );
-    const worker = record.people.find(
-      (row) => row.livingCostDailyMinor > 0 && core.people.has(row.id),
-    );
+    const unplaced = unplacedFlowOf(rt, placeId);
+    // A worker without a recorded job, by the same rule the counts share the
+    // place's unplaced workers by (`jobless`): a working-age member with no
+    // job. An adult who already holds a local job keeps it.
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    const worker = record.people.find((row) => {
+      const person = core.people.get(row.id);
+      if (!person || person.jobId) return false;
+      const age = ageOn(person.birthDate, core.date);
+      return age >= from && age < below;
+    });
     if (unplaced && worker) {
       const amount = Math.round(unplaced.amountMinor * cash.unplaced);
-      if (amount > 0) {
-        stopgap(FILLED_UNPLACED_STOPGAP);
+      if (
+        amount > 0 &&
+        startCommuterJob(core, rt, worker.id, unplaced, amount)
+      ) {
         unplaced.amountMinor -= amount;
-        const flow: FlowState = {
-          ...unplaced,
-          id: `${unplaced.id}:${householdId}`,
-          payeeId: worker.id,
-          amountMinor: amount,
-          arrearsMinor: 0,
-        };
-        rt.flows.set(flow.id, flow);
-        schedule(rt, flow);
       }
     }
   }
@@ -1668,8 +1935,7 @@ export function releaseResidentHousehold(
     // Paid from its group's account above; the pool's share is for a world
     // whose groups hold no money yet.
     cashShare: paidFromFund ? 0 : remaining > 0 ? own / remaining : 0,
-    accountId: rt.input.accounts.find((row) => row.placeId === placeId)
-      ?.accountId,
+    accountId: groupAccountOf(rt, placeId),
   };
 }
 
@@ -1851,6 +2117,37 @@ export function monthlyLivingCostMinor(
         ? (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12
         : (flow.amountMinor * perYear(flow)) / 12;
   }
+  return Math.round(total);
+}
+
+/**
+ * What one full household, or the counted households together, owe for
+ * living costs in a month: the part of `monthlyLivingCostMinor` a payer's own
+ * share of a living-cost payment is set against.
+ */
+export function payerLivingCostMinor(
+  core: CoreState,
+  placeId: PlaceId,
+  payer: { readonly householdId: string } | "counted",
+): number {
+  const rt = runtimes.get(core);
+  if (!rt) return 0;
+  if (payer !== "counted") {
+    const flow = rt.flows.get(`residents:outside-living:${payer.householdId}`);
+    return flow && !flow.endedAt
+      ? Math.round((flow.amountMinor * perYear(flow)) / 12)
+      : 0;
+  }
+  let total = 0;
+  for (const flow of rt.flows.values())
+    if (
+      !flow.endedAt &&
+      flow.kind === "purchase" &&
+      flow.financeKind === FIXED_SPENDING &&
+      flow.placeId === placeId &&
+      flow.payerId === flow.residentsId
+    )
+      total += (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12;
   return Math.round(total);
 }
 
@@ -2108,6 +2405,108 @@ function dropCountedContracts(
 }
 
 /**
+ * Who in a counted household takes a member's estate: the kin of theirs who
+ * live there, else whoever lives there, in id order. Empty when no one is left.
+ */
+function inheritorsOf(
+  store: CountedStore,
+  h: CountedHousehold,
+  m: number,
+): number[] {
+  const survivors = store.countedMembers(h).filter((member) => member !== m);
+  const kin = new Set<number>();
+  for (let i = 0; i < h.kin.length; i += 2) {
+    if (h.kin[i] === m) kin.add(h.kin[i + 1]!);
+    else if (h.kin[i + 1] === m) kin.add(h.kin[i]!);
+  }
+  const near = survivors.filter((member) => kin.has(member));
+  return (near.length ? near : survivors).sort((a, b) =>
+    store.ids[a]!.localeCompare(store.ids[b]!),
+  );
+}
+
+/**
+ * What a counted person's death passes on, read before they are removed: the
+ * household, those who take their estate, and the estate itself, the cash of
+ * their household shared among its counted members (the counted money is
+ * pooled in the group's account, not held by each member).
+ */
+export function countedEstateOf(
+  core: CoreState,
+  personId: PersonId,
+):
+  | {
+      readonly householdId: string;
+      /** The households the counted record stands for. */
+      readonly households: number;
+      readonly bornOn: string;
+      readonly heirs: readonly PersonId[];
+      readonly estateMinor: number;
+    }
+  | undefined {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined) return undefined;
+  const store = rt.store;
+  const h = store.households[store.household[m]!]!;
+  const members = store.countedCount(h);
+  return {
+    householdId: h.id,
+    households: store.weightOf(h),
+    bornOn: store.born[m]!,
+    heirs: inheritorsOf(store, h, m).map(
+      (member) => store.ids[member]! as PersonId,
+    ),
+    estateMinor: members > 0 ? Math.floor(householdCash(rt, h) / members) : 0,
+  };
+}
+
+/**
+ * A counted worker's job started, ended or was re-rated in the jobs engine:
+ * their own job and their household's jobs and yearly wages follow, so every
+ * reader of the household's income, and a fill-in (which hands over the
+ * household's jobs), sees the jobs the employer's books pay. A hire's
+ * `commitment` (its schedule and payday) goes with it, so the worker is on
+ * that payroll when met; an ended job's commitment ends with it.
+ */
+export function countedHouseholdJobChanged(
+  core: CoreState,
+  job: JobInput,
+  commitment?: WorkCommitmentInput,
+): void {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(job.personId);
+  if (!rt || m === undefined) return;
+  const store = rt.store;
+  const h = store.households[store.household[m]!]!;
+  const others = h.jobs.filter((row) => row.id !== job.id);
+  h.jobs = job.endsAt === undefined ? [...others, job] : others;
+  if (commitment) {
+    h.workCommitments = [
+      ...h.workCommitments.filter((row) => row.jobId !== job.id),
+      commitment,
+    ];
+    joinPublicPayAuthority(core, commitment);
+  } else if (job.endsAt !== undefined)
+    h.workCommitments = h.workCommitments.map((row) =>
+      row.jobId === job.id && row.endsAt === undefined
+        ? { ...row, endsAt: job.endsAt }
+        : row,
+    );
+  // The member's own job: the one just started, or another they still hold.
+  if (job.endsAt === undefined) store.jobId[m] = job.id;
+  else if (store.jobId[m] === job.id)
+    store.jobId[m] = h.jobs.find((row) => row.personId === job.personId)?.id;
+  h.wagesMinorYear = Math.round(
+    h.jobs
+      .filter((row) => row.endsAt === undefined)
+      .reduce((n, row) => n + row.wageDailyMinor * DAYS_PER_YEAR, 0),
+  );
+  store.version++;
+  store.touch(h);
+}
+
+/**
  * A counted person died: they leave their household, their job leaves the
  * employer's books and their retirement award stops. Their cash stays with
  * the counted residents (their heirs). A household left empty leaves the
@@ -2133,6 +2532,20 @@ export function removeCountedPerson(
   store.version++;
   store.membersVersion++;
   store.touch(h);
+  // Someone back in the counts (demoted) keeps their record: it dies with
+  // them and leaves the household, as a demotion leaves out members who died,
+  // so meeting the household again brings back only the living.
+  const kept = core.people.get(personId);
+  if (kept && isDemoted(kept)) {
+    const api = rt.api ?? coreAPI(core);
+    api.updatePerson(personId, { alive: false });
+    const home = core.households.get(kept.householdId);
+    if (home?.memberIds.includes(personId))
+      core.households.set(home.id, {
+        ...home,
+        memberIds: home.memberIds.filter((id) => id !== personId),
+      });
+  }
   h.jobs = h.jobs.filter((row) => row.personId !== personId);
   h.workCommitments = h.workCommitments.filter(
     (row) => row.personId !== personId,
@@ -2151,17 +2564,8 @@ export function removeCountedPerson(
   // outlives them, as a full person's estate does: to the kin of theirs who
   // live there in equal shares (the first takes the odd cents), else to
   // whoever lives there. It is returned so the town's record names each heir.
-  const survivors = store.countedMembers(h);
-  if (survivors.length) {
-    const kin = new Set<number>();
-    for (let i = 0; i < h.kin.length; i += 2) {
-      if (h.kin[i] === m) kin.add(h.kin[i + 1]!);
-      else if (h.kin[i + 1] === m) kin.add(h.kin[i]!);
-    }
-    const near = survivors.filter((member) => kin.has(member));
-    const takers = (near.length ? near : survivors).sort((a, b) =>
-      store.ids[a]!.localeCompare(store.ids[b]!),
-    );
+  const takers = inheritorsOf(store, h, m);
+  if (takers.length) {
     const estate = store.liquid[m]!;
     const share = Math.floor(estate / takers.length);
     const paid = takers.map((member, index) => {
@@ -2204,6 +2608,19 @@ function endHouseholdFlows(
   );
   const rent = rt.flows.get(`rent:${h.id}`);
   if (rent && !rent.endedAt) end(rent, date, "household-left");
+  // An award a member claimed in play is its own flow, not one of the
+  // household's income contracts (retirement-claims.ts): it leaves with them.
+  const claims = rt.store
+    .countedMembers(h)
+    .map((m) => `retirement-claim:${rt.store.ids[m]!}`);
+  if (claims.length)
+    for (const flow of rt.flows.values())
+      if (
+        flow.kind === "retirement" &&
+        !flow.endedAt &&
+        claims.some((id) => flow.id === id || flow.id.startsWith(`${id}:`))
+      )
+        end(flow, date, "household-left");
 }
 
 /**
@@ -2247,8 +2664,7 @@ export function departCountedHousehold(
   store.retire(h, MemberState.Moved);
   return {
     cashShare: paidFromFund ? 0 : remaining > 0 ? own / remaining : 0,
-    accountId: rt.input.accounts.find((row) => row.placeId === placeId)
-      ?.accountId,
+    accountId: groupAccountOf(rt, placeId),
     placeId,
   };
 }
@@ -2397,10 +2813,9 @@ export function returnToCounts(
     const key = flowId.startsWith(MORTGAGE_KEY)
       ? `${MORTGAGE_KEY}${h.id}`
       : part;
-    flow.amountByContract = {
-      ...flow.amountByContract,
-      [key]: (flow.amountByContract[key] ?? 0) + amount,
-    };
+    const amounts = ownMap(flow.amountByContract);
+    amounts[key] = (amounts[key] ?? 0) + amount;
+    flow.amountByContract = amounts;
     flow.amountMinor += amount;
   }
   const account = rt.input.accounts.find(
@@ -2431,6 +2846,156 @@ export function returnToCounts(
   return h;
 }
 
+/** A counted household with school-age children, as the August private-school ranking reads it. */
+export interface CountedSchoolFamily {
+  householdId: string;
+  placeId: PlaceId;
+  /** Children in the record (one household's). */
+  children: number;
+  /** Real households the record stands for. */
+  weight: number;
+  /** The household's share of its group's money over its children. */
+  cashPerChild: number;
+}
+
+/** The counted households of these places with children aged `first` to `last`. */
+export function countedSchoolFamilies(
+  core: CoreState,
+  places: ReadonlySet<PlaceId>,
+  first: number,
+  last: number,
+): CountedSchoolFamily[] {
+  const rt = runtimes.get(core);
+  if (!rt) return [];
+  const at = makeIsoDate(core.date);
+  const cash = householdCashReader(rt);
+  const out: CountedSchoolFamily[] = [];
+  for (const h of rt.store.liveHouseholds()) {
+    if (!places.has(h.placeId)) continue;
+    let children = 0,
+      adults = 0;
+    for (const m of rt.store.countedMembers(h)) {
+      const age = ageOn(rt.store.born[m]!, at);
+      if (age >= first && age <= last) children++;
+      else if (age > last) adults++;
+    }
+    if (!children || !adults) continue;
+    out.push({
+      householdId: h.id,
+      placeId: h.placeId,
+      children,
+      weight: rt.store.weightOf(h),
+      cashPerChild: cash(h) / children,
+    });
+  }
+  return out;
+}
+
+/** What each counted household pays these schools now, by household: the school and the monthly amount of its record. */
+export function countedTuitionPlans(
+  core: CoreState,
+  schoolIds: ReadonlySet<string>,
+  financeKind: string,
+): Map<string, { schoolId: string; monthlyMinor: number }> {
+  const rt = runtimes.get(core);
+  const out = new Map<string, { schoolId: string; monthlyMinor: number }>();
+  if (!rt) return out;
+  const prefix = "hh:";
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.endedAt ||
+      flow.kind !== "purchase" ||
+      flow.financeKind !== financeKind ||
+      !schoolIds.has(flow.payeeId) ||
+      !flow.amountByContract
+    )
+      continue;
+    for (const [key, amount] of Object.entries(flow.amountByContract))
+      if (key.startsWith(prefix) && amount > 0)
+        out.set(key.slice(prefix.length), {
+          schoolId: flow.payeeId,
+          monthlyMinor: amount,
+        });
+  }
+  return out;
+}
+
+/**
+ * Set what a counted household pays a private school each month (its record's
+ * amount; its group pays it times the households the record stands for), or
+ * nothing to end it. The amount is the household's part of the school's
+ * merged tuition flow, opened if no counted household has paid it yet.
+ */
+export function setCountedTuition(
+  core: CoreState,
+  householdId: string,
+  school: { id: string; placeId: PlaceId },
+  monthlyMinor: number,
+  terms: { financeKind: string; source: Source },
+): void {
+  const rt = runtimes.get(core);
+  const ix = rt?.store.householdOf.get(householdId);
+  if (!rt || ix === undefined) return;
+  const h = rt.store.households[ix]!;
+  if (h.gone) return;
+  const part = householdPart(householdId);
+  const mine = [...rt.flows.values()]
+    .filter(
+      (flow) =>
+        !flow.endedAt &&
+        flow.kind === "purchase" &&
+        flow.financeKind === terms.financeKind &&
+        flow.payeeId === school.id &&
+        flow.placeId === h.placeId &&
+        flow.amountByContract,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  for (const flow of mine) {
+    const present = flow.amountByContract![part] ?? 0;
+    if (!present) continue;
+    const amounts = ownMap(flow.amountByContract!);
+    delete amounts[part];
+    flow.amountByContract = amounts;
+    flow.amountMinor = Math.max(0, flow.amountMinor - present);
+  }
+  if (!(monthlyMinor > 0)) return;
+  let flow = mine[0];
+  if (!flow) {
+    const account = rt.input.accounts.find(
+      (row) => row.placeId === h.placeId,
+    )?.accountId;
+    if (!account) return;
+    const firstAt = nextMonthDay(
+      makeIsoDate(addDays(makeIsoDate(core.date), 1)),
+      1,
+    );
+    flow = {
+      id: `residents:purchase:${terms.financeKind}:${school.id}`,
+      kind: "purchase",
+      financeKind: terms.financeKind,
+      payerId: account,
+      payeeId: school.id,
+      residentsId: account,
+      placeId: h.placeId,
+      amountMinor: 0,
+      firstAt,
+      nextAt: firstAt,
+      cadence: { kind: "months", every: 1, day: 1 },
+      salesReceipt: true,
+      marketAdjusted: false,
+      amountByContract: {},
+      source: terms.source,
+      arrearsMinor: 0,
+    };
+    rt.flows.set(flow.id, flow);
+    schedule(rt, flow);
+  }
+  const amounts = ownMap(flow.amountByContract!);
+  amounts[part] = monthlyMinor;
+  flow.amountByContract = amounts;
+  flow.amountMinor += monthlyMinor;
+}
+
 /** A counted household's group's account, opening it if needed (money a demotion brings). */
 export function countedFundOf(
   core: CoreState,
@@ -2441,6 +3006,29 @@ export function countedFundOf(
   if (!rt || ix === undefined || !rt.api) return undefined;
   const h = rt.store.households[ix]!;
   return h.gone || h.group < 0 ? undefined : fundOf(rt.api, rt, h.group);
+}
+
+/**
+ * A counted worker's commitment at a public employer joins the employer's pay
+ * authority under its own id, as a hire's does (job-lifecycle.ts): the
+ * authority resolves due pay only for the commitments it lists.
+ */
+export function joinPublicPayAuthority(
+  core: CoreState,
+  commitment: WorkCommitmentInput,
+): void {
+  if (commitment.publicPayAuthorityId === undefined) return;
+  const employer = core.organizations.get(commitment.organizationId);
+  const authority = employer?.publicPayAuthority;
+  if (!employer || authority?.id !== commitment.publicPayAuthorityId) return;
+  if (authority.workCommitmentIds.includes(commitment.id)) return;
+  employer.publicPayAuthority = admitPublicPayAuthority(
+    {
+      ...authority,
+      workCommitmentIds: [...authority.workCommitmentIds, commitment.id],
+    },
+    core.date,
+  );
 }
 
 /** A payday calendar a returning worker was paid on, kept so a later fill-in pays them on it again. */
@@ -2455,30 +3043,151 @@ export function keepCalendar(
   rt.input = { ...rt.input, calendars: [...calendars, calendar] };
 }
 
+/** The commuter job's id for a person; the demotion reads it to put the pay back. */
+export const commuterJobId = (personId: string, startsAt: string) =>
+  `job:commuter:${personId}:${startsAt}`;
+
 /**
- * A household returning to the counts brings its unplaced workers' pay back
- * to its place's flow, and its share of those workers with it.
+ * A filled-in household's jobless worker takes a job with the place's outside
+ * account as the employer: the share of the unplaced workers' pay the
+ * household held (`amount` for each of the flow's periods) becomes the job's
+ * hourly pay over a standard work week, on the flow's own payday cycle, so
+ * the neighbor has an employer, a schedule and a paycheck with tax withheld.
+ * False where the flow's cadence is not whole days or the account is absent.
  */
-export function returnUnplacedPay(
+function startCommuterJob(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  personId: string,
+  flow: FlowState,
+  amount: number,
+): boolean {
+  // A fill-in during the world's own build runs before the first day sets rt.api.
+  const api = rt.api ?? coreAPI(core);
+  if (flow.cadence.kind !== "days") return false;
+  const outside = [...core.organizations.values()].find(
+    (row) =>
+      row.kind === OUTSIDE_MARKET_KIND &&
+      row.placeId === flow.placeId &&
+      row.publicPayAuthority,
+  );
+  if (!outside?.publicPayAuthority) return false;
+  const person = core.people.get(personId);
+  if (!person || person.jobId) return false;
+  const cadence = flow.cadence.every;
+  const hoursDaily = countedParameter("countedCommuterWorkdayHours");
+  const weekHours =
+    hoursDaily * countedParameter("countedCommuterWorkdaysPerWeek");
+  const weeklyMinor = (amount * api.parameter("daysPerWeek")) / cadence;
+  const hourlyMinor = Math.max(1, Math.round(weeklyMinor / weekHours));
+  const startsAt = addDays(makeIsoDate(core.date), 1);
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: core.date,
+    citation:
+      "A filled-in household's share of the place's unplaced workers' pay, as a job with an employer outside the town (the place's commute shares).",
+    estimatedFrom: `Flow ${flow.id}: ${amount} minor units every ${cadence} days over a ${weekHours}-hour week.`,
+  };
+  const plain = commuterJobId(personId, startsAt);
+  // A household filled in, returned to the counts and filled in again the
+  // same day already has an ended job under that id: this one also names
+  // the fill-in that starts it.
+  const jobId = core.jobs.has(plain) ? `${plain}:${rt.fillIns}` : plain;
+  const job: JobInput = {
+    id: jobId,
+    personId,
+    organizationId: outside.id,
+    title: "Works outside the town",
+    hourlyMinor,
+    hoursDaily,
+    wageDailyMinor: Math.round(weeklyMinor / api.parameter("daysPerWeek")),
+    source,
+  };
+  const commitment = openingWorkCommitments([job], [outside], startsAt)[0]!;
+  const calendarId = `payroll-calendar:${jobId}`;
+  const lag = api.parameter("openingPayrollPeriodEndLagDays");
+  // The flow's next payday is this job's first payday.
+  const containing = addDays(makeIsoDate(flow.nextAt), 1 - lag);
+  api.startJob(
+    job,
+    {
+      ...commitment,
+      // The schedule is known today, though the job starts tomorrow.
+      scheduleSource: { ...commitment.scheduleSource, asOf: core.date },
+      payrollCalendarId: calendarId,
+      publicPayAuthorityId: outside.publicPayAuthority.id,
+    },
+    {
+      id: calendarId,
+      organizationId: outside.id,
+      workCommitmentIds: [commitment.id],
+      basisRecordIds: [outside.id],
+      rule: "fixed-days-after-inclusive-period-end",
+      periodDays: cadence,
+      firstPeriodStartsAt: addDays(containing, -cadence),
+      firstPaydayAt: flow.nextAt,
+      nonbusinessDayRule: "no-adjustment",
+      effectiveFrom: startsAt,
+      arrearsRule: "carry-to-next-recorded-payday",
+      source,
+    },
+  );
+  return true;
+}
+
+/**
+ * A household returning to the counts brings its commuter's pay back to its
+ * place's unplaced workers' flow, and its share of those workers with it
+ * (`amountMinor` is what the job paid for each of that flow's periods).
+ */
+export function returnCommuterPay(
   core: CoreState,
   householdId: string,
-  ownFlowId: string,
+  amountMinor: number,
 ): void {
   const rt = runtimes.get(core);
-  const own = rt?.flows.get(ownFlowId);
   const ix = rt?.store.householdOf.get(householdId);
-  if (!rt || !own || own.endedAt || ix === undefined) return;
-  const base = rt.flows.get(ownFlowId.slice(0, -`:${householdId}`.length));
-  end(own, makeIsoDate(core.date), "returned-to-counts");
-  if (!base || base.endedAt) return;
+  if (!rt || ix === undefined || !(amountMinor > 0)) return;
   const h = rt.store.households[ix]!;
-  let others = 0;
-  for (const x of rt.store.liveHouseholds())
-    if (x.placeId === h.placeId && x !== h) others += x.unplacedWorkers;
-  const share = own.amountMinor / (base.amountMinor + own.amountMinor);
-  base.amountMinor += own.amountMinor;
-  h.unplacedWorkers = share < 1 ? (share * others) / (1 - share) : 0;
+  const base = [...rt.flows.values()].find(
+    (flow) =>
+      !flow.endedAt &&
+      flow.financeKind === "work.unplaced-residents" &&
+      flow.placeId === h.placeId,
+  );
+  if (!base) return;
+  base.amountMinor += amountMinor;
+  // As many of the place's unplaced workers as the pay it brings back, at
+  // the place's pay per unplaced worker (the rate a counted household's
+  // income reads). A share of the other counted households' workers came to
+  // none once they were all filled in (Bentonia, Mississippi).
+  const perYear =
+    base.cadence.kind === "days"
+      ? DAYS_PER_YEAR / base.cadence.every
+      : 12 / base.cadence.every;
+  const perWorker = rt.unplacedPerWorker.get(h.placeId) ?? 0;
+  h.unplacedWorkers = perWorker > 0 ? (amountMinor * perYear) / perWorker : 0;
   regroupHousehold(rt, h, core.date);
+}
+
+/** What a commuter job pays for each of the place's unplaced-pay periods, in minor units. */
+export function commuterPeriodPay(
+  core: CoreState,
+  job: { id: string; wageDailyMinor: number; organizationId: string },
+): number | undefined {
+  const rt = runtimes.get(core);
+  const outside = core.organizations.get(job.organizationId);
+  if (!rt || outside?.kind !== OUTSIDE_MARKET_KIND) return undefined;
+  if (!job.id.startsWith("job:commuter:")) return undefined;
+  const base = [...rt.flows.values()].find(
+    (flow) =>
+      flow.financeKind === "work.unplaced-residents" &&
+      flow.placeId === outside.placeId &&
+      flow.cadence.kind === "days",
+  );
+  return base && base.cadence.kind === "days"
+    ? Math.round(job.wageDailyMinor * base.cadence.every)
+    : undefined;
 }
 
 /**

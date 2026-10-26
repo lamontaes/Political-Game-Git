@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/housing-moved-read-s6
-pr:
+pr: #5098
 blocked-on:
 source: "split from world-new-homes-moves-not-reached"
 claimed-at: 2026-10-19T18:39:32.706Z

@@ -1,7 +1,10 @@
 /**
- * The press-employment conflict (CTO ruling pending owner confirmation, Oct 14, 2026): a working
- * reporter, an outlet's head or an outlet's owner may not hold office,
- * appoint or run while working for or owning the outlet.
+ * Who works for or owns an outlet today. Press staff may run for office and
+ * hold it (owner, Oct 16, 2026: "a reporter who wants to run may run"); this
+ * index is not a bar. The only reader is the stand-in that seats a vacant
+ * local office without an election (offices.ts), which does not pick someone
+ * because of a press job: the defect the owner named was a reporter put into
+ * an empty seat automatically at the opening.
  *
  * `pressConflict` reads the press engine's outlets table by module id (an
  * import of the press module's values would close a cycle with the offices
@@ -71,10 +74,5 @@ export function pressConflict(
   api: CoreAPI,
   personId: PersonId,
 ): PressConflict | null {
-  const conflict = indexFor(api).get(personId) ?? null;
-  if (conflict) {
-    // stopgapId: SG-GOV-press-office-owner-confirmation
-    api.stopgap("SG-GOV-press-office-owner-confirmation");
-  }
-  return conflict;
+  return indexFor(api).get(personId) ?? null;
 }

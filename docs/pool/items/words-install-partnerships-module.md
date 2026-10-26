@@ -8,7 +8,7 @@ size: S
 status: blocked
 claimed-by:
 pr:
-blocked-on: people-partnerships-form-and-end
+blocked-on: people-partnership-forms
 source: added with npm run pool -- add
 ---
 
@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** TODO
 
-**Done when.** TODO
+**Done when.** TODO **On screen.** Nothing yet: it would show on the People web and the Journal, and nothing there reads it.
 
 **Files.** TODO
 

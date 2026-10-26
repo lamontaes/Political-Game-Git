@@ -4,10 +4,10 @@ title: "Stopgaps in residents (missing-jobs): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: duplicate of world-lodes-commutes and people-unplaced-outside-employer (pool feeder Oct 20); CTO to drop
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind missing-jobs"
 ---
@@ -20,4 +20,4 @@ source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind missing-jobs
 
 **Files.** src/core2/residents.ts
 
-**Notes.** First row: Counted residents the opening couldn't place in a town firm (the employment target from ACS/CPS less recorded jobs) earn the place's ACS median earnings (the town's median recorded wage where the place's sample is too th
+**Notes.** First row: Counted residents the opening couldn't place in a town firm (the employment target from ACS/CPS less recorded jobs) earn the place's ACS median earnings (the town's median recorded wage where the place's sample is too th Duplicate of world-lodes-commutes and people-unplaced-outside-employer (feeder report)

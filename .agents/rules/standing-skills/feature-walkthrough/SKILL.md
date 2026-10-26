@@ -1,20 +1,19 @@
 ---
 name: feature-walkthrough
 description: >
-  Take any game feature, law or action from a question to a held draft in the
-  game using Lamontae's gold standard: why-chains (five whys to bedrock),
-  research, revisions, numbered keep/drop parts, the simulated / records /
-  world pieces / checks split, a proof run and a worked example. Use before
-  handing any feature, law trace or system change to the CTO. The CTO repeats
-  the chain to cross-check.
+  Takes an Our Civic Duty feature, law or action from a question to a built PR
+  using the owner's gold standard: why-chains to bedrock, research, revisions,
+  numbered keep/drop parts, the simulated, records, world pieces and checks
+  split, a proof run and a worked example. Use before building or handing back
+  any feature, law trace or system change.
 ---
 
 # Feature walkthrough (the gold standard)
 
-Lamontae, September 30, 2026: "This is gold standard of how you should think."
-The worked model is the eviction walkthrough (00 WAVE COORDINATOR, 1:50 a.m.
-entry "OVERNIGHT BUILD: WHAT HAPPENS AFTER AN EVICTION"). Every hand-back uses
-the seven headings below, in plain American English.
+The owner called this "gold standard of how you should think." The worked
+model was the eviction walkthrough: what happens to a household after an
+eviction, step by step. Every hand-back uses the seven headings below, in
+plain American English.
 
 ## 1. Why-chain (five whys, to bedrock)
 
@@ -35,8 +34,7 @@ reintroductions, not only their own principles).
 
 Read the actual source and quote exact numbers, units, time horizons, and where
 and whom the study covered. Separate cause from correlation. Never stretch one
-place's study to every place. Research returns to the CTO; ask Team 9 for
-breadth.
+place's study to every place; look for breadth across places (`researcher`).
 
 ## 3. Revisions
 
@@ -52,9 +50,9 @@ breadth.
 Numbered parts Lamontae can keep, drop or change. Build for every case one way
 (every place, every level of government that really holds the power), never a
 small pilot. Every law lists EVERY supported effect, not one headline effect,
-and records inert reactions (research found none) explicitly. Built as a draft
-PR; small gap fixes may merge after CTO approval, new features wait for
-Lamontae.
+and records inert reactions (research found none) explicitly. Opened as a ready
+PR. A design that is the owner's call is flagged as an `owner-decision`
+stopgap, never waited on.
 
 ## 5. Simulated, records, world pieces, checks
 
@@ -70,9 +68,8 @@ detail, filled in when needed.
 
 ## 6. Proof run
 
-A watched run in a random, logged place (the scripts/governance-proof runner
-system reports) listing every case and outcome against the checks. Name the seed
-and place.
+A played-world run in a place drawn from all 56 (`played-world-proof`)
+listing every case and outcome against the checks. Name the seed and place.
 
 ## 7. Worked example
 
@@ -89,6 +86,6 @@ where the chain bottoms out; 5 the gap and the smallest fix (no feature creep);
 
 ## Hand-back
 
-Post in 00 WAVE COORDINATOR with the seven headings (or the six lines for a law),
-the PR and exact head. The CTO re-runs the why-chain independently and
-cross-references before approval.
+Put the seven headings (or the six lines for a law) in the PR body or the
+pool item's Notes, with the exact head. A reviewer or merger re-runs the
+why-chain to cross-check.

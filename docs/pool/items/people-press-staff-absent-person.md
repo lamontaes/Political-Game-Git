@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: dropped
 claimed-by:
 pr:
 blocked-on: cto-drop-not-reproducible

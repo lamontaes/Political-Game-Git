@@ -4,10 +4,10 @@ title: "Stopgaps in opening-customers (unresolved-external-product-buyer-demand-
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-opening-customers-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-customers.json, kind unresolved-external-product-buyer-demand-crosswalk"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-customers.json, ki
 **Files.** src/core2/data/opening-customers.json
 
 **Notes.** First row: The current twelve zero-receipt booked firms have no product-qualified customer classification route. A proposed extension still needs actual product/service, buyer need/order and dated amount/price records; no uniform o
+
+Folded into research-opening-customers-sourced-parameters (CTO, Oct 19, 2026).
