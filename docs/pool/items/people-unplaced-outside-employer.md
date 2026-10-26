@@ -5,9 +5,9 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
-pr: #5076
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/opening-employment.ts
 
-**Notes.** Pull request #5076 carries the build. Closes SG-CORE-unplaced-workers-income's replacement path (the row is already resolved as a labeled estimate in the Oct 19 residents slice).
+**Notes.** Pull request #5076 carries the build. Closes SG-CORE-unplaced-workers-income's replacement path (the row is already resolved as a labeled estimate in the Oct 19 residents slice). Released from idle draft #5076 by the CTO, Oct 26.
