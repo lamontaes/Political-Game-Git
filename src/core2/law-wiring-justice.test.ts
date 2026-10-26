@@ -32,7 +32,7 @@ import {
   governments,
   type GovernmentRow,
 } from "./modules/budgets";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { countedHouseholdOf, residentsRuntime } from "./modules/residents";
 import { reachParameter } from "./law-reach/group-a-records";
 import type { LawRowInput } from "./laws-starting";
@@ -112,6 +112,25 @@ function setQuestion(api: CoreAPI, key: string, value: 0 | 1): void {
 
 const run = (core: CoreState, days: number) =>
   advanceCore(core, addDays(makeIsoDate(core.date), days));
+
+/**
+ * Plays `days` with the test's laws held where it set them. A body in play may
+ * pass or repeal one of them (Delaware's legislature raised the handgun
+ * purchase age on February 4, 2025, in the phase it must be off), and the test
+ * puts it back the next day.
+ */
+function hold(
+  api: CoreAPI,
+  core: CoreState,
+  days: number,
+  values: readonly (readonly [string, 0 | 1])[],
+): void {
+  for (let day = 0; day < days; day += 1) {
+    for (const [key, value] of values)
+      if (lawInForce(api, key).value !== value) setQuestion(api, key, value);
+    run(core, 1);
+  }
+}
 
 function months(api: CoreAPI): SafetyMonth[] {
   return api
@@ -354,11 +373,12 @@ function play(where: string, core: CoreState): Attempt {
     // Phase one: the age limit on handgun sales is not law, so young adults buy.
     setQuestion(api, HANDGUN_AGE, 0);
     for (const key of QUESTIONS) setQuestion(api, key, 1);
-    run(core, 45);
+    const questionsOn = QUESTIONS.map((key) => [key, 1] as const);
+    hold(api, core, 45, [[HANDGUN_AGE, 0], ...questionsOn]);
     const noLimit = new Map(posts);
     // Phase two: the limit is law, the sale is refused.
     setQuestion(api, HANDGUN_AGE, 1);
-    run(core, 35);
+    hold(api, core, 35, [[HANDGUN_AGE, 1], ...questionsOn]);
     // A law's records, open and ended: a body in play may repeal a law the
     // test put in force (Columbia Falls, Montana's council repealed oversight
     // and the immigration partnership on February 20, 2025), which ends the
