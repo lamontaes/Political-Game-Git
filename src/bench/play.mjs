@@ -3226,9 +3226,10 @@ const sheets = {
       api(`/api/opening?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.news;
+    // What you heard, newest first, ahead of the opening night's paper.
     const stories = [
-      ...(opening?.news?.stories ?? []),
       ...rows.filter((r) => r.headline || r.lede),
+      ...(opening?.news?.stories ?? []),
     ].filter((s) => s.headline || s.lede);
     const outlets = new Map();
     for (const story of stories) {
