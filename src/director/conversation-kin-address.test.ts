@@ -18,7 +18,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 it("a relative who lives apart asks after the parent they share as Dad or Mom, from the bank", () => {
   const tried: string[] = [];
-  for (let draw = 0; draw < 6; draw += 1) {
+  for (let draw = 0; draw < 24; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "kin-address");
     const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
     setBookkeeping(false);
@@ -30,12 +30,39 @@ it("a relative who lives apart asks after the parent they share as Dad or Mom, f
     const me = playerId! as PersonId;
     director!.watch(core, me);
     const player = core.people.get(me)!;
+    // The household too, as play watches it (src/bench/player.ts): a parent
+    // at home has their own moments, which a relative apart asks after.
+    for (const id of core.households.get(player.householdId)?.memberIds ?? [])
+      if (id !== me && core.people.get(id)?.alive)
+        director!.watch(core, id as PersonId);
+    // A relative apart who calls one of the player's relatives by the same
+    // relation (a sibling who moved out and their shared parent): only that
+    // pair has a shared kin address. A grandparent asking after their own
+    // child is "your mother", not this. A place with no such pair is
+    // skipped before its year is played.
+    const relationTo = (personId: PersonId, otherId: string) =>
+      core.people
+        .get(personId)
+        ?.pastFacts?.find(
+          (f) =>
+            f.kind.startsWith("family:") && f.facts?.otherPersonId === otherId,
+        )?.kind;
     const apart = [...player.familyIds].filter((id) => {
       const relative = core.people.get(id);
-      return relative?.alive && relative.householdId !== player.householdId;
+      if (!relative?.alive || relative.householdId === player.householdId)
+        return false;
+      return [...player.familyIds].some(
+        (shared) =>
+          relative.familyIds.has(shared) &&
+          core.people.get(shared)?.householdId !== relative.householdId &&
+          relationTo(me, shared) !== undefined &&
+          relationTo(me, shared) === relationTo(id as PersonId, shared),
+      );
     });
     if (!apart.length) {
-      tried.push(`${where}: no relative lives apart from the player`);
+      tried.push(
+        `${where}: no relative apart shares a relative with the player by the same relation`,
+      );
       continue;
     }
     for (let day = 60; day <= 360; day += 60) {
