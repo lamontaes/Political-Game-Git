@@ -20,6 +20,8 @@ claimed-at:
 
 **Done when.** The taxes family test passes on `GOLDEN_PATH_SEED=e605d71b551e5dd49cb8` (Wassaic, New York) and on a fresh seed named in the PR, every fiscal rule's records end within a month of its repeal, and the test still fails when the repeal path is switched off. **On screen.** None by design: this is a check on the law engine; the player notices only that a repealed rule stops acting.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-wiring-taxes.test.ts
 
 **Notes.** Filed by the laws lead, Oct 26.
