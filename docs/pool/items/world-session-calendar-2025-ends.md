@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6021
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** `data/research/laws/state-session-calendars.json` lists, under `sessionEnds`, only 2026 adjournment dates for the 21 places whose acts take effect a set time after the session ends (US-AL, US-AR, US-AS, US-AZ, US-DC, US-FL, US-HI, US-ID, US-KS, US-KY, US-ME, US-MI, US-MO, US-NC, US-NE, US-NM, US-OK, US-TX, US-UT, US-WA, US-WY). The game opens on January 20, 2025, so for any act passed in 2025 the rule finds no session end and falls back to counting from passage (`src/rules/laws/effective-date.ts:104`, registered stopgap `laws.session-end-effective-date-fallback`). In the laws end-to-end proof (seed 6685a893b8c2080d6542a87f), Burr, Nebraska's bottle deposit passed on January 20, 2025 took effect April 21, 2025, three months and a day after passage. Nebraska's rule counts from adjournment (Neb. Const. art. III, § 27), and its 2025 session adjourned June 2 (the data's own note), so the act should take effect September 3, 2025.
@@ -21,3 +22,9 @@ source: added with npm run pool -- add
 **Files.** data/research/laws/state-session-calendars.json, src/rules/laws/effective-date.ts
 
 **Notes.** From the laws lead, Oct 24, reviewing the laws end-to-end proof's Burr, Nebraska chain.
+
+2026-10-25 (claude/session-calendar-2025): 2025 adjournments added for 16 places from fetched pages (NCSL's December 22, 2025 calendar, the Kansas, Kentucky and Maine legislatures, two news pages); Missouri keeps its law's May 30 limit (its rule then gives August 28). The core reader (src/core2/state-effective-date.ts) now falls back to a place's limit, then the labeled median, as the old engine did, instead of counting from passage. D.C., Michigan, North Carolina and American Samoa have no published 2025 end and take the median.
+
+Sent back 2026-10-25 from PR #6021 (branch claude/session-calendar-2025): Maine2025row omits published June25special-session adjournment; own April15/June18reader returns June20 instead of September24; associate acts with their data-defined session and add independent special-session regression; finish on that branch, merge main into it first. Fixed the same day: Maine's 2025 row carries both adjournments, and an act counts from the end of the session it passed in (src/rules/laws/effective-date.ts).
+
+Sent back 2026-10-25 from PR #6021 (branch claude/session-calendar-2025): special-session repair now present, but core passes signature as finalPassageAt; March20regular bill signedMarch26 wrongly getsSeptember24insteadJune20; propagate actual passage/session and add delayed-signature regression; finish on that branch, merge main into it first. Fixed the same day: a bill records the day it passed its last vote, and the session-end rule counts from that, not the signing day.

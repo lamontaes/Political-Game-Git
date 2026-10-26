@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Wire to the world: an effect is a read, not a record. Each cause is a record another engine writes and the web reads. One rule, all 56 places.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) each cause wired in this item is recorded by its owning engine and the web moves its outcome from it, shown by the cause record id, the link key and the web month record id; the test in src/core2/outcome-web.test.ts lists the link as built.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) each cause wired in this item is recorded by its owning engine and the web moves its outcome from it, shown by the cause record id, the link key and the web month record id; the test in src/core2/outcome-web.test.ts lists the link as built. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/outcome-web.ts, src/core2/outcome-web-model.ts, data/research/outcome-web/links.json
 

@@ -7,9 +7,10 @@ priority: 3
 size: S
 status: open
 claimed-by:
-pr:
+pr: #6033
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** offices.accept-appointment (a person weighing a local post offered by appointment, src/core2/modules/offices.ts fillVacancy) runs only when a city, county or township seat falls vacant, its vacancy rule appoints, and no named successor is given. A vacancy needs the official to die or move away, which a one-year window in a small town rarely holds, so the trait audit reports it silent (data/content/trait-decision-gaps.json). Find a drawn place and year that hold such a vacancy (scan seeds for a seat-vacated record on a local seat with an appointing rule) and run the audit there, so the matrix shows its calls with the decision's record id.
@@ -21,3 +22,7 @@ source: added with npm run pool -- add
 **Files.** scripts/traits/trait-wiring-audit.ts, data/content/trait-decision-gaps.json
 
 **Notes.** Filed Oct 25 by the traits lead from the never-run send-back (PR 5886).
+
+Sent back 2026-10-25 from PR #6033 (branch claude/traits-accept-appointment-proof): explicit parent #6031 remains open/unmerged and itself stacks on #5886; merge/review parent features first, then integrate main and rerun vacancy-proof audit and gate; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #6033 (branch claude/traits-accept-appointment-proof): parent #6031 is merged and integration clean, but Done when requires a weighed acceptance record; body substitutes took-office and audit matches arbitrary same-actor/day events rather than the decision; retain and verify actual decision identity/reasons in played vacancy proof, then finish on that branch and merge main first.

@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: split from gov-town-payers-vehicle-tax
 **Files.** src/core2/data/vehicles/, src/core2/population.ts, src/core2/state.ts
 
 **Notes.** Split Oct 19 from gov-town-payers-vehicle-tax; see its notes for the three gaps found.
+
+Folded into gov-town-payers-vehicle-tax (Oct 25 audit).

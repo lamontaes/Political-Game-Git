@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T21:44:57.210Z
 
 **Rules.** Research before building: real data calibrates the elasticity and the shares and never decides one farm's output. Estimate, never UNKNOWN: a place without data starts from the state's average, marked ESTIMATED with its spread. One rule, all 56 places.
 
-**Done when.** In a drawn place with irrigated farms (name and seed in the PR body), a one-year played world (buildBenchWorld) shows a named farm's output limited by its place's withdrawal allocation and crop response, the sales it lost, the owner's choice and the notice the owner received, by record ids; the group B reach test passes and SG-GOV-REACH-B-business-cost is resolved.
+**Done when.** In a drawn place with irrigated farms (name and seed in the PR body), a one-year played world (buildBenchWorld) shows a named farm's output limited by its place's withdrawal allocation and crop response, the sales it lost, the owner's choice and the notice the owner received, by record ids; the group B reach test passes and SG-GOV-REACH-B-business-cost is resolved. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/law-reach/group-b-money.ts, src/core2/data/stopgaps.json
 
