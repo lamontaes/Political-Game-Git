@@ -2517,6 +2517,63 @@ function dropCountedContracts(
 }
 
 /**
+ * Who in a counted household takes a member's estate: the kin of theirs who
+ * live there, else whoever lives there, in id order. Empty when no one is left.
+ */
+function inheritorsOf(
+  store: CountedStore,
+  h: CountedHousehold,
+  m: number,
+): number[] {
+  const survivors = store.countedMembers(h).filter((member) => member !== m);
+  const kin = new Set<number>();
+  for (let i = 0; i < h.kin.length; i += 2) {
+    if (h.kin[i] === m) kin.add(h.kin[i + 1]!);
+    else if (h.kin[i + 1] === m) kin.add(h.kin[i]!);
+  }
+  const near = survivors.filter((member) => kin.has(member));
+  return (near.length ? near : survivors).sort((a, b) =>
+    store.ids[a]!.localeCompare(store.ids[b]!),
+  );
+}
+
+/**
+ * What a counted person's death passes on, read before they are removed: the
+ * household, those who take their estate, and the estate itself, the cash of
+ * their household shared among its counted members (the counted money is
+ * pooled in the group's account, not held by each member).
+ */
+export function countedEstateOf(
+  core: CoreState,
+  personId: PersonId,
+):
+  | {
+      readonly householdId: string;
+      /** The households the counted record stands for. */
+      readonly households: number;
+      readonly bornOn: string;
+      readonly heirs: readonly PersonId[];
+      readonly estateMinor: number;
+    }
+  | undefined {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined) return undefined;
+  const store = rt.store;
+  const h = store.households[store.household[m]!]!;
+  const members = store.countedCount(h);
+  return {
+    householdId: h.id,
+    households: store.weightOf(h),
+    bornOn: store.born[m]!,
+    heirs: inheritorsOf(store, h, m).map(
+      (member) => store.ids[member]! as PersonId,
+    ),
+    estateMinor: members > 0 ? Math.floor(householdCash(rt, h) / members) : 0,
+  };
+}
+
+/**
  * A counted worker's job started, ended or was re-rated in the jobs engine:
  * their own job and their household's jobs and yearly wages follow, so every
  * reader of the household's income, and a fill-in (which hands over the
@@ -2613,17 +2670,8 @@ export function removeCountedPerson(
   // outlives them, as a full person's estate does: to the kin of theirs who
   // live there in equal shares (the first takes the odd cents), else to
   // whoever lives there. It is returned so the town's record names each heir.
-  const survivors = store.countedMembers(h);
-  if (survivors.length) {
-    const kin = new Set<number>();
-    for (let i = 0; i < h.kin.length; i += 2) {
-      if (h.kin[i] === m) kin.add(h.kin[i + 1]!);
-      else if (h.kin[i + 1] === m) kin.add(h.kin[i]!);
-    }
-    const near = survivors.filter((member) => kin.has(member));
-    const takers = (near.length ? near : survivors).sort((a, b) =>
-      store.ids[a]!.localeCompare(store.ids[b]!),
-    );
+  const takers = inheritorsOf(store, h, m);
+  if (takers.length) {
     const estate = store.liquid[m]!;
     const share = Math.floor(estate / takers.length);
     const paid = takers.map((member, index) => {

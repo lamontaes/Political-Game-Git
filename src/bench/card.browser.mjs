@@ -1,0 +1,125 @@
+/* global process, console, document, URL, getComputedStyle */
+// play-stop-12: the status card bottom left never covers the six menu icons
+// above it, and the player's name stays on one line, whatever its status line
+// says. Starts a drawn life on the bench, then reads the card with the status
+// line the door-knocking scene writes ("Knock on doors · 36 doors · 5
+// reached") and with none, at 1440 by 1000, 1440 by 900 and 1024 by
+// 768 (the desktop window's smallest is 960 wide).
+// Run: BENCH_BROWSER=<chromium> node src/bench/card.browser.mjs (bench on :3000)
+import assert from "node:assert/strict";
+import { chromium } from "playwright";
+const browser = await chromium.launch({
+  executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
+});
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+page.setDefaultTimeout(60000);
+const errors = [];
+page.on("pageerror", (e) => errors.push(e.message));
+try {
+  const titled = page.waitForResponse((r) => r.url().endsWith("/api/title"));
+  await page.goto("http://localhost:3000/play");
+  await titled;
+  const made = page.waitForResponse(
+    (r) => new URL(r.url()).pathname === "/api/newlife",
+    { timeout: 600000 },
+  );
+  await page.locator("#new-life").click();
+  await page.locator("#new-world").click();
+  console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
+  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
+  await page.waitForFunction(() =>
+    document.getElementById("card-name").textContent.trim(),
+  );
+  console.log(
+    "Player:",
+    await page.locator("#card-name").innerText(),
+    "Place:",
+    await page.locator("#card-place").innerText(),
+  );
+  for (const size of [
+    { width: 1440, height: 1000 },
+    { width: 1440, height: 900 },
+    { width: 1024, height: 768 },
+  ]) {
+    await page.setViewportSize(size);
+    await page.waitForTimeout(500);
+    for (const why of ["", "Knock on doors · 36 doors · 5 reached"]) {
+      await page.evaluate((text) => {
+        document.getElementById("card-why").textContent = text;
+      }, why);
+      const read = await page.evaluate(() => {
+        const box = document.getElementById("card");
+        const card = box.getBoundingClientRect();
+        const name = document.getElementById("card-name");
+        const line = parseFloat(getComputedStyle(name).lineHeight) || 20;
+        const rings = [...document.querySelectorAll("#rings [data-tab]")];
+        const blocked = rings
+          .filter((ring) => {
+            const r = ring.getBoundingClientRect();
+            const top = document.elementFromPoint(
+              r.left + r.width / 2,
+              r.top + r.height / 2,
+            );
+            return !(top === ring || ring.contains(top));
+          })
+          .map((ring) => ring.dataset.tab);
+        return {
+          cardTop: card.top,
+          cardWidth: card.width,
+          // Any of the card's own text or controls past its edge.
+          cardOverflow: [...box.querySelectorAll("*")].some((e) => {
+            const r = e.getBoundingClientRect();
+            return (
+              r.width > 0 &&
+              (r.right > card.right + 1 || r.left < card.left - 1)
+            );
+          }),
+          ringsBottom: Math.max(
+            ...rings.map((ring) => ring.getBoundingClientRect().bottom),
+          ),
+          rings: rings.length,
+          blocked,
+          nameLines: Math.round(name.getBoundingClientRect().height / line),
+        };
+      });
+      const at = `${size.width}x${size.height}, status "${why}"`;
+      console.log(`${at}:`, JSON.stringify(read));
+      assert.equal(
+        read.rings,
+        6,
+        `${at}: the six menu icons are not all there`,
+      );
+      assert.deepEqual(read.blocked, [], `${at}: icons covered`);
+      assert.ok(
+        read.cardTop >= read.ringsBottom,
+        `${at}: the card reaches the icons`,
+      );
+      assert.ok(!read.cardOverflow, `${at}: the card's text runs out of it`);
+      assert.equal(read.nameLines, 1, `${at}: the name wraps`);
+    }
+    await page.screenshot({
+      path: `docs/reports/card-2026-10-25/card-${size.width}x${size.height}.png`,
+    });
+    // An ordinary pointer click opens Calendar, and so does the keyboard.
+    await page.locator('#rings [data-tab="calendar"]').click();
+    await page.locator("#sheet:not([hidden])").waitFor({ timeout: 10000 });
+    await page.locator("#sheet-close").click();
+    await page.locator("#sheet").waitFor({ state: "hidden", timeout: 10000 });
+    await page.locator('#rings [data-tab="calendar"]').focus();
+    await page.keyboard.press("Enter");
+    await page.locator("#sheet:not([hidden])").waitFor({ timeout: 10000 });
+    await page.locator("#sheet-close").click();
+    await page.locator("#sheet").waitFor({ state: "hidden", timeout: 10000 });
+  }
+  await page.evaluate(() => {
+    document.getElementById("card-why").textContent = "";
+  });
+  assert.deepEqual(errors, []);
+  console.log(
+    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the menu icons, its text inside it, name on one line; Calendar opens by pointer and keyboard",
+  );
+} finally {
+  await browser.close();
+}

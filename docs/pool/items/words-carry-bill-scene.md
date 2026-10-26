@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: in-pr
-claimed-by: words/carry-bill-scene
+status: open
+claimed-by:
 pr: #6007
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T20:56:52.796Z
+claimed-at:
 ---
 
 **What.** The carry-bill scene, where someone comes in with a bill that needs a sponsor, waits on a project-request record nothing in play writes. The legislature already makes this ask: an executive who may not introduce a bill in their own name asks the member most inclined to carry it, and the member decides by their own position and the asker's standing (askToCarry). The ask is only returned to its caller, never recorded, so no scene can fire from it. This item has the legislature record the ask (naming the member and the asker, the policy, and whether the member carried it), the director size it for the member, and the carry-bill scene fire from it with the asker as the one who comes in. The talk names the bill by its number when the member filed it, or by its name from the policy when they did not.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T20:56:52.796Z
 **Files.** src/core2/modules/legislature.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, src/director/carry-bill-scene.test.ts
 
 **Notes.** Builds on the branch of words-vote-confirmed-scene (#5977), which carries the debate and staff-news scenes and the rest of the chain.
+
+Sent back 2026-10-26 from PR #6007 (branch words/carry-bill-scene): Declared stack parent #5977 remains open and unmerged, carrying #5975 and #5965; land the parent or isolate the child on main, and update the Done-when evidence to disclose its direct proposeAsExecutive fallback.; finish on that branch, merge main into it first.
