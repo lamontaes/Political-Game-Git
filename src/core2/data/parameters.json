@@ -144,6 +144,11 @@
     "tag": "SOURCED",
     "citation": "IEC 80000-13: one mebibyte is 2^20 bytes."
   },
+  "votingAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "U.S. Constitution, Twenty-sixth Amendment (1971): the right to vote of citizens eighteen years of age or older shall not be denied on account of age."
+  },
   "targetPopulation": {
     "value": 10000,
     "tag": "SOURCED",
@@ -722,7 +727,7 @@
     "value": 50,
     "tag": "ESTIMATED",
     "citation": "Hours of time together two people have at the opening when the records say they shared a school class or a workgroup in the town. Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): about 50 hours of time together to move from acquaintance to casual friend (the same study that sets closenessHoursAtHalf).",
-    "estimatedFrom": "Hall's roughly 50 hours to a casual friend, applied to every recorded school classmate and coworker; a class year or a year at one employer passes it, a short stint does not. Shared hours are not recorded per pair, and the tie then fades by the closeness half-life from the day the shared context began (a school tie from years ago opens faint, a current coworker's opens whole).",
+    "estimatedFrom": "Hall's roughly 50 hours to a casual friend, used as the estimated initial time together for every recorded school classmate and coworker. Shared hours and stint lengths are not measured per pair; the tie fades by the closeness half-life from the recorded day the shared context began, including for a current coworker. This is the registered opening approximation, not an observed duration for each pair.",
     "spread": {
       "low": 40,
       "high": 60,
@@ -4639,6 +4644,32 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "grudgeConfrontRecencyWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "How strongly having just confronted the person a grudge is held against weighs against confronting them again (a reason in the chooser, fading at grudgeConfrontRecencyDays). Without it a laid-off holder, whose stress and unmet safety the act answers, confronted the same person several times a day for months (179 confrontations on 179 days for one grudge in Rockport, Texas, seed cbf9ae5a6ee7, where a confrontation's other reasons summed to about 3.2). Checked so a grudge leads to an occasional confrontation, not a daily one, in a played year.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures confrontation spacing on the chooser's utility scale."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "grudgeConfrontRecencyDays": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "Days over which the weight of a recent confrontation against another fades by a factor of e (about two-thirds gone after two months).",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how long people wait before confronting the same person again."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
   "responseCarryOnFit": {
     "value": 1,
     "tag": "TUNABLE",
@@ -4660,6 +4691,21 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No instrument-matched bound links trait-act lean to response choice after life events."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseBereavementFitScale": {
+    "value": 2.1,
+    "tag": "TUNABLE",
+    "citation": "How much harder a death in the family pushes toward a lasting drive than the responses' own fits say: a multiple of the cause, guard and calling fits in the two bereavement rules only. Cause-sharing and speeches keep the fits as they are, because doubling them for every event would raise the causes people take up from hearing of one from 7% to 39% (replay of recorded played-year responses). Calibrated Oct 24 (traits lead) to the share of the bereaved who carry on: 65.7% resilient after a potential trauma, 95% interval 61.6 to 69.8 (Galatzer-Levy, Huang and Bonanno 2018, data/research/people/trauma-trajectories-2018.json; the spousal-loss cohort alone was 45.9%, Bonanno and others 2002, data/research/people/bonanno-bereavement-patterns-2002.json). Measured: 1,000 bereaved adults with generated temperaments (src/core2/drives.test.ts, seed p10-drives-bands) 64.1% carry on; played years at this value, 41 drawn places, 636 of 950 bereaved adults (family and household of the person who died, 16 and older) carried on, 66.9% (95% interval 63.9 to 69.9). At 2.0 the played share read 69.9% and at 2.05 71.3% in earlier pooled batches, hence 2.1.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "low": 2.0,
+      "high": 2.15,
+      "unit": "scale",
+      "citation": "In the fixture a scale of 1.9 gives 70.9% and 2.2 gives 60.1% of the bereaved carrying on against the 61.6 to 69.8% band; replaying 341 recorded bereaved responses from played years, the share stays inside the band from about 2.0 to 2.25."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4757,13 +4803,15 @@
     }
   },
   "responseGrudgeFit": {
-    "value": 0.8,
+    "value": 1.7,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How strongly a perceived wrong pushes toward holding a grudge against the person responsible, before traits lean the person. Calibrated Oct 24 (traits lead) so the share of laid-off workers who hold a grudge sits inside the share of fired workers who act on one: 1.7 to 14.9% filed a claim, between those given a complete explanation or treated with dignity and those given none or treated without (Greenberg, Lind, Scott and Welchans 1998, data/research/people/termination-claims-1998.json; the share who hold a grudge is not published and a claim is the costly end of one), and under the 69% of the fired who call their firing unfair (NELP and YouGov 2022, data/research/people/nelp-yougov-firings-2022.json). The prototype value 0.8 gave 0.2% of laid-off adults a grudge, so none was ever held and relationships.fall-out never ran. Measured: 1,000 laid-off adults with generated temperaments (src/core2/drives.test.ts, seed p10-drives-bands) 12.0%; played years at this value, 14 drawn places, 38 of 403 layoff and closure responses held a grudge, 9.4% (95% interval 6.9 to 12.7).",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+      "low": 1.3,
+      "high": 1.8,
+      "unit": "fit",
+      "citation": "In the same fixture a fit of 1.3 gives 4.4% and 1.8 gives 14.6% of laid-off adults a grudge; replaying 377 recorded layoff responses from played years, 1.3 gives 2.7% and 1.9 gives 14.9%: inside 1.7 to 14.9% from about 1.3 to 1.8."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -5551,14 +5599,14 @@
     }
   },
   "traitWeightCandidacyRun": {
-    "value": 0.91,
+    "value": 0.2,
     "tag": "ESTIMATED",
-    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range: target odds ratio 1.21 between thirds. The chooser's trait term is the only place personality enters (the separate temperament reason was removed). Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.21.",
+    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range: target odds ratio 1.21 between thirds. The chooser's trait term is the only place personality enters. Only newcomers weigh running: a serving incumbent weighs standing again (voting.stand-again). Running is rare among newcomers, so at the real share the few who run are those temperament tips over the line; the study's outcome (ever having run for office) has a base rate of a few percent, so the odds are read with every reason total moved so one in twenty would run. Fitted on 14,430 newcomers' decisions in the election-window years of four places drawn from all 56 (seeds e6cc8ea3d8b7, a3367c5b3f9c, fc53ee5340e9 and fd6b432aad56, scripts/traits/trait-wiring-audit.ts with TRAIT_AUDIT_ELECTION=1): the places fit alone at 0.15 to 0.22 and pooled at 0.23; 0.2 reaches 1.21 to 1.35 in them. Before incumbents left this choice it was fitted at 0.91 with their nearly certain yes in the sample.",
     "spread": {
-      "low": 0.45,
-      "high": 1.4,
+      "low": 0.11,
+      "high": 0.23,
       "unit": "weight",
-      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
+      "citation": "The places' own fits at a one-in-twenty share, with Secretary, Maryland and Halaula, Hawaii (from the campaigns trait test at 0.91) at 0.12 and 0.11."
     }
   },
   "traitWeightSpeechRetell": {
@@ -5804,12 +5852,14 @@
     }
   },
   "traitWeightCampaignsEndorse": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the campaigns.endorse decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2 (rows campaigns.endorse in data/research/trait-effect-sizes.json: openness and extraversion on having tried to convince people to vote for or against a candidate, a proxy for an endorsement), carried to the thirds as an odds ratio of 2.70. Fitted with scripts/traits/trait-calibrate.ts on played years (buildBenchWorld, every module, January 20, 2025 to January 20, 2026): Haledon, New Jersey (place key 3429070, seed fc8bf1311d0f) fits 0.2 on 1,053 calls and Kenvir, Kentucky (2142112, seed 32bb83941552) fits 0.1 on 62. At 0.15 Haledon's thirds reach 2.12, or 2.76 with every case crossed with every decider's lean; at the general weight of 1 they ran at 269.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "The two towns' own fits."
     }
   },
   "traitWeightCampaignsOpenDoor": {
@@ -5918,39 +5968,39 @@
     }
   },
   "traitWeightLegislatureMemberPosition": {
-    "value": 0.2,
+    "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.member-position decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 0.2 gives an odds ratio of 2.19 of a yes vote between the third of 10,336 member positions leaning most toward yes and the third leaning least, net of the same gap with personality off, against the target of 2.24. No study of legislators' roll-call votes by personality was retrievable (Dietrich et al. 2012 could not be read), so the target is the default personality-behavior study scaled for a single occasion to r = .2: Fleeson & Gallagher 2009, average-level r = .42 to .56, single-decision r = .1 to .3. Party, district and record still decide most votes.",
-    "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
+    "citation": "The trait weight of the legislature.member-position decision, set by the party discipline a member's position must keep once officials carry a level on every trait (pool item officials-carry-every-trait). With every trait, a member's taste for change is a standing lean on every bill, so at 0.6 (fitted to the generic single-occasion personality target of 2.24) the two independent senators in the world drawn from seed 3e556e7e162eca8baf7052af5494da02 (Fenwick, West Virginia) voted with their caucus on 55 of 90 party votes, against about 90% for the real independents (Voteview, the caucus weight's check). At 0.1 the independents of four drawn worlds vote with their caucus on 0.80, 0.98, 0.90 and 0.95 of party votes (mean 0.91; seeds 3e556e7e162eca8baf7052af5494da02, caucusA1, caucusB2, caucusC3), and party members' pooled unity on party-splitting votes is 0.943 over four drawn places (src/core2/party-loyalty.test.ts, seed loyalty01, against its 0.85 to 0.98 band from CQ Vote Studies). The generic target is not used here: a legislator's roll call is dominated by party, and no study found gives personality's size per roll call.",
+    "estimatedFrom": "The independents' caucus unity (about 90%, Voteview 118th to 119th Congress, as the officials roster's caucus weight cites) and party unity (about 90%, CQ Vote Studies, the party-loyalty band), read in drawn worlds at weights 0.05 to 0.6.",
     "spread": {
-      "low": 0.1,
-      "high": 0.3,
+      "low": 0.05,
+      "high": 0.15,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "At 0.15 the Fenwick world's independents vote with their caucus on 70 of 92 party votes (0.76) and the four worlds' mean is 0.89; at 0.05, 0.79 and 0.91."
     }
   },
   "traitWeightLegislatureHoldHearing": {
-    "value": 1.35,
+    "value": 0.65,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.hold-hearing decision, found with scripts/traits/trait-calibrate.ts on a played year of Ely, Nevada (key 3223500, seed 7ae8589566f5): 1.35 gives an odds ratio of 2.01 of holding the hearing between the thirds of 78 chair decisions, against the target of 2.24 (the default personality-behavior study scaled for a single occasion to r = .2). Few calls, so the weight is noisy.",
+    "citation": "The trait weight of the legislature.hold-hearing decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): 0.65 gives an odds ratio of 2.32 of holding the hearing between the thirds of 172 chair decisions, against the target of 2.24. The places fit alone at 0.1 (77 decisions) and 1.0 (95). It was 1.35 when fitted in Ely, Nevada on 78 decisions while officials carried nine faint traits.",
     "estimatedFrom": "default.personality-behavior in data/research/trait-effect-sizes.json, scaled from average-level to a single occasion; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
-      "low": 0.675,
-      "high": 2.025,
+      "low": 0.1,
+      "high": 1.0,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "The two places' own fits, each on fewer than 100 chair decisions."
     }
   },
   "traitWeightLegislatureSignOrVeto": {
-    "value": 0.2,
+    "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.sign-or-veto decision. Only 29 desk decisions ran in the audit year, too few for scripts/traits/trait-calibrate.ts (30 needed), so this carries the weight calibrated for legislature.member-position, the same legislators weighing a bill against the same record, with the same default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "citation": "The trait weight of the legislature.sign-or-veto decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): the 59 desk decisions saturate (the odds ratio between the thirds is 78 at weight 1), and 0.1 comes closest to the target of 2.24 (2.62). The second place alone fits 0.3 on 31 decisions.",
     "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2), calibrated on 10,336 calls; replaces the hand-set traitDecisionWeight of 0.5.",
     "spread": {
       "low": 0.1,
       "high": 0.3,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "The pooled and the second place's fits."
     }
   },
   "traitWeightLegislatureBudgetPriorities": {
@@ -6145,7 +6195,7 @@
   "traitWeightLegislatureAttendSitting": {
     "value": 0.1,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the legislature.attend-sitting decision. Salgado (2002), 'The Big Five personality dimensions and counterproductive behaviors' (Int. J. Selection and Assessment 10), found no Big Five trait significantly predicting absenteeism, so the trait share is the smallest in this family: half the 0.2 of legislature.member-position, which is r = .1 against r = .2. scripts/traits/trait-calibrate.ts could not fit it, because with a seat, session and close-vote duty most gated sittings are attended whatever the temperament (a miss rate near 1 percent leaves no gap between the thirds), so the weight is set by that ratio and checked by how many sittings personality turns (about 8 of 100 gated sittings, down from 96 of 100 when personality was the only reason).",
+    "citation": "The trait weight of the legislature.attend-sitting decision. Salgado (2002), 'The Big Five personality dimensions and counterproductive behaviors' (Int. J. Selection and Assessment 10), found no Big Five trait significantly predicting absenteeism, so the trait share is the smallest in this family: half the 0.2 of legislature.member-position, which is r = .1 against r = .2. scripts/traits/trait-calibrate.ts could not fit it, because with a seat, session and close-vote duty most gated sittings are attended whatever the temperament (a miss rate near 1 percent leaves no gap between the thirds), so the weight is set by that ratio and checked by how many sittings personality turns (about 8 of 100 gated sittings, down from 96 of 100 when personality was the only reason). Pooled over 1,916 sittings in two played years after officials carry every trait (Pomona, New Jersey, seed 7628f7fcf9e0; seed f9a9cd8421fe), the choice saturates: a member's case for attending barely varies, so even a small trait term decides it (odds ratio 6,551 at weight 1), and no weight reaches the target; it stays the smallest in the family.",
     "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2) halved for r = .1; Salgado 2002 found no significant Big Five predictor of absenteeism.",
     "spread": {
       "low": 0.05,
@@ -6179,15 +6229,15 @@
     }
   },
   "traitWeightOfficeDayStateLeaderRequest": {
-    "value": 0.2,
+    "value": 1.7,
     "tag": "ESTIMATED",
-    "citation": "The trait weight of the office-day-state.leader-request decision. Replaces the hand-set leaderRequestTraitWeight of 0.4. scripts/traits/trait-calibrate.ts cannot fit it on the audit year's 49 requests: the leader's party term (a same-party request is granted, an other-party one refused) outweighs temperament, so personality turned none of them, which is how party leaders schedule. Carries the weight calibrated for legislature.member-position (0.2), with the default target (the default personality-behavior study scaled for a single occasion to r = .2).",
+    "citation": "The trait weight of the office-day-state.leader-request decision, found with scripts/traits/trait-calibrate.ts on two played years pooled, after officials carry a level on every trait (pool item officials-carry-every-trait): Pomona, New Jersey (key 3460030, seed 7628f7fcf9e0) and the place drawn from seed f9a9cd8421fe (key 2684360): 1.7 gives an odds ratio of 2.49 between the thirds of 106 requests, against the target of 2.24. Each place alone saturates (fits of 1.65 and 2.15 that cannot reach the target). It was 0.2, the single-occasion default, before officials carried every trait.",
     "estimatedFrom": "traitWeightLegislatureMemberPosition (0.2).",
     "spread": {
-      "low": 0.1,
-      "high": 0.3,
+      "low": 1.65,
+      "high": 2.15,
       "unit": "weight",
-      "citation": "Weight at r = .1 and r = .3 of the single-occasion range (half and one and a half times the r = .2 weight). "
+      "citation": "The two places' own best weights."
     }
   },
   "traitWeightAppointmentsWeigh": {

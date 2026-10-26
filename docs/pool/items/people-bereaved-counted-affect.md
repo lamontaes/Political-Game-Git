@@ -3,7 +3,7 @@ id: people-bereaved-counted-affect
 title: "A death reaches the dead's counted kin as it reaches a full person: counted people carry no mood, so most bereaved feel nothing"
 area: people
 kind: wiring
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5432 (branch claude/bereaved-counted): Merging cur
 Sent back 2026-10-21 from PR #5432 (branch claude/bereaved-counted): The health conflict repair is present, but the item acceptance requires a named record chain from death to a bereaved persons mood and the directors line, and coverage of household and kin including counted people. The body gives aggregate band counts and says counted deaths still find kin only by familyIds; it supplies no named death/mood/director chain. Add the required Done when evidence table and that actual chain, or track the demonstrated bounded mechanism separately while keeping the remaining acceptance open. Keep both full and counted death paths and the ordinary drawn-world test. No local gate pass is claimed here.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5432 (branch claude/bereaved-counted): the Done-when table explicitly marks the director line Not shown and counted household coverage Partly; complete those record-chain proofs or assign the completed mechanism to its own bounded valid item; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

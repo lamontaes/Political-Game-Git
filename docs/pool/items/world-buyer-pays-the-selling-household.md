@@ -17,7 +17,7 @@ source: split of world-home-turnover (Oct 18)
 
 **Rules.** Wire to the world: the price, the payoff, the surplus and the buyer's mortgage move by journal record, and both rows read each other. An effect is a read: the sale row is read by the purchase and the purchase by the town's price record. No dice: which listed home a buyer takes follows from price against the buyer's means.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named in the PR body) at least one purchase names the `home-sale:` row it bought, a dollar is followed from the buyer's down payment to the seller's heirs and the lender, and a test in src/core2 names the place and seed.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named in the PR body) at least one purchase names the `home-sale:` row it bought, a dollar is followed from the buyer's down payment to the seller's heirs and the lender, and a test in src/core2 names the place and seed. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/housing.ts, src/core2/housing-sale.ts, src/core2/housing-mortgages.ts
 

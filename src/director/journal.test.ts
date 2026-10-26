@@ -8,7 +8,8 @@ import { applyCoreEvent } from "../core2/state";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { buildPopulation } from "../core2/population";
 import type { CoreState } from "../core2/types";
-import { composeJournal, composeLookBack, JOURNAL_DATA } from "./journal";
+import { composeJournal, composeLookBack } from "./journal";
+import { JOURNAL_WORDS } from "../english/journal-words";
 import { createDirector, type Director } from "./ledger";
 import type { Moment } from "./types";
 
@@ -116,7 +117,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
   it("never invents a feeling: its words hold no feeling", () => {
     const feelings =
       /\b(happy|sad|angry|afraid|scared|proud|lonely|glad|upset|love[ds]?|hate[ds]?|miss(ed)?|worried|excited|hurt|felt|feel|joy|grief|ashamed|relieved)\b/i;
-    for (const row of JOURNAL_DATA.lines)
+    for (const row of JOURNAL_WORDS.lines)
       for (const variant of [
         ...row.line,
         ...(row.otherLine ?? []),
@@ -128,7 +129,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
 
   it("frames by age only what happens around a young person, and keeps names", () => {
     // A race, a filing or a letter is told as itself, never "When I was 17".
-    const framed = JOURNAL_DATA.lines.filter((row) => row.framesAge);
+    const framed = JOURNAL_WORDS.lines.filter((row) => row.framesAge);
     expect(framed.length).toBeGreaterThan(0);
     for (const row of framed)
       expect(row.kindPrefix).not.toMatch(/^event:(election|candidate|office)/);
@@ -179,10 +180,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         ]),
       },
     } as Director;
+    // The household's own past still tells the family; the visits tell nothing.
+    const contactIds = [seen("2021-03-01").id, seen("2021-03-08").id];
     expect(
       composeJournal(core, fixture, player.id, {
         through: makeIsoDate("2021-04-01"),
-      }).flatMap((row) => row.lines),
+      })
+        .flatMap((row) => row.lines)
+        .filter((line) => line.momentIds.some((id) => contactIds.includes(id))),
     ).toEqual([]);
     for (const line of chapters.flatMap((row) => row.lines))
       expect(line.text).not.toMatch(
@@ -246,7 +251,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       row.lines.map((line) => line.text),
     );
     // No mined sentence says a raise, so the raise's own line is left out;
-    // a law the person had no part in is not their story (owner, Oct 14).
+    // a law the person had no part in is not their story.
     expect(text.some((line) => /pay|\$15/.test(line))).toBe(false);
     expect(text).not.toContain("The bill passed.");
   });
@@ -553,6 +558,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         moverId,
       )
         .flatMap((row) => row.lines)
+        .filter((line) =>
+          line.momentIds.some((id) => [own.id, movedMoment.id].includes(id)),
+        )
         .map((line) => line.text);
     const named = told(mover.placeId);
     const moved = named.filter((line) => /^We /.test(line));
@@ -604,9 +612,29 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         people: new Map([[player.id, { ...book, moments: [moment] }]]),
       },
     } as Director;
-    // Nothing happened there, and nobody from it holds office: no chapter.
+    // The household's own past is told whatever else the ledger holds; the
+    // school's moment adds nothing to it.
+    const family = new Set(
+      composeJournal(
+        core,
+        {
+          ...fixture,
+          ledger: {
+            ...fixture.ledger,
+            people: new Map([[player.id, { ...book, moments: [] }]]),
+          },
+        } as Director,
+        player.id,
+        { officeOf: () => undefined },
+      ).flatMap((row) => row.lines.map((line) => line.id)),
+    );
+    const beyond = (rows: { lines: { id: string }[] }[]) =>
+      rows.flatMap((row) => row.lines).filter((line) => !family.has(line.id));
+    // Nothing happened there, and nobody from it holds office: no line.
     expect(
-      composeJournal(core, fixture, player.id, { officeOf: () => undefined }),
+      beyond(
+        composeJournal(core, fixture, player.id, { officeOf: () => undefined }),
+      ),
     ).toEqual([]);
     // Years later the schoolmate holds office: they are remembered, in a
     // chapter the school does not title.
@@ -617,7 +645,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const schoolName = String(school.facts?.schoolName ?? "");
     for (const chapter of chapters)
       if (schoolName) expect(chapter.title).not.toContain(schoolName);
-    const lines = chapters.flatMap((row) => row.lines);
+    const lines = beyond(chapters) as (typeof chapters)[number]["lines"];
     expect(lines).toHaveLength(1);
     expect(lines[0]!.text).not.toMatch(/^Except/);
     expect(lines[0]!.text).toMatch(/mayor/);
