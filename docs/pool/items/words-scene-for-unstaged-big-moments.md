@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: words/unstaged-big-moments
-pr:
+pr: #6136
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T02:29:51.323Z
