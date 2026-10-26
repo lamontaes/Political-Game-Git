@@ -10,6 +10,8 @@ Current as of 2026-10-26, 19:50 UTC (screens lead). Channel section: `## Screens
 
 ## The parts, in order
 
+Part 1 first consolidates the close controls and visibility helper under `screens-ui-panel`. The original single panel-frame template requirement remains unfinished under `screens-ui-panel-frame`; completing the close-control item does not complete that frame requirement.
+
 | #   | Part                     | Pool item                                                                                    | Files                                         | Done when (a merger can run it)                                                                                                                                                                           | Box      |
 | --- | ------------------------ | -------------------------------------------------------------------------------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | 1   | Panel                    | `screens-ui-panel`                                                                           | `ui/panel.mjs`, play.mjs, play.css, play.html | The three hand-written close controls and local show() are replaced by `ui/panel.mjs`; every sheet opens through it; `no-scroll.browser.mjs` passes; PR body counts removed copies; before/after 1440x900 | 3 h      |
