@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/m0-06-parent-age
 pr: #6063
 blocked-on:

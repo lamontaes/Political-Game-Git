@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 Folded into tests-journal-red-on-seed-3d7f-linganore (Oct 25 audit).
+
+Merger 1, Oct 26 01:07 UTC: also reproduces on clean main add8156284 and #6093 integration92b7cdd67c, Hampton New Jersey, root427da196cca2c54f. The child-birth case finds zero lines matching was born at main journal.test.ts:383 / PR:387. New opening-family test and113bank checks pass; PRdoesnotintroducethismissingbirthline. Logs in merger1-state/6093-0058/base-journal.log and tests.log.

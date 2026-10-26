@@ -109,4 +109,4 @@ it(`the player's journal tells their own first race the day after the count, see
   } finally {
     setBookkeeping(true);
   }
-}, 1_800_000);
+}, 600_000);
