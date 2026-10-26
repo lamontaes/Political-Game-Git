@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T08:14:53.565Z
 
 **Rules.** No dice: the rerun decision stays each incumbent's own read; the test should check the share against the real rate with a spread that fits the number of seats, or pool enough places, not tune the decision. One rule, all 56 places: keep the random draw and name the place and seed.
 
-**Done when.** src/core2/candidacy.test.ts passes on seed f9bd82d15c3a6f0ab833241e88afddc160a11591c019179a44360b188485ea29 (place 3374780) and on a fresh seed, with the share's bound justified by the count of incumbents in the drawn place.
+**Done when.** src/core2/candidacy.test.ts passes on seed f9bd82d15c3a6f0ab833241e88afddc160a11591c019179a44360b188485ea29 (place 3374780) and on a fresh seed, with the share's bound justified by the count of incumbents in the drawn place. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/candidacy.test.ts
 

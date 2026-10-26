@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Replace, never layer: one reader serves every budget line, and the other path, its measure keys and its data rows are deleted in the same change. One rule, all 56 places: the reader takes the line from data, never a named line in logic.
 
-**Done when.** One function reads any budget line's share above its base, every link that starts from a budget line names its measure the same way in `data/research/outcome-web/links.json` and `src/core2/data/outcome-web/outcome-web.json`, the other path is deleted, and in a played year (`buildBenchWorld`, a drawn place from all 56, seed named in the PR) raising the parks line and the schools line each moves its outcome-web measure, named by the web's month record id. `src/core2/outcome-web.test.ts` and both families' tests pass.
+**Done when.** One function reads any budget line's share above its base, every link that starts from a budget line names its measure the same way in `data/research/outcome-web/links.json` and `src/core2/data/outcome-web/outcome-web.json`, the other path is deleted, and in a played year (`buildBenchWorld`, a drawn place from all 56, seed named in the PR) raising the parks line and the schools line each moves its outcome-web measure, named by the web's month record id. `src/core2/outcome-web.test.ts` and both families' tests pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/gov-measures.ts, src/core2/gov-measure-keys.ts, src/core2/modules/outcome-web.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/outcome-web.json
 
