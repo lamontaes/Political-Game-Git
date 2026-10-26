@@ -274,7 +274,11 @@ function speechScene(
       place,
       ids.map((id) => {
         const row = core.people.get(id)!;
-        return { id, name: `${row.givenName} ${row.familyName}` };
+        return {
+          id,
+          name: `${row.givenName} ${row.familyName}`,
+          reason: id === personId ? ("you" as const) : ("reached" as const),
+        };
       }),
     ),
   };
@@ -343,7 +347,11 @@ function outingScene(
       place,
       ids.map((id) => {
         const row = core.people.get(id)!;
-        return { id, name: `${row.givenName} ${row.familyName}` };
+        return {
+          id,
+          name: `${row.givenName} ${row.familyName}`,
+          reason: id === personId ? ("you" as const) : ("reached" as const),
+        };
       }),
     ),
   };

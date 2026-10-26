@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: every reader multiplies by the weight the same way. No dice: a firm closes from its books and its owner's choice. Speed: the year must fit the two-minute rule, or the test runs the span the failure needs.
 
-**Done when.** In a played world built with buildBenchWorld at Census scale in Washington, D.C. and one more drawn place above 100,000 (seeds named), closure rows in the jobs engine are within the same town's count at scale one, by job change id, shown by a test in src/core2.
+**Done when.** In a played world built with buildBenchWorld at Census scale in Washington, D.C. and one more drawn place above 100,000 (seeds named), closure rows in the jobs engine are within the same town's count at scale one, by job change id, shown by a test in src/core2. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/census-scale-closures-support.ts, src/core2/modules/business.ts
 
