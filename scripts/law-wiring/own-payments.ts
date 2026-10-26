@@ -38,6 +38,29 @@ function accountIndex(
   return index;
 }
 
+/** What a posting's kind names after this: the laws its source cites (check.ts, `underOf`), joined by "+". */
+export const UNDER = " under ";
+
+/** Whether a payment was made under other laws and not under `key`: a price a law sets is that law's money, not a raise's. */
+function foreignTo(key: string | undefined) {
+  const seen = new Map<string, boolean>();
+  return (kind: string): boolean => {
+    if (!key) return false;
+    let v = seen.get(kind);
+    if (v === undefined) {
+      const at = kind.indexOf(UNDER);
+      v =
+        at >= 0 &&
+        !kind
+          .slice(at + UNDER.length)
+          .split("+")
+          .includes(key);
+      seen.set(kind, v);
+    }
+    return v;
+  };
+}
+
 /** How long after a law reaches a target its own payment shows: past it, the twin worlds' drift does. */
 export const OWN_WINDOW_DAYS = 92;
 /**
@@ -64,7 +87,10 @@ const plusDays = (date: string, days: number) =>
  * repeal of a law in force at the opening stops money the control world still
  * pays, so there the control's payment is the law's. The payment the law
  * makes is the kind and direction (paid in or out) most targets share; each
- * target's first payment of that kind and direction is its evidence.
+ * target's first payment of that kind and direction is its evidence. A
+ * payment whose source cites other laws and not this one (`key`) is theirs:
+ * a raise lets a worker use more electricity, but the electricity standard's
+ * share of that bill is the standard's payment, not the raise's.
  */
 export function ownPayments(
   membersOf: (targetId: string) => readonly string[],
@@ -73,8 +99,15 @@ export function ownPayments(
   control: ReadonlyMap<string, readonly Posting[]>,
   repeal: boolean,
   since: string,
+  key?: string,
 ) {
   const index = accountIndex(treated, control);
+  const foreign = foreignTo(key);
+  // Where the law's records name money, its own payment is looked for among
+  // those it paid or charged: a right that names none (every employed person
+  // may refuse a union fee) is not expected to show a payment of its own.
+  const payees = targets.filter((t) => t.amountMinor !== 0);
+  const looked = payees.length ? payees : targets;
   const sums = (
     m: ReadonlyMap<string, readonly Posting[]>,
     accounts: string[],
@@ -84,7 +117,7 @@ export function ownPayments(
     const by = new Map<string, { delta: number; id: string }>();
     for (const a of accounts)
       for (const [date, kind, delta, id] of m.get(a) ?? []) {
-        if (date < from || date > to) continue;
+        if (date < from || date > to || foreign(kind)) continue;
         const k = `${date}|${kind}`;
         const v = by.get(k);
         if (v) v.delta += delta;
@@ -107,7 +140,7 @@ export function ownPayments(
   const shared = new Map<string, number>();
   const earliest = new Map<string, string>();
   const moved = new Map<string, number>();
-  for (const t of targets) {
+  for (const t of looked) {
     const owners = [t.targetId, ...membersOf(t.targetId)];
     const accounts = [...new Set(owners.flatMap((o) => index.get(o) ?? []))];
     if (!accounts.length) continue;
@@ -171,7 +204,12 @@ export function ownPayments(
     })
     .sort((a, b) => b.targets - a.targets || b.moved - a.moved)
     .slice(0, 10);
-  return { targets: targets.length, pairs, ...pickOwn(targets.length, pairs) };
+  return {
+    targets: looked.length,
+    among: payees.length ? ("paid" as const) : ("reached" as const),
+    pairs,
+    ...pickOwn(looked.length, pairs),
+  };
 }
 
 /** One kind and direction of payment the targets got, with how many got it and the money it moved. */
@@ -199,7 +237,9 @@ export interface OwnPair {
  * the law's own payment comes first after the law reaches them: a raise's
  * paycheck, a premium, an employer's tax share, before the spending a raise
  * allows or a deposit moved later. Of those that began within a week of the
- * first, the one most targets got, then the one that moved the most money.
+ * first, the one most targets got; among equals, the one that began first (a
+ * raise's paycheck the day before the household spends it), then the one that
+ * moved the most money (the paycheck over the tax withheld from it).
  */
 export function pickOwn(targets: number, pairs: readonly OwnPair[]) {
   const most = Math.max(0, ...pairs.map((p) => p.targets));
@@ -213,8 +253,8 @@ export function pickOwn(targets: number, pairs: readonly OwnPair[]) {
   const top = [...near].sort(
     (a, b) =>
       b.targets - a.targets ||
-      b.moved - a.moved ||
       a.earliest.localeCompare(b.earliest) ||
+      b.moved - a.moved ||
       a.kind.localeCompare(b.kind),
   )[0];
   return {

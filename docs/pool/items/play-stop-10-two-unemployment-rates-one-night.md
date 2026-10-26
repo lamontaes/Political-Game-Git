@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #6105
 blocked-on: world-unemployment-rate-names-its-area

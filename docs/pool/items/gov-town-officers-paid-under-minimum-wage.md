@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Estimate, never UNKNOWN: an officer's hours and pay start from the place's real figures with a spread and source. One model, two tiers. No dice. One rule, all 56 places: the exemption comes from the law's text in data, not a named state.
 
-**Done when.** In a played year of `buildBenchWorld` in two drawn places (seeds named), including a small town, every officer job holds hours and pay that match its source (a part-time stipend where the place pays one), no officer's hourly pay sits under the floor unless the law exempts the office, and a minimum wage raise in that town leaves exempt officers' pay unchanged while raising covered workers by the floor's change, named by record id.
+**Done when.** In a played year of `buildBenchWorld` in two drawn places (seeds named), including a small town, every officer job holds hours and pay that match its source (a part-time stipend where the place pays one), no officer's hourly pay sits under the floor unless the law exempts the office, and a minimum wage raise in that town leaves exempt officers' pay unchanged while raising covered workers by the floor's change, named by record id. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/public-payroll.ts, src/core2/wage-floor.ts, src/core2/state.ts
 

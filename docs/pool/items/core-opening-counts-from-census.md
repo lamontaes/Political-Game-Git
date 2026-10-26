@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: counted groups match the census for the place at the coarser tier, by the same rule the town's own people follow. Seeded generation of who exists is allowed; nothing after day one is a draw, so the seed sets the counts and the year never redraws them.
 
-**Done when.** A drawn place opens with county and state counts that match its census tables within the stated spread, two seeds of the same place differ in their counts, the opening time is measured before and after on the same base and reported in the PR, and a test names the place and seed and asserts the match. The owner plays it: the county and state around the town are the size the census says, and a new game is not the same as the last.
+**Done when.** A drawn place opens with county and state counts that match its census tables within the stated spread, two seeds of the same place differ in their counts, the opening time is measured before and after on the same base and reported in the PR, and a test names the place and seed and asserts the match. The owner plays it: the county and state around the town are the size the census says, and a new game is not the same as the last. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** Find the opening population builder: grep `relatives` in src/core2/opening*.ts or src/core2/town-*.ts and name the real path in the PR.
 

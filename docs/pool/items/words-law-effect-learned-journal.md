@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/law-effect-learned-journal
-pr:
+pr: #6117
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T22:21:39.789Z

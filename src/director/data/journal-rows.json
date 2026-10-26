@@ -348,6 +348,46 @@
       "kindPrefix": "household:moment:parent-new-job",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parents-met:hometown",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parents-met:where-they-lived",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parents-met:school",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:raised-by",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parent-apart",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:sibling-older",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:sibling-twin",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:sibling-born",
+      "turn": false,
+      "entry": "story"
     }
   ],
   "firstTitle": [
