@@ -168,8 +168,9 @@ it(`a party with no one filed for a seat asks a member to run, seed ${seed}`, ()
               ask.partyName.toLowerCase(),
             );
           }
-          // The ask stages its scene for a member who was followed, and the
-          // chair asks for the seat.
+          // The ask stages its scene for a member who was followed, at home
+          // the day it is made, and stops that day as their own filing would;
+          // the chair asks for the seat.
           if (!watched.has(ask.askedId)) continue;
           const book = director.ledger.people.get(ask.askedId);
           const entry = book?.schedule.find(
@@ -183,6 +184,7 @@ it(`a party with no one filed for a seat asks a member to run, seed ${seed}`, ()
           if (!entry && last && addDays(makeIsoDate(last), 30) > ask.date)
             continue;
           expect(entry, `no scene for the ask: ${said}`).toBeDefined();
+          expect(entry!.outcome, said).toBe("scene-now");
           staged.set(ask.askedId, ask.date);
           const result = purposeScene(core, director, ask.askedId, entry!, {
             typeKey: "party-recruit",
