@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/play-stop-20-siblings
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T00:10:50.763Z
 ---
 
 **What.** The owner's playtest (play-stop-20, Anson, Texas, v0.22.10, seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213): his sister Madison was born seven days after him and was not a twin; each child's birthday in a household was drawn on its own. The town appointer counted age by year of birth (src/core2/modules/executive.ts, ageOn), so a resident born in February 2007 counted as 18 in January 2025: two of Anson's eight department heads on main were 17. And two relatives asked each other after a relative they share, by first name ("How's John?") or as "your father" (src/director/conversation.ts, subjectsBetween).
