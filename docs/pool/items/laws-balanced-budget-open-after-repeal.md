@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/balanced-budget-repeal
-pr:
+pr: #6171
 blocked-on:
 source: laws lead, Oct 26
 claimed-at: 2026-10-26T18:14:29.118Z
