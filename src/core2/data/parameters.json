@@ -144,6 +144,11 @@
     "tag": "SOURCED",
     "citation": "IEC 80000-13: one mebibyte is 2^20 bytes."
   },
+  "votingAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "U.S. Constitution, Twenty-sixth Amendment (1971): the right to vote of citizens eighteen years of age or older shall not be denied on account of age."
+  },
   "targetPopulation": {
     "value": 10000,
     "tag": "SOURCED",
@@ -6190,12 +6195,12 @@
     }
   },
   "traitWeightMeetingsHoldTownHall": {
-    "value": 0.79,
+    "value": 0.35,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES). No study of officials who host town halls was found, so the attendee coefficient stands in for the host (the same extraversion pull toward being in the room). Carried to the thirds of people leaning most and least toward holding one, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found by crossing the real cases the decision weighed (the host's reasons without personality, cause plus effort, from played years of drawn places with the label trait-wiring) with every adult's lean toward holding one, at weights 0 to 3, net of the gap at weight 0, and solving for 0.837: 0.61. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.61 became 0.79.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES). No study of officials who host town halls was found, so the attendee coefficient stands in for the host (the same extraversion pull toward being in the room). Carried to the thirds of people leaning most and least toward holding one, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found by crossing the real cases the decision weighed (the host's reasons without personality, cause plus effort, from played years of drawn places with the label trait-wiring) with every adult's lean toward holding one, at weights 0 to 3, net of the gap at weight 0, and solving for 0.837: 0.61. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target grew by 1.3 to 1.088. Refitted Oct 26 on the cases weighed in six played election windows (Sula, Montana; Beulah, Mississippi; Cushing, Iowa; Kitzmiller, Maryland; Stratton, Colorado; Brook Forest, Colorado; 38 to 152 cases each, every adult's lean), because at 0.79 every town's net log odds sat from 3.2 to 4.7, three to four times the target: the geometric mean of the six is 1.095 at 0.35 (towns 0.64 to 1.60), against 0.79 at 0.3 and 1.37 at 0.4.",
     "spread": {
-      "low": 0.494,
-      "high": 1.092,
+      "low": 0.218,
+      "high": 0.482,
       "unit": "weight",
       "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 1.195 to 2.645."
     }

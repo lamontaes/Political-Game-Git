@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T00:14:22.093Z
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower than its base, measured before and after on the same machine, one process at a time. Never scan the whole world or a whole history every day; use indexes or act on the day something changed. One rule, all 56 places: the check draws its place from all 56 and names it and the seed.
 
-**Done when.** npm run speed:year -- --seed m7b --exclusive on the same container finishes the played world's year in Long Hill, Connecticut in under 120 seconds in three runs, and seed m7a stays within 20 percent of its 52 seconds; the receipts from before and after go in the PR body with the profile's top functions.
+**Done when.** npm run speed:year -- --seed m7b --exclusive on the same container finishes the played world's year in Long Hill, Connecticut in under 120 seconds in three runs, and seed m7a stays within 20 percent of its 52 seconds; the receipts from before and after go in the PR body with the profile's top functions. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/life.ts, src/core2/modules/press.ts, src/core2/kernel/dates.ts, scripts/speed-years/run.ts
 

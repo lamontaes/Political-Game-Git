@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T14:28:36.399Z
 
 **Rules.** Wire to the world: every check M0-13 makes must hold in every drawn place's played year, so each failure is fixed at its engine, never by loosening the check.
 
-**Done when.** The M0-13 command passes in St. Johnsbury, Vermont with the seed above and two more drawn places named with seeds, each failure's cause named by line in the PR (or split into its own item with the cause).
+**Done when.** The M0-13 command passes in St. Johnsbury, Vermont with the seed above and two more drawn places named with seeds, each failure's cause named by line in the PR (or split into its own item with the cause). **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** tests/golden-path/played-world.node-test.ts
 

@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Replace, never layer: store the absence as null, which JSON holds, and read it back as no profile; no guard is loosened.
 
-**Done when.** holdElection stores null for a missing faith or degree, the replay reads it as no profile (and a missing degree as none), the three places above play past their elections with bookkeeping on, and a pinned regression test on Ocean Springs states it; voting tests pass.
+**Done when.** holdElection stores null for a missing faith or degree, the replay reads it as no profile (and a missing degree as none), the three places above play past their elections with bookkeeping on, and a pinned regression test on Ocean Springs states it; voting tests pass. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/voting.ts
 

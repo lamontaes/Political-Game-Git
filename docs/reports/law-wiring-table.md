@@ -487,7 +487,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **ban lobbying after office** (`us-policy-positions:government-operations.ban-lobbying-after-office`)
 
-- reach: the ban binds former officeholders (a cooling-off period before they may lobby). Every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence
+- reach: the ban binds former officeholders (a cooling-off period before they may lobby), and every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence
 - money: the ban bars former officeholders from lobbying for a cooling-off period; it charges, pays and taxes no one by its own terms, so no money flows because of it (what it changes is who a group hires to lobby, read by the interest-groups engine)
 
 **broaden local authority** (`us-policy-positions:government-operations.broaden-local-authority`)
