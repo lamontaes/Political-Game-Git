@@ -406,9 +406,12 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         governments.find((r) => r.lawId === paid?.lawId) ?? governments[0];
       const groups = rowsOn(key, what).filter((r) => r.target === "group");
       const group = groups.find((r) => r.lawId === govRow?.lawId) ?? groups[0];
-      expect(group?.count ?? 0, `${where}: ${label} residents`).toBeGreaterThan(
-        0,
-      );
+      // The counted residents a line's law serves are one group on the law's row; a move between lines records the government only (the transit line's own reach rows carry the residents).
+      if (paidWhat)
+        expect(
+          group?.count ?? 0,
+          `${where}: ${label} residents`,
+        ).toBeGreaterThan(0);
       expect(
         paid?.amountMinor ?? 0,
         `${where}: ${label} money`,
@@ -442,7 +445,7 @@ it("names, for each law, the record, the journal entry and who it reached", () =
       "shift highway funds to transit",
       KEYS.shift,
       "transit",
-      "highway-money-moved-to-transit",
+      "budget-lines-moved",
     );
 
     // A budget line a measure changed: the people it reached by name, and the money on the line.
