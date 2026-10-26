@@ -10,7 +10,7 @@ import { gameStartDate } from "./game-start";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { ABORTION_LAW_SERIES, decideUnplanned } from "./births-unplanned";
 import type { BirthCouple } from "./births-plan";
-import { appliedTo } from "./law-reach/applied";
+import { appliedOn, appliedTo } from "./law-reach/applied";
 import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { coreAPI, fillInPerson } from "./state";
 import providerDistance from "../../data/research/people/abortion-provider-distance.json" with { type: "json" };
@@ -542,7 +542,9 @@ it(
     const tried: string[] = [];
     for (let attempt = 0; attempt < PLACES; attempt += 1) {
       const draw = drawPlace(
-        randomBytes(32).toString("hex"),
+        createHash("sha256")
+          .update(`${base}:counted-restricted:${attempt}`)
+          .digest("hex"),
         "unplanned-counted-restricted",
       );
       setBookkeeping(false);
@@ -585,13 +587,15 @@ it(
           Number(row.stands) * Number(row.travelMinor) * Number(row.lawShare),
         0,
       );
+      // The counted groups' rows (a full household's, if one ended a pregnancy too, is on its household).
       const recorded = appliedOn(api, ABORTION_LAW_SERIES).filter(
-        (row) => row.what === "trip-lengthened-by-restriction",
+        (row) =>
+          row.what === "trip-lengthened-by-restriction" &&
+          row.target === "group",
       );
       const label = `${draw.key} seed ${draw.seed}`;
       expect(recorded.length, label).toBeGreaterThan(0);
       for (const row of recorded) {
-        expect(row.target, label).toBe("group");
         expect(row.amountMinor, label).toBeLessThan(0);
         expect(row.count, label).toBeGreaterThan(0);
       }
