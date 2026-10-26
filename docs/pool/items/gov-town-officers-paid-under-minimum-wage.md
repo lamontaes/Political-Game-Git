@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/officers-minimum-wage
 pr: #6190
 blocked-on:
