@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/drives-cause-acts-pull-less
 pr: #6082
 blocked-on:

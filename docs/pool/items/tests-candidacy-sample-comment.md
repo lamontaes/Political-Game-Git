@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: merger3/candidacy-sample-comment-oct26
 pr: #6150
 blocked-on:
