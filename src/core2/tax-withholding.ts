@@ -24,6 +24,10 @@ export interface WithholdingLine {
   readonly estimate: boolean;
   /** For a flat local rate: the base the law row names, as it was applied. */
   readonly base?: "wages" | "AGI" | "taxable income";
+  /** The measure that enacted the row read, when an act (not a starting row) did. */
+  readonly enactedBy?: string;
+  /** The tax is worked out on a schedule with more than one rate. */
+  readonly graduated?: boolean;
 }
 
 interface Schedule {
@@ -32,6 +36,29 @@ interface Schedule {
     readonly over: number;
     readonly rate: number;
   }[];
+}
+
+/** The highest rate on a schedule, in percent. */
+function topRate(schedule: Schedule): number {
+  return Math.max(0, ...schedule.brackets.map((b) => b.rate));
+}
+
+/**
+ * The schedule the law row's own rate puts in force. A row's value is its top
+ * rate; a schedule whose top rate differs from it (the rate was changed
+ * without a new table) is scaled to it, the way a bill scales a table.
+ */
+function scheduleOf(row: LawRowInput): Schedule | null {
+  const schedule = single(row);
+  if (!schedule || typeof row.value !== "number" || row.value <= 0)
+    return schedule;
+  const top = topRate(schedule);
+  if (top <= 0 || Math.abs(top - row.value) < 1e-9) return schedule;
+  const scale = row.value / top;
+  return {
+    ...schedule,
+    brackets: schedule.brackets.map((b) => ({ ...b, rate: b.rate * scale })),
+  };
 }
 
 /** Tax on a year's income from one graduated schedule, in dollars. */
@@ -89,7 +116,7 @@ export function withholdingFor(input: {
   for (const level of input.incomeTax.levels) {
     const row = level.row;
     if (!row || level.setAside || row.value === null) continue;
-    const schedule = single(row);
+    const schedule = scheduleOf(row);
     // A flat rate: a starting row's "percent-flat", or an enacted act's
     // "percent" with no bracket schedule (audit 3: city tax collected $0).
     const flat = row.unit === "percent-flat" || row.unit === "percent";
@@ -123,6 +150,12 @@ export function withholdingFor(input: {
         lawId: row.id,
         estimate: row.estimate === true,
         ...(base && !schedule ? { base } : {}),
+        ...(typeof row.terms?.enactedBy === "string"
+          ? { enactedBy: row.terms.enactedBy }
+          : {}),
+        ...(schedule && new Set(schedule.brackets.map((b) => b.rate)).size > 1
+          ? { graduated: true }
+          : {}),
       });
   }
   const ss = input.socialSecurity.governing;

@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** TODO
 
-**Done when.** TODO
+**Done when.** TODO **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** TODO
 

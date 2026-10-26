@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: gov-chamber-committees-reader
@@ -23,3 +23,5 @@ source: split from gov-stopgap-legislature-committees-assumed-data by pool feede
 **Files.** src/core2/data/legislature/chamber-committees.json, src/core2/legislature-committees.test.ts
 
 **Notes.** Oct 20 (pool feeder): part 2 of 3 of gov-stopgap-legislature-committees-assumed-data. Nebraska is unicameral (one row), so the half covers about 47 chambers. Congress is built from federal-committees.json in the reader part.
+
+Folded into gov-chamber-committees-reader (Oct 25 audit).

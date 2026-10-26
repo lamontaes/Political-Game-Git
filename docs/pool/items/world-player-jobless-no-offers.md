@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on: jobs-no-openings-in-small-towns
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** The player is never auto-answered, but the engine may offer. One rule for every jobless adult: the seeker's fit and the position decide. No dice. One rule, all 56 places.
 
-**Done when.** In a drawn place and a seed the builder did not choose, a jobless adult player gets at least one offer within 12 weeks whenever a position they fit is open in town, shown by position and offer ids; `src/core2/jobs-player-offers.test.ts` waits only the weeks that takes.
+**Done when.** In a drawn place and a seed the builder did not choose, a jobless adult player gets at least one offer within 12 weeks whenever a position they fit is open in town, shown by position and offer ids; `src/core2/jobs-player-offers.test.ts` waits only the weeks that takes. **On screen.** Nothing yet: filed play-job-openings-on-screen, which puts it on Jobs and study.
 
 **Files.** src/core2/modules/jobs.ts
 
@@ -34,3 +34,5 @@ claimed-at:
 **Measured (claude, Oct 19, branch claude/player-offers-s10).** The cause is not the player's fit. Weeks to the player's first offer in a played year from the start (`buildBenchWorld`, seed off:0, the 18-year-old jobless player): Addison, West Virginia (5400364) week 11; Fort Laramie, Wyoming (5628230) none in 52 weeks; Glenwood, North Carolina (3726560) week 19; Orient, South Dakota (4647460) none. I capped a seeker's experience credit at what the opening asks for (O*NET Job Zone years): the four numbers did not change, so experience was not what kept the player out. In Fort Laramie the jobs engine opened no position at all in the year (the weekly match returns at once on "no open positions"), with 27 businesses and 7 separations (2 layoffs, 3 quits, 2 left-work). So there was nothing to offer, and the player's rank never mattered. The code change was dropped, not shipped. The open cause is filed as jobs-no-openings-in-small-towns; this item waits on it for the towns with no openings, and its Addison-style case (few openings, many applicants) needs the first-job rule discussed above.
 
 Sent back 2026-10-20 from PR #5174 (branch claude/player-jobless-offers): This is a findings-only PR: it does not produce the job offer the linked bug item requires, and the experience/entry-requirement work remains open. Supply the required drawn played-world jobless-player offer by position/job record id, or track the completed measurement separately while leaving the implementation item open. A findings note cannot complete the still-unfixed job-offer acceptance.; finish on that branch, merge main into it first.
+
+Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).

@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 3
 size: S
-status: blocked
+status: dropped
 claimed-by: claude/political-game-pool-yucp92-m
 pr:
-blocked-on: Words line: the item text is an empty shell and the change needs new bank sentences (src/director/mined) worded by the English engine, which only the Words session writes
+blocked-on: Words line: the item text is an empty shell and the change needs new bank sentences (src/english/mined) worded by the English engine, which only the Words session writes
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T00:46:39.336Z
 ---
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:46:39.336Z
 **Files.** src/director/bring-it-up.ts, data/english/parts/bring-it-up.json, src/director/bring-it-up-law.test.ts
 
 **Notes.** Found Oct 19 verifying M4-05 (people raise it and know who was responsible). The outlet-only rule may be the owner's intent; if so, drop this.
+
+Dropped by the Oct 25 audit: an empty shell with no reader on screen; refile with a body when the Words line wants it.

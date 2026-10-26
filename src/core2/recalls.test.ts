@@ -313,3 +313,49 @@ describe("each state's recall timing bars", () => {
     expect(recallBarsFor("NC", 4)).toBeNull();
   });
 });
+
+describe("each state's recall rule as its statute reads", () => {
+  it("South Dakota needs grounds, Wyoming's reaches commission-form towns only, Mississippi's no town", () => {
+    const sd = resolveMunicipalRecallRule("SD");
+    expect(sd.doctrine).toBe("simultaneous-incumbent-replacement");
+    expect(sd.groundsRequired).toBe(true);
+    expect(sd.threshold).toEqual({ percent: 15, base: "registered-voters" });
+    expect(sd.circulationDays).toBe(60);
+    expect(sd.citation).toContain("9-13-29");
+    expect(sd.grounds).toContain("malfeasance");
+    expect(sd.scope).toContain("every municipality");
+    // A town not under the commission form has no recall in Wyoming.
+    const wy = resolveMunicipalRecallRule("WY");
+    expect(wy.doctrine).toBe("prohibited");
+    expect(wy.circulationDays).toBeNull();
+    expect(wy.citation).toContain("15-4-110");
+    expect(wy.scope).toContain("commission-form");
+    const ms = resolveMunicipalRecallRule("MS");
+    expect(ms.doctrine).toBe("prohibited");
+    expect(ms.scope).toContain("county officials only");
+  });
+
+  it("a South Dakota or Wyoming town plays a year under its recall rule, and no recall starts that its law forbids", () => {
+    let place = drawPlace(seed, "recall-statute:0");
+    for (let i = 1; i < 5000 && !/^US-(SD|WY)$/.test(place.state); i += 1)
+      place = drawPlace(seed, `recall-statute:${i}`);
+    expect(place.state, `seed ${seed}`).toMatch(/^US-(SD|WY)$/);
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    advanceCore(core, after(core.date, 365));
+    const rule = resolveMunicipalRecallRule(place.state.slice(3));
+    // Grounds of cause bar a recall over an ordinance's vote; no recall at
+    // all bars every one.
+    expect(
+      rule.groundsRequired === true || rule.doctrine === "prohibited",
+    ).toBe(true);
+    expect(recallsOf(api), where).toHaveLength(0);
+    process.stdout.write(
+      `recall-statute: ${where}: ${rule.doctrine}, scope ${rule.scope}; grounds ${rule.grounds}; ${rule.citation}; ${recallsOf(api).length} recalls in a year\n`,
+    );
+  }, 900_000);
+});
