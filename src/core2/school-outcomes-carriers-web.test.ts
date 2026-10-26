@@ -74,6 +74,7 @@ const rows = <T>(core: CoreState, name: string) =>
 
 /** Plays a full year from the game start, the twin with one link's effect on every month row. */
 function play(drawn: Drawn, link?: string) {
+  const t0 = Date.now();
   const opening = gameStartDate();
   const built = buildBenchWorld(drawn.seed, opening, {
     twoLevel: true,
@@ -124,6 +125,7 @@ function play(drawn: Drawn, link?: string) {
   }
   // A row the web rewrote after its last read is shifted back to what was read.
   if (link) lay(link);
+  console.error(`TIMING play ${link ?? "base"} ${(Date.now() - t0) / 1000}s`);
   expect(core.date, `${drawn.name}: full-year boundary`).toBe(end);
   return { core, placeId: built.placeId };
 }
