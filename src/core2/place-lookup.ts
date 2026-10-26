@@ -421,6 +421,29 @@ export function coreStateName(usps: string): string | null {
   return STATE_CLOCKS[usps]?.name ?? null;
 }
 
+let stateKeyByPlaceholderId: ReadonlyMap<string, string> | null = null;
+
+/**
+ * The state or territory (`US-KY`) a state-level place id names. A state's own
+ * place record exists only for the states with a candidacy pack, but the
+ * wider population keeps its state-level households under every state's id,
+ * so the id alone must say which state it is. Null for any other id.
+ */
+export function coreStateKeyOfPlaceholderId(
+  jurisdictionId: string,
+): string | null {
+  stateKeyByPlaceholderId ??= new Map(
+    Object.keys(STATE_CLOCKS).map((usps) => [
+      createStableId(
+        "jurisdiction",
+        `definition:state-us-${usps.toLowerCase()}-placeholder`,
+      ),
+      `US-${usps}`,
+    ]),
+  );
+  return stateKeyByPlaceholderId.get(jurisdictionId) ?? null;
+}
+
 /** Canonical USPS / `US-KY` identities, not names recovered from place labels. */
 export function corePlaceStateIdentities(): readonly CorePlaceStateIdentity[] {
   return Object.entries(STATE_CLOCKS)

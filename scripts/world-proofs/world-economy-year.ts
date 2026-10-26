@@ -2,8 +2,9 @@
  * Laws-reach-the-economy and money-arrears proof (OPUS-WORLD, Oct 14): build
  * the played world as the bench builds it, run a game year, and print each
  * read by record id: new openings against the wage floor in force, the
- * federal budget's push on each national month, employers' payroll tax
- * shares, tax arrears, and movers' cash.
+ * federal budget's dollars landing in the town and what the national step
+ * heard from it, employers' payroll tax shares, tax arrears, and movers'
+ * cash.
  *
  * node --import tsx scripts/world-proofs/world-economy-year.ts <seed> [placeKey] [days]
  */
@@ -20,6 +21,7 @@ import {
   type EmployerTaxRecord,
 } from "../../src/core2/modules/employer-taxes";
 import { purchaseTaxArrears } from "../../src/core2/modules/purchase-tax";
+import { governments } from "../../src/core2/modules/budgets";
 import { drawPlace } from "../../tests/golden-path/place";
 
 const seed = process.argv[2] ?? `${Date.now()}`;
@@ -52,8 +54,45 @@ const positions = table(JOBS_MODULE_ID, "positions") as {
   openedAt: string;
 }[];
 const opened = positions.filter((row) => row.openedAt > start);
-const months = table("macro", "months") as { id: string }[];
-const read = months;
+const months = table("macro", "months") as {
+  id: string;
+  month: string;
+  kind: string;
+  townIncomeGrowthPct?: number;
+}[];
+// What the national step heard from the town: the last simulated month's
+// paid-income growth, the only route public dollars move national output.
+const heard = months
+  .filter((row) => row.townIncomeGrowthPct !== undefined)
+  .at(-1);
+// The federal treasury's closes: where each month's twelfths actually landed.
+const federal = governments(api).find((row) => row.level === "federal");
+const federalMonths = table("budgets", "treasuryMonths") as {
+  governmentId: string;
+  lines: Record<
+    string,
+    {
+      inTownMinor: number;
+      providersMinor: number;
+      aidMinor: number;
+      outsideMinor: number;
+    }
+  >;
+}[];
+const closes = federalMonths.filter((row) => row.governmentId === federal?.id);
+const landed = (
+  pick: (line: {
+    inTownMinor: number;
+    providersMinor: number;
+    aidMinor: number;
+    outsideMinor: number;
+  }) => number,
+) =>
+  closes.reduce(
+    (sum, close) =>
+      sum + Object.values(close.lines).reduce((n, line) => n + pick(line), 0),
+    0,
+  );
 const shares = table(
   EMPLOYER_TAXES_MODULE_ID,
   "shares",
@@ -79,8 +118,13 @@ console.log(
         lowest: [...opened].sort((a, b) => a.hourlyMinor - b.hourlyMinor)[0],
       },
       federalBudget: {
-        monthsRead: read.length,
-        sample: read.at(-1),
+        monthsClosed: closes.length,
+        paidInTownMinor: landed(
+          (line) => line.inTownMinor + line.providersMinor,
+        ),
+        aidToLowerTreasuriesMinor: landed((line) => line.aidMinor),
+        paidOutsideMinor: landed((line) => line.outsideMinor),
+        macroHeardFromTown: heard,
       },
       employerShares: {
         records: shares.length,

@@ -4,7 +4,7 @@ title: "Stopgaps in interest-groups (estimated-parameter): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/ig-bound-cost
 pr: #5474
 blocked-on:

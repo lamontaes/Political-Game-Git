@@ -4,13 +4,17 @@
  * in force, so later public hires are held to it too. A floor at a level binds
  * that government's own employers and every level under it; each job is
  * raised to the highest floor in force at its employer's level or above, the
- * way the teacher minimum salary raises teachers (through `rerateJob`).
+ * way the teacher minimum salary raises teachers (through `rerateJob`). Each
+ * worker the floor raises or holds is recorded as its reach (`lawApplied`):
+ * a full person by name, the counted workers of each employer as a group.
  */
 import data from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import { jobsAt } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
-import { lawInForce } from "./modules/laws";
+import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { LawLevelName } from "./laws-starting";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -24,6 +28,42 @@ const EMPLOYER_LEVELS = data.employerLevels as Readonly<
 export const PUBLIC_EMPLOYER_CLASSES: readonly string[] =
   Object.keys(EMPLOYER_LEVELS);
 const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
+
+/**
+ * The level of government a public employer belongs to: by its class, or, for
+ * a government's own treasury (the employer of its aides and appointed heads,
+ * which has no class), by the government it is the treasury of.
+ */
+function levelOf(
+  api: CoreAPI,
+  organizationId: string,
+): LawLevelName | undefined {
+  const core = api.state as CoreState;
+  const org = core.organizations.get(organizationId);
+  const byClass = EMPLOYER_LEVELS[org?.classification ?? ""];
+  if (byClass) return byClass;
+  if (
+    org?.kind !== "government-treasury" ||
+    !core.modules.has(BUDGETS_MODULE_ID)
+  )
+    return undefined;
+  return governments(api).find((row) => row.organizationId === organizationId)
+    ?.level;
+}
+
+/** Jobs a government's treasury pays directly (its aides and appointed heads), here in town. */
+function treasuryJobs(api: CoreAPI) {
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  return [...core.jobs.values()].filter((job) => {
+    const org = core.organizations.get(job.organizationId);
+    return (
+      job.endsAt === undefined &&
+      org?.kind === "government-treasury" &&
+      org.placeId === town
+    );
+  });
+}
 
 /** The floor binding each level's employers today, with the law row that sets it. */
 function floorsByLevel(api: CoreAPI) {
@@ -51,10 +91,9 @@ export function publicPayFloorHourly(
   organizationId: string,
   job: { readonly hourlyMinor?: number; readonly wageDailyMinor: number },
 ): number {
-  const classification =
-    (api.state as CoreState).organizations.get(organizationId)
-      ?.classification ?? "";
-  const level = EMPLOYER_LEVELS[classification];
+  // A world without the law engine has no floor to hold a hire to.
+  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return 0;
+  const level = levelOf(api, organizationId);
   if (!level) return 0;
   const floor = floorsByLevel(api).get(level);
   const hourly = job.hourlyMinor ?? 0;
@@ -67,6 +106,9 @@ export function publicPayFloorHourly(
 
 /**
  * Raise every public job in town paid under its floor; returns the raises.
+ * Every job the floor holds (raised today, or already paid at it) is the
+ * law's reach: a full worker by name, an employer's counted workers as one
+ * group; a worker it no longer holds (left, or paid above it) leaves it.
  * Schedules the next monthly review while any floor is in force.
  */
 export function holdPublicPay(
@@ -83,26 +125,68 @@ export function holdPublicPay(
   if (!floors.size) return [];
   const core = api.state as CoreState;
   const raised = [];
-  for (const job of jobsAt(api, PUBLIC_EMPLOYER_CLASSES)) {
-    const classification =
-      core.organizations.get(job.organizationId)?.classification ?? "";
-    const floor = floors.get(EMPLOYER_LEVELS[classification]!);
+  const held = new Set<string>();
+  const counted = new Map<string, { count: number; lawId: string }>();
+  for (const job of [
+    ...jobsAt(api, PUBLIC_EMPLOYER_CLASSES),
+    ...treasuryJobs(api),
+  ]) {
+    const level = levelOf(api, job.organizationId);
+    const floor = level ? floors.get(level) : undefined;
     if (!floor) continue;
     const floorDaily =
       (floor.dollars * reachParameter("centsPerDollar")) /
       reachParameter("daysPerYear");
     const hourly = job.hourlyMinor ?? 0;
-    if (hourly <= 0 || job.wageDailyMinor >= floorDaily) continue;
-    const to = Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
-    api.rerateJob(job.id, to, { ...source, asOf: core.date });
-    raised.push({
-      jobId: job.id,
-      personId: job.personId,
-      fromMinor: hourly,
-      toMinor: to,
-      lawId: floor.lawId,
+    if (hourly <= 0 || job.wageDailyMinor <= 0) continue;
+    // The hourly pay at which the job's daily wage meets the floor. A job
+    // within a cent an hour of it is held at it (a raise's own rounding
+    // leaves it there); one a cent or more under it is raised.
+    const exact = (hourly * floorDaily) / job.wageDailyMinor;
+    if (exact <= hourly - 1) continue;
+    const to = exact >= hourly + 1 ? Math.ceil(exact) : hourly;
+    if (to > hourly) {
+      api.rerateJob(job.id, to, { ...source, asOf: core.date });
+      raised.push({
+        jobId: job.id,
+        personId: job.personId,
+        fromMinor: hourly,
+        toMinor: to,
+        lawId: floor.lawId,
+      });
+    }
+    const what = to > hourly ? "raised-to-pay-floor" : "held-at-pay-floor";
+    if (core.jobs.has(job.id)) {
+      held.add(job.personId);
+      lawApplied(api, {
+        key: PUBLIC_PAY_FLOOR,
+        lawId: floor.lawId,
+        targetId: job.personId,
+        target: "person",
+        engine: LAWS_MODULE_ID,
+        what,
+      });
+    } else {
+      const group = `${job.organizationId}:counted-staff`;
+      const at = counted.get(group);
+      counted.set(group, { count: (at?.count ?? 0) + 1, lawId: floor.lawId });
+    }
+  }
+  for (const [group, at] of counted) {
+    held.add(group);
+    lawApplied(api, {
+      key: PUBLIC_PAY_FLOOR,
+      lawId: at.lawId,
+      targetId: group,
+      target: "group",
+      engine: LAWS_MODULE_ID,
+      what: "held-at-pay-floor",
+      count: at.count,
     });
   }
+  for (const row of appliedOn(api, PUBLIC_PAY_FLOOR))
+    if (!held.has(row.targetId))
+      lawNoLongerApplies(api, PUBLIC_PAY_FLOOR, row.targetId);
   const next = new Date(`${core.date}T00:00:00Z`);
   next.setUTCMonth(next.getUTCMonth() + 1);
   const date = makeIsoDate(next.toISOString().slice(0, 10));

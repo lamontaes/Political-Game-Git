@@ -1,0 +1,321 @@
+{
+  "id": "bls-atus-table-a1-2025",
+  "publisher": "U.S. Bureau of Labor Statistics",
+  "vintage": "American Time Use Survey annual averages 2018, 2019 and 2021 to 2025",
+  "table": "Table A-1",
+  "title": "Time spent in detailed primary activities and percent of the civilian population engaging in each activity, averages per day by sex",
+  "universe": "Civilian noninstitutional population 15 years and over; primary activities only",
+  "geography": "United States",
+  "sourceUrl": "https://www.bls.gov/tus/tables/a1-2025.pdf",
+  "sourceUrls": {
+    "2018": "https://www.bls.gov/tus/tables/a1-2018.pdf",
+    "2019": "https://www.bls.gov/tus/tables/a1-2019.pdf",
+    "2021": "https://www.bls.gov/tus/tables/a1-2021.pdf",
+    "2022": "https://www.bls.gov/tus/tables/a1-2022.pdf",
+    "2023": "https://www.bls.gov/tus/tables/a1-2023.pdf",
+    "2024": "https://www.bls.gov/tus/tables/a1-2024.pdf",
+    "2025": "https://www.bls.gov/tus/tables/a1-2025.pdf"
+  },
+  "sourceSha256": {
+    "2018": "66b52b5ba369052cfaf2d2c374d0f9be913aa18ac450ea607d789347f8a9648a",
+    "2019": "afd4b6b1fd515b4a5dac62db8c5d829d56546136ced5112d7f5dd49c08410b66",
+    "2021": "f678b4957125c4825201935b75f6704e88b61ffd0413a54fb43c39fca74c0a55",
+    "2022": "3f88340fd89efaed9f74b15da2796f1e9a913af1cf005117eb711b498b27b79a",
+    "2023": "ec095a539e187cde354603adc0a8902c53298d6feb8218252c37d03d5b35f62c",
+    "2024": "0778b8b3517d93e6eb2fc8ab901c10604904ff62ab4e2daab2e711bafc18686a",
+    "2025": "be62d65f1a5e9196f52d3aac3f38e17ee8350d200db37c9ecb4f45653e2848fa"
+  },
+  "retrievedOn": "2026-10-23",
+  "limits": "Totals for both sexes only (the table's first of three columns in each group). Primary activities only: care or a government errand done alongside another activity is not counted. 'approximately zero' and 'suppressed' are the table's footnotes 2 (estimate is approximately zero) and 3 (does not meet ATUS publication standards). 2020 is not read. National figures; the survey publishes no state table for these rows.",
+  "readers": "scripts/research/content-year.ts (checks lookupHours against government-services and reports each row's band against a played year)",
+  "rows": [
+    {
+      "id": "care-household-members",
+      "activity": "Caring for and helping household members",
+      "years": {
+        "2018": {
+          "hoursPerDay": 0.51,
+          "percentEngaged": 24.1,
+          "hoursPerDayEngaged": 2.14,
+          "quote": "Caring for and helping household members............... .                 0.51        0.32        0.70     24.1        19.2        28.7      2.14         1.67         2.43"
+        },
+        "2019": {
+          "hoursPerDay": 0.49,
+          "percentEngaged": 23.7,
+          "hoursPerDayEngaged": 2.06,
+          "quote": "Caring for and helping household members............... .                 0.49        0.32        0.65     23.7        19.9        27.3       2.06        1.60         2.37"
+        },
+        "2021": {
+          "hoursPerDay": 0.47,
+          "percentEngaged": 21.7,
+          "hoursPerDayEngaged": 2.17,
+          "quote": "Caring for and helping household members............... .                 0.47        0.32        0.62     21.7        16.9        26.3       2.17        1.89         2.35"
+        },
+        "2022": {
+          "hoursPerDay": 0.48,
+          "percentEngaged": 21.6,
+          "hoursPerDayEngaged": 2.21,
+          "quote": "Caring for and helping household members............... .                 0.48        0.31        0.64     21.6        16.9        26.1       2.21        1.83         2.44"
+        },
+        "2023": {
+          "hoursPerDay": 0.5,
+          "percentEngaged": 22.0,
+          "hoursPerDayEngaged": 2.29,
+          "quote": "Caring for and helping household members............... .                 0.50        0.38        0.62     22.0        18.2        25.6       2.29        2.09         2.42"
+        },
+        "2024": {
+          "hoursPerDay": 0.51,
+          "percentEngaged": 21.7,
+          "hoursPerDayEngaged": 2.35,
+          "quote": "Caring for and helping household members............... .                 0.51        0.38        0.63     21.7        18.6        24.6       2.35        2.05         2.57"
+        },
+        "2025": {
+          "hoursPerDay": 0.49,
+          "percentEngaged": 22.0,
+          "hoursPerDayEngaged": 2.23,
+          "quote": "Caring for and helping household members............... .                 0.49        0.36        0.61     22.0        19.2        24.7      2.23         1.90        2.47"
+        }
+      }
+    },
+    {
+      "id": "care-household-adults",
+      "activity": "Caring for and helping household adults",
+      "years": {
+        "2018": {
+          "hoursPerDay": 0.05,
+          "percentEngaged": 6.2,
+          "hoursPerDayEngaged": 0.75,
+          "quote": "Caring for and helping household adults................ .              0.05         0.04          0.05    6.2         5.3         7.1      0.75         0.77         0.74"
+        },
+        "2019": {
+          "hoursPerDay": 0.04,
+          "percentEngaged": 6.1,
+          "hoursPerDayEngaged": 0.7,
+          "quote": "Caring for and helping household adults................ .              0.04         0.03          0.05    6.1         5.9         6.2       0.70        0.57         0.82"
+        },
+        "2021": {
+          "hoursPerDay": 0.04,
+          "percentEngaged": 5.1,
+          "hoursPerDayEngaged": 0.79,
+          "quote": "Caring for and helping household adults................ .              0.04         0.03          0.05    5.1         4.3         5.8       0.79        0.66         0.88"
+        },
+        "2022": {
+          "hoursPerDay": 0.05,
+          "percentEngaged": 4.6,
+          "hoursPerDayEngaged": 0.98,
+          "quote": "Caring for and helping household adults................ .              0.05         0.03          0.06    4.6         4.1         5.1       0.98        0.84         1.10"
+        },
+        "2023": {
+          "hoursPerDay": 0.04,
+          "percentEngaged": 4.8,
+          "hoursPerDayEngaged": 0.84,
+          "quote": "Caring for and helping household adults................ .              0.04         0.03          0.05    4.8         4.0         5.5       0.84        0.78         0.87"
+        },
+        "2024": {
+          "hoursPerDay": 0.04,
+          "percentEngaged": 5.0,
+          "hoursPerDayEngaged": 0.88,
+          "quote": "Caring for and helping household adults................ .              0.04         0.04          0.04    5.0         5.3         4.6       0.88        0.82         0.95"
+        },
+        "2025": {
+          "hoursPerDay": 0.05,
+          "percentEngaged": 5.9,
+          "hoursPerDayEngaged": 0.89,
+          "quote": "Caring for and helping household adults................ .              0.05         0.06          0.05    5.9         6.5         5.3      0.89         0.91        0.87"
+        }
+      }
+    },
+    {
+      "id": "government-services",
+      "activity": "Government services",
+      "years": {
+        "2018": {
+          "hoursPerDay": "approximately zero",
+          "percentEngaged": 0.4,
+          "hoursPerDayEngaged": 0.72,
+          "quote": "Government services.......................................... .         –2          –2          –2         0.4         0.4         0.4      0.72         0.84         0.61"
+        },
+        "2019": {
+          "hoursPerDay": "approximately zero",
+          "percentEngaged": 0.4,
+          "hoursPerDayEngaged": 0.87,
+          "quote": "Government services.......................................... .        –2          –2          –2         0.4         0.5         0.4       0.87        0.77         1.00"
+        },
+        "2021": {
+          "hoursPerDay": "approximately zero",
+          "percentEngaged": 0.2,
+          "hoursPerDayEngaged": 1.06,
+          "quote": "Government services.......................................... .         –2          –2          –2         0.2         0.1         0.2       1.06       –3            0.91"
+        },
+        "2022": {
+          "hoursPerDay": "approximately zero",
+          "percentEngaged": 0.3,
+          "hoursPerDayEngaged": "suppressed",
+          "quote": "Government services.......................................... .         –2          –2          –2         0.3         0.3         0.4      –3          –3           –3"
+        },
+        "2023": {
+          "hoursPerDay": "approximately zero",
+          "percentEngaged": 0.3,
+          "hoursPerDayEngaged": "suppressed",
+          "quote": "Government services.......................................... .        –2          –2          –2         0.3         0.1         0.4      –3          –3           –3"
+        },
+        "2024": {
+          "hoursPerDay": "approximately zero",
+          "percentEngaged": 0.3,
+          "hoursPerDayEngaged": 0.72,
+          "quote": "Government services.......................................... .         –2          –2          –2         0.3         0.2         0.4       0.72       –3           –3"
+        },
+        "2025": {
+          "hoursPerDay": "approximately zero",
+          "percentEngaged": 0.3,
+          "hoursPerDayEngaged": 0.91,
+          "quote": "Government services.......................................... .        –2          –2          –2         0.3         0.2         0.3      0.91        –3           0.89"
+        }
+      }
+    },
+    {
+      "id": "household-management",
+      "activity": "Household management",
+      "years": {
+        "2018": {
+          "hoursPerDay": 0.14,
+          "percentEngaged": 19.1,
+          "hoursPerDayEngaged": 0.73,
+          "quote": "Household management..................................... .                0.14        0.12        0.16      19.1        15.6        22.4     0.73         0.75         0.71"
+        },
+        "2019": {
+          "hoursPerDay": 0.15,
+          "percentEngaged": 19.1,
+          "hoursPerDayEngaged": 0.78,
+          "quote": "Household management..................................... .                0.15        0.11        0.19      19.1        15.5        22.4     0.78         0.70         0.83"
+        },
+        "2021": {
+          "hoursPerDay": 0.14,
+          "percentEngaged": 17.9,
+          "hoursPerDayEngaged": 0.79,
+          "quote": "Household management..................................... .                0.14        0.11        0.17      17.9        15.1        20.6     0.79         0.74         0.83"
+        },
+        "2022": {
+          "hoursPerDay": 0.14,
+          "percentEngaged": 16.7,
+          "hoursPerDayEngaged": 0.84,
+          "quote": "Household management..................................... .                0.14        0.12        0.16      16.7        13.7        19.6     0.84         0.88         0.81"
+        },
+        "2023": {
+          "hoursPerDay": 0.13,
+          "percentEngaged": 16.0,
+          "hoursPerDayEngaged": 0.83,
+          "quote": "Household management..................................... .                0.13        0.11        0.16      16.0        12.7        19.2     0.83         0.85         0.81"
+        },
+        "2024": {
+          "hoursPerDay": 0.15,
+          "percentEngaged": 17.5,
+          "hoursPerDayEngaged": 0.86,
+          "quote": "Household management..................................... .                0.15        0.13        0.17      17.5        15.2        19.6     0.86         0.83         0.89"
+        },
+        "2025": {
+          "hoursPerDay": 0.17,
+          "percentEngaged": 18.6,
+          "hoursPerDayEngaged": 0.92,
+          "quote": "Household management..................................... .                0.17        0.12        0.22      18.6        14.4        22.6     0.92         0.82        0.99"
+        }
+      }
+    },
+    {
+      "id": "volunteering",
+      "activity": "Volunteering (organizational and civic activities)",
+      "years": {
+        "2018": {
+          "hoursPerDay": 0.13,
+          "percentEngaged": 5.7,
+          "hoursPerDayEngaged": 2.25,
+          "quote": "Volunteering (organizational and civic activities). . . . . . .           0.13       0.12          0.14     5.7           5.1        6.3     2.25         2.29          2.21"
+        },
+        "2019": {
+          "hoursPerDay": 0.13,
+          "percentEngaged": 5.5,
+          "hoursPerDayEngaged": 2.29,
+          "quote": "Volunteering (organizational and civic activities). . . . . . .           0.13       0.11          0.14     5.5           4.5        6.5      2.29        2.51          2.15"
+        },
+        "2021": {
+          "hoursPerDay": 0.09,
+          "percentEngaged": 4.0,
+          "hoursPerDayEngaged": 2.23,
+          "quote": "Volunteering (organizational and civic activities). . . . . . .           0.09       0.10          0.08     4.0           4.0        4.1      2.23        2.51          1.96"
+        },
+        "2022": {
+          "hoursPerDay": 0.1,
+          "percentEngaged": 4.4,
+          "hoursPerDayEngaged": 2.26,
+          "quote": "Volunteering (organizational and civic activities). . . . . . .           0.10       0.09          0.11     4.4           3.4        5.3      2.26        2.63          2.04"
+        },
+        "2023": {
+          "hoursPerDay": 0.1,
+          "percentEngaged": 4.6,
+          "hoursPerDayEngaged": 2.11,
+          "quote": "Volunteering (organizational and civic activities). . . . . . .           0.10       0.09          0.10     4.6           4.4        4.8      2.11        2.10          2.11"
+        },
+        "2024": {
+          "hoursPerDay": 0.13,
+          "percentEngaged": 5.0,
+          "hoursPerDayEngaged": 2.64,
+          "quote": "Volunteering (organizational and civic activities). . . . . . .           0.13       0.11          0.16     5.0           4.2        5.8     2.64         2.54          2.71"
+        },
+        "2025": {
+          "hoursPerDay": 0.12,
+          "percentEngaged": 5.3,
+          "hoursPerDayEngaged": 2.18,
+          "quote": "Volunteering (organizational and civic activities). . . . . . .           0.12       0.11          0.12     5.3           5.2        5.4      2.18        2.20         2.16"
+        }
+      }
+    },
+    {
+      "id": "socializing",
+      "activity": "Socializing and communicating",
+      "years": {
+        "2018": {
+          "hoursPerDay": 0.64,
+          "percentEngaged": 35.0,
+          "hoursPerDayEngaged": 1.83,
+          "quote": "Socializing and communicating.......................... .              0.64        0.59           0.69   35.0        32.3        37.6      1.83         1.83         1.82"
+        },
+        "2019": {
+          "hoursPerDay": 0.64,
+          "percentEngaged": 34.8,
+          "hoursPerDayEngaged": 1.83,
+          "quote": "Socializing and communicating.......................... .              0.64         0.62          0.66   34.8        32.5        37.0       1.83        1.90         1.78"
+        },
+        "2021": {
+          "hoursPerDay": 0.57,
+          "percentEngaged": 29.1,
+          "hoursPerDayEngaged": 1.96,
+          "quote": "Socializing and communicating.......................... .              0.57         0.52          0.61   29.1        25.8        32.2       1.96        2.01         1.91"
+        },
+        "2022": {
+          "hoursPerDay": 0.56,
+          "percentEngaged": 28.7,
+          "hoursPerDayEngaged": 1.95,
+          "quote": "Socializing and communicating.......................... .              0.56         0.51          0.61   28.7        26.8        30.4       1.95        1.90         1.99"
+        },
+        "2023": {
+          "hoursPerDay": 0.57,
+          "percentEngaged": 29.2,
+          "hoursPerDayEngaged": 1.96,
+          "quote": "Socializing and communicating.......................... .              0.57         0.55          0.60   29.2        28.0        30.5       1.96        1.96         1.96"
+        },
+        "2024": {
+          "hoursPerDay": 0.59,
+          "percentEngaged": 29.9,
+          "hoursPerDayEngaged": 1.96,
+          "quote": "Socializing and communicating.......................... .              0.59         0.56          0.61   29.9        28.6        31.2      1.96         1.96         1.96"
+        },
+        "2025": {
+          "hoursPerDay": 0.58,
+          "percentEngaged": 30.4,
+          "hoursPerDayEngaged": 1.92,
+          "quote": "Socializing and communicating.......................... .              0.58         0.52          0.65   30.4        28.2        32.5      1.92         1.83        2.00"
+        }
+      }
+    }
+  ]
+}

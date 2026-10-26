@@ -1,5 +1,7 @@
 # Session D: overnight pool
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 - Item 1: [draft #4328](https://github.com/lamontaes/Political-Game-Git/pull/4328), committee support recount and individual votes. All 19 tests pass; drawn played year 41.08 seconds, +11.30% over base.
 - Item 2: [draft #4332](https://github.com/lamontaes/Political-Game-Git/pull/4332) remains blocked by Session A's unmerged law-family work. Rechecked #4331: housing reads exist, but the named tenant/payment/reaction chain is still unfinished. Return last.
 - Item 3, central bank: [draft #4333](https://github.com/lamontaes/Political-Game-Git/pull/4333) deletes unapproved replacements and renewals. Eight tests pass; drawn year 101.02 seconds, +1.06%. The missing appointment route remains registered. Credit draft #4336 was closed in favor of the second worker's earlier #4334; its branch and independent proof remain.

@@ -9,7 +9,7 @@
  * closeness changes only when people spend time together or time passes.
  */
 import data from "./data/closeness.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import { parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
@@ -56,7 +56,7 @@ function faded(p: Lookup, hours: number, days: number, kind: string): number {
 }
 
 function elapsed(p: Lookup, from: IsoDate, to: IsoDate): number {
-  return Math.max(daysBetween(makeIsoDate(from), makeIsoDate(to)), p("zero"));
+  return Math.max(daysBetweenText(from, to), p("zero"));
 }
 
 /** Closeness today: the closeness at the last contact, faded since. */
@@ -204,8 +204,7 @@ export function openingClosenessHours(
 
   // Childhood at home together, then the years apart since the elder left.
   const adultDays = p("benchmarkAdultMinimumAge") * p("daysPerMeanYear");
-  const age = (birthDate: IsoDate) =>
-    daysBetween(makeIsoDate(birthDate), makeIsoDate(core.date));
+  const age = (birthDate: IsoDate) => daysBetweenText(birthDate, core.date);
   let together = p("zero"),
     apart = p("zero");
   if (tie.sharedChildhood === "parent" || tie.sharedChildhood === "child") {
@@ -233,6 +232,40 @@ export function openingClosenessHours(
   return together > p("zero")
     ? towardSteady(p, atParting, rate, apart, kind)
     : steadyHours(p, rate, kind);
+}
+
+/**
+ * Opening closeness between two people the records say shared a school class
+ * or a workgroup (the opening peer circles), in hours of time together: the
+ * hours it takes to become a casual friend, faded since the day the shared
+ * context began. Zero when no recorded peer fact joins them. Read the same
+ * for a full person and a counted one: only the recorded facts decide.
+ */
+export function openingPeerHours(
+  core: Pick<CoreState, "data" | "date">,
+  actor: Pick<PersonState, "pastFacts">,
+  otherId: PersonId,
+): number {
+  stopgap(data.stopgapId);
+  const p = lookup(core);
+  let hours = p("zero");
+  for (const fact of actor.pastFacts ?? []) {
+    if (
+      fact.facts?.otherPersonId !== otherId ||
+      !data.peerTies.factKinds.includes(fact.kind)
+    )
+      continue;
+    hours = Math.max(
+      hours,
+      faded(
+        p,
+        p(data.peerTies.hoursParameter),
+        elapsed(p, fact.date, core.date),
+        data.peerTies.kind,
+      ),
+    );
+  }
+  return hours;
 }
 
 /**

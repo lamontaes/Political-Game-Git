@@ -1,12 +1,15 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
+  CLOSENESS,
   closenessAfter,
   openingClosenessHours,
+  openingPeerHours,
   temperedHours,
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
-import { queueDecisionDetail } from "./decision-detail";
+import { keptDecision, queueDecisionDetail } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
@@ -17,6 +20,7 @@ import {
   enterResidentMarket,
   countedSinceOpening,
   releaseResidentHousehold,
+  residentFacts,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
@@ -70,6 +74,7 @@ import {
   settleFinanceContract,
   retireFinanceBudget,
   transferCredit,
+  transferWageFlowCredit,
   reviewBusiness,
   closeBusinessByChoice,
   closeEmployer,
@@ -104,9 +109,10 @@ import {
   isExplicitlyControlledPersonV1,
   prepareControlledActTraceV1,
 } from "./player-control-state-v1";
-import { stopgap } from "./stopgaps";
+import { recordStopgapsIn, stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import { nativityFact } from "./nativity";
+import { spacedSiblingBirths } from "./sibling-births";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -237,6 +243,36 @@ function admitOwnerCashAccount(
 
 /** Opening family ties: closeness from the kind of tie (P15 part 2). */
 const OPENING_FAMILY_CAUSE = "opening-family";
+
+/**
+ * Opening peer ties: a person ties to each classmate and coworker the opening
+ * records name (the generated peer circles), at the closeness those shared
+ * hours leave. Full people and counted ones are read the same way. A world
+ * built to play (createLifeCore) opens these for every resident; people filled
+ * in or promoted later open theirs as they join.
+ */
+export function openOpeningPeerTies(
+  core: CoreState,
+  api: CoreAPI,
+  actor: PersonState,
+): void {
+  for (const id of actor.knownIds) {
+    if (actor.familyIds.has(id)) continue;
+    const relationshipId = pairKey(actor.id, id);
+    if (core.relationships.has(relationshipId)) continue;
+    if (!core.people.has(id) && !core.husks.has(id)) continue;
+    const hours = openingPeerHours(core, actor, id);
+    if (hours <= api.parameter("zero")) continue;
+    api.relationship(
+      actor.id,
+      id,
+      CLOSENESS.peerTies.kind as Relationship["kind"],
+      hours,
+      undefined,
+      { cause: CLOSENESS.peerTies.cause },
+    );
+  }
+}
 
 function assertKnownIdSources(
   core: CoreState,
@@ -694,6 +730,15 @@ export function retainLog(core: CoreState, event: LogRecord): void {
   if (core.durableLog.has(event.id)) return;
   const row: LogRecord = {
     ...event,
+    ...(event.decision
+      ? {
+          decision: keptDecision(
+            core,
+            event.decision,
+            isExplicitlyControlledPersonV1(core, event.decision.actorId),
+          ),
+        }
+      : {}),
     visibility: core.observer
       ? "observer"
       : circle
@@ -797,6 +842,7 @@ const writerAPIs = new WeakMap<CoreState, CoreAPI>();
 
 /** Local writers validate their own rows; no whole-world pass occurs per act. */
 export function coreAPI(core: CoreState): CoreAPI {
+  recordStopgapsIn(core.stopgapHits);
   const prior = writerAPIs.get(core);
   if (prior) return prior;
   const p = (key: string) => {
@@ -982,6 +1028,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     repayCredit(id, minor, reason, sourceId) {
       return transferCredit(core, api, id, minor, reason, sourceId, true);
+    },
+    drawWageFlowCredit(id, minor, flowId) {
+      return transferWageFlowCredit(core, api, id, minor, flowId);
     },
     reviewBusiness(id) {
       reviewBusiness(core, api, id);
@@ -1516,6 +1565,21 @@ export function coreAPI(core: CoreState): CoreAPI {
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
       actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
+      // Brothers and sisters stay born months apart from the chosen birthday:
+      // one drawn too close moves, keeping their age where their year allows.
+      const siblings = (actor.pastFacts ?? []).flatMap((fact) => {
+        const other =
+          fact.kind === "family:sibling" && fact.facts?.otherPersonId
+            ? core.people.get(fact.facts.otherPersonId)
+            : undefined;
+        return other ? [other] : [];
+      });
+      const births = spacedSiblingBirths(
+        core.startedAt,
+        siblings.map((row) => row.birthDate),
+        [identity.birthDate],
+      );
+      siblings.forEach((row, i) => (row.birthDate = births[i]!));
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
@@ -1617,9 +1681,7 @@ export function coreAPI(core: CoreState): CoreAPI {
           staying.length &&
           !staying.some(
             (row) =>
-              row?.alive &&
-              ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >=
-                adultAge,
+              row?.alive && ageOnDate(row.birthDate, core.date) >= adultAge,
           )
         )
           throw new Error(
@@ -1655,6 +1717,97 @@ export function coreAPI(core: CoreState): CoreAPI {
       }
       for (const mover of movers as PersonState[])
         mover.householdId = input.householdId;
+    },
+    setPartnersV1(input) {
+      const [a, b] = [...input.personIds].sort() as [string, string];
+      const left = core.people.get(a),
+        right = core.people.get(b);
+      if (!left?.alive || !right?.alive || a === b)
+        throw new Error("Partners are two different living people.");
+      makeIsoDate(input.source.asOf);
+      const links = [...core.familyLinks.values()].filter(
+        (row) => row.kind === "partner",
+      );
+      const between = links.find(
+        (row) => row.personIds.includes(a) && row.personIds.includes(b),
+      );
+      const record = (
+        person: PersonState,
+        other: PersonState,
+        id: string,
+        kind: "family:partner" | "family:former-partner",
+        summary: string,
+      ) => {
+        person.pastFacts = [
+          ...(person.pastFacts ?? []),
+          {
+            id: `${id}:${kind}:${person.id}`,
+            date: core.date,
+            kind,
+            summary,
+            source: input.source,
+            facts: { otherPersonId: other.id },
+          },
+        ];
+      };
+      if (input.together) {
+        const adultAge = api.parameter("benchmarkAdultMinimumAge");
+        const ageNow = (born: string) =>
+          Number(core.date.slice(0, 4)) -
+          Number(born.slice(0, 4)) -
+          (core.date.slice(5) < born.slice(5) ? 1 : 0);
+        if (
+          between ||
+          links.some(
+            (row) => row.personIds.includes(a) || row.personIds.includes(b),
+          ) ||
+          [left, right].some((row) => ageNow(row.birthDate) < adultAge)
+        )
+          throw new Error("Partners are single adults.");
+        const id = `partnership:${a}:${b}:${core.date}`;
+        core.familyLinks.set(id, { id, kind: "partner", personIds: [a, b] });
+        left.familyIds.add(b);
+        right.familyIds.add(a);
+        record(left, right, id, "family:partner", "partner");
+        record(right, left, id, "family:partner", "partner");
+        api.emit({
+          id: `family.partnered:${id}`,
+          date: core.date,
+          kind: "family.partnered",
+          personIds: [a, b],
+          placeId: left.placeId,
+          publicRecord: false,
+          source: input.source,
+          facts: { linkId: id },
+        });
+      } else {
+        if (!between) throw new Error("These two are not partners.");
+        core.familyLinks.delete(between.id);
+        record(
+          left,
+          right,
+          between.id,
+          "family:former-partner",
+          "former partner",
+        );
+        record(
+          right,
+          left,
+          between.id,
+          "family:former-partner",
+          "former partner",
+        );
+        api.emit({
+          id: `family.separated:${between.id}:${core.date}`,
+          date: core.date,
+          kind: "family.separated",
+          personIds: [a, b],
+          placeId: left.placeId,
+          publicRecord: false,
+          source: input.source,
+          facts: { linkId: between.id },
+        });
+      }
     },
     fundPublicPay(authorityId, treasuryId, source) {
       makeIsoDate(source.asOf);
@@ -2002,7 +2155,7 @@ export function personOrFillIn(
   const full = core.people.get(personId);
   // Someone returned to the counts comes back as the same person.
   if (full && !isDemoted(full)) return full;
-  if (!residentPerson(core, personId)) return full;
+  if (!residentFacts(core, personId)) return full;
   return fillInPerson(core, personId);
 }
 
@@ -2137,6 +2290,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
           job.id,
         );
         api.updatePerson(row.id, { jobId: job.id });
+        refreshOfficeStaff(core, job.organizationId);
       }
       admitted.push(core.people.get(row.id)!);
       continue;
@@ -2166,6 +2320,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+      refreshOfficeStaff(core, job.organizationId);
     }
   }
   // Their economic life moves from the merged flows to their own records.
@@ -2202,6 +2357,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     const calendarId = `${original.id}:filled:${commitment.id}`;
     api.addWorkCommitment({
       ...commitment,
+      // Work and pay run from today; the job has been theirs since the
+      // counted record's own start.
+      heldSince: commitment.heldSince ?? commitment.startsAt,
       startsAt: makeIsoDate(core.date),
       hourlyMinor: job.hourlyMinor ?? commitment.hourlyMinor,
       payrollCalendarId: calendarId,
@@ -2269,6 +2427,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             api.parameter("relationInitial"),
           );
       }
+    openOpeningPeerTies(core, api, actor);
     for (const id of actor.knownIds) {
       const other = core.people.get(id) ?? core.husks.get(id);
       if (!other) continue;
@@ -2327,6 +2486,17 @@ export interface RecordedIdentity {
   tier?: string;
   /** What they hold on the opening day, from the survey rule for their pay; only then, since later cash would come from nowhere. */
   openingLiquidMinor?: number;
+  /**
+   * A person met in a place kept as counts: the job its counts show, kept as a
+   * fact with no payroll behind it (stopgap SG-WORLD-coarse-place-no-payroll).
+   */
+  work?: {
+    readonly workplace: string;
+    readonly title: string;
+    readonly occupation: string;
+    readonly hourlyMinor: number | null;
+    readonly weeklyHours: number;
+  };
   source: Source;
 }
 
@@ -2395,6 +2565,26 @@ export function fillInIdentity(
           },
         ]
       : []),
+    ...(identity.work
+      ? [
+          {
+            id: `${identity.id}:work`,
+            date: core.date,
+            kind: "identity:work",
+            summary: identity.work.title,
+            source: identity.source,
+            facts: {
+              workplace: identity.work.workplace,
+              title: identity.work.title,
+              occupation: identity.work.occupation,
+              weeklyHours: String(identity.work.weeklyHours),
+              ...(identity.work.hourlyMinor === null
+                ? {}
+                : { hourlyMinor: String(identity.work.hourlyMinor) }),
+            },
+          },
+        ]
+      : []),
     // An official's birth: native-born or not, which the line of succession reads.
     ...(identity.seatKey
       ? [
@@ -2418,7 +2608,7 @@ export function fillInIdentity(
     throw new Error(
       `Opening cash for ${identity.id} is only admitted on the opening day.`,
     );
-  const person = admitPerson(core, {
+  const input: PersonInput = {
     id: identity.id,
     givenName: identity.givenName,
     familyName: identity.familyName,
@@ -2435,6 +2625,21 @@ export function fillInIdentity(
     knownIds: [],
     ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
     pastFacts: facts,
+  };
+  // A named person is filled in whole: the childhood, schools and era the
+  // opening gives everyone, built from the world's seed and their birth, so
+  // the same person comes back the same every time.
+  const lived = buildDeepPast({
+    seed: core.seed,
+    startedAt: core.startedAt,
+    people: [input],
+    households: [core.households.get(householdId)!],
+    jobs: [],
+    gaps: [],
+  } as unknown as CoreInput).people[0];
+  const person = admitPerson(core, {
+    ...input,
+    pastFacts: lived?.pastFacts ?? facts,
   });
   recordEntry(core, {
     id: person.id,
@@ -2498,6 +2703,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
       { cause: OPENING_FAMILY_CAUSE },
     );
   }
+  openOpeningPeerTies(core, api, actor);
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
     api.observe(actor.id, {

@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/newgame-opens-offices
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "found while building gov-prestart-history, Oct 19"
-claimed-at: 2026-10-19T23:01:04.180Z
+claimed-at:
 ---
 
 **What.** `openOffices` is called only by the bench world builder (src/bench/world.ts), not by `newGame` in src/core2/saves.ts, which /play and saves use. A game started that way has no offices, so the government pre-start pass finds no terms and writes no seat-reached records. Open the offices in `newGame` before the pre-start run.
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T23:01:04.180Z
 
 **Files.** src/core2/saves.ts, src/bench/world.ts
 
-**Notes.** The government pre-start test builds the bench world and runs the pass on it for now.
+**Notes.** The government pre-start test builds the bench world and runs the pass on it for now. Claim released Oct 23: branch idle since Oct 19.

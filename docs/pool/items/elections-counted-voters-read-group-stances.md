@@ -5,21 +5,25 @@ area: elections
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/counted-stances
 pr: #5501
 blocked-on:
 after: people-opening-stance-formation
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:16:02.246Z
+claimed-at: 2026-10-21T21:48:45.952Z
 ---
 
-**What.** countedAppeal in electorate.ts still reads a counted voter's recognition of a candidate through platformAgreement(lean, platform), the lean-times-axis stand-in, while full people read agreementWith. Give each counted group the stance its members' traits imply (the same formation rule times the count) and read it there, so a counted voter and a full voter of the same traits agree with a platform alike.
+**What.** countedAppeal in electorate.ts still reads a counted voter's recognition of a candidate through platformAgreement(lean, platform), the lean-times-axis stand-in, while full people read agreementWith. Give each counted group the stance its members' traits imply (the same formation rule times the count) and read it there. A counted voter and a full voter of the same traits must agree with a platform alike.
 
 **Rules.** One model, two tiers: the counted group is read by the same rule as a full person, times its count. No dice. The chain is the acceptance.
 
-**Done when.** In a drawn place (buildBenchWorld, seed named) a counted group and a full person of the same traits get the same agreement with one candidate's platform, shown by group and person ids, and platformAgreement has no remaining caller in src/core2; a case in src/core2/electorate-weight.test.ts covers it.
+**Done when.** In a drawn place (buildBenchWorld, seed named) a counted group and a full person of the same traits get the same agreement with one candidate's platform, shown by group and person ids, and platformAgreement has no remaining caller in src/core2; src/core2/counted-stance-agreement.test.ts covers the same-person read by counted-group and filled-person record ids, and src/core2/electorate-weight.test.ts preserves the weighted-voter count checks.
 
 **Files.** src/core2/electorate.ts, src/core2/campaign-views.ts, src/core2/modules/views.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5501 (branch claude/counted-stances): Merging current origin/main conflicts in data/research/people/opening-stance-loadings.json, scripts/research/build-stance-loadings.py, and src/core2/modules/views.ts. Resolve the generator and views conflicts, regenerate the data, and rerun the same-person counted-versus-filled agreement proof. Its parent #5495 is still open, so this fixer remains based there; no pool item will be marked done for a non-main merge.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5501 (branch claude/counted-stances): Merging current main conflicts in src/core2/modules/views.ts at openingStance (the PR hunk around line 534). Main now reads the stored opening stance records and their source IDs; this branch refactors the same path through loadingShift. Resolve this code conflict on this branch while preserving main stored-record provenance and the counted/full stance rule, then rerun the changed-file checks and drawn same-person agreement proof against the merged result. I aborted the attempted integration without changing the authored branch; no local gate is claimed. The previous missing-views-module guard fix is present.; finish on that branch, merge main into it first.

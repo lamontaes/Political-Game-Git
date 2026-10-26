@@ -1,9 +1,9 @@
 # Civic Prose Contract (v0.2 accepted authority)
 
-Source of authority: owner calibration sessions of 2026-09-05 and the accepted
-v0.2 Drive authority (`02_PROSE_SYSTEM_V0.2_ACCEPTED_AUTHORITY — 2026-09-05`).
-This file restates that authority for the prose specialist. It does not decide
-what is currently assigned; canonical control stays with the Drive chain.
+Source of authority: the owner's prose calibration sessions (September 2026),
+recorded in `docs/coordination/DECISION-REGISTER.md`. This file restates that
+authority for the prose writer. What is assigned now comes from the pool, and
+the English engine's rules come from the `words-engine` skill.
 
 ## Product center
 

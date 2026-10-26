@@ -3,6 +3,7 @@ import board from "./data/macro/board.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
 import { getNameCorpus } from "./gov-rules/names-data";
 import { SeededRng } from "./kernel/rng";
+import { medianTransactionBalance } from "./starting-cash";
 import type { MacroMonth, MacroParameter } from "./macro-model";
 import type {
   ActOffer,
@@ -160,7 +161,12 @@ export function generateBoard(
         [board.traits.risk]: trait(),
         [board.traits.deliberation]: trait(),
       },
-      liquidMinor: p("zero"),
+      // What a family at the seat's pay keeps in checking and savings (SCF),
+      // as every other named official is given, not an empty wallet.
+      liquidMinor: Math.round(
+        medianTransactionBalance(board.memberPay.annualDollars) *
+          p("minorPerDollar"),
+      ),
       livingCostDailyMinor: p("zero"),
       source: {
         tag: "ESTIMATED",

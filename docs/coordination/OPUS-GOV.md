@@ -1,5 +1,7 @@
 # OPUS-GOV status (new account, from Oct 14, 2026)
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Only OPUS-GOV writes this file. The earlier log is `docs/coordination/gov.md`.
 
 - **Owns:** `src/rules` and the government engines (laws, budgets, offices, elections, campaigns, legislatures, executive).

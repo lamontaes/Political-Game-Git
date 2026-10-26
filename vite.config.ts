@@ -96,9 +96,8 @@ export default defineConfig({
       // Immutable private pack authoring snapshots also use node:test.
       // Their original validators run with Node, not through Vitest discovery.
       "art/authoring/**",
-      // These four use `node:test` and run with `node --test` (see package.json
+      // These three use `node:test` and run with `node --test` (see package.json
       // and the workflows), so Vitest finds no suite in them.
-      "scripts/law-consequence-modules/generate-manifest.test.mjs",
       "scripts/secrets/scan-tracked-secrets.test.mjs",
       "scripts/trait-effects/generate-manifest.test.mjs",
       "src/bench/place-selection.test.mjs",

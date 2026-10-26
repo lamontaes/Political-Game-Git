@@ -16,10 +16,23 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
-import { openRecalls, recallRule, recallsOf } from "./modules/recalls";
+import {
+  openRecalls,
+  recallBarsFor,
+  recallRule,
+  recallsOf,
+} from "./modules/recalls";
 import { personStance, PLATFORM_QUESTIONS } from "./campaign-views";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { gameStartDate } from "./game-start";
+import { countedResidents } from "./electorate";
+import { lawChain } from "./modules/laws";
+import { resolveRequiredSignatures } from "./gov-rules/municipal-election-rules";
+import { VOTING_MODULE_ID, type ResultRow } from "./modules/voting";
+import { resolveMunicipalRecallRule } from "./gov-rules/municipal-ballot-rules";
 
 const START = "2026-01-05";
 const seed =
@@ -158,4 +171,191 @@ describe("M3-10 recalls", () => {
     expect(report, `no recall started in ${tried.join("; ")}`).not.toBeNull();
     govReport("recalls", JSON.stringify(report));
   }, 300_000);
+
+  // `countScale` opens the town at a multiple of its sample, so the households'
+  // fitted weights are fractions and the electorate they stand for is not whole.
+  const countedSigners = (countScale?: number) => {
+    // A place drawn from all 56, in a state whose places have a recall.
+    const tried: string[] = [];
+    let checked = false;
+    for (let attempt = 0; attempt < 6 && !checked; attempt += 1) {
+      let drawn = drawPlace(seed, `recall-base:${attempt}:0`);
+      for (
+        let redraw = 1;
+        redraw < 60 &&
+        !resolveMunicipalRecallRule(drawn.state.replace(/^US-/, ""))
+          .circulationDays;
+        redraw += 1
+      )
+        drawn = drawPlace(seed, `recall-base:${attempt}:${redraw}`);
+      const key = drawn.key;
+      tried.push(`${drawn.state} ${key} seed ${seed}:${attempt}`);
+      if (!resolveMunicipalRecallRule(drawn.state.slice(3)).circulationDays)
+        continue;
+      const { core } = buildBenchWorld(`${seed}:${attempt}`, gameStartDate(), {
+        twoLevel: true,
+        placeKey: key,
+        ...(countScale ? { countScale } : {}),
+      });
+      const api = coreAPI(core);
+      const council = townSeats(api).find(
+        (s) => s.office.kind === "council" && s.holder?.personId,
+      );
+      if (!council) continue;
+      const divisive = [...PLATFORM_QUESTIONS].sort(
+        (a, b) =>
+          Math.abs(personStance(1, b)) - Math.abs(personStance(1, a)) ||
+          a.localeCompare(b),
+      );
+      for (const question of divisive) {
+        const bill = draftBill(api, {
+          bodyOfficeId: council.office.id,
+          sponsorId: council.holder!.personId!,
+          provisions: [{ kind: "policy-question", question, value: 1 }],
+        });
+        if (bill.status === "blocked") continue;
+        const voted = holdVote(api, bill.id);
+        if (["enacted", "signed", "overridden"].includes(voted.status)) break;
+      }
+      advanceCore(core, after(api.state.date, 31));
+      const recall = recallsOf(api)[0];
+      const rule = recallRule(api);
+      if (!recall || !rule) continue;
+      const town = lawChain(api).townPlaceId;
+      const counted = countedResidents(core).filter((c) => c.placeId === town);
+      expect(counted.length, `${key}: counted residents`).toBeGreaterThan(0);
+      // The requirement is the rule's percentage of the base its own rule
+      // names, a whole count of voters read from the world's records or
+      // sized from the real averages, and the petition names which.
+      const base = recall.base;
+      expect(base.kind, `${key}: base kind`).toBe(rule.threshold.base);
+      expect(Number.isInteger(base.count), `${key}: base count`).toBe(true);
+      if (base.basis === "recorded") {
+        const result = coreAPI(core)
+          .moduleState(VOTING_MODULE_ID)
+          .table("results")
+          .get(base.recordId ?? "") as unknown as ResultRow | undefined;
+        expect(result, `${key}: base record ${base.recordId}`).toBeDefined();
+        expect(base.count, `${key}: base read from ${base.recordId}`).toBe(
+          Math.round(Object.values(result!.totals).reduce((n, v) => n + v, 0)),
+        );
+      }
+      expect(recall.required, `${key}: required of ${base.count}`).toBe(
+        resolveRequiredSignatures(rule.threshold, base.count),
+      );
+      // The counted residents signed too, by the same rule.
+      expect(recall.signatures, key).toBeGreaterThan(
+        recall.namedSigners.length,
+      );
+      expect(Number.isInteger(recall.signatures), `${key}: signatures`).toBe(
+        true,
+      );
+      // Another engine reads the requirement: the due day puts the recall on
+      // the ballot or refuses it by it.
+      advanceCore(core, after(recall.due, 2));
+      const settled = recallsOf(api).find((r) => r.id === recall.id)!;
+      expect(settled.status, `${key}: ${recall.id}`).toBe(
+        recall.signatures >= recall.required ? "on-ballot" : "failed",
+      );
+      govReport(
+        "recall-signature-base",
+        JSON.stringify({
+          place: key,
+          state: drawn.state,
+          seed: `${seed}:${attempt}`,
+          recall: recall.id,
+          base,
+          required: recall.required,
+          signatures: recall.signatures,
+          status: settled.status,
+        }),
+      );
+      checked = true;
+    }
+    expect(checked, `no recall started in ${tried.join(", ")}`).toBe(true);
+  };
+  it("counts the town's counted residents as signers and voters by the same rule", () => {
+    countedSigners();
+  }, 900_000);
+  it("counts them the same when their weights are fractions", () => {
+    countedSigners(2.5);
+  }, 900_000);
+});
+
+describe("each state's recall timing bars", () => {
+  it("come from the state's row, with the national estimate only where none is read", () => {
+    expect(recallBarsFor("CA", 4)).toEqual({
+      openingDays: 90,
+      closingDays: 182,
+    });
+    expect(recallBarsFor("KS", 4)).toEqual({
+      openingDays: 120,
+      closingDays: 180,
+    });
+    // Michigan counts a term of more than two years in whole years.
+    expect(recallBarsFor("MI", 2)).toEqual({
+      openingDays: 182,
+      closingDays: 182,
+    });
+    expect(recallBarsFor("MI", 4)).toEqual({
+      openingDays: 365,
+      closingDays: 365,
+    });
+    expect(recallBarsFor("WI", 4)).toEqual({
+      openingDays: 365,
+      closingDays: 0,
+    });
+    expect(recallBarsFor("NJ", 3)).toEqual({
+      openingDays: 315,
+      closingDays: 0,
+    });
+    // A state whose statute is unread has no row, so no state bar is invented.
+    expect(recallBarsFor("NC", 4)).toBeNull();
+  });
+});
+
+describe("each state's recall rule as its statute reads", () => {
+  it("South Dakota needs grounds, Wyoming's reaches commission-form towns only, Mississippi's no town", () => {
+    const sd = resolveMunicipalRecallRule("SD");
+    expect(sd.doctrine).toBe("simultaneous-incumbent-replacement");
+    expect(sd.groundsRequired).toBe(true);
+    expect(sd.threshold).toEqual({ percent: 15, base: "registered-voters" });
+    expect(sd.circulationDays).toBe(60);
+    expect(sd.citation).toContain("9-13-29");
+    expect(sd.grounds).toContain("malfeasance");
+    expect(sd.scope).toContain("every municipality");
+    // A town not under the commission form has no recall in Wyoming.
+    const wy = resolveMunicipalRecallRule("WY");
+    expect(wy.doctrine).toBe("prohibited");
+    expect(wy.circulationDays).toBeNull();
+    expect(wy.citation).toContain("15-4-110");
+    expect(wy.scope).toContain("commission-form");
+    const ms = resolveMunicipalRecallRule("MS");
+    expect(ms.doctrine).toBe("prohibited");
+    expect(ms.scope).toContain("county officials only");
+  });
+
+  it("a South Dakota or Wyoming town plays a year under its recall rule, and no recall starts that its law forbids", () => {
+    let place = drawPlace(seed, "recall-statute:0");
+    for (let i = 1; i < 5000 && !/^US-(SD|WY)$/.test(place.state); i += 1)
+      place = drawPlace(seed, `recall-statute:${i}`);
+    expect(place.state, `seed ${seed}`).toMatch(/^US-(SD|WY)$/);
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    advanceCore(core, after(core.date, 365));
+    const rule = resolveMunicipalRecallRule(place.state.slice(3));
+    // Grounds of cause bar a recall over an ordinance's vote; no recall at
+    // all bars every one.
+    expect(
+      rule.groundsRequired === true || rule.doctrine === "prohibited",
+    ).toBe(true);
+    expect(recallsOf(api), where).toHaveLength(0);
+    process.stdout.write(
+      `recall-statute: ${where}: ${rule.doctrine}, scope ${rule.scope}; grounds ${rule.grounds}; ${rule.citation}; ${recallsOf(api).length} recalls in a year\n`,
+    );
+  }, 900_000);
 });

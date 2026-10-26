@@ -52,7 +52,9 @@ describe("the outcome web's coverage", () => {
       expect(wired !== !!waiting, row.key).toBe(true);
       if (waiting)
         expect(
-          waiting.waitingOn.length > 0 || waiting.needsSize === true,
+          waiting.waitingOn.length > 0 ||
+            waiting.needsSize === true ||
+            waiting.carriedBy !== undefined,
           row.key,
         ).toBe(true);
     }
@@ -189,9 +191,55 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
   }, 300_000);
 });
 
+describe(`drinking-water violations are read into low birth weight, in a generated town (seed ${seed})`, () => {
+  const place = drawPlace(seed, "outcome-web-water");
+  it(`${place.name}, ${place.state}: low birth weight reads the sized link to drinking-water violations every month`, () => {
+    const core = createLifeCore(
+      withWorldEconomy(
+        generatedOpening(place, {
+          twoLevel: true,
+          settings: { population: 1500 },
+        }),
+      ),
+      {
+        data: worldCoreData(),
+        modules: [...WORLD_MODULES, OUTCOME_WEB_MODULE],
+      },
+    );
+    advanceCore(core, `${Y}-02-05`);
+    const api = coreAPI(core);
+    const town = core.people.get(core.playerId!)!.placeId;
+    advanceCore(core, `${Number(Y) + 1}-02-05`);
+    const key = "water-violations-to-infant-health";
+    const size = link(key).size!;
+    expect(size).toBeGreaterThan(0);
+    const rows = months(api, town).filter(
+      (row) => row.effects[key] !== undefined,
+    );
+    expect(rows.length).toBeGreaterThan(6);
+    for (const row of rows) {
+      const violations = row.values["env.drinking-water-violations"]!;
+      const base = row.bases["env.drinking-water-violations"]!;
+      expect(row.effects[key]).toBeCloseTo(size * (violations - base), 10);
+      // Low birth weight is its base times its links' factors.
+      const factor = Object.entries(row.effects)
+        .filter(([other]) => link(other).to === "health.low-birthweight")
+        .reduce((n, [, effect]) => n * (1 + effect), 1);
+      expect(row.values["health.low-birthweight"]).toBeCloseTo(
+        row.bases["health.low-birthweight"]! * factor,
+      );
+    }
+    // Nothing in the world writes violations yet (SG-WEB-outcome-drift), so
+    // the cause sits at its opening level and the link adds nothing; one more
+    // violation per system would raise low birth weight by the sized 6%.
+    expect(rows.every((row) => row.effects[key] === 0)).toBe(true);
+    expect(linkEffect(link(key), size, 3.6 + 1, 3.6)).toBeCloseTo(size);
+  }, 600_000);
+});
+
 describe(`a law ripples through the web and lands on people (seed ${seed})`, () => {
   const place = drawPlace(seed, "outcome-web-law");
-  it(`${place.name}, ${place.state}: a SNAP work requirement cuts SNAP receipt after its lag, food insecurity follows a month later, and a named adult's record carries it`, () => {
+  it(`${place.name}, ${place.state}: a grocery sales tax exemption cuts food insecurity after its lag and the effect ends the day the law does`, () => {
     const core = createLifeCore(
       generatedOpening(place, {
         twoLevel: true,
@@ -201,10 +249,8 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
     );
     const api = coreAPI(core);
     const town = core.people.get(core.playerId!)!.placeId;
-    const series =
-      "us-policy-positions:health-human-services.work-requirement-for-assistance";
-    const toParticipation = link("snap-work-requirement-to-participation");
-    const toFood = link("snap-to-food-insecurity");
+    const exempt = link("grocery-exemption-to-food-insecurity");
+    const series = exempt.from.slice("law:".length);
     const lawEvent = (date: string, value: string) => {
       advanceCore(core, date);
       // The event exactly as OPUS-GOV's laws module announces a law's phase.
@@ -228,32 +274,26 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
       });
     };
     lawEvent(`${Y}-02-10`, "1");
-    // Lag 3: the law reads as of three months back, so June 3 is the first month it acts.
-    advanceCore(core, `${Y}-07-05`);
+    // Lag 6: the law reads as of six months back, so September 3 is the first month it acts.
+    advanceCore(core, `${Y}-10-05`);
     const at = (month: string) => monthOf(api, town, month);
-    const snapBase = at(`${Y}-01`).bases["program.snap-receipt"]!;
     const foodBase = at(`${Y}-01`).bases["household.food-insecurity"]!;
-    expect(at(`${Y}-05`).values["program.snap-receipt"]).toBeCloseTo(snapBase);
-    expect(at(`${Y}-06`).values["program.snap-receipt"]).toBeCloseTo(
-      snapBase * (1 + toParticipation.size!),
-    );
-    // Food insecurity reads SNAP receipt's moved part the month after it moves.
-    expect(at(`${Y}-06`).values["household.food-insecurity"]).toBeCloseTo(
+    expect(exempt.lagMonths).toBe(6);
+    expect(at(`${Y}-08`).values["household.food-insecurity"]).toBeCloseTo(
       foodBase,
     );
-    expect(at(`${Y}-07`).values["household.food-insecurity"]).toBeCloseTo(
-      foodBase * (1 + toFood.size! * snapBase * toParticipation.size!),
+    expect(at(`${Y}-09`).values["household.food-insecurity"]).toBeCloseTo(
+      foodBase * (1 + exempt.size!),
     );
 
-    // Repeal: the lagged effect ends the day the law does, and food
-    // insecurity follows the next month.
-    lawEvent(`${Y}-08-10`, "0");
+    // Repeal: the lagged effect ends the day the law does, not a lag later.
+    lawEvent(`${Y}-10-10`, "0");
     expect(
-      monthOf(api, town, `${Y}-08`).values["program.snap-receipt"],
-    ).toBeCloseTo(snapBase);
-    advanceCore(core, `${Y}-09-05`);
+      monthOf(api, town, `${Y}-10`).values["household.food-insecurity"],
+    ).toBeCloseTo(foodBase);
+    advanceCore(core, `${Y}-11-05`);
     expect(
-      monthOf(api, town, `${Y}-09`).values["household.food-insecurity"],
+      monthOf(api, town, `${Y}-11`).values["household.food-insecurity"],
     ).toBeCloseTo(foodBase);
     expect((core as CoreState).modules.has(OUTCOME_WEB_MODULE_ID)).toBe(true);
   }, 300_000);
@@ -325,7 +365,8 @@ describe(`the outcomes the web now produces, in a generated town (seed ${seed})`
 const ADDED_LAW_LINKS = [
   "same-day-registration-to-youth-turnout",
   "medicaid-expansion-to-mortality",
-  "end-cash-bail-to-pretrial-detention",
+  // end-cash-bail-to-pretrial-detention is carried by the justice engine's
+  // pretrial decision (links.json carriedBy), so the web no longer runs it.
   "right-to-counsel-to-evictions",
   "child-access-law-to-youth-gun-deaths",
   "min-age-to-youth-gun-suicide",
@@ -375,9 +416,13 @@ describe(`the outcomes the web now produces move with their laws, in a generated
       });
     }
     const lagged = Math.max(
-      ...ADDED_LAW_LINKS.map((key) => link(key).lagMonths),
+      ...ADDED_LAW_LINKS.map(
+        (key) => link(key).lagMonths + (link(key).phaseInMonths ?? 0),
+      ),
     );
-    const reads = `${String(Number(Y) + 1)}-${String(2 + lagged - 12 + 2).padStart(2, "0")}`;
+    // Law enacted in February of Y; read two months after lag and phase-in end.
+    const monthIndex = 1 + lagged + 2;
+    const reads = `${String(Number(Y) + Math.floor(monthIndex / 12))}-${String((monthIndex % 12) + 1).padStart(2, "0")}`;
     advanceCore(core, `${reads}-05`);
     const row = monthOf(api, town, reads);
     for (const key of ADDED_LAW_LINKS) {

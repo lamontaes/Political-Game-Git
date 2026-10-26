@@ -7,6 +7,7 @@
  * mortgage ends, the home is no longer the household's, and the sale is a
  * record the housing ledger keeps.
  */
+import { townOutsideOf } from "./opening-outside-market";
 import { transferCash } from "./world-transfer";
 import type { ModuleRow } from "./module-data";
 import type { MortgageRow } from "./housing-foreclosure";
@@ -62,12 +63,7 @@ export function sellHome(
   const price = Math.round(dwelling.valueMinor ?? 0);
   const owed = mortgages.reduce((sum, row) => sum + row.balanceMinor, 0);
   // The town's outside market stands for the buyer.
-  const buyer = [...c.organizations.values()]
-    .filter(
-      (org) =>
-        org.outsideFlow !== undefined && org.placeId === household.placeId,
-    )
-    .sort((a, b) => a.id.localeCompare(b.id))[0];
+  const buyer = townOutsideOf(c.organizations.values(), household.placeId);
   if (!buyer || price <= 0) return undefined;
   const source = {
     tag: "ESTIMATED" as const,
@@ -80,14 +76,20 @@ export function sellHome(
   let toLender = 0;
   let remaining = price;
   for (const mortgage of mortgages) {
-    const paid = transferCash(
-      api,
-      `home-sale:${stamp}:${mortgage.id}`,
-      buyer.id,
-      mortgage.holderId,
-      Math.min(remaining, mortgage.balanceMinor),
-      source,
-    );
+    const owedNow = Math.min(remaining, mortgage.balanceMinor);
+    // The outside market that buys the home can also hold its mortgage: paying
+    // itself moves no cash, and the loan is settled all the same.
+    const paid =
+      mortgage.holderId === buyer.id
+        ? owedNow
+        : transferCash(
+            api,
+            `home-sale:${stamp}:${mortgage.id}`,
+            buyer.id,
+            mortgage.holderId,
+            owedNow,
+            source,
+          );
     toLender += paid;
     remaining -= paid;
   }

@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: open
+status: done
 claimed-by:
 pr: #5343
 blocked-on:
@@ -22,4 +22,4 @@ claimed-at:
 
 **Files.** see spec
 
-**Notes.** Verified Oct 19: src/director/bring-it-up-law.test.ts, bring-it-up.test.ts and bring-it-up-press.test.ts pass (5 tests). In a played world in drawn places a reader of a law-took-effect story brings it up, naming the outlet and the subject; a change a person saw or was told of names who they believe caused it. Not met: a printed story blames no one, so a law story's signer is not named (director-bring-it-up-names-signer). Priority 3 until scheduled. Verify how much is built before starting.
+**Notes.** Verified Oct 19: src/director/bring-it-up-law.test.ts, bring-it-up.test.ts and bring-it-up-press.test.ts pass (5 tests). In a played world in drawn places a reader of a law-took-effect story brings it up, naming the outlet and the subject; a change a person saw or was told of names who they believe caused it. Not met: a printed story blames no one, so a law story's signer is not named (director-bring-it-up-names-signer). Priority 3 until scheduled. Verify how much is built before starting. Done by #5343, merged (reconcile Oct 23).

@@ -24,6 +24,16 @@ function job(name: string, next?: string): string {
 describe("the release event", () => {
   it("runs on main pushes with a manual final drain", () => {
     expect(workflow).toContain("push:\n    branches: [main]");
+    // Pool-only commits start no run; any push touching other files does.
+    expect(workflow).toMatch(/paths-ignore:\n\s+- "docs\/pool\/\*\*"/);
+    // So do the play-first lane's shared files, appended to straight on main.
+    for (const path of [
+      "docs/play-first/PROGRESS.md",
+      "docs/coordination/LEADS-2026-10-24.md",
+      "docs/coordination/MERGE-FIRST.md",
+    ]) {
+      expect(workflow).toContain(`      - "${path}"`);
+    }
     expect(workflow).toContain("workflow_dispatch:");
     expect(workflow).not.toContain("pull_request_target");
   });

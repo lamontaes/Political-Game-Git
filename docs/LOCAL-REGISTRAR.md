@@ -1,5 +1,7 @@
 # Local registrar — work that needs a machine this session cannot reach
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Every cloud Project thread runs in an ephemeral Linux container with the
 repository, GitHub and Drive, and nothing else. This file is the standing list
 of work that therefore cannot be finished from a cloud thread, written so that

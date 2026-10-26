@@ -1,5 +1,7 @@
 # LOCATIONS: every painted place in the game, used where it belongs
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Owner: Lamontae. Written by the Opus CTO on Oct 13, 2026, from the code at main `d39511ac2` and a full listing of the Firefly library.
 
 You are the one session that owns **places**: the paintings behind every scene. Your job is to:

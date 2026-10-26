@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: done
 claimed-by: claude/tuition-reenroll
 pr: #5504
 blocked-on:
@@ -22,5 +22,7 @@ claimed-at: 2026-10-20T14:04:54.492Z
 **Files.** src/core2/opening-private-tuition.ts, src/core2/modules/school.ts, src/core2/data/opening-private-tuition.json
 
 **Notes.** Part 1 of 3 split from core-stopgap-opening-private-tuition-aggregate-spending (Oct 20).
+
+Oct 20 (claude/tuition-reenroll): built for full families. Households' tuition lives in their everyday-living plan (`finance.livingPlans`, `cost-of-living.ts`), not in `finance.contracts`, so the August pass (`private-tuition-reenroll.ts`, called from the school module on `reenrollOn`) sets the plan's private-school line with the new `setEverydayPurchase`. Counted families keep the opening's enrollment (stopgap SG-CORE-private-tuition-counted-reenroll, left to the next part of the split).
 
 Sent back 2026-10-20 from PR #5504 (branch claude/tuition-reenroll): merge conflict with main in src/core2/modules/school.ts (code); finish on that branch, merge main into it first.

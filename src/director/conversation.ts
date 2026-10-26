@@ -19,7 +19,7 @@
  * Every line is a mined sentence (`./mined/conversation-bank.ts`); a moment no
  * mined sentence covers is left unsaid.
  *
- * What a talk is about (owner, Oct 14, 2026, night): it starts from the place
+ * What a talk is about: it starts from the place
  * and the occasion, then from the biggest recorded event of either person in
  * the director's ledger, else from what they share; it keeps to that one
  * topic, may go on to one related topic, and the other person closes it when
@@ -34,6 +34,7 @@ import { stableHash } from "../core2/kernel/ids";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
@@ -47,44 +48,35 @@ import type {
   Source,
 } from "../core2/types";
 import { changesKnownTo } from "./bring-it-up";
-import { JOURNAL_DATA } from "./journal";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
 import { viewOf } from "../core2/modules/views";
 import {
-  CONVERSATION_RULES,
-  MINED_CONVERSATION,
-} from "./mined/conversation-bank";
-import { renderLine, type Fact } from "./render";
-import { properName, spoken, spokenMonth, spokenWhen } from "./words";
+  asksQuestion,
+  conversationHas,
+  conversationMoves,
+  CONVERSATION_WORDS,
+  joinedReply,
+  wordConversationMove,
+  type ConversationPart,
+  type Fact,
+  type Said as WordedLine,
+  type SubjectBank,
+  type Wording,
+} from "../english/conversation-words";
+import { relationPhrase } from "../english/journal-words";
+import rulesFile from "./data/conversation-rules.json" with { type: "json" };
+import { properName, spoken, spokenWhen } from "./words";
 
 const zero = P.zero;
 const one = P.one;
 
-export interface Move {
-  /** The choice it makes (an answer), or the choice and its part (any other role). */
-  key: string;
-  /** The mined part it is worded from. */
-  part?: string;
-  text: string;
-  stages?: string[];
-  raises?: string;
-  requiresFacts?: string[];
-  /** Whom the sentence speaks of, when it opens with a pronoun. */
-  pronoun?: "he" | "she" | "they";
-  /** A bare question turned back ("And you?"), said after the plain answer. */
-  afterPlain?: boolean;
-}
-interface SubjectBank {
-  ask?: Move[];
-  raise?: Move[];
-  reply?: Move[];
-  answers?: Move[];
-  lie?: Move[];
-  open?: Move[];
-  leave?: Move[];
-}
+/** Years after which a shared school or workplace is a reason to talk (conversation-rules.json, TUNABLE). */
+const LONG_AGO_YEARS = (
+  rulesFile as unknown as { sharedPast: { longAgoYears: { value: number } } }
+).sharedPast.longAgoYears.value;
+
 export interface ConversationData {
   version: string;
   toldEvent: string;
@@ -113,14 +105,19 @@ export interface ConversationData {
   tells?: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** The ledger labels, by prefix, that are something happening to a person. */
   happenings?: { prefixes: readonly string[] };
-  /** The subject kinds relatives do not raise or ask between them (owner, Oct 15, evening). */
+  /** The subject kinds relatives do not raise or ask between them. */
   familyTalk: { dropped: readonly string[] };
   /** What the player answers when the other person raises one of their own subjects. */
   otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
   subjects: Readonly<Record<string, SubjectBank>>;
 }
 /** The mined words, read by default. */
-export const CONVERSATION_DATA: ConversationData = MINED_CONVERSATION;
+export const CONVERSATION_DATA: ConversationData = CONVERSATION_WORDS;
+/** The rules a conversation runs by, holding no sentence text. */
+export const CONVERSATION_RULES = rulesFile as unknown as Omit<
+  ConversationData,
+  "version" | "subjects"
+>;
 
 type Facts = Record<string, Fact>;
 
@@ -138,15 +135,7 @@ export interface Subject {
 }
 
 /** Which mined sentence said a line, and what picked it (for reports and grading). */
-export interface Wording {
-  /** The bank and role: `conversation:own-work:ask`. */
-  bank: string;
-  /** The mined parts the line is made of, in order. */
-  parts: string[];
-  stage: string;
-  /** The record facts the line copied. */
-  facts: string[];
-}
+export type { Wording };
 
 export interface ConversationLine {
   speakerId: PersonId;
@@ -258,6 +247,23 @@ function schoolStage(core: Readonly<CoreState>, person: Readonly<PersonState>) {
     P.benchmarkAdultMinimumAge
     ? "graduated"
     : "enrolled";
+}
+
+/**
+ * How long someone has held their job, in completed years, counted to the
+ * anniversary of the day they started: what people say ("for seven years"),
+ * never the month they started. Nobody says a date in speech. Under two
+ * years there is no count to say.
+ */
+export function tenureYears(
+  started: { date: string; factId: string } | null,
+  today: string,
+): { text: string; sourceRecordIds: readonly string[] } | undefined {
+  if (!started) return undefined;
+  const years = ageOnDate(started.date, today);
+  return years > one
+    ? { text: String(years), sourceRecordIds: [started.factId] }
+    : undefined;
 }
 
 /** When the person started their current job, from their own record. */
@@ -412,6 +418,13 @@ function lastEndedJob(core: Readonly<CoreState>, personId: PersonId) {
   return best ? core.jobs.get(best.jobId) : undefined;
 }
 
+/** The news a household member tells of a relative, by the label of the listener's moment. */
+const NEWS_KINDS: Readonly<Record<string, string>> = {
+  "feeling:event:life.death": "death-news",
+  "feeling:event:health.serious-illness": "illness-news",
+  "feeling:event:justice.imprisoned": "prison-news",
+};
+
 const EVICTION_LABEL = "feeling:event:housing.eviction";
 const EVICTION_EVENT = "event:housing.eviction:";
 
@@ -435,10 +448,10 @@ function evictionSubjects(
     ...recentMoments(core, director, speakerId),
     ...(together ? recentMoments(core, director, listenerId) : []),
   ].find(
+    // The record is the household's: it may name the other members too.
     (moment) =>
       moment.label === EVICTION_LABEL &&
-      moment.causeId.startsWith(EVICTION_EVENT) &&
-      !moment.counterpartIds.length,
+      moment.causeId.startsWith(EVICTION_EVENT),
   );
   if (!evicted || !core.modules.has(HOUSING_MODULE_ID)) return [];
   const housing = coreAPI(core as CoreState).moduleState(HOUSING_MODULE_ID);
@@ -483,13 +496,16 @@ function evictionSubjects(
       typeof hostId === "string"
         ? core.people.get(hostId as PersonId)
         : undefined;
-    const forms = kin
-      ? JOURNAL_DATA.relationWords[kin.kind.slice("family:".length)]
+    const phrase = kin
+      ? relationPhrase(
+          kin.kind.slice("family:".length),
+          host?.looks?.gender ?? "other",
+          "journal",
+        )
       : undefined;
-    const word = forms?.[host?.looks?.gender ?? "other"] ?? forms?.other;
-    if (kin && word)
+    if (kin && phrase)
       facts.relation = {
-        text: `${JOURNAL_DATA.possessive.journal} ${word}`,
+        text: phrase,
         sourceRecordIds: [kin.id, caseId],
       };
     out.push({
@@ -498,6 +514,96 @@ function evictionSubjects(
       aboutId: evicted.causeId,
       stage: status.status,
       facts,
+    });
+  }
+  return out;
+}
+
+const VICTIMIZED_LABEL = `feeling:event:${CRIME_EVENT}`;
+
+/**
+ * The speaker's latest victimization as they can tell it, from the crime
+ * engine's record: what happened (the crime's kind, the stage the line is
+ * worded for) and when. Only the speaker's own moment counts: the record
+ * names whom it happened to (every member for a crime against the household,
+ * only the victim for a robbery or an assault), and the lines are told in the
+ * first person.
+ */
+function victimizationSubjects(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  speakerId: PersonId,
+): Subject[] {
+  if (!core.modules.has(CRIME_MODULE_ID)) return [];
+  const moment = recentMoments(core, director, speakerId).find(
+    (row) =>
+      row.label === VICTIMIZED_LABEL &&
+      row.causeId.startsWith(`${CRIME_EVENT}:`),
+  );
+  if (!moment) return [];
+  // The record's id is the crime's kind, the household and the day.
+  const [type] = moment.causeId.slice(CRIME_EVENT.length + one).split(":");
+  if (!type) return [];
+  return [
+    {
+      id: `victimization:${moment.causeId}`,
+      kind: "victimization",
+      aboutId: moment.causeId,
+      stage: type,
+      facts: {
+        victimized: { text: "", sourceRecordIds: [moment.causeId] },
+        when: {
+          text: spokenWhen(moment.date, core.date),
+          sourceRecordIds: [moment.causeId],
+        },
+      },
+    },
+  ];
+}
+
+/**
+ * The justice engine's events a person can talk about, by the ledger label
+ * of the moment they made and the subject each is told as.
+ */
+const JUSTICE_SUBJECTS: Readonly<Record<string, string>> = {
+  "feeling:event:justice.charged": "charge",
+  "feeling:event:justice.convicted": "conviction",
+  "feeling:event:justice.acquitted": "acquittal",
+};
+
+/**
+ * A charge, a conviction or an acquittal as the speaker can tell it: their
+ * own ledger's moment of it, or the listener's moment that names them as the
+ * accused (the record is the case's). A case is told by its newest event, so
+ * a verdict stands in for the charge that came before it.
+ */
+function justiceSubjects(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  speakerId: PersonId,
+  listenerId: PersonId,
+): Subject[] {
+  const moments = [
+    ...recentMoments(core, director, speakerId).filter(
+      (moment) => !moment.counterpartIds.length,
+    ),
+    ...recentMoments(core, director, listenerId).filter((moment) =>
+      moment.counterpartIds.includes(speakerId),
+    ),
+  ].filter((moment) => JUSTICE_SUBJECTS[moment.label]);
+  const told = new Set<string>();
+  const out: Subject[] = [];
+  for (const moment of moments) {
+    const caseId = moment.causeId.slice(moment.causeId.indexOf(":") + one);
+    if (told.has(caseId)) continue;
+    told.add(caseId);
+    out.push({
+      id: `${JUSTICE_SUBJECTS[moment.label]}:${moment.causeId}`,
+      kind: JUSTICE_SUBJECTS[moment.label]!,
+      aboutId: moment.causeId,
+      facts: {
+        case: { text: "", sourceRecordIds: [moment.causeId, caseId] },
+      },
     });
   }
   return out;
@@ -526,7 +632,7 @@ export function subjectsBetween(
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
   // Someone not in the room is talked about only when something recorded
-  // happened to them lately (owner, Oct 14, 2026, night: no cold "How is X?").
+  // happened to them lately.
   const happened = (id: PersonId) =>
     !!latestMoment(core, director, speakerId, id);
   const listener = core.people.get(listenerId)!;
@@ -598,7 +704,92 @@ export function subjectsBetween(
       });
     }
   }
+  // A new job of the speaker's own, from the money moment of its start: the
+  // job record names the employer, so the talk opens on it ("I got a job at
+  // ..."), and the listener answers (congratulate, ask, brief).
+  const started = recentMoments(core, director, speakerId).find(
+    (moment) =>
+      moment.label === "money:job-started" && !moment.counterpartIds.length,
+  );
+  const startedJob = started ? core.jobs.get(started.causeId) : undefined;
+  const startedOrg = startedJob
+    ? core.organizations.get(startedJob.organizationId)
+    : undefined;
+  if (started && startedJob && startedOrg)
+    out.push({
+      id: `job-new:${started.causeId}`,
+      kind: "job-new",
+      aboutId: started.causeId,
+      facts: {
+        employer: {
+          text: properName(startedOrg.name),
+          sourceRecordIds: [startedJob.id, startedOrg.id],
+        },
+      },
+    });
+  // The listener's own new job, as the speaker would take it up ("Congratulations
+  // on the job at ..."). Said only once the rules map "job-new-told" to a
+  // reply kind and the bank has words for it (src/director/data/conversation-rules.json).
+  const listenerStarted = recentMoments(core, director, listenerId).find(
+    (moment) =>
+      moment.label === "money:job-started" && !moment.counterpartIds.length,
+  );
+  const listenerJob = listenerStarted
+    ? core.jobs.get(listenerStarted.causeId)
+    : undefined;
+  const listenerOrg = listenerJob
+    ? core.organizations.get(listenerJob.organizationId)
+    : undefined;
+  if (listenerStarted && listenerJob && listenerOrg)
+    out.push({
+      id: `job-new-told:${listenerStarted.causeId}`,
+      kind: "job-new-told",
+      aboutId: listenerStarted.causeId,
+      facts: {
+        employer: {
+          text: properName(listenerOrg.name),
+          sourceRecordIds: [listenerJob.id, listenerOrg.id],
+        },
+      },
+    });
+  // Hard news about a relative, told by the household member who has it: a
+  // death, a serious illness, a prison sentence. The listener's own moment
+  // names the person it is about; the listener's family record names how
+  // they are related ("Your grandmother passed away.").
+  for (const moment of recentMoments(core, director, listenerId)) {
+    const kind = NEWS_KINDS[moment.label];
+    const aboutId = moment.counterpartIds[zero];
+    if (!kind || !aboutId || aboutId === speakerId) continue;
+    const about = core.people.get(aboutId);
+    const row = (listener.pastFacts ?? []).find(
+      (fact) =>
+        fact.kind.startsWith("family:") &&
+        fact.facts?.otherPersonId === aboutId,
+    );
+    const phrase = row
+      ? relationPhrase(
+          row.kind.slice("family:".length),
+          about?.looks?.gender ?? "other",
+          "scene",
+        )
+      : undefined;
+    if (!about || !row || !phrase) continue;
+    out.push({
+      id: `${kind}:${moment.causeId}`,
+      kind,
+      aboutId,
+      facts: {
+        relation: {
+          text: phrase,
+          sourceRecordIds: [row.id, moment.causeId],
+        },
+        name: { text: about.givenName, sourceRecordIds: [row.id] },
+      },
+    });
+  }
   out.push(...evictionSubjects(core, director, speakerId, listenerId));
+  out.push(...victimizationSubjects(core, director, speakerId));
+  out.push(...justiceSubjects(core, director, speakerId, listenerId));
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
     out.push({ id: `their-work:${listenerId}`, kind: "their-work", facts: {} });
@@ -641,6 +832,12 @@ export function subjectsBetween(
             ),
             sourceRecordIds: [context.id],
           },
+          // A reason to raise it: the years since, past the rules' threshold.
+          ...(Number(core.date.slice(zero, core.date.indexOf("-"))) -
+            Number(context.date.slice(zero, context.date.indexOf("-"))) >=
+          LONG_AGO_YEARS
+            ? { "long-ago": { text: "yes", sourceRecordIds: [context.id] } }
+            : {}),
         },
       });
     if (fact.kind === "social:generated-coworker") {
@@ -660,6 +857,13 @@ export function subjectsBetween(
               text: properName(org.name),
               sourceRecordIds: [fact.id, org.id],
             },
+            // A past job that ended long ago is a reason to ask after it.
+            ...(past?.endsAt &&
+            Number(core.date.slice(zero, core.date.indexOf("-"))) -
+              Number(past.endsAt.slice(zero, past.endsAt.indexOf("-"))) >=
+              LONG_AGO_YEARS
+              ? { "long-ago": { text: "yes", sourceRecordIds: [org.id] } }
+              : {}),
           },
         });
     }
@@ -685,6 +889,10 @@ export function subjectsBetween(
     });
   }
   // The speaker's relatives the listener has not met, named by relation.
+  // stopgapId: SG-DIRECTOR-shared-relative-kin-address
+  // A relative the two share is neither introduced nor asked after: "my
+  // father", "your father" or "How's John?" is not how a brother and sister
+  // speak of their own father. Shared-kin wording replaces this suppression.
   const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
@@ -693,19 +901,23 @@ export function subjectsBetween(
       !relative?.alive ||
       !row ||
       listener.knownIds.has(id) ||
+      listener.familyIds.has(id) ||
       id === listenerId
     )
       continue;
-    const words = JOURNAL_DATA.relationWords[row.relation];
-    const word = words?.[relative.looks?.gender ?? "other"] ?? words?.other;
-    if (!word) continue;
+    const phrase = relationPhrase(
+      row.relation,
+      relative.looks?.gender ?? "other",
+      "journal",
+    );
+    if (!phrase) continue;
     out.push({
       id: `kin:${id}`,
       kind: "kin",
       aboutId: id,
       facts: {
         relation: {
-          text: `${JOURNAL_DATA.possessive.journal} ${word}`,
+          text: phrase,
           sourceRecordIds: [row.factId],
         },
         name: { text: relative.givenName, sourceRecordIds: [row.factId] },
@@ -717,17 +929,21 @@ export function subjectsBetween(
     const relative = core.people.get(id);
     const row = relationOf.get(id);
     if (!relative?.alive || !row || !listener.knownIds.has(id)) continue;
-    if (id === listenerId || !happened(id)) continue;
-    const words = JOURNAL_DATA.relationWords[row.relation];
-    const word = words?.[relative.looks?.gender ?? "other"] ?? words?.other;
-    if (!word) continue;
+    if (id === listenerId || listener.familyIds.has(id) || !happened(id))
+      continue;
+    const phrase = relationPhrase(
+      row.relation,
+      relative.looks?.gender ?? "other",
+      "scene",
+    );
+    if (!phrase) continue;
     out.push({
       id: `family:${id}`,
       kind: "family",
       aboutId: id,
       facts: {
         relation: {
-          text: `${JOURNAL_DATA.possessive.scene} ${word}`,
+          text: phrase,
           sourceRecordIds: [row.factId],
         },
         name: { text: relative.givenName, sourceRecordIds: [row.factId] },
@@ -741,17 +957,21 @@ export function subjectsBetween(
     const relative = core.people.get(id);
     const row = theirRelation.get(id);
     if (!relative?.alive || !row || !speaker.knownIds.has(id)) continue;
-    if (id === speakerId || !happened(id)) continue;
-    const words = JOURNAL_DATA.relationWords[row.relation];
-    const word = words?.[relative.looks?.gender ?? "other"] ?? words?.other;
-    if (!word) continue;
+    if (id === speakerId || speaker.familyIds.has(id) || !happened(id))
+      continue;
+    const phrase = relationPhrase(
+      row.relation,
+      relative.looks?.gender ?? "other",
+      "scene",
+    );
+    if (!phrase) continue;
     out.push({
       id: `their-family:${id}`,
       kind: "their-family",
       aboutId: id,
       facts: {
         relation: {
-          text: `${JOURNAL_DATA.possessive.scene} ${word}`,
+          text: phrase,
           sourceRecordIds: [row.factId],
         },
         name: { text: relative.givenName, sourceRecordIds: [row.factId] },
@@ -816,7 +1036,7 @@ export function subjectsBetween(
         },
       },
     });
-  // Between relatives, a talk is personal only (owner, Oct 15, evening).
+  // Between relatives, a talk is personal only.
   if (speaker.familyIds.has(listenerId))
     return out.filter(
       (row) => !CONVERSATION_RULES.familyTalk.dropped.includes(row.kind),
@@ -863,18 +1083,8 @@ function replyFacts(
         : { facts: {}, stage: "none" };
     }
     case "their-tenure": {
-      const started = startedOf(listener);
-      return started
-        ? {
-            facts: {
-              since: {
-                text: spokenMonth(started.date),
-                sourceRecordIds: [started.factId],
-              },
-            },
-            stage: "default",
-          }
-        : null;
+      const years = tenureYears(startedOf(listener), core.date);
+      return years ? { facts: { years }, stage: "default" } : null;
     }
     case "shared-work": {
       const theirs = jobOf(core, listener);
@@ -953,14 +1163,11 @@ function playerFacts(
       text: properName(mine.org.name),
       sourceRecordIds: [mine.job.id, mine.org.id],
     };
-  const started = startedOf(player);
-  if (started) {
-    facts.since = {
-      text: spokenMonth(started.date),
-      sourceRecordIds: [started.factId],
-    };
-    facts["my-since"] = facts.since;
-  }
+  // How long the player has worked there; a home answer counts its own years.
+  const tenure = last.kind.startsWith("home")
+    ? undefined
+    : tenureYears(startedOf(player), core.date);
+  if (tenure) facts.years = tenure;
   const place = corePlaceByJurisdictionId(player.placeId as never);
   if (place)
     facts["my-place"] = {
@@ -1019,102 +1226,59 @@ function playerFacts(
 }
 
 /** A line as said, with the mined sentence that said it. */
-interface Said {
-  text: string;
-  sourceRecordIds: readonly string[];
-  wording: Wording;
+type Said = Omit<WordedLine, "asks" | "afterPlain">;
+
+/** Which wordings of a move may say a line: those of some moves only, or only those that ask nothing. */
+interface WordingPick {
+  keys?: readonly string[];
+  statementsOnly?: boolean;
+  /** The bank the moves come from, when it is not the line's own (an acknowledgment offered as an answer). */
+  from?: { subject: string; part: ConversationPart };
 }
+const ALL: WordingPick = {};
 
-/** Every relation word, so a sentence naming one fits only that relative. */
-const RELATION_WORDS = new Set(
-  Object.values(JOURNAL_DATA.relationWords).flatMap((forms) =>
-    Object.values(forms),
-  ),
-);
-const RELATION_IN_TEXT = /\b(wife|husband|[a-z]+)\b/gi;
-
-/**
- * The wordings that fit the person a line speaks of: a sentence opening with
- * "she" only for a woman, and one naming a relative ("my father") only for
- * that relative.
- */
-function fitAbout(
-  moves: readonly Move[] | undefined,
-  about: Readonly<PersonState> | undefined,
-  relationWord: string | undefined,
-): Move[] | undefined {
-  if (!moves) return moves;
-  const pronoun =
-    about?.looks?.gender === "male"
-      ? "he"
-      : about?.looks?.gender === "female"
-        ? "she"
-        : "they";
-  return moves.filter((move) => {
-    if (move.pronoun && (!about || move.pronoun !== pronoun)) return false;
-    const named = [...move.text.matchAll(RELATION_IN_TEXT)]
-      .map((match) => match[one]!.toLowerCase())
-      .filter(
-        (word) => RELATION_WORDS.has(word) || /^(?:wife|husband)$/.test(word),
-      );
-    return named.every((word) => word === relationWord);
-  });
-}
-
-function variantKey(move: Move): string {
-  return move.part && !move.key.endsWith(move.part)
-    ? `${move.key}.${move.part}`
-    : move.key;
-}
-
-function words(
+/** The English engine words the move; the director says which it is, who says it and what it answers. */
+function worded(
   core: Readonly<CoreState>,
   data: ConversationData,
   speakerId: PersonId,
   kind: string,
-  part: keyof SubjectBank,
-  moves: readonly Move[] | undefined,
+  part: ConversationPart,
+  pick: WordingPick,
   facts: Facts,
   momentKey: string,
   stage = "default",
   about?: Subject,
-): Said | null {
+): WordedLine | null {
   const person = about?.aboutId ? core.people.get(about.aboutId) : undefined;
-  const relationWord = about?.facts.relation?.text.split(" ").at(-one);
-  const usable = fitAbout(moves, person, relationWord)?.filter(
-    (row) => !row.requiresFacts?.some((key) => !facts[key]),
-  );
-  const bank = `conversation:${kind}:${part}`;
-  const line = renderLine({
+  return wordConversationMove({
     seed: core.seed,
-    surface: "dialogue",
-    holderId: speakerId,
-    bankKey: bank,
-    version: data.version,
-    variants: usable?.map((row) => ({
-      key: variantKey(row),
-      text: row.text,
-      ...(row.stages ? { stages: row.stages } : {}),
-    })),
-    facts: Object.fromEntries(
-      Object.entries(facts).filter(([, fact]) => fact.text !== ""),
-    ),
+    subject: kind,
+    part,
+    speakerId,
+    traits: core.people.get(speakerId)?.traits ?? {},
+    facts,
     momentKey,
     stage,
-    fallbackSourceId: speakerId,
+    ...(person ? { about: { gender: person.looks?.gender } } : {}),
+    ...(about?.facts.relation
+      ? { relationText: about.facts.relation.text }
+      : {}),
+    ...(pick.keys ? { keys: pick.keys } : {}),
+    ...(pick.statementsOnly ? { statementsOnly: true } : {}),
+    ...(pick.from ? { from: pick.from } : {}),
+    words: data,
   });
+}
+
+/** A line as said, for the talk's record. */
+function words(...args: Parameters<typeof worded>): Said | null {
+  const line = worded(...args);
   if (!line) return null;
-  const chosen = usable?.find((row) => variantKey(row) === line.variantKey);
-  return {
-    text: line.text,
-    sourceRecordIds: line.sourceRecordIds,
-    wording: {
-      bank,
-      parts: [chosen?.part ?? line.variantKey ?? bank],
-      stage,
-      facts: [...(line.factKeys ?? [])],
-    },
-  };
+  const { asks, afterPlain, ...said } = line;
+  void asks;
+  void afterPlain;
+  return said;
 }
 
 /** The bank a question about the player's own record is asked from: as news to someone who doesn't know it. */
@@ -1127,7 +1291,7 @@ function askedKind(
 ): string {
   const fresh = `${subject.kind}-new`;
   return subject.own &&
-    data.subjects[fresh] &&
+    conversationHas(fresh, undefined, data) &&
     !knowsTruth(core, askerId, playerId, subject.own)
     ? fresh
     : subject.kind;
@@ -1154,7 +1318,7 @@ function askSubject(
     otherId,
     kind,
     "ask",
-    data.subjects[kind]?.ask,
+    ALL,
     subject.facts,
     `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:ask`,
     "default",
@@ -1194,7 +1358,7 @@ function raiseSubject(
     otherId,
     subject.kind,
     "raise",
-    data.subjects[subject.kind]?.raise,
+    ALL,
     subject.facts,
     `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
     subject.stage ?? "default",
@@ -1248,7 +1412,7 @@ function tellable(
         otherId,
         row.kind,
         "raise",
-        data.subjects[row.kind]?.raise,
+        ALL,
         row.facts,
         `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
         row.stage ?? "default",
@@ -1324,6 +1488,22 @@ const SHARED_KINDS = ["shared-school", "shared-work"];
 /** The key a listener remembers the last talk's topic under. */
 const lastTalkKey = (playerId: PersonId) => `talk:${playerId}:topic`;
 
+/** The subjects a person tells as news of their own life; a reaction to one is never answered with small talk. */
+const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
+  "job-lost",
+  "job-cause",
+  "job-hope",
+  "eviction",
+  "eviction-cause",
+  "eviction-where",
+  "victimization",
+  "death-news",
+  "illness-news",
+  "prison-news",
+  "job-new",
+  "job-new-told",
+]);
+
 /** The kind of a subject the talk opened, by its id ("own-work:...", "them>mutual:..."). */
 function subjectKindOf(subjectId: string): string {
   const own = subjectId.replace(/^[^>]*>/, "");
@@ -1361,7 +1541,7 @@ function mainTopic(
   const { playerId, otherId, director } = conversation;
   let best: { subject: Subject; asks: boolean; weight: number } | null = null;
   // The occasion comes first: a talk a scene opens is about the scene's
-  // moment (owner, Oct 14, 2026, night: the place and the occasion).
+  // moment.
   const occasion = conversation.occasion;
   const consider = (subject: Subject, asks: boolean, holderId: PersonId) => {
     if (
@@ -1375,7 +1555,11 @@ function mainTopic(
     const weight = !occasion
       ? topicWeight(core, director, holderId, subject, data)
       : isAbout(subject, occasion, data)
-        ? Number.POSITIVE_INFINITY
+        ? // What the other person has to tell comes before the player's
+          // question about the same thing.
+          asks
+          ? Number.MAX_VALUE
+          : Number.POSITIVE_INFINITY
         : occasion.counterpartIds.includes(otherId) &&
             SHARED_KINDS.includes(subject.kind)
           ? Number.MAX_VALUE
@@ -1384,7 +1568,7 @@ function mainTopic(
       best = { subject, asks, weight };
   };
   for (const subject of subjectsBetween(core, playerId, otherId, director))
-    if (data.subjects[subject.kind]?.ask?.length)
+    if (conversationHas(subject.kind, "ask", data))
       consider(subject, true, playerId);
   for (const subject of subjectsBetween(core, otherId, playerId, director))
     if (data.otherRaises[subject.kind]) consider(subject, false, otherId);
@@ -1445,7 +1629,7 @@ export function openConversation(
         otherId,
         "greet",
         "open",
-        data.subjects.greet?.open?.filter((move) => !/\?$/.test(move.text)),
+        { statementsOnly: true },
         knows
           ? {
               name: {
@@ -1484,7 +1668,7 @@ export function openConversation(
           otherId,
           "family-open",
           "open",
-          data.subjects["family-open"]?.open,
+          ALL,
           {},
           `${playerId}:${otherId}:${occasion.id}:family-open`,
         )
@@ -1657,8 +1841,8 @@ function awayPlaceOf(
 /** The kinds the player can raise: the other person has words to reply with. */
 function raisable(data: ConversationData, kind: string): boolean {
   return (
-    !!data.subjects[kind]?.raise?.length &&
-    !!data.subjects[data.replyKinds[kind] ?? kind]?.reply?.length
+    conversationHas(kind, "raise", data) &&
+    conversationHas(data.replyKinds[kind] ?? kind, "reply", data)
   );
 }
 
@@ -1671,7 +1855,6 @@ function offerChoices(
   const last = conversation.last!;
   conversation.choices = [];
   conversation.lies = [];
-  const bank = data.subjects[last.kind];
   const own = playerFacts(core, playerId, last);
   const facts = { ...own.facts, ...last.facts };
   const stage = own.stage ?? last.stage;
@@ -1700,19 +1883,23 @@ function offerChoices(
     return unused.find((row) => row.kind === raises && !taken.has(row.id));
   };
   // One choice per move, worded from every mined wording of it.
-  const groups = new Map<string, Move[]>();
-  for (const move of bank?.answers ?? [])
-    groups.set(move.key, [...(groups.get(move.key) ?? []), move]);
+  type Group = { key: string; raises?: string; from?: WordingPick["from"] };
+  const groups = new Map<string, Group>(
+    conversationMoves(last.kind, "answers", data).map((move) => [
+      move.key,
+      move,
+    ]),
+  );
   const seen = new Set<string>();
   const answerBank = `conversation:${last.kind}:answers`;
-  const answerWith = (group: readonly Move[], momentKey: string) =>
-    words(
+  const answerWith = (group: Group, momentKey: string) =>
+    worded(
       core,
       data,
       playerId,
       last.kind,
       "answers",
-      group,
+      { keys: [group.key], ...(group.from ? { from: group.from } : {}) },
       facts,
       `${playerId}:${otherId}:${turn}:${momentKey}`,
       stage,
@@ -1720,7 +1907,7 @@ function offerChoices(
     );
   const add = (
     choiceKey: string,
-    group: readonly Move[],
+    group: Group,
     raised?: Subject,
     bank = answerBank,
     // A further wording of the same move (when a first one said what another did).
@@ -1734,19 +1921,18 @@ function offerChoices(
     if (!answer) return;
     let head: Said = answer;
     let tail: Said | null = null;
-    const chosen = group.find((row) => row.part === answer.wording.parts[zero]);
-    if (chosen?.afterPlain) {
+    if (answer.afterPlain) {
       const plain =
         groups.get("plain") && answerWith(groups.get("plain")!, "plain");
-      if (plain && !/\?$/.test(plain.text)) {
+      if (plain && !plain.asks) {
         head = plain;
         tail = answer;
       }
     }
     // Turning the question back asks it; nothing more is said.
-    if (raised === last.subject && !/\?$/.test(answer.text)) return;
+    if (raised === last.subject && !answer.asks) return;
     // A move that turns the question back says nothing without its subject.
-    if (!raised && group[zero]!.raises && /\?$/.test(answer.text)) return;
+    if (!raised && group.raises && answer.asks) return;
     if (raised && raised !== last.subject) {
       const line = words(
         core,
@@ -1754,7 +1940,7 @@ function offerChoices(
         playerId,
         raised.kind,
         "raise",
-        data.subjects[raised.kind]?.raise,
+        ALL,
         raised.facts,
         `${playerId}:${otherId}:${turn}:${raised.id}:raise`,
         "default",
@@ -1762,9 +1948,9 @@ function offerChoices(
       );
       if (!line) return;
       // A turned-back question ("And you?") already asks; it carries no second line.
-      if (!/\?$/.test(answer.text)) tail = line;
+      if (!answer.asks) tail = line;
     }
-    const text = tail ? `${head.text} ${tail.text}` : head.text;
+    const text = joinedReply(head, tail);
     if (seen.has(text)) return;
     seen.add(text);
     if (raised) taken.add(raised.id);
@@ -1817,7 +2003,7 @@ function offerChoices(
         !tellable(core, conversation, data, data.tells[last.kind]![choiceKey]!)
       )
         continue;
-      const raises = group[zero]!.raises;
+      const raises = group.raises;
       const subject = raises ? target(raises) : undefined;
       if (subject && !again) add(choiceKey, group, subject);
       add(choiceKey, group, undefined, answerBank, again);
@@ -1826,7 +2012,7 @@ function offerChoices(
   offer("");
   // Four replies that each answer the line: where a move's wordings collided
   // ("Of course." said twice), another wording of a move stands in for it,
-  // never an acknowledgment (owner, Oct 15).
+  // never an acknowledgment.
   for (
     let again = one;
     again <= P.two + one && conversation.choices.length < wanted;
@@ -1834,14 +2020,21 @@ function offerChoices(
   )
     offer(`:more${again}`);
   // "Okay." and "All right." take in a statement; they are not an answer to a
-  // question ("How's Keanu?"), and each reply moves the talk (owner, Oct 15).
+  // question ("How's Keanu?"), and each reply moves the talk.
   const question = conversation.lines.at(-one);
-  if (question?.act !== "ask" && !/\?$/.test(question?.text ?? "")) {
-    const acks = new Map<string, Move[]>();
-    for (const move of data.subjects.ack?.reply ?? [])
-      acks.set(move.key, [...(acks.get(move.key) ?? []), move]);
-    for (const [key, group] of acks)
-      add(`ack:${key}`, group, undefined, "conversation:ack:reply");
+  // A bare "Okay." never answers bad news either: it does not continue the talk.
+  if (
+    question?.act !== "ask" &&
+    !(question && asksQuestion(question)) &&
+    !NEWS_SUBJECTS.has(last.subject.kind)
+  ) {
+    for (const move of conversationMoves("ack", "reply", data))
+      add(
+        `ack:${move.key}`,
+        { ...move, from: { subject: "ack", part: "reply" } },
+        undefined,
+        "conversation:ack:reply",
+      );
   }
   conversation.choices = rankChoices(core, playerId, conversation.choices);
   // The scales: a question about the player's own record they could deny.
@@ -1856,8 +2049,7 @@ function offerChoices(
 }
 
 /**
- * The four replies a turn offers (owner, Oct 14: "four dynamic choices,
- * always"), ranked by the player's traits: someone who carries talk on sees
+ * The four replies a turn offers, ranked by the player's traits: someone who carries talk on sees
  * the replies that raise or ask first, someone who keeps it short sees plain
  * answers and acknowledgments first. Different moves come before a second
  * wording of the same move. "Say nothing" is a control beside them
@@ -1869,6 +2061,9 @@ function rankChoices(
   pool: readonly ConversationChoice[],
 ): ConversationChoice[] {
   const player = core.people.get(playerId);
+  // How far the replies reach is the trait engine's decision; the
+  // calibration table reaches each reply's wording through its voice
+  // (`words`), so the same traits are not counted twice here.
   const reach = player
     ? decisionLean(
         core,
@@ -1879,7 +2074,7 @@ function rankChoices(
       )
     : zero;
   const carries = (row: ConversationChoice) =>
-    !!row.raises || !!row.tail || /\?$/.test(row.text);
+    !!row.raises || !!row.tail || asksQuestion(row);
   const brief = (row: ConversationChoice) => row.move.startsWith("ack:");
   const place = (row: ConversationChoice) =>
     reach >= zero
@@ -1941,7 +2136,6 @@ function lieChoices(
   const { playerId, otherId } = conversation;
   const last = conversation.last!;
   const own = last.subject.own!;
-  const bank = data.subjects[last.kind];
   const bases = lieClaims(core, conversation, last.subject).flatMap((claim) => {
     const momentKey = `${playerId}:${otherId}:${turn}:lie:${claim.stage}`;
     let said = words(
@@ -1950,7 +2144,7 @@ function lieChoices(
       playerId,
       last.kind,
       "lie",
-      bank?.lie,
+      ALL,
       { ...last.facts, ...claim.facts },
       momentKey,
       claim.stage,
@@ -1966,7 +2160,7 @@ function lieChoices(
         playerId,
         last.kind,
         "answers",
-        bank?.answers?.filter((move) => move.key === "plain"),
+        { keys: ["plain"] },
         Object.fromEntries(
           Object.entries(facts).map(([key, fact]) => [
             key,
@@ -1982,7 +2176,7 @@ function lieChoices(
         playerId,
         "other-work",
         "reply",
-        data.subjects["other-work"]?.reply,
+        ALL,
         {},
         momentKey,
         "none",
@@ -1998,9 +2192,7 @@ function lieChoices(
   sources.forEach((choice, index) => {
     for (let step = zero; step < bases.length; step += one) {
       const { claim, said } = bases[(index + step) % bases.length]!;
-      const text = choice?.tail
-        ? `${said.text} ${choice.tail.text}`
-        : said.text;
+      const text = joinedReply(said, choice?.tail);
       if (seen.has(text)) continue;
       seen.add(text);
       out.push({
@@ -2052,13 +2244,29 @@ function endConversation(
   conversation.lies = [];
   const { playerId, otherId } = conversation;
   if (conversation.lines.at(-one)?.kind === "farewell") return;
+  // Nobody says goodbye right after their own question was answered
+  // ("Do you remember the school?" "Yes." "Okay, bye." is not a talk): the
+  // answer is where it stops, or the asker has gone on to something else.
+  const lastFromOther = [...conversation.lines]
+    .reverse()
+    .find((line) => line.speakerId === otherId && line.kind !== "ack");
+  if (
+    lastFromOther &&
+    asksQuestion(lastFromOther) &&
+    conversation.lines.indexOf(lastFromOther) < conversation.lines.length - one
+  )
+    return;
+  // People who live together close a talk as housemates do: never "Come
+  // back soon." at home, and no hello passed on to their own family.
+  const housemate =
+    core.people.get(otherId)?.householdId ===
+    core.people.get(playerId)?.householdId;
   // "Say hello to {name}." only for someone in the player's family they know.
-  const family = subjectsBetween(
-    core,
-    playerId,
-    otherId,
-    conversation.director,
-  ).find((row) => row.kind === "family");
+  const family = housemate
+    ? undefined
+    : subjectsBetween(core, playerId, otherId, conversation.director).find(
+        (row) => row.kind === "family",
+      );
   // A parting word is not one already said in this talk ("Nice to see you."
   // opening and closing it): a further wording of the same move stands in.
   const said = new Set(conversation.lines.map((row) => row.text));
@@ -2070,9 +2278,10 @@ function endConversation(
       otherId,
       "farewell",
       "leave",
-      data.subjects.farewell?.leave,
+      ALL,
       family ? { name: family.facts.name! } : {},
       `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell${attempt ? `:${attempt}` : ""}`,
+      housemate ? "home" : "default",
     );
     if (!next) break;
     line = next;
@@ -2209,7 +2418,7 @@ export function say(
       otherId,
       "lie",
       "reply",
-      data.subjects.lie?.reply,
+      ALL,
       {},
       `${eventId}:doubt`,
     );
@@ -2257,6 +2466,25 @@ export function say(
     otherId,
     conversation.director,
   ).find((row) => row.id === choice.raises);
+  if (
+    !raised &&
+    NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))
+  ) {
+    // Bad news told and reacted to (comfort, a reaction, a plain answer): the
+    // teller never answers with small-talk "Huh."; they carry on to the one
+    // related thing they have to say (a lost job: that they are looking; an
+    // eviction: where they go), else the talk ends.
+    const related =
+      data.related[subjectKindOf(conversation.topics[zero]!)] ?? [];
+    if (conversation.topics.length === one && !doubted)
+      for (const kind of related) {
+        const next = tellable(core, conversation, data, kind);
+        if (next && raiseSubject(core, conversation, data, next, true))
+          return conversation;
+      }
+    endConversation(core, conversation, data);
+    return conversation;
+  }
   if (!raised) {
     // Nothing new raised: the other person takes the answer in, as people do
     // in small talk, then carries on with something else.
@@ -2266,7 +2494,7 @@ export function say(
       otherId,
       "ack",
       "reply",
-      data.subjects.ack?.reply,
+      ALL,
       {},
       `${playerId}:${otherId}:${conversation.lines.length}:ack`,
     );
@@ -2293,7 +2521,7 @@ export function say(
         otherId,
         kind,
         "reply",
-        data.subjects[kind]?.reply,
+        ALL,
         reply.facts,
         `${playerId}:${otherId}:${conversation.lines.length}:${raised.id}:reply`,
         reply.stage,

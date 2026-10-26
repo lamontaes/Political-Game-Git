@@ -5,14 +5,14 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/polls-core2
-pr: #5311
+status: open
+claimed-by:
+pr: #5815
 after:
 blocked-on:
 milestone:
 source: acting CTO ruling, Oct 19; replaces the old-core poll work in PRs #5091 and #5081
-claimed-at: 2026-10-20T00:07:14.734Z
+claimed-at:
 ---
 
 **What.** Polls on core2, replacing the old-core poll work in #5091 and #5081, which were closed because nothing new is added to `src/simulation`. Lift whatever is useful from those PRs into a core2 module.
@@ -28,3 +28,7 @@ claimed-at: 2026-10-20T00:07:14.734Z
 Looked at Oct 19 (claude, claude/polls-core2), released. Polls on core2 already exist: `commissionPoll` and `pollMargin` in `src/core2/modules/campaigns.ts`, the `polls` table, the bench campaign screen (`src/bench/campaign.ts`), and `campaigns.test.ts` (M2-06) and `campaign-calibration.test.ts` cover a poll of real residents with a margin of error. What the done-when still lacks is a poll run by a world campaign in the played world: six drawn places over 420 days (seed prefix 01e3ca3c, Oak Grove, Mississippi first) produced none. Cause measured in a New Mexico town 60 days in: the U.S. House, Senate and governor campaigns raised $25,000 to $55,000 from the town's residents alone, and a poll costs at least 200 interviews at $45 ($9,000) from a fraction of what is raised, so none is ever bought. The fix is filed as `gov-campaign-statewide-money-town-only`; this item closes with a played-world test once that lands (the test: a world campaign's poll rows, answers adding up to contacted, a margin, respondent ids that are real records).
 
 **Checked Oct 19 (claude/polls-core2):** already built. `commissionPoll` in `src/core2/modules/campaigns.ts` (M2-06) is a core2 module: the pollster calls adults in the town from a sampling frame of full people and counted residents, each answers from their own recorded views, the pollster is paid per interview from the campaign's money, and the result carries a computed margin of error (`pollMargin`). `src/core2/campaigns.test.ts` runs it in a random place on a named seed and passes. Nothing in `src/simulation` is touched. The CTO can set this item done.
+
+Sent back 2026-10-20 from PR #5171 (branch claude/note-polls-core2): The item Done when requires a poll run in the ordinary played world, with its sampled residents and a named place/seed. Its current Notes explicitly report no world-campaign poll in six 420-day draws and defer that missing path to gov-campaign-statewide-money-town-only. The M2-06 fixture proves the API, not that missing generated-world producer. Supply the positive world-campaign poll/answer record proof before marking this item done, or track this completed API-finding note separately.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5815 (branch claude/foreclosure-outside-lender): The positive ordinary-world poll producer is useful, and the test defaults to a random seed; the pinned reproduction run is not the objection. The remaining proof does not meet elections-polls-core2 Done when: src/core2/world-campaign-poll.test.ts permits 20 percent of respondent IDs to resolve to no record, without proving those people actually died or left after the poll. A count ratio cannot distinguish that history from invalid respondents. Verify every sampled person at the poll date (capture the poll when produced), or follow an actual death/exit record for each no-longer-present respondent; do not waive the missing records with an arbitrary 0.8 floor. Also assert the selected poll date is before its contest election and require the campaign record to exist and belong to a non-player candidate: the current optional campaign lookup treats an orphan poll as non-player. Keep the self-lender foreclosure repair, with a focused regression showing its settlement balances without a self-transfer, alongside the drawn producer case. No local standard gate pass or merge is claimed for this source review.; finish on that branch, merge main into it first.

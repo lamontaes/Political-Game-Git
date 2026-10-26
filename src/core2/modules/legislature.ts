@@ -1,3 +1,4 @@
+import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
@@ -27,8 +28,9 @@ import {
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
-import { policyAuthority } from "../policy-authority";
+import { policyAuthority, recordHomeRule } from "../policy-authority";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
+import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -187,8 +189,12 @@ export interface BillRow {
   readonly bodyOfficeId: string;
   readonly sponsorId: string;
   readonly introduced: string;
+  /** The day it passed its last chamber; a state act's session is the one sitting then, whenever it is signed. */
+  readonly passedOn?: string;
   /** The committee record that reported the bill to the floor of its first chamber, where its body has committees. */
   readonly committeeId?: string;
+  /** The pre-vote hooks that already ran on the bill's committee day; the floor day does not run them again. */
+  readonly hooksRun?: readonly string[];
   readonly provisions: readonly Provision[];
   readonly costEstimate: {
     readonly workersRaised: number;
@@ -286,7 +292,12 @@ function table(api: CoreAPI, name: string) {
 
 type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
 const positionTerms: PositionTerm[] = [];
-const beforeVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
+/** The pre-vote hooks, by name; the data says which run on a committee's day. */
+const beforeVoteHooks: {
+  readonly name: string;
+  readonly run: (api: CoreAPI, billId: string) => void;
+}[] = [];
+const committeeStageHooks = new Set(committeeDayData.committeeStage);
 const afterVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
 /** What the executive did with a passed bill on their desk, and why. */
 export interface DeskAction {
@@ -307,14 +318,20 @@ const deskHooks: ((api: CoreAPI, action: DeskAction) => void)[] = [];
  */
 export function registerLegislatureHooks(input: {
   readonly positionTerm?: PositionTerm;
-  readonly beforeVote?: (api: CoreAPI, billId: string) => void;
+  readonly beforeVote?: {
+    readonly name: string;
+    readonly run: (api: CoreAPI, billId: string) => void;
+  };
   /** After a bill's votes are counted: whoever settled something on how members voted. */
   readonly afterVote?: (api: CoreAPI, billId: string) => void;
   readonly onDesk?: (api: CoreAPI, action: DeskAction) => void;
 }): void {
   if (input.positionTerm && !positionTerms.includes(input.positionTerm))
     positionTerms.push(input.positionTerm);
-  if (input.beforeVote && !beforeVoteHooks.includes(input.beforeVote))
+  if (
+    input.beforeVote &&
+    !beforeVoteHooks.some((hook) => hook.name === input.beforeVote!.name)
+  )
     beforeVoteHooks.push(input.beforeVote);
   if (input.afterVote && !afterVoteHooks.includes(input.afterVote))
     afterVoteHooks.push(input.afterVote);
@@ -888,7 +905,7 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
           allowed: true,
           warning: "none",
           reason: "state-grants-local-minimum-wage",
-          source: rows[0]?.id ?? "",
+          source: authority.measureId ?? rows[0]?.id ?? "",
         }
       : {
           allowed: false,
@@ -896,20 +913,27 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
           reason: authority.preempts
             ? "state-preempts-local-minimum-wage"
             : "state-gives-no-local-minimum-wage",
-          source: rows[0]?.id ?? "",
+          source: authority.measureId ?? rows[0]?.id ?? "",
         };
   }
   if (
     provision.kind === "law-amount" &&
     (provision.series === "income-tax" || provision.series === "sales-tax")
   ) {
-    const key =
+    // The state's grant of local income-tax authority is the row in force
+    // today (a later row withdraws what an earlier one granted); a local sales
+    // tax needs only that the state records one. No bill offers the grant yet
+    // (stopgapId: SG-LAW-local-income-tax-authority-change).
+    const rows =
       provision.series === "income-tax"
-        ? "local-income-tax-authority"
-        : "local-sales-tax-average";
-    const rows = (
-      laws.query("bySeriesOnly", [key]) as unknown as LawRowInput[]
-    ).filter((r) => r.jurisdiction === chain.stateKey);
+        ? lawInForce(api, "local-income-tax-authority")
+            .levels.filter((l) => l.level === "state" && l.row)
+            .map((l) => l.row!)
+        : (
+            laws.query("bySeriesOnly", [
+              "local-sales-tax-average",
+            ]) as unknown as LawRowInput[]
+          ).filter((r) => r.jurisdiction === chain.stateKey);
     const allowed =
       provision.series === "income-tax"
         ? rows.some((r) => r.value === 1)
@@ -1326,7 +1350,12 @@ export function effectiveRule(
       cite: "Gozlon-Peretz v. United States, 498 U.S. 395 (1991)",
     };
   if (state) {
-    const stateDate = stateActEffectiveDate(chain.stateKey, api.state.date);
+    // Counted from the session the act passed in, though signed later.
+    const stateDate = stateActEffectiveDate(
+      chain.stateKey,
+      api.state.date,
+      bill.passedOn,
+    );
     // Every state's rule is data; a state act with no rule is a data gap to
     // fix, never a silent ordinance delay.
     if (!stateDate)
@@ -1430,6 +1459,12 @@ export function draftBill(
   };
   const titled = { ...bill, title: billTitle(bill) };
   table(api, "bills").put(titled as unknown as ModuleRow);
+  // A local body drafting under the state's grant of home rule is in that
+  // law's reach; a screen's check of what a body may do records nothing.
+  const level = bodyLevel(api, input.bodyOfficeId);
+  if (level === "city" || level === "county")
+    for (const authority of bill.authority)
+      recordHomeRule(api, authority, level);
   // A sponsor who is a full person introduced it: a record their journal reads.
   const sponsor = api.state.people.get(input.sponsorId);
   if (sponsor)
@@ -1649,6 +1684,21 @@ function payProjectGrant(
  * state allows it) and what it costs; blocked while any section is beyond
  * the body's power.
  */
+/** The level of government a lawmaking body belongs to. */
+function bodyLevel(
+  api: CoreAPI,
+  bodyOfficeId: string,
+): "federal" | "state" | "county" | "city" {
+  const body = bodyOf(api, bodyOfficeId);
+  return body?.kind === "us-house" || body?.kind === "us-senate"
+    ? "federal"
+    : body?.kind.startsWith("legislature-")
+      ? "state"
+      : body?.kind === "county-board"
+        ? "county"
+        : "city";
+}
+
 function checkedText(
   api: CoreAPI,
   bodyOfficeId: string,
@@ -1658,15 +1708,7 @@ function checkedText(
     throw new Error("A bill must have at least one provision.");
   if (provisions.some((p) => !subjectKey(p).trim()))
     throw new Error("Every bill provision must name its subject.");
-  const body = bodyOf(api, bodyOfficeId);
-  const level =
-    body?.kind === "us-house" || body?.kind === "us-senate"
-      ? "federal"
-      : body?.kind.startsWith("legislature-")
-        ? "state"
-        : body?.kind === "county-board"
-          ? "county"
-          : "city";
+  const level = bodyLevel(api, bodyOfficeId);
   const stateBody = level === "state" || level === "federal";
   const authority = provisions.map((p) =>
     p.kind === "policy-question" && p.question
@@ -1681,6 +1723,52 @@ function checkedText(
             } as Authority)
           : authorityFor(api, p))),
   );
+  // The state's grant (or refusal) of local income-tax authority was read for
+  // this body: it is the body the law lets tax, or keeps from taxing.
+  if (!stateBody)
+    for (const [index, p] of provisions.entries()) {
+      const read = authority[index]!;
+      if (p.kind === "law-amount" && p.series === "income-tax" && read.source)
+        lawApplied(api, {
+          key: "local-income-tax-authority",
+          lawId: read.source,
+          targetId: bodyOfficeId,
+          target: "organization",
+          engine: LEGISLATURE_MODULE_ID,
+          what: read.allowed ? "local-tax-allowed" : "local-tax-barred",
+        });
+    }
+  // A local minimum wage drafted under the state's grant (or refused by
+  // its preemption) reaches the body that drafted it, on the law that
+  // decided it: the state's authority answer or the question that enacted it.
+  for (const [i, p] of provisions.entries()) {
+    const a = authority[i]!;
+    const decidedBy = a.source
+      ? (api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .get(a.source) as unknown as LawRowInput | undefined)
+      : undefined;
+    // A question answered no is no law to apply; the state's preemption is
+    // the grant series' own row.
+    if (
+      !stateBody &&
+      p.kind === "law-amount" &&
+      p.series === "minimum-wage" &&
+      decidedBy &&
+      (!decidedBy.series.includes(":") || decidedBy.value === 1)
+    )
+      lawApplied(api, {
+        key: decidedBy.series,
+        lawId: decidedBy.id,
+        targetId: bodyOfficeId,
+        target: "government",
+        engine: LEGISLATURE_MODULE_ID,
+        what: a.allowed
+          ? "local-minimum-wage-bill-allowed"
+          : "local-minimum-wage-bill-preempted",
+      });
+  }
   return {
     provisions,
     costEstimate: costOf(api, provisions),
@@ -1940,12 +2028,17 @@ export function memberKey(term: TermRow): string {
 
 /**
  * A member's lean: a state or federal official's own position (their ideal
- * point, OPUS-OFFICIALS), or a town resident's own lean.
+ * point, OPUS-OFFICIALS), or a town resident's own lean. A resident still in
+ * the counts leans by the same ranking from their counted record.
  */
-export function leanOf(api: CoreAPI, memberId: string): number {
+export function leanOf(
+  api: CoreAPI,
+  memberId: string,
+  counted?: Readonly<Pick<PersonState, "id" | "traits">>,
+): number {
   const official = officialOf(api, memberId);
   if (official) return officialLean(official);
-  const person = api.state.people.get(memberId);
+  const person = api.state.people.get(memberId) ?? counted;
   if (person) return personLean(api.state.people, person, townLean(api));
   // A holder the officials engine hasn't seated (a world without it) leans
   // with nothing: no party line stands in for a person.
@@ -3013,9 +3106,12 @@ function committeeStage(
     id: `committee:${bill.id}:${chamber}`,
     date: api.state.date,
     kind: heard ? "committee-hearing" : "bill-held-in-committee",
-    personIds: witnesses
-      .map((w) => w.personId)
-      .filter((id) => api.state.people.has(id)),
+    personIds: [
+      // The people the record names: the committee's members and chair (its
+      // roll call), then the witnesses it heard.
+      ...record.memberIds,
+      ...witnesses.map((w) => w.personId),
+    ].filter((id) => api.state.people.has(id)),
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "ESTIMATED",
@@ -3223,6 +3319,8 @@ function floorAmendments(
         kind,
         question: section.question!,
         direction: section.value > 0 ? "yes" : "no",
+        // The section's number in the bill as amended, counted from one.
+        section: String(current.provisions.length),
       },
     });
   };
@@ -3331,6 +3429,32 @@ export function movesPill(
   );
 }
 
+/**
+ * Run the pre-vote hooks the records fire for a body on a sitting day. The
+ * committee's day runs the ones the data puts at the committee stage
+ * (`committee-day.json`) and marks them on the bill; the floor day runs every
+ * hook that has not run.
+ */
+function runBeforeVote(
+  api: CoreAPI,
+  billId: string,
+  stage: "committee" | "floor",
+): void {
+  for (const hook of beforeVoteHooks) {
+    if (stage === "committee" && !committeeStageHooks.has(hook.name)) continue;
+    const bill = table(api, "bills").get(billId) as unknown as
+      BillRow | undefined;
+    if (!bill || bill.hooksRun?.includes(hook.name)) continue;
+    hook.run(api, billId);
+    if (stage !== "committee") continue;
+    const after = table(api, "bills").get(billId) as unknown as BillRow;
+    table(api, "bills").put({
+      ...after,
+      hooksRun: [...(after.hooksRun ?? []), hook.name],
+    } as unknown as ModuleRow);
+  }
+}
+
 export function holdVote(api: CoreAPI, billId: string): BillRow {
   const result = countVote(api, billId);
   // Votes are on the record once a bill is anything but unvoted or blocked.
@@ -3345,7 +3469,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
   if (bill.status === "blocked") return bill;
-  for (const hook of beforeVoteHooks) hook(api, billId);
+  runBeforeVote(api, billId, "floor");
   bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
@@ -3407,7 +3531,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       return failed;
     }
   }
-  const passed: BillRow = { ...bill, status: "passed" };
+  const passed: BillRow = {
+    ...bill,
+    status: "passed",
+    passedOn: api.state.date,
+  };
   table(api, "bills").put(passed as unknown as ModuleRow);
   return executiveAction(api, passed, tallies);
 }
@@ -3546,6 +3674,33 @@ function executiveAction(
         kind: "signing-deadline",
         source: deadline.source,
         sourceRecordIds: [bill.id],
+      });
+      // Presentment: the bill on the executive's desk is public record, and
+      // the scene where it is brought to them stands on it.
+      api.emit({
+        id: `bill-presented:${bill.id}`,
+        date: api.state.date,
+        kind: "bill-presented",
+        personIds: [key, bill.sponsorId].filter(
+          (id, index, ids) =>
+            api.state.people.has(id) && ids.indexOf(id) === index,
+        ),
+        placeId: lawChain(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `${bill.number} presented for signature by ${deadline.date}`,
+          asOf: api.state.date,
+        },
+        publicRecord: true,
+        news: true,
+        facts: {
+          billId: bill.id,
+          number: bill.number,
+          level: billReach(api, bill).level,
+          executiveId: key,
+          officeId: executiveOffice!.id,
+          signBy: deadline.date,
+        },
       });
       for (const hook of deskHooks)
         hook(api, {
@@ -4169,6 +4324,7 @@ function enact(
         line: provision.line,
         deltaMinor: enactedValue,
         measureId: bill.number,
+        carry: true,
       });
       if (provision.requestId && provision.recipientId)
         payProjectGrant(api, {
@@ -4210,15 +4366,28 @@ function enact(
  * held at once) the committee still meets inside the vote, as it did.
  * Returns the record, or null where the body has no committee.
  */
-// stopgapId: SG-GOV-committee-day-hooks
 export function holdCommittee(
   api: CoreAPI,
   billId: string,
 ): CommitteeRecord | null {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return null;
-  api.stopgap("SG-GOV-committee-day-hooks");
-  const record = committeeStage(api, bill, chambersOf(api, bill)[0]!);
+  const first = chambersOf(api, bill)[0]!;
+  // Where the body has a committee, its day runs what the records fire on a
+  // sitting day, at the stage the data puts each (staff briefings, interest
+  // groups organizing, public comment, the player's own vote).
+  if (
+    members(api, first).length > campaignParameter("committeeOfTheWholeMaximum")
+  ) {
+    runBeforeVote(api, billId, "committee");
+    const ready = table(api, "bills").get(billId) as unknown as BillRow;
+    if (ready.status !== "drafted") return null;
+  }
+  const record = committeeStage(
+    api,
+    table(api, "bills").get(billId) as unknown as BillRow,
+    first,
+  );
   if (record && !record.reported) {
     const held = table(api, "bills").get(billId) as unknown as BillRow;
     table(api, "bills").put({

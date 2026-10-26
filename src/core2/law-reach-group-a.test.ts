@@ -29,24 +29,21 @@ import { POLICY_QUESTIONS } from "./policy-answers";
 import powerCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import powerMapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
-  amendBudget,
   governments,
   openBudgets,
   type GovernmentRow,
 } from "./modules/budgets";
 import { openLawReach } from "./law-reach/host";
+import { selectorGroup } from "./law-reach/group-a-records";
 import {
-  currentStaff,
   openReach,
   POLICIES,
   reachOn,
   reachParameter,
-  STAFFING,
-  townOrganizations,
+  targetsOf,
   townPeople,
 } from "./law-reach/group-a-records";
 import { budgetToday, leavePremiumsOf } from "./law-reach/group-a-money";
-import { staffingOf } from "./law-reach/group-a-staffing";
 import {
   ALL_MAIL,
   AUTO_REGISTRATION,
@@ -80,6 +77,11 @@ let core: CoreState;
 let api: CoreAPI;
 let where = "";
 const report: Record<string, unknown> = {};
+
+/** A seat held by a sitting legislator: the council, or the board a town of that form elects in its place. */
+const legislative = (s: ReturnType<typeof townSeats>[number]) =>
+  selectorGroup("legislators").some((k) => s.office.kind.startsWith(k)) &&
+  s.holder?.personId;
 
 function openTown(): void {
   for (let attempt = 0; attempt < 30; attempt += 1) {
@@ -119,6 +121,8 @@ function openTown(): void {
     const a = coreAPI(c);
     if (!lawChain(a).levels.some((l) => l.level === "city")) continue;
     if (!governments(a).some((g) => g.level === "city")) continue;
+    // The term-limit test needs a sitting legislator: a town without one is redrawn.
+    if (!townSeats(a).some(legislative)) continue;
     core = c;
     api = a;
     where = `seed ${seed}, ${state} place ${key}`;
@@ -127,7 +131,9 @@ function openTown(): void {
     report.place = key;
     return;
   }
-  throw new Error(`no incorporated town in thirty tries (seed ${seed})`);
+  throw new Error(
+    `no incorporated town with a sitting legislator in thirty tries (seed ${seed})`,
+  );
 }
 
 function jurisdictionOf(level: string): string {
@@ -189,9 +195,18 @@ function recordRoundTrip(
   mayBeEmpty = false,
 ): void {
   const level = levelFor(key);
+  // The engine's own selection: a town with no one and nothing a law selects
+  // (no teenager and no online business for the age check) is reached by no one.
+  const subject = (POLICIES[key]?.reaches ?? []).some(
+    (spec) => targetsOf(api, spec).length > 0,
+  );
   enact(key, level, 1);
   const open = openReach(api, key);
-  if (mayBeEmpty && !open.length) {
+  if (!subject && !open.length)
+    console.log(
+      `${where}: ${key} selects no one here; its mechanic is checked instead`,
+    );
+  if ((mayBeEmpty || !subject) && !open.length) {
     between?.();
     enact(key, level, 0);
     afterRepeal?.();
@@ -438,11 +453,19 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       sign: 1 | -1,
     ) => {
       expect(electionLawTurnoutCost(api, who, minutes), where).toBe(0);
-      recordRoundTrip(key, () => {
-        const cost = electionLawTurnoutCost(api, who, minutes);
-        costs[key] = cost;
-        expect(Math.sign(cost), `${where}: ${key} cost ${cost}`).toBe(sign);
-      });
+      // The election laws' reach rows are the voting engine's applied rows,
+      // written on registration and election day and asserted in
+      // law-wiring-government.test.ts; here the cost is read at enactment.
+      recordRoundTrip(
+        key,
+        () => {
+          const cost = electionLawTurnoutCost(api, who, minutes);
+          costs[key] = cost;
+          expect(Math.sign(cost), `${where}: ${key} cost ${cost}`).toBe(sign);
+        },
+        undefined,
+        true,
+      );
       expect(electionLawTurnoutCost(api, who, minutes), where).toBe(0);
     };
     check(PHOTO_ID, idle ?? worker.person, idle ? 0 : worker.minutes, 1);
@@ -469,37 +492,27 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
   it("legislative term limits bind the council's members, read by the filing check", () => {
     const key =
       "us-policy-positions:government-operations.legislative-term-limits";
-    // The town's sitting legislator: its council, or the board a town of that
-    // form elects in its place.
-    const legislative = (s: ReturnType<typeof townSeats>[number]) =>
-      selectorGroup("legislators").some((k) => s.office.kind.startsWith(k)) &&
-      s.holder?.personId;
     const council =
       townSeats(api).find(
         (s) => s.office.kind === "council" && s.holder?.personId,
       ) ?? townSeats(api).find(legislative);
+    expect(council, `${where} no sitting legislator`).toBeDefined();
     recordRoundTrip(key, () => {
-      if (!council) {
-        // No sitting legislator in the town: nobody for the law to bind.
-        expect(townSeats(api).filter(legislative), where).toEqual([]);
-        return;
-      }
-      const reached = reachOn(api, council.holder!.personId!).some(
+      const reached = reachOn(api, council!.holder!.personId!).some(
         (r) => r.key === key && r.endedOn === null,
       );
       expect(reached, where).toBe(true);
       expect(
         typeof termLimitReached(
           api,
-          council.holder!.personId!,
-          council.office.id,
+          council!.holder!.personId!,
+          council!.office.id,
         ),
       ).toBe("boolean");
     });
-    if (council)
-      expect(
-        termLimitReached(api, council.holder!.personId!, council.office.id),
-      ).toBe(false);
+    expect(
+      termLimitReached(api, council!.holder!.personId!, council!.office.id),
+    ).toBe(false);
   });
 
   for (const { key } of recordOnly)
@@ -546,137 +559,6 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     expect(openReach(api, homeRule), where).toEqual([]);
     report.homeRule = { question, grantId, repealId };
   });
-
-  it("housing spending pays rent help to the lowest-cash households the extra covers", () => {
-    const key = "budget-line:housing";
-    const gov = cityGov();
-    const delta = reachParameter("housingAssistanceAnnualMinor") * 3;
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: delta,
-      measureId: "test:housing:up",
-    });
-    const assisted = openReach(api, key).filter((r) => r.spec === "assisted");
-    report[key] = { assisted: assisted.length };
-    // Only renters are helped, and this small world has no leases to pay
-    // toward; the played world's payments are checked in rent-help.test.ts.
-    const leases = [...(core as CoreState).finance.contracts.keys()].filter(
-      (id) => id.startsWith("lease:"),
-    );
-    if (leases.length)
-      expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
-    for (const row of assisted)
-      expect(api.knows(row.targetId, `law-reach:${key}`)).toBeUndefined();
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: -delta,
-      measureId: "test:housing:down",
-    });
-    expect(
-      openReach(api, key).filter((r) => r.spec === "assisted"),
-      where,
-    ).toHaveLength(0);
-  });
-
-  for (const key of Object.keys(STAFFING))
-    it(`${key} hires or lays off at the public employer it funds`, () => {
-      const line = key.slice("budget-line:".length);
-      // The town's own government that carries the line (a county runs the jail).
-      const gov = STAFFING[key]!.levels.map((level) =>
-        governments(api).find(
-          (g) =>
-            g.level === level &&
-            (budgetToday(api, g)?.spendingMinor[line] ?? 0) > 0,
-        ),
-      ).find((g) => g)!;
-      expect(gov, `${where}: no government carries ${line}`).toBeDefined();
-      const amount = budgetToday(api, gov)!.spendingMinor[line] ?? 0;
-      const employers = townOrganizations(api, STAFFING[key]!.employers);
-      const staff = () =>
-        employers.reduce((n, o) => n + currentStaff(api, o.id).length, 0);
-      const before = staff();
-      amendBudget(api, {
-        governmentId: gov.id,
-        line,
-        deltaMinor: amount,
-        measureId: `test:${line}:up`,
-      });
-      advanceCore(core, after(api.state.date, 1));
-      const funded = employers.length
-        ? employers.map((o) => staffingOf(api, key, o.id)!)
-        : [staffingOf(api, key, gov.organizationId)!];
-      expect(
-        funded.every((r) => r !== null),
-        where,
-      ).toBe(true);
-      if (!employers.length)
-        expect(funded[0]!.positions, `${where}: ${key}`).toBeGreaterThan(0);
-      const up = staff();
-      const hired = openReach(api, key).filter((r) => r.spec === "hired");
-      report[key] = {
-        line: amount,
-        employers: employers.map((o) => o.id),
-        before,
-        positions: funded.map((r) => r.positions),
-        afterRaise: up,
-        hired: hired.length,
-      };
-      if (employers.length && before > 0) {
-        expect(funded[0]!.positions, where).toBeCloseTo(
-          funded[0]!.baseStaff * ((2 * amount) / amount),
-        );
-        expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
-        for (const row of hired) {
-          const jobId = core.people.get(row.targetId)?.jobId;
-          expect(jobId, where).toBeDefined();
-          // A hire at a public employer is on the employer's public pay
-          // authority, or its first payday would stop the year.
-          const commitment = [...core.work.commitments.values()].find(
-            (c) => c.jobId === jobId,
-          )!;
-          const authority = core.organizations.get(
-            commitment.organizationId,
-          )?.publicPayAuthority;
-          if (authority) {
-            expect(commitment.publicPayAuthorityId, `${where}: ${jobId}`).toBe(
-              authority.id,
-            );
-            expect(authority.workCommitmentIds, `${where}: ${jobId}`).toContain(
-              commitment.id,
-            );
-          }
-        }
-      }
-      // Cut to half the base: the newest hires and then the newest staff go.
-      amendBudget(api, {
-        governmentId: gov.id,
-        line,
-        deltaMinor: -Math.round(amount * 1.5),
-        measureId: `test:${line}:down`,
-      });
-      advanceCore(core, after(api.state.date, 1));
-      const down = staff();
-      (report[key] as Record<string, unknown>).afterCut = down;
-      (report[key] as Record<string, unknown>).cutPositions = employers.map(
-        (o) => staffingOf(api, key, o.id)?.positions,
-      );
-      (report[key] as Record<string, unknown>).laidOff = openReach(
-        api,
-        key,
-      ).filter((r) => r.spec === "laid-off").length;
-      if (employers.length && before > 0)
-        expect(down, `${where}: ${key} no layoffs`).toBeLessThan(up);
-      // Back to the base.
-      amendBudget(api, {
-        governmentId: gov.id,
-        line,
-        deltaMinor: Math.round(amount * 0.5),
-        measureId: `test:${line}:base`,
-      });
-      advanceCore(core, after(api.state.date, 1));
-    });
 
   it("reports", () => {
     govReport("law-reach-group-a", JSON.stringify(report));

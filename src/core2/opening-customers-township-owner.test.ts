@@ -9,8 +9,10 @@ import { advanceCore } from "./life";
 
 // A town inside a township (Robertsdale, Pennsylvania lies in Township of
 // Wood) has a buyer whose own jurisdiction is not the town. It used to stop
-// the game on its first settlement (2026-11-01) with "Actual customer public
-// owner coverage record is missing." The contract is now built only where the
+// the game at its first public settlement, within the first weeks of the
+// January 20, 2025 start (the first settlements of any kind fall on
+// 2025-02-01), with "Actual customer public owner coverage record is
+// missing." The contract is now built only where the
 // owner's coverage of the place is recorded, and the year goes on.
 const REGRESSION = {
   seed: "3c95bb8562a14177f929263165b4517d25ed5263bf83f68c84dead5d0aae3069:2",

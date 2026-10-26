@@ -8,7 +8,7 @@ import { storyOfReadEvent } from "../core2/modules/news";
 import { printedStoryOf } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import { bringItUp, changesKnownTo } from "./bring-it-up";
-import { storyTopicName } from "./question-names";
+import { storyTopicName } from "../english/policy-names";
 
 // A neighbor says aloud that a law took effect (golden path step 10): in a
 // played world in a drawn place, a reader of the story the press printed when
@@ -44,7 +44,13 @@ describe("bring it up: a law taking effect", () => {
         });
       const reader = [...core.people.values()].find(
         (row) =>
-          row.alive && row.knownIds.size > 0 && lawStory(row.id).length > 0,
+          row.alive &&
+          row.knownIds.size > 0 &&
+          lawStory(row.id).length > 0 &&
+          // The newest change they know of is the law's story, so it is the
+          // one they bring up.
+          lawStory(row.id)[0]?.eventId ===
+            changesKnownTo(core, row.id)[0]?.eventId,
       );
       if (!reader) continue;
       const [change] = lawStory(reader.id);

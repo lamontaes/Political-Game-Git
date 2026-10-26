@@ -22,7 +22,7 @@
       "engine": "src/core2/births-people.ts",
       "wired": true,
       "evidence": "src/core2/births-people.ts:102 draws a newborn from its parents' inherited parts (regenerated from the seed, the same parts the opening drew); measured parent-child correlation in two drawn places (buildBenchWorld seeds herit1 and herit2, 78 and 192 pairs): 0.03 to 0.34 by dimension, mean 0.18, against 0.20 to 0.28 expected from a heritability of 0.40 (Vukasovic & Bratko 2015)",
-      "note": "Counted newborns are seeded without their parents' parts: SG-PW8-counted-newborn-temperament."
+      "note": "A counted newborn inherits by the same rule from its counted parents' kept levels (inheritedTemperament in src/core2/opening-personality.ts)."
     },
     {
       "id": "outcome.mean-level-change-with-age",
@@ -70,15 +70,17 @@
       "id": "outcome.job-performance",
       "title": "An ordinary worker's performance at work",
       "engine": "src/core2/modules/jobs.ts",
-      "wired": false,
-      "why": "Workers have no performance record outside aides; nothing reads conscientiousness for it."
+      "wired": "partly",
+      "why": "An ordinary worker has no performance record once hired: nothing reads conscientiousness for output, discipline or promotion (Barrick & Mount 1991, rho 0.22).",
+      "evidence": "src/core2/modules/jobs.ts:1679 employers rank applicants by fit, which reads the applicant's reliability (jobsFitReliabilityWeight)"
     },
     {
       "id": "outcome.earnings",
       "title": "Promotion and pay by temperament",
       "engine": "src/core2/modules/jobs.ts",
-      "wired": false,
-      "why": "Pay comes from the job's wage row; no raise or promotion reads the worker's traits."
+      "wired": "partly",
+      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:2679); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
+      "evidence": "Through hiring: reliability raises an applicant's fit (src/core2/modules/jobs.ts:1679), so reliable people are hired sooner"
     },
     {
       "id": "outcome.health-behaviors",

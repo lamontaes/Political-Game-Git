@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5359
 blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** A council or county body's budget hearing has people in it already: `signUpToSpeak` and the local meeting record each speaker's public comment on a bill as a statement with the speaker's id (`src/core2/modules/meetings.ts`, kind `public-comment`), and a budget bill's vote is recorded in the legislature module. Nothing words the hearing as a scene. Build one scene for a budget bill's meeting, worded by the English engine from those records: the chair opens the item and calls each speaker who signed up (`hearing` bank, `chair-invite`), the speaker says their comment (`address` bank, public-comment register), a member asks a question (`hearing` bank, `member-question`), and the chair puts the question and announces the recorded result (`meeting` bank, via `composeBodyScene` in `scripts/english-corpus/body-bank.ts`). The proposal is named by its bill title (`billTitleOf`), the counts are the recorded votes'.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/meetings.ts, scripts/english-corpus/body-bank.ts, src/director/scene.ts, data/english/parts/hearing.json, data/english/parts/meeting.json
 
 **Notes.** Written Oct 20 (claude/budget-hearing-spec) from the code: the composer and its played-world test (`scripts/english-corpus/body-bank-world.test.ts`, PR #5187) already word a parks budget vote from a bill's own records. Missing: the speakers (public-comment statements) in the scene, and a director or bench reader. Waits on #5187 for the bank and composer.
+
+Sent back 2026-10-20 from PR #5359 (branch claude/budget-hearing-build): data/english/parts/address.json adds two entries with origin authored and shippable true, while the body says they have not been graded. The morning check forbids shipping authored bank pieces before grading. Keep them held until graded, and correct the player-visible release claim to match that state. This is also a non-main fixer: its parent must be handled in its share, and a branch-only merge must not mark the main pool item done.; finish on that branch, merge main into it first.

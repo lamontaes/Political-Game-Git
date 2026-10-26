@@ -16,7 +16,7 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -28,8 +28,8 @@ import type {
   PersonState,
 } from "../types";
 import { decisionLean } from "../trait-decisions";
-import { viewOf } from "./views";
-import { measureOfFactKey } from "../outcome-news";
+import { VIEWS_SPEAKER_KEY, viewOf, viewOn } from "./views";
+import { conditionQuestions, measureOfFactKey } from "../outcome-news";
 
 /** The press module's id (kept here so news does not import the press). */
 const PRESS_MODULE_ID = "core2-press-v1";
@@ -85,11 +85,17 @@ export interface Story {
 /** The event kind for one day's readers of a printed story. */
 export const NEWS_READ = "news.read";
 
-/** The story a read event is about: its id is `news.read:<story id>:<date>`. */
+/**
+ * The story a read event is about: its id is `news.read:<story id>:<date>`,
+ * or `news.read:<story id>:<date>:<side>:<question>` for the readers of a
+ * story about a moved condition who hold one side on one question.
+ */
 export function storyOfReadEvent(eventId: string): string | null {
-  return eventId.startsWith(`${NEWS_READ}:`)
-    ? eventId.slice(NEWS_READ.length + 1, eventId.lastIndexOf(":"))
-    : null;
+  if (!eventId.startsWith(`${NEWS_READ}:`)) return null;
+  const read = /^(.+?):\d{4}-\d{2}-\d{2}(?::(?:enact|repeal):.+)?$/.exec(
+    eventId.slice(NEWS_READ.length + 1),
+  );
+  return read ? read[1]! : null;
 }
 
 const stories = (api: CoreAPI) =>
@@ -188,14 +194,19 @@ interface HeardEntry {
   heardDate: string;
 }
 
-/** One person's recent hearing: entries newest first once sorted, and their ids. */
+/** One person's recent hearing: entries newest first, and their ids. */
 interface Recent {
   list: HeardEntry[];
   ids: Set<string>;
-  sorted: boolean;
   /** The cutoff the list was last pruned to. */
   since: string;
+  /** No entry was heard before this date (a bound, exact after a full prune). */
+  oldestHeard?: string;
 }
+
+/** Newest story first, then by id: the order telling reads them in. */
+const newestFirst = (a: HeardEntry, b: HeardEntry) =>
+  b.storyDate.localeCompare(a.storyDate) || a.storyId.localeCompare(b.storyId);
 
 /**
  * What each person heard that may still be news, rebuilt from the table when
@@ -232,14 +243,24 @@ function addRecent(
     map.set(personId, {
       list: [entry],
       ids: new Set([entry.storyId]),
-      sorted: true,
       since: "",
+      oldestHeard: entry.heardDate,
     });
     return;
   }
-  recent.list.push(entry);
+  // Into its place, after any equal entry, as a stable sort would put it.
+  const list = recent.list;
+  let low = 0;
+  let high = list.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (newestFirst(list[mid]!, entry) > 0) high = mid;
+    else low = mid + 1;
+  }
+  list.splice(low, 0, entry);
   recent.ids.add(entry.storyId);
-  recent.sorted = false;
+  if (recent.oldestHeard === undefined || entry.heardDate < recent.oldestHeard)
+    recent.oldestHeard = entry.heardDate;
 }
 
 /** The person's recent entries pruned to `since`, newest first. */
@@ -252,19 +273,26 @@ function recentList(
   if (!recent) return [];
   // Days only move forward, so what is too old now stays too old.
   if (recent.since !== since) {
-    recent.list = recent.list.filter(
-      (row) => row.heardDate >= since && row.storyDate >= since,
-    );
-    recent.ids = new Set(recent.list.map((row) => row.storyId));
+    const list = recent.list;
+    if (recent.oldestHeard === undefined || recent.oldestHeard >= since) {
+      // Everyone's entries were heard since the cutoff: only stories older
+      // than it go, and they are the list's tail.
+      while (list.length && list[list.length - 1]!.storyDate < since)
+        recent.ids.delete(list.pop()!.storyId);
+    } else {
+      recent.list = list.filter(
+        (row) => row.heardDate >= since && row.storyDate >= since,
+      );
+      recent.ids = new Set(recent.list.map((row) => row.storyId));
+      recent.oldestHeard = undefined;
+      for (const row of recent.list)
+        if (
+          recent.oldestHeard === undefined ||
+          row.heardDate < recent.oldestHeard
+        )
+          recent.oldestHeard = row.heardDate;
+    }
     recent.since = since;
-  }
-  if (!recent.sorted) {
-    recent.list.sort(
-      (a, b) =>
-        b.storyDate.localeCompare(a.storyDate) ||
-        a.storyId.localeCompare(b.storyId),
-    );
-    recent.sorted = true;
   }
   return recent.list;
 }
@@ -279,8 +307,9 @@ function* recentStoriesHeard(
   personId: PersonId,
   since: string,
 ): Iterable<Story> {
+  const table = stories(api);
   for (const row of recentList(api, personId, since))
-    yield stories(api).get(row.storyId) as unknown as Story;
+    yield table.get(row.storyId) as unknown as Story;
 }
 
 /** Whether the person is known to have heard a recent story (the table has the rest). */
@@ -496,12 +525,10 @@ export function createNewsModule(
       const counts = countsOf(api);
       if (!counts.get(notice.actorId) && !counts.get(notice.otherId)) return;
       const maxAge = n(api, "newsMaxAgeDays");
-      const fresh = (story: Story) =>
-        daysBetween(makeIsoDate(story.date), makeIsoDate(api.state.date)) <=
-        maxAge;
       // A story still fresh today was heard on or after its own date, so only
       // what the teller heard within the story life is read (same order).
       const since = addDays(makeIsoDate(api.state.date), -maxAge);
+      const fresh = (story: Story) => story.date >= since;
       for (const [teller, listener] of [
         [notice.actorId, notice.otherId],
         [notice.otherId, notice.actorId],
@@ -547,34 +574,93 @@ export function createNewsModule(
         deliveries(api).remove(row.id);
       }
       // Today's readers of a printed story take in what it argued.
+      // stopgapId: SG-PEOPLE-counted-readers-stories (an outlet's counted followers are a count at delivery; their groups' views do not move)
       for (const [storyId, ids] of [...readers].sort((a, b) =>
         a[0].localeCompare(b[0]),
       )) {
         const story = stories(api).get(storyId) as unknown as Story;
+        const alive = ids.filter((id) => api.state.people.get(id)?.alive);
+        const read = (
+          id: string,
+          topic: string,
+          desiredChange: string | undefined,
+          witnessIds: readonly PersonId[],
+          facts: Readonly<Record<string, string>>,
+        ) =>
+          api.emit({
+            id,
+            date: api.state.date,
+            kind: NEWS_READ,
+            personIds: [],
+            witnessIds: [...witnessIds],
+            placeId: story.placeId,
+            topic,
+            desiredChange,
+            ...(story.moodImpulse === undefined
+              ? {}
+              : { moodImpulse: story.moodImpulse }),
+            facts: { ...facts, learnedFrom: newsKey(story.id) },
+            source: {
+              tag: "SOURCED",
+              citation: `Story ${story.id}, read by its outlet's followers`,
+              asOf: api.state.date,
+            },
+          });
+        // A month's move in the town's conditions argues no change of its
+        // own: each reader takes each condition it reports as a reason for
+        // the side their own view already holds on the question that
+        // condition ties to. A reader with no side on a
+        // question has none to strengthen. The readers already hold the
+        // story's facts; what they take from reading it is its source, whose
+        // case it was and which outlet printed it (what they can bring up).
+        const questions = story.desiredChange
+          ? []
+          : conditionQuestions(story.facts);
+        if (questions.length) {
+          const zero = api.parameter("zero");
+          const carried = Object.fromEntries(
+            Object.entries(story.facts).filter(
+              ([key]) =>
+                key === VIEWS_SPEAKER_KEY ||
+                (key.startsWith("printed:") && key.endsWith(":story")),
+            ),
+          );
+          for (const question of questions) {
+            const sides = new Map<string, PersonId[]>();
+            for (const id of alive) {
+              const view = viewOf(api, id);
+              const current = view
+                ? viewOn(api, id, question, view.lean)
+                : zero;
+              if (current === zero) continue;
+              const side = current > zero ? "enact" : "repeal";
+              sides.set(side, [...(sides.get(side) ?? []), id]);
+            }
+            for (const [side, witnessIds] of [...sides].sort((a, b) =>
+              a[0].localeCompare(b[0]),
+            ))
+              read(
+                `${NEWS_READ}:${story.id}:${api.state.date}:${side}:${question}`,
+                question,
+                side,
+                witnessIds,
+                carried,
+              );
+          }
+          continue;
+        }
         // A story argues a change on a policy question; a law taking effect
         // is also read and remembered with no side to take, so a reader can
         // bring up the law in town.
         if (!story.topic || (!story.desiredChange && !story.facts.lawId))
           continue;
-        api.emit({
-          id: `${NEWS_READ}:${story.id}:${api.state.date}`,
-          date: api.state.date,
-          kind: NEWS_READ,
-          personIds: [],
-          witnessIds: ids.filter((id) => api.state.people.get(id)?.alive),
-          placeId: story.placeId,
-          topic: story.topic,
-          desiredChange: story.desiredChange,
-          ...(story.moodImpulse === undefined
-            ? {}
-            : { moodImpulse: story.moodImpulse }),
-          facts: { ...story.facts, learnedFrom: newsKey(story.id) },
-          source: {
-            tag: "SOURCED",
-            citation: `Story ${story.id}, read by its outlet's followers`,
-            asOf: api.state.date,
-          },
-        });
+        read(
+          `${NEWS_READ}:${story.id}:${api.state.date}`,
+          story.topic,
+          story.desiredChange,
+          alive,
+          story.facts,
+        );
       }
     },
   };
