@@ -3,6 +3,7 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
+import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
 import { show, mountCloseButtons } from "./ui/panel.mjs";
@@ -2460,19 +2461,20 @@ const sheets = {
       });
       next.disabled = (page + 1) * 8 >= found.length;
       pager.replaceChildren(...(found.length > 8 ? [back, next] : []));
-      for (const b of filters.querySelectorAll("[data-group]")) {
-        b.classList.toggle("on", b.dataset.group === group);
-        b.setAttribute("aria-pressed", String(b.dataset.group === group));
-      }
+      chooseTab(filters, "group", group);
     };
     for (const key of ["all", "family", "friends", "work", "politics"]) {
-      const b = button(labels[key], () => {
-        group = key;
-        draw();
-      });
-      b.dataset.group = key;
-      b.className = "tab";
-      filters.append(b);
+      filters.append(
+        makeTab({
+          key,
+          attr: "group",
+          label: labels[key],
+          onSelect: () => {
+            group = key;
+            draw();
+          },
+        }),
+      );
     }
     const mode = button(labels.list, () => {
       listMode = !listMode;
@@ -3707,21 +3709,22 @@ const sheets = {
         paper.append(el("nav", { className: "paper-pager" }, back, next));
       }
       paper.append(publicRecords());
-      for (const b of outletPicker.children) {
-        b.classList.toggle("on", b.dataset.outlet === chosen);
-        b.setAttribute("aria-pressed", String(b.dataset.outlet === chosen));
-      }
+      chooseTab(outletPicker, "outlet", chosen);
     };
     if (outlets.size > 1)
       for (const [key, outlet] of outlets) {
-        const b = button(outlet.name, () => {
-          chosen = key;
-          page = 0;
-          draw();
-        });
-        b.dataset.outlet = key;
-        b.className = "tab";
-        outletPicker.append(b);
+        outletPicker.append(
+          makeTab({
+            key,
+            attr: "outlet",
+            label: outlet.name,
+            onSelect: () => {
+              chosen = key;
+              page = 0;
+              draw();
+            },
+          }),
+        );
       }
     draw();
     return [...economy, outletPicker, paper];
@@ -4060,8 +4063,7 @@ const sheets = {
       statePick.hidden = level === "local";
       if (level !== "local" && otherState) {
         drawOtherState();
-        for (const b of picker.querySelectorAll("button"))
-          b.classList.toggle("on", b.dataset.level === level);
+        chooseTab(picker, "level", level);
         return;
       }
       const offices = new Map();
@@ -4197,20 +4199,20 @@ const sheets = {
           raceOffice,
         ),
       );
-      for (const b of picker.children)
-        b.classList.toggle("on", b.dataset.level === level);
+      chooseTab(picker, "level", level);
     };
     for (const key of ["local", "state", "federal"]) {
-      const b = makeButton({
-        className: "tab",
-        textContent: controls.levels?.[key] ?? words(key),
-      });
-      b.dataset.level = key;
-      b.addEventListener("click", () => {
-        level = key;
-        draw();
-      });
-      picker.append(b);
+      picker.append(
+        makeTab({
+          key,
+          attr: "level",
+          label: controls.levels?.[key] ?? words(key),
+          onSelect: () => {
+            level = key;
+            draw();
+          },
+        }),
+      );
     }
     // Which state's legislature the State view shows: the player's own, or any other.
     const { states } = await api(`/api/government/state?state=`);
@@ -4450,14 +4452,14 @@ async function openSheet(tab) {
             politics.filings.length > 0 ||
             politics.ofVotingAge),
       )
-      .map((name) => {
-        const b = makeButton({
-          className: `tab${name === tab ? " on" : ""}`,
-          textContent: titles[name],
-        });
-        b.addEventListener("click", () => openSheet(name));
-        return b;
-      }),
+      .map((name) =>
+        makeTab({
+          key: name,
+          label: titles[name],
+          active: name === tab,
+          onSelect: () => openSheet(name),
+        }),
+      ),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
