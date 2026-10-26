@@ -5,7 +5,7 @@ area: office
 kind: wiring
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5588
 blocked-on:
@@ -38,3 +38,5 @@ Sent back 2026-10-24 from PR #5588 (branch claude/budget-line-reaches-pay): both
 Fixer handed PR 5588 back Oct 25, 2026: in the merger's draw the city budget is never voted (the council is built as the state-level legislature), so no amendment can be adopted; blocked on gov-city-budget-unvoted-where-council-is-state-body for such draws.
 
 Sent back 2026-10-25 from PR #5588 (branch claude/budget-line-reaches-pay): current-main head e0c51ae576 fails the raise payroll proof at budget-line-administration-staffing.test.ts:192 in Worley, Idaho (1688480), independent root cef553a7f374d5e75a07778b1a15fd77, world seed c178de8f3b3288aac2e9dd092ab200910a1abdec5c2dc6eeb443e826535e5850 (adopted administration 2373322 + 1582214, zero new hires); preserve this failure, prove shared-government payroll and add the routing item's Done-when table row (the body still says proof only); finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5588 (branch claude/budget-line-reaches-pay), checked 542f2acd5c14c56819112d845f12404f7183d801: the fresh root 4d270ecee38ac27ae50d1415c8d9cdcb draws Breda, Iowa (1908290), world seed 9c556e9e0b8b774aea57fc3f814fde92c552f37336befced09bbcb890e492429; a raise from 3922954 by 2615302 fills a counted job (person_4db3017461d05b47, group), but the test at line 221 counts only new full-person jobs and fails. Preserve this input and the named cut/payroll assertion; prove a nonempty legitimate hire and its actual later payment in either tier, not just an applied record. Original shared-government payroll/full-year recheck is still required and was not claimed green. Paired ADMIN_LINE_PLACE_KEY and ADMIN_LINE_WORLD_SEED now replay the original input without changing default draws or assertions. Finish on that branch, merge main into it first.
