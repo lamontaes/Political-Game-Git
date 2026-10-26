@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/owner-hours-work-requirement
-pr:
+pr: #6194
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T21:47:50.750Z
