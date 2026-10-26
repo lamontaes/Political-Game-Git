@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/coverage-counted
 pr: #5475
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T00:11:38.769Z
 
 **Rules.** One model, two tiers: a counted group is covered and pays by the same rule as a full person times its weight. An effect is a read, not a record: the premium flow must read the share when it pays. No dice: shares follow age, employment and the law in force.
 
-**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (name place and seed), a counted household with an employed adult pays a monthly premium by journal record id equal to what a full household of the same shape pays, filling that household in leaves its coverage and premium unchanged, the cash journal balances, and src/core2/health-coverage-counted.test.ts proves it.
+**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (name place and seed), a counted household with an employed adult pays a monthly premium by journal record id equal to what a full household of the same shape pays, filling that household in leaves its coverage and premium unchanged, the cash journal balances, and src/core2/health-coverage-counted.test.ts proves it. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/modules/coverage.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts
 

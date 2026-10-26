@@ -20,12 +20,12 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | public funds for private schooling           | education          | yes    | yes    | yes   | part    | part  | SG   | yes     | yes    | yes       | partly     |
 | raise teacher minimum salary                 | education          | yes    | yes    | yes   | part    | NO    | NO   | yes     | yes    | yes       | partly     |
 | Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | part  | SG   | NO      | yes    | yes       | partly     |
-| Local income tax rate                        | taxes-finance      | yes    | yes    | yes   | yes     | NO    | SG   | yes     | NO     | yes       | partly     |
-| Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
+| Income tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | NO    | n/a  | yes     | NO     | yes       | partly     |
+| Sales tax rate                               | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | NO     | yes       | partly     |
 | Property tax rate                            | taxes-finance      | yes    | yes    | NO    | yes     | yes   | NO   | yes     | NO     | NO        | partly     |
 | Corporate income tax rate                    | taxes-finance      | yes    | yes    | NO    | NO      | NO    | NO   | yes     | NO     | NO        | partly     |
-| Estate tax rate                              | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
-| Inheritance tax rate                         | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG   | yes     | NO     | NO        | partly     |
+| Estate tax rate                              | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a  | yes     | NO     | NO        | partly     |
+| Inheritance tax rate                         | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a  | yes     | NO     | NO        | partly     |
 | adopt income tax                             | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a  | yes     | NO     | NO        | partly     |
 | cap property tax growth                      | taxes-finance      | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
 | exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | NO    | NO   | yes     | yes    | yes       | partly     |
@@ -59,18 +59,18 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | part  | SG   | NO      | yes    | yes       | partly     |
 | bottle deposit                               | energy-environment | yes    | yes    | SG    | yes     | yes   | yes  | yes     | NO     | NO        | partly     |
 | price carbon                                 | energy-environment | yes    | yes    | SG    | yes     | yes   | SG   | yes     | NO     | NO        | partly     |
-| Spending: police                             | justice            | yes    | yes    | part  | yes     | part  | NO   | yes     | NO     | yes       | partly     |
-| civilian oversight of police                 | justice            | yes    | yes    | part  | NO      | part  | NO   | yes     | yes    | yes       | partly     |
-| partner with federal immigration enforcement | justice            | yes    | yes    | yes   | NO      | part  | yes  | yes     | yes    | yes       | partly     |
-| end cash bail                                | justice            | yes    | yes    | yes   | NO      | NO    | part | yes     | yes    | yes       | partly     |
-| Spending: corrections                        | justice            | yes    | yes    | part  | yes     | part  | n/a  | NO      | NO     | part      | partly     |
-| restore voting after sentence                | justice            | yes    | yes    | yes   | part    | SG    | SG   | yes     | yes    | yes       | partly     |
-| raise juvenile court age                     | justice            | yes    | yes    | part  | NO      | NO    | n/a  | yes     | yes    | yes       | partly     |
-| child access prevention                      | justice            | yes    | yes    | yes   | NO      | NO    | yes  | yes     | yes    | yes       | partly     |
-| permit to carry concealed                    | justice            | yes    | yes    | yes   | NO      | NO    | yes  | yes     | yes    | yes       | partly     |
-| raise handgun purchase age                   | justice            | yes    | yes    | yes   | NO      | NO    | yes  | yes     | yes    | yes       | partly     |
-| stand your ground                            | justice            | yes    | yes    | yes   | NO      | NO    | yes  | yes     | yes    | yes       | partly     |
-| Spending: fire                               | justice            | yes    | yes    | part  | yes     | part  | SG   | yes     | NO     | yes       | partly     |
+| Spending: police                             | justice            | yes    | yes    | yes   | yes     | yes   | part | yes     | yes    | yes       | partly     |
+| civilian oversight of police                 | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
+| partner with federal immigration enforcement | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
+| end cash bail                                | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
+| Spending: corrections                        | justice            | yes    | yes    | yes   | yes     | part  | n/a  | yes     | yes    | yes       | partly     |
+| restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | n/a   | SG   | yes     | yes    | yes       | stopgapped |
+| raise juvenile court age                     | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      |
+| child access prevention                      | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
+| permit to carry concealed                    | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
+| raise handgun purchase age                   | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
+| stand your ground                            | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
+| Spending: fire                               | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      |
 | all mail voting                              | government         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | automatic voter registration                 | government         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | independent redistricting                    | government         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
@@ -200,13 +200,13 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure college enrollment and completion (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
-**Local income tax rate** (`income-tax`)
+**Income tax rate** (`income-tax`)
 
 - money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household income after tax and out-migration (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 - repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
 
-**Local sales tax rate** (`sales-tax`)
+**Sales tax rate** (`sales-tax`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household prices and local retail sales (SG-LAW-outcome-link-unresearched)
 - repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
@@ -232,7 +232,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - reach: no law-reach row: nothing records who it applies to
 - systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
 - money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers and charitable giving (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
@@ -241,7 +241,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - reach: no law-reach row: nothing records who it applies to
 - systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
 - money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure wealth transfers to heirs (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
@@ -409,77 +409,25 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: police** (`budget-line:police`)
 
-- reach: full people only: no counted group is reached (one model, two tiers)
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
-
-**civilian oversight of police** (`us-policy-positions:justice-public-safety.civilian-oversight-of-police`)
-
-- reach: full people only: no counted group is reached (one model, two tiers)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-
-**partner with federal immigration enforcement** (`us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-
-**end cash bail** (`us-policy-positions:justice-public-safety.end-cash-bail`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-- web: links not built: end-cash-bail-to-pretrial-detention (outcome-not-produced)
+- web: links not built: police-to-low-level-arrests (size-not-set)
 
 **Spending: corrections** (`budget-line:corrections`)
 
-- reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
 - money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- knowing: nobody heard of it: the change is not a news story anyone receives
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
-- allPlaces: reached people in one drawn place and not the other
 
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)
 
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-convictions)
+- money: the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it (what it changes is who may vote, read by the board of elections when it builds the roll)
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-convictions)
 
 **raise juvenile court age** (`us-policy-positions:justice-public-safety.raise-juvenile-court-age`)
 
-- reach: full people only: no counted group is reached (one model, two tiers)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-
-**child access prevention** (`us-policy-positions:justice-public-safety.child-access-prevention`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-
-**permit to carry concealed** (`us-policy-positions:justice-public-safety.permit-to-carry-concealed`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-
-**raise handgun purchase age** (`us-policy-positions:justice-public-safety.raise-handgun-purchase-age`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
-
-**stand your ground** (`us-policy-positions:justice-public-safety.stand-your-ground`)
-
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
-- money: no money flow: nobody pays or receives anything because of it
 
 **Spending: fire** (`budget-line:fire`)
 
-- reach: full people only: no counted group is reached (one model, two tiers)
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure fire deaths and property loss (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **require photo id to vote** (`us-policy-positions:government-operations.require-photo-id-to-vote`)
 
@@ -487,7 +435,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **ban lobbying after office** (`us-policy-positions:government-operations.ban-lobbying-after-office`)
 
-- reach: the ban binds former officeholders (a cooling-off period before they may lobby). Every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence
+- reach: the ban binds former officeholders (a cooling-off period before they may lobby), and every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence
 - money: the ban bars former officeholders from lobbying for a cooling-off period; it charges, pays and taxes no one by its own terms, so no money flows because of it (what it changes is who a group hires to lobby, read by the interest-groups engine)
 
 **broaden local authority** (`us-policy-positions:government-operations.broaden-local-authority`)

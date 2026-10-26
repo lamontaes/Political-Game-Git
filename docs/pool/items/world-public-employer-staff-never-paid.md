@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #4984
 blocked-on:
@@ -22,6 +22,8 @@ claimed-at:
 **Files.** src/core2/population.ts, src/core2/opening-department-pay.ts, src/core2/government-jurisdictions.ts, src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/data/opening/department-governments.json
 
 **Notes.** Worked Oct 17 (claude/public-staff-never-paid). Found by reading `settle` in `src/core2/modules/residents.ts` (a counted wage flow is paid from the payer's cash, 0 here) and the payroll sources (full staff requested and paid 0). Two follow-ups the fix needed: the treasury's close now also keeps back the wages of the employers it funds (`payrollReserve` in `budgets-treasury.ts`), because without it the lines paid out first left the treasury's own staff short ($41,000 short in a year in Arlington); and a state or national office matches its treasury by jurisdiction (`sameGovernment`), since those carry no local government key. Staff of an employer with an authority are full people, so about 10 to 13 more full people exist in each town (Mount Olive, Arkansas: 2,481 people against 2,468, a year of 181 s against 189 s). Not done here: the school district's teachers (world-public-school-staff-never-paid: linking them would add 12 to 58 full people a town) and private zero-cash employers (world-private-zero-cash-employers-never-pay). Also: a county health department, a fire district or a school-district employer would pay its own staff in the real world; the opening data does not say which unit employs each department (the stopgap names the Census of Governments employment file as the replacement).
+
+Found on main at 2a524c1757 by the Oct 25 audit: PR #4984 merged Oct 20; src/core2/department-pay.test.ts is on main.
 
 **Notes.** TODO
 

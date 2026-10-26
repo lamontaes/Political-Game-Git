@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6105
 blocked-on: world-unemployment-rate-names-its-area
 source: added with npm run pool -- add
 lead: play-first
@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/director/opening-story.ts, src/bench/opening.ts, src/bench/economy.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:53; screenshot 12. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was effects.
+
+Sent back 2026-10-25 ~22:50 UTC from PR #6105 (branch play-first/play-stop-10-two-unemployment-rates-one-night, head 0d926d292bf7, main NOT merged: conflicts in code src/director/opening-story.ts plus banks and PROGRESS.md): resolve the conflicts on the branch, unwrap the backticked body screenshots so they render, and it goes back in the queue once the owner says yes (OWNER SCREENSHOT NEEDED stands); finish on that branch, merge main into it first.

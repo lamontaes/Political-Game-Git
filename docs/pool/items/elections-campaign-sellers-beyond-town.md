@@ -3,7 +3,7 @@ id: elections-campaign-sellers-beyond-town
 title: "Campaigns buy polls, mail and halls from recorded sellers beyond the town"
 area: elections
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/campaigns.ts, data/research/elections/cbp-2023-campaign-sellers.json
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.
