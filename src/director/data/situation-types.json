@@ -3239,20 +3239,27 @@
       "causes": [
         {
           "match": {
+            "label": "cause:event:office.approached",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "officialId", "is": "subject" }]
+          },
+          "causeEngine": "constituent-cases",
+          "causeRecord": "office.approached",
+          "bind": {
+            "constituent": "counterpart",
+            "you": "subject"
+          },
+          "opener": "constituent",
+          "setting": ["office"]
+        },
+        {
+          "match": {
             "label": "cause:event:town-hall",
-            "causeFacts": [
-              {
-                "key": "hostId",
-                "is": "subject"
-              }
-            ]
+            "causeFacts": [{ "key": "hostId", "is": "subject" }]
           },
           "causeEngine": "meetings",
           "causeRecord": "town-hall",
-          "bind": {
-            "constituent": "town-hall-askers",
-            "you": "subject"
-          },
+          "bind": { "constituent": "town-hall-askers", "you": "subject" },
           "opener": "constituent"
         }
       ],
