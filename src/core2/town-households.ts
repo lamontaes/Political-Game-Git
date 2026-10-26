@@ -9,24 +9,39 @@ import {
   inventedPersonBirthDate,
   type InventedPersonRole,
 } from "./gov-rules/invented-person-age";
-import type { CharacterHistoryContextPersonInput } from "../simulation/character-history";
-import { birthCohortGivenName } from "../simulation/given-name-cohorts";
-import { DEFAULT_CORPUS_VERSION } from "../simulation/names-data";
-import { drawCanonicalNamedIdentity } from "../simulation/people";
+import { birthCohortGivenName } from "./gov-rules/given-name-cohorts";
+import { DEFAULT_CORPUS_VERSION } from "./gov-rules/names-data";
 import {
   defaultPronounsForGender,
   generatePersonIdentity,
-} from "../simulation/person-identity";
-import { nameCorpusVersionForWorld } from "../simulation/place-name-corpus";
-import type { PersonIdentity, World } from "../simulation/types";
+  type PersonIdentity,
+} from "./gov-rules/person-identity";
+import { drawCanonicalNamedIdentity } from "./person-names";
 import {
   householdMixForJurisdiction,
   type HouseholdShape,
 } from "./household-mix";
-import type { EntityId } from "./kernel/brands";
+import type { EntityId, IsoDate } from "./kernel/brands";
 import { SeededRng } from "./kernel/rng";
 
 export const TOWN_RESIDENTS_VERSION = "town-residents-v1";
+
+/** What household naming reads of a world: its seed and the day it began. */
+export interface TownWorld {
+  readonly seed: string;
+  readonly startedAt: IsoDate | string;
+}
+
+/** A resident as the town writes them out: a name, an identity, a birthday and a home. */
+export interface TownPersonInput {
+  readonly stableKey: string;
+  readonly givenName: string;
+  readonly familyName: string;
+  readonly birthDate: IsoDate;
+  readonly homeJurisdictionId: EntityId;
+  /** Gender and pronouns for somebody the world is inventing. */
+  readonly identity: PersonIdentity;
+}
 
 export interface SkeletonMember {
   readonly age: number;
@@ -153,26 +168,34 @@ function partnerIdentity(
 
 /** Who household `index` would be written out as: names and birthdays. Pure. */
 export function townHouseholdPeople(
-  world: World,
+  world: TownWorld,
   town: EntityId,
   index: number,
   shape?: HouseholdShape,
-): readonly CharacterHistoryContextPersonInput[] {
+  corpusVersion: string = DEFAULT_CORPUS_VERSION,
+): readonly TownPersonInput[] {
   return namedMembers(
     world,
     town,
     townHouseholdSkeleton(world.seed, town, index, shape),
+    corpusVersion,
   );
 }
 
+/**
+ * The names a household's members are written out with. `corpusVersion` is
+ * the name corpus the world uses; a world begun under the place-name version
+ * says so on its creation record, and the opening's world does not, so it
+ * keeps the national corpus.
+ */
 export function namedMembers(
-  world: World,
+  world: TownWorld,
   town: EntityId,
   skeleton: TownHouseholdSkeleton,
-): readonly CharacterHistoryContextPersonInput[] {
+  corpusVersion: string = DEFAULT_CORPUS_VERSION,
+): readonly TownPersonInput[] {
   const rng = townHouseholdRng(world.seed, town, skeleton.index);
   let familyName: string | null = null;
-  const corpusVersion = nameCorpusVersionForWorld(world, town);
   const couple =
     skeleton.shape === "couple" || skeleton.shape === "couple-with-children";
   let firstPartner: PersonIdentity | null = null;
@@ -191,7 +214,7 @@ export function namedMembers(
     // one (`materializeTownHousehold`).
     const birthDate = inventedPersonBirthDate(personRng.fork("birth"), {
       role: "household-member",
-      referenceDate: world.startedAt,
+      referenceDate: world.startedAt as IsoDate,
       age: member.age,
       placement: "drawn-exact",
     });

@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/speed-year-policy-semi-space
 pr: #5820
 blocked-on:

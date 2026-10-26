@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "news",
-  "description": "News ledes for the new core's stories, keyed by the event kind they report (a closure, a death, a filing, a law taking effect, an election result, a council vote, a budget). News sources give patterns only; every part here is a whole sentence said in public-domain federal records (the Congressional Record, hearings, federal oral histories), with record words as slots.",
+  "description": "News ledes for the new core's stories, keyed by the event kind they report (a closure, a death, a filing, a law taking effect, an election result, a council vote, a budget). News sources give patterns only; every part here is a whole sentence said in public-domain federal records (the Congressional Record, hearings, the Federal Register, federal oral histories), with record words as slots.",
   "slots": {
     "subject": "The business or office that closed, from the event record.",
     "name": "A person, by name, from the records.",
@@ -470,7 +470,7 @@
     {
       "key": "news.law-took-effect.measure-took-effect-on-date",
       "move": "law-took-effect",
-      "kind": "spoken",
+      "kind": "written",
       "text": "{measure} took effect on {date}.",
       "uses": [
         {
@@ -481,10 +481,18 @@
           "requiresFacts": ["effective"]
         }
       ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-archive-law-budget-ledes)",
-      "date": "2026-10-19",
+      "transcriptsUsing": 17,
+      "bySource": {
+        "fr": 17
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. Citizenship and Immigration Services Fee Schedule and Changes to Certain Other Immigration Benefit Request Requirements; Second Correction (Federal Register)",
+        "date": "2025-01-17",
+        "granule": "FR-2025-01-17/2025-01386",
+        "url": "https://www.govinfo.gov/content/pkg/FR-2025-01-17/html/2025-01386.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -493,7 +501,7 @@
     {
       "key": "news.law-took-effect.measure-became-law-on-date",
       "move": "law-took-effect",
-      "kind": "spoken",
+      "kind": "written",
       "text": "{measure} became law on {date}.",
       "uses": [
         {
@@ -504,10 +512,18 @@
           "requiresFacts": ["enacted"]
         }
       ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-archive-law-budget-ledes)",
-      "date": "2026-10-19",
+      "transcriptsUsing": 40,
+      "bySource": {
+        "fr": 40
+      },
+      "shippable": true,
+      "source": {
+        "document": "Partitioning, Disaggregation, and Leasing of Spectrum (Federal Register)",
+        "date": "2019-04-02",
+        "granule": "FR-2019-04-02/2019-06348",
+        "url": "https://www.govinfo.gov/content/pkg/FR-2019-04-02/html/2019-06348.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

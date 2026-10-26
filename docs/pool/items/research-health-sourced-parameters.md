@@ -3,7 +3,7 @@ id: research-health-sourced-parameters
 title: "Research: sourced parameters for health severity and resilience"
 area: people
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -20,7 +20,7 @@ claimed-at:
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/data/health.json, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/people/
 
@@ -35,3 +35,4 @@ PR #5080 carries the Bonanno 2002 bereavement band (data/research/health/bereave
 Sent back 2026-10-23 from PR #5790 (branch claude/health-resilience): Mortality-scale PR also silently changes restingStressMoneyWeight and traitWeightCampaignsDonate 0.065 to 0.087 without calibration evidence; restore or justify them and use a valid bounded completed item; finish on that branch, merge main into it first.
 
 Oct 21 (claude, claude/health-resilience): the SG-P10-resilience-scale row is partly calibrated; the item stays open for the condition weights and for SG-P10-event-severity. `scripts/health/mortality-band.ts` over sixteen drawn towns (seeds sr1 to sr16, one played year each, default size): at the old 0.106, the first eight towns recorded 207 deaths against 146.2 expected, ratio 1.42 (outside the band 0.8 to 1.2). Trials on those towns: 0.075 gave 1.12, 0.065 gave 0.95, and the other eight towns at 0.068 gave 0.68, so single sets of eight towns differ by more than a Poisson count does (a town expects about 19 deaths, so one town is 0.5 to 1.9 of the table). At 0.087 all sixteen: 319 deaths against 297.9 expected, ratio 1.07. `resilienceBaseRateScale` is now 0.087 with the measurement in its estimatedFrom; the stopgap row says the condition weights are not refit. Next: refit the condition weights against the table by age band (the town-to-town spread suggests the weights, not the scale, carry the place differences), and pick the instrument for SG-P10-event-severity.
+Deferred Oct 25: nothing on screen reads it yet.

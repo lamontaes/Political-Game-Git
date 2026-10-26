@@ -3,7 +3,7 @@ import { townSeats } from "../core2/modules/offices";
 import { corePlaceByKey } from "../core2/place-lookup";
 import { capitolPlaceFor } from "./backdrop-places";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { backdropFile, stagePeople, homeOf } from "./scene";
+import { backdropFile, stagePeople, homeOf, type StageReason } from "./scene";
 import pictures from "./data/opening-pictures.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import type { OpeningSentence, OpeningStory } from "../director/opening-story";
@@ -128,6 +128,18 @@ export function openingFrames(
   // What the player is watching, first (owner, Oct 14, 2026): their own
   // household at home that evening, the anchor leading into the address.
   const household = stages.get("family")?.people ?? [];
+  // Why each person stands in an opening frame: the player, their household
+  // at home, or someone the address names.
+  const householdIds = new Set(household.map((row) => row.id));
+  const withReasons = (cast: readonly { id: string; name: string }[]) =>
+    cast.map((row) => ({
+      ...row,
+      reason: (row.id === playerId
+        ? "you"
+        : householdIds.has(row.id)
+          ? "household"
+          : "named") as StageReason,
+    }));
   if (story.lead.length) {
     const place = homeOf(core, playerId, OPENING_EVENING_MINUTE);
     const cast = [
@@ -139,7 +151,7 @@ export function openingFrames(
       place,
       backdrop: backdropFile(place, OPENING_EVENING_MINUTE),
       cast,
-      people: stagePeople(core, place, cast).people,
+      people: stagePeople(core, place, withReasons(cast)).people,
       pointOut: [...household],
       speaker: "anchor",
       lines: [...story.lead],
@@ -177,7 +189,7 @@ export function openingFrames(
       place,
       backdrop: backdropFile(place, minute),
       cast,
-      people: stagePeople(core, place, cast).people,
+      people: stagePeople(core, place, withReasons(cast)).people,
       pointOut,
       lines,
     });
