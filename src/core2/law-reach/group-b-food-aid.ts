@@ -52,7 +52,7 @@ function standardDeduction(size: number): number {
  * or, where the row has no table, the latest table recorded for that tier
  * scaled to the row's amount.
  */
-function allotments(api: CoreAPI): ((size: number) => number) | null {
+export function allotments(api: CoreAPI): ((size: number) => number) | null {
   const answer = lawInForce(api, "snap-maximum");
   const governing = answer.governing;
   if (!governing || !answer.value) return null;

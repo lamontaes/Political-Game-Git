@@ -20,11 +20,23 @@ import { setJournalTrace } from "./journal-state";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn, appliedTo, type LawAppliedRow } from "./law-reach/applied";
+import { allotments, foodAidDollars } from "./law-reach/group-b-food-aid";
 import { jobsAt, source } from "./law-reach/group-b-money";
-import { reachParameter } from "./law-reach/group-b-people";
+import {
+  povertyLineDollars,
+  reachParameter,
+  selectResidents,
+  townFacts,
+  type PeopleSelector,
+} from "./law-reach/group-b-people";
 import { rowsOf, type PersonReach } from "./law-reach/group-b-store";
 import { advanceCore } from "./life";
-import { amendBudget, budgetsOf, governments } from "./modules/budgets";
+import {
+  amendBudget,
+  budgetsOf,
+  fiscalYearOf,
+  governments,
+} from "./modules/budgets";
 import {
   enactLaw,
   lawChain,
@@ -39,6 +51,7 @@ import type { LawRowInput } from "./laws-starting";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 import tuition from "./data/opening-private-tuition.json" with { type: "json" };
+import reach from "./data/laws/reach-group-b.json" with { type: "json" };
 
 const P = "us-policy-positions:";
 const EXPAND = `${P}health-human-services.expand-medicaid-eligibility`;
@@ -63,7 +76,7 @@ const LINES = [
 ] as const;
 
 const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const TRIES = 12;
+const TRIES = 24;
 const ENACTED_DAYS = 40;
 const WORK_REQUIREMENT_DAYS = 10;
 // The web links the test requires to fire, each from a law or line it holds.
@@ -87,6 +100,8 @@ const HELD_MONTHS =
   ) + 3;
 const MODERATED_MONTHS = 3;
 const DAYS_PER_MONTH = 30;
+// Days a line's raise has to reach someone and move money, inside its fiscal year.
+const LINE_WINDOW_DAYS = 62;
 
 interface Taken {
   readonly key: string;
@@ -146,12 +161,8 @@ function enact(api: CoreAPI, key: string, tag: string): string {
   throw new Error(`no level of the chain can enact ${key}`);
 }
 
-/**
- * A council's budget bill, as the checker makes one: the line of the town's
- * lowest government that carries it goes up by a fifth (at least $100,000),
- * and the change carries into later years.
- */
-function raiseLine(api: CoreAPI, line: string, tag: string): string | null {
+/** The budget a council's bill changes: the one of the town's lowest government (city, else county, else state). */
+function lineBudget(api: CoreAPI) {
   const govs = governments(api);
   const gov =
     govs.find((g) => g.level === "city") ??
@@ -160,11 +171,22 @@ function raiseLine(api: CoreAPI, line: string, tag: string): string | null {
   const budget = gov
     ? [...budgetsOf(api, gov.id)].sort((a, b) => b.fiscalYear - a.fiscalYear)[0]
     : undefined;
-  if (!gov || !budget) return null;
-  const base = budget.spendingMinor[line] ?? 0;
+  return gov && budget ? { gov, budget } : null;
+}
+
+/**
+ * A council's budget bill, as the checker makes one: the line of the town's
+ * lowest government that carries it goes up by a fifth (at least $100,000),
+ * and the change carries into later years. The town has such a budget (the
+ * opening records said so before play); a town without one never plays.
+ */
+function raiseLine(api: CoreAPI, line: string, tag: string): string {
+  const held = lineBudget(api);
+  if (!held) throw new Error(`no government budget carries the ${line} line`);
+  const base = held.budget.spendingMinor[line] ?? 0;
   const measureId = `health-schools-${tag}`;
   amendBudget(api, {
-    governmentId: gov.id,
+    governmentId: held.gov.id,
     line,
     deltaMinor: Math.max(100_000_00, Math.round(base * 0.2)),
     measureId,
@@ -174,9 +196,9 @@ function raiseLine(api: CoreAPI, line: string, tag: string): string | null {
 }
 
 /** The SNAP maximum raised a tenth by a federal act, on the row in force. */
-function raiseSnapMaximum(api: CoreAPI, tag: string): string | null {
+function raiseSnapMaximum(api: CoreAPI, tag: string): string {
   const governing = lawInForce(api, "snap-maximum").governing;
-  if (!governing?.value) return null;
+  if (!governing?.value) throw new Error("no SNAP maximum row to raise");
   return enactLaw(api, {
     jurisdiction: governing.jurisdiction,
     level: governing.level,
@@ -233,36 +255,118 @@ function hasTuition(core: CoreState, town: string): boolean {
   return false;
 }
 
-/** Returns why this place has no subject, or null after every assertion holds. */
-function tryPlace(where: string, seed: string, key: string): string | null {
+const POLICY = (
+  reach as unknown as {
+    policies: Record<string, { people?: PeopleSelector }>;
+    budgetLines: Record<string, { people?: PeopleSelector }>;
+  }
+).policies;
+const LINE_DEFS = (
+  reach as unknown as {
+    budgetLines: Record<string, { people?: PeopleSelector }>;
+  }
+).budgetLines;
+
+/** The teacher minimum, in daily pay. */
+const floorDaily = () =>
+  (reachParameter("teacherMinimumSalaryDollars") * 100) / 365;
+
+/** The town's covered teachers, as the pay floor engine selects them. */
+const teachersOf = (api: CoreAPI) =>
+  jobsAt(api, ["service:school"], "profession:teacher").filter(
+    (j) => j.hourlyMinor && j.wageDailyMinor > 0,
+  );
+
+/**
+ * Why this town cannot be played, from its opening records alone and decided
+ * before anything is played: the law rows in force, the budgets, the tuition
+ * contracts, the teachers' pay, and the residents each law selects on, read
+ * through the engine's own selection (selectResidents with the policy's own
+ * selector; the food benefit's own allotment and household test). Null when
+ * every law has a subject. A town that passes plays, and a law that then
+ * leaves no applied record fails the test on that town; it never redraws.
+ */
+function lacking(core: CoreState): string | null {
+  const api = coreAPI(core);
+  const chain = lawChain(api);
+  if (
+    !governments(api).some((g) => g.level === "state") ||
+    !governments(api).some((g) => g.level === "federal")
+  )
+    return "no state or federal government";
+  if (!lawInForce(api, "snap-maximum").governing?.value)
+    return "no SNAP law in force";
+  if (!lineBudget(api)) return "no government with a budget to carry the lines";
+  if (!hasTuition(core, chain.townPlaceId))
+    return "no private-school tuition contract";
+  // The teacher minimum has something to raise only where it is not law yet
+  // and a covered teacher is paid under it.
+  if (levelsSayingYes(api, TEACHER).length)
+    return "the teacher minimum is law at the opening (its raises are already made)";
+  if (!teachersOf(api).some((j) => j.wageDailyMinor < floorDaily()))
+    return "no covered teacher is paid under the teacher minimum";
+  // The residents each law selects on.
+  const facts = townFacts(api, chain.townPlaceId);
+  const who = (selector: PeopleSelector) =>
+    selectResidents(facts, selector, chain.stateKey);
+  const people = (key: string) => POLICY[key]!.people!;
+  const ends = new Set(who(people(MEDICAID_WORK)).map((r) => r.id));
+  const covered = who(people(EXPAND));
+  if (!covered.some((r) => ends.has(r.id)))
+    return "no adult the Medicaid work requirement ends coverage for";
+  const stays = covered.filter((r) => !ends.has(r.id));
+  if (!stays.some((r) => r.named)) return "no named adult stays covered";
+  if (
+    stays
+      .filter((r) => !r.named)
+      .reduce((n, r) => n + (r.weight ?? 1) * (r.scale ?? 1), 0) <= 1
+  )
+    return "no counted adults stay covered";
+  if (!who(people(PRESCHOOL)).some((r) => r.named))
+    return "no named child of preschool age";
+  const allotment = allotments(api);
+  const drawers = allotment
+    ? who({ householdHead: true }).filter((r) => {
+        const h = facts.households.get(r.householdId);
+        return (
+          r.named &&
+          h &&
+          foodAidDollars(
+            h,
+            povertyLineDollars(chain.stateKey, h.size),
+            allotment,
+          ) > 0
+        );
+      })
+    : [];
+  if (!drawers.length) return "no named household draws the food benefit";
+  const bound = new Set(who(people(ASSIST_WORK)).map((r) => r.id));
+  if (!drawers.some((r) => bound.has(r.id)))
+    return "no food benefit household head the assistance work requirement reaches";
+  for (const line of LINES) {
+    const selector = LINE_DEFS[line]?.people;
+    if (selector && !who(selector).some((r) => r.named))
+      return `no named resident the ${line} line reaches`;
+  }
+  return null;
+}
+
+/**
+ * Plays an eligible town and asserts every law's record and money. A failure
+ * is the test's, on this town: nothing here redraws.
+ */
+function play(where: string, seed: string, core: CoreState): void {
   posts.length = 0;
-  const { core } = buildBenchWorld(seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: key,
-  });
   const api = coreAPI(core);
   const accounts = api.accounts();
   const state = governments(api).find((g) => g.level === "state");
   const federal = governments(api).find((g) => g.level === "federal");
-  if (!state || !federal) return "no state or federal government";
-  if (!lawInForce(api, "snap-maximum").value) return "no SNAP law in force";
-  if (!hasTuition(core, lawChain(api).townPlaceId))
-    return "no private-school tuition contract";
-  // The teacher minimum has something to raise only where it is not law yet
-  // and a covered teacher is paid under it.
-  const floorDaily =
-    (reachParameter("teacherMinimumSalaryDollars") * 100) / 365;
-  const teachers = () =>
-    jobsAt(api, ["service:school"], "profession:teacher").filter(
-      (j) => j.hourlyMinor && j.wageDailyMinor > 0,
-    );
-  if (levelsSayingYes(api, TEACHER).length)
-    return "the teacher minimum is law at the opening (its raises are already made)";
+  if (!state || !federal) throw new Error(`${where}: no state or federal`);
+  const floor = floorDaily();
+  const teachers = () => teachersOf(api);
   const teachersBefore = new Map(
     teachers().map((j) => [j.id, j.hourlyMinor ?? 0]),
   );
-  if (!teachers().some((j) => j.wageDailyMinor < floorDaily))
-    return "no covered teacher is paid under the teacher minimum";
   // The starting yeses are repealed first, so each law takes effect as a change.
   const baselineYes = new Map<string, boolean>();
   for (const q of QUESTIONS) {
@@ -419,7 +523,7 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     expect(
       job.wageDailyMinor,
       say(`${job.id} is paid under the teacher minimum`),
-    ).toBeGreaterThanOrEqual(Math.floor(floorDaily));
+    ).toBeGreaterThanOrEqual(Math.floor(floor));
   const teacherRows = appliedOn(api, TEACHER);
   for (const job of covers.filter((j) => core.jobs.has(j.id)))
     expect(
@@ -622,17 +726,63 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     teacherPay ? (teacherPay.split(" ")[0] ?? null) : null,
   );
 
+  // A line's raise reaches people for the fiscal year it is passed in: the
+  // next year's budget starts from it and the service is measured against that
+  // base, so what a line served is read before the lowest government's year
+  // turns over. The lines are raised with at least two months of the year
+  // left, and read as soon as each has reached a person and moved money.
+  const yearStart = lineBudget(api)!.gov.fiscalYearStart;
+  const yearOf = (day: string) => fiscalYearOf(day, yearStart);
+  while (
+    yearOf(addDays(makeIsoDate(api.state.date), LINE_WINDOW_DAYS)) !==
+    yearOf(api.state.date)
+  )
+    advance(core, 1);
+
   // A council raises each of the four lines, and Congress raises the SNAP
   // maximum, so each law's cause differs from its baseline.
   const raisedOn = api.state.date;
-  const lineMeasures = new Map<string, string>();
+  for (const line of LINES) raiseLine(api, line, `raise-${line}`);
+  raiseSnapMaximum(api, "snap-raise");
+
+  // Each line reached people and moved money: the reach record that names a
+  // person it served, and the journal entry of a payment out of the line.
+  const lineReach = (line: string) =>
+    rowsOf<PersonReach>(api, "people").find(
+      (r) => r.key === `budget-line:${line}` && !r.endedOn,
+    );
+  const lineMoney = (line: string) =>
+    moneyTo(
+      "benefit|budget-line:welfareAndMedicaid",
+      () => line === "welfareAndMedicaid",
+    ) ??
+    posts
+      .find(
+        (p) =>
+          p.date > raisedOn &&
+          p.gross > 0 &&
+          p.id.includes(`budget-line:${line}`),
+      )
+      ?.id.split(" ")[0] ??
+    null;
+  for (
+    let day = 0;
+    day < LINE_WINDOW_DAYS &&
+    !LINES.every((line) => lineReach(line) && lineMoney(line));
+    day += 1
+  )
+    advance(core, 1);
   for (const line of LINES) {
-    const measure = raiseLine(api, line, `raise-${line}`);
-    if (!measure) return `no government carries the ${line} line`;
-    lineMeasures.set(line, measure);
+    const reach = lineReach(line);
+    expect(reach, say(`${line}: no person reached`)).toBeDefined();
+    const money = lineMoney(line);
+    expect(money, say(`${line}: no journal entry of its money`)).not.toBeNull();
+    chain[`budget-line:${line}`] = {
+      applied: reach!.id,
+      reached: `person ${reach!.personId}`,
+      money,
+    };
   }
-  const snapRaise = raiseSnapMaximum(api, "snap-raise");
-  if (!snapRaise) return "no SNAP maximum to raise";
 
   // The work requirement's link reads the requirement only where the
   // expansion is law, both as they stood a lag ago, and the web's rows fall
@@ -676,35 +826,6 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     say("the web ran the SNAP work requirement link the benefit carries"),
   ).toBeUndefined();
 
-  // Each line reached people and moved money: the reach record that names a
-  // person it served, and the journal entry of a payment out of the line.
-  const reachRows = rowsOf<PersonReach>(api, "people");
-  for (const line of LINES) {
-    const reach = reachRows.find(
-      (r) => r.key === `budget-line:${line}` && !r.endedOn,
-    );
-    expect(reach, say(`${line}: no person reached`)).toBeDefined();
-    const money =
-      moneyTo(
-        "benefit|budget-line:welfareAndMedicaid",
-        () => line === "welfareAndMedicaid",
-      ) ??
-      posts
-        .find(
-          (p) =>
-            p.date > raisedOn &&
-            p.gross > 0 &&
-            p.id.includes(`budget-line:${line}`),
-        )
-        ?.id.split(" ")[0] ??
-      null;
-    expect(money, say(`${line}: no journal entry of its money`)).not.toBeNull();
-    chain[`budget-line:${line}`] = {
-      applied: reach!.id,
-      reached: `person ${reach!.personId}`,
-      money,
-    };
-  }
   govReport(
     "law-wiring-health-schools",
     JSON.stringify({ seed, place: where, enactedOn, raisedOn, chain }),
@@ -724,7 +845,6 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     say("preschool still pays"),
   ).toBe(0);
   expect(open(`voucher|${VOUCHER}`).length, say("vouchers still pay")).toBe(0);
-  return null;
 }
 
 it("health, assistance and school laws reach people, move money and move outcomes", () => {
@@ -751,9 +871,22 @@ it("health, assistance and school laws reach people, move money and move outcome
           }
         : drawPlace(SEED, `law-wiring-health-schools-${n}`);
       const where = `${draw.name} (${draw.state}, ${draw.key}), seed ${draw.seed}`;
-      const why = tryPlace(where, draw.seed, draw.key);
-      if (why === null) return;
-      tried.push(`${where}: ${why}`);
+      const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      // A town is redrawn only on its opening records, before anything is
+      // played; once it is judged eligible it plays, and a law with no
+      // applied record then fails the test on this town.
+      const why = lacking(core);
+      if (why !== null) {
+        tried.push(`${where}: ${why}`);
+        console.info(`redrawn on opening records: ${where}: ${why}`);
+        continue;
+      }
+      console.info(`playing: ${where}`);
+      play(where, draw.seed, core);
+      return;
     }
     throw new Error(
       `no drawn place had a subject for these laws:\n${tried.join("\n")}`,
@@ -762,4 +895,4 @@ it("health, assistance and school laws reach people, move money and move outcome
     setJournalTrace(null);
     setBookkeeping(true);
   }
-}, 600_000); // limit leaves room for a redraw when a place has no subject. // Building a world takes about 65 s and the played span is 240 days; the
+}, 1_200_000); // A town that lacks a subject costs only its world (about 65 s); one that plays also spends its 240 played days.
