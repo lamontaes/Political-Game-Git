@@ -25,6 +25,7 @@ import {
   type JournalWords,
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
+import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import { properName } from "./words";
 import type { Moment } from "./types";
 import {
@@ -87,6 +88,38 @@ function billName(
     .table("bills")
     .get(billId) as unknown as BillRow | undefined;
   return row ? (billTitleOf(row)?.title ?? undefined) : undefined;
+}
+
+/**
+ * How a race was decided, from its result record's totals: "alone" when one
+ * candidate stood, "close" or "wide" by the winner's lead over the runner-up
+ * as a share of the votes cast, and "middle" between them or when the totals
+ * are not on record, so no line claims a margin the record does not show.
+ */
+function raceMargin(
+  core: Readonly<CoreState>,
+  resultId: string,
+): (typeof RACE_MARGINS)[number] {
+  let votes: number[] = [];
+  try {
+    votes = Object.values(
+      JSON.parse(String(core.durableLog.get(resultId)?.facts?.totals ?? "{}")),
+    )
+      .map(Number)
+      .filter(Number.isFinite)
+      .sort((a, b) => b - a);
+  } catch {
+    votes = [];
+  }
+  if (votes.length === one) return "alone";
+  const cast = votes.reduce((sum, count) => sum + count, zero);
+  if (votes.length < P.two || !(cast > zero)) return "middle";
+  const lead = (votes[zero]! - votes[one]!) / cast;
+  const { journalRaceCloseMargin, journalRaceWideMargin } =
+    DEFAULT_DIRECTOR_DATA.parameters;
+  if (lead <= journalRaceCloseMargin!.value) return "close";
+  if (lead >= journalRaceWideMargin!.value) return "wide";
+  return "middle";
 }
 
 /** The person's relatives by id, with the family fact that records each. */
@@ -571,7 +604,7 @@ export function composeJournal(
     let event: ReturnType<typeof render> = null;
     if (row.hasOwnLine && own) {
       const won = facts.winner?.text === personId;
-      const stage = won ? "won" : "lost";
+      const stage = `${won ? "won" : "lost"}:${raceMargin(core, moment.causeId)}`;
       // Losing a first race is the start of a story, not its end.
       const first = !won && !wonBefore && !lostBefore;
       event =
