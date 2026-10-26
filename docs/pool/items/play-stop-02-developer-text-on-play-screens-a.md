@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/play.mjs, src/bench/economy.ts, src/bench/story.ts, src/bench/data/controls.json
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-02-developer-text-on-play-screens (Oct 24, lane). Mark gap is its own item (play-first-15-mark-gap-off-player-screen); the filing panel's labels landed in PR #5888. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+Sent back 2026-10-26 from PR #6086 (branch play-first/play-stop-02-developer-text-on-play-screens-a): browser check flags 'territory-wide' on a drawn territory; add hyphenated office words to its allowlist; finish on that branch, merge main into it first.
