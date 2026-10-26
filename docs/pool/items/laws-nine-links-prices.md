@@ -2,11 +2,12 @@
 id: laws-nine-links-prices
 title: "Every prices and sales taxes law passes all nine wiring links in a played year"
 area: laws
+lead: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/laws-nine-links-prices
 pr: #5986
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
@@ -17,7 +18,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: the engine that pays or decides reads the law and records whom it applied it to through `lawApplied`. One model, two tiers: counted groups take the same rule as full people, times the count. Ask why: a person attributes a change to the law only after news they received, a conversation, a notice or an ad. The chain is the acceptance: each law is followed to a named person and a dollar.
 
-**Done when.** In a played year (`buildBenchWorld`, every module installed) in two places drawn from all 56 with seeds the builder did not choose, named in the PR body, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade every law in this family wired on all nine links in `docs/reports/law-wiring-matrix.json`. A link declared not applicable in `scripts/law-wiring/declared.json` with its statute or research reason counts; a registered stopgap does not. The family test names, for each law, its `lawApplied` record id, the journal entry of the money and the person or household reached.
+**Done when.** In a played year (`buildBenchWorld`, every module installed) in two places drawn from all 56 with seeds the builder did not choose, named in the PR body, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade every law in this family wired on all nine links in `docs/reports/law-wiring-matrix.json`. A link declared not applicable in `scripts/law-wiring/declared.json` with its statute or research reason counts; a registered stopgap does not. The family test names, for each law, its `lawApplied` record id, the journal entry of the money and the person or household reached. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/place-prices.ts, src/core2/law-reach/group-b.ts, src/core2/law-reach/applied.ts
 
@@ -26,3 +27,5 @@ claimed-at:
 Laws lead, Oct 25 06:15: in PR #5986 (merge after #5582). Nine of ten laws wired; the per-mile fee's outcome link waits on web-vehicle-miles-traveled-per-resident (CTO decision in the PR).
 
 Sent back 2026-10-25 19:04 UTC from PR #5986 (branch claude/laws-nine-links-prices): first Done-when row requires every family law on all nine links but body/table admit mileage-fee-replaces-fuel-tax outcome remains SG-LAW-outcome-link-unresearched; complete its researched link/year proof or route a completed bounded slice to its own item while this family stays open; finish on that branch, merge main into it first.
+
+Laws lead, Oct 25 23:30: #5986 is back in review. All ten prices laws grade wired on the own-payment checker in both audit towns (the grocery exemption in Colome, South Dakota; the gas hookup ban over 900 days, since no builder starts a house in either town within a year), with the mileage link from web-vehicle-miles-traveled-per-resident folded in.

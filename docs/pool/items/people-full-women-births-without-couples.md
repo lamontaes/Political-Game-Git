@@ -3,7 +3,7 @@ id: people-full-women-births-without-couples
 title: "A full woman with no recorded partner has no way to have a birth: 26 of 990 full women aged 15 to 49 are in the couples table, and full births are about ten times below the CDC rates"
 area: people
 kind: bug
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/renewal.ts,src/core2/births-plan.ts
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.

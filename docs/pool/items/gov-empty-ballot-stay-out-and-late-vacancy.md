@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/empty-ballot-late-vacancy
-pr:
+pr: #6124
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T20:52:03.460Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T20:52:03.460Z
 
 **Rules.** No dice: whether an incumbent stands again comes from their age, record, temperament and the seat, never a roll, and a vacancy filled after the deadline follows the place's filing law read from its records. One rule, all 56 places: the filing and vacancy rules come from each place's data, and the fix applies to every office family, not county offices only. An effect is a read: the filing that results is read by ballot() and the result.
 
-**Done when.** In buildBenchWorld in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4), M0-13 every race has someone on the ballot is alive: the Commissioner and County treasurer contests each carry a filing by record id (the incumbent's decision to stand with its reasons, and for the vacancy a filing the place's law allows, or a recorded reason the seat has no election), and two more drawn places show the same check alive or unobserved with their seeds named.
+**Done when.** In buildBenchWorld in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4), M0-13 every race has someone on the ballot is alive: the Commissioner and County treasurer contests each carry a filing by record id (the incumbent's decision to stand with its reasons, and for the vacancy a filing the place's law allows, or a recorded reason the seat has no election), and two more drawn places show the same check alive or unobserved with their seeds named. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, src/core2/modules/elections.ts
 

@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-first-01-start-a-life-first
 pr: #6091
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-26T01:38:26.288Z
 ---
 
 **What.** On the v0.22.10 release New game opened Custom world, Start a life and New world with nothing saying which to pick. The owner's read of the screenshots: Start a life is the main one and goes first, and Custom world and New world are combined or explained. This item puts Start a life first and combines the two world modes into one choice, with the custom start kept where the Oct 14 ruling puts it (dev mode).

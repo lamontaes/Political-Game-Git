@@ -17,7 +17,7 @@ claimed-at: 2026-10-21T01:11:12.858Z
 
 **Rules.** One rule, all 56 places: the pattern follows the job's workplace and title in data, never a town named in logic. Wire to the world: the schedule is read by attendance the day it is used, so a job's pattern is checked in a played world, not on a fixture.
 
-**Done when.** In the played world for Independence, Louisiana (key 2237025, seed 7b7b07cc96aa225f55b6f8834881f44ed234811a577a1067e954be747cca333a) after 120 days the city administrator's commitment has no slot longer than a working day, the governor's aides attend at least one scheduled day, and in two other places drawn from all 56 no public staff job has a slot over 12 hours, shown by a test beside src/core2/staff-aide-attendance-cause.test.ts naming each job id.
+**Done when.** In the played world for Independence, Louisiana (key 2237025, seed 7b7b07cc96aa225f55b6f8834881f44ed234811a577a1067e954be747cca333a) after 120 days the city administrator's commitment has no slot longer than a working day, the governor's aides attend at least one scheduled day, and in two other places drawn from all 56 no public staff job has a slot over 12 hours, shown by a test beside src/core2/staff-aide-attendance-cause.test.ts naming each job id. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/work-schedules.ts,src/core2/opening-work.ts,src/core2/work-patterns.ts
 

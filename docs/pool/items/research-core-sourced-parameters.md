@@ -3,7 +3,7 @@ id: research-core-sourced-parameters
 title: "Research: sourced parameters for closeness, emotion, free time, policy authority, recalls and renewal"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -33,3 +33,5 @@ claimed-at:
 Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-core-sourced-parameters.md (6 rows: 1 sourced, 3 estimated, 2 mechanic).
 
 Oct 24, 2026: split. PR 5853 (item research-core-recall-petition-windows) delivers twelve local recall timing rows (ten SOURCED, two ESTIMATED), six research files and a played-year check. Still open here: unmodeledLeisureValuePerHour stays TUNABLE because no published figure converts to its score units, and SG-GOV-recall-bars-national lacks a Mississippi bar while the engine reads neither election-counted bars nor after-failure rules (gov-recall-bars-election-clock). Each other stopgap waits on a builder item: SG-P15-closeness-model (no source gives a half-life without contact; core-stopgap-closeness-relationship-closeness-model), SG-P8-emotion-model (core-emotion-chronic-affect-trajectories), SG-P15-free-block-plan (core-free-block-daily-budget), SG-GOV-policy-power-conditions (core-policy-authority-limited-cell-predicates) and SG-M1-opening-pregnancies (no dated history before the opening; people-opening-pregnancy-first-year-calibration).
+
+Deferred Oct 25: nothing on screen reads it yet.

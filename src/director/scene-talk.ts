@@ -9,14 +9,17 @@
  *
  * The arc comes from `data/purpose-arcs.json`: the purpose's statement and
  * reply moves; auto-replies the player's character says unprompted; the
- * asker's answer to each reply move, chosen by the highest sum of trait pulls
- * (a tie by the stable hash); the next replies; a continuation once the
+ * asker's answer to each reply move, the one the asker's traits lean toward
+ * most (a tie by the stable hash); the next replies; a continuation once the
  * purpose resolves; the close by outcome. Nothing is rolled. The branch the
- * page follows first is the one the player's traits lean toward most (the
- * trait engine's act-kind lean); every other reply leads to its own branch,
- * up to the tree's bounds (`scene-talk-rules.json`).
+ * page follows first is the one the player's traits lean toward most. Both
+ * read one lean: each move's act kinds in the shared decision table
+ * (`scene-talk.move`), scored by the trait engine as every other decision is,
+ * so a person answers in talk the way they decide elsewhere. Every other reply
+ * leads to its own branch, up to the tree's bounds (`scene-talk-rules.json`).
  */
 import { traitLean } from "../core2/choice";
+import { decisionKinds } from "../core2/trait-decisions";
 import { P } from "../core2/parameters";
 import { stableHash } from "../core2/kernel/ids";
 import type { CoreState, PersonId } from "../core2/types";
@@ -41,11 +44,6 @@ const two = P.two;
 const three = two + one;
 const four = two + two;
 
-interface Pull {
-  move: string;
-  pulls: Record<string, number>;
-}
-
 interface Ending {
   id: string;
   label: string;
@@ -69,7 +67,7 @@ interface PurposeArc {
   state: string;
   replies: string[];
   /** This purpose's own answers (reply move to candidates), before the shared ones. */
-  follow?: Record<string, string | Pull[]>;
+  follow?: Record<string, string | string[]>;
   /** This purpose's own next replies (answer move to reply moves). */
   again?: Record<string, string[]>;
   /** After the asker's line of this move ("state" for the statement), the player's character says a line of `move` unprompted. */
@@ -85,7 +83,6 @@ interface PurposeArc {
 interface Arcs {
   parameters: {
     rounds: { value: number };
-    baseWeight: { value: number };
   };
   purposes: Record<string, PurposeArc>;
   /** One generic arc per situation key, for a type with no purpose. */
@@ -97,14 +94,13 @@ interface Arcs {
   };
   outcomes: Record<"resolved" | "refused" | "open", string[]> &
     Record<string, unknown>;
-  follow: Record<string, string | Pull[]>;
+  follow: Record<string, string | string[]>;
   again: Record<string, string[]>;
   close: Record<"resolved" | "refused" | "open", string[]>;
 }
 
 const ARCS = arcsFile as unknown as Arcs;
 const RULES = rulesFile as unknown as {
-  moveActs: Record<string, string[]>;
   terminalFollow: string[];
   tree: { maxReplies: { value: number }; maxNodes: { value: number } };
   bluntGreeting: { value: number };
@@ -294,22 +290,23 @@ function closest<T>(
     : rows;
 }
 
-/** Sum of an asker's trait pulls on one candidate answer move, plus the base weight. */
-function pullOf(
-  candidate: Pull,
+/**
+ * How far a speaker's traits lean toward saying a move: its act kinds in the
+ * shared decision table (`scene-talk.move`), scored by the trait engine.
+ */
+function leanOf(
+  core: Pick<CoreState, "data">,
+  move: string,
   traits: Readonly<Record<string, number>>,
 ): number {
-  let sum = ARCS.parameters.baseWeight.value;
-  for (const [trait, pull] of Object.entries(candidate.pulls))
-    sum += pull * (traits[trait] ?? zero);
-  return sum;
+  return traitLean(core, { traits }, decisionKinds("scene-talk.move", move));
 }
 
 /** The candidate answer moves for a reply move; a string value means "same as that move". */
-function candidatesFor(arc: PurposeArc, move: string): Pull[] {
+function candidatesFor(arc: PurposeArc, move: string): string[] {
   const own = arc.follow;
   const table = (name: string) => own?.[name] ?? ARCS.follow[name];
-  let at: string | Pull[] | undefined = table(move);
+  let at: string | string[] | undefined = table(move);
   for (let hops = zero; typeof at === "string" && hops < four; hops += one)
     at = table(at);
   return Array.isArray(at) ? at : [];
@@ -507,30 +504,33 @@ export function composeSceneTalk(
       said = addParts(said, reacted);
       // The asker answers the player's character, then states the purpose.
       const moves = candidatesFor(arc, openAuto.move);
-      const answers = (
-        moves.length ? moves : [{ move: "answer", pulls: {} }]
-      ).flatMap((candidate) => {
-        const line = render(
-          {
-            step: "follow",
-            move: candidate.move,
-            role: "asker",
-            ...base,
-            after: openAuto.move,
-            ...(reacted.parts[zero] ? { afterPiece: reacted.parts[zero] } : {}),
-          },
-          cast.askerId,
-          askerTraits,
-          `auto-answer:open:${candidate.move}`,
-          said,
-        );
-        return line ? [{ candidate, line }] : [];
-      });
+      const answers = (moves.length ? moves : ["answer"]).flatMap(
+        (candidate) => {
+          const line = render(
+            {
+              step: "follow",
+              move: candidate,
+              role: "asker",
+              ...base,
+              after: openAuto.move,
+              ...(reacted.parts[zero]
+                ? { afterPiece: reacted.parts[zero] }
+                : {}),
+            },
+            cast.askerId,
+            askerTraits,
+            `auto-answer:open:${candidate}`,
+            said,
+          );
+          return line ? [{ candidate, line }] : [];
+        },
+      );
       const [best] = [...answers].sort(
         (a, b) =>
-          pullOf(b.candidate, askerTraits) - pullOf(a.candidate, askerTraits) ||
-          stableHash(`${scene}:open:${a.candidate.move}`).localeCompare(
-            stableHash(`${scene}:open:${b.candidate.move}`),
+          leanOf(core, b.candidate, askerTraits) -
+            leanOf(core, a.candidate, askerTraits) ||
+          stableHash(`${scene}:open:${a.candidate}`).localeCompare(
+            stableHash(`${scene}:open:${b.candidate}`),
           ),
       );
       if (best) {
@@ -591,31 +591,31 @@ export function composeSceneTalk(
     lines.push(auto);
     current = { ...current, said: addParts(current.said, auto) };
     const answerMoves = candidatesFor(arc, hit.move);
-    const answers = (
-      answerMoves.length ? answerMoves : [{ move: "answer", pulls: {} }]
-    ).flatMap((candidate) => {
-      const answer = render(
-        {
-          step: "follow",
-          move: candidate.move,
-          role: "asker",
-          ...base,
-          after: hit.move,
-          ...(auto.parts[zero] ? { afterPiece: auto.parts[zero] } : {}),
-        },
-        cast.askerId,
-        traitsOfAsker,
-        `auto-answer:${label}:${candidate.move}`,
-        current.said,
-      );
-      return answer ? [{ candidate, answer }] : [];
-    });
+    const answers = (answerMoves.length ? answerMoves : ["answer"]).flatMap(
+      (candidate) => {
+        const answer = render(
+          {
+            step: "follow",
+            move: candidate,
+            role: "asker",
+            ...base,
+            after: hit.move,
+            ...(auto.parts[zero] ? { afterPiece: auto.parts[zero] } : {}),
+          },
+          cast.askerId,
+          traitsOfAsker,
+          `auto-answer:${label}:${candidate}`,
+          current.said,
+        );
+        return answer ? [{ candidate, answer }] : [];
+      },
+    );
     const [best] = [...answers].sort(
       (a, b) =>
-        pullOf(b.candidate, traitsOfAsker) -
-          pullOf(a.candidate, traitsOfAsker) ||
-        stableHash(`${scene}:${label}:auto:${a.candidate.move}`).localeCompare(
-          stableHash(`${scene}:${label}:auto:${b.candidate.move}`),
+        leanOf(core, b.candidate, traitsOfAsker) -
+          leanOf(core, a.candidate, traitsOfAsker) ||
+        stableHash(`${scene}:${label}:auto:${a.candidate}`).localeCompare(
+          stableHash(`${scene}:${label}:auto:${b.candidate}`),
         ),
     );
     if (best) {
@@ -666,8 +666,7 @@ export function composeSceneTalk(
     rootPath = { ...rootPath, said: addParts(rootPath.said, rootBeat) };
   }
 
-  const lean = (line: SceneTalkLine) =>
-    traitLean(core, { traits: askedTraits }, RULES.moveActs[line.move] ?? []);
+  const lean = (line: SceneTalkLine) => leanOf(core, line.move, askedTraits);
 
   /** The close for an ending: a thanks or acceptance answer is itself the close. */
   const closeFor = (
@@ -783,10 +782,8 @@ export function composeSceneTalk(
     TreeNode,
     NonNullable<TreeNode["branches"]>[number]
   >();
-  const caughtCandidates = (move: string): Pull[] =>
-    (ARCS.lie?.afterCaught[move] ?? [])
-      .filter((answer) => answer !== "close")
-      .map((answer) => ({ move: answer, pulls: {} }));
+  const caughtCandidates = (move: string): string[] =>
+    (ARCS.lie?.afterCaught[move] ?? []).filter((answer) => answer !== "close");
 
   /**
    * A lie has two outcomes, shown as separate nodes: believed (the asker holds
@@ -1032,19 +1029,19 @@ export function composeSceneTalk(
         if (!next.end.close) gap("close", "warn", `${reply.move} (caught)`);
         continue;
       }
-      // The asker's answer, by the highest trait pull. On the last round the
+      // The asker's answer, the one their traits lean toward most. On the last round the
       // asker does not leave a question hanging.
       const last = round >= maxRounds;
       // Once a caught lie is past, the talk goes back to the purpose's own answers.
-      const caughtPulls = path.caught ? caughtCandidates(reply.move) : [];
-      const pulls = caughtPulls.length
-        ? caughtPulls
+      const caught = path.caught ? caughtCandidates(reply.move) : [];
+      const candidates = caught.length
+        ? caught
         : candidatesFor(arc, reply.move);
-      const worded = pulls.flatMap((candidate) => {
+      const worded = candidates.flatMap((candidate) => {
         const line = render(
           {
             step: "follow",
-            move: candidate.move,
+            move: candidate,
             role: "asker",
             ...base,
             after: reply.move,
@@ -1052,7 +1049,7 @@ export function composeSceneTalk(
           },
           cast.askerId,
           askerTraits,
-          `${childPath.id}:follow:${candidate.move}`,
+          `${childPath.id}:follow:${candidate}`,
           childPath.said,
         );
         return line ? [{ candidate, line }] : [];
@@ -1072,17 +1069,17 @@ export function composeSceneTalk(
       }
       const answers = closest(unsaid, (row) => row.line, reply);
       const settled = answers.filter(
-        (row) =>
-          RULES.terminalFollow.includes(row.candidate.move) || !row.line.asks,
+        (row) => RULES.terminalFollow.includes(row.candidate) || !row.line.asks,
       );
       const pool = last && settled.length ? settled : answers;
       const [best] = [...pool].sort(
         (a, b) =>
-          pullOf(b.candidate, askerTraits) - pullOf(a.candidate, askerTraits) ||
+          leanOf(core, b.candidate, askerTraits) -
+            leanOf(core, a.candidate, askerTraits) ||
           stableHash(
-            `${scene}:${childPath.id}:follow:${a.candidate.move}`,
+            `${scene}:${childPath.id}:follow:${a.candidate}`,
           ).localeCompare(
-            stableHash(`${scene}:${childPath.id}:follow:${b.candidate.move}`),
+            stableHash(`${scene}:${childPath.id}:follow:${b.candidate}`),
           ),
       );
       // On the last round a question would hang: the asker closes instead.

@@ -34,3 +34,5 @@ claimed-at:
 Sent back 2026-10-24 from PR #5971 (branch play-first/play-stop-23-job-offer-hold-locks-the-game): New play.mjs:684-686 and916-917 contain dated owner notes forbidden by the merger morning check; retain technical comments but move ruling attributions to docs/PR. Functional/browser gate and explicitly required owner screenshot yes remain unclaimed; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5971 (branch play-first/play-stop-23-job-offer-hold-locks-the-game): fresh visual inspection at supported 1024x768 shows shared player-card/menu overlap despite passing pointer contracts; integrate the shared card repair and rerun pointer/keyboard visuals; owner screenshot yes and installed-build replay remain unverified; finish on that branch, merge main into it first.
+
+Oct 25 audit: Also seen in Dandan, Northern Mariana Islands (seed 46b98144-23a8-42bd-b941-1954baea3bd8): Continue on the offer's stop resumes the same pause (from the dropped play-job-offer-stop-continue-stuck).
