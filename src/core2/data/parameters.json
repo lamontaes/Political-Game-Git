@@ -5818,12 +5818,14 @@
     }
   },
   "traitWeightBallotMeasuresVote": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the ballot-measures.vote decision. A voter's lean toward change over keeping things as they are adds to their support for a measure. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.14,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the ballot-measures.vote decision: a voter's lean toward change over keeping things as they are, added to their view of the measure's question. Boyce, Czajkowski and Hanley (2019), Journal of Environmental Economics and Management 94: openness lowers the preference for the status quo over a tax-funded change by 0.45, 0.17 and 0.00 of that preference's spread in three samples (Latvia and Estonia, 2013), mean 0.207 read as a standardized effect: a log odds gap of 0.84 between the thirds of lean (2.18 standard deviations apart). Fitted on the named voters of nine November 2026 measures in six drawn towns (seeds b1 to b6: Massachusetts, Vermont twice, Washington, North Carolina, Colorado), each voter's view with and without the trait term: at 0.14 the median measure's net log odds is 0.85 (measures 0.46 to 3.12, highest where most voters hold almost no view of the question) and temperament turns about 10% of votes, against 0.70 at 0.12 and 0.92 at 0.15. At the general weight of 1 it turned 47% and the gap was about 7.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.12,
+      "high": 0.27,
+      "unit": "weight",
+      "citation": "The weights that put the median measure at the smallest and largest sample's size: 0.17 of the spread (Estonia 1, log odds 0.69) at 0.12, and 0.45 (Latvia, 1.98) at about 0.27; the third sample found none."
     }
   },
   "traitWeightRecallsOrganize": {

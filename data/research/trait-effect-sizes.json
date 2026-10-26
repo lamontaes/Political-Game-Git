@@ -866,12 +866,23 @@
     {
       "id": "ballot-measures.vote",
       "trait": "openness to experience",
-      "outcome": "voting yes on novel or change measures",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No verified study found with a number linking openness to ballot-measure votes."
+      "outcome": "choosing a tax-funded change over the status quo (no change, no tax rise) in stated-choice surveys: Latvia 2013 (1,247 people) and two Estonian samples 2013 (about 550 and 800); a proxy for voting yes on a measure that changes things",
+      "effect": {
+        "kind": "standardized-beta",
+        "value": 0.207,
+        "low": 0,
+        "high": 0.45
+      },
+      "source": {
+        "authors": "Boyce, C., Czajkowski, M., & Hanley, N.",
+        "year": 2019,
+        "title": "Personality and economic choices",
+        "venue": "Journal of Environmental Economics and Management 94, 82-100",
+        "url": "https://eprints.gla.ac.uk/176941/7/176941.pdf"
+      },
+      "quote": "Table 3 (\"Personality traits and economic preferences for status quo and cost - summary of findings\"), row \"Openness To Experiences\", columns for \"The alternative specific constant for the status quo\": \"-1.72***\" (Latvia), \"-0.67**\" (Estonia 1), \"0.00\" (Estonia 2). Appendix 2 gives the standard errors: Latvia \"(0.23)\", Estonia 1 \"(0.32)\", Estonia 2 \"(0.17)\". Text: \"in at least 2 out of the 3 datasets we find that respondents who are more open to experiences are also significantly less likely to prefer the status quo\". Appendix 2 note 10: \"each latent variable is normalized for 0 mean and unit standard deviation\".",
+      "quoteVerified": true,
+      "notes": "Each coefficient is per standard deviation of openness on the status-quo constant, whose spread across respondents is 3.84 in Latvia, 3.85 in Estonia 1 and 1.70 in Estonia 2, so openness moves the preference for change by 0.45, 0.17 and 0.00 of its spread; the mean, 0.207, is read as a standardized effect, with the three datasets as its range. A stated choice in the Baltic states, not a ballot, so a proxy: a 2016 study of the United Kingdom's EU referendum found Leave, the change, drew lower openness (Sumner et al. 2023, d = 0.19), so the direction follows what a measure proposes, and the trait term weighs the voter's lean toward change, not the measure's content."
     },
     {
       "id": "housing.buy-home",

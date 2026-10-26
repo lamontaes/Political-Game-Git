@@ -3,8 +3,9 @@
  * toward change over keeping things as they are adds to their support for a
  * measure. A drawn place in a state with a measure on its November 2026
  * ballot (the state and place come from the seed), every resident a full
- * person. No study gives a size for this, so the decision runs at the
- * general weight.
+ * person. Each voter's view of the question and their lean toward change
+ * at the decision's weight decide their support; the weight is set from
+ * Boyce, Czajkowski and Hanley (2019), openness against the status quo.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -15,13 +16,15 @@ import { openLaws } from "./laws";
 import { openCampaigns } from "./campaigns";
 import { openOffices } from "./offices";
 import { openElections } from "./elections";
+import { openParties } from "./parties";
+import { openVoting } from "./voting";
 import {
   measuresOf,
   measureVoteOf,
   openBallotMeasures,
 } from "./ballot-measures";
 import { decisionLean } from "../trait-decisions";
-import { weightOf } from "../trait-test-kit";
+import { studyLogOdds, weightOf } from "../trait-test-kit";
 import measures from "../data/elections/ballot-measures.json" with { type: "json" };
 import { searchCorePlaces } from "../place-lookup";
 
@@ -66,6 +69,9 @@ describe("ballot-measures.vote reads the voter's calibrated lean toward change",
     openOffices(core, SEED);
     openElections(core);
     openCampaigns(core);
+    // As in play, people who vote in the day's races vote on the measure too.
+    openParties(core);
+    openVoting(core);
     openBallotMeasures(core);
     const api = coreAPI(core);
     const onBallot = measuresOf(api);
@@ -101,5 +107,43 @@ describe("ballot-measures.vote reads the voter's calibrated lean toward change",
     expect(yes.length).toBeGreaterThan(0);
     expect(no.length).toBeGreaterThan(0);
     expect(mean(yes)).toBeGreaterThan(mean(no));
+    // Every named adult's support with and without the trait term, by thirds
+    // of their lean toward change.
+    const weighed = [...core.people.values()]
+      .map((p) => {
+        const vote = measureVoteOf(api, onBallot[0]!.id, p.id) as unknown as {
+          reasons: { support: number; trait: number };
+        } | null;
+        return vote
+          ? {
+              lean: decisionLean(core, p, "ballot-measures.vote", "yes", "no"),
+              support: vote.reasons.support,
+              view: vote.reasons.support - vote.reasons.trait,
+            }
+          : null;
+      })
+      .filter((r) => r !== null)
+      .sort((a, b) => a.lean - b.lean);
+    const third = Math.floor(weighed.length / 3);
+    const logOdds = (part: typeof weighed, key: "support" | "view") => {
+      const rate =
+        (part.filter((r) => r[key] > 0).length + 0.5) / (part.length + 1);
+      return Math.log(rate / (1 - rate));
+    };
+    const low = weighed.slice(0, third),
+      high = weighed.slice(-third);
+    const net =
+      logOdds(high, "support") -
+      logOdds(low, "support") -
+      (logOdds(high, "view") - logOdds(low, "view"));
+    const target = studyLogOdds("ballot-measures.vote", "openness")!;
+    console.log(
+      `measure vote: ${weighed.length} named adults weighed, net log odds ${net.toFixed(3)} against the study's ${target.toFixed(3)}`,
+    );
+    // Nine measures in six drawn towns sat from 0.55 to 3.7 times the study's
+    // size, highest where most voters hold almost no view of the question;
+    // with the trait term flat the gap is 0.
+    expect(net).toBeGreaterThan(target / 2.5);
+    expect(net).toBeLessThan(target * 4.5);
   });
 });
