@@ -49,7 +49,7 @@ describe("the opening story", () => {
     expect(story, "no opening story").toBeTruthy();
     expect(story.date).toBe(core.date);
     const levels = story.address.sentences.map((row) => row.level);
-    expect(levels[0]).toBe("occasion");
+    expect(levels[0]).toBe("salutation");
     expect(levels.at(-1)).toBe("close");
     for (const sentence of story.address.sentences) {
       expect(

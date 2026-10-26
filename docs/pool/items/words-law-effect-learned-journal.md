@@ -7,9 +7,10 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr:
+pr: #6117
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** When a resident ties a bill their household paid to a law they heard about, the core writes an `event:law.effect-learned` record (`src/core2/modules/place-prices.ts`, on `claude/laws-end-to-end-proof`), and the director gives them the moment. The journal has no row or bank line for that event on main, so the resident's journal says nothing. The laws end-to-end proof (#5968) built a stopgap on its own branch: a journal row in `src/director/data/journal-rows.json` (`kindPrefix: "event:law.effect-learned"`, `entry: "story"`, the law named from the event's `billId` fact as `billName`) and two bank lines in `data/english/parts/journal.json`, "I found out the {law} changed what my household pays." and "I learned the {law} changed what my household pays.", both `shippable: false`. Merger 0 sent #5968 back on Oct 24 because those two files belong to the Words session. This item moves that slice to Words: add the row and the lines (these or better ones), grade them, and the proof drops its copy.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/director/data/journal-rows.json, data/english/parts/journal.json
 
 **Notes.** From the laws lead, Oct 24, after Merger 0's send-back of #5968. The exact rows are in #5968's diff of those two files. `laws-end-to-end-proof` is blocked on this item and on `laws-end-to-end-screenshots`.
+
+Sent back 2026-10-26 from PR #6117 (branch words/law-effect-learned-journal): the first and third Done-when rows explicitly remain Not yet: the required pinned bottle-deposit end-to-end test is absent from main and parent #5968 remains open; supply that proof or a genuinely bounded journal-reader item with the full chain explicitly retained on its parent; finish on that branch, merge main into it first.

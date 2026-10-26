@@ -3,7 +3,7 @@ id: people-estates-will-trust-rates
 title: "Making a will and setting up a trust follow researched rates by age and wealth, so temperament can tip them"
 area: people
 kind: research
-priority: 2
+priority: 3
 size: S
 status: open
 claimed-by:
@@ -33,3 +33,5 @@ Oct 25 (traits lead): researched and measured, then set back to open; build on P
 - **Trusts (fetched):** Caring.com 2025 (YouGov, 2,500+ adults): "13% reported a living trust". Trust & Will 2026 (Talker Research, 5,000 adults, Jan 28 to Feb 5, 2026): "Trust ownership rose from 11% to 14%". Neither gives an age or wealth breakdown.
 - **Why an age term alone cannot fit:** over the adults 55+ of three drawn towns at the opening (Tavares, Florida, 1271225, 1,533 adults; Reserve, Montana, 3062125, 1,478; Goulds, Florida, 1226950, 1,241), the best age-only case (midpoint 65, weight 1.5, trait weight 0.5) gives shares of 0.21 to 0.24 at 55-64, 0.73 to 0.78 at 65-74 and 0.98 to 0.99 at 75+, against the surveys' 0.39-0.53, 0.46-0.76 and 0.66-0.80, with crossed net odds of 9.7 to 9.9 against the study's 1.42. The surveys' gentle rise with age means most of who has a will is something other than age, and with no second circumstance temperament takes that place at many times the study's size.
 - **What the second circumstance needs:** income or wealth (Gallup's 30% to 61% by income). A person's own savings at the opening are no basis yet: 78% to 83% of adults 55+ hold zero `liquidMinor`, and the rest a median of $794 to $1,302, so the household's money is not on the members who would die with it. Education and marital status are not on the person record. settleEstate weighs a will or trust only for a death with a positive balance, so the population that matters is the dead with an estate.
+
+Deferred Oct 25: nothing on screen reads it yet.

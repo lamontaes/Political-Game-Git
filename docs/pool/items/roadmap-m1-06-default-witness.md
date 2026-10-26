@@ -23,3 +23,7 @@ claimed-at:
 **Files.** src/core2/tooling/m1-06-check.ts
 
 **Notes.** TODO
+
+2026-10-25 (claude/m1-06-default-witness): payments now fall short in every place measured (St. Paul TX 3, Thendara NY 11, Four Mile Road AK 43 with 6 charge-offs), so Bruceville's empty year is stale. Clause 6 added to M1-06. The passes: true flip is blocked by two other M1-06 failures (the mortgage payout to the seller, one credit line's journal), split to roadmap-m1-06-mortgage-and-line-clauses.
+
+Sent back 2026-10-25 from PR #6032 (branch claude/m1-06-default-witness): a redrawn default world is not checked against its own lender journal or actual loan balance, and a witness may have no next collection bill; require those positive consequences in the witness world and keep the unfinished passes-true/screenshot acceptance open or give a completed checker-only slice its own item; finish on that branch, merge main into it first.

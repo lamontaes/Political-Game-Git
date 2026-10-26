@@ -1,0 +1,30 @@
+# Work order: screens lead
+
+Current as of 2026-10-26, 19:50 UTC (screens lead). Channel section: `## Screens` in `docs/coordination/LEADS-2026-10-24.md`. PR body lines: `Lead: screens`, `Pool item: <id>`.
+
+**Owner, Oct 26:** "There's a bunch of independent UI things... This all needs to be unified... a UI.js or something... too much duplication." `src/bench/play.mjs` is 4,950 lines with 22 menu screens and about 15 scene renderers sharing three helpers; 24 open PRs edit it.
+
+**Specific:** move each shared control out of `src/bench/play.mjs`, `play.css` and `play.html` into `src/bench/ui/`, one module per part, and replace every existing copy in the same PR (Replace, never layer). Look and behavior do not change except where an item below says so. Served by LAW.md section 1 and MOCKS:24 (menu column, toast), MOCKS:25 (conversation), MOCKS:26 (people tabs).
+**Attainable:** no stopgap needed; each part is a refactor onto the Kit 13 tokens already in `play.css`. Nothing waits on another role. Models: Opus lead, no helpers.
+**Realistic:** one part per PR, 3 hours each (toasts 2). Whoever else edits `play.mjs` conflicts; I merge main before every push and post the head in the channel.
+
+## The parts, in order
+
+| # | Part | Pool item | Files | Done when (a merger can run it) | Box |
+|---|---|---|---|---|---|
+| 1 | Panel | `screens-ui-panel` | `ui/panel.mjs`, play.mjs, play.css, play.html | `grep -c 'class="panel' src/bench/play.html` falls to the one shared template; every sheet opens through `ui/panel.mjs`; `no-scroll.browser.mjs` passes; PR body counts removed copies; before/after 1440x900 | 3 h |
+| 2 | Button | `screens-ui-button` | `ui/button.mjs` | one button builder; the `.action`, `.nav-item`, `.small` variants come from it; `buttons.browser.mjs` passes (same-size buttons, #6090) | 3 h |
+| 3 | List row | `screens-ui-list-row` | `ui/list-row.mjs` | People, Politics, Jobs, News and Journal lists build rows through it; a person row shows face, office and party and opens the card | 3 h |
+| 4 | Card | `screens-ui-card` | `ui/card.mjs` | person, law and job cards come from it | 3 h |
+| 5 | Tab | `screens-ui-tab` | `ui/tab.mjs` | People, Politics and Calendar tabs come from it | 3 h |
+| 6 | Menu | `screens-ui-menu` | `ui/menu.mjs` | one menu part opens a real list of choices; the rail, the title menu and the choice menus use it | 3 h |
+| 7 | Talk box | `screens-ui-talk-box` | `ui/talk-box.mjs` | conversation, speech, debate and opening box render through it; `character.browser.mjs` passes | 3 h |
+| 8 | Toast | `screens-ui-toast` + `play-first-08-news-box-fades-or-dismisses` | `ui/toast.mjs` | every toast has a close control and fades on its own, the Journal toast included; screenshot shows the control | 2 h |
+| 9 | Rail and menu list | `play-stop-39-rail-vertical-round-with-news`, `play-stop-40-menu-list-drops-its-subheadings` | rail, menu list | vertical round rail with News; no subheadings in the menu list; one way to each screen (no rail icon plus menu line for the same screen) | 3 h each |
+| 10 | Many choices open a menu | `play-stop-44-filing-races-open-as-a-menu`, `play-stop-45-talk-history-set-apart` | filing, talk box | filing races open `ui/menu.mjs`, not a numbered list in the talk box; talk history in a different color and set apart | 3 h each |
+
+Parts 8 and 9 move up if a part before them is blocked for over an hour; the order otherwise holds because later parts import earlier ones. Every lane PR after mine imports the part instead of writing its own; I post each merge in the channel so the lane knows.
+
+## Every PR
+
+Line 1 `Pool item: <id>`, then `Lead: screens`, a `Screen text checked:` line (screens opened, place and seed; `player-screen-text`), the mock line served (MOCKS:NN or LAW 1), before and after screenshots at 1440x900 from a drawn place with place and seed, the count of copies removed, and a release declaration in `docs/release/changes/`. Gate: typecheck, eslint and prettier on changed files, `release:check --mode pr`, `pool --check`, the changed-file browser checks. Never merge my own PR; never force-push. Stop: when usage runs out, items go back to `open` with one note, one last status block.

@@ -34,3 +34,5 @@ claimed-at:
 Oct 25, 16:25 UTC (speed lead): the fix is in PR 6038 under `play-teen-has-current-high-school`, with bench screenshots and tests, as Merger 1 suggested on PR 6037. This item stays open, blocked on the owner's steps on the next installed build (its done-when); close it when the owner confirms.
 
 Sent back 2026-10-25 ~21:30 UTC from PR #6038 (branch claude/play-stop-08-high-school, head b7173de4e3 with main merged in): every body screenshot is wrapped in backticks so none render as images; unwrap the image tags and it goes back in the queue; finish on that branch, merge main into it first.
+
+2026-10-26 Merger 2: implementation PR #6038 merged at 48d74a8b3939f04b92f5399b506ec51ef607b83a with local tests and fresh bench browser proof. This owner-installed-build acceptance item remains open/blocked until the owner confirms; no installed-build acceptance is claimed.

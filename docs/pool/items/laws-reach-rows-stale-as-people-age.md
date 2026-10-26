@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Sliding scales and causes: a row opens or ends from a cause, the record of a birth, a birthday or a move, never on a schedule. An effect is a read: the engines that read the rows must see the household as it is now. One model, two tiers: counted households follow the same rule as full people, times their count.
 
-**Done when.** In a one-year played world (buildHouseholdFirearms via worldWith in a drawn place, the seed and place named) a person who turns 18 gains the age-gated rows, and the adults of a household whose last child turns 18 have their storage duty row ended on that date, named by row id; src/core2/household-firearms.test.ts checks the open set against the household records on a later date than the law's effective date.
+**Done when.** In a one-year played world (buildHouseholdFirearms via worldWith in a drawn place, the seed and place named) a person who turns 18 gains the age-gated rows, and the adults of a household whose last child turns 18 have their storage duty row ended on that date, named by row id; src/core2/household-firearms.test.ts checks the open set against the household records on a later date than the law's effective date. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-a-records.ts, src/core2/law-reach/group-a.ts, src/core2/household-firearms.test.ts
 
@@ -32,3 +32,5 @@ Sent back 2026-10-20 from PR #5403 (branch claude/reach-stale): The in-force/emp
 Sent back 2026-10-23 from PR #5403 (branch claude/reach-stale): Normal main integration conflicts in src/core2/law-reach/group-a-records.ts; resolve code and rerun exact-date birthday and household refresh evidence; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5403 (branch claude/reach-stale): The household-event refresh still skips active laws with zero rows, the birthday witness can be empty, and the required age-18 and current storage-duty proofs are not supplied; finish on that branch, merge main into it first.
+
+Merger 1 recheck, 2026-10-26: PR #5397 at16924210760bb9670a22b0c990b859b5965fe0fe still fails current-main integration: src/core2/household-firearms.test.ts is deleted on main but modified on the branch, and src/core2/law-reach/group-a-records.ts has a content conflict. Merge aborted; no deleted test restored and no code conflict hand-merged. The existing code-conflict return remains applicable; no duplicate PR comment or completed gate is claimed. Finish on claude/reach-stale-causes and integrate current main before validation.
