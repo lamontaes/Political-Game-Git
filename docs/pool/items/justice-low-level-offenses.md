@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/justice-low-level-offenses
+status: open
+claimed-by:
 pr: #6056
 blocked-on:
 source: laws lead, Oct 24, from the owner's ruling
