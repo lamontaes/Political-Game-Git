@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: whom an employer keeps follows tenure and the worker's recorded temperament, never a roll. One model, two tiers: counted workers are valued by the same rule as full ones. Research before building: the weight cites its study.
 
-**Done when.** In one year of buildBenchWorld in two places drawn from all 56, seeds named, scripts/traits/trait-wiring-matrix.ts shows the new decision running with its calibrated weight, a layoff job-change record id where the worker let go leaned least toward keeping, and data/content/trait-outcomes.json grades outcome.job-performance as read with that record and the engine line.
+**Done when.** In one year of buildBenchWorld in two places drawn from all 56, seeds named, scripts/traits/trait-wiring-matrix.ts shows the new decision running with its calibrated weight, a layoff job-change record id where the worker let go leaned least toward keeping, and data/content/trait-outcomes.json grades outcome.job-performance as read with that record and the engine line. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, data/content/trait-decisions.json, data/content/trait-outcomes.json, src/core2/data/jobs/parameters.json
 

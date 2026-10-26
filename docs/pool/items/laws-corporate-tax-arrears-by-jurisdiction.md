@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Wire to the world: each payable retains its government and its settlement credits that treasury on the cash journal. Replace, never layer: replace the combined-debt weighting instead of adding a second tax engine. No dice: debt settlement follows the recorded balances and available money.
 
-**Done when.** A regression with positive federal and state arrears of 100 and 50 and zero current-quarter tax settles 100 and 50 to their own accounts, never 75 and 75. Rate-change and repeal cases preserve the old debt owner. A generated played world built with buildBenchWorld in a drawn place names the independent seed, tax/debt rows and settlement journal record ids, and the changed-file tests pass.
+**Done when.** A regression with positive federal and state arrears of 100 and 50 and zero current-quarter tax settles 100 and 50 to their own accounts, never 75 and 75. Rate-change and repeal cases preserve the old debt owner. A generated played world built with buildBenchWorld in a drawn place names the independent seed, tax/debt rows and settlement journal record ids, and the changed-file tests pass. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/employer-taxes.ts, src/core2/law-wiring-taxes.test.ts, src/core2/employer-taxes.test.ts
 

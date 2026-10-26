@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T23:37:40.892Z
 
 **Rules.** Bookkeeping is a debug switch: validation and ownership checks run in tests and the bench, not in play. No dice: every engine reads the same rows in the same order. Speed: no change makes a year slower, measured before and after on the same machine.
 
-**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, and a place drawn from all 56 for three years) the deep fingerprint is identical before and after on the same base; module-state.ts's self time in a CPU profile of the paired year falls by at least half; module-state.test.ts and the views, news and laws tests pass.
+**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, and a place drawn from all 56 for three years) the deep fingerprint is identical before and after on the same base; module-state.ts's self time in a CPU profile of the paired year falls by at least half; module-state.test.ts and the views, news and laws tests pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/module-state.ts
 
