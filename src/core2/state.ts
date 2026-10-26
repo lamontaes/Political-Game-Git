@@ -713,7 +713,12 @@ export function resolveOperation<
   return undefined;
 }
 
-export function retainLog(core: CoreState, event: LogRecord): void {
+export function retainLog(
+  core: CoreState,
+  event: LogRecord,
+  /** A debug check (the audit's trait probe, off in play) asks for the record as the observer would keep it. */
+  debugKeep = false,
+): void {
   const circle = [...event.personIds, ...(event.witnessIds ?? [])].some(
     (id) =>
       core.focusPersonIds.has(id) ||
@@ -725,7 +730,7 @@ export function retainLog(core: CoreState, event: LogRecord): void {
   const publicRecord =
     event.publicRecord && core.visiblePlaceIds.has(event.placeId);
   const news = event.news;
-  if (!core.observer && !circle && !publicRecord && !news) return;
+  if (!core.observer && !debugKeep && !circle && !publicRecord && !news) return;
   if (core.durableLog.has(event.id)) return;
   const row: LogRecord = {
     ...event,
@@ -738,13 +743,14 @@ export function retainLog(core: CoreState, event: LogRecord): void {
           ),
         }
       : {}),
-    visibility: core.observer
-      ? "observer"
-      : circle
-        ? "circle"
-        : publicRecord
-          ? "public"
-          : "news",
+    visibility:
+      core.observer || !(circle || publicRecord || news)
+        ? "observer"
+        : circle
+          ? "circle"
+          : publicRecord
+            ? "public"
+            : "news",
   };
   core.durableLog.set(row.id, row);
   // The circle's reasons are condensed once they're older than the detail
