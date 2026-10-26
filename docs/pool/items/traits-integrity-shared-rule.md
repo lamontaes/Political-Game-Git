@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-integrity
 pr: #5715
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-26T21:43:29.917Z
 ---
 
 **What.** The bounded part of traits-wire-integrity that its open PR delivers. The integrity decisions that run in an ordinary played year (constituent-cases.bring-case, constituent-cases.handle-case, staff.follow-through, staff.hire, staff.dismiss and corruption.offer) read their case through the shared two-way rule with the temperament term on record: the official's own call decides what the office does when they have staff, and a bribe's money pull is bounded so honesty can weigh against it. Every other decision in the family (taking or telling about a bribe, the three recall decisions, a reporter's tip, the three justice decisions and appointments) waits for a record nothing writes in an ordinary year, and each has a gap row naming the cause and the open item that writes it.

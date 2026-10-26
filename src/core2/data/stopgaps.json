@@ -6880,5 +6880,17 @@
     "addedAt": "2026-10-24",
     "replacement": "The school engine's spending per enrolled student as the cause, measured against its first reading, once the schools line follows enrollment (and the equalized-funding law moves it), so students leaving or arriving change spending per student as the study's treatment does.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-officer-stipend-hours",
+    "kind": "estimated-rule",
+    "file": "src/core2/public-payroll.ts",
+    "line": 107,
+    "whatItFakes": "A small town's appointed department heads work a full-time public-office week at a cut hourly rate (a Prescott, Michigan planning director at $1.07 an hour for 8.5 hours) when their budget line carries only a part-time stipend. The pay in total matches the line; the hours and the hourly rate do not. The minimum wage skips these posts by law (data/laws/minimum-wage-exempt.json), so a wage raise no longer multiplies their pay.",
+    "why": "The work schedule a post follows is a template's full-time slots, and the payroll pays the hourly rate for the minutes scheduled; fitting hours to a stipend needs a part-time schedule for the post.",
+    "addedBy": "gov-town-officers-paid-under-minimum-wage",
+    "addedAt": "2026-10-26",
+    "replacement": "A post whose line carries less than a full-time week takes a part-time schedule sized to the stipend at the going rate (Census ASPEP part-time municipal payroll), so its hours and hourly rate both match the source.",
+    "status": "open"
   }
 ]

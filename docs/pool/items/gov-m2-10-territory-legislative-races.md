@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/territory-legislative-races
-pr:
+pr: #6186
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T20:23:41.027Z
