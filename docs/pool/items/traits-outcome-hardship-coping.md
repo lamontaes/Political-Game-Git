@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split Oct 24 by the traits lead from traits-outcomes-unread.
 
 Sent back 2026-10-26 from PR #5979 (branch claude/traits-outcome-hardship-coping): Declared parent5587 remains open with its unsourced-weight return unresolved; this child still carries jobs.apply0.7 and owner-draw0.35 against assumed targets, so merging it would bypass that return; land the repaired parent or isolate coping on main, preserving its new witnesses and research gaps, before the own local gate; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5979 (branch claude/traits-outcome-hardship-coping): Parent5587 is now landed, but the current-main merged Vermont year no longer reproduces the promised July12 departure and opposed October11 eviction even with hardship recipients in focus; refresh Done-when rows1-2 with runnable current-head played proof and both actual coping record IDs, update wired:true evidence and its outdated equal-severity phrase; finish on that branch, merge main into it first.

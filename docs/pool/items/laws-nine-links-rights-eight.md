@@ -6,12 +6,12 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/law-wiring-rights-env
 pr: "#5669"
 blocked-on:
 source: laws lead, Oct 26
-claimed-at:
+claimed-at: 2026-10-26T18:00:13.351Z
 ---
 
 **What.** A bounded part of `laws-nine-links-rights-env`, as the mergers asked when a family lands a finished subset first. Eight of the family's thirteen laws grade wired on all nine links on the law checker that credits a law only with its own payment: budget-line:highways, shift-highway-funds-to-transit, ban-discrimination-in-housing-and-work, dedicated-parks-funding, budget-line:parks, restrict-abortion, restrict-government-facial-recognition and consumer-data-privacy-law. The family item stays open for the other five. The clean air plan and the groundwater limit have no subject in one or both audit towns and wait on `laws-checker-grade-each-link-across-runs`. Farmland protection's money is not yet the law's own (`laws-farmland-protection-money-traced`). The natural resources line and social media age checks have unresearched outcome links (`research-outcome-link-natural-resources-line`, `research-outcome-link-age-verification`).
