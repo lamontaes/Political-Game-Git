@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/staff-work-why-fixture
 pr: #6170
 blocked-on:
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T18:10:36.001Z
 **Rules.** Ask why: when the test asserts a retained work record, explicitly arrange the player-circle focus or the dedicated keep-everyone’s-why debug scope that justifies retaining it. Keep why only for the player and the people they deal with in ordinary play; preserve all positive briefing, experience, quality and task-count assertions rather than restoring global retention or skipping checks.
 
 **Done when.** The named seed and an independent drawn staff.test.ts case pass at one worker on current main, with the fixture explicitly arranging the required focus or debug retention and restoring it for ordinary-play checks. Name the positive staff/work/payroll record ids, keep task experience and quality assertions, and show that unfocused play still omits the why rows while counting tasks.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/staff.test.ts, src/core2/why-kept.ts, src/core2/modules/staff.ts
 
