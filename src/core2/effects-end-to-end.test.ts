@@ -1,9 +1,9 @@
 /**
- * The effects lead's acceptance (pool item effects-end-to-end-proof): one
+ * The effects lead's record-chain slice (effects-end-to-end-record-chain-test): one
  * researched outcome-web link followed through a played year, from its cause
- * to a named person and what they think, by record id. Unemployment above 4%
- * raises property crime about 3% a point (Raphael and Winter-Ebmer 2001,
- * data/research/outcome-web/links.json):
+ * to a named person and what they think, by record id. Each unemployment
+ * link uses its own researched crime-rate size in
+ * data/research/outcome-web/links.json:
  *
  * 1. the cause is the economy's month record the web read the town's
  *    unemployment from (the web month's engine source);
@@ -257,6 +257,20 @@ describe(`unemployment to a named victim's view on the police (seed ${seed})`, (
       expect(kind.links, `${where}: ${month.id} ${victim.type}`).toEqual(
         expect.arrayContaining(links),
       );
+      // The owning engine consumed the web's proportional effects, rather
+      // than merely recording their names beside an unchanged factor.
+      const factorFromWeb = kind.links.reduce(
+        (factor, key) => factor * (1 + web!.effects[key]!),
+        1,
+      );
+      expect(kind.factor, `${where}: ${month.id} reads ${web!.id}`).toBeCloseTo(
+        Math.max(0, factorFromWeb),
+        12,
+      );
+      expect(
+        kind.expected,
+        `${where}: ${month.id} has exposure`,
+      ).toBeGreaterThan(0);
       const behind = kind.links
         .map(
           (key) =>
