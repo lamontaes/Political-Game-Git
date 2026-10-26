@@ -9,7 +9,7 @@ const shot = process.env.BENCH_SHOT;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
-const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(60000);
 const heard = [];
 let openingJson;
@@ -91,10 +91,7 @@ try {
   );
   if (shot) {
     await page.screenshot({ path: `${shot}-night.png` });
-    await page
-      .locator('[data-tab="news"]')
-      .first()
-      .evaluate((e) => e.click());
+    await page.locator('[data-tab="news"]').first().press("Enter");
     await page.locator(".paper").waitFor();
     await page.screenshot({ path: `${shot}-news.png` });
   }
