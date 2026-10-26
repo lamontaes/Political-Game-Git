@@ -5,9 +5,9 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/web-matrix-engine-source-evidence
-pr:
+pr: #6154
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T07:04:43.943Z

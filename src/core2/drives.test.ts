@@ -419,6 +419,22 @@ describe("P10 drives and causes", () => {
     expect(heard.every((row) => row.ruleId === "cause-shared")).toBe(true);
   });
 
+  it("what a person gave lately to a cause pulls against giving more of the same", () => {
+    const core = bereavedCore();
+    advanceCore(core, "2021-07-01");
+    const shares = drivesReport(core)
+      .drives.filter((row) => row.personId === carerId)
+      .flatMap((row) => row.acts)
+      .filter((act) => act.actionId === "share-cause" && act.basis === "scored")
+      .sort((a, b) => a.date.localeCompare(b.date));
+    expect(shares.length).toBeGreaterThan(p("one"));
+    // The first share had nothing given before it; each later one weighs
+    // what was given since, fading with the days between.
+    expect(shares[p("zero")]!.reasons!.module).toBe(p("zero"));
+    for (const act of shares.slice(p("one")))
+      expect(act.reasons!.module!).toBeLessThan(p("zero"));
+  });
+
   it("a donation moves the donor's money to the group through the cash journal", () => {
     const core = bereavedCore();
     const api = coreAPI(core);
