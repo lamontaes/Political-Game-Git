@@ -144,7 +144,8 @@ it(
 
 it(
   "a campaign outing spends the hours the records give it on the clock",
-  { timeout: 900_000 },
+  // Measured at 6 seconds in Rainbow City; allow six generated-town attempts.
+  { timeout: 600_000 },
   () => {
     for (let index = 0; index < 6; index++) {
       const { core, director, adults, where } = openWorld(index);
