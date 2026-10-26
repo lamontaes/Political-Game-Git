@@ -199,6 +199,8 @@ function play(drawSeed: string) {
     death: ReturnType<typeof deathWebFactor>;
     byFifth: number[];
     infants: { id: string; factor: number }[];
+    /** Counted people under one in the town that day. */
+    countedInfants: number;
   }[] = [];
   // The counted people's month rows are kept only with bookkeeping on (a
   // debug switch, off for speed): it is on from the month the infant outcome
@@ -289,6 +291,11 @@ function play(drawSeed: string) {
         death: deathWebFactor(api, town, 0),
         byFifth: FIFTHS.map((f) => deathWebFactor(api, town, 0, f).factor),
         infants,
+        countedInfants: (countedHouseholdsByPlace(core).get(town) ?? [])
+          .flatMap((record) => record.people)
+          .filter(
+            (person) => ageOnDate(makeIsoDate(person.birthDate), next) < 1,
+          ).length,
       });
     }
     day = next;
@@ -511,17 +518,21 @@ describe(`environment laws reach people on the web's own lags in a played world 
         );
         return { key: row.key, cut, share, after: after!, look: look!, read };
       });
-      // The counted people's month reads the record of the first cut.
+      // The counted people's month reads the record of the first cut, where
+      // the town has counted infants that month; a town whose infants are
+      // all full people reads it only through them.
       const first = infants.find((row) => row.key === PARTICULATES_LINK)!;
       const after = first.after;
       const counted = counts.filter((row) => row.webDeathRecordId === after.id);
-      expect(
-        counted.length,
-        `${where}: a counted month read ${after!.id} (${counts
-          .slice(-4)
-          .map((row) => `${row.month} read ${row.webDeathRecordId}`)
-          .join("; ")})`,
-      ).toBeGreaterThan(0);
+      const countedThen = looks[looks.indexOf(first.look) + 1]?.countedInfants;
+      if (countedThen !== 0)
+        expect(
+          counted.length,
+          `${where}: a counted month read ${after!.id} (${counts
+            .slice(-4)
+            .map((row) => `${row.month} read ${row.webDeathRecordId}`)
+            .join("; ")})`,
+        ).toBeGreaterThan(0);
 
       const d = depositRows[0]!;
       console.log(
@@ -542,7 +553,7 @@ describe(`environment laws reach people on the web's own lags in a played world 
               `infants, ${i.key}: ${i.cut.id} particulates ${i.share.toFixed(3)}% of start; ${i.after.id} infant effect ${i.after.effects[INFANT_LINK]}; death engine read it on ${i.look.date} (age 0 factor ${i.look.death.factor}); ${i.read.length} of ${i.look.infants.length} full infants carry it${i.read[0] ? `, e.g. ${i.read[0].id} at ${i.read[0].factor}` : ""}`,
           ),
           `carried: farmland ${farmland.length ? `${farmland[0]!.id} (${farmland[0]!.target} ${farmland[0]!.targetId}, ${farmland[0]!.times} months from ${farmland[0]!.since})` : "no builder start on restricted land"}; groundwater ${groundwater.length ? groundwater.map((row) => row.id).join(", ") : "no farm in the town"}`,
-          `counted months reading ${after.id}: ${counted.map((row) => row.month).join(", ")} (${countedInfants} counted infants at the end)`,
+          `counted months reading ${after.id}: ${counted.map((row) => row.month).join(", ")} (${countedThen ?? "no look"} counted infants that month, ${countedInfants} at the end)`,
         ].join("\n"),
       );
     } finally {
