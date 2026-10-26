@@ -402,6 +402,24 @@
       "source": "How strongly a resident must be moved (their grievance with a member's vote plus the weighted trait lean between organizing and leaving it, about -1 to 1 on the shared trait scale, recalls.organize) before taking on a recall petition drive. Checked against local recall frequency: Ballotpedia counts about 150 to 250 local recall efforts a year across roughly 90,000 local governments.",
       "spread": [0.3, 1]
     },
+    "recallMisconductWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a recorded charge or press exposure of a serving local official weighs with a resident who heard of it, toward organizing, signing a recall petition and voting to remove: on the same scale as an ordinance grievance (-1 to 1), so misconduct heard of counts as fully as the strongest disagreement with a vote.",
+      "spread": [0.5, 1.5]
+    },
+    "recallMisconductBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "What a petition or a removal over misconduct asks of anyone before they act on it, whatever their temperament: with the weight at 1, someone who heard of it and is not close to the official is halfway past the bar, and their lean decides the rest.",
+      "spread": [0.25, 0.75]
+    },
+    "recallMisconductNewsDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "source": "Days after a charge or an exposure is recorded before the town weighs a petition over it, for the news to reach residents through the press and their talk.",
+      "spread": [7, 30]
+    },
     "recallElectionDays": {
       "value": 75,
       "tag": "TUNABLE",
@@ -494,9 +512,9 @@
       "spread": [1, 4]
     },
     "caseEffort": {
-      "value": 1.3,
+      "value": 1.15,
       "tag": "TUNABLE",
-      "source": "How much a problem must press on a resident, plus their readiness to reach out, before they bring it to an official; checked so a small share of residents with a problem come in a given month (about 1 in 5 Americans contacted an elected official in the past year: Pew, 2018).",
+      "source": "How much a problem must press on a resident, plus their readiness to reach out, before they bring it to an official; checked so a small share of residents with a problem come in a given month (about 1 in 5 Americans contacted an elected official in the past year: Pew, 2018). Moved from 1.3 when the case's trait weight fell from 1 to 0.51, so a resident out of work with no savings left still brings a problem at the same lean (above 0.3).",
       "spread": [0.9, 1.7]
     },
     "constituentHelpBase": {
