@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** The report-check test no longer reports the long sentence in docs/reports/law-wiring-table.md, and regenerating the report preserves the correction. Record the exact test result and retain all existing grades, evidence and legal qualifications; unrelated baseline findings remain separately tracked. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** docs/reports/law-wiring-table.md, scripts/law-wiring/matrix.ts, scripts/report-check/report-check.test.ts
 
 **Notes.** Merger 3 reproduced the identical report-check diagnostic on clean main 491c10de4f and integrated #5971 at dcde7bf145 on Oct 25. The other report failure is already in #5988.
