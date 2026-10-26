@@ -142,7 +142,7 @@ export interface JobOfferRow {
   status: "pending" | "accepted" | "declined" | "lapsed" | "withdrawn";
   answeredAt?: string;
 }
-interface SeekerRow {
+export interface SeekerRow {
   id: string;
   personId: string;
   placeId: string;
@@ -1769,20 +1769,19 @@ export function unemployedNeed(api: CoreAPI, personId: string): number {
   );
 }
 
-/** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
-function runWeek(api: CoreAPI): void {
+/**
+ * Who applies to which opening this week: every named seeker and counted
+ * seeker in the opening's place who weighs applying above waiting, and the
+ * person the player controls when they are open to offers. `settle` also
+ * tidies the seeker rows the pass finds stale; a read-only pass leaves them.
+ */
+function gatherApplications(
+  api: CoreAPI,
+  byPlace: ReadonlyMap<string, readonly PositionRow[]>,
+  settle: boolean,
+): { applications: Map<string, SeekerRow[]>; counted: SeekerRow[] } {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  // A position held for the player's answer is no one else's this week.
-  const positions = (
-    store(api)
-      .table("positions")
-      .query("byStatus", ["open"]) as unknown as PositionRow[]
-  ).filter((row) => !row.offeredTo);
-  if (!positions.length) return;
-  const byPlace = new Map<string, PositionRow[]>();
-  for (const row of positions)
-    byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
   const applications = new Map<string, SeekerRow[]>();
   const apply = (positionId: string, seeker: SeekerRow) => {
     if (inCustody(api, seeker.personId)) return;
@@ -1797,10 +1796,12 @@ function runWeek(api: CoreAPI): void {
     const person = c.people.get(seeker.personId);
     // A seeker returned to the counts looks for work as a counted seeker, not through a full person's chooser.
     if (person && isDemoted(person)) {
-      store(api).table("seekers").remove(seeker.personId);
-      store(api)
-        .table("countedSeekers")
-        .put({ ...seeker, id: seeker.personId, isSeeker: true } as never);
+      if (settle) {
+        store(api).table("seekers").remove(seeker.personId);
+        store(api)
+          .table("countedSeekers")
+          .put({ ...seeker, id: seeker.personId, isSeeker: true } as never);
+      }
       continue;
     }
     if (
@@ -1852,7 +1853,7 @@ function runWeek(api: CoreAPI): void {
     if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
     if (!c.people.has(seeker.personId) && !residentFacts(c, seeker.personId)) {
-      store(api).table("countedSeekers").remove(seeker.personId);
+      if (settle) store(api).table("countedSeekers").remove(seeker.personId);
       continue;
     }
     // The same reasons a full person weighs: pay against their reference,
@@ -1876,6 +1877,44 @@ function runWeek(api: CoreAPI): void {
       )
         apply(position.id, seeker);
   }
+  return { applications, counted };
+}
+
+/**
+ * The seekers who apply to one posted opening under the weekly matching's own
+ * rule (the same pass `runWeek` runs, read without changing anything): the
+ * named and counted seekers in its place who weigh the work above waiting.
+ * An empty list means nobody looking for work in the place would take it.
+ */
+export function openingApplicants(
+  api: CoreAPI,
+  position: PositionRow,
+): readonly SeekerRow[] {
+  if (!api.state.modules.has(JOBS_MODULE_ID) || position.status !== "open")
+    return [];
+  const fullRole = roleTemplate(core(api), position) !== undefined;
+  return (
+    gatherApplications(api, new Map([[position.placeId, [position]]]), false)
+      .applications.get(position.id)
+      ?.filter((row) => fullRole || isCounted(api, row.personId)) ?? []
+  );
+}
+
+/** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
+function runWeek(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  // A position held for the player's answer is no one else's this week.
+  const positions = (
+    store(api)
+      .table("positions")
+      .query("byStatus", ["open"]) as unknown as PositionRow[]
+  ).filter((row) => !row.offeredTo);
+  if (!positions.length) return;
+  const byPlace = new Map<string, PositionRow[]>();
+  for (const row of positions)
+    byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
+  const { applications, counted } = gatherApplications(api, byPlace, true);
   // Counted applicants retain their work history. Read it once for this
   // matching round, including jobs hired and ended during play.
   const countedExperience = new Map<string, number>();
@@ -3053,6 +3092,18 @@ function settleOffer(
       .table("positions")
       .put({ ...rest });
   }
+}
+
+/** The offer an employer made one person for one opening, whatever its status, or none. */
+export function jobOfferOn(
+  api: CoreAPI,
+  positionId: string,
+  personId: string,
+): JobOfferRow | undefined {
+  return store(api)
+    .table("offers")
+    .get(`job-offer:${positionId}:${personId}`) as unknown as
+    JobOfferRow | undefined;
 }
 
 /** The job offers made to a person, newest first. */

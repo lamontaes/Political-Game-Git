@@ -5,7 +5,10 @@
  * ends its newest hires' jobs or hires. The treasury's later paydays follow:
  * a laid-off person's job is no longer paid once their last pay has gone out,
  * and a new hire is paid, by payroll journal entry id. A place is drawn from all 56 on a seed nobody
- * chose (ADMIN_LINE_SEED pins one).
+ * chose (ADMIN_LINE_SEED pins one). A raise's funded opening can stay unfilled
+ * only where the jobs engine's own applicant read (`openingApplicants`) finds
+ * every seeker for it taken by another opening or offered it as the player;
+ * a seeker who would apply and is neither is broken hiring, and fails.
  */
 import { randomBytes } from "node:crypto";
 import { afterAll, expect, it } from "vitest";
@@ -22,7 +25,7 @@ import { budgetsOf, governments } from "./modules/budgets";
 import { countedStaffOf, residentsRuntime } from "./modules/residents";
 import { countedJobsOf } from "./residents-economy";
 import { appliedOn } from "./law-reach/applied";
-import { fundedOpenings } from "./modules/jobs";
+import { fundedOpenings, openingApplicants, jobOfferOn } from "./modules/jobs";
 import { memberKey } from "./modules/legislature";
 import { prepareAct, officeHost } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
@@ -133,7 +136,32 @@ for (const direction of ["cut", "raise"] as const)
           paydays.push({ id: entry.sourceRef.id, date: api.state.date });
         return post(entry);
       };
-      advanceCore(core, addDays(makeIsoDate(next), 10));
+      // Every day on the way, the jobs engine's own applicant read for each
+      // funded opening still posted: who in the place would apply to it.
+      const applicants = new Map<
+        string,
+        { openingId: string; firstOn: string }
+      >();
+      let sampledDays = 0;
+      const advanceSampling = (to: string) => {
+        while (core.date < to) {
+          advanceCore(core, addDays(makeIsoDate(core.date), 1));
+          if (direction !== "raise") continue;
+          sampledDays += 1;
+          for (const opening of fundedOpenings(
+            api,
+            district.id,
+            "budget-line:administration",
+          ))
+            for (const seeker of openingApplicants(api, opening))
+              if (!applicants.has(seeker.personId))
+                applicants.set(seeker.personId, {
+                  openingId: opening.id,
+                  firstOn: core.date,
+                });
+        }
+      };
+      advanceSampling(addDays(makeIsoDate(next), 10));
       const adopted = budgetsOf(api, city.id).find(
         (b) => b.startsOn === next || b.adoptedOn === next,
       );
@@ -168,7 +196,7 @@ for (const direction of ["cut", "raise"] as const)
           commitmentsOf(jobId).some((c) => d.id.includes(c.id)),
         );
       // Let two more months of paydays run so a changed paycheck shows.
-      advanceCore(core, addDays(makeIsoDate(next), 75));
+      advanceSampling(addDays(makeIsoDate(next), 75));
       if (direction === "cut") {
         expect(row!.positions, detail).toBeLessThan(staffInPlace);
         expect(laidOff.length, detail).toBeGreaterThan(0);
@@ -251,6 +279,56 @@ for (const direction of ["cut", "raise"] as const)
                 flow: rt?.wageFlowByJob.get(job.id),
               })),
           );
+        if (namedHires.length + countedHires.length === 0) {
+          // A funded opening can stay unfilled only where each seeker the
+          // jobs engine's own applicant read finds for it (the weekly
+          // matching's rule, sampled each day of the window) was taken by
+          // something else: placed in a different opening (one person fills
+          // one job), or the person the player controls, whose offer for
+          // this opening is the player's to answer. A seeker who would apply
+          // and is neither placed nor offered is broken hiring, and fails.
+          const stillPosted = fundedOpenings(
+            api,
+            district.id,
+            "budget-line:administration",
+          );
+          expect(
+            stillPosted.length,
+            `${detail}: no hire and no funded opening left posted`,
+          ).toBeGreaterThan(0);
+          const accounted = [...applicants].map(([personId, first]) => {
+            const job = [...core.jobs.values()].find(
+              (j) =>
+                j.personId === personId &&
+                j.id.startsWith("job:position:") &&
+                j.organizationId !== district.id &&
+                j.source.asOf >= first.firstOn,
+            );
+            const offer = jobOfferOn(api, first.openingId, personId);
+            return {
+              personId,
+              first,
+              how: job
+                ? `hired elsewhere as ${job.id} on ${job.source.asOf}`
+                : offer && core.playerId === personId
+                  ? `offered to the player as ${offer.id} on ${offer.offeredAt}, ${offer.status} (the player's answer)`
+                  : undefined,
+            };
+          });
+          expect(
+            accounted.filter((row) => !row.how).map((row) => row.personId),
+            `${detail}: broken hiring, seekers would apply to the funded opening and were neither hired elsewhere nor offered it as the player`,
+          ).toEqual([]);
+          process.stdout.write(
+            `ADMIN LINE RAISE UNFILLED ${where}: ${stillPosted.map((o) => o.id).join(", ")} still posted on ${core.date}; openingApplicants found ${applicants.size} applicant(s) over ${sampledDays} days from the bill: ${accounted
+              .map(
+                (row) =>
+                  `${row.personId} (first ${row.first.firstOn}) ${row.how}`,
+              )
+              .join("; ")}\n`,
+          );
+          return;
+        }
         expect(
           namedHires.length + countedHires.length,
           `${detail}: no new hire in either tier`,
