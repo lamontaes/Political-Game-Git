@@ -5,7 +5,7 @@ area: director
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5644
 blocked-on:

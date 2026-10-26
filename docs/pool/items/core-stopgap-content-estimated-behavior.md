@@ -4,7 +4,7 @@ title: "Stopgaps in content (estimated-behavior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr: #5280
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at: 2026-10-19T23:35:39.096Z
 Looked at Oct 19 (claude, claude/content-estimated), nothing built. The row's replacement is coefficients validated against real cohort time use (ATUS activity totals by age, sex and employment) across documented lives. That is a calibration study with its own fitted data file, not a code change, and no sourced coefficient table is in the repo to swap in. It needs a research pass that produces `data/research` ATUS tables and a test that the played year's activity totals fall inside them; until then the row stays open.
 
 Oct 20: Switched from blocked to the automatic after: gate on research-content-sourced-parameters, so it opens by itself the moment those items are done.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5806
 blocked-on:
@@ -32,3 +32,5 @@ Sent back 2026-10-23 from PR #5774 (branch claude/uncontested-note): Missing rel
 Sent back 2026-10-23 from PR #5806 (branch claude/share-above-band): Required prerequisite #5804 is still open and its calibration test absent; update the stale acceptance test path in place and rerun after integrating that prerequisite; finish on that branch, merge main into it first.
 
 Merger 2: Left PR #5774 pending on 2026-10-24 UTC (branch claude/uncontested-note, integrated head d1dd2f5bba69457d3c4131a5fd6f9009dac57de6): the cloud environment became unavailable during the local gate, so its final result is unknown. No merge or done flip was attempted. Merge current main and rerun the local gate when an environment is available; the calibration item remains open.
+
+Duplicate of elections-local-races-too-uncontested (Oct 25 audit). Same uncontested-share calibration; its PR #5806 is a measurement note only and can be closed.

@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ source: split from gov-town-payers-vehicle-tax
 **Notes.** Split Oct 19 from gov-town-payers-vehicle-tax; see its notes for the three gaps found.
 
 The ruling in docs/coordination/OWNER-DECISIONS.md ("Vehicle tax with no law on record (#5103)") already authorizes: "estimated from the treasury's budgeted vehicle line divided by vehicles in the jurisdiction, tagged ESTIMATED with the source ("estimate, never UNKNOWN")." Build under that ruling; no new owner decision is needed.
+
+Folded into gov-town-payers-vehicle-tax (Oct 25 audit).

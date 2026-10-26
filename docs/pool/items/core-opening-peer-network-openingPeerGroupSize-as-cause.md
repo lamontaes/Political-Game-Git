@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Sliding scales and causes: nothing flips at a threshold, and today one extra cohort member halves every peer group in that cohort. One model, two tiers: a person filled in later must still get the same classmates the opening built, through the peerCohortSize callback in fillInPerson.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose), generated school peer groups (social:generated-school-acquaintance facts, by peerGroupId) for cohorts larger than a class average within 16.9 to 22.0 people, printed by scripts/research/deep-past-year.ts, and a test beside src/core2/opening-peer-network.test.ts shows that a cohort one member larger does not halve its groups.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose), generated school peer groups (social:generated-school-acquaintance facts, by peerGroupId) for cohorts larger than a class average within 16.9 to 22.0 people, printed by scripts/research/deep-past-year.ts, and a test beside src/core2/opening-peer-network.test.ts shows that a cohort one member larger does not halve its groups. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/opening-peer-network.ts,src/core2/opening-peer-network.test.ts
 

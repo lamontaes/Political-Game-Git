@@ -17,6 +17,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import type { CoreAPI, CoreState } from "./types";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
@@ -33,12 +34,14 @@ import {
   CAMPAIGNS_MODULE_ID,
   askForDonation,
   campaignFor,
+  campaignRecognition,
   campaignTurn,
   contributionLimit,
   giftOf,
   makeStatements,
   openCampaigns,
   reachablePeople,
+  rivalDay,
   runAd,
   type GiftRow,
   type PromiseRow,
@@ -240,6 +243,120 @@ describe("campaigns that raise and spend", () => {
           t.doors,
         ]),
       }),
+    );
+  }, 300_000);
+
+  it("a world candidate's turn is a campaign day taken through the player's own choices", () => {
+    const { core, api, where } = world("shared-day");
+    const pair = twoCandidates(api, core);
+    expect(pair, where).not.toBeNull();
+    const { rival } = pair!;
+    // The player's day is not open to a rival; the same choices are, for a world candidate.
+    expect(campaignDayChoices(api, rival.id)).toEqual([]);
+    const choices = campaignDayChoices(api, rival.id, true);
+    expect(
+      choices.map((c) => c.kind),
+      where,
+    ).toContain("raise-money");
+    const turn = campaignTurn(api, rival.id, electionOf(api, rival));
+    // The turn asked people for money through the call-time session.
+    expect(turn.asked, where).toBeGreaterThan(0);
+  }, 300_000);
+
+  it("a rival chooses between calls and doors by their money and standing, sliding with each", () => {
+    // The bank can only slide the day between calls and doors for a candidate
+    // the records offer both: someone left to ask, and doors in their town.
+    // Everyone a candidate can reach may already have given (Simsboro,
+    // Louisiana), so take either of the pair, and draw again if neither.
+    const offeredBoth = (api: CoreAPI, filing: FilingRow) => {
+      const day = campaignDayChoices(api, filing.id, true);
+      return ["raise-money", "canvass"].every(
+        (kind) => day.find((c) => c.kind === kind)?.available,
+      );
+    };
+    const tried: string[] = [];
+    let found: {
+      core: CoreState;
+      api: CoreAPI;
+      where: string;
+      rival: FilingRow;
+    } | null = null;
+    for (let attempt = 0; attempt < 8 && !found; attempt += 1) {
+      const w = world(attempt ? `rival-chooser:${attempt}` : "rival-chooser");
+      const pair = twoCandidates(w.api, w.core);
+      const rival =
+        pair && [pair.rival, pair.you].find((f) => offeredBoth(w.api, f));
+      if (rival) found = { ...w, rival };
+      else
+        tried.push(
+          `${w.where}: ${pair ? "neither candidate is offered both calls and doors" : "no two candidates"}`,
+        );
+    }
+    expect(found, tried.join("\n")).not.toBeNull();
+    const { core, api, where, rival } = found!;
+    process.stdout.write(`rival chooser: ${where}, ${rival.id}\n`);
+    const campaign = campaignFor(api, rival.id);
+    const candidate = core.people.get(campaign.candidateId)!;
+    const town = candidate.placeId;
+    const bank = core.organizations.get(campaign.organizationId)!;
+    const share = () => {
+      const day = rivalDay(api, rival.id, candidate, town);
+      return day.callHours / (day.callHours + day.doorHours);
+    };
+    const poor = ((bank.liquidMinor = 0), share());
+    const rich = ((bank.liquidMinor = 50_000_000_00), share());
+    // Every dollar in the bank moves hours from calls to doors, with no cut-off.
+    bank.liquidMinor = 20_000_00;
+    const middle = share();
+    expect(poor, `${where}: empty bank leans on calls`).toBeGreaterThan(rich);
+    expect(middle, where).toBeLessThan(poor);
+    expect(middle, where).toBeGreaterThan(rich);
+  }, 300_000);
+
+  it("a rich rival holds an event on a day it is offered and a poor one does not", () => {
+    const { core, api, where, pair } = worldWithPair("rival-event");
+    const filing = pair.rival;
+    const campaign = campaignFor(api, filing.id);
+    const candidate = core.people.get(campaign.candidateId)!;
+    const bank = core.organizations.get(campaign.organizationId)!;
+    bank.liquidMinor = 0;
+    const poor = rivalDay(api, filing.id, candidate, candidate.placeId);
+    bank.liquidMinor = 50_000_000_00;
+    const offered = campaignDayChoices(api, filing.id, true).find(
+      (c) => c.kind === "event",
+    );
+    expect(offered?.available, `${where}: an event is offered`).toBe(true);
+    const rich = rivalDay(api, filing.id, candidate, candidate.placeId);
+    expect(poor.act, `${where}: a poor rival holds no event`).not.toBe("event");
+    expect(rich.act, `${where}: a rich rival holds one`).toBe("event");
+    const turn = campaignTurn(api, filing.id, electionOf(api, filing));
+    expect(turn.dayAct, where).toBe("event");
+  }, 300_000);
+
+  it("an unknown rival puts more of the day into doors than a well-known one", () => {
+    const { core, api, where, pair } = worldWithPair("rival-known");
+    const campaign = campaignFor(api, pair.rival.id);
+    const candidate = core.people.get(campaign.candidateId)!;
+    const bank = core.organizations.get(campaign.organizationId)!;
+    const doorShare = () => {
+      const day = rivalDay(api, pair.rival.id, candidate, candidate.placeId);
+      return day.doorHours / (day.callHours + day.doorHours);
+    };
+    bank.liquidMinor = 0;
+    const knownBefore = campaignRecognition(api, pair.rival.id);
+    const unknown = doorShare();
+    // Weeks of canvassing make them known in town.
+    takeCampaignDayChoice(api, pair.rival.id, "canvass", {
+      world: true,
+      hours: 400,
+    });
+    bank.liquidMinor = 0;
+    const knownAfter = campaignRecognition(api, pair.rival.id);
+    expect(knownAfter, `${where}: doors made them known`).toBeGreaterThan(
+      knownBefore,
+    );
+    expect(doorShare(), `${where}: better known, fewer doors`).toBeLessThan(
+      unknown,
     );
   }, 300_000);
 
