@@ -1,7 +1,10 @@
 /**
  * Personality in the press engine (civic family): who keeps up with the
- * local news. A drawn place's played world (a place drawn from all 56 from a fresh seed, played over the window around its own next election), every resident a full person, played 60 days. No study gives a size
- * for this, so the decision runs at the general weight.
+ * local news. A drawn place's played world (a place drawn from all 56 from a
+ * fresh seed, played over the window around its own next election), every
+ * resident a full person, played 60 days. The weight is set where the lean
+ * correlates with the news habit at the study's size (Sindermann et al. 2021,
+ * extraversion and news sources).
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
