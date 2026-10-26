@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/group-b-joint-subjects
 pr: #6172
 blocked-on:
