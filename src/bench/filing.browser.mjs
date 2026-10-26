@@ -7,6 +7,13 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { checkRuleLabels } from "./filing-rule-labels.mjs";
+// The first race at the counter: a row of the race menu when there are more than
+// four, else the first reply in the talk.
+async function pickFirstRace(page) {
+  const menu = page.locator("#race-menu .choice").first();
+  if (await menu.isVisible()) await menu.click();
+  else await page.locator("#talk-choices button").first().click();
+}
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -16,7 +23,11 @@ const errors = [];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 page.on("pageerror", (e) => errors.push(e.message));
 async function openNavigationTab(tab) {
-  const button = page.locator(`#rings [data-tab="${tab}"]`);
+  // The rail over the card, or the Menu list when a screen is open (the rail steps aside).
+  const rail = page.locator(`#rings [data-tab="${tab}"]`);
+  const button = (await rail.isVisible())
+    ? rail
+    : page.locator(`#menu [data-tab="${tab}"]`);
   await button.focus();
   assert.ok(
     await button.evaluate((node) => node === document.activeElement),
@@ -78,7 +89,7 @@ try {
     choices.length,
     "two choices read the same",
   );
-  await page.locator("#talk-choices button").first().click();
+  await pickFirstRace(page);
   await page.locator("#filing-overlay:not([hidden])").waitFor();
   // The rules read as words, never as a rule's id.
   const labels = await page
@@ -186,7 +197,7 @@ try {
       .catch(() => false);
   }
   assert.ok(atCounter, "no place in Travel takes filings");
-  await page.locator("#talk-choices button").first().click();
+  await pickFirstRace(page);
   await page.locator("#filing-overlay:not([hidden])").waitFor();
   // The party the form starts on: the one the resident belongs to, or none
   // (an independent); filing under a party they never joined is refused.

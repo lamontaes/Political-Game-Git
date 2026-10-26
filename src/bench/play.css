@@ -281,6 +281,7 @@ select:focus-visible {
 }
 .action,
 #sheet-body button,
+#race-menu .record-pager button,
 #person-facts button {
   position: relative;
   display: inline-block;
@@ -520,6 +521,7 @@ select:focus-visible {
 .ring,
 .lie-scales,
 #sheet-body button,
+#race-menu .record-pager button,
 .term {
   transition:
     color 0.2s ease,
@@ -529,6 +531,7 @@ select:focus-visible {
 }
 .action:hover:not(:disabled),
 #sheet-body button:hover:not(:disabled),
+#race-menu .record-pager button:hover:not(:disabled),
 #person-facts button:hover {
   background:
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
@@ -1323,6 +1326,7 @@ body.dev .dev-ring {
    solid: the scene never shows through text meant to be read. Glass stays
    for panels over a scene, such as the talk box. */
 #menu,
+#race-menu,
 #sheet,
 #person {
   background: linear-gradient(var(--solid-top), var(--solid-bottom));
@@ -2560,6 +2564,28 @@ body.dev .dev-ring {
   opacity: 0.55;
 }
 
+/* While a talk is open the player card gives up its Day and Week, so it never covers the talk's first reply. */
+#game:has(#talk:not([hidden])) .me .time {
+  display: none;
+}
+/* The races at the filing counter, as a menu beside the talk (ui/menu.mjs). */
+#race-menu {
+  left: var(--gutter);
+  top: var(--gutter);
+  bottom: 162px;
+  width: 340px;
+  padding: 18px 0;
+  z-index: 5;
+}
+#race-menu .sheet-head {
+  padding: 0 18px 8px;
+}
+#race-menu .choice-facts {
+  display: block;
+  font: 400 13px var(--ui);
+  color: var(--text-2);
+  margin-top: 2px;
+}
 /* A race at the filing counter, told apart under its choice. */
 #talk-choices .reply .reply-facts {
   display: block;

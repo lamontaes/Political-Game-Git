@@ -1,7 +1,9 @@
 /* global process, console, document, URL */
 // At a filing counter with several races, each choice names its seat, its
 // election day and who holds the seat now, before the player picks: a drawn
-// place, every counter Travel lists, until one offers two races or more.
+// place, every counter Travel lists, until one offers more than four races (they
+// open as a menu beside the talk, never a numbered list in it) or, failing that,
+// the one with the most. No filing line carries a year-and-number code.
 // Run against a fresh bench: node src/bench/seat-choices.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -53,7 +55,9 @@ try {
     return go;
   };
   let picks = [];
+  let shown;
   let office = "";
+  let best = -1;
   const tried = [];
   for (let i = 0; ; i++) {
     const go = await travel();
@@ -69,18 +73,36 @@ try {
       await page.keyboard.press("Escape").catch(() => {});
       continue;
     }
-    // The choices that name an office: every one but leaving.
-    picks = await page.locator("#talk-choices button").evaluateAll((buttons) =>
-      buttons.map((b) => ({
-        text: b.childNodes[0]?.textContent?.trim() ?? "",
-        facts: b.querySelector(".reply-facts")?.textContent?.trim() ?? "",
-      })),
-    );
-    tried.push(`${label}: ${picks.length}`);
-    if (picks.length >= 2) {
+    // The choices that name an office: every one but leaving; and the race menu, if open.
+    const read = await page.evaluate(() => {
+      const menu = document.getElementById("race-menu");
+      const text = (node) => node?.textContent?.trim() ?? "";
+      return {
+        replies: [...document.querySelectorAll("#talk-choices button")].map(
+          (b) => ({
+            text: b.childNodes[0]?.textContent?.trim() ?? "",
+            facts: text(b.querySelector(".reply-facts")),
+          }),
+        ),
+        menuOpen: Boolean(menu && !menu.hidden),
+        menuRows: menu
+          ? [...menu.querySelectorAll(".choice")].map((row) => ({
+              text: text(row.querySelector(".nl")),
+              facts: text(row.querySelector(".choice-facts")),
+            }))
+          : [],
+        said: [...document.querySelectorAll("#talk-lines li")].map(text),
+      };
+    });
+    const found = read.menuOpen ? read.menuRows : read.replies;
+    tried.push(`${label}: ${found.length}`);
+    if (found.length > picks.length) {
+      picks = found;
       office = label;
-      break;
+      shown = read;
+      best = i;
     }
+    if (found.length > 4) break;
     await page.locator("#talk-leave").click();
     await page.locator("#talk").waitFor({ state: "hidden" });
   }
@@ -89,6 +111,28 @@ try {
     `no counter here offers two races: ${tried.join("; ")}`,
   );
   console.log("Office:", office);
+  // Back at the counter that offered the most races, for the screenshot.
+  if (!(await page.locator("#talk:not([hidden])").count())) {
+    await (await travel()).nth(best).click();
+    await page.locator("#talk:not([hidden])").waitFor();
+  }
+  if (picks.length > 4) {
+    assert.ok(shown.menuOpen, "more than four races did not open as a menu");
+    assert.ok(
+      shown.replies.length <= 4,
+      `the talk box lists ${shown.replies.length} replies`,
+    );
+  }
+  for (const line of [
+    ...shown.said,
+    ...shown.replies.flatMap((r) => [r.text, r.facts]),
+    ...shown.menuRows.flatMap((r) => [r.text, r.facts]),
+  ])
+    assert.doesNotMatch(
+      line,
+      /\(\d{4}(, ?\d+)?\)/,
+      `a year-and-number code: ${line}`,
+    );
   if (shots)
     await page.screenshot({
       path: `${shots}/${process.env.SHOT_NAME ?? "after"}-counter.png`,
