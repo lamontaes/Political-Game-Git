@@ -296,6 +296,106 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.29.7
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **The filing panel keeps its party and platform choices reachable** The
+  journal note steps aside while the filing panel is open, so the party picker
+  and platform choices stay reachable. The browser check uses keyboard
+  navigation and verifies the party and stands recorded by filing.
+
+- **Election night opens on your own race** After an election you ran in,
+  election night opens on your own race with every candidate's votes and whether
+  you won. Campaigns marks your filing won or lost, the journal tells it the
+  next day even against someone you never met, News carries the result, and
+  Government shows who was elected to each seat and when they take office.
+
+- **The journal note no longer covers the party picker when you file** At the
+  filing counter, the journal note in the corner used to sit over the party
+  picker at the bottom of the filing panel. It now steps aside while the panel
+  is open, as the news card already did, so you can see and choose your party
+  before you file.
+
+## PRE-ALPHA 0.29.6
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Unplanned pregnancies happen across the whole town, not only to the people
+  you know** The households in town that are counted rather than named now have
+  unplanned pregnancies by the same rule as the people you know: the same
+  exposure, the same weighing of the law and the miles to a provider, and the
+  same trip paid from their own cash. A pregnancy carried to term adds a birth
+  to the town's count.
+
+### Fixed
+
+- **Neighbors in a small town know each other from the start** People in a small
+  town now open with ties to the classmates and coworkers the town's records
+  name, so news and talk travel between them from the first week instead of only
+  through relatives elsewhere.
+
+## PRE-ALPHA 0.29.5
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **At a filing office each race names its seat, its election day and who holds
+  it now.** Under each office you can ask to run for, the counter now shows the
+  seat, the election day in words and the seat's current holder (or that no one
+  holds it), so several seats on the same body no longer read alike.
+
+## PRE-ALPHA 0.29.4
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Budgets appear under Politics once they are your business.** At 17, with no
+  office and no filing, Politics has no Budgets tab. It appears once you hold
+  office, file for one, or come of age to vote, and its sums read in rounded
+  words ("$5.2 trillion").
+
+## PRE-ALPHA 0.29.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **The Journal opens on the first evening with your family** On the first
+  evening, the Journal's first chapter tells where your family came from, how
+  your parents met, the parent who raised you and the one who lived apart, and
+  each brother and sister by name, older or younger. Before, it had one line
+  about where the family came from.
+
+- **A town's aides are paid only what its budget can carry** An official's aides
+  are now paid from the same budget line as the town's department heads, and
+  only what that line can still carry. A small town whose council members hired
+  full-time aides it could not afford no longer leaves its police chief and
+  other staff unpaid for months.
+
+## PRE-ALPHA 0.29.2
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Knocking on doors keeps counting after every door in town has been knocked,
+  and reaches someone every evening** Once a campaign had knocked on every door
+  in town, Knock on doors stopped adding to its door count and then grayed out
+  with no reason. The canvass now goes round again, the doors knocked longest
+  ago first, and every door knocked counts. Every evening of knocking also
+  reaches someone: a home opens in the share of knocks its readiness says, so a
+  street of younger, reluctant homes still opens a few doors, and a quarter to a
+  third of the doors knocked open over a campaign. A grayed campaign action
+  (Hold an event, Ask for an interview or Call donors) now says why on its
+  button.
+
 ## PRE-ALPHA 0.29.1
 
 _Released October 25, 2026._
