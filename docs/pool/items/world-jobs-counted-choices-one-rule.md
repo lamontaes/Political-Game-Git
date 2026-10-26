@@ -24,3 +24,4 @@ claimed-at:
 **Notes.** Split from world-stopgap-jobs-faked-mechanic. Of its six rows, layoff-decider, agreement-pinned and counted-retiree-income are resolved on main; offer-deadline-reminder is carried by world-jobs-offer-deadline-held and world-jobs-offer-deadline-reminder; opening-seekers by world-jobs-opening-seekers-row.
 
 Sent back 2026-10-23 from PR #5767 (branch claude/counted-job-choices): Normal main integration conflicts in src/core2/modules/jobs.ts; resolve code, rerun ordinary-year choice evidence and provide the required Done-when table; finish on that branch, merge main into it first.
+Sent back 2026-10-26 from PR #5767 (branch claude/counted-job-choices): code conflict with main in src/core2/modules/jobs.ts; finish on that branch, merge main into it first.
