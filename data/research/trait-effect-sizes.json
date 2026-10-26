@@ -1452,13 +1452,25 @@
     },
     {
       "id": "voting.back-incumbent",
-      "trait": "none found",
-      "outcome": "backing the incumbent over a challenger",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a personality effect size on backing an incumbent was found; the general weight (1) stands."
+      "trait": "openness to experience",
+      "outcome": "voting for the House incumbent rather than the challenger, among independents (2014 and 2016 Cooperative Congressional Election Study; about 1,000 and 3,000 respondents with personality items)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 3.14,
+        "low": 2.2,
+        "high": 4.3,
+        "traitSd": 0.189
+      },
+      "source": {
+        "authors": "Ramey, A. J., Klingler, J. D., & Hollibaugh, G. E.",
+        "year": 2021,
+        "title": "(Sympathy for) the Devil You Know: Openness, Psychological Entropy, and the Case of the Incumbency Advantage",
+        "venue": "Frontiers in Political Science 3, 636874",
+        "url": "https://www.frontiersin.org/articles/10.3389/fpos.2021.636874/full"
+      },
+      "quote": "Results: \"the effect of moving Openness from its minimum to the maximum\" \"decreases the probability of voting for the incumbent by ~50% points\"; \"the least Open respondents nearly all vote for the incumbent\" and \"the most Open have under a 50% probability of doing so\"; \"neither Openness nor Relative Variance Difference are significant at conventional levels in the partisan models.\" Data and Methods: Big Five traits on \"a 1–7 scale, which we subsequently rescale to a 0–1 scale\"; Openness mean about 0.657, standard deviation about 0.189.",
+      "quoteVerified": true,
+      "notes": "The article gives the effect as predicted probabilities, not a coefficient: read as 0.95 for the least open and 0.45 for the most open, the log odds fall by 3.14 over the trait's range (the range 2.2 to 4.3 reads the least open at 0.90 to 0.98 and the most open at 0.40 to 0.50). The effect is for independents, and strongest where the challenger looks riskier than the incumbent; partisans showed none. The game's decision weighs every voter's lean toward the known, and the party term dominates partisans' choice, so the weight is fitted among voters tied to no party."
     },
     {
       "id": "voting.exit-poll",

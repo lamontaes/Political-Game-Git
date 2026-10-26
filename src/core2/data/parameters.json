@@ -5789,12 +5789,14 @@
     }
   },
   "traitWeightVotingBackIncumbent": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.back-incumbent decision. Backing the incumbent adds the voter's lean toward keeping the known over trying someone new to the incumbent's appeal. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the voting.back-incumbent decision: the voter's lean toward keeping the known over trying someone new, net of the town's average, added to an incumbent's appeal. Ramey, Klingler and Hollibaugh (2021), Frontiers in Political Science 3: among independents in 2014 and 2016 House races (Cooperative Congressional Election Study), moving openness from its minimum to its maximum \"decreases the probability of voting for the incumbent by ~50% points\" (the least open \"nearly all\" back the incumbent, the most open \"under a 50% probability\"), with no significant effect for partisans. Read as 0.95 to 0.45, that is 3.14 on the log odds over the trait's 0 to 1 range, whose standard deviation is 0.189: a gap of 1.30 between the thirds. Fitted on 5,816 ballots of voters tied to no party in races with an incumbent, in six light worlds played to November 2026 (seeds i1 to i6: Virginia, Georgia, Florida, Arkansas, Maryland, Nebraska), each candidate's appeal with the incumbent term scaled: at 1.2 the voters tied to no party back the incumbent at net log odds 1.32 between the thirds of lean, those tied to a party at 0.38. At the general weight of 1 it was 1.08 and 0.12. Town by town the gap swings (0 to 4.3 at weight 1), as a few races decide each town's.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.85,
+      "high": 1.75,
+      "unit": "weight",
+      "citation": "The weights that reach the study's size read at its widest: the least open at 0.90 to 0.98 and the most open at 0.40 to 0.50 give a gap between the thirds of 0.91 to 1.77, reached at 0.85 and about 1.75."
     }
   },
   "traitWeightVotingExitPoll": {
