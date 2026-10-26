@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T11:10:27.639Z
 
 **Rules.** Research before building: the range is SOURCED from fetched Census pages with citation and only checks totals; it never moves a place's population by itself (No dice).
 
-**Done when.** data/research/regional/series/stats.json carries a sourced one-year state population change range with its citation, and the M1-13 command checks every region's yearly change against it in a place drawn from all 56, named with its result in the PR body.
+**Done when.** data/research/regional/series/stats.json carries a sourced one-year state population change range with its citation, and the M1-13 command checks every region's yearly change against it in a place drawn from all 56, named with its result in the PR body. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** data/research/regional/series/stats.json, src/bench/m1-13-check.ts
 
