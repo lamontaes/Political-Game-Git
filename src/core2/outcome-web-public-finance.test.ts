@@ -334,7 +334,7 @@ const UNWIRED: ReadonlyArray<{
   {
     outcome: "finance.medical-debt-in-collections",
     links: ["coverage-to-medical-debt", "medicaid-expansion-to-medical-debt"],
-    stopgap: "SG-EW-HEALTH-coverage-record",
+    stopgap: "SG-EW-HEALTH-medical-debt-reader",
     reason:
       "no engine bills medical care or sends a bill to collections; coverage.ts says an unpaid premium is never a debt",
   },
