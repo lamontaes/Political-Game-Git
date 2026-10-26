@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: fix/main-red-2026-10-26-work-order-declaration
 pr: #6165
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-26T17:55:32.519Z
 ---
 
 **What.** Main release run 40255594061 (source 27bc8b1f74da09d580b51719579ab4605afcdf8a) fails declaration enforcement because the play-first lane appends directly to docs/play-first/PROGRESS.md without a release declaration. Its exact incoming range ca33ef650a9933763728d6f3fea976c728ed2c34..27bc8b1f74da09d580b51719579ab4605afcdf8a changes only that status log. The acting CTO reopened this item for that incident on October 25 at 23:40 and supplied PR #6119; the earlier heap incident is already repaired by #6049. Status-only lane writes must not block a client release, while client changes must still carry declarations.
