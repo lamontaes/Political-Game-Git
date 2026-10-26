@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/opening-private-tuition.ts,src/core2/private-tuition-reenroll.ts,src/core2/private-tuition-choice.ts,src/core2/data/stopgaps.json
 
 **Notes.** Reopened Oct 23: blocked with no blocked-on and the claimed branch claude/tuition-continuing is gone.
+
+Oct 25 audit: From the dropped core-private-tuition-choice-reads-beliefs: a child's own needs also enter the choice (owner ruling Oct 20).

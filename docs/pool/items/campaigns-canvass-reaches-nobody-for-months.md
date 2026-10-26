@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T23:50:59.927Z
 
 **Rules.** Sliding scales and causes: whether someone opens the door slides with their traits, age and whether they are home, and a canvass of a town reaches some people most weeks, not all at once and then none. No dice: no draw decides who opens. Look before you ask: the walk order is an open owner decision (SG-GOV-campaign-walk-order); follow the CTO's ruling that it stays until the engine reads a route from the map, or bring the evidence to the owner.
 
-**Done when.** A test in src/core2/campaign-day.test.ts, in a place drawn from all 56 with its seed named, canvasses every week for a year after filing and shows people reached on most weeks (no run of more than four weeks with nobody reached while doors are knocked), and the field contact rate check in src/core2/campaign-calibration.test.ts still passes.
+**Done when.** A test in src/core2/campaign-day.test.ts, in a place drawn from all 56 with its seed named, canvasses every week for a year after filing and shows people reached on most weeks (no run of more than four weeks with nobody reached while doors are knocked), and the field contact rate check in src/core2/campaign-calibration.test.ts still passes. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, src/core2/data/stopgaps.json
 
