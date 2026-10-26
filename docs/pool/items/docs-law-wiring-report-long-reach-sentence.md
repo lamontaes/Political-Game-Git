@@ -5,11 +5,12 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/law-table-long-sentence
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T21:34:57.328Z
 ---
 
 **What.** The report-check test fails on clean main because docs/reports/law-wiring-table.md line 524 contains a 46-word reach explanation. The same diagnostic appears on the job-offer branch, which does not change this report. Fix the generated explanation at its source and regenerate the table while preserving its legal meaning and every wiring grade. The playtest report's separate lead failure is already tracked by release-playtest-report-lead-commit-hash.
