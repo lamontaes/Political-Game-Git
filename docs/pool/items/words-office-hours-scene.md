@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5955
 blocked-on:

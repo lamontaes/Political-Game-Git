@@ -16,7 +16,7 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 
 **Rules.** No dice: the difference comes from traits weighing reasons, never a roll; each choice's reasons are recorded. Ask why: every difference in outcome is traced to the decision records that caused it. One model, two tiers: the same holds for counted people through the shared formula.
 
-**Done when.** A test (`scripts/traits/trait-end-to-end.test.ts` or beside the matrix) plays one year of `buildBenchWorld` in a drawn place, seed named, picks the pair by rule, and names by record id at least five decisions where their reasons differed and three outcomes that differ, and the matrix's opposite-neighbors gap with personality on against traits flat is printed and at least twice its Oct 20 value.
+**Done when.** A test (`scripts/traits/trait-end-to-end.test.ts` or beside the matrix) plays one year of `buildBenchWorld` in a drawn place, seed named, picks the pair by rule, and names by record id at least five decisions where their reasons differed and three outcomes that differ, and the matrix's opposite-neighbors gap with personality on against traits flat is printed and at least twice its Oct 20 value. **On screen.** Nothing yet: filed play-why-they-chose-on-screen, which puts it on a person card.
 
 **Files.** scripts/traits/trait-wiring-matrix.ts, scripts/traits/trait-wiring-audit.ts, src/core2/trait-decisions.ts
 

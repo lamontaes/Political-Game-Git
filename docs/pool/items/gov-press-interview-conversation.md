@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5602
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5602 (branch claude/press-interview-conversation): adds src/director/press-interview.ts and its test (Words-session area per the merger skill) and a dated 'Done Oct 20' note in the stopgap resolution text; finish on that branch, merge main into it first.
+
+Duplicate of people-interview-screen (Oct 25 audit). Same interview-as-conversation on the screen.

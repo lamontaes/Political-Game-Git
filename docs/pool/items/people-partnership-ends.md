@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** TODO
 
-**Done when.** TODO
+**Done when.** TODO **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** TODO
 
