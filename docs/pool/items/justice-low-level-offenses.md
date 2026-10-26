@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Filed by the laws lead on Oct 24 from the owner's ruling. Research already on file (laws lead, Oct 24): `data/research/outcome-web/unsized-links-source-checks-2026-10-05.json`, row police-to-low-level-arrests, from https://pmc.ncbi.nlm.nih.gov/articles/PMC10062144/: 7 to 22 additional quality-of-life arrests a year per additional full-time sworn officer (range across two instrumental-variable strategies; 242 large U.S. cities, 1981 to 2018), checked but not admitted to runtime because the game kept no low-level arrest measure. Use it before searching.
 
 In PR #6056 (Oct 25, laws lead): built by a helper, stacked on #6012; owner question on drug possession flagged.
+
+Merger 0, Oct 26: Sent back from PR #6056 (branch claude/justice-low-level-offenses): merging main after #6012 conflicts in src/core2/law-wiring-justice.test.ts (also the generated law matrix/table and stopgaps); preserve the opening-census eligibility, no redraw after play, ended-record reader, held-policy phases and nine-law target-account assertions while integrating the low-level checks; finish on that branch, merge main into it first.
