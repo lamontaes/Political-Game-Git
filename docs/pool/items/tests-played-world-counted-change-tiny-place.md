@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/counted-change-expected-events
 pr: #6068
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T23:46:25.296Z
 
 **Rules.** Sliding scales and causes: a town of three can go a year without a birth, death or move, so the check must judge the counted engine by its rates against the counted population (expected events), not by whether one happened. One rule, all 56 places: no place is named in the check; the size threshold comes from the expected-event count.
 
-**Done when.** tests/golden-path/played-world.node-test.ts passes on the Warm River seed above and still fails when the counted engine is switched off in a drawn place whose expected counted events for the year are well above one (seed named), shown by the test's own output.
+**Done when.** tests/golden-path/played-world.node-test.ts passes on the Warm River seed above and still fails when the counted engine is switched off in a drawn place whose expected counted events for the year are well above one (seed named), shown by the test's own output. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/residents.ts, src/core2/modules/renewal.ts
 

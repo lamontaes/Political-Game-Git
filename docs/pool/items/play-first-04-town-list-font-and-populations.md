@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: done
+claimed-by: play-first/play-first-04-town-list-font-and-populations
 pr: #6088
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-26T01:40:09.458Z
 ---
 
 **What.** The owner's read of the playtest screenshots: one font in the town list (the states' font), and the populations shown are the simulated ones. In the v0.22.10 creator the town list mixes fonts, and its counts come from a different table than the town the world builds. This item sets the list in the states' font and shows each town's count from the same source the world opens with.

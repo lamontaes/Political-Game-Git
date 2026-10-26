@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Estimate, never UNKNOWN: a resident's wealth starts from the place's real distribution by age and household, with its spread and source. One model, two tiers: counted households carry the same distribution times their count. No dice: who dies follows the existing health records, not a roll.
 
-**Done when.** Full persons' and counted households' opening wealth (cash, home and business) follows the Survey of Consumer Finances by age, including its top tail; and in a played world (`buildBenchWorld`, a drawn place from all 56, seed named) a death leaves an estate above its state's or the federal exemption, and the estate tax's own payment is named by journal id.
+**Done when.** Full persons' and counted households' opening wealth (cash, home and business) follows the Survey of Consumer Finances by age, including its top tail; and in a played world (`buildBenchWorld`, a drawn place from all 56, seed named) a death leaves an estate above its state's or the federal exemption, and the estate tax's own payment is named by journal id. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/estates.ts, src/core2/modules/residents.ts
 

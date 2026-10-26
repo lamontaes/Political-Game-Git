@@ -141,6 +141,9 @@
     "incarceration-to-crime": {
       "waitingOn": ["crime.all"]
     },
+    "fire-spending-to-fire-deaths": {
+      "waitingOn": ["budget.fire-added-pct", "fire.civilian-casualties"]
+    },
     "pretrial-detention-to-future-crime": {
       "waitingOn": ["crime.reoffense"]
     },
@@ -638,6 +641,10 @@
       "owner": "OPUS-GOV",
       "links": 2
     },
+    "budget.fire-added-pct": {
+      "owner": "OPUS-GOV",
+      "links": 1
+    },
     "crime.all": {
       "owner": "OPUS-CORE",
       "links": 1
@@ -696,6 +703,10 @@
     },
     "federal.rail-expansion-pct": {
       "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "fire.civilian-casualties": {
+      "owner": "OPUS-CORE",
       "links": 1
     },
     "gov.nondisaster-transfers": {
