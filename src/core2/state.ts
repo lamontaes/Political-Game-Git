@@ -857,10 +857,25 @@ export function coreAPI(core: CoreState): CoreAPI {
   recordStopgapsIn(core.stopgapHits);
   const prior = writerAPIs.get(core);
   if (prior) return prior;
+  // In play the registry never changes: each key is read and checked once,
+  // then kept with the stopgap it names, which every read still records.
+  // Bookkeeping re-reads the registry, as `parameter` does.
+  const read = new Map<
+    string,
+    { value: number; stopgapId: string | undefined }
+  >();
   const p = (key: string) => {
+    const play = !bookkeeping();
+    const known = play ? read.get(key) : undefined;
+    if (known) {
+      if (known.stopgapId) stopgap(known.stopgapId, core);
+      return known.value;
+    }
     const row = core.data.parameters[key];
     if (row?.stopgapId) stopgap(row.stopgapId, core);
-    return parameter(key, core.data.parameters);
+    const value = parameter(key, core.data.parameters);
+    if (play) read.set(key, { value, stopgapId: row?.stopgapId });
+    return value;
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
@@ -1618,7 +1633,14 @@ export function coreAPI(core: CoreState): CoreAPI {
           "Invalid relocation: one living household, no job held.",
         );
       makeIsoDate(input.source.asOf);
-      const whole = household.memberIds.every((id) => ids.includes(id));
+      // A household moves whole when every member moves, or, under its own
+      // id, every living member (a member who has died stays listed with it).
+      const whole =
+        household.memberIds.every((id) => ids.includes(id)) ||
+        (input.householdId === household.id &&
+          household.memberIds
+            .filter((id) => core.people.get(id)?.alive)
+            .every((id) => ids.includes(id)));
       if (whole) {
         if (input.householdId !== household.id)
           throw new Error("A whole household moves under its own id.");
@@ -2005,8 +2027,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         !actor ||
         !Number.isFinite(drive.strength) ||
         drive.strength < p("zero") ||
-        !core.eventIds.has(drive.sourceEventId) ||
-        !api.knows(personId, `event:${drive.sourceEventId}:experienced`)
+        // A drive forms only from an event the person lived through, and the
+        // drives engine rewrites each one daily as it fades; tests and the
+        // bench check its source on every write, play does not.
+        (bookkeeping() &&
+          (!core.eventIds.has(drive.sourceEventId) ||
+            !api.knows(personId, `event:${drive.sourceEventId}:experienced`)))
       )
         throw new Error(
           "Drive requires a learned source event and a finite strength.",

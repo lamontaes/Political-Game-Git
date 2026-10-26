@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #6051
 blocked-on:
@@ -28,3 +28,5 @@ Merger 3, Oct25: fresh #5971 review at code dcde7bf145, Brookside Delaware, seed
 Merger 1, Oct 25 23:28 UTC: independently reproduced the same card/pointer interception on both clean main 137c12ddb1 and #6065 local integration dcaf5c6824, Blairsville Georgia, seed 38cc4d86-fab6-4962-8ceb-d8608a642bef, viewport 1440×900, custom adult Pat Candidate. section#card h2#card-name intercepts the Politics ring. No forced/DOM click. Native screenshots and logs retained under merger1-state/6065-2313/browser (base-failure.png). Existing owner #6051 retained; no duplicate item.
 
 Sent back 2026-10-26 from PR #6051 (branch claude/quirky-ride-vrwwz4-play-stop-12): Current-main integration conflicts in card.browser.mjs and three card PNGs; the shared layout landed through #5971, but this linked item still needs its stated 1440x1000 fresh pointer/keyboard acceptance reconciled and recorded without bypassing hit testing.; finish on that branch, merge main into it first.
+
+Merger 0, Oct 26: the same card also intercepts an ordinary Travel-ring pointer click at 1440 by 900 on PR #6084 checked 3d63a1ff9b, integrated from main 2a524c1757. Fresh drawn Lee Acres, New Mexico, seed 88985767-c430-458a-903a-3b892fd0a41f; Playwright times out on #rings [data-tab=travel] with section#card.panel.me intercepting events. That PR changes none of play.html, play.css or play.mjs. Screenshot: https://github.com/lamontaes/Political-Game-Git/blob/698935bfac83f4d47ac3ed3004f02c45c14d883a/docs/reports/rooms-2026-10-26/merger0-home.png. The same life reaches Travel through ordinary Escape, then the visible menu button, without force, DOM clicks or dev mode; that route does not claim this hit-testing defect fixed.

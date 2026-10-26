@@ -1358,6 +1358,23 @@
       ]
     },
     {
+      "id": "press.shade-answer",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightPressShadeAnswer",
+      "options": [
+        {
+          "id": "own",
+          "actKinds": ["follow-rules", "concede"]
+        },
+        {
+          "id": "shade",
+          "actKinds": ["bend-rules", "self-interest"]
+        }
+      ]
+    },
+    {
       "id": "press.dig",
       "site": "src/core2/modules/press.ts",
       "owner": "OPUS-PEOPLE",
@@ -1722,6 +1739,10 @@
     {
       "site": "src/core2/trait-decisions.ts",
       "why": "The shared trait-decision helpers."
+    },
+    {
+      "site": "src/core2/money-traits-kit.ts",
+      "why": "The money family's test kit: it reads leans to check the decisions, and decides nothing in play."
     },
     {
       "site": "src/core2/player-v1.ts",
