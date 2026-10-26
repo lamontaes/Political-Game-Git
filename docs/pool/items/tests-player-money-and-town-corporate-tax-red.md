@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** A fix lands on the branch where the failure reproduces. Ask why: the cause by file and line.
 
-**Done when.** Both tests pass on main on the seeds above and on a fresh seed each, named in the PR, with the cause of each failure named by file and line.
+**Done when.** Both tests pass on main on the seeds above and on a fresh seed each, named in the PR, with the cause of each failure named by file and line. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2
 

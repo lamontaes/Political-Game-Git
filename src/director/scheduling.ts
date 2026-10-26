@@ -70,6 +70,11 @@ export interface SituationCause {
   bind?: Readonly<Record<string, string>>;
   opener?: string;
   opening?: string;
+  /**
+   * Where this cause stages the type, when it is not the type's own order of
+   * settings: a vote trade is asked for in the chamber its record names.
+   */
+  setting?: readonly string[];
 }
 
 export interface SituationType {
@@ -113,8 +118,10 @@ export interface SituationLibrary {
     householdScenes: readonly string[];
     /** Records of the whole household that stage a family scene for each member. */
     householdRecordScenes?: readonly string[];
-    /** Records of the subject's own life the household meets at home: a filing, the count of their race. */
+    /** Records of the subject's own life that name them, met the same day: a filing, the count of their race, a story against them. */
     ownRecordScenes?: readonly string[];
+    /** Where an own-record scene is met that day (home by default). */
+    ownRecordSettings?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -442,17 +449,30 @@ function resolveSetting(
         ? { kind: "venue", recordId: seat.place.context.jurisdiction.id }
         : undefined;
     }
-    case "office":
-      // An officeholder's office is their post's employer on record.
+    case "office": {
+      // The office the cause record names (the executive's, for a bill on
+      // the desk); otherwise an officeholder's office is their post's
+      // employer on record.
+      const office = core.durableLog.get(moment.causeId)?.facts?.officeId;
+      if (typeof office === "string" && office)
+        return { kind, recordId: office };
       return job?.organizationId
         ? { kind, recordId: job.organizationId }
         : undefined;
+    }
     case "phone":
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
       return { kind, recordId: subject.placeId };
     case "venue":
       return moment.placeId ? { kind, recordId: moment.placeId } : undefined;
+    case "chamber": {
+      // The body the cause record names (the chamber a vote trade was made in).
+      const chamber = core.durableLog.get(moment.causeId)?.facts?.chamber;
+      return typeof chamber === "string" && chamber
+        ? { kind, recordId: chamber }
+        : undefined;
+    }
     default:
       // School and letter need records the new core does not keep yet.
       return undefined;
@@ -468,7 +488,8 @@ function bindType(
   library: SituationLibrary,
 ): SceneBinding | { failure: string; detail: string } {
   let failure: { failure: string; detail: string } | undefined;
-  for (const settingKind of type.setting) {
+  const settings = cause.setting ?? type.setting;
+  for (const settingKind of settings) {
     const taken = new Set<PersonId>();
     const roles: SceneBinding["roles"] = [];
     let unbound: string | undefined;
@@ -528,7 +549,7 @@ function bindType(
       ),
     };
   }
-  return failure ?? { failure: "no-place", detail: type.setting.join(",") };
+  return failure ?? { failure: "no-place", detail: settings.join(",") };
 }
 
 /**
@@ -643,17 +664,22 @@ export function scheduleMoment(
   // household's records make apply).
   // A record of the whole household (an eviction) is a family scene for
   // each of them, with no one else named.
+  // A record of one's own life that names them (a filing, the count of their
+  // own race, a story against them) is met where its scene is set that day:
+  // at home, or for an officeholder at the office or by phone.
   const household = person.householdId;
+  const met = new Set(library.scheduling.ownRecordSettings ?? ["home"]);
   const familyNews =
-    ((library.scheduling.householdScenes.includes(moment.label) &&
+    (((library.scheduling.householdScenes.includes(moment.label) &&
       moment.counterpartIds.some(
         (id) => core.people.get(id)?.householdId === household,
       )) ||
       (library.scheduling.householdRecordScenes?.includes(moment.label) ??
-        false) ||
-      ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
-        moment.selfNamed === true)) &&
-    bindings.some((row) => row.setting.kind === "home");
+        false)) &&
+      bindings.some((row) => row.setting.kind === "home")) ||
+    ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
+      moment.selfNamed === true &&
+      bindings.some((row) => met.has(row.setting.kind)));
   const waits =
     bindings.length > zero &&
     bindings.every(

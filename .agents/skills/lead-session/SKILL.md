@@ -32,7 +32,7 @@ A lead owns one cross-system family end to end: its checker, its matrix, its PRs
 
 ## Every two hours
 
-Add a status block at the top of your channel section and commit it to main: `leads: <name> status <HH:MM UTC>`. Shape: Status with matrix counts, Needs from others (each also a pool item with `lead:` set), Decisions made, PRs. If the push is rejected, pull with a plain merge and push again.
+Add a status block at the top of your channel section and commit it to main: `leads: <name> status <HH:MM UTC>`. Shape: Status with matrix counts, Needs from others (each also a pool item with `lead:` set), Decisions made, PRs. **Decisions made is status, not a ruling** (acting CTO, Oct 25): a decision you make under the standing rules is filed in `docs/coordination/OWNER-DECISIONS.md` as an acting-lead ruling (dated, attributed, naming the item or stopgap) or it isn't one; `OWNER-DECISIONS.md` is the only rulings log. If the push is rejected, pull with a plain merge and push again.
 
 ## Stop
 

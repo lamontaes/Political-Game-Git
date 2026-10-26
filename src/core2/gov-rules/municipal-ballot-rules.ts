@@ -129,6 +129,10 @@ export interface ResolvedMunicipalRecallRule {
   readonly circulationBasis: MunicipalBallotRuleBasis | null;
   /** Null where no pack says. */
   readonly groundsRequired: boolean | null;
+  /** Which places' offices the recall reaches, the grounds a petition must state and the statute, as the pack reads them; null where it does not say. */
+  readonly scope: string | null;
+  readonly grounds: string | null;
+  readonly citation: string | null;
 }
 
 interface RecallSpread {
@@ -184,8 +188,10 @@ const PETITIONED_DOCTRINES: ReadonlySet<MunicipalRecallDoctrine> = new Set([
 /**
  * Whether and how a town's voters may recall an official.
  *
- * Read from the state's pack where it names a doctrine (`state-law-unverified`).
- * Where the pack is missing or does not settle it, the doctrine is the one the
+ * Read from the state's pack where it names a doctrine (`state-law-unverified`),
+ * or where the doctrine turns on a form or charter, the one state law gives a
+ * town until it adopts one. Where the pack is missing or does not settle it,
+ * the doctrine is the one the
  * most state packs name (`national-estimated`), never another state's law. A
  * petition window the pack leaves unknown is the modal window the same way.
  *
@@ -201,8 +207,14 @@ export function resolveMunicipalRecallRule(
   const usps = stateUsps.toUpperCase();
   const rules = municipalRulePackFor(usps);
   const spread = municipalRecallNationalSpread();
+  // A doctrine that turns on a form or charter no town here has adopted is
+  // the one state law gives a town until it does.
   const packDoctrine =
-    rules?.recallDoctrine.kind === "known" ? rules.recallDoctrine.value : null;
+    rules?.recallDoctrine.kind === "known"
+      ? rules.recallDoctrine.value
+      : rules?.recallDoctrine.kind === "locally-selectable"
+        ? rules.recallDoctrine.statutoryDefault
+        : null;
   const readDoctrine =
     enactedDoctrine === null || enactedDoctrine === packDoctrine
       ? packDoctrine
@@ -220,6 +232,11 @@ export function resolveMunicipalRecallRule(
       : readDoctrine === null
         ? "national-estimated"
         : "state-law-unverified";
+  const text = {
+    scope: rules?.recallScope ?? null,
+    grounds: rules?.recallGrounds ?? null,
+    citation: rules?.recallCitation ?? null,
+  };
   if (!PETITIONED_DOCTRINES.has(doctrine))
     return {
       stateUsps: usps,
@@ -229,6 +246,7 @@ export function resolveMunicipalRecallRule(
       circulationDays: null,
       circulationBasis: null,
       groundsRequired: null,
+      ...text,
     };
   // An estimated doctrine borrows nothing else from the pack: the pack said
   // nothing settled about recall there.
@@ -257,5 +275,6 @@ export function resolveMunicipalRecallRule(
       read?.recallGroundsRequired.kind === "known"
         ? read.recallGroundsRequired.value
         : null,
+    ...text,
   };
 }
