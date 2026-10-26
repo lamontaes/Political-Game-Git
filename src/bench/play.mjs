@@ -1,6 +1,11 @@
 /* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
+import { el } from "./ui/dom.mjs";
+import { makeButton, mountPagers } from "./ui/button.mjs";
+import { show, mountCloseButtons } from "./ui/panel.mjs";
+mountCloseButtons();
+mountPagers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
@@ -128,12 +133,6 @@ function setClock(at) {
 function setBust(id, url) {
   $(id).style.backgroundImage = url ? `url("${url}")` : "";
 }
-function el(tag, props = {}, ...children) {
-  const node = document.createElement(tag);
-  Object.assign(node, props);
-  node.append(...children);
-  return node;
-}
 // A record id as the bench stores it (person_<hex>, official:term:seat:...).
 const RECORD_ID =
   /\b(?:[a-z][a-z-]*_[0-9a-f]{8,}|[a-z][a-z-]*(?::[A-Za-z0-9._@-]+){2,})\b/g;
@@ -187,9 +186,6 @@ function screenArtwork({ portraitUrl, backgroundUrl, name }) {
     img.addEventListener("error", () => img.remove(), { once: true });
     media.append(img);
   }
-}
-function show(id, on) {
-  $(id).hidden = !on;
 }
 
 /** Soft contact shadows on the floor at each person's feet, under everyone. */
@@ -786,9 +782,8 @@ function inMeeting() {
               ? []
               : [
                   ...["for", "against"].map((position) => {
-                    const b = el("button", {
+                    const b = makeButton({
                       className: "action",
-                      type: "button",
                       textContent:
                         words[
                           position === "for" ? "speakFor" : "speakAgainst"
@@ -804,9 +799,8 @@ function inMeeting() {
                     return b;
                   }),
                   ...["yes", "no", "abstain", "own"].map((vote) => {
-                    const b = el("button", {
+                    const b = makeButton({
                       className: "action",
-                      type: "button",
                       textContent: words[vote] ?? vote,
                     });
                     b.addEventListener("click", async () =>
@@ -850,9 +844,8 @@ function atDesk() {
           billBlock(
             item,
             ["sign", "veto", "own"].map((how) => {
-              const b = el("button", {
+              const b = makeButton({
                 className: "action",
-                type: "button",
                 textContent: words[how] ?? how,
               });
               b.addEventListener("click", async () =>
@@ -902,9 +895,8 @@ function atThePolls(scene) {
           };
           const chosen = contest.marked;
           const button = (text, candidateId) => {
-            const node = el("button", {
+            const node = makeButton({
               className: "action",
-              type: "button",
               textContent: text,
             });
             if (chosen) {
@@ -1091,8 +1083,7 @@ function spokenLines(lines, speakerOf) {
 /** Numbered replies; a key press of the number says it. */
 function replies(choices, onPick) {
   return choices.map((choice) => {
-    const b = el("button", {
-      type: "button",
+    const b = makeButton({
       className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
       // Filing is a control of its own, never worded like acknowledging a refusal.
       textContent:
@@ -1123,7 +1114,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
-  $("talk-gap").classList.remove("marked");
+  gapButton.classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1162,10 +1153,17 @@ async function talkTo(otherId, momentId) {
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
 // A line that does not read right is marked where it is said; no time passes.
-$("talk-gap").addEventListener("click", async () => {
+// Mark gap is a developer control: it joins the talk box only while dev
+// mode is on, and is never in the player's markup.
+const gapButton = makeButton({
+  id: "talk-gap",
+  className: "action small",
+  textContent: "Mark gap",
+});
+gapButton.addEventListener("click", async () => {
   if (!talk) return;
   await post("/api/gap");
-  $("talk-gap").classList.add("marked");
+  gapButton.classList.add("marked");
 });
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
@@ -1243,14 +1241,20 @@ function renderFiling(value) {
     );
   });
   $("talk-choices").replaceChildren(...buttons);
-  // The filing's record once it is made: its status.
+  // The filing's record once it is made: its status, shown as the record's
+  // label under the talk, not as words in the clerk's mouth.
   if (value.result)
     $("talk-lines").append(
       el("li", {
-        className: "speech",
+        className: "label",
         textContent: value.result.filing
-          ? value.result.status
-          : `${value.result.status} · ${(value.result.unmet ?? []).map((u) => u.rule).join(", ")}`,
+          ? (controls.filing?.status?.[value.result.status] ??
+            words(value.result.status))
+          : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
+              value.result.unmet ?? []
+            )
+              .map((u) => controls.filing?.rules?.[u.rule] ?? words(u.rule))
+              .join(", ")}`,
       }),
     );
   setScales({ available: false });
@@ -1272,7 +1276,7 @@ function renderFilingOverlay(value) {
     ...overlay.checks.map((check) => {
       const line = row(
         ruleNames[check.rule] ?? words(check.rule),
-        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
+        `${dateOrValue(check.actual ?? "")}${check.required ? ` / ${dateOrValue(check.required)}` : ""}${check.metOn ? ` · ${controls.filing?.metOn ?? ""} ${proseDate(check.metOn)}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
       return line;
@@ -1320,7 +1324,9 @@ function partyRows(party) {
     const m = party.member;
     const line = row(
       words.member,
-      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+      // How well their views fit the party's, in words: the first band the
+      // record's agreement (-1 to 1) reaches.
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)?.label ?? "")}`,
     );
     // The tie's record, for the checks that read it.
     line.dataset.tieId = m.tieId;
@@ -1328,8 +1334,7 @@ function partyRows(party) {
     return [line];
   }
   return party.parties.map((p) => {
-    const b = el("button", {
-      type: "button",
+    const b = makeButton({
       textContent: `${words.join} ${p.name}`,
     });
     b.addEventListener("click", async () => {
@@ -1363,8 +1368,7 @@ function debatePanel(debate) {
     ...picks.map(({ question, pick }) =>
       el("label", {}, ` ${policyLabel(question)} `, pick),
     ),
-    el("button", {
-      type: "button",
+    makeButton({
       textContent: words.answer,
       onclick: async () => {
         await post(
@@ -1389,8 +1393,7 @@ function speechPanel(filing, venue) {
     return el(
       "div",
       {},
-      el("button", {
-        type: "button",
+      makeButton({
         textContent: controls.speech.begin,
         onclick: async () => {
           speechState = await post("/api/campaign/speech/begin");
@@ -1407,8 +1410,7 @@ function speechPanel(filing, venue) {
       {},
       ...said,
       el("label", { textContent: controls.speech.venue }, venue),
-      el("button", {
-        type: "button",
+      makeButton({
         textContent: controls.speech.give,
         onclick: async () => {
           const result = await post(
@@ -1429,8 +1431,7 @@ function speechPanel(filing, venue) {
     {},
     ...said,
     ...speechState.choices.map((choice) =>
-      el("button", {
-        type: "button",
+      makeButton({
         textContent: choice.text,
         onclick: async () => {
           speechState = await post(
@@ -1447,6 +1448,7 @@ async function campaignRows() {
   const rows = [];
   for (const {
     filing,
+    contest,
     campaign,
     polls,
     outings,
@@ -1514,7 +1516,7 @@ async function campaignRows() {
       ),
     );
     const button = (label, kind, extra) => {
-      const b = el("button", { type: "button", textContent: label });
+      const b = makeButton({ textContent: label });
       b.addEventListener("click", () =>
         act(kind, typeof extra === "function" ? extra() : extra),
       );
@@ -1525,7 +1527,13 @@ async function campaignRows() {
         "div",
         { className: "row campaign" },
         el("b", {
-          textContent: `${filing.status} · ${filing.contestId.split(":").slice(-3).join(" ")}`,
+          textContent: [
+            contest?.title,
+            contest ? proseDate(contest.electionDate) : null,
+            controls.filing?.status?.[filing.status] ?? words(filing.status),
+          ]
+            .filter(Boolean)
+            .join(" · "),
         }),
         `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${campaign.volunteers} volunteers · ${campaign.doors} doors`,
         el(
@@ -1538,8 +1546,7 @@ async function campaignRows() {
                   .replace("{price}", dollars(choice.why.priceMinor ?? 0))
                   .replace("{cash}", dollars(choice.why.cashMinor ?? 0))
               : "";
-            const b = el("button", {
-              type: "button",
+            const b = makeButton({
               textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
               disabled: !choice.available,
               title: why,
@@ -1568,8 +1575,7 @@ async function campaignRows() {
             value: "0",
             ariaLabel: controls.campaignContribute.dollars,
           });
-          const give = el("button", {
-            type: "button",
+          const give = makeButton({
             textContent: controls.campaignContribute.give,
           });
           give.addEventListener("click", () =>
@@ -2065,7 +2071,7 @@ async function seatRows() {
       value: "0",
       style: "width: 90px",
     });
-    const draft = el("button", { type: "button", textContent: "Draft" });
+    const draft = makeButton({ textContent: "Draft" });
     draft.addEventListener("click", () => {
       const [kind, key] = [
         pick.value.slice(0, pick.value.indexOf(":")),
@@ -2140,7 +2146,7 @@ async function seatRows() {
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
 const kindName = (kind) => {
-  const name = kind.split(":").pop();
+  const name = kind.split(/[:.]/).pop();
   return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
 };
 
@@ -2161,13 +2167,11 @@ function menuPages(items, size = 5) {
   let at = 0;
   const box = el("div", { className: "record-pages" });
   const draw = () => {
-    const back = el("button", {
-      type: "button",
+    const back = makeButton({
       textContent: controls.politics.back,
       disabled: at === 0,
     });
-    const next = el("button", {
-      type: "button",
+    const next = makeButton({
       textContent: controls.politics.next,
       disabled: (at + 1) * size >= items.length,
     });
@@ -2284,7 +2288,7 @@ const sheets = {
     const detail = el("div", { className: "people-selection" });
     const pager = el("nav", { className: "people-pager" });
     const button = (text, fn) => {
-      const b = el("button", { type: "button", textContent: text });
+      const b = makeButton({ textContent: text });
       b.addEventListener("click", fn);
       return b;
     };
@@ -2481,8 +2485,7 @@ const sheets = {
       { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
     );
     const personLink = (member) => {
-      const button = el("button", {
-        type: "button",
+      const button = makeButton({
         className: "character-person",
         textContent: member.name,
       });
@@ -2864,7 +2867,7 @@ const sheets = {
         ["accept", labels.accept],
         ["decline", labels.decline],
       ]) {
-        const button = el("button", { type: "button", textContent: label });
+        const button = makeButton({ textContent: label });
         button.onclick = async () => {
           for (const b of actions.children) b.disabled = true;
           try {
@@ -3070,7 +3073,7 @@ const sheets = {
       row(me.card.name, "†"),
       ...people.map((p) => {
         const line = row(p.name, `${p.why} `);
-        const b = el("button", { type: "button", textContent: "Play" });
+        const b = makeButton({ textContent: "Play" });
         b.addEventListener("click", () => playAs(p.id));
         line.append(b);
         return line;
@@ -3125,7 +3128,10 @@ const sheets = {
       const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
       content.append(
         el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
-        el("p", { className: "label", textContent: latest.adoptedOn }),
+        el("p", {
+          className: "label",
+          textContent: `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+        }),
       );
       const summary = el("div", { className: "budget-summary" });
       for (const [label, value] of [
@@ -3163,8 +3169,7 @@ const sheets = {
               [labels.decrease, -1],
               [labels.increase, 1],
             ]) {
-              const b = el("button", {
-                type: "button",
+              const b = makeButton({
                 textContent: sign > 0 ? "+" : "−",
                 title: name,
               });
@@ -3234,7 +3239,7 @@ const sheets = {
     const details = el("section", { className: "calendar-details" });
     const upcoming = el("section", { className: "calendar-upcoming" });
     const button = (label, fn) => {
-      const b = el("button", { type: "button", textContent: label });
+      const b = makeButton({ textContent: label });
       b.addEventListener("click", fn);
       return b;
     };
@@ -3249,7 +3254,7 @@ const sheets = {
         path.setAttribute("d", d);
         svg.append(path);
       }
-      const b = el("button", { type: "button", className: "skip-forward" });
+      const b = makeButton({ className: "skip-forward" });
       b.setAttribute("aria-label", name);
       b.append(svg);
       b.addEventListener("click", fn);
@@ -3379,26 +3384,55 @@ const sheets = {
     // The nation, region and job numbers above the paper, from the economy's records.
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
+    const econ = controls.news?.economy ?? {};
+    // A month of record ("2025-01") as a reader says it: January 2025.
+    const monthWords = (month) =>
+      /^\d{4}-\d{2}$/.test(String(month))
+        ? new Date(`${month}-15T12:00:00Z`).toLocaleDateString("en-US", {
+            month: "long",
+            year: "numeric",
+            timeZone: "UTC",
+          })
+        : "";
+    // A region's series by its control name and unit; a series with no
+    // control name is not shown.
+    const count = new Intl.NumberFormat("en-US");
+    const value = (unit, v) =>
+      unit === "percent"
+        ? `${v.toFixed(1)}%`
+        : unit === "thousands"
+          ? count.format(Math.round(v * 1000))
+          : unit === "dollars"
+            ? dollars(Math.round(v * 100))
+            : v.toFixed(1);
     const economy = e.nation
       ? [
           row(
-            `Nation · ${e.nation.month}`,
-            `Unemployment ${pct(e.nation.unemploymentPct)} · Inflation ${pct(e.nation.inflationPct)} · Policy rate ${pct(e.nation.policyRatePct)} · Mortgage ${pct(e.nation.mortgage30Pct)}`,
+            `${econ.nation} · ${monthWords(e.nation.month)}`,
+            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
           ),
           ...(e.region
             ? [
                 // The region's rate under the area it covers, beside the nation's.
                 row(
-                  `${(e.region.name ?? "").replace(/^./, (c) => c.toUpperCase())} · ${e.region.month ?? ""}`,
-                  `Unemployment ${pct(e.region.unemploymentPct)}`,
+                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
+                  Object.entries(e.region)
+                    .filter(
+                      ([k, v]) => typeof v === "number" && econ.series?.[k],
+                    )
+                    .map(
+                      ([k, v]) =>
+                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
+                    )
+                    .join(" · "),
                 ),
               ]
             : []),
           ...(e.jobs
             ? [
                 row(
-                  "Jobs here",
-                  `${e.jobs.employed} employed · ${e.jobs.seekers} looking · ${e.jobs.openPositions} open`,
+                  econ.jobsHere,
+                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
                 ),
               ]
             : []),
@@ -3437,7 +3471,7 @@ const sheets = {
     const paper = el("section", { className: "paper" });
     const outletPicker = el("nav", { className: "outlet-picker" });
     const button = (label, fn) => {
-      const b = el("button", { type: "button", textContent: label });
+      const b = makeButton({ textContent: label });
       b.onclick = fn;
       return b;
     };
@@ -3524,7 +3558,12 @@ const sheets = {
             el("h4", {
               textContent: record.staffing
                 ? record.staffing.employer
-                : kindName(record.kind),
+                : kindName(
+                    // A story the press archived is named by the record it tells of.
+                    record.kind === "press.archived"
+                      ? (record.facts?.recordKind ?? record.kind)
+                      : record.kind,
+                  ),
             }),
             el("p", {
               textContent: record.staffing
@@ -3541,11 +3580,37 @@ const sheets = {
                         ]
                       : []),
                   ].join(" · ")
-                : [
+                : // Who the record is about, each by their role in it.
+                  [
                     ...new Set(
-                      Object.values(record.facts ?? {})
-                        .filter((v) => typeof v === "string" && me.names?.[v])
-                        .map((v) => me.names[v]),
+                      Object.entries(record.facts ?? {}).flatMap(
+                        ([role, v]) => {
+                          // The record's kind is the heading already.
+                          if (typeof v !== "string" || role === "recordKind")
+                            return [];
+                          const label = words(role.replace(/Id$/, ""));
+                          const name = record.names?.[v] ?? me.names?.[v];
+                          // A person by name, a date in words, a plain value
+                          // by its label; record ids are never shown.
+                          if (name) return [`${label} ${name}`];
+                          // A yes-or-no fact reads as its label when true.
+                          if (v === "true") return [label];
+                          if (v === "false") return [];
+                          if (/^\d{4}-\d{2}-\d{2}$/.test(v))
+                            return [`${label} ${proseDate(v)}`];
+                          // A code with no name (a jurisdiction key, a
+                          // status) is never shown.
+                          if (
+                            /[:_]/.test(v) ||
+                            !v.trim() ||
+                            /^[A-Z0-9]+(?:-[A-Z0-9]+)+$/.test(v) ||
+                            /^[a-z]+(?:\.[a-z-]+)+$/.test(v)
+                          )
+                            return [];
+                          // A proper name keeps its own capitals.
+                          return [`${label} ${/[A-Z]/.test(v) ? v : words(v)}`];
+                        },
+                      ),
                     ),
                   ].join(" · "),
             }),
@@ -3778,15 +3843,13 @@ const sheets = {
       );
     }
     const actions = el("div", { className: "acts options-actions" });
-    const resume = el("button", {
-      type: "button",
+    const resume = makeButton({
       textContent: labels.continue,
     });
     resume.addEventListener("click", closeSheet);
     actions.append(resume);
     if (skipOpening) {
-      const skip = el("button", {
-        type: "button",
+      const skip = makeButton({
         textContent: labels.skipOpening,
       });
       skip.addEventListener("click", () => {
@@ -3795,8 +3858,7 @@ const sheets = {
       });
       actions.append(skip);
     }
-    const quit = el("button", {
-      type: "button",
+    const quit = makeButton({
       textContent: labels.quitToTitle,
     });
     quit.dataset.testid = "quit-to-title";
@@ -3852,15 +3914,14 @@ const sheets = {
               ].join(" · "),
             }),
           );
-        const go = el("button", { type: "button", textContent: labels.go });
+        const go = makeButton({ textContent: labels.go });
         go.setAttribute("aria-label", `${labels.go}: ${p.name}`);
         go.onclick = () =>
           p.filing ? openFiling(p.name) : visit(p.organizationId);
         card.append(info, go);
         return card;
       });
-      const back = el("button", {
-        type: "button",
+      const back = makeButton({
         textContent: labels.back,
         disabled: page === 0,
       });
@@ -3868,8 +3929,7 @@ const sheets = {
         page--;
         draw();
       };
-      const next = el("button", {
-        type: "button",
+      const next = makeButton({
         textContent: labels.next,
         disabled: (page + 1) * 5 >= found.length,
       });
@@ -4030,9 +4090,11 @@ const sheets = {
                 const history = el("div", {
                   className: "row",
                   textContent: [
-                    `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
-                    s.holder.reached,
-                    won ? `${won.date} ${Math.round(won.share * 100)}%` : null,
+                    `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
+                    labels.reached?.[s.holder.reached] ?? s.holder.reached,
+                    won
+                      ? `${labels.electedOn} ${proseDate(won.date)} · ${Math.round(won.share * 100)}% ${labels.ofVote}`
+                      : null,
                   ]
                     .filter(Boolean)
                     .join(" · "),
@@ -4052,8 +4114,7 @@ const sheets = {
                 line.append(elect);
               }
               if (s.holder?.personId) {
-                const b = el("button", {
-                  type: "button",
+                const b = makeButton({
                   className: "member-name",
                   textContent: name,
                 });
@@ -4089,8 +4150,7 @@ const sheets = {
         b.classList.toggle("on", b.dataset.level === level);
     };
     for (const key of ["local", "state", "federal"]) {
-      const b = el("button", {
-        type: "button",
+      const b = makeButton({
         className: "tab",
         textContent: controls.levels?.[key] ?? words(key),
       });
@@ -4138,8 +4198,7 @@ const sheets = {
         );
       // Play anyone: a resident officeholder can be taken over (bench only).
       if (k.resident && k.personId !== me.id) {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: "dev-only",
           textContent: "Play",
         });
@@ -4341,8 +4400,7 @@ async function openSheet(tab) {
             politics.ofVotingAge),
       )
       .map((name) => {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: `tab${name === tab ? " on" : ""}`,
           textContent: titles[name],
         });
@@ -4490,9 +4548,11 @@ function worldSettings() {
 }
 $("front-options").addEventListener("click", () => openSheet("options"));
 // The bench's developer controls sit behind one faint ring, off by default.
-$("dev-toggle").addEventListener("click", () =>
-  document.body.classList.toggle("dev"),
-);
+$("dev-toggle").addEventListener("click", () => {
+  const dev = document.body.classList.toggle("dev");
+  if (dev) $("talk-silent").before(gapButton);
+  else gapButton.remove();
+});
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
@@ -4528,13 +4588,18 @@ const MONTHS = Array.from({ length: 12 }, (_, i) =>
     timeZone: "UTC",
   }),
 );
-const proseDate = (iso) =>
-  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
+/** A record value as the player reads it: an ISO date in words, else as kept. */
+function dateOrValue(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? proseDate(value) : value;
+}
+function proseDate(iso) {
+  return new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC",
   });
+}
 const genderName = (g) =>
   document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
@@ -4676,8 +4741,7 @@ function listStates() {
     ...states
       .filter((s) => s.name.toLowerCase().includes(q))
       .map((s) => {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: "item",
           textContent: s.name,
         });
@@ -4737,8 +4801,7 @@ function showLook(view) {
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) => {
       const arrow = (by, glyph) => {
-        const b = el("button", {
-          type: "button",
+        const b = makeButton({
           className: "action small",
           textContent: glyph,
         });

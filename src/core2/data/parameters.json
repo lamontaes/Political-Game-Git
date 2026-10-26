@@ -517,8 +517,10 @@
     "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-driveWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.6,
+      "high": 1.2,
+      "unit": "dimensionless utility weight relative to needWeight = 1",
+      "citation": "Assumed sensitivity band from 0.6 to 1.2 around the unchanged tunable value 1, not a published interval or an empirically fitted coefficient. The low-confidence proposal is recorded under SG-P8-param-driveWeight in data/research/stopgaps-oct19/A-people-behavior-1.json. That file preserves the original contextual references and their stated retrieval limits; they do not establish these numeric bounds. Empirical calibration and the registered stopgap remain open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -595,8 +597,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Set by the M0-07 check against ATUS 2019 time with family outside the household (28 minutes a day, 170 hours a year): at 7 days adults visited relatives outside the home for 351 to 364 hours a year in four of six drawn places (2.1 times ATUS, over the check's limit of twice), at 14 days for 231 to 268 hours a year in twelve drawn places (1.4 to 1.6 times). Empirical calibration of the need itself is still pending.",
     "stopgapId": "SG-P8-param-companyHorizonDays",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 7,
+      "high": 30,
+      "unit": "days (contact gap at which the company need saturates)",
+      "citation": "Assumed sensitivity band from 7 to 30 around the unchanged tunable value 14, not a published interval or an empirically fitted coefficient. The low-confidence proposal is recorded under SG-P8-param-companyHorizonDays in data/research/stopgaps-oct19/A-people-behavior-1.json. That file preserves the original contextual references and their stated retrieval limits; they do not establish these numeric bounds. Empirical calibration and the registered stopgap remain open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -633,8 +637,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-appraisalRelationshipWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.5,
+      "high": 1,
+      "unit": "dimensionless multiplier on event appraisal by relationship closeness",
+      "citation": "Assumed sensitivity band from 0.5 to 1 around the unchanged tunable value 1, not a published interval or an empirically fitted coefficient. The low-confidence proposal is recorded under SG-P8-param-appraisalRelationshipWeight in data/research/stopgaps-oct19/A-people-behavior-1.json. That file preserves the original contextual references and their stated retrieval limits; they do not establish these numeric bounds. Empirical calibration and the registered stopgap remain open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

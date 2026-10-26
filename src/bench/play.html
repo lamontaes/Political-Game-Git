@@ -37,10 +37,7 @@
       <!-- Election day at the polls: the ballot, from the elections engine's records. -->
       <section id="ballot" class="panel" hidden>
         <div id="ballot-races"></div>
-        <div id="ballot-pager" class="acts" hidden>
-          <button type="button" class="action small">Back</button>
-          <button type="button" class="action primary small">Continue</button>
-        </div>
+        <div id="ballot-pager" class="acts" data-pager hidden></div>
         <div class="acts">
           <button id="ballot-leave" class="action" type="button"></button>
         </div>
@@ -78,19 +75,11 @@
         <div class="news-reader-main">
           <h2 id="news-reader-headline" class="heading"></h2>
           <div id="news-reader-body"></div>
-          <div id="news-reader-pager" class="acts" hidden>
-            <button type="button" class="action small">Back</button>
-            <button type="button" class="action primary small">Continue</button>
-          </div>
+          <div id="news-reader-pager" class="acts" data-pager hidden></div>
         </div>
         <div>
           <div class="acts">
-            <button
-              id="news-reader-close"
-              class="glyph close"
-              type="button"
-              aria-label="Close"
-            ></button>
+            <span data-close="news-reader-close"></span>
           </div>
           <div id="news-reader-more"></div>
         </div>
@@ -566,22 +555,13 @@
         <header class="sheet-head">
           <h2 id="sheet-title" class="heading"></h2>
           <div class="acts">
-            <button
-              id="sheet-close"
-              class="glyph close"
-              type="button"
-              aria-label="Close"
-              data-testid="sheet-close"
-            ></button>
+            <span data-close="sheet-close" data-testid="sheet-close"></span>
           </div>
         </header>
         <nav id="sheet-tabs" class="tabs"></nav>
         <div id="sheet-media" hidden></div>
         <div id="sheet-body"></div>
-        <div id="sheet-pager" class="acts" hidden>
-          <button type="button" class="action small">Back</button>
-          <button type="button" class="action primary small">Continue</button>
-        </div>
+        <div id="sheet-pager" class="acts" data-pager hidden></div>
       </section>
 
       <section id="talk" class="panel chat" hidden>
@@ -613,9 +593,6 @@
         <ol id="talk-lines"></ol>
         <div id="talk-choices" class="replies"></div>
         <div class="acts">
-          <button id="talk-gap" class="action small" type="button">
-            Mark gap
-          </button>
           <button id="talk-silent" class="action small" type="button">
             Say nothing
           </button>
@@ -648,30 +625,14 @@
           <h2 id="person-name" class="heading"></h2>
           <p id="person-role" class="role"></p>
           <div id="person-facts"></div>
-          <div id="person-pager" class="acts" hidden>
-            <button
-              type="button"
-              class="action small"
-              data-person-label="back"
-            ></button>
-            <button
-              type="button"
-              class="action primary small"
-              data-person-label="continue"
-            ></button>
-          </div>
+          <div id="person-pager" class="acts" data-pager="person" hidden></div>
           <div class="acts">
             <button
               id="person-talk"
               class="action primary"
               type="button"
             ></button>
-            <button
-              id="person-close"
-              class="glyph close"
-              type="button"
-              aria-label="Close"
-            ></button>
+            <span data-close="person-close"></span>
           </div>
         </div>
       </section>
