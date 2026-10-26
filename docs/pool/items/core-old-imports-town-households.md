@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/old-imports-town-households
 pr: #5031
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T06:09:37.923Z
 
 **Rules.** Replace, never layer: the old import is deleted when its replacement lands. Build only what the golden path needs. Same town by record id for a drawn place before and after. One rule, all 56 places: no place is named in code.
 
-**Done when.** The grep for imports of the old engine in `src/core2/town-households.ts` prints nothing, the typecheck passes, and the households' family names, genders, pronouns and birthdays for six drawn places and forty households each are the same before and after (the PR body gives the seeds and counts); a given name differs only where the core's cohort rule, whose share is measured from SSA counts, draws another than the old engine's flat share, shown by the old rule restoring every name.
+**Done when.** The grep for imports of the old engine in `src/core2/town-households.ts` prints nothing, the typecheck passes, and the households' family names, genders, pronouns and birthdays for six drawn places and forty households each are the same before and after (the PR body gives the seeds and counts); a given name differs only where the core's cohort rule, whose share is measured from SSA counts, draws another than the old engine's flat share, shown by the old rule restoring every name. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/town-households.ts, src/simulation/living-world/town-residents.ts, src/simulation/story-people.ts
 

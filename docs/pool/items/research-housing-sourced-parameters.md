@@ -3,7 +3,7 @@ id: research-housing-sourced-parameters
 title: "Research: sourced parameters for housing prices, eviction, foreclosure, shelters and mortgages"
 area: world
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -24,7 +24,7 @@ claimed-at:
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/housing-foreclosure.ts, src/core2/housing-homeless.ts, src/core2/housing-mortgages.ts, src/core2/modules/housing.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/world/
 
@@ -39,3 +39,5 @@ Oct 20: the island-areas row moved to its own item, world-housing-island-areas-s
 Oct 24, 2026: split. PR 5873 (item research-housing-eviction-in-force-pr-index) delivers 46 eviction steps in 21 places read from statute text in force on January 20, 2025, Puerto Rico's FHFA price index, Minnesota and Texas foreclosure rows, and research files for shelter beds and mortgage shares. Still open here: 25 places' eviction steps (14 code sites the cloud could not reach), the later laws waiting on world-housing-eviction-law-dated-phases, 55 places' foreclosure statutes, and three reads not confirmed in force (Massachusetts, the Northern Marianas and Wyoming). Also open: prices for the four island areas, territory shelter counts (none found), and two mechanics, world-housing-shelter-beds-by-place and world-housing-mortgages-county-shares.
 
 Sent back 2026-10-23 from PR #5488 (branch claude/island-areas-housing): main integration conflicts in housing.ts, housing/housing.json and housing-island-areas.test.ts; the island-only slice also needs a bounded item/table instead of completing the seven-row research umbrella; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.
