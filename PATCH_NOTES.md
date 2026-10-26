@@ -296,6 +296,47 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.38.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **A charge or an exposure can start a recall of a local official.** When a
+  serving city, county or township official is charged with a crime or exposed
+  by the press, the residents who heard about it may organize a recall petition,
+  sign it and vote, each by their own grievance, their ties to the official and
+  their temperament. This holds in states that allow a recall only for cause,
+  where a vote on an ordinance is no ground for one.
+
+### Improved
+
+- **An official's own sense of duty decides what their staff does with a case**
+  When a resident brings a problem to an official with staff, the official's own
+  temperament now decides whether the office helps, and the staffer carries that
+  out as far as their own work allows. Whether someone brings a problem at all,
+  tips a reporter, reports a crime, signs a recall or votes in one now follows
+  their personality at each decision's own weight.
+
+- **A bigger schools budget raises graduation, class by class** When a mayor or
+  council raises the schools line of the city or county budget, the town's
+  graduation rate follows as classes pass through: each senior class gains in
+  proportion to how many of its twelve school years had the higher spending, and
+  children from low-income households gain most. A cut works the same way in the
+  other direction.
+
+### Fixed
+
+- **A state income tax set to zero stops coming out of paychecks** When a
+  legislature repealed a state income tax by setting its rate to zero but the
+  old rate table stayed on the books, paychecks kept paying tax at the old
+  rates. A zero rate now withholds nothing, for named workers and for the town's
+  other workers alike.
+
+- **The ballot on election day turns its pages to your own race** On election
+  day the ballot no longer sticks on its first page. Continue turns the pages
+  until your own race, and marking it records your vote.
+
 ## PRE-ALPHA 0.37.0
 
 _Released October 26, 2026._
