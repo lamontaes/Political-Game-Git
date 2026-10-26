@@ -16,7 +16,7 @@ Read the relevant contracts before acting:
 - `docs/systems/art-assets.md` for candidate versus runtime release;
 - `docs/systems/scene-authoring-pipeline.md` and `docs/systems/scene-and-person-presentation.md` for scenes;
 - `art/people-engine/v2/README.md` for the current people figures (whole figures plus separate hair pieces);
-- `browser-visual-acceptance` for the check in play.
+- `play-first` ("The browser check") for the check in play.
 
 Reuse `scripts/art-asset-factory/`. Don't add a parallel validator or a scene-specific screen path.
 
@@ -35,7 +35,7 @@ Reuse `scripts/art-asset-factory/`. Don't add a parallel validator or a scene-sp
    - seated people come from cut, per-seat occupants checked by hand;
    - scale, front and seat lines come from the room's staging data, not the art.
 5. Run the art gates: `npm run validate:art`, `npm run inventory:art` and `npm run qa:art`.
-6. Show the asset used by its real consumer in a drawn place, with a screenshot (`browser-visual-acceptance`). A count of derived files is not a usable room or person.
+6. Show the asset used by its real consumer in a drawn place, with a screenshot (`play-first`, "The browser check"). A count of derived files is not a usable room or person.
 
 Deliberately authored fictional imagery is allowed, but its source, rights and role must be declared. Missing measurements stay missing and carry their real confidence class.
 

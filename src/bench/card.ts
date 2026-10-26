@@ -236,7 +236,11 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [
-        { id: otherId, name: `${other.givenName} ${other.familyName}` },
+        {
+          id: otherId,
+          name: `${other.givenName} ${other.familyName}`,
+          reason: "subject",
+        },
       ]).people[0]?.figureUrl ?? null,
   };
 }

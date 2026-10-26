@@ -4,7 +4,7 @@ title: "Stopgaps in work (uncalibrated-choice-mapping): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Scores attendance versus absence from current needs, traits, affect and an ongoing work-goal prior.
 
 Oct 20 (pool feeder): spec written; the target (1.7 percent, 1.2 to 2.5) is already in data/research/stopgaps-oct19/A-people-behavior-1.json; the jobs engine does not read absences yet (no absence or missed-work reference in modules/jobs.ts), so the employer-review read is part of this item.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

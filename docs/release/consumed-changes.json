@@ -1,6 +1,217 @@
 {
   "entries": [
     {
+      "version": "0.31.0",
+      "releasedOn": "2026-10-26",
+      "revision": "26b4fa079bf9a3ac6cdd1f61e94435c713a280b0",
+      "changeIds": [
+        "core-old-imports-town-households",
+        "people-coverage-counted",
+        "tests-journal-world-moments-red-on-seed-2803",
+        "web-repeal-of-starting-law-waits-its-lag"
+      ]
+    },
+    {
+      "version": "0.30.0",
+      "releasedOn": "2026-10-26",
+      "revision": "134eceeb5ffce40784dbea7ff602626be192262a",
+      "changeIds": ["play-first-16-title-adds-lincoln-night"]
+    },
+    {
+      "version": "0.29.8",
+      "releasedOn": "2026-10-26",
+      "revision": "02ad8a84e80227a74f44823c58eaca2d669bcb51",
+      "changeIds": [
+        "jobs-layoff-worked-today",
+        "laws-nine-links-justice",
+        "people-cause-holder-activity-calibrated",
+        "play-first-04-town-list-font-and-populations",
+        "play-stop-10-two-unemployment-rates-one-night",
+        "words-tenure-in-years"
+      ]
+    },
+    {
+      "version": "0.29.7",
+      "releasedOn": "2026-10-25",
+      "revision": "a6d3be700a72a3f1fe779c77aecf24e26728d90a",
+      "changeIds": [
+        "filing-panel-party-not-covered",
+        "play-election-night-own-race-first",
+        "play-filing-party-under-journal-note"
+      ]
+    },
+    {
+      "version": "0.29.6",
+      "releasedOn": "2026-10-25",
+      "revision": "a3762a2f88a2c197a31432973a9bdd7eae4a0d61",
+      "changeIds": [
+        "people-town-neighbors-no-ties",
+        "people-unplanned-counted-tier",
+        "web-civic-played-witness"
+      ]
+    },
+    {
+      "version": "0.29.5",
+      "releasedOn": "2026-10-25",
+      "revision": "001d8d1f8e597a7e2182d9360b9f8d457b00832c",
+      "changeIds": [
+        "play-stop-16-identical-council-seat-choices",
+        "release-lane-files-no-declaration",
+        "release-main-red-play-api-figures",
+        "research-residents-cadence-sourced"
+      ]
+    },
+    {
+      "version": "0.29.4",
+      "releasedOn": "2026-10-26",
+      "revision": "bb901b62bed41a4cc2e62dfb340c5202bd6a9265",
+      "changeIds": [
+        "play-first-14-budgets-hidden-until-relevant",
+        "tests-played-world-counted-change-tiny-place"
+      ]
+    },
+    {
+      "version": "0.29.3",
+      "releasedOn": "2026-10-26",
+      "revision": "8f48993193bc955cfa0186f05eab719abdf062bf",
+      "changeIds": [
+        "play-first-10-journal-from-day-one",
+        "tests-small-town-treasury-payroll-red"
+      ]
+    },
+    {
+      "version": "0.29.2",
+      "releasedOn": "2026-10-25",
+      "revision": "b440977e327887619d8b0c04395365f2b49e88a7",
+      "changeIds": [
+        "effects-end-to-end-proof",
+        "gov-bribes-in-played-worlds-measured",
+        "play-stop-25-door-count-stops-growing"
+      ]
+    },
+    {
+      "version": "0.29.1",
+      "releasedOn": "2026-10-25",
+      "revision": "6ef4a6d543207970f91fe3c7d06e74357da17bc0",
+      "changeIds": [
+        "core-speed-school-day-memo",
+        "play-first-07-no-random-people-in-rooms"
+      ]
+    },
+    {
+      "version": "0.29.0",
+      "releasedOn": "2026-10-25",
+      "revision": "d627bd0bd35f0153b3b8ef8284456874106beee4",
+      "changeIds": [
+        "director-talk-lived-crime",
+        "traits-scene-talk-shared-lean"
+      ]
+    },
+    {
+      "version": "0.28.2",
+      "releasedOn": "2026-10-25",
+      "revision": "01fd25c9a171f5598379ce883ae8052b4125d433",
+      "changeIds": [
+        "law-wiring-own-payments",
+        "laws-outcome-links-tax-migration",
+        "roadmap-m1-flip-proven-one",
+        "tests-rival-chooser-nobody-to-ask",
+        "tests-world-legislating-place-without-local-body",
+        "words-held-first-test-no-held-lines",
+        "words-journal-revision-none-in-four-places",
+        "work-span-commitment-malformed-full-adult"
+      ]
+    },
+    {
+      "version": "0.28.1",
+      "releasedOn": "2026-10-25",
+      "revision": "ff43c50d9245e0c1124dabb61f3b57f5704d4d2f",
+      "changeIds": [
+        "core-speed-news-telling-sorted",
+        "credit-m1-06-missed-payment-witness",
+        "gov-recall-rule-pack-doctrine-statutes",
+        "politics-issues-taxes-named-by-level",
+        "world-unemployment-rate-names-its-area"
+      ]
+    },
+    {
+      "version": "0.28.0",
+      "releasedOn": "2026-10-25",
+      "revision": "2432b123aed7aa4e61452351be582ae6f2bc4d43",
+      "changeIds": [
+        "core-voter-groups-weight-sum-order",
+        "law-reach-money-handlers-load-cycle",
+        "officials-carry-every-trait",
+        "people-fill-in-keeps-job-tenure",
+        "play-stop-09-jobs-here-count-too-high",
+        "play-stop-14-town-list-stops-at-400",
+        "tests-no-pinned-place-opelika",
+        "web-labor-waiting-links-named",
+        "world-disaster-no-outside-market",
+        "world-session-calendar-2025-ends",
+        "world-unfilled-pay-room-double-counts"
+      ]
+    },
+    {
+      "version": "0.27.0",
+      "releasedOn": "2026-10-25",
+      "revision": "a83efbf169b110f18fda615ec1653b8de82cc021",
+      "changeIds": [
+        "elections-stand-again-in-play",
+        "law-wiring-death-tax-no-schedule",
+        "law-wiring-labor",
+        "people-counted-newborn-inherits-temperament",
+        "people-drives-responses-against-research-bands",
+        "release-pool-done-on-merge-proof",
+        "tests-budgets-public-pay-intermittent",
+        "tests-finance-sales-receipt-own-illness-provider",
+        "traits-research-weights-endorse-estates",
+        "web-health-waiting-links-named",
+        "words-bargain-scenes",
+        "words-desk-bill-scene",
+        "words-seam-director-reads-no-bank",
+        "world-construction-outside-market-payee"
+      ]
+    },
+    {
+      "version": "0.26.2",
+      "releasedOn": "2026-10-25",
+      "revision": "932cf9637dbd0d36f45bc26a70df1b5d0b72f919",
+      "changeIds": [
+        "cto-play-first-lane",
+        "gov-press-outlet-cost-scheduled-hours",
+        "release-playtest-report-lead-commit-hash",
+        "words-speech-screen-no-crowd",
+        "world-school-pay-no-full-teachers-small-district"
+      ]
+    },
+    {
+      "version": "0.26.1",
+      "releasedOn": "2026-10-25",
+      "revision": "8d0dd8f295b83d6f63cd421004fda1feaf37ef05",
+      "changeIds": ["release-package-build-heap"]
+    },
+    {
+      "version": "0.26.0",
+      "releasedOn": "2026-10-25",
+      "revision": "cd27a2a370cf83fea4e78be031500d7dc549323d",
+      "changeIds": ["tests-county-governed-openings", "web-reach-crime-justice"]
+    },
+    {
+      "version": "0.25.0",
+      "releasedOn": "2026-10-25",
+      "revision": "2553b99fbfe3ff9ba03f5e982fe58b75ce03d414",
+      "changeIds": [
+        "art-people-whole-out-of-play",
+        "core-census-uncap-opening",
+        "drives-counted-job-loss-unanswered",
+        "tests-closure-counted-seeker-witness-gone",
+        "words-scenes-fire-in-play",
+        "world-apply-and-buy-reasons-vary",
+        "world-federal-treasury-too-small-for-medicaid-match"
+      ]
+    },
+    {
       "version": "0.24.3",
       "releasedOn": "2026-10-25",
       "revision": "122c3217c5847ab4138dc26a8cc2d2b1eb49a83b",
