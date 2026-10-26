@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: fix/main-red-2026-10-26-press-counted
-pr:
+pr: #6165
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T14:57:25.632Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T14:57:25.632Z
 **Files.** src/core2/modules/press.ts, src/core2/press-town-stand.test.ts, docs/release/changes/release-press-counted-town-query.md
 
 **Notes.** Bounded repair for release-main-red. Merger 2 reproduced the clean-main missing-name error locally: exit2,606.86s,4037264KiB peak child RSS. The shared tracker remains separately claimed; this bounded item alone is the completion target.
+
+Merger 2: Ready in PR #6165, own checked head93bf50847d1b55247f34d6f5588e7f82e72ddc61/tree7cd634e2deaab2293856974a71da10b3bf443d53. Full build and scoped checks PASS; fresh Asan-Maina Guam root31902f16cdb962a5 test PASS. Another merger must merge; never the author.
