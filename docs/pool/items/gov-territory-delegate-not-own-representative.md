@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/territory-delegate-own-rep
-pr:
+pr: #6196
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T23:08:08.218Z
