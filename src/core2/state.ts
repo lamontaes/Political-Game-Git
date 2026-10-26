@@ -1612,7 +1612,14 @@ export function coreAPI(core: CoreState): CoreAPI {
           "Invalid relocation: one living household, no job held.",
         );
       makeIsoDate(input.source.asOf);
-      const whole = household.memberIds.every((id) => ids.includes(id));
+      // A household moves whole when every member moves, or, under its own
+      // id, every living member (a member who has died stays listed with it).
+      const whole =
+        household.memberIds.every((id) => ids.includes(id)) ||
+        (input.householdId === household.id &&
+          household.memberIds
+            .filter((id) => core.people.get(id)?.alive)
+            .every((id) => ids.includes(id)));
       if (whole) {
         if (input.householdId !== household.id)
           throw new Error("A whole household moves under its own id.");
@@ -1999,8 +2006,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         !actor ||
         !Number.isFinite(drive.strength) ||
         drive.strength < p("zero") ||
-        !core.eventIds.has(drive.sourceEventId) ||
-        !api.knows(personId, `event:${drive.sourceEventId}:experienced`)
+        // A drive forms only from an event the person lived through, and the
+        // drives engine rewrites each one daily as it fades; tests and the
+        // bench check its source on every write, play does not.
+        (bookkeeping() &&
+          (!core.eventIds.has(drive.sourceEventId) ||
+            !api.knows(personId, `event:${drive.sourceEventId}:experienced`)))
       )
         throw new Error(
           "Drive requires a learned source event and a finite strength.",

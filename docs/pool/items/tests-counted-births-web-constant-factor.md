@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/births-web-lagged
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T08:58:00.641Z
 ---
 
 **What.** On exact main 212b57e4367ed3751945e3785ca9163b9225e31a, src/core2/births-counted-web.test.ts:68 fails with WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36. It draws Elyria, Nebraska, and records fifteen identical 1.030 birth factors, so its distinct-factor count is one where it expects more than one. PR #6072 at f8b7d1ff41951522df88bae7cc2adccdac5daa66 fails identically on the same root and place, making this a baseline failure independent of that renewal speed change.

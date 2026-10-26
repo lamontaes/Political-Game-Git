@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/tests-group-a-age-check-empty-town
 pr: #6027
 blocked-on:
