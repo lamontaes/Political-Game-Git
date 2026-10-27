@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-wire-civic-rest
 pr: #6143
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-27T04:07:53.589Z
 ---
 
 **What.** meetings.take-part scales a resident's drive to stand up at public comment or fill a town hall's room, so the audit reported only a size and could not count who took part by thirds of lean (gap row 'size, not a choice'). Report each resident weighed for a room as taking part or not, with and without temperament, and refit the weight in played years against Mondak et al. 2010's extraversion odds (2.97 between thirds).

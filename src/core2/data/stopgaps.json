@@ -7000,5 +7000,29 @@
     "addedAt": "2026-10-24",
     "replacement": "The employer's staffing review reads the full job against its staffing need and sheds or keeps it by its own books, as for any job.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-carry-ask-no-screen",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 2454,
+    "whatItFakes": "An ask to the player to carry a bill is held as a request (the carryAsks table) and answered by answerCarryAsk, but no bench screen shows it or has Agree and Decline controls, so in play the player can never answer it and the ask never closes.",
+    "why": "The bench's Politics screens belong to the play-first lane; the engine side (the held ask, the answer that files the bill with the player as sponsor and the asker as requestedBy) is built and tested, and the screen is the lane's.",
+    "addedBy": "fixer, Merger 3's send-back of PR 6198",
+    "addedAt": "2026-10-27",
+    "replacement": "A waiting ask on Politics, Issues and Government, with Agree and Decline controls wired to answerCarryAsk, reading carryAsksAwaiting (pool item gov-carry-ask-player-decides).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-pr-counted-renter-income-third",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-calibration.test.ts",
+    "line": 53,
+    "whatItFakes": "Puerto Rico place 7237336's counted renter households earn about a third of the ACS income, so half of them pay over 72 percent of income in rent on day one; their living-cost arrears then push 17 households into homelessness (76 per 10,000 against HUD's 6.5), and the housing-calibration case is pinned to that count instead of the HUD bound.",
+    "why": "Counted incomes in Puerto Rico are read at a third of the sourced figure (pool item world-counted-renter-income-puerto-rico-third); with rent now read from the territory's own counties, the arrears from living costs (#4937) show it as homelessness.",
+    "addedBy": "fixer, Merger 2's send-back of PR 5792",
+    "addedAt": "2026-10-27",
+    "replacement": "Correct the counted renters' income to the place's sourced ratio (world-counted-renter-income-puerto-rico-third), then remove the pin so the case meets the HUD bound.",
+    "status": "open"
   }
 ]

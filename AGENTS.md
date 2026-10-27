@@ -86,7 +86,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 
 ## Skills
 
-Load a skill when its trigger fits; descriptions say when. Roles: `play-first` (one item of the lane; the screenshot and browser check live here), `session-start` (worker loop), `lead-session`, `pr-fixer`, `merger`, `researcher`, `words-engine`, `cto`. Audits and proofs: `merge-audit`, `wiring-audit`, `played-world-proof`, `ask-why`, `trace-audit`. Content: `civic-prose`, `civic-reports`, `asset-scene-admission`. Standards for anything a player sees: `scene-standard`, `player-screen-text`, `screen-to-mock`.
+Load a skill when its trigger fits; descriptions say when. Roles: `play-first` (one item of the lane; the screenshot and browser check live here), `session-start` (worker loop), `lead-session`, `pr-fixer`, `merger`, `researcher`, `words-engine`, `cto`. Audits and proofs: `merge-audit`, `wiring-audit`, `played-world-proof`, `ask-why`, `trace-audit`. Content: `civic-prose`, `civic-reports`, `asset-scene-admission`. Standards for anything a player sees: `scene-standard`, `player-screen-text`, `screen-to-mock`; new scenes come from real lives (`scenes-from-life`).
 
 ## Implementation boundaries
 
