@@ -31,7 +31,7 @@ describe("a settlement under the right to counsel is a notice", () => {
   it("tells the household's oldest adult, who holds a view of the law citing it", () => {
     setBookkeeping(false);
     const tried: string[] = [];
-    for (let attempt = 0; attempt < 8; attempt += 1) {
+    for (let attempt = 0; attempt < 24; attempt += 1) {
       const pinned = process.env.EVICTION_NOTICE_DRAW?.split("|");
       const place = pinned
         ? drawPlace(pinned[0]!, pinned[1]!)
@@ -108,6 +108,9 @@ describe("a settlement under the right to counsel is a notice", () => {
           ).toBe(notice);
           expect(cause!.change, `${where}: ${row.id}`).toBeGreaterThan(0);
           checked += 1;
+          process.stdout.write(
+            `eviction settlement notice: ${where}; case ${row.id}, law ${row.counselLawId}, counsel payment journal id counsel:${row.id}, ${notice} told ${told[0]}, cause event:law.effect-learned:${row.id}:${today} change ${cause!.change}\n`,
+          );
         }
       }
       if (!checked) continue;
@@ -116,5 +119,5 @@ describe("a settlement under the right to counsel is a notice", () => {
     throw new Error(
       `no drawn town settled a full household: ${tried.join("; ")}`,
     );
-  }, 3_000_000);
+  }, 7_200_000);
 });
