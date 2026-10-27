@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "version": "0.44.2",
+      "releasedOn": "2026-10-27",
+      "revision": "d12af85bab95b9dcdee30fdebca06cd8ef986a63",
+      "changeIds": [
+        "cto-owner-scene-examples",
+        "laws-rtw-test-played-repeal-guard",
+        "skills-scenes-from-life",
+        "world-homeless-puerto-rico-far-above-hud"
+      ]
+    },
+    {
       "version": "0.44.1",
       "releasedOn": "2026-10-27",
       "revision": "8f6048a1285dcc1ab113574847ed08a6bae45d03",
