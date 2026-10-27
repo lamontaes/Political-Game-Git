@@ -6327,6 +6327,42 @@
    "sheet": "76b",
    "edit": "gm-76b"
   },
+  "art/people-engine/v2/garments/v2-sb03-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb03-f-heavy",
+   "sheet": "sb03",
+   "edit": "gm-sb03"
+  },
+  "art/people-engine/v2/garments/v2-sb03-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb03-f-medium",
+   "sheet": "sb03",
+   "edit": "gm-sb03"
+  },
+  "art/people-engine/v2/garments/v2-sb03-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb03-f-slim",
+   "sheet": "sb03",
+   "edit": "gm-sb03"
+  },
+  "art/people-engine/v2/garments/v2-sb03-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb03-m-heavy",
+   "sheet": "sb03",
+   "edit": "gm-sb03"
+  },
+  "art/people-engine/v2/garments/v2-sb03-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb03-m-medium",
+   "sheet": "sb03",
+   "edit": "gm-sb03"
+  },
+  "art/people-engine/v2/garments/v2-sb03-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb03-m-slim",
+   "sheet": "sb03",
+   "edit": "gm-sb03"
+  },
   "art/people-engine/v2/garments/v2-sb20-f-heavy-garments.png": {
    "kind": "garment map",
    "figure": "v2-sb20-f-heavy",
@@ -8396,6 +8432,19 @@
     "art/people-engine/v2/garments/v2-76b-m-heavy-garments.png",
     "art/people-engine/v2/garments/v2-76b-m-medium-garments.png",
     "art/people-engine/v2/garments/v2-76b-m-slim-garments.png"
+   ]
+  },
+  "gm-sb03": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-sb03.png",
+   "prompt": "[gm-sb03] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-sb03-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-sb03-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-sb03-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-sb03-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-sb03-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-sb03-m-slim-garments.png"
    ]
   },
   "gm-sb20": {

@@ -110,6 +110,7 @@ One edit per outfit sheet; six maps per sheet, one per figure id.
 | 70 | v2-70-f/m-slim/medium/heavy | sit three-quarter right, base |
 | 74 | v2-74-f/m-slim/medium/heavy | sit three-quarter right, base |
 | 76b | v2-76b-f/m-slim/medium/heavy | sit back, base |
+| sb03 | v2-sb03-f/m-slim/medium/heavy | stand back, polo |
 | sb20 | v2-sb20-f/m-slim/medium/heavy | stand back, vest |
 | sb32 | v2-sb32-f/m-slim/medium/heavy | stand back, blazer |
 | x3 | v2-x3-f/m-slim/medium/heavy | sit back, base |
