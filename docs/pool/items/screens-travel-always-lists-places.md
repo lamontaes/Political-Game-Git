@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by: 
-pr:
+status: done
+claimed-by: screens/travel-always-lists-places
+pr: #6385
 blocked-on:
 source: "the owner's v0.56.2 sitting, Oct 27, 3:30 PM Eastern (Carlos Washington, 35, Salida, Colorado), filed by the screens designer"
 lead: play-first
 milestone: play-first
-claimed-at: 
+claimed-at: 2026-10-27T19:56:39.669Z
 ---
 
 **What.** In v0.56.2 Travel at 8:30 p.m. on the opening night listed no destinations at all, and showed "YOU ARE AT HOME" under its title. The owner: "Remove all those fucking subheadings. I hate them all." Travel must always list the places the player can go (home, work, school, the filing office, shops), each saying in words whether it is open now, and the panel must be sized to its rows, not a full-height sheet with a few lines top left.

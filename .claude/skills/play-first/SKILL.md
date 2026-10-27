@@ -12,6 +12,8 @@ description: >
 
 # Play first
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Scenes are graded against Wildermyth (`OWNER-DECISIONS.md`, Oct 26): the story moves through the scene and hands the player back with something changed. Before any owner question, do the full reading (`OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/`, `LAW.md`, a `docs/` search) and end it with the reading line. Election day is the player's choice, discrimination is yes, Developer ID and licenses are not blockers: none of these is asked again.
 
 Current as of 2026-10-25, 18:30 UTC (the acting CTO's lane PR #5963; the owner's Oct 24 "go ahead": lane agents may edit director and English files for lane items, with the Words session's review)
