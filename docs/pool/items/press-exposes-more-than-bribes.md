@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/press-exposes-conflicts
-pr:
+pr: #6363
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web press pass (packet the-story-breaks)"
 lead: laws-effects
