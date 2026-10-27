@@ -87,7 +87,7 @@ it("a campaign volunteer is met as someone known, with distinct replies", () => 
         sharedHistory(core, me, id as PersonId).map((row) => row.kind),
         `${where}: ${id}`,
       ).toContain("campaign");
-    // Hours on the campaign together: each week the first few volunteers
+    // Hours on the campaign together: each day the first few volunteers
     // spend an evening with the candidate (a stand-in for the canvass and
     // the phone bank, which do not yet put the candidate and a volunteer in
     // one place), so their ties grow and turn inside the core's own day.
@@ -95,7 +95,6 @@ it("a campaign volunteer is met as someone known, with distinct replies", () => 
     registerModule(core, {
       id: "test-campaign-evenings",
       onDay: (dayApi) => {
-        if ((Date.parse(dayApi.state.date) / 86_400_000) % 7 !== 0) return;
         for (const id of together) dayApi.relationship(me, id, "contact", 3);
       },
     });
