@@ -1,6 +1,49 @@
 {
   "entries": [
     {
+      "version": "0.48.0",
+      "releasedOn": "2026-10-27",
+      "revision": "92a204637104c3967052caf5533bfb354295866f",
+      "changeIds": [
+        "play-opening-address-empty-waiting-room",
+        "play-stop-37-opening-tags-and-highlights-match-the-figure",
+        "words-executive-record-gaps",
+        "words-packet-disaster-first-hours"
+      ]
+    },
+    {
+      "version": "0.47.1",
+      "releasedOn": "2026-10-27",
+      "revision": "91a589a9e6b7a774eb130e31a51d662f698b71ca",
+      "changeIds": [
+        "traits-accept-appointment-vacancy-proof",
+        "traits-meetings-take-part-refit",
+        "words-packet-executive-order-voting-rights"
+      ]
+    },
+    {
+      "version": "0.47.0",
+      "releasedOn": "2026-10-27",
+      "revision": "57086e9be0657585ec0c7bc92a096ae582c56941",
+      "changeIds": [
+        "play-stop-36-opening-starts-with-the-address",
+        "words-grades-calibrate-by-trait-and-register"
+      ]
+    },
+    {
+      "version": "0.46.0",
+      "releasedOn": "2026-10-27",
+      "revision": "7421844a6843b1618ddea87d33927f93596fcbbd",
+      "changeIds": [
+        "play-stop-30-creator-age-line-says-what-it-is",
+        "play-stop-31-creator-search-fields-gold-outline",
+        "tests-law-wiring-justice-restore-vote-burton",
+        "traits-coverage-table-missing-shade-answer",
+        "words-opening-address-from-records",
+        "words-scene-for-unstaged-big-moments"
+      ]
+    },
+    {
       "version": "0.45.0",
       "releasedOn": "2026-10-27",
       "revision": "209420db43cb2f6ddf2862b7bb188053541c2bad",

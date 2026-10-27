@@ -10,7 +10,7 @@ size: S
 status: open
 claimed-by:
 pr:
-blocked-on: laws-floor-takes-every-chamber-bill
+blocked-on:
 source: The screen half of laws-player-bill-reaches-the-floor (laws-and-effects lead, Oct 27; the owner's Oct 26 playtest, relayed by the CTO)
 ---
 
@@ -28,4 +28,4 @@ source: The screen half of laws-player-bill-reaches-the-floor (laws-and-effects 
 
 **Files.** src/bench/legislature.ts, the legislature screen under src/bench
 
-**Notes.** Filed by the laws-and-effects lead, Oct 27. The core readers land with laws-floor-takes-every-chamber-bill.
+**Notes.** Filed by the laws-and-effects lead, Oct 27. The core readers land with laws-floor-takes-every-chamber-bill. Unblocked Oct 27, 08:03 UTC: `laws-floor-takes-every-chamber-bill` merged in #6226, so `floorDateOf`, `whipCount` and the weekly floor's `floorAgendaOn` are on main. It is from the Oct 26 sitting, so it is due in the 14:00 UTC build.
