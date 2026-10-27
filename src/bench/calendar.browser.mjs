@@ -182,6 +182,7 @@ try {
   const settled = () =>
     page.waitForFunction(
       () =>
+        !document.getElementById("job-offer-turn")?.closest("[hidden]") ||
         !document.getElementById("continue").hidden ||
         !document.getElementById("talk").hidden ||
         !document.getElementById("week").disabled,
@@ -198,7 +199,10 @@ try {
   assert.ok(jumped.includes(String(Number(target.slice(-2)))) || stopped);
   // Week advances seven days, Day one.
   for (let i = 0; i < 8; i++) {
-    if (await page.locator("#talk").isVisible())
+    // A job offer that stopped the jump is answered first: it covers Continue.
+    if (await page.locator("#job-offer-turn").isVisible())
+      await page.locator("#job-offer-turn").click();
+    else if (await page.locator("#talk").isVisible())
       await page.locator("#talk-leave").click();
     else if (await page.locator("#continue").isVisible())
       await page.locator("#continue").click();
