@@ -44,23 +44,8 @@
     "against": "Against",
     "pass": "Pass"
   },
-  "campaignActs": {
-    "title": "What the race turns on",
-    "reached": "reached",
-    "door": "Doors",
-    "volunteer-door": "Volunteers' doors",
-    "speech": "Speeches",
-    "interview": "Interviews",
-    "town-hall": "Town halls",
-    "debate": "Debates",
-    "retold": "Retold",
-    "ad": "Ads",
-    "attack-ad": "Attack ads",
-    "endorsement": "Endorsements",
-    "donation-ask": "Asking for money",
-    "constituent-case": "Cases for constituents",
-    "mail": "Mail",
-    "event": "Events"
+  "raceStanding": {
+    "title": "Where the race stands"
   },
   "speech": {
     "begin": "Give a speech",
@@ -433,7 +418,23 @@
       "income-tax": "Income tax rate",
       "sales-tax": "Sales tax rate"
     },
-    "noneHere": "None here"
+    "noneHere": "None here",
+    "guide": {
+      "government": "Who holds each seat over you, from your town to the nation, and when each term ends.",
+      "issues": "The laws in force where you live, and who can change them.",
+      "parties": "The parties here, what each stands for, and how close each is to you.",
+      "campaigns": "Your race once you file: money, volunteers, ads, and how the vote leans.",
+      "runHere": "How you could run here",
+      "race": "Next race",
+      "filesWith": "Files with",
+      "atTheDeskOf": "at the desk of the",
+      "filingOpens": "Filing opens",
+      "filingDeadline": "Filing deadline",
+      "primary": "Primary",
+      "election": "Election day",
+      "estimated": "These dates are estimates; no calendar on record names them.",
+      "noRace": "No race here is open for filing yet."
+    }
   },
   "results": {
     "you": "You",

@@ -1740,9 +1740,9 @@ async function campaignRows() {
     filing,
     contest,
     campaign,
-    polls,
+    pollSample,
     outings,
-    causes,
+    standing,
     debates,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
@@ -1854,7 +1854,7 @@ async function campaignRows() {
           button("Donations", "donation"),
           button("Endorsements", "endorsement"),
           button("Ad", "ad", { amountMinor: "5000" }),
-          button("Poll", "poll", { sampleSize: "50" }),
+          button("Poll", "poll", { sampleSize: String(pollSample) }),
         ),
         // The player's own money into the campaign: the amount is theirs to set.
         (() => {
@@ -1919,25 +1919,11 @@ async function campaignRows() {
             },
           }),
         ),
-        // What the race turns on: each candidate's acts and how the people reached came to feel.
-        ...((causes ?? []).some((who) => who.acts.length)
-          ? [el("b", { textContent: controls.campaignActs.title })]
-          : []),
-        ...(causes ?? [])
-          .filter((who) => who.acts.length)
-          .map((who) =>
-            listRow("", {
-              textContent: `${who.you ? "" : `${who.name} · `}${who.acts
-                .map(
-                  (a) =>
-                    `${controls.campaignActs[a.act] ?? a.act} ${a.reached} · +${a.warmer} · −${a.cooler}`,
-                )
-                .join(" · ")}`,
-            }),
-          ),
-        polls.length
-          ? `Poll ${polls.at(-1).date}: ${polls.at(-1).contacted}`
-          : "",
+        // Where the race stands, in plain sentences from the English engine.
+        el("b", { textContent: controls.raceStanding.title }),
+        ...(standing ?? []).map((line) =>
+          el("div", { className: "row", textContent: line }),
+        ),
         campaignResult ? el("div", { textContent: campaignResult }) : "",
       ),
     );
@@ -4262,6 +4248,104 @@ const sheets = {
       ),
     ];
   },
+  /**
+   * Politics' own guide: what each tab is for, a page each, then how a
+   * player could run here, from the filing records: the race, the office
+   * that takes filings, and the dates.
+   */
+  async politicsGuide() {
+    const labels = controls.politics.guide;
+    const [government, terms] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
+    ]);
+    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
+    const row = (label, value) =>
+      el(
+        "div",
+        { className: "guide-fact" },
+        el("span", { className: "label", textContent: label }),
+        el("strong", { textContent: value }),
+      );
+    const page = (heading, ...body) =>
+      el(
+        "section",
+        { className: "politics-guide-page" },
+        el("h3", { textContent: heading }),
+        ...body,
+      );
+    const pages = ["government", "issues", "parties", "campaigns"].map((tab) =>
+      page(titles[tab], el("p", { textContent: labels[tab] })),
+    );
+    const next = government.nextFiling;
+    pages.push(
+      page(
+        labels.runHere,
+        ...(next
+          ? [
+              row(labels.race, next.title),
+              row(
+                labels.filesWith,
+                next.filedWith.replace(
+                  /\s*\(counter: ([^)]*)\)/g,
+                  `, ${labels.atTheDeskOf} $1`,
+                ),
+              ),
+              row(labels.filingOpens, proseDate(next.filingOpens)),
+              row(labels.filingDeadline, proseDate(next.filingDeadline)),
+              ...(deadlineTerm
+                ? [
+                    el("p", {
+                      className: "small",
+                      textContent: deadlineTerm.short,
+                    }),
+                  ]
+                : []),
+              ...(next.primaryDate
+                ? [row(labels.primary, proseDate(next.primaryDate))]
+                : []),
+              row(labels.election, proseDate(next.electionDate)),
+              ...(next.estimated
+                ? [
+                    el("p", {
+                      className: "small",
+                      textContent: labels.estimated,
+                    }),
+                  ]
+                : []),
+            ]
+          : [el("p", { textContent: labels.noRace })]),
+      ),
+    );
+    let at = 0;
+    const box = el("div", { className: "politics-guide" });
+    const draw = () => {
+      const back = el("button", {
+        type: "button",
+        textContent: controls.politics.back,
+        disabled: at === 0,
+      });
+      const forward = el("button", {
+        type: "button",
+        textContent: controls.politics.next,
+        disabled: at === pages.length - 1,
+      });
+      back.onclick = () => {
+        at--;
+        draw();
+      };
+      forward.onclick = () => {
+        at++;
+        draw();
+      };
+      box.replaceChildren(
+        pages[at],
+        el("nav", { className: "record-pager" }, back, forward),
+      );
+    };
+    draw();
+    return [box];
+  },
   async guide() {
     const search = el("input", {
       type: "search",
@@ -4936,6 +5020,7 @@ const titles = {
   travel: "Travel",
   options: "Options",
   guide: "Guide",
+  politicsGuide: "Guide",
   changes: "What changed",
   law: "Law here",
   handoff: "Carry on as",
@@ -4951,6 +5036,7 @@ const groups = {
     "parties",
     "issues",
     "budgets",
+    "politicsGuide",
   ],
   people: ["people", "family"],
   who: ["who", "jobs"],
