@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/oakley-doors
-pr:
+pr: #6293
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T11:22:12.585Z
