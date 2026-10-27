@@ -106,35 +106,37 @@ function lecternFor(front: Figure, band: Figure["ageBand"]): Figure | null {
 const FIGURES = PAINTED.filter(
   (row) => row.angle === "three-quarter" && row.pose === "stand",
 );
-const SEATED = PAINTED.filter((row) => row.pose === "sit");
 
 /** The standing looks the creator offers: the same figures the game draws. */
 export function lookFigures(): readonly Figure[] {
   return FIGURES;
 }
-/** A look and build seen from the front, or from behind, where painted. */
-function turned(figure: Figure, view: "profile" | "back"): Figure | undefined {
-  return PAINTED.find(
-    (row) =>
-      row.look === figure.look &&
-      row.build === figure.build &&
-      row.angle === (view === "back" ? "back" : "front") &&
-      row.pose === "stand",
-  );
+/** Which painted angle a spot asks for: a back to the viewer, a face to the viewer, or turned to a side. */
+export type View = "back" | "front" | "three-quarter";
+export function viewOf(spot: StagingSpot): View {
+  return spot.facing === "away"
+    ? "back"
+    : spot.facing === "viewer"
+      ? "front"
+      : "three-quarter";
 }
 
-/** The person's own look and build seated, seen from where they face. */
-function seatedFor(
+/**
+ * The person's own look and build in this pose, seen at the spot's angle;
+ * where that angle is not painted (the set has no standing back view), the
+ * three-quarter view, turned.
+ */
+function posedFor(
   front: Figure,
-  view?: "profile" | "back",
+  pose: "stand" | "sit",
+  view: View,
 ): Figure | undefined {
-  const rows = SEATED.filter(
-    (row) => row.look === front.look && row.build === front.build,
+  const rows = PAINTED.filter(
+    (row) =>
+      row.look === front.look && row.build === front.build && row.pose === pose,
   );
   return (
-    rows.find(
-      (row) => row.angle === (view === "back" ? "back" : "three-quarter"),
-    ) ??
+    rows.find((row) => row.angle === view) ??
     rows.find((row) => row.angle === "three-quarter") ??
     rows[0]
   );
@@ -363,7 +365,7 @@ export function wholeFigureFor(
   place: string,
   stage: PlaceStaging,
   spot: StagingSpot,
-  /** Who they're with: which way to turn, and whether to show their side or back. */
+  /** Who they're with: which way to turn. */
   turn: Turn = {},
 ): WholeFigure | null {
   const front = pickLook(core, person, place);
@@ -389,13 +391,13 @@ export function figureOn(
 ): WholeFigure | null {
   if (spot.pose === "sit") {
     // Seated: the same look on this kind of chair, or nobody here.
-    const seated = seatedFor(front, turn.view);
+    const seated = posedFor(front, "sit", viewOf(spot));
     return seated ? placeSeated(seated, front, band, stage, spot, turn) : null;
   }
   // At a podium, the lectern pose where one is painted for this person;
   // standing or leaning on a wall, the standing figure.
   const lectern = spot.pose === "podium" ? lecternFor(front, band) : null;
-  const chosen = lectern ?? ((turn.view && turned(front, turn.view)) || front);
+  const chosen = lectern ?? posedFor(front, "stand", viewOf(spot)) ?? front;
   const heightPercent =
     personPercent(band, stage, spot) * (chosen.height / chosen.footY);
   const widthPercent =
@@ -442,7 +444,8 @@ export function figureOn(
   };
 }
 
-type Turn = { toward?: "left" | "right"; view?: "profile" | "back" };
+/** Which side a figure painted turned to one side faces: toward who they're with. */
+type Turn = { toward?: "left" | "right" };
 
 /** How tall the person stands at this spot, in percent of the picture: their age band's height on the spot's floor. */
 function personPercent(

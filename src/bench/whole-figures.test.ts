@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { colorsFor, pickLook, wholeFigureFor } from "./whole-figures";
+import { colorsFor, pickLook, viewOf, wholeFigureFor } from "./whole-figures";
+import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { backdropStaging } from "./staging";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
@@ -36,9 +37,12 @@ describe("the look chosen in the creator", () => {
       "heavy",
       "base",
     ]);
-    // Drawn on a standing spot in the room, the same figure.
+    // Drawn on a standing spot in the room turned to one side, the same figure.
     const stage = backdropStaging(place)!;
-    const spot = stage.spots.find((row) => (row.pose ?? "stand") === "stand")!;
+    const spot = {
+      ...stage.spots.find((row) => (row.pose ?? "stand") === "stand")!,
+      facing: "left" as const,
+    };
     expect(
       wholeFigureFor(core, { ...person, look: chosen }, place, stage, spot)!
         .url,
@@ -176,5 +180,54 @@ describe("the people the game draws", () => {
       expect(readFileSync(new URL(file, here), "utf8"), file).not.toContain(
         old,
       );
+  });
+});
+
+describe(`the angle each spot asks for at ${place}`, () => {
+  const stage = backdropStaging(place)!;
+  type Row = {
+    file: string;
+    angle: string;
+    pose: string;
+    outfit: string;
+    sex: string;
+    build: string;
+    prop: string;
+    flag?: string;
+  };
+  const rows = new Map(
+    (index.figures as Row[]).map((row) => [row.file.split("/").pop()!, row]),
+  );
+
+  it("draws a back where the spot faces away, a face where it faces the viewer, else the three-quarter view", () => {
+    for (const spot of stage.spots) {
+      if (spot.pose === "podium") continue;
+      const whole = wholeFigureFor(core, person, place, stage, spot);
+      if (!whole) continue;
+      const drawn = rows.get(whole.file.split("/").pop()!)!;
+      const wanted = viewOf(spot);
+      // Where the set paints no such view of this look (it has no standing
+      // back view, and not every look seated from behind), the three-quarter
+      // view, turned.
+      const painted = [...rows.values()].some(
+        (row) =>
+          row.outfit === drawn.outfit &&
+          row.sex === drawn.sex &&
+          row.build === drawn.build &&
+          row.pose === drawn.pose &&
+          row.angle === wanted &&
+          row.prop === "none" &&
+          !row.flag,
+      );
+      expect(drawn.angle).toBe(painted ? wanted : "three-quarter");
+    }
+  });
+
+  it("reads the facing as the angle", () => {
+    const spot = stage.spots[0]!;
+    expect(viewOf({ ...spot, facing: "away" })).toBe("back");
+    expect(viewOf({ ...spot, facing: "viewer" })).toBe("front");
+    expect(viewOf({ ...spot, facing: "left" })).toBe("three-quarter");
+    expect(viewOf({ ...spot, facing: "right" })).toBe("three-quarter");
   });
 });

@@ -756,12 +756,10 @@ export function hides(
 type Who = FigurePerson;
 type Turn = NonNullable<Parameters<typeof figureOn>[5]>;
 // Presentation choices, TUNABLE by eye: how far below the lead a spot counts
-// as in front of them, how much farther that makes it, how near in depth two
-// people are to be side by side, and how near the front's line a person is
-// to keep their own facing.
+// as in front of them, how much farther that makes it, and how near the
+// front's line a person is to keep their own facing.
 const IN_FRONT = 3;
 const FRONT_PENALTY = 25;
-const SIDE_BY_SIDE = 6;
 const ON_THE_LINE = 3;
 // An adult's height for the outline, a body's width as a share of its
 // height (measured on the v2 figures: arms and stance make a standing figure
@@ -772,9 +770,9 @@ const BODY_WIDTH = 0.4;
 const HIDDEN_SHARE = 0.25;
 
 /**
- * Which way a person turns: in a room with a front (a chamber, a dais, a
- * classroom) toward the front, from behind where the spot faces away; else
- * toward the nearest person they're with, side-on when level with them;
+ * Which way a person turned to one side faces (the spot's facing picks
+ * the angle, `viewOf`): in a room with a front (a chamber, a dais, a
+ * classroom) toward the front; else toward the nearest person they're with;
  * alone, the spot's own facing.
  */
 export function turnOf(
@@ -782,14 +780,10 @@ export function turnOf(
   spots: readonly StagingSpot[],
   front: number | undefined,
 ): Turn {
-  if (front !== undefined) {
-    const view = spot.facing === "away" ? ("back" as const) : undefined;
-    if (Math.abs(front - spot.x) < ON_THE_LINE) return view ? { view } : {};
-    return {
-      toward: front > spot.x ? "right" : "left",
-      ...(view ? { view } : {}),
-    };
-  }
+  if (front !== undefined)
+    return Math.abs(front - spot.x) < ON_THE_LINE
+      ? {}
+      : { toward: front > spot.x ? "right" : "left" };
   const others = spots.filter((other) => other !== spot);
   if (!others.length) return {};
   const nearest = others.reduce((a, b) =>
@@ -798,12 +792,7 @@ export function turnOf(
       ? a
       : b,
   );
-  return {
-    toward: nearest.x >= spot.x ? "right" : "left",
-    ...(Math.abs(nearest.y - spot.y) < SIDE_BY_SIDE
-      ? { view: "profile" as const }
-      : {}),
-  };
+  return { toward: nearest.x >= spot.x ? "right" : "left" };
 }
 
 export function benchScene(
