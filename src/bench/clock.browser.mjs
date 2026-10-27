@@ -19,6 +19,36 @@ const minutes = (text) => {
   return ((Number(h) % 12) + (ap === "PM" ? 12 : 0)) * 60 + Number(m);
 };
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
+// Who the player is, from the new game the check makes.
+let personId = "";
+/**
+ * Every story stop the clock holds is lived through, as a player would: a
+ * scene that came up when Day landed (a moment of the night waits for the
+ * morning, never midnight) is continued past, then the screen is reopened on
+ * the clock as it stands.
+ */
+const settle = async () => {
+  for (let i = 0; i < 50; i += 1) {
+    const { packet } = await (
+      await page.request.post(
+        `${base}/api/play?${new URLSearchParams({ id: personId })}`,
+        { timeout: 600000 },
+      )
+    ).json();
+    if (process.env.CLOCK_DEBUG)
+      console.log("settle:", packet?.kind, JSON.stringify(packet?.at));
+    if (packet?.kind !== "stop") break;
+    await page.request.post(
+      `${base}/api/resume?${new URLSearchParams({ pauseId: packet.pauseId })}`,
+      { timeout: 600000 },
+    );
+  }
+  await page.reload();
+  await page.locator("#front-continue").click();
+  await page.waitForFunction(() =>
+    document.getElementById("card-clock").textContent.trim(),
+  );
+};
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto(`${base}/play`);
@@ -41,6 +71,7 @@ try {
     { timeout: 600000 },
   );
   assert.equal(made.status(), 200);
+  personId = (await made.json()).personId;
   await page.reload();
   await page.locator("#front-continue").click();
   await page.waitForFunction(() =>
@@ -52,11 +83,8 @@ try {
   for (let i = 0; i < 2; i++) {
     await page.locator("#day").click();
     await page.waitForFunction(() => !document.getElementById("day").disabled);
-    // A stop on the way is answered by Continue, as a player would.
-    while (await page.locator("#continue").isVisible()) {
-      await page.locator("#continue").click();
-      await page.waitForTimeout(500);
-    }
+    // A stop on the way, or a scene met as Day lands, is lived through.
+    await settle();
     mornings.push(await clock());
   }
   console.log("Day:", mornings.join(" | "));
@@ -103,6 +131,16 @@ try {
   await doors.waitFor();
   const label = await doors.innerText();
   const hours = Number(label.match(/(\d+)\s*hours?/)[1]);
+  // Whatever came up while filing is lived through before the outing.
+  await settle();
+  if (!(await page.locator('[data-tab="politics"]:visible').count()))
+    await page.locator('#rings [data-tab="calendar"]').click();
+  await page.locator('[data-tab="politics"]:visible').first().click();
+  await page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Campaigns", exact: true })
+    .click();
+  await doors.waitFor();
   const before = await clock();
   const day = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/campaign/day",
@@ -203,10 +241,8 @@ try {
       answered,
     );
   }
-  while (await page.locator("#continue").isVisible()) {
-    await page.locator("#continue").click();
-    await page.waitForTimeout(800);
-  }
+  // The scene lived through, the rest of the outing's hours are spent.
+  await settle();
   const after = await clock();
   console.log(
     "Outing:",
