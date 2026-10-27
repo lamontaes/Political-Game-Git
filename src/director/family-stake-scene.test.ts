@@ -149,6 +149,12 @@ it("stages the filing talk only for a relative with a stake, and records what th
       const stakeFact = scene.facts.find((row) => row.key.startsWith("stake-"));
       expect(stakeFact, `${here}: the scene names no stake`).toBeTruthy();
       expect(stakeFact!.recordIds, here).toContain(scene.cause.id);
+      // The child stance exists only where a child does: a money scene carries
+      // no child, and a time scene names the child the household record holds.
+      const childFact = scene.facts.find((row) => row.key === "child");
+      if (stakeFact!.key === "stake-money")
+        expect(childFact, here).toBeUndefined();
+      else expect(childFact, here).toBeTruthy();
       // The opener says it, in her own words: money or time, from the record.
       const opener = scene.talk.state.text;
       if (stakeFact!.key === "stake-money")

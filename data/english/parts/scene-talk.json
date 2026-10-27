@@ -86030,10 +86030,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.then-that-is-what-i-m-holding-you-to",
+      "key": "scene-talk.follow-thank.then-that-s-what-i-m-holding-you-to",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then that is what I'm holding you to.",
+      "text": "Then that's what I'm holding you to.",
       "uses": [
         {
           "subject": "scene",
@@ -86186,10 +86186,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.not-at-the-weekend-tell-me-now-what-you-re-giving-up",
+      "key": "scene-talk.follow-press.not-on-the-weekend-tell-me-now-what-you-re-giving-up",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Not at the weekend. Tell me now what you're giving up.",
+      "text": "Not on the weekend. Tell me now what you're giving up.",
       "uses": [
         {
           "subject": "scene",
