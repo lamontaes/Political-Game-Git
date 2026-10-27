@@ -18,6 +18,7 @@ import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
+import { stakeholders } from "./family-stake";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -345,6 +346,10 @@ function fillRole(
       return moment.counterpartIds.slice(zero, one);
     case "household":
       return household();
+    case "household-stake":
+      // The household members the filing puts something of theirs at risk
+      // for, strongest first; none, and the scene is not staged.
+      return stakeholders(core, moment.personId, moment.causeId, household());
     case "decider": {
       // Who decided the cause, from its record's facts (a layoff's owner): a living person, never the subject.
       const id = core.durableLog.get(moment.causeId)?.facts?.decidedBy;

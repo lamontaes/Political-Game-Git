@@ -25,6 +25,12 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import {
+  CAMPAIGNS_MODULE_ID,
+  enlistVolunteer,
+} from "../core2/modules/campaigns";
+import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
+import { stakeOf } from "./family-stake";
 import { properName, spoken } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
 
@@ -198,6 +204,13 @@ function composeBinding(
         ...(said.contestId ? [said.contestId] : []),
       ],
     };
+  // What the relative has at stake in the run, from the household's records
+  // (the cast rule chose them for it): the lines about money or time need it.
+  const stake = type.stakes?.includes("household-money-or-time")
+    ? stakeOf(core, askedId, moment.causeId, askerId)
+    : null;
+  for (const [key, fact] of Object.entries(stake?.facts ?? {}))
+    facts[key] = { text: fact.text, sourceRecordIds: fact.recordIds };
   // In a race the asked lost, the winner is the opponent the scene may name.
   const winner = said.winnerId
     ? core.people.get(said.winnerId as PersonId)
@@ -272,6 +285,27 @@ export function replyInScene(
   const id = `scene-reply:${entry.momentId}:${path.join(".")}`;
   // Said once: the same reply again (a page reloaded) keeps the record.
   if (core.eventIds.has(id)) return id;
+  // STOPGAP SG-WORDS-family-limit-unread: a reply that bounds the cost (a
+  // limit on savings, evenings kept for a child) is recorded as said and as
+  // time together; no engine reads the limit yet.
+  // What the talk settles at home after a filing: asked to help, and the
+  // relative's own answer says yes (the exchange's answer, led by their
+  // traits), they are counted among the campaign's volunteers; put off, the
+  // relative's stake goes unanswered and the night is a quarrel on the tie.
+  const stakeKind = scene.facts.some((row) => row.key === "stake-money")
+    ? "money"
+    : scene.facts.some((row) => row.key === "stake-time")
+      ? "time"
+      : undefined;
+  const answer = reply!.next?.lines.find((row) => row.role === "asker");
+  const filingId = scene.cause.facts.filingId;
+  const enlists =
+    !!stakeKind &&
+    !!filingId &&
+    line.move === "request" &&
+    answer?.move === "promise" &&
+    core.modules.has(CAMPAIGNS_MODULE_ID) &&
+    enlistVolunteer(coreAPI(core), filingId, scene.askerId);
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -283,6 +317,8 @@ export function replyInScene(
       causeId: scene.cause.id,
       move: line.move,
       line: line.text,
+      ...(stakeKind ? { stake: stakeKind } : {}),
+      ...(enlists && filingId ? { enlisted: filingId } : {}),
     },
     source: {
       tag: "SOURCED",
@@ -299,5 +335,14 @@ export function replyInScene(
     undefined,
     { cause: "scene-reply", sourceId: id },
   );
+  if (stakeKind && line.move === "deflect")
+    coreAPI(core).relationship(
+      scene.askedId,
+      scene.askerId,
+      "contact",
+      -rulesFile.familyStakes.putOffHours.value,
+      undefined,
+      { cause: "scene-put-off", sourceId: id },
+    );
   return id;
 }

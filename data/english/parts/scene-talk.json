@@ -32,7 +32,10 @@
     "title": "How the person is addressed (their office), from their term.",
     "issue": "The bill's question, named as the bill catalog records it.",
     "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
-    "reporter": "The reporter who wrote a story, by name, from the press record."
+    "reporter": "The reporter who wrote a story, by name, from the press record.",
+    "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
+    "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
+    "child": "The youngest child at home, by name, from the household record."
   },
   "maxWords": 70,
   "parts": [
@@ -386,56 +389,6 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-filed-today-to-run-for-office-name-has-been-waiting-for-you-at-hom",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You filed today to run for {office}. {name} has been waiting for you at home.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.word-that-you-filed-for-office-got-home-before-you-did-name-is-waiting",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "Word that you filed for {office} got home before you did. {name} is waiting.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
       }
     },
     {
@@ -2482,81 +2435,6 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.why-didn-t-you-tell-me-you-were-running",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Why didn't you tell me you were running?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "hurt",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.so-you-re-really-doing-this",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "So you're really doing this?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.are-you-sure-about-running-for-office",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Are you sure about running for {office}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
       }
     },
     {
@@ -17092,32 +16970,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.who-s-going-to-pick-up-the-kids-on-saturdays",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Who's going to pick up the kids on Saturdays?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "after": "tell"
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-comfort.you-d-be-good-at-it-don-t-tell-anyone-i-said-that",
       "move": "follow-comfort",
       "kind": "spoken",
@@ -17239,31 +17091,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.we-ll-figure-out-the-saturdays",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "We'll figure out the Saturdays.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
         "key": "news-received"
       }
     },
@@ -19657,14 +19484,6 @@
       "kind": "spoken",
       "text": "I'm going to take a shower.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "family-filing",
-          "key": "news-received"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -85427,6 +85246,1150 @@
       "date": "2026-10-26",
       "tag": {
         "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-filed-for-office-and-the-race-has-remaining-left-to-run-name-is-home",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You filed for {office}, and the race has {remaining} left to run. {name} is home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-was-home-when-the-filing-went-on-the-record-office-with-remaining-until-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} was home when the filing went on the record: {office}, with {remaining} until the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-filed-for-office-name-is-at-home-with-child",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You filed for {office}. {name} is at home with {child}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-filing-for-office-is-on-the-record-and-name-is-in-with-child-when-you-come-t",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The filing for {office} is on the record, and {name} is in with {child} when you come through the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-we-spend-and-the-race-runs-remaining-how-do-we",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Our savings cover {cushion} of what we spend, and the race runs {remaining}. How do we pay for the rest?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-filed-and-we-have-cushion-saved-nobody-asked-me-what-the-next-remaining-woul",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You filed, and we have {cushion} saved. Nobody asked me what the next {remaining} would cost.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.say-it-plainly-savings-for-cushion-a-race-of-remaining-where-does-the-money-come",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Say it plainly: savings for {cushion}, a race of {remaining}. Where does the money come from?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-m-with-you-i-only-need-to-know-how-we-get-through-remaining-on-savings-that-la",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'm with you. I only need to know how we get through {remaining} on savings that last {cushion}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.who-is-with-child-on-the-nights-you-re-out",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Who is with {child} on the nights you're out?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-decided-and-i-m-the-one-finding-out-who-has-child-on-those-nights",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You decided, and I'm the one finding out who has {child} on those nights.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-filed-fine-tell-me-who-has-child-the-nights-you-re-out",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You filed. Fine. Tell me who has {child} the nights you're out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-want-this-for-you-i-need-to-know-who-has-child-when-you-re-not-home",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I want this for you. I need to know who has {child} when you're not home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-done-and-i-m-running-every-month-i-ll-show-you-what-the-account-says",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's done and I'm running. Every month I'll show you what the account says.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-filed-knowing-the-cost-i-ll-answer-for-the-money-and-i-won-t-hide-a-number",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I filed knowing the cost. I'll answer for the money, and I won't hide a number.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.i-can-t-do-this-alone-i-need-you-on-the-phones-and-i-need-you-to-say-when-we-ve-",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "I can't do this alone. I need you on the phones, and I need you to say when we've gone too far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.will-you-help-with-the-campaign-i-ll-keep-the-money-out-of-it-if-you-do",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Will you help with the campaign? I'll keep the money out of it if you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.we-ll-make-it-through-remaining-i-won-t-spend-what-we-need-to-live-on",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "We'll make it through {remaining}. I won't spend what we need to live on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "There's a line I won't cross with our savings. I'll name it with you tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.give-me-tonight-sunday-we-sit-down-with-the-bills-and-count-it-all",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Give me tonight. Sunday we sit down with the bills and count it all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-haven-t-got-an-answer-yet-ask-me-again-once-i-ve-seen-what-the-campaign-costs",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I haven't got an answer yet. Ask me again once I've seen what the campaign costs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-running-i-ll-be-home-for-dinner-with-child-most-nights-and-i-ll-tell-you-the",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm running. I'll be home for dinner with {child} most nights, and I'll tell you the nights I'm not.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-filed-knowing-the-evenings-it-takes-i-ll-put-them-on-the-calendar-for-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I filed knowing the evenings it takes. I'll put them on the calendar for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.i-need-you-with-me-on-this-can-you-take-the-school-nights-when-i-m-out",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "I need you with me on this. Can you take the school nights when I'm out?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Would you take {child} on the nights I'm at the meetings? I'll take the weekends.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.child-comes-first-if-a-night-has-to-go-the-night-goes",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "{child} comes first. If a night has to go, the night goes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-won-t-miss-what-matters-to-child-you-ll-hear-it-from-me-first-if-i-do",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I won't miss what matters to {child}. You'll hear it from me first if I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-lay-the-whole-month-out-on-the-calendar-this-weekend-and-we-ll-fix-it-then",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll lay the whole month out on the calendar this weekend, and we'll fix it then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-haven-t-worked-out-the-nights-let-me-see-the-schedule-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I haven't worked out the nights. Let me see the schedule first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.all-right-tell-me-what-the-account-says-each-month-and-i-ll-stop-counting",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "All right. Tell me what the account says each month, and I'll stop counting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.and-if-it-doesn-t-last-the-remaining",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "And if it doesn't last the {remaining}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-can-t-promise-the-money-you-can-only-promise-to-stop",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You can't promise the money. You can only promise to stop.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-work-the-phones-i-won-t-touch-the-money",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll work the phones. I won't touch the money.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-decline.i-can-t-give-you-the-evenings-and-the-savings-both",
+      "move": "follow-decline",
+      "kind": "spoken",
+      "text": "I can't give you the evenings and the savings both.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "decline",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.no-sunday-is-too-late-what-is-the-limit",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "No. Sunday is too late. What is the limit?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.pick-a-number-and-say-it-tonight",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Pick a number and say it tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-that-is-what-i-m-holding-you-to",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then that is what I'm holding you to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.then-i-m-in-tell-me-the-nights-as-you-know-them",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Then I'm in. Tell me the nights as you know them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.how-many-nights-is-that-really",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "How many nights is that, really?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.most-nights-isn-t-a-schedule",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "\"Most nights\" isn't a schedule.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll take the school nights. You take the weekends.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-decline.i-can-t-take-every-night",
+      "move": "follow-decline",
+      "kind": "spoken",
+      "text": "I can't take every night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "decline",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.not-at-the-weekend-tell-me-now-what-you-re-giving-up",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Not at the weekend. Tell me now what you're giving up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Tell me one thing that changes, tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-it-goes-on-the-calendar-and-i-m-holding-you-to-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then it goes on the calendar, and I'm holding you to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
         "key": "news-received"
       }
     }

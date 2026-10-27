@@ -5,6 +5,7 @@
     "subject": "The person whose moment opened the situation.",
     "counterpart": "The other person the opening record names.",
     "household": "The members of the subject's household that day.",
+    "household-stake": "The members of the subject's household the filing puts something of theirs at risk for, strongest first (src/director/family-stake.ts): their savings against the length of the race, or a young child at home while the subject works. None, and the scene is not staged.",
     "kin": "The subject's relatives on record.",
     "present": "Whoever else the setting's records place there that day.",
     "classmates": "People enrolled at the subject's school.",
@@ -3277,7 +3278,7 @@
       "purpose": "family-filing",
       "asker": "relative",
       "asked": "you",
-      "stakes": ["office", "filing"],
+      "stakes": ["office", "filing", "household-money-or-time"],
       "roles": [
         {
           "key": "relative",
@@ -3304,7 +3305,7 @@
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
-            "relative": "household",
+            "relative": "household-stake",
             "you": "subject"
           },
           "opener": "relative"

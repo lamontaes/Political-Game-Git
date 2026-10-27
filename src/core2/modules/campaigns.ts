@@ -1177,6 +1177,33 @@ export function askToVolunteer(
   return yes;
 }
 
+/**
+ * Someone has said, to the candidate's face, that they will work the
+ * campaign (a relative's answer in the talk at home after the filing): they
+ * are counted among its volunteers, whom the canvass and the turnout read.
+ * Returns whether they were newly enlisted; a child, the dead and anyone
+ * already counted are not.
+ */
+export function enlistVolunteer(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  const campaign = campaignFor(api, filingId);
+  const person = api.state.people.get(personId);
+  if (
+    !person?.alive ||
+    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge") ||
+    campaign.volunteerIds.includes(personId)
+  )
+    return false;
+  save(api, {
+    ...campaign,
+    volunteerIds: [...campaign.volunteerIds, personId],
+  });
+  return true;
+}
+
 /** The individual contribution limit for this contest, in minor units (null: no limit), and its source. */
 export function contributionLimit(
   api: CoreAPI,

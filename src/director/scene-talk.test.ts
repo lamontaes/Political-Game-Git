@@ -90,6 +90,11 @@ const facts: Record<string, Fact> = {
   executive: fact("governor"),
   employer: fact("the hardware store"),
   when: fact("this morning"),
+  "stake-money": fact("money"),
+  cushion: fact("two months"),
+  remaining: fact("nine months"),
+  "stake-time": fact("time"),
+  child: fact("Jordan"),
 };
 // The engine is tested the way the grading page composes, with every part in,
 // even the ones the owner rejected; "plays every purpose in play" checks play.

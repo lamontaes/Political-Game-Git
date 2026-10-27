@@ -383,5 +383,17 @@
     "addedAt": "2026-10-26",
     "replacement": "A band sourced from published margin-of-victory analyses of U.S. elections.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-family-limit-unread",
+    "kind": "missing-hook",
+    "file": "src/director/purpose-scene.ts",
+    "line": 1,
+    "whatItFakes": "A reply at home after a filing that bounds what the run may cost the household (a limit on savings, evenings kept for a child) is recorded as the reply and the time together, but no engine reads the limit.",
+    "why": "The campaigns engine decides the candidate's own gifts only when the player acts, with no household limit to read; building one belongs to that engine's lead. The reply's other effects are real: the relative's yes to helping is counted among the campaign's volunteers, and a put-off lowers the tie.",
+    "addedBy": "Scene builder A",
+    "addedAt": "2026-10-27",
+    "replacement": "A household limit the campaigns engine reads when the candidate gives their own money, with the reply naming it (pool item campaigns-household-limit-read).",
+    "status": "open"
   }
 ]
