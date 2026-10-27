@@ -86419,10 +86419,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-saw-the-news-about-the-office-race-i-want-to-help-whatever-you-need",
+      "key": "scene-talk.state-request.i-heard-you-re-running-for-office-i-want-to-help-whatever-you-need",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I saw the news about the {office} race. I want to help, whatever you need.",
+      "text": "I heard you're running for {office}. I want to help, whatever you need.",
       "uses": [
         {
           "subject": "scene",
