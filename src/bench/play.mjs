@@ -842,8 +842,16 @@ function jobOfferStop(value) {
 }
 const voteWords = () => controls.meeting ?? {};
 /** One agenda item or desk bill: number, sponsor, terms, who spoke and how each member voted. */
-function billBlock(item, buttons) {
+function billBlock(item, buttons, onPaper) {
   const words = voteWords();
+  const paperButton = () => {
+    const open = makeButton({
+      className: "action",
+      textContent: controls.bill?.open ?? "",
+    });
+    open.addEventListener("click", () => onPaper(item.billId));
+    return open;
+  };
   return el(
     "div",
     { className: "race" },
@@ -878,7 +886,14 @@ function billBlock(item, buttons) {
             .join(" · "),
         })
       : "",
-    buttons.length ? el("div", { className: "acts" }, ...buttons) : "",
+    onPaper || buttons.length
+      ? el(
+          "div",
+          { className: "acts" },
+          ...(onPaper ? [paperButton()] : []),
+          ...buttons,
+        )
+      : "",
   );
 }
 function inMeeting() {
@@ -928,6 +943,13 @@ function inMeeting() {
                     return b;
                   }),
                 ],
+            (billId) =>
+              openBillPaper(
+                billId,
+                (...nodes) => $("meeting-items").replaceChildren(...nodes),
+                () => api("/api/meeting").then(draw),
+                controls.bill?.backMeeting,
+              ),
           ),
         ),
       );
@@ -972,6 +994,13 @@ function atDesk() {
               );
               return b;
             }),
+            (billId) =>
+              openBillPaper(
+                billId,
+                (...nodes) => $("desk-items").replaceChildren(...nodes),
+                () => api("/api/desk").then(draw),
+                controls.bill?.backDesk,
+              ),
           ),
         ),
       );
@@ -1654,6 +1683,13 @@ function partyRows(party) {
   });
 }
 
+/** The campaign record's count of volunteers, worded (one count for every line that shows it). */
+function volunteerCount(n) {
+  return n === 1
+    ? controls.campaignVolunteers.one
+    : controls.campaignVolunteers.other.replace("{n}", String(n));
+}
+
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
 // The speech being built: the parts said and the four on offer, from the server.
@@ -1711,9 +1747,9 @@ async function campaignRows() {
     filing,
     contest,
     campaign,
-    polls,
+    pollSample,
     outings,
-    causes,
+    standing,
     debates,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
@@ -1749,13 +1785,21 @@ async function campaignRows() {
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
       campaignResult =
-        result.contacted !== undefined
-          ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
-              .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
-              .join(" · ")}`
-          : result.reached !== undefined
-            ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-            : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+        result.volunteers !== undefined
+          ? controls.campaignVolunteers.asked
+              .replace("{asked}", String(result.answers.length))
+              .replace(
+                "{yes}",
+                String(result.answers.filter((a) => a.yes).length),
+              )
+              .replace("{volunteers}", volunteerCount(result.volunteers))
+          : result.contacted !== undefined
+            ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
+                .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
+                .join(" · ")}`
+            : result.reached !== undefined
+              ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+              : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
@@ -1796,7 +1840,7 @@ async function campaignRows() {
             .filter(Boolean)
             .join(" · "),
         }),
-        `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${campaign.volunteers} volunteers · ${campaign.doors} doors`,
+        `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${volunteerCount(campaign.volunteers)} · ${campaign.doors} doors`,
         el(
           "div",
           {},
@@ -1825,7 +1869,7 @@ async function campaignRows() {
           button("Donations", "donation"),
           button("Endorsements", "endorsement"),
           button("Ad", "ad", { amountMinor: "5000" }),
-          button("Poll", "poll", { sampleSize: "50" }),
+          button("Poll", "poll", { sampleSize: String(pollSample) }),
         ),
         // The player's own money into the campaign: the amount is theirs to set.
         (() => {
@@ -1890,25 +1934,11 @@ async function campaignRows() {
             },
           }),
         ),
-        // What the race turns on: each candidate's acts and how the people reached came to feel.
-        ...((causes ?? []).some((who) => who.acts.length)
-          ? [el("b", { textContent: controls.campaignActs.title })]
-          : []),
-        ...(causes ?? [])
-          .filter((who) => who.acts.length)
-          .map((who) =>
-            listRow("", {
-              textContent: `${who.you ? "" : `${who.name} · `}${who.acts
-                .map(
-                  (a) =>
-                    `${controls.campaignActs[a.act] ?? a.act} ${a.reached} · +${a.warmer} · −${a.cooler}`,
-                )
-                .join(" · ")}`,
-            }),
-          ),
-        polls.length
-          ? `Poll ${polls.at(-1).date}: ${polls.at(-1).contacted}`
-          : "",
+        // Where the race stands, in plain sentences from the English engine.
+        el("b", { textContent: controls.raceStanding.title }),
+        ...(standing ?? []).map((line) =>
+          el("div", { className: "row", textContent: line }),
+        ),
         campaignResult ? el("div", { textContent: campaignResult }) : "",
       ),
     );
@@ -2315,6 +2345,157 @@ async function officeRows() {
   ];
 }
 
+// ---- The bill on paper: one document, every section clickable ----
+/** The simulation's estimate beside a clicked section, every figure a record
+ * the server read: the statute it amends with the values before and after,
+ * the budget line and its amount, and the bill's own cost estimate. */
+function billEstimateRows(paper, section) {
+  const words = controls.bill ?? {};
+  const est = section.estimate;
+  const rows = [
+    el("p", {
+      className: "prose",
+      textContent: section.text ?? paper.title,
+    }),
+  ];
+  const webCite =
+    typeof est.statute === "string" && /^https?:\/\//.test(est.statute);
+  if (est.statute && !webCite)
+    rows.push(
+      el("div", { textContent: `${words.amends ?? ""} ${est.statute}` }),
+    );
+  // A question answered yes or no has no numeric scale: its clause says
+  // what it does, so bare 0/1 values stay off the screen.
+  const scaled = est.beforeUnit != null || est.afterUnit != null;
+  const before =
+    scaled && est.beforeValue != null
+      ? amount(est.beforeValue, est.beforeUnit)
+      : null;
+  const after =
+    scaled && est.afterValue != null
+      ? amount(est.afterValue, est.afterUnit)
+      : null;
+  if (before && after && !est.statute)
+    rows.push(el("div", { textContent: `${before} → ${after}` }));
+  else if (before && after)
+    rows.push(
+      el("div", {
+        textContent: webCite
+          ? `${words.amends ?? ""} ${words.lawInForce ?? ""}: ${words.from ?? ""} ${before} ${words.to ?? ""} ${after}`
+          : `${before} ${words.from ?? ""} ${after}`,
+      }),
+    );
+  else if (after)
+    rows.push(el("div", { textContent: `${words.to ?? ""} ${after}` }));
+  if (est.line)
+    rows.push(
+      el("div", {
+        textContent: [
+          `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
+          est.lineAmountMinor != null ? dollars(est.lineAmountMinor) : null,
+          est.ofMinor != null
+            ? `${words.from ?? ""} ${dollars(est.ofMinor)}`
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      }),
+    );
+  rows.push(
+    el("div", {
+      textContent: [
+        paper.estimate.workers > 0
+          ? `${paper.estimate.workers} ${words.workers ?? ""}`
+          : null,
+        paper.estimate.payMinor > 0 ? dollars(paper.estimate.payMinor) : null,
+        paper.estimate.note,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    }),
+  );
+  return rows;
+}
+/**
+ * Open a bill as one paper document: designation, title, sponsor, each
+ * section in plain words, the floor date and whip, and the vote and signature
+ * records when the body has made them. Clicking a section shows its estimate
+ * beside it. `show` draws the nodes, `back` returns to the rows.
+ */
+async function openBillPaper(billId, show, back, backLabel) {
+  const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
+  const words = controls.bill ?? {};
+  const floor = controls.floor ?? {};
+  const meet = controls.meeting ?? {};
+  const backButton = makeButton({
+    className: "action",
+    textContent: backLabel ?? words.back ?? "",
+  });
+  backButton.addEventListener("click", back);
+  const aside = makeCard(
+    "bill-estimate",
+    {},
+    el("b", { textContent: words.estimate ?? "" }),
+    ...billEstimateRows(paper, paper.sections[0] ?? { estimate: {} }),
+  );
+  const doc = el(
+    "div",
+    { className: "bill-doc" },
+    el("h2", { className: "heading", textContent: paper.spoken }),
+    el("p", { className: "prose", textContent: paper.title }),
+    el("div", {
+      textContent: `${words.sponsor ?? ""} ${paper.sponsor}`,
+    }),
+    el("b", { textContent: words.sections ?? "" }),
+    ...paper.sections.map((section) => {
+      const open = makeButton({
+        className: "action bill-section",
+        textContent: section.text ?? paper.title,
+      });
+      open.addEventListener("click", () =>
+        aside.replaceChildren(
+          el("b", { textContent: words.estimate ?? "" }),
+          ...billEstimateRows(paper, section),
+        ),
+      );
+      return open;
+    }),
+    ...(paper.effective ? [el("div", { textContent: paper.effective })] : []),
+    ...(paper.floorDate
+      ? [
+          el("div", {
+            textContent: `${floor.takenUp ?? ""} ${proseDate(paper.floorDate)}`,
+          }),
+        ]
+      : []),
+    ...paper.whip.map((count) =>
+      el("div", {
+        textContent: `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
+      }),
+    ),
+    ...(paper.votes.length
+      ? [
+          el("div", {
+            textContent: `${floor.voted ?? ""}: ${paper.votes.filter((x) => x.vote === "yes").length} ${floor.yes ?? ""}, ${paper.votes.filter((x) => x.vote === "no").length} ${floor.no ?? ""}`,
+          }),
+          el("div", {
+            textContent: paper.votes
+              .map((x) => `${x.name} · ${meet[x.vote] ?? x.vote}`)
+              .join(" · "),
+          }),
+        ]
+      : []),
+    ...(paper.decision
+      ? [
+          el("div", {
+            textContent: `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${proseDate(paper.decision.passedOn)}` : ""}`,
+          }),
+        ]
+      : []),
+  );
+  show(backButton, el("div", { className: "bill-paper" }, doc, aside));
+}
+
 // ---- From your seat (steps 6 to 9): draft; the vote is at the meeting ----
 // Asking colleagues and the vote itself are acts in the day and the meeting
 // scene (OFFICE-LOCAL); the seat drafts, and a drafted bill goes on the
@@ -2446,24 +2627,22 @@ async function seatRows() {
               }),
             ]
           : []),
-        // The title's subjects name each section (record keys, then words).
-        bill.provisions
-          .map((p, at) => {
-            const key = bill.title?.subjects[at]?.key ?? "";
-            const name = key.startsWith("budget-line:")
-              ? key.slice("budget-line:".length)
-              : (p.series ?? (p.question && policyLabel(p.question)) ?? p.line);
-            return `${name} ${p.value}`;
-          })
-          .join("; "),
-        bill.costEstimate
-          ? ` · ${bill.costEstimate.workersRaised} · ${dollars(bill.costEstimate.annualPayMinor)}`
-          : "",
-        votes.length
-          ? el("div", {
-              textContent: votes.map((x) => `${x.name} ${x.vote}`).join(" · "),
-            })
-          : "",
+        // The paper holds the sections, the estimate and the votes: the row
+        // opens it instead of repeating them.
+        (() => {
+          const open = makeButton({
+            className: "action",
+            textContent: controls.bill?.open ?? "",
+          });
+          open.addEventListener("click", () =>
+            openBillPaper(
+              bill.id,
+              (...nodes) => $("sheet-body").replaceChildren(...nodes),
+              () => openSheet("office"),
+            ),
+          );
+          return open;
+        })(),
       ),
     );
   for (const left of v.incompatibilities ?? [])
@@ -4084,6 +4263,104 @@ const sheets = {
       ),
     ];
   },
+  /**
+   * Politics' own guide: what each tab is for, a page each, then how a
+   * player could run here, from the filing records: the race, the office
+   * that takes filings, and the dates.
+   */
+  async politicsGuide() {
+    const labels = controls.politics.guide;
+    const [government, terms] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
+    ]);
+    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
+    const row = (label, value) =>
+      el(
+        "div",
+        { className: "guide-fact" },
+        el("span", { className: "label", textContent: label }),
+        el("strong", { textContent: value }),
+      );
+    const page = (heading, ...body) =>
+      el(
+        "section",
+        { className: "politics-guide-page" },
+        el("h3", { textContent: heading }),
+        ...body,
+      );
+    const pages = ["government", "issues", "parties", "campaigns"].map((tab) =>
+      page(titles[tab], el("p", { textContent: labels[tab] })),
+    );
+    const next = government.nextFiling;
+    pages.push(
+      page(
+        labels.runHere,
+        ...(next
+          ? [
+              row(labels.race, next.title),
+              row(
+                labels.filesWith,
+                next.filedWith.replace(
+                  /\s*\(counter: ([^)]*)\)/g,
+                  `, ${labels.atTheDeskOf} $1`,
+                ),
+              ),
+              row(labels.filingOpens, proseDate(next.filingOpens)),
+              row(labels.filingDeadline, proseDate(next.filingDeadline)),
+              ...(deadlineTerm
+                ? [
+                    el("p", {
+                      className: "small",
+                      textContent: deadlineTerm.short,
+                    }),
+                  ]
+                : []),
+              ...(next.primaryDate
+                ? [row(labels.primary, proseDate(next.primaryDate))]
+                : []),
+              row(labels.election, proseDate(next.electionDate)),
+              ...(next.estimated
+                ? [
+                    el("p", {
+                      className: "small",
+                      textContent: labels.estimated,
+                    }),
+                  ]
+                : []),
+            ]
+          : [el("p", { textContent: labels.noRace })]),
+      ),
+    );
+    let at = 0;
+    const box = el("div", { className: "politics-guide" });
+    const draw = () => {
+      const back = el("button", {
+        type: "button",
+        textContent: controls.politics.back,
+        disabled: at === 0,
+      });
+      const forward = el("button", {
+        type: "button",
+        textContent: controls.politics.next,
+        disabled: at === pages.length - 1,
+      });
+      back.onclick = () => {
+        at--;
+        draw();
+      };
+      forward.onclick = () => {
+        at++;
+        draw();
+      };
+      box.replaceChildren(
+        pages[at],
+        el("nav", { className: "record-pager" }, back, forward),
+      );
+    };
+    draw();
+    return [box];
+  },
   async guide() {
     const search = el("input", {
       type: "search",
@@ -4758,6 +5035,7 @@ const titles = {
   travel: "Travel",
   options: "Options",
   guide: "Guide",
+  politicsGuide: "Guide",
   changes: "What changed",
   law: "Law here",
   handoff: "Carry on as",
@@ -4773,6 +5051,7 @@ const groups = {
     "parties",
     "issues",
     "budgets",
+    "politicsGuide",
   ],
   people: ["people", "family"],
   who: ["who", "jobs"],
