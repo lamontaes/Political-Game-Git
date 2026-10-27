@@ -10,10 +10,9 @@
  */
 import exempt from "./data/laws/minimum-wage-exempt.json" with { type: "json" };
 import { lawApplied } from "./law-reach/applied";
-import { countedWeight } from "./law-reach/pay-reach";
 import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
-import { rerateCountedJobs } from "./residents-economy";
+import { countedJobHeads, rerateCountedJobs } from "./residents-economy";
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -72,7 +71,7 @@ export function raiseToFloor(
       continue;
     raised.set(job.id, floor);
     const held = groups.get(employer.id) ?? { count: 0, amountMinor: 0 };
-    const weight = countedWeight(core, job.personId);
+    const weight = countedJobHeads(core, job);
     // The daily pay the raise adds for this worker.
     groups.set(employer.id, {
       count: held.count + weight,

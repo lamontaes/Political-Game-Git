@@ -296,6 +296,101 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.41.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Each rate under Politics → Issues names the government that sets it.**
+  Issues no longer calls the federal income tax a local one. Each law is named
+  for what it is ("Income tax rate"), and each rate shows the government that
+  sets it ("United States 37% top rate", "Texas 6.25% · City of Anson 1.951%").
+  A government that levies none is left out.
+
+### Changed
+
+- **Anyone in town who feels strongly about a bill can stand up at public
+  comment** Public comment at a council or county meeting now draws on every
+  adult in town who feels strongly about the bill, not only the people you
+  already know. Someone you have never met may stand up, become a person you can
+  find and talk to, and leave the meeting with a cause of their own.
+
+## PRE-ALPHA 0.41.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **An appointment's public record now names who was appointed** The public
+  record of a city appointment said which post was filled and who appointed, but
+  not who was appointed. The record now carries the appointee, so the news and
+  the government screens can say who runs a department.
+
+- **State legislatures no longer hold extra empty seats where two lists spell a
+  district differently.** Maryland's House had 150 seats for 141 members,
+  Massachusetts's Senate 48 for 40, and three more chambers one to three extra,
+  each extra seat voting with a guessed party. District names are now compared
+  by one rule, so each chamber seats its members once.
+
+- **A territory or D.C. player now sees their delegate as their own member of
+  the House** Players in the District of Columbia and the five territories had
+  no member of the House listed as their own on the Politics screen. Their
+  delegate or resident commissioner now appears first, the way a state player
+  sees their U.S. representative.
+
+## PRE-ALPHA 0.41.0
+
+_Released October 26, 2026._
+
+### Improved
+
+- **Health, assistance and school laws are paid and read by the treasury, the
+  pay floor and the outcome web** Medicaid, SNAP, welfare assistance, preschool
+  and private-school vouchers are now paid at the treasury's monthly close,
+  which reads the law in force and each household's records when it pays; a
+  raised SNAP maximum raises every household size's allotment in proportion. The
+  teacher minimum salary is held by the public pay floor: it raises every public
+  school teacher paid under it the day it takes effect and each month after, and
+  a new teacher is hired at it. The health and hospitals, higher education,
+  schools and SNAP changes now reach infant deaths, college degrees, graduation
+  and food insecurity through sourced outcome links, and the cash assistance the
+  welfare line pays counts as income when the town's poverty is measured.
+
+### Fixed
+
+- **The title painting drifts and zooms slowly and fades into another national
+  scene** The painting behind the title menu moves again: a slow pan and zoom,
+  and every twenty seconds the next national scene fades in over it, going round
+  the whole list for the day.
+
+## PRE-ALPHA 0.40.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **Campaigns lists every local race on your town's next ballot, with who
+  filed.** Politics → Campaigns now shows each city, township and county seat on
+  the town's next local ballot. Every candidate who filed is listed by name, and
+  a seat is marked unopposed or "No one has filed" when that is what the filings
+  show. While filing is still open, it says when it closes.
+
+- **A party with no one running for a seat asks one of its members to run** When
+  filing opens and a party has no one on the ballot for a partisan seat, its
+  local chair asks one of its members to run, starting with the people the chair
+  knows best. If you've joined the party and the chair comes to you, your day
+  stops for it: they say which seat it is and why they came to you, and you can
+  ask what it takes, say yes, say no, or ask for time. A yes puts you in the
+  race. Members the party asks who aren't you weigh it like any other reason to
+  run, and the party stops asking once one of them files.
+
+### Fixed
+
+- **Release builds publish again** The build step that checks the shipped game
+  for forbidden data now creates its report folder on a fresh checkout, so the
+  desktop release package builds again instead of stopping on a missing folder.
+
 ## PRE-ALPHA 0.39.5
 
 _Released October 26, 2026._
