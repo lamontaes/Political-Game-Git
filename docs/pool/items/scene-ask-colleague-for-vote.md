@@ -1,6 +1,8 @@
 ---
 id: scene-ask-colleague-for-vote
 title: "The player asks a colleague for their vote the evening before a close roll call: a scene with the player as the asker"
+lead: director
+milestone: play-first
 area: words
 kind: feature
 priority: 1
@@ -21,3 +23,9 @@ source: added with npm run pool -- add
 **Files.** src/director/data/situation-types.json, src/director/purpose-scene.ts, data/english/parts
 
 **Notes.** Filed Oct 27 by the laws-and-effects lead from legislature-ask-before-the-roll-moves-the-vote: the engine half (the record and the read) is on claude/ask-before-the-roll; this is the scene that lets the player make the ask.
+
+**Time box.** 4 hours.
+
+**You will see.** The night before the vote on your bill, you ask a colleague who is against it for their vote; they answer from where they stand, and the next day's roll call shows how they voted and why.
+
+**Screenshot.** The ask with the player asking, and the roll call after it, from a drawn place.
