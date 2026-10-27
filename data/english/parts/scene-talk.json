@@ -32,7 +32,10 @@
     "title": "How the person is addressed (their office), from their term.",
     "issue": "The bill's question, named as the bill catalog records it.",
     "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
-    "reporter": "The reporter who wrote a story, by name, from the press record."
+    "reporter": "The reporter who wrote a story, by name, from the press record.",
+    "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
+    "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
+    "child": "The youngest child at home, by name, from the household record."
   },
   "maxWords": 70,
   "parts": [
