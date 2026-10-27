@@ -48,6 +48,21 @@
       "other": "partner"
     }
   },
+  "kinAddress": {
+    "about": "How two relatives speak of a relative they share, by that relative's relation to both and recorded gender: a brother and sister call their father Dad. A relation with no word here (a shared sibling) is said by first name; a gender with no word, not at all.",
+    "parent": {
+      "female": "Mom",
+      "male": "Dad"
+    },
+    "other-parent": {
+      "female": "Mom",
+      "male": "Dad"
+    },
+    "grandparent": {
+      "female": "Grandma",
+      "male": "Grandpa"
+    }
+  },
   "countWords": [
     "",
     "once",
@@ -143,6 +158,17 @@
         }
       },
       "entry": "setting"
+    },
+    {
+      "kindPrefix": "event:law.effect-learned",
+      "turn": false,
+      "eventFacts": {
+        "law": {
+          "fact": "lawId",
+          "format": "lawName"
+        }
+      },
+      "entry": "story"
     },
     {
       "kindPrefix": "event:life.death",
@@ -261,6 +287,7 @@
     },
     {
       "kindPrefix": "event:office.voted",
+      "hasOtherLine": true,
       "turn": false,
       "entry": "story",
       "stageFact": "vote",
@@ -277,6 +304,7 @@
     },
     {
       "kindPrefix": "event:office.introduced",
+      "hasOtherLine": true,
       "turn": false,
       "entry": "story",
       "eventFacts": {
@@ -360,6 +388,33 @@
     },
     {
       "kindPrefix": "household:parent-apart",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:siblings-older",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:siblings-born",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:school-started:elementary",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "household:school-started:high",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "household:livelihood",
       "turn": false,
       "entry": "story"
     },

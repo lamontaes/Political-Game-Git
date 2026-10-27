@@ -29,7 +29,7 @@ claimed-at:
 
 **Files.** src/bench/title.ts, src/bench/play.html, src/bench/play.mjs, src/bench/data/controls.json
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): New game listed CUSTOM WORLD, START A LIFE, NEW WORLD with START A LIFE second; owner: "I've already ruled about custom world, start a life, a new world. It should just say start a life or custom world or something like that." Not in v0.34.0 (#6091 sent back Oct 26 for custom world outside dev mode). Also seen, owner silent: a small "Customize the world" icon top right of the title (OD:215: no customization on the title itself); check it.
 
 Sent back 2026-10-25 ~22:20 UTC from PR #6091 (branch play-first/play-first-01-start-a-life-first, head 78e82b2fc1 with main merged in): all three body screenshots are wrapped in backticks so none render as images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
 

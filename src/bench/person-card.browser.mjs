@@ -23,6 +23,7 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const response = await life;
     assert.equal(response.status(), 200);
@@ -50,30 +51,74 @@ try {
   const figure = page.locator("#people .talkable").first();
   await figure.waitFor();
   const name = await figure.getAttribute("aria-label");
+  // A person in the room is talked to by a click or a key; the talk box says
+  // who they are in a sentence, and their name opens their card, which has no
+  // Talk button (owner, Oct 27).
+  await figure.focus();
+  await page.keyboard.press("Enter");
+  await page.locator("#talk:not([hidden])").waitFor();
+  await page.waitForFunction(
+    (who) => document.getElementById("talk-name").textContent === who,
+    name,
+  );
+  await page.waitForTimeout(1500);
+  const role = (await page.locator("#talk-role").innerText()).trim();
+  console.log("Talk box:", name, "|", role);
+  assert.ok(!role.includes("·"), `a list, not a sentence: ${role}`);
+  if (role) assert.match(role, /\.$/, `not a sentence: ${role}`);
   const known = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/known",
   );
-  await figure.focus();
-  await page.keyboard.press("Enter");
+  await page.locator("#talk-name").click();
   const card = await (await known).json();
   await page.locator("#person:not([hidden])").waitFor();
   assert.equal(await page.locator("#person-name").innerText(), name);
+  assert.equal(await page.locator("#person-talk").count(), 0, "a Talk button");
   assert.equal(
-    await page.locator("#person-figure").getAttribute("src"),
+    await page.locator("#person").getByRole("button", { name: "Talk" }).count(),
+    0,
+    "a Talk button",
+  );
+  assert.equal(
+    await page.locator("#person-media .screen-portrait").getAttribute("src"),
     card.figureUrl,
   );
-  assert.equal(
-    await page.locator("#person-background").getAttribute("src"),
-    null,
-  );
+  assert.equal(await page.locator("#person-media .screen-backdrop").count(), 0);
   const text = await page.locator("#person").innerText();
   assert.ok(!text.includes("undefined"));
+  // No heading with nothing under it, no date without a label, a capitalized
+  // relation, and where the person lives (owner, Oct 26).
+  const read = await page.evaluate(() => ({
+    role: document.getElementById("person-role").textContent,
+    empty: [...document.querySelectorAll("#person-facts .label")]
+      .filter((label) => {
+        const next = label.nextElementSibling;
+        return !next || !next.textContent.trim();
+      })
+      .map((label) => label.textContent),
+    home: [...document.querySelectorAll("#person-facts .label")].some((label) =>
+      label.nextElementSibling?.textContent.trim(),
+    ),
+    values: [...document.querySelectorAll("#person-facts .record-value")].map(
+      (value) => ({
+        value: value.textContent.trim(),
+        label: value.previousElementSibling?.textContent.trim() ?? "",
+      }),
+    ),
+  }));
+  assert.deepEqual(read.empty, [], "a heading with nothing under it");
+  assert.match(read.role, /^\p{Lu}/u, `relation not capitalized: ${read.role}`);
+  assert.ok(read.home, "the card shows nothing about the person's life");
+  for (const { value, label } of read.values)
+    assert.ok(label, `a value with no label: ${value}`);
   if (card.tie?.lastContactDate)
     assert.ok(!text.includes(card.tie.lastContactDate));
   await page.waitForFunction(
-    () => document.getElementById("person-figure").complete,
+    () => document.querySelector("#person-media .screen-portrait").complete,
   );
-  const image = await page.locator("#person-figure").boundingBox();
+  const image = await page
+    .locator("#person-media .screen-portrait")
+    .boundingBox();
   assert.ok(image.height > 600 && image.width > 250, "large side figure");
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
@@ -87,19 +132,16 @@ try {
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
   assert.equal(
-    await figure.evaluate((e) => document.activeElement === e),
+    await page
+      .locator("#talk-name")
+      .evaluate((e) => document.activeElement === e),
     true,
   );
   assert.equal(await page.locator("#card-clock").innerText(), clock);
   assert.equal(await page.locator("#sheet").isVisible(), false);
-  await figure.press("Enter");
-  await page.locator("#person:not([hidden])").waitFor();
-  await page.locator("#person-talk").click();
-  await page.locator("#talk:not([hidden])").waitFor();
-  assert.equal(await page.locator("#person").isVisible(), false);
   await page.locator("#talk-leave").click();
   console.log(
-    "PASS keyboard entry, Escape/focus return, unchanged browsing time, Talk opens conversation",
+    "PASS keyboard entry opens the talk, the name opens the card, Escape/focus return, unchanged browsing time",
   );
   // Presentation contract only: deliberately omit artwork without altering the world.
   await page.route("**/api/known?*", async (route) => {
@@ -113,9 +155,10 @@ try {
     });
   });
   await page.locator("#people .talkable").first().press("Enter");
+  await page.locator("#talk:not([hidden])").waitFor();
+  await page.locator("#talk-name").click();
   await page.locator("#person:not([hidden])").waitFor();
-  assert.equal(await page.locator("#person-figure").getAttribute("src"), null);
-  assert.equal(await page.locator("#person-figure").isVisible(), false);
+  assert.equal(await page.locator("#person-media img").count(), 0);
   await page.setViewportSize({ width: 1024, height: 768 });
   const panel = await page.locator("#person").boundingBox();
   assert.ok(

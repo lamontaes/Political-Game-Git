@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/law-in-play-beats-starting
 pr: #6177
 blocked-on:

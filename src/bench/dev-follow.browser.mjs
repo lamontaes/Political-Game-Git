@@ -51,6 +51,7 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const response = await life;
     assert.equal(response.status(), 200);
@@ -195,10 +196,8 @@ try {
       await resumed;
       await page.waitForTimeout(1000);
       if (!(await page.locator("#continue").isVisible())) break;
-      await page
-        .locator('[data-tab="jobs"]')
-        .first()
-        .evaluate((e) => e.click());
+      await page.locator("#card-bust").click();
+      await page.locator('#sheet-tabs [data-tab="jobs"]').click();
       await page.locator(".work-overview").waitFor();
       const decline = page.locator(".job-offer .offer-actions button").nth(1);
       assert.ok(

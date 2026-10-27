@@ -234,6 +234,8 @@ interface Attempt {
   readonly ids: Record<string, string>;
   /** Laws with no applied record after play, in a place that had a subject for each. */
   readonly absent: string[];
+  /** Whether any business an organization owns made a profit in a quarter of the run. */
+  readonly profited: boolean;
   /** Every journal post of the run: its id and what names it (source, accounts). */
   readonly posts: { id: string; text: string }[];
 }
@@ -259,6 +261,8 @@ function draw(index: number): {
 /** Plays an eligible place: the laws put in force, about half a year run. */
 function play(where: string, core: CoreState): Attempt {
   const api = coreAPI(core);
+  let profited = false;
+  const lastProfit = new Map<string, number>();
   const ids: Record<string, string> = {};
   for (const key of QUESTIONS)
     setQuestion(api, key, 1, key === CAP ? undefined : "state");
@@ -286,7 +290,7 @@ function play(where: string, core: CoreState): Attempt {
     });
   });
   try {
-    for (let day = 0; day < 170; day += 30) {
+    const putBack = () => {
       const back = QUESTIONS.filter((key) => lawInForce(api, key).value !== 1);
       for (const key of back)
         setQuestion(api, key, 1, key === CAP ? undefined : "state");
@@ -294,8 +298,22 @@ function play(where: string, core: CoreState): Attempt {
         run(core, 2);
         ids.income = scaleAmount(api, "income-tax", 1.1);
       }
+      return back.length;
+    };
+    for (let day = 0; day < 170; day += 30) {
+      putBack();
       run(core, Math.min(30, 170 - day));
+      // A quarter in which an owned business made a profit is one the law could tax.
+      for (const [id, minor] of corporateProfits(api, core)) {
+        if (minor > (lastProfit.get(id) ?? Infinity)) profited = true;
+        lastProfit.set(id, minor);
+      }
     }
+    // A body in play can repeal an act in the last stretch (Greenville, Rhode
+    // Island, seed m3-wh1: H 14 repealed the pension schedule on 2025-07-01,
+    // nine days before the run ended); put it back so every read after play
+    // sees the law in force.
+    if (putBack()) run(core, 3);
   } finally {
     setJournalTrace(null);
   }
@@ -311,7 +329,22 @@ function play(where: string, core: CoreState): Attempt {
         .filter(([, id]) => !id)
         .map(([name]) => `${name} law row`),
     );
-  return { where, api, core, ids, absent, posts };
+  return { where, api, core, ids, absent, posts, profited };
+}
+
+/** Each organization-owned business's operating profit to date, by business, as the profit tax last read it. */
+function corporateProfits(api: CoreAPI, core: CoreState): Map<string, number> {
+  const out = new Map<string, number>();
+  if (!core.modules.has(EMPLOYER_TAXES_MODULE_ID)) return out;
+  const quarters = api.moduleState(EMPLOYER_TAXES_MODULE_ID).table("quarters");
+  for (const [id, books] of core.finance.businesses) {
+    if (books.closedAt || !core.organizations.has(ownerOf(api, id) ?? ""))
+      continue;
+    // A business the profit tax has not read yet has no profit to compare.
+    const row = quarters.get(id) as unknown as { minor: number } | undefined;
+    if (row) out.set(id, row.minor);
+  }
+  return out;
 }
 
 describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
@@ -324,24 +357,38 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
       setBookkeeping(false);
       try {
         const tried: string[] = [];
-        let eligible: ReturnType<typeof draw> | null = null;
-        for (let i = 0; i < TRIES && !eligible; i++) {
+        let found: ReturnType<typeof play> | null = null;
+        for (let i = 0; i < TRIES && !found; i++) {
           const d = draw(i);
           tried.push(`${d.where}: lacks ${d.lacks.join(", ") || "nothing"}`);
           // A place whose opening records lack a subject for a law (no owners,
           // no business an organization owns) is redrawn before play; every
           // place tried is named on failure.
-          if (!d.lacks.length) eligible = d;
+          if (d.lacks.length) continue;
+          const played = play(d.where, d.core);
+          // A profit tax needs a profit: where every business an organization
+          // owns ran at a loss through the run (Quinhagak, Alaska, seed
+          // 29d2c082...: three owned businesses, each losing millions of
+          // minor units in the quarter), the corporate law has nothing to
+          // tax, and the place is redrawn like one with no owned business.
+          const lossOnly =
+            played.absent.length === 1 &&
+            played.absent[0] === "corporate-income-tax" &&
+            !played.profited;
+          if (lossOnly) {
+            tried.push(`${d.where}: every owned business lost money in play`);
+            continue;
+          }
+          found = played;
         }
         expect(
-          eligible,
+          found,
           `no drawn place had a subject for every law: ${tried.join("; ")}`,
         ).not.toBeNull();
-        const found = play(eligible!.where, eligible!.core);
-        const { api, core, ids, where, posts: runPosts } = found;
+        const { api, core, ids, where, posts: runPosts } = found!;
         // The place had a subject for every law, so each must have applied it.
         expect(
-          found.absent,
+          found!.absent,
           `${where}: laws with no applied record after play`,
         ).toEqual([]);
         const rows = (key: string) => keysOf(api, key);
@@ -516,7 +563,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         named(
           "fund-pensions-to-schedule",
           govRows(PENSIONS),
-          (row) => `${row.targetId}:retirementContributions`,
+          (row) => `${row.targetId}:budget-line:retirementContributions`,
         );
         named(
           "balanced-operating-budget",

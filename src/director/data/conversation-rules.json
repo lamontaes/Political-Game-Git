@@ -42,6 +42,7 @@
       "kind": "news",
       "stage": "not-heard"
     },
+    "quiet": { "kind": "quiet", "stage": "default" },
     "job-lost": {
       "kind": "job-lost-reply",
       "stage": "default"

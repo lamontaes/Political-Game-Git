@@ -147,6 +147,8 @@ export function campaignView(core: CoreState, personId: string) {
           doors: campaign.doorsKnockedCount ?? 0,
         },
         polls: polls.slice(-3),
+        // What the contest turns on: each candidate's acts and how the people they reached came to feel.
+        causes,
         // The sample a poll asks, so the screen's Poll button and the price below agree.
         pollSample: POLL_SAMPLE,
         // Where the race stands, in the English engine's words, from the contest's records.
@@ -192,10 +194,12 @@ export function campaignView(core: CoreState, personId: string) {
 }
 
 /**
- * The causes a contest turns on: for each candidate on its ballot, how many
- * voters the campaign reached (each voter once, by any act) and how many of
- * them came away warmer or cooler, summed over the cause rows the campaign
- * engine kept. A read-only view.
+ * The causes a contest turns on: for each candidate on its ballot, the acts
+ * that reached voters (doors, speeches, ads, a retelling) with how many were
+ * reached and how many came away warmer or cooler, and the same read once per
+ * voter (a voter reached by two acts counts once), which is what the race's
+ * standing sentences say. Read from the cause rows the campaign engine kept;
+ * a read-only view.
  */
 function contestCauses(core: CoreState, contestId: string, personId: string) {
   const api = coreAPI(core);
@@ -210,13 +214,28 @@ function contestCauses(core: CoreState, contestId: string, personId: string) {
       .moduleState(CAMPAIGNS)
       .table("causes")
       .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
+    const acts = new Map<
+      string,
+      { act: string; reached: number; warmer: number; cooler: number }
+    >();
     // Each voter's warmth moved by the sum of what every act did to it.
     const moved = new Map<string, number>();
-    for (const row of rows)
+    for (const row of rows) {
+      const entry = acts.get(row.act) ?? {
+        act: row.act,
+        reached: 0,
+        warmer: 0,
+        cooler: 0,
+      };
+      entry.reached += 1;
+      if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
+      else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
+      acts.set(row.act, entry);
       moved.set(
         row.voterId,
         (moved.get(row.voterId) ?? 0) + (row.warmthAfter - row.warmthBefore),
       );
+    }
     const person = core.people.get(filing.personId);
     return {
       filingId: filing.id,
@@ -225,6 +244,7 @@ function contestCauses(core: CoreState, contestId: string, personId: string) {
         ? `${person.givenName} ${person.familyName}`
         : filing.personId,
       you: filing.personId === personId,
+      acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
       reached: moved.size,
       warmer: [...moved.values()].filter((d) => d > 0).length,
       cooler: [...moved.values()].filter((d) => d < 0).length,

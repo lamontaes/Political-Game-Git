@@ -58,7 +58,7 @@ async function solid(screen, selector) {
   assert.ok(contrast >= 4.5, `${screen}: text contrast ${contrast}`);
 }
 async function sheet(tab) {
-  await page.locator(`#menu [data-tab="${tab}"]`).click();
+  await page.locator(`#rings [data-tab="${tab}"]`).click();
   await page.locator("#sheet-body").waitFor();
   await page.waitForTimeout(800);
 }
@@ -71,6 +71,7 @@ try {
     { timeout: 600000 },
   );
   await page.locator("#new-life").click();
+  await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
   await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
@@ -85,15 +86,21 @@ try {
   await figure.waitFor();
   await figure.focus();
   await page.keyboard.press("Enter");
+  // The talk opens; the person's name in it opens their card.
+  await page.locator("#talk:not([hidden])").waitFor();
+  await page.locator("#talk-name").click();
   await page.locator("#person:not([hidden])").waitFor();
   await page.waitForTimeout(800);
   await solid("Person card", "#person");
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
   await page.locator('#rings [data-tab="calendar"]').click();
-  await page.locator("#menu").waitFor({ state: "visible" });
+  await page.locator("#sheet:not([hidden])").waitFor();
+  // One left menu: the rail stays beside an open screen and no Menu panel
+  // repeats it (owner, Oct 27).
+  assert.equal(await page.locator("#menu").count(), 0, "no Menu panel");
+  assert.ok(await page.locator("#rings").isVisible(), "the rail stays");
   await sheet("news");
-  await solid("Menu", "#menu");
   await solid("News", "#sheet");
   await sheet("politics");
   await page
@@ -104,7 +111,7 @@ try {
   await solid("Politics Government", "#sheet");
   assert.deepEqual(errors, []);
   console.log(
-    "PASS the menu, News, Government and a person card are solid and readable",
+    "PASS the menu is names only; the menu, News, Government and a person card are solid and readable",
   );
 } finally {
   await browser.close();
