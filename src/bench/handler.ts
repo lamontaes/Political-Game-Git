@@ -89,6 +89,7 @@ import {
   fileForOffice,
   governmentView,
   joinPartyAs,
+  localRaces,
   politicsStates,
   stateLegislators,
 } from "./government";
@@ -1126,6 +1127,13 @@ export async function benchRequest(
             url.searchParams.get("level") === "federal" ? "federal" : "state",
           ),
         });
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/government/local-races"
+      ) {
+        send(200, localRaces(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/government") {
