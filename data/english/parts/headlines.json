@@ -34,7 +34,8 @@
     "post": "A public post, from the appointment record.",
     "to": "The amount now in force, from the law record.",
     "issue": "A policy question, by its name.",
-    "incident": "The kind of disaster, from the declaration record."
+    "incident": "The kind of disaster, from the declaration record.",
+    "area": "The region a rate is measured for (a metro area, or the state), by name."
   },
   "maxWords": 14,
   "mining": {
@@ -2738,10 +2739,10 @@
       }
     },
     {
-      "key": "headlines.jobs-report.place-unemployment-at-percent",
+      "key": "headlines.jobs-report.unemployment-in-area-at-percent",
       "move": "jobs-report",
       "kind": "written",
-      "text": "{place} unemployment at {percent}",
+      "text": "Unemployment in {area} at {percent}",
       "uses": [
         {
           "move": "jobs-report",
@@ -2760,10 +2761,10 @@
       }
     },
     {
-      "key": "headlines.jobs-report.place-jobless-rate-is-percent-in-month",
+      "key": "headlines.jobs-report.jobless-rate-in-area-is-percent-in-month",
       "move": "jobs-report",
       "kind": "written",
-      "text": "{place} jobless rate is {percent} in {month}",
+      "text": "Jobless rate in {area} is {percent} in {month}",
       "uses": [
         {
           "move": "jobs-report",

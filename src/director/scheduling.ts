@@ -98,6 +98,12 @@ export interface SituationType {
    * by the repeat window.
    */
   eachCause?: boolean;
+  /**
+   * What the repeat window tells scenes apart by besides the cast: "bill"
+   * for a scene about one bill (a vote asked for), so the same two people
+   * about another bill on a later day is a new scene.
+   */
+  repeatsBy?: string;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
   /**
@@ -634,6 +640,17 @@ export function scheduleMoment(
       .flatMap((role) => role.personIds)
       .sort()
       .join(",")}`;
+  // A type whose scene is about one bill (a vote asked for) repeats by the
+  // bill: on an earlier day in the window the same people about another bill
+  // is a new scene; the same day still folds into one sitting.
+  const byBill = (row: SceneBinding) =>
+    library.types.find((type) => type.key === row.typeKey)?.repeatsBy ===
+    "bill";
+  const billOf = (momentId: string) =>
+    core.durableLog.get(book.momentsById.get(momentId)?.causeId ?? "")?.facts
+      ?.billId ?? "";
+  const windowKey = (row: SceneBinding, momentId: string) =>
+    byBill(row) ? `${castOf(row)}|${billOf(momentId)}` : castOf(row);
   const sittingToday = new Set(
     book.schedule
       .filter(
@@ -644,7 +661,13 @@ export function scheduleMoment(
           entry.momentId !== moment.id &&
           entry.outcome !== "journal-line",
       )
-      .flatMap((entry) => entry.bindings.map(castOf)),
+      .flatMap((entry) =>
+        entry.bindings.map((row) =>
+          entry.date === moment.date
+            ? castOf(row)
+            : windowKey(row, entry.momentId),
+        ),
+      ),
   );
   const wanted = allowed
     ? staged.filter((row) => allowed.has(row.typeKey))
@@ -652,7 +675,10 @@ export function scheduleMoment(
   const eachCause = (row: SceneBinding) =>
     library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
   const bindings = wanted.filter(
-    (row) => eachCause(row) || !sittingToday.has(castOf(row)),
+    (row) =>
+      eachCause(row) ||
+      (!sittingToday.has(castOf(row)) &&
+        !sittingToday.has(windowKey(row, moment.id))),
   );
   // The day's own sitting takes this cause in, so its scene cites both
   // records. A sitting on an earlier day within the repeat window does not:
@@ -699,6 +725,17 @@ export function scheduleMoment(
     ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
       moment.selfNamed === true &&
       bindings.some((row) => met.has(row.setting.kind)));
+  // A tie that turned with someone the person spent time with (a friendship
+  // grown over many meetings, a falling-out) is met then, with them: its
+  // cause is the relationship record, contacted on the day its change was
+  // measured or the day before, as a day's ties are read once it closes.
+  const contacted = moment.label.startsWith("tie:")
+    ? core.relationships.get(moment.causeId)?.lastContactDate
+    : undefined;
+  const tieMet =
+    !!contacted &&
+    contacted >= addDays(makeIsoDate(moment.date), -one) &&
+    contacted <= moment.date;
   const waits =
     bindings.length > zero &&
     bindings.every(
@@ -708,7 +745,7 @@ export function scheduleMoment(
   // nothing to show or answer, so it is the journal's line, never a stop.
   const interrupt =
     bindings.length > zero &&
-    (moment.impact >= options.interruptImpact || familyNews) &&
+    (moment.impact >= options.interruptImpact || familyNews || tieMet) &&
     !waits;
   if (!found.length)
     coverage ??= {

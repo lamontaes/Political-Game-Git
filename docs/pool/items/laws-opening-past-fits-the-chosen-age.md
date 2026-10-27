@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-opening-past-chosen-age
 pr: #6271
 blocked-on:

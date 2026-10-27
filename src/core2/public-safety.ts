@@ -95,12 +95,14 @@ const OFFENSES = [
   {
     key: "assault",
     measure: "crime.assault",
+    also: "crime.violent",
     per: "persons",
     violent: true,
   },
   {
     key: "robbery",
     measure: "crime.robbery",
+    also: "crime.violent",
     per: "persons",
     violent: true,
   },
@@ -761,7 +763,14 @@ export function openingSafetyMonth(api: CoreAPI): void {
   } satisfies SafetyMonth as unknown as ModuleRow);
 }
 
-function rateOf(
+/**
+ * The rate the case flow reads for a measure: the web's value, times the
+ * factor of any further measure the crime engine also applies to the same
+ * victimizations (assaults and robberies also move with `crime.violent`,
+ * where the police staffing link lands), so an arrest follows the crime
+ * the crime engine records.
+ */
+export function offenseRate(
   api: CoreAPI,
   placeId: string,
   stateKey: string,
@@ -770,8 +779,16 @@ function rateOf(
   const web = api.state.modules.has(OUTCOME_WEB_MODULE_ID)
     ? placeOutcome(api, placeId, measure)
     : undefined;
-  return web?.value ?? baseOf(measure, stateKey).value;
+  const also = (OFFENSES as readonly { measure: string; also?: string }[]).find(
+    (row) => row.measure === measure,
+  )?.also;
+  const factor =
+    also && api.state.modules.has(OUTCOME_WEB_MODULE_ID)
+      ? webReach(api, placeId, also).factor
+      : 1;
+  return (web?.value ?? baseOf(measure, stateKey).value) * factor;
 }
+const rateOf = offenseRate;
 
 const reported = (o: OffenseKey) => safetyParameter(`reported${cap(o)}`);
 const cleared = (o: OffenseKey) => safetyParameter(`cleared${cap(o)}`);

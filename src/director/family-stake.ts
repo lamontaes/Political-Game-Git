@@ -7,13 +7,14 @@
  * gives the scene its facts; with none, the scene is not staged. The stake is
  * read from persons and the filing record; nothing is rolled.
  */
+import { ageOnDate, daysBetweenText } from "../core2/kernel/dates";
+import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 
 const RULES = rulesFile.familyStakes;
-const MS_PER_DAY = 86_400_000;
-const DAYS_PER_YEAR = 365;
-const DAYS_PER_MONTH = 30;
+const zero = P.zero;
+const one = P.one;
 
 const MONTH_WORDS = [
   "less than a month",
@@ -47,17 +48,15 @@ export interface Stake {
 }
 
 /** Whole days from one ISO date to another. */
-const daysBetween = (from: string, to: string): number =>
-  Math.round((Date.parse(to) - Date.parse(from)) / MS_PER_DAY);
+const daysBetween = daysBetweenText;
 
-const ageOn = (birthDate: string, date: string): number =>
-  Math.floor(daysBetween(birthDate, date) / DAYS_PER_YEAR);
+const ageOn = ageOnDate;
 
 /** A span of days as people say it: "three months", never a day count. */
 export function monthsSaid(days: number): string {
-  const months = Math.round(days / DAYS_PER_MONTH);
+  const months = Math.round(days / RULES.daysPerMonth.value);
   return months < MONTH_WORDS.length
-    ? MONTH_WORDS[Math.max(0, months)]!
+    ? MONTH_WORDS[Math.max(zero, months)]!
     : "more than a year";
 }
 
@@ -88,17 +87,22 @@ export function stakeOf(
   // (liquid money over daily cost, as the business engine reads a founder's
   // runway) against the days the race has left to run.
   const electionDate = core.durableLog.get(causeId)?.facts?.electionDate;
-  const liquid = members.reduce((sum, row) => sum + row.liquidMinor, 0);
-  const cost = members.reduce((sum, row) => sum + row.livingCostDailyMinor, 0);
+  const liquid = members.reduce((sum, row) => sum + row.liquidMinor, zero);
+  const cost = members.reduce(
+    (sum, row) => sum + row.livingCostDailyMinor,
+    zero,
+  );
   const raceDays =
-    typeof electionDate === "string" ? daysBetween(core.date, electionDate) : 0;
-  if (cost > 0 && raceDays > 0) {
-    const runwayDays = Math.max(0, Math.floor(liquid / cost));
-    const shortfall = 1 - runwayDays / raceDays;
+    typeof electionDate === "string"
+      ? daysBetween(core.date, electionDate)
+      : zero;
+  if (cost > zero && raceDays > zero) {
+    const runwayDays = Math.max(zero, Math.floor(liquid / cost));
+    const shortfall = one - runwayDays / raceDays;
     if (shortfall >= RULES.runwayShortfall.value)
       stakes.push({
         kind: "money",
-        strength: Math.min(1, shortfall),
+        strength: Math.min(one, shortfall),
         facts: {
           "stake-money": {
             text: "money",
@@ -124,10 +128,10 @@ export function stakeOf(
     )
     .sort(
       (a, b) =>
-        b.birthDate.localeCompare(a.birthDate) || (a.id < b.id ? -1 : 1),
+        b.birthDate.localeCompare(a.birthDate) || a.id.localeCompare(b.id),
     );
   if (filer.jobId && children.length) {
-    const child = children[0]!;
+    const child = children[zero]!;
     stakes.push({
       kind: "time",
       strength: RULES.timeStrength.value,
@@ -140,7 +144,7 @@ export function stakeOf(
       },
     });
   }
-  return stakes.sort((a, b) => b.strength - a.strength)[0] ?? null;
+  return stakes.sort((a, b) => b.strength - a.strength)[zero] ?? null;
 }
 
 /**

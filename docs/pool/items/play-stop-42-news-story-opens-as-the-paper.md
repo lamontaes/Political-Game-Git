@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
 pr: #6222
 blocked-on:
