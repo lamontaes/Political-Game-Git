@@ -1,6 +1,110 @@
 {
   "entries": [
     {
+      "version": "0.56.0",
+      "releasedOn": "2026-10-27",
+      "revision": "2840510c8b5488ba271ceb714c60fb5a14b07167",
+      "changeIds": [
+        "laws-nine-links-housing-two",
+        "laws-prices-local-sales-tax-average-no-seller",
+        "release-smoke-item-lines",
+        "words-campaign-season-scenes-fill-the-months-a",
+        "words-scene-web-election-day-and-night",
+        "world-jobs-counted-choices-one-rule",
+        "world-treasury-cut-moves-little"
+      ]
+    },
+    {
+      "version": "0.55.4",
+      "releasedOn": "2026-10-27",
+      "revision": "9a9dec7ec786b257a05136b2c331e99bf48cf123",
+      "changeIds": [
+        "roadmap-m1-housing-budgets-business-commands",
+        "tests-renewal-counted-unplanned-replay-draw",
+        "words-scene-web-the-press"
+      ]
+    },
+    {
+      "version": "0.55.3",
+      "releasedOn": "2026-10-27",
+      "revision": "2cd2bb588f28705a3d7fd2676f36e534d8edf9a2",
+      "changeIds": [
+        "director-quiet-last-together-slot",
+        "tests-office-bill-title-property-tax-null",
+        "words-scene-web-campaign-pass-1"
+      ]
+    },
+    {
+      "version": "0.55.2",
+      "releasedOn": "2026-10-27",
+      "revision": "7f4bd10a39f753441dda871162d8e4155c3b62c9",
+      "changeIds": [
+        "skills-lessons-2026-10-27-12",
+        "skills-lessons-2026-10-27-13",
+        "words-jobs-report-names-its-area",
+        "words-scene-concession-received"
+      ]
+    },
+    {
+      "version": "0.55.1",
+      "releasedOn": "2026-10-27",
+      "revision": "213605cc8dc9b1381770f4750c8c92721e8596ed",
+      "changeIds": [
+        "director-household-news-headline",
+        "director-household-quiet-day",
+        "words-circumstance-lines"
+      ]
+    },
+    {
+      "version": "0.55.0",
+      "releasedOn": "2026-10-27",
+      "revision": "58bdf67fc461c9d6987d11317d7b0a109f8bfc6c",
+      "changeIds": [
+        "play-legislature-floor-date-and-whip",
+        "play-stop-47-calendar-skip-forward-on-a-future-day",
+        "scenes-c-veto-override-whip-packet",
+        "skills-fixer-own-branch",
+        "words-election-day-and-night-scenes"
+      ]
+    },
+    {
+      "version": "0.54.0",
+      "releasedOn": "2026-10-27",
+      "revision": "946dcf65770f9642c6eb9481875ac1ce655aad28",
+      "changeIds": [
+        "director-president-asks-within-powers",
+        "tests-campaigns-candidate-doors-reach-nobody-oakley",
+        "tests-office-day-head-keeps-commuter-job",
+        "tests-record-attack-ad-checks-nothing",
+        "words-scene-bribe-offer-envelope",
+        "words-scene-town-hall-question"
+      ]
+    },
+    {
+      "version": "0.53.0",
+      "releasedOn": "2026-10-27",
+      "revision": "69734c8438ae6e0238b4bc8b663f0e5546d9b46b",
+      "changeIds": [
+        "cto-morning-report-2026-10-27",
+        "director-family-stake-literals",
+        "docs-law-table-medicaid-match-sentences",
+        "laws-effects-matrix-carries-traits",
+        "play-first-06-created-look-in-every-scene",
+        "play-first-11-people-web-uses-created-look",
+        "play-opening-pictures-from-records",
+        "play-stop-01-talk-says-nothing-b",
+        "play-stop-32-town-list-county-label",
+        "play-stop-42-news-story-opens-as-the-paper",
+        "tests-corruption-weston-mo-red",
+        "tests-township-leave-draw-finds-no-township",
+        "traits-accept-interview-reasons",
+        "traits-outcome-hardship-coping",
+        "words-opening-address-grounding",
+        "words-scene-web-from-lives",
+        "world-school-district-pay-authority-without-treasury"
+      ]
+    },
+    {
       "version": "0.52.1",
       "releasedOn": "2026-10-27",
       "revision": "c4730847df956a165c0bb8fdc9c3dca49fcbff14",
