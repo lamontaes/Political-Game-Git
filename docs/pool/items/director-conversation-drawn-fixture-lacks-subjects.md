@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/conversation-fixture
 pr: #6264
 blocked-on:
