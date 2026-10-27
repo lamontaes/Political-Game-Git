@@ -144,3 +144,7 @@ node --import tsx scripts/traits/trait-wiring-audit.ts <seed> played|flat|mirror
 node --import tsx scripts/traits/trait-wiring-matrix.ts played.json flat.json mirror.json docs/reports/trait-wiring-2026-10-20.json
 node --import tsx scripts/traits/trait-calibrate.ts played.json
 ```
+
+## Rebuilt on October 27, 2026
+
+The laws-and-effects lead rebuilt this report's matrix, `docs/reports/trait-wiring-2026-10-20.json`, on main after the civic, integrity and take-part families merged. It used the same town and seed as the October 20 run (Ely, Nevada, 3223500, seed 7ae8589566f5). In a played year 69 of the 90 personality decisions ran and 44 are calibrated, against 57 of 82 on October 20. The effects matrix now carries these rows. The rest of this report is the October 20 audit as it was written.

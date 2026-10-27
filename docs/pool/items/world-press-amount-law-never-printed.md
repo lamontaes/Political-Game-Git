@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/press-amount-law
 pr: #6247
 blocked-on:
