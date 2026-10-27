@@ -3,7 +3,7 @@ id: elections-exit-poll-counted-voters
 title: "Counted voters answer the exit poll by the same rule as named voters, so the exit poll tally counts the whole electorate"
 area: elections
 kind: wiring
-priority: 2
+priority: 3
 size: S
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/voting.ts, src/core2/modules/voting.traits.test.ts
 
 **Notes.** Found Oct 25 by the traits lead while fitting the exit poll's case (traits-exit-poll-reasons); the named voters' rule is pollsterCase in voting.ts.
+
+Deferred Oct 25: nothing on screen reads it yet.

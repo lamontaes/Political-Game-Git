@@ -3,7 +3,7 @@ id: office-presidential-orders-pardons-the-situation-room
 title: "Presidential orders, pardons, the situation room:"
 area: office
 kind: feature
-priority: 2
+priority: 3
 status: open
 claimed-by:
 pr: #5184
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5184 (branch claude/presidential-orders): The date
 Sent back 2026-10-23 from PR #5184 (branch claude/presidential-orders): the body lacks the required Done-when evidence table mapping the drawn played-world order, law-row reader, changed record ID and named test coverage; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5184 (branch claude/presidential-orders): The new evidence table marks the player order action unbuilt; route the completed NPC-order mechanism to valid bounded acceptance while the player action, pardons and situation room remain open; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

@@ -8,6 +8,8 @@ description: >
 
 # Played-world proof
 
+**SMART (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** A proof's done-when is the record id another engine read, in a drawn place, inside the time box the item set.
+
 Current as of 2026-10-24, 21:30 UTC (unchanged by the Oct 24 rulings; a play-first lane item's acceptance is a screenshot, `play-first`, and this proof backs the engine side)
 
 A feature counts as finished only when the running game shows another part of the game using what it made. A small test world does not show that.

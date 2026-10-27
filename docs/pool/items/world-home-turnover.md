@@ -17,7 +17,7 @@ claimed-at: 2026-10-18T02:28:04.005Z
 
 **Rules.** No dice: a household sells or buys from its reasons (a move, a death or estate, a job, a new household, income against price, rates and the law in force), never a fixed percentage; the real rate checks totals only. One model, two tiers: counted owners and renters buy and sell by the same rule as full households, times their count. Wire to the world: a sale moves the price, the mortgage payoff, the agent and transfer costs and the proceeds by journal record, and the buyer's mortgage and the town's price index read it. Estimate, never UNKNOWN.
 
-**Done when.** In a one-year run of the played world (a drawn place from all 56, seed named in the PR body), home sales and purchases appear by record id at a rate per thousand owner households inside the spread of the NAR and Census figures, a named sale is traced from the seller's reason to the buyer's mortgage and the price index, and a test in src/core2 names the place and seed.
+**Done when.** In a one-year run of the played world (a drawn place from all 56, seed named in the PR body), home sales and purchases appear by record id at a rate per thousand owner households inside the spread of the NAR and Census figures, a named sale is traced from the seller's reason to the buyer's mortgage and the price index, and a test in src/core2 names the place and seed. **On screen.** Nothing yet: filed play-home-sales-on-screen, which puts it on News.
 
 **Files.** src/core2/modules/housing.ts, src/core2/housing-mortgages.ts, src/core2/modules/place-prices.ts
 

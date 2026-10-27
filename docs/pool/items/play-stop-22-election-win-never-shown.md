@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #6041
 blocked-on: play-stop-22-election-win-never-shown-a, play-stop-22-election-win-never-shown-b
@@ -26,3 +26,7 @@ claimed-at:
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:32 to 16:34; screenshots 78-day-after-vote-2, 79, 80-results-page-1 to 3, 81, 82. Results contest contest:seat:gus2025:205462:council:0:2026-11-03. Stopper 2 of 3. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2. Split Oct 24 into play-stop-22-election-win-never-shown-a and play-stop-22-election-win-never-shown-b, each four hours or less; the CTO sets this item done when the last part is done.
 
 Sent back 2026-10-25 from PR #6041 (branch claude/quirky-ride-vrwwz4-play-stop-22): installed-build screenshot remains waiting and actualKellyunopposedwinhasnojournalline; completeordinaryresultchainandinstalledprooforbounddeliverywhilekeepingplaystopopen; routenonWordsdirectorjournaleditthroughWords; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 21:15 UTC from PR #6041 (branch claude/quirky-ride-vrwwz4-play-stop-22, head 91fc067ebc with main merged in): body screenshots are wrapped in backticks so they render as code, not images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it merges once the owner says yes; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #6041 (branch claude/quirky-ride-vrwwz4-play-stop-22): journal screenshot places own County Commissioner loss under mother’s Coroner heading; repair own-contest chapter attribution and show corrected drawn-world journal; finish on that branch, merge main into it first.

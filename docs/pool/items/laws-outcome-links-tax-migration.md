@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-outcome-links-rest
 pr: #6070
 blocked-on:

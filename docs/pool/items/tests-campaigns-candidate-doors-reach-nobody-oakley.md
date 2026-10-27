@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: the campaigns test must hold in every drawn place, so fix why a small town's candidate reaches nobody at the door; no dice decides who is reached; never skip or weaken the assertion.
 
-**Done when.** GOLDEN_PATH_SEED=430e9eafc5940132146378a5b8aed5d56a21072290fb2952ac4f2f83e04f97d6 GOLDEN_PATH_PLACE_KEY=5657375 npx vitest run src/core2/campaigns.test.ts passes, with the cause named in the PR by file and line, and the test passes on three more drawn places named with their seeds.
+**Done when.** GOLDEN_PATH_SEED=430e9eafc5940132146378a5b8aed5d56a21072290fb2952ac4f2f83e04f97d6 GOLDEN_PATH_PLACE_KEY=5657375 npx vitest run src/core2/campaigns.test.ts passes, with the cause named in the PR by file and line, and the test passes on three more drawn places named with their seeds. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/campaigns.test.ts, src/core2/modules/campaigns.ts
 

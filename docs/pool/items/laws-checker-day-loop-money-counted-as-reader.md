@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/law-wiring-government
 pr: #5582
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** From the laws lead, Oct 24, reading the money evidence of PR #5582's year runs.
 
 Laws lead, Oct 24: the fix rides #5582 (scripts/law-wiring/check.ts and matrix.ts).
+
+Found on main at 2a524c1757 by the Oct 25 audit: the fix rode PR #5582 (merged Oct 25): scripts/law-wiring/check.ts names the day loop as no engine (line 103).

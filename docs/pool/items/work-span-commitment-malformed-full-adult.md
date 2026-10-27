@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/work-span-full-adult
 pr: #6085
 blocked-on:

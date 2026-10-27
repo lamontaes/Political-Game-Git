@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: world-macro-federal-dollar-finish
@@ -27,3 +27,5 @@ claimed-at:
 Released Oct 20 (claude): the chain this extends (world-macro-federal-dollar-finish, PR #4990) is not on main and `macroFederalOutlayResponseBand` does not exist in src/core2/data/macro/parameters.json yet; build after #4990 merges.
 
 Checked Oct 19 (claude): every stopgap row this item names is already resolved in src/core2/data/stopgaps.json: SG-WORLD-macro-public-budget is resolved in stopgaps.json (Resolved Oct 16 (owner ruling, no fiscal multiplier): the macro engine carries no budget impulse or multiplier. A public dollar moves output...). The CTO can drop this item.
+
+Dropped by the Oct 25 audit: the owner ruled on Oct 16 that the macro engine carries no budget impulse or multiplier.

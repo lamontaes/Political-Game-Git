@@ -3,7 +3,7 @@ id: gov-official-staff-allowance-by-office
 title: "An official hires an aide only where their office has a staff allowance, sized by office and place from research"
 area: gov
 kind: wiring
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/staff.ts, src/core2/data/parameters.json, data/content/trait-decision-gaps.json
 
 **Notes.** Filed Oct 25 by the traits lead from traits-integrity-cases-vary: the other three case decisions reach their research sizes once each played case is crossed with every decider's lean; hiring cannot while its case is the saturated budget alone.
+
+Deferred Oct 25: nothing on screen reads it yet.

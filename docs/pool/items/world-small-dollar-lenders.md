@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: a household borrows from a lender for a reason on its record, never a roll. Estimate, never UNKNOWN: a state with no sourced volume carries an ESTIMATED figure with a spread. Research calibrates, never decides: CFPB and state data size rates and volumes; who borrows and what the cap does come from the engine's own records. Simulate it, don't ask (owner, Oct 24): built as a background simulation with no owner question.
 
-**Done when.** In one year of buildBenchWorld in a drawn place whose state allows payday lending, named by place key and seed, a lender record exists with a sourced rate and volume, at least one household loan names it by record id, and a consumer-loan rate cap enacted by bill changes that loan's rate on the journal; in a drawn place whose state bans them, no lender exists and the cap moves no money. A test covers both places.
+**Done when.** In one year of buildBenchWorld in a drawn place whose state allows payday lending, named by place key and seed, a lender record exists with a sourced rate and volume, at least one household loan names it by record id, and a consumer-loan rate cap enacted by bill changes that loan's rate on the journal; in a drawn place whose state bans them, no lender exists and the cap moves no money. A test covers both places. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/credit.ts, src/core2/data/credit/
 

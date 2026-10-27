@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: the checker enacts a law where a government in that place holds the power to enact it, read from the same series powers the legislature's authority check reads, never a hand list.
 
-**Done when.** `scripts/law-wiring/check.ts` picks the enacting level from the series powers (and the town's home-rule authority where it grants a local power), and a rerun of restore voting in Rinard, Iowa (seed 7a3535a49386981d) in a played world (`buildBenchWorld`) enacts it at the state and names the reach records it writes. The families whose laws changed level are listed for regrading.
+**Done when.** `scripts/law-wiring/check.ts` picks the enacting level from the series powers (and the town's home-rule authority where it grants a local power), and a rerun of restore voting in Rinard, Iowa (seed 7a3535a49386981d) in a played world (`buildBenchWorld`) enacts it at the state and names the reach records it writes. The families whose laws changed level are listed for regrading. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/law-wiring/check.ts, src/core2/data/legislature/series-powers.json, src/core2/data/legislature/bill-catalog.json
 

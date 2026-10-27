@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-76ksvw
-pr: #5180
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:25:36.732Z
@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T04:25:36.732Z
 
 **Rules.** Replace, never layer: the fix replaces the faulty code, text or note in the same change, and a test asserts the feature and fails when nothing is found.
 
-**Done when.** The tripwire that forbids src/simulation imports in src/core2 passes, typecheck passes, tsconfig.node.json names no missing file, and a test run of the two modules in a drawn place and seed is unchanged.
+**Done when.** The tripwire that forbids src/simulation imports in src/core2 passes, typecheck passes, tsconfig.node.json names no missing file, and a test run of the two modules in a drawn place and seed is unchanged. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/town-workplaces.ts, src/core2/work-schedules.ts, tsconfig.node.json
 
-**Notes.** Item 6 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+**Notes.** Item 6 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.

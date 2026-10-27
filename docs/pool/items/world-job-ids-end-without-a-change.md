@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** An effect is a read, not a record: a job that ends must say why where the jobs engine and its readers look. Ask why: every ended job names its reason and who decided.
 
-**Done when.** In a played year of a place drawn from all 56 (place and seed named), every full person's job that ends has a job change on record or is shown to be the same job continuing, and a test fails when a job ends with neither.
+**Done when.** In a played year of a place drawn from all 56 (place and seed named), every full person's job that ends has a job change on record or is shown to be the same job continuing, and a test fails when a job ends with neither. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts
 

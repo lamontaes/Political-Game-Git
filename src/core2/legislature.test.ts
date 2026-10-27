@@ -58,6 +58,8 @@ import {
   votesOn,
   authorityFor,
   askToCarry,
+  answerCarryAsk,
+  carryAsksAwaiting,
   executiveOf,
   proposalRight,
   proposeAsExecutive,
@@ -1110,6 +1112,58 @@ describe("asking a member to carry a bill", () => {
       api.state.relationships.get([asker.id, member].sort().join(":"))?.level ??
         0,
     ).toBeGreaterThan(before);
+  });
+
+  it("an ask to the player waits for their answer: agreeing files the bill, declining files nothing", () => {
+    const states = Object.keys(authority).sort();
+    const { core, api, council } = town(states, "carry-player", withProvision);
+    const player = council[0]!.holder!.personId!;
+    (core as unknown as { playerId: string }).playerId = player;
+    const seated = new Set(council.map((s) => s.holder?.personId));
+    const askers = [...core.people.values()]
+      .filter((p) => p.alive && !seated.has(p.id) && p.tier !== "husk")
+      .sort(
+        (a, b) => b.knownIds.size - a.knownIds.size || a.id.localeCompare(b.id),
+      )
+      .slice(0, 2);
+    const provision = PLATFORM_QUESTIONS.map((question): Provision => ({
+      kind: "policy-question",
+      question,
+      value: 1,
+    })).find((p) => authorityFor(api, p).allowed)!;
+    const bills = () =>
+      api.moduleState(LEGISLATURE_MODULE_ID).table("bills").size;
+    const before = bills();
+    const [yes, no] = askers.map((asker) =>
+      askToCarry(api, {
+        askerId: asker.id,
+        memberId: player,
+        bodyOfficeId: council[0]!.office.id,
+        provisions: [provision],
+      }),
+    ) as [ReturnType<typeof askToCarry>, ReturnType<typeof askToCarry>];
+    // The engine made no choice for the player: nothing filed, both waiting.
+    expect(yes.awaitingPlayer, yes.id).toBe(true);
+    expect(yes.billId, yes.id).toBeNull();
+    expect(bills(), "bills filed before the player answers").toBe(before);
+    expect(carryAsksAwaiting(api).map((r) => r.id)).toEqual(
+      [yes.id, no.id].sort(),
+    );
+    // Agreeing files the bill with the player as sponsor and the asker as requestedBy.
+    const agreed = answerCarryAsk(api, yes.id, true);
+    const bill = billOf(api, agreed.billId!) as ReturnType<typeof billOf> & {
+      requestedBy?: string;
+    };
+    expect(bill.sponsorId, agreed.id).toBe(player);
+    expect(bill.requestedBy, agreed.id).toBe(yes.askerId);
+    expect(bills()).toBe(before + 1);
+    // Declining files nothing, and closes the ask.
+    const declined = answerCarryAsk(api, no.id, false);
+    expect(declined.billId, declined.id).toBeNull();
+    expect(declined.carried).toBe(false);
+    expect(bills()).toBe(before + 1);
+    expect(carryAsksAwaiting(api)).toEqual([]);
+    expect(() => answerCarryAsk(api, yes.id, true)).toThrow();
   });
 
   it("the executive brings a bill through the member most inclined to carry it", () => {

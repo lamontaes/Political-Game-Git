@@ -24,8 +24,13 @@ import type { CoreState } from "./types";
 
 const seed = process.env.APPLY_NEED_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 12;
-// The seekers' runways must differ by at least a month for the need to show it.
+// The seekers compared across the drawn places must have runways at least a
+// month apart. A counted group holds one account for all its households
+// (docs/design/one-model-two-tiers.md), so a town's counted seekers share a
+// few groups' runways and rarely differ by a month among themselves.
 const SPREAD_DAYS = 30;
+// Within a place, seekers whose runways differ by a day or more are ordered.
+const ORDERED_DAYS = 1;
 
 interface SeekerRow {
   id: string;
@@ -66,7 +71,28 @@ function runwayDays(core: CoreState, personId: string): number {
 
 it("job seekers in a played world, full and counted alike, need work more as their runway is shorter, and keep that need when filled in", () => {
   const tried: string[] = [];
-  for (let draw = 0; draw < DRAWS; draw += 1) {
+  type Witness = {
+    where: string;
+    row: string;
+    id: string;
+    days: number;
+    need: number;
+  };
+  const seen = { full: [] as Witness[], counted: [] as Witness[] };
+  const ordered = { full: 0, counted: 0 };
+  let filledIn = "";
+  const spread = (rows: readonly Witness[]) =>
+    rows.length >= 2 &&
+    Math.max(...rows.map((r) => r.days)) -
+      Math.min(...rows.map((r) => r.days)) >=
+      SPREAD_DAYS;
+  const done = () =>
+    spread(seen.full) &&
+    spread(seen.counted) &&
+    ordered.full > 0 &&
+    ordered.counted > 0 &&
+    !!filledIn;
+  for (let draw = 0; draw < DRAWS && !done(); draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "apply-need");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -86,6 +112,7 @@ it("job seekers in a played world, full and counted alike, need work more as the
           (row) => !row.employed && core.people.has(row.personId) === full,
         )
         .map((row) => ({
+          where,
           row: row.id,
           id: row.personId,
           days: runwayDays(core, row.personId),
@@ -95,29 +122,30 @@ it("job seekers in a played world, full and counted alike, need work more as the
         .sort((a, b) => a.days - b.days);
     const fullRows = witnesses("seekers", true);
     const countedRows = witnesses("countedSeekers", false);
-    const spread = (rows: typeof fullRows) =>
-      rows.length >= 2 && rows.at(-1)!.days - rows[0]!.days >= SPREAD_DAYS;
-    if (!spread(fullRows) || !spread(countedRows)) {
-      tried.push(
-        `${where}: ${fullRows.length} full and ${countedRows.length} counted unemployed seekers with a finite runway`,
-      );
-      continue;
-    }
+    tried.push(
+      `${where}: ${fullRows.length} full and ${countedRows.length} counted unemployed seekers with a finite runway`,
+    );
+    // In this place every seeker with the shorter runway, by a day or more,
+    // needs work more than every one with the longer.
     for (const [tier, rows] of [
       ["full", fullRows],
       ["counted", countedRows],
     ] as const) {
-      const low = rows[0]!,
-        high = rows.at(-1)!;
-      process.stdout.write(
-        `apply need, ${tier}: ${where}; seeker ${low.row} (${low.id}, ${low.days.toFixed(0)} days) need ${low.need.toFixed(3)}; seeker ${high.row} (${high.id}, ${high.days.toFixed(0)} days) need ${high.need.toFixed(3)}\n`,
-      );
-      expect(
-        low.need,
-        `${where}: ${tier} ${low.id} (${low.days.toFixed(0)} days) vs ${high.id} (${high.days.toFixed(0)} days)`,
-      ).toBeGreaterThan(high.need);
+      for (let i = 0; i < rows.length; i += 1)
+        for (let j = i + 1; j < rows.length; j += 1) {
+          const low = rows[i]!,
+            high = rows[j]!;
+          if (high.days - low.days < ORDERED_DAYS) continue;
+          expect(
+            low.need,
+            `${where}: ${tier} ${low.id} (${low.days.toFixed(1)} days) vs ${high.id} (${high.days.toFixed(1)} days)`,
+          ).toBeGreaterThan(high.need);
+          ordered[tier] += 1;
+        }
+      seen[tier].push(...rows);
     }
     // Filling a counted seeker in leaves the need the apply step reads as it was.
+    if (filledIn || !countedRows.length) continue;
     const counted = countedRows[0]!;
     fillInPerson(core, counted.id);
     expect(
@@ -132,9 +160,24 @@ it("job seekers in a played world, full and counted alike, need work more as the
       counted.need,
       9,
     );
-    return;
+    filledIn = counted.id;
   }
-  throw new Error(
-    `no drawn place had a spread of runways among full and counted seekers in ${DRAWS} draws: ${tried.join("; ")}`,
-  );
+  expect(
+    done(),
+    `no ${DRAWS} draws gave each tier seekers ${SPREAD_DAYS} days apart, an ordered pair in one place and a counted seeker to fill in: ${tried.join("; ")}`,
+  ).toBe(true);
+  // Across the drawn places, the same read: the shortest runway needs work
+  // more than the longest, each need read in its own played world.
+  for (const tier of ["full", "counted"] as const) {
+    const rows = [...seen[tier]].sort((a, b) => a.days - b.days);
+    const low = rows[0]!,
+      high = rows.at(-1)!;
+    process.stdout.write(
+      `apply need, ${tier}: ${ordered[tier]} ordered pairs within a place; seeker ${low.row} (${low.id}, ${low.days.toFixed(0)} days) in ${low.where} need ${low.need.toFixed(3)}; seeker ${high.row} (${high.id}, ${high.days.toFixed(0)} days) in ${high.where} need ${high.need.toFixed(3)}\n`,
+    );
+    expect(
+      low.need,
+      `${tier} ${low.id} in ${low.where} (${low.days.toFixed(0)} days) vs ${high.id} in ${high.where} (${high.days.toFixed(0)} days)`,
+    ).toBeGreaterThan(high.need);
+  }
 }, 1_800_000);

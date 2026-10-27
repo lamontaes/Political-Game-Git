@@ -56,15 +56,14 @@ describe("forgetting old experiences", () => {
     ]);
   });
 
-  it("keeps everything with bookkeeping on", () => {
+  it("forgets the same keys with bookkeeping on", () => {
     setBookkeeping(true);
     const { core, personId } = world();
     forgetOldExperiences(core);
-    expect(core.knowledgeByPerson.get(personId)!.size).toBeGreaterThanOrEqual(
-      4,
-    );
-    expect(
-      core.knowledgeByPerson.get(personId)!.has("event:old:experienced"),
-    ).toBe(true);
+    expect([...core.knowledgeByPerson.get(personId)!.keys()].sort()).toEqual([
+      "crime:old",
+      "event:cause:experienced",
+      "event:new:experienced",
+    ]);
   });
 });

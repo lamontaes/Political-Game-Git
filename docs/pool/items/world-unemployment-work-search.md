@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr: #5595
-blocked-on: owner-unemployment-work-search
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -38,3 +38,5 @@ Oct 23, merger A: The historical question above was answered by the later owner 
 Sent back 2026-10-23 from PR #5595 (branch claude/political-game-pool-yucp92-ad): Normal main integration conflicts in src/core2/jobs-benefits.ts; resolve code while preserving current payment/funding and search readers and rerun the generated-year proof; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5595 (branch claude/political-game-pool-yucp92-ad): Posted-opening contact caps contradict OWNER-DECISIONS regional labor-market ruling; the player exemption is unregistered and the Done-when table is missing; finish on that branch, merge main into it first.
+
+Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).

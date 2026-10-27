@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/births-plan.ts, src/core2/births-counted.ts, data/research/renewal/natality-2024.json, scripts/research/people-parameters-check.ts
 
 **Notes.** TODO
+
+Folded into people-births-ready-couples-conceive-at-once (Oct 25 audit).

@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5540
 blocked-on: core: the opening still builds from the old World history tables, so a core port of town employment needs core records for those first (old-core-retirement-map); sent back on 5540 for importing them
@@ -35,3 +35,5 @@ Looked at Oct 20 (claude/political-game-pool-3xfqef-17), released unbuilt. The s
 Sent back 2026-10-20 from PR #5540 (branch claude/port-town-employment): the new src/core2/town-labor.ts imports life-queries and World types from src/simulation; core code must not import the old engine; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5100 (branch claude/town-employment-mix): The EntityId import and merge-conflict fixes address the earlier review. The linked item Done when still requires a drawn one-year before/after comparison of jobs by organization record id, with population.ts and opening-employment.ts no longer importing the old town-employment files. This body explicitly delivers only the sourced-mix half and leaves laborStatus, townResidents, activeWorkers, ensureTownEmployment and fillTownJobs on the parent item; comparing 810 static mix values is not that jobs/year proof. Track the completed mix move under a bounded item while leaving the job-writing port open, or complete the named acceptance before marking this umbrella done.; finish on that branch, merge main into it first.
+
+Duplicate of core-old-engine-03-schedules-jobs-traits-history (Oct 25 audit). core-old-engine-03 supersedes it by name.

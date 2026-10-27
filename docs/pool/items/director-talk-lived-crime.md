@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/talk-lived-crime
 pr: #5922
 blocked-on:
