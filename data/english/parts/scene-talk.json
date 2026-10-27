@@ -85483,10 +85483,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-waited-all-evening-to-ask-about-issue",
+      "key": "scene-talk.narrate-narrate.name-stands-to-ask-about-issue",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has waited all evening to ask about {issue}.",
+      "text": "{name} stands to ask about {issue}.",
       "uses": [
         {
           "subject": "scene",
@@ -85764,10 +85764,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.you-said-that-on-issue-and-i-can-t-square-it-with-what-it-costs-people",
+      "key": "scene-talk.state-ask.you-said-that-on-issue-and-i-can-t-square-it-with-what-i-ve-seen-why",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "You said that on {issue}, and I can't square it with what it costs people like me. Why?",
+      "text": "You said that on {issue}, and I can't square it with what I've seen. Why?",
       "uses": [
         {
           "subject": "scene",
@@ -85790,10 +85790,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.that-answer-on-issue-hurts-people-here-what-do-you-say-to-us",
+      "key": "scene-talk.state-ask.i-don-t-agree-with-your-answer-on-issue-what-do-you-say-to-us",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "That answer on {issue} hurts people here. What do you say to us?",
+      "text": "I don't agree with your answer on {issue}. What do you say to us?",
       "uses": [
         {
           "subject": "scene",
@@ -85946,10 +85946,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-meant-what-i-said-and-i-ll-tell-you-what-i-weighed",
+      "key": "scene-talk.reply-answer.i-gave-you-my-answer-on-that-and-i-meant-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I meant what I said, and I'll tell you what I weighed.",
+      "text": "I gave you my answer on that, and I meant it.",
       "uses": [
         {
           "subject": "scene",
@@ -85982,7 +85982,17 @@
           "move": "answer",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "calm",
@@ -85996,10 +86006,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-owe-you-the-reason-so-here-it-is",
+      "key": "scene-talk.reply-answer.you-re-right-to-ask-i-stand-where-i-said-i-do",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I owe you the reason, so here it is.",
+      "text": "You're right to ask. I stand where I said I do.",
       "uses": [
         {
           "subject": "scene",
@@ -86021,35 +86031,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.you-re-right-to-ask-here-is-where-i-stand",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "You're right to ask. Here is where I stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.you-ve-given-me-something-to-think-about-i-may-be-wrong",
+      "key": "scene-talk.reply-relent.i-may-not-have-weighed-that-enough-i-ll-look-again",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "You've given me something to think about. I may be wrong.",
+      "text": "I may not have weighed that enough. I'll look again.",
       "uses": [
         {
           "subject": "scene",
@@ -86057,32 +86042,17 @@
           "move": "relent",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "contrite",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "relent",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.i-didn-t-weigh-what-it-costs-you-i-ll-look-at-it-again",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "I didn't weigh what it costs you. I'll look at it again.",
-      "uses": [
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
         {
           "subject": "scene",
           "step": "reply",
           "move": "relent",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "contrite",
@@ -86107,7 +86077,17 @@
           "move": "relent",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "calm",
@@ -86171,10 +86151,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.i-can-t-do-this-justice-in-two-minutes-come-see-me",
+      "key": "scene-talk.reply-offer.i-can-t-do-this-justice-from-here-come-see-me",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "I can't do this justice in two minutes. Come see me.",
+      "text": "I can't do this justice from here. Come see me.",
       "uses": [
         {
           "subject": "scene",
@@ -86192,31 +86172,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-want-to-hear-from-others-too-next-question",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I want to hear from others too. Next question.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
         "key": "favor-asked"
       }
     },
@@ -86307,7 +86262,17 @@
           "move": "lie",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "calm",
@@ -86477,10 +86442,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-ll-stay-thank-you",
+      "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll stay. Thank you.",
+      "text": "I'll hold you to that. Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -86555,10 +86520,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-plea.please-i-took-the-day-off-to-be-here",
+      "key": "scene-talk.follow-plea.please-i-stood-up-to-ask-this",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Please. I took the day off to be here.",
+      "text": "Please. I stood up to ask this.",
       "uses": [
         {
           "subject": "scene",
@@ -86581,32 +86546,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.all-right-let-me-say-it-plainly",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "All right. Let me say it plainly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-relent.maybe-i-m-wrong-tell-me-what-i-m-missing",
       "move": "reply-relent",
       "kind": "spoken",
@@ -86619,7 +86558,18 @@
           "role": "asked",
           "purpose": "town-hall-question",
           "key": "favor-asked",
-          "after": "press"
+          "after": "press",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "contrite",
@@ -86633,36 +86583,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.let-s-not-do-this-in-front-of-the-room-stay-after",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Let's not do this in front of the room. Stay after.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ll-take-the-next-question",
+      "key": "scene-talk.reply-leave.i-can-t-take-more-on-this-tonight",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll take the next question.",
+      "text": "I can't take more on this tonight.",
       "uses": [
         {
           "subject": "scene",
@@ -86685,32 +86609,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.you-deserve-a-real-answer-here-it-is",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "You deserve a real answer. Here it is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "after": "plea"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-relent.you-re-right-i-m-sorry-let-me-try-again",
       "move": "reply-relent",
       "kind": "spoken",
@@ -86723,7 +86621,18 @@
           "role": "asked",
           "purpose": "town-hall-question",
           "key": "favor-asked",
-          "after": "plea"
+          "after": "plea",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "plea",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "contrite",
@@ -86843,10 +86752,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confess.you-re-right-i-haven-t-started",
+      "key": "scene-talk.reply-confess.you-re-right-i-haven-t-done-anything-on-it-yet",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "You're right. I haven't started.",
+      "text": "You're right. I haven't done anything on it yet.",
       "uses": [
         {
           "subject": "scene",
@@ -87051,10 +86960,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.i-m-not-done-i-ll-be-back-in-line",
+      "key": "scene-talk.close-press.this-isn-t-over-for-me",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'm not done. I'll be back in line.",
+      "text": "This isn't over for me.",
       "uses": [
         {
           "subject": "scene",
