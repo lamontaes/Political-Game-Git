@@ -54,5 +54,9 @@
     "kinds": ["manufacturing", "quarry"],
     "cause": "clean-air",
     "citation": "EPA Green Book nonattainment duties fall on stationary emitters; the Census PACE survey counts manufacturers and mining as the abating industries (MA200(05))."
+  },
+  "ageVerification": {
+    "classifications": ["enterprise:telecommunications"],
+    "citation": "Social media age verification duties fall on the platform; the business books classify online platforms and internet providers as telecommunications."
   }
 }

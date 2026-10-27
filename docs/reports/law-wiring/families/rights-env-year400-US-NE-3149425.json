@@ -1,0 +1,730 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 400,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "kind": "question",
+      "family": "technology",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c) effective 2025-01-21; then repealed at state, city effective 2026-02-26",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+        "law:US-NE:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-09-03:LB 36",
+        "law:US-NE:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2026-02-26:law-wiring-7d767e2c-b",
+        "law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2026-02-26:law-wiring-7d767e2c-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 1,
+        "countedGroups": 1,
+        "countedPeople": 227,
+        "households": 0,
+        "organizations": 2,
+        "governments": 1,
+        "other": 0,
+        "open": 5,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:department:organization_323a5cedbef21846:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:officers:person_02977976e9a4e00e:2025-01-21",
+          "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|place:3149425",
+          "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|residents:place:3149425"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 227,
+        "households": 0,
+        "organizations": 1,
+        "governments": 1,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|place:3149425",
+          "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|residents:place:3149425",
+          "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-NE:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-09-03:LB 36",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        },
+        {
+          "id": "law:US-NE:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2026-07-18:LB 70",
+          "level": "state",
+          "effectiveDate": "2026-07-18",
+          "value": 0
+        }
+      ],
+      "readers": {
+        "src/core2/modules/legislature.ts:2133": 1116,
+        "src/core2/modules/outcome-web.ts:166": 571,
+        "src/core2/modules/world-legislating.ts:253": 188,
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:730": 166,
+        "src/core2/modules/world-legislating.ts:183": 96,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:730": 92,
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:1255": 52,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:1255": 32,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/life.ts:556": 12,
+        "src/core2/life.ts:556": 11,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1407625324,
+            "control": 1436307440,
+            "ids": [
+              "journal:2025-02-01:3079",
+              "journal:2025-02-01:3080",
+              "journal:2025-02-01:3081"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3317968387,
+            "control": 3293799937,
+            "ids": [
+              "journal:2025-01-21:1504",
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 532908277,
+            "control": 536430528,
+            "ids": [
+              "journal:2025-01-24:1580",
+              "journal:2025-01-25:1581",
+              "journal:2025-01-25:1583"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 328445400,
+            "control": 325537834,
+            "ids": [
+              "journal:2025-02-01:1879",
+              "journal:2025-02-01:1880",
+              "journal:2025-02-01:1881"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 190496414,
+            "control": 192784330,
+            "ids": [
+              "journal:2025-02-01:3061",
+              "journal:2025-02-01:3062",
+              "journal:2025-02-01:3063"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 218975607,
+            "control": 220610194,
+            "ids": [
+              "journal:2025-02-01:1918",
+              "journal:2025-02-01:1919",
+              "journal:2025-02-01:1920"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 515480903,
+            "control": 516749339,
+            "ids": [
+              "journal:2025-01-28:1606",
+              "journal:2025-01-29:1639",
+              "journal:2025-01-30:1644"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 9258092,
+            "control": 8187540,
+            "ids": [
+              "journal:2025-02-19:8154",
+              "journal:2025-02-19:8155",
+              "journal:2025-02-19:8156"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 369174411,
+            "control": 369912069,
+            "ids": [
+              "journal:2025-01-21:1530",
+              "journal:2025-01-21:1531",
+              "journal:2025-01-21:1532"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1603",
+            "treatment": 3440880333,
+            "control": 3441588324,
+            "ids": [
+              "journal:2025-01-28:1607",
+              "journal:2025-01-29:1640",
+              "journal:2025-01-30:1645"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:2602",
+            "treatment": 68062,
+            "control": 767502,
+            "ids": ["journal:2025-06-01:33989"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 75053355,
+            "control": 75572808,
+            "ids": [
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1952",
+              "journal:2025-02-01:1955"
+            ]
+          }
+        ],
+        "diffKinds": 39,
+        "cited": [
+          {
+            "token": "law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+            "gross": 4946,
+            "ids": [
+              "journal:2025-03-01:8653",
+              "journal:2025-03-01:8655",
+              "journal:2025-04-01:16233"
+            ]
+          },
+          {
+            "token": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+            "gross": 21082646,
+            "ids": [
+              "journal:2025-03-01:8653",
+              "journal:2025-03-01:8655",
+              "journal:2025-04-01:16233"
+            ],
+            "control": 21077700
+          },
+          {
+            "token": "law-wiring-7d767e2c",
+            "gross": 4946,
+            "ids": [
+              "journal:2025-03-01:8653",
+              "journal:2025-03-01:8655",
+              "journal:2025-04-01:16233"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+              "way": "in",
+              "targets": 1,
+              "moved": 1494851,
+              "earliest": "2026-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+                  "way": "in",
+                  "treatment": -11370344,
+                  "control": -12865195,
+                  "journal": "journal:2026-02-01:103422"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+              "way": "out",
+              "targets": 1,
+              "moved": 701754,
+              "earliest": "2026-02-10",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-10",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+                  "way": "out",
+                  "treatment": -23549658,
+                  "control": -22847904,
+                  "journal": "journal:2026-02-10:109316"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+              "way": "out",
+              "targets": 1,
+              "moved": 632450,
+              "earliest": "2026-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+                  "way": "out",
+                  "treatment": 3465354,
+                  "control": 4097804,
+                  "journal": "journal:2026-02-01:101920"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 1,
+              "moved": 563752,
+              "earliest": "2026-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": 2991947,
+                  "control": 3555699,
+                  "journal": "journal:2026-02-01:101888"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "moved": 412295,
+              "earliest": "2026-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 434196,
+                  "control": 21901,
+                  "journal": "journal:2026-02-01:101910"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1104",
+              "way": "out",
+              "targets": 1,
+              "moved": 292504,
+              "earliest": "2026-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1104",
+                  "way": "out",
+                  "treatment": 58407682272869,
+                  "control": 58407682565373,
+                  "journal": "journal:2026-02-01:101613"
+                }
+              ]
+            },
+            {
+              "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2616",
+              "way": "out",
+              "targets": 1,
+              "moved": 255255,
+              "earliest": "2026-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-01",
+                  "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 255255,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+              "way": "out",
+              "targets": 1,
+              "moved": 165339,
+              "earliest": "2026-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-01",
+                  "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+                  "way": "out",
+                  "treatment": 740681,
+                  "control": 906020,
+                  "journal": "journal:2026-02-01:101811"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:912",
+              "way": "in",
+              "targets": 1,
+              "moved": 85021,
+              "earliest": "2026-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:912",
+                  "way": "in",
+                  "treatment": -2771501019594,
+                  "control": -2771501104615,
+                  "journal": "journal:2026-02-01:101588"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+              "way": "in",
+              "targets": 1,
+              "moved": 58716,
+              "earliest": "2026-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2026-02-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+                  "way": "in",
+                  "treatment": 149892,
+                  "control": 91176,
+                  "journal": "journal:2026-02-01:103425"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/counted-money.ts:698|in",
+          "sample": [
+            {
+              "target": "jurisdiction_45a3b3ebe97fe71d",
+              "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+              "date": "2026-02-01",
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+              "way": "in",
+              "treatment": -11370344,
+              "control": -12865195,
+              "journal": "journal:2026-02-01:103422"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2026-02-01",
+                "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+                "way": "in",
+                "treatment": -11370344,
+                "control": -12865195,
+                "journal": "journal:2026-02-01:103422"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2026-02-01",
+                "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+                "way": "out",
+                "treatment": 3465354,
+                "control": 4097804,
+                "journal": "journal:2026-02-01:101920"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2026-02-01",
+                "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                "way": "out",
+                "treatment": 2991947,
+                "control": 3555699,
+                "journal": "journal:2026-02-01:101888"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2026-02-01",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                "way": "in",
+                "treatment": 434196,
+                "control": 21901,
+                "journal": "journal:2026-02-01:101910"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1104",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2026-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1104",
+                "way": "out",
+                "treatment": 58407682272869,
+                "control": 58407682565373,
+                "journal": "journal:2026-02-01:101613"
+              }
+            },
+            {
+              "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2616",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2026-02-01",
+                "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2616",
+                "way": "out",
+                "treatment": 0,
+                "control": 255255,
+                "journal": ""
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2026-02-01",
+                "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+                "way": "out",
+                "treatment": 740681,
+                "control": 906020,
+                "journal": "journal:2026-02-01:101811"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:912",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2026-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:912",
+                "way": "in",
+                "treatment": -2771501019594,
+                "control": -2771501104615,
+                "journal": "journal:2026-02-01:101588"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2026-02-01",
+                "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+                "way": "in",
+                "treatment": 149892,
+                "control": 91176,
+                "journal": "journal:2026-02-01:103425"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "facial-recognition-limit-to-crime",
+            "status": "built",
+            "to": "crime.violent"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-02",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          }
+        ],
+        "firedCount": 1,
+        "windowDays": 400,
+        "cause": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "facial-recognition-limit-to-crime",
+            "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "facial-recognition-limit-to-crime",
+            "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "facial-recognition-limit-to-crime",
+            "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "facial-recognition-limit-to-crime",
+            "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "month": "2025-05",
+            "link": "facial-recognition-limit-to-crime",
+            "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "month": "2025-06",
+            "link": "facial-recognition-limit-to-crime",
+            "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "month": "2025-07",
+            "link": "facial-recognition-limit-to-crime",
+            "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "month": "2025-08",
+            "link": "facial-recognition-limit-to-crime",
+            "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-NE:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-09-03:LB 36",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      },
+      "heard": {
+        "people": 131,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:police:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:police:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:police:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 64
+    }
+  ]
+}

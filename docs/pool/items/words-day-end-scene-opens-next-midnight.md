@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/ledger.ts, src/bench/player.ts
 
-**Notes.** TODO
+**Notes.** TODO Playtest Oct 26 sitting 1 (installed v0.34.0): The filing-reaction scene opened Wed Jan 22, 12:00 AM saying "It is a Monday in January."
