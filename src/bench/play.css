@@ -247,7 +247,7 @@ ol {
   flex: none;
   width: 62px;
   height: 62px;
-  background: 50% 3% / 230% auto no-repeat;
+  background: 50% 0 / 150% auto no-repeat;
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
 }
