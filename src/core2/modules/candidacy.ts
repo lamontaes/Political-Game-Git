@@ -1130,6 +1130,18 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
         "serving",
       ]) as unknown as TermRow[]
   )[0];
+  // An incumbent who decided to stand down leaves the seat open: a party asks
+  // its members to run for an open seat, citing that decision, as everyone
+  // else weighs it.
+  const incumbentDecision = incumbent?.personId
+    ? decisionOf(api, contest.id, incumbent.personId as PersonId)
+    : undefined;
+  const standDown =
+    incumbentDecision &&
+    incumbentDecision.reasons.standAgain !== undefined &&
+    !incumbentDecision.run
+      ? incumbentDecision
+      : undefined;
   for (const { party, chairId, members } of partyProspects(api, contest)) {
     for (const person of members) {
       const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
@@ -1170,11 +1182,15 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
           contestId: contest.id,
           officeName: contest.title,
           filingDeadline: rules.deadline ?? contest.filingDeadline,
-          ...(incumbent?.personId
+          ...(incumbent?.personId && !standDown
             ? { incumbentId: incumbent.personId as PersonId }
             : {}),
           askedBy: { recordId, chairId },
-          sourceIds: [contest.id, recordId],
+          sourceIds: [
+            contest.id,
+            recordId,
+            ...(standDown ? [standDown.id] : []),
+          ],
         },
         true,
       );
