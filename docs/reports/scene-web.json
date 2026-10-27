@@ -9,7 +9,7 @@
     "rows": 121,
     "typesFired": 26,
     "rowsWaitingOnProducer": 18,
-    "rowsWithoutEpisode": 60,
+    "rowsWithoutEpisode": 59,
     "ownerExamples": 112,
     "ownerScenesMissing": 15
   },
@@ -1765,7 +1765,7 @@
         "asked": 114
       },
       "lines": 270,
-      "episodes": [],
+      "episodes": ["a-constituents-case"],
       "ownerAsked": ["Office hours"],
       "firedInYear": 3,
       "firedExample": "person_93416eadbd3440f1:2025-11-16:office-approached:case:person_934171adbd34460a:2025-11-16"

@@ -5,11 +5,12 @@ area: release
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/release-package-clock
+pr: #6353
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T16:41:25.359Z
 ---
 
 **What.** Every merge to main starts a Release run that builds, validates, publishes and then packages the Mac and Windows desktop apps; the publish and package jobs share one concurrency group and GitHub keeps only the newest pending run, so on the morning of Oct 27 twelve runs in a row were superseded before they packaged and the owner had no new build for five hours (v0.47.1 at 08:09 UTC to v0.51.1 at 10:19, then nothing until 15:40). The CTO answered with merge holds, which the owner has withdrawn: nothing is held back. Split the workflow: every push to main still builds and validates the candidate and publishes the version commit (fast, minutes), but packaging the desktop apps runs on a schedule every two hours against the newest published candidate, and on workflow_dispatch when the CTO or the owner asks, never cancelled or superseded by a merge. Time box: 3 hours.
