@@ -388,8 +388,6 @@ function doing(
   personId: string,
   packet: PlayerPacketV1 | undefined,
 ): { actionId: string; targetId?: string } | undefined {
-  if (packet?.kind === "stop" && packet.stop.work)
-    return { actionId: "work-shift" };
   if (packet?.kind === "choice" && packet.choiceKind === "committed")
     return { actionId: "work-shift" };
   const ids = [...(core.logByPerson.get(personId) ?? [])];

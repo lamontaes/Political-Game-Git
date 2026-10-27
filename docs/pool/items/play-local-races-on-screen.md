@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-local-races-on-screen
 pr: #6160
 blocked-on:

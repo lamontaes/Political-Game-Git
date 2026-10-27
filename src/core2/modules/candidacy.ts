@@ -764,12 +764,47 @@ export function weighContest(
     if (term?.status === "serving" && term.personId)
       committed.add(term.personId);
   }
+  const weighs = (p: PersonState) =>
+    p.alive &&
+    (p.placeId === town.townPlaceId || pool.has(p.id)) &&
+    !appointed.has(p.id) &&
+    ageOnDate(p.birthDate, date) >= rules.minimumAge &&
+    !isExplicitlyControlledPersonV1(api.state, p.id) &&
+    !committed.has(p.id) &&
+    !(incumbentFiled && p.id === incumbentId) &&
+    (!wide ||
+      !checkEligibility(api, p.id, contest.id, null).some(
+        (check) => check.rule === "residency" && !check.met,
+      ));
+  // The incumbent weighs standing again first: one who stands down leaves
+  // the seat open, and everyone else weighs it as an open seat, citing the
+  // decision that opened it.
+  const holder = incumbentId ? api.state.people.get(incumbentId) : undefined;
+  let field = open;
+  if (holder && weighs(holder)) {
+    const decision = decideToRun(
+      api,
+      holder.id,
+      { ...open, runners: 0 },
+      reconsider,
+    );
+    if (decision) {
+      asked.push(holder.id);
+      if (decision.run) running.push(holder.id);
+      else field = openSeatOf(open, decision.id);
+    }
+  }
   // A local seat: the town's counted adults weigh it from their counted
   // records; those it draws are filled in and decide in full like anyone.
   let countedWeighed = 0;
   const filledInIds: PersonId[] = [];
   if (rank <= localRank || wide) {
-    const screen = countedScreen(api, open, town.townPlaceId, rules.minimumAge);
+    const screen = countedScreen(
+      api,
+      field,
+      town.townPlaceId,
+      rules.minimumAge,
+    );
     countedWeighed = screen.weighed;
     for (const id of screen.drawn) {
       if (committed.has(id)) continue;
@@ -778,20 +813,7 @@ export function weighContest(
     }
   }
   const people = [...api.state.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        (p.placeId === town.townPlaceId || pool.has(p.id)) &&
-        !appointed.has(p.id) &&
-        ageOnDate(p.birthDate, date) >= rules.minimumAge &&
-        !isExplicitlyControlledPersonV1(api.state, p.id) &&
-        !committed.has(p.id) &&
-        !(incumbentFiled && p.id === incumbentId) &&
-        (!wide ||
-          !checkEligibility(api, p.id, contest.id, null).some(
-            (check) => check.rule === "residency" && !check.met,
-          )),
-    )
+    .filter((p) => !asked.includes(p.id) && weighs(p))
     .sort((a, b) => a.id.localeCompare(b.id));
   for (const person of people) {
     if (scope)
@@ -802,7 +824,7 @@ export function weighContest(
     const decision = decideToRun(
       api,
       person.id,
-      { ...open, runners: running.length },
+      { ...field, runners: running.length },
       reconsider,
     );
     if (!decision) continue;
@@ -824,6 +846,16 @@ export function weighContest(
     .table("weighed")
     .put(row as unknown as { id: string });
   return row;
+}
+
+/** The seat as the rest of the town weighs it once its incumbent stands down. */
+function openSeatOf(open: OpenContest, stoodDown: string): OpenContest {
+  const seat: OpenContest = {
+    ...open,
+    sourceIds: [...open.sourceIds, stoodDown],
+  };
+  delete seat.incumbentId;
+  return seat;
 }
 
 /** Everyone who decided to run in a contest held on this election day. */
@@ -1098,6 +1130,18 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
         "serving",
       ]) as unknown as TermRow[]
   )[0];
+  // An incumbent who decided to stand down leaves the seat open: a party asks
+  // its members to run for an open seat, citing that decision, as everyone
+  // else weighs it.
+  const incumbentDecision = incumbent?.personId
+    ? decisionOf(api, contest.id, incumbent.personId as PersonId)
+    : undefined;
+  const standDown =
+    incumbentDecision &&
+    incumbentDecision.reasons.standAgain !== undefined &&
+    !incumbentDecision.run
+      ? incumbentDecision
+      : undefined;
   for (const { party, chairId, members } of partyProspects(api, contest)) {
     for (const person of members) {
       const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
@@ -1138,11 +1182,15 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
           contestId: contest.id,
           officeName: contest.title,
           filingDeadline: rules.deadline ?? contest.filingDeadline,
-          ...(incumbent?.personId
+          ...(incumbent?.personId && !standDown
             ? { incumbentId: incumbent.personId as PersonId }
             : {}),
           askedBy: { recordId, chairId },
-          sourceIds: [contest.id, recordId],
+          sourceIds: [
+            contest.id,
+            recordId,
+            ...(standDown ? [standDown.id] : []),
+          ],
         },
         true,
       );
