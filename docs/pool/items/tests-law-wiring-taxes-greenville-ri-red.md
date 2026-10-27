@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/taxes-greenville-ri
+pr: #6207
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T01:06:24.953Z
 ---
 
 **What.** src/core2/law-wiring-taxes.test.ts fails on clean main in Greenville, Rhode Island (4431600) with GOLDEN_PATH_SEED=m3-wh1: 'laws with no applied record after play: expected [ Array(1) ] to deeply equal []'. Found by Merger 3 on PR 6193; it fails the same on main. One tax law in that place's played world writes no applied record, so the test reads nothing for it.
