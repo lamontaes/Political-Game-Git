@@ -44,10 +44,19 @@ describe(`seated people at ${place}`, () => {
       const { figure } = placeSeated(seated, standing, "adult", stage, spot);
       const scale = figure.heightPercent / seated.height;
       expect(figure.topPercent + 560 * scale).toBeCloseTo(spot.seatY!, 6);
-      expect(figure.leftPercent + figure.widthPercent / 2).toBeCloseTo(
-        spot.x,
-        6,
-      );
+      // Centered on the seat, moved in only as far as the picture's sides need.
+      const center = figure.leftPercent + figure.widthPercent / 2;
+      if (
+        spot.x - figure.widthPercent / 2 >= 0 &&
+        spot.x + figure.widthPercent / 2 <= 100
+      )
+        expect(center).toBeCloseTo(spot.x, 6);
+      else {
+        expect(figure.leftPercent).toBeGreaterThanOrEqual(0);
+        expect(figure.leftPercent + figure.widthPercent).toBeLessThanOrEqual(
+          100.000001,
+        );
+      }
       // Behind a desk: cut off at the desk, and no shadow on a hidden floor.
       if (spot.clipBelowY !== undefined && spot.clipBandEndY === undefined) {
         expect(figure.clipBelowPercent).toBe(spot.clipBelowY);

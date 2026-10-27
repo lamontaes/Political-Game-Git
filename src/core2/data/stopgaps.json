@@ -4599,8 +4599,8 @@
     "why": "World building draws the player's past during New game, before the creator runs, and there is no step to redraw it for a chosen age.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age.",
-    "status": "open"
+    "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age. Resolved Oct 27, 2026: the chosen birthday goes into the world build (buildBenchWorld's playerBirthDate), which holds a resident of that age and makes the player the resident born nearest it, so the household, kin, schooling, work and money drawn for them fit the age; the identity call then sets the name, exact birth date and looks.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-town-count-estimate",
@@ -5095,6 +5095,30 @@
     "addedBy": "effect-web-schools",
     "addedAt": "2026-10-24",
     "replacement": "Counted students' attendance from the counted tier's own school days (the same attendance choice full students make, read for the group times its count), so the standing reads one recorded rule in both tiers.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-household-distance-estimate",
+    "kind": "estimated-data",
+    "file": "src/core2/home-distance.ts",
+    "line": 59,
+    "whatItFakes": "How far a household lives from the middle of town is an estimate: a point spread evenly over a disc the size of the place's land area (2020 Census place-county parts), fixed by the world's seed. There are no home addresses or street map, so two households that are neighbors can be recorded far apart. Only the party meeting's attendance reads it.",
+    "why": "No generated household has an address or a position; the party meeting's distance cost needs a number that differs between households and grows with the size of the place.",
+    "addedBy": "traits-civic",
+    "addedAt": "2026-10-24",
+    "replacement": "Households placed on the town's real streets or tracts (the housing engine's dwellings), and the meeting hall placed with them; the distance cost then reads the real trip.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-director-claims-reader",
+    "kind": "rule-copy",
+    "file": "src/core2/heard-claims.ts",
+    "line": 33,
+    "whatItFakes": "Two believing rules: a story or speech one resident passes to another goes through believesClaim (the stranger's pull believeStrangerPull, plus closeness to the teller and how well the claim fits the hearer's view, against the trait lean at its weight), while the player's own claim in a conversation is still read by the director's doubtsClaim (src/director/conversation.ts), the flat truthDefaultPull against the raw trait lean, with no closeness, fit or weight.",
+    "why": "src/director edits belong to the Words line (merger rule); the civic family may not change the director's reader on its own branch.",
+    "addedBy": "traits-civic",
+    "addedAt": "2026-10-25",
+    "replacement": "The Words line routes doubtsClaim through believesClaim, passing the player as the teller (pool item words-director-claims-shared-rule); truthDefaultPull is then removed.",
     "status": "open"
   },
   {
@@ -6987,6 +7011,66 @@
     "addedBy": "fixer, Merger 2's send-back of PR 5792",
     "addedAt": "2026-10-27",
     "replacement": "Correct the counted renters' income to the place's sourced ratio (world-counted-renter-income-puerto-rico-third), then remove the pin so the case meets the HUD bound.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-rent-help-population-share",
+    "kind": "faked-mechanic",
+    "file": "src/core2/housing-assistance.ts",
+    "line": 51,
+    "whatItFakes": "A state's or county's rent-help line is paid to the played town by the town's share of the government's population, as though renter households were spread the same way as people.",
+    "why": "Renter households are not recorded for the whole government, only for the played town, so the town's slice of a larger government's line cannot be read from renters; the population share is the nearest record that exists.",
+    "addedBy": "fixer, Merger 4's send-back of PR 6219",
+    "addedAt": "2026-10-27",
+    "replacement": "Record renter households per government (counted, as the town's are) and pay each line by the town's share of them; the stopgap clears when the share reads renters.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-figure-color-masks-from-picture",
+    "kind": "faked-mechanic",
+    "file": "src/bench/figure-colors.ts",
+    "line": 61,
+    "whatItFakes": "A figure's skin and clothing regions are guessed from pixel colors (warm saturated pixels are skin, unsaturated mid-gray pixels are clothing) instead of read from a painted mask, so the gray shoes follow the clothes color and a very dark skin tone loses some facial shading.",
+    "why": "The v2 figures are flat pictures in one skin tone and gray clothes with no mask layers; play-stop-34 needed color choice in the creator and rooms inside its time box without repainting 389 figures.",
+    "addedBy": "claude/play-stop-34",
+    "addedAt": "2026-10-27",
+    "replacement": "A painted skin mask and clothing mask for each figure (asset-scene-admission), read by recolorFigure in place of the color test.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-people-skin-tone-weights",
+    "kind": "estimated-data",
+    "file": "src/bench/whole-figures.ts",
+    "line": 236,
+    "whatItFakes": "The skin tone of a person other than the player is drawn from one national spread of eight tones, the same in every place, not from the place's own people.",
+    "why": "The people records hold no skin tone; the figures need one to differ from their neighbors. The weights are a rough estimate of the national spread (Census race and ethnicity counts folded into eight tones), about five points a tone.",
+    "addedBy": "claude/play-stop-35",
+    "addedAt": "2026-10-27",
+    "replacement": "A skin tone set from the place's own demographics when the person is made, stored on their appearance record.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-hardship-stress",
+    "kind": "partial-model",
+    "file": "src/core2/trait-decisions.ts",
+    "line": 472,
+    "whatItFakes": "The stress a layoff, an eviction or a missed payment leaves is read by the loan and move decisions for full people only; a counted person's decision reads none, because the wider population stores no stress (a counted worker laid off feels the layoff's appraisal for the day of their claim only).",
+    "why": "A counted person's stress impulses are appraised when the event reaches them (drives.ts) and not kept, and their resting stress is recomputed from their situation each time their group decides; there is no stored stress above rest to read a month later.",
+    "addedBy": "traits-outcome-hardship-coping",
+    "addedAt": "2026-10-24",
+    "replacement": "Keep a counted person's appraised hardship impulse with the date it landed (a row beside the counted record, written where drives.ts appraises it) and read it, decayed by emotion.ts, in hardshipStress; a person filled in from a group would take it into their affect.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-opening-venue-has-no-inauguration-record",
+    "kind": "missing-record",
+    "file": "src/bench/data/opening-pictures.json",
+    "line": 1,
+    "whatItFakes": "An inauguration's address is staged at the House rostrum, in every world, because that is the one national picture with a podium and seats behind it.",
+    "why": "The inauguration record (inauguration:2025-01-20) carries no venue, and the Capitol steps have no podium in the painted pictures, so the President could not be drawn at a lectern with the Vice President and others behind him at the White House.",
+    "addedBy": "play-first lane agent 4",
+    "addedAt": "2026-10-27",
+    "replacement": "The inauguration record carries its venue, and the Capitol steps picture gets a podium spot; the setting reads the record.",
     "status": "open"
   }
 ]

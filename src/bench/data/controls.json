@@ -26,7 +26,9 @@
   },
   "creator": {
     "people": "people",
-    "about": "about"
+    "about": "about",
+    "countyLine": "in {county}",
+    "ageLine": "You will be {age} on {date}, the day your life begins."
   },
   "endedBy": {
     "moment": "Something needs you",
@@ -112,12 +114,16 @@
     "done": "Ready"
   },
   "opening": {
-    "news": "News"
+    "news": "News",
+    "closeNews": "Close the news",
+    "newsToastSeconds": 8
   },
   "person": {
     "age": "Age",
     "work": "Work",
     "place": "Home",
+    "school": "School",
+    "lastTalked": "Last talked",
     "talk": "Talk",
     "back": "Back",
     "continue": "Continue",
@@ -158,6 +164,8 @@
   },
   "filing": {
     "file": "File for this office",
+    "chooseRace": "Choose a race",
+    "openRaces": "Open races",
     "metOn": "From",
     "status": {
       "on-ballot": "You are on the ballot",
@@ -213,9 +221,11 @@
     "nameHeadPick": "Name to the post"
   },
   "titleUnavailable": {
-    "watch": "Watching the world without a player is not on the new core yet.",
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."
+  },
+  "advanced": {
+    "none": "No one holds an office that matches"
   },
   "levels": {
     "local": "Local",
@@ -228,7 +238,18 @@
     "filing": "Filing office",
     "go": "Go",
     "back": "Back",
-    "next": "Continue"
+    "next": "Continue",
+    "from": "You are at home",
+    "nobody": "Nobody there right now",
+    "andOthers": "and {n} more",
+    "reasons": {
+      "work": "You work here",
+      "study": "Someone at home studies here",
+      "known": "works here",
+      "action": "You can",
+      "serve": "Where you serve",
+      "filing": "You file here for"
+    }
   },
   "time": {
     "week": "Week"
