@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/helper-d-desk-visit
-pr: #6250
+pr: #6303
 blocked-on:
 source: owner, Oct 27 (executive scenes, signing or vetoing with the sponsor in the room); scenes-from-life episode desk-decision-both-sides
 lead: words
