@@ -287,6 +287,7 @@
     },
     {
       "kindPrefix": "event:office.voted",
+      "hasOtherLine": true,
       "turn": false,
       "entry": "story",
       "stageFact": "vote",
@@ -303,6 +304,7 @@
     },
     {
       "kindPrefix": "event:office.introduced",
+      "hasOtherLine": true,
       "turn": false,
       "entry": "story",
       "eventFacts": {
