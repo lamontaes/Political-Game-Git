@@ -10,6 +10,7 @@ import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
+import { NEWSCAST_BANK } from "../english/english-newscast";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { keyPeopleOf } from "../core2/opening-key-people";
 import { subjectsBetween } from "./conversation";
@@ -145,6 +146,48 @@ describe("the opening story", () => {
       if (frame.lines.some((row) => row.stateKey))
         expect(frame.place).toMatch(/^state-capitol-/);
     expect(opening.news.stories).toEqual(story.newscast);
+  });
+
+  it("leads the news with a news story: the swearing-in, a lede, the figures and one quote", () => {
+    const lead = story.newscast[0]!;
+    const where = `${place.name}, seed ${seed}, ${date}`;
+    expect(lead.kind, where).toBe("address");
+    expect(lead.headline, where).toBeTruthy();
+    // The election was in November: on Inauguration Day no headline or
+    // sentence claims a win, and the headline names the swearing-in.
+    expect(lead.headline, where).not.toMatch(
+      /\b(?:won|wins|elected|beats|victory)\b/i,
+    );
+    for (const text of lead.paragraphs ?? [])
+      expect(text, where).not.toMatch(/\b(?:won|wins|elected)\b/i);
+    if (story.speechKind === "inaugural") {
+      expect(lead.headline, where).toMatch(/sworn in|oath/i);
+      expect(lead.sourceRecordIds, where).toContain(story.president.id);
+    }
+    // A lede, then two or three sentences, at most one of them a quote.
+    const paragraphs = lead.paragraphs ?? [];
+    expect(paragraphs[0], where).toBe(lead.lede);
+    expect(paragraphs.length, where).toBeGreaterThanOrEqual(3);
+    expect(paragraphs.length, where).toBeLessThanOrEqual(4);
+    expect(
+      paragraphs.filter((text) => text.includes('"')).length,
+      where,
+    ).toBeLessThanOrEqual(1);
+    // No anchor's sign-off, and no line that only says where someone was.
+    const closes = new Set(
+      NEWSCAST_BANK.parts
+        .filter((part) =>
+          part.uses.some(
+            (use) => use.subject === "anchor" && use.role === "close",
+          ),
+        )
+        .map((part) => part.text),
+    );
+    for (const text of paragraphs) {
+      expect(closes.has(text), `${where}: ${text}`).toBe(false);
+      expect(text, where).not.toMatch(/^(?:I was in|I'm from) /);
+    }
+    console.log(`${where}: ${lead.headline} | ${paragraphs.join(" | ")}`);
   });
 
   it("plays over the sequence: the President's stage, Congress, the state, the town, the family, then home", () => {
