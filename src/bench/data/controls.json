@@ -158,6 +158,8 @@
   },
   "filing": {
     "file": "File for this office",
+    "chooseRace": "Choose a race",
+    "openRaces": "Open races",
     "metOn": "From",
     "status": {
       "on-ballot": "You are on the ballot",

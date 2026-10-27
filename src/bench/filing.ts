@@ -111,24 +111,14 @@ export function openBenchFilingVisit(
   const open = openContests(api).filter(
     (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
   );
-  // Contests are told apart by their own records, in one parenthesis: a
-  // seat's district; the year of election, where seats of the same title
-  // are elected in different years (a state's two Senate seats); and the
-  // seat's place among those of its body elected the same day at large.
+  // A contest's title is its office, with its district where it has one. Races of the
+  // same office are told apart in the choice menu by their seat, election day and
+  // holder (`seats` below), never by a code in the title.
   const titled = open.map((row) => `${row.title}|${row.district ?? ""}`);
-  const yearOf = (i: number) => open[i]!.electionDate.slice(0, 4);
-  const contests = open.map((row, i) => {
-    const same = titled.flatMap((t, j) => (t === titled[i] ? [j] : []));
-    const years = new Set(same.map(yearOf));
-    const sameYear = same.filter((j) => yearOf(j) === yearOf(i));
-    const parts = [
-      ...(row.district ? [row.district] : []),
-      ...(years.size > 1 ? [yearOf(i)] : []),
-      ...(sameYear.length > 1 ? [String(sameYear.indexOf(i) + 1)] : []),
-    ];
+  const contests = open.map((row) => {
     return {
       id: row.id,
-      title: parts.length ? `${row.title} (${parts.join(", ")})` : row.title,
+      title: row.district ? `${row.title} (${row.district})` : row.title,
       filingDeadline: row.filingDeadline,
       sourceIds: row.sources,
     };

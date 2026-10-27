@@ -3,7 +3,7 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
-import { mountMenu } from "./ui/menu.mjs";
+import { mountMenu, fillChoiceMenu } from "./ui/menu.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
@@ -1236,8 +1236,11 @@ function renderFiling(value) {
   }));
   $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
   renderFilingOverlay(value);
-  const choices = value.visit.choices.slice(0, 6);
-  const buttons = replies(choices, async (choice) => {
+  // More races than the talk can hold open as a menu beside it, never as a long
+  // numbered list in the talk box (owner, Oct 26).
+  const races = value.visit.choices.filter((c) => c.action.kind === "pick");
+  const asMenu = races.length > 4;
+  const choose = async (choice) => {
     // Filing carries the platform and party chosen on the overlay.
     const params = new URLSearchParams({ key: choice.key });
     if (choice.action.kind === "file") {
@@ -1247,25 +1250,52 @@ function renderFiling(value) {
       params.set("party", $("filing-party").value);
     }
     renderFiling(await post(`/api/filing/choose?${params}`));
-  });
+  };
   // Each race told apart before the pick: its seat, its election day and
   // who holds the seat now, from the contest's records.
   const counter = controls.filing;
+  const factsOf = (choice) => {
+    const seat = value.seats?.[choice.action.contestId];
+    if (!seat) return "";
+    return [
+      ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
+      proseDate(seat.electionDate),
+      seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
+    ].join(" · ");
+  };
+  const choices = value.visit.choices
+    .filter((c) => !(asMenu && c.action.kind === "pick"))
+    .slice(0, 6);
+  const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
-    const seat =
-      choice.action.kind === "pick" && value.seats?.[choice.action.contestId];
-    if (!seat) return;
+    if (choice.action.kind !== "pick") return;
     buttons[i].append(
-      el("small", {
-        className: "reply-facts",
-        textContent: [
-          ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
-          proseDate(seat.electionDate),
-          seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
-        ].join(" · "),
-      }),
+      el("small", { className: "reply-facts", textContent: factsOf(choice) }),
     );
   });
+  if (asMenu) {
+    fillChoiceMenu($("race-menu"), {
+      title: counter.openRaces,
+      rows: races.map((choice) => ({
+        key: choice.key,
+        label:
+          value.visit.contests.find((c) => c.id === choice.action.contestId)
+            ?.title ?? choice.text,
+        facts: factsOf(choice),
+      })),
+      onPick: (key) => choose(races.find((c) => c.key === key)),
+      paged: (items) => menuPages(items, 8),
+    });
+    buttons.unshift(
+      makeButton({
+        className: "reply",
+        textContent: counter.chooseRace,
+        onclick: () => show("race-menu", true),
+      }),
+    );
+    if (!value.result && !value.overlay) show("race-menu", true);
+  }
+  if (!asMenu || value.overlay) show("race-menu", false);
   $("talk-choices").replaceChildren(...buttons);
   // The filing's record once it is made: its status, shown as the record's
   // label under the talk, not as words in the clerk's mouth.
