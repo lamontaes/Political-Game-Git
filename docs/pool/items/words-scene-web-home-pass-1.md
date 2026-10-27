@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: done
 claimed-by: words/web-home
-pr: #6309
+pr: #6346
 blocked-on:
 source: "words-and-scenes lead, Oct 27: first pass of words-scene-web-home-and-family"
 lead: words
