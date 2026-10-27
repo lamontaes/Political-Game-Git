@@ -56,7 +56,7 @@ describe(`contact shadows at ${place}`, () => {
     for (const spot of standing) {
       const whole = wholeFigureFor(core, person, place, stage, spot)!;
       const { figure } = whole;
-      if (spot.clipBelowY !== undefined && spot.clipBandEndY === undefined) {
+      if (spot.behindY !== undefined) {
         expect(figure.shadow).toBeNull();
         continue;
       }
@@ -79,7 +79,7 @@ describe(`contact shadows at ${place}`, () => {
   });
 
   it("draws no shadow where a counter or desk hides the feet", () => {
-    const spot = { ...standing[0]!, clipBelowY: standing[0]!.y - 5 };
+    const spot = { ...standing[0]!, behindY: standing[0]!.y - 5 };
     expect(
       wholeFigureFor(core, person, place, stage, spot)!.figure.shadow,
     ).toBeNull();

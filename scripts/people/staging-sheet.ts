@@ -48,7 +48,7 @@ for (const place of places) {
         ? `<img src="file://${root}/art/people-engine/v2/${REF.file}" style="position:absolute;opacity:.8;left:${spot.x - w / 2}%;top:${spot.y - h * REF.foot}%;height:${h}%;${spot.x < 50 ? "" : "transform:scaleX(-1)"}">`
         : "";
     return `${fig}<div style="position:absolute;left:${spot.x}%;top:${spot.y}%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;background:${COLORS[pose]};border:2px solid #000"></div>
-      <div style="position:absolute;left:${spot.x}%;top:${spot.y}%;transform:translate(8px,-4px);font:bold 12px sans-serif;color:#fff;text-shadow:0 0 3px #000">${index}${spot.hero ? "★" : ""}${ARROWS[spot.facing ?? "viewer"]}${spot.clipBelowY !== undefined ? "▬" : ""}</div>`;
+      <div style="position:absolute;left:${spot.x}%;top:${spot.y}%;transform:translate(8px,-4px);font:bold 12px sans-serif;color:#fff;text-shadow:0 0 3px #000">${index}${spot.hero ? "★" : ""}${ARROWS[spot.facing ?? "viewer"]}${spot.behindY !== undefined ? "▬" : ""}</div>`;
   });
   const html = `<!doctype html><body style="margin:0;overflow:hidden"><div style="position:relative;width:1672px;height:941px">
     <img src="file://${root}${backdropFile(place, 12 * 60).url}" style="position:absolute;inset:0;width:100%;height:100%">

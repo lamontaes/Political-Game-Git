@@ -50,15 +50,26 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  const tabs = await page
-    .locator(".nav-item[data-tab]")
-    .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab));
+  // Every screen: the rail's, Who you are from the portrait, and its Jobs and
+  // study tab.
+  const tabs = [
+    ...(await page
+      .locator("#rings [data-tab]")
+      .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab))),
+    "who",
+    "jobs",
+  ];
   const scan = async (when) => {
     for (const tab of tabs) {
-      await page
-        .locator(`.nav-item[data-tab="${tab}"]`)
-        .first()
-        .evaluate((e) => e.click());
+      if (tab === "jobs") {
+        await page.locator("#card-bust").evaluate((e) => e.click());
+        await page.locator('#sheet-tabs [data-tab="jobs"]').waitFor();
+        await page.locator('#sheet-tabs [data-tab="jobs"]').click();
+      } else
+        await page
+          .locator(`#rings [data-tab="${tab}"], #card-bust[data-tab="${tab}"]`)
+          .first()
+          .evaluate((e) => e.click());
       await page.waitForTimeout(1500);
       // Only what a reader can see: hidden lines don't count.
       const text = await page.locator("#sheet").evaluate((sheet) => {
@@ -98,6 +109,9 @@ try {
         bad.push(`${when} · who: trait names on screen`);
       await page.keyboard.press("Escape");
     }
+    // Escape opens Options over a screen; close whatever is open before going on.
+    if (await page.locator("#sheet").isVisible())
+      await page.locator("#sheet-close").click();
   };
   await scan("start");
   await page.locator("#day").click();
