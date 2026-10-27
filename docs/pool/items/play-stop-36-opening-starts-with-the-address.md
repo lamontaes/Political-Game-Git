@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #6234
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first

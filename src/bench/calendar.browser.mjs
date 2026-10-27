@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
-const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(30000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
@@ -60,7 +60,18 @@ try {
     .getByRole("button", { name: "Previous month", exact: true })
     .click();
   assert.equal(await page.locator(".calendar-heading h3").innerText(), month);
-  await page.locator(".month .day").last().click();
+  // It opens on today: the day's tile is boxed and no day panel is open.
+  assert.ok(await page.locator(".month .day.today.selected").count());
+  await page.screenshot({
+    path: "docs/reports/calendar-today-2026-10-27/today.png",
+  });
+  // An empty future day opens no middle panel; the skip sits under the month.
+  await page
+    .locator(".month .day:not(.today):not(:has(.day-icon))")
+    .last()
+    .click();
+  assert.equal(await page.locator(".calendar-details").isVisible(), false);
+  assert.equal(await page.locator(".calendar-layout.has-day").count(), 0);
   assert.equal(await page.locator("#card-clock").innerText(), clock);
   assert.equal(await page.locator(".month").count(), 1);
   assert.ok(
@@ -70,11 +81,35 @@ try {
   await page.screenshot({
     path: "docs/reports/calendar-readable-2026-10-14/calendar.png",
   });
-  // A future day shows a skip-forward icon with no label text; it runs time to that day.
-  const skip = page.locator(".calendar-details .skip-forward");
+  const skip = page.locator(".calendar-month-foot .skip-forward");
   assert.equal(await skip.count(), 1);
   assert.equal((await skip.innerText()).trim(), "");
   assert.ok(await skip.getAttribute("aria-label"));
+  // A day with a birthday, deadline or election carries an icon and opens its panel.
+  for (let i = 0; i < 12; i++) {
+    if (await page.locator(".month .day:has(.day-icon)").count()) break;
+    await page.getByRole("button", { name: "Next month", exact: true }).click();
+  }
+  const marked = page.locator(".month .day:has(.day-icon)").first();
+  assert.ok(
+    await marked
+      .locator(".day-icon")
+      .first()
+      .evaluate((img) => img.complete && img.naturalWidth > 0),
+  );
+  await marked.click();
+  await page.locator(".calendar-details").waitFor();
+  assert.ok(
+    (await page.locator(".calendar-details .calendar-event p").count()) > 0,
+  );
+  const layout = await page.locator(".calendar-layout").boundingBox();
+  const sheet = await page.locator("#sheet-body").boundingBox();
+  assert.ok(
+    Math.abs(
+      layout.x - sheet.x - (sheet.x + sheet.width - layout.x - layout.width),
+    ) <= 2,
+    "the calendar layout is centered in its panel",
+  );
   await page.screenshot({
     path: "docs/reports/play-time-controls-2026-10-15/calendar.png",
   });
@@ -89,7 +124,7 @@ try {
   const target = await page
     .locator(".month .day.selected")
     .getAttribute("data-date");
-  await skip.click();
+  await page.locator(".calendar-details .skip-forward").click();
   await page.waitForFunction(
     (before) =>
       document.getElementById("card-clock").innerText.trim() !== before,
