@@ -7188,6 +7188,18 @@
     "resolution": "Each job held at the opening carries when it was taken (the work commitment's heldSince): the world's recorded start, else the opening's estimate from the BLS age band's median tenure bounded by adulthood and the employer's founding, the same date the person's work:opening fact and their opening pay read (src/core2/population.ts, openingStartOf). tenureYears reads it for full and counted workers alike, so raises, layoffs and quits read real tenure (pool item people-opening-job-tenure-estimate)."
   },
   {
+    "id": "SG-LAW-held-bill-chair-reasons-unread",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 3127,
+    "whatItFakes": "A bill the committee chair holds without a hearing keeps the chair's reasons on the committee record (their position on the bill, part by part, and what their temperament adds toward a hearing), but no scene, story or later decision reads them yet.",
+    "why": "The reasons are the why of a held bill for the sponsor and the player; the scene where the sponsor asks the chair, and a story that a bill died without a hearing, are not yet built to read the record.",
+    "addedBy": "claude/laws-held-bill-chair-reasons",
+    "addedAt": "2026-10-27",
+    "replacement": "The sponsor-asks-chair scene and the held-bill press line read the chair's reasons by the committee record's id (laws-hold-record-names-the-sponsor).",
+    "status": "open"
+  },
+  {
     "id": "SG-PLAY-day-start-minute",
     "kind": "missing-mechanic",
     "file": "src/bench/player.ts",

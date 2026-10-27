@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by: 
-pr:
+status: in-pr
+claimed-by: screens/government-rows-plain
+pr: #6383
 blocked-on:
 source: "the owner's v0.56.2 sitting, Oct 27, 3:30 PM Eastern (Carlos Washington, 35, Salida, Colorado), filed by the screens designer"
 lead: play-first
 milestone: play-first
-claimed-at: 
+claimed-at: 2026-10-27T19:49:05.098Z
 ---
 
 **What.** In v0.56.2 every Politics > Government row said "Serving when your story began" (owner: "Like, what is that? No. Stop."), and Politics > Local showed all five council members at "60% of the vote", a placeholder number. Each row must show the term in words a voter would use ("Term ends January 2027") or nothing, and each member's vote share must be read from their election record or not shown.
