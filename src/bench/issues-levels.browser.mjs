@@ -107,8 +107,13 @@ try {
     const levied = row.levels.filter((l) => l.row && l.row.value);
     const quiet = row.levels.filter((l) => l.row && !l.row.value);
     const text = cards.get(heading(row.series));
+    // A stand-in row from another series (a state's average local sales tax
+    // where the town records none) says what it is instead of a government.
     for (const level of levied)
-      assert.ok(level.government, `${row.series}: ${level.level} has no name`);
+      assert.ok(
+        level.government || level.row.series !== row.series,
+        `${row.series}: ${level.level} has no name`,
+      );
     if (!levied.length) continue;
     assert.ok(
       text,
