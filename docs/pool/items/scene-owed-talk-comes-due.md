@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: director
 ---
 
 **What.** Scenes at home end on lines such as 'We'll talk more later.' that nothing records, so the later never comes. When a reply defers a talk to a day (record people-owed-talk-record) and that day arrives with no time together since, the person owed should speak, naming what was promised and what is still open. The player answers in four stances: sit down now, give a new day, say it cannot be done, or turn it on them, and each closes or moves the owed record.

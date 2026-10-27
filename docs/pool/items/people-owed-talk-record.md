@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: effects
 ---
 
 **What.** Today a reply such as 'Give me tonight. Sunday we sit down with the bills.' is stored as a scene reply with its line and move, and nothing records that a talk is owed, to whom, about what or for which day. The closing lines 'We'll talk more later.' and 'I'll see you later.' write nothing either. This item adds the record, written by the relationships writer when a reply defers a matter to a day, with the person owed, the topic (money or evenings, from the stake record), the due day, and closed or moved when they next talk.
