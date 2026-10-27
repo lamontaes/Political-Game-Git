@@ -520,3 +520,138 @@ it("the character's own budget is cut by an aide's read of the council", () => {
     `no mayor with an aide and a budget in 12 places: ${tried.join("; ")}; ${seed}`,
   );
 }, 3_600_000);
+
+// The same office route, in the places where the council changes what the
+// mayor sent: the budget vote halves a line change the body does not back
+// (or drops it), and the adopted budget says so ("(amended: …)"). Places are
+// drawn from all 56 on the seed until one does; the changed amount, not the
+// sent one, is then followed to the line the treasury pays.
+const AMEND_DRAWS = 14;
+
+it("as mayor, a budget the council amends is voted at the amended amount, and the amended line is what the treasury pays", () => {
+  const tried: string[] = [];
+  for (let draw = 0; draw < AMEND_DRAWS; draw += 1) {
+    const place = drawPlace(`${seed}:amend:${draw}`, "budget-season-amend");
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    const mayor = townSeats(api).find(
+      (s) => s.office.kind === "mayor" && s.holder?.personId,
+    );
+    const city = governments(api).find((g) => g.level === "city");
+    if (!mayor || !city) {
+      tried.push(`${where}: no mayor or city government`);
+      continue;
+    }
+    const mayorId = memberKey(mayor.holder!);
+    const lead = api.parameter("budgetProposalLeadDays");
+    const year = Number(core.date.slice(0, 4));
+    const next =
+      `${year}-${city.fiscalYearStart}` > core.date
+        ? `${year}-${city.fiscalYearStart}`
+        : `${year + 1}-${city.fiscalYearStart}`;
+    const open = addDays(makeIsoDate(next), -(lead - 1));
+    if (core.date < open) advanceCore(core, open);
+    if (core.date > open) continue;
+    expect(
+      budgetProposalDue(api, officeHost, mayorId),
+      `${where}: the season opened on ${open}`,
+    ).not.toBeNull();
+    const spending = budgetsOf(api, city.id)[0]!.spendingMinor;
+    const line = Object.keys(spending).sort(
+      (a, b) => spending[b]! - spending[a]! || a.localeCompare(b),
+    )[0];
+    if (!line) {
+      tried.push(`${where}: the city budget has no lines`);
+      continue;
+    }
+    // The player's route, as in the case above.
+    budgetLinePick(core, mayorId, line, 1_000_000);
+    officeActHandlers(officeHost)["propose-budget"]!(api, mayorId, {} as never);
+    expect(budgetPriorities(api, city.id)?.changes, where).toEqual({
+      [line]: 1_000_000,
+    });
+    advanceCore(core, addDays(makeIsoDate(next), 1));
+    const adopted = budgetsOf(api, city.id).find(
+      (b) => b.adoptedOn === next || b.startsOn === next,
+    );
+    expect(adopted, `${where}: the budget adopted`).toBeDefined();
+    if (!adopted!.adoptedBy.includes("(amended:")) {
+      tried.push(`${where}: voted as sent (${adopted!.adoptedBy})`);
+      continue;
+    }
+    const halved = new RegExp(`${line} cut to 1/(\\d+)`).exec(
+      adopted!.adoptedBy,
+    );
+    if (!halved) {
+      tried.push(`${where}: amended, ${line} not cut (${adopted!.adoptedBy})`);
+      continue;
+    }
+    // The proposal, its hearing and the bill the council voted.
+    const fiscalYear = Number(next.slice(0, 4));
+    const hearing = budgetHearingOf(api, city.id, fiscalYear);
+    expect(hearing, `${where}: the hearing`).toBeDefined();
+    expect(hearing!.proposedBy, where).toBe(mayorId);
+    const bill = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(hearing!.billId) as unknown as BillRow;
+    expect(bill.sponsorId, where).toBe(mayorId);
+    expect(
+      bill.provisions.find((p) => p.kind === "budget-line" && p.line === line)
+        ?.value,
+      `${where}: the bill carries the mayor's amount`,
+    ).toBe(1_000_000);
+    // The amended amount: what the vote reduced it to, which is not what was sent.
+    const amended = 1_000_000 / 2 ** Number(halved[1]);
+    expect(amended, where).toBeLessThan(1_000_000);
+    const previous = budgetsOf(api, city.id)
+      .filter((b) => b.id !== adopted!.id && b.startsOn < next)
+      .sort((x, y) => x.startsOn.localeCompare(y.startsOn))
+      .at(-1);
+    expect(
+      previous,
+      `${where}: the budget before ${adopted!.id}`,
+    ).toBeDefined();
+    expect(
+      (adopted!.spendingMinor[line] ?? 0) -
+        (previous!.spendingMinor[line] ?? 0),
+      `${where}: ${line} moved by the amended amount, ${adopted!.adoptedBy}`,
+    ).toBe(amended);
+    // The treasury pays the amended line: the first month under it owes the
+    // twelfth of the line in force.
+    for (
+      let day = 0;
+      day < 45 &&
+      !treasuryMonthsOf(api, city.id).some((m) => m.budgetId === adopted!.id);
+      day += 1
+    )
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const month = treasuryMonthsOf(api, city.id).find(
+      (m) => m.budgetId === adopted!.id,
+    );
+    expect(
+      month,
+      `${where}: a treasury month under ${adopted!.id}`,
+    ).toBeDefined();
+    expect(
+      month!.lines[line]!.dueMinor,
+      `${where}: ${month!.id} ${line}`,
+    ).toBeGreaterThanOrEqual(
+      Math.round(
+        (adopted!.spendingMinor[line] ?? 0) /
+          treasuryParameter("monthsPerYear"),
+      ),
+    );
+    process.stdout.write(
+      `BUDGET AMENDED ${where}: mayor ${mayorId} sent ${line} +1000000 in hearing ${hearing!.id} on bill ${bill.id}; ${adopted!.id} (${adopted!.adoptedBy}) passed +${amended}; ${month!.id} owes ${month!.lines[line]!.dueMinor} on ${line}\n`,
+    );
+    return;
+  }
+  throw new Error(
+    `no council amended the mayor's budget in ${AMEND_DRAWS} places (seed ${seed}): ${tried.join("; ")}`,
+  );
+}, 3_600_000);
