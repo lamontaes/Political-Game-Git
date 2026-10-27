@@ -4,17 +4,17 @@ Made Oct 27, 2026 from the owner's mannequin idea (playtest sitting 1). The CTO 
 
 ## What each folder holds
 
-| Path | What it is |
-|---|---|
-| `art/people-rooms/plates/<scene>.png` | An edit of `art/backdrops/<scene>__<variant>.jpg` with a flat green (#00FF00) mannequin at every natural spot. **Never drawn in the game.** It exists only to be measured. |
-| `art/people-rooms/spots/<scene>.json` | The measured spots, in pixels of the empty painting at its own size, each with the shared tags. |
-| `art/people-rooms/tags/<scene>.tags.json` | The scene's zones (desk, couch, crowd, lectern, gallery, aisle) that hand tags to the spots inside them. Edit a zone and re-run `tools/tag_spots.py`; don't hand-edit spots. |
-| `art/people-rooms/tools/` | `slots.py EMPTY PLATE OUT.json` measures a plate, `tag_spots.py TAGS SPOTS OUT` tags it, and `spotcheck.py OUT.jpg SPOTS...` draws the boxes for checking by eye. |
-| `art/people-engine/v2/hair-on-figures/` | Hair pieces painted onto the v2 figures' own heads, plus `index.json`. |
-| `art/people-engine/v2/faces-on-figures/` | Face patches (12 faces per sex, each with its own expression) painted onto the v2 figures' own heads, plus `index.json`. |
-| `art/people-engine/v2/figures/v2-sb*.png` + `figures-back.json` | Standing figures seen from behind (facing 180) in base, polo, vest and blazer, for crowds facing away. |
-| `art/people-engine/v2/garments/` | One garment map per v2 figure, plus `index.json`. |
-| `art/people-engine/v2/outfits.json` | Outfits by dress level, where worn, role, and which sheet holds each outfit for each pose. |
+| Path                                                            | What it is                                                                                                                                                                   |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `art/people-rooms/plates/<scene>.png`                           | An edit of `art/backdrops/<scene>__<variant>.jpg` with a flat green (#00FF00) mannequin at every natural spot. **Never drawn in the game.** It exists only to be measured.   |
+| `art/people-rooms/spots/<scene>.json`                           | The measured spots, in pixels of the empty painting at its own size, each with the shared tags.                                                                              |
+| `art/people-rooms/tags/<scene>.tags.json`                       | The scene's zones (desk, couch, crowd, lectern, gallery, aisle) that hand tags to the spots inside them. Edit a zone and re-run `tools/tag_spots.py`; don't hand-edit spots. |
+| `art/people-rooms/tools/`                                       | `slots.py EMPTY PLATE OUT.json` measures a plate, `tag_spots.py TAGS SPOTS OUT` tags it, and `spotcheck.py OUT.jpg SPOTS...` draws the boxes for checking by eye.            |
+| `art/people-engine/v2/hair-on-figures/`                         | Hair pieces painted onto the v2 figures' own heads, plus `index.json`.                                                                                                       |
+| `art/people-engine/v2/faces-on-figures/`                        | Face patches (12 faces per sex, each with its own expression) painted onto the v2 figures' own heads, plus `index.json`.                                                     |
+| `art/people-engine/v2/figures/v2-sb*.png` + `figures-back.json` | Standing figures seen from behind (facing 180) in base, polo, vest and blazer, for crowds facing away.                                                                       |
+| `art/people-engine/v2/garments/`                                | One garment map per v2 figure, plus `index.json`.                                                                                                                            |
+| `art/people-engine/v2/outfits.json`                             | Outfits by dress level, where worn, role, and which sheet holds each outfit for each pose.                                                                                   |
 
 ## Spots: how a person goes into a painting
 
@@ -77,9 +77,7 @@ Made Oct 27, 2026 from the owner's mannequin idea (playtest sitting 1). The CTO 
   - Garment maps fill seams the markers missed from the nearest marked piece (8 px), so side panels and waistbands recolor too.
   - The hair cut ignores faint redraw noise on clothing.
   - Added the blazer seen from behind (6 figures, 24 from-behind figures in all), the courthouse rally with a speaker at the gazebo lectern, and the faces and garment maps that passed on re-run.
-- **Coming:**
-  - Front hair style 09 (shoulder-length locs; Firefly keeps moving the jacket).
-  - Face front 03.
-  - Garment maps 62 and 74.
-  - Garment maps for the from-behind figures.
+- **Oct 27, fourth:** front hair style 09 (hair is now complete: 12 styles in front, three-quarter left, three-quarter right and back); garment maps 62 and 74; garment maps for the vest and blazer figures seen from behind (sb20, sb32); the four from-behind sheets themselves under `art/people-engine/v2/sheets-back/`.
+- **Oct 27, fifth:** garment maps for the base and polo figures seen from behind (sb45, sb03): all 24 from-behind figures recolor now.
+- **Not delivered:** face front 03 (heart-shaped face / round face, laughing). Firefly dropped it three times and moved the figures on the fourth, so it fails the drift gate; 35 of 36 face sets are here.
 - **Known:** in governor-office the front visitor and the governor touch and measure as one spot (two Firefly tries drew them overlapping); seat one person there or split it.
