@@ -3748,6 +3748,69 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-hallway-other.other-catches-you-on-the-way-out-of-the-meeting",
+      "move": "lead-hallway-other",
+      "kind": "spoken",
+      "text": "{other} catches you on the way out of the meeting.",
+      "uses": [
+        {
+          "move": "lead-hallway-other",
+          "subject": "lead",
+          "role": "hallway",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-hallway-other.other-falls-in-step-with-you-in-the-hallway",
+      "move": "lead-hallway-other",
+      "kind": "spoken",
+      "text": "{other} falls in step with you in the hallway.",
+      "uses": [
+        {
+          "move": "lead-hallway-other",
+          "subject": "lead",
+          "role": "hallway",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-hallway-alone.the-meeting-lets-out-into-the-hallway",
+      "move": "lead-hallway-alone",
+      "kind": "spoken",
+      "text": "The meeting lets out into the hallway.",
+      "uses": [
+        {
+          "move": "lead-hallway-alone",
+          "subject": "lead",
+          "role": "hallway",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
