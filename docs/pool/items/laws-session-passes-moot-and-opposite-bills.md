@@ -6,11 +6,12 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-session-moot-bills
 pr:
 blocked-on:
 source: laws-and-effects lead, Oct 27 (laws-in-force-every-question's played-world test)
+claimed-at: 2026-10-27T11:13:25.181Z
 ---
 
 **What.** In the played-world test of `laws-in-force-every-question` (Carol Stream, Illinois, 1711332, world seed c98d47988a779f6e27d4db38cd288d9dce7a8cc6a54b44e9d5bfa3b346c565ff), the Illinois session passed 36 laws on 28 of its 58 policy questions, all taking effect January 1, 2026: 23 flip the starting answer and 13 restate the law already in force (the clean electricity standard passed four times, by HB 10, HB 16, HB 30 and SB 16). Paid family leave passed both ways the same day (SB 2 sets it, SB 16 ends it). In Del Monte Forest, California (0618590), 47 laws on questions took effect January 1, 2026. Members' filings check the law in force only when they file (`needsChange`, `src/core2/modules/world-legislating.ts:1380` and the state session's own check), so several members file one question, and the floor week passes each bill without reading what an earlier bill this session already enacted.
