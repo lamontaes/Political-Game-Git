@@ -70,6 +70,8 @@ export interface SituationCause {
   };
   awaitingProducer?: string;
   causeEngine?: string;
+  /** The record kind (or kinds, comma-joined) the cause reads, for the scene web. */
+  causeRecord?: string;
   reason?: string;
   bind?: Readonly<Record<string, string>>;
   opener?: string;
