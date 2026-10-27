@@ -36,7 +36,10 @@
     "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
     "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
-    "child": "The youngest child at home, by name, from the household record."
+    "child": "The youngest child at home, by name, from the household record.",
+    "first": "The given name of the person spoken to, from their record.",
+    "law": "A law in force, by its policy's name, from the law record.",
+    "cost": "What a law in force costs a household each month, from the price record it moved."
   },
   "maxWords": 70,
   "parts": [
