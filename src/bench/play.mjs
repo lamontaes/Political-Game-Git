@@ -1845,7 +1845,7 @@ async function showPerson(person) {
   personArtwork("person-background", c.presentation?.backgroundUrl);
   $("person-name").textContent = c.name;
   $("person-role").textContent = [
-    c.relation,
+    c.relation && c.relation.charAt(0).toUpperCase() + c.relation.slice(1),
     c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
@@ -1866,6 +1866,16 @@ async function showPerson(person) {
               textContent: c.work.title ?? "",
             }),
             el("p", { textContent: c.work.employer ?? "" }),
+          ),
+        ]
+      : []),
+    ...(c.school
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail" },
+            el("h3", { className: "label", textContent: labels.school }),
+            el("p", { textContent: c.school.name }),
           ),
         ]
       : []),
@@ -1900,11 +1910,9 @@ async function showPerson(person) {
         ]
       : []),
     ...[
-      c.tie &&
-        row(
-          c.tie.kind,
-          c.tie.lastContactDate ? proseDate(c.tie.lastContactDate) : "",
-        ),
+      // The date is labeled; a tie with no contact on record shows nothing.
+      c.tie?.lastContactDate &&
+        row(labels.lastTalked, proseDate(c.tie.lastContactDate)),
       ...(known
         ? [
             row("party", known.party),
@@ -4929,7 +4937,6 @@ function pickGender(g) {
   setup.gender = g;
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
-    b.classList.toggle("primary", on);
     b.setAttribute("aria-pressed", String(on));
   }
 }

@@ -119,6 +119,8 @@
     "age": "Age",
     "work": "Work",
     "place": "Home",
+    "school": "School",
+    "lastTalked": "Last talked",
     "talk": "Talk",
     "back": "Back",
     "continue": "Continue",

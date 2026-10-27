@@ -6,7 +6,7 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-player-bill-floor
 pr: #6226
 blocked-on:
