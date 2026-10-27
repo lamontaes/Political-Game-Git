@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.39.2",
+      "releasedOn": "2026-10-26",
+      "revision": "84a74f9939a78ddf4d650fbf44ce2ca4392b4fec",
+      "changeIds": [
+        "play-stop-40-menu-list-drops-its-subheadings",
+        "screens-ui-card",
+        "screens-ui-tab"
+      ]
+    },
+    {
       "version": "0.39.1",
       "releasedOn": "2026-10-26",
       "revision": "13034532b1e0d34f42d28092af0538fff723643f",
