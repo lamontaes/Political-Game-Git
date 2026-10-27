@@ -4607,8 +4607,33 @@ document.addEventListener("fullscreenchange", () => {
 // The title screen: a national scene or event, full window, that moves on with
 // each visit (owner, Oct 8 and Oct 14). Continue resumes the life in progress.
 let titleLife = null;
+// The painting drifts by CSS while the title is open; every few seconds the
+// next scene of the day's rotation fades in over it.
+function rotateTitle(scenes, seconds) {
+  let at = 0;
+  const next = $("backdrop-next");
+  setInterval(() => {
+    if ($("front").hidden) return;
+    at = (at + 1) % scenes.length;
+    next.src = scenes[at].backdrop.url;
+    next.onload = () => {
+      next.onload = null;
+      next.classList.add("fading");
+      setTimeout(() => {
+        if ($("front").hidden) return next.classList.remove("fading");
+        const back = $("backdrop");
+        back.src = next.src;
+        back.style.animation = "none";
+        void back.offsetWidth;
+        back.style.animation = "";
+        next.classList.remove("fading");
+      }, 3100);
+    };
+  }, seconds * 1000);
+}
 api("/api/title").then((title) => {
   if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
+  if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
   $("front-continue-life").textContent = titleLife
