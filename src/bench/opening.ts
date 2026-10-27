@@ -159,7 +159,7 @@ export function openingFrames(
     lines: OpeningSentence[],
   ) => {
     const last = frames.at(-1);
-    if (place === last?.place && !last.speaker) {
+    if (place === last?.place) {
       last.lines.push(...lines);
       last.pointOut.push(...pointOut);
       return;

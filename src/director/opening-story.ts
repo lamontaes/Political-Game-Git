@@ -6,9 +6,9 @@
  * composed once while the world loads; a sentence the records can't support
  * is left out, never written.
  *
- * - It opens on the player's household at home that evening, the anchor
- *   leading into the address by its title, so the player knows what they
- *   are watching before the President speaks (owner, Oct 14, 2026).
+ * - It opens on the address itself, the President speaking with the Vice
+ *   President and key people pointed out; home comes after the governor and
+ *   the family (owner, Oct 26, 2026).
  * - The address reads the macro engine's opening month against the year
  *   before, saying a figure with what it is, never a bare claim ("Prices are
  *   too high"); the President's own three issues (an ask of Congress only
