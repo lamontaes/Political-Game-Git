@@ -69,6 +69,8 @@ import {
 } from "../english/conversation-words";
 import { kinAddress, relationPhrase } from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
+import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
+import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName, spoken, spokenWhen } from "./words";
 
 const zero = P.zero;
@@ -625,6 +627,56 @@ function relationsOf(
   return out;
 }
 
+/** The job a person has hours at on the core's date, by its id; none on a day off. */
+function workToday(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): string | undefined {
+  try {
+    return workSpansOnDateV1(coreAPI(core as CoreState), {
+      controlledPersonId: personId,
+      date: core.date,
+    }).owners.find((owner) => owner.plannedMinutes > zero)?.job.id;
+  } catch {
+    // Work terms that cannot be read for the date are not a work day.
+    return undefined;
+  }
+}
+
+/**
+ * A quiet evening at home as a subject: the day of the week (the household
+ * is where they are), when the two last spent time together, and whether
+ * either had work that day, each from its record.
+ */
+function quietDay(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
+): Subject {
+  const day = new Date(`${core.date}T00:00:00Z`).getUTCDay();
+  const facts: Facts = {
+    weekday: {
+      text: WEEKDAYS.days[day]!,
+      sourceRecordIds: [speaker.householdId],
+    },
+  };
+  const seen = lastContact(core, speaker.id, listener.id);
+  if (seen && seen.date < core.date)
+    facts.lastTogether = {
+      text: spokenWhen(seen.date, core.date),
+      sourceRecordIds: [seen.tieId],
+    };
+  // A work day for either of them, from the job's own hours for the date.
+  for (const person of [speaker, listener]) {
+    const shift = person.jobId ? workToday(core, person.id) : undefined;
+    if (shift) {
+      facts.dayDone = { text: "", sourceRecordIds: [shift] };
+      break;
+    }
+  }
+  return { id: `quiet:${speaker.id}:${core.date}`, kind: "quiet", facts };
+}
+
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
 export function subjectsBetween(
   core: Readonly<CoreState>,
@@ -1065,6 +1117,11 @@ export function subjectsBetween(
         facts: { take: take.fact },
       });
   }
+  // At home, the day itself: the weekday, the last time the two spent
+  // together and a work day, from records. Raised last, when
+  // nothing else opens the talk.
+  if (listener.householdId === speaker.householdId)
+    out.push(quietDay(core, speaker, listener));
   // Between relatives, a talk is personal only.
   if (speaker.familyIds.has(listenerId))
     return out.filter(
@@ -1539,7 +1596,8 @@ function otherRaises(
  * What the place and the occasion open with when no recorded event leads:
  * what they share, then the player's work or home, then the day's news, the
  * President's address while it is recent (at home, where relatives don't
- * talk about work or home, the address is what the evening gives).
+ * talk about work or home, the address is what the evening gives), and last
+ * the quiet day itself.
  */
 const OPENING_ORDER = [
   "shared-school",
@@ -1547,6 +1605,7 @@ const OPENING_ORDER = [
   "own-work",
   "home",
   "address",
+  "quiet",
 ];
 
 /** The subjects that are the two speakers' relationship: what they share. */
@@ -2564,6 +2623,11 @@ export function say(
       ALL,
       {},
       `${playerId}:${otherId}:${conversation.lines.length}:ack`,
+      // People who live together take an answer in their own way ("Fair
+      // enough." from a spouse); the farewell's stage, below.
+      core.people.get(otherId)?.householdId === player.householdId
+        ? "home"
+        : "default",
     );
     if (ack && !doubted)
       conversation.lines.push({
