@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/record-broken-promise-red
-pr: #5401
+pr: #6278
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T10:00:53.656Z

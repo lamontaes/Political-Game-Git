@@ -285,6 +285,7 @@
       "owner": "OPUS-WORLD",
       "route": "chooser",
       "traitWeightParameter": "traitWeightCreditBorrow",
+      "hardshipWeightParameter": "hardshipWeightCreditBorrow",
       "options": [
         {
           "id": "credit-do-without",
@@ -752,6 +753,7 @@
       "owner": "OPUS-PEOPLE",
       "route": "formula",
       "traitWeightParameter": "traitWeightMovesMoveAway",
+      "hardshipWeightParameter": "hardshipWeightMovesMoveAway",
       "options": [
         {
           "id": "stay-put",
@@ -1290,11 +1292,29 @@
       ]
     },
     {
+      "id": "jobs.value-worker",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightJobsValueWorker",
+      "options": [
+        {
+          "id": "let-go",
+          "actKinds": ["delay", "bend-rules"]
+        },
+        {
+          "id": "keep",
+          "actKinds": ["commit", "follow-rules"]
+        }
+      ]
+    },
+    {
       "id": "jobs-benefits.file-claim",
       "site": "src/core2/jobs-benefits.ts",
       "owner": "OPUS-WORLD",
       "route": "formula",
       "traitWeightParameter": "traitWeightJobsBenefitsFileClaim",
+      "hardshipWeightParameter": "hardshipWeightJobsBenefitsFileClaim",
       "options": [
         {
           "id": "skip",
