@@ -521,15 +521,16 @@ describe("story director on the new core", () => {
     // to carry, a donor, the party, office hours, family, a rally, the desk,
     // staff, a bargain), plus the life moments with a purpose of their own
     // (a new baby, a cause shared), plus an
-    // officeholder's own address, plus the party's ask that a member run,
-    // plus the constituent who stops an officeholder in the street and the
-    // hallway after a body sits (scenes
-    // from circumstance, owner, Oct 27); less the five the director lead
-    // deleted on Oct 27: a job interview (the press interview is the one with
-    // a record), the party's ask (the party's recruit is the same ask), and
-    // the three the player starts (asking a favor or permission, confessing),
-    // which the talk box offers rather than the director.
-    expect(types).toHaveLength(64);
+    // officeholder's own address, plus the party's ask that a member run, plus
+    // the candidate who comes over after a speech that moved a listener in the
+    // room, plus the constituent who stops an officeholder in the street and
+    // the hallway after a body sits (scenes from circumstance, owner, Oct 27);
+    // less the five the director lead deleted on Oct 27: a job interview (the
+    // press interview is the one with a record), the party's ask (the party's
+    // recruit is the same ask), and the three the player starts (asking a
+    // favor or permission, confessing), which the talk box offers rather than
+    // the director.
+    expect(types).toHaveLength(65);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
