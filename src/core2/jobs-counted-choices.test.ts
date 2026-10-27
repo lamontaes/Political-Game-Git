@@ -165,6 +165,19 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
             .filter((row) => row.open)
             .map((row) => row.personId),
         );
+        // A witness found on an earlier day may have been hired or have lost
+        // its row since: only one whose search is still open today counts.
+        const open = (witness: Seeker | undefined, table: string) =>
+          witness && jobs.table(table).get(witness.personId)
+            ? witness
+            : undefined;
+        full = open(full, "seekers");
+        counted = open(counted, "countedSeekers");
+        fullLost = open(fullLost, "seekers");
+        countedLost = open(countedLost, "countedSeekers");
+        if (fullLost && !claimed.has(fullLost.personId)) fullLost = undefined;
+        if (countedLost && !claimed.has(countedLost.personId))
+          countedLost = undefined;
         const lost = (row: Seeker) =>
           !row.employed &&
           !byChoice.has(row.reasonKey) &&
