@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-first-18-politics-guide
 pr: #6099
 blocked-on:
