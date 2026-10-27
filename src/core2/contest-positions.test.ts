@@ -385,9 +385,14 @@ it("a town whose state lets it decide no platform question still campaigns on it
     const stances = parsePlatform(filing!.platform);
     // The campaign event opens on a platform with a position; only the
     // venue's price can keep it shut.
-    const event = campaignDayChoices(api, filing!.id).find(
+    // A computer candidate's day, read as the world reads it.
+    const event = campaignDayChoices(api, filing!.id, true).find(
       (c) => c.kind === "event",
     );
+    expect(
+      event,
+      `${where}: no campaign event choice for ${filing!.id}`,
+    ).toBeDefined();
     if (event) {
       expect(
         event.facts.platformStances,
