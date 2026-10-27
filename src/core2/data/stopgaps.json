@@ -4599,8 +4599,8 @@
     "why": "World building draws the player's past during New game, before the creator runs, and there is no step to redraw it for a chosen age.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age.",
-    "status": "open"
+    "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age. Resolved Oct 27, 2026: the chosen birthday goes into the world build (buildBenchWorld's playerBirthDate), which holds a resident of that age and makes the player the resident born nearest it, so the household, kin, schooling, work and money drawn for them fit the age; the identity call then sets the name, exact birth date and looks.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-town-count-estimate",
