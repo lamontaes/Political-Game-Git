@@ -815,7 +815,13 @@ const SWITCH_SERIES: ReadonlySet<string> = (() => {
         (values.get(row.series) ?? true) &&
           (row.value === 0 || row.value === 1),
       );
-  return new Set([...values].filter(([, only01]) => only01).map(([k]) => k));
+  // A series with a first amount of its own (the public pay floor, in dollars)
+  // is an amount that happens to start at 0, not a switch.
+  return new Set(
+    [...values]
+      .filter(([k, only01]) => only01 && !(k in FIRST_AMOUNT))
+      .map(([k]) => k),
+  );
 })();
 
 function changeAmount(
