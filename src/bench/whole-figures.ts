@@ -22,6 +22,7 @@ import {
   type FigureColors,
 } from "./figure-colors";
 import { occluderFor, type Occluder } from "./occluders";
+import { hairStyles } from "./figure-hair";
 import type { CoreState } from "../core2/types";
 
 export interface Figure {
@@ -279,7 +280,12 @@ const SKIN_WEIGHTS: Readonly<Record<string, number>> = {
  * id where the record has none), so the same person is the same color in every
  * scene and neighbors differ.
  */
-export function colorsFor(person: FigurePerson): FigureColors {
+export function colorsFor(
+  person: FigurePerson,
+  /** The sex of the figure drawn, for the hair styles painted for it. */
+  sex?: string,
+  band?: Figure["ageBand"],
+): FigureColors {
   const seed = person.seed ?? person.id;
   const total = Object.values(SKIN_WEIGHTS).reduce((a, b) => a + b, 0);
   let at = mixed(`${seed}:skin`) % total;
@@ -301,8 +307,54 @@ export function colorsFor(person: FigurePerson): FigureColors {
         ]!.id,
     ]),
   );
-  return { skin: person.look?.skin ?? skin, ...garments };
+  // Hair: a style painted for the figure's sex and a color, set once from
+  // the seed; older people mostly gray or white.
+  const styles = hairStyles(person.look?.sex ?? sex ?? person.gender ?? "");
+  const hair =
+    person.look?.hair ??
+    (styles.length
+      ? String(styles[mixed(`${seed}:hair`) % styles.length]!.style)
+      : undefined);
+  const weights = band === "older" ? HAIR_WEIGHTS_OLDER : HAIR_WEIGHTS;
+  const sum = Object.values(weights).reduce((a, b) => a + b, 0);
+  let left = mixed(`${seed}:hair-color`) % sum;
+  let hairColor = Object.keys(weights)[0]!;
+  for (const [id, weight] of Object.entries(weights)) {
+    if (left < weight) {
+      hairColor = id;
+      break;
+    }
+    left -= weight;
+  }
+  return {
+    skin: person.look?.skin ?? skin,
+    ...garments,
+    ...(hair ? { hair, hairColor: person.look?.hairColor ?? hairColor } : {}),
+  };
 }
+
+// How common each hair color is, a rough ESTIMATE for American adults (no
+// census counts hair color; spread about 5 points a color), and for people
+// 65 and older, most of whom have gone gray or white. Presentation weights,
+// registered as stopgapId: SG-PLAY-people-hair-color-weights, until a
+// sourced survey replaces them.
+const HAIR_WEIGHTS: Readonly<Record<string, number>> = {
+  black: 30,
+  "dark-brown": 30,
+  brown: 18,
+  "light-brown": 8,
+  blonde: 8,
+  auburn: 3,
+  strawberry: 3,
+};
+const HAIR_WEIGHTS_OLDER: Readonly<Record<string, number>> = {
+  gray: 45,
+  white: 20,
+  "dark-brown": 12,
+  black: 10,
+  brown: 8,
+  blonde: 5,
+};
 
 /** Who is being drawn: their record, and whether they hold office. */
 export interface FigurePerson {
@@ -322,6 +374,8 @@ export interface FigurePerson {
     shirt?: string;
     pants?: string;
     shoes?: string;
+    hair?: string;
+    hairColor?: string;
   };
 }
 
