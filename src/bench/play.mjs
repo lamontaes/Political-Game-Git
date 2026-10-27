@@ -307,8 +307,10 @@ function pointOut(figures) {
     box.style.animation = "none";
     void box.offsetWidth;
     box.style.animation = "";
-    for (const node of document.querySelectorAll("#people .figure"))
-      if (node.dataset.person === figure.id) node.classList.add("pointed");
+    // Only the one person pointed out is lit.
+    [...document.querySelectorAll("#people .figure")]
+      .find((node) => node.dataset.person === figure.id)
+      ?.classList.add("pointed");
     timer = setTimeout(() => step(index + 1), POINT_MS);
   };
   step(0);

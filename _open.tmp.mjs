@@ -19,6 +19,7 @@ for (let i = 0; i < 40; i++) {
   const key = src + "|" + speech.slice(0, 20);
   if (key !== last) {
     last = key;
+    await page.waitForTimeout(1300);
     await page.screenshot({ path: `${out}-${String(i).padStart(2, "0")}.png` });
     console.log(i, src.split("/").pop(), "|", name, "|", speech.slice(0, 90));
   }

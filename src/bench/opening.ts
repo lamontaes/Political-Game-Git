@@ -215,6 +215,23 @@ export function openingFrames(
     stagePlace.set(stage, place);
     return place;
   };
+  // Whoever the camera points out is drawn in the frame, first after the
+  // frame's own cast; a tag never names someone the picture does not show.
+  const drawn = (
+    place: string,
+    cast: { id: string; name: string; title?: string }[],
+    pointOut: readonly OpeningFigure[],
+  ) => {
+    const ids = new Set(cast.map((row) => row.id));
+    const all = [
+      ...cast,
+      ...pointOut
+        .filter((row) => !ids.has(row.id))
+        .map(({ id, name, office }) => ({ id, name, title: office ?? "" })),
+    ];
+    const people = stagePeople(core, place, withReasons(all)).people;
+    return { all, people };
+  };
   const push = (
     stage: string,
     place: string,
@@ -223,17 +240,25 @@ export function openingFrames(
     lines: OpeningSentence[],
   ) => {
     const last = frames.at(-1);
-    if (place === last?.place && !last.speaker) {
+    if (place === last?.place) {
+      const { all, people } = drawn(
+        place,
+        [...last.cast],
+        [...last.pointOut, ...pointOut],
+      );
       last.lines.push(...lines);
       last.pointOut.push(...pointOut);
+      last.cast = all;
+      last.people = people;
       return;
     }
+    const { all, people } = drawn(place, cast, pointOut);
     frames.push({
       stage,
       place,
       backdrop: backdropFile(place, minute),
-      cast,
-      people: stagePeople(core, place, withReasons(cast)).people,
+      cast: all,
+      people,
       pointOut,
       lines,
     });
@@ -283,6 +308,11 @@ export function openingFrames(
       const line = frame.lines.findIndex((row) => row === said);
       return line >= 0 ? { ...figure, line } : figure;
     });
+  // A tag only over a person the frame draws.
+  for (const frame of frames)
+    frame.pointOut = frame.pointOut.filter((figure) =>
+      frame.people.some((row) => row.personId === figure.id),
+    );
   const presidentFigure = frames
     .flatMap((frame) => frame.people)
     .find((row) => row.personId === story.president.id)?.figureUrl;
@@ -294,11 +324,9 @@ export function openingFrames(
       title:
         seats.find((row) => row.office.kind === "president")?.office.title ??
         null,
-      // Office and state (owner, Oct 14, 2026: "President · Arkansas ·
-      // Governor" read as nonsense); a former office only as the bank says it.
-      detail: [story.president.homeState].filter((text): text is string =>
-        Boolean(text),
-      ),
+      // The office alone (owner, Oct 26: "President · Michigan" read as where
+      // the player is); the President's home state is not part of his tag.
+      detail: [] as string[],
       ...(presidentFigure ? { figureUrl: presidentFigure } : {}),
     },
     frames,
