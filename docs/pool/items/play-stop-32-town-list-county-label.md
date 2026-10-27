@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-32-town-list-county-label
 pr:
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:21:26.161Z
 ---
 
 **What.** The town list shows "Aaronsburg, Pennsylvania" and under it "Centre County, 718 people". The county is there only to tell two Aaronsburgs apart, but it runs straight into the count and reads as "Centre County has 718 people". The owner: "Are these the real populations? Like, I don't think there's 718 people in Centre County, Pennsylvania" and then "Yes, I guess we have to delineate between county and city or whatever." This item separates the two: the county as its own labeled part ("in Centre County") and the count attached to the town. The population values do not change.
