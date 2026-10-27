@@ -379,6 +379,10 @@ async function playOpening() {
  * controls.opening.newsToastSeconds, goes at once on its close, and the story
  * stays in News either way.
  */
+/** The line a story is known by: the toast, the reader and News all use this one. */
+function storyHeadline(story) {
+  return story.headline ?? story.lede ?? story.broadcast?.[0]?.text ?? "";
+}
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
@@ -386,8 +390,7 @@ function showNewsSurface(news) {
   const story = news?.stories?.[0];
   if (!story) return;
   $("news-surface-label").textContent = controls.opening?.news ?? "";
-  $("news-surface-headline").textContent =
-    story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
+  $("news-surface-headline").textContent = storyHeadline(story);
   $("news-surface-close").setAttribute(
     "aria-label",
     controls.opening?.closeNews ?? "",
@@ -407,8 +410,7 @@ function showNewsSurface(news) {
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
-  $("news-reader-headline").textContent =
-    lead.headline ?? lead.lede ?? lead.broadcast[0]?.text ?? "";
+  $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
     ...lead.broadcast.map((line) =>
       el("p", { className: "prose", textContent: line.text }),
@@ -3594,7 +3596,7 @@ const sheets = {
     const stories = [
       ...rows.filter((r) => r.headline || r.lede),
       ...(opening?.news?.stories ?? []),
-    ].filter((s) => s.headline || s.lede);
+    ].filter((s) => storyHeadline(s));
     const outlets = new Map();
     for (const story of stories) {
       const outlet = story.outlet ??
@@ -3676,7 +3678,7 @@ const sheets = {
           back,
           el("h2", {
             className: "article-title",
-            textContent: story.headline ?? story.lede,
+            textContent: storyHeadline(story),
           }),
           body,
           ...(chunks.length > 2
@@ -3789,9 +3791,7 @@ const sheets = {
       paper.className = `paper paper-${layout}`;
       const section = el("div", { className: "paper-stories" });
       outlet.stories.slice(page * 3, page * 3 + 3).forEach((story, index) => {
-        const headline = button(story.headline ?? story.lede, () =>
-          article(story),
-        );
+        const headline = button(storyHeadline(story), () => article(story));
         headline.className = "story-headline";
         section.append(
           el(

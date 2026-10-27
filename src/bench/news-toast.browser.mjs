@@ -156,7 +156,25 @@ try {
     .first()
     .evaluate((e) => e.click());
   await second.locator(".paper").waitFor();
-  const stories = await second.locator(".story-headline").allInnerTexts();
+  // Every outlet's paper, every page of it: News lists three stories a page.
+  const nextLabel = (
+    await (await second.request.get(`${base}/api/controls`)).json()
+  ).news.next;
+  const stories = [];
+  const outlets = second.locator("[data-outlet]");
+  for (let o = 0; o < Math.max(await outlets.count(), 1); o++) {
+    if (await outlets.count()) await outlets.nth(o).click();
+    for (;;) {
+      stories.push(
+        ...(await second.locator(".story-headline").allInnerTexts()),
+      );
+      const more = second
+        .locator(".paper > .paper-pager")
+        .getByRole("button", { name: nextLabel, exact: true });
+      if (!(await more.count()) || (await more.isDisabled())) break;
+      await more.click();
+    }
+  }
   assert.ok(
     stories.some((text) => text.trim() === headline.trim()),
     `the toast story is missing from News: "${headline}" not in ${JSON.stringify(stories)}`,
