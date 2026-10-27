@@ -75,6 +75,14 @@ function shotsFor(seed: string) {
   for (const s of story ? openingFrames(core, me, story).frames : [])
     add(`intro-${s.place}`, s);
   add("home", scene.benchScene(core, me));
+  // The player alone in the close-up bedroom (the January 22 bedroom scene).
+  add("bedroom", {
+    place: "bedroom-plain",
+    backdrop: scene.backdropFile("bedroom-plain", 22 * 60),
+    ...scene.stagePeople(core, "bedroom-plain", [
+      { id: me, name: "you", reason: "you" },
+    ]),
+  });
   // A workplace: someone in the household with a job, on shift.
   const household =
     core.households.get(core.people.get(me)!.householdId)?.memberIds ?? [];
