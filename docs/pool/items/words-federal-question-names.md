@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: words/federal-names
-pr:
+pr: 6311
 blocked-on:
 lead: words
 source: director lead, director-president-asks-within-powers (#6300), Oct 27
