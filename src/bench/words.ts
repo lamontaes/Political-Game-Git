@@ -3,6 +3,7 @@ import { JOURNAL_WORDS } from "../english/journal-words";
 import { properName } from "../director/words";
 import type { CoreState } from "../core2/types";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
+import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import choiceBank from "../../data/english/parts/choice-names.json" with { type: "json" };
 
 /** "aunt", "brother": the English engine's relation word for a kin key and the other person's look. */
@@ -91,5 +92,11 @@ export function policyNames(): Record<string, string> {
     }
   };
   walk(billCatalog);
+  // A budget line a local seat takes a position on, by its name on the
+  // budgets screen (the source table's own item label).
+  for (const [line, row] of Object.entries(
+    (lineNames as { lines: Record<string, { name: string }> }).lines,
+  ))
+    names[`budget-line:${line}`] = row.name;
   return names;
 }

@@ -8,9 +8,15 @@
  * world list only questions their government may decide: the question is that
  * level's own (question-powers.json), and for a town the state lets its places
  * act on it (the readers the bodies file by when they sit). A council lists
- * none that only a state or federal body can change. Then a year of the played
- * world runs, and every computer candidate's filed platform holds only the
- * positions of the contest they filed in.
+ * none that only a state or federal body can change, and adds its own
+ * government's budget lines (pool item campaigns-local-platform-budget-lines).
+ * Then a year of the played world runs, and every computer candidate's filed
+ * platform holds only the positions of the contest they filed in.
+ *
+ * The second case draws a place whose state lets its towns decide none of the
+ * platform questions: its council still offers its budget lines, a computer
+ * candidate's platform holds one, the campaign event opens on it, and a
+ * voter's ballot in the race weighs the platform.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -36,6 +42,15 @@ import {
 } from "./modules/legislature";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { parsePlatform } from "./modules/campaigns";
+import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
+import { ballotOf, resultOf } from "./modules/voting";
+import { openLaws } from "./modules/laws";
+import { levelMayDecide } from "./modules/world-legislating";
+import { campaignDayChoices } from "./campaign-day";
+import { questionAxis } from "./campaign-views";
+import { createLifeCore } from "./life";
+import { buildPopulation } from "./population";
+import { setKeepEveryonesWhy } from "./why-kept";
 import { coreAPI } from "./state";
 import type { CoreAPI } from "./types";
 
@@ -58,6 +73,23 @@ interface OfficeRecord {
   id: string;
   kind: string;
   level: "federal" | "state" | "county" | "city" | "township";
+}
+
+const BUDGET = "budget-line:";
+
+/** The lines of a local seat's own government's latest budget, as positions. */
+function ownBudgetLines(api: CoreAPI, office: OfficeRecord): Set<string> {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return new Set();
+  const own = office.level === "county" ? "county" : "city";
+  const gov = governments(api).find((row) => row.level === own);
+  const latest = gov
+    ? [...budgetsOf(api, gov.id)].sort((a, b) => b.fiscalYear - a.fiscalYear)[0]
+    : undefined;
+  return new Set(
+    Object.entries(latest?.spendingMinor ?? {})
+      .filter(([, minor]) => minor > 0)
+      .map(([line]) => `${BUDGET}${line}`),
+  );
 }
 
 /** One contest of each wanted kind of office in the world, or what is missing. */
@@ -129,8 +161,21 @@ it("a contest lists only the questions its seat's government decides, and a play
     for (const [name, hit] of Object.entries(found)) {
       const { office } = hit!;
       const list = lists[name as keyof typeof lists];
+      const lines = ownBudgetLines(api, office);
       for (const question of list) {
         const note = `${where}: ${name} ${office.id} lists ${question}`;
+        // A local seat's own government's budget line, which someone leans on.
+        if (question.startsWith(BUDGET)) {
+          expect(
+            office.level === "federal" || office.level === "state",
+            note,
+          ).toBe(false);
+          expect(lines.has(question), `${note}, not a line of its budget`).toBe(
+            true,
+          );
+          expect(questionAxis(question), note).not.toBe(0);
+          continue;
+        }
         expect(PLATFORM_QUESTIONS, note).toContain(question);
         // The question is that government's own (data).
         expect(
@@ -180,7 +225,14 @@ it("a contest lists only the questions its seat's government decides, and a play
       expect(
         lists.legislature.length,
         `${where}: ${found.legislature!.office.id}`,
-      ).toBeGreaterThan(lists.council.length);
+      ).toBeGreaterThan(
+        lists.council.filter((q) => !q.startsWith(BUDGET)).length,
+      );
+    // A town decides its own budget: its council offers the lines.
+    expect(
+      lists.council.some((q) => q.startsWith(BUDGET)),
+      `${where}: council ${found.council!.office.id} offers no budget line`,
+    ).toBe(true);
     expect(
       lists.legislature.filter((question) => above.includes(question)).length,
       `${where}: ${found.legislature!.office.id} lists no state question`,
@@ -227,7 +279,7 @@ it("a contest lists only the questions its seat's government decides, and a play
     }
     const line = (name: string, hit: NonNullable<(typeof found)["council"]>) =>
       `  ${name} ${hit.office.id} (${hit.office.level}, contest ${hit.contest.id}): ${lists[name as keyof typeof lists].length} positions ${JSON.stringify(
-        lists[name as keyof typeof lists].map((q) => q.split(":")[1]),
+        lists[name as keyof typeof lists].map((q) => q.split(":").pop()),
       )}`;
     process.stdout.write(
       `CONTEST POSITIONS ${where} (draw ${draw}, GOLDEN_PATH_SEED=${seed})\n${Object.entries(
@@ -244,3 +296,132 @@ it("a contest lists only the questions its seat's government decides, and a play
     `no drawn place in ${DRAWS} had a council, mayor, state legislature and governor contest and a filing that stated a position (seed ${seed}): ${tried.join("; ")}`,
   );
 }, 1_800_000);
+
+/** Whether the drawn place's state lets its towns decide none of the platform questions, read from a small world with only its laws open. */
+function townsDecideNoQuestion(placeKey: string): boolean {
+  const core = createLifeCore(
+    buildPopulation({
+      seed,
+      placeKey,
+      startedAt: gameStartDate(),
+      minimumPeople: 20,
+    }),
+  );
+  openLaws(core);
+  const api = coreAPI(core);
+  return !PLATFORM_QUESTIONS.some((q) => levelMayDecide(api, "city", q));
+}
+
+it("a town whose state lets it decide no platform question still campaigns on its own budget lines, and a voter weighs them", () => {
+  setBookkeeping(false);
+  const keptBefore = setKeepEveryonesWhy(true);
+  try {
+    // Draw places from all 56 until one whose towns decide no question.
+    let place: ReturnType<typeof drawPlace> | null = null;
+    for (let draw = 0; draw < 200 && !place; draw += 1) {
+      const next = drawPlace(`${seed}:${draw}`, "contest-positions-none");
+      if (townsDecideNoQuestion(next.key)) place = next;
+    }
+    expect(
+      place,
+      `no drawn place's towns decide no question (seed ${seed})`,
+    ).not.toBeNull();
+    const where = `${place!.name} (${place!.key}), seed ${place!.seed}`;
+    const { core } = buildBenchWorld(place!.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place!.key,
+    });
+    const api = coreAPI(core);
+    const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+    const officeOf = (contest: ContestRow) =>
+      offices.get(contest.officeId) as unknown as OfficeRecord;
+    const local = (contest: ContestRow) =>
+      !["state", "federal"].includes(officeOf(contest).level);
+    const contests = () =>
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[];
+    const council = contests().find((c) => officeOf(c).kind === "council");
+    if (council) {
+      const list = contestPositions(api, council);
+      expect(
+        list.length,
+        `${where}: council ${council.officeId}`,
+      ).toBeGreaterThan(0);
+      expect(
+        list.filter((q) => !q.startsWith(BUDGET)),
+        `${where}: council ${council.officeId} lists a question`,
+      ).toEqual([]);
+    }
+    // Play until a computer candidate in a local race files a platform with a
+    // budget line, then on to that race's result.
+    let filing: FilingRow | undefined;
+    let day = 0;
+    const filed = () =>
+      (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .rows() as unknown as FilingRow[]
+      ).find((row) => {
+        const c = contests().find((x) => x.id === row.contestId);
+        return (
+          c &&
+          local(c) &&
+          parsePlatform(row.platform).some((s) => s.question.startsWith(BUDGET))
+        );
+      });
+    while (!filing && day < PLAYED_DAYS) {
+      day += STEP_DAYS;
+      advanceCore(core, addDays(makeIsoDate(gameStartDate()), day));
+      filing = filed();
+    }
+    expect(
+      filing,
+      `${where}: no local filing stated a budget line in ${day} days`,
+    ).toBeDefined();
+    const contest = contests().find((c) => c.id === filing!.contestId)!;
+    const stances = parsePlatform(filing!.platform);
+    // The campaign event opens on a platform with a position; only the
+    // venue's price can keep it shut.
+    const event = campaignDayChoices(api, filing!.id).find(
+      (c) => c.kind === "event",
+    );
+    if (event) {
+      expect(
+        event.facts.platformStances,
+        `${where}: ${filing!.id}`,
+      ).toBeGreaterThan(0);
+      expect(event.available, `${where}: ${filing!.id}`).toBe(
+        Number(event.facts.cashMinor) >= Number(event.facts.venuePriceMinor),
+      );
+    }
+    // On to the race's result: a voter's ballot weighs the platform.
+    while (!resultOf(api, contest.id) && day < 3 * PLAYED_DAYS) {
+      day += STEP_DAYS;
+      advanceCore(core, addDays(makeIsoDate(gameStartDate()), day));
+    }
+    expect(
+      resultOf(api, contest.id),
+      `${where}: ${contest.id} not held by day ${day}`,
+    ).not.toBeNull();
+    const weighed = [...core.people.keys()]
+      .map((id) => ballotOf(api, contest.id, id))
+      .filter(
+        (b) =>
+          b &&
+          b.basis === "platform" &&
+          b.appeal[filing!.personId]?.agreement != null,
+      );
+    expect(
+      weighed.length,
+      `${where}: no ballot in ${contest.id} weighs ${filing!.id}'s platform`,
+    ).toBeGreaterThan(0);
+    process.stdout.write(
+      `CONTEST POSITIONS (no question) ${where} (GOLDEN_PATH_SEED=${seed})\n  council ${council?.officeId ?? "none"}: ${council ? contestPositions(api, council).length : 0} positions; filing ${filing!.id} states ${JSON.stringify(stances.map((s) => `${s.question.split(":").pop()} ${s.position}`))}; event ${event ? (event.available ? "open" : `shut on price (${event.facts.cashMinor} < ${event.facts.venuePriceMinor})`) : "none"}; ${weighed.length} ballots weigh it, e.g. ${weighed[0]!.id} (agreement ${weighed[0]!.appeal[filing!.personId]!.agreement})\n`,
+    );
+  } finally {
+    setKeepEveryonesWhy(keptBefore);
+  }
+}, 2_400_000);
