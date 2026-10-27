@@ -41,6 +41,7 @@ try {
     { timeout: 600000 },
   );
   await page.locator("#new-life").click();
+  await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
   const asked = new URL((await made).url()).searchParams;
   const world = { seed: asked.get("seed"), date: asked.get("date") };

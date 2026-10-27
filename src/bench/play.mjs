@@ -4707,7 +4707,6 @@ api("/api/title").then((title) => {
 void displayVersion().then((v) => ($("title-version").textContent = v));
 // Not yet routes on the new core: said on the control itself.
 for (const [id, key] of [
-  ["front-watch", "watch"],
   ["front-saves", "saves"],
   ["front-patch-notes", "patchNotes"],
 ])
@@ -4790,7 +4789,8 @@ $("dev-toggle").addEventListener("click", () => {
 const FRONT_PANELS = [
   "front-main",
   "front-new",
-  "front-custom",
+  "front-advanced",
+  "front-pick",
   "cr-character",
   "cr-place",
   "cr-look",
@@ -4914,27 +4914,27 @@ async function randomBirthday() {
 }
 $("cr-random-birthday").addEventListener("click", () => void randomBirthday());
 
-/** Opens the creator for Start a life or Custom world. */
-async function openCreator(custom) {
-  setup.custom = custom;
-  if (!setup.seed) setup.seed = (await api("/api/seed")).seed;
-  $("cr-route-name").textContent = $(
-    custom ? "new-custom" : "new-start",
-  ).textContent.trim();
+/** Opens the creator for Start a life. */
+async function openCreator() {
+  // The seed Advanced holds, drawn when the page loads, draws the world.
+  setup.seed = $("seed").value || (await api("/api/seed")).seed;
+  $("cr-route-name").textContent = $("new-start").textContent.trim();
   if (!$("cr-year").options.length) await randomBirthday();
   frontPanel("cr-character");
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-back").addEventListener("click", () => frontPanel("front-main"));
-$("new-custom").addEventListener("click", () => frontPanel("front-custom"));
-$("new-start").addEventListener("click", () => void openCreator(false));
-$("new-world").addEventListener("click", () => startLife({}));
-$("custom-back").addEventListener("click", () => frontPanel("front-new"));
-$("custom-next").addEventListener("click", () => void openCreator(true));
-$("cr-route").addEventListener("click", () => frontPanel("front-new"));
-$("cr-character-back").addEventListener("click", () =>
-  frontPanel(setup.custom ? "front-custom" : "front-new"),
+$("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
+$("new-start").addEventListener("click", () => void openCreator());
+$("new-world").addEventListener("click", () => startLife({ custom: true }));
+$("advanced-back").addEventListener("click", () => frontPanel("front-new"));
+$("advanced-build").addEventListener(
+  "click",
+  () => void startLife({ custom: true, pick: true }),
 );
+$("pick-back").addEventListener("click", () => frontPanel("front-advanced"));
+$("cr-route").addEventListener("click", () => frontPanel("front-new"));
+$("cr-character-back").addEventListener("click", () => frontPanel("front-new"));
 $("cr-character-next").addEventListener("click", () => {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
@@ -5125,7 +5125,6 @@ $("cr-look-back").addEventListener("click", () => {
 });
 $("cr-begin").addEventListener("click", () =>
   startLife({
-    custom: setup.custom,
     placeKey: setup.town.key,
     person: {
       givenName: $("cr-given").value.trim(),
@@ -5138,9 +5137,62 @@ $("cr-begin").addEventListener("click", () =>
     },
   }),
 );
-const placeControls = ["new-world", "cr-begin"];
+const placeControls = ["new-world", "advanced-build", "cr-begin"];
 
-async function startLife({ custom = false, placeKey, person }) {
+/** Advanced start: everyone who holds an office in the built world, to play as. */
+async function offerPlayAs(life) {
+  const holders = await api("/api/advanced/officeholders");
+  const labels = controls.advanced;
+  const list = $("pick-list");
+  const draw = () => {
+    const found = holders.filter((h) =>
+      `${h.name} ${h.title} ${h.government}`
+        .toLowerCase()
+        .includes($("pick-search").value.trim().toLowerCase()),
+    );
+    list.replaceChildren(
+      ...found.slice(0, 60).map((h) => {
+        const b = makeButton({
+          textContent: `${h.name} · ${h.title}${h.government ? `, ${h.government.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase())}` : ""}${h.party ? ` · ${h.party}` : ""}`,
+        });
+        b.dataset.record = h.termId;
+        b.addEventListener("click", () => void enterAs(life, h.personId));
+        return b;
+      }),
+      ...(found.length === 0
+        ? [el("p", { className: "label", textContent: labels.none })]
+        : []),
+    );
+  };
+  $("pick-search").oninput = draw;
+  draw();
+  show("front-status", false);
+  document.querySelector("#front .progress").hidden = true;
+  frontPanel("front-pick");
+  for (const id of placeControls) $(id).disabled = false;
+}
+
+/** Steps into one officeholder from today, with no opening address. */
+async function enterAs(life, personId) {
+  frontPanel(null);
+  const value = await post(`/api/play?id=${encodeURIComponent(personId)}`);
+  me = {
+    id: value.personId,
+    placeName: life.placeName,
+    date: life.date,
+    names: life.names,
+    portrait: false,
+  };
+  seenChanges = await changeCount();
+  show("front", false);
+  for (const id of ["rings", "card", "journal-note"]) show(id, true);
+  $("game").classList.add("in-play");
+  renderPacket(value.packet);
+  await refresh();
+  await openOfferMoment();
+}
+
+async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
@@ -5183,6 +5235,11 @@ async function startLife({ custom = false, placeKey, person }) {
     } finally {
       clearInterval(poll);
       built = true;
+    }
+    // Advanced: the world is built; choose whom to play, with no address.
+    if (pick) {
+      await offerPlayAs(life);
+      return;
     }
     // Every picture the opening shows is loaded before it plays.
     const opening = await api(

@@ -97,6 +97,7 @@ import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
+import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
@@ -572,6 +573,13 @@ export async function benchRequest(
             Number(url.searchParams.get("change")) || 0,
           ),
         );
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/advanced/officeholders"
+      ) {
+        send(200, officeholders(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/goto") {

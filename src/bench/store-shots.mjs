@@ -47,9 +47,10 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   await page.waitForTimeout(1500);
   if (n === 0) await shot("title");
   await page.click("#new-life");
-  await page.click("#new-custom");
+  await page.click("#new-advanced");
   await page.fill("#seed", seed);
-  await page.click("#custom-next");
+  await page.click("#advanced-back");
+  await page.click("#new-start");
   // The creator: a drawn name and birthday, the first state and town.
   await page.waitForSelector("#cr-character:not([hidden])");
   await page.click("[data-gender=male]");

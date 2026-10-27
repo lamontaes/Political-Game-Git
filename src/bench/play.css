@@ -2668,3 +2668,15 @@ body.dev .dev-ring {
 .people-selection .circle-none {
   color: var(--gold);
 }
+
+/* Advanced: the officeholders to play as, a button each. */
+.pick-list {
+  display: grid;
+  gap: 8px;
+  max-height: 46vh;
+  overflow-y: auto;
+  margin: 12px 0;
+}
+.pick-list button {
+  text-align: left;
+}

@@ -213,9 +213,11 @@
     "nameHeadPick": "Name to the post"
   },
   "titleUnavailable": {
-    "watch": "Watching the world without a player is not on the new core yet.",
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."
+  },
+  "advanced": {
+    "none": "No one holds an office that matches"
   },
   "levels": {
     "local": "Local",

@@ -92,6 +92,7 @@ try {
     { timeout: 600000 },
   );
   await page.locator("#new-life").click();
+  await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
   // The world the game drew, to file in again as a grown resident below.
   const asked = new URL((await made).url()).searchParams;
