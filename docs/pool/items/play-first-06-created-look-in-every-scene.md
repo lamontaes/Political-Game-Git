@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: play-first/play-first-06-created-look-in-every-scene
-pr:
+pr: #6283
 blocked-on:
 after:
 source: added with npm run pool -- add
@@ -33,3 +33,4 @@ claimed-at: 2026-10-27T10:46:55.602Z
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
 
 CTO, Oct 27: the `after:` lines (play-first-05, play-stop-03) are cleared; both landed in #5898 and wait only on the owner's installed-build check, which does not block building on them.
+- Merged Oct 27 in PR #6283; awaiting the owner's installed-build check. Not checked in the PR: the player's person card and the opening's family chapter screenshots.

@@ -242,6 +242,21 @@ ol {
     left bottom,
     right bottom;
 }
+/* The title's Continue: the life's face beside its name and place. */
+#front-continue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#front-continue .bust {
+  width: 44px;
+  height: 44px;
+}
+#front-main #front-continue .continue-text,
+#front-main #front-continue .continue-text b,
+#front-main #front-continue .continue-text small {
+  display: block;
+}
 /* The game's own figure, cropped to head and shoulders, fading into the glass. */
 .bust {
   flex: none;
@@ -931,6 +946,13 @@ input[type="range"]::-moz-range-thumb {
   display: block;
   font: inherit;
 }
+.item.town .town-head {
+  display: block;
+}
+.item.town .town-county {
+  color: var(--text-3);
+  margin-top: 2px;
+}
 .item.town small {
   color: var(--text-2);
 }
@@ -1413,40 +1435,21 @@ body.dev .dev-ring {
   font: 500 15px/1.4 var(--speech);
 }
 #sheet-body .narrative > b:first-child,
-#sheet-body .campaign > b:first-child,
-#sheet-body .race > b:first-child {
+#sheet-body .campaign > b:first-child {
   display: block;
   max-width: none;
   margin-bottom: 3px;
 }
-#sheet-body .campaign,
-#sheet-body .race {
+#sheet-body .campaign {
   display: block;
   column-span: all;
 }
-#sheet-body .campaign > div,
-#sheet-body .race > div {
+#sheet-body .campaign > div {
   margin-top: 4px;
 }
 #sheet-body .campaign select,
 #sheet-body .campaign input {
   margin-right: 12px;
-}
-/* Every other state's governor race that night, three to a line. */
-#sheet-body .nation-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 32px;
-}
-#sheet-body .nation-grid .row {
-  padding: 3px 0;
-}
-.race .winner {
-  color: var(--gold);
-  font-weight: 600;
-}
-.race .mine {
-  color: var(--text-2);
 }
 #sheet-body details summary {
   cursor: pointer;
@@ -1505,6 +1508,10 @@ body.dev .dev-ring {
       180px,
       1fr
     );
+}
+.calendar-day-date {
+  font: 600 15px var(--ui);
+  color: var(--gold);
 }
 .calendar-month-foot {
   display: flex;
@@ -1988,6 +1995,8 @@ body.dev .dev-ring {
    Election day's ballot over the polling place's picture: kit12's panel,
    heading and actions; positions only. */
 #ballot,
+#election-day,
+#returns,
 #meeting,
 #desk,
 #job-offer {
@@ -2011,9 +2020,30 @@ body.dev .dev-ring {
   min-height: 18px;
   margin: 12px 0 0;
 }
-#ballot {
+#ballot,
+#election-day,
+#returns {
   display: flex;
   flex-direction: column;
+}
+#election-day-lines,
+#returns-lines {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+#election-day .acts,
+#returns .acts {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+#returns-count {
+  margin-top: 12px;
+}
+#election-day-lines p,
+#returns-lines p {
+  margin: 0 0 10px;
 }
 #ballot-races {
   flex: 1;
