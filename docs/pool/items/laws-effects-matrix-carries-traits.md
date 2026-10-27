@@ -6,9 +6,9 @@ lead: laws-effects
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: laws-effects/effects-matrix-traits
-pr:
+pr: #6257
 blocked-on:
 source: work order docs/work-orders/lead-laws-effects-2026-10-26.md, steps 3 and 4 (owner, Oct 26: one checker and one matrix, traits rows in the effects matrix)
 claimed-at: 2026-10-27T07:05:15.431Z
