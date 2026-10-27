@@ -81,9 +81,9 @@ function netTakePart(rows: readonly Weighing[]): number {
 
 /**
  * A town drawn by the kit's own draw, played over the window around its next
- * election, with its take-part weighings on record. The first town is the
- * world the other cases read, so it also needs town halls the officials
- * weighed; the second is read for its weighings only.
+ * election, with its take-part weighings on record. The world the other
+ * cases read (`first`) also needs town halls the officials weighed; the
+ * other town is read for its weighings only.
  */
 function drawTown(first: boolean) {
   let town: Town = {
@@ -149,10 +149,11 @@ function drawTown(first: boolean) {
 }
 
 // Building and playing a drawn town 120 days takes about 30 seconds, inside
-// the 60 second hook limit; two towns are drawn.
+// the 60 second hook limit; two towns are drawn. The town read for its
+// weighings alone is drawn first and let go, so one world is held at a time.
 beforeAll(() => {
-  ({ core, api } = drawTown(true));
   drawTown(false);
+  ({ core, api } = drawTown(true));
   adults = adultsOf(core);
   // Reason for the hook's time: each drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine, and a small town's officials often weigh too few town halls, so several places may be built before one fits (seed d60345f2ab0b7229abdb17fd1eeee43bbaff5d24 passed over three, at 6, 10 and 6 town halls, before Clatonia, Nebraska held 144). Two towns are drawn, in turn from the same seed's stream.
 }, 1_800_000);
