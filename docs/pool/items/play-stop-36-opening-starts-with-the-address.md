@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-36-opening-starts-with-the-address
-pr:
+pr: #6234
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
