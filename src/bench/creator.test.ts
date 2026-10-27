@@ -14,6 +14,7 @@ import {
 import {
   appearanceRows,
   drawnAppearance,
+  lookForGender,
   moveAppearance,
   portraitPng,
   readRecipe,
@@ -278,4 +279,31 @@ describe("the life drawn for the age the creator chose", () => {
     },
     600_000,
   );
+});
+
+// Owner's playtest, Oct 27: a male character could step to a female body. A
+// look the page sends back (after Undo or Reset) is redrawn on the chosen
+// gender's body, by the creator route and by New game.
+describe("a look always has the chosen gender's body", () => {
+  it("redraws a woman's look on a man's body, keeping what that body has", () => {
+    const hers = drawnAppearance("female", "seed", 3);
+    const his = lookForGender(hers, "male");
+    expect(his.sex).toBe("male");
+    expect(his.build).toBe(hers.build);
+    expect(his.skin).toBe(hers.skin);
+    expect(lookForGender(hers, "female")).toBe(hers);
+    expect(lookForGender(hers, "nonbinary")).toBe(hers);
+    const chosen = readChosenPerson(
+      JSON.stringify({
+        givenName: "Sam",
+        familyName: "Lee",
+        gender: "male",
+        birthYear: 1990,
+        birthMonth: 5,
+        birthDay: 4,
+        recipe: hers,
+      }),
+    );
+    expect(chosen.recipe!.sex).toBe("male");
+  });
 });

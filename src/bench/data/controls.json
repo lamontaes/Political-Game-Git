@@ -32,7 +32,6 @@
   },
   "endedBy": {
     "moment": "Something needs you",
-    "job-offered": "A job offer",
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
@@ -52,6 +51,11 @@
     "give": "Give the speech",
     "venue": "Where",
     "retold": "retold"
+  },
+  "campaignVolunteers": {
+    "one": "1 volunteer",
+    "other": "{n} volunteers",
+    "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
   },
   "campaignOutings": {
     "doors": "Knock on doors",
@@ -205,11 +209,6 @@
     "interviewOutlet": "Ask for an interview with",
     "nameHeadPick": "Name to the post"
   },
-  "titleUnavailable": {
-    "continue": "No life in progress yet. Start a life first.",
-    "saves": "Saved games come with the save format at early-access preparation.",
-    "patchNotes": "Patch notes have no page on the new core yet."
-  },
   "floor": {
     "status": {
       "drafted": "Drafted",
@@ -314,8 +313,7 @@
     "school": "School",
     "money": "Money",
     "family": "Family",
-    "views": "Politics",
-    "traits": "Traits"
+    "views": "Politics"
   },
   "people": {
     "all": "All",
@@ -370,18 +368,10 @@
   "jobs": {
     "work": "Work",
     "study": "Study",
-    "offers": "Job offers",
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "hourly": "per hour",
-    "deadline": "Answer by",
-    "accept": "Take it",
-    "decline": "Turn it down",
-    "notNow": "Not now",
-    "noJob": "No current job",
-    "unavailable": "Offer no longer available",
-    "failed": "Could not send your answer. Try again."
+    "noJob": "No current job"
   },
   "politics": {
     "seats": "Seats",

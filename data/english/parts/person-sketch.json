@@ -1,0 +1,219 @@
+{
+  "schema": "english-parts/1",
+  "register": "person-sketch",
+  "description": "What a person is like, said plainly in a sentence per trait from their recorded temperament (owner, Oct 27: 'a plain version of what this person's like'), never the trait's name. The strongest traits are said; a strong lean takes the strong line, a slight one the mild line.",
+  "slots": {},
+  "maxWords": 12,
+  "parts": [
+    {
+      "key": "person-sketch.deliberative.strong",
+      "move": "deliberative",
+      "text": "You think things through before you act.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.deliberative.mild",
+      "move": "deliberative",
+      "text": "You usually think before you act.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.impulsive.strong",
+      "move": "impulsive",
+      "text": "You act on impulse.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.impulsive.mild",
+      "move": "impulsive",
+      "text": "You can be quick to act.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.reserved.strong",
+      "move": "reserved",
+      "text": "You keep to yourself.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.reserved.mild",
+      "move": "reserved",
+      "text": "You're a little reserved.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.outgoing.strong",
+      "move": "outgoing",
+      "text": "You love being around people.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.outgoing.mild",
+      "move": "outgoing",
+      "text": "You're easy to talk to.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.conciliatory.strong",
+      "move": "conciliatory",
+      "text": "You'd rather find common ground than fight.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.conciliatory.mild",
+      "move": "conciliatory",
+      "text": "You try to smooth things over.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.confrontational.strong",
+      "move": "confrontational",
+      "text": "You don't back down from a fight.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.confrontational.mild",
+      "move": "confrontational",
+      "text": "You speak up when you disagree.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.lets-things-slip.strong",
+      "move": "lets-things-slip",
+      "text": "You let things slip.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.lets-things-slip.mild",
+      "move": "lets-things-slip",
+      "text": "You don't always follow through.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.dependable.strong",
+      "move": "dependable",
+      "text": "When you say you'll do something, you do it.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.dependable.mild",
+      "move": "dependable",
+      "text": "People can count on you.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.cautious.strong",
+      "move": "cautious",
+      "text": "You play it safe.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.cautious.mild",
+      "move": "cautious",
+      "text": "You're careful about taking chances.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.risk-taking.strong",
+      "move": "risk-taking",
+      "text": "You'll take a chance most people wouldn't.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.risk-taking.mild",
+      "move": "risk-taking",
+      "text": "You don't mind a gamble.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    },
+    {
+      "key": "person-sketch.balanced.1",
+      "move": "balanced",
+      "text": "You're even-tempered: hard to rattle and hard to rush.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "shippable": true
+    }
+  ]
+}
