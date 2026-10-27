@@ -205,7 +205,15 @@ export function governmentView(core: CoreState, personId: string) {
       seatId: seat.id,
       district: seat.district,
       // The seat's elections, oldest first, each named by the term it seated.
-      elections: pastElections(api, seat.id),
+      // Only races the world ran: the history before the opening carries an
+      // average share for the office, not a count, so it is not shown.
+      elections: pastElections(api, seat.id).filter(
+        (e) =>
+          (
+            api.moduleState(OFFICES_MODULE_ID).table("terms").get(e.termId) as
+              { reached?: string } | undefined
+          )?.reached !== "in office at the opening",
+      ),
       // Who won the seat's last race and has not taken office yet.
       elect: electOf(api, seat.id),
       holder: holder && {

@@ -504,10 +504,6 @@
       "mean": 4,
       "count": 1
     },
-    "scene-talk.open-greet.you-re-home": {
-      "mean": 4,
-      "count": 1
-    },
     "scene-talk.state-confront.we-hardly-see-you-since-you-took-office": {
       "mean": 5,
       "count": 1
@@ -687,6 +683,8 @@
     "journal": "narration",
     "scene-words": "narration",
     "election-day": "narration",
-    "choice-names": "narration"
+    "choice-names": "narration",
+    "calendar": "narration",
+    "talk-who": "narration"
   }
 }

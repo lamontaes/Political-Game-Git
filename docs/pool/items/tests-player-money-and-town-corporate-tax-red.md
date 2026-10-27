@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/player-money-red
-pr:
+pr: #6399
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T18:56:27.273Z

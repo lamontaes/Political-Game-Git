@@ -128,6 +128,10 @@
             ></span
             ><span class="continue-text"
               ><b>Continue</b><small id="front-continue-life"></small
+              ><small
+                class="reason"
+                data-label="titleUnavailable.continue"
+              ></small
             ></span>
           </button>
           <button
@@ -137,7 +141,8 @@
             data-testid="open-saves"
             disabled
           >
-            <b>Saved games</b>
+            <b>Saved games</b
+            ><small class="reason" data-label="titleUnavailable.saves"></small>
           </button>
           <button
             id="front-options"
@@ -154,7 +159,11 @@
             data-testid="title-patch-notes"
             disabled
           >
-            <b>Patch notes</b>
+            <b>Patch notes</b
+            ><small
+              class="reason"
+              data-label="titleUnavailable.patchNotes"
+            ></small>
           </button>
           <!-- Quit is the desktop's; a browser tab has none to offer. -->
           <button
@@ -540,19 +549,6 @@
         ></p>
       </section>
 
-      <nav id="menu" class="panel" hidden>
-        <h2 class="menu-title">Menu</h2>
-        <span data-menu-items></span>
-        <button
-          id="dev-mode"
-          type="button"
-          class="nav-item dev-only"
-          onclick="window.open('/dev')"
-        >
-          <span class="nl">Dev mode</span>
-        </button>
-      </nav>
-
       <section id="sheet" class="panel" data-testid="sheet" hidden>
         <span
           data-panel-head
@@ -627,13 +623,6 @@
           <p id="person-role" class="role"></p>
           <div id="person-facts"></div>
           <div id="person-pager" class="acts" data-pager="person" hidden></div>
-          <div class="acts">
-            <button
-              id="person-talk"
-              class="action primary"
-              type="button"
-            ></button>
-          </div>
         </div>
       </section>
 
@@ -649,7 +638,13 @@
       <div id="dock">
         <nav id="rings" hidden></nav>
         <section id="card" class="panel me" hidden>
-          <div id="card-bust" class="bust"></div>
+          <div
+            id="card-bust"
+            class="bust"
+            data-tab="who"
+            role="button"
+            tabindex="0"
+          ></div>
           <div>
             <h2 id="card-name" class="name"></h2>
             <p id="card-place" class="role"></p>
