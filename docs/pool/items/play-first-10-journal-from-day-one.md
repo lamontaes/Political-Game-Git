@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-first-10-journal-from-day-one
+pr: #6230
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:20:05.361Z
 ---
 
 **What.** On the v0.22.10 release the Journal was blank for the first three weeks. The owner ruled Oct 14 that the player's own context (parents, their relationship, siblings, where the family came from and a few remembered moments) is rendered from day one, and Oct 24 that people's histories are simulated and the journal runs from day one. This item writes the opening chapter of the memoir from the player's deep past.
