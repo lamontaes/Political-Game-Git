@@ -244,16 +244,36 @@ function shadowsOf(people) {
     });
 }
 
+/**
+ * What the painting has in front of a person (a desk, a chair back), laid
+ * back over them: the picture's own pixels through the spot's mask, lined up
+ * with the picture, so it is right in every light and weather.
+ */
+function occluderOf(o) {
+  const node = el("div", { className: "occluder" });
+  const along = (start, size) =>
+    size >= 100 ? 0 : (start / (100 - size)) * 100;
+  Object.assign(node.style, {
+    left: `${o.leftPercent}%`,
+    top: `${o.topPercent}%`,
+    width: `${o.widthPercent}%`,
+    height: `${o.heightPercent}%`,
+    backgroundImage: `url("${$("backdrop").src}")`,
+    backgroundSize: `${10000 / o.widthPercent}% ${10000 / o.heightPercent}%`,
+    backgroundPosition: `${along(o.leftPercent, o.widthPercent)}% ${along(o.topPercent, o.heightPercent)}%`,
+    maskImage: `url("${o.url}")`,
+    webkitMaskImage: `url("${o.url}")`,
+  });
+  return node;
+}
+
 /** The people in a picture; anyone but you can be clicked for their dossier. */
 function drawPeople(people, onClick) {
   $("people").replaceChildren(
     ...shadowsOf(people),
-    ...people.map((person) => {
+    ...people.flatMap((person) => {
       const f = person.figure;
-      const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
-      const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
-      img.style.height = `${(f.heightPercent / visible) * 100}%`;
       // A whole figure turns to face the room.
       if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure" }, img);
@@ -262,7 +282,7 @@ function drawPeople(people, onClick) {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
         width: `${f.widthPercent}%`,
-        height: `${visible}%`,
+        height: `${f.heightPercent}%`,
       });
       if (onClick && person.personId !== me?.id) {
         box.classList.add("talkable");
@@ -276,7 +296,7 @@ function drawPeople(people, onClick) {
           onClick(person);
         });
       }
-      return box;
+      return f.occluder ? [box, occluderOf(f.occluder)] : [box];
     }),
   );
 }
@@ -4423,21 +4443,35 @@ const sheets = {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
-                const history = listRow("", {
+                // The term as a voter would say it: when it ends, and how the
+                // holder won it where the world ran the race.
+                const monthYear = (iso) =>
+                  new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+                    month: "long",
+                    year: "numeric",
+                  });
+                const history = el("span", {
+                  className: "person-row-note",
                   textContent: [
-                    `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
-                    labels.reached?.[s.holder.reached] ?? s.holder.reached,
                     won
-                      ? `${labels.electedOn} ${proseDate(won.date)} · ${Math.round(won.share * 100)}% ${labels.ofVote}`
+                      ? labels.electedWith
+                          .replace("{date}", monthYear(won.date))
+                          .replace("{share}", `${Math.round(won.share * 100)}%`)
+                      : null,
+                    s.holder.endDate
+                      ? labels.termEnds.replace(
+                          "{date}",
+                          monthYear(s.holder.endDate),
+                        )
                       : null,
                   ]
                     .filter(Boolean)
-                    .join(" · "),
+                    .join(". "),
                 });
                 // The record the line reads, for the specs; never shown as text.
                 history.dataset.term = s.holder.termId;
                 if (won) history.dataset.election = won.termId;
-                line.append(history);
+                if (history.textContent) line.append(history);
               }
               // Elected and not yet seated: who won the seat, and when they take office.
               if (s.elect) {

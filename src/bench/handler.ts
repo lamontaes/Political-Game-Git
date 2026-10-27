@@ -60,6 +60,7 @@ import {
   type BenchFilingVisit,
 } from "./filing";
 import { backdropFile, backdropPath, benchScene } from "./scene";
+import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -347,6 +348,21 @@ export async function benchRequest(
         response.writeHead(200, {
           "Content-Type": "image/png",
           "Cache-Control": "public, max-age=3600",
+        });
+        response.end(content);
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname.startsWith("/art/backdrops/occluders/")
+      ) {
+        // What stands in front of a spot: a mask the screen lays the picture through.
+        const content = await readFile(
+          occluderPath(url.pathname.slice("/art/backdrops/occluders/".length)),
+        );
+        response.writeHead(200, {
+          "Content-Type": "image/png",
+          "Cache-Control": "max-age=3600",
         });
         response.end(content);
         return;

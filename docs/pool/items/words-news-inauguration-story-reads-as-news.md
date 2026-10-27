@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: words/inauguration-news
-pr: 6368
+pr: #6368
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words

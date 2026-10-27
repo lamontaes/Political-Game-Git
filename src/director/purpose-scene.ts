@@ -26,7 +26,7 @@ import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { spokenDesignation } from "../english/bill-names";
+import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { questionAbout } from "../english/question-names";
 import {
   questionName,
@@ -49,6 +49,7 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import { ELECTIONS_MODULE_ID, ballot } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
   enlistVolunteer,
@@ -222,6 +223,27 @@ function composeBinding(
       text: `${chair.givenName} ${chair.familyName}`,
       sourceRecordIds: [moment.causeId, chair.id],
     };
+  // An executive's ask to carry their bill (legislature.ts askToCarry): the
+  // lines about a bill its asker can't introduce need it.
+  if (record?.kind === "carry-asked" && said.byExecutive === "yes")
+    facts["carry-ask"] = {
+      text: said.askerId ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+  // An ask to carry a bill the member turned down has no number yet: the
+  // bill goes by its name, from the policy the ask was for.
+  if (record?.kind === "carry-asked" && !said.number && said.question) {
+    const name = billNameFor(
+      said.question,
+      said.formKind ?? "",
+      said.direction === "repeal",
+    );
+    if (name)
+      facts.bill = {
+        text: `the ${name.title}`,
+        sourceRecordIds: [moment.causeId],
+      };
+  }
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
   // A vote trade puts the holdout's own section in (legislature.ts adopt()):
@@ -364,6 +386,19 @@ function composeBinding(
       text: `${rival.givenName} ${rival.familyName}`,
       sourceRecordIds: [moment.causeId, rival.id],
     };
+  // A rival who runs under the candidate's own party label: a primary
+  // challenge. The lines that call it one need both filings to say so.
+  if (rival && said.contestId && core.modules.has(ELECTIONS_MODULE_ID)) {
+    const filings = ballot(coreAPI(core as CoreState), said.contestId);
+    const party = (id: string) =>
+      filings.find((row) => row.personId === id)?.party ?? null;
+    const theirs = party(rival.id);
+    if (theirs && theirs === party(askedId))
+      facts["same-party"] = {
+        text: theirs,
+        sourceRecordIds: [moment.causeId, said.filingId ?? moment.causeId],
+      };
+  }
   // What the relative has at stake in the run, from the household's records
   // (the cast rule chose them for it): the lines about money or time need it.
   const stake = type.stakes?.includes("household-money-or-time")
