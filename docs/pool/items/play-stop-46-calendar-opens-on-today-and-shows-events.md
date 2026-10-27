@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-46-calendar-opens-on-today-and-shows-events
 pr: #6221
 blocked-on:
