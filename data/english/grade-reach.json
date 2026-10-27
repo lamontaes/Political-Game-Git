@@ -278,7 +278,6 @@
     "conversation.news-answer-no.what": "ask|guarded|private",
     "conversation.news-answer-no.what-happened": "ask|curious|private",
     "conversation.news-answer-opinion.good-that-s-been-a-long-time-coming": "react|glad|private",
-    "conversation.news-answer-react.good-for-them": "react|glad|private",
     "conversation.news-answer-react.thats-good-news": "react|glad|private",
     "conversation.news-ask-think.how-do-you-feel-about-that": "ask|curious|private",
     "conversation.news-ask-think.what-do-you-make-of-that": "ask|curious|private",
