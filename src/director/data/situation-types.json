@@ -3651,6 +3651,87 @@
       }
     },
     {
+      "key": "desk-visit",
+      "eachCause": true,
+      "purpose": "desk-visit",
+      "asker": "visitor",
+      "asked": "you",
+      "stakes": ["bill", "decision", "votes"],
+      "roles": [
+        {
+          "key": "visitor",
+          "fill": "sponsor",
+          "count": "one",
+          "moves": [
+            "request",
+            "answer",
+            "press",
+            "plea",
+            "threaten",
+            "accept",
+            "thank"
+          ],
+          "wants": ["change"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "ask"],
+          "wants": ["commit"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "visitor": "sponsor",
+            "you": "subject"
+          },
+          "opener": "visitor"
+        },
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "visitor": "lobbyist",
+            "you": "subject"
+          },
+          "opener": "visitor"
+        }
+      ],
+      "tag": {
+        "key": "desk-visit",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "desk-bill",
       "purpose": "desk-bill",
       "asker": "aide",
