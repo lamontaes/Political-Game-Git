@@ -1862,31 +1862,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.you-re-home",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You're home.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "hurt",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.oh-you-re-back",
       "move": "open-greet",
       "kind": "spoken",
@@ -26710,31 +26685,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-waiting-for-you",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is waiting for you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "*",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.hey-have-you-got-a-minute",
       "move": "open-greet",
       "kind": "spoken",
@@ -27676,31 +27626,6 @@
       "tag": {
         "move": "accept",
         "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-there-when-you-walk-in",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is there when you walk in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "*",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "glad",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
       }
     },
     {
