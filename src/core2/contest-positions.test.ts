@@ -403,6 +403,13 @@ it("a town whose state lets it decide no platform question still campaigns on it
     const filing = chosen!.filing;
     const contest = contests().find((c) => c.id === filing.contestId)!;
     const stances = parsePlatform(filing.platform);
+    // The platform holds only its own contest's positions.
+    const positions = contestPositions(api, contest);
+    for (const stance of stances)
+      expect(
+        positions,
+        `${where}: ${filing.id} states ${stance.question}, not a position of ${contest.officeId}`,
+      ).toContain(stance.question);
     // The campaign event opens on a platform with a position; only the
     // venue's price can keep it shut.
     const event = chosen!.event;
@@ -441,7 +448,7 @@ it("a town whose state lets it decide no platform question still campaigns on it
       `${where}: no ballot in ${contest.id} weighs ${filing.id}'s platform`,
     ).toBeGreaterThan(0);
     process.stdout.write(
-      `CONTEST POSITIONS (no question) ${where} (GOLDEN_PATH_SEED=${seed})\n  council ${council?.officeId ?? "none"}: ${council ? contestPositions(api, council).length : 0} positions; filing ${filing.id} states ${JSON.stringify(stances.map((s) => `${s.question.split(":").pop()} ${s.position}`))}; event ${event ? (event.available ? "open" : `shut on price (${event.facts.cashMinor} < ${event.facts.venuePriceMinor})`) : "none"}; ${weighed.length} ballots weigh it, e.g. ${weighed[0]!.id} (agreement ${weighed[0]!.appeal[filing.personId]!.agreement})\n`,
+      `CONTEST POSITIONS (no question) ${where} (GOLDEN_PATH_SEED=${seed})\n  council ${council?.officeId ?? "none"}: ${council ? contestPositions(api, council).length : 0} positions; ${contest.officeId}: ${positions.length} positions (${positions.filter((q) => !q.startsWith(BUDGET)).length} questions); filing ${filing.id} states ${JSON.stringify(stances.map((s) => `${s.question.split(":").pop()} ${s.position}`))}; event ${event ? (event.available ? "open" : `shut on price (${event.facts.cashMinor} < ${event.facts.venuePriceMinor})`) : "none"}; ${weighed.length} ballots weigh it, e.g. ${weighed[0]!.id} (agreement ${weighed[0]!.appeal[filing.personId]!.agreement})\n`,
     );
   } finally {
     setKeepEveryonesWhy(keptBefore);
