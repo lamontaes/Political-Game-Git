@@ -432,6 +432,11 @@
       "kindPrefix": "household:sibling-born",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "life:came-of-age",
+      "turn": false,
+      "entry": "story"
     }
   ],
   "firstTitle": [

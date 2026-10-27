@@ -4083,12 +4083,6 @@
           "raises": "next-2"
         },
         {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
-        {
           "move": "tenure-reply-answer-ack",
           "subject": "tenure-reply",
           "role": "answer",
@@ -9543,12 +9537,6 @@
       "text": "Oh, no.",
       "uses": [
         {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
-        {
           "move": "other-work-answer-ack-none",
           "subject": "other-work",
           "role": "answer",
@@ -9669,12 +9657,6 @@
       "text": "That's terrible.",
       "uses": [
         {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
-        {
           "move": "job-cause-reply-answer-comfort",
           "subject": "job-cause-reply",
           "role": "answer",
@@ -9730,12 +9712,6 @@
       "text": "That's too bad.",
       "uses": [
         {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
-        {
           "move": "other-work-answer-ack-none",
           "subject": "other-work",
           "role": "answer",
@@ -9780,53 +9756,11 @@
       }
     },
     {
-      "key": "conversation.news-answer-react.thats-a-shame",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "That's a shame.",
-      "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        }
-      ],
-      "transcriptsUsing": 25,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 3,
-        "dcpd": 8,
-        "hearings": 3,
-        "nasa2": 5,
-        "nps": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks During a Roundtable Discussion on Saving College Sports and an Exchange With Reporters",
-        "date": "2026-03-06",
-        "granule": "DCPD-202600153",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600153/html/DCPD-202600153.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.news-answer-react.thats-good-news",
       "move": "news-answer-react",
       "kind": "spoken",
       "text": "That's good news.",
       "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
         {
           "move": "acquittal-reply-answer-congratulate",
           "subject": "acquittal-reply",
@@ -9850,40 +9784,6 @@
         "date": "2026-09-30",
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "glad"
-    },
-    {
-      "key": "conversation.news-answer-react.good-for-them",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "Good for them.",
-      "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 1,
-        "dcpd": 2,
-        "hearings": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "KEEPING THE LIGHTS ON: EXAMINING THE STATE OF REGIONAL GRID RELIABILITY",
-        "date": "2025-03-25",
-        "granule": "CHRG-119hhrg60019",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60019/html/CHRG-119hhrg60019.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -18364,7 +18264,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         },
         {
           "move": "their-tenure-raise-ask",
@@ -18392,7 +18293,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         },
         {
           "move": "their-tenure-raise-ask",
@@ -18420,7 +18322,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18442,7 +18345,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18464,7 +18368,8 @@
           "move": "other-work-answer-ack",
           "subject": "other-work",
           "role": "answer",
-          "choice": "ack"
+          "choice": "ack",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18486,7 +18391,8 @@
           "move": "other-work-answer-ack",
           "subject": "other-work",
           "role": "answer",
-          "choice": "ack"
+          "choice": "ack",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18508,7 +18414,8 @@
           "move": "other-work-answer-brief",
           "subject": "other-work",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18530,7 +18437,8 @@
           "move": "other-work-answer-brief",
           "subject": "other-work",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18552,7 +18460,8 @@
           "move": "other-work-answer-brief",
           "subject": "other-work",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
