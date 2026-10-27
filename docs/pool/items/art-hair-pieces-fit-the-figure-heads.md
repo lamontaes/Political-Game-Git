@@ -5,9 +5,9 @@ area: art
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/people-hair
-pr:
+pr: #6426
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T22:07:54.847Z
