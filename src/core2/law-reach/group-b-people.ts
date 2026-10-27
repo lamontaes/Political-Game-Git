@@ -6,6 +6,7 @@
  */
 import parameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { BUSINESS_MODULE_ID } from "../business-module-id";
 import {
   countedJob,
   countedParameter,
@@ -154,6 +155,24 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
       if (row) commitments.push(row);
     }
   const namedMinutes = activeMinutes(commitments, date);
+  // An owner works at their own business whether or not a work commitment
+  // records it (an outlet's publisher has none): the work requirement counts
+  // the average hours of the self-employed, from the business's owner record.
+  const ownerMinutes =
+    reachParameter("ownerWeeklyHours") * reachParameter("minutesPerHour");
+  const owners = new Set<string>();
+  for (const [orgId, book] of core.finance.businesses) {
+    if (book.closedAt || core.organizations.get(orgId)?.placeId !== townPlaceId)
+      continue;
+    const owner = (
+      core.modules.has(BUSINESS_MODULE_ID)
+        ? api.moduleState(BUSINESS_MODULE_ID).table("owners").get(orgId)
+        : undefined
+    ) as { ownerId?: string } | undefined;
+    if (owner?.ownerId) owners.add(owner.ownerId);
+  }
+  for (const id of owners)
+    namedMinutes.set(id, Math.max(namedMinutes.get(id) ?? 0, ownerMinutes));
   const namedByHousehold = new Map<string, string[]>();
   for (const id of core.peopleByPlace.get(townPlaceId) ?? []) {
     const person = core.people.get(id);
@@ -205,6 +224,9 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     for (const h of store.liveHouseholds()) {
       if (h.placeId !== townPlaceId) continue;
       const minutes = activeMinutes(h.workCommitments, date);
+      for (const id of owners)
+        if (minutes.has(id))
+          minutes.set(id, Math.max(minutes.get(id)!, ownerMinutes));
       const jobs = h.jobs.filter(
         (job) => countedJob(core, job.id) !== undefined,
       );

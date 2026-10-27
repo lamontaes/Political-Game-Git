@@ -3,7 +3,8 @@
  * drivers' repair bills follow it (place-prices reads the rule monthly). A
  * drawn place for a year: cut the line, the poor share rises above its base
  * and households' monthly repair spending rises by the engine's own figure;
- * restore it and the rule ends. A drawn place with no government that funds
+ * restore it and the rule ends (or returns to where a highway shift in force
+ * at the opening left it). A drawn place with no government that funds
  * highways (a small territory village) is skipped for another draw, and the
  * test names every place skipped if none of 25 draws has one.
  */
@@ -57,9 +58,10 @@ it(`a cut highways line leaves more roads in poor condition and raises drivers' 
     new Date(Date.parse(`${core.date}T00:00:00Z`) + n * 86_400_000)
       .toISOString()
       .slice(0, 10);
-  expect(rules().get(ruleId), `${where}: a road rule before any change`).toBe(
-    undefined,
-  );
+  // A highway shift already in force at the opening (a starting law the
+  // treasury reads) can leave the line under its base, and a rule with it.
+  const before = rules().get(ruleId) as unknown as
+    { value: number } | undefined;
   const line = budgetNow(api, gov.id)!.spendingMinor.highways!;
   amendBudget(api, {
     governmentId: gov.id,
@@ -72,7 +74,7 @@ it(`a cut highways line leaves more roads in poor condition and raises drivers' 
     { value: number; cause: string } | undefined;
   expect(cut, `${where}: the cut left no road rule`).toBeDefined();
   expect(cut!.value, `${where}: poor share after the cut`).toBeGreaterThan(
-    base,
+    before?.value ?? base,
   );
   expect(cut!.cause).toContain("highways");
   const journal = core.cashJournal.totals;
@@ -84,7 +86,11 @@ it(`a cut highways line leaves more roads in poor condition and raises drivers' 
     measureId: "TEST-ROADS-RESTORE",
   });
   advanceCore(core, day(35));
-  expect(rules().get(ruleId), `${where}: the rule ends at base`).toBe(
-    undefined,
-  );
+  const restored = rules().get(ruleId) as unknown as
+    { value: number } | undefined;
+  if (before)
+    expect(restored?.value, `${where}: the rule returns to its start`).toBe(
+      before.value,
+    );
+  else expect(restored, `${where}: the rule ends at base`).toBe(undefined);
 }, 600_000);

@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/territory-legislative-races
-pr:
+pr: #6186
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T20:23:41.027Z
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T20:23:41.027Z
 **Rules.** One rule, all 56 places: territories receive the same election-calendar and counted-race rules from their own data. Find the actual missing election or incorrect calendar expectation at its source, retain the positive legislative-race and seating checks, and never clear the failure by skipping territories or replacing the drawn input.
 
 **Done when.** M2-10 on the recorded Santa Rita input names the territory legislative calendar, actual election and winner records, and every applicable legislative race from that calendar with correct seating dates; the positive legislative assertion passes without an exemption or weaker count, and the command also passes for a fresh drawn place with seed and records in the PR body.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/bench/m2-10-check.ts, src/core2/modules/world-races.ts, src/core2/offices-state.ts
 

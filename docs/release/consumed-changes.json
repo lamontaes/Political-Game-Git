@@ -1,6 +1,188 @@
 {
   "entries": [
     {
+      "version": "0.44.1",
+      "releasedOn": "2026-10-27",
+      "revision": "8f6048a1285dcc1ab113574847ed08a6bae45d03",
+      "changeIds": [
+        "gov-carry-ask-player-decides",
+        "school-outcomes-weighted-pass-not-monotone"
+      ]
+    },
+    {
+      "version": "0.44.0",
+      "releasedOn": "2026-10-26",
+      "revision": "8d16b0d5221c881a03efb5f2f7891592512787de",
+      "changeIds": ["law-wiring-rights-env", "play-city-books-on-screen"]
+    },
+    {
+      "version": "0.43.0",
+      "releasedOn": "2026-10-26",
+      "revision": "17aa4c36ebac55bf96979769b29128d645ed939f",
+      "changeIds": [
+        "play-shifts-never-stop-player",
+        "release-smoke-title-lincoln",
+        "roadmap-m1-02-no-bank-line-witness"
+      ]
+    },
+    {
+      "version": "0.42.0",
+      "releasedOn": "2026-10-26",
+      "revision": "950bc375d4413bbd9b496d7d4d34aafe933dbe46",
+      "changeIds": [
+        "core-moves-caps-and-minimum-age-as-cause",
+        "core-old-engine-02-gov-rules-duplicates",
+        "counted-weight-release-heads",
+        "gov-empty-ballot-stay-out-and-late-vacancy",
+        "play-stop-28-title-panel-header"
+      ]
+    },
+    {
+      "version": "0.41.2",
+      "releasedOn": "2026-10-26",
+      "revision": "c2771cb6bfb03753634cc99b050c5c01d6031c66",
+      "changeIds": [
+        "people-drives-counted-speech-and-shared-causes",
+        "play-stop-06-texas-shows-local-income-tax",
+        "tests-law-wiring-taxes-greenville-ri-red"
+      ]
+    },
+    {
+      "version": "0.41.1",
+      "releasedOn": "2026-10-26",
+      "revision": "0309487d4d5ac2c16ecd6916f11b4fb2543a87c2",
+      "changeIds": [
+        "gov-appointment-record-names-appointee",
+        "gov-m2-10-territory-legislative-races",
+        "gov-offices-roster-district-name-mismatch",
+        "gov-territory-delegate-not-own-representative"
+      ]
+    },
+    {
+      "version": "0.41.0",
+      "releasedOn": "2026-10-26",
+      "revision": "16ed292161f8aa6c2cfa91b76c1a37e71eeefb78",
+      "changeIds": [
+        "laws-nine-links-health-schools",
+        "play-stop-27-title-motion"
+      ]
+    },
+    {
+      "version": "0.40.0",
+      "releasedOn": "2026-10-26",
+      "revision": "eb91a9bf2993de3b88684a29f840794d108097ae",
+      "changeIds": [
+        "play-local-races-on-screen",
+        "release-main-red-scan-dir",
+        "words-scene-party-asks-you-to-run"
+      ]
+    },
+    {
+      "version": "0.39.5",
+      "releasedOn": "2026-10-26",
+      "revision": "13af3d227c39ad111aef52467d32ea4b57e94b9c",
+      "changeIds": ["words-family-talk-kin-address"]
+    },
+    {
+      "version": "0.39.4",
+      "releasedOn": "2026-10-26",
+      "revision": "a35056b6b5e079fc4d8e2dd896eb1f7c0cfa0a33",
+      "changeIds": ["laws-sales-tax-counted-reach-exceeds-town"]
+    },
+    {
+      "version": "0.39.3",
+      "releasedOn": "2026-10-26",
+      "revision": "4552f5a1863b3df8852da6fc43ca9cc9bf524fab",
+      "changeIds": [
+        "gov-department-head-qualified-by-record",
+        "gov-officials-legislators-know-no-one",
+        "play-stop-39-rail-vertical-round-with-news",
+        "tests-schools-line-base-staff-fairport"
+      ]
+    },
+    {
+      "version": "0.39.2",
+      "releasedOn": "2026-10-26",
+      "revision": "84a74f9939a78ddf4d650fbf44ce2ca4392b4fec",
+      "changeIds": [
+        "play-stop-40-menu-list-drops-its-subheadings",
+        "screens-ui-card",
+        "screens-ui-tab"
+      ]
+    },
+    {
+      "version": "0.39.1",
+      "releasedOn": "2026-10-26",
+      "revision": "13034532b1e0d34f42d28092af0538fff723643f",
+      "changeIds": [
+        "elections-territory-no-contest-at-18",
+        "gov-dc-mayor-budget-proposal-not-adopted",
+        "screens-ui-list-row"
+      ]
+    },
+    {
+      "version": "0.39.0",
+      "releasedOn": "2026-10-26",
+      "revision": "50327e6868cc362bbc447f725f18a0e93a81d60c",
+      "changeIds": [
+        "core-speed-counted-renewal-pass",
+        "cto-smart-assignments-oct-26",
+        "elections-incumbents-stand-again-above-band",
+        "laws-work-requirement-counts-owners-as-idle",
+        "play-official-ties-on-screen",
+        "skills-scene-screen-text-oct-26"
+      ]
+    },
+    {
+      "version": "0.38.0",
+      "releasedOn": "2026-10-26",
+      "revision": "bf9d6382f50b46d230cf256ab518400bced18e90",
+      "changeIds": [
+        "docs-law-wiring-report-long-reach-sentence",
+        "gov-recall-for-cause-start",
+        "laws-zero-top-rate-retains-withholding",
+        "people-corruption-take-calibrated",
+        "play-stop-21-ballot-stuck-on-first-page",
+        "traits-integrity",
+        "web-reach-schools"
+      ]
+    },
+    {
+      "version": "0.37.0",
+      "releasedOn": "2026-10-26",
+      "revision": "7d8a8481091e55b54501b6c2d36ef77184858c58",
+      "changeIds": [
+        "gov-standins-other-split",
+        "outcome-causes-split",
+        "play-stop-22-election-win-never-shown-b",
+        "pool-old-imports-bodies",
+        "words-journal-law-title-needs-article",
+        "words-law-effect-learned-journal"
+      ]
+    },
+    {
+      "version": "0.36.5",
+      "releasedOn": "2026-10-26",
+      "revision": "8f62029e2f5528ffeeaa03974ab274ec456b3e4c",
+      "changeIds": ["screens-ui-button", "screens-ui-panel"]
+    },
+    {
+      "version": "0.36.4",
+      "releasedOn": "2026-10-26",
+      "revision": "b39a1d42402ad5196717b049fe4287ac3e797c38",
+      "changeIds": ["gov-town-officers-paid-under-minimum-wage"]
+    },
+    {
+      "version": "0.36.3",
+      "releasedOn": "2026-10-26",
+      "revision": "e75949aefe9a9284b7cbfca64ab61d01c44f0003",
+      "changeIds": [
+        "outcome-web-snap-stopped-heads-still-paid",
+        "play-stop-02-developer-text-on-play-screens-a",
+        "web-gov-measure-causes-and-places"
+      ]
+    },
+    {
       "version": "0.36.2",
       "releasedOn": "2026-10-26",
       "revision": "329f2d013f76826352fb2b7a4e27856d4c46b2a3",
