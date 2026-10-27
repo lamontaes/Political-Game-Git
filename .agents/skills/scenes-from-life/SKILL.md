@@ -7,6 +7,10 @@ description: Grows Our Civic Duty's scenes and dialogue from real people's lives
 
 The owner, Oct 26 (recorded Oct 27 in `OWNER-DECISIONS.md`): "use real life people's as examples. It can be a known American, unknown American, president, congressman, mayor, city councilman, school member, anyone... It can be copyrighted material because, again, you're just using it as calibration, and take scenes from their life. See if the engine can produce it. If not, work the framework of the dialogue in, and that will affect other scenes." Real life is the calibration set for scenes, the way real rates calibrate the simulation (`research-habit`). Nothing from it ships: no real name, no quoted line, no copied text. What ships is a producer that fires from the game's own records and bank lines written for the game's people.
 
+## The scope (owner, Oct 27)
+
+The owner's examples are a floor. Any record the simulation keeps can call a scene when the circumstances fit: a constituent stops the player in the street after a law passes; news of a war the game does not model is still talked about at a location; a hallway holds legislators, lobbyists and reporters. Write situation types for kinds of circumstance (who has a reason to be here, after which record, at which kind of place), cast and worded from whatever records exist, never for one named moment. Research is the Sonnet side; the director and scene code is one Opus session at high effort; they talk through pool items, PR comments and direct messages.
+
 ## The loop (one episode, one SMART item, under 4 hours)
 
 1. **Pick an episode, not a person.** One moment with a beginning and an end from a real political life at the level the game needs: a first filing, a party chair's visit, a bad story in the paper, a debate, a lost primary, a vote traded in committee, a constituent at the door, a resignation. Any American, any office, any era; biographies, oral histories, local news, campaign memoirs, C-SPAN, court records and school board minutes all count. Read the source; quote it in your notes with its citation.
