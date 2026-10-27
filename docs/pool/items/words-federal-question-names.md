@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/federal-names
 pr:
 blocked-on:
