@@ -226,8 +226,8 @@
     "quote": "a mother asking the player to sit down: a divorce, a lost job with hope for another,",
     "source": "OD:287",
     "kind": "scene",
-    "types": [],
-    "why": "no type binds a divorce or job-loss household record to a parent"
+    "types": ["news-arrives"],
+    "why": "news-arrives: a household member brings a lost job, an eviction, a death or an illness home, and can soften it first (\"Sit down a minute.\", #6352); a divorce has no record yet (`engine-records-for-waiting-life-scenes`)"
   },
   {
     "section": "Home and family",
@@ -516,8 +516,8 @@
     "quote": "assembling, you know, an election team",
     "source": "same quote",
     "kind": "scene",
-    "types": [],
-    "why": "no team-assembling type"
+    "types": ["volunteer-offer", "staff-news"],
+    "why": "the team forms from people who offer to work after a speech (volunteer-offer) and the staff who bring news (staff-news); hiring a paid manager has no record yet"
   },
   {
     "section": "Campaign season",
@@ -536,8 +536,8 @@
     "quote": "",
     "source": "same quote",
     "kind": "scene",
-    "types": [],
-    "why": "no type for working with other candidates"
+    "types": ["vote-asked", "section-bargain", "bill-carry", "party-recruit"],
+    "why": "working with officials: a member asks your vote, trades a section, asks you to carry a bill; the party recruits you"
   },
   {
     "section": "Campaign season",
@@ -546,8 +546,8 @@
     "quote": "participating in corruption if it comes up",
     "source": "PT:21",
     "kind": "scene",
-    "types": [],
-    "why": "no corruption-offer type"
+    "types": ["bribe-offer"],
+    "why": "bribe-offer: someone with business before the office offers money for a vote or a contract, and the reply writes back"
   },
   {
     "section": "Campaign season",
@@ -716,8 +716,8 @@
     "quote": "",
     "source": "OD:16",
     "kind": "scene",
-    "types": [],
-    "why": "no election-day canvass type"
+    "types": ["polling-place"],
+    "why": "election morning plays the canvass, then the polling place (election-day sequence, #6252); the polling-place type is its situation"
   },
   {
     "section": "Election day and night",
@@ -786,8 +786,8 @@
     "quote": "has purpose",
     "source": "PT:38",
     "kind": "scene",
-    "types": [],
-    "why": "no morning-after type"
+    "types": ["morning-after"],
+    "why": "morning-after: the day after the count, someone who worked the campaign or lives with the candidate comes by (#6342)"
   },
   {
     "section": "Election day and night",
@@ -944,8 +944,8 @@
     "quote": "an affair, a payoff, told without graphic detail.",
     "source": "OD:201",
     "kind": "scene",
-    "types": [],
-    "why": "scandal is exposure only; no affair or payoff offer"
+    "types": ["bribe-offer", "scandal"],
+    "why": "a payoff offered (bribe-offer) and exposure in the press (scandal); an affair has no record yet"
   },
   {
     "section": "Holding office and lawmaking",
