@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/ask-before-the-roll
-pr:
+pr: #6443
 blocked-on:
 source: 'owner, Oct 14 ("convince one member to vote no on the amendment"); words-and-scenes lead, Oct 27, scene web legislating pass (packet the-vote-that-switched)'
 lead: laws-effects
