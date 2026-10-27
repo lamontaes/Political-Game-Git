@@ -296,6 +296,99 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.43.0
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **The desktop build checks itself again** The desktop build checks itself
+  again: its title check now accepts the Lincoln Memorial at night, which the
+  title's rotation added on Oct 26, so Mac and Windows packages publish.
+
+### Changed
+
+- **Work shifts no longer stop your day** Your character goes to work, works the
+  shift and gets paid on their own, and the start or end of a shift no longer
+  stops Day or Week with "Something needs you". Only a scene, a deadline you
+  must answer, or your own meeting or desk stops time now.
+
+## PRE-ALPHA 0.42.0
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **In a big city, a business no longer swells past its customers when you meet
+  its neighbors.** When you meet someone in a large city, the households their
+  record stood for are spread over the rest of the town without carrying jobs to
+  employers that never hired. A business's staff now changes only when it hires,
+  lays off or someone leaves, so city businesses stop closing under a payroll
+  they never chose.
+
+- **A retiring official's seat draws candidates as an open seat** When a sitting
+  official decides not to run again, the people who weigh the seat after them
+  now weigh it as an open seat, so a seat its holder gives up no longer goes to
+  an election with nobody on the ballot because the town still counted it as
+  defended.
+
+- **The game's name is set apart from the menu under it** On the title menu, the
+  New game choice and the character creator, the gold name now has a thin gold
+  line under it and room before the first control, so the name and the menu read
+  as two things.
+
+### Changed
+
+- **Whether people move away now follows their place's age of majority, their
+  whole family and their savings** Young people decide for themselves whether to
+  leave town at the age the law where they live sets, not at 18 everywhere. A
+  big family in town holds someone a little more with each relative, instead of
+  stopping at four. A household that has no income but has savings feels what
+  its home costs less than one with nothing put by.
+
+## PRE-ALPHA 0.41.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Each rate under Politics → Issues names the government that sets it.**
+  Issues no longer calls the federal income tax a local one. Each law is named
+  for what it is ("Income tax rate"), and each rate shows the government that
+  sets it ("United States 37% top rate", "Texas 6.25% · City of Anson 1.951%").
+  A government that levies none is left out.
+
+### Changed
+
+- **Anyone in town who feels strongly about a bill can stand up at public
+  comment** Public comment at a council or county meeting now draws on every
+  adult in town who feels strongly about the bill, not only the people you
+  already know. Someone you have never met may stand up, become a person you can
+  find and talk to, and leave the meeting with a cause of their own.
+
+## PRE-ALPHA 0.41.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **An appointment's public record now names who was appointed** The public
+  record of a city appointment said which post was filled and who appointed, but
+  not who was appointed. The record now carries the appointee, so the news and
+  the government screens can say who runs a department.
+
+- **State legislatures no longer hold extra empty seats where two lists spell a
+  district differently.** Maryland's House had 150 seats for 141 members,
+  Massachusetts's Senate 48 for 40, and three more chambers one to three extra,
+  each extra seat voting with a guessed party. District names are now compared
+  by one rule, so each chamber seats its members once.
+
+- **A territory or D.C. player now sees their delegate as their own member of
+  the House** Players in the District of Columbia and the five territories had
+  no member of the House listed as their own on the Politics screen. Their
+  delegate or resident commissioner now appears first, the way a state player
+  sees their U.S. representative.
+
 ## PRE-ALPHA 0.41.0
 
 _Released October 26, 2026._

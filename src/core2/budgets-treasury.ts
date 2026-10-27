@@ -32,7 +32,7 @@ import {
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
-import { countedHeadsOf, countedJobsOf } from "./residents-economy";
+import { countedJobHeads, countedJobsOf } from "./residents-economy";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
 import { newsKey, storiesHeard, type Story } from "./modules/news";
@@ -508,10 +508,9 @@ export function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
       if (job.endsAt === undefined) reserve += job.wageDailyMinor * monthDays;
     }
     // Its counted workers, whose wages this treasury pays too, each job for
-    // the people its worker's household stands for.
+    // the jobs its employer's staffing set it to stand for.
     for (const job of countedJobsOf(core, employerId))
-      reserve +=
-        job.wageDailyMinor * monthDays * countedHeadsOf(core, job.personId);
+      reserve += job.wageDailyMinor * monthDays * countedJobHeads(core, job);
   }
   return Math.round(reserve);
 }

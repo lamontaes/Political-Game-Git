@@ -1,6 +1,49 @@
 {
   "entries": [
     {
+      "version": "0.43.0",
+      "releasedOn": "2026-10-26",
+      "revision": "17aa4c36ebac55bf96979769b29128d645ed939f",
+      "changeIds": [
+        "play-shifts-never-stop-player",
+        "release-smoke-title-lincoln",
+        "roadmap-m1-02-no-bank-line-witness"
+      ]
+    },
+    {
+      "version": "0.42.0",
+      "releasedOn": "2026-10-26",
+      "revision": "950bc375d4413bbd9b496d7d4d34aafe933dbe46",
+      "changeIds": [
+        "core-moves-caps-and-minimum-age-as-cause",
+        "core-old-engine-02-gov-rules-duplicates",
+        "counted-weight-release-heads",
+        "gov-empty-ballot-stay-out-and-late-vacancy",
+        "play-stop-28-title-panel-header"
+      ]
+    },
+    {
+      "version": "0.41.2",
+      "releasedOn": "2026-10-26",
+      "revision": "c2771cb6bfb03753634cc99b050c5c01d6031c66",
+      "changeIds": [
+        "people-drives-counted-speech-and-shared-causes",
+        "play-stop-06-texas-shows-local-income-tax",
+        "tests-law-wiring-taxes-greenville-ri-red"
+      ]
+    },
+    {
+      "version": "0.41.1",
+      "releasedOn": "2026-10-26",
+      "revision": "0309487d4d5ac2c16ecd6916f11b4fb2543a87c2",
+      "changeIds": [
+        "gov-appointment-record-names-appointee",
+        "gov-m2-10-territory-legislative-races",
+        "gov-offices-roster-district-name-mismatch",
+        "gov-territory-delegate-not-own-representative"
+      ]
+    },
+    {
       "version": "0.41.0",
       "releasedOn": "2026-10-26",
       "revision": "16ed292161f8aa6c2cfa91b76c1a37e71eeefb78",
