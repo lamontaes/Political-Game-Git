@@ -29,6 +29,11 @@ import {
   ownerOf,
   type BusinessTradingMonth,
 } from "./business";
+import {
+  ageBiasAt,
+  recordEmployerBound,
+  recordHiredUnderBan,
+} from "../jobs-age-bias";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
@@ -1004,6 +1009,12 @@ function reviewEmployers(api: CoreAPI): void {
       positions = [...openPositions(api, row.id)];
     // Staff and postings in jobs: a counted worker's record stands for its household's weight.
     const staff = staffHeads(c, jobs);
+    recordEmployerBound(
+      api,
+      row.id,
+      c.organizations.get(row.id)?.placeId ?? "",
+      staff,
+    );
     let posted = positions.reduce((n, row) => n + positionHeads(row), 0);
     const projected =
       (book.capacityMinor > 0
@@ -1995,10 +2006,24 @@ function runWeek(api: CoreAPI): void {
         );
       return value;
     };
-    const pick = (pool: readonly SeekerRow[]) => {
+    // Where no law bars it, a small employer weighs an older applicant down;
+    // a ban in the town takes that off, and the pick is made on fit alone.
+    const bias = ageBiasAt(
+      api,
+      position.placeId,
+      staffHeads(c, currentJobs(api, position.organizationId)),
+    );
+    const birthOf = (personId: string) =>
+      c.people.get(personId)?.birthDate ??
+      residentFacts(c, personId)?.birthDate;
+    const weighed = (seeker: SeekerRow, penalized: boolean) => {
+      const born = penalized && bias ? birthOf(seeker.personId) : undefined;
+      return fit(seeker) - (born && bias ? bias.penaltyOf(born) : 0);
+    };
+    const pick = (pool: readonly SeekerRow[], penalized: boolean) => {
       let top = pool[0]!;
       for (const row of pool) {
-        const gap = fit(row) - fit(top);
+        const gap = weighed(row, penalized) - weighed(top, penalized);
         if (gap > 0 || (gap === 0 && row.id.localeCompare(top.id) < 0))
           top = row;
       }
@@ -2010,7 +2035,9 @@ function runWeek(api: CoreAPI): void {
       (row) => !c.jobs.has(`job:${position.id}:${row.personId}`),
     );
     while (pool.length) {
-      const best = pick(pool);
+      const best = pick(pool, !bias?.ban);
+      // Under the ban: would the penalty have chosen someone else?
+      const overruled = !!bias?.ban && pick(pool, true).id !== best.id;
       pool = pool.filter((row) => row !== best);
       let placed = false;
       if (isCounted(api, best.personId)) {
@@ -2068,6 +2095,24 @@ function runWeek(api: CoreAPI): void {
           `job:${position.id}:${best.personId}`;
       }
       if (!placed) continue;
+      if (overruled && bias)
+        recordHiredUnderBan(
+          api,
+          bias,
+          {
+            personId: best.personId,
+            counted: isCounted(api, best.personId),
+            heads: positionHeads(position),
+          },
+          Math.round(
+            position.hourlyMinor *
+              ((
+                c.jobs.get(position.templateJobId) ??
+                residentsRuntime(c)?.jobs.get(position.templateJobId)
+              )?.hoursDaily ?? 0) *
+              p("jobsDaysPerYear"),
+          ),
+        );
       for (const row of applications.values())
         for (let i = row.length - 1; i >= 0; i--)
           if (row[i]!.personId === best.personId) row.splice(i, 1);
