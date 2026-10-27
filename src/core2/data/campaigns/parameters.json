@@ -1027,16 +1027,46 @@
       "source": "Seniority counts only slightly in choosing leaders and committee members in every chamber type (data/research/legislature/chamber-leadership.json: seniorityImportance 'slight' for all, from NCSL, House and Senate rules and NLC): about a twentieth of a party-line difference per year served.",
       "spread": [0, 0.15]
     },
-    "appointmentExperienceWeight": {
+    "appointmentRelatedWorkWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
-      "source": "How much working in the department already adds to a resident's qualification for heading it (department heads are usually promoted from within or hired from the field: ICMA local government management surveys).",
+      "source": "The most that years of work in the post's own field (data/research/executive/post-related-work.json) can add to a resident's qualification for heading the department, approached smoothly with the years (department heads are usually promoted from within or hired from the field: ICMA local government management surveys).",
       "spread": [0.1, 0.5]
+    },
+    "appointmentRelatedWorkHalfYears": {
+      "value": 5,
+      "tag": "SOURCED",
+      "source": "Years of related work at which it counts half its full weight: BLS Occupational Outlook Handbook, Top Executives (https://www.bls.gov/ooh/management/top-executives.htm, fetched 2026-10-26), Quick Facts, \"Work experience in a related occupation: 5 years or more\".",
+      "spread": [3, 10]
+    },
+    "appointmentWorkWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The most that years of any recorded work add to a resident's qualification, beside related work: a working life outside the field still counts for something in running a department.",
+      "spread": [0, 0.2]
+    },
+    "appointmentWorkHalfYears": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "Years of any recorded work at which it counts half its full weight; checked against the related-work half-life (5 years), so a decade of other work weighs about as much as a few years in the field.",
+      "spread": [5, 20]
+    },
+    "appointmentCollegeWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "What a college degree adds to a resident's qualification for heading a department: BLS Occupational Outlook Handbook, Top Executives (https://www.bls.gov/ooh/management/top-executives.htm, fetched 2026-10-26), How to Become One, \"Top executives typically need at least a bachelor's degree and considerable work experience to enter the occupation.\"",
+      "spread": [0.1, 0.3]
+    },
+    "appointmentSomeCollegeWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "What some college without a degree adds: half the degree's weight, between none and a bachelor's degree on the same scale.",
+      "spread": [0, 0.2]
     },
     "appointmentBaseQualification": {
       "value": 0.35,
       "tag": "TUNABLE",
-      "source": "What an adult resident with no years of experience, no work in the department and a neutral temperament brings to heading it; with the age term it puts a typical 35-year-old near one half, the old fixed starting score. Checked against the share of appointees who are long-serving residents of the town (ICMA local government management surveys).",
+      "source": "What an adult resident with no recorded work, no schooling past high school and a neutral temperament brings to heading a department; the related-work, work and schooling terms build on it. Checked against the share of appointees who are long-serving residents of the town (ICMA local government management surveys).",
       "spread": [0.2, 0.5]
     },
     "appointmentTemperamentWeight": {
@@ -1050,18 +1080,6 @@
       "tag": "SOURCED",
       "source": "Age of majority in 46 states (19 in Alabama and Nebraska, 21 in Mississippi); the game uses the common 18 as the first year of adult working experience, matching the working-age minimum used in town employment (canonical town-employment.ts WORKING_AGE_MIN=18). Structural: below it nobody holds a post.",
       "spread": [18, 21]
-    },
-    "appointmentExperienceHalfYears": {
-      "value": 17,
-      "tag": "ESTIMATED",
-      "source": "Years of adult life at which experience counts half of its full weight toward heading a department; the median age of local department heads is in the low-to-mid 40s, about 25 years past adulthood, and public-sector median tenure with an employer is about 6.5 years (BLS Employee Tenure, 2024; ICMA Municipal Year Book).",
-      "spread": [8, 25]
-    },
-    "appointmentExperienceAgeWeight": {
-      "value": 0.3,
-      "tag": "TUNABLE",
-      "source": "The most that years of adult experience can add to a resident's qualification, approached smoothly with age and never switched on at an age (department heads are seldom the youngest adults but are not barred from it).",
-      "spread": [0.1, 0.5]
     },
     "cabinetQualificationBase": {
       "value": 0.6,

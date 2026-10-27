@@ -2,6 +2,7 @@
 id: web-budget-line-added-one-reader
 title: "The outcome web reads a budget line above its base two ways; one reader should serve every line"
 area: laws
+lead: laws-effects
 kind: cleanup
 priority: 2
 size: S
@@ -20,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/gov-measures.ts, src/core2/gov-measure-keys.ts, src/core2/modules/outcome-web.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/outcome-web.json
 
-**Notes.** Filed by the laws lead, Oct 25. Take it after both families merge.
+**Notes.** Filed by the laws lead, Oct 25. Take it after both families merge. Laws-and-effects lead, Oct 27: health is on main and #5669 now carries both readers side by side (merge b632d51a7a); main's schools reader `schools-line-above-base` is a third path to fold in.

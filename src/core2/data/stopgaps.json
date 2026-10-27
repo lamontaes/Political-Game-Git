@@ -2912,7 +2912,7 @@
     "why": "The research gives how often people of each age leave a county and the reasons movers give, but not each tie's and event's size in this model.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving. Oct 23, 2026: the owner and job holds are ESTIMATED as log ratios of CPS ASEC 2023 different-county move rates (data/research/core/cps-asec-2023-mobility.json). The children and kin holds convert to 0.32 (CPS ASEC 2023 Table 6) and 0.30 per relative (Spring, Ackert, Crowder and South 2017, data/research/core/spring-2017-kin-proximity.json) but stay at their starting values, 0.4 and 0.15, with the converted figures as their spreads, because applying them takes src/core2/moves.test.ts past its departure band while the engine already sends about 1.75 times the expected adults away; world-town-net-moving-negative applies them once the departure rate is right. All are checked by scripts/research/core-parameters-check.ts; the figures that would make them SOURCED are effects net of age. movesMinimumAge, movesKinHoldCap and movesHousingCostShareCap are a cutoff and caps, replaced by core-moves-caps-and-minimum-age-as-cause. The other pulls and pushes stay TUNABLE: scripts/research/core-parameters-year.ts reports a town's departures against the ACS 2024 rate for its adults and the share of leavers by recorded cause against the CPS different-county reasons.",
+    "replacement": "Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving. Oct 23, 2026: the owner and job holds are ESTIMATED as log ratios of CPS ASEC 2023 different-county move rates (data/research/core/cps-asec-2023-mobility.json). The children and kin holds convert to 0.32 (CPS ASEC 2023 Table 6) and 0.30 per relative (Spring, Ackert, Crowder and South 2017, data/research/core/spring-2017-kin-proximity.json) but stay at their starting values, 0.4 and 0.15, with the converted figures as their spreads, because applying them takes src/core2/moves.test.ts past its departure band while the engine already sends about 1.75 times the expected adults away; world-town-net-moving-negative applies them once the departure rate is right. All are checked by scripts/research/core-parameters-check.ts; the figures that would make them SOURCED are effects net of age. The cutoff and caps are gone: who decides alone is the place's age of majority (data/research/people/age-of-majority.json), kin hold and pull slide with movesKinHoldDecay, and the housing push rises with the share of the household's income and net cash its home takes. The other pulls and pushes stay TUNABLE: scripts/research/core-parameters-year.ts reports a town's departures against the ACS 2024 rate for its adults and the share of leavers by recorded cause against the CPS different-county reasons.",
     "status": "open"
   },
   {
@@ -6055,7 +6055,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
     "line": 518,
-    "whatItFakes": "grocery-exemption-to-food-insecurity moves household.food-insecurity only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "whatItFakes": "grocery-exemption-to-food-insecurity, snap-maximum-to-food-insecurity move household.food-insecurity only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
@@ -6486,13 +6486,13 @@
     "id": "SG-WEB-unread-school-college-completion-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 554,
-    "whatItFakes": "tuition-freeze-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
-    "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research finds no effect (about zero), so an engine would multiply by one",
+    "line": 638,
+    "whatItFakes": "higher-education-spending-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-SCHOOL-links-not-running: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "The engine that owns school.college-completion-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"school.college-completion-pct\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-government-member-market-returns",
@@ -6827,8 +6827,8 @@
     "why": "The English banks have no shared-parent kin address yet; first names and possessive parent phrases give the wrong relation in these conversations.",
     "addedBy": "merger0",
     "addedAt": "2026-10-26",
-    "replacement": "words-family-talk-kin-address: select shared-relative wording through the English engine, then restore these topics with positive played-world conversation evidence.",
-    "status": "open"
+    "replacement": "Resolved: a relative two people share is asked after as they call them, by the kin address in src/director/data/journal-rows.json (Dad, Mom, Grandma, Grandpa) or a shared sibling's first name, through the conversation bank's family lines (pool item words-family-talk-kin-address).",
+    "status": "resolved"
   },
   {
     "id": "SG-LAW-justice-low-level-drug-possession",
@@ -6951,6 +6951,54 @@
     "addedBy": "gov-town-officers-paid-under-minimum-wage",
     "addedAt": "2026-10-26",
     "replacement": "A post whose line carries less than a full-time week takes a part-time schedule sized to the stipend at the going rate (Census ASPEP part-time municipal payroll), so its hours and hourly rate both match the source.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-party-ask-after-player",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 1128,
+    "whatItFakes": "A party's asks for a seat stop at the player: when the player says no or not now in the ask's scene, the party asks none of its other members for that seat.",
+    "why": "The party asks on the day filing opens, and the player's answer comes later, from the scene; nothing returns the party to its list once the player has answered.",
+    "addedBy": "words/party-asks-you-to-run",
+    "addedAt": "2026-10-26",
+    "replacement": "The candidacy engine reads the player's no or not-now reply (a scene.reply naming the party-asked record) and asks the party's next member for the seat while filing is open.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-party-ask-order",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 1065,
+    "whatItFakes": "The order a party's chair asks its members to run: those the chair is closest to first, then those the most people know. A new 18-year-old member is rarely first unless they are close to the chair or the party has few members.",
+    "why": "Decided by the owner's rulings, not a question: \"The party asks someone to run only with some inroads on record\" (OWNER-DECISIONS, Oct 15, night, batch 13 review) and \"a player with a high-standing job may be propositioned to run for a seat someone needs filled\" (OWNER-DECISIONS, Oct 14, CTO from standing rules); recorded as an acting-lead ruling, Oct 26. Read: OWNER-DECISIONS (Oct 26, evening), DECISION-REGISTER, prior-rulings/elections.md and prior-rulings/words.md, LAW; searched: party asks, propositioned, recruit, Pendergast.",
+    "addedBy": "words/party-asks-you-to-run",
+    "addedAt": "2026-10-26",
+    "replacement": "Resolved: the chair asks members with inroads first (closeness to the chair), then those the most people know (standing), per the rulings quoted in why.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-WORLD-weight-release-jobless-not-seeking",
+    "kind": "missing-mechanic",
+    "file": "src/core2/counted-groups.ts",
+    "line": 529,
+    "whatItFakes": "When a filled-in household's weight spreads over its group, the households that take it stand for more people while their jobs keep the heads they stood for, so the added people stand for no job and never become counted job seekers.",
+    "why": "A counted job's heads now stay with its employer through a fill-in (world-counted-weight-release-grows-employer-staff); the jobs engine's counted seekers are read from records, not from the weight a record gains.",
+    "addedBy": "claude/weight-release-heads",
+    "addedAt": "2026-10-24",
+    "replacement": "The jobs engine reads each counted record's working-age people beyond its jobs' heads as counted seekers, with the same chooser as everyone else (pool item world-weight-release-jobless-seek-work).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-fill-in-fractional-sole-job",
+    "kind": "partial-model",
+    "file": "src/core2/modules/residents.ts",
+    "line": 2065,
+    "whatItFakes": "A filled-in record whose job stood for less than one job, at an employer with no other counted job, becomes one full job: that employer gains the difference (under one head).",
+    "why": "A full person holds a whole job, and with no other counted job at the employer there is no record to take the difference back from.",
+    "addedBy": "claude/weight-release-heads",
+    "addedAt": "2026-10-24",
+    "replacement": "The employer's staffing review reads the full job against its staffing need and sheds or keeps it by its own books, as for any job.",
     "status": "open"
   }
 ]

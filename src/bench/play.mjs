@@ -622,9 +622,6 @@ function renderPacket(value) {
 function endedBy(value) {
   const words = controls.endedBy ?? {};
   if (value?.kind !== "stop") return "";
-  const work = value.stop.work?.reasons?.[0];
-  if (work)
-    return `${words[work.boundary] ?? ""} · ${me.names?.[work.owner.organizationId] ?? ""}`;
   const module = value.stop.modules[0];
   return module ? (words[module.reasonKey] ?? words.moment ?? "") : "";
 }
@@ -1471,6 +1468,52 @@ function speechPanel(filing, venue) {
       }),
     ),
   );
+}
+/**
+ * The town's next local ballot: every city, township and county seat on it
+ * with each filer by name, from the filing records, marked unopposed or
+ * unfilled where that is what the records hold.
+ */
+async function localRacesBlock() {
+  const { date, races } = await api("/api/government/local-races");
+  const labels = controls.localRaces;
+  const block = el(
+    "div",
+    { className: "row race local-races" },
+    el("b", {
+      textContent: date ? `${labels.title} · ${proseDate(date)}` : labels.title,
+    }),
+  );
+  if (!races.length)
+    block.append(
+      el("div", { className: "label", textContent: labels.noBallot }),
+    );
+  for (const race of races) {
+    const names = race.filers.map(
+      (f) => `${f.name ?? ""}${f.party ? ` (${f.party})` : ""}`,
+    );
+    const mark = !race.filers.length
+      ? labels.noFilers
+      : race.filers.length === 1 && race.filingClosed
+        ? labels.unopposed
+        : null;
+    const line = row(
+      race.title,
+      [
+        names.join(", "),
+        mark,
+        race.filingClosed
+          ? null
+          : `${labels.filingCloses} ${proseDate(race.filingDeadline)}`,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    );
+    line.classList.add("local-race");
+    line.dataset.contest = race.contestId;
+    block.append(line);
+  }
+  return block;
 }
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
@@ -4016,6 +4059,7 @@ const sheets = {
     const labels = controls.results;
     return [
       ...(await campaignRows()),
+      await localRacesBlock(),
       ...v.filings.map((f) =>
         row(
           decided.has(f.contestId)
@@ -4560,8 +4604,33 @@ document.addEventListener("fullscreenchange", () => {
 // The title screen: a national scene or event, full window, that moves on with
 // each visit (owner, Oct 8 and Oct 14). Continue resumes the life in progress.
 let titleLife = null;
+// The painting drifts by CSS while the title is open; every few seconds the
+// next scene of the day's rotation fades in over it.
+function rotateTitle(scenes, seconds) {
+  let at = 0;
+  const next = $("backdrop-next");
+  setInterval(() => {
+    if ($("front").hidden) return;
+    at = (at + 1) % scenes.length;
+    next.src = scenes[at].backdrop.url;
+    next.onload = () => {
+      next.onload = null;
+      next.classList.add("fading");
+      setTimeout(() => {
+        if ($("front").hidden) return next.classList.remove("fading");
+        const back = $("backdrop");
+        back.src = next.src;
+        back.style.animation = "none";
+        void back.offsetWidth;
+        back.style.animation = "";
+        next.classList.remove("fading");
+      }, 3100);
+    };
+  }, seconds * 1000);
+}
 api("/api/title").then((title) => {
   if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
+  if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
   $("front-continue-life").textContent = titleLife
