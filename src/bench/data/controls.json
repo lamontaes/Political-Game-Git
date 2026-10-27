@@ -230,6 +230,22 @@
     "yes": "yes",
     "no": "no"
   },
+  "bill": {
+    "open": "Read the bill",
+    "back": "Back to your seat",
+    "sponsor": "Sponsor",
+    "sections": "Sections",
+    "estimate": "What it would do",
+    "amends": "Amends",
+    "from": "from",
+    "to": "to",
+    "line": "Budget line",
+    "workers": "workers reach higher pay",
+    "decided": "Decided",
+    "lawInForce": "the law in force",
+    "backMeeting": "Back to the meeting",
+    "backDesk": "Back to the desk"
+  },
   "advanced": {
     "none": "No one holds an office that matches"
   },
