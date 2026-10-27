@@ -1,6 +1,41 @@
 {
   "entries": [
     {
+      "version": "0.51.0",
+      "releasedOn": "2026-10-27",
+      "revision": "d0654521e19d18a3c180258fb77f50d23e5abc5c",
+      "changeIds": [
+        "director-conversation-drawn-fixture-lacks-subjects",
+        "housing-state-line-rent-help-whole-state-in-one-town",
+        "play-first-08-news-box-fades-or-dismisses",
+        "words-household-filing-scene-has-a-purpose"
+      ]
+    },
+    {
+      "version": "0.50.0",
+      "releasedOn": "2026-10-27",
+      "revision": "11d3d3b4ccd1ae080ebbb9cc49b82583c0b887ce",
+      "changeIds": [
+        "core-past-laws-no-answer-gets-enactment-date",
+        "play-stop-35-people-drawn-from-their-own-look",
+        "world-census-scale-closures-large-cities",
+        "world-press-amount-law-never-printed"
+      ]
+    },
+    {
+      "version": "0.49.0",
+      "releasedOn": "2026-10-27",
+      "revision": "166e6f8f9008ea25843898e976a1b419ff0feba3",
+      "changeIds": [
+        "laws-floor-takes-every-chamber-bill",
+        "play-dev-mode-one-advanced-start",
+        "play-stop-29-creator-labels-and-fields-share-one-grid",
+        "play-stop-34-creator-skin-and-clothes-colors",
+        "play-stop-38-figures-framed-whole",
+        "play-stop-41-person-card-no-empty-headings"
+      ]
+    },
+    {
       "version": "0.48.0",
       "releasedOn": "2026-10-27",
       "revision": "92a204637104c3967052caf5533bfb354295866f",
