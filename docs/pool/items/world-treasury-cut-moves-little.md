@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/treasury-cut
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T13:50:59.399Z
 ---
 
 **What.** The taxes family's money pass (laws lead's helper, Oct 25) ran West Virginia's balanced-budget rule in a played year (seed f58455b90eaa1e4f). The rule cut 13 of the state's budget lines, and the treasury paid less on every one, but by about 1% of each cut. For example, the administration line moved by -$1,124,781.11. The treasury then paid $419,547,203.83 with the act against $419,560,561.07 without (`journal:2025-02-01:1826`, measured). The helper's reading is that the treasury pays what it holds, not what its lines say (inferred, not traced).
