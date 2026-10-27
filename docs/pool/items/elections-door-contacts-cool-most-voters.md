@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/door-contacts-warmth
-pr:
+pr: #6211
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T03:40:53.749Z
