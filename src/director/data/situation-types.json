@@ -148,25 +148,26 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "left-home",
-          "bind": {
-            "leaving": "subject",
-            "staying": "household"
-          },
-          "opener": "leaving",
-          "opening": "farewell"
-        },
-        {
-          "bind": {
-            "leaving": "subject",
-            "staying": "kin"
-          },
+          "bind": { "leaving": "subject", "staying": "kin" },
           "opener": "leaving",
           "opening": "farewell",
           "match": {
             "label": "feeling:event:justice.imprisoned",
             "counterpart": "none"
           }
+        },
+        {
+          "match": { "label": "circumstance:moved-away-farewell" },
+          "causeEngine": "circumstance",
+          "causeRecord": "person.moved-away",
+          "bind": {
+            "leaving": "counterpart",
+            "staying": "subject",
+            "others": "present"
+          },
+          "opener": "leaving",
+          "setting": ["other-home", "home"],
+          "opening": "farewell"
         }
       ],
       "awaiting": ["record:deployment"],
@@ -1278,10 +1279,7 @@
       "timing": "next-together",
       "causes": [
         {
-          "bind": {
-            "cannot-come": "subject",
-            "visitor": "kin"
-          },
+          "bind": { "cannot-come": "subject", "visitor": "kin" },
           "opener": "visitor",
           "match": {
             "label": "feeling:event:justice.imprisoned",
@@ -1289,31 +1287,17 @@
           }
         },
         {
-          "awaitingProducer": "held-before-trial",
-          "bind": {
-            "cannot-come": "subject",
-            "visitor": "kin"
-          },
-          "opener": "visitor"
-        },
-        {
           "match": {
             "label": "feeling:event:health.serious-illness",
             "counterpart": "some"
           },
-          "bind": {
-            "visitor": "subject",
-            "cannot-come": "counterpart"
-          },
+          "bind": { "visitor": "subject", "cannot-come": "counterpart" },
           "opener": "visitor"
         },
         {
           "awaitingProducer": "canvass-visit",
           "reason": "canvass",
-          "bind": {
-            "visitor": "subject",
-            "cannot-come": "counterpart"
-          },
+          "bind": { "visitor": "subject", "cannot-come": "counterpart" },
           "opener": "visitor"
         },
         {
@@ -1321,12 +1305,25 @@
             "label": "feeling:event:health.serious-illness",
             "counterpart": "none"
           },
-          "bind": {
-            "visitor": "kin",
-            "cannot-come": "subject"
-          },
+          "bind": { "visitor": "kin", "cannot-come": "subject" },
           "opener": "visitor",
           "opening": "comfort"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.held-before-trial",
+            "counterpart": "none"
+          },
+          "bind": { "cannot-come": "subject", "visitor": "kin" },
+          "opener": "visitor"
+        },
+        {
+          "match": { "label": "circumstance:held-known-visit" },
+          "causeEngine": "circumstance",
+          "causeRecord": "justice.held-before-trial",
+          "bind": { "visitor": "subject", "cannot-come": "counterpart" },
+          "opener": "visitor",
+          "setting": ["venue"]
         }
       ],
       "awaiting": ["record:serious-illness", "record:nursing-home"],
@@ -3633,16 +3630,6 @@
           "causeEngine": "press",
           "causeRecord": "press-story",
           "bind": { "aide": "staff", "you": "subject" },
-          "opener": "aide"
-        },
-        {
-          "awaitingProducer": "staff-news",
-          "causeEngine": "press",
-          "causeRecord": "press.exposed",
-          "bind": {
-            "aide": "staff",
-            "you": "subject"
-          },
           "opener": "aide"
         }
       ],

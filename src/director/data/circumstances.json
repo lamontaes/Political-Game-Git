@@ -269,6 +269,32 @@
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceHallwayImpact",
       "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
+      "id": "held-known-visit",
+      "recordKinds": ["justice.held-before-trial"],
+      "place": "venue",
+      "pool": ["named"],
+      "where": "known",
+      "player": "anyone",
+      "cast": "someone the player knows who is held before trial; the player visits them",
+      "typeKey": "visit",
+      "outcome": "contact",
+      "impactParameter": "directorCircumstanceDeathImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "moved-away-farewell",
+      "recordKinds": ["person.moved-away"],
+      "place": "other-home",
+      "pool": ["named"],
+      "where": "known",
+      "player": "anyone",
+      "cast": "someone the player knows who is moving away, saying goodbye",
+      "typeKey": "departure",
+      "outcome": "contact",
+      "impactParameter": "directorCircumstanceMeetingImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
     }
   ]
 }
