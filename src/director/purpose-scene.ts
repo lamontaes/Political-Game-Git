@@ -9,8 +9,13 @@
  */
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { appointmentsIn } from "../core2/modules/executive";
-import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { lawChain } from "../core2/modules/laws";
+import { meetingsOn } from "../core2/modules/interest-groups";
+import {
+  LEGISLATURE_MODULE_ID,
+  billOf,
+  votesOn,
+} from "../core2/modules/legislature";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
@@ -28,7 +33,7 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
-import { properName, spoken } from "./words";
+import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
 
 export interface PurposeScene {
@@ -213,6 +218,8 @@ function composeBinding(
 
   if (record?.kind === "budget-line-changed")
     cutFacts(core, facts, said, moment.causeId, askerId);
+  if (record?.kind === "bill-presented")
+    deskFacts(core, facts, said, moment.causeId, askerId);
 
   const result = composeSceneTalk(
     core,
@@ -306,6 +313,60 @@ function cutFacts(
     facts.years = {
       text: String(years),
       sourceRecordIds: [post.id],
+    };
+}
+
+/**
+ * What someone who comes to a bill's presentment may say of it: the day the
+ * decision is due, how the chambers voted, and whose side the visitor is on
+ * (the sponsor is for it; a group's lobbyist is against it and says what it
+ * costs the businesses they speak for), each citing the records it came from.
+ */
+function deskFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+  visitorId: PersonId,
+): void {
+  if (said.signBy)
+    facts.deadline = {
+      text: spokenDate(said.signBy, core.date),
+      sourceRecordIds: [causeId],
+    };
+  if (!said.billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return;
+  const api = coreAPI(core as CoreState);
+  const bill = billOf(api, said.billId);
+  if (!bill) return;
+  const votes = votesOn(api, bill.id);
+  const yes = votes.filter((row) => row.vote === "yes").length;
+  const no = votes.filter((row) => row.vote === "no").length;
+  if (yes + no > P.zero)
+    facts.roll = {
+      text: `${yes} to ${no}`,
+      sourceRecordIds: [causeId, bill.id],
+    };
+  if (bill.sponsorId === visitorId) {
+    facts.for = {
+      text: said.number ?? bill.number,
+      sourceRecordIds: [causeId],
+    };
+    return;
+  }
+  const against = meetingsOn(api, bill.id)
+    .filter(
+      (row) => row.lobbyistId === visitorId && (row.side ?? -P.one) < P.zero,
+    )
+    .sort((a, b) => b.annualCostMinor - a.annualCostMinor);
+  if (!against.length) return;
+  facts.against = {
+    text: said.number ?? bill.number,
+    sourceRecordIds: [causeId, against[0]!.id],
+  };
+  if (against[0]!.annualCostMinor > P.zero)
+    facts.cost = {
+      text: roundedDollars(against[0]!.annualCostMinor),
+      sourceRecordIds: [causeId, against[0]!.id],
     };
 }
 

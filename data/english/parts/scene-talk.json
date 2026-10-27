@@ -32,6 +32,11 @@
     "title": "How the person is addressed (their office), from their term.",
     "issue": "The bill's question, named as the bill catalog records it.",
     "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
+    "roll": "The count on a presented bill, yes to no, from the vote records.",
+    "deadline": "The day a presented bill must be signed or vetoed by, from the presentment.",
+    "cost": "What a bill takes each year from the businesses a lobbyist speaks for, said to two figures, from the lobbying record.",
+    "for": "Present when the visitor is the bill's sponsor, from the bill record.",
+    "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
     "reporter": "The reporter who wrote a story, by name, from the press record.",
     "cut": "What the council cut from a budget line, said to two figures, from the budget-line record.",
     "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
@@ -40,6 +45,3233 @@
   },
   "maxWords": 70,
   "parts": [
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-by-your-desk-with-a-copy-of-bill-the-pages-tabbed",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting by your desk with a copy of {bill}, the pages tabbed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-who-carried-bill-stands-with-a-hand-on-the-back-of-the-chair-you-haven-t-sat-in-yet",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, who carried {bill}, stands with a hand on the back of the chair you haven't sat in yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-with-a-folder-and-no-appointment-bill-is-on-your-desk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come with a folder and no appointment. {bill} is on your desk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-in-the-doorway-with-a-folder-under-one-arm-bill-is-on-your-desk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits in the doorway with a folder under one arm. {bill} is on your desk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-five-minutes-before-you-decide",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got five minutes before you decide?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.before-you-read-the-rest-of-it-can-i-say-what-i-came-to-say",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Before you read the rest of it, can I say what I came to say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-the-day-is-full-five-minutes-on-this-one",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know the day is full. Five minutes on this one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-seeing-me-i-ll-be-brief",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for seeing me. I'll be brief.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-passed-roll-i-m-asking-you-to-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} passed {roll}. I'm asking you to sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "roll"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-is-on-your-desk-it-cleared-roll-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} is on your desk. It cleared {roll}. Sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "roll"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-have-until-deadline-on-bill-i-d-like-your-signature-before-that",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You have until {deadline} on {bill}. I'd like your signature before that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-carried-bill-to-the-floor-and-it-passed-it-s-yours-to-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I carried {bill} to the floor and it passed. It's yours to sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.before-you-decide-on-bill-hear-it-from-the-person-who-brought-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Before you decide on {bill}, hear it from the person who brought it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-costs-the-businesses-i-speak-for-about-cost-a-year-i-m-asking-you-to-veto-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} costs the businesses I speak for about {cost} a year. I'm asking you to veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "cost"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.about-cost-a-year-that-s-what-bill-takes-from-the-people-i-speak-for-we-d-like-a-veto",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "About {cost} a year, that's what {bill} takes from the people I speak for. We'd like a veto.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "cost"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-have-until-deadline-to-decide-on-bill-the-people-i-speak-for-want-a-veto",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You have until {deadline} to decide on {bill}. The people I speak for want a veto.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-passed-roll-that-doesn-t-make-it-right-i-m-asking-you-to-veto-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} passed {roll}. That doesn't make it right. I'm asking you to veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "roll"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-against-bill-and-we-d-like-you-to-say-no",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're against {bill}, and we'd like you to say no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-made-your-case-bring-the-pen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've made your case. Bring the pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.it-passed-i-ll-sign-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "It passed. I'll sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-veto-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-it-won-t-get-my-signature",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then it won't get my signature.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-i-ll-write-the-veto-message",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. I'll write the veto message.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-put-my-name-on-this-as-it-stands",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't put my name on this as it stands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.it-goes-back-with-a-veto",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "It goes back with a veto.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-as-written-i-m-sorry",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not as written. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.it-passed-i-m-not-going-to-veto-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "It passed. I'm not going to veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-people-who-voted-for-it-have-spoken-i-ll-sign",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The people who voted for it have spoken. I'll sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-answer-is-no-it-gets-my-signature",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The answer is no. It gets my signature.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.bring-me-a-fix-and-i-ll-sign-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Bring me a fix and I'll sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-sign-it-if-you-take-a-cleanup-bill-to-the-floor",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll sign it if you take a cleanup bill to the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.give-me-your-word-on-a-follow-up-and-i-ll-sign",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Give me your word on a follow-up, and I'll sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.tell-me-what-you-would-change-and-i-ll-ask-for-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Tell me what you would change, and I'll ask for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.write-down-what-would-make-it-work-and-i-ll-carry-that-to-them",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Write down what would make it work, and I'll carry that to them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-is-against-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who is against it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-it-cost",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does it cost?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What are the people who oppose it saying?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-it-cost-you-exactly",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does it cost you, exactly?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-is-against-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else is against it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-make-it-work-for-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would make it work for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-the-floor-tonight",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell the floor tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "agree",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-all-i-came-for-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's all I came for. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "agree",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-the-others",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell the others.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "agree",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-appreciate-it-we-ll-be-quiet-about-it-until-you-ve-acted",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I appreciate it. We'll be quiet about it until you've acted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "agree",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.a-fix-i-can-do-you-ll-have-it-in-writing-by-monday",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "A fix I can do. You'll have it in writing by Monday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.done-i-ll-get-the-follow-up-drafted-this-week",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Done. I'll get the follow-up drafted this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-have-it-written-by-tomorrow",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll have it written by tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.we-can-do-that-you-ll-have-it-in-a-page",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "We can do that. You'll have it in a page.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-a-hope-not-a-promise",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's a hope, not a promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.a-fix-that-comes-later-doesn-t-help-the-people-it-hits-now",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A fix that comes later doesn't help the people it hits now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-passed-roll-most-of-the-room-wanted-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It passed {roll}. Most of the room wanted it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "ask",
+          "requiresFacts": ["for", "roll"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-vote-was-roll-the-fiscal-note-has-the-cost",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The vote was {roll}. The fiscal note has the cost.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "ask",
+          "requiresFacts": ["for", "roll"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-file-has-the-cost-the-people-against-it-have-their-own-numbers",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The file has the cost. The people against it have their own numbers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "ask",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.ask-the-other-side-they-ll-tell-you-what-i-won-t",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Ask the other side. They'll tell you what I won't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "ask",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.about-cost-a-year-to-the-businesses-i-speak-for-and-they-would-have-to-pass-it-on",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "About {cost} a year to the businesses I speak for, and they would have to pass it on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "ask",
+          "requiresFacts": ["against", "cost"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.cost-a-year-and-the-people-who-pay-it-don-t-have-a-seat-at-your-desk",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{cost} a year, and the people who pay it don't have a seat at your desk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "ask",
+          "requiresFacts": ["against", "cost"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.ask-your-budget-office-then-ask-who-pays",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Ask your budget office. Then ask who pays.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "ask",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-who-pay-didn-t-get-a-vote-that-is-the-whole-of-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones who pay didn't get a vote. That is the whole of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "ask",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-the-votes-were-hard-to-get",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. The votes were hard to get.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.everyone-who-backed-it-will-hear-how-you-decided",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Everyone who backed it will hear how you decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.at-least-hear-the-others-out-before-you-decide",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "At least hear the others out before you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.don-t-decide-today-give-us-the-time-you-have-left",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Don't decide today. Give us the time you have left.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-ll-have-to-explain-a-veto-to-the-people-who-voted-for-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You'll have to explain a veto to the people who voted for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "stall",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "decline",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-ones-who-voted-for-it-expected-you-to-sign",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The ones who voted for it expected you to sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "stall",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "decline",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-people-i-speak-for-will-hear-how-you-decided",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The people I speak for will hear how you decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "stall",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "decline",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-ll-hear-from-the-others-who-pay-this",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You'll hear from the others who pay this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "stall",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "decline",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.then-expect-an-override-vote-i-ll-count-it-myself",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Then expect an override vote. I'll count it myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "decline",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.a-veto-won-t-hold-i-ll-start-counting-tonight",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "A veto won't hold. I'll start counting tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "decline",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.then-we-ll-remember-it-at-the-next-election",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Then we'll remember it at the next election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "decline",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.then-everyone-who-pays-for-this-will-know-who-signed-it",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Then everyone who pays for this will know who signed it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "refuse",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "decline",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ll-come-to-you-first-next-time-all-i-ask-is-that-you-take-the-call",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll come to you first next time. All I ask is that you take the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-it-stays-between-us-until-you-ve-acted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. It stays between us until you've acted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "confront"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-i-ll-sign-it-then",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine. I'll sign it, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "relent",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-bring-it-back-and-i-ll-sign",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine. Bring it back and I'll sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "relent",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.all-right-i-ll-veto-it",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "All right. I'll veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "relent",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-i-ll-send-it-back-with-a-veto",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine. I'll send it back with a veto.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "relent",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-heard-you-the-answer-stays-the-same",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've heard you. The answer stays the same.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-understand-i-m-still-where-i-was",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I understand. I'm still where I was.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-not-on-this-one",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't. Not on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-and-i-ll-say-that-to-anyone-who-asks",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. And I'll say that to anyone who asks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.sign-it-with-a-follow-up-bill-on-the-floor-within-the-month-and-i-ll-agree",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Sign it, with a follow-up bill on the floor within the month, and I'll agree.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it-today",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Bring me the fix in writing, and I'll sign it today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.give-me-the-three-changes-that-would-work-and-i-ll-press-them",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Give me the three changes that would work, and I'll press them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.show-me-what-you-would-accept-and-i-ll-ask-for-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Show me what you would accept, and I'll ask for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-decide-by-the-deadline-you-ll-hear-from-my-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll decide by the deadline. You'll hear from my office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.leave-me-the-file-i-ll-call-the-other-side-before-i-decide",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Leave me the file. I'll call the other side before I decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-sleep-on-it-and-tell-you-in-the-morning",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll sleep on it and tell you in the morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.say-it-in-public-if-you-have-to-i-ll-answer-in-public",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Say it in public if you have to. I'll answer in public.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-threaten-me-in-my-own-office",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't threaten me in my own office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-it-deserves-a-signature-bring-the-pen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then it deserves a signature. Bring the pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-settles-it-i-ll-sign",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That settles it. I'll sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-it-deserves-a-veto-i-ll-write-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then it deserves a veto. I'll write it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-settles-it-i-ll-send-it-back",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That settles it. I'll send it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-you-won-t-regret-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. You won't regret it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-i-ll-tell-the-others-the-desk-is-clear",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell the others the desk is clear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-us-out",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing us out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-that-s-all-we-ask",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's all we ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-have-it-on-your-desk-before-the-deadline",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll have it on your desk before the deadline.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-ll-have-the-numbers-by-morning",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll have the numbers by morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-i-ll-leave-you-to-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. I'll leave you to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-wait-for-your-decision",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll wait for your decision.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.you-ll-hear-about-this-from-every-side",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "You'll hear about this from every side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-clock-on-this-one-doesn-t-stop",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The clock on this one doesn't stop.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.my-door-is-open-until-you-decide",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "My door is open until you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.take-the-time-you-have-it-isn-t-much",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Take the time you have. It isn't much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.beat-beat.down-the-hall-a-phone-rings-and-rings",
+      "move": "beat-beat",
+      "kind": "spoken",
+      "text": "Down the hall, a phone rings and rings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "beat",
+          "move": "beat",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "beat",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.beat-beat.name-sets-the-folder-down-and-doesn-t-open-it",
+      "move": "beat-beat",
+      "kind": "spoken",
+      "text": "{name} sets the folder down and doesn't open it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "beat",
+          "move": "beat",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "beat",
+        "key": "desk-visit"
+      }
+    },
     {
       "key": "scene-talk.narrate-narrate.you-re-going-over-bill-at-your-desk-when-name-knocks-on-the-open-door",
       "move": "narrate-narrate",

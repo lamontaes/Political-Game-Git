@@ -1080,6 +1080,56 @@
         }
       ]
     },
+    "desk-visit": {
+      "state": "request",
+      "replies": ["agree", "refuse", "bargain", "ask"],
+      "follow": {
+        "agree": ["thank"],
+        "bargain": ["accept", "press"],
+        "ask": ["answer"],
+        "confront": ["press", "accept"]
+      },
+      "again": {
+        "answer": ["agree", "refuse", "bargain", "leave"]
+      },
+      "endings": [
+        {
+          "id": "fix-first",
+          "opens": "desk",
+          "label": "A fix first",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "their-way",
+          "opens": "desk",
+          "label": "Their way",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "other-way",
+          "opens": "desk",
+          "label": "The other way",
+          "keeps": "none",
+          "when": {
+            "reply": ["refuse", "decline", "confront"]
+          }
+        },
+        {
+          "id": "until-the-deadline",
+          "opens": "desk",
+          "label": "Until the deadline",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "section-bargain": {
       "state": "bargain",
       "replies": ["agree", "refuse", "bargain", "stall"],
