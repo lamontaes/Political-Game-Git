@@ -102,9 +102,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
   it("names relatives by relation, never by name", () => {
     const person = core.people.get(player.id)!;
     const text = chapters.flatMap((row) => row.lines.map((l) => l.text));
-    expect(text.some((line) => /\b[Mm]y (son|daughter|child)\b/.test(line))).toBe(
-      true,
-    );
+    expect(
+      text.some((line) => /\b[Mm]y (son|daughter|child)\b/.test(line)),
+    ).toBe(true);
     for (const id of person.familyIds) {
       const relative = core.people.get(id)!;
       for (const line of text)
