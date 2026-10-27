@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-occluders-show-heads
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T21:23:17.336Z
 ---
 
 **What.** After the occluder masks landed, a person on a spot staged inside furniture is covered whole by the depth mask, because the spot's own depth reads as the furniture behind them. The merger saw it on the U.S. House floor: the two far seats at the edges and the people at the rostrum in the opening vanish. The bake now clears every mask above the person's shoulder line, so whoever is in a room is always seen even where the staging is off by a row, until the mannequin plates measure the spots.
