@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-president-asks-within-powers
-pr:
+pr: 6300
 blocked-on:
 lead: director
 source: CTO opening root-cause report, Oct 27
@@ -25,3 +25,5 @@ claimed-at: 2026-10-27T11:03:58.038Z
 **Files.** src/director/opening-story.ts, src/core2/policy-authority.ts, src/core2/policy-answers.ts
 
 **Notes.** Filed by the CTO root-cause report of Oct 27 (docs/reports/opening-root-cause-2026-10-27.md). Lead: director.
+
+Read Oct 27 by the laws-and-effects lead: one reader of every law in force, `lawHere` (`src/core2/modules/laws.ts`, PR #6289), returns each question's law at every level of the town's chain with its record id, citation and statute, including a county's or city's law and laws passed in play. `lawOn` (`src/director/opening-story.ts:383`) reads only the state's or the nation's row and ignores end dates; reading `lawHere` here gives the ask the law-in-force record id this item's done-when needs.
