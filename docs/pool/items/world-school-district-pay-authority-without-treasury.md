@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/school-pay-treasury
-pr:
+pr: #6280
 blocked-on:
 source: laws lead, Oct 26
 claimed-at: 2026-10-27T09:37:18.997Z
