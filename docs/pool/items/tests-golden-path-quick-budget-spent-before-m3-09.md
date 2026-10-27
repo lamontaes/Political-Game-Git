@@ -1,6 +1,7 @@
 ---
 id: tests-golden-path-quick-budget-spent-before-m3-09
 title: "The golden-path quick run spends its 450-second budget before M3-09, which times out with about 23 seconds left"
+lead: cto
 area: play
 kind: bug
 priority: 2
