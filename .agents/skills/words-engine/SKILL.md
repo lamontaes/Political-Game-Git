@@ -64,6 +64,7 @@ Batch-style line grading is not how the owner grades. He plays or watches a scen
 - A family scene is staged in the player's household from that household's records (a lost job, an eviction, a divorce); the people in the room show in the picture and the talk, never as a roll call of names.
 - Knowing is a read: a person cites a law, a vote or an act only through a record of how they learned of it (news received, a talk, a notice), and the stance cites that source.
 - No feeling words unless a record carries the feeling; grief has a cause record.
+- **Scene PRs collide on four shared files; land on fresh main.** Every scene edits `data/english/parts/scene-talk.json`, `src/director/data/situation-types.json`, `src/director/purpose-scene.ts` and the situation-type count in `src/director/director.test.ts`, and mergers never hand-merge a bank. Right before marking ready, `git fetch origin main`, merge it, re-add your pieces by piece key and your count bump on main's files, and push within minutes; a PR that is stacked or held waits for its base to merge, then redoes this. Oct 27: #6201, #6296, #6298 (twice), #6303 and #6309 were each sent back for this one conflict.
 
 ## The checks a Words session runs
 
