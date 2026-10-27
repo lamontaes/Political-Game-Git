@@ -1506,6 +1506,10 @@ body.dev .dev-ring {
       1fr
     );
 }
+.calendar-day-date {
+  font: 600 15px var(--ui);
+  color: var(--gold);
+}
 .calendar-month-foot {
   display: flex;
   align-items: center;
