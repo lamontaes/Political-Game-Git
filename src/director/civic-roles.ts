@@ -43,6 +43,12 @@ import {
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { filingClerkFor, localClerkFor } from "../core2/modules/filing-clerk";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
+import {
+  EXECUTIVE_MODULE_ID,
+  appointmentsIn,
+} from "../core2/modules/executive";
+import { lawChain } from "../core2/modules/laws";
+import { lineForPost } from "../core2/budgets-treasury";
 import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
@@ -64,6 +70,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "press",
   "press-corps",
   "staff",
+  "department-head",
   "town-hall-askers",
   "supporters",
   "volunteers",
@@ -260,6 +267,32 @@ export function civicFill(
         living(
           core,
           servingStaffOf(api, moment.personId).map((row) => row.personId),
+        ),
+      );
+    }
+    case "department-head": {
+      // A cut line's department head: the person the town's appointment
+      // records seat in a post whose pay draws on the line the record cut. A
+      // line no post draws on (administration is every post's fallback), a
+      // raise, or a government that appoints no heads has none, and the
+      // scene does not fire.
+      if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
+      const cut = core.durableLog.get(moment.causeId);
+      const line = cut?.facts?.line;
+      if (
+        cut?.kind !== "budget-line-changed" ||
+        !line ||
+        line === "administration" ||
+        cut.facts?.level !== "city" ||
+        !(Number(cut.facts?.deltaMinor) < zero)
+      )
+        return [];
+      return free(
+        living(
+          core,
+          appointmentsIn(api, lawChain(api).townPlaceId)
+            .filter((row) => lineForPost("city", `town:${row.post}`) === line)
+            .map((row) => row.holderId),
         ),
       );
     }
