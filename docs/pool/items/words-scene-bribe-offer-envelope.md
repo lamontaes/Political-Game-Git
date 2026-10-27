@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: helper-e/bribe-offer-envelope
-pr:
+pr: #6224
 blocked-on:
 lead: words
 source: added with npm run pool -- add
