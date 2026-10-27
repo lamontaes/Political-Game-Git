@@ -625,7 +625,7 @@
       "causes": [
         {
           "match": {
-            "labelPrefix": "tie:",
+            "labelPrefix": "tie:contact:contact",
             "threadTurn": "grew"
           },
           "bind": {
