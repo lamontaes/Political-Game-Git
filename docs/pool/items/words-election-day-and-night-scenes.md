@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/player.ts, src/bench/handler.ts, src/bench/play.mjs, src/director, data/english/parts/scene-talk.json, data/english/parts/scene-words.json
 
 **Notes.** Owner rulings: OWNER-DECISIONS.md lines on Oct 26 (election day as scenes; election day as the player's choice, closing SG-OFFICE-owner-decision-ballot-stop). Related open item: play-results-sheet-opens-on-every-load (the sheet this replaces).
+Sent back 2026-10-27 from PR #6252 (branch words/election-day-scenes): its election-day browser check stops at an open choice in Hoback, Wyoming (run seed 1793085601061); finish on that branch, merge main into it first.
