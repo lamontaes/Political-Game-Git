@@ -67,7 +67,11 @@ it(`a household member's quiet day is the weekday, the last time together and a 
       // Last, so it never takes the place of a subject with a record behind it.
       expect(subjects.at(-1)).toBe(quiet);
       expect(quiet!.facts.weekday!.text).toBe(weekday);
-      const together = quiet!.facts.lastTogether;
+      // A fact a line says is a slot, and the English engine's slots are
+      // lowercase kebab case: any other key never fills.
+      for (const [key, fact] of Object.entries(quiet!.facts))
+        if (fact.text) expect(key, key).toMatch(/^[a-z][a-z0-9-]*$/);
+      const together = quiet!.facts["last-together"];
       if (together) {
         seen.lastTogether += 1;
         const tie = core.relationships.get(together.sourceRecordIds[0]!);
