@@ -53,12 +53,13 @@ import { familyView } from "./family";
 import { governmentMap } from "./map";
 import {
   chooseAtCounter,
+  officePlace,
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
-import { backdropPath, benchScene } from "./scene";
+import { backdropFile, backdropPath, benchScene } from "./scene";
 import { DevMode } from "./dev-mode";
-import { titleScene } from "./title";
+import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   ageAtStart,
@@ -89,6 +90,7 @@ import {
   fileForOffice,
   governmentView,
   joinPartyAs,
+  localRaces,
   politicsStates,
   stateLegislators,
 } from "./government";
@@ -498,12 +500,14 @@ export async function benchRequest(
         // One visit to the title: its scene, and the life in progress to
         // continue (the server's current life), or none.
         const personId = core ? player?.personId : undefined;
-        const scene = titleScene(
+        const scenes = titleRotation(
           new Date().toISOString().slice(0, 10),
           titleVisits++,
         );
         send(200, {
-          ...scene,
+          ...scenes[0]!,
+          scenes,
+          rotateSeconds: TITLE_ROTATE_SECONDS,
           life: personId
             ? {
                 personId,
@@ -580,6 +584,19 @@ export async function benchRequest(
             player?.packet,
           ),
         );
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/goto/counter-picture"
+      ) {
+        // The picture of the office that takes a contest's filings.
+        send(200, {
+          url: backdropFile(
+            officePlace(url.searchParams.get("filedWith") ?? ""),
+            player?.packet?.at.minuteOfDay ?? 12 * 60,
+          ).url,
+        });
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/goto/visit") {
@@ -1126,6 +1143,13 @@ export async function benchRequest(
             url.searchParams.get("level") === "federal" ? "federal" : "state",
           ),
         });
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/government/local-races"
+      ) {
+        send(200, localRaces(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/government") {

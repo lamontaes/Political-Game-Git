@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/appointment-names-appointee
 pr: #6197
 blocked-on:
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T23:17:57.263Z
 **Rules.** Wire to the world: the record names the person the appointment reached, by id, so News, Government and the director read the same fact. One rule, all 56 places.
 
 **Done when.** In a drawn place, every official-appointed record carries the appointee's person id, News names the appointee, and a test over the opening's appointment records in two drawn places finds none without one, naming place and seed.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/modules/officials.ts, src/bench/play.mjs
 

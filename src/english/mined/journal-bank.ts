@@ -113,6 +113,7 @@ export function journalDataFromBank(
   return {
     version: rows.version,
     relationWords: rows.relationWords,
+    ...(rows.kinAddress ? { kinAddress: rows.kinAddress } : {}),
     possessive: rows.possessive,
     possessivePronoun: rows.possessivePronoun,
     countWords: rows.countWords,
