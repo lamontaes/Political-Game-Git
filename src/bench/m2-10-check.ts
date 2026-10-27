@@ -60,6 +60,27 @@ function serving(api: ReturnType<typeof coreAPI>, seatId: string) {
 // 1. November 2026: every kind of race runs on the engine, and is seated.
 const midterm = world("2026-10-13");
 const where = `${midterm.w.place.displayName} (${midterm.w.place.key}), seed ${seed}`;
+// The seats up in November 2026, read before the election moves their cycle on.
+const offices = midterm.api.moduleState(OFFICES_MODULE_ID);
+const legislativeOffices = new Set(
+  (
+    offices.table("offices").rows() as unknown as {
+      id: string;
+      kind: string;
+      elected: boolean;
+    }[]
+  )
+    .filter((o) => o.elected && o.kind.startsWith("legislature-"))
+    .map((o) => o.id),
+);
+const seats2026 = (
+  offices.table("seats").rows() as unknown as {
+    id: string;
+    officeId: string;
+    coversTown: boolean;
+    electionYear?: number;
+  }[]
+).filter((s) => legislativeOffices.has(s.officeId) && s.electionYear === 2026);
 advanceCore(midterm.w.core, "2027-01-21");
 const races = racesOf(midterm.api).filter((r) => r.date === "2026-11-03");
 // Play on to the last real seating day, so no race is left unchecked.
@@ -91,7 +112,45 @@ const report: Record<string, unknown> = {
 // town's named ballot, not here: the rest of the House, at least.
 check(house.length >= 430, `${where}: ${house.length} House races in 2026`);
 check(senate.length >= 30, `${where}: ${senate.length} Senate races in 2026`);
-check(legislative.length > 0, `${where}: no state legislative races in 2026`);
+// The town's state legislature: a seat that covers the town is elected on the
+// town's own ballot, not here, so the world runs a race only for the seats
+// that do not (Guam's fifteen senators are all at-large and all cover the
+// town). Every legislative seat up in 2026 is accounted for one way or the
+// other: a world race, or a winner serving from after election day.
+const outsideTown = seats2026.filter((s) => !s.coversTown);
+const onTownBallot = seats2026.filter((s) => s.coversTown);
+check(
+  legislative.length === outsideTown.length,
+  `${where}: ${legislative.length} legislative races for ${outsideTown.length} seats up in 2026 outside the town`,
+);
+check(
+  seats2026.length > 0,
+  `${where}: no state legislative seat is up in 2026`,
+);
+// A seat on the town's ballot ends in a winner serving from after election
+// day, or, when nobody filed, a vacancy the contest's own result recorded
+// (the special election then fills it).
+const vacancies = midterm.api
+  .moduleState(OFFICES_MODULE_ID)
+  .table("vacancies")
+  .rows() as unknown as {
+  seatId: string;
+  cause: string;
+}[];
+for (const seat of onTownBallot)
+  check(
+    serving(midterm.api, seat.id).some((t) => t.startDate > "2026-11-03") ||
+      vacancies.some(
+        (v) =>
+          v.seatId === seat.id &&
+          v.cause === `result:contest:${seat.id}:2026-11-03`,
+      ),
+    `${where}: ${seat.id} is on the town's ballot in 2026 and has neither a winner serving after election day nor a vacancy from its contest`,
+  );
+report.legislativeSeats = {
+  worldRaces: legislative.length,
+  townBallot: onTownBallot.length,
+};
 // 36 states elect a governor in 2026; the town's own is on its ballot.
 check(
   governors.length >= 30,

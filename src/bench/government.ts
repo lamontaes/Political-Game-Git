@@ -2,6 +2,7 @@ import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
+import { BUDGETS_MODULE_ID, governments } from "../core2/modules/budgets";
 import { keyPeopleOf } from "../core2/opening-key-people";
 import {
   OFFICES_MODULE_ID,
@@ -169,6 +170,12 @@ export function governmentView(core: CoreState, personId: string) {
   for (const { office } of seats)
     if (!governmentOf.has(office.level))
       governmentOf.set(office.level, office.governmentName);
+  // A level with no seat on the town's ballot still has its government in the
+  // budgets: a rate names who sets it there too.
+  if (core.modules.has(BUDGETS_MODULE_ID))
+    for (const row of governments(api))
+      if (!governmentOf.has(row.level))
+        governmentOf.set(row.level, readable(row.name));
   return {
     date: core.date,
     law: lawHere(api).map((row) => ({
@@ -228,6 +235,64 @@ export function governmentView(core: CoreState, personId: string) {
     ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
   };
+}
+
+/**
+ * The town's next local ballot: each city, township or county seat on it,
+ * with every candidate who filed, by the filing records. A race whose filing
+ * is still open says when it closes; the screen marks one with a single name
+ * as unopposed and one with none as unfilled.
+ */
+export function localRaces(core: CoreState) {
+  const api = coreAPI(core);
+  if (!core.modules.has(ELECTIONS)) return { date: null, races: [] };
+  const elections = api.moduleState(ELECTIONS);
+  const contests = (
+    elections.table("contests").rows() as unknown as ContestRow[]
+  ).filter(
+    (contest) =>
+      LOCAL_LEVELS.has(contest.level) && contest.electionDate >= core.date,
+  );
+  const date = contests.reduce<string | null>(
+    (first, contest) =>
+      !first || contest.electionDate < first ? contest.electionDate : first,
+    null,
+  );
+  const races = contests
+    .filter((contest) => contest.electionDate === date)
+    .map((contest) => {
+      const filers = (
+        elections
+          .table("filings")
+          .query("byContest", [contest.id]) as unknown as FilingRow[]
+      )
+        .filter((row) => row.status === "on-ballot")
+        .map((row) => {
+          const who = candidateIdentity(api, row.personId);
+          return {
+            filingId: row.id,
+            personId: row.personId,
+            name: who ? `${who.givenName} ${who.familyName}` : null,
+            party: row.party ?? null,
+          };
+        })
+        .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
+      return {
+        contestId: contest.id,
+        title: contest.district
+          ? `${contest.title} (${contest.district})`
+          : contest.title,
+        filingDeadline: contest.filingDeadline,
+        filingClosed: contest.filingDeadline < core.date,
+        filers,
+      };
+    })
+    .sort(
+      (a, b) =>
+        a.title.localeCompare(b.title) ||
+        a.contestId.localeCompare(b.contestId),
+    );
+  return { date, races };
 }
 
 /**
@@ -306,6 +371,20 @@ function ofVotingAge(core: CoreState, personId: string): boolean {
   return Boolean(
     person && ageOnDate(person.birthDate, core.date) >= parameter("votingAge"),
   );
+}
+
+/** A record's name set in capitals ("TOWN OF CONCRETE") as a title reads. */
+function readable(name: string): string {
+  if (name !== name.toUpperCase()) return name;
+  return name
+    .toLowerCase()
+    .split(" ")
+    .map((word, i) =>
+      i > 0 && ["of", "the", "and"].includes(word)
+        ? word
+        : word.charAt(0).toUpperCase() + word.slice(1),
+    )
+    .join(" ");
 }
 
 export function fileForOffice(

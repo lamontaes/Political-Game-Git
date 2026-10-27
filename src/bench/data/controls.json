@@ -367,7 +367,12 @@
     "increase": "Increase",
     "decrease": "Decrease",
     "stateFilter": "State",
-    "ownState": "Your state"
+    "ownState": "Your state",
+    "seriesNames": {
+      "income-tax": "Income tax rate",
+      "sales-tax": "Sales tax rate"
+    },
+    "noneHere": "None here"
   },
   "results": {
     "cast": "Ballots cast",
@@ -412,5 +417,12 @@
     "jobsLost": "Jobs lost",
     "sales": "Sales",
     "costs": "Costs"
+  },
+  "localRaces": {
+    "title": "Local races on the ballot",
+    "unopposed": "Unopposed",
+    "noFilers": "No one has filed",
+    "filingCloses": "Filing closes",
+    "noBallot": "No local election is on the calendar"
   }
 }
