@@ -13,8 +13,11 @@ import {
   type PastElectionRow,
   type PublicFigureRow,
 } from "./past-module";
+import type { PastClosureRow } from "./past-business";
+import { businessesIn, stateExitShare } from "./modules/business";
 import { publicKnowledgeOf } from "./past-public";
 import { openThePast } from "./past";
+import { POLICY_QUESTIONS } from "./policy-answers";
 import { coreAPI } from "./state";
 
 // The world has a past (owner, Oct 14, 2026), in the world the owner plays:
@@ -24,6 +27,8 @@ const seed = process.env.PAST_SEED ?? randomBytes(8).toString("hex");
 const opening = gameStartDate();
 const world = buildBenchWorld(seed, opening, { twoLevel: true });
 const api = coreAPI(world.core);
+/** Places drawn, at most, for one with a closure in its past. */
+const CLOSURE_PLACES = 6;
 const rows = <T>(table: string) =>
   api.moduleState(PAST_MODULE_ID).table(table).rows() as unknown as T[];
 
@@ -31,14 +36,40 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
   it("gives every law in force a history passed before day one", () => {
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws").rows();
     expect(laws.length).toBeGreaterThan(0);
+    const histories = rows<{ id: string; lawIds: string[] }>("laws");
+    // The recorded answer behind a starting law row, read from the research
+    // file by the state and question in the row's id, not from the engine's
+    // own idea of which rows are absent.
+    const recorded = (id: string) => {
+      const match =
+        /^law:([^:]+):(?:federal|state):(.+):general:starting$/.exec(id);
+      return match
+        ? POLICY_QUESTIONS[match[2]!]?.answers[match[1]!]?.answer
+        : undefined;
+    };
+    const noAnswers: string[] = [];
+    let yesAnswers = 0;
     for (const law of laws) {
-      const history = lawHistory(api, law.id as string);
+      const id = law.id as string;
+      const history = lawHistory(api, id);
+      const shared = histories.some((h) => h.lawIds.includes(id));
+      // A recorded answer of no: the place has no such law, so nothing
+      // records its passage, a roll call or a signer.
+      if (recorded(id) === "no") {
+        expect(history, id).toBeUndefined();
+        expect(shared, id).toBe(false);
+        noAnswers.push(id);
+        continue;
+      }
+      // A recorded answer of yes is a real law with a history, its own or
+      // that of the enactment its row shares.
+      if (recorded(id) === "yes") {
+        yesAnswers += 1;
+        expect(history !== undefined || shared, id).toBe(true);
+      }
       if (!history) {
         // Rows of one enactment share the history of its first row.
-        const shared = rows<{ lawIds: string[] }>("laws").some((h) =>
-          h.lawIds.includes(law.id as string),
-        );
-        expect(shared, law.id as string).toBe(true);
+        expect(shared, id).toBe(true);
         continue;
       }
       expect(history.enactedOn < opening).toBe(true);
@@ -46,6 +77,12 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
       for (const call of history.rollCalls)
         expect(call.yes, `${history.id} ${call.body}`).toBeGreaterThan(call.no);
     }
+    // Every state answers some policy questions no and some yes.
+    expect(noAnswers.length).toBeGreaterThan(0);
+    expect(yesAnswers).toBeGreaterThan(0);
+    process.stdout.write(
+      `past laws: ${noAnswers.length} recorded answers of no, none with a history (for example ${noAnswers.slice(0, 2).join(", ")}); ${yesAnswers} of yes, each with one\n`,
+    );
   });
 
   it("seats every elected officeholder by an election with votes that add up", () => {
@@ -86,6 +123,71 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
       .filter((s) => (s.date as string) < opening);
     expect(stories.length).toBeGreaterThanOrEqual(5);
   });
+
+  it(
+    "archives the businesses that closed in the year before day one, each told and heard",
+    () => {
+      // The world above first, then other drawn places (bounded), until one
+      // has a closure in its past: it is checked in full, story and hearing.
+      const tried: string[] = [];
+      for (let attempt = 0; attempt < CLOSURE_PLACES; attempt += 1) {
+        const here =
+          attempt === 0
+            ? world
+            : buildBenchWorld(`${seed}:closures:${attempt}`, opening, {
+                twoLevel: true,
+              });
+        const a = coreAPI(here.core);
+        const where = `${here.place.key} seed ${attempt === 0 ? seed : `${seed}:closures:${attempt}`}`;
+        const closures = a
+          .moduleState(PAST_MODULE_ID)
+          .table("closures")
+          .rows() as unknown as PastClosureRow[];
+        const expected = Math.round(
+          businessesIn(a, here.placeId).length * stateExitShare(a),
+        );
+        // No more closures than the state's exit share of the town's firms.
+        expect(closures.length, where).toBeLessThanOrEqual(expected);
+        for (const closure of closures) {
+          expect(closure.date < opening, closure.id).toBe(true);
+          const owner = here.core.people.get(closure.ownerId)!;
+          expect(owner.alive, closure.id).toBe(true);
+          // The former owner heard of it the day it happened, from the printed story.
+          const story = a
+            .moduleState(NEWS_MODULE_ID)
+            .table("stories")
+            .rows()
+            .find(
+              (row) =>
+                (row.facts as Record<string, string>).recordId === closure.id,
+            );
+          expect(story, closure.id).toBeTruthy();
+          expect(story!.facts).toMatchObject({
+            ownerId: closure.ownerId,
+            recordKind: "business.closed",
+          });
+          expect(
+            a
+              .moduleState(NEWS_MODULE_ID)
+              .table("heard")
+              .get(`${closure.ownerId}:${story!.id}`),
+            closure.id,
+          ).toBeTruthy();
+        }
+        tried.push(`${where}: ${closures.length} of ${expected} expected`);
+        if (!closures.length) continue;
+        process.stdout.write(
+          `PAST CLOSURES ${where}: ${closures.map((c) => c.id).join(", ")}\n`,
+        );
+        return;
+      }
+      throw new Error(
+        `no drawn place had a closure in its past in ${CLOSURE_PLACES} places: ${tried.join("; ")}`,
+      );
+      // An opening build took 13 to 46 seconds on a 4-core container; up to CLOSURE_PLACES of them.
+    },
+    CLOSURE_PLACES * 120_000,
+  );
 
   it("carries the archive on the press's own list of outlets", () => {
     const paper = townOutlet(api)!;

@@ -6,8 +6,18 @@
   },
   "nationalBedsPer10k": 14.56,
   "estimated": {
-    "AS": "No HUD Continuum of Care: the nation's rate, as an estimate.",
-    "MP": "No HUD Continuum of Care: the nation's rate, as an estimate."
+    "AS": {
+      "bedsPer10k": 6.18,
+      "estimatedFrom": "No HUD Continuum of Care covers this island area; the median of the three island areas the HIC does count (Guam 6.18, Puerto Rico 2.47, U.S. Virgin Islands 10.9 beds per 10,000), spread 2.47 to 10.9. Replaced by the territory government's own shelter count.",
+      "low": 2.47,
+      "high": 10.9
+    },
+    "MP": {
+      "bedsPer10k": 6.18,
+      "estimatedFrom": "No HUD Continuum of Care covers this island area; the median of the three island areas the HIC does count (Guam 6.18, Puerto Rico 2.47, U.S. Virgin Islands 10.9 beds per 10,000), spread 2.47 to 10.9. Replaced by the territory government's own shelter count.",
+      "low": 2.47,
+      "high": 10.9
+    }
   },
   "bedsPer10k": {
     "AK": 28.75,

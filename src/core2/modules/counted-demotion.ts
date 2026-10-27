@@ -11,6 +11,7 @@
  * place's counted tier, so meeting one again brings the same people back.
  * Named officials, the player's household and circle are never demoted.
  */
+import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import {
   COUNTED_PLACE_PREFIX,
   countedPlaceOf,
@@ -21,14 +22,19 @@ import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash, pairKey } from "../kernel/ids";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { ELECTIONS_MODULE_ID } from "./elections";
+import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
 import {
   countedFundOf,
   countedSpread,
+  joinPublicPayAuthority,
   keepCalendar,
   residentsRuntime,
   returnToCounts,
-  returnUnplacedPay,
+  returnCommuterPay,
+  commuterPeriodPay,
 } from "./residents";
+import { returnClaimToCounts } from "./retirement-claims";
 import { isSchoolDistrict, type ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import type {
@@ -91,8 +97,10 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
   for (const job of core.jobs.values()) {
     if (job.endsAt !== undefined) continue;
     const employer = core.organizations.get(job.organizationId);
+    // A commuter's employer outside the town is the place's outside account, not a public employer.
     if (
       employer &&
+      employer.kind !== OUTSIDE_MARKET_KIND &&
       (employer.kind !== "employer" ||
         (employer.publicPayAuthority && !isSchoolDistrict(employer)))
     )
@@ -101,6 +109,25 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
   if (core.modules.has("business"))
     for (const row of api.moduleState("business").table("owners").rows())
       out.add((row as unknown as { ownerId: string }).ownerId);
+  // Someone who has decided to run for office is in public life until their
+  // race is decided, like those who hold one: their decision waits for its
+  // filing day (Las Piedras, Puerto Rico: ten runners back in the counts by
+  // the board's filing day, so none of them filed).
+  if (
+    core.modules.has(CANDIDACY_MODULE_ID) &&
+    core.modules.has(ELECTIONS_MODULE_ID)
+  ) {
+    const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+    for (const row of api
+      .moduleState(CANDIDACY_MODULE_ID)
+      .table("decisions")
+      .rows() as unknown as CandidacyDecision[]) {
+      if (!row.run) continue;
+      const contest = contests.get(row.contestId) as unknown as
+        { electionDate: string } | undefined;
+      if (contest && contest.electionDate >= core.date) out.add(row.personId);
+    }
+  }
   return out;
 }
 
@@ -165,20 +192,30 @@ export function demoteHousehold(
   // Its jobs stay on the employers' books as counted jobs at the same pay.
   const jobs: JobInput[] = [];
   const commitments: WorkCommitmentInput[] = [];
+  let commuterPay = 0;
   for (const person of people) {
     const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
     if (!job || job.endsAt !== undefined) continue;
+    // A commuter job (an employer outside the town) goes back to the unplaced workers' pay.
+    const commuter = commuterPeriodPay(core, job);
+    if (commuter !== undefined) {
+      api.endJob(job.id, id);
+      commuterPay += commuter;
+      continue;
+    }
     const counted: JobInput = { ...job, id: `${job.id}:counted:${date}` };
     delete (counted as { endsAt?: string }).endsAt;
     // The schedule and payday it worked on come back with it at a later fill-in.
     for (const cid of core.work.commitmentsByPerson.get(person.id) ?? []) {
       const row = core.work.commitments.get(cid);
       if (!row || row.jobId !== job.id || row.endsAt !== undefined) continue;
-      commitments.push({
+      const demoted = {
         ...row,
         id: `${row.id}:counted:${date}`,
         jobId: counted.id,
-      });
+      };
+      commitments.push(demoted);
+      joinPublicPayAuthority(core, demoted);
       const calendar = row.payrollCalendarId
         ? core.work.payrollCalendars.get(row.payrollCalendarId)
         : undefined;
@@ -253,15 +290,11 @@ export function demoteHousehold(
     parts,
     ...(rent ? { rent } : {}),
   });
-  // Its workers without a recorded job are the place's unplaced workers again.
-  for (const flow of [...rt.flows.values()])
-    if (
-      !flow.endedAt &&
-      flow.financeKind === "work.unplaced-residents" &&
-      members.has(flow.payeeId)
-    )
-      returnUnplacedPay(core, householdId, flow.id);
+  // Its commuters are the place's unplaced workers again.
+  returnCommuterPay(core, householdId, commuterPay);
   for (const job of jobs) addCountedJob(core, job);
+  // Retirement awards claimed in play join the residents' income again.
+  for (const person of people) returnClaimToCounts(api, person.id, placeId);
   // Its money goes to its group's account.
   const fund = countedFundOf(core, householdId);
   let cash = 0;
@@ -334,6 +367,14 @@ export function demotionDays(seed: string): number {
   return low + (draw % (high - low + 1));
 }
 
+/** Whether the counts hold a population, and its residents account, in a place. */
+function countsKeptAt(
+  rt: NonNullable<ReturnType<typeof residentsRuntime>>,
+  placeId: string,
+): boolean {
+  return rt.input.accounts.some((row) => row.placeId === placeId);
+}
+
 /** The monthly review: every filled-in household long out of the player's life goes back. */
 function review(api: CoreAPI): void {
   const core = api.state as CoreState;
@@ -348,6 +389,10 @@ function review(api: CoreAPI): void {
     if (daysBetween(filledAt, api.state.date) < days) continue;
     const home = core.households.get(householdId);
     if (!home || home.placeId.startsWith(COUNTED_PLACE_PREFIX)) continue;
+    // Only a household living where the counts are kept can return to them:
+    // a relative met in a place beyond the town's counted places has no
+    // counted group or residents account there, and stays as filled in.
+    if (!countsKeptAt(rt, home.placeId)) continue;
     let last = filledAt;
     let eligible = true;
     for (const id of home.memberIds) {

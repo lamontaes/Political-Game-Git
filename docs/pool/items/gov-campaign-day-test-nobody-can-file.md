@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
-pr: #5180
+pr:
 blocked-on:
 source: added with npm run pool -- add
 ---
@@ -16,8 +16,8 @@ source: added with npm run pool -- add
 
 **Rules.** TODO
 
-**Done when.** TODO
+**Done when.** TODO **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.

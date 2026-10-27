@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #5749
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** SG-PEOPLE-unplanned-provider-distance: renewal reads two national averages (restricted and open) for the trip to a provider. Source a place-level distance for all 56 places and read it in decideUnplanned.
@@ -21,3 +22,19 @@ source: added with npm run pool -- add
 **Files.** src/core2/births-unplanned.ts, data/research/people/, src/core2/data/stopgaps.json
 
 **Notes.** Split from people-unplanned-pregnancy-decision (PR for claude/political-game-pool-yucp92-bg).
+
+Sent back 2026-10-20 from PR #5749 (branch claude/provider-distance): src/core2/renewal.test.ts:34-107 imports the parent test that permits zero unplanned plans, guards its couple checks with if (couple), and uses if (waiting.length) plus a nonnegative-payment assertion. Do not ship those vacuous checks: require a nonempty witnessed case with bounded redraws and positive actual trip payment where asserted. docs/release/changes/people-abortion-provider-distance.md:3-6 says impact none because no screen shows it, but births-unplanned.ts reads these miles to change travel cost and the continue/end decision, and renewal.ts transfers real cash; declare the actual simulation change accurately. This PR also includes #5695, which remains sent back; merge its fixing commit first or base this fixer on its branch so the unresolved parent is not silently merged.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-22 from PR #5749 (branch claude/provider-distance): The inherited full-tier test still relies on manually seeded exposure instead of requiring an ordinary produced pregnancy, and its parent declaration still labels real simulation effects as none.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): The earlier test repairs are present, but data/research/people/abortion-provider-distance.json:18-30 tags the Alaska row SOURCED while its quote only defines distance_origintodest; it contains none of the reported 64.6/121.1-mile means or 1.6/230.3/565.5 bounds. The same definition-only quote is used in all 51 SOURCED rows. The note says these are weighted means and 10th/90th percentiles computed from county data, with alternate population weights in two states; these are not numbers quoted from the cited guide, and this diff contains no reproducible aggregation to audit them. Supply numeric source evidence and reproducible input/weight/aggregation provenance for derived values, or label estimates accurately with their source and spread; do not present derived intervals as published ones. The 56-place release-note count matches the 56 rows, but that does not establish their values. No local gate pass is claimed for this source review.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): provenance repair is present, but the carried unplanned-pregnancy feature covers only full people and its only tier-gap registry row is resolved; include the counted implementation or register the remaining gap as open and bound the scope; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): carried unplanned decision/travel TUNABLEs have unmeasured spreads and point to a resolved owner-decision row; check their sensitivity or register and mark the exact remaining calibration gap with open follow-up; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): five-weight calibration repair is present, but renewalTravelCostPerMileMinor still has an unmeasured estimated spread linked to the resolved owner-decision row; source its numeric range or register/mark this exact sixth cost estimate and its follow-up; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): checked b015eda19d, ordinary generated-world test renewal.test.ts:176 failed on fresh base 537cf8a8ef0da50d with zero natural unplanned plans in twelve 365-day worlds; mandatory isolated same-input repeat reproduced all twelve zero-plan results (1081.920s then 1069.351s), while paid-trip and player-exclusion checks passed; retain accepted IRS range/calibration/tier-gap repairs and repair the ordinary nonempty producer proof without seeded exposure or weaker assertions; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): checked 9bcddffe94 fixes the zero-plan proof, but fresh root e5578114fa35ac74 reproduces a paid-trip historical-law mismatch in East Kapolei at renewal.test.ts:72/261 (opening rule expected, 2025-02-05 HB 7 reread); isolated same-input repeat fails too, and decideUnplanned ignores asOf for the law while the fixture can pick an earlier natural pregnancy; preserve the law/miles and positive journal assertions and accepted prior repairs; finish on that branch, merge main into it first.

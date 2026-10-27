@@ -4,6 +4,7 @@ import type {
   WorkPayrollGroupReceipt,
 } from "./work-payroll-cash";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { drawSavingsToCover } from "./accounts";
 import { cashJournalParameters } from "./cash-host";
 import { FinancePlanningSession, FinanceReadGuard } from "./finance-plan";
 import { ensureFinanceCashModule } from "./finance-cash";
@@ -327,7 +328,11 @@ function dispatchStatus(
   if (!memberships || !r.member(memberships, entry.commitmentId))
     throw new Error("Payroll actual retained person membership is absent.");
   const payable = new Set<string>();
-  if (o.request.requestedMinor > s.zero) payable.add(entry.commitmentId);
+  let owed = s.zero;
+  if (o.request.requestedMinor > s.zero) {
+    payable.add(entry.commitmentId);
+    owed += o.request.requestedMinor;
+  }
   // Bounded actual worker membership only, never all jobs, residents or historical payroll.
   for (const id of r.members(memberships)) {
     if (id === entry.commitmentId) continue;
@@ -354,7 +359,10 @@ function dispatchStatus(
       (ledger && minor(r.field(ledger, "arrearsMinor"), s.zero) > s.zero)
     ) {
       const other = ownedRequest(s, id);
-      if (other.request.requestedMinor > s.zero) payable.add(id);
+      if (other.request.requestedMinor > s.zero) {
+        payable.add(id);
+        owed += other.request.requestedMinor;
+      }
     }
   }
   const reason =
@@ -385,7 +393,7 @@ function dispatchStatus(
     throw new Error("Payroll dispatch lacks its canonical cash facade.");
   r.verify();
   s.nextReads.verify();
-  return { hold, settle, one: s.one };
+  return { hold, settle, one: s.one, owed };
 }
 /** No decide/refresh argument, choices, act increments or cash off actual payday. */
 export function runWorkPayrollDay(
@@ -415,6 +423,15 @@ export function runWorkPayrollDay(
     const status = dispatchStatus(api, batch.core, batch.date, entry);
     if (status.hold) held.push(status.hold);
     else {
+      // An employer short of cash on payday draws the savings it holds at a
+      // local bank before the payroll goes unpaid.
+      drawSavingsToCover(batch.core, api, {
+        id: `savings-for-payment:work-payroll:${entry.commitmentId}@${batch.date}`,
+        holderId: entry.organizationId,
+        owedMinor: Number(status.owed),
+        asOf: makeIsoDate(batch.date),
+        reason: `Work payroll ${entry.commitmentId} asked ${status.owed} minor units.`,
+      });
       const returned = status.settle.call(api, entry.commitmentId),
         g = new FinanceReadGuard(),
         work = g.field(batch.core, "work"),

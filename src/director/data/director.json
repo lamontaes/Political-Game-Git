@@ -197,6 +197,188 @@
         "citation": "2021 replication ratio 0.57 to 1967 ratio 0.79."
       }
     },
+    "directorCircumstanceEveryDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 3,
+        "high": 14,
+        "unit": "days",
+        "citation": "Fewest days between any two scenes from circumstance for one player: at most about one a week, so a played year keeps quiet stretches between clusters (owner, Oct 26: Wildermyth pacing); checked by a played year in a drawn place (src/director/circumstance.test.ts), where a sitting member's year carried a hallway nearly every week at 4 days."
+      }
+    },
+    "directorCircumstanceStreetEveryDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 7,
+        "high": 30,
+        "unit": "days",
+        "citation": "Fewest days between two scenes of one street circumstance (a constituent, a neighbor with news)."
+      }
+    },
+    "directorCircumstanceHomeEveryDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 7,
+        "high": 45,
+        "unit": "days",
+        "citation": "Fewest days between two scenes of household members bringing home a story they read: the scheduler's window for the same scene with the same people (repeatDays, 30), so a household with one reader is not cut short."
+      }
+    },
+    "directorCircumstanceWorkEveryDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 7,
+        "high": 30,
+        "unit": "days",
+        "citation": "Fewest days between two scenes of one workplace circumstance (a coworker with news, a new hire)."
+      }
+    },
+    "directorCircumstanceHallwayEveryDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 7,
+        "high": 30,
+        "unit": "days",
+        "citation": "Fewest days between two hallway scenes after a body sits: a body meeting weekly gives about two a month, not one each sitting."
+      }
+    },
+    "directorCircumstanceLawImpact": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.11,
+        "high": 0.3,
+        "unit": "life-change units divided by 100",
+        "citation": "A conversation about a law, below the smallest life change kept as a scene on its own (0.11 to 0.5 on the Holmes and Rahe scale divided by 100); it orders the journal only, since the scene is met that day by its row."
+      }
+    },
+    "directorCircumstanceNewsImpact": {
+      "value": 0.12,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.11,
+        "high": 0.25,
+        "unit": "life-change units divided by 100",
+        "citation": "News brought by someone at hand, as above."
+      }
+    },
+    "directorCircumstanceMeetingImpact": {
+      "value": 0.12,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.11,
+        "high": 0.25,
+        "unit": "life-change units divided by 100",
+        "citation": "Meeting a new coworker, as above."
+      }
+    },
+    "directorCircumstanceDeathImpact": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.11,
+        "high": 0.4,
+        "unit": "life-change units divided by 100",
+        "citation": "Hearing of the death of someone known through their household, as above."
+      }
+    },
+    "directorCircumstanceHallwayImpact": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.11,
+        "high": 0.3,
+        "unit": "life-change units divided by 100",
+        "citation": "A colleague or reporter in the hallway, as above."
+      }
+    },
+    "directorCircumstanceNamedScore": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.5,
+        "high": 2,
+        "unit": "score",
+        "citation": "Cast weight of being named in the record (reached by the law, sat on the committee)."
+      }
+    },
+    "directorCircumstanceWitnessedScore": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.25,
+        "high": 1,
+        "unit": "score",
+        "citation": "Cast weight of having seen or read the record."
+      }
+    },
+    "directorCircumstanceTieScore": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.5,
+        "high": 2,
+        "unit": "score",
+        "citation": "Cast weight of the player's tie, read as importance over one plus importance."
+      }
+    },
+    "directorCircumstanceSociabilityScore": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0,
+        "high": 0.5,
+        "unit": "score",
+        "citation": "Cast weight of the person's recorded sociability, from -1 to 1 of the trait scale: the talkative bring it up."
+      }
+    },
     "directorTieSharedHome": {
       "value": 0.3,
       "tag": "TUNABLE",
@@ -481,7 +663,7 @@
     "directorElectionResultImpact": {
       "value": 0.28,
       "tag": "ESTIMATED",
-      "citation": "Winning or losing one's own race, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same item filing to run uses; the owner rules that running, winning and losing are journal entries (Oct 14).",
+      "citation": "Winning or losing one's own race, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same item filing to run uses, and giving an inaugural address; the owner rules that running, winning and losing are journal entries (Oct 14).",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
     },
     "directorChoicesPerTurn": {
@@ -1038,8 +1220,44 @@
     "directorOfficeActImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
-      "citation": "An officeholder introducing a bill or casting a vote on one. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized like hearing back from a town office (0.15), below filing to run (0.28), so it reaches the member's journal without interrupting play (interrupt line 0.5). Checked by the vote and the introduction appearing as journal lines in a played year.",
+      "citation": "An officeholder introducing a bill, casting a vote on one, or signing or vetoing one, the sponsor whose bill was signed or vetoed, and an officeholder holding a town hall. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized like hearing back from a town office (0.15), below filing to run (0.28), so it reaches the member's journal without interrupting play (interrupt line 0.5). Checked by the vote and the introduction appearing as journal lines in a played year.",
       "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
+    },
+    "directorVictimizedImpact": {
+      "value": 0.25,
+      "tag": "ESTIMATED",
+      "citation": "A crime against one's household or oneself, sized as the Social Readjustment Rating Scale's 'Change in living conditions', 25 life-change units divided by 100, up to 'Personal injury or illness', 53, for a robbery or an assault (Holmes and Rahe 1967, J Psychosom Res 11(2):213-8; the scale has no crime item). It reaches the people the crime engine's record names.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.25 to 0.53"
+    },
+    "journalRaceCloseMargin": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "citation": "Words judgment: a winner's lead over the runner-up of five points or fewer of the votes cast is a close race in a journal.",
+      "stopgapId": "SG-WORDS-param-journalRaceCloseMargin",
+      "checkRange": {
+        "ref": "WORDS-RACE-MARGIN-BAND"
+      },
+      "spread": {
+        "low": 0.005,
+        "high": 0.1,
+        "unit": "lead over the runner-up, as a share of votes cast",
+        "citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 points or fewer and at half a point or fewer); not yet sourced here."
+      }
+    },
+    "journalRaceWideMargin": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Words judgment: a winner's lead over the runner-up of fifteen points or more of the votes cast is a race that was not close in a journal.",
+      "stopgapId": "SG-WORDS-param-journalRaceWideMargin",
+      "checkRange": {
+        "ref": "WORDS-RACE-MARGIN-BAND"
+      },
+      "spread": {
+        "low": 0.1,
+        "high": 0.25,
+        "unit": "lead over the runner-up, as a share of votes cast",
+        "citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 points or fewer and at half a point or fewer); not yet sourced here."
+      }
     }
   },
   "channels": [
@@ -1207,6 +1425,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "party-asked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "veto-override",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact",
@@ -1254,6 +1477,26 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "bill-amendment",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "bill-held-in-committee",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "bill-presented",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "office.approached",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "executive-action",
       "channel": "cause",
       "impactParameter": "directorExecutiveActionImpact"
@@ -1269,6 +1512,26 @@
       "impactParameter": "directorPublicCommentImpact"
     },
     {
+      "eventKind": "president.address",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "town-hall",
+      "channel": "cause",
+      "impactParameter": "directorOfficeActImpact"
+    },
+    {
+      "eventKind": "official-appointed",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "executive-action",
+      "channel": "cause",
+      "impactParameter": "directorOfficeActImpact"
+    },
+    {
       "eventKind": "office.voted",
       "channel": "cause",
       "impactParameter": "directorOfficeActImpact"
@@ -1282,6 +1545,11 @@
       "eventKind": "housing.eviction",
       "channel": "feeling",
       "impactParameter": "directorEvictionImpact"
+    },
+    {
+      "eventKind": "crime.victimized",
+      "channel": "feeling",
+      "impactParameter": "directorVictimizedImpact"
     },
     {
       "eventKind": "housing.status-changed",
@@ -1335,6 +1603,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "press-story",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "press.exposed",
       "channel": "feeling",
       "impactParameter": "directorChargedImpact"
@@ -1343,6 +1616,31 @@
       "eventKind": "recall-petition",
       "channel": "cause",
       "impactParameter": "directorRecallImpact"
+    },
+    {
+      "eventKind": "interview-invited",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "debate-invited",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "volunteer-offered",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "rival-word",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "rival-filed",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
     }
   ]
 }

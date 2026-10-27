@@ -16,7 +16,7 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { daysBetween, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import {
   CLOSENESS,
   closenessBetween,
@@ -31,12 +31,84 @@ import { OPENING_KIN } from "../opening-kin";
 import type {
   ActOffer,
   CoreAPI,
-  CoreModule,
+  PersonId,
   PersonState,
   Relationship,
 } from "../types";
 import { offer } from "./life";
+import type {
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "../pre-start";
 import { pairKey } from "../kernel/ids";
+
+/** The hours a tie has lost, read near or far: the pull toward a visit. */
+function tiePull(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  otherId: PersonId,
+): { value: number; sourceIds: string[] } | undefined {
+  const row = api.state.relationships.get(pairKey(actor.id, otherId));
+  const other = api.state.people.get(otherId);
+  if (!row || !other) return undefined;
+  const near =
+    other.placeId === actor.placeId ||
+    (other.countyId !== undefined && other.countyId === actor.countyId);
+  return {
+    value:
+      hoursLost(api.state, row) *
+      (near ? api.parameter("one") : api.parameter("farKinContactShare")),
+    sourceIds: [row.id],
+  };
+}
+
+/**
+ * A person with a cause weighs, each week, only the ties that pull hardest at
+ * the week's first look (the hours each has lost, as the chooser reads them);
+ * a tie made during the week joins the next week's ranking. Someone with no
+ * more ties than the shortlist holds weighs them all.
+ */
+const shortlists = new WeakMap<
+  object,
+  Map<PersonId, { week: number; ids: ReadonlySet<PersonId> }>
+>();
+function weeklyContacts(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  tied: readonly PersonId[],
+): readonly PersonId[] {
+  const size = api.parameter("causeHolderWeeklyContacts");
+  if (tied.length <= size) return tied;
+  // stopgapId: SG-PEOPLE-cause-holder-weekly-contacts
+  api.stopgap("SG-PEOPLE-cause-holder-weekly-contacts");
+  const week = Math.floor(
+    daysBetweenText(api.state.startedAt, api.state.date) /
+      api.parameter("daysPerWeek"),
+  );
+  let byPerson = shortlists.get(api.state);
+  if (!byPerson) shortlists.set(api.state, (byPerson = new Map()));
+  let held = byPerson.get(actor.id);
+  if (!held || held.week !== week) {
+    const ranked = tied
+      .map((id) => ({
+        id,
+        pull: tiePull(api, actor, id)?.value ?? api.parameter("zero"),
+      }))
+      .sort(
+        (a, b) =>
+          b.pull - a.pull ||
+          (a.id < b.id ? api.parameter("negativeOne") : api.parameter("one")),
+      );
+    held = {
+      week,
+      ids: new Set(ranked.slice(0, size).map((row) => row.id)),
+    };
+    byPerson.set(actor.id, held);
+  }
+  const ids = held.ids;
+  return tied.filter((id) => ids.has(id));
+}
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {
@@ -49,7 +121,7 @@ const seeded = new WeakSet<object>();
 function shareHomeTime(api: CoreAPI): void {
   const core = api.state;
   const p = (key: string) => api.parameter(key);
-  const day = daysBetween(makeIsoDate(core.startedAt), makeIsoDate(core.date));
+  const day = daysBetweenText(core.startedAt, core.date);
   const week = p("daysPerWeek");
   const opening = !seeded.has(core);
   if (!opening && (day <= p("zero") || day % week !== p("zero"))) return;
@@ -144,8 +216,51 @@ function dependents(
   return rows;
 }
 
-export const PEOPLE_MODULE: CoreModule = {
+/**
+ * Pre-start people pass (M1-14): a full person's own dated records that fall
+ * before day one (their birth and each dated past fact: moves, jobs,
+ * partnerships) are entered in the history, so the world's past can be read
+ * by record id. Nothing is generated here: counted people carry no individual
+ * past until they are filled in, and the records' own sources are kept.
+ */
+function peopleHistory(
+  api: CoreAPI,
+  window: PreStartWindow,
+  history: HistoryWriter,
+): void {
+  for (const person of api.state.people.values()) {
+    if (person.tier === "husk") continue;
+    const inside = (date: string) =>
+      date >= window.from && date <= window.through;
+    if (inside(person.birthDate))
+      history.record({
+        id: `person-history:${person.id}:birth`,
+        date: makeIsoDate(person.birthDate),
+        kind: "person.birth",
+        placeId: person.placeId,
+        personIds: [person.id],
+        facts: { personId: person.id },
+        publicRecord: true,
+        source: person.source,
+      });
+    for (const fact of person.pastFacts ?? [])
+      if (inside(fact.date))
+        history.record({
+          id: `person-history:${person.id}:${fact.id}`,
+          date: makeIsoDate(fact.date),
+          kind: `person.${fact.kind}`,
+          placeId: person.placeId,
+          personIds: [person.id],
+          facts: { personId: person.id, ...(fact.facts ?? {}) },
+          publicRecord: false,
+          source: fact.source,
+        });
+  }
+}
+
+export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
+  preStart: { phase: "people", run: peopleHistory },
   onDay: (api) => {
     shareHomeTime(api);
   },
@@ -203,15 +318,20 @@ export const PEOPLE_MODULE: CoreModule = {
     // Everyone the person knows and has a tie with, plus one person they know
     // without a tie yet. Untied offers all score alike and the chooser breaks
     // ties by the lowest key, so the lowest-id untied person stands for them all.
+    // A person with a cause weighs only the week's shortlist of their ties.
     "contact-candidate": (api, actor, action) => {
       const out: ActOffer[] = [];
+      const tied: PersonId[] = [];
       let untied: string | undefined;
       for (const id of actor.knownIds) {
         if (!api.state.people.get(id)?.alive) continue;
-        if (api.state.relationships.has(pairKey(actor.id, id)))
-          out.push(offer(api, actor, action, id));
+        if (api.state.relationships.has(pairKey(actor.id, id))) tied.push(id);
         else if (untied === undefined || id < untied) untied = id;
       }
+      for (const id of actor.drives.size
+        ? weeklyContacts(api, actor, tied)
+        : tied)
+        out.push(offer(api, actor, action, id));
       if (untied !== undefined) out.push(offer(api, actor, action, untied));
       return out;
     },
@@ -227,20 +347,6 @@ export const PEOPLE_MODULE: CoreModule = {
         return undefined;
       return { value: grief, sourceIds };
     },
-    "tie-fading": (api, actor, offer) => {
-      const id = pairKey(actor.id, offer.targetId);
-      const row = api.state.relationships.get(id);
-      const other = api.state.people.get(offer.targetId);
-      if (!row || !other) return undefined;
-      const near =
-        other.placeId === actor.placeId ||
-        (other.countyId !== undefined && other.countyId === actor.countyId);
-      return {
-        value:
-          hoursLost(api.state, row) *
-          (near ? api.parameter("one") : api.parameter("farKinContactShare")),
-        sourceIds: [row.id],
-      };
-    },
+    "tie-fading": (api, actor, offer) => tiePull(api, actor, offer.targetId),
   },
 };

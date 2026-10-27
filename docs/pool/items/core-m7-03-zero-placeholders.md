@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: L
-status: in-pr
+status: done
 claimed-by: claude/pool-m7-03
 pr: #5430
 blocked-on:

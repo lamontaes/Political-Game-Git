@@ -5,10 +5,10 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: blocked
+status: dropped
 claimed-by: claude/pool-medicaid
 pr:
-blocked-on: missing-engine-health-coverage-and-medical-spending
+blocked-on: duplicate of gov-medicaid-coverage-reader (pool feeder Oct 20); CTO to drop
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:30:18.002Z
 ---
@@ -21,6 +21,6 @@ claimed-at: 2026-10-20T02:30:18.002Z
 
 **Files.** src/core2/modules/health.ts, src/core2/law-reach/group-b-people.ts, src/core2/data/stopgaps.json
 
-**Notes.** Checked Oct 19 before building: this effect appears in none of docs/roadmap/political-process-baseline.md, the golden path, DECISION-REGISTER.md or OWNER-DECISIONS.md, and AGENTS.md ("This is a game, not a spreadsheet") makes a new mechanic of this kind a question for the owner, not a feature. OWNER QUESTION: should Medicaid expansion change a person's health coverage and medical bills in play, or stay an eligibility record? Until he rules, leave this item unbuilt.
+**Notes.** Checked Oct 19 before building: this effect appears in none of docs/roadmap/political-process-baseline.md, the golden path, DECISION-REGISTER.md or OWNER-DECISIONS.md, and AGENTS.md ("This is a game, not a spreadsheet") makes a new mechanic of this kind a question for the owner, not a feature. OWNER QUESTION: should Medicaid expansion change a person's health coverage and medical bills in play, or stay an eligibility record? Until he rules, leave this item unbuilt. Duplicate of gov-medicaid-coverage-reader (feeder report)
 
 **Original notes.** Split from laws-stopgap-reach-group-b-missing-engine on Oct 19; the stopgap rows named above are its 13.

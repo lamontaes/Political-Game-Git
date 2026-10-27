@@ -1,0 +1,1169 @@
+{
+  "id": "eviction-statute-reads-2026",
+  "publisher": "State, district and territory legislatures and code revisers (official statute text)",
+  "vintage": "codes in force on Oct 23, 2026",
+  "table": "Nonpayment eviction steps: pay-or-quit notice, cure, hearing and stay",
+  "title": "Eviction steps read from each place's statute text, Oct 23, 2026 pass",
+  "universe": "Residential tenancies evicted for nonpayment of rent",
+  "geography": "56 places keyed by postal code (50 states, DC, PR, GU, VI, AS, MP)",
+  "sourceUrl": "per row",
+  "retrievedOn": "2026-10-23",
+  "inForceOn": "2025-01-20",
+  "limits": "Every value is the law in force on the game's opening day, January 20, 2025 (inForceOnOpening says how that was confirmed); laterLaw lists dated changes that take effect after it, which the engine does not read yet. Each Oct 23 row quotes the fetched statute text (apostrophes and line breaks normalized). readOct12 lists the fields an earlier pass confirmed from official text (data/research/housing/eviction-steps-2026.json, verifiedFields). basis 'absence' means the chapter was read and has no such provision (no notice period, or no tender or cure section). A stay is the days after judgment at which the law has the household removed: the minimum wait where the statute sets one, else the officer's deadline. Fields under 'secondary' still come from secondary summaries or the median of the read places, for the reason given. Day types (business, court) are recorded; the engine counts calendar days.",
+  "fields": ["noticeDays", "cureAllowed", "hearingDays", "stayDays"],
+  "places": {
+    "AK": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays"],
+      "readOct23": [],
+      "secondary": {
+        "stayDays": "AS 09.45.090-.160 set no wait or deadline for the writ (read Oct 12)."
+      },
+      "allRead": false
+    },
+    "AL": {
+      "readOct12": [],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 7,
+          "dayType": "business",
+          "statute": "Ala. Code 35-9A-421(b)",
+          "sourceUrl": "https://alison.legislature.state.al.us/code-of-alabama?section=35-9A-421",
+          "quote": "the landlord may deliver a written notice to terminate the lease to the tenant specifying the amount of rent and any late fees owed to remedy the breach and that the rental agreement will terminate upon a date not less than seven business days after receipt of the notice",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "35-9A-421 last amended by Act 2018-473 and 35-9A-461 by Act 2009-633 (ALISON history)."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "Ala. Code 35-9A-421(b)",
+          "sourceUrl": "https://alison.legislature.state.al.us/code-of-alabama?section=35-9A-421",
+          "quote": "If the breach is not remedied within the seven business days, the rental agreement shall terminate.",
+          "basis": "text",
+          "note": "35-9A-421(d) limits cures to two in any 12 months.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "35-9A-421 last amended by Act 2018-473 and 35-9A-461 by Act 2009-633 (ALISON history)."
+          }
+        },
+        {
+          "field": "stayDays",
+          "value": 7,
+          "dayType": "calendar",
+          "statute": "Ala. Code 35-9A-461(e)",
+          "sourceUrl": "https://alison.legislature.state.al.us/code-of-alabama?section=35-9A-461",
+          "quote": "the automatic stay on the issuance of the writ of possession or restitution shall be for a period of seven days",
+          "basis": "text",
+          "note": "Minimum wait after judgment.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "35-9A-421 last amended by Act 2018-473 and 35-9A-461 by Act 2009-633 (ALISON history)."
+          }
+        }
+      ],
+      "secondary": {
+        "hearingDays": "35-9A-461(a) leaves residential possession actions to the Alabama Rules of Civil Procedure (court rule, not read)."
+      },
+      "allRead": false
+    },
+    "AR": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "Arkansas Code is published only through Lexis; Justia returned 403.",
+        "cureAllowed": "Arkansas Code is published only through Lexis; Justia returned 403.",
+        "hearingDays": "Arkansas Code is published only through Lexis; Justia returned 403.",
+        "stayDays": "Arkansas Code is published only through Lexis; Justia returned 403."
+      },
+      "allRead": false
+    },
+    "AS": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "asbar.org returned 403; no other host of the A.S.C.A. found.",
+        "cureAllowed": "asbar.org returned 403; no other host of the A.S.C.A. found.",
+        "hearingDays": "asbar.org returned 403; no other host of the A.S.C.A. found.",
+        "stayDays": "asbar.org returned 403; no other host of the A.S.C.A. found."
+      },
+      "allRead": false
+    },
+    "AZ": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "CA": {
+      "readOct12": [],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 3,
+          "dayType": "court",
+          "statute": "Cal. Code Civ. Proc. 1161(2)",
+          "sourceUrl": "https://california.public.law/codes/ca_civ_proc_code_section_1161",
+          "quote": "after default in the payment of rent, pursuant to the lease or agreement under which the property is held, and three days' notice, excluding Saturdays and Sundays and other judicial holidays, in writing, requiring its payment",
+          "basis": "text",
+          "note": "leginfo.legislature.ca.gov returned 403; read on california.public.law, a copy of the official text that cites leginfo (updated Jan. 1, 2025).",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "california.public.law shows the sections as updated Jan. 1, 2025 (1167's 10 court days from A.B. 2347, effective Jan. 1, 2025), with no later change as of Oct. 2026."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "Cal. Code Civ. Proc. 1161(2)",
+          "sourceUrl": "https://california.public.law/codes/ca_civ_proc_code_section_1161",
+          "quote": "or possession of the property, shall have been served upon the tenant",
+          "basis": "text",
+          "note": "The notice demands payment or possession, so paying within it ends the default.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "california.public.law shows the sections as updated Jan. 1, 2025 (1167's 10 court days from A.B. 2347, effective Jan. 1, 2025), with no later change as of Oct. 2026."
+          }
+        },
+        {
+          "field": "hearingDays",
+          "value": 10,
+          "dayType": "court",
+          "statute": "Cal. Code Civ. Proc. 1167(a)",
+          "sourceUrl": "https://california.public.law/codes/ca_civ_proc_code_section_1167",
+          "quote": "the defendant's response shall be filed within 10 days, excluding Saturdays and Sundays and other judicial holidays, after the complaint is served upon the defendant",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "california.public.law shows the sections as updated Jan. 1, 2025 (1167's 10 court days from A.B. 2347, effective Jan. 1, 2025), with no later change as of Oct. 2026."
+          }
+        },
+        {
+          "field": "stayDays",
+          "value": 5,
+          "dayType": "calendar",
+          "statute": "Cal. Code Civ. Proc. 715.010(b)(2)",
+          "sourceUrl": "https://california.public.law/codes/ca_civ_proc_code_section_715.010",
+          "quote": "if the real property is not vacated within five days from the date of service of a copy of the writ on the occupant",
+          "basis": "text",
+          "note": "Minimum wait between service of the writ and removal.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "california.public.law shows the sections as updated Jan. 1, 2025 (1167's 10 court days from A.B. 2347, effective Jan. 1, 2025), with no later change as of Oct. 2026."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "CO": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "CT": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "cga.ct.gov refused through the proxy (no connection; WebFetch 503).",
+        "cureAllowed": "cga.ct.gov refused through the proxy (no connection; WebFetch 503).",
+        "hearingDays": "cga.ct.gov refused through the proxy (no connection; WebFetch 503).",
+        "stayDays": "cga.ct.gov refused through the proxy (no connection; WebFetch 503)."
+      },
+      "allRead": false
+    },
+    "DC": {
+      "readOct12": ["hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "D.C. Code 42-3505.01(a-1)(2)",
+          "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/42-3505.01",
+          "quote": "You have the right to remain in the rental unit if the total balance of unpaid rent is paid in full.",
+          "basis": "text",
+          "note": "The required notice text also says the provider may file if the balance is not paid 'within 30 days of this notice', while (a-1)(1) sets the notice at least 10 days before filing; noticeDays keeps the 10 read Oct 12.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "Notice and hearing: the text in force until Dec. 31, 2025, as struck by D.C. Law 26-80. Cure: (a-1)(2) is not amended by D.C. Law 26-80, which changed (a-1)(1) and added (a-1)(3)."
+          }
+        },
+        {
+          "field": "noticeDays",
+          "value": 30,
+          "dayType": "calendar",
+          "statute": "D.C. Code 42-3505.01(a-1)(1) (before D.C. Law 26-80)",
+          "sourceUrl": "https://code.dccouncil.gov/us/dc/council/laws/26-80",
+          "quote": "Paragraph (1) is amended by striking the phrase \"at least 30 days\" and inserting the phrase \"at least 10 days\" in its place.",
+          "basis": "text",
+          "note": "The RENTAL Amendment Act of 2025 (D.C. Law 26-80, effective Dec. 31, 2025) cut the notice to 10 days; on Jan. 20, 2025 it was at least 30 days, which the notice form in (a-1)(2) still states.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "Notice and hearing: the text in force until Dec. 31, 2025, as struck by D.C. Law 26-80. Cure: (a-1)(2) is not amended by D.C. Law 26-80, which changed (a-1)(1) and added (a-1)(3)."
+          }
+        },
+        {
+          "field": "hearingDays",
+          "value": 30,
+          "dayType": "excluding Sundays and legal holidays",
+          "statute": "D.C. Code 16-1502(a) (before D.C. Law 26-80)",
+          "sourceUrl": "https://code.dccouncil.gov/us/dc/council/laws/26-80",
+          "quote": "Section 16-1502(a) is amended by striking the phrase \"30 days, excluding Sundays and legal holidays,\" and inserting the phrase \"at least 14 days\" in its place.",
+          "basis": "text",
+          "note": "Service of the summons before the initial hearing: 30 days excluding Sundays and legal holidays until Dec. 31, 2025, then at least 14 days.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "Notice and hearing: the text in force until Dec. 31, 2025, as struck by D.C. Law 26-80. Cure: (a-1)(2) is not amended by D.C. Law 26-80, which changed (a-1)(1) and added (a-1)(3)."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true,
+      "laterLaw": [
+        {
+          "field": "noticeDays",
+          "value": 10,
+          "dayType": "calendar",
+          "effectiveDate": "2025-12-31",
+          "endDate": null,
+          "statute": "D.C. Code 42-3505.01(a-1)(1) as amended by D.C. Law 26-80 (RENTAL Amendment Act of 2025)",
+          "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/42-3505.01",
+          "quote": "A housing provider shall provide the tenant with notice of the housing provider's intent to file a claim against a tenant to recover possession of a rental unit for the non-payment of rent at least 10 days before filing the claim"
+        },
+        {
+          "field": "hearingDays",
+          "value": 14,
+          "dayType": "calendar",
+          "effectiveDate": "2025-12-31",
+          "endDate": null,
+          "statute": "D.C. Code 16-1502(a) as amended by D.C. Law 26-80",
+          "sourceUrl": "https://code.dccouncil.gov/us/dc/council/laws/26-80",
+          "quote": "Section 16-1502(a) is amended by striking the phrase \"30 days, excluding Sundays and legal holidays,\" and inserting the phrase \"at least 14 days\" in its place."
+        }
+      ],
+      "note": "The Oct 12 pass read the notice (10 days) and the summons service (14 days) from text in force from Dec. 31, 2025; the Oct 23 reads of the earlier text replace them. The stay (21 days, 42-3505.01a(b)(1), read Oct 12) was not rechecked for its effective date."
+    },
+    "DE": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "FL": {
+      "readOct12": ["hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "Fla. Stat. 83.56(3)",
+          "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2025/83.56",
+          "quote": "after delivery of written demand by the landlord for payment of the rent or possession of the premises, the landlord may terminate the rental agreement",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "83.56(3) last amended by ch. 2013-136; ch. 2025-16 (effective July 1, 2025) amended only subsection (4)."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "GA": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "The O.C.G.A. is published only through Lexis; Justia returned 403.",
+        "cureAllowed": "The O.C.G.A. is published only through Lexis; Justia returned 403.",
+        "hearingDays": "The O.C.G.A. is published only through Lexis; Justia returned 403.",
+        "stayDays": "The O.C.G.A. is published only through Lexis; Justia returned 403."
+      },
+      "allRead": false
+    },
+    "GU": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "guamcourts.org Compiler of Laws: connection reset.",
+        "cureAllowed": "guamcourts.org Compiler of Laws: connection reset.",
+        "hearingDays": "guamcourts.org Compiler of Laws: connection reset.",
+        "stayDays": "guamcourts.org Compiler of Laws: connection reset."
+      },
+      "allRead": false
+    },
+    "HI": {
+      "readOct12": ["stayDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 5,
+          "dayType": "business",
+          "statute": "HRS 521-68(a) (version effective until Feb. 4, 2026)",
+          "sourceUrl": "https://data.capitol.hawaii.gov/hrscurrent/Vol12_Ch0501-0588/HRS0521/HRS_0521-0068.htm",
+          "quote": "notify the tenant in writing that unless payment is made within a time mentioned in the notice, not less than five business days after receipt thereof, the rental agreement will be terminated",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "The version the code marks effective until Feb. 4, 2026."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "HRS 521-68(a) (version effective until Feb. 4, 2026)",
+          "sourceUrl": "https://data.capitol.hawaii.gov/hrscurrent/Vol12_Ch0501-0588/HRS0521/HRS_0521-0068.htm",
+          "quote": "unless payment is made within a time mentioned in the notice, not less than five business days after receipt thereof",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "The version the code marks effective until Feb. 4, 2026."
+          }
+        }
+      ],
+      "secondary": {
+        "hearingDays": "HRS 666 leaves the return date to the District Court rules (DCRCP), not read."
+      },
+      "allRead": false,
+      "laterLaw": [
+        {
+          "field": "noticeDays",
+          "value": 10,
+          "dayType": "calendar",
+          "effectiveDate": "2026-02-05",
+          "endDate": "2028-02-04",
+          "statute": "HRS 521-68(a) as amended by L 2025, c 278 (repeal and reenactment on Feb. 4, 2028)",
+          "sourceUrl": "https://data.capitol.hawaii.gov/hrscurrent/Vol12_Ch0501-0588/HRS0521/HRS_0521-0068.htm",
+          "quote": "notify the tenant in writing that unless payment is made within a time mentioned in the notice, not less than ten calendar days after receipt thereof, the rental agreement will be terminated"
+        }
+      ]
+    },
+    "IA": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "ID": {
+      "readOct12": ["hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "Idaho Code 6-303(2)",
+          "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/title6/t6ch3/sect6-303/",
+          "quote": "three (3) days' notice, in writing, requiring its payment, stating the amount which is due, or possession of the property",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "6-303 last amended 2020, ch. 340."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "IL": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "ilga.gov refused through the proxy (no connection).",
+        "cureAllowed": "ilga.gov refused through the proxy (no connection).",
+        "hearingDays": "ilga.gov refused through the proxy (no connection).",
+        "stayDays": "ilga.gov refused through the proxy (no connection)."
+      },
+      "allRead": false
+    },
+    "IN": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "iga.in.gov serves the Indiana Code only through a JavaScript application; Justia returned 403.",
+        "cureAllowed": "iga.in.gov serves the Indiana Code only through a JavaScript application; Justia returned 403.",
+        "hearingDays": "iga.in.gov serves the Indiana Code only through a JavaScript application; Justia returned 403.",
+        "stayDays": "iga.in.gov serves the Indiana Code only through a JavaScript application; Justia returned 403."
+      },
+      "allRead": false
+    },
+    "KS": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays"],
+      "readOct23": [
+        {
+          "field": "stayDays",
+          "value": 14,
+          "dayType": "calendar",
+          "statute": "K.S.A. 61-3808(b)",
+          "sourceUrl": "https://www.ksrevisor.org/statutes/chapters/ch61/061_038_0008.html",
+          "quote": "The writ of restitution shall be executed within 14 days after the person named in the writ receives it",
+          "basis": "text",
+          "note": "Officer's deadline; the statute sets no earlier wait.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "61-3808 history: L. 2010, ch. 135, July 1."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "KY": {
+      "readOct12": ["hearingDays", "stayDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 7,
+          "dayType": "calendar",
+          "statute": "KRS 383.660(2)",
+          "sourceUrl": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=35749",
+          "quote": "If rent is unpaid when due and the tenant fails to pay rent within seven (7) days after written notice by the landlord of nonpayment and his intention to terminate the rental agreement if the rent is not paid within that period, the landlord may terminate the rental agreement.",
+          "basis": "text",
+          "note": "KRS 383.500 applies the URLTA where a city or county adopts it.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "383.660 effective July 13, 1984."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "KRS 383.660(2)",
+          "sourceUrl": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=35749",
+          "quote": "the tenant fails to pay rent within seven (7) days after written notice by the landlord of nonpayment",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "383.660 effective July 13, 1984."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "LA": {
+      "readOct12": ["hearingDays", "stayDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 5,
+          "dayType": "calendar",
+          "statute": "La. Code Civ. Proc. art. 4701",
+          "sourceUrl": "https://legis.la.gov/Legis/Law.aspx?d=112073",
+          "quote": "The notice shall allow the lessee not less than five days from the date of its delivery to vacate the leased premises.",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "Art. 4701 last amended by Acts 1981, No. 713."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": false,
+          "statute": "La. Code Civ. Proc. art. 4701",
+          "sourceUrl": "https://legis.la.gov/Legis/Law.aspx?d=112073",
+          "quote": "the lessor or his agent shall cause written notice to vacate the premises to be delivered to the lessee",
+          "basis": "text",
+          "note": "A notice to vacate, with no payment alternative.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "Art. 4701 last amended by Acts 1981, No. 713."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "MA": {
+      "readOct12": ["stayDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 14,
+          "dayType": "calendar",
+          "statute": "M.G.L. c. 186, s. 11",
+          "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section11",
+          "quote": "Upon the neglect or refusal to pay the rent due under a written lease, fourteen days' notice to quit, given in writing by the landlord to the tenant, shall be sufficient to determine the lease",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": false,
+            "basis": "malegislature.gov shows only the current text, with no amendment history; the effective date is not confirmed."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "M.G.L. c. 186, s. 11",
+          "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section11",
+          "quote": "unless the tenant, on or before the day the answer is due, in an action by the landlord to recover possession of the premises, pays or tenders to the landlord or to his attorney all rent then due, with interest and costs of suit",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": false,
+            "basis": "malegislature.gov shows only the current text, with no amendment history; the effective date is not confirmed."
+          }
+        }
+      ],
+      "secondary": {
+        "hearingDays": "The Uniform Summary Process Rules (court rules) set the entry and trial dates; mass.gov returned 403."
+      },
+      "allRead": false
+    },
+    "MD": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "ME": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "MI": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "MN": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "MO": {
+      "readOct12": ["hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 0,
+          "dayType": "calendar",
+          "statute": "RSMo 535.020",
+          "sourceUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=535.020",
+          "quote": "Whenever any rent has become due and payable, and payment has been demanded by the landlord or the landlord's agent from the lessee or person occupying the premises, and payment thereof has not been made, the landlord or agent may file a statement",
+          "basis": "text",
+          "note": "A demand is required but no period after it; the 441.060 notice is not required.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "535.020 effective Aug. 28, 2004; 535.160 effective Aug. 28, 2016."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "RSMo 535.160",
+          "sourceUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=535.160",
+          "quote": "If the defendant, on the date any money judgment is given in any action pursuant to this chapter, either tenders to the landlord, or brings into the court where the suit is pending, all the rent then in arrears, and all the costs, further proceedings in the action shall cease and be stayed.",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "535.020 effective Aug. 28, 2004; 535.160 effective Aug. 28, 2016."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "MP": {
+      "readOct12": ["hearingDays", "stayDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 3,
+          "dayType": "business",
+          "statute": "CNMI P.L. 10-67 (Holdover Tenancy Act) sec. 6(b)",
+          "sourceUrl": "https://cnmilaw.org/pdf/public_laws/10/pl10-67.pdf",
+          "quote": "3 days' notice in writing requiring the payment of the rent or the possession of the premises has been served by the person entitled to the rent on the person owing the same",
+          "basis": "text",
+          "note": "The form adds '(excluding Saturday, Sunday, and legal holidays)'. Read from the law as enacted; later amendments not checked.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": false,
+            "basis": "P.L. 10-67 as enacted (1997); later amendments were not checked."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "CNMI P.L. 10-67 (Holdover Tenancy Act) sec. 6(b)",
+          "sourceUrl": "https://cnmilaw.org/pdf/public_laws/10/pl10-67.pdf",
+          "quote": "I demand payment of the rent or possession of the premises within 3 days (excluding Saturday, Sunday, and legal holidays) from the date of delivery of this notice",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": false,
+            "basis": "P.L. 10-67 as enacted (1997); later amendments were not checked."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "MS": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "The Mississippi Code is published only through Lexis; Justia returned 403.",
+        "cureAllowed": "The Mississippi Code is published only through Lexis; Justia returned 403.",
+        "hearingDays": "The Mississippi Code is published only through Lexis; Justia returned 403.",
+        "stayDays": "The Mississippi Code is published only through Lexis; Justia returned 403."
+      },
+      "allRead": false
+    },
+    "MT": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays"],
+      "readOct23": [],
+      "secondary": {
+        "stayDays": "Writ timing in MCA 70-27 not read."
+      },
+      "allRead": false
+    },
+    "NC": {
+      "readOct12": ["stayDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 10,
+          "dayType": "calendar",
+          "statute": "N.C. Gen. Stat. 42-3",
+          "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_42/GS_42-3.html",
+          "quote": "there shall be implied a forfeiture of the term upon failure to pay the rent within 10 days after a demand is made by the lessor or his agent on said lessee for all past-due rent",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "42-3 last amended by S.L. 2004-143; 42-28 last amended 1995; 42-33 unchanged since C.S. 2372."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "N.C. Gen. Stat. 42-33",
+          "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_42/GS_42-33.html",
+          "quote": "the tenant, before judgment given in such action, pays or tenders the rent due and the costs of the action, all further proceedings in such action shall cease",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "42-3 last amended by S.L. 2004-143; 42-28 last amended 1995; 42-33 unchanged since C.S. 2372."
+          }
+        },
+        {
+          "field": "hearingDays",
+          "value": 7,
+          "dayType": "business",
+          "statute": "N.C. Gen. Stat. 42-28",
+          "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_42/GS_42-28.html",
+          "quote": "requiring the defendant to appear at a certain time and place not to exceed seven days from the issuance of the summons, excluding weekends and legal holidays, to answer the complaint",
+          "basis": "text",
+          "note": "An upper bound from issuance of the summons.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "42-3 last amended by S.L. 2004-143; 42-28 last amended 1995; 42-33 unchanged since C.S. 2372."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "ND": {
+      "readOct12": ["hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [
+        {
+          "field": "cureAllowed",
+          "value": false,
+          "statute": "N.D. Cent. Code 47-32-02",
+          "sourceUrl": "https://ndlegis.gov/cencode/t47c32.pdf",
+          "quote": "three days' written notice of intention to evict must be given to the lessee, subtenant, or party in possession, before proceedings can be instituted",
+          "basis": "text",
+          "note": "A notice of intention to evict, with no payment alternative and no tender section in chapter 47-32.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "The one 2025 bill to amend 47-32-02 (S.B. 2366) failed: https://ndlegis.gov/assembly/69-2025/regular/bill-overview/bo2366.html"
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "NE": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays"],
+      "readOct23": [
+        {
+          "field": "stayDays",
+          "value": 10,
+          "dayType": "calendar",
+          "statute": "Neb. Rev. Stat. 76-1446",
+          "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=76-1446",
+          "quote": "directing the constable or sheriff to restore possession of the premises to the plaintiff on a specified date not more than ten days after issuance of the writ of restitution",
+          "basis": "text",
+          "note": "Officer's deadline; the statute sets no earlier wait.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "76-1446 last amended by Laws 2016, LB221."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "NH": {
+      "readOct12": ["hearingDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "gc.nh.gov and gencourt.state.nh.us: empty reply through the proxy.",
+        "cureAllowed": "gc.nh.gov and gencourt.state.nh.us: empty reply through the proxy."
+      },
+      "allRead": false
+    },
+    "NJ": {
+      "readOct12": ["cureAllowed", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {
+        "hearingDays": "Set by the court rules (R. 6:2-1), not read."
+      },
+      "allRead": false
+    },
+    "NM": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "nmonesource.com returned 403; Justia returned 403.",
+        "cureAllowed": "nmonesource.com returned 403; Justia returned 403.",
+        "hearingDays": "nmonesource.com returned 403; Justia returned 403.",
+        "stayDays": "nmonesource.com returned 403; Justia returned 403."
+      },
+      "allRead": false
+    },
+    "NV": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "NY": {
+      "readOct12": ["hearingDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "nysenate.gov returned 403 and the legislation API needs a key.",
+        "cureAllowed": "nysenate.gov returned 403 and the legislation API needs a key."
+      },
+      "allRead": false
+    },
+    "OH": {
+      "readOct12": ["hearingDays", "noticeDays"],
+      "readOct23": [
+        {
+          "field": "cureAllowed",
+          "value": false,
+          "statute": "Ohio Rev. Code 1923.04(A)",
+          "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-1923.04",
+          "quote": "You are being asked to leave the premises. If you do not leave, an eviction action may be initiated against you.",
+          "basis": "text",
+          "note": "The required notice is to leave, with no payment alternative.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "1923.04 effective Oct. 18, 2007; 1923.14 effective Sept. 29, 2017."
+          }
+        },
+        {
+          "field": "stayDays",
+          "value": 10,
+          "dayType": "calendar",
+          "statute": "Ohio Rev. Code 1923.14(A)",
+          "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-1923.14",
+          "quote": "within ten days after receiving a writ of execution described in division (A) or (B) of section 1923.13 of the Revised Code, the sheriff, police officer, constable, or bailiff shall execute it by restoring the plaintiff to the possession of the premises",
+          "basis": "text",
+          "note": "Officer's deadline; the statute sets no earlier wait.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "1923.04 effective Oct. 18, 2007; 1923.14 effective Sept. 29, 2017."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "OK": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "OR": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "PA": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "PR": {
+      "readOct12": ["hearingDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "No Puerto Rico statute host reached (bvirtualogp.pr.gov 404).",
+        "cureAllowed": "No Puerto Rico statute host reached (bvirtualogp.pr.gov 404)."
+      },
+      "allRead": false
+    },
+    "RI": {
+      "readOct12": ["cureAllowed", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {
+        "hearingDays": "34-18-35(c) leaves the hearing date to the summons; no day count."
+      },
+      "allRead": false
+    },
+    "SC": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "SD": {
+      "readOct12": ["hearingDays", "noticeDays"],
+      "readOct23": [
+        {
+          "field": "cureAllowed",
+          "value": false,
+          "statute": "SDCL 21-16-1(4)",
+          "sourceUrl": "https://sdlegislature.gov/api/Statutes/21-16-1.html",
+          "quote": "If a lessee in person or by subtenants holds over after the termination of his lease or expiration of his term, or fails to pay his rent for three days after the same shall be due",
+          "basis": "absence",
+          "note": "SDCL 21-16-1 to 21-16-12 read Oct 23: the chapter has no tender or cure section (21-16-2 repealed by SL 2024, ch 75).",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "21-16-1 last amended SL 1992, ch 156; chapter 21-16 as amended by SL 2024, ch 75, in force from July 1, 2024."
+          }
+        }
+      ],
+      "secondary": {
+        "stayDays": "SDCL 21-16-10 to 21-16-12 set no wait or deadline for execution."
+      },
+      "allRead": false
+    },
+    "TN": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "The Tennessee Code is published only through Lexis; wapp.capitol.tn.gov is a JavaScript application.",
+        "cureAllowed": "The Tennessee Code is published only through Lexis; wapp.capitol.tn.gov is a JavaScript application.",
+        "hearingDays": "The Tennessee Code is published only through Lexis; wapp.capitol.tn.gov is a JavaScript application.",
+        "stayDays": "The Tennessee Code is published only through Lexis; wapp.capitol.tn.gov is a JavaScript application."
+      },
+      "allRead": false
+    },
+    "TX": {
+      "readOct12": ["hearingDays", "stayDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 3,
+          "dayType": "calendar",
+          "statute": "Tex. Prop. Code 24.005(a) (law before S.B. 38 of 2025)",
+          "sourceUrl": "https://capitol.texas.gov/tlodocs/89R/billtext/html/SB00038F.htm",
+          "quote": "the landlord must give a tenant who defaults or holds over beyond the end of the rental term or renewal period at least three days' written notice to vacate the premises before the landlord files a forcible detainer suit, unless the parties have contracted for a shorter or longer notice period in a written lease or agreement",
+          "basis": "text",
+          "note": "Unmarked (existing) text of 24.005(a) in the enrolled S.B. 38.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "Prior law: the unmarked text of the enrolled S.B. 38, whose changes apply to suits filed on or after Jan. 1, 2026 (secs. 17 and 18)."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": false,
+          "statute": "Tex. Prop. Code 24.005(a) (law before S.B. 38 of 2025)",
+          "sourceUrl": "https://capitol.texas.gov/tlodocs/89R/billtext/html/SB00038F.htm",
+          "quote": "at least three days' written notice to vacate the premises before the landlord files a forcible detainer suit",
+          "basis": "text",
+          "note": "Before S.B. 38 the notice was to vacate, with no payment alternative; the pay-or-vacate sentences are underlined (new) in the enrolled bill.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "Prior law: the unmarked text of the enrolled S.B. 38, whose changes apply to suits filed on or after Jan. 1, 2026 (secs. 17 and 18)."
+          }
+        },
+        {
+          "field": "stayDays",
+          "value": 6,
+          "dayType": "calendar",
+          "statute": "Tex. Prop. Code 24.0061(b) (law before S.B. 38 of 2025)",
+          "sourceUrl": "https://capitol.texas.gov/tlodocs/89R/billtext/html/SB00038F.htm",
+          "quote": "A writ of possession may not be issued before the sixth day after the date on which the judgment for possession is rendered unless a possession bond has been filed and approved under the Texas Rules of Civil Procedure",
+          "basis": "text",
+          "note": "Unmarked (existing) text of 24.0061(b) in the enrolled S.B. 38.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "Prior law: the unmarked text of the enrolled S.B. 38, whose changes apply to suits filed on or after Jan. 1, 2026 (secs. 17 and 18)."
+          }
+        }
+      ],
+      "secondary": {
+        "hearingDays": "The 10-to-21-day trial window read Oct 12 is 24.0051(g), added by S.B. 38 and in force from Jan. 1, 2026; on Jan. 20, 2025 the window came from the Texas Rules of Civil Procedure (Rule 510.4 as then numbered), not read. The value, 10 days, is the same."
+      },
+      "allRead": false,
+      "laterLaw": [
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "effectiveDate": "2026-01-01",
+          "endDate": null,
+          "statute": "Tex. Prop. Code 24.005(a) as amended by S.B. 38, 89th Legislature, 2025, sec. 4 (suits filed on or after Jan. 1, 2026, secs. 17 and 18)",
+          "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.24.htm",
+          "quote": "written notice under this section shall be given in the form of a notice to pay rent or vacate"
+        },
+        {
+          "field": "hearingDays",
+          "value": 10,
+          "dayType": "calendar",
+          "effectiveDate": "2026-01-01",
+          "endDate": null,
+          "statute": "Tex. Prop. Code 24.0051(g), added by S.B. 38, 89th Legislature, 2025, sec. 6",
+          "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.24.htm",
+          "quote": "hold the trial of an eviction suit on a date that is not earlier than the 10th day or later than the 21st day after the date the petition is filed"
+        }
+      ]
+    },
+    "UT": {
+      "readOct12": [],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 3,
+          "dayType": "business",
+          "statute": "Utah Code 78B-6-802(1)(c) (version effective May 12, 2020)",
+          "sourceUrl": "https://le.utah.gov/xcode/Title78B/Chapter6/C78B-6-S802_2020051220200512.html",
+          "quote": "after a notice in writing requiring in the alternative the payment of the rent and other amounts due or the surrender of the detained premises, has remained uncomplied with for a period of three business days after service",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "The versions in force on Jan. 20, 2025: 802 effective May 12, 2020; 807 amended 2018; 812 effective May 1, 2024."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": true,
+          "statute": "Utah Code 78B-6-802(1)(c) (version effective May 12, 2020)",
+          "sourceUrl": "https://le.utah.gov/xcode/Title78B/Chapter6/C78B-6-S802_2020051220200512.html",
+          "quote": "requiring in the alternative the payment of the rent and other amounts due or the surrender of the detained premises",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "The versions in force on Jan. 20, 2025: 802 effective May 12, 2020; 807 amended 2018; 812 effective May 1, 2024."
+          }
+        },
+        {
+          "field": "hearingDays",
+          "value": 3,
+          "dayType": "business",
+          "statute": "Utah Code 78B-6-807",
+          "sourceUrl": "https://le.utah.gov/xcode/Title78B/Chapter6/C78B-6-S807_2018050820180508.html",
+          "quote": "The summons shall include the number of days within which the defendant is required to appear and defend the action, which shall be three business days from the date of service",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "The versions in force on Jan. 20, 2025: 802 effective May 12, 2020; 807 amended 2018; 812 effective May 1, 2024."
+          }
+        },
+        {
+          "field": "stayDays",
+          "value": 3,
+          "dayType": "calendar",
+          "statute": "Utah Code 78B-6-812 (version effective May 1, 2024)",
+          "sourceUrl": "https://le.utah.gov/xcode/Title78B/Chapter6/C78B-6-S812_2024050120240501.html",
+          "quote": "advise the defendant of the time limit set by the court for the defendant to vacate the premises, which shall be three calendar days following service of the order",
+          "basis": "text",
+          "note": "Minimum wait between service of the order and removal.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "The versions in force on Jan. 20, 2025: 802 effective May 12, 2020; 807 amended 2018; 812 effective May 1, 2024."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    },
+    "VA": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "VI": {
+      "readOct12": [],
+      "readOct23": [],
+      "secondary": {
+        "noticeDays": "legvi.org returned 522; vilegislature.org blocked.",
+        "cureAllowed": "legvi.org returned 522; vilegislature.org blocked.",
+        "hearingDays": "legvi.org returned 522; vilegislature.org blocked.",
+        "stayDays": "legvi.org returned 522; vilegislature.org blocked."
+      },
+      "allRead": false
+    },
+    "VT": {
+      "readOct12": ["cureAllowed", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {
+        "hearingDays": "12 V.S.A. ch. 169 sets no answer period; V.R.C.P. 12(a) not read."
+      },
+      "allRead": false
+    },
+    "WA": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "WI": {
+      "readOct12": ["cureAllowed", "hearingDays", "noticeDays", "stayDays"],
+      "readOct23": [],
+      "secondary": {},
+      "allRead": true
+    },
+    "WV": {
+      "readOct12": ["hearingDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 0,
+          "dayType": "calendar",
+          "statute": "W. Va. Code 55-3A-1(a)(3), (b) (text before H.B. 3272 of 2025)",
+          "sourceUrl": "https://www.wvlegislature.gov/Bill_Status/bills_text.cfm?billdoc=hb3272%20intr.htm&yr=2025&sesstype=RS&billtype=B&houseorig=H&i=3272",
+          "quote": "That the tenant is wrongfully occupying such property in that the tenant is in arrears in the payment of rent",
+          "basis": "absence",
+          "note": "The summary petition may be filed once the tenant is in arrears; 55-3A-1 sets no notice before filing. Read as present law in the introduced H.B. 3272, struck text kept and inserted text left out.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "55-3A-1 as it stood before H.B. 3272 (effective July 11, 2025); 55-3A-3 last amended 1999."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": false,
+          "statute": "W. Va. Code 55-3A-3(a), (e)",
+          "sourceUrl": "https://code.wvlegislature.gov/55-3A-3/",
+          "quote": "the court shall make and enter an order granting immediate possession of the property to the landlord",
+          "basis": "absence",
+          "note": "Article 3A has no provision letting a tenant end the petition by paying; rent is paid into court only on a continuance (55-3A-3(d)).",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "55-3A-1 as it stood before H.B. 3272 (effective July 11, 2025); 55-3A-3 last amended 1999."
+          }
+        },
+        {
+          "field": "hearingDays",
+          "value": 5,
+          "dayType": "judicial",
+          "statute": "W. Va. Code 55-3A-1(b) (text before H.B. 3272 of 2025)",
+          "sourceUrl": "https://www.wvlegislature.gov/Bill_Status/bills_text.cfm?billdoc=hb3272%20intr.htm&yr=2025&sesstype=RS&billtype=B&houseorig=H&i=3272",
+          "quote": "The court shall fix a time for such hearing, which time shall not be less than five nor more than 10 judicial days following such request",
+          "basis": "text",
+          "note": "The request for a hearing came before filing; H.B. 3272 (effective July 11, 2025) measures the same days from filing.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": true,
+            "basis": "55-3A-1 as it stood before H.B. 3272 (effective July 11, 2025); 55-3A-3 last amended 1999."
+          }
+        }
+      ],
+      "secondary": {
+        "stayDays": "55-3A-3(f) leaves the time to vacate to the court's order; no day count."
+      },
+      "allRead": false,
+      "note": "The Oct 12 pass read the hearing window from the text in force from July 11, 2025; the earlier text, read Oct 23, measures the same 5 to 10 judicial days from the request for a hearing made before filing."
+    },
+    "WY": {
+      "readOct12": ["hearingDays"],
+      "readOct23": [
+        {
+          "field": "noticeDays",
+          "value": 3,
+          "dayType": "calendar",
+          "statute": "Wyo. Stat. 1-21-1003",
+          "sourceUrl": "https://wyoleg.gov/statutes/compress/title01.pdf",
+          "quote": "The notice shall be served at least three (3) days before commencing the action",
+          "basis": "text",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": false,
+            "basis": "The title PDF shows no history and no amendment after Jan. 20, 2025 was found; the effective date is not confirmed."
+          }
+        },
+        {
+          "field": "cureAllowed",
+          "value": false,
+          "statute": "Wyo. Stat. 1-21-1003",
+          "sourceUrl": "https://wyoleg.gov/statutes/compress/title01.pdf",
+          "quote": "The party desiring to commence an action for forcible entry or detainer must notify the adverse party to leave the premises involved.",
+          "basis": "text",
+          "note": "The notice is to leave, with no payment alternative and no tender section in 1-21-1001 to 1-21-1017.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": false,
+            "basis": "The title PDF shows no history and no amendment after Jan. 20, 2025 was found; the effective date is not confirmed."
+          }
+        },
+        {
+          "field": "stayDays",
+          "value": 2,
+          "dayType": "calendar",
+          "statute": "Wyo. Stat. 1-21-1013",
+          "sourceUrl": "https://wyoleg.gov/statutes/compress/title01.pdf",
+          "quote": "Unless the defendant takes an appeal, the officer shall execute the writ of restitution within two (2) days after receiving it, Sundays excepted",
+          "basis": "text",
+          "note": "Officer's deadline; the statute sets no earlier wait.",
+          "inForceOnOpening": {
+            "date": "2025-01-20",
+            "confirmed": false,
+            "basis": "The title PDF shows no history and no amendment after Jan. 20, 2025 was found; the effective date is not confirmed."
+          }
+        }
+      ],
+      "secondary": {},
+      "allRead": true
+    }
+  }
+}

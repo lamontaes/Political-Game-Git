@@ -7,8 +7,14 @@
  *
  *   node --import tsx scripts/outcome-web/web-year.ts <seed> [--out file]
  */
-import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import {
+  existsSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { dirname, join } from "node:path";
 import { performance } from "node:perf_hooks";
 import { buildBenchWorld } from "../../src/bench/world";
 import { DevMode } from "../../src/bench/dev-mode";
@@ -47,13 +53,21 @@ function engineRead(): Set<string> {
       /electorate-inputs/.test(path)
     )
       continue;
-    const text = readFileSync(path, "utf8");
+    const own = readFileSync(path, "utf8");
     if (
-      !/webReach|webFactorFor|outcomeWebFactor|placeOutcome|turnoutWeb/.test(
-        text,
+      !/webReach|webFactorFor|outcomeWebFactor|placeOutcome|turnoutWeb|deathWebFactor/.test(
+        own,
       )
     )
       continue;
+    // An engine may name the measures it reads in a data file it imports.
+    const text = [
+      own,
+      ...[...own.matchAll(/from "(\.[^"]+\.json)"/g)]
+        .map((m) => join(dirname(path), m[1]!))
+        .filter((file) => existsSync(file))
+        .map((file) => readFileSync(file, "utf8")),
+    ].join("\n");
     for (const m of text.matchAll(/"([a-z][a-z0-9-]*\.[a-z0-9.:-]+)"/g))
       found.add(m[1]!);
   }
@@ -103,6 +117,45 @@ for (const [a, va] of reaching)
     if ((derivedOf(link.from)?.measure ?? link.from) === va.to)
       chains.push(`${a} -> ${b}`);
   }
+/** Engine records the web's reads produce, counted by module table. */
+const ENGINE_TABLES: readonly [string, string][] = [
+  ["core2-crime-v1", "months"],
+  ["core2-crime-v1", "groups"],
+  ["core2-school-days-v1", "results"],
+  ["core2-school-days-v1", "groups"],
+  ["core2-school-days-v1", "measures"],
+  ["core2-renewal-v1", "counts"],
+];
+const engineRecords = Object.fromEntries(
+  ENGINE_TABLES.filter(([id]) => core.modules.has(id)).map(([id, table]) => {
+    try {
+      return [`${id}/${table}`, api.moduleState(id).table(table).rows().length];
+    } catch {
+      return [`${id}/${table}`, null];
+    }
+  }),
+);
+/**
+ * Chains through engine records: a moving link whose cause is a measure the
+ * web reads from an engine (its engineSources cite a record id), where that
+ * engine's measure is itself an outcome other links move.
+ */
+const last = months.at(-1);
+const engineCauses = new Set(
+  Object.entries(last?.engineSources ?? {})
+    .filter(([, id]) => id)
+    .map(([measure]) => measure),
+);
+const recordChains: string[] = [];
+for (const [b] of moved) {
+  const link = WEB_LINKS.find((l) => l.key === b)!;
+  const cause = derivedOf(link.from)?.measure ?? link.from;
+  if (!engineCauses.has(cause)) continue;
+  const into = WEB_LINKS.filter((l) => l.to === cause).map((l) => l.key);
+  recordChains.push(
+    `${into.length ? `[${into.join(", ")}] -> ` : ""}${cause} (engine record ${last!.engineSources[cause]}) -> ${b} -> ${link.to}`,
+  );
+}
 const result = {
   seed,
   place: `${place.name}, ${place.state} (${place.key})`,
@@ -113,6 +166,8 @@ const result = {
   linksMovingAnEngineRead: reaching.length,
   reaching: Object.fromEntries(reaching.map(([k, v]) => [k, v])),
   chains,
+  recordChains,
+  engineRecords,
   recordKinds: Object.fromEntries(
     [...core.logByKind].map(([k, ids]) => [k, ids.size]).sort(),
   ),

@@ -5,10 +5,10 @@ area: world
 kind: stopgap
 priority: 2
 size: L
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: world-jobs-counted-choices-one-rule
 after: world-jobs-opening-seekers
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/jobs.ts, kind faked-mechanic"
@@ -19,10 +19,12 @@ claimed-at: 2026-10-19T22:26:02.801Z
 
 **Rules.** One model, two tiers: counted jobless adults seek, are hired and retire under the same rule as full people. No dice: hires and layoffs come from books, fit and need, never a monthly chance. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a counted retiree's income, a layoff decision and an offer reminder each appear with job, decision and reminder record ids, and the unemployment rate matches the nation's, named by record id. The test in src/core2/jobs.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: lose a job and see the offer reminder arrive before the deadline.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a counted retiree's income, a layoff decision and an offer reminder each appear with job, decision and reminder record ids, and the unemployment rate matches the nation's, named by record id. The test in src/core2/jobs.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: lose a job and see the offer reminder arrive before the deadline. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/data/stopgaps.json, src/core2/jobs.test.ts
 
 **Notes.** First row: The opening's job seekers are the jobless working-age adults whose money covers the fewest days, as many as the nation's unemployment rate implies against the generated jobs; the other jobless adults sit outside the mode
 
 Oct 20: Switched from blocked to the automatic after: gate on world-jobs-opening-seekers, so it opens by itself the moment those items are done.
+
+Oct 25 audit: two of its three blockers are done; it waits on world-jobs-counted-choices-one-rule only.

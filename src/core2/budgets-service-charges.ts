@@ -3,15 +3,20 @@
  * parks, tolls) are paid by the people who use its services. The town's part
  * of each government's yearly charges comes out of its households' living
  * costs: each month a share of the living cost every household pays on the
- * 1st goes to the government instead of the outside account, and the part
- * outsiders use stays the outside account's. What the charges are for comes
+ * 1st goes to the government instead of the outside account. The rest of the
+ * government's charges are paid by the people elsewhere who use its services
+ * (revenue-payers.json), less what the town's households already paid. What the charges are for comes
  * from the Census 2022 item codes (`service-charges-2022.json`).
  *
  * Households pay by their living cost and businesses' own charges are inside
  * it (stopgap SG-GOV-service-charges-by-living-cost).
  */
 import charges from "../../data/research/money/service-charges-2022.json" with { type: "json" };
-import { budgetInForce, treasuryParameter } from "./budgets-treasury";
+import {
+  budgetInForce,
+  noteTownRevenue,
+  treasuryParameter,
+} from "./budgets-treasury";
 import { setLivingCostSplit } from "./living-cost-split";
 import {
   BUDGETS_MODULE_ID,
@@ -120,6 +125,8 @@ export function syncServiceCharges(api: CoreAPI): void {
   const months = treasuryParameter("monthsPerYear");
   for (const gov of governments(api)) {
     if (gov.level === "federal") continue;
+    // A charge's level is the budget's charges line; no bill sets a fee.
+    api.stopgap("SG-GOV-fee-level-by-bill");
     const annual = budgetInForce(api, gov.id)?.revenueMinor.chargesAndFees ?? 0;
     const { tag, services } = servicesOf(chain.stateKey, gov);
     // The people the town models pay their part; the rest of what the
@@ -181,6 +188,13 @@ export function syncServiceCharges(api: CoreAPI): void {
         paidMinor: (prior?.paidMinor ?? 0) + minor,
         byService,
       } satisfies ServiceChargeMonthRow as unknown as ModuleRow);
+      // What the town's households paid comes off what the government's
+      // other service users owe at their next installment.
+      noteTownRevenue(api, {
+        governmentId: row.governmentId,
+        line: "chargesAndFees",
+        paidMinor: minor,
+      });
     },
   });
 }

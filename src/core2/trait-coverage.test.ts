@@ -82,7 +82,7 @@ describe("trait coverage: every trait, both sides, in every person-decision", ()
   it("finds every decision in code that weighs traits", () => {
     const problems: string[] = [];
     const helper =
-      /\b(chooseAct|scoreOffers|decisionFromScores|traitLean|traitLeanBetween|decisionLean|decisionKinds)\(/;
+      /\b(chooseAct|scoreOffers|decisionFromScores|traitLean|traitLeanBetween|decisionLean|decisionKinds|leanedYes|leanedYesWithTerm|leanedYesWhy|leanedScore|leanedTerm|leanedByKinds|decisionTraitTerm)\(/;
     for (const decision of decisions) {
       const site = read(decision.via ?? decision.site);
       if (!helper.test(site))

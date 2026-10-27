@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import {
   ALLOW_MARKER,
   exemptionFor,
+  properNameAllowed,
 } from "../scripts/prose-eval/american-english-scope";
 import {
   americanize,
@@ -84,7 +85,8 @@ function scan(file: string, text: string): Finding[] {
       findings.push({ file, line, what, text: match });
     };
     for (const finding of britishSpellings(prose))
-      report(finding.index, `say "${finding.american}"`, finding.british);
+      if (!properNameAllowed(file, finding.british))
+        report(finding.index, `say "${finding.american}"`, finding.british);
     for (const date of prose.matchAll(DAY_FIRST_DATE))
       report(date.index, "put the month first", date[0]);
     for (const date of prose.matchAll(DAY_FIRST_NUMERIC_DATE))

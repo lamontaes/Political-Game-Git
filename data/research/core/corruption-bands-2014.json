@@ -1,0 +1,32 @@
+{
+  "id": "corruption-bands-2014",
+  "publisher": "OECD (via a secondary summary) and Transparency International (via Pew Research Center)",
+  "vintage": "OECD Foreign Bribery Report, December 2014 (427 cases, February 1999 to June 2014); Global Corruption Barometer 2013",
+  "table": "Report summary figures; GCB 2013 country bribery rate",
+  "title": "What a bribe is worth against the deal, and how many people pay one",
+  "universe": "Concluded foreign-bribery cases under the OECD Anti-Bribery Convention; U.S. adults asked whether they paid a bribe to any of eight public services in the past 12 months",
+  "geography": "International cases (OECD); United States (GCB)",
+  "sourceUrl": "https://www.globalcompliancenews.com/2014/12/07/oecds-foreign-bribery-report-released-three-fourths-of-cases-involved-intermediaries/",
+  "otherUrls": [
+    "https://www.pewresearch.org/short-reads/2013/07/12/chart-of-the-week-the-wide-world-of-bribery/"
+  ],
+  "primaryUrlsTried": [
+    "https://www.oecd.org/en/publications/oecd-foreign-bribery-report_9789264226616-en.html (HTTP 403)",
+    "https://www.oecd-ilibrary.org/governance/oecd-foreign-bribery-report_9789264226616-en (HTTP 403)",
+    "https://www.transparency.org/en/gcb/global/global-corruption-barometer-2017 (no U.S. rate on the page)"
+  ],
+  "retrievedOn": "2026-10-23",
+  "limits": "Both figures are read from secondary pages because the primary pages refused the cloud session or carry no U.S. figure. The OECD cases are bribes of foreign officials by firms, not bribes of local officials at home. The 2019 Global Corruption Barometer figure for the United States (6 percent) that src/core2/data/corruption/parameters.json cites was not found on any page read here; the 2013 figure (7 percent) is the one that could be reopened. These are bands a played year checks totals against, never a chance an engine reads.",
+  "bribeShareOfDeal": {
+    "quote": "Bribes in the analysed cases equalled 10.9% of the total transaction value on average, and 34.5% of the profits",
+    "casesQuote": "427 transnational bribery cases that occurred between February 1999 and June 2014 were reviewed.",
+    "shareOfTransactionValue": 0.109,
+    "shareOfProfits": 0.345
+  },
+  "bribeRate": {
+    "quote": "The United States came in at a respectable 7%",
+    "questionQuote": "reported paying a bribe sometime in the past 12 months to any of eight public services",
+    "shareOfAdultsPaying": 0.07
+  },
+  "readBy": "scripts/research/core-parameters-check.ts and scripts/research/core-parameters-year.ts"
+}
