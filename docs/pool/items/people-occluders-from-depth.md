@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/people-occluders-depth
-pr:
+pr: #6405
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T20:55:48.559Z
