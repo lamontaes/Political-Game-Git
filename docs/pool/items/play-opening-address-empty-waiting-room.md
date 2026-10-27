@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-opening-address-empty-waiting-room
 pr: #6238
 blocked-on:

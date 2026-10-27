@@ -349,7 +349,9 @@ export function openParties(core: CoreState): void {
       .table("parties")
       .put({
         ...party,
-        leaderId: members[0]?.id ?? null,
+        // Never the player, who leads a party only if its members choose them
+        // in play (a player the creator made an adult is one of its members).
+        leaderId: members.find((m) => m.id !== core.playerId)?.id ?? null,
       } as unknown as ModuleRow);
   }
   scheduleMeeting(api, core.date);
@@ -434,6 +436,7 @@ export function joinParty(
   if (!party) throw new Error(`No party ${partyId} here`);
   const own = ownLeanOf(api, person);
   const agreement = agreementWith(api, own, party);
+  const held = partyTie(api, personId);
   put(
     api.moduleState(PARTIES_MODULE_ID).table("ties"),
     person,
@@ -443,6 +446,13 @@ export function joinParty(
     api.state.date,
     `joined; views against the party's positions ${agreement.toFixed(3)}`,
   );
+  // Joining is the person's own act, so the party's membership (which its
+  // meetings and chair read) holds them too, and a party they left does not.
+  const left = held?.partyId
+    ? partiesHere(api).find((row) => row.id === held.partyId)
+    : undefined;
+  if (left && left.id !== party.id) api.leave(personId, left.organizationId);
+  api.join(personId, party.organizationId);
   return { tie: partyTie(api, personId)!, agreement };
 }
 
@@ -453,6 +463,29 @@ export function partyTie(api: CoreAPI, personId: string): TieRow | null {
       .table("ties")
       .get(personId) as unknown as TieRow | undefined) ?? null
   );
+}
+
+/**
+ * The people a party's membership holds: tied to it and members of its
+ * organization (joining as an act writes both; the yearly weighing writes the
+ * membership only for those it settles to join). Its meetings and its chair
+ * read this roster.
+ */
+export function partyMemberIds(api: CoreAPI, partyId: string): string[] {
+  const party = partiesHere(api).find((row) => row.id === partyId);
+  if (!party) return [];
+  return (
+    api
+      .moduleState(PARTIES_MODULE_ID)
+      .table("ties")
+      .query("byParty", [partyId]) as unknown as TieRow[]
+  )
+    .filter((t) =>
+      (api.state as CoreState).memberships.has(
+        `${t.personId}:${party.organizationId}`,
+      ),
+    )
+    .map((t) => t.personId);
 }
 
 export function partiesHere(api: CoreAPI): readonly PartyRow[] {
@@ -768,13 +801,9 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   }
   const here = new Set(adults.map((a) => a.p.id));
   for (const party of parties) {
-    const members = (ties.query("byParty", [party.id]) as unknown as TieRow[])
-      .filter(
-        (t) =>
-          here.has(t.personId) &&
-          core.memberships.has(`${t.personId}:${party.organizationId}`),
-      )
-      .map((t) => core.people.get(t.personId)!);
+    const members = partyMemberIds(api, party.id)
+      .filter((id) => here.has(id))
+      .map((id) => core.people.get(id)!);
     if (!members.length) continue;
     // A chair who left the party is replaced by the members' own choice.
     const leaderId =
