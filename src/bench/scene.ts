@@ -111,7 +111,8 @@ export function orgPlace(
   const kind =
     ORG_KINDS[classification] ??
     classification.slice(classification.indexOf(":") + 1);
-  return workplacePlaceFor(null, null, kind);
+  // Each business its own picture of its kind.
+  return pictureFor(core, workplacePlaceFor(null, null, kind), org.id);
 }
 
 const RESIDENCES = scenePlaces.officialResidences as unknown as Record<
@@ -192,10 +193,15 @@ function workplaceOf(core: CoreState, person: PersonState): string {
     ? (ORG_KINDS[classification] ??
       classification.slice(classification.indexOf(":") + 1))
     : null;
-  return workplacePlaceFor(
-    (job.occupationClassification ?? null) as Occupation,
-    null,
-    kind,
+  // Each employer its own picture of its kind.
+  return pictureFor(
+    core,
+    workplacePlaceFor(
+      (job.occupationClassification ?? null) as Occupation,
+      null,
+      kind,
+    ),
+    job.organizationId,
   );
 }
 
@@ -295,8 +301,9 @@ function roomAt(minuteOfDay: number): Room {
 
 /** A stable pick from a list by an id, so the same home always looks the same. */
 function pickFor(id: string, options: readonly string[]): string {
-  let hash = 0;
-  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  let hash = 2166136261;
+  for (const char of id)
+    hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0;
   return options[hash % options.length]!;
 }
 
@@ -434,7 +441,7 @@ export function scenePlace(
             : step;
     if (place && hasBackdrop(place))
       return {
-        place,
+        place: pictureFor(core, place, act?.targetId ?? step, minuteOfDay),
         why: act ? `${act.actionId}` : "at home",
         ...(act?.targetId ? { targetId: act.targetId } : {}),
       };
@@ -442,11 +449,49 @@ export function scenePlace(
   return { place: homeOf(core, personId, minuteOfDay), why: "at home" };
 }
 
-export function backdropFile(place: string, minuteOfDay: number) {
+/** The light a picture is painted in at this minute of the day (morning, midday, night). */
+function lightAt(minuteOfDay: number): string {
   const hour = Math.floor(minuteOfDay / 60);
   let wanted = "midday";
   for (const row of scenePlaces.variantByHour)
     if (hour >= row.fromHour) wanted = row.variant;
+  return wanted;
+}
+
+const FAMILIES = new Map<string, readonly string[]>();
+for (const family of scenePlaces.pictureFamilies.families)
+  for (const place of family) FAMILIES.set(place, family);
+const LIGHTS = new Map<string, Set<string>>();
+for (const row of manifest.backdrops) {
+  if (!LIGHTS.has(row.place)) LIGHTS.set(row.place, new Set());
+  LIGHTS.get(row.place)!.add(row.variant);
+}
+
+/**
+ * The picture for a place a scene names: any picture of its family
+ * (data/scene-places.json pictureFamilies), chosen for this town and this
+ * business or situation (`key`) so the same place looks the same every time
+ * and two towns differ. At an hour whose light the town's choice is not
+ * painted in, the next of the family in the town's order that is.
+ */
+export function pictureFor(
+  core: CoreState,
+  place: string,
+  key: string,
+  minuteOfDay?: number,
+): string {
+  const family = FAMILIES.get(place)?.filter(hasBackdrop);
+  if (!family?.length) return place;
+  const town = core.placeMetadata?.placeKey ?? "";
+  const first = family.indexOf(pickFor(`${town}:${key}:${family[0]}`, family));
+  const order = [...family.slice(first), ...family.slice(0, first)];
+  if (minuteOfDay === undefined) return order[0]!;
+  const light = lightAt(minuteOfDay);
+  return order.find((row) => LIGHTS.get(row)?.has(light)) ?? order[0]!;
+}
+
+export function backdropFile(place: string, minuteOfDay: number) {
+  const wanted = lightAt(minuteOfDay);
   const rows = manifest.backdrops.filter((row) => row.place === place);
   const row =
     rows.find((r) => r.variant === wanted) ??
