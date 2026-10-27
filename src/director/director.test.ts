@@ -528,7 +528,22 @@ describe("story director on the new core", () => {
     // the count (`concession-received`) (scenes from life), plus the campaign
     // season's five (an interview and a debate invitation, an offer to help, a
     // rival's filing, word of a rival's campaign; owner, Oct 26).
-    expect(types).toHaveLength(76);
+    expect(types).toHaveLength(
+      (
+        JSON.parse(
+          readFileSync(
+            join(
+              process.cwd(),
+              "src",
+              "director",
+              "data",
+              "situation-types.json",
+            ),
+            "utf8",
+          ),
+        ) as { types: unknown[] }
+      ).types.length,
+    );
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));

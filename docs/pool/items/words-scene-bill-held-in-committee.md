@@ -9,6 +9,7 @@ status: claimed
 claimed-by: scenes-c/bill-held
 pr:
 blocked-on:
+lead: words
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T05:20:32.234Z
 ---
