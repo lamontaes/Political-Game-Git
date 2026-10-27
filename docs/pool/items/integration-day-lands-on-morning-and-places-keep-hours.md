@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/integration-clock-and-hours
+status: open
+claimed-by:
 pr: #6397
 blocked-on:
 source: "Integrator (Opus), Oct 27, from the owner's v0.56.2 sitting (Salida, Colorado, as Carlos Washington)"
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-27T19:39:30.000Z
+claimed-at:
 ---
 
 **What.** After a Day or Week the clock sits at 12:00 AM, so offices and cafes are open at midnight with daylight in the windows, and volunteers appear in the bedroom at midnight. PR #6059 (play-stop-07, sent back twice, conflicted, no push since Oct 26) has the clock fix. This item lands it from main as a superseding PR with its registered stopgap, and makes scene casting read the clock and the place's opening hours: a person is cast at a place only when it is open and they would be there.
