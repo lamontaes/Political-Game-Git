@@ -31,6 +31,7 @@ interface PlateSpot {
   touching: boolean;
   tags: {
     facing: number;
+    pose?: "stand" | "sit" | "lectern";
     coveredBy: string;
     role?: string;
     seat?: string;
@@ -157,6 +158,9 @@ for (const scene of scenes) {
   const parent = plate.empty.split("/").pop()!;
   rmSync(`${OCCLUDERS}/${scene}`, { recursive: true, force: true });
   const masks: Record<string, unknown> = {};
+  // The art session's tag is its own call on the pose; the measured one
+  // reads only the mannequin's visible height.
+  for (const s of plate.spots) s.pose = s.tags.pose ?? s.pose;
   const spots = plate.spots.map((s, n) => {
     const tall = s.headWidth / share;
     const id = `${scene}:spot:${n}`;

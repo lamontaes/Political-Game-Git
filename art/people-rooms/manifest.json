@@ -186,12 +186,12 @@
   "art/people-rooms/plates/rally-courthouse-square.png": {
    "kind": "mannequin plate (measured, never drawn)",
    "room": "rally-courthouse-square",
-   "edit": "sg-rallycourt"
+   "edit": "sg-rallycourt2"
   },
   "art/people-rooms/spots/rally-courthouse-square.json": {
    "kind": "tagged spots measured from the plate",
    "room": "rally-courthouse-square",
-   "edit": "sg-rallycourt"
+   "edit": "sg-rallycourt2"
   },
   "art/people-rooms/tags/rally-courthouse-square.tags.json": {
    "kind": "scene tag zones (hand-written)",
@@ -1185,54 +1185,6 @@
    "style": "crew cut",
    "edit": "hr-front-08"
   },
-  "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-slim-hair.png": {
-   "kind": "hair piece",
-   "figure": "v2-37-f-slim",
-   "sheet": "37",
-   "view": "front",
-   "style": "shoulder-length locs",
-   "edit": "hr-front-09"
-  },
-  "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-medium-hair.png": {
-   "kind": "hair piece",
-   "figure": "v2-37-f-medium",
-   "sheet": "37",
-   "view": "front",
-   "style": "shoulder-length locs",
-   "edit": "hr-front-09"
-  },
-  "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-heavy-hair.png": {
-   "kind": "hair piece",
-   "figure": "v2-37-f-heavy",
-   "sheet": "37",
-   "view": "front",
-   "style": "shoulder-length locs",
-   "edit": "hr-front-09"
-  },
-  "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-slim-hair.png": {
-   "kind": "hair piece",
-   "figure": "v2-37-m-slim",
-   "sheet": "37",
-   "view": "front",
-   "style": "short locs",
-   "edit": "hr-front-09"
-  },
-  "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-medium-hair.png": {
-   "kind": "hair piece",
-   "figure": "v2-37-m-medium",
-   "sheet": "37",
-   "view": "front",
-   "style": "short locs",
-   "edit": "hr-front-09"
-  },
-  "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-heavy-hair.png": {
-   "kind": "hair piece",
-   "figure": "v2-37-m-heavy",
-   "sheet": "37",
-   "view": "front",
-   "style": "short locs",
-   "edit": "hr-front-09"
-  },
   "art/people-engine/v2/hair-on-figures/front/10/v2-37-f-slim-hair.png": {
    "kind": "hair piece",
    "figure": "v2-37-f-slim",
@@ -2049,6 +2001,102 @@
    "style": "short side part",
    "edit": "hr-threeqr-02"
   },
+  "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "short natural afro",
+   "edit": "hr-threeqr-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "short natural afro",
+   "edit": "hr-threeqr-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "short natural afro",
+   "edit": "hr-threeqr-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "short tight curls",
+   "edit": "hr-threeqr-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "short tight curls",
+   "edit": "hr-threeqr-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "short tight curls",
+   "edit": "hr-threeqr-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "chin-length bob with bangs",
+   "edit": "hr-threeqr-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "chin-length bob with bangs",
+   "edit": "hr-threeqr-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "chin-length bob with bangs",
+   "edit": "hr-threeqr-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "buzz cut",
+   "edit": "hr-threeqr-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "buzz cut",
+   "edit": "hr-threeqr-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "buzz cut",
+   "edit": "hr-threeqr-04"
+  },
   "art/people-engine/v2/hair-on-figures/threeqr/05/v2-70-f-slim-hair.png": {
    "kind": "hair piece",
    "figure": "v2-70-f-slim",
@@ -2145,6 +2193,102 @@
    "style": "slicked back",
    "edit": "hr-threeqr-06"
   },
+  "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "low ponytail",
+   "edit": "hr-threeqr-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "low ponytail",
+   "edit": "hr-threeqr-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "low ponytail",
+   "edit": "hr-threeqr-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "receding hairline",
+   "edit": "hr-threeqr-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "receding hairline",
+   "edit": "hr-threeqr-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "receding hairline",
+   "edit": "hr-threeqr-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "pixie cut",
+   "edit": "hr-threeqr-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "pixie cut",
+   "edit": "hr-threeqr-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "pixie cut",
+   "edit": "hr-threeqr-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "crew cut",
+   "edit": "hr-threeqr-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "crew cut",
+   "edit": "hr-threeqr-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "crew cut",
+   "edit": "hr-threeqr-08"
+  },
   "art/people-engine/v2/hair-on-figures/threeqr/09/v2-70-f-slim-hair.png": {
    "kind": "hair piece",
    "figure": "v2-70-f-slim",
@@ -2240,6 +2384,102 @@
    "view": "threeqr",
    "style": "cornrows",
    "edit": "hr-threeqr-10"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "short two-strand twists",
+   "edit": "hr-threeqr-11"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "short two-strand twists",
+   "edit": "hr-threeqr-11"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "short two-strand twists",
+   "edit": "hr-threeqr-11"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "medium wavy",
+   "edit": "hr-threeqr-11"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "medium wavy",
+   "edit": "hr-threeqr-11"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "medium wavy",
+   "edit": "hr-threeqr-11"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "layered, swept to one side",
+   "edit": "hr-threeqr-12"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "layered, swept to one side",
+   "edit": "hr-threeqr-12"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "layered, swept to one side",
+   "edit": "hr-threeqr-12"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "bald crown, short sides",
+   "edit": "hr-threeqr-12"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "bald crown, short sides",
+   "edit": "hr-threeqr-12"
+  },
+  "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "style": "bald crown, short sides",
+   "edit": "hr-threeqr-12"
   },
   "art/people-engine/v2/faces-on-figures/front/01/v2-37-f-slim-face.png": {
    "kind": "face patch",
@@ -2349,6 +2589,60 @@
    "expression": "smile",
    "edit": "fc-front-02"
   },
+  "art/people-engine/v2/faces-on-figures/front/04/v2-37-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "square jaw",
+   "expression": "stern",
+   "edit": "fc-front-04"
+  },
+  "art/people-engine/v2/faces-on-figures/front/04/v2-37-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "square jaw",
+   "expression": "stern",
+   "edit": "fc-front-04"
+  },
+  "art/people-engine/v2/faces-on-figures/front/04/v2-37-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "square jaw",
+   "expression": "stern",
+   "edit": "fc-front-04"
+  },
+  "art/people-engine/v2/faces-on-figures/front/04/v2-37-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "prominent nose, cleft chin",
+   "expression": "stern",
+   "edit": "fc-front-04"
+  },
+  "art/people-engine/v2/faces-on-figures/front/04/v2-37-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "prominent nose, cleft chin",
+   "expression": "stern",
+   "edit": "fc-front-04"
+  },
+  "art/people-engine/v2/faces-on-figures/front/04/v2-37-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "prominent nose, cleft chin",
+   "expression": "stern",
+   "edit": "fc-front-04"
+  },
   "art/people-engine/v2/faces-on-figures/front/05/v2-37-f-slim-face.png": {
    "kind": "face patch",
    "figure": "v2-37-f-slim",
@@ -2456,6 +2750,114 @@
    "face": "long, hollow cheeks",
    "expression": "angry",
    "edit": "fc-front-06"
+  },
+  "art/people-engine/v2/faces-on-figures/front/07/v2-37-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-front-07"
+  },
+  "art/people-engine/v2/faces-on-figures/front/07/v2-37-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-front-07"
+  },
+  "art/people-engine/v2/faces-on-figures/front/07/v2-37-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-front-07"
+  },
+  "art/people-engine/v2/faces-on-figures/front/07/v2-37-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-front-07"
+  },
+  "art/people-engine/v2/faces-on-figures/front/07/v2-37-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-front-07"
+  },
+  "art/people-engine/v2/faces-on-figures/front/07/v2-37-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-front-07"
+  },
+  "art/people-engine/v2/faces-on-figures/front/08/v2-37-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "delicate, freckles",
+   "expression": "skeptical",
+   "edit": "fc-front-08"
+  },
+  "art/people-engine/v2/faces-on-figures/front/08/v2-37-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "delicate, freckles",
+   "expression": "skeptical",
+   "edit": "fc-front-08"
+  },
+  "art/people-engine/v2/faces-on-figures/front/08/v2-37-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "delicate, freckles",
+   "expression": "skeptical",
+   "edit": "fc-front-08"
+  },
+  "art/people-engine/v2/faces-on-figures/front/08/v2-37-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "short beard and mustache",
+   "expression": "skeptical",
+   "edit": "fc-front-08"
+  },
+  "art/people-engine/v2/faces-on-figures/front/08/v2-37-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "short beard and mustache",
+   "expression": "skeptical",
+   "edit": "fc-front-08"
+  },
+  "art/people-engine/v2/faces-on-figures/front/08/v2-37-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "short beard and mustache",
+   "expression": "skeptical",
+   "edit": "fc-front-08"
   },
   "art/people-engine/v2/faces-on-figures/front/09/v2-37-f-slim-face.png": {
    "kind": "face patch",
@@ -2565,6 +2967,114 @@
    "expression": "confident half smile",
    "edit": "fc-front-10"
   },
+  "art/people-engine/v2/faces-on-figures/front/11/v2-37-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-front-11"
+  },
+  "art/people-engine/v2/faces-on-figures/front/11/v2-37-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-front-11"
+  },
+  "art/people-engine/v2/faces-on-figures/front/11/v2-37-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-front-11"
+  },
+  "art/people-engine/v2/faces-on-figures/front/11/v2-37-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-front-11"
+  },
+  "art/people-engine/v2/faces-on-figures/front/11/v2-37-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-front-11"
+  },
+  "art/people-engine/v2/faces-on-figures/front/11/v2-37-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-front-11"
+  },
+  "art/people-engine/v2/faces-on-figures/front/12/v2-37-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "wide, almond eyes",
+   "expression": "talking",
+   "edit": "fc-front-12"
+  },
+  "art/people-engine/v2/faces-on-figures/front/12/v2-37-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "wide, almond eyes",
+   "expression": "talking",
+   "edit": "fc-front-12"
+  },
+  "art/people-engine/v2/faces-on-figures/front/12/v2-37-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "wide, almond eyes",
+   "expression": "talking",
+   "edit": "fc-front-12"
+  },
+  "art/people-engine/v2/faces-on-figures/front/12/v2-37-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "face": "full short beard",
+   "expression": "talking",
+   "edit": "fc-front-12"
+  },
+  "art/people-engine/v2/faces-on-figures/front/12/v2-37-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "face": "full short beard",
+   "expression": "talking",
+   "edit": "fc-front-12"
+  },
+  "art/people-engine/v2/faces-on-figures/front/12/v2-37-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "face": "full short beard",
+   "expression": "talking",
+   "edit": "fc-front-12"
+  },
   "art/people-engine/v2/faces-on-figures/threeq/01/v2-01-f-slim-face.png": {
    "kind": "face patch",
    "figure": "v2-01-f-slim",
@@ -2672,6 +3182,114 @@
    "face": "narrow, pointed chin",
    "expression": "smile",
    "edit": "fc-threeq-02"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "heart-shaped, large eyes",
+   "expression": "laugh",
+   "edit": "fc-threeq-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "heart-shaped, large eyes",
+   "expression": "laugh",
+   "edit": "fc-threeq-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "heart-shaped, large eyes",
+   "expression": "laugh",
+   "edit": "fc-threeq-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "round, double chin",
+   "expression": "laugh",
+   "edit": "fc-threeq-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "round, double chin",
+   "expression": "laugh",
+   "edit": "fc-threeq-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "round, double chin",
+   "expression": "laugh",
+   "edit": "fc-threeq-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "square jaw",
+   "expression": "stern",
+   "edit": "fc-threeq-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "square jaw",
+   "expression": "stern",
+   "edit": "fc-threeq-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "square jaw",
+   "expression": "stern",
+   "edit": "fc-threeq-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "prominent nose, cleft chin",
+   "expression": "stern",
+   "edit": "fc-threeq-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "prominent nose, cleft chin",
+   "expression": "stern",
+   "edit": "fc-threeq-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "prominent nose, cleft chin",
+   "expression": "stern",
+   "edit": "fc-threeq-04"
   },
   "art/people-engine/v2/faces-on-figures/threeq/05/v2-01-f-slim-face.png": {
    "kind": "face patch",
@@ -2781,6 +3399,114 @@
    "expression": "angry",
    "edit": "fc-threeq-06"
   },
+  "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeq-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeq-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeq-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeq-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeq-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeq-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "delicate, freckles",
+   "expression": "skeptical",
+   "edit": "fc-threeq-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "delicate, freckles",
+   "expression": "skeptical",
+   "edit": "fc-threeq-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "delicate, freckles",
+   "expression": "skeptical",
+   "edit": "fc-threeq-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "short beard and mustache",
+   "expression": "skeptical",
+   "edit": "fc-threeq-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "short beard and mustache",
+   "expression": "skeptical",
+   "edit": "fc-threeq-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "short beard and mustache",
+   "expression": "skeptical",
+   "edit": "fc-threeq-08"
+  },
   "art/people-engine/v2/faces-on-figures/threeq/09/v2-01-f-slim-face.png": {
    "kind": "face patch",
    "figure": "v2-01-f-slim",
@@ -2888,6 +3614,114 @@
    "face": "young, smooth",
    "expression": "confident half smile",
    "edit": "fc-threeq-10"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeq-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeq-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeq-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeq-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeq-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeq-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "wide, almond eyes",
+   "expression": "talking",
+   "edit": "fc-threeq-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "wide, almond eyes",
+   "expression": "talking",
+   "edit": "fc-threeq-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "wide, almond eyes",
+   "expression": "talking",
+   "edit": "fc-threeq-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "full short beard",
+   "expression": "talking",
+   "edit": "fc-threeq-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "full short beard",
+   "expression": "talking",
+   "edit": "fc-threeq-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "face": "full short beard",
+   "expression": "talking",
+   "edit": "fc-threeq-12"
   },
   "art/people-engine/v2/faces-on-figures/threeqr/01/v2-70-f-slim-face.png": {
    "kind": "face patch",
@@ -2997,6 +3831,114 @@
    "expression": "smile",
    "edit": "fc-threeqr-02"
   },
+  "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "heart-shaped, large eyes",
+   "expression": "laugh",
+   "edit": "fc-threeqr-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "heart-shaped, large eyes",
+   "expression": "laugh",
+   "edit": "fc-threeqr-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "heart-shaped, large eyes",
+   "expression": "laugh",
+   "edit": "fc-threeqr-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "round, double chin",
+   "expression": "laugh",
+   "edit": "fc-threeqr-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "round, double chin",
+   "expression": "laugh",
+   "edit": "fc-threeqr-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "round, double chin",
+   "expression": "laugh",
+   "edit": "fc-threeqr-03"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "square jaw",
+   "expression": "stern",
+   "edit": "fc-threeqr-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "square jaw",
+   "expression": "stern",
+   "edit": "fc-threeqr-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "square jaw",
+   "expression": "stern",
+   "edit": "fc-threeqr-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "prominent nose, cleft chin",
+   "expression": "stern",
+   "edit": "fc-threeqr-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "prominent nose, cleft chin",
+   "expression": "stern",
+   "edit": "fc-threeqr-04"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "prominent nose, cleft chin",
+   "expression": "stern",
+   "edit": "fc-threeqr-04"
+  },
   "art/people-engine/v2/faces-on-figures/threeqr/05/v2-70-f-slim-face.png": {
    "kind": "face patch",
    "figure": "v2-70-f-slim",
@@ -3104,6 +4046,114 @@
    "face": "long, hollow cheeks",
    "expression": "angry",
    "edit": "fc-threeqr-06"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeqr-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeqr-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeqr-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeqr-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeqr-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "broad, wide nose",
+   "expression": "surprised",
+   "edit": "fc-threeqr-07"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "delicate, freckles",
+   "expression": "skeptical",
+   "edit": "fc-threeqr-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "delicate, freckles",
+   "expression": "skeptical",
+   "edit": "fc-threeqr-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "delicate, freckles",
+   "expression": "skeptical",
+   "edit": "fc-threeqr-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "short beard and mustache",
+   "expression": "skeptical",
+   "edit": "fc-threeqr-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "short beard and mustache",
+   "expression": "skeptical",
+   "edit": "fc-threeqr-08"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "short beard and mustache",
+   "expression": "skeptical",
+   "edit": "fc-threeqr-08"
   },
   "art/people-engine/v2/faces-on-figures/threeqr/09/v2-70-f-slim-face.png": {
    "kind": "face patch",
@@ -3213,6 +4263,114 @@
    "expression": "confident half smile",
    "edit": "fc-threeqr-10"
   },
+  "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeqr-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeqr-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeqr-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeqr-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeqr-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "angular, hooked nose",
+   "expression": "tired",
+   "edit": "fc-threeqr-11"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-f-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "wide, almond eyes",
+   "expression": "talking",
+   "edit": "fc-threeqr-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-f-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "wide, almond eyes",
+   "expression": "talking",
+   "edit": "fc-threeqr-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-f-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "wide, almond eyes",
+   "expression": "talking",
+   "edit": "fc-threeqr-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-m-slim-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "full short beard",
+   "expression": "talking",
+   "edit": "fc-threeqr-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-m-medium-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "full short beard",
+   "expression": "talking",
+   "edit": "fc-threeqr-12"
+  },
+  "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-m-heavy-face.png": {
+   "kind": "face patch",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "view": "threeqr",
+   "face": "full short beard",
+   "expression": "talking",
+   "edit": "fc-threeqr-12"
+  },
   "art/people-engine/v2/figures/v2-sb03-f-heavy.png": {
    "kind": "figure, standing, seen from behind",
    "figure": "v2-sb03-f-heavy",
@@ -3284,6 +4442,42 @@
    "figure": "v2-sb20-m-slim",
    "outfit": "vest",
    "edit": "sb-20"
+  },
+  "art/people-engine/v2/figures/v2-sb32-f-heavy.png": {
+   "kind": "figure, standing, seen from behind",
+   "figure": "v2-sb32-f-heavy",
+   "outfit": "blazer",
+   "edit": "sb-32c"
+  },
+  "art/people-engine/v2/figures/v2-sb32-f-medium.png": {
+   "kind": "figure, standing, seen from behind",
+   "figure": "v2-sb32-f-medium",
+   "outfit": "blazer",
+   "edit": "sb-32c"
+  },
+  "art/people-engine/v2/figures/v2-sb32-f-slim.png": {
+   "kind": "figure, standing, seen from behind",
+   "figure": "v2-sb32-f-slim",
+   "outfit": "blazer",
+   "edit": "sb-32c"
+  },
+  "art/people-engine/v2/figures/v2-sb32-m-heavy.png": {
+   "kind": "figure, standing, seen from behind",
+   "figure": "v2-sb32-m-heavy",
+   "outfit": "blazer",
+   "edit": "sb-32c"
+  },
+  "art/people-engine/v2/figures/v2-sb32-m-medium.png": {
+   "kind": "figure, standing, seen from behind",
+   "figure": "v2-sb32-m-medium",
+   "outfit": "blazer",
+   "edit": "sb-32c"
+  },
+  "art/people-engine/v2/figures/v2-sb32-m-slim.png": {
+   "kind": "figure, standing, seen from behind",
+   "figure": "v2-sb32-m-slim",
+   "outfit": "blazer",
+   "edit": "sb-32c"
   },
   "art/people-engine/v2/figures/v2-sb45-f-heavy.png": {
    "kind": "figure, standing, seen from behind",
@@ -3932,6 +5126,42 @@
    "figure": "v2-26-m-slim",
    "sheet": "26",
    "edit": "gm-26"
+  },
+  "art/people-engine/v2/garments/v2-28-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-28-f-heavy",
+   "sheet": "28",
+   "edit": "gm-28"
+  },
+  "art/people-engine/v2/garments/v2-28-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-28-f-medium",
+   "sheet": "28",
+   "edit": "gm-28"
+  },
+  "art/people-engine/v2/garments/v2-28-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-28-f-slim",
+   "sheet": "28",
+   "edit": "gm-28"
+  },
+  "art/people-engine/v2/garments/v2-28-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-28-m-heavy",
+   "sheet": "28",
+   "edit": "gm-28"
+  },
+  "art/people-engine/v2/garments/v2-28-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-28-m-medium",
+   "sheet": "28",
+   "edit": "gm-28"
+  },
+  "art/people-engine/v2/garments/v2-28-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-28-m-slim",
+   "sheet": "28",
+   "edit": "gm-28"
   },
   "art/people-engine/v2/garments/v2-29-f-heavy-garments.png": {
    "kind": "garment map",
@@ -4761,42 +5991,6 @@
    "sheet": "61",
    "edit": "gm-61"
   },
-  "art/people-engine/v2/garments/v2-62-f-heavy-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-62-f-heavy",
-   "sheet": "62",
-   "edit": "gm-62"
-  },
-  "art/people-engine/v2/garments/v2-62-f-medium-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-62-f-medium",
-   "sheet": "62",
-   "edit": "gm-62"
-  },
-  "art/people-engine/v2/garments/v2-62-f-slim-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-62-f-slim",
-   "sheet": "62",
-   "edit": "gm-62"
-  },
-  "art/people-engine/v2/garments/v2-62-m-heavy-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-62-m-heavy",
-   "sheet": "62",
-   "edit": "gm-62"
-  },
-  "art/people-engine/v2/garments/v2-62-m-medium-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-62-m-medium",
-   "sheet": "62",
-   "edit": "gm-62"
-  },
-  "art/people-engine/v2/garments/v2-62-m-slim-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-62-m-slim",
-   "sheet": "62",
-   "edit": "gm-62"
-  },
   "art/people-engine/v2/garments/v2-65-f-heavy-garments.png": {
    "kind": "garment map",
    "figure": "v2-65-f-heavy",
@@ -4976,42 +6170,6 @@
    "figure": "v2-70-m-slim",
    "sheet": "70",
    "edit": "gm-70"
-  },
-  "art/people-engine/v2/garments/v2-74-f-heavy-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-74-f-heavy",
-   "sheet": "74",
-   "edit": "gm-74"
-  },
-  "art/people-engine/v2/garments/v2-74-f-medium-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-74-f-medium",
-   "sheet": "74",
-   "edit": "gm-74"
-  },
-  "art/people-engine/v2/garments/v2-74-f-slim-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-74-f-slim",
-   "sheet": "74",
-   "edit": "gm-74"
-  },
-  "art/people-engine/v2/garments/v2-74-m-heavy-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-74-m-heavy",
-   "sheet": "74",
-   "edit": "gm-74"
-  },
-  "art/people-engine/v2/garments/v2-74-m-medium-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-74-m-medium",
-   "sheet": "74",
-   "edit": "gm-74"
-  },
-  "art/people-engine/v2/garments/v2-74-m-slim-garments.png": {
-   "kind": "garment map",
-   "figure": "v2-74-m-slim",
-   "sheet": "74",
-   "edit": "gm-74"
   },
   "art/people-engine/v2/garments/v2-76b-f-heavy-garments.png": {
    "kind": "garment map",
@@ -5250,10 +6408,10 @@
     "art/people-rooms/tags/rally-stage.tags.json"
    ]
   },
-  "sg-rallycourt": {
+  "sg-rallycourt2": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/backdrops/rally-courthouse-square__midday.jpg",
-   "prompt": "[sg-rallycourt] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, a crowd standing in front of the courthouse steps facing them, plus one speaker standing on the steps. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "prompt": "[sg-rallycourt2] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, one speaker standing at the lectern inside the gazebo, facing the crowd, and a crowd standing in the square facing the gazebo, smaller the farther away they are. No two mannequins touch or overlap; each has its own outline with the square visible around it. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
    "files": [
     "art/people-rooms/plates/rally-courthouse-square.png",
     "art/people-rooms/spots/rally-courthouse-square.json",
@@ -5540,19 +6698,6 @@
     "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-heavy-hair.png"
    ]
   },
-  "hr-front-09": {
-   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
-   "reference": "art/people-engine/v2/sheets/clarify-37.png",
-   "prompt": "[hr-front-09] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have shoulder-length locs. The three men in the bottom row all have short locs. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
-   "files": [
-    "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-slim-hair.png",
-    "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-medium-hair.png",
-    "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-heavy-hair.png",
-    "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-slim-hair.png",
-    "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-medium-hair.png",
-    "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-heavy-hair.png"
-   ]
-  },
   "hr-front-10": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-37.png",
@@ -5774,6 +6919,32 @@
     "art/people-engine/v2/hair-on-figures/threeqr/02/v2-70-m-heavy-hair.png"
    ]
   },
+  "hr-threeqr-03": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[hr-threeqr-03] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a short rounded natural afro. The three men in the bottom row all have short tight curls. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/03/v2-70-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeqr-04": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[hr-threeqr-04] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a chin-length bob with straight bangs. The three men in the bottom row all have a close buzz cut. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/04/v2-70-m-heavy-hair.png"
+   ]
+  },
   "hr-threeqr-05": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-70.png",
@@ -5798,6 +6969,32 @@
     "art/people-engine/v2/hair-on-figures/threeqr/06/v2-70-m-slim-hair.png",
     "art/people-engine/v2/hair-on-figures/threeqr/06/v2-70-m-medium-hair.png",
     "art/people-engine/v2/hair-on-figures/threeqr/06/v2-70-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeqr-07": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[hr-threeqr-07] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a low ponytail. The three men in the bottom row all have short hair with a receding hairline. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/07/v2-70-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeqr-08": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[hr-threeqr-08] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a short pixie cut. The three men in the bottom row all have a classic crew cut. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/08/v2-70-m-heavy-hair.png"
    ]
   },
   "hr-threeqr-09": {
@@ -5826,6 +7023,32 @@
     "art/people-engine/v2/hair-on-figures/threeqr/10/v2-70-m-heavy-hair.png"
    ]
   },
+  "hr-threeqr-11": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[hr-threeqr-11] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have short two-strand twists. The three men in the bottom row all have medium-length wavy hair. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/11/v2-70-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeqr-12": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[hr-threeqr-12] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have medium layered hair swept to one side. The three men in the bottom row all have short hair on the sides with a bald crown. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeqr/12/v2-70-m-heavy-hair.png"
+   ]
+  },
   "fc-front-01": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-37.png",
@@ -5850,6 +7073,19 @@
     "art/people-engine/v2/faces-on-figures/front/02/v2-37-m-slim-face.png",
     "art/people-engine/v2/faces-on-figures/front/02/v2-37-m-medium-face.png",
     "art/people-engine/v2/faces-on-figures/front/02/v2-37-m-heavy-face.png"
+   ]
+  },
+  "fc-front-04": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[fc-front-04] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a square face with a strong jaw, straight brows and a wide nose, with a serious stern look. The three men in the bottom row all have deep-set eyes, a large prominent nose and a strong cleft chin, with a serious stern look. Any beard or mustache is plain medium gray. Everyone faces the viewer. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/front/04/v2-37-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/04/v2-37-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/04/v2-37-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/front/04/v2-37-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/04/v2-37-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/04/v2-37-m-heavy-face.png"
    ]
   },
   "fc-front-05": {
@@ -5878,6 +7114,32 @@
     "art/people-engine/v2/faces-on-figures/front/06/v2-37-m-heavy-face.png"
    ]
   },
+  "fc-front-07": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[fc-front-07] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a broad face with a wide flat nose, round eyes and full cheeks, with a surprised look with raised brows and an open mouth. The three men in the bottom row all have a broad face with a wide flat nose, full lips and round eyes, with a surprised look with raised brows and an open mouth. Any beard or mustache is plain medium gray. Everyone faces the viewer. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/front/07/v2-37-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/07/v2-37-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/07/v2-37-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/front/07/v2-37-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/07/v2-37-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/07/v2-37-m-heavy-face.png"
+   ]
+  },
+  "fc-front-08": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[fc-front-08] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a delicate face with a small chin, arched brows and freckles across the nose, with a skeptical look with one brow raised. The three men in the bottom row all have a medium face with a short neat beard and mustache, with a skeptical look with one brow raised. Any beard or mustache is plain medium gray. Everyone faces the viewer. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/front/08/v2-37-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/08/v2-37-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/08/v2-37-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/front/08/v2-37-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/08/v2-37-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/08/v2-37-m-heavy-face.png"
+   ]
+  },
   "fc-front-09": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-37.png",
@@ -5902,6 +7164,32 @@
     "art/people-engine/v2/faces-on-figures/front/10/v2-37-m-slim-face.png",
     "art/people-engine/v2/faces-on-figures/front/10/v2-37-m-medium-face.png",
     "art/people-engine/v2/faces-on-figures/front/10/v2-37-m-heavy-face.png"
+   ]
+  },
+  "fc-front-11": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[fc-front-11] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have an angular face with sharp cheekbones, a hooked nose and thin brows, with a tired look with heavy eyelids. The three men in the bottom row all have an angular face with sharp cheekbones, a hooked nose and narrow eyes, with a tired look with heavy eyelids. Any beard or mustache is plain medium gray. Everyone faces the viewer. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/front/11/v2-37-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/11/v2-37-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/11/v2-37-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/front/11/v2-37-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/11/v2-37-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/11/v2-37-m-heavy-face.png"
+   ]
+  },
+  "fc-front-12": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[fc-front-12] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a wide face with almond eyes, a broad nose and a full mouth, with a talking look, mouth half open mid-word. The three men in the bottom row all have a full short beard, almond eyes and a broad nose, with a talking look, mouth half open mid-word. Any beard or mustache is plain medium gray. Everyone faces the viewer. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/front/12/v2-37-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/12/v2-37-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/12/v2-37-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/front/12/v2-37-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/front/12/v2-37-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/front/12/v2-37-m-heavy-face.png"
    ]
   },
   "fc-threeq-01": {
@@ -5930,6 +7218,32 @@
     "art/people-engine/v2/faces-on-figures/threeq/02/v2-01-m-heavy-face.png"
    ]
   },
+  "fc-threeq-03": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[fc-threeq-03] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a heart-shaped face with a pointed chin, large eyes and full lips, with a big open laugh. The three men in the bottom row all have a round face with full cheeks, a small nose and a soft double chin, with a big open laugh. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/03/v2-01-m-heavy-face.png"
+   ]
+  },
+  "fc-threeq-04": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[fc-threeq-04] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a square face with a strong jaw, straight brows and a wide nose, with a serious stern look. The three men in the bottom row all have deep-set eyes, a large prominent nose and a strong cleft chin, with a serious stern look. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/04/v2-01-m-heavy-face.png"
+   ]
+  },
   "fc-threeq-05": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-01.png",
@@ -5954,6 +7268,32 @@
     "art/people-engine/v2/faces-on-figures/threeq/06/v2-01-m-slim-face.png",
     "art/people-engine/v2/faces-on-figures/threeq/06/v2-01-m-medium-face.png",
     "art/people-engine/v2/faces-on-figures/threeq/06/v2-01-m-heavy-face.png"
+   ]
+  },
+  "fc-threeq-07": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[fc-threeq-07] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a broad face with a wide flat nose, round eyes and full cheeks, with a surprised look with raised brows and an open mouth. The three men in the bottom row all have a broad face with a wide flat nose, full lips and round eyes, with a surprised look with raised brows and an open mouth. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/07/v2-01-m-heavy-face.png"
+   ]
+  },
+  "fc-threeq-08": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[fc-threeq-08] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a delicate face with a small chin, arched brows and freckles across the nose, with a skeptical look with one brow raised. The three men in the bottom row all have a medium face with a short neat beard and mustache, with a skeptical look with one brow raised. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/08/v2-01-m-heavy-face.png"
    ]
   },
   "fc-threeq-09": {
@@ -5982,6 +7322,32 @@
     "art/people-engine/v2/faces-on-figures/threeq/10/v2-01-m-heavy-face.png"
    ]
   },
+  "fc-threeq-11": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[fc-threeq-11] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have an angular face with sharp cheekbones, a hooked nose and thin brows, with a tired look with heavy eyelids. The three men in the bottom row all have an angular face with sharp cheekbones, a hooked nose and narrow eyes, with a tired look with heavy eyelids. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/11/v2-01-m-heavy-face.png"
+   ]
+  },
+  "fc-threeq-12": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[fc-threeq-12] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a wide face with almond eyes, a broad nose and a full mouth, with a talking look, mouth half open mid-word. The three men in the bottom row all have a full short beard, almond eyes and a broad nose, with a talking look, mouth half open mid-word. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeq/12/v2-01-m-heavy-face.png"
+   ]
+  },
   "fc-threeqr-01": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-70.png",
@@ -6006,6 +7372,32 @@
     "art/people-engine/v2/faces-on-figures/threeqr/02/v2-70-m-slim-face.png",
     "art/people-engine/v2/faces-on-figures/threeqr/02/v2-70-m-medium-face.png",
     "art/people-engine/v2/faces-on-figures/threeqr/02/v2-70-m-heavy-face.png"
+   ]
+  },
+  "fc-threeqr-03": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[fc-threeqr-03] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a heart-shaped face with a pointed chin, large eyes and full lips, with a big open laugh. The three men in the bottom row all have a round face with full cheeks, a small nose and a soft double chin, with a big open laugh. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/03/v2-70-m-heavy-face.png"
+   ]
+  },
+  "fc-threeqr-04": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[fc-threeqr-04] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a square face with a strong jaw, straight brows and a wide nose, with a serious stern look. The three men in the bottom row all have deep-set eyes, a large prominent nose and a strong cleft chin, with a serious stern look. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/04/v2-70-m-heavy-face.png"
    ]
   },
   "fc-threeqr-05": {
@@ -6034,6 +7426,32 @@
     "art/people-engine/v2/faces-on-figures/threeqr/06/v2-70-m-heavy-face.png"
    ]
   },
+  "fc-threeqr-07": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[fc-threeqr-07] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a broad face with a wide flat nose, round eyes and full cheeks, with a surprised look with raised brows and an open mouth. The three men in the bottom row all have a broad face with a wide flat nose, full lips and round eyes, with a surprised look with raised brows and an open mouth. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/07/v2-70-m-heavy-face.png"
+   ]
+  },
+  "fc-threeqr-08": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[fc-threeqr-08] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a delicate face with a small chin, arched brows and freckles across the nose, with a skeptical look with one brow raised. The three men in the bottom row all have a medium face with a short neat beard and mustache, with a skeptical look with one brow raised. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/08/v2-70-m-heavy-face.png"
+   ]
+  },
   "fc-threeqr-09": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-70.png",
@@ -6060,6 +7478,32 @@
     "art/people-engine/v2/faces-on-figures/threeqr/10/v2-70-m-heavy-face.png"
    ]
   },
+  "fc-threeqr-11": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[fc-threeqr-11] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have an angular face with sharp cheekbones, a hooked nose and thin brows, with a tired look with heavy eyelids. The three men in the bottom row all have an angular face with sharp cheekbones, a hooked nose and narrow eyes, with a tired look with heavy eyelids. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/11/v2-70-m-heavy-face.png"
+   ]
+  },
+  "fc-threeqr-12": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[fc-threeqr-12] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, body, bald head, ears, skin color, clothes, outlines and shading, pixel for pixel. Only change their faces, drawn in the same clean dark-outline style and flat shading: the three women in the top row all have a wide face with almond eyes, a broad nose and a full mouth, with a talking look, mouth half open mid-word. The three men in the bottom row all have a full short beard, almond eyes and a broad nose, with a talking look, mouth half open mid-word. Any beard or mustache is plain medium gray. Everyone is turned three-quarters, as in the picture; draw it as seen from that same angle. Each face stays the same size and in the same place on its head. No hair on the head. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-f-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-f-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-f-heavy-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-m-slim-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-m-medium-face.png",
+    "art/people-engine/v2/faces-on-figures/threeqr/12/v2-70-m-heavy-face.png"
+   ]
+  },
   "sb-03b": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-03.png",
@@ -6084,6 +7528,19 @@
     "art/people-engine/v2/figures/v2-sb20-m-heavy.png",
     "art/people-engine/v2/figures/v2-sb20-m-medium.png",
     "art/people-engine/v2/figures/v2-sb20-m-slim.png"
+   ]
+  },
+  "sb-32c": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-32.png",
+   "prompt": "[sb-32c] Edit the reference picture. Turn all six people around so each one is seen from directly behind: the same standing pose from the back, the same position, the same size and height, the same body and build, arms relaxed at the sides. They keep EXACTLY the same clothes, now seen from the back: the same long gray blazer with its back seam, the same dark gray trousers down to the shoes, and the same shoes. Do not change the clothes into a t-shirt or shorts. The back of every head is bald and smooth. Same clean dark-outline style, same flat shading, plain white background. No faces visible. No text.",
+   "files": [
+    "art/people-engine/v2/figures/v2-sb32-f-heavy.png",
+    "art/people-engine/v2/figures/v2-sb32-f-medium.png",
+    "art/people-engine/v2/figures/v2-sb32-f-slim.png",
+    "art/people-engine/v2/figures/v2-sb32-m-heavy.png",
+    "art/people-engine/v2/figures/v2-sb32-m-medium.png",
+    "art/people-engine/v2/figures/v2-sb32-m-slim.png"
    ]
   },
   "sb-45": {
@@ -6318,6 +7775,19 @@
     "art/people-engine/v2/garments/v2-26-m-heavy-garments.png",
     "art/people-engine/v2/garments/v2-26-m-medium-garments.png",
     "art/people-engine/v2/garments/v2-26-m-slim-garments.png"
+   ]
+  },
+  "gm-28": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-28.png",
+   "prompt": "[gm-28] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-28-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-28-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-28-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-28-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-28-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-28-m-slim-garments.png"
    ]
   },
   "gm-29": {
@@ -6619,19 +8089,6 @@
     "art/people-engine/v2/garments/v2-61-m-slim-garments.png"
    ]
   },
-  "gm-62": {
-   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
-   "reference": "art/people-engine/v2/sheets/clarify-62.png",
-   "prompt": "[gm-62] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
-   "files": [
-    "art/people-engine/v2/garments/v2-62-f-heavy-garments.png",
-    "art/people-engine/v2/garments/v2-62-f-medium-garments.png",
-    "art/people-engine/v2/garments/v2-62-f-slim-garments.png",
-    "art/people-engine/v2/garments/v2-62-m-heavy-garments.png",
-    "art/people-engine/v2/garments/v2-62-m-medium-garments.png",
-    "art/people-engine/v2/garments/v2-62-m-slim-garments.png"
-   ]
-  },
   "gm-65": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-65.png",
@@ -6695,19 +8152,6 @@
     "art/people-engine/v2/garments/v2-70-m-heavy-garments.png",
     "art/people-engine/v2/garments/v2-70-m-medium-garments.png",
     "art/people-engine/v2/garments/v2-70-m-slim-garments.png"
-   ]
-  },
-  "gm-74": {
-   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
-   "reference": "art/people-engine/v2/sheets/clarify-74.png",
-   "prompt": "[gm-74] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
-   "files": [
-    "art/people-engine/v2/garments/v2-74-f-heavy-garments.png",
-    "art/people-engine/v2/garments/v2-74-f-medium-garments.png",
-    "art/people-engine/v2/garments/v2-74-f-slim-garments.png",
-    "art/people-engine/v2/garments/v2-74-m-heavy-garments.png",
-    "art/people-engine/v2/garments/v2-74-m-medium-garments.png",
-    "art/people-engine/v2/garments/v2-74-m-slim-garments.png"
    ]
   },
   "gm-76b": {

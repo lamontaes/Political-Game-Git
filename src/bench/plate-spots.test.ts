@@ -20,7 +20,7 @@ interface PlateSpot {
   headX: number;
   headWidth: number;
   pose: string;
-  tags: { facing: number };
+  tags: { facing: number; pose?: string };
 }
 
 describe(`spots measured from a mannequin plate at ${place}`, () => {
@@ -39,6 +39,8 @@ describe(`spots measured from a mannequin plate at ${place}`, () => {
     expect(measured.length).toBe(plate.spots.length);
     const [width, height] = plate.size;
     plate.spots.forEach((m, n) => {
+      // The tagged pose is the art session's call (scripts/people/room-spots.ts).
+      m.pose = m.tags.pose ?? m.pose;
       const spot = stage.spots.find((s) => s.id === `${place}:spot:${n}`)!;
       expect(spot.head!.top).toBeCloseTo((m.headTop / height) * 100, 1);
       expect(spot.head!.x).toBeCloseTo((m.headX / width) * 100, 1);

@@ -5962,7 +5962,7 @@
         {
           "x": 26.65,
           "y": 43.78,
-          "pose": "stand",
+          "pose": "podium",
           "facing": "viewer",
           "depth": 43.78,
           "behindY": 16.05,
@@ -5978,7 +5978,7 @@
         {
           "x": 73.53,
           "y": 43.78,
-          "pose": "stand",
+          "pose": "podium",
           "facing": "viewer",
           "depth": 43.78,
           "behindY": 16.05,
@@ -5989,31 +5989,6 @@
           },
           "role": "candidate",
           "id": "debate-stage:spot:1"
-        },
-        {
-          "x": 29.5,
-          "y": 41,
-          "pose": "podium",
-          "facing": "viewer",
-          "depth": 41,
-          "behindY": 16.5,
-          "audience": "viewer",
-          "floor": "stage",
-          "hero": true,
-          "role": "speaker",
-          "id": "debate-stage:spot:podium-0"
-        },
-        {
-          "x": 70,
-          "y": 41,
-          "pose": "podium",
-          "facing": "viewer",
-          "depth": 41,
-          "behindY": 16.5,
-          "audience": "viewer",
-          "floor": "stage",
-          "role": "speaker",
-          "id": "debate-stage:spot:podium-1"
         }
       ],
       "measuredFrom": "mannequin plate art/people-rooms/plates/debate-stage.png over art/backdrops/debate-stage__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
@@ -18760,10 +18735,11 @@
         },
         {
           "x": 99.34,
-          "y": 21.94,
-          "pose": "stand",
+          "y": 17.96,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 21.94,
+          "depth": 17.96,
+          "seatY": 12.38,
           "behindY": 7.12,
           "head": {
             "top": 2.02,
@@ -18839,10 +18815,11 @@
         },
         {
           "x": 97.98,
-          "y": 22.79,
-          "pose": "stand",
+          "y": 18.81,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 22.79,
+          "depth": 18.81,
+          "seatY": 13.23,
           "behindY": 6.59,
           "head": {
             "top": 2.87,
@@ -18949,10 +18926,11 @@
         },
         {
           "x": 79.04,
-          "y": 12.94,
-          "pose": "stand",
+          "y": 10.95,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 12.94,
+          "depth": 10.95,
+          "seatY": 8.16,
           "behindY": 6.38,
           "head": {
             "top": 2.98,
@@ -19073,10 +19051,11 @@
         },
         {
           "x": 10.1,
-          "y": 10.94,
-          "pose": "stand",
+          "y": 9.39,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 10.94,
+          "depth": 9.39,
+          "seatY": 7.22,
           "behindY": 8.71,
           "head": {
             "top": 3.19,
@@ -19119,10 +19098,11 @@
         },
         {
           "x": 89.84,
-          "y": 10.94,
-          "pose": "stand",
+          "y": 9.39,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 10.94,
+          "depth": 9.39,
+          "seatY": 7.22,
           "behindY": 6.38,
           "head": {
             "top": 3.19,
@@ -19134,10 +19114,11 @@
         },
         {
           "x": 91.32,
-          "y": 10.94,
-          "pose": "stand",
+          "y": 9.39,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 10.94,
+          "depth": 9.39,
+          "seatY": 7.22,
           "behindY": 8.71,
           "head": {
             "top": 3.19,
@@ -19149,10 +19130,11 @@
         },
         {
           "x": 5.86,
-          "y": 11.04,
-          "pose": "stand",
+          "y": 9.49,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 11.04,
+          "depth": 9.49,
+          "seatY": 7.32,
           "head": {
             "top": 3.29,
             "x": 5.86,
@@ -19163,10 +19145,11 @@
         },
         {
           "x": 7.21,
-          "y": 12.15,
-          "pose": "stand",
+          "y": 10.38,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 12.15,
+          "depth": 10.38,
+          "seatY": 7.9,
           "head": {
             "top": 3.29,
             "x": 7.21,
@@ -19177,10 +19160,11 @@
         },
         {
           "x": 11.55,
-          "y": 11.04,
-          "pose": "stand",
+          "y": 9.49,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 11.04,
+          "depth": 9.49,
+          "seatY": 7.32,
           "behindY": 8.82,
           "head": {
             "top": 3.29,
@@ -19192,10 +19176,11 @@
         },
         {
           "x": 88.34,
-          "y": 11.04,
-          "pose": "stand",
+          "y": 9.49,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 11.04,
+          "depth": 9.49,
+          "seatY": 7.32,
           "behindY": 8.71,
           "head": {
             "top": 3.29,
@@ -19207,10 +19192,11 @@
         },
         {
           "x": 93.99,
-          "y": 12.15,
-          "pose": "stand",
+          "y": 10.38,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 12.15,
+          "depth": 10.38,
+          "seatY": 7.9,
           "behindY": 8.71,
           "head": {
             "top": 3.29,
@@ -19222,10 +19208,11 @@
         },
         {
           "x": 92.64,
-          "y": 22.22,
-          "pose": "stand",
+          "y": 18.46,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 22.22,
+          "depth": 18.46,
+          "seatY": 13.19,
           "head": {
             "top": 3.4,
             "x": 92.64,
@@ -19586,10 +19573,11 @@
         },
         {
           "x": 6.9,
-          "y": 100,
-          "pose": "stand",
+          "y": 96.67,
+          "pose": "sit",
           "facing": "away",
-          "depth": 100,
+          "depth": 96.67,
+          "seatY": 76.52,
           "behindY": 48.03,
           "head": {
             "top": 39.11,
@@ -19725,10 +19713,11 @@
         },
         {
           "x": 9.03,
-          "y": 54.99,
-          "pose": "stand",
+          "y": 52.11,
+          "pose": "sit",
           "facing": "away",
-          "depth": 54.99,
+          "depth": 52.11,
+          "seatY": 48.08,
           "behindY": 45.06,
           "head": {
             "top": 40.6,
@@ -19787,10 +19776,11 @@
         },
         {
           "x": 0.6,
-          "y": 56.31,
-          "pose": "stand",
+          "y": 53.21,
+          "pose": "sit",
           "facing": "away",
-          "depth": 56.31,
+          "depth": 53.21,
+          "seatY": 48.87,
           "behindY": 49.31,
           "head": {
             "top": 40.81,
@@ -19850,10 +19840,11 @@
         },
         {
           "x": 14.8,
-          "y": 78.08,
-          "pose": "stand",
+          "y": 70.78,
+          "pose": "sit",
           "facing": "away",
-          "depth": 78.08,
+          "depth": 70.78,
+          "seatY": 60.55,
           "behindY": 46.76,
           "head": {
             "top": 41.55,
@@ -19865,10 +19856,11 @@
         },
         {
           "x": 99.68,
-          "y": 53.73,
-          "pose": "stand",
+          "y": 51.29,
+          "pose": "sit",
           "facing": "away",
-          "depth": 53.73,
+          "depth": 51.29,
+          "seatY": 47.88,
           "behindY": 49.52,
           "head": {
             "top": 41.55,
@@ -19880,10 +19872,11 @@
         },
         {
           "x": 12.44,
-          "y": 59.01,
-          "pose": "stand",
+          "y": 55.69,
+          "pose": "sit",
           "facing": "away",
-          "depth": 59.01,
+          "depth": 55.69,
+          "seatY": 51.04,
           "behindY": 46.44,
           "head": {
             "top": 42.4,
@@ -20566,11 +20559,10 @@
         },
         {
           "x": 58.53,
-          "y": 54.84,
-          "pose": "sit",
+          "y": 59.48,
+          "pose": "stand",
           "facing": "viewer",
-          "depth": 54.84,
-          "seatY": 48.33,
+          "depth": 59.48,
           "behindY": 45.8,
           "head": {
             "top": 36.24,
@@ -20578,7 +20570,8 @@
             "width": 1.256
           },
           "role": "speaking",
-          "id": "us-senate-floor:spot:12"
+          "id": "us-senate-floor:spot:12",
+          "hero": true
         },
         {
           "x": 82.92,
@@ -20709,10 +20702,11 @@
         },
         {
           "x": 19.38,
-          "y": 59.99,
-          "pose": "stand",
+          "y": 56,
+          "pose": "sit",
           "facing": "away",
-          "depth": 59.99,
+          "depth": 56,
+          "seatY": 50.43,
           "behindY": 44.95,
           "head": {
             "top": 40.06,
@@ -20720,8 +20714,7 @@
             "width": 1.077
           },
           "role": "general",
-          "id": "us-senate-floor:spot:21",
-          "hero": true
+          "id": "us-senate-floor:spot:21"
         },
         {
           "x": 97.25,
@@ -22632,11 +22625,10 @@
         },
         {
           "x": 60.68,
-          "y": 56.44,
-          "pose": "sit",
+          "y": 60.24,
+          "pose": "stand",
           "facing": "away",
-          "depth": 56.44,
-          "seatY": 51.12,
+          "depth": 60.24,
           "head": {
             "top": 41.23,
             "x": 60.68,
@@ -22679,10 +22671,11 @@
         },
         {
           "x": 46.42,
-          "y": 49.15,
-          "pose": "stand",
+          "y": 47.97,
+          "pose": "sit",
           "facing": "away",
-          "depth": 49.15,
+          "depth": 47.97,
+          "seatY": 46.32,
           "behindY": 48.14,
           "head": {
             "top": 43.25,
@@ -22694,10 +22687,11 @@
         },
         {
           "x": 53.94,
-          "y": 49.15,
-          "pose": "stand",
+          "y": 47.97,
+          "pose": "sit",
           "facing": "away",
-          "depth": 49.15,
+          "depth": 47.97,
+          "seatY": 46.32,
           "behindY": 48.14,
           "head": {
             "top": 43.25,
@@ -22818,11 +22812,10 @@
         },
         {
           "x": 57.45,
-          "y": 52.09,
-          "pose": "sit",
+          "y": 53.67,
+          "pose": "stand",
           "facing": "away",
-          "depth": 52.09,
-          "seatY": 49.89,
+          "depth": 53.67,
           "head": {
             "top": 45.8,
             "x": 57.45,
@@ -22833,10 +22826,11 @@
         },
         {
           "x": 97.21,
-          "y": 51.04,
-          "pose": "stand",
+          "y": 50,
+          "pose": "sit",
           "facing": "away",
-          "depth": 51.04,
+          "depth": 50,
+          "seatY": 48.53,
           "behindY": 57.28,
           "head": {
             "top": 45.8,
@@ -23171,10 +23165,11 @@
         },
         {
           "x": 28.78,
-          "y": 85.85,
-          "pose": "stand",
+          "y": 81.26,
+          "pose": "sit",
           "facing": "away",
-          "depth": 85.85,
+          "depth": 81.26,
+          "seatY": 74.84,
           "behindY": 66.84,
           "head": {
             "top": 62.91,
@@ -23186,10 +23181,11 @@
         },
         {
           "x": 70.05,
-          "y": 81.81,
-          "pose": "stand",
+          "y": 80.37,
+          "pose": "sit",
           "facing": "away",
-          "depth": 81.81,
+          "depth": 80.37,
+          "seatY": 78.35,
           "head": {
             "top": 74.6,
             "x": 70.05,
@@ -23497,220 +23493,247 @@
       },
       "spots": [
         {
-          "x": 74.43,
-          "y": 88.02,
-          "pose": "stand",
-          "facing": "away",
-          "depth": 88.02,
+          "x": 24.67,
+          "y": 61.58,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 61.58,
+          "behindY": 51.22,
           "head": {
-            "top": 56.43,
-            "x": 74.43,
-            "width": 1.734
+            "top": 44.63,
+            "x": 24.67,
+            "width": 1.077
           },
-          "role": "general",
+          "role": "speaker",
           "id": "rally-courthouse-square:spot:0"
         },
         {
-          "x": 58.17,
-          "y": 65.46,
+          "x": 6.56,
+          "y": 100,
           "pose": "stand",
           "facing": "away",
-          "depth": 65.46,
+          "depth": 100,
           "head": {
-            "top": 56.75,
-            "x": 58.17,
-            "width": 0.478
+            "top": 55.9,
+            "x": 6.56,
+            "width": 3.349
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:1"
         },
         {
-          "x": 32.28,
-          "y": 80.15,
-          "pose": "stand",
-          "facing": "away",
-          "depth": 80.15,
-          "head": {
-            "top": 57.28,
-            "x": 32.28,
-            "width": 1.256
-          },
-          "role": "general",
-          "id": "rally-courthouse-square:spot:2",
-          "hero": true
-        },
-        {
-          "x": 39.8,
+          "x": 61.3,
           "y": 100,
           "pose": "stand",
           "facing": "away",
           "depth": 100,
           "head": {
-            "top": 57.7,
-            "x": 39.8,
-            "width": 4.725
+            "top": 56.43,
+            "x": 61.3,
+            "width": 6.758
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:2"
+        },
+        {
+          "x": 81.52,
+          "y": 100,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 100,
+          "head": {
+            "top": 57.39,
+            "x": 81.52,
+            "width": 3.589
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:3"
         },
         {
-          "x": 78.62,
-          "y": 82.76,
+          "x": 21.53,
+          "y": 89.62,
           "pose": "stand",
           "facing": "away",
-          "depth": 82.76,
+          "depth": 89.62,
           "head": {
-            "top": 57.7,
-            "x": 78.62,
-            "width": 1.376
+            "top": 57.6,
+            "x": 21.53,
+            "width": 2.033
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:4"
         },
         {
-          "x": 70.65,
-          "y": 79.6,
+          "x": 47.91,
+          "y": 97.15,
           "pose": "stand",
           "facing": "away",
-          "depth": 79.6,
+          "depth": 97.15,
           "head": {
-            "top": 57.81,
-            "x": 70.65,
-            "width": 1.196
+            "top": 57.6,
+            "x": 47.91,
+            "width": 2.512
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:5"
         },
         {
-          "x": 46.29,
-          "y": 100,
-          "pose": "sit",
+          "x": 40.52,
+          "y": 93.59,
+          "pose": "stand",
           "facing": "away",
-          "depth": 100,
-          "seatY": 149.68,
+          "depth": 93.59,
           "head": {
-            "top": 57.92,
-            "x": 46.29,
-            "width": 9.689
+            "top": 57.81,
+            "x": 40.52,
+            "width": 2.273
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:6"
         },
         {
-          "x": 63.07,
-          "y": 100,
-          "pose": "sit",
+          "x": 90.25,
+          "y": 91.82,
+          "pose": "stand",
           "facing": "away",
-          "depth": 100,
-          "seatY": 95.3,
+          "depth": 91.82,
           "head": {
             "top": 57.92,
-            "x": 63.07,
-            "width": 3.947
+            "x": 90.25,
+            "width": 2.153
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:7"
         },
         {
-          "x": 21.62,
-          "y": 74.36,
+          "x": 69.5,
+          "y": 83.98,
           "pose": "stand",
           "facing": "away",
-          "depth": 74.36,
+          "depth": 83.98,
           "head": {
-            "top": 58.02,
-            "x": 21.62,
-            "width": 0.897
+            "top": 58.55,
+            "x": 69.5,
+            "width": 1.615
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:8"
         },
         {
-          "x": 8,
-          "y": 68.89,
+          "x": 34.96,
+          "y": 83.25,
           "pose": "stand",
           "facing": "away",
-          "depth": 68.89,
+          "depth": 83.25,
           "head": {
-            "top": 59.09,
-            "x": 8,
-            "width": 0.538
+            "top": 58.77,
+            "x": 34.96,
+            "width": 1.555
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:9"
         },
         {
-          "x": 53.25,
-          "y": 72.26,
+          "x": 15.86,
+          "y": 82.42,
           "pose": "stand",
           "facing": "away",
-          "depth": 72.26,
+          "depth": 82.42,
           "head": {
-            "top": 59.19,
-            "x": 53.25,
-            "width": 0.718
+            "top": 58.87,
+            "x": 15.86,
+            "width": 1.495
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:10"
         },
         {
-          "x": 88.97,
-          "y": 72.26,
+          "x": 52.1,
+          "y": 100,
           "pose": "stand",
           "facing": "away",
-          "depth": 72.26,
+          "depth": 100,
           "head": {
-            "top": 59.19,
-            "x": 88.97,
-            "width": 0.718
+            "top": 59.09,
+            "x": 52.1,
+            "width": 2.931
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:11"
         },
         {
-          "x": 3.64,
-          "y": 67.24,
+          "x": 76.38,
+          "y": 100,
           "pose": "stand",
           "facing": "away",
-          "depth": 67.24,
+          "depth": 100,
           "head": {
-            "top": 59.62,
-            "x": 3.64,
-            "width": 0.419
+            "top": 59.51,
+            "x": 76.38,
+            "width": 4.306
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:12"
         },
         {
-          "x": 30.84,
-          "y": 72.26,
+          "x": 55.72,
+          "y": 100,
           "pose": "stand",
           "facing": "away",
-          "depth": 72.26,
+          "depth": 100,
           "head": {
-            "top": 63.55,
-            "x": 30.84,
-            "width": 0.478
+            "top": 59.72,
+            "x": 55.72,
+            "width": 3.17
           },
           "role": "general",
           "id": "rally-courthouse-square:spot:13"
         },
         {
-          "x": 26.5,
-          "y": 60,
-          "pose": "podium",
-          "facing": "viewer",
-          "depth": 60,
-          "audience": "viewer",
-          "floor": "stage",
-          "floorHorizonY": 52,
-          "floorMetersPercent": 0.89,
-          "behindY": 55,
+          "x": 85.07,
+          "y": 75.84,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 75.84,
+          "head": {
+            "top": 59.83,
+            "x": 85.07,
+            "width": 1.017
+          },
           "role": "general",
-          "id": "rally-courthouse-square:spot:podium-0"
+          "id": "rally-courthouse-square:spot:14"
+        },
+        {
+          "x": 44.79,
+          "y": 74.7,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 74.7,
+          "head": {
+            "top": 60.57,
+            "x": 44.79,
+            "width": 0.897
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:15",
+          "hero": true
+        },
+        {
+          "x": 81.11,
+          "y": 91.03,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 91.03,
+          "head": {
+            "top": 88.2,
+            "x": 81.11,
+            "width": 0.179
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:16"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/rally-courthouse-square.png over art/backdrops/rally-courthouse-square__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.098",
+      "measuredFrom": "mannequin plate art/people-rooms/plates/rally-courthouse-square.png over art/backdrops/rally-courthouse-square__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.113",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/rally-courthouse-square.json"
     },
@@ -27879,7 +27902,8 @@
             "width": 3.888
           },
           "role": "general",
-          "id": "house-bedroom:spot:0"
+          "id": "house-bedroom:spot:0",
+          "hero": true
         },
         {
           "x": 28.17,
@@ -27897,18 +27921,18 @@
         },
         {
           "x": 45.99,
-          "y": 89.29,
-          "pose": "stand",
+          "y": 77.78,
+          "pose": "sit",
           "facing": "right",
-          "depth": 89.29,
+          "depth": 77.78,
+          "seatY": 61.68,
           "head": {
             "top": 31.77,
             "x": 45.99,
             "width": 3.23
           },
           "role": "general",
-          "id": "house-bedroom:spot:2",
-          "hero": true
+          "id": "house-bedroom:spot:2"
         }
       ],
       "measuredFrom": "mannequin plate art/people-rooms/plates/house-bedroom.png over art/backdrops/house-bedroom__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.100",
@@ -34589,10 +34613,9 @@
         {
           "x": 47.45,
           "y": 100,
-          "pose": "sit",
+          "pose": "stand",
           "facing": "viewer",
           "depth": 100,
-          "seatY": 88.28,
           "behindY": 66.74,
           "head": {
             "top": 59.3,
@@ -34718,11 +34741,10 @@
         },
         {
           "x": 77.22,
-          "y": 70.6,
-          "pose": "sit",
+          "y": 73.35,
+          "pose": "stand",
           "facing": "away",
-          "depth": 70.6,
-          "seatY": 66.76,
+          "depth": 73.35,
           "head": {
             "top": 59.62,
             "x": 77.22,
@@ -34733,11 +34755,10 @@
         },
         {
           "x": 50.48,
-          "y": 92.03,
-          "pose": "sit",
+          "y": 100,
+          "pose": "stand",
           "facing": "viewer",
-          "depth": 92.03,
-          "seatY": 80.72,
+          "depth": 100,
           "behindY": 65.57,
           "head": {
             "top": 59.72,
@@ -34749,11 +34770,10 @@
         },
         {
           "x": 79.62,
-          "y": 79.75,
-          "pose": "sit",
+          "y": 84.76,
+          "pose": "stand",
           "facing": "away",
-          "depth": 79.75,
-          "seatY": 72.74,
+          "depth": 84.76,
           "head": {
             "top": 59.72,
             "x": 79.62,
@@ -34778,11 +34798,10 @@
         },
         {
           "x": 56.64,
-          "y": 68.23,
-          "pose": "sit",
+          "y": 70.33,
+          "pose": "stand",
           "facing": "viewer",
-          "depth": 68.23,
-          "seatY": 65.29,
+          "depth": 70.33,
           "head": {
             "top": 59.83,
             "x": 56.64,
@@ -34881,11 +34900,10 @@
         },
         {
           "x": 60.73,
-          "y": 80.07,
-          "pose": "sit",
+          "y": 85.08,
+          "pose": "stand",
           "facing": "viewer",
-          "depth": 80.07,
-          "seatY": 73.06,
+          "depth": 85.08,
           "behindY": 64.51,
           "head": {
             "top": 60.04,

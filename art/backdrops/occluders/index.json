@@ -5310,20 +5310,6 @@
           "topPercent": 16.153,
           "widthPercent": 10.945,
           "heightPercent": 49.203
-        },
-        "debate-stage:spot:podium-0": {
-          "file": "debate-stage/2.png",
-          "leftPercent": 21.77,
-          "topPercent": 16.472,
-          "widthPercent": 15.431,
-          "heightPercent": 24.867
-        },
-        "debate-stage:spot:podium-1": {
-          "file": "debate-stage/3.png",
-          "leftPercent": 62.261,
-          "topPercent": 16.472,
-          "widthPercent": 15.431,
-          "heightPercent": 24.867
         }
       }
     },
@@ -8542,20 +8528,6 @@
           "widthPercent": 5.203,
           "heightPercent": 6.057
         },
-        "national-convention-floor:spot:4": {
-          "file": "national-convention-floor/4.png",
-          "leftPercent": 45.036,
-          "topPercent": 48.247,
-          "widthPercent": 0.837,
-          "heightPercent": 3.401
-        },
-        "national-convention-floor:spot:5": {
-          "file": "national-convention-floor/5.png",
-          "leftPercent": 54.665,
-          "topPercent": 48.247,
-          "widthPercent": 0.718,
-          "heightPercent": 3.401
-        },
         "national-convention-floor:spot:8": {
           "file": "national-convention-floor/8.png",
           "leftPercent": 35.167,
@@ -8715,7 +8687,7 @@
           "leftPercent": 26.196,
           "topPercent": 66.95,
           "widthPercent": 7.416,
-          "heightPercent": 28.162
+          "heightPercent": 18.81
         },
         "national-convention-floor:spot:38": {
           "file": "national-convention-floor/38.png",
@@ -10059,12 +10031,12 @@
       "parentSha256": "17e841046e30c911c58de1277efed81b47b3a0d4c6587e110c97f473cd5be053",
       "from": "art/people-rooms/spots/rally-courthouse-square.json",
       "spots": {
-        "rally-courthouse-square:spot:podium-0": {
-          "file": "rally-courthouse-square/14.png",
-          "leftPercent": 23.744,
-          "topPercent": 54.942,
-          "widthPercent": 5.502,
-          "heightPercent": 5.42
+        "rally-courthouse-square:spot:0": {
+          "file": "rally-courthouse-square/0.png",
+          "leftPercent": 21.77,
+          "topPercent": 51.328,
+          "widthPercent": 5.144,
+          "heightPercent": 11.265
         }
       }
     },
@@ -14250,7 +14222,7 @@
           "leftPercent": 77.333,
           "topPercent": 6.482,
           "widthPercent": 3.05,
-          "heightPercent": 10.84
+          "heightPercent": 9.458
         },
         "us-house-floor:spot:14": {
           "file": "us-house-floor/14.png",
@@ -14305,8 +14277,8 @@
           "file": "us-house-floor/21.png",
           "leftPercent": 9.091,
           "topPercent": 8.82,
-          "widthPercent": 0.658,
-          "heightPercent": 5.845
+          "widthPercent": 0.598,
+          "heightPercent": 4.676
         },
         "us-house-floor:spot:22": {
           "file": "us-house-floor/22.png",
@@ -14336,13 +14308,6 @@
           "widthPercent": 0.538,
           "heightPercent": 4.57
         },
-        "us-house-floor:spot:27": {
-          "file": "us-house-floor/27.png",
-          "leftPercent": 6.16,
-          "topPercent": 11.371,
-          "widthPercent": 2.333,
-          "heightPercent": 5.313
-        },
         "us-house-floor:spot:28": {
           "file": "us-house-floor/28.png",
           "leftPercent": 10.586,
@@ -14361,8 +14326,8 @@
           "file": "us-house-floor/30.png",
           "leftPercent": 92.943,
           "topPercent": 8.82,
-          "widthPercent": 2.512,
-          "heightPercent": 7.864
+          "widthPercent": 0.778,
+          "heightPercent": 6.482
         },
         "us-house-floor:spot:31": {
           "file": "us-house-floor/31.png",
@@ -14663,7 +14628,7 @@
           "leftPercent": 97.129,
           "topPercent": 49.628,
           "widthPercent": 2.871,
-          "heightPercent": 8.714
+          "heightPercent": 8.608
         },
         "us-house-floor:spot:74": {
           "file": "us-house-floor/74.png",
