@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/release-publish-clock
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T18:39:48.621Z
 ---
 
 **What.** After #6353 the desktop package runs on a clock, but it packages the newest publish record, and publish records come from the per-push Release run, whose build, validate and publish jobs still share the release-main-validate concurrency group: GitHub keeps one pending run and cancels the rest, so with a merge every few minutes no run reaches publish. The first clock run (40554949865, 17:54 UTC Oct 27) found no publish record since the 17:24 merge. Move publishing onto the clock: the scheduled and dispatched Release package workflow first builds and validates the newest main commit whose per-push validation passed (or validates it itself), writes the version commit and publish record, then packages that same candidate. The per-push run keeps validating every merge (so a red main is still seen within minutes) and publishes nothing. Time box: 3 hours.
