@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/contract-wages
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T16:16:39.192Z
 ---
 
 **What.** In the item's pinned world (place key 5458756, world seed 316714e6…8c36b) the firm that wins contract:US-WV:schools:2025-02-01 (organization_99dd43244afa92df) has an annual payroll of 4,566,836 minor but its book paid only 237,568 minor of wages over the year, while its sales were 32,059,356. PR 6217 changed the contracts test to read wages over the whole run, so the test no longer shows the gap. Find why wages paid are so far below the payroll and whether it holds in other places.
