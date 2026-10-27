@@ -7186,5 +7186,17 @@
     "status": "resolved",
     "resolvedAt": "2026-10-25",
     "resolution": "Each job held at the opening carries when it was taken (the work commitment's heldSince): the world's recorded start, else the opening's estimate from the BLS age band's median tenure bounded by adulthood and the employer's founding, the same date the person's work:opening fact and their opening pay read (src/core2/population.ts, openingStartOf). tenureYears reads it for full and counted workers alike, so raises, layoffs and quits read real tenure (pool item people-opening-job-tenure-estimate)."
+  },
+  {
+    "id": "SG-PLAY-day-start-minute",
+    "kind": "missing-mechanic",
+    "file": "src/bench/player.ts",
+    "line": 209,
+    "whatItFakes": "Every controlled person's day starts at one minute (7:00 AM, playerDayStartMinute): Day, Week and a calendar jump land on it, and the director's scenes at home wait for it, instead of the person's own wake time.",
+    "why": "The core keeps no wake or sleep time for a person; work shifts start and end, but nothing says when anyone gets up.",
+    "addedBy": "claude/integration-clock-and-hours",
+    "addedAt": "2026-10-27",
+    "replacement": "A person's own wake time from their work schedule, household and age (American Time Use Survey sleep and waking hours by age and employment), read by the bench's day driver and the director's openedAt.",
+    "status": "open"
   }
 ]

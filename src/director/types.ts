@@ -71,6 +71,13 @@ export interface DirectorData {
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };
+  /**
+   * When each kind of setting can hold a scene, in minutes after midnight; a
+   * null opening is the controlled person's own day start.
+   */
+  settingHours: {
+    rows: Readonly<Record<string, { opens: number | null; closes: number }>>;
+  };
 }
 
 export interface ChannelContribution {
