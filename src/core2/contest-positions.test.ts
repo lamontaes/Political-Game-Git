@@ -335,18 +335,17 @@ function noQuestionTown(place: ReturnType<typeof drawPlace>): string | null {
       .moduleState(ELECTIONS_MODULE_ID)
       .table("contests")
       .rows() as unknown as ContestRow[];
+  // An unincorporated place has no council of its own to check.
   const council = contests().find((c) => officeOf(c).kind === "council");
-  if (council) {
-    const list = contestPositions(api, council);
-    expect(
-      list.length,
-      `${where}: council ${council.officeId}`,
-    ).toBeGreaterThan(0);
-    expect(
-      list.filter((q) => !q.startsWith(BUDGET)),
-      `${where}: council ${council.officeId} lists a question`,
-    ).toEqual([]);
-  }
+  if (!council) return `${where}: no council contest`;
+  const list = contestPositions(api, council);
+  expect(list.length, `${where}: council ${council.officeId}`).toBeGreaterThan(
+    0,
+  );
+  expect(
+    list.filter((q) => !q.startsWith(BUDGET)),
+    `${where}: council ${council.officeId} lists a question`,
+  ).toEqual([]);
   // Play until computer candidates in local races file platforms with a
   // budget line; take, in order, a town race whose campaign can pay for an
   // event, then any race that can, then a town race, then any.
@@ -450,7 +449,7 @@ function noQuestionTown(place: ReturnType<typeof drawPlace>): string | null {
     `${where}: no ballot in ${contest.id} weighs ${filing.id}'s platform`,
   ).toBeGreaterThan(0);
   process.stdout.write(
-    `CONTEST POSITIONS (no question) ${where} (GOLDEN_PATH_SEED=${seed})\n  council ${council?.officeId ?? "none"}: ${council ? contestPositions(api, council).length : 0} positions; ${contest.officeId}: ${positions.length} positions (${positions.filter((q) => !q.startsWith(BUDGET)).length} questions); filing ${filing.id} states ${JSON.stringify(stances.map((s) => `${s.question.split(":").pop()} ${s.position}`))}; event ${event ? (event.available ? "open" : `shut on price (${event.facts.cashMinor} < ${event.facts.venuePriceMinor})`) : "none"}; ${weighed.length} ballots weigh it, e.g. ${weighed[0]!.id} (agreement ${weighed[0]!.appeal[filing.personId]!.agreement})\n`,
+    `CONTEST POSITIONS (no question) ${where} (GOLDEN_PATH_SEED=${seed})\n  council ${council.officeId}: ${list.length} positions; ${contest.officeId}: ${positions.length} positions (${positions.filter((q) => !q.startsWith(BUDGET)).length} questions); filing ${filing.id} states ${JSON.stringify(stances.map((s) => `${s.question.split(":").pop()} ${s.position}`))}; event ${event ? (event.available ? "open" : `shut on price (${event.facts.cashMinor} < ${event.facts.venuePriceMinor})`) : "none"}; ${weighed.length} ballots weigh it, e.g. ${weighed[0]!.id} (agreement ${weighed[0]!.appeal[filing.personId]!.agreement})\n`,
   );
   return null;
 }
@@ -460,10 +459,11 @@ it("a town whose state lets it decide no platform question still campaigns on it
   const keptBefore = setKeepEveryonesWhy(true);
   try {
     // Draw places from all 56 whose towns decide no question, until one has
-    // a local race that files in the year; each passed over is named.
+    // a council and a local race that files in the year; each passed over is
+    // named.
     const tried: string[] = [];
     let checked = false;
-    for (let draw = 0; draw < 200 && !checked && tried.length < 4; draw += 1) {
+    for (let draw = 0; draw < 200 && !checked && tried.length < 8; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "contest-positions-none");
       if (!townsDecideNoQuestion(place.key)) continue;
       const passedOver = noQuestionTown(place);
@@ -472,7 +472,7 @@ it("a town whose state lets it decide no platform question still campaigns on it
     }
     expect(
       checked,
-      `no drawn place whose towns decide no question had a local filing with a budget line (seed ${seed}): ${tried.join("; ")}`,
+      `no drawn place whose towns decide no question had a council and a local filing with a budget line (seed ${seed}): ${tried.join("; ")}`,
     ).toBe(true);
   } finally {
     setKeepEveryonesWhy(keptBefore);
