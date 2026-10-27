@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { PNG } from "pngjs";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import heads from "./data/figure-heads.json" with { type: "json" };
 import { backdropStaging, type StagingSpot } from "./staging";
@@ -42,7 +43,12 @@ describe(`spots measured from a mannequin plate at ${place}`, () => {
       expect(spot.head!.top).toBeCloseTo((m.headTop / height) * 100, 1);
       expect(spot.head!.x).toBeCloseTo((m.headX / width) * 100, 1);
       expect(spot.head!.width).toBeCloseTo((m.headWidth / width) * 100, 2);
-      expect(spot.pose).toBe(m.pose === "lectern" ? "podium" : m.pose);
+      expect(spot.pose).toBe(
+        m.pose === "lectern" ||
+          ((m.tags as { role?: string }).role === "speaker" && m.pose !== "sit")
+          ? "podium"
+          : m.pose,
+      );
       const angle = Math.abs(m.tags.facing);
       expect(spot.facing).toBe(
         angle >= 135
@@ -81,10 +87,8 @@ describe(`spots measured from a mannequin plate at ${place}`, () => {
       const [top, , width] = (heads.heads as Record<string, number[]>)[name]!;
       const f = whole.figure;
       const figureWidthPx = (f.widthPercent / 100) * 1672;
-      const png = JSON.parse(
-        readFileSync("art/people-engine/v2/index.json", "utf8"),
-      ).figures.find((row: { file: string }) =>
-        row.file.endsWith(`${name}.png`),
+      const png = PNG.sync.read(
+        readFileSync(`art/people-engine/v2/figures/${name}.png`),
       );
       const scale = figureWidthPx / png.width;
       expect((width! * scale * 100) / 1672).toBeCloseTo(spot.head.width, 3);

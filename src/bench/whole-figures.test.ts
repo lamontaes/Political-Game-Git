@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { colorsFor, pickLook, viewOf, wholeFigureFor } from "./whole-figures";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
+import backs from "../../art/people-engine/v2/figures-back.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { backdropStaging } from "./staging";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
@@ -65,11 +66,15 @@ describe(`contact shadows at ${place}`, () => {
         continue;
       }
       const shadow = figure.shadow!;
-      // Centered vertically on the floor line the feet stand on.
-      expect(shadow.topPercent + shadow.heightPercent / 2).toBeCloseTo(
-        spot.y,
-        6,
-      );
+      // Centered vertically on the floor line the feet stand on: the spot's,
+      // or on a spot measured from a plate, the feet as drawn there.
+      const middleY = shadow.topPercent + shadow.heightPercent / 2;
+      if (spot.head) {
+        expect(middleY).toBeGreaterThan(figure.topPercent);
+        expect(middleY).toBeLessThanOrEqual(
+          figure.topPercent + figure.heightPercent,
+        );
+      } else expect(middleY).toBeCloseTo(spot.y, 6);
       // Centered under the figure, and no wider than the figure's picture.
       const middle = shadow.leftPercent + shadow.widthPercent / 2;
       expect(middle).toBeGreaterThan(figure.leftPercent);
@@ -195,8 +200,15 @@ describe(`the angle each spot asks for at ${place}`, () => {
     prop: string;
     flag?: string;
   };
+  // The set's own figures, and the standing ones seen from behind ("plain" is "base").
   const rows = new Map(
-    (index.figures as Row[]).map((row) => [row.file.split("/").pop()!, row]),
+    [
+      ...(index.figures as Row[]),
+      ...(backs.figures as Row[]).map((row) => ({
+        ...row,
+        outfit: row.outfit === "plain" ? "base" : row.outfit,
+      })),
+    ].map((row) => [row.file.split("/").pop()!, row]),
   );
 
   it("draws a back where the spot faces away, a face where it faces the viewer, else the three-quarter view", () => {

@@ -5960,6 +5960,37 @@
       },
       "spots": [
         {
+          "x": 26.65,
+          "y": 43.78,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 43.78,
+          "behindY": 16.05,
+          "head": {
+            "top": 3.93,
+            "x": 26.65,
+            "width": 2.153
+          },
+          "role": "candidate",
+          "id": "debate-stage:spot:0",
+          "hero": true
+        },
+        {
+          "x": 73.53,
+          "y": 43.78,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 43.78,
+          "behindY": 16.05,
+          "head": {
+            "top": 3.93,
+            "x": 73.53,
+            "width": 2.153
+          },
+          "role": "candidate",
+          "id": "debate-stage:spot:1"
+        },
+        {
           "x": 29.5,
           "y": 41,
           "pose": "podium",
@@ -5970,7 +6001,7 @@
           "floor": "stage",
           "hero": true,
           "role": "speaker",
-          "id": "debate-stage:spot:0"
+          "id": "debate-stage:spot:podium-0"
         },
         {
           "x": 70,
@@ -5982,299 +6013,12 @@
           "audience": "viewer",
           "floor": "stage",
           "role": "speaker",
-          "id": "debate-stage:spot:1"
-        },
-        {
-          "x": 50,
-          "y": 41,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 41,
-          "floor": "stage",
-          "role": "general",
-          "id": "debate-stage:spot:2"
-        },
-        {
-          "x": 40,
-          "y": 60,
-          "pose": "lean",
-          "facing": "viewer",
-          "depth": 60,
-          "role": "general",
-          "id": "debate-stage:spot:3"
-        },
-        {
-          "x": 52,
-          "y": 70,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 70,
-          "role": "general",
-          "id": "debate-stage:spot:4"
-        },
-        {
-          "x": 47,
-          "y": 90,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 90,
-          "role": "general",
-          "id": "debate-stage:spot:5"
-        },
-        {
-          "x": 63.5,
-          "y": 76,
-          "pose": "lean",
-          "facing": "left",
-          "depth": 76,
-          "role": "general",
-          "id": "debate-stage:spot:6"
-        },
-        {
-          "x": 16,
-          "y": 65,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 65,
-          "seatY": 55.9,
-          "group": "audience-row-1",
-          "role": "audience",
-          "id": "debate-stage:spot:7"
-        },
-        {
-          "x": 30,
-          "y": 65,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 65,
-          "seatY": 55.9,
-          "group": "audience-row-1",
-          "role": "audience",
-          "id": "debate-stage:spot:8"
-        },
-        {
-          "x": 44,
-          "y": 65,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 65,
-          "seatY": 55.9,
-          "group": "audience-row-1",
-          "role": "audience",
-          "id": "debate-stage:spot:9"
-        },
-        {
-          "x": 84,
-          "y": 65,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 65,
-          "seatY": 55.9,
-          "group": "audience-row-1",
-          "role": "audience",
-          "id": "debate-stage:spot:10"
-        },
-        {
-          "x": 70,
-          "y": 65,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 65,
-          "seatY": 55.9,
-          "group": "audience-row-1",
-          "role": "audience",
-          "id": "debate-stage:spot:11"
-        },
-        {
-          "x": 56,
-          "y": 65,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 65,
-          "seatY": 55.9,
-          "group": "audience-row-1",
-          "role": "audience",
-          "id": "debate-stage:spot:12"
-        },
-        {
-          "x": 10,
-          "y": 75,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 75,
-          "seatY": 63.8,
-          "group": "audience-row-2",
-          "role": "audience",
-          "id": "debate-stage:spot:13"
-        },
-        {
-          "x": 22,
-          "y": 75,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 75,
-          "seatY": 63.8,
-          "group": "audience-row-2",
-          "role": "audience",
-          "id": "debate-stage:spot:14"
-        },
-        {
-          "x": 34,
-          "y": 75,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 75,
-          "seatY": 63.8,
-          "group": "audience-row-2",
-          "role": "audience",
-          "id": "debate-stage:spot:15"
-        },
-        {
-          "x": 90,
-          "y": 75,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 75,
-          "seatY": 63.8,
-          "group": "audience-row-2",
-          "role": "audience",
-          "id": "debate-stage:spot:16"
-        },
-        {
-          "x": 78,
-          "y": 75,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 75,
-          "seatY": 63.8,
-          "group": "audience-row-2",
-          "role": "audience",
-          "id": "debate-stage:spot:17"
-        },
-        {
-          "x": 66,
-          "y": 75,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 75,
-          "seatY": 63.8,
-          "group": "audience-row-2",
-          "role": "audience",
-          "id": "debate-stage:spot:18"
-        },
-        {
-          "x": 5,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:19"
-        },
-        {
-          "x": 15,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:20"
-        },
-        {
-          "x": 25,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:21"
-        },
-        {
-          "x": 35,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:22"
-        },
-        {
-          "x": 45,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:23"
-        },
-        {
-          "x": 95,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:24"
-        },
-        {
-          "x": 85,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:25"
-        },
-        {
-          "x": 75,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:26"
-        },
-        {
-          "x": 65,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:27"
-        },
-        {
-          "x": 55,
-          "y": 84,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 84,
-          "seatY": 70.9,
-          "group": "audience-row-3",
-          "role": "audience",
-          "id": "debate-stage:spot:28"
+          "id": "debate-stage:spot:podium-1"
         }
       ],
-      "measuredFrom": "front-row armrest 0.6-0.65 m foot 73.5 top 58.5; second-row armrest foot 83 top 65.3 (the pair gives horizon 20.7, 0.44-0.47); front-row seat back 1.0 m foot 73.5 top 51.7 (0.41); stage: lectern 1.2 m foot 42.3 top 16 (1.02); stage face 0.84 m foot 57 top 44",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/debate-stage.png over art/backdrops/debate-stage__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/debate-stage.json"
     },
     "diner": {
       "horizonY": 35,
@@ -7414,121 +7158,103 @@
       "metersPercent": 0.46,
       "spots": [
         {
-          "x": 30,
-          "y": 53.3,
-          "pose": "sit",
+          "x": 52.78,
+          "y": 69.5,
+          "pose": "stand",
           "facing": "viewer",
-          "depth": 53.3,
-          "behindY": 40.5,
-          "seatY": 43.3,
-          "group": "desk",
-          "hero": true,
+          "depth": 69.5,
+          "head": {
+            "top": 22,
+            "x": 52.78,
+            "width": 2.751
+          },
           "role": "general",
-          "id": "governor-office:spot:0"
+          "id": "governor-office:spot:0",
+          "hero": true
         },
         {
-          "x": 66,
-          "y": 56.1,
+          "x": 30.21,
+          "y": 58.57,
           "pose": "sit",
           "facing": "viewer",
-          "depth": 56.1,
-          "seatY": 45.5,
-          "group": "sofa",
-          "role": "general",
+          "depth": 58.57,
+          "seatY": 47.3,
+          "behindY": 40.28,
+          "head": {
+            "top": 26.35,
+            "x": 30.21,
+            "width": 2.333
+          },
+          "role": "governor",
           "id": "governor-office:spot:1"
         },
         {
-          "x": 77,
-          "y": 56.1,
+          "x": 68.09,
+          "y": 56.76,
           "pose": "sit",
           "facing": "viewer",
-          "depth": 56.1,
-          "seatY": 45.5,
-          "group": "sofa",
-          "role": "general",
-          "id": "governor-office:spot:10"
-        },
-        {
-          "x": 92,
-          "y": 64.2,
-          "pose": "sit",
-          "facing": "left",
-          "depth": 64.2,
-          "seatY": 51.5,
-          "group": "armchair",
+          "depth": 56.76,
+          "seatY": 46.64,
+          "behindY": 42.4,
+          "head": {
+            "top": 27.84,
+            "x": 68.09,
+            "width": 2.093
+          },
           "role": "general",
           "id": "governor-office:spot:2"
         },
         {
-          "x": 50,
-          "y": 52,
-          "pose": "lean",
+          "x": 77.51,
+          "y": 59.15,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 52,
+          "depth": 59.15,
+          "seatY": 48.46,
+          "behindY": 41.34,
+          "head": {
+            "top": 28.59,
+            "x": 77.51,
+            "width": 2.213
+          },
           "role": "general",
           "id": "governor-office:spot:3"
         },
         {
-          "x": 48,
-          "y": 62,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 62,
+          "x": 93.99,
+          "y": 65.33,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 65.33,
+          "seatY": 53.47,
+          "head": {
+            "top": 31.46,
+            "x": 93.99,
+            "width": 2.452
+          },
           "role": "general",
           "id": "governor-office:spot:4"
         },
         {
-          "x": 62,
-          "y": 66,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 66,
+          "x": 13.89,
+          "y": 75.74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75.74,
+          "seatY": 61.28,
+          "behindY": 46.12,
+          "head": {
+            "top": 34.43,
+            "x": 13.89,
+            "width": 2.99
+          },
           "role": "general",
           "id": "governor-office:spot:5"
-        },
-        {
-          "x": 40,
-          "y": 70,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 70,
-          "role": "general",
-          "id": "governor-office:spot:6"
-        },
-        {
-          "x": 55,
-          "y": 76,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 76,
-          "role": "general",
-          "id": "governor-office:spot:7"
-        },
-        {
-          "x": 15,
-          "y": 72,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 72,
-          "seatY": 57,
-          "group": "visitors",
-          "role": "audience",
-          "id": "governor-office:spot:8"
-        },
-        {
-          "x": 30,
-          "y": 73,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 73,
-          "seatY": 58,
-          "group": "visitors",
-          "role": "audience",
-          "id": "governor-office:spot:9"
         }
       ],
-      "measuredFrom": "governor's high-back chair 0.7 m wide (7% of width) back top 32, floor about 51.6; sofa back 0.9 m foot 57 top 37; desk 0.76 m foot 60 top 43; visitor chair back 0.95 m foot 72 top 46.5; near and far furniture read almost the same size, so horizon 15 / 0.46 is the flattest fit that keeps the governor's chair exact (0.46) and the visitor chairs (0.47) and sofa (0.51) close",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/governor-office.png over art/backdrops/governor-office__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.103",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/governor-office.json"
     },
     "governor-residence-exterior": {
       "horizonY": 58,
@@ -10659,145 +10385,338 @@
       },
       "spots": [
         {
-          "x": 25.5,
-          "y": 62.8,
+          "x": 21.14,
+          "y": 65.19,
           "pose": "podium",
-          "facing": "viewer",
-          "depth": 62.8,
-          "behindY": 38.5,
-          "audience": "viewer",
-          "floor": "stage",
-          "hero": true,
+          "facing": "right",
+          "depth": 65.19,
+          "behindY": 37.3,
+          "head": {
+            "top": 24.23,
+            "x": 21.14,
+            "width": 2.213
+          },
           "role": "speaker",
-          "id": "rally-stage:spot:0"
+          "id": "rally-stage:spot:0",
+          "hero": true
         },
         {
-          "x": 42,
-          "y": 62.2,
-          "pose": "stand",
+          "x": 94.6,
+          "y": 47.01,
+          "pose": "sit",
           "facing": "left",
-          "depth": 62.2,
-          "floor": "stage",
+          "depth": 47.01,
+          "seatY": 40.19,
+          "behindY": 39.64,
+          "head": {
+            "top": 27.52,
+            "x": 94.6,
+            "width": 1.316
+          },
           "role": "general",
           "id": "rally-stage:spot:1"
         },
         {
-          "x": 55,
-          "y": 80,
-          "pose": "stand",
+          "x": 88.07,
+          "y": 48.07,
+          "pose": "sit",
           "facing": "left",
-          "depth": 80,
+          "depth": 48.07,
+          "seatY": 41.25,
+          "behindY": 40.17,
+          "head": {
+            "top": 28.59,
+            "x": 88.07,
+            "width": 1.316
+          },
           "role": "general",
           "id": "rally-stage:spot:2"
         },
         {
-          "x": 72,
-          "y": 74,
-          "pose": "stand",
+          "x": 76.85,
+          "y": 48.32,
+          "pose": "sit",
           "facing": "left",
-          "depth": 74,
+          "depth": 48.32,
+          "seatY": 42.12,
+          "behindY": 46.33,
+          "head": {
+            "top": 30.61,
+            "x": 76.85,
+            "width": 1.196
+          },
           "role": "general",
           "id": "rally-stage:spot:3"
         },
         {
-          "x": 38,
-          "y": 90,
-          "pose": "stand",
+          "x": 66.98,
+          "y": 49.38,
+          "pose": "sit",
           "facing": "left",
-          "depth": 90,
+          "depth": 49.38,
+          "seatY": 43.18,
+          "behindY": 45.06,
+          "head": {
+            "top": 31.67,
+            "x": 66.98,
+            "width": 1.196
+          },
           "role": "general",
           "id": "rally-stage:spot:4"
         },
         {
-          "x": 88,
-          "y": 72.5,
-          "pose": "lean",
+          "x": 83.74,
+          "y": 85.09,
+          "pose": "sit",
           "facing": "left",
-          "depth": 72.5,
+          "depth": 85.09,
+          "seatY": 66.8,
+          "behindY": 40.6,
+          "head": {
+            "top": 32.84,
+            "x": 83.74,
+            "width": 3.529
+          },
           "role": "general",
           "id": "rally-stage:spot:5"
         },
         {
-          "x": 81,
-          "y": 54.5,
+          "x": 61.9,
+          "y": 54.94,
           "pose": "sit",
           "facing": "left",
-          "depth": 54.5,
-          "seatY": 50.1,
-          "floorHorizonY": 43,
-          "floorMetersPercent": 0.86,
-          "group": "bleacher-row-1",
-          "role": "audience",
+          "depth": 54.94,
+          "seatY": 48.43,
+          "behindY": 45.16,
+          "head": {
+            "top": 36.34,
+            "x": 61.9,
+            "width": 1.256
+          },
+          "role": "general",
           "id": "rally-stage:spot:6"
         },
         {
-          "x": 84,
-          "y": 50,
+          "x": 96.98,
+          "y": 61.71,
           "pose": "sit",
           "facing": "left",
-          "depth": 50,
-          "seatY": 45.6,
-          "floorHorizonY": 38.5,
-          "floorMetersPercent": 0.86,
-          "group": "bleacher-row-2",
-          "role": "audience",
+          "depth": 61.71,
+          "seatY": 53.65,
+          "head": {
+            "top": 38.68,
+            "x": 96.98,
+            "width": 1.555
+          },
+          "role": "general",
           "id": "rally-stage:spot:7"
         },
         {
-          "x": 87,
-          "y": 46,
+          "x": 97.75,
+          "y": 100,
           "pose": "sit",
           "facing": "left",
-          "depth": 46,
-          "seatY": 41.6,
-          "floorHorizonY": 34.5,
-          "floorMetersPercent": 0.86,
-          "group": "bleacher-row-3",
-          "role": "audience",
+          "depth": 100,
+          "seatY": 85.01,
+          "behindY": 49.52,
+          "head": {
+            "top": 46.44,
+            "x": 97.75,
+            "width": 4.007
+          },
+          "role": "general",
           "id": "rally-stage:spot:8"
         },
         {
-          "x": 90,
-          "y": 42,
+          "x": 82.89,
+          "y": 99.75,
           "pose": "sit",
           "facing": "left",
-          "depth": 42,
-          "seatY": 37.6,
-          "floorHorizonY": 30.5,
-          "floorMetersPercent": 0.86,
-          "group": "bleacher-row-4",
-          "role": "audience",
+          "depth": 99.75,
+          "seatY": 81.46,
+          "head": {
+            "top": 47.5,
+            "x": 82.89,
+            "width": 3.529
+          },
+          "role": "general",
           "id": "rally-stage:spot:9"
         },
         {
-          "x": 93,
-          "y": 38,
+          "x": 73.92,
+          "y": 83.56,
           "pose": "sit",
           "facing": "left",
-          "depth": 38,
-          "seatY": 33.6,
-          "floorHorizonY": 26.5,
-          "floorMetersPercent": 0.86,
-          "group": "bleacher-row-5",
-          "role": "audience",
+          "depth": 83.56,
+          "seatY": 71.17,
+          "behindY": 49.42,
+          "head": {
+            "top": 48.14,
+            "x": 73.92,
+            "width": 2.392
+          },
+          "role": "general",
           "id": "rally-stage:spot:10"
         },
         {
-          "x": 96,
-          "y": 34,
+          "x": 62.05,
+          "y": 100,
           "pose": "sit",
           "facing": "left",
-          "depth": 34,
-          "seatY": 29.6,
-          "floorHorizonY": 22.5,
-          "floorMetersPercent": 0.86,
-          "group": "bleacher-row-6",
-          "role": "audience",
+          "depth": 100,
+          "seatY": 86.04,
+          "head": {
+            "top": 49.2,
+            "x": 62.05,
+            "width": 3.828
+          },
+          "role": "general",
           "id": "rally-stage:spot:11"
+        },
+        {
+          "x": 82.62,
+          "y": 100,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 100,
+          "seatY": 92.18,
+          "head": {
+            "top": 50.16,
+            "x": 82.62,
+            "width": 4.366
+          },
+          "role": "general",
+          "id": "rally-stage:spot:12"
+        },
+        {
+          "x": 90.3,
+          "y": 71.52,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 71.52,
+          "seatY": 64.08,
+          "head": {
+            "top": 50.27,
+            "x": 90.3,
+            "width": 1.435
+          },
+          "role": "general",
+          "id": "rally-stage:spot:13"
+        },
+        {
+          "x": 74.72,
+          "y": 71.38,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 71.38,
+          "seatY": 64.25,
+          "head": {
+            "top": 51.01,
+            "x": 74.72,
+            "width": 1.376
+          },
+          "role": "general",
+          "id": "rally-stage:spot:14"
+        },
+        {
+          "x": 67.82,
+          "y": 94.62,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 94.62,
+          "seatY": 79.43,
+          "behindY": 51.86,
+          "head": {
+            "top": 51.22,
+            "x": 67.82,
+            "width": 2.931
+          },
+          "role": "general",
+          "id": "rally-stage:spot:15"
+        },
+        {
+          "x": 61.7,
+          "y": 86.96,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 86.96,
+          "seatY": 74.57,
+          "behindY": 53.35,
+          "head": {
+            "top": 51.54,
+            "x": 61.7,
+            "width": 2.392
+          },
+          "role": "general",
+          "id": "rally-stage:spot:16"
+        },
+        {
+          "x": 92.4,
+          "y": 67.41,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 67.41,
+          "seatY": 62.45,
+          "head": {
+            "top": 53.24,
+            "x": 92.4,
+            "width": 0.957
+          },
+          "role": "general",
+          "id": "rally-stage:spot:17"
+        },
+        {
+          "x": 73.77,
+          "y": 68.26,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 68.26,
+          "seatY": 63.3,
+          "behindY": 55.79,
+          "head": {
+            "top": 54.09,
+            "x": 73.77,
+            "width": 0.957
+          },
+          "role": "general",
+          "id": "rally-stage:spot:18"
+        },
+        {
+          "x": 65.87,
+          "y": 64.26,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 64.26,
+          "seatY": 60.85,
+          "behindY": 54.94,
+          "head": {
+            "top": 54.52,
+            "x": 65.87,
+            "width": 0.658
+          },
+          "role": "general",
+          "id": "rally-stage:spot:19"
+        },
+        {
+          "x": 67.08,
+          "y": 66.03,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 66.03,
+          "seatY": 62,
+          "behindY": 55.69,
+          "head": {
+            "top": 54.52,
+            "x": 67.08,
+            "width": 0.778
+          },
+          "role": "general",
+          "id": "rally-stage:spot:20"
         }
       ],
-      "measuredFrom": "horizon from the court center circle (3.6 m across, center row 90) against the stage front (skirt 0.65 m, foot 77.4) and the back door behind the stage (knob 58, top 50); stage-front depth reads 22%/m (the lectern, foot 62.2 top 37, is painted about 1.3 m tall) -> stage 2.16; center circle -> main floor 0.84; stage front -> 0.87; six separate bleacher tiers mapped from their visible front edges at 54.5, 50, 46, 42, 38, and 34 percent image height; each 0.45 m seat-to-foot gap maps to about 4.4% of image height; local horizons 11.5 percentage points behind each row at the retained 0.86 scale produce about 16.8% character height (visual estimate, ±2 percentage points)",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/rally-stage.png over art/backdrops/rally-stage__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/rally-stage.json"
     },
     "rowhouse": {
       "horizonY": 39,
@@ -18739,72 +18658,80 @@
       "metersPercent": 0.62,
       "spots": [
         {
-          "x": 50,
-          "y": 96,
+          "x": 68.57,
+          "y": 69.14,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 96,
-          "hero": true,
+          "depth": 69.14,
+          "head": {
+            "top": 57.17,
+            "x": 68.57,
+            "width": 2.093
+          },
           "role": "general",
           "id": "us-capitol-exterior:spot:0"
         },
         {
-          "x": 29,
-          "y": 88,
+          "x": 56.64,
+          "y": 67.38,
           "pose": "stand",
-          "facing": "right",
-          "depth": 88,
+          "facing": "viewer",
+          "depth": 67.38,
+          "head": {
+            "top": 59.51,
+            "x": 56.64,
+            "width": 1.376
+          },
           "role": "general",
           "id": "us-capitol-exterior:spot:1"
         },
         {
-          "x": 71,
-          "y": 89,
+          "x": 39.9,
+          "y": 67.48,
           "pose": "stand",
-          "facing": "left",
-          "depth": 89,
+          "facing": "viewer",
+          "depth": 67.48,
+          "head": {
+            "top": 59.62,
+            "x": 39.9,
+            "width": 1.376
+          },
           "role": "general",
           "id": "us-capitol-exterior:spot:2"
         },
         {
-          "x": 43,
-          "y": 73.5,
+          "x": 44.35,
+          "y": 68.53,
           "pose": "stand",
-          "facing": "right",
-          "depth": 73.5,
+          "facing": "viewer",
+          "depth": 68.53,
+          "head": {
+            "top": 62.38,
+            "x": 44.35,
+            "width": 1.077
+          },
           "role": "general",
-          "id": "us-capitol-exterior:spot:3"
+          "id": "us-capitol-exterior:spot:3",
+          "hero": true
         },
         {
-          "x": 57,
-          "y": 74,
+          "x": 34.52,
+          "y": 66.54,
           "pose": "stand",
-          "facing": "left",
-          "depth": 74,
+          "facing": "viewer",
+          "depth": 66.54,
+          "head": {
+            "top": 63.12,
+            "x": 34.52,
+            "width": 0.598
+          },
           "role": "general",
           "id": "us-capitol-exterior:spot:4"
-        },
-        {
-          "x": 12,
-          "y": 76,
-          "pose": "lean",
-          "facing": "right",
-          "depth": 76,
-          "role": "general",
-          "id": "us-capitol-exterior:spot:5"
-        },
-        {
-          "x": 88.5,
-          "y": 76,
-          "pose": "lean",
-          "facing": "left",
-          "depth": 76,
-          "role": "general",
-          "id": "us-capitol-exterior:spot:6"
         }
       ],
-      "measuredFrom": "horizon where the plaza's diagonal joints meet the center line (x50 y65); scale from a 1.6 m camera eye; checks: stone plinth at x11 (foot 74.5 top 69.5) reads 0.85 m, main staircase (base 70, top 60) about 3.2 m",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/us-capitol-exterior.png over art/backdrops/us-capitol-exterior__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.311",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/us-capitol-exterior.json"
     },
     "us-house-floor": {
       "horizonY": 36,
@@ -20447,932 +20374,533 @@
       },
       "spots": [
         {
-          "x": 50,
-          "y": 84,
-          "pose": "stand",
+          "x": 2.19,
+          "y": 15.87,
+          "pose": "sit",
           "facing": "viewer",
-          "depth": 84,
-          "hero": true,
+          "depth": 15.87,
+          "seatY": 10.91,
+          "behindY": 6.27,
+          "head": {
+            "top": 1.7,
+            "x": 2.19,
+            "width": 0.957
+          },
           "role": "general",
           "id": "us-senate-floor:spot:0"
         },
         {
-          "x": 50,
-          "y": 43.7,
+          "x": 96.68,
+          "y": 15.41,
           "pose": "sit",
           "facing": "viewer",
-          "depth": 43.7,
-          "behindY": 38.2,
-          "seatY": 39.7,
-          "group": "presiding",
-          "floor": "presiding",
-          "role": "presiding",
+          "depth": 15.41,
+          "seatY": 10.76,
+          "behindY": 6.7,
+          "head": {
+            "top": 2.13,
+            "x": 96.68,
+            "width": 0.897
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:1"
         },
         {
-          "x": 38.2,
-          "y": 46.4,
+          "x": 2.17,
+          "y": 29.58,
           "pose": "sit",
           "facing": "viewer",
-          "depth": 46.4,
-          "behindY": 41.2,
-          "seatY": 42.4,
-          "group": "rostrum",
-          "floor": "rostrum",
+          "depth": 29.58,
+          "seatY": 21.83,
+          "behindY": 8.93,
+          "head": {
+            "top": 7.44,
+            "x": 2.17,
+            "width": 1.495
+          },
           "role": "general",
           "id": "us-senate-floor:spot:2"
         },
         {
-          "x": 62.2,
-          "y": 46.4,
+          "x": 28.74,
+          "y": 18.17,
           "pose": "sit",
           "facing": "viewer",
-          "depth": 46.4,
-          "behindY": 41.2,
-          "seatY": 42.4,
-          "group": "rostrum",
-          "floor": "rostrum",
+          "depth": 18.17,
+          "seatY": 14.45,
+          "behindY": 11.69,
+          "head": {
+            "top": 7.55,
+            "x": 28.74,
+            "width": 0.718
+          },
           "role": "general",
           "id": "us-senate-floor:spot:3"
         },
         {
-          "x": 57,
-          "y": 53.5,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 53.5,
+          "x": 73.31,
+          "y": 17.39,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 17.39,
+          "seatY": 13.98,
+          "head": {
+            "top": 7.65,
+            "x": 73.31,
+            "width": 0.658
+          },
           "role": "general",
           "id": "us-senate-floor:spot:4"
         },
         {
-          "x": 44,
-          "y": 60.5,
-          "pose": "stand",
-          "facing": "right",
-          "depth": 60.5,
+          "x": 64.84,
+          "y": 17.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 17.5,
+          "seatY": 14.09,
+          "behindY": 11.69,
+          "head": {
+            "top": 7.76,
+            "x": 64.84,
+            "width": 0.658
+          },
           "role": "general",
           "id": "us-senate-floor:spot:5"
         },
         {
-          "x": 60.5,
-          "y": 77,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 77,
+          "x": 70.93,
+          "y": 17.71,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 17.71,
+          "seatY": 14.3,
+          "behindY": 11.9,
+          "head": {
+            "top": 7.97,
+            "x": 70.93,
+            "width": 0.658
+          },
           "role": "general",
           "id": "us-senate-floor:spot:6"
         },
         {
-          "x": 37.5,
-          "y": 91,
-          "pose": "lean",
-          "facing": "right",
-          "depth": 91,
+          "x": 26.47,
+          "y": 18.7,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 18.7,
+          "seatY": 14.98,
+          "behindY": 11.8,
+          "head": {
+            "top": 8.08,
+            "x": 26.47,
+            "width": 0.718
+          },
           "role": "general",
           "id": "us-senate-floor:spot:7"
         },
         {
-          "x": 41.4,
-          "y": 61,
+          "x": 35.07,
+          "y": 18.7,
           "pose": "sit",
-          "facing": "away",
-          "depth": 61,
-          "seatY": 55.6,
-          "group": "members",
-          "behindY": 50,
-          "role": "member-at-dais",
+          "facing": "viewer",
+          "depth": 18.7,
+          "seatY": 14.98,
+          "behindY": 11.8,
+          "head": {
+            "top": 8.08,
+            "x": 35.07,
+            "width": 0.718
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:8"
         },
         {
-          "x": 58.6,
-          "y": 61,
+          "x": 95.72,
+          "y": 32.31,
           "pose": "sit",
-          "facing": "away",
-          "depth": 61,
-          "seatY": 55.6,
-          "group": "members",
-          "behindY": 50,
-          "role": "member-at-dais",
+          "facing": "viewer",
+          "depth": 32.31,
+          "seatY": 23.94,
+          "behindY": 9.56,
+          "head": {
+            "top": 8.4,
+            "x": 95.72,
+            "width": 1.615
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:9"
         },
         {
-          "x": 38,
-          "y": 56,
+          "x": 3.88,
+          "y": 19.13,
           "pose": "sit",
-          "facing": "away",
-          "depth": 56,
-          "seatY": 51.3,
-          "group": "members",
-          "behindY": 47,
-          "role": "member-at-dais",
+          "facing": "viewer",
+          "depth": 19.13,
+          "seatY": 15.41,
+          "behindY": 9.35,
+          "head": {
+            "top": 8.5,
+            "x": 3.88,
+            "width": 0.718
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:10"
         },
         {
-          "x": 45,
-          "y": 56,
+          "x": 73.19,
+          "y": 24.94,
           "pose": "sit",
-          "facing": "away",
-          "depth": 56,
-          "seatY": 51.3,
-          "group": "members",
-          "behindY": 47,
-          "role": "member-at-dais",
+          "facing": "viewer",
+          "depth": 24.94,
+          "seatY": 20.6,
+          "behindY": 13.71,
+          "head": {
+            "top": 12.54,
+            "x": 73.19,
+            "width": 0.837
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:11"
         },
         {
-          "x": 55,
-          "y": 56,
+          "x": 58.53,
+          "y": 54.84,
           "pose": "sit",
-          "facing": "away",
-          "depth": 56,
-          "seatY": 51.3,
-          "group": "members",
-          "behindY": 47,
-          "role": "member-at-dais",
+          "facing": "viewer",
+          "depth": 54.84,
+          "seatY": 48.33,
+          "behindY": 45.8,
+          "head": {
+            "top": 36.24,
+            "x": 58.53,
+            "width": 1.256
+          },
+          "role": "speaking",
           "id": "us-senate-floor:spot:12"
         },
         {
-          "x": 62,
-          "y": 56,
+          "x": 82.92,
+          "y": 50.05,
           "pose": "sit",
           "facing": "away",
-          "depth": 56,
-          "seatY": 51.3,
-          "group": "members",
-          "behindY": 47,
-          "role": "member-at-dais",
+          "depth": 50.05,
+          "seatY": 45.4,
+          "behindY": 63.44,
+          "head": {
+            "top": 36.77,
+            "x": 82.92,
+            "width": 0.897
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:13"
         },
         {
-          "x": 28,
-          "y": 62,
+          "x": 6.85,
+          "y": 51.93,
           "pose": "sit",
           "facing": "away",
-          "depth": 62,
-          "seatY": 55.6,
-          "group": "members",
-          "behindY": 53,
-          "role": "member-at-dais",
+          "depth": 51.93,
+          "seatY": 46.66,
+          "behindY": 42.19,
+          "head": {
+            "top": 36.88,
+            "x": 6.85,
+            "width": 1.017
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:14"
         },
         {
-          "x": 36,
-          "y": 62,
+          "x": 17.12,
+          "y": 49.27,
           "pose": "sit",
           "facing": "away",
-          "depth": 62,
-          "seatY": 55.6,
-          "group": "members",
-          "behindY": 53,
-          "role": "member-at-dais",
+          "depth": 49.27,
+          "seatY": 44.93,
+          "behindY": 41.45,
+          "head": {
+            "top": 36.88,
+            "x": 17.12,
+            "width": 0.837
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:15"
         },
         {
-          "x": 44,
-          "y": 62,
+          "x": 93.09,
+          "y": 51.36,
           "pose": "sit",
           "facing": "away",
-          "depth": 62,
-          "seatY": 55.6,
-          "group": "members",
-          "behindY": 53,
-          "role": "member-at-dais",
+          "depth": 51.36,
+          "seatY": 46.4,
+          "behindY": 42.3,
+          "head": {
+            "top": 37.19,
+            "x": 93.09,
+            "width": 0.957
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:16"
         },
         {
-          "x": 56,
-          "y": 62,
+          "x": 26.26,
+          "y": 49.77,
           "pose": "sit",
           "facing": "away",
-          "depth": 62,
-          "seatY": 55.6,
-          "group": "members",
-          "behindY": 53,
-          "role": "member-at-dais",
+          "depth": 49.77,
+          "seatY": 45.74,
+          "behindY": 41.87,
+          "head": {
+            "top": 38.26,
+            "x": 26.26,
+            "width": 0.778
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:17"
         },
         {
-          "x": 64,
-          "y": 62,
+          "x": 23.41,
+          "y": 50.76,
           "pose": "sit",
           "facing": "away",
-          "depth": 62,
-          "seatY": 55.6,
-          "group": "members",
-          "behindY": 53,
-          "role": "member-at-dais",
+          "depth": 50.76,
+          "seatY": 46.42,
+          "head": {
+            "top": 38.36,
+            "x": 23.41,
+            "width": 0.837
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:18"
         },
         {
-          "x": 72,
-          "y": 62,
+          "x": 11.06,
+          "y": 55.51,
           "pose": "sit",
           "facing": "away",
-          "depth": 62,
-          "seatY": 55.6,
-          "group": "members",
-          "behindY": 53,
-          "role": "member-at-dais",
+          "depth": 55.51,
+          "seatY": 49.62,
+          "behindY": 44.21,
+          "head": {
+            "top": 38.68,
+            "x": 11.06,
+            "width": 1.136
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:19"
         },
         {
-          "x": 20,
-          "y": 68,
+          "x": 91.07,
+          "y": 58.13,
           "pose": "sit",
           "facing": "away",
-          "depth": 68,
-          "seatY": 59.8,
-          "group": "members",
-          "behindY": 59,
-          "role": "member-at-dais",
+          "depth": 58.13,
+          "seatY": 51.62,
+          "behindY": 47.18,
+          "head": {
+            "top": 39.53,
+            "x": 91.07,
+            "width": 1.256
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:20"
         },
         {
-          "x": 28,
-          "y": 68,
-          "pose": "sit",
+          "x": 19.38,
+          "y": 59.99,
+          "pose": "stand",
           "facing": "away",
-          "depth": 68,
-          "seatY": 59.8,
-          "group": "members",
-          "behindY": 59,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:21"
+          "depth": 59.99,
+          "behindY": 44.95,
+          "head": {
+            "top": 40.06,
+            "x": 19.38,
+            "width": 1.077
+          },
+          "role": "general",
+          "id": "us-senate-floor:spot:21",
+          "hero": true
         },
         {
-          "x": 36,
-          "y": 68,
+          "x": 97.25,
+          "y": 83.28,
           "pose": "sit",
           "facing": "away",
-          "depth": 68,
-          "seatY": 59.8,
-          "group": "members",
-          "behindY": 59,
-          "role": "member-at-dais",
+          "depth": 83.28,
+          "seatY": 69.64,
+          "behindY": 52.71,
+          "head": {
+            "top": 44.31,
+            "x": 97.25,
+            "width": 2.632
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:22"
         },
         {
-          "x": 44,
-          "y": 68,
+          "x": 30.75,
+          "y": 67.55,
           "pose": "sit",
           "facing": "away",
-          "depth": 68,
-          "seatY": 59.8,
-          "group": "members",
-          "behindY": 59,
-          "role": "member-at-dais",
+          "depth": 67.55,
+          "seatY": 59.49,
+          "behindY": 50.16,
+          "head": {
+            "top": 44.53,
+            "x": 30.75,
+            "width": 1.555
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:23"
         },
         {
-          "x": 56,
-          "y": 68,
+          "x": 62.8,
+          "y": 70.21,
           "pose": "sit",
           "facing": "away",
-          "depth": 68,
-          "seatY": 59.8,
-          "group": "members",
-          "behindY": 59,
-          "role": "member-at-dais",
+          "depth": 70.21,
+          "seatY": 61.22,
+          "behindY": 51.12,
+          "head": {
+            "top": 44.53,
+            "x": 62.8,
+            "width": 1.734
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:24"
         },
         {
-          "x": 64,
-          "y": 68,
+          "x": 23.55,
+          "y": 74.74,
           "pose": "sit",
           "facing": "away",
-          "depth": 68,
-          "seatY": 59.8,
-          "group": "members",
-          "behindY": 59,
-          "role": "member-at-dais",
+          "depth": 74.74,
+          "seatY": 64.2,
+          "behindY": 51.54,
+          "head": {
+            "top": 44.63,
+            "x": 23.55,
+            "width": 2.033
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:25"
         },
         {
-          "x": 72,
-          "y": 68,
+          "x": 37.05,
+          "y": 69.54,
           "pose": "sit",
           "facing": "away",
-          "depth": 68,
-          "seatY": 59.8,
-          "group": "members",
-          "behindY": 59,
-          "role": "member-at-dais",
+          "depth": 69.54,
+          "seatY": 60.86,
+          "behindY": 51.01,
+          "head": {
+            "top": 44.74,
+            "x": 37.05,
+            "width": 1.675
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:26"
         },
         {
-          "x": 80,
-          "y": 68,
+          "x": 2.56,
+          "y": 82.15,
           "pose": "sit",
           "facing": "away",
-          "depth": 68,
-          "seatY": 59.8,
-          "group": "members",
-          "behindY": 59,
-          "role": "member-at-dais",
+          "depth": 82.15,
+          "seatY": 69.13,
+          "behindY": 52.92,
+          "head": {
+            "top": 44.95,
+            "x": 2.56,
+            "width": 2.512
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:27"
         },
         {
-          "x": 12,
-          "y": 74,
+          "x": 33.31,
+          "y": 77.05,
           "pose": "sit",
           "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
+          "depth": 77.05,
+          "seatY": 65.89,
+          "behindY": 53.77,
+          "head": {
+            "top": 45.16,
+            "x": 33.31,
+            "width": 2.153
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:28"
         },
         {
-          "x": 20,
-          "y": 74,
+          "x": 11.8,
+          "y": 87.78,
           "pose": "sit",
           "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
+          "depth": 87.78,
+          "seatY": 72.9,
+          "behindY": 54.73,
+          "head": {
+            "top": 45.27,
+            "x": 11.8,
+            "width": 2.871
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:29"
         },
         {
-          "x": 28,
-          "y": 74,
+          "x": 66.42,
+          "y": 78.04,
           "pose": "sit",
           "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
+          "depth": 78.04,
+          "seatY": 66.57,
+          "behindY": 53.77,
+          "head": {
+            "top": 45.27,
+            "x": 66.42,
+            "width": 2.213
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:30"
         },
         {
-          "x": 36,
-          "y": 74,
+          "x": 18.83,
+          "y": 100,
           "pose": "sit",
           "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
+          "depth": 100,
+          "seatY": 101.18,
+          "behindY": 68.97,
+          "head": {
+            "top": 49.95,
+            "x": 18.83,
+            "width": 5.323
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:31"
         },
         {
-          "x": 44,
-          "y": 74,
+          "x": 14.8,
+          "y": 65.21,
           "pose": "sit",
           "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
+          "depth": 65.21,
+          "seatY": 62.73,
+          "behindY": 60.47,
+          "head": {
+            "top": 58.13,
+            "x": 14.8,
+            "width": 0.478
+          },
+          "role": "general",
           "id": "us-senate-floor:spot:32"
-        },
-        {
-          "x": 56,
-          "y": 74,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:33"
-        },
-        {
-          "x": 64,
-          "y": 74,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:34"
-        },
-        {
-          "x": 72,
-          "y": 74,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:35"
-        },
-        {
-          "x": 80,
-          "y": 74,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:36"
-        },
-        {
-          "x": 88,
-          "y": 74,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 74,
-          "seatY": 64.1,
-          "group": "members",
-          "behindY": 65,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:37"
-        },
-        {
-          "x": 8,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:38"
-        },
-        {
-          "x": 16,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:39"
-        },
-        {
-          "x": 24,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:40"
-        },
-        {
-          "x": 32,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:41"
-        },
-        {
-          "x": 40,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:42"
-        },
-        {
-          "x": 60,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:43"
-        },
-        {
-          "x": 68,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:44"
-        },
-        {
-          "x": 76,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:45"
-        },
-        {
-          "x": 84,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:46"
-        },
-        {
-          "x": 92,
-          "y": 80,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 80,
-          "seatY": 68.3,
-          "group": "members",
-          "behindY": 71,
-          "role": "member-at-dais",
-          "id": "us-senate-floor:spot:47"
-        },
-        {
-          "x": 4,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:48"
-        },
-        {
-          "x": 12,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:49"
-        },
-        {
-          "x": 20,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:50"
-        },
-        {
-          "x": 28,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:51"
-        },
-        {
-          "x": 36,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:52"
-        },
-        {
-          "x": 64,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:53"
-        },
-        {
-          "x": 72,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:54"
-        },
-        {
-          "x": 80,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:55"
-        },
-        {
-          "x": 88,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:56"
-        },
-        {
-          "x": 96,
-          "y": 43,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 43,
-          "seatY": 41.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:57"
-        },
-        {
-          "x": 4,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:58"
-        },
-        {
-          "x": 12,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:59"
-        },
-        {
-          "x": 20,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:60"
-        },
-        {
-          "x": 28,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:61"
-        },
-        {
-          "x": 36,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:62"
-        },
-        {
-          "x": 64,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:63"
-        },
-        {
-          "x": 72,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:64"
-        },
-        {
-          "x": 80,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:65"
-        },
-        {
-          "x": 88,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:66"
-        },
-        {
-          "x": 96,
-          "y": 47,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 47,
-          "seatY": 42.7,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:67"
-        },
-        {
-          "x": 4,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:68"
-        },
-        {
-          "x": 12,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:69"
-        },
-        {
-          "x": 20,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:70"
-        },
-        {
-          "x": 28,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:71"
-        },
-        {
-          "x": 36,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:72"
-        },
-        {
-          "x": 64,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:73"
-        },
-        {
-          "x": 72,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:74"
-        },
-        {
-          "x": 80,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:75"
-        },
-        {
-          "x": 88,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:76"
-        },
-        {
-          "x": 96,
-          "y": 51,
-          "pose": "sit",
-          "facing": "away",
-          "depth": 51,
-          "seatY": 44.2,
-          "group": "gallery",
-          "floor": "balcony",
-          "role": "audience",
-          "id": "us-senate-floor:spot:77"
         }
       ],
-      "measuredFrom": "senators' desks 0.8 m at three depths (x34 foot 96.2 top 64.6; x39 foot 76 top 56.6; x42 foot 66.4 top 53.3) give 0.70, 0.67 and 0.62 at horizon 40; rostrum front then reads 1.37 m (foot 50.3 top 41); clerk chairs 0.6 m wide (50 px) with back 0.9 m (top 38.4) put the clerks' floor at y 46.4, 1.39; presiding high-back chair 0.7 m wide, back 1.2 m (top 33) puts its floor at y 43.7, 2.4",
+      "measuredFrom": "mannequin plate art/people-rooms/plates/us-senate-floor.png over art/backdrops/us-senate-floor__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
       "surfaceSlots": [
         {
           "surfaceId": "us-senate-floor-panel-left",
@@ -21392,7 +20920,8 @@
           "height": 127,
           "source": "art/backdrops/surfaces.json"
         }
-      ]
+      ],
+      "spotsFrom": "art/people-rooms/spots/us-senate-floor.json"
     },
     "apartment-basement-studio": {
       "horizonY": 33,
@@ -23088,137 +22617,690 @@
       "metersPercent": 0.55,
       "spots": [
         {
-          "x": 50,
-          "y": 80,
+          "x": 41.14,
+          "y": 59.58,
           "pose": "stand",
-          "facing": "viewer",
-          "depth": 80,
-          "hero": true,
+          "facing": "away",
+          "depth": 59.58,
+          "head": {
+            "top": 41.23,
+            "x": 41.14,
+            "width": 1.675
+          },
           "role": "general",
           "id": "national-convention-floor:spot:0"
         },
         {
-          "x": 45,
-          "y": 66,
-          "pose": "stand",
+          "x": 60.68,
+          "y": 56.44,
+          "pose": "sit",
           "facing": "away",
-          "depth": 66,
+          "depth": 56.44,
+          "seatY": 51.12,
+          "head": {
+            "top": 41.23,
+            "x": 60.68,
+            "width": 1.734
+          },
           "role": "general",
           "id": "national-convention-floor:spot:1"
         },
         {
-          "x": 57,
-          "y": 60,
-          "pose": "stand",
+          "x": 17.49,
+          "y": 49.44,
+          "pose": "sit",
           "facing": "away",
-          "depth": 60,
+          "depth": 49.44,
+          "seatY": 47.23,
+          "behindY": 49.73,
+          "head": {
+            "top": 43.15,
+            "x": 17.49,
+            "width": 0.718
+          },
           "role": "general",
           "id": "national-convention-floor:spot:2"
         },
         {
-          "x": 48,
-          "y": 54,
-          "pose": "stand",
+          "x": 82.03,
+          "y": 49.44,
+          "pose": "sit",
           "facing": "away",
-          "depth": 54,
+          "depth": 49.44,
+          "seatY": 47.23,
+          "behindY": 47.4,
+          "head": {
+            "top": 43.15,
+            "x": 82.03,
+            "width": 0.718
+          },
           "role": "general",
           "id": "national-convention-floor:spot:3"
         },
         {
-          "x": 60,
-          "y": 90,
+          "x": 46.42,
+          "y": 49.15,
           "pose": "stand",
-          "facing": "left",
-          "depth": 90,
+          "facing": "away",
+          "depth": 49.15,
+          "behindY": 48.14,
+          "head": {
+            "top": 43.25,
+            "x": 46.42,
+            "width": 0.538
+          },
           "role": "general",
           "id": "national-convention-floor:spot:4"
         },
         {
-          "x": 40,
-          "y": 93,
+          "x": 53.94,
+          "y": 49.15,
           "pose": "stand",
           "facing": "away",
-          "depth": 93,
+          "depth": 49.15,
+          "behindY": 48.14,
+          "head": {
+            "top": 43.25,
+            "x": 53.94,
+            "width": 0.538
+          },
           "role": "general",
           "id": "national-convention-floor:spot:5"
         },
         {
-          "x": 88,
-          "y": 98,
+          "x": 29.9,
+          "y": 47.03,
           "pose": "sit",
           "facing": "away",
-          "depth": 98,
-          "seatY": 89,
+          "depth": 47.03,
+          "seatY": 45.74,
+          "behindY": 46.97,
+          "head": {
+            "top": 43.36,
+            "x": 29.9,
+            "width": 0.419
+          },
           "role": "general",
           "id": "national-convention-floor:spot:6"
+        },
+        {
+          "x": 70.26,
+          "y": 48.08,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 48.08,
+          "seatY": 46.43,
+          "behindY": 49.1,
+          "head": {
+            "top": 43.36,
+            "x": 70.26,
+            "width": 0.538
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:7"
+        },
+        {
+          "x": 36.51,
+          "y": 51.67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 51.67,
+          "seatY": 49.47,
+          "behindY": 48.57,
+          "head": {
+            "top": 45.38,
+            "x": 36.51,
+            "width": 0.718
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:8"
+        },
+        {
+          "x": 74.79,
+          "y": 52.82,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52.82,
+          "seatY": 50.25,
+          "head": {
+            "top": 45.48,
+            "x": 74.79,
+            "width": 0.837
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:9"
+        },
+        {
+          "x": 32.87,
+          "y": 97.49,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 97.49,
+          "seatY": 79.33,
+          "behindY": 54.94,
+          "head": {
+            "top": 45.59,
+            "x": 32.87,
+            "width": 5.921
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:10"
+        },
+        {
+          "x": 19.52,
+          "y": 49.89,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 49.89,
+          "seatY": 48.42,
+          "head": {
+            "top": 45.7,
+            "x": 19.52,
+            "width": 0.478
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:11"
+        },
+        {
+          "x": 56.29,
+          "y": 54.61,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54.61,
+          "seatY": 51.49,
+          "head": {
+            "top": 45.7,
+            "x": 56.29,
+            "width": 1.017
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:12"
+        },
+        {
+          "x": 57.45,
+          "y": 52.09,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52.09,
+          "seatY": 49.89,
+          "head": {
+            "top": 45.8,
+            "x": 57.45,
+            "width": 0.718
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:13"
+        },
+        {
+          "x": 97.21,
+          "y": 51.04,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 51.04,
+          "behindY": 57.28,
+          "head": {
+            "top": 45.8,
+            "x": 97.21,
+            "width": 0.478
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:14"
+        },
+        {
+          "x": 91.3,
+          "y": 50.1,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 50.1,
+          "seatY": 48.63,
+          "behindY": 52.5,
+          "head": {
+            "top": 45.91,
+            "x": 91.3,
+            "width": 0.478
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:15"
+        },
+        {
+          "x": 10.18,
+          "y": 57.02,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57.02,
+          "seatY": 53.17,
+          "behindY": 48.03,
+          "head": {
+            "top": 46.01,
+            "x": 10.18,
+            "width": 1.256
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:16"
+        },
+        {
+          "x": 13.04,
+          "y": 51.89,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 51.89,
+          "seatY": 49.87,
+          "head": {
+            "top": 46.12,
+            "x": 13.04,
+            "width": 0.658
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:17"
+        },
+        {
+          "x": 6.85,
+          "y": 51.47,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 51.47,
+          "seatY": 49.64,
+          "head": {
+            "top": 46.23,
+            "x": 6.85,
+            "width": 0.598
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:18"
+        },
+        {
+          "x": 89.4,
+          "y": 52.52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52.52,
+          "seatY": 50.32,
+          "head": {
+            "top": 46.23,
+            "x": 89.4,
+            "width": 0.718
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:19"
+        },
+        {
+          "x": 94.93,
+          "y": 59.86,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 59.86,
+          "seatY": 55.09,
+          "behindY": 48.14,
+          "head": {
+            "top": 46.23,
+            "x": 94.93,
+            "width": 1.555
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:20"
+        },
+        {
+          "x": 2.85,
+          "y": 52.1,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52.1,
+          "seatY": 50.08,
+          "head": {
+            "top": 46.33,
+            "x": 2.85,
+            "width": 0.658
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:21"
+        },
+        {
+          "x": 79.03,
+          "y": 56.82,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 56.82,
+          "seatY": 53.15,
+          "head": {
+            "top": 46.33,
+            "x": 79.03,
+            "width": 1.196
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:22"
+        },
+        {
+          "x": 1.29,
+          "y": 53.47,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 53.47,
+          "seatY": 51.08,
+          "head": {
+            "top": 46.65,
+            "x": 1.29,
+            "width": 0.778
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:23"
+        },
+        {
+          "x": 26.93,
+          "y": 68.67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 68.67,
+          "seatY": 60.96,
+          "behindY": 49.52,
+          "head": {
+            "top": 46.65,
+            "x": 26.93,
+            "width": 2.512
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:24"
+        },
+        {
+          "x": 5.71,
+          "y": 54.1,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54.1,
+          "seatY": 51.53,
+          "head": {
+            "top": 46.76,
+            "x": 5.71,
+            "width": 0.837
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:25"
+        },
+        {
+          "x": 20.96,
+          "y": 61.76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61.76,
+          "seatY": 56.81,
+          "head": {
+            "top": 47.61,
+            "x": 20.96,
+            "width": 1.615
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:26"
+        },
+        {
+          "x": 86.61,
+          "y": 68.81,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 68.81,
+          "seatY": 62.02,
+          "behindY": 55.79,
+          "head": {
+            "top": 49.42,
+            "x": 86.61,
+            "width": 2.213
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:27"
+        },
+        {
+          "x": 12.26,
+          "y": 69.44,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 69.44,
+          "seatY": 62.47,
+          "head": {
+            "top": 49.52,
+            "x": 12.26,
+            "width": 2.273
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:28"
+        },
+        {
+          "x": 25.77,
+          "y": 73.76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 73.76,
+          "seatY": 65.68,
+          "behindY": 60.26,
+          "head": {
+            "top": 50.69,
+            "x": 25.77,
+            "width": 2.632
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:29"
+        },
+        {
+          "x": 74.01,
+          "y": 73.76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 73.76,
+          "seatY": 65.68,
+          "behindY": 60.36,
+          "head": {
+            "top": 50.69,
+            "x": 74.01,
+            "width": 2.632
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:30"
+        },
+        {
+          "x": 6.62,
+          "y": 74.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74.5,
+          "seatY": 66.43,
+          "head": {
+            "top": 51.43,
+            "x": 6.62,
+            "width": 2.632
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:31"
+        },
+        {
+          "x": 15.38,
+          "y": 90.07,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 90.07,
+          "seatY": 77.96,
+          "behindY": 71.31,
+          "head": {
+            "top": 55.47,
+            "x": 15.38,
+            "width": 3.947
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:32"
+        },
+        {
+          "x": 84.75,
+          "y": 90.07,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 90.07,
+          "seatY": 77.96,
+          "behindY": 71.31,
+          "head": {
+            "top": 55.47,
+            "x": 84.75,
+            "width": 3.947
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:33"
+        },
+        {
+          "x": 37.13,
+          "y": 66.31,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 66.31,
+          "head": {
+            "top": 62.38,
+            "x": 37.13,
+            "width": 0.359
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:34",
+          "hero": true
+        },
+        {
+          "x": 62.89,
+          "y": 65.87,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 65.87,
+          "head": {
+            "top": 62.59,
+            "x": 62.89,
+            "width": 0.299
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:35"
+        },
+        {
+          "x": 28.78,
+          "y": 85.85,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 85.85,
+          "behindY": 66.84,
+          "head": {
+            "top": 62.91,
+            "x": 28.78,
+            "width": 2.093
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:36"
+        },
+        {
+          "x": 70.05,
+          "y": 81.81,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 81.81,
+          "head": {
+            "top": 74.6,
+            "x": 70.05,
+            "width": 0.658
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:37"
+        },
+        {
+          "x": 23.22,
+          "y": 100,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 100,
+          "seatY": 105.01,
+          "behindY": 97.56,
+          "head": {
+            "top": 96.49,
+            "x": 23.22,
+            "width": 1.495
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:38"
+        },
+        {
+          "x": 76.88,
+          "y": 100,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 100,
+          "seatY": 104.33,
+          "behindY": 97.56,
+          "head": {
+            "top": 96.49,
+            "x": 76.88,
+            "width": 1.376
+          },
+          "role": "general",
+          "id": "national-convention-floor:spot:39"
         }
       ],
-      "measuredFrom": "horizon from the center aisle edges converging at the stage (about row 44); front-left chair back (~0.85 m, foot 95.5 top 72.1) -> 0.53, kept 0.55; the stage is too far for figures so only the aisle and seats are used",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/national-convention-floor.png over art/backdrops/national-convention-floor__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.162",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/national-convention-floor.json"
     },
     "national-convention-stage": {
       "horizonY": 62,
       "metersPercent": 0.92,
       "spots": [
         {
-          "x": 17.5,
-          "y": 99.5,
+          "x": 15.26,
+          "y": 100,
           "pose": "podium",
-          "facing": "away",
-          "depth": 99.5,
-          "audience": "away",
-          "role": "general",
+          "facing": "right",
+          "depth": 100,
+          "behindY": 63.76,
+          "head": {
+            "top": 46.76,
+            "x": 15.26,
+            "width": 3.23
+          },
+          "role": "speaker",
           "id": "national-convention-stage:spot:0"
         },
         {
-          "x": 55,
-          "y": 92,
+          "x": 63.1,
+          "y": 95.75,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 92,
-          "hero": true,
+          "depth": 95.75,
+          "head": {
+            "top": 49.84,
+            "x": 63.1,
+            "width": 2.632
+          },
           "role": "general",
-          "id": "national-convention-stage:spot:1"
+          "id": "national-convention-stage:spot:1",
+          "hero": true
         },
         {
-          "x": 40,
-          "y": 86,
+          "x": 73.83,
+          "y": 95.75,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 86,
+          "depth": 95.75,
+          "head": {
+            "top": 49.84,
+            "x": 73.83,
+            "width": 2.632
+          },
           "role": "general",
           "id": "national-convention-stage:spot:2"
         },
         {
-          "x": 65,
-          "y": 84,
+          "x": 85.45,
+          "y": 95.75,
           "pose": "stand",
-          "facing": "away",
-          "depth": 84,
+          "facing": "viewer",
+          "depth": 95.75,
+          "head": {
+            "top": 49.84,
+            "x": 85.45,
+            "width": 2.632
+          },
           "role": "general",
           "id": "national-convention-stage:spot:3"
-        },
-        {
-          "x": 75,
-          "y": 88,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 88,
-          "role": "general",
-          "id": "national-convention-stage:spot:4"
-        },
-        {
-          "x": 88,
-          "y": 95,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 95,
-          "role": "general",
-          "id": "national-convention-stage:spot:5"
         }
       ],
-      "measuredFrom": "horizon from the arena floor aisle lines converging near row 62; the foreground lectern (~1.15 m, foot 96.2 top 60) -> 0.92 (low camera on the stage itself); all spots are on the stage deck in front of its edge at row 82",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/national-convention-stage.png over art/backdrops/national-convention-stage__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.102",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/national-convention-stage.json"
     },
     "rally-airport-hangar": {
       "horizonY": 58,
@@ -23415,6 +23497,205 @@
       },
       "spots": [
         {
+          "x": 74.43,
+          "y": 88.02,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 88.02,
+          "head": {
+            "top": 56.43,
+            "x": 74.43,
+            "width": 1.734
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:0"
+        },
+        {
+          "x": 58.17,
+          "y": 65.46,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 65.46,
+          "head": {
+            "top": 56.75,
+            "x": 58.17,
+            "width": 0.478
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:1"
+        },
+        {
+          "x": 32.28,
+          "y": 80.15,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 80.15,
+          "head": {
+            "top": 57.28,
+            "x": 32.28,
+            "width": 1.256
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:2",
+          "hero": true
+        },
+        {
+          "x": 39.8,
+          "y": 100,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 100,
+          "head": {
+            "top": 57.7,
+            "x": 39.8,
+            "width": 4.725
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:3"
+        },
+        {
+          "x": 78.62,
+          "y": 82.76,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 82.76,
+          "head": {
+            "top": 57.7,
+            "x": 78.62,
+            "width": 1.376
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:4"
+        },
+        {
+          "x": 70.65,
+          "y": 79.6,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 79.6,
+          "head": {
+            "top": 57.81,
+            "x": 70.65,
+            "width": 1.196
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:5"
+        },
+        {
+          "x": 46.29,
+          "y": 100,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 100,
+          "seatY": 149.68,
+          "head": {
+            "top": 57.92,
+            "x": 46.29,
+            "width": 9.689
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:6"
+        },
+        {
+          "x": 63.07,
+          "y": 100,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 100,
+          "seatY": 95.3,
+          "head": {
+            "top": 57.92,
+            "x": 63.07,
+            "width": 3.947
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:7"
+        },
+        {
+          "x": 21.62,
+          "y": 74.36,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 74.36,
+          "head": {
+            "top": 58.02,
+            "x": 21.62,
+            "width": 0.897
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:8"
+        },
+        {
+          "x": 8,
+          "y": 68.89,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 68.89,
+          "head": {
+            "top": 59.09,
+            "x": 8,
+            "width": 0.538
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:9"
+        },
+        {
+          "x": 53.25,
+          "y": 72.26,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 72.26,
+          "head": {
+            "top": 59.19,
+            "x": 53.25,
+            "width": 0.718
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:10"
+        },
+        {
+          "x": 88.97,
+          "y": 72.26,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 72.26,
+          "head": {
+            "top": 59.19,
+            "x": 88.97,
+            "width": 0.718
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:11"
+        },
+        {
+          "x": 3.64,
+          "y": 67.24,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 67.24,
+          "head": {
+            "top": 59.62,
+            "x": 3.64,
+            "width": 0.419
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:12"
+        },
+        {
+          "x": 30.84,
+          "y": 72.26,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 72.26,
+          "head": {
+            "top": 63.55,
+            "x": 30.84,
+            "width": 0.478
+          },
+          "role": "general",
+          "id": "rally-courthouse-square:spot:13"
+        },
+        {
           "x": 26.5,
           "y": 60,
           "pose": "podium",
@@ -23426,102 +23707,12 @@
           "floorMetersPercent": 0.89,
           "behindY": 55,
           "role": "general",
-          "id": "rally-courthouse-square:spot:0"
-        },
-        {
-          "x": 15,
-          "y": 60.5,
-          "pose": "stand",
-          "facing": "right",
-          "depth": 60.5,
-          "floor": "stage",
-          "floorHorizonY": 52,
-          "floorMetersPercent": 0.89,
-          "behindY": 55,
-          "role": "general",
-          "id": "rally-courthouse-square:spot:1"
-        },
-        {
-          "x": 34,
-          "y": 60.5,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 60.5,
-          "floor": "stage",
-          "floorHorizonY": 52,
-          "floorMetersPercent": 0.89,
-          "behindY": 55,
-          "role": "general",
-          "id": "rally-courthouse-square:spot:2"
-        },
-        {
-          "x": 45,
-          "y": 84,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 84,
-          "hero": true,
-          "role": "general",
-          "id": "rally-courthouse-square:spot:3"
-        },
-        {
-          "x": 30,
-          "y": 76,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 76,
-          "role": "general",
-          "id": "rally-courthouse-square:spot:4"
-        },
-        {
-          "x": 55,
-          "y": 70,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 70,
-          "role": "general",
-          "id": "rally-courthouse-square:spot:5"
-        },
-        {
-          "x": 70,
-          "y": 80,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 80,
-          "role": "general",
-          "id": "rally-courthouse-square:spot:6"
-        },
-        {
-          "x": 20,
-          "y": 92,
-          "pose": "stand",
-          "facing": "away",
-          "depth": 92,
-          "role": "general",
-          "id": "rally-courthouse-square:spot:7"
-        },
-        {
-          "x": 85,
-          "y": 93,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 93,
-          "role": "general",
-          "id": "rally-courthouse-square:spot:8"
-        },
-        {
-          "x": 95.7,
-          "y": 85,
-          "pose": "sit",
-          "facing": "left",
-          "depth": 85,
-          "seatY": 76.5,
-          "role": "general",
-          "id": "rally-courthouse-square:spot:9"
+          "id": "rally-courthouse-square:spot:podium-0"
         }
       ],
-      "measuredFrom": "two park benches (0.85 m: foot 85 top 68.5, foot 71 top 64.3) solved together -> horizon 61.4, 0.82; gazebo base (1 m, 62.7 to 73.3) agrees; gazebo lectern (1.15 m, top 51.8, deck behind the railing about row 60) gives the gazebo floor its own horizon 52 at 0.89",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/rally-courthouse-square.png over art/backdrops/rally-courthouse-square__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.098",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/rally-courthouse-square.json"
     },
     "rally-downtown-plaza": {
       "horizonY": 61,
@@ -27677,58 +27868,52 @@
       "metersPercent": 0.83,
       "spots": [
         {
-          "x": 50,
-          "y": 88,
+          "x": 71.33,
+          "y": 90.48,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 88,
-          "hero": true,
+          "depth": 90.48,
+          "head": {
+            "top": 21.25,
+            "x": 71.33,
+            "width": 3.888
+          },
           "role": "general",
           "id": "house-bedroom:spot:0"
         },
         {
-          "x": 26,
-          "y": 70,
+          "x": 28.17,
+          "y": 73.65,
           "pose": "stand",
-          "facing": "right",
-          "depth": 70,
+          "facing": "viewer",
+          "depth": 73.65,
+          "head": {
+            "top": 24.65,
+            "x": 28.17,
+            "width": 2.751
+          },
           "role": "general",
           "id": "house-bedroom:spot:1"
         },
         {
-          "x": 82,
-          "y": 70,
+          "x": 45.99,
+          "y": 89.29,
           "pose": "stand",
-          "facing": "left",
-          "depth": 70,
+          "facing": "right",
+          "depth": 89.29,
+          "head": {
+            "top": 31.77,
+            "x": 45.99,
+            "width": 3.23
+          },
           "role": "general",
-          "id": "house-bedroom:spot:2"
-        },
-        {
-          "x": 42,
-          "y": 80,
-          "pose": "sit",
-          "facing": "viewer",
-          "depth": 80,
-          "seatY": 71,
-          "group": "bed",
-          "role": "general",
-          "id": "house-bedroom:spot:3"
-        },
-        {
-          "x": 58,
-          "y": 80,
-          "pose": "sit",
-          "facing": "viewer",
-          "depth": 80,
-          "seatY": 71,
-          "group": "bed",
-          "role": "general",
-          "id": "house-bedroom:spot:4"
+          "id": "house-bedroom:spot:2",
+          "hero": true
         }
       ],
-      "measuredFrom": "nightstand 0.6 m foot 66 top 51 and closet door 2 m foot 71 top 5 solve to horizon ~35, 0.83",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/house-bedroom.png over art/backdrops/house-bedroom__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.100",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/house-bedroom.json"
     },
     "house-rural-kitchen": {
       "horizonY": 30,
@@ -27825,77 +28010,83 @@
       "metersPercent": 0.9,
       "spots": [
         {
-          "x": 52,
-          "y": 84,
+          "x": 92.59,
+          "y": 76.85,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 84,
-          "hero": true,
+          "depth": 76.85,
+          "head": {
+            "top": 25.4,
+            "x": 92.59,
+            "width": 2.931
+          },
           "role": "general",
           "id": "house-suburban-living:spot:0"
         },
         {
-          "x": 33,
-          "y": 68,
-          "pose": "sit",
+          "x": 63.58,
+          "y": 70.88,
+          "pose": "stand",
           "facing": "viewer",
-          "depth": 68,
-          "seatY": 57,
-          "group": "sofa",
+          "depth": 70.88,
+          "head": {
+            "top": 26.78,
+            "x": 63.58,
+            "width": 2.512
+          },
           "role": "general",
-          "id": "house-suburban-living:spot:1"
+          "id": "house-suburban-living:spot:1",
+          "hero": true
         },
         {
-          "x": 46,
-          "y": 64,
+          "x": 27.08,
+          "y": 76.67,
           "pose": "sit",
-          "facing": "viewer",
-          "depth": 64,
-          "seatY": 56,
-          "group": "sofa",
+          "facing": "right",
+          "depth": 76.67,
+          "seatY": 62.55,
+          "head": {
+            "top": 36.34,
+            "x": 27.08,
+            "width": 2.871
+          },
           "role": "general",
           "id": "house-suburban-living:spot:2"
         },
         {
-          "x": 12,
-          "y": 82,
+          "x": 39.17,
+          "y": 70.89,
           "pose": "sit",
-          "facing": "viewer",
-          "depth": 82,
-          "seatY": 67,
+          "facing": "right",
+          "depth": 70.89,
+          "seatY": 58.84,
+          "head": {
+            "top": 36.45,
+            "x": 39.17,
+            "width": 2.452
+          },
           "role": "general",
           "id": "house-suburban-living:spot:3"
         },
         {
-          "x": 68,
-          "y": 74,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 74,
+          "x": 10.87,
+          "y": 84.88,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 84.88,
+          "seatY": 68.71,
+          "head": {
+            "top": 38.68,
+            "x": 10.87,
+            "width": 3.289
+          },
           "role": "general",
           "id": "house-suburban-living:spot:4"
-        },
-        {
-          "x": 80,
-          "y": 72,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 72,
-          "role": "general",
-          "id": "house-suburban-living:spot:5"
-        },
-        {
-          "x": 62,
-          "y": 88,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 88,
-          "role": "general",
-          "id": "house-suburban-living:spot:6"
         }
       ],
-      "measuredFrom": "fireplace mantel ~1.3 m foot 66 top 30 and recliner/sofa seat 0.45 m (recliner foot 82 seat 66, sofa foot 66 seat 58) solve to horizon ~38, 0.9",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/house-suburban-living.png over art/backdrops/house-suburban-living__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.101",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/house-suburban-living.json"
     },
     "jail-visiting-room": {
       "horizonY": 50,
@@ -28150,96 +28341,111 @@
       "metersPercent": 0.8,
       "spots": [
         {
-          "x": 69.93,
-          "y": 91.5,
+          "x": 31.73,
+          "y": 67.19,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 91.5,
+          "depth": 67.19,
           "head": {
             "top": 26.78,
-            "x": 69.93,
-            "width": 3.648
+            "x": 31.73,
+            "width": 2.333
           },
           "role": "general",
-          "id": "oval-office-resolute:spot:0"
-        },
-        {
-          "x": 34.64,
-          "y": 92.99,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 92.99,
-          "head": {
-            "top": 27.21,
-            "x": 34.64,
-            "width": 3.708
-          },
-          "role": "general",
-          "id": "oval-office-resolute:spot:1",
+          "id": "oval-office-resolute:spot:0",
           "hero": true
         },
         {
-          "x": 50.1,
-          "y": 60.1,
+          "x": 69.39,
+          "y": 68.44,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 68.44,
+          "head": {
+            "top": 26.99,
+            "x": 69.39,
+            "width": 2.392
+          },
+          "role": "general",
+          "id": "oval-office-resolute:spot:1"
+        },
+        {
+          "x": 50.24,
+          "y": 61.64,
           "pose": "sit",
           "facing": "viewer",
-          "depth": 60.1,
-          "seatY": 50,
+          "depth": 61.64,
+          "seatY": 51.48,
           "head": {
-            "top": 31.24,
-            "x": 50.1,
-            "width": 2.033
+            "top": 32.62,
+            "x": 50.24,
+            "width": 2.093
           },
           "role": "president",
           "id": "oval-office-resolute:spot:2"
         },
         {
-          "x": 15.88,
-          "y": 79.21,
+          "x": 19.52,
+          "y": 77.83,
           "pose": "sit",
           "facing": "right",
-          "depth": 79.21,
-          "seatY": 64.65,
+          "depth": 77.83,
+          "seatY": 63.91,
           "head": {
-            "top": 37.62,
-            "x": 15.88,
-            "width": 2.931
+            "top": 38.04,
+            "x": 19.52,
+            "width": 2.871
           },
           "role": "general",
           "id": "oval-office-resolute:spot:3"
         },
         {
-          "x": 84.57,
-          "y": 79.21,
+          "x": 82.3,
+          "y": 79.6,
           "pose": "sit",
           "facing": "left",
-          "depth": 79.21,
-          "seatY": 64.65,
+          "depth": 79.6,
+          "seatY": 65.09,
           "head": {
-            "top": 37.62,
-            "x": 84.57,
-            "width": 2.931
+            "top": 38.15,
+            "x": 82.3,
+            "width": 2.99
           },
           "role": "general",
           "id": "oval-office-resolute:spot:4"
         },
         {
-          "x": 93.65,
-          "y": 92.58,
+          "x": 91.85,
+          "y": 89.8,
           "pose": "sit",
           "facing": "left",
-          "depth": 92.58,
-          "seatY": 74.16,
+          "depth": 89.8,
+          "seatY": 72.39,
           "head": {
-            "top": 39.96,
-            "x": 93.65,
-            "width": 3.708
+            "top": 40.06,
+            "x": 91.85,
+            "width": 3.589
           },
           "role": "general",
           "id": "oval-office-resolute:spot:5"
+        },
+        {
+          "x": 8.68,
+          "y": 90.12,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 90.12,
+          "seatY": 72.71,
+          "head": {
+            "top": 40.38,
+            "x": 8.68,
+            "width": 3.589
+          },
+          "role": "general",
+          "id": "oval-office-resolute:spot:6"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/oval-office-resolute.png over art/backdrops/oval-office-resolute__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.100",
+      "measuredFrom": "mannequin plate art/people-rooms/plates/oval-office-resolute.png over art/backdrops/oval-office-resolute__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.103",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/oval-office-resolute.json"
     },
@@ -29138,63 +29344,66 @@
       "metersPercent": 0.54,
       "spots": [
         {
-          "x": 50,
-          "y": 93,
+          "x": 77.92,
+          "y": 93.52,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 93,
-          "hero": true,
+          "depth": 93.52,
+          "head": {
+            "top": 39,
+            "x": 77.92,
+            "width": 3.05
+          },
           "role": "general",
           "id": "white-house-exterior:spot:0"
         },
         {
-          "x": 45,
-          "y": 63.5,
+          "x": 35.23,
+          "y": 69.94,
           "pose": "stand",
-          "facing": "left",
-          "depth": 63.5,
+          "facing": "viewer",
+          "depth": 69.94,
+          "head": {
+            "top": 48.57,
+            "x": 35.23,
+            "width": 1.196
+          },
           "role": "general",
           "id": "white-house-exterior:spot:1"
         },
         {
-          "x": 75,
-          "y": 63.5,
+          "x": 58.86,
+          "y": 70.05,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 63.5,
+          "depth": 70.05,
+          "head": {
+            "top": 48.67,
+            "x": 58.86,
+            "width": 1.196
+          },
           "role": "general",
-          "id": "white-house-exterior:spot:2"
+          "id": "white-house-exterior:spot:2",
+          "hero": true
         },
         {
-          "x": 30,
-          "y": 86,
+          "x": 88.91,
+          "y": 66.95,
           "pose": "stand",
-          "facing": "right",
-          "depth": 86,
+          "facing": "viewer",
+          "depth": 66.95,
+          "head": {
+            "top": 48.78,
+            "x": 88.91,
+            "width": 1.017
+          },
           "role": "general",
           "id": "white-house-exterior:spot:3"
-        },
-        {
-          "x": 80,
-          "y": 86,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 86,
-          "role": "general",
-          "id": "white-house-exterior:spot:4"
-        },
-        {
-          "x": 60,
-          "y": 76,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 76,
-          "role": "general",
-          "id": "white-house-exterior:spot:5"
         }
       ],
-      "measuredFrom": "lamp posts 3.5 m foot 63.5 top 44 (5.6 per m) and foot 58.5 top 48.5 (2.9 per m); 53 / 0.54",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/white-house-exterior.png over art/backdrops/white-house-exterior__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.099",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/white-house-exterior.json"
     },
     "capitol-hallway": {
       "horizonY": 50,
@@ -34337,7 +34546,7 @@
         {
           "x": 67.08,
           "y": 67.27,
-          "pose": "stand",
+          "pose": "podium",
           "facing": "viewer",
           "depth": 67.27,
           "behindY": 52.18,
@@ -34613,7 +34822,7 @@
         {
           "x": 70.23,
           "y": 70.44,
-          "pose": "stand",
+          "pose": "podium",
           "facing": "viewer",
           "depth": 70.44,
           "behindY": 65.99,
@@ -34727,18 +34936,6 @@
           },
           "role": "general",
           "id": "rally-town-square:spot:26"
-        },
-        {
-          "x": 65,
-          "y": 68.4,
-          "pose": "podium",
-          "facing": "viewer",
-          "depth": 68.4,
-          "behindY": 60,
-          "floor": "stage",
-          "audience": "viewer",
-          "role": "speaker",
-          "id": "rally-town-square:spot:podium-0"
         }
       ],
       "measuredFrom": "mannequin plate art/people-rooms/plates/rally-town-square.png over art/backdrops/rally-town-square__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.132",
@@ -36614,100 +36811,162 @@
       "metersPercent": 0.28,
       "spots": [
         {
-          "x": 40,
-          "y": 71,
+          "x": 9.06,
+          "y": 77.99,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 71,
-          "hero": true,
+          "depth": 77.99,
+          "head": {
+            "top": 37.19,
+            "x": 9.06,
+            "width": 2.691
+          },
           "role": "general",
           "id": "workforce-center:spot:0"
         },
         {
-          "x": 30,
-          "y": 73.5,
+          "x": 61.9,
+          "y": 68.12,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 73.5,
-          "behindY": 74.5,
-          "role": "staff-behind-counter",
-          "id": "workforce-center:spot:1"
+          "depth": 68.12,
+          "head": {
+            "top": 39.11,
+            "x": 61.9,
+            "width": 1.914
+          },
+          "role": "general",
+          "id": "workforce-center:spot:1",
+          "hero": true
         },
         {
-          "x": 80,
-          "y": 57,
-          "pose": "stand",
-          "facing": "viewer",
-          "depth": 57,
-          "behindY": 56.5,
-          "role": "staff-behind-counter",
+          "x": 36.71,
+          "y": 61.12,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61.12,
+          "seatY": 55.54,
+          "behindY": 50.69,
+          "head": {
+            "top": 45.16,
+            "x": 36.71,
+            "width": 1.316
+          },
+          "role": "general",
           "id": "workforce-center:spot:2"
         },
         {
-          "x": 72,
-          "y": 72,
-          "pose": "stand",
+          "x": 42.73,
+          "y": 59.78,
+          "pose": "sit",
           "facing": "away",
-          "depth": 72,
-          "role": "customer",
+          "depth": 59.78,
+          "seatY": 54.7,
+          "head": {
+            "top": 45.27,
+            "x": 42.73,
+            "width": 1.196
+          },
+          "role": "general",
           "id": "workforce-center:spot:3"
         },
         {
-          "x": 22,
-          "y": 68,
-          "pose": "stand",
-          "facing": "left",
-          "depth": 68,
-          "role": "general",
+          "x": 74.29,
+          "y": 69.93,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 69.93,
+          "seatY": 61.3,
+          "behindY": 53.99,
+          "head": {
+            "top": 45.27,
+            "x": 74.29,
+            "width": 2.033
+          },
+          "role": "clerk",
           "id": "workforce-center:spot:4"
         },
         {
-          "x": 87,
-          "y": 72,
+          "x": 49.01,
+          "y": 60.61,
           "pose": "sit",
-          "facing": "left",
-          "depth": 72,
-          "seatY": 66,
-          "group": "waiting",
+          "facing": "away",
+          "depth": 60.61,
+          "seatY": 55.28,
+          "head": {
+            "top": 45.38,
+            "x": 49.01,
+            "width": 1.256
+          },
           "role": "general",
           "id": "workforce-center:spot:5"
         },
         {
-          "x": 95,
-          "y": 76,
+          "x": 31.83,
+          "y": 63.1,
           "pose": "sit",
-          "facing": "left",
-          "depth": 76,
-          "seatY": 68,
-          "group": "waiting",
+          "facing": "away",
+          "depth": 63.1,
+          "seatY": 57.01,
+          "behindY": 50.8,
+          "head": {
+            "top": 45.7,
+            "x": 31.83,
+            "width": 1.435
+          },
           "role": "general",
           "id": "workforce-center:spot:6"
         },
         {
-          "x": 37.5,
-          "y": 60.7,
+          "x": 29,
+          "y": 64.87,
           "pose": "sit",
           "facing": "away",
-          "depth": 60.7,
-          "seatY": 56.8,
-          "group": "computers",
+          "depth": 64.87,
+          "seatY": 58.27,
+          "behindY": 53.13,
+          "head": {
+            "top": 46.01,
+            "x": 29,
+            "width": 1.555
+          },
           "role": "general",
           "id": "workforce-center:spot:7"
         },
         {
-          "x": 49,
-          "y": 60.7,
+          "x": 91.02,
+          "y": 77.66,
           "pose": "sit",
-          "facing": "away",
-          "depth": 60.7,
-          "seatY": 56.8,
-          "group": "computers",
+          "facing": "left",
+          "depth": 77.66,
+          "seatY": 67.26,
+          "head": {
+            "top": 47.93,
+            "x": 91.02,
+            "width": 2.452
+          },
           "role": "general",
           "id": "workforce-center:spot:8"
+        },
+        {
+          "x": 98.14,
+          "y": 82.99,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 82.99,
+          "seatY": 71.31,
+          "head": {
+            "top": 49.63,
+            "x": 98.14,
+            "width": 2.751
+          },
+          "role": "general",
+          "id": "workforce-center:spot:9"
         }
       ],
-      "measuredFrom": "waiting chair 0.45 m seat 67.8 foot 73.3, reception desk 1.1 m foot 69.6 top 58.5, water cooler 1.1 m foot 64.4 solve loosely to horizon 30, 0.28 (picture shows only floor above y 74 behind the front counter)",
-      "surfaceSlots": []
+      "measuredFrom": "mannequin plate art/people-rooms/plates/workforce-center.png over art/backdrops/workforce-center__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.117",
+      "surfaceSlots": [],
+      "spotsFrom": "art/people-rooms/spots/workforce-center.json"
     }
   }
 }
