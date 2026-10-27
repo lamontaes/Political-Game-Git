@@ -7,6 +7,7 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
+import { screenLine } from "../english/screen-words";
 import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
@@ -146,6 +147,9 @@ export function personCard(core: CoreState, personId: string) {
         },
       ];
     }),
+    // What they're like, in plain sentences from their strongest leanings
+    // (owner, Oct 27), never the traits' names.
+    sketch: personSketch(person.traits),
     // Where they place themselves politically, as the views engine's label.
     view: core.modules.has(VIEWS_MODULE_ID)
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
@@ -232,6 +236,35 @@ function colleaguesOf(core: CoreState, personId: string) {
     })
     .sort((a, b) => b.level - a.level || a.recordId.localeCompare(b.recordId))
     .slice(0, CLOSEST);
+}
+
+// Engineering bands for the sketch: a lean under the first is not said; one
+// past the second takes the strong line. Display wording only, never a choice.
+const SKETCH_SAID = 0.15;
+const SKETCH_STRONG = 0.5;
+const SKETCH_SENTENCES = 3;
+
+/** Up to three sentences of what a person is like, strongest leaning first. */
+function personSketch(traits: Readonly<Record<string, number>>): string {
+  const said = PEOPLE_TRAITS.flatMap((trait) => {
+    const value = traits[`${PEOPLE_MIND_VERSION}:${trait}`];
+    if (value === undefined || Math.abs(value) < SKETCH_SAID) return [];
+    const shape = TRAIT_SHAPES[trait];
+    const pole = value < 0 ? shape.low.key : shape.high.key;
+    const strength = Math.abs(value) >= SKETCH_STRONG ? "strong" : "mild";
+    const line = screenLine(
+      "person-sketch",
+      `person-sketch.${pole}.${strength}`,
+      {},
+    );
+    return line ? [{ line, weight: Math.abs(value) }] : [];
+  })
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, SKETCH_SENTENCES)
+    .map((row) => row.line);
+  return said.length
+    ? said.join(" ")
+    : (screenLine("person-sketch", "person-sketch.balanced.1", {}) ?? "");
 }
 
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {

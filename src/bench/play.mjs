@@ -2961,26 +2961,13 @@ const sheets = {
         }),
       ),
     ];
-    if (c.traits?.length)
+    // What you're like, in plain sentences, never the traits' names (owner, Oct 27).
+    if (c.sketch)
       rows.push(
-        recordSection(
-          labels.traits,
-          el(
-            "ul",
-            { className: "character-traits" },
-            ...c.traits.map((trait) =>
-              el(
-                "li",
-                {},
-                el("span", {
-                  className: "character-trait-label",
-                  textContent: trait.label,
-                }),
-                el("strong", { textContent: trait.word }),
-              ),
-            ),
-          ),
-        ),
+        el("p", {
+          className: "character-sketch narrative",
+          textContent: c.sketch,
+        }),
       );
     rows.push(
       recordSection(
@@ -3043,7 +3030,17 @@ const sheets = {
         el("strong", { textContent: dollars(c.liquidMinor) }),
       ),
     );
-    return rows;
+    // The record sections side by side under the name and the sketch, so the
+    // screen reads as a character sheet, not a column down one side.
+    const [heading, ...rest] = rows;
+    const sketch = rest[0]?.classList?.contains("character-sketch")
+      ? rest.shift()
+      : null;
+    return [
+      heading,
+      ...(sketch ? [sketch] : []),
+      el("div", { className: "character-grid" }, ...rest),
+    ];
   },
   async money() {
     const [budget, bank] = await Promise.all([
@@ -3315,11 +3312,13 @@ const sheets = {
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
+    // A chapter's title heads it only when there is more than one chapter: a
+    // lone title over the only story restates the screen (principles rule 3).
     return chapters.map((c) =>
       listRow(
         "narrative",
         {},
-        el("b", { textContent: c.title }),
+        ...(chapters.length > 1 ? [el("b", { textContent: c.title })] : []),
         c.lines.map((l) => l.text).join(" "),
       ),
     );
@@ -4997,6 +4996,13 @@ async function openSheet(tab) {
     "cols",
     tab !== "who" && tab !== "calendar" && body.length > 12,
   );
+  // A screen is as tall as what it holds (owner, Oct 27: "so much dead space");
+  // the calendar, the people web and two-column readers fill the window.
+  $("sheet").classList.toggle(
+    "fits",
+    !["calendar", "people", "family", "map", "who"].includes(tab) &&
+      !$("sheet-body").classList.contains("cols"),
+  );
   show("sheet", true);
   $("game").classList.add("sheet-open");
 }
@@ -5084,8 +5090,6 @@ api("/api/title").then((title) => {
 });
 // The build version, bottom right of the title (#4014).
 void displayVersion().then((v) => ($("title-version").textContent = v));
-// Not yet routes on the new core: each dimmed entry says why, in a line under it
-// (its .reason, filled from the controls data above).
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
   if (!life) return;
