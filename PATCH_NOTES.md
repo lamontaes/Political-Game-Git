@@ -296,6 +296,40 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.50.0
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A law a state never passed no longer has a passage in its past** The world's
+  past no longer records an enactment, a roll call or a signer for a law the
+  research says the place does not have, such as Medicaid expansion in a state
+  that never expanded it.
+
+- **The people in a room look like different people, and look the same each time
+  you meet them** Everyone in a scene is now drawn from their own record: their
+  body, build, outfit, skin tone and clothing color come from who they are, not
+  from what is left over once the others are placed. Two neighbors differ, and a
+  person is drawn the same wherever you see them.
+
+- **Firms in a big city stop overpaying, overhiring and closing** In a city
+  opened at its full Census size, such as Washington, D.C., a few firms used to
+  close within the year. One raised the pay of an unfilled opening far past what
+  it could afford, and another kept hiring for sales its books could not carry.
+  A person who joined the story from the wider population kept bank savings that
+  belonged to many households, and an owner took home the profit of many
+  businesses. Now a raise fits what the month left over, hiring follows the
+  firm's own books, and savings and profit go to the households they belong to.
+  Washington, D.C. at its Census size now closes no more firms in a year than at
+  its sample size.
+
+- **A change to the minimum wage or a tax rate now makes the paper** The press
+  desk used to give a change to a law's amount no reader care, so a wage floor
+  falling from $10.70 to $7.25 lost every week to policy laws and never ran. It
+  now sizes the care by how far the amount in force moved, and the paper runs
+  the change.
+
 ## PRE-ALPHA 0.49.0
 
 _Released October 27, 2026._
