@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-sparse
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T23:14:25.600Z
 ---
 
 **What.** Found on drives-displaced-prove-oneself-over-band: a full person's trait map holds about 16 keys on average against about 98 for a counted person, and the shared chooser reads a missing trait differently from a present one, so full and counted workers facing the same job loss answer it at different rates (North Canton, Ohio, 3956294, seed 8a8c23de2f386de8944a7ea780e0004858517370b27b7434222d447aeebaf97c: 18 of 32 full against 20 of 71 counted set out to prove themselves; Steamboat Springs, Colorado, 0873825: 41 of 89 against 5 of 236). A town's displaced-worker rates then swing with its share of full people. Find where full people's traits are generated sparsely (or where src/core2/choice.ts kindLean reads an absent trait) and make both tiers carry and read the same traits.
