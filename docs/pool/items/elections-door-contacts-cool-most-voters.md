@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/door-contacts-warmth
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T03:40:53.749Z
 ---
 
 **What.** On the bench a month of knocking on doors for a council seat in Louisville, Colorado (seed 930cd8a0-ae3d-4451-aab2-4fc6bb898c08) left 852 of the 961 voters reached cooler toward the candidate and only 50 warmer. In Charles City, Virginia (seed 8a673426-e531-4680-a7c2-4f24524544a9) 13 of 15 cooled. Field experiments find canvassing persuasion near zero on average, not strongly negative, so a door that mostly turns voters away looks like the campaign engine's warmth balance rather than the voters' traits.
