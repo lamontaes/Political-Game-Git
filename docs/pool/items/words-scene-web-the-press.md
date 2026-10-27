@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/web-press
-pr: 6324
+pr: #6324
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
