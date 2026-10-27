@@ -70,6 +70,17 @@
     },
     {
       "file": "src/bench/scene.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "let hash = 2166136261; for (const char of `${town}:${key}:${family[0]}`) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0; const order = family.map((_, i) => family[(hash + i) % family.length]!);",
+      "class": "PRESENTATION",
+      "keyedBy": "town + scene key + family",
+      "reason": "Which of a kind of place's equally good paintings a town shows, the same every time: a backdrop with no effect on the world.",
+      "replacement": null
+    },
+    {
+      "file": "src/bench/scene.ts",
       "kind": "fixed-share",
       "build": "pool:core-zero-dice-shares-in-code",
       "count": 1,
