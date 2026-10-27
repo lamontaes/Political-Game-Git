@@ -1510,8 +1510,7 @@
     {
       "eventKind": "vote-ahead",
       "channel": "cause",
-      "impactParameter": "directorFloorVoteImpact",
-      "counterpartFact": "askerId"
+      "impactParameter": "directorFloorVoteImpact"
     },
     {
       "eventKind": "bill-held-in-committee",

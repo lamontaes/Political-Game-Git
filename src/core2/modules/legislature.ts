@@ -403,6 +403,18 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
       side: ask.side,
       date: event.date,
     } satisfies ReplyRow as unknown as ModuleRow);
+    // The player is never voted for: their own word is their vote. Agreeing
+    // is choosing the side asked for, until they choose otherwise; a refusal
+    // leaves the vote theirs to cast.
+    const player =
+      snapshotExplicitControlV1(api.state).personId ??
+      (api.state as CoreState).playerId;
+    if (
+      sign > 0 &&
+      ask.askedId === player &&
+      !table(api, "choices").get(`${bill.id}|${ask.askedId}`)
+    )
+      castMemberVote(api, bill.id, ask.askedId, ask.side > 0 ? "yes" : "no");
     return;
   }
   if (!causeId.startsWith("veto-override:")) return;
