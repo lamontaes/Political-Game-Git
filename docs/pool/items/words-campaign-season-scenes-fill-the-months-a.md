@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by: words/campaign-season-scenes
-pr:
+pr: "#6201"
 blocked-on:
 source: "split from words-campaign-season-scenes-fill-the-months by the words-and-scenes lead, Oct 27"
 lead: words
