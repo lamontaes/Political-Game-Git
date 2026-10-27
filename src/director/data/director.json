@@ -613,6 +613,8 @@
       "value": 0.7,
       "tag": "TUNABLE",
       "citation": "An offer of help at its full weight (a close tie, in a candidate's first small local race), scaled by the offer's own weight (offerWeight in src/core2/modules/campaigns.ts: the race's size, the candidate's earlier campaigns and the tie). At full weight it is over the interrupt line (0.5) and stops the day as a scene; a stranger's offer in a first council race sits near filing to run (0.28) and waits its turn among the year's moments; an offer in a statewide or presidential race is a journal line (owner, Oct 27, 4 PM Eastern: volunteers stop the player only when they matter, in small local races or a first campaign).",
+      "stopgapId": "SG-P13-param-directorInterruptImpact",
+      "checkRange": { "ref": "P13-OWNER-INTERRUPT-LINE" },
       "spread": {
         "low": 0.5,
         "high": 0.9,
@@ -1706,6 +1708,11 @@
       "channel": "cause",
       "impactParameter": "directorVolunteerOfferImpact",
       "scaleFact": "weight"
+    },
+    {
+      "eventKind": "job-offered",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
     },
     {
       "eventKind": "rival-word",

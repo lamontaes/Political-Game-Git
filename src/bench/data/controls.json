@@ -32,7 +32,6 @@
   },
   "endedBy": {
     "moment": "Something needs you",
-    "job-offered": "A job offer",
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
@@ -375,18 +374,10 @@
   "jobs": {
     "work": "Work",
     "study": "Study",
-    "offers": "Job offers",
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "hourly": "per hour",
-    "deadline": "Answer by",
-    "accept": "Take it",
-    "decline": "Turn it down",
-    "notNow": "Not now",
-    "noJob": "No current job",
-    "unavailable": "Offer no longer available",
-    "failed": "Could not send your answer. Try again."
+    "noJob": "No current job"
   },
   "politics": {
     "seats": "Seats",
