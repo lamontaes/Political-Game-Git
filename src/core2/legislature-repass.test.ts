@@ -93,8 +93,10 @@ it(
             ).not.toBe(before.value === 1);
         });
       }
-      // Every bill that passed changed some law: a bill of policy sections
-      // alone wrote at least one law row of its own.
+      // Every bill that passed changed some law, or says which law its
+      // sections only repeated: a bill of policy sections alone wrote at
+      // least one law row of its own, or names each section's repeat
+      // (`repeats`), in which case it wrote no row and made no repeat.
       const wrote = new Set(rows.map((r) => r.terms?.enactedByBill));
       for (const bill of api
         .moduleState(LEGISLATURE_MODULE_ID)
@@ -105,8 +107,8 @@ it(
           bill.provisions.every((p) => p.kind === "policy-question")
         )
           expect(
-            wrote.has(bill.id),
-            `${label}: ${bill.number} (${bill.id}) passed and changed no law`,
+            wrote.has(bill.id) || (bill.repeats?.length ?? 0) > 0,
+            `${label}: ${bill.number} (${bill.id}) passed, changed no law and names no law it repeated`,
           ).toBe(true);
       tried.push(`${label}: ${enacted.length} policy laws enacted`);
       if (!enacted.length) continue;
