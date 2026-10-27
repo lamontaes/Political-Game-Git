@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/archive-words.ts, src/bench/calendar.ts, src/english/english-newscast.ts, data/english/parts/headlines.json, data/english/parts/news.json, src/core2/press-topics.ts
 
 **Notes.** Found by the words-and-scenes lead, Oct 27 (deliverable 4).
+Sent back Oct 27 from PR #6213 (branch words/live-news-worded): printed-words test leaves cause-group.ad stories unworded in New Hope, Virginia (seed e344a94c...); finish on that branch, merge main into it first.
