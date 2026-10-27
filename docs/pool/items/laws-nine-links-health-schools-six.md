@@ -6,7 +6,7 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #6026
 blocked-on:
