@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/weight-money
-pr:
+pr: #6444
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T23:44:10.358Z
