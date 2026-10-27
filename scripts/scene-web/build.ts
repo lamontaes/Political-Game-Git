@@ -35,7 +35,12 @@ type Cause = {
   causeRecord?: string;
   causeEngine?: string;
   awaitingProducer?: string;
-  match?: { label?: string; labelPrefix?: string };
+  match?: {
+    label?: string;
+    labelPrefix?: string;
+    threadTurn?: string;
+    echo?: string;
+  };
 };
 type SituationType = {
   key: string;
@@ -194,6 +199,9 @@ for (const [, ledger] of director.ledger.people)
 const triggerOf = (cause: Cause) =>
   cause.causeRecord ??
   cause.match?.label ??
+  // A tie between two people that turned (soured, grew) or came back.
+  (cause.match?.threadTurn ? `a tie ${cause.match.threadTurn}` : undefined) ??
+  (cause.match?.echo ? `a tie's ${cause.match.echo}` : undefined) ??
   cause.match?.labelPrefix ??
   (cause.awaitingProducer ? `awaiting: ${cause.awaitingProducer}` : "none");
 
