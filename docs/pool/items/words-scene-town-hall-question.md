@@ -22,3 +22,4 @@ claimed-at:
 **Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json, scripts/english-corpus/scene-talk-pieces.py
 
 **Notes.** Filed by Helper E. lead: words. Time box 4 h.
+Sent back 2026-10-27 from PR #6239 (branch helper-e/town-hall-pushback): four conflicts with main after #6136 (scene-talk.json, purpose-arcs.json, director.test.ts, purpose-scene.ts); finish on that branch, merge main into it first.
