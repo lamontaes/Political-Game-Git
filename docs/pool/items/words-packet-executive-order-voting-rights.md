@@ -5,7 +5,7 @@ area: words
 kind: research
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: words/helper-d-executive-order
 pr: #6259
 blocked-on:
