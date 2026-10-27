@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/checker-power-level
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T14:12:46.100Z
 ---
 
 **What.** The checker enacts a law at the lowest level the bill catalog lists for it (`scripts/law-wiring/check.ts`, `townLevel` with `law.catalog?.levels`). For 31 of the catalog's 59 policy questions the catalog lists the city, while `src/core2/data/legislature/series-powers.json` grants only the state or federal government the power (for example restore voting after a sentence, Medicaid expansion and the bottle deposit). In a subject-presence draw for restore voting (Rinard, Iowa, seed 7a3535a49386981d, Oct 24) the checker enacted the law at the city, where its reach handler finds no one to restore, so the run graded reach as missing although the state-level law reaches people in the audit towns.
