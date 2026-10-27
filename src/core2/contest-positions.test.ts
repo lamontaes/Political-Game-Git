@@ -354,17 +354,23 @@ it("a town whose state lets it decide no platform question still campaigns on it
         `${where}: council ${council.officeId} lists a question`,
       ).toEqual([]);
     }
-    // Play until a computer candidate in a local race files a platform with a
-    // budget line, then on to that race's result.
-    let filing: FilingRow | undefined;
-    let day = 0;
-    const filed = () =>
+    // Play until computer candidates in local races file platforms with a
+    // budget line; take, in order, a town race whose campaign can pay for an
+    // event, then any race that can, then a town race, then any.
+    const eventOf = (row: FilingRow) =>
+      // A computer candidate's day, read as the world reads it.
+      campaignDayChoices(api, row.id, true).find((c) => c.kind === "event");
+    const town = (row: FilingRow) => {
+      const c = contests().find((x) => x.id === row.contestId)!;
+      return officeOf(c).level !== "county";
+    };
+    const stated = () =>
       (
         api
           .moduleState(ELECTIONS_MODULE_ID)
           .table("filings")
           .rows() as unknown as FilingRow[]
-      ).find((row) => {
+      ).filter((row) => {
         const c = contests().find((x) => x.id === row.contestId);
         return (
           c &&
@@ -372,33 +378,44 @@ it("a town whose state lets it decide no platform question still campaigns on it
           parsePlatform(row.platform).some((s) => s.question.startsWith(BUDGET))
         );
       });
-    while (!filing && day < PLAYED_DAYS) {
+    const pick = (rows: readonly FilingRow[]) =>
+      rows.find((r) => town(r) && eventOf(r)?.available) ??
+      rows.find((r) => eventOf(r)?.available) ??
+      rows.find(town) ??
+      rows[0];
+    // Each choice as it stood the day it was taken: a race's event choice is
+    // read while its campaign is open.
+    let chosen:
+      { filing: FilingRow; event: ReturnType<typeof eventOf> } | undefined;
+    let day = 0;
+    while (!chosen?.event?.available && day < PLAYED_DAYS) {
       day += STEP_DAYS;
       advanceCore(core, addDays(makeIsoDate(gameStartDate()), day));
-      filing = filed();
+      const next = pick(stated());
+      const event = next && eventOf(next);
+      if (next && (!chosen || event?.available || (!chosen.event && event)))
+        chosen = { filing: next, event };
     }
     expect(
-      filing,
+      chosen,
       `${where}: no local filing stated a budget line in ${day} days`,
     ).toBeDefined();
-    const contest = contests().find((c) => c.id === filing!.contestId)!;
-    const stances = parsePlatform(filing!.platform);
+    const filing = chosen!.filing;
+    const contest = contests().find((c) => c.id === filing.contestId)!;
+    const stances = parsePlatform(filing.platform);
     // The campaign event opens on a platform with a position; only the
     // venue's price can keep it shut.
-    // A computer candidate's day, read as the world reads it.
-    const event = campaignDayChoices(api, filing!.id, true).find(
-      (c) => c.kind === "event",
-    );
+    const event = chosen!.event;
     expect(
       event,
-      `${where}: no campaign event choice for ${filing!.id}`,
+      `${where}: no campaign event choice for ${filing.id}`,
     ).toBeDefined();
     if (event) {
       expect(
         event.facts.platformStances,
-        `${where}: ${filing!.id}`,
+        `${where}: ${filing.id}`,
       ).toBeGreaterThan(0);
-      expect(event.available, `${where}: ${filing!.id}`).toBe(
+      expect(event.available, `${where}: ${filing.id}`).toBe(
         Number(event.facts.cashMinor) >= Number(event.facts.venuePriceMinor),
       );
     }
@@ -417,14 +434,14 @@ it("a town whose state lets it decide no platform question still campaigns on it
         (b) =>
           b &&
           b.basis === "platform" &&
-          b.appeal[filing!.personId]?.agreement != null,
+          b.appeal[filing.personId]?.agreement != null,
       );
     expect(
       weighed.length,
-      `${where}: no ballot in ${contest.id} weighs ${filing!.id}'s platform`,
+      `${where}: no ballot in ${contest.id} weighs ${filing.id}'s platform`,
     ).toBeGreaterThan(0);
     process.stdout.write(
-      `CONTEST POSITIONS (no question) ${where} (GOLDEN_PATH_SEED=${seed})\n  council ${council?.officeId ?? "none"}: ${council ? contestPositions(api, council).length : 0} positions; filing ${filing!.id} states ${JSON.stringify(stances.map((s) => `${s.question.split(":").pop()} ${s.position}`))}; event ${event ? (event.available ? "open" : `shut on price (${event.facts.cashMinor} < ${event.facts.venuePriceMinor})`) : "none"}; ${weighed.length} ballots weigh it, e.g. ${weighed[0]!.id} (agreement ${weighed[0]!.appeal[filing!.personId]!.agreement})\n`,
+      `CONTEST POSITIONS (no question) ${where} (GOLDEN_PATH_SEED=${seed})\n  council ${council?.officeId ?? "none"}: ${council ? contestPositions(api, council).length : 0} positions; filing ${filing.id} states ${JSON.stringify(stances.map((s) => `${s.question.split(":").pop()} ${s.position}`))}; event ${event ? (event.available ? "open" : `shut on price (${event.facts.cashMinor} < ${event.facts.venuePriceMinor})`) : "none"}; ${weighed.length} ballots weigh it, e.g. ${weighed[0]!.id} (agreement ${weighed[0]!.appeal[filing.personId]!.agreement})\n`,
     );
   } finally {
     setKeepEveryonesWhy(keptBefore);
