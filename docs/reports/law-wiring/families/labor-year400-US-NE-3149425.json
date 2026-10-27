@@ -1,0 +1,944 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 400,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:labor-workforce.paid-family-leave",
+      "kind": "question",
+      "family": "labor",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c) effective 2025-01-21; then repealed at city effective 2026-02-26",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
+        "law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2026-02-26:law-wiring-fdb9f24c-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 87,
+        "countedGroups": 35,
+        "countedPeople": 31.706920729543413,
+        "households": 0,
+        "organizations": 14,
+        "governments": 0,
+        "other": 0,
+        "open": 136,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_01b157d5b2d5f916:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_01b158d5b2d5fac9:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_31edee1019232ef0:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_31edef10192330a3:2025-01-21"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 87,
+        "countedGroups": 35,
+        "countedPeople": 31.706920729543413,
+        "households": 0,
+        "organizations": 14,
+        "governments": 0,
+        "other": 0,
+        "open": 136,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_01b157d5b2d5f916:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_01b158d5b2d5fac9:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_31edee1019232ef0:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_31edef10192330a3:2025-01-21"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/paid-leave.ts:23": 7013,
+        "src/core2/modules/legislature.ts:2126": 2653,
+        "src/core2/modules/outcome-web.ts:166": 493,
+        "src/core2/modules/world-legislating.ts:253": 320,
+        "src/core2/modules/world-legislating.ts:183": 96,
+        "src/core2/life.ts:556": 5,
+        "src/core2/modules/world-legislating.ts:333": 4,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/life.ts:556": 4
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:labor-workforce.paid-family-leave:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3307059438,
+            "control": 3321530273,
+            "ids": [
+              "journal:2025-01-21:1504",
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1430967773,
+            "control": 1417428525,
+            "ids": [
+              "journal:2025-02-01:3085",
+              "journal:2025-02-01:3086",
+              "journal:2025-02-01:3087"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 760225997555103,
+            "control": 760225995169760,
+            "ids": [
+              "journal:2025-02-01:1694",
+              "journal:2025-02-01:1695",
+              "journal:2025-02-01:1696"
+            ]
+          },
+          {
+            "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+            "treatment": 1974091,
+            "control": 0,
+            "ids": [
+              "journal:2025-01-28:1605",
+              "journal:2025-01-29:1639",
+              "journal:2025-01-30:1645"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 369516013,
+            "control": 370742392,
+            "ids": [
+              "journal:2025-01-21:1530",
+              "journal:2025-01-21:1531",
+              "journal:2025-01-21:1532"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 192440857,
+            "control": 193446063,
+            "ids": [
+              "journal:2025-02-01:3067",
+              "journal:2025-02-01:3068",
+              "journal:2025-02-01:3069"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 226135891,
+            "control": 226703902,
+            "ids": [
+              "journal:2025-02-01:1924",
+              "journal:2025-02-01:1925",
+              "journal:2025-02-01:1926"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 540640850,
+            "control": 540261667,
+            "ids": [
+              "journal:2025-01-28:1602",
+              "journal:2025-01-29:1636",
+              "journal:2025-01-30:1642"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 330344134,
+            "control": 330595478,
+            "ids": [
+              "journal:2025-02-01:1880",
+              "journal:2025-02-01:1881",
+              "journal:2025-02-01:1882"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 195216890851996,
+            "control": 195216890955838,
+            "ids": [
+              "journal:2025-02-01:1684",
+              "journal:2025-02-01:1685",
+              "journal:2025-02-01:1686"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 547081482,
+            "control": 546993939,
+            "ids": [
+              "journal:2025-01-24:1580",
+              "journal:2025-01-25:1581",
+              "journal:2025-01-25:1583"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 32451155,
+            "control": 32530856,
+            "ids": [
+              "journal:2025-01-21:1495",
+              "journal:2025-01-21:1496",
+              "journal:2025-01-21:1497"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 122,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+              "way": "out",
+              "targets": 87,
+              "moved": 56894,
+              "earliest": "2025-01-28",
+              "sample": [
+                {
+                  "target": "person_6fbcb9e4fb891b2e",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_6fbcb9e4fb891b2e",
+                  "date": "2025-01-28",
+                  "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+                  "way": "out",
+                  "treatment": -299,
+                  "control": 0,
+                  "journal": "journal:2025-01-28:1605"
+                },
+                {
+                  "target": "person_1f0aeb3215325dc6",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_1f0aeb3215325dc6",
+                  "date": "2025-01-29",
+                  "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+                  "way": "out",
+                  "treatment": -452,
+                  "control": 0,
+                  "journal": "journal:2025-01-29:1639"
+                },
+                {
+                  "target": "person_014872ba8397579a",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_014872ba8397579a",
+                  "date": "2025-01-30",
+                  "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+                  "way": "out",
+                  "treatment": -345,
+                  "control": 0,
+                  "journal": "journal:2025-01-30:1657"
+                },
+                {
+                  "target": "person_163e4199798d4be4",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_163e4199798d4be4",
+                  "date": "2025-01-30",
+                  "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+                  "way": "out",
+                  "treatment": -554,
+                  "control": 0,
+                  "journal": "journal:2025-01-30:1649"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "in",
+              "targets": 56,
+              "moved": 228057,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "person_163e4199798d4be4",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_163e4199798d4be4",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -79318,
+                  "control": -79872,
+                  "journal": "journal:2025-02-01:1857"
+                },
+                {
+                  "target": "person_418041ec8af3053e",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_418041ec8af3053e",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -100535,
+                  "control": -101254,
+                  "journal": "journal:2025-02-01:1858"
+                },
+                {
+                  "target": "person_02977976e9a4e00e",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_02977976e9a4e00e",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -169280,
+                  "control": -172744,
+                  "journal": "journal:2025-03-01:8787"
+                },
+                {
+                  "target": "person_041c61dd02239832",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_041c61dd02239832",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": -77822,
+                  "control": -79581,
+                  "journal": "journal:2025-03-01:8793"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "in",
+              "targets": 26,
+              "moved": 48353,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "person_3b8e45617114c97d",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_3b8e45617114c97d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -103756,
+                  "control": -103954,
+                  "journal": "journal:2025-02-01:1955"
+                },
+                {
+                  "target": "person_6fbcb9e4fb891b2e",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_6fbcb9e4fb891b2e",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -12895,
+                  "control": -13194,
+                  "journal": "journal:2025-02-01:2595"
+                },
+                {
+                  "target": "person_12c6e155ec0ef2f9",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_12c6e155ec0ef2f9",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -102269,
+                  "control": -103473,
+                  "journal": "journal:2025-03-01:9930"
+                },
+                {
+                  "target": "person_163e4299798d4d97",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_163e4299798d4d97",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -130710,
+                  "control": -132918,
+                  "journal": "journal:2025-03-01:9564"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 24,
+              "moved": 111716,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_12c6e055ec0ef146",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_12c6e055ec0ef146",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -37299,
+                  "control": -36095,
+                  "journal": "journal:2025-03-01:9923"
+                },
+                {
+                  "target": "person_163e4199798d4be4",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_163e4199798d4be4",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -37430,
+                  "control": -35222,
+                  "journal": "journal:2025-03-01:9557"
+                },
+                {
+                  "target": "person_588e1a1aff272845",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_588e1a1aff272845",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -117381,
+                  "control": -115007,
+                  "journal": "journal:2025-03-01:9006"
+                },
+                {
+                  "target": "person_5b441763d00e7f68",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_5b441763d00e7f68",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -17729,
+                  "control": -15151,
+                  "journal": "journal:2025-03-01:9151"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 12,
+              "moved": 38910,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_3b8e45617114c97d",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_3b8e45617114c97d",
+                  "date": "2025-02-13",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -2996,
+                  "control": -2798,
+                  "journal": "journal:2025-02-13:8116"
+                },
+                {
+                  "target": "person_57205fbf262dbbec",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_57205fbf262dbbec",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -1678,
+                  "control": -1114,
+                  "journal": "journal:2025-03-01:10415"
+                },
+                {
+                  "target": "person_5e3975a5757ab0b4",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_5e3975a5757ab0b4",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -66773,
+                  "control": -66241,
+                  "journal": "journal:2025-03-01:10388"
+                },
+                {
+                  "target": "person_5b23aeba0024284d",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_5b23aeba0024284d",
+                  "date": "2025-03-03",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -9444,
+                  "control": -8771,
+                  "journal": "journal:2025-03-03:15074"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "in",
+              "targets": 12,
+              "moved": 38677,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "person_014872ba8397579a",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_014872ba8397579a",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -30504,
+                  "control": -30849,
+                  "journal": "journal:2025-02-01:3099"
+                },
+                {
+                  "target": "person_3b8e45617114c97d",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_3b8e45617114c97d",
+                  "date": "2025-02-06",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -29303,
+                  "control": -29501,
+                  "journal": "journal:2025-02-06:7877"
+                },
+                {
+                  "target": "person_572060bf262dbd9f",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_572060bf262dbd9f",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -23083,
+                  "control": -23647,
+                  "journal": "journal:2025-03-01:10416"
+                },
+                {
+                  "target": "person_5e3976a5757ab267",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_5e3976a5757ab267",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -5757,
+                  "control": -6289,
+                  "journal": "journal:2025-03-01:10387"
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "in",
+              "targets": 9,
+              "moved": 17815,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_00a28a6650e55809",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_00a28a6650e55809",
+                  "date": "2025-03-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -8168,
+                  "control": -10218,
+                  "journal": "journal:2025-03-01:8884"
+                },
+                {
+                  "target": "person_163e4299798d4d97",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_163e4299798d4d97",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -20698,
+                  "control": -23022,
+                  "journal": "journal:2025-04-01:16639"
+                },
+                {
+                  "target": "person_328f146709e7c803",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_328f146709e7c803",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -39349,
+                  "control": -40884,
+                  "journal": "journal:2025-04-01:16649"
+                },
+                {
+                  "target": "person_97c83629e4b404f2",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_97c83629e4b404f2",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -137361,
+                  "control": -141347,
+                  "journal": "journal:2025-04-01:16647"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 8,
+              "moved": 142062,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_0d966ff781d88870",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_0d966ff781d88870",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -102825,
+                  "control": -82617,
+                  "journal": "journal:2025-04-01:16544"
+                },
+                {
+                  "target": "person_1f0aeb3215325dc6",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_1f0aeb3215325dc6",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -226544,
+                  "control": -225671,
+                  "journal": "journal:2025-04-01:16547"
+                },
+                {
+                  "target": "person_5b441863d00e811b",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_5b441863d00e811b",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -944359,
+                  "control": -943302,
+                  "journal": "journal:2025-05-01:24494"
+                },
+                {
+                  "target": "person_edd9e316460472f6",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_edd9e316460472f6",
+                  "date": "2025-06-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 5386,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "out",
+              "targets": 8,
+              "moved": 17600,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_33f47356b4eba030",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_33f47356b4eba030",
+                  "date": "2025-03-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -55660,
+                  "control": -53610,
+                  "journal": "journal:2025-03-01:8884"
+                },
+                {
+                  "target": "person_163e4199798d4be4",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_163e4199798d4be4",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -36422,
+                  "control": -34098,
+                  "journal": "journal:2025-04-01:16639"
+                },
+                {
+                  "target": "person_328f136709e7c650",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_328f136709e7c650",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -44328,
+                  "control": -42793,
+                  "journal": "journal:2025-04-01:16649"
+                },
+                {
+                  "target": "person_97c83729e4b406a5",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_97c83729e4b406a5",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -12322,
+                  "control": -8336,
+                  "journal": "journal:2025-04-01:16647"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 5,
+              "moved": 5366,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "person_328f146709e7c803",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_328f146709e7c803",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 9047,
+                  "control": 9045,
+                  "journal": "journal:2025-05-01:24544"
+                },
+                {
+                  "target": "person_5b441863d00e811b",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_5b441863d00e811b",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 793731,
+                  "control": 793723,
+                  "journal": "journal:2025-05-01:24545"
+                },
+                {
+                  "target": "person_e42123b46281473a",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_e42123b46281473a",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 373067,
+                  "control": 373060,
+                  "journal": "journal:2025-05-01:24543"
+                },
+                {
+                  "target": "person_eadfec9a418d1fed",
+                  "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_eadfec9a418d1fed",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 220055,
+                  "control": 220053,
+                  "journal": "journal:2025-05-01:24548"
+                }
+              ]
+            }
+          ],
+          "paid": 87,
+          "pick": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545|out",
+          "sample": [
+            {
+              "target": "person_6fbcb9e4fb891b2e",
+              "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_6fbcb9e4fb891b2e",
+              "date": "2025-01-28",
+              "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+              "way": "out",
+              "treatment": -299,
+              "control": 0,
+              "journal": "journal:2025-01-28:1605"
+            },
+            {
+              "target": "person_1f0aeb3215325dc6",
+              "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_1f0aeb3215325dc6",
+              "date": "2025-01-29",
+              "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+              "way": "out",
+              "treatment": -452,
+              "control": 0,
+              "journal": "journal:2025-01-29:1639"
+            },
+            {
+              "target": "person_014872ba8397579a",
+              "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_014872ba8397579a",
+              "date": "2025-01-30",
+              "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+              "way": "out",
+              "treatment": -345,
+              "control": 0,
+              "journal": "journal:2025-01-30:1657"
+            },
+            {
+              "target": "person_163e4199798d4be4",
+              "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_163e4199798d4be4",
+              "date": "2025-01-30",
+              "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+              "way": "out",
+              "treatment": -554,
+              "control": 0,
+              "journal": "journal:2025-01-30:1649"
+            }
+          ],
+          "near": [
+            {
+              "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+              "way": "out",
+              "targets": 87,
+              "first": {
+                "target": "person_6fbcb9e4fb891b2e",
+                "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_6fbcb9e4fb891b2e",
+                "date": "2025-01-28",
+                "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:163 <- src/core2/work-payroll-dispatch.ts:545",
+                "way": "out",
+                "treatment": -299,
+                "control": 0,
+                "journal": "journal:2025-01-28:1605"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "in",
+              "targets": 56,
+              "first": {
+                "target": "person_163e4199798d4be4",
+                "row": "applied|us-policy-positions:labor-workforce.paid-family-leave|person_163e4199798d4be4",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                "way": "in",
+                "treatment": -79318,
+                "control": -79872,
+                "journal": "journal:2025-02-01:1857"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "paid-leave-to-mothers-work",
+            "status": "built",
+            "to": "labor.mothers-participation"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-02",
+            "link": "paid-leave-to-mothers-work",
+            "effect": 0.02
+          }
+        ],
+        "firedCount": 1,
+        "windowDays": 400,
+        "cause": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "month": "2025-05",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "month": "2025-06",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "month": "2025-07",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "month": "2025-08",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-09",
+            "month": "2025-09",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-10",
+            "month": "2025-10",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-11",
+            "month": "2025-11",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-12",
+            "month": "2025-12",
+            "link": "paid-leave-to-mothers-work",
+            "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 118,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 14,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 14,
+        "sample": []
+      },
+      "seconds": 96
+    }
+  ]
+}

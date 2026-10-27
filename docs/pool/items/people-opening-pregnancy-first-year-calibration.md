@@ -3,7 +3,7 @@ id: people-opening-pregnancy-first-year-calibration
 title: "Opening pregnancies match the place's live-birth pregnancy share without a surveyed rate deciding anyone"
 area: people
 kind: stopgap
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/renewal.ts, src/core2/renewal.test.ts, data/research/core/opening-pregnancy-2024.json, scripts/research/core-year.ts, src/core2/data/stopgaps.json
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.

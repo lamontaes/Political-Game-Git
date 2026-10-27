@@ -27,9 +27,11 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import type { CoreEventInput } from "../core2/types";
 import {
   DEFAULT_DRIVES_DATA,
   drivesReport,
+  responsibleId,
   type FormationTrace,
 } from "../core2/modules/drives";
 import { residentFacts, residentsRuntime } from "../core2/modules/residents";
@@ -220,28 +222,18 @@ check(
 );
 
 // (4) Every aimed drive aims at the party the event names, a record.
-const { factKeys, institutionFact, responsibleInTopic } =
-  DEFAULT_DRIVES_DATA as unknown as {
-    factKeys: { responsible: string };
-    institutionFact: { prefix: string; suffix: string };
-    responsibleInTopic: readonly string[];
-  };
-const responsible = (id: string) => {
-  const event = events.get(id)!;
-  const named = event.facts?.[`event:${id}:${factKeys.responsible}`];
-  if (named) return named;
-  if (responsibleInTopic.includes(event.kind) && event.topic)
-    return event.topic;
-  const key = Object.keys(event.facts ?? {}).find(
-    (row) =>
-      row.startsWith(institutionFact.prefix) &&
-      row.endsWith(institutionFact.suffix),
+// The party an event names is read by the drives engine's own `responsibleId`
+// (one rule, not a second copy): the responsible fact, else the person its
+// record names as deciding the harm (who decided a layoff), else the topic or
+// the institution the record names.
+const responsible = (id: string) =>
+  // The trace keeps the event without its id, people and place; the engine's
+  // rule reads only the id, the facts, the topic and the kind.
+  responsibleId(
+    DEFAULT_DRIVES_DATA,
+    { ...events.get(id)!, id } as unknown as CoreEventInput,
+    core.people,
   );
-  return key?.slice(
-    institutionFact.prefix.length,
-    key.length - institutionFact.suffix.length,
-  );
-};
 const isRecord = (id: string) =>
   core.people.has(id as never) || core.organizations.has(id);
 const aimed = drivesReport(core).drives.filter(

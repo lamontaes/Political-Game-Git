@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: dropped
 claimed-by: claude/approach-office-staffed
 pr: #6015
 blocked-on: core-planned-approach-office-staff-left
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T10:16:55.943Z
 **Files.** src/core2/modules/life.ts, src/core2/data/content.json, src/core2/approach-office-staffed.test.ts
 
 **Notes.** Filed Oct 25 by the effects lead from the paired performance failure on PR 6004.
+
+Oct 25 (CTO ruling): dropped as a duplicate of core-planned-approach-office-staff-left (effects lead, Oct 25); #6015 names that item.

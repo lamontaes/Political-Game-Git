@@ -23,6 +23,10 @@ import {
   type OfficeScene,
   type OfficeSceneResult,
 } from "./office-scene";
+import { setKeepEveryonesWhy } from "../core2/why-kept";
+
+// Reads the target's stance causes for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 // The office scene in the world the player gets (owner, Oct 14, 2026: scenes
 // carry the consequential dialogue): `buildBenchWorld`, two-level, a place

@@ -18,6 +18,7 @@ import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
+import { stakeholders } from "./family-stake";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -42,6 +43,8 @@ export interface SituationCause {
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
+    /** With threadTurn: the thread took this turn earlier (a tie that grew back after it soured). */
+    afterTurn?: string;
     /** The cause's record names the moment's person among its own people. */
     selfNamed?: boolean;
     /**
@@ -57,6 +60,8 @@ export interface SituationCause {
     }[];
     /** What a heard speech was given at: "campaign", "remark" at a meeting, a "hearing" (see speechOccasion). */
     occasion?: string;
+    /** How a candidate gave a heard speech, one of these: "town-hall", "speech", "debate" (see speechAct). */
+    act?: readonly string[];
     /**
      * The cause's own record names the moment's person (a public comment's
      * speakers): someone who only heard of it from a tie matches nothing, so
@@ -66,10 +71,17 @@ export interface SituationCause {
   };
   awaitingProducer?: string;
   causeEngine?: string;
+  /** The record kind (or kinds, comma-joined) the cause reads, for the scene web. */
+  causeRecord?: string;
   reason?: string;
   bind?: Readonly<Record<string, string>>;
   opener?: string;
   opening?: string;
+  /**
+   * Where this cause stages the type, when it is not the type's own order of
+   * settings: a vote trade is asked for in the chamber its record names.
+   */
+  setting?: readonly string[];
 }
 
 export interface SituationType {
@@ -90,6 +102,12 @@ export interface SituationType {
    * by the repeat window.
    */
   eachCause?: boolean;
+  /**
+   * What the repeat window tells scenes apart by besides the cast: "bill"
+   * for a scene about one bill (a vote asked for), so the same two people
+   * about another bill on a later day is a new scene.
+   */
+  repeatsBy?: string;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
   /**
@@ -113,8 +131,16 @@ export interface SituationLibrary {
     householdScenes: readonly string[];
     /** Records of the whole household that stage a family scene for each member. */
     householdRecordScenes?: readonly string[];
-    /** Records of the subject's own life the household meets at home: a filing, the count of their race. */
+    /** Records of the subject's own life that name them, met the same day: a filing, the count of their race, a story against them. */
     ownRecordScenes?: readonly string[];
+    /** Where an own-record scene is met that day (home by default). */
+    ownRecordSettings?: readonly string[];
+    /**
+     * Label prefixes of moments met where the player is that day (scenes
+     * from circumstance): staged on the day whatever their impact, their
+     * spacing kept by their producer (circumstance.ts).
+     */
+    metWhereYouAre?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -226,6 +252,17 @@ export function speechOccasion(
   return act === "attack" ? "press" : "campaign";
 }
 
+/**
+ * How a candidate gave a heard speech: the campaign act its record id names
+ * ("speech:<speaker>:<date>:<act>:<venue>"), so a town hall heard in the room
+ * is told apart from a debate heard on the broadcast.
+ */
+export function speechAct(causeId: string): string | undefined {
+  // stopgapId: SG-DIRECTOR-speech-occasion (read from the id, as the occasion is).
+  const [head, , , act] = causeId.split(":");
+  return head === "speech" ? act : undefined;
+}
+
 export function causeMatches(
   cause: SituationCause,
   book: PersonLedger,
@@ -245,6 +282,8 @@ export function causeMatches(
     match.occasion !== undefined &&
     speechOccasion(core, moment.causeId) !== match.occasion
   )
+    return false;
+  if (match.act && !match.act.includes(speechAct(moment.causeId) ?? ""))
     return false;
   if (
     match.causeNames === "subject" &&
@@ -279,6 +318,17 @@ export function causeMatches(
         ),
     );
     if (!turned) return false;
+    if (match.afterTurn !== undefined) {
+      const earlier = moment.counterpartIds.some((id) =>
+        book.threads
+          .get(id)
+          ?.turns.some(
+            (turn) =>
+              turn.momentId !== moment.id && turn.turn === match.afterTurn,
+          ),
+      );
+      if (!earlier) return false;
+    }
   }
   return true;
 }
@@ -338,10 +388,20 @@ function fillRole(
       return moment.counterpartIds.slice(zero, one);
     case "household":
       return household();
+    case "household-stake":
+      // The household members the filing puts something of theirs at risk
+      // for, strongest first; none, and the scene is not staged.
+      return stakeholders(core, moment.personId, moment.causeId, household());
     case "decider": {
       // Who decided the cause, from its record's facts (a layoff's owner): a living person, never the subject.
       const id = core.durableLog.get(moment.causeId)?.facts?.decidedBy;
       return id && id !== moment.personId && alive(core, id) ? [id] : [];
+    }
+    case "cause-named": {
+      // The first person the cause record names, living or not (whom a
+      // death is about), never the subject.
+      const id = core.durableLog.get(moment.causeId)?.personIds[zero];
+      return id && id !== moment.personId && core.people.has(id) ? [id] : [];
     }
     case "kin":
       return closest(
@@ -356,6 +416,24 @@ function fillRole(
       );
     case "coworkers":
       return coworkers();
+    case "former-coworkers": {
+      // The people still working where the cause's job was (a last day).
+      const left = core.jobs.get(moment.causeId);
+      if (!left) return [];
+      return [
+        ...(core.finance.jobsByOrganization.get(left.organizationId) ?? []),
+      ]
+        .map((id) => core.jobs.get(id)!)
+        .filter(
+          (row) =>
+            row.endsAt === undefined &&
+            row.personId !== moment.personId &&
+            !taken.has(row.personId),
+        )
+        .map((row) => row.personId)
+        .filter((id) => alive(core, id))
+        .sort();
+    }
     case "present":
       return setting === "home"
         ? household()
@@ -411,7 +489,9 @@ function resolveSetting(
         : undefined;
     case "workplace": {
       // A job that just ended is no longer on the person; the cause's record names the employer.
+      // A moment caused by a job (a first or last day) is at that job's employer.
       const employer =
+        core.jobs.get(moment.causeId)?.organizationId ??
         job?.organizationId ??
         core.durableLog.get(moment.causeId)?.facts?.organizationId;
       return employer ? { kind, recordId: employer } : undefined;
@@ -442,17 +522,30 @@ function resolveSetting(
         ? { kind: "venue", recordId: seat.place.context.jurisdiction.id }
         : undefined;
     }
-    case "office":
-      // An officeholder's office is their post's employer on record.
+    case "office": {
+      // The office the cause record names (the executive's, for a bill on
+      // the desk); otherwise an officeholder's office is their post's
+      // employer on record.
+      const office = core.durableLog.get(moment.causeId)?.facts?.officeId;
+      if (typeof office === "string" && office)
+        return { kind, recordId: office };
       return job?.organizationId
         ? { kind, recordId: job.organizationId }
         : undefined;
+    }
     case "phone":
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
       return { kind, recordId: subject.placeId };
     case "venue":
       return moment.placeId ? { kind, recordId: moment.placeId } : undefined;
+    case "chamber": {
+      // The body the cause record names (the chamber a vote trade was made in).
+      const chamber = core.durableLog.get(moment.causeId)?.facts?.chamber;
+      return typeof chamber === "string" && chamber
+        ? { kind, recordId: chamber }
+        : undefined;
+    }
     default:
       // School and letter need records the new core does not keep yet.
       return undefined;
@@ -468,7 +561,8 @@ function bindType(
   library: SituationLibrary,
 ): SceneBinding | { failure: string; detail: string } {
   let failure: { failure: string; detail: string } | undefined;
-  for (const settingKind of type.setting) {
+  const settings = cause.setting ?? type.setting;
+  for (const settingKind of settings) {
     const taken = new Set<PersonId>();
     const roles: SceneBinding["roles"] = [];
     let unbound: string | undefined;
@@ -528,7 +622,7 @@ function bindType(
       ),
     };
   }
-  return failure ?? { failure: "no-place", detail: type.setting.join(",") };
+  return failure ?? { failure: "no-place", detail: settings.join(",") };
 }
 
 /**
@@ -593,6 +687,17 @@ export function scheduleMoment(
       .flatMap((role) => role.personIds)
       .sort()
       .join(",")}`;
+  // A type whose scene is about one bill (a vote asked for) repeats by the
+  // bill: on an earlier day in the window the same people about another bill
+  // is a new scene; the same day still folds into one sitting.
+  const byBill = (row: SceneBinding) =>
+    library.types.find((type) => type.key === row.typeKey)?.repeatsBy ===
+    "bill";
+  const billOf = (momentId: string) =>
+    core.durableLog.get(book.momentsById.get(momentId)?.causeId ?? "")?.facts
+      ?.billId ?? "";
+  const windowKey = (row: SceneBinding, momentId: string) =>
+    byBill(row) ? `${castOf(row)}|${billOf(momentId)}` : castOf(row);
   const sittingToday = new Set(
     book.schedule
       .filter(
@@ -603,7 +708,13 @@ export function scheduleMoment(
           entry.momentId !== moment.id &&
           entry.outcome !== "journal-line",
       )
-      .flatMap((entry) => entry.bindings.map(castOf)),
+      .flatMap((entry) =>
+        entry.bindings.map((row) =>
+          entry.date === moment.date
+            ? castOf(row)
+            : windowKey(row, entry.momentId),
+        ),
+      ),
   );
   const wanted = allowed
     ? staged.filter((row) => allowed.has(row.typeKey))
@@ -611,7 +722,10 @@ export function scheduleMoment(
   const eachCause = (row: SceneBinding) =>
     library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
   const bindings = wanted.filter(
-    (row) => eachCause(row) || !sittingToday.has(castOf(row)),
+    (row) =>
+      eachCause(row) ||
+      (!sittingToday.has(castOf(row)) &&
+        !sittingToday.has(windowKey(row, moment.id))),
   );
   // The day's own sitting takes this cause in, so its scene cites both
   // records. A sitting on an earlier day within the repeat window does not:
@@ -636,32 +750,55 @@ export function scheduleMoment(
     if (!sitting.joined.some((entry) => entry.momentId === moment.id))
       sitting.joined.push({ momentId: moment.id, causeId: moment.causeId });
   }
-  const filteredOut = staged.length > zero && !bindings.length;
   // News from the household's own records (a parent's lost job, a death, a
   // serious illness) is a family scene at home whatever its size (owner,
   // Oct 14, 2026, night: the director picks the family scene the
   // household's records make apply).
   // A record of the whole household (an eviction) is a family scene for
   // each of them, with no one else named.
+  // A record of one's own life that names them (a filing, the count of their
+  // own race, a story against them) is met where its scene is set that day:
+  // at home, or for an officeholder at the office or by phone.
   const household = person.householdId;
+  const met = new Set(library.scheduling.ownRecordSettings ?? ["home"]);
   const familyNews =
-    ((library.scheduling.householdScenes.includes(moment.label) &&
+    (((library.scheduling.householdScenes.includes(moment.label) &&
       moment.counterpartIds.some(
         (id) => core.people.get(id)?.householdId === household,
       )) ||
       (library.scheduling.householdRecordScenes?.includes(moment.label) ??
-        false) ||
-      ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
-        moment.selfNamed === true)) &&
-    bindings.some((row) => row.setting.kind === "home");
+        false)) &&
+      bindings.some((row) => row.setting.kind === "home")) ||
+    ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
+      moment.selfNamed === true &&
+      bindings.some((row) => met.has(row.setting.kind)));
+  // A tie that turned with someone the person spent time with (a friendship
+  // grown over many meetings, a falling-out) is met then, with them: its
+  // cause is the relationship record, contacted on the day its change was
+  // measured or the day before, as a day's ties are read once it closes.
+  const contacted = moment.label.startsWith("tie:")
+    ? core.relationships.get(moment.causeId)?.lastContactDate
+    : undefined;
+  const tieMet =
+    !!contacted &&
+    contacted >= addDays(makeIsoDate(moment.date), -one) &&
+    contacted <= moment.date;
   const waits =
     bindings.length > zero &&
     bindings.every(
       (row) => library.types.find((type) => type.key === row.typeKey)?.waits,
     );
+  // Only a staged scene stops the day: a moment no situation stages has
+  // nothing to show or answer, so it is the journal's line, never a stop.
+  const metHere = (library.scheduling.metWhereYouAre ?? []).some((prefix) =>
+    moment.label.startsWith(prefix),
+  );
   const interrupt =
-    (moment.impact >= options.interruptImpact || familyNews) &&
-    !filteredOut &&
+    bindings.length > zero &&
+    (moment.impact >= options.interruptImpact ||
+      familyNews ||
+      metHere ||
+      tieMet) &&
     !waits;
   if (!found.length)
     coverage ??= {

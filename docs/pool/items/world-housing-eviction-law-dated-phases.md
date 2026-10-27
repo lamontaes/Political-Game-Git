@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: phases are data rows for every place, read by one date rule, never a state named in logic. An effect is a read: an eviction case must record the phase it followed, and a law the player passes through the laws engine later should replace the place's phase the same way. Estimate, never UNKNOWN: a place with no later law keeps its single phase.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) an eviction case's law record names the phase in force on its notice date by record id, a test in src/core2 serves notices before and after a dated phase in one drawn place and gets each phase's days, and scripts/research/housing-check.ts checks the phases against the research file.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) an eviction case's law record names the phase in force on its notice date by record id, a test in src/core2 serves notices before and after a dated phase in one drawn place and gets each phase's days, and scripts/research/housing-check.ts checks the phases against the research file. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/housing.json, data/research/world/eviction-statute-reads-2026.json, scripts/research/housing-check.ts
 

@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** An effect is a read, not a record: the ballot's appeal must carry the scandal term because the voter heard the story. No hand-inserted scandal: the earlier send-back refused one. No dice.
 
-**Done when.** outcome-web-civic-played.test.ts in a drawn place (seed named) reports a scandal story about a candidate that arose in play and at least one kept ballot carrying the scandal term for that candidate, by ballot id.
+**Done when.** outcome-web-civic-played.test.ts in a drawn place (seed named) reports a scandal story about a candidate that arose in play and at least one kept ballot carrying the scandal term for that candidate, by ballot id. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/outcome-web-civic-played.test.ts
 

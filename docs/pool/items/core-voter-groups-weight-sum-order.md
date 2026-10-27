@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/voter-groups-weight-sum
-pr:
+pr: #6004
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:50:32.289Z

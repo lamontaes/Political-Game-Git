@@ -21,6 +21,7 @@ import { transferCash } from "./world-transfer";
 import { endFlowPart } from "./residents-economy";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
+import { formerHome } from "./housing-former-home";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -312,17 +313,19 @@ export function foreclosureRemoval(api: CoreAPI, caseId: string): boolean {
     stage: "removed",
     removedAt: c.date,
   } as unknown as ModuleRow);
-  const dwelling = table(api, "dwellings").get(
-    `dwelling:${row.householdId}`,
-  ) as { kind?: string } | undefined;
-  table(api, "dwellings").put({
-    id: `dwelling:${row.householdId}`,
-    householdId: row.householdId,
-    tenure: "removed",
-    kind: dwelling?.kind ?? "house",
-    since: c.date,
-    basis: "foreclosure",
-  });
+  table(api, "dwellings").put(
+    formerHome(
+      table(api, "dwellings").get(`dwelling:${row.householdId}`) as Parameters<
+        typeof formerHome
+      >[0],
+      {
+        householdId: row.householdId,
+        tenure: "removed",
+        basis: "foreclosure",
+        date: c.date,
+      },
+    ) as unknown as ModuleRow,
+  );
   if (row.counted) {
     const rt = residentsRuntime(c);
     const ix = rt?.store.householdOf.get(row.householdId);

@@ -4,10 +4,10 @@ title: "A town opens at its real Census size (population.ts still caps above 10,
 area: core
 kind: bug
 priority: 1
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on: play-first-freeze
+blocked-on:
 milestone:
 after: world-census-weight-owner-draws,world-census-weight-economy
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
@@ -28,4 +28,4 @@ Split (Oct 15, L): the cap is real. `buildPopulation` still takes `Math.min(targ
 
 Oct 20 (pool feeder): spec written; the old blocker (owner draws) is only one of two readers still short at scale: businesses and job counts are sized by world-census-weight-economy and world-census-scaled-establishments-short; core-census-uncap-opening was dropped (PR #5295), so this item now carries the uncap itself.
 
-Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).
+Duplicate of core-census-uncap-opening (Oct 25 audit). Same Math.min(target, real) cap in buildPopulation.

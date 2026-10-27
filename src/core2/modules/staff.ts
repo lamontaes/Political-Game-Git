@@ -37,8 +37,11 @@ import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
 import { keepsWhy } from "../why-kept";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedYes,
+} from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
@@ -47,7 +50,11 @@ import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
 import { startPublicJob } from "../public-payroll";
 import { giveLivingCost, spendLivingCost } from "../official-living";
-import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
+import {
+  postPayCapDaily,
+  publicPayRoom,
+  treasuryParameter,
+} from "../budgets-treasury";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -705,6 +712,11 @@ export function hireStaff(
   // On the payroll of the government the official serves, at the post's
   // pay; each payday counts against the budget line the post draws on.
   const employer = employerOf(api, input.officialId);
+  // Paid what the post's budget line can still carry, as a town's department
+  // heads are (executive.ts): an aide's pay draws on the same line.
+  const maxDailyMinor = employer
+    ? postPayCapDaily(api, employer, `staff:${input.officialId}`, 1)
+    : undefined;
   const jobId = employer
     ? startPublicJob(api, {
         personId: input.personId,
@@ -712,6 +724,7 @@ export function hireStaff(
         post: `staff:${input.officialId}`,
         title: input.role,
         hourlyMinor: campaignParameter("staffHourlyMinor"),
+        ...(maxDailyMinor !== undefined ? { maxDailyMinor } : {}),
         // A state or federal office with no staff schedule of its own follows the town's.
         scheduleFromPlaceId: lawChain(api).townPlaceId,
         citation: `Hired as ${input.role} to ${input.officialId}`,
@@ -772,7 +785,8 @@ function budgetLean(api: CoreAPI, officialId: string): number {
 }
 
 /** The treasury of the government whose seat the official holds. */
-function employerOf(api: CoreAPI, officialId: string): string | null {
+/** The government an official's staff are on the payroll of: the one whose seat they hold. */
+export function employerOf(api: CoreAPI, officialId: string): string | null {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
   const seat = townSeats(api).find((s) => s.holder?.personId === officialId);
   if (!seat) return null;
@@ -882,7 +896,7 @@ function record(
     result,
   };
   // The row says why this work was good or poor; it is kept for the people
-  // the player deals with (everyone's when bookkeeping is on). The count of
+  // the player deals with (everyone's under the keep-everyone's-why switch). The count of
   // tasks stays on the staffer for everyone.
   if (keepsWhy(api.state as CoreState, staffer.officialId, staffer.personId))
     table(api, "work").put(work as unknown as ModuleRow);
@@ -997,6 +1011,7 @@ export function adviseOnBudget(
 export function staffDecision(
   api: CoreAPI,
   officialId: string,
+  told: "help" | "decline" = "help",
 ): { stafferId: string; help: boolean; work: WorkRecord } | null {
   const staffer = [...servingStaffOf(api, officialId)].sort(
     (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
@@ -1007,16 +1022,15 @@ export function staffDecision(
   // every trait they have.
   const person = api.state.people.get(staffer.personId)!;
   const help =
-    q.quality +
-      parameter("traitDecisionWeight") *
-        decisionLean(
-          api.state,
-          person,
-          "staff.follow-through",
-          "follow-through",
-          "decline",
-        ) >=
-    campaignParameter("staffCaseFollowThrough");
+    told === "help" &&
+    leanedYes(
+      api.state,
+      person,
+      "staff.follow-through",
+      "follow-through",
+      "decline",
+      q.quality - campaignParameter("staffCaseFollowThrough"),
+    );
   const work = record(api, staffer, "case", q, { help });
   return { stafferId: staffer.id, help, work };
 }
@@ -1079,7 +1093,7 @@ function reviewAttendance(
       scheduled > 0 &&
       absentShare >
         campaignParameter("staffAbsenceTolerance") *
-          (1 - parameter("traitDecisionWeight") * lean)
+          (1 - decisionTraitWeight(api.state, "staff.dismiss") * lean)
     ) {
       const decision: Dismissal = {
         on: api.state.date,
@@ -1198,11 +1212,14 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     )
       continue;
     if (
-      campaignParameter("staffHireBase") +
-        parameter("traitDecisionWeight") *
-          decisionLean(api.state, official, "staff.hire", "hire", "do-alone") +
-        budgetLean(api, officialId) <=
-      0
+      !leanedYes(
+        api.state,
+        official,
+        "staff.hire",
+        "hire",
+        "do-alone",
+        campaignParameter("staffHireBase") + budgetLean(api, officialId),
+      )
     )
       continue;
     // Anyone the post pays more than they earn now would apply, an employed

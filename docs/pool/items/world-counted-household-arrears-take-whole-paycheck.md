@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on: play-first-freeze
+blocked-on:
 source: added with npm run pool -- add
 ---
 
@@ -16,10 +16,8 @@ source: added with npm run pool -- add
 
 **Rules.** Wire to the world: a household's spending follows its income and records, so a household whose costs outrun its pay is a sizing error in the fill-in, not a feature. One model, two tiers: a filled-in household must behave as its counted weight did, with the same cost and income. Ask why: the sizing of the household's living cost against the group's income is traced by record id before any number moves. Estimate, never UNKNOWN: its cash is an estimate from the group's records, not zero.
 
-**Done when.** In buildBenchWorld in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4), M0-13 pay reaches a spendable account is alive: the cause is named by the household's living-cost flow id and its sizing line, filled-in households in the run keep their cash above zero after payday in proportion to their income, and two more drawn places show the same check alive or unobserved with their seeds named. The departed mover is explained by record id in the PR (a person who left the town has no cash here), with the spec question flagged.
+**Done when.** In buildBenchWorld in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4), M0-13 pay reaches a spendable account is alive: the cause is named by the household's living-cost flow id and its sizing line, filled-in households in the run keep their cash above zero after payday in proportion to their income, and two more drawn places show the same check alive or unobserved with their seeds named. The departed mover is explained by record id in the PR (a person who left the town has no cash here), with the spec question flagged. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/residents.ts, src/core2/counted-groups.ts, tests/golden-path/played-world.node-test.ts
 
 **Notes.** Found Oct 24 by the M0-13 lead's helper, from the cash-journal trail of the seven people (probe run, not committed). Not yet traced: how outsideLiving.amount (residents.ts:1856) is sized for a filled-in household versus the group's column, and whether the arrears were already in the group's books at fill-in. The test's brokeWorkers read (played-world.node-test.ts:793) counts a person who moved out of the town; whether to skip departed people is the spec owner's call.
-
-Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

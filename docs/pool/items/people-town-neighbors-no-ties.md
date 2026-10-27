@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-town-neighbors
 pr: #6030
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T10:48:57.384Z
 
 **Rules.** One model, two tiers: neighbors, coworkers and congregation ties in a town must come from where people live, work and gather, read the same way for full people and counted groups, never added by a test.
 
-**Done when.** In Cave, Missouri and Ardmore, South Dakota (seeds above) and two more drawn places, residents open with ties to other townspeople (neighbors, coworkers, classmates) by record id, and src/core2/news.test.ts passes unchanged there; the cause is named by line in the PR.
+**Done when.** In Cave, Missouri and Ardmore, South Dakota (seeds above) and two more drawn places, residents open with ties to other townspeople (neighbors, coworkers, classmates) by record id, and src/core2/news.test.ts passes unchanged there; the cause is named by line in the PR. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/opening-peer-network.ts (the opening ties), and the contact engine the life loop runs (src/core2/life-contact-frequency.test.ts covers it)
 

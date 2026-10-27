@@ -18,6 +18,7 @@ import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import { stakeOf } from "./family-stake";
 import { purposeScene } from "./purpose-scene";
 
 // Scenes with a purpose fire in play from their cause records, in the lines
@@ -119,10 +120,18 @@ const run = (drawSeed: string): string | null => {
         row.momentId.includes(`candidate-filed:${filing.id}`),
       );
     expect(entry, `${here} fired no scene`).toBeTruthy();
+    // The household reacts only where a relative has a stake in the run, on
+    // the records (family-stake.ts); the others hear of it in the journal.
+    const mates =
+      core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? [];
+    const stake = mates.some(
+      (id) => stakeOf(core, filer, `candidate-filed:${filing.id}`, id) !== null,
+    );
     expect(
-      entry!.bindings.map((row) => row.typeKey),
-      here,
-    ).toContain("family-filing");
+      entry!.bindings.some((row) => row.typeKey === "family-filing"),
+      `${here}: stake ${stake}`,
+    ).toBe(stake);
+    if (!stake) continue;
     // Filing is a record of the filer's own life: it stops the day at home.
     expect(entry!.outcome, here).toBe("scene-now");
     // The lines that play, as ordinary play says them.
@@ -164,6 +173,15 @@ const run = (drawSeed: string): string | null => {
   // its day, not at the end of the year.
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
+  // A tied count names no winner: the elections engine sends the race to a
+  // second round, so the place is passed over (three filers with 0, 1 and 1
+  // votes in a small town, one CI run).
+  const tally = core.durableLog.get(`election-result:${contest.id}`);
+  const totals = Object.values(
+    JSON.parse(String(tally?.facts?.totals ?? "{}")) as Record<string, number>,
+  ).sort((a, b) => b - a);
+  if (!result?.winnerId && totals.length > 1 && totals[0] === totals[1])
+    return `${where}: the count of ${contest.id} was tied`;
   expect(
     result?.winnerId,
     `${where}: ${contest.id} has no winner`,

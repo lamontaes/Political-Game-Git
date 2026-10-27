@@ -3,12 +3,12 @@ id: research-world-sourced-parameters
 title: "Research: sourced parameters for opening finance, business compliance cost and credit"
 area: world
 kind: research
-priority: 2
+priority: 3
 size: M
-status: blocked
+status: open
 claimed-by: claude/political-game-pool-yucp92-bk
 pr: #5419
-blocked-on: researcher: the 2005 PACE report tables by industry (epa.gov and census.gov PDFs) cannot be fetched from the cloud network (certificate error and 503); the minimum-loan row is done in 5419, and the national 0.4 percent of output is already the compliance parameter's source
+blocked-on:
 source: "collapsed Oct 19, 2026 from world-stopgap-opening-finance-uncalibrated-opening-finance-calendar, world-stopgap-parameters-assumed-data, world-stopgap-parameters-uncalibrated-tunable"
 claimed-at: 2026-10-20T13:46:26.832Z
 ---
@@ -26,3 +26,7 @@ claimed-at: 2026-10-20T13:46:26.832Z
 **Files.** src/core2/data/business/parameters.json, src/core2/data/credit/parameters.json, src/core2/data/opening-finance.json, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/world/
 
 **Notes.** Folded from: world-stopgap-opening-finance-uncalibrated-opening-finance-calendar, world-stopgap-parameters-assumed-data, world-stopgap-parameters-uncalibrated-tunable. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Deferred Oct 25: nothing on screen reads it yet.
+
+Oct 25 audit: set open; its block was a free-text note, not an item or an owner question (the note stays in Notes).

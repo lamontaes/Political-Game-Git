@@ -7,7 +7,7 @@ priority: 1
 status: open
 claimed-by:
 pr:
-blocked-on: play-first-freeze
+blocked-on:
 milestone:
 after: gov-outside-revenue-real-payers
 source: "known bugs; noted in #4352"
@@ -18,12 +18,10 @@ claimed-at:
 
 **Rules.** Fix at the root: a flow the gate cannot match is traced to the module that posted it and given a real payer or payee there, never an allowlist row. The chain is the acceptance: the gate's pass is shown by following one tax dollar and one spending dollar to named people. One rule, all 56 places: the gate runs in a drawn place, with no place named in code. No dice: payers and payees come from law, budget and records, not a roll. Replace, never layer: no gate exemption is added beside the removed plug.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), `node scripts/core2-year/closures.mjs` check 6 reports zero plug rows matched and zero unmatched outside flows, and the PR body names one tax receipt and one spending payment by journal record id. The test that proves it is src/core2/budgets.test.ts together with the closures run.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), `node scripts/core2-year/closures.mjs` check 6 reports zero plug rows matched and zero unmatched outside flows, and the PR body names one tax receipt and one spending payment by journal record id. The test that proves it is src/core2/budgets.test.ts together with the closures run. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** scripts/core2-year/closures.mjs, src/core2/data/outside-flows.json, src/core2/modules/budgets.ts, src/core2/budgets.test.ts
 
 **Notes.** Verified the failing check: closures.mjs check 6. `core-outside-flow-rows` classifies the five real exchanges; what is left is the registered plug, `gov-outside-revenue-real-payers`. Closes when that item merges.
 
 Oct 20 (pool feeder): spec written; this is the gate for the plug roll-up, so it waits on gov-outside-revenue-real-payers (itself waiting on gov-outside-revenue-retire-plug, still claimed) and closes by running the gate once it lands.
-
-Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

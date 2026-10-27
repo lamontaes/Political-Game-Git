@@ -338,61 +338,97 @@ describe("M3-10 other governments legislate", () => {
     );
   });
 
-  it("the town's council and county board bring their own ordinances on their schedule", () => {
-    const state = pick(states, "local:state");
-    const places = [
-      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
-        stateJurisdictionKey: state,
-        scope: "locality",
-      }),
-    ].sort((a, b) => a.key.localeCompare(b.key));
-    const key = pick(places, "local:place").key;
-    const core = createLifeCore(
-      buildPopulation({
-        seed,
-        placeKey: key,
-        startedAt: START,
-        minimumPeople: 200,
-      }),
-    );
-    openLaws(core);
-    openOffices(core, seed);
-    openElections(core);
-    openCampaigns(core);
-    openRecord(core);
-    openLegislature(core);
-    openLawReach(core);
-    openWorldLegislating(core);
+  it(`the town's council and county board bring their own ordinances on their schedule, seed ${seed}`, () => {
+    // A locality with no council and no county board (a territory's
+    // subdistrict, a place its county alone governs) has no ordinances to
+    // bring: draw again, naming why each was passed over.
+    const skipped: string[] = [];
+    let drawn: {
+      state: string;
+      key: string;
+      core: ReturnType<typeof createLifeCore>;
+      bodies: { id: string; kind: string }[];
+      expected: number;
+    } | null = null;
+    for (let attempt = 0; attempt < 8 && !drawn; attempt += 1) {
+      const salt = attempt ? `:${attempt}` : "";
+      const state = pick(states, `local:state${salt}`);
+      const places = [
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ].sort((a, b) => a.key.localeCompare(b.key));
+      const key = pick(places, `local:place${salt}`).key;
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: key,
+          startedAt: START,
+          minimumPeople: 200,
+        }),
+      );
+      openLaws(core);
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openRecord(core);
+      openLegislature(core);
+      openLawReach(core);
+      openWorldLegislating(core);
+      const api = coreAPI(core);
+      const bodies = (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .rows() as unknown as {
+          id: string;
+          kind: string;
+        }[]
+      ).filter((o) => o.kind === "council" || o.kind === "county-board");
+      // Every body meets at each of its regular meetings, on its own rule
+      // (the same one the office-day calendar reads).
+      let expected = 0;
+      for (const body of bodies) {
+        const rule = meetingRule(api, body.id, lawChain(api).countyGeoids[0]);
+        if (!rule) continue;
+        for (
+          let day = addDays(makeIsoDate(START), 1);
+          day <= "2026-04-15";
+          day = addDays(day, 1)
+        )
+          if (meetsOn(rule, day)) expected += 1;
+      }
+      if (!bodies.length) {
+        skipped.push(`${state} ${key}: no council or county board office`);
+        continue;
+      }
+      if (!expected) {
+        skipped.push(
+          `${state} ${key}: its ${bodies.map((b) => b.kind).join(", ")} has no regular meeting by April 15`,
+        );
+        continue;
+      }
+      drawn = { state, key, core, bodies, expected };
+    }
+    if (!drawn)
+      throw new Error(
+        `no drawn locality has a council or county board that meets (seed ${seed}): ${skipped.join("; ")}`,
+      );
+    const { state, key, core, bodies, expected } = drawn;
     const api = coreAPI(core);
-    const bodies = (
-      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
-        id: string;
-        kind: string;
-      }[]
-    ).filter((o) => o.kind === "council" || o.kind === "county-board");
     advanceCore(core, "2026-04-15");
     const meetings = sessionsOf(api).filter((s) =>
       bodies.some(
         (b) => b.id === (s as { bodyOfficeId?: string }).bodyOfficeId,
       ),
     );
-    // Every body met at each of its regular meetings by now, on its own
-    // rule (the same one the office-day calendar reads), each on the record
-    // with its bills; each meeting took up what its agenda time allowed, and
-    // no change it voted down came back within the wait.
-    let expected = 0;
-    for (const body of bodies) {
-      const rule = meetingRule(api, body.id, lawChain(api).countyGeoids[0]);
-      if (!rule) continue;
-      for (
-        let day = addDays(makeIsoDate(START), 1);
-        day <= "2026-04-15";
-        day = addDays(day, 1)
-      )
-        if (meetsOn(rule, day)) expected += 1;
-    }
-    expect(meetings.length, `${state} ${key}`).toBe(expected);
-    expect(expected, `${state} ${key}`).toBeGreaterThan(0);
+    // Each meeting is on the record with its bills; each took up what its
+    // agenda time allowed, and no change it voted down came back within the
+    // wait.
+    const where = `${state} ${key}, seed ${seed}; passed over: ${skipped.join("; ") || "none"}`;
+    expect(meetings.length, where).toBe(expected);
+    expect(expected, where).toBeGreaterThan(0);
     const defeated = new Map<string, string>();
     for (const meeting of [...meetings].sort((a, b) =>
       a.date.localeCompare(b.date),
@@ -423,11 +459,14 @@ describe("M3-10 other governments legislate", () => {
         seed,
         state,
         place: key,
+        skipped,
         bodies: bodies.map((b) => b.kind),
         meetings,
       }),
     );
-  });
+    // Up to eight towns built and played to April 15 when the first draws
+    // have no local body: each takes about half a minute.
+  }, 300_000);
 
   it("Congress votes the federal budget on the fiscal year's first day, the Senate by cloture", () => {
     const state = pick(states, "budget:state");

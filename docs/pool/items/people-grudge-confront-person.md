@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/traits-grudge-person
 pr: #5994
 blocked-on:

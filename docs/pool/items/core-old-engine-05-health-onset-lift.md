@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: core-old-engine-04-opening-population-no-throwaway-world
-blocked-on: play-first-freeze
+blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A (health condition pack) and G2 step 7"
 ---
 
@@ -17,10 +17,8 @@ source: "docs/reports/repo-audit-2026-10-19.md section A (health condition pack)
 
 **Rules.** Replace, never layer: the old `crisis/condition-pack.ts` and `crisis/mortality.ts` are deleted in the same PR as the lift, and `src/simulation/crisis/` goes with step 7 at the latest. No dice: onset is a read of the person's hazard record, as `modules/health.ts` does today. Every number has a source: `STRAIN_THRESHOLD` carries its source comment across with it. Recheck the present import graph and existing pool claims before removing or moving any path; preserve current consumers, guards and provenance.
 
-**Done when.** `grep -rn "simulation/" tests/fixtures/synthetic-cohort.ts tests/mortality-calibration.test.ts` returns nothing; `scripts/dev-lab/expected-deaths.ts` no longer exists; `tests/mortality-calibration.test.ts` passes against `src/core2/condition-pack.ts` and `src/core2/health-hazard.ts`; a played-world year in a drawn place from `buildBenchWorld` records onsets through the same core2 path.
+**Done when.** `grep -rn "simulation/" tests/fixtures/synthetic-cohort.ts tests/mortality-calibration.test.ts` returns nothing; `scripts/dev-lab/expected-deaths.ts` no longer exists; `tests/mortality-calibration.test.ts` passes against `src/core2/condition-pack.ts` and `src/core2/health-hazard.ts`; a played-world year in a drawn place from `buildBenchWorld` records onsets through the same core2 path. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/condition-pack.ts, src/core2/health-hazard.ts, src/core2/modules/health.ts, tests/fixtures/synthetic-cohort.ts, tests/mortality-calibration.test.ts, scripts/dev-lab/expected-deaths.ts, src/simulation/crisis/condition-pack.ts, src/simulation/crisis/mortality.ts
 
 **Notes.** The audit's pool row `core-port-onset-day`; this id replaces it. Parent: core-delete-old-engine.
-
-Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

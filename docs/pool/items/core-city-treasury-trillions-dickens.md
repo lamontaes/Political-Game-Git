@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Wire to the world: every dollar moves between real accounts on the one balanced writer, so a city's payments must match its budget and the journal must balance in the played year. One rule, all 56 places: the fix holds for any drawn place.
 
-**Done when.** CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs, run with the runner's env for Dickens, Iowa (seed above) and two more places drawn from all 56, reports 'every dollar balances: true' and each city employer's yearly flows within its adopted budget, named by record id in the PR body.
+**Done when.** CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs, run with the runner's env for Dickens, Iowa (seed above) and two more places drawn from all 56, reports 'every dollar balances: true' and each city employer's yearly flows within its adopted budget, named by record id in the PR body. **On screen.** Nothing yet: filed play-city-books-on-screen, which puts it on Politics → Budgets.
 
 **Files.** scripts/core2-year/closures.mjs, src/core2/modules/budgets.ts, src/core2/accounts.ts
 

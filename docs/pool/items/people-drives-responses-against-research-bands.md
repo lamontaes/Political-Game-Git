@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/traits-drives-respond
 pr: #5994
 blocked-on:

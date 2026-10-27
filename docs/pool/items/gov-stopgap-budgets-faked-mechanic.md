@@ -3,7 +3,7 @@ id: gov-stopgap-budgets-faked-mechanic
 title: "Stopgaps in budgets (faked-mechanic): 3 open"
 area: gov
 kind: stopgap
-priority: 2
+priority: 3
 status: open
 claimed-by:
 pr:
@@ -31,3 +31,5 @@ First row: Each month, a state, county, city or federal treasury receives from t
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
 
 Oct 20: Switched from blocked to the automatic after: gate on world-commuters-in-opening, so it opens by itself the moment those items are done.
+
+Deferred Oct 25: nothing on screen reads it yet.

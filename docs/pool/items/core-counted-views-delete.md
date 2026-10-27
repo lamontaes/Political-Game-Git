@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Replace, never layer: the views are deleted, not left beside the group reads. A row is never closed by deleting it without the mechanic; the five engines above are the mechanic.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) nothing calls the household views, the stopgap row in src/core2/data/stopgaps.json is resolved with its replacement named, and the stopgap tripwire test and src/core2/counted-groups.test.ts pass.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) nothing calls the household views, the stopgap row in src/core2/data/stopgaps.json is resolved with its replacement named, and the stopgap tripwire test and src/core2/counted-groups.test.ts pass. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps.json
 
@@ -46,3 +46,5 @@ Sent back 2026-10-20 from PR #4920 (branch claude/births-columns): Changed-file 
 Sent back 2026-10-20 from PR #5321 (branch claude/pool-views-delete): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #4920 (branch claude/births-columns): Done when requires one-year buildBenchWorld proof and a resolved counted-person-views stopgap, but the body explicitly leaves the person source unfinished and has no Done-when evidence table; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #4915 (branch claude/counted-views-delete): Current-main integration conflicts in births-counted.ts, counted-demotion.test.ts, housing-construction.ts, housing-occupancy.ts, modules/residents.ts, modules/world-metrics.ts and residents.test.ts, plus pool and stopgap data; reconcile code, retain every stopgap ID and pool Note, regenerate INDEX and provide the Done-when evidence table; finish on that branch, merge main into it first.

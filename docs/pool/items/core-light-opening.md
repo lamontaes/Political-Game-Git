@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: counted households are read by the engines with the same rules as full people. Speed: a town's game year runs in under two minutes.
 
-**Done when.** A drawn-place opening in buildBenchWorld (Vonore, seed hours-a, or another named) shows kin and personality records only for the player's circle, the open time before and after on one machine in the PR, and a clicked counted person filled in with kin by record id.
+**Done when.** A drawn-place opening in buildBenchWorld (Vonore, seed hours-a, or another named) shows kin and personality records only for the player's circle, the open time before and after on one machine in the PR, and a clicked counted person filled in with kin by record id. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/population.ts, src/core2/opening-kin.ts, src/core2/state.ts
 

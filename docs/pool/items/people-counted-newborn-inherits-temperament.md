@@ -5,7 +5,7 @@ area: people
 kind: stopgap
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/traits-counted-newborn-temperament
 pr: #6028
 blocked-on:

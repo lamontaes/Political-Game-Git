@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
 pr: #5964
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-24 from PR #5964 (branch claude/officials-carry-every-trait): CTO explicitly orders #5582 before every traits PR (comment 6386070636), and #5582 remains open with its recorded return; finish on that branch, merge main into it first after #5582 lands.
+
+Sent back 2026-10-25 from PR #5964 (branch claude/officials-carry-every-trait): current-main head 679b85eced regresses officials.test.ts:234 in Fenwick WV (5427196), seed 3e556e7e162eca8baf7052af5494da02, with independent-caucus alignment 0.6111111111111112 below the existing >0.75 assertion, while clean main 8a00ebd7aa passes 2/2 on the same seed; preserve the full-trait model and this draw, repair without weakening the assertion, and correct the body to the existing pooled 0.85-0.98 party-unity band; finish on that branch, merge main into it first.

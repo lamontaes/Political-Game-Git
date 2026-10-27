@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: core-old-engine-02-gov-rules-duplicates
-blocked-on: play-first-freeze
+blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 steps 2–5"
 ---
 
@@ -23,4 +23,6 @@ source: "docs/reports/repo-audit-2026-10-19.md section A and G2 steps 2–5"
 
 **Notes.** Supersedes the priority-2 items `world-port-work-schedules`, `world-port-work-schedules-roster`, `world-port-town-employment`, `core-old-imports-opening-employment-jail-term`, `people-port-traits-upbringing` and `people-port-character-history` as the one tracked step; those items keep their branches. Parent: core-delete-old-engine.
 
-Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).
+Oct 25 audit: Branch claude/port-town-employment (PR #5540) carries a start on town employment (from the dropped world-port-town-employment).
+
+Oct 25 audit: Branch claude/old-imports-opening-work (PR #5035) carries a start on opening-work.ts (from the dropped core-old-imports-opening-work).

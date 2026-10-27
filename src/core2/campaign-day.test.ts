@@ -33,6 +33,7 @@ import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
+import { addDays, makeIsoDate } from "./kernel/dates";
 
 const START = "2026-01-05";
 const runSeed =
@@ -211,6 +212,102 @@ describe("a campaign day", () => {
     // Rest is always there and writes nothing.
     const rest = takeCampaignDayChoice(api, id, "rest");
     expect(rest.causeIds.length + rest.giftIds.length, where).toBe(0);
+  });
+
+  it("goes round again once every door in town is knocked, and every knock counts", () => {
+    const { api, filing, where } = setup();
+    expect(
+      filing,
+      `the player could file for nothing: ${where}`,
+    ).not.toBeNull();
+    const id = filing!.id;
+    const canvass = () => {
+      const choice = campaignDayChoices(api, id).find(
+        (c) => c.kind === "canvass",
+      )!;
+      if (choice.kind !== "canvass") throw new Error("canvass first");
+      return choice;
+    };
+    // The first pass: every household in town, a shift at a time.
+    for (let shift = 0; canvass().facts.doorsLeft > 0; shift += 1) {
+      expect(shift, `the first pass ends: ${where}`).toBeLessThan(10_000);
+      takeCampaignDayChoice(api, id, "canvass");
+    }
+    const households = doorsKnockedOf(api, id).length;
+    const before = campaignFor(api, id).doorsKnockedCount ?? 0;
+    // The last shift of the first pass may already start the second.
+    expect(before, where).toBeGreaterThanOrEqual(households);
+    // With every door knocked the canvass is still offered, and the next
+    // shift knocks again, the doors knocked longest ago first.
+    expect(canvass().available, `canvass after every door: ${where}`).toBe(
+      true,
+    );
+    const again = takeCampaignDayChoice(api, id, "canvass");
+    expect(again.doorsKnocked, `second-pass doors: ${where}`).toBeGreaterThan(
+      0,
+    );
+    expect(campaignFor(api, id).doorsKnockedCount, where).toBe(
+      before + again.doorsKnocked,
+    );
+    expect(canvass().facts.doorsKnocked, where).toBe(
+      before + again.doorsKnocked,
+    );
+    // Still one row a household, and its knocks add up to the count.
+    const rows = api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("doors")
+      .query("byCampaign", [id]) as unknown as { knocks?: number }[];
+    expect(rows.length, where).toBe(households);
+    expect(
+      rows.reduce((sum, row) => sum + (row.knocks ?? 1), 0),
+      where,
+    ).toBe(before + again.doorsKnocked);
+    expect(
+      rows.some((row) => (row.knocks ?? 1) > 1),
+      where,
+    ).toBe(true);
+  });
+
+  it("reaches someone every week it knocks, filing to election day, at the field contact rate", () => {
+    const { core, api, filing, where } = setup();
+    expect(
+      filing,
+      `the player could file for nothing: ${where}`,
+    ).not.toBeNull();
+    const id = filing!.id;
+    let weeks = 0;
+    let knocked = 0;
+    let reached = 0;
+    // A shift a week up to a year, until the election closes the campaign:
+    // the oldest households first, then round again, a week apart.
+    while (
+      weeks < 52 &&
+      campaignDayChoices(api, id).some(
+        (c) => c.kind === "canvass" && c.available,
+      )
+    ) {
+      const shift = takeCampaignDayChoice(api, id, "canvass");
+      expect(
+        shift.doorsKnocked,
+        `week ${weeks} doors: ${where}`,
+      ).toBeGreaterThan(0);
+      // A street of reluctant homes still opens a few doors.
+      expect(
+        shift.causeIds.length,
+        `week ${weeks} reached: ${where}`,
+      ).toBeGreaterThan(0);
+      knocked += shift.doorsKnocked;
+      reached += shift.causeIds.length;
+      weeks += 1;
+      core.date = addDays(makeIsoDate(core.date), 7);
+    }
+    expect(weeks, `weeks of knocking: ${where}`).toBeGreaterThan(20);
+    // The field contact rate, a quarter to a third of doors (Green and
+    // Gerber 2019; Arceneaux 2005), with room for a small town's ages.
+    expect(reached / knocked, `contact rate: ${where}`).toBeGreaterThanOrEqual(
+      0.15,
+    );
+    expect(reached / knocked, `contact rate: ${where}`).toBeLessThan(0.45);
   });
 
   it("offers an interview where an outlet has room, and the press desk records it", () => {

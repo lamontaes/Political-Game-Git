@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: the player's traits rank the four replies. Ask why: the ask-back cites the neighbor's family record. One rule, all 56 places: the test passes on any drawn place and seed.
 
-**Done when.** The test passes on Washington Mills, New York, seed e2ddb122b8bfe482, and on three more places drawn from all 56 with seeds the builder did not choose, each named in the PR body.
+**Done when.** The test passes on Washington Mills, New York, seed e2ddb122b8bfe482, and on three more places drawn from all 56 with seeds the builder did not choose, each named in the PR body. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/director/conversation.ts, src/director/conversation.test.ts, src/director/data/conversation-rules.json
 

@@ -99,7 +99,11 @@ it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}
     (n, h) => n + store.weightedCount(h),
     0,
   );
-  expect(weighted, where).toBeLessThanOrEqual(recorded);
+  // The two sums add the same weights in a different order, so they may part in
+  // the last bits: allow the rounding a sum of this many terms can carry, no more.
+  const rounding =
+    recorded * Number.EPSILON * (voters.length + households.size);
+  expect(weighted, where).toBeLessThanOrEqual(recorded + rounding);
   expect(weighted, where).toBeGreaterThan(0);
 
   // The sample is the town's counted adults, in lean order by real voters.
@@ -151,7 +155,20 @@ it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}
   const places = [town, ...statePlaces(place.state.slice(3), weighted)];
   const counted = countPlaces(sample, places, typical);
   expect(counted.places.length, where).toBe(places.length);
-  expect(counted.places[0]!.cast, where).toBeGreaterThan(0);
+  // The town casts its people's turnout, rounded to whole voters. Read at a
+  // million times the town's size, the same sample turns out a positive
+  // number of voters, and the town's own cast is that number rounded: a town
+  // whose few counted adults turn out at less than half a voter in all casts
+  // none (Ceex Haci, Wisconsin: one counted adult, 0.483 expected to turn out).
+  const SCALE = 1_000_000;
+  const expected =
+    countPlaces(sample, [{ ...town, scale: SCALE }], typical).places[0]!.cast /
+    SCALE;
+  expect(expected, where).toBeGreaterThan(0);
+  expect(
+    Math.abs(counted.places[0]!.cast - expected),
+    `${where}: the town's ${counted.places[0]!.cast} cast against ${expected} voters expected to turn out`,
+  ).toBeLessThanOrEqual(0.5 + 1 / SCALE);
   for (const p of counted.places) {
     expect(p.cast, `${where}: ${p.id}`).toBeGreaterThanOrEqual(0);
     expect(p.cast, `${where}: ${p.id}`).toBeLessThanOrEqual(p.eligible);
@@ -167,6 +184,6 @@ it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}
   // Reading it all changed no record.
   expect(digest(core), where).toBe(before);
   console.log(
-    `voter-groups: ${where}, ${voters.length} counted voters, ${adults.size} counted town adults all in the sample of ${sample.length}`,
+    `voter-groups: ${where}, ${voters.length} counted voters, ${adults.size} counted town adults all in the sample of ${sample.length}; the town casts ${counted.places[0]!.cast} of ${town.eligible} with ${expected.toFixed(3)} expected to turn out`,
   );
 }, 600_000);

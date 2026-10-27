@@ -147,19 +147,27 @@ export function section(text: string, name: string): string {
   return (re.exec(body)?.[1] ?? "").trim();
 }
 
-/** Quality gate for open or claimed priority 1 and 2 items. Returns "<id>: <field> ..." problems. */
+/** Quality gate for open or claimed priority 1 and 2 items, and play-first items at any priority. Returns "<id>: <field> ..." problems. */
 export function quality(
   file: string,
   fm: Record<string, string>,
   text: string,
 ): string[] {
-  if (
-    !["open", "claimed"].includes(fm.status) ||
-    !["1", "2"].includes(fm.priority)
-  )
-    return [];
   const id = file.replace(/\.md$/, "");
-  const errs: string[] = [];
+  const live = ["open", "claimed"].includes(fm.status);
+  // The play-first lane (docs/play-first/README.md): every item is time-boxed
+  // at four hours or less and says what the owner will see, at any priority.
+  const lane: string[] = [];
+  if (live && fm.milestone === "play-first") {
+    const box = /^(\d+(?:\.\d+)?) hours?\b/.exec(section(text, "Time box"));
+    if (!box || Number(box[1]) <= 0 || Number(box[1]) > 4)
+      lane.push(`${id}: a play-first item needs a Time box of 4 hours or less`);
+    for (const name of ["You will see", "Screenshot"])
+      if (!section(text, name))
+        lane.push(`${id}: a play-first item needs its ${name} line`);
+  }
+  if (!live || !["1", "2"].includes(fm.priority)) return lane;
+  const errs: string[] = [...lane];
   const what = section(text, "What");
   const sentences = what.split(/[.!?](?:\s|$)/).filter((x) => x.trim()).length;
   if (sentences < 3 || words(what) < 40)

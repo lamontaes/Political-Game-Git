@@ -4,7 +4,7 @@ title: "Stopgaps in civic-inputs (civic-data-vintage-and-permission): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-19T23:09:40.671Z
 **Notes.** First row: Current indexed institution and canonical generated employer classifications stand in for historical public directories. Meeting permissions, membership acceptance, and public authority are not established by these names
 
 Oct 20: Switched from blocked to the automatic after: gate on research-deep-past-sourced-parameters, so it opens by itself the moment those items are done.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

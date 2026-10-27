@@ -3,7 +3,7 @@ id: gov-bribe-offer-reads-known-money-trouble
 title: "A bribe offer weighs what the offerer knows of the official's money trouble, so bribes go to the broke official, not to every member on every contract"
 area: gov
 kind: wiring
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/corruption.ts, src/core2/modules/contracts.ts, src/core2/modules/interest-groups.ts, src/core2/data/corruption/parameters.json
 
 **Notes.** Filed Oct 25 by the effects lead from gov-bribes-in-played-worlds-measured.
+
+Deferred Oct 25: nothing on screen reads it yet.

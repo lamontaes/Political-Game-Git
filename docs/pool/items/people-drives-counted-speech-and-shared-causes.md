@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: L
-status: open
+status: done
 claimed-by:
 pr: #5826
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: the counted adult is scored by the same rule as a named one, from their own record. No dice. Speed: the year stays within 20 percent of its base on the same machine.
 
-**Done when.** In a one-year buildBenchWorld run in a drawn place (seed named), public comment on a bill includes a speaker who was counted until then (named by remark id), filled in before speaking, who forms a cause from the room by record id; the year is no more than 20 percent slower than its base.
+**Done when.** In a one-year buildBenchWorld run in a drawn place (seed named), public comment on a bill includes a speaker who was counted until then (named by remark id), filled in before speaking, who forms a cause from the room by record id; the year is no more than 20 percent slower than its base. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/meetings.ts
 

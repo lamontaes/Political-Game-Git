@@ -7,7 +7,7 @@ priority: 2
 status: open
 claimed-by:
 pr: #5165
-blocked-on: laws-outcome-justice
+blocked-on:
 milestone:
 source: "overnight pool item 7"
 claimed-at:
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** The chain is the acceptance: one dollar or rule is followed from the record to a named person and back out to a choice and a journal line. No dice: reach comes from traits, money and the law in force. One rule, all 56 places: checked in a drawn place with place facts in data. Ask why: each person's change cites the source by which they learned of the law.
 
-**Done when.** One chain per law family, in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named): the law record id, the payment or price record id changed, the person record id reached, their choice or view record id, and the director's line, plus the knowing source. The test in src/core2/law-reach-balance.test.ts or a new law-reach chain test covers each family. The owner plays it: pass a law and meet a neighbor it changed.
+**Done when.** One chain per law family, in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named): the law record id, the payment or price record id changed, the person record id reached, their choice or view record id, and the director's line, plus the knowing source. The test in src/core2/law-reach-balance.test.ts or a new law-reach chain test covers each family. The owner plays it: pass a law and meet a neighbor it changed. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/law-reach/index.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/group-b.ts, src/core2/law-reach-balance.test.ts
 
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5341 (branch claude/laws-outcome-guard): see the C
 Sent back 2026-10-20 from PR #5165 (branch claude/laws-outcome-map): This remains a planning split: the item Done when requires one complete law-to-payment/person/choice/director chain per family in a one-year played world, while the body explicitly says nothing is built yet. Preserve those requirements in the child items and leave the implementation umbrella unfinished; track the completed split under its own bounded planning item or finish the named chains. Also correct the title saying four items: the final body says three after withdrawing the duplicate labor/cannabis item.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-21 from PR #5341 (branch claude/laws-outcome-guard): Fixer #5692 has resolved the conflict and owner/date header note and is merged into this branch. The remaining main-merge acceptance is not met: docs/pool/items/laws-outcome-map.md:20 requires one law-to-payment/person/choice/director chain per family in a one-year buildBenchWorld run, with the drawn place, seed and record IDs. The final diff only adds law-reach-placeholders.test.ts and a release declaration; the body explicitly says those played-world chains are not built. Supply that proof, or track this useful guard under its own bounded completion item without completing the unfinished outcome-map umbrella. Also refresh the stale body inventory (22 policies, 19 without effect and two new registrations): the merged-data inventory is ten placeholders, eight with open stopgaps and two verified external readers; no new registry rows remain in this diff. The fixer checks do not substitute for a separate main gate on the final parent.; finish on that branch, merge main into it first.
+
+Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).

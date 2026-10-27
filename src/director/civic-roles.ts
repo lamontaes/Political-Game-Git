@@ -14,7 +14,10 @@
  * records name (`filingClerkFor`: an elected clerk, the town's appointed
  * clerk or the county government's listed clerk). A contest filed with a state
  * or federal office has no counter in the town: the role stays unfilled, and
- * the scene says so by the reach report, never by an invented clerk.
+ * the scene says so by the reach report, never by an invented clerk. A bill
+ * presented to the executive's desk is brought by its body's clerk, the
+ * town's or the county's (`localClerkFor`), and an official's aide is one of
+ * the staff they hired (`servingStaffOf`).
  */
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
@@ -38,11 +41,11 @@ import {
   type CampaignRow,
 } from "../core2/modules/campaigns";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
-import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { filingClerkFor, localClerkFor } from "../core2/modules/filing-clerk";
+import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
-import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import { P } from "../core2/parameters";
 import type { Moment } from "./types";
@@ -56,6 +59,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "poll-workers",
   "chair",
   "members",
+  "bill-sponsor",
   "executive",
   "appointer",
   "press",
@@ -64,12 +68,15 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "town-hall-askers",
   "supporters",
   "volunteers",
+  "opponent",
   "audience",
+  "staff",
 ]);
 
 interface BillRow {
   readonly id: string;
   readonly bodyOfficeId: string;
+  readonly sponsorId: string;
 }
 interface OutletRow {
   readonly id: string;
@@ -151,6 +158,27 @@ export function civicFill(
           ...(campaign?.staffIds ?? []),
         ]),
       );
+    }
+    case "opponent": {
+      // The candidate who finished behind the moment's subject in the count
+      // the cause settled: the runner-up on the result record's totals, living
+      // and not the subject. Where the subject did not win, or nobody else
+      // stood, the role stays unfilled and the scene does not fire.
+      const facts = core.durableLog.get(moment.causeId)?.facts;
+      if (!facts?.totals || facts.winnerId !== moment.personId) return [];
+      const totals = JSON.parse(String(facts.totals)) as Record<string, number>;
+      return free(
+        living(
+          core,
+          Object.entries(totals)
+            .filter(([id]) => id !== moment.personId)
+            .sort(
+              ([idA, votesA], [idB, votesB]) =>
+                votesB - votesA || idA.localeCompare(idB),
+            )
+            .map(([id]) => id),
+        ),
+      ).slice(zero, one);
     }
     case "volunteers": {
       // The volunteers of a campaign the candidate is running now, from the
@@ -304,6 +332,13 @@ export function civicFill(
       const president = term?.personId;
       return free(living(core, [president ?? null]));
     }
+    case "bill-sponsor": {
+      // The member who carried the bill the cause's record names (a committee
+      // that held it), when they are a living full person.
+      if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+      const sponsor = billOf(api, moment)?.sponsorId;
+      return free(living(core, sponsor ? [sponsor] : []));
+    }
     case "chair":
     case "members": {
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
@@ -327,6 +362,19 @@ export function civicFill(
       );
     }
     case "clerk": {
+      // A bill presented to the desk is brought by its body's clerk: the
+      // town's for a council's bill, the county's for a board's.
+      const cause = core.durableLog.get(moment.causeId);
+      if (cause?.kind === "bill-presented") {
+        const level = cause.facts?.level;
+        const clerk =
+          level === "city" || level === "township"
+            ? localClerkFor(api, "municipalOffice")
+            : level === "county"
+              ? localClerkFor(api, "countyOffice")
+              : null;
+        return free(living(core, [clerk?.personId ?? null]));
+      }
       if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
       const clerk = filingClerkFor(api, contestOfFiling(api, moment.causeId));
       return free(living(core, [clerk?.personId ?? null]));

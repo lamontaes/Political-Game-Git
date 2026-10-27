@@ -8,7 +8,7 @@ import { storyOfReadEvent } from "../core2/modules/news";
 import { printedStoryOf } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import { bringItUp, changesKnownTo } from "./bring-it-up";
-import { storyTopicName } from "./question-names";
+import { storyTopicName } from "../english/policy-names";
 
 // A neighbor says aloud that a law took effect (golden path step 10): in a
 // played world in a drawn place, a reader of the story the press printed when
