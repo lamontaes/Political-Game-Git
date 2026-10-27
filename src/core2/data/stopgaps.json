@@ -7215,7 +7215,7 @@
     "id": "SG-PLAY-day-start-minute",
     "kind": "missing-mechanic",
     "file": "src/bench/player.ts",
-    "line": 209,
+    "line": 212,
     "whatItFakes": "Every controlled person's day starts at one minute (7:00 AM, playerDayStartMinute): Day, Week and a calendar jump land on it, and the director's scenes at home wait for it, instead of the person's own wake time.",
     "why": "The core keeps no wake or sleep time for a person; work shifts start and end, but nothing says when anyone gets up.",
     "addedBy": "claude/integration-clock-and-hours",

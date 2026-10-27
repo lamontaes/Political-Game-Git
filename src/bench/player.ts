@@ -277,6 +277,29 @@ export class BenchPlayer {
     while (true) {
       if (!packet || packet.kind === "complete") {
         if (packet) from = packet.at;
+        // The birthday is met in its morning, like any day's first scene
+        // (owner, Oct 27: nothing at midnight): the day is lived to its start.
+        if (
+          packet &&
+          comesOfAge === from.date &&
+          from.minuteOfDay < this.dayStartMinute() &&
+          compareMoments(from, through) < 0 &&
+          this.comingOfAgeShownFor !== this.personId
+        ) {
+          packet = advancePlayerV1(this.core, {
+            controlledPersonId: this.personId!,
+            through: {
+              date: from.date,
+              minuteOfDay: Math.min(
+                this.dayStartMinute(),
+                from.date === through.date
+                  ? through.minuteOfDay
+                  : this.dayStartMinute(),
+              ),
+            },
+          });
+          continue;
+        }
         if (packet && this.comesOfAgeStop(comesOfAge, began, from.date)) break;
         if (compareMoments(from, through) >= 0) break;
         // One civil day at most, and never past a midnight: the polls are
@@ -319,7 +342,11 @@ export class BenchPlayer {
         this.clockBound = true;
         continue;
       }
-      if (this.comesOfAgeStop(comesOfAge, began, packet.at.date)) break;
+      if (
+        packet.at.minuteOfDay >= this.dayStartMinute() &&
+        this.comesOfAgeStop(comesOfAge, began, packet.at.date)
+      )
+        break;
       // Day never opens a choice list (owner, Oct 14, 2026): the character
       // answers its own choices with the core's selection, and only a stop
       // (a director scene, a fixed commitment or a deadline) ends the advance.

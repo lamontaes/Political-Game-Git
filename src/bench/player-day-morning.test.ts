@@ -20,6 +20,7 @@ import { townSeats } from "../core2/modules/offices";
 import type { CoreState } from "../core2/types";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { campaignDay } from "./campaign";
+import { applyChosenPerson } from "./creator";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -93,7 +94,10 @@ it(
   { timeout: 600_000 },
   () => {
     // The drawn player, as the play screen drives them.
-    const { core, director, where, playerId } = openWorld(0);
+    const { core, director, where, adults } = openWorld(0);
+    // A grown resident: the clock's rule, with no coming of age on the way
+    // (that day's own stop is the birthday case below).
+    const playerId = adults[0]?.id;
     const start = parameter("playerDayStartMinute", core.data.parameters);
     expect(start, where).toBeGreaterThan(0);
     const player = new BenchPlayer(core, director);
@@ -171,5 +175,31 @@ it(
       return;
     }
     throw new Error(`No drawn place had a local race to file in: ${runSeed}`);
+  },
+);
+
+it(
+  "a coming of age met on the way is met on its morning, not at midnight",
+  { timeout: 600_000 },
+  () => {
+    const { core, director, where, playerId } = openWorld(2);
+    const start = parameter("playerDayStartMinute", core.data.parameters);
+    // The resident turns eighteen three days into the week.
+    const birthday = addDays(makeIsoDate(core.date), 3);
+    const person = core.people.get(playerId!)!;
+    applyChosenPerson(core, playerId!, {
+      givenName: person.givenName,
+      familyName: person.familyName,
+      gender: "female",
+      birthYear: Number(birthday.slice(0, 4)) - 18,
+      birthMonth: Number(birthday.slice(5, 7)),
+      birthDay: Number(birthday.slice(8, 10)),
+    });
+    const player = new BenchPlayer(core, director);
+    player.select(playerId!);
+    const stopped = settle(player, player.advance("week"), where);
+    expect(stopped, `the week stops on the birthday morning: ${where}`).toEqual(
+      { date: birthday, minuteOfDay: start },
+    );
   },
 );
