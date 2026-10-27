@@ -6,7 +6,7 @@ lead: m0-m2
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/m013-renters
 pr: #6343
 blocked-on:
