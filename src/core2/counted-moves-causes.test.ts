@@ -43,10 +43,16 @@ it("every counted move in a played year, within the state or across states, reco
       const across = moves.filter((row) => !inState(row));
       for (const row of moves) {
         // The rate its people's age leaves at, on every move.
+        // (or, for a household of minors alone that its group's movers came
+        // due for, the group's rate: no adult of its own was weighed).
         expect(
-          row.reasons.lifeStage ?? 0,
+          row.reasons.lifeStage ?? row.reasons.groupRate ?? 0,
           `${where}: ${row.id}`,
         ).toBeGreaterThan(0);
+        expect(
+          "lifeStage" in row.reasons && "groupRate" in row.reasons,
+          `${where}: ${row.id} records one rate`,
+        ).toBe(false);
         for (const [cause, value] of Object.entries(row.reasons))
           expect(Number.isFinite(value), `${where}: ${row.id} ${cause}`).toBe(
             true,
@@ -81,6 +87,40 @@ it("every counted move in a played year, within the state or across states, reco
     }
     throw new Error(
       `no drawn place in ${DRAWS} had counted moves both within its state and across states: ${tried.join("; ")}`,
+    );
+  } finally {
+    setBookkeeping(previousBookkeeping);
+  }
+}, 600_000);
+
+// The Hartselle, Alabama draw (test seed 744d31777622bd53, draw 0) holds a
+// counted household of minors alone that moves out: the monthly weighing
+// skips it (no adult to set a rate) and its group's due movers reach it. Its
+// record must name the group's rate, never an adult's it did not have.
+it("a counted household of minors alone records its group's rate, and no web or age-set rate it was never weighed by", () => {
+  const previousBookkeeping = setBookkeeping(false);
+  try {
+    const place = drawPlace("744d31777622bd53:0", "counted-moves-causes");
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), YEAR_DAYS));
+    const groupRated = countedMoves(coreAPI(core)).filter(
+      (row) => row.reasons.groupRate !== undefined,
+    );
+    expect(
+      groupRated.length,
+      `${where}: households with no adult`,
+    ).toBeGreaterThan(0);
+    for (const row of groupRated) {
+      expect(row.reasons.groupRate, `${where}: ${row.id}`).toBeGreaterThan(0);
+      expect(row.reasons.lifeStage, `${where}: ${row.id}`).toBeUndefined();
+      expect(row.reasons.web, `${where}: ${row.id}`).toBeUndefined();
+    }
+    process.stdout.write(
+      `counted move causes, minors alone: ${where}; ${groupRated.length} such moves, e.g. ${groupRated[0]!.id} ${JSON.stringify(groupRated[0]!.reasons)}\n`,
     );
   } finally {
     setBookkeeping(previousBookkeeping);

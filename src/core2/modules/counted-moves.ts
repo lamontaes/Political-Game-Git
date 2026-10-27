@@ -119,7 +119,7 @@ export interface MoveRecord {
   readonly fromPlace: string;
   readonly toPlace: string;
   readonly people: number;
-  /** What weighed toward the move, by cause: the yearly rate of leaving at the movers' age (lifeStage); the web's factor, each hold (negative) and the pull toward another state, in log units. */
+  /** What weighed toward the move, by cause: the yearly rate of leaving at the movers' age (lifeStage, or for a household of minors alone its group's yearly rate, groupRate); the web's factor, each hold (negative) and the pull toward another state, in log units. */
   readonly reasons: Readonly<Record<string, number>>;
 }
 
@@ -342,7 +342,8 @@ function holdsOf(
 
 /**
  * A move's causes on the same keys a full person's departure records: the
- * yearly rate of leaving at the movers' age (lifeStage), the outcome web's
+ * yearly rate of leaving at the movers' age (lifeStage; for a household of
+ * minors alone, its group's yearly rate, groupRate), the outcome web's
  * factor on leaving (web, in log units), each hold against it (hold:...),
  * and the pull toward another state (income, jobs).
  */
@@ -351,9 +352,11 @@ function causesOf(
   web: number,
   holds: Readonly<Record<string, number>>,
   pull: Readonly<Record<string, number>>,
+  /** The group's yearly rate, for a household that had no adult to weigh. */
+  groupRate?: number,
 ): Record<string, number> {
   return {
-    lifeStage: rate,
+    ...(groupRate === undefined ? { lifeStage: rate } : { groupRate }),
     ...(web !== 1 ? { web: Math.log(web) } : {}),
     ...Object.fromEntries(
       Object.entries(holds).map(([key, value]) => [`hold:${key}`, -value]),
@@ -472,16 +475,10 @@ function month(api: CoreAPI): void {
         adults++;
       }
     }
-    // A household of minors alone leaves at the rate a child's household
-    // does, read at a parent's age (as the coarse under-18 band is).
-    if (!adults)
-      for (const m of store.countedMembers(h)) {
-        const age = ageOn(store.born[m]!, date);
-        rates += rateFor(home, acsBand(age));
-        adultAges += age;
-        adults++;
-      }
     const group = store.groups[h.group]!;
+    // A household of minors alone has no adult to set a rate: the monthly
+    // weighing skips it, and it leaves only as its group's due movers come
+    // round to it (see `reasonsFor`).
     const age = adults ? Math.round(adultAges / adults) : 0;
     const webKey = `${h.placeId}|${h.group}|${age}`;
     let web = webCache.get(webKey);
@@ -694,11 +691,20 @@ function month(api: CoreAPI): void {
       // state its pull (within the state taxes and prices are the same).
       const head = headOf(residents, next, date);
       const leaving = leavingOf(next, home);
+      const pulled = groupPulls.get(g);
+      // A household with adults weighed its own adults' rate. One of minors
+      // alone was never weighed: its group's movers came due and the group's
+      // order reached it, so what weighed is the group's yearly rate of
+      // leaving across the households it did weigh.
       const reasons = causesOf(
         leaving.rate,
-        leaving.web,
+        // The web's links land on a household by its adults; none, none.
+        head.adults ? leaving.web : 1,
         holdsOf(residents, next, date),
         to === home ? {} : pullFor(home, to, head.wages),
+        !head.adults && pulled?.people
+          ? (pulled.total * 12) / pulled.people
+          : undefined,
       );
       departCountedHousehold(core, next.id);
       const dest = rt.states.get(to)!;
