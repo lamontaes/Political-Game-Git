@@ -724,10 +724,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-council-is-in-recess-name-pulls-you-aside-about-bill",
+      "key": "scene-talk.narrate-narrate.there-s-a-break-in-the-meeting-name-pulls-you-aside-about-bill",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The council is in recess. {name} pulls you aside about {bill}.",
+      "text": "There's a break in the meeting. {name} pulls you aside about {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -93231,6 +93231,31 @@
       "tag": {
         "move": "narrate",
         "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-you-before-the-vote-on-bill-there-s-a-section-they-want-changed",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches you before the vote on {bill}. There's a section they want changed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "section-bargain",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
       }
     }
   ]
