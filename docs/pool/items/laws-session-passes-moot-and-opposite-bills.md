@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/laws-session-moot-bills
-pr:
+pr: #6336
 blocked-on:
 source: laws-and-effects lead, Oct 27 (laws-in-force-every-question's played-world test)
 claimed-at: 2026-10-27T11:13:25.181Z

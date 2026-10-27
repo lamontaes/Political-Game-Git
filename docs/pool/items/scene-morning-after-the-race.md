@@ -5,14 +5,14 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-morning-after-the-race
+pr: #6342
 blocked-on:
 source: 'owner''s "Morning after" request (docs/design/scenes/owner-scene-examples.md); words-and-scenes lead, Oct 27, scene web election-day pass'
 lead: director
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T14:06:23.675Z
 ---
 
 **What.** The owner asked for the morning after a race, and nothing stages it: `race-won` and `race-lost` fire at the cause, the night of the count, and the next day passes with no one. The packet `docs/design/scenes/from-life/the-morning-after-the-race.md` (four real races, calibration only) shows what the day holds. The winner gets calls, and the loser thanks the people who worked and says what comes next. The signs come down, and the volunteers are thanked or let go.

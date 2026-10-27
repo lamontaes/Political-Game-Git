@@ -6,7 +6,7 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/project-request-lower-seat
 pr: #6266
 blocked-on:

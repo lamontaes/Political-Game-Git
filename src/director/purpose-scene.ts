@@ -147,17 +147,28 @@ function composeBinding(
   const cause = record?.topic ? topicInSentence(record.topic) : null;
   if (cause) facts.cause = { text: cause, sourceRecordIds: [moment.causeId] };
   // A bill the record names, by its number, and the section a trade added.
-  if (said.number) {
+  // A committee's hold names its bill by id only; the bill row has the number.
+  const named =
+    said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
+      ? billOf(coreAPI(core as CoreState), said.billId)
+      : undefined;
+  const number = said.number ?? named?.number;
+  if (number) {
     // Said as a clerk reads it: a bare number takes its form's word first.
-    const bill =
-      said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
-        ? billOf(coreAPI(core as CoreState), said.billId)
-        : undefined;
     facts.bill = {
-      text: spokenDesignation(said.number, bill?.form.kind ?? ""),
+      text: spokenDesignation(number, named?.form.kind ?? ""),
       sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
     };
   }
+  // The chair a committee's hold names, for a member who is asked to press them.
+  const chair = said.chair
+    ? core.people.get(said.chair as PersonId)
+    : undefined;
+  if (chair && chair.id !== askedId)
+    facts.chair = {
+      text: `${chair.givenName} ${chair.familyName}`,
+      sourceRecordIds: [moment.causeId, chair.id],
+    };
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
   // A vote trade puts the holdout's own section in (legislature.ts adopt()):
@@ -251,6 +262,26 @@ function composeBinding(
     } else if (said.subjectId === askedId && said.subjectFraming === "against")
       facts["about-you"] = { text: asked.givenName, sourceRecordIds: cited };
   }
+  // An outlet any other cause names (an invitation to an interview or a
+  // debate), by name.
+  if (record?.kind !== PRESS_STORY_EVENT && said.outletId) {
+    const outlet = core.organizations.get(said.outletId);
+    if (outlet)
+      facts.outlet = {
+        text: properName(outlet.name),
+        sourceRecordIds: [moment.causeId, outlet.id],
+      };
+  }
+  // How the two stand, so a line can fit the tie: the asked person's known
+  // people (`acquainted`, else `stranger`), and family (`kin`).
+  if (asked.familyIds.has(askerId))
+    facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
+  if (asked.knownIds.has(askerId))
+    facts.acquainted = {
+      text: asker.givenName,
+      sourceRecordIds: [askerId, askedId],
+    };
+  else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
   if (said.office)
     facts.office = {
       text: said.office,
@@ -258,6 +289,15 @@ function composeBinding(
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
       ],
+    };
+  // A rival in the race the record names, by name.
+  const rival = said.rivalId
+    ? core.people.get(said.rivalId as PersonId)
+    : undefined;
+  if (rival)
+    facts.opponent = {
+      text: `${rival.givenName} ${rival.familyName}`,
+      sourceRecordIds: [moment.causeId, rival.id],
     };
   // What the relative has at stake in the run, from the household's records
   // (the cast rule chose them for it): the lines about money or time need it.
