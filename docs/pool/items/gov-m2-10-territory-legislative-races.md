@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/territory-legislative-races
 pr: #6186
 blocked-on:
