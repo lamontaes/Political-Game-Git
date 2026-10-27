@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-spots-from-plates
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T21:45:40.554Z
 ---
 
 **What.** The owner's art session paints each room again with a mannequin at every natural spot and measures each one (art/people-rooms/spots: head top, middle and width, pose, facing angle, the front line where furniture covers it, and a role such as the President's chair). Today the hand-typed spots in art/backdrops/staging.json give people the wrong size at many seats, and on the House rostrum seat them on top of the desk. This item writes the plate's spots into the staging in place of the hand-typed ones, sizes and sets every figure by the mannequin's head, bakes each front line into the spot's occluder mask, and seats an office holder in the seat the plate keeps for their office.
