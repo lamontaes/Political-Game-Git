@@ -56,6 +56,7 @@ import {
   type Stance,
 } from "../campaign-views";
 import { candidatePlatform, partyLean } from "../campaign-stances";
+import { contestPositions } from "../contest-positions";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
@@ -418,7 +419,17 @@ export function campaignFor(api: CoreAPI, filingId: string): CampaignRow {
     // campaigns on what the candidate and their party stand for.
     platform: filing.platform.length
       ? parsePlatform(filing.platform)
-      : candidatePlatform(api, filing.personId, filing.party ?? null),
+      : candidatePlatform(
+          api,
+          filing.personId,
+          filing.party ?? null,
+          contestPositions(
+            api,
+            elections(api, "contests").get(
+              filing.contestId,
+            ) as unknown as ContestRow,
+          ),
+        ),
     organizationId,
     volunteerIds: [],
     staffIds: [],
