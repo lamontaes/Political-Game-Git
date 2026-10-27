@@ -5,10 +5,11 @@
  * the opening, `lawHere` returns each policy question the state or the nation
  * answers, at its level, by the starting row's record id and citation, and
  * the Issues screen's records (`governmentView`) carry the same rows. Then the
- * world plays until a law passed in play replaces a starting row at its level
- * of the town's chain: from that day the reader and Issues return the new row
- * at its level, and the day before they returned the starting row. Every law
- * passed on a question that takes effect on the way is checked the same way.
+ * world plays until a law passed in play replaces a starting row, at its own
+ * level of the town's chain or as the town's law in force: from that day the
+ * reader and Issues return the new row, and the day before they returned the
+ * starting row. Every law passed on a question that takes effect on the way
+ * is checked at its level the same way.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -84,11 +85,12 @@ it("every policy question's law in force is read at each level by record id, by 
     }`,
   );
 
-  // Play until a law passed in play replaces a starting row at its own level,
+  // Play until a law passed in play replaces a starting row, at its own level
+  // or as the town's law in force (a city's law in place of the state's),
   // checking every law passed on a question that takes effect on the way.
   const chained = new Set(chain.levels.map((l) => l.jurisdiction));
   const start = today();
-  const checked = new Set<string>();
+  const checked: string[] = [];
   const passed = (): LawRowInput[] =>
     ([...laws.rows()] as unknown as LawRowInput[])
       .filter(
@@ -98,39 +100,51 @@ it("every policy question's law in force is read at each level by record id, by 
           chained.has(row.jurisdiction) &&
           row.effectiveDate > start &&
           row.effectiveDate <= today() &&
-          !checked.has(row.id),
+          !checked.includes(row.id),
       )
       .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
+  const answerOn = (row: LawRowInput, date: string) =>
+    lawHere(api, date, [row.series])[0];
   const atLevel = (row: LawRowInput, date: string) =>
-    lawHere(api, date, [row.series])[0]?.levels.find(
+    answerOn(row, date)?.levels.find(
       (l) => l.level === row.level && l.jurisdiction === row.jurisdiction,
     )?.row;
-  let replaced: { row: LawRowInput; before: LawRowInput } | undefined;
+  let replaced:
+    { row: LawRowInput; before: LawRowInput; how: string } | undefined;
   for (;;) {
     for (const row of passed()) {
-      checked.add(row.id);
+      checked.push(row.id);
       // The level's law on its effective day is a law passed in play that
       // day (this one, or a later provision of the same day), and it was not
       // the day before.
+      const dayBefore = addDays(row.effectiveDate, -1);
       const on = atLevel(row, row.effectiveDate);
-      const before = atLevel(row, addDays(row.effectiveDate, -1));
+      const before = atLevel(row, dayBefore);
       expect(on?.terms?.enactedBy, `${where}: ${row.id}`).toBeDefined();
       expect(on?.effectiveDate, `${where}: ${row.id}`).toBe(row.effectiveDate);
       expect(before?.id, `${where}: the day before ${row.id}`).not.toBe(on?.id);
-      console.log(
-        `${where}: ${row.id} (${row.terms?.enactedBy}, value ${row.value}) took effect ${row.effectiveDate} at the ${row.level} level, replacing ${before?.id ?? "no law at that level"}`,
-      );
-      if (!replaced && before?.id.endsWith(":starting") && on?.id === row.id)
-        replaced = { row, before };
+      if (replaced || on?.id !== row.id) continue;
+      const governedBefore = answerOn(row, dayBefore)?.governing;
+      if (before?.id.endsWith(":starting"))
+        replaced = { row, before, how: `at the ${row.level} level` };
+      else if (
+        governedBefore?.id.endsWith(":starting") &&
+        answerOn(row, row.effectiveDate)?.governing?.id === row.id
+      )
+        replaced = {
+          row,
+          before: governedBefore,
+          how: `as the town's law in force, the ${row.level}'s in place of the ${governedBefore.level}'s`,
+        };
     }
     if (replaced || today() >= addDays(start, MOST_DAYS)) break;
     advanceCore(core, addDays(today(), 7));
   }
   expect(
     replaced,
-    `${where}: no law passed in play replaced a starting row in ${MOST_DAYS} days (${checked.size} passed on a question)`,
+    `${where}: no law passed in play replaced a starting row in ${MOST_DAYS} days (${checked.length} passed on a question)`,
   ).toBeDefined();
-  const { row, before } = replaced!;
+  const { row, before, how } = replaced!;
   // Issues reads the row in force today: the new one, unless a later law replaced it.
   const now = atLevel(row, today());
   const shown = governmentView(core, personId)
@@ -140,6 +154,6 @@ it("every policy question's law in force is read at each level by record id, by 
     )?.row;
   expect(shown?.id, `${where}: Issues, ${row.series}`).toBe(now?.id);
   console.log(
-    `${where}: ${row.id} replaced ${before.id} on ${row.effectiveDate}; Issues on ${today()} reads ${shown?.id}`,
+    `${where}: ${checked.length} laws passed in play on a question took effect by ${today()}, each read at its level from its effective day (first: ${checked.slice(0, 3).join(", ")}). ${row.id} (${row.terms?.enactedBy}, value ${row.value}) replaced ${before.id} on ${row.effectiveDate} ${how}; Issues on ${today()} reads ${shown?.id}`,
   );
 }, 1_200_000);

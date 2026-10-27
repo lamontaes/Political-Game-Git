@@ -4556,11 +4556,21 @@ const sheets = {
                   }),
                 ),
               );
+              // A level's law and when it took effect; a starting answer to a
+              // question names its statute instead, as its research did not
+              // record the day it took effect.
               for (const level of law.levels.filter((l) => l.row))
                 detail.append(
                   row(
                     lawLevelLabel(law, level),
-                    `${lawText(law, level.row.value, level.row.unit)} · ${dateWords(level.row.effectiveDate)}`,
+                    [
+                      lawText(law, level.row.value, level.row.unit),
+                      !law.yesNo || level.row.terms?.enactedBy
+                        ? dateWords(level.row.effectiveDate)
+                        : level.row.terms?.cite,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
                   ),
                 );
               for (const pending of law.pending)

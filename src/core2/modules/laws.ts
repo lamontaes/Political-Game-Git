@@ -199,6 +199,8 @@ export function openLaws(core: CoreState): LawChain {
       source: entry.source ?? "data/research/laws/starting-law-2026",
       retrieved: ANSWERS_AS_OF,
       estimate: answer.estimated !== undefined,
+      // The statute the answer rests on, which Issues shows beside it.
+      ...(answer.cite ? { terms: { cite: answer.cite } } : {}),
     };
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
