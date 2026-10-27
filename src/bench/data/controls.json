@@ -112,7 +112,9 @@
     "done": "Ready"
   },
   "opening": {
-    "news": "News"
+    "news": "News",
+    "closeNews": "Close the news",
+    "newsToastSeconds": 8
   },
   "person": {
     "age": "Age",
