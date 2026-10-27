@@ -25,3 +25,4 @@ claimed-at:
 **Files.** src/core2/law-wiring-rights-env.test.ts, src/core2/budgets-treasury.ts, docs/reports/law-wiring/families/rights-env-*.json
 
 **Notes.** Laws-effects lead, Oct 26. PR #5669 moves to this item from laws-nine-links-rights-eight (the parks two have no reader); laws-nine-links-rights-env stays open for the other seven.
+Sent back 2026-10-27 from PR #5669 (branch claude/law-wiring-rights-env): seven files conflict with main (outcome-web.ts, births-counted.ts, links json, matrix, stopgaps); finish on that branch, merge main into it first.
