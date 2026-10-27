@@ -81,7 +81,12 @@ it(`corporate profit tax paid in town comes off the outside installment in ${pla
         carried,
       }),
     );
-  const named = profitTaxesOf(api).find((r) => r.paidMinor > 0);
+  // A territory's own corporate tax stands in for the federal one and is paid
+  // to its own treasury (Susupe, Northern Mariana Islands, seed tp2), so only a
+  // record with a posting to the federal treasury has a dollar on this line.
+  const named = profitTaxesOf(api).find((r) =>
+    r.postings.some((p) => federalPosting.test(p.id) && p.deltaMinor > 0),
+  );
   if (named) {
     expect(creditedOnLine + carried, `${where}: ${named.id}`).toBeGreaterThan(
       0,
