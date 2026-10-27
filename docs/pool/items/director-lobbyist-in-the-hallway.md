@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-lobbyist-hallway
-pr:
+pr: #6269
 blocked-on:
 lead: director
 source: added with npm run pool -- add
