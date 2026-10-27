@@ -7,12 +7,6 @@
       "source": "Speakers at an ordinary council agenda item's public comment; local meetings commonly hear a handful (Einstein, Glick and Palmer 2019, 'Neighborhood Defenders': most meetings draw few commenters, older and more engaged residents).",
       "spread": [2, 15]
     },
-    "commentBar": {
-      "value": 0.5,
-      "tag": "TUNABLE",
-      "source": "How strongly a resident must feel about a question, times their civic temperament, to stand up at public comment; tuned against the handful who speak.",
-      "spread": [0.3, 1.2]
-    },
     "commentWeight": {
       "value": 0.15,
       "tag": "TUNABLE",
@@ -30,12 +24,6 @@
       "tag": "ESTIMATED",
       "source": "Attendance at a local official's town hall: a few dozen residents (Congressional Management Foundation 2017, 'Citizen-Centric Advocacy': in-person town halls draw dozens in most districts).",
       "spread": [15, 120]
-    },
-    "townHallBar": {
-      "value": 0.5,
-      "tag": "TUNABLE",
-      "source": "The civic temperament (duty plus half of sociability) a resident needs to come to a town hall.",
-      "spread": [0, 1]
     },
     "questionsPerTownHall": {
       "value": 4,

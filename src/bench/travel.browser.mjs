@@ -1,8 +1,10 @@
-/* global document, console, URL */
+/* global document, console, URL, process */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-const browser = await chromium.launch({ executablePath: "/usr/bin/chromium" });
-const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
+const browser = await chromium.launch({
+  executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
+});
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(30000);
 await page.route("**/api/controls", async (route) => {
   const response = await route.fetch();
@@ -32,6 +34,7 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const r = await response;
     assert.equal(r.status(), 200);
@@ -62,16 +65,35 @@ try {
     .first()
     .evaluate((e) => e.click());
   await page.locator(".travel-destinations").waitFor();
-  assert.ok((await page.locator(".travel-place").count()) > 0);
+  // Travel always lists somewhere to go, even on the opening night at 8:30 p.m.
+  // (owner, Oct 27): a public place joins the list when the player's own
+  // reasons are few, and every card says whether it is open now.
+  const places = await page.locator(".travel-place").count();
+  console.log("Destinations:", places, clock.replace("\n", " "));
+  assert.ok(places >= 3, `at least three destinations, got ${places}`);
+  let open = 0;
+  for (const card of await page.locator(".travel-place").all()) {
+    assert.equal(await card.locator("img.travel-image").count(), 1);
+    const name = await card.locator("h3").innerText();
+    assert.ok(name.trim() && !/[()]/.test(name), `card name: ${name}`);
+    const here = (await card.locator(".travel-here").innerText()).trim();
+    assert.ok(/^(Open now|Closed now|Filing office)/.test(here), here);
+    if (here.startsWith("Open now")) open += 1;
+    assert.ok(await card.getAttribute("data-reason"));
+  }
+  console.log("Open now:", open);
+  // No line under the title restating where you are (owner, Oct 27).
+  assert.equal(await page.locator(".travel-from").count(), 0);
+  assert.ok(!/you are at home/i.test(await page.locator("#sheet").innerText()));
   const first = await page.locator(".travel-info h3").first().innerText();
   await page
     .getByRole("searchbox", { name: "Search destinations" })
     .fill(first);
-  assert.equal(await page.locator(".travel-place").count(), 1);
+  assert.ok((await page.locator(".travel-place").count()) >= 1);
   await page.getByRole("searchbox", { name: "Search destinations" }).fill("");
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
-    path: "docs/reports/filing-in-travel-2026-10-14/travel.png",
+    path: `${process.env.SHOTS ?? "docs/reports/travel-cards-2026-10-27"}/travel.png`,
   });
   assert.equal(await page.locator("#card-clock").innerText(), clock);
   assert.deepEqual(errors, []);

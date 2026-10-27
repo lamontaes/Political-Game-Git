@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-27-title-motion-and-rotation-restored
 pr: #6204
 blocked-on:

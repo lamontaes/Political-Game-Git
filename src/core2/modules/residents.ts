@@ -14,7 +14,13 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import { drawSavingsToCover, transfer, transferSplit } from "../accounts";
+import {
+  depositsHeld,
+  drawSavingsToCover,
+  transfer,
+  transferSplit,
+  withdrawSavings,
+} from "../accounts";
 import { livingCostParts, outsideCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { openingWorkCommitments } from "./work";
@@ -66,7 +72,13 @@ export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
-import { weightedPayrollMinor } from "../residents-economy";
+import { recordEstatePaid, sellHome } from "../housing-sale";
+import {
+  addCountedJob,
+  countedJobHeads,
+  countedJobsOf,
+  weightedPayrollMinor,
+} from "../residents-economy";
 import {
   chargeGroups,
   flowWeights,
@@ -191,7 +203,10 @@ export interface ResidentsRuntime {
   /** The month the groups' money was last closed for. */
   lastMonth?: string;
   /** A household being filled in: its share of its group's money, paid to its people on release. */
-  fillInCash: Map<string, { group: number; amount: number; unplaced: number }>;
+  fillInCash: Map<
+    string,
+    { group: number; amount: number; unplaced: number; weight: number }
+  >;
   /** Households released to full people so far: each release names its own transfers, since a household can return to the counts and be filled in again. */
   fillIns: number;
 }
@@ -1873,6 +1888,19 @@ export function releaseResidentHousehold(
         reasonKey: "residents.fill-in.cash",
         source: rt.input.source,
       });
+    // Its bank savings were banked for every household the record stood
+    // for: the one filled in keeps its own share, and the rest go back to
+    // its group, which still stands for the others.
+    const held = depositsHeld(core, householdId);
+    const others = Math.floor((held * (cash.weight - 1)) / cash.weight);
+    if (others > 0)
+      withdrawSavings(core, rt.api, {
+        id: `fill-in:${householdId}:${sequence}:deposits`,
+        holderId: householdId,
+        customerAccountId: fundOf(rt.api, rt, cash.group),
+        amountMinor: others,
+        source: rt.input.source,
+      });
   }
   const calendars = calendarsOf(rt);
   // The household now pays its own outside living costs from its payer.
@@ -1979,13 +2007,121 @@ export function takeResidentHousehold(
     group: h.group,
     amount: householdCash(rt, h),
     unplaced: unplacedShare(rt, h),
+    weight: store.weightOf(h),
   });
   // One real household is filled in; the rest it stood for stay counted.
+  const held = heldJobHeads(rt, h);
   store.releaseWeight(h);
+  keepJobHeads(core, rt, h, held);
   store.retire(h, MemberState.Filled);
   rt.filledIn.add(h.id);
   rt.filledAt.set(h.id, makeIsoDate(core.date));
   return record;
+}
+
+/** A household's open counted jobs and the heads each stands for beyond the one a full person fills. */
+function heldJobHeads(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): { job: JobInput; beyond: number }[] {
+  const members = new Set(rt.store.memberIdsOf(h));
+  const out: { job: JobInput; beyond: number }[] = [];
+  for (const job of rt.jobs.values()) {
+    if (job.endsAt !== undefined || !members.has(job.personId)) continue;
+    const beyond = rt.store.headsOfJob(h, job.id) - 1;
+    if (Math.abs(beyond) > HEADS_EPSILON) out.push({ job, beyond });
+  }
+  return out;
+}
+
+const HEADS_EPSILON = 1e-9;
+
+/**
+ * The jobs a filled-in record stood for stay with their employers. Each of
+ * its jobs keeps one head on the full person; the rest go to another counted
+ * job at the same employer (its group's first), and a record that stood for
+ * less than one job takes the difference back from them. Where it was the
+ * employer's only counted job, a member of a household that took its weight
+ * takes the rest on a counted job of its own.
+ */
+function keepJobHeads(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  held: readonly { job: JobInput; beyond: number }[],
+): void {
+  const store = rt.store;
+  const members = new Set(store.memberIdsOf(h));
+  const groupOf = (personId: string) => {
+    const m = store.countedMember(personId as PersonId);
+    return m === undefined
+      ? undefined
+      : store.households[store.household[m]!]!.group;
+  };
+  for (const { job, beyond } of held) {
+    let left = beyond;
+    const keepers = countedJobsOf(core, job.organizationId)
+      .filter((other) => !members.has(other.personId))
+      .map((other, order) => ({
+        other,
+        order: (groupOf(other.personId) === h.group ? 0 : 1) * 1e9 + order,
+      }))
+      .sort((a, b) => a.order - b.order)
+      .map((row) => row.other);
+    for (const keeper of keepers) {
+      if (Math.abs(left) <= HEADS_EPSILON) break;
+      const heads = countedJobHeads(core, keeper);
+      const take = left > 0 ? left : -Math.min(-left, heads);
+      store.setJobHeads(keeper, heads + take);
+      left -= take;
+    }
+    if (left > HEADS_EPSILON) {
+      const holder = jobHolderNear(core, rt, h);
+      const id = `${job.id}:kept:${h.id}`;
+      if (
+        holder &&
+        addCountedJob(core, { ...job, id, personId: holder }, job.id)
+      )
+        store.setJobHeads({ id, personId: holder }, left);
+    } else if (left < -HEADS_EPSILON)
+      // A record standing for less than one job at an employer with no
+      // other counted job becomes one full job.
+      stopgap("SG-WORLD-fill-in-fractional-sole-job");
+  }
+}
+
+/** An adult of the record's group (else its place) with no counted job of their own: the one who keeps its employer's jobs. */
+function jobHolderNear(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): PersonId | undefined {
+  const store = rt.store;
+  const working = new Set<string>();
+  for (const job of rt.jobs.values())
+    if (job.endsAt === undefined) working.add(job.personId);
+  const pick = (pool: Iterable<CountedHousehold>) => {
+    let fallback: PersonId | undefined;
+    for (const other of pool) {
+      if (other === h || other.gone) continue;
+      for (const m of store.countedMembers(other)) {
+        if (ageOn(store.born[m]!, core.date) < 18) continue;
+        const id = store.ids[m]!;
+        if (!working.has(id)) return id;
+        fallback ??= id;
+      }
+    }
+    return fallback;
+  };
+  const group = h.group >= 0 ? store.groups[h.group] : undefined;
+  return (
+    pick([...(group?.households ?? [])].map((i) => store.households[i]!)) ??
+    pick(
+      [...store.liveHouseholds()].filter(
+        (other) => other.placeId === h.placeId,
+      ),
+    )
+  );
 }
 
 /** The place's pay level against the opening (latest finance condition's wage factor). */
@@ -2497,11 +2633,7 @@ export function countedHouseholdJobChanged(
   if (job.endsAt === undefined) store.jobId[m] = job.id;
   else if (store.jobId[m] === job.id)
     store.jobId[m] = h.jobs.find((row) => row.personId === job.personId)?.id;
-  h.wagesMinorYear = Math.round(
-    h.jobs
-      .filter((row) => row.endsAt === undefined)
-      .reduce((n, row) => n + row.wageDailyMinor * DAYS_PER_YEAR, 0),
-  );
+  h.wagesMinorYear = store.wagesOf(h);
   store.version++;
   store.touch(h);
 }
@@ -2515,6 +2647,8 @@ export function countedHouseholdJobChanged(
 export function removeCountedPerson(
   core: CoreState,
   personId: PersonId,
+  /** The record of the death (the month's counts), which a home it sells names. */
+  deathRecordId = `counted-death:${personId}`,
 ): readonly { readonly heirId: PersonId; readonly amountMinor: number }[] {
   const rt = runtimes.get(core);
   const m = rt?.store.countedMember(personId);
@@ -2553,9 +2687,7 @@ export function removeCountedPerson(
   h.incomeContracts = h.incomeContracts.filter(
     (row) => row.recipientIncome?.personId !== personId,
   );
-  h.wagesMinorYear = h.jobs
-    .filter((job) => job.endsAt === undefined)
-    .reduce((n, job) => n + job.wageDailyMinor * DAYS_PER_YEAR, 0);
+  h.wagesMinorYear = store.wagesOf(h);
   h.retirementMinorYear = h.incomeContracts.reduce(
     (n, row) => n + (row.amountMinor * 12) / Math.max(1, row.periodMonths),
     0,
@@ -2578,6 +2710,9 @@ export function removeCountedPerson(
     regroupHousehold(rt, h, core.date);
     return paid.filter((row) => row.amountMinor > 0);
   }
+  // The last of them: the home they owned is sold, as a full household's is
+  // when its last owner's estate closes, times the households it stands for.
+  sellCountedHome(rt, h, personId, deathRecordId);
   endHouseholdFlows(rt, h, core.date);
   rt.openingCashByPlace.set(
     h.placeId,
@@ -2585,6 +2720,47 @@ export function removeCountedPerson(
   );
   store.retire(h, MemberState.Dead);
   return [];
+}
+
+/**
+ * A counted household whose last member died sells the home it owned: the
+ * outside market pays its value times the households the record stands for,
+ * the lender is paid first, and the surplus goes to the counted residents of
+ * its group, as the counted dead's cash does. The sale names the estate and
+ * whom it paid.
+ */
+function sellCountedHome(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  decedentId: PersonId,
+  deathRecordId: string,
+): void {
+  const api = rt.api;
+  if (!api || !rt.funded || h.group < 0) return;
+  const fund = fundOf(api, rt, h.group);
+  const sale = sellHome(
+    api,
+    h.id,
+    "estate.counted-last-owner",
+    { decedentId, deathEventId: deathRecordId },
+    {
+      placeId: h.placeId,
+      weight: rt.store.weightOf(h),
+      surplus: (amountMinor, id, buyerId) =>
+        api.accounts().transfer({
+          id,
+          from: api.accounts().main(buyerId),
+          to: fund,
+          amountMinor,
+          reasonKey: "residents.counted-estate.home-surplus",
+          source: rt.input.source,
+        }).paidMinor,
+    },
+  );
+  if (sale)
+    recordEstatePaid(api, sale, deathRecordId, [
+      { toId: fund, amountMinor: sale.surplusMinor },
+    ]);
 }
 
 /** A household leaving the counts: its purchases, mortgage, rent and awards stop here. */
