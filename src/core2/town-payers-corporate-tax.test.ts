@@ -20,6 +20,7 @@ import { profitTaxesOf } from "./modules/employer-taxes";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "town-payers-corporate-tax");
 const LINE = "corporateIncomeTax";
+const FEDERAL = "US";
 
 it(`corporate profit tax paid in town comes off the outside installment in ${place.name} (${place.key}), seed ${seed}`, () => {
   const where = `${place.name} (${place.key}), seed ${seed}`;
@@ -37,7 +38,17 @@ it(`corporate profit tax paid in town comes off the outside installment in ${pla
       p.installmentMinor,
     );
   }
-  const paidByTown = profitTaxesOf(api).reduce((s, r) => s + r.paidMinor, 0);
+  // The line is the federal one: a profit tax also paid to the state's
+  // treasury (the posting `:in:<government>` of each record) is not on it.
+  const federalPosting = new RegExp(`:in:${FEDERAL}(:|$)`);
+  const paidByTown = profitTaxesOf(api).reduce(
+    (s, r) =>
+      s +
+      r.postings
+        .filter((p) => federalPosting.test(p.id))
+        .reduce((n, p) => n + p.deltaMinor, 0),
+    0,
+  );
   const creditedOnLine = installments.reduce(
     (s, p) => s + (p.townPaidMinor ?? 0),
     0,
