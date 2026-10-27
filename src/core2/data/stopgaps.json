@@ -7012,5 +7012,17 @@
     "addedAt": "2026-10-27",
     "replacement": "Correct the counted renters' income to the place's sourced ratio (world-counted-renter-income-puerto-rico-third), then remove the pin so the case meets the HUD bound.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-figure-color-masks-from-picture",
+    "kind": "faked-mechanic",
+    "file": "src/bench/figure-colors.ts",
+    "line": 61,
+    "whatItFakes": "A figure's skin and clothing regions are guessed from pixel colors (warm saturated pixels are skin, unsaturated mid-gray pixels are clothing) instead of read from a painted mask, so the gray shoes follow the clothes color and a very dark skin tone loses some facial shading.",
+    "why": "The v2 figures are flat pictures in one skin tone and gray clothes with no mask layers; play-stop-34 needed color choice in the creator and rooms inside its time box without repainting 389 figures.",
+    "addedBy": "claude/play-stop-34",
+    "addedAt": "2026-10-27",
+    "replacement": "A painted skin mask and clothing mask for each figure (asset-scene-admission), read by recolorFigure in place of the color test.",
+    "status": "open"
   }
 ]
