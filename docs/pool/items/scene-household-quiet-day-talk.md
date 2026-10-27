@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/director-household-quiet-day
 pr: #6312
 blocked-on:
