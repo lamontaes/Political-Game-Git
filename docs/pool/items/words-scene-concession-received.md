@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/helper-b-concession-call-received
-pr:
+pr: #6260
 blocked-on:
 source: "owner, Oct 27: a victory speech needs a concession speech, and a contentious call with the other candidate can be a branch; episode packet docs/design/scenes/from-life/concession-call-received.md"
 lead: words
