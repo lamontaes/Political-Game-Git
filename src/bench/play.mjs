@@ -675,6 +675,12 @@ const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
   controls = value;
+  // A dimmed title entry's reason is a control name from data, never typed here.
+  for (const el of document.querySelectorAll("[data-label]"))
+    el.textContent =
+      el.dataset.label
+        .split(".")
+        .reduce((node, key) => node?.[key], controls) ?? "";
   $("week").textContent = controls.time?.week ?? "";
   return value;
 });
@@ -4901,12 +4907,8 @@ api("/api/title").then((title) => {
 });
 // The build version, bottom right of the title (#4014).
 void displayVersion().then((v) => ($("title-version").textContent = v));
-// Not yet routes on the new core: said on the control itself.
-for (const [id, key] of [
-  ["front-saves", "saves"],
-  ["front-patch-notes", "patchNotes"],
-])
-  $(id).title = controls.titleUnavailable?.[key] ?? "";
+// Not yet routes on the new core: each dimmed entry says why, in a line under it
+// (its .reason, filled from the controls data above).
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
   if (!life) return;
