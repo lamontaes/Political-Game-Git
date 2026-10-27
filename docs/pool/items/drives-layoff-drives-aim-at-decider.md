@@ -22,3 +22,4 @@ claimed-at:
 **Files.** src/core2/modules/drives.ts, src/bench/m1-11-check.ts
 
 **Notes.** Found Oct 26 by the fixer on PR 6044 (m0-m2 lead helper); counts measured with the unchanged check on clean main and on the PR.
+Sent back 2026-10-27 from PR #6212 (branch claude/m1-11-layoff-decider): typecheck error TS2345 at src/bench/m1-11-check.ts:155; finish on that branch, merge main into it first.
