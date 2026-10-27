@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/no-last-talked
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T21:45:25.657Z
 ---
 
 **What.** The owner ruled at 5 PM on Oct 27 that 'Last talked' is never shown. The person card still carried a Last talked row with the date of the tie's last contact. The row is removed from the card, with its label.
