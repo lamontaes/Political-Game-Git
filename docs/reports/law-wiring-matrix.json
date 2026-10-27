@@ -20,6 +20,12 @@
       "state": "US-DC"
     },
     {
+      "seed": "d0ec2f3346657cf398cbb220bdf2ef63b6458767417f4cbb1aa3684f22416ca2",
+      "key": "5051325",
+      "name": "North Pownal, Vermont",
+      "state": "US-VT"
+    },
+    {
       "seed": "ce4e067963f4acb2a47d38f5467589c83cb81f3ea8ee0542b00f2d22cf6cc697",
       "key": "1863432",
       "name": "Reddington, Indiana",
@@ -76,9 +82,9 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 63,
-    "partly": 13,
-    "stopgapped": 13,
+    "wired": 65,
+    "partly": 10,
+    "stopgapped": 14,
     "byLink": {
       "exists": {
         "wired": 89,
@@ -95,51 +101,51 @@
         "n/a": 0
       },
       "reach": {
-        "wired": 79,
+        "wired": 84,
         "partial": 3,
         "missing": 0,
-        "stopgap": 5,
+        "stopgap": 0,
         "n/a": 2
       },
       "systems": {
-        "wired": 87,
+        "wired": 89,
         "partial": 0,
         "missing": 0,
-        "stopgap": 2,
+        "stopgap": 0,
         "n/a": 0
       },
       "money": {
-        "wired": 74,
-        "partial": 4,
+        "wired": 76,
+        "partial": 5,
         "missing": 0,
-        "stopgap": 4,
+        "stopgap": 1,
         "n/a": 7
       },
       "web": {
-        "wired": 53,
+        "wired": 56,
         "partial": 2,
         "missing": 0,
-        "stopgap": 18,
+        "stopgap": 15,
         "n/a": 16
       },
       "knowing": {
-        "wired": 88,
+        "wired": 89,
         "partial": 0,
-        "missing": 1,
+        "missing": 0,
         "stopgap": 0,
         "n/a": 0
       },
       "repeal": {
-        "wired": 83,
+        "wired": 88,
         "partial": 0,
-        "missing": 5,
+        "missing": 0,
         "stopgap": 0,
         "n/a": 1
       },
       "allPlaces": {
-        "wired": 82,
-        "partial": 2,
-        "missing": 5,
+        "wired": 86,
+        "partial": 3,
+        "missing": 0,
         "stopgap": 0,
         "n/a": 0
       }
@@ -2604,7 +2610,7 @@
       "family": "housing",
       "reachGroup": "A",
       "mechanic": "housing-construction",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -2617,51 +2623,56 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce) effective 2025-01-21; then repealed at city effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce) effective 2025-01-21; then repealed at city effective 2025-02-26",
-          "why": "law-reach row (group A, mechanic housing-construction) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-housing-supply)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones|organization:landlord:jurisdiction_971998ff58477430; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones|organization:landlord:jurisdiction_45a3b3ebe97fe71d; North Pownal, Vermont, US-VT (seed f72df05648f09350): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones|organization:landlord:jurisdiction_ad8bfc17f930c028",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/housing.ts:1492",
+          "evidence": "src/core2/modules/housing.ts:1646, src/core2/modules/housing.ts:1639",
           "why": ""
         },
         "money": {
-          "status": "stopgap",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-housing-supply)"
+          "status": "wired",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/modules/housing.ts:1122 1109916 -> 1109923 (journal:2026-01-06:99123)",
+          "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "housing-by-right-to-new-buildings",
-          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-housing-supply)"
+          "status": "wired",
+          "evidence": "North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-01 housing-by-right-to-new-buildings -1.0000; North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-02 housing-by-right-to-new-buildings -1.0000; North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-03 housing-by-right-to-new-buildings -1.0000",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 116 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 85 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce); North Pownal, Vermont, US-VT (seed f72df05648f09350): 74 people heard (person_5e19b62599c71fbc:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:law-took-effect:law:US-VT:state:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open -> after repeal 0 open, 0 ended; North Pownal, Vermont, US-VT (seed f72df05648f09350): opening 1 -> after repeal 0 -> re-enacted 1",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "why": ""
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce) effective 2025-01-21; then repealed at no level effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
+        },
+        {
+          "place": "North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+          "inForceAtOpening": true
         }
       ],
       "errors": []
@@ -2686,39 +2697,39 @@
           "why": ""
         },
         "reach": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 17 open (full 17, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law-wiring-63831aa3:assisted:person_7b570565dc6dd202:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 13 open (full 13, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law-wiring-63831aa3:assisted:person_5151e25ede5bf89f:2025-01-20",
-          "why": "full people only: no counted group is reached (one model, two tiers)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open (full 0, counted groups 7/7 people, households 1, orgs 0, govts 0) e.g. applied|budget-line:housing|household_10931c8c88d368c5; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 8 open (full 0, counted groups 6/6 people, households 2, orgs 0, govts 0) e.g. applied|budget-line:housing|household_018e4ce91545651b; North Pownal, Vermont, US-VT (seed f72df05648f09350): 8 open (full 0, counted groups 6/6 people, households 2, orgs 0, govts 0) e.g. applied|budget-line:housing|household_a4b7a810f4d3def2",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/counted-money.ts, src/core2/budgets-treasury.ts",
+          "evidence": "src/core2/counted-money.ts, src/core2/budgets-treasury.ts, src/core2/work-payroll-cash.ts, src/core2/cost-of-living.ts, src/core2/finance-cash.ts",
           "why": ""
         },
         "money": {
           "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 34674391 -> 34690516 (journal:2025-01-24:1626); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:829 59223958076371 -> 59223958076369 (journal:2025-02-01:1724); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/budgets-treasury.ts:579 37178541537624 -> 37178541521432 (journal:2025-02-01:1618)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 351441698 -> 355226667 (journal:2025-01-23:1639); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:908 710208788552590 -> 710208785253190 (journal:2025-02-01:1741); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 372375957 -> 369153331 (journal:2025-01-27:1666)",
           "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
           "untraced": true
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure homelessness and rent burden (SG-LAW-outcome-link-unresearched)"
+          "status": "wired",
+          "evidence": "housing-line-to-evictions: carried by src/core2/housing-assistance.ts pays the line's rent assistance into the helped household's cash; src/core2/modules/housing.ts files an eviction case only for rent owed (Martin 2022, Federal Reserve Bank of Cleveland, Economic Commentary 2022-12, Making Sense of Eviction Trends during the Pandemic (https://www.clevelandfed.org/en/newsroom-and-events/publications/economic-commentary/2022-economic-commentaries/ec-202212-making-sense-of-eviction-trends-during-the-pandemic.aspx), read October 24, 2026; Gubits, Shinn, Wood, Brown, Dastrup and Bell 2018, Journal of Policy Analysis and Management 37(4), Family Options Study (https://pmc.ncbi.nlm.nih.gov/articles/PMC6168747), read October 24, 2026)",
+          "why": ""
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "news heard table",
-          "why": "nobody heard of it: the change is not a news story anyone receives"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 49 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:housing:law-wiring-63831aa3); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:housing:law-wiring-63831aa3); North Pownal, Vermont, US-VT (seed f72df05648f09350): 82 people heard (person_5e19b62599c71fbc:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:budget-line-changed:budget:place:5051325:2024:housing:law-wiring-63831aa3)",
+          "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 17 open -> after repeal 0 open, 17 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 13 open -> after repeal 0 open, 13 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 8 open under the changed row -> after the old amount is put back 0 still cite it; North Pownal, Vermont, US-VT (seed f72df05648f09350): 8 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); North Pownal, Vermont, US-VT (seed f72df05648f09350)",
           "why": ""
         }
       },
@@ -2732,6 +2743,11 @@
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "change": "place:3149425 housing 3122871 -> 13122871 by law-wiring-63831aa3",
           "inForceAtOpening": false
+        },
+        {
+          "place": "North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "change": "place:5051325 housing 4037152 -> 14037152 by law-wiring-63831aa3",
+          "inForceAtOpening": false
         }
       ],
       "errors": []
@@ -2743,7 +2759,7 @@
       "family": "housing",
       "reachGroup": "A",
       "mechanic": "housing-construction",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -2756,20 +2772,19 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd) effective 2025-01-21; then repealed at city effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd) effective 2025-01-21; then repealed at city effective 2025-02-26",
-          "why": "law-reach row (group A, mechanic housing-construction) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-affordable-units)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:housing-land-use.inclusionary-requirement|organization:landlord:jurisdiction_971998ff58477430; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:housing-land-use.inclusionary-requirement|organization:landlord:jurisdiction_45a3b3ebe97fe71d; North Pownal, Vermont, US-VT (seed f72df05648f09350): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:housing-land-use.inclusionary-requirement|organization:landlord:jurisdiction_ad8bfc17f930c028",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/housing.ts:1496",
+          "evidence": "src/core2/modules/housing.ts:1650, src/core2/modules/housing.ts:1643",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 8816595 -> 9144631 (journal:2025-01-26:1639); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1349 112868966 -> 112929113 (journal:2025-01-26:1640); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:616 2278657 -> 2301805 (journal:2025-01-25:1628)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/modules/housing.ts:1122 1109916 -> 0 (journal:2026-01-06:99294)",
+          "why": ""
         },
         "web": {
           "status": "n/a",
@@ -2778,29 +2793,34 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 86 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 74 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 102 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 105 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd); North Pownal, Vermont, US-VT (seed f72df05648f09350): 69 people heard (person_5e19b62599c71fbc:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:law-took-effect:law:place:5051325:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open -> after repeal 0 open, 0 ended; North Pownal, Vermont, US-VT (seed f72df05648f09350): 1 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "why": ""
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd) effective 2025-01-21; then repealed at county effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd) effective 2025-01-21; then repealed at no level effective 2026-01-22",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "change": "enacted at city (law:place:5051325:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],
@@ -2826,50 +2846,56 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2025-02-26",
-          "why": "law-reach row (group A, mechanic rent-renewal) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-rent-contracts)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 9 open (full 0, counted groups 4/4 people, households 5, orgs 0, govts 0) e.g. applied|us-policy-positions:housing-land-use.rent-stabilization|household_1093178c88d36046; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 19 open (full 0, counted groups 7/7 people, households 12, orgs 0, govts 0) e.g. applied|us-policy-positions:housing-land-use.rent-stabilization|household_018749e9153f4154; North Pownal, Vermont, US-VT (seed f72df05648f09350): 15 open (full 0, counted groups 10/10 people, households 5, orgs 0, govts 0) e.g. applied|us-policy-positions:housing-land-use.rent-stabilization|household_a4bb1c10f4d6d9e5",
+          "why": ""
         },
         "systems": {
-          "status": "stopgap",
-          "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-rent-contracts)"
+          "status": "wired",
+          "evidence": "src/core2/housing-occupancy.ts:503",
+          "why": ""
         },
         "money": {
-          "status": "stopgap",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-rent-contracts)"
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:908 710208788574871 -> 710250195685534 (journal:2025-02-01:1741); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 373772388 -> 372293182 (journal:2025-01-27:1666); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/counted-demotion.ts:285 4341946 -> 5098658 (journal:2025-09-01:55207)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 rent-control-to-tenant-stays -0.2000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 rent-control-to-tenant-stays -0.2000; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 rent-control-to-tenant-stays -0.2000",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 rent-control-to-tenant-stays -0.2000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 rent-control-to-tenant-stays -0.2000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 rent-control-to-tenant-stays -0.2000",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 120 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96); North Pownal, Vermont, US-VT (seed f72df05648f09350): 108 people heard (person_5e19b62599c71fbc:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:law-took-effect:law:place:5051325:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 9 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 19 open -> after repeal 0 open, 0 ended; North Pownal, Vermont, US-VT (seed f72df05648f09350): 15 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "why": ""
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "change": "enacted at city (law:place:5051325:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],
@@ -2895,51 +2921,57 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc) effective 2025-01-21; then repealed at city effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-02-26:law-wiring-51e102dc-b) effective 2025-02-26",
-          "why": "law-reach row (group A, mechanic eviction-counsel) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-eviction-cases)"
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open (full 0, counted groups 2/2 people, households 0, orgs 0, govts 1) e.g. applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_1093178c88d36046; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; North Pownal, Vermont, US-VT (seed f72df05648f09350): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -",
+          "why": "reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8), North Pownal, Vermont, US-VT (seed f72df05648f09350)"
         },
         "systems": {
-          "status": "stopgap",
-          "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-eviction-cases)"
+          "status": "wired",
+          "evidence": "src/core2/modules/housing.ts:1778",
+          "why": ""
         },
         "money": {
-          "status": "stopgap",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-eviction-cases)"
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 373772388 -> 361225157 (journal:2025-01-27:1666); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:908 710208788574871 -> 710208791024479 (journal:2025-02-01:1741); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 348947007 -> 351264531 (journal:2025-01-23:1639)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "right-to-counsel-to-evictions",
-          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-eviction-cases)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 right-to-counsel-to-evictions -0.6200; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 right-to-counsel-to-evictions -0.6200; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 right-to-counsel-to-evictions -0.6200",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 110 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 114 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc); North Pownal, Vermont, US-VT (seed f72df05648f09350): 69 people heard (person_5e19b62599c71fbc:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:law-took-effect:law:place:5051325:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reaches nobody anywhere"
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "why": "reached people in one drawn place and not the other"
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-02-26:law-wiring-51e102dc-b) effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
+        },
+        {
+          "place": "North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "change": "enacted at city (law:place:5051325:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "inForceAtOpening": false
         }
       ],
       "errors": []
@@ -3514,7 +3546,7 @@
       "family": "business",
       "reachGroup": "A",
       "mechanic": "consumer-loan-quote",
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -3527,50 +3559,56 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): enacted at city (law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2) effective 2025-01-21; then repealed at city effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-02-26:law-wiring-60189aa2-b) effective 2025-02-26",
-          "why": "law-reach row (group A, mechanic consumer-loan-quote) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-consumer-credit)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 107 open (full 0, counted groups 0/0 people, households 107, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_10931b8c88d36712; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 101 open (full 0, counted groups 0/0 people, households 101, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_0180b7e91539dd90; North Pownal, Vermont, US-VT (seed f72df05648f09350): 143 open (full 0, counted groups 0/0 people, households 143, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_a79694cffb067ffb",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/credit.ts:1079",
+          "evidence": "src/core2/modules/credit.ts:1044, src/core2/modules/credit.ts:1128",
           "why": ""
         },
         "money": {
           "status": "stopgap",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-consumer-credit)"
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): campaigns:donation @ src/core2/modules/campaigns.ts:1491 550500 -> 550600 (journal:2026-01-09:99424)",
+          "why": "The cap applies only to the bank's consumer loan (about 13 percent against a 36 percent ceiling), so no borrower's rate changes and the law moves no dollar; the game has no small-dollar lender for it to bind (SG-WORLD-credit-rate-cap-no-small-lender)",
+          "untraced": true
         },
         "web": {
           "status": "stopgap",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only)",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only)",
           "why": "no production reader: loan-rate-cap-to-high-cost-borrowing (SG-WEB-unread-finance-high-cost-loans) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 49 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 69 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2); North Pownal, Vermont, US-VT (seed f72df05648f09350): 70 people heard (person_5e19b62599c71fbc:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:law-took-effect:law:US-VT:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 107 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 101 -> after repeal 0 -> re-enacted 101; North Pownal, Vermont, US-VT (seed f72df05648f09350): opening 143 -> after repeal 0 -> re-enacted 127",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "why": ""
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-02-26:law-wiring-60189aa2-b) effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "North Pownal, Vermont, US-VT (seed f72df05648f09350)",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
         }
       ],
@@ -5350,7 +5388,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "public-jobs-to-private-employment: carried by src/core2/modules/jobs.ts fills the openings the line funds (postFundedOpenings, posted by src/core2/law-reach/group-a-staffing.ts) from named and counted seekers, and the unemployment measure counts each hire (Faggio and Overman 2014, The effect of public sector employment on local labour markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/)",
+          "evidence": "public-jobs-to-private-employment: carried by src/core2/modules/jobs.ts fills the openings the line funds (postFundedOpenings, posted by src/core2/law-reach/group-a-staffing.ts) from named and counted seekers, and the unemployment measure counts each hire (Faggio and Overman 2014, The effect of public sector employment on local labor markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/)",
           "why": ""
         },
         "knowing": {
