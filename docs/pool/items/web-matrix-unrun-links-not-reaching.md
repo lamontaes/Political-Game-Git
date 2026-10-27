@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/web-matrix-unrun-links
 pr: #6008
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-26T18:54:56.096Z
 ---
 
 **What.** scripts/outcome-web/effect-matrix.ts grades a link's reach point as pass when an engine reads its outcome, even when the web does not run the link and nothing carries it (coverage.json lists it under waiting). About a dozen links grade as reaching this way, for example coverage-to-mortality-55-64 (its cause is each person's own coverage), marriage-equality-to-coverage (no engine records its cause), disaster-to-out-migration, rent-burden-to-homelessness and defense-contracts-to-earnings. None can move a record, so they inflate the count of links that reach people and are missing from the unwired list. Grade a waiting, uncarried link as not reaching, give it its specific reason and stopgap, and regenerate the unwired list.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** scripts/outcome-web/effect-matrix.ts, scripts/outcome-web/write-unwired.ts, src/core2/outcome-web-unwired.test.ts
 
 **Notes.** Filed Oct 25 by the effects lead while writing the health family's played proof: 29 links are waiting in coverage.json and pass the reach point, of which about a dozen are not carried.
+
+Sent back 2026-10-25 from PR #6008 (branch claude/web-matrix-unrun-links): the eight new generated stopgap rows claim ledger movement for waiting links the web never runs; make write-unwired.ts generate the actual missing cause or size for those rows, preserving the truthful ledger-only description for links that do run; finish on that branch, merge main into it first. The regenerated 118 reaching and 108 unwired counts are correct, and all writers finish with the carried load-cycle fix.

@@ -15,7 +15,11 @@ import { advanceCore } from "./life";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
-import { setTraitProbe, type FormulaProbeRow } from "./trait-probe";
+import {
+  setTraitProbe,
+  type FormulaProbeRow,
+  type OutcomeProbeRow,
+} from "./trait-probe";
 import type { CoreAPI, CoreState, PersonState } from "./types";
 
 /** The top and bottom thirds of a normal trait sit about 2.18 standard deviations apart. */
@@ -136,12 +140,21 @@ export function drawnWorld(
   onFormula?: (row: FormulaProbeRow) => void,
   /** The first day of play (the game's start unless a race window moves it). */
   start = gameStartDate(),
+  /** Sees every decision reported as an outcome with and without the trait term. */
+  onOutcome?: (row: OutcomeProbeRow) => void,
 ): { core: CoreState; api: CoreAPI; placeName: string; placeKey: string } {
   const world = buildBenchWorld(seed, start, {
     twoLevel: false,
     placeKey: place.key,
   });
-  setTraitProbe(onFormula ? { formula: onFormula } : undefined);
+  setTraitProbe(
+    onFormula || onOutcome
+      ? {
+          ...(onFormula ? { formula: onFormula } : {}),
+          ...(onOutcome ? { outcome: onOutcome } : {}),
+        }
+      : undefined,
+  );
   try {
     advanceCore(world.core, until);
   } finally {
@@ -166,8 +179,16 @@ export const RUN_SEED =
 const MAX_RESIDENTS = 4000;
 /** Residents a test town needs, so a town hall or an outlet does not hold everyone. */
 const MIN_RESIDENTS = 300;
-/** Places drawn before the test fails. */
-const MAX_DRAWS = 12;
+/**
+ * Places drawn before the test fails. About half the places drawn fit the
+ * size band (11 of 24 on seed 7122ba32bc9493b3, Oct 26), and a test may pass
+ * over one that fits, as the meetings test does for a town whose officials
+ * weighed too few town halls. Twelve ran out on seed
+ * 5aa198a5a6638d8eb6ea41ca46ed21da4e193dcb: ten were too big, and Cutter,
+ * Arizona weighed 6 town halls. A place refused for its size costs only its
+ * opening build.
+ */
+const MAX_DRAWS = 24;
 
 /**
  * A place drawn from all 56 for one test file, played over the `days` that
@@ -188,6 +209,8 @@ export function drawnRaceWorld(
   after = 2,
   /** Whether the played window gave the test something to weigh; the draw moves on when it says why not. */
   accept?: (world: { core: CoreState; api: CoreAPI }) => string | null,
+  /** Sees every decision reported as an outcome with and without the trait term. */
+  onOutcome?: (row: OutcomeProbeRow) => void,
 ): { core: CoreState; api: CoreAPI; placeName: string; placeKey: string } {
   const opening = gameStartDate();
   const shift = (date: string, by: number) => {
@@ -227,6 +250,7 @@ export function drawnRaceWorld(
       shift(start, days),
       onFormula,
       makeIsoDate(start),
+      onOutcome,
     );
     const refused = accept?.(world) ?? null;
     if (refused === null) return world;

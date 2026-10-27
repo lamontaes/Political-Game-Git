@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-24-every-statewide-race-unopposed
 pr: #6118
 blocked-on:

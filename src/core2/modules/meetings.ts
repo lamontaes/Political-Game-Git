@@ -19,7 +19,7 @@
  *   (`answerDebate`).
  */
 import rows from "../data/meetings/parameters.json" with { type: "json" };
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   decisionLean,
@@ -33,6 +33,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
 import { residentsRuntime } from "./residents";
 import { isDemoted } from "../counted-groups";
+import { countedResidents } from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -145,14 +146,13 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
  * What a resident's feeling (`base`) comes to as a drive to stand up: the
  * feeling times one plus every trait's lean toward taking part in a public
  * meeting over staying away, at the decision's weight (extraversion and
- * attending meetings, Mondak et al. 2010). The audit's probe (off in play)
- * sees the drive with and without that temperament.
+ * attending meetings, Mondak et al. 2010).
  */
 function driveOf(
   base: number,
-  p: Readonly<PersonState>,
+  p: Readonly<Pick<PersonState, "id" | "traits">>,
   core: Pick<CoreState, "data">,
-): number {
+): { drive: number; lean: number } {
   const lean = decisionLean(
     core,
     p,
@@ -160,15 +160,48 @@ function driveOf(
     "take-part",
     "stay-away",
   );
-  const term = decisionTraitWeight(core, "meetings.take-part") * lean;
-  reportOutcome(
-    "meetings.take-part",
-    p.id,
+  return {
+    drive: base * (1 + decisionTraitWeight(core, "meetings.take-part") * lean),
     lean,
-    "size",
-    (withTerm) => base * (1 + (withTerm ? term : 0)),
-  );
-  return base * (1 + term);
+  };
+}
+
+/**
+ * The meeting's time takes the `room` most driven of `rows`. The audit's
+ * probe (off in play) sees, for each of them, whether they took part, and
+ * whether they would have with temperament left out (the room filled by
+ * feeling alone), so the matrix shows who took part by thirds of lean. A room
+ * that holds everyone driven turns no one away, so temperament decides
+ * nothing there and the probe sees none of it.
+ */
+function takePart<
+  T extends {
+    p: Readonly<Pick<PersonState, "id" | "traits">>;
+    base: number;
+    drive: number;
+    lean: number;
+  },
+>(rows: readonly T[], room: number): readonly T[] {
+  const chosen = rows.slice(0, room);
+  const taken = new Set(chosen.map((row) => row.p.id));
+  let flat: Set<string> | undefined;
+  const takenFlat = () =>
+    (flat ??= new Set(
+      [...rows]
+        .sort((a, b) => b.base - a.base || a.p.id.localeCompare(b.p.id))
+        .slice(0, room)
+        .map((row) => row.p.id),
+    ));
+  if (rows.length > room)
+    for (const row of rows)
+      reportOutcome(
+        "meetings.take-part",
+        row.p.id,
+        row.lean,
+        "probability",
+        (withTerm) => ((withTerm ? taken : takenFlat()).has(row.p.id) ? 1 : 0),
+      );
+  return chosen;
 }
 
 export function openMeetings(core: CoreState): void {
@@ -275,18 +308,30 @@ export function remarksOn(api: CoreAPI, billId: string): readonly RemarkRow[] {
 }
 
 /**
+ * Whether a resident is only a counted record: never filled in, or filled in
+ * once and returned to the counts, which keeps a retained full record on the
+ * counted tier (`isDemoted`). Such a resident stands up at public comment by
+ * the same rule as a named one, and is filled in before speaking.
+ */
+export function countedRecordOnly(core: CoreState, personId: string): boolean {
+  const kept = core.people.get(personId);
+  return !kept || isDemoted(kept);
+}
+
+/**
  * How hard a bill's question drives a resident to stand up at its public
  * comment: how strongly they feel it times their civic temperament.
  */
 export function standUpDrive(
   api: CoreAPI,
-  p: PersonState,
+  p: Readonly<Pick<PersonState, "id" | "traits">>,
   stance: { readonly question: string; readonly position: number },
-): { view: number; drive: number } {
+): { view: number; base: number; drive: number; lean: number } {
   const view =
     viewOn(api, p.id, stance.question, personLean(api.state.people, p, 0)) *
     stance.position;
-  return { view, drive: driveOf(Math.abs(view), p, api.state) };
+  const base = Math.abs(view);
+  return { view, base, ...driveOf(base, p, api.state) };
 }
 
 /**
@@ -302,19 +347,32 @@ export function commentSpeakers(
   already: ReadonlySet<string> = new Set(
     remarksOn(api, bill.id).map((r) => r.personId),
   ),
-): readonly { p: PersonState; view: number; drive: number }[] {
+): readonly {
+  p: Readonly<Pick<PersonState, "id" | "traits">>;
+  view: number;
+  base: number;
+  drive: number;
+  lean: number;
+}[] {
   // The body's own members vote on the bill; public comment is the public's.
   const seated = new Set(
     members(api, bill.bodyOfficeId).flatMap((t) =>
       t.personId ? [t.personId] : [],
     ),
   );
-  return townAdults(api)
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  // The town's adults still in the wider population stand up by the same
+  // rule, read from their counted record (one model, two tiers).
+  const counted = countedResidents(core).filter(
+    (v) =>
+      v.placeId === town &&
+      countedRecordOnly(core, v.id) &&
+      ageOn(v, api.state.date) >= 18,
+  );
+  return [...townAdults(api), ...counted]
     .filter(
-      (p) =>
-        !already.has(p.id) &&
-        !seated.has(p.id) &&
-        p.id !== (api.state as CoreState).playerId,
+      (p) => !already.has(p.id) && !seated.has(p.id) && p.id !== core.playerId,
     )
     .map((p) => ({ p, ...standUpDrive(api, p, stance) }))
     .filter((s) => s.view !== 0)
@@ -331,11 +389,14 @@ function publicComment(api: CoreAPI, billId: string): void {
   const bill = billOf(api, billId);
   const stance = billQuestion(api, bill);
   if (!stance || !local(bill)) return;
-  const speakers = commentSpeakers(api, bill, stance).slice(
-    0,
+  const core = api.state as CoreState;
+  const speakers = takePart(
+    commentSpeakers(api, bill, stance),
     meetingParameter("publicCommentSpeakers"),
   );
-  for (const s of speakers)
+  for (const s of speakers) {
+    // A speaker on the public record is a named person.
+    if (countedRecordOnly(core, s.p.id)) fillInPerson(core, s.p.id);
     table(api, "remarks").put({
       id: `remark:${bill.id}:${s.p.id}`,
       billId: bill.id,
@@ -346,6 +407,7 @@ function publicComment(api: CoreAPI, billId: string): void {
       signedUp: false,
       date: api.state.date,
     } as unknown as ModuleRow);
+  }
   const said = remarksOn(api, billId);
   if (!said.length) return;
   // Each comment is a speech to the room: the members and the others who
@@ -541,7 +603,13 @@ function ownView(
 export function townHallDrives(
   api: CoreAPI,
   hostId: string,
-): readonly { p: PersonState; question: string | undefined; drive: number }[] {
+): readonly {
+  p: PersonState;
+  question: string | undefined;
+  base: number;
+  drive: number;
+  lean: number;
+}[] {
   const questions = Object.keys(POLICY_QUESTIONS).filter(
     (q) => questionAxis(q) !== 0,
   );
@@ -556,11 +624,8 @@ export function townHallDrives(
       const question = questions
         .slice()
         .sort((a, b) => salience(b) - salience(a) || a.localeCompare(b))[0];
-      return {
-        p,
-        question,
-        drive: question ? driveOf(salience(question), p, api.state) : 0,
-      };
+      const base = question ? salience(question) : 0;
+      return { p, question, base, ...driveOf(base, p, api.state) };
     })
     .filter((row) => row.drive > 0)
     .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id));
@@ -584,8 +649,8 @@ export function holdTownHall(
     readonly calledFor?: TownHallRow["calledFor"];
   },
 ): TownHallRow {
-  const drives = townHallDrives(api, input.hostId).slice(
-    0,
+  const drives = takePart(
+    townHallDrives(api, input.hostId),
     meetingParameter("townHallSize"),
   );
   const attendees = drives.map((row) => row.p);

@@ -1,0 +1,612 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "budget-line:police",
+      "kind": "budget-line",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "place:3149425 police 4776349 -> 14776349 by law-wiring-e6fd8b9f",
+      "lawIds": ["law-wiring-e6fd8b9f"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 2,
+        "countedGroups": 34,
+        "countedPeople": 145,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 39,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-e6fd8b9f:positions:organization_323a5cedbef21846:2025-01-20",
+          "applied|budget-line:police|organization_323a5cedbef21846",
+          "applied|budget-line:police|organization:treasury:place:3149425",
+          "applied|budget-line:police|person_5adf61e87a0a8e37"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 2,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:police|person_5adf61e87a0a8e37",
+          "applied|budget-line:police|person_03819202b5d285c1"
+        ]
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 491644096,
+            "control": 459701569,
+            "ids": [
+              "journal:2025-01-29:1636",
+              "journal:2025-01-30:1641",
+              "journal:2025-01-30:1644"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 702245869480167,
+            "control": 702245880307255,
+            "ids": [
+              "journal:2025-02-01:1692",
+              "journal:2025-02-01:1693",
+              "journal:2025-02-01:1694"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3007824654,
+            "control": 3004749429,
+            "ids": [
+              "journal:2025-01-21:1504",
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177218398977188,
+            "control": 177218401212045,
+            "ids": [
+              "journal:2025-02-01:1682",
+              "journal:2025-02-01:1683",
+              "journal:2025-02-01:1684"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1584",
+            "treatment": 3160156520,
+            "control": 3158355204,
+            "ids": [
+              "journal:2025-01-29:1637",
+              "journal:2025-01-30:1642",
+              "journal:2025-01-30:1645"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 206348264,
+            "control": 204918939,
+            "ids": [
+              "journal:2025-02-01:1915",
+              "journal:2025-02-01:1916",
+              "journal:2025-02-01:1917"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1295490924,
+            "control": 1296720244,
+            "ids": [
+              "journal:2025-02-01:3075",
+              "journal:2025-02-01:3076",
+              "journal:2025-02-01:3077"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:351",
+            "treatment": 1251234,
+            "control": 161171,
+            "ids": [
+              "journal:2025-05-01:24201",
+              "journal:2025-06-01:32142",
+              "journal:2025-06-01:32143"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 181396382,
+            "control": 180348105,
+            "ids": [
+              "journal:2025-02-01:3057",
+              "journal:2025-02-01:3058",
+              "journal:2025-02-01:3059"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 501885246,
+            "control": 502844077,
+            "ids": [
+              "journal:2025-01-24:1580",
+              "journal:2025-01-25:1581",
+              "journal:2025-01-25:1583"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 279253615,
+            "control": 280168269,
+            "ids": [
+              "journal:2025-02-01:1876",
+              "journal:2025-02-01:1877",
+              "journal:2025-02-01:1878"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 6141435,
+            "control": 6688388,
+            "ids": [
+              "journal:2025-09-01:56259",
+              "journal:2025-09-01:56260",
+              "journal:2025-09-01:56261"
+            ]
+          }
+        ],
+        "diffKinds": 37,
+        "cited": [
+          {
+            "token": "budget-line:police",
+            "gross": 36447968,
+            "ids": [
+              "journal:2025-02-13:7977",
+              "journal:2025-02-13:7978",
+              "journal:2025-02-27:8366"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 3,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 2,
+              "moved": 323250,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:police|person_5adf61e87a0a8e37",
+                  "date": "2025-02-13",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 132360,
+                  "control": 0,
+                  "journal": "journal:2025-02-13:7977"
+                },
+                {
+                  "target": "person_03819202b5d285c1",
+                  "row": "applied|budget-line:police|person_03819202b5d285c1",
+                  "date": "2025-02-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 190890,
+                  "control": 0,
+                  "journal": "journal:2025-02-27:8368"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 2,
+              "moved": 189854,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_03819202b5d285c1",
+                  "row": "applied|budget-line:police|person_03819202b5d285c1",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -116892,
+                  "control": 0,
+                  "journal": "journal:2025-03-01:8801"
+                },
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:police|person_5adf61e87a0a8e37",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -72962,
+                  "control": 0,
+                  "journal": "journal:2025-03-01:9829"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 2,
+              "moved": 72549,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_03819202b5d285c1",
+                  "row": "applied|budget-line:police|person_03819202b5d285c1",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -37929,
+                  "control": -7425,
+                  "journal": "journal:2025-03-01:10274"
+                },
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:police|person_5adf61e87a0a8e37",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -42045,
+                  "control": 0,
+                  "journal": "journal:2025-03-01:10302"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1584",
+              "way": "out",
+              "targets": 2,
+              "moved": 57687,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:police|person_5adf61e87a0a8e37",
+                  "date": "2025-02-13",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1584",
+                  "way": "out",
+                  "treatment": -21618,
+                  "control": 0,
+                  "journal": "journal:2025-02-13:7978"
+                },
+                {
+                  "target": "person_03819202b5d285c1",
+                  "row": "applied|budget-line:police|person_03819202b5d285c1",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1584",
+                  "way": "out",
+                  "treatment": -36069,
+                  "control": 0,
+                  "journal": "journal:2025-02-27:8369"
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "out",
+              "targets": 2,
+              "moved": 57338,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_03819202b5d285c1",
+                  "row": "applied|budget-line:police|person_03819202b5d285c1",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -2916,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:16410"
+                },
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:police|person_5adf61e87a0a8e37",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -54422,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:16421"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 1,
+              "moved": 150189,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:police|person_5adf61e87a0a8e37",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -150189,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:16302"
+                }
+              ]
+            },
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "out",
+              "targets": 1,
+              "moved": 81000,
+              "earliest": "2025-04-17",
+              "sample": [
+                {
+                  "target": "person_03819202b5d285c1",
+                  "row": "applied|budget-line:police|person_03819202b5d285c1",
+                  "date": "2025-04-17",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 81000,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1584",
+              "way": "in",
+              "targets": 1,
+              "moved": 14465,
+              "earliest": "2025-04-17",
+              "sample": [
+                {
+                  "target": "person_03819202b5d285c1",
+                  "row": "applied|budget-line:police|person_03819202b5d285c1",
+                  "date": "2025-04-17",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1584",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -14465,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:563",
+              "way": "out",
+              "targets": 1,
+              "moved": 7425,
+              "earliest": "2025-02-21",
+              "sample": [
+                {
+                  "target": "person_03819202b5d285c1",
+                  "row": "applied|budget-line:police|person_03819202b5d285c1",
+                  "date": "2025-02-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:563",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 7425,
+                  "journal": ""
+                }
+              ]
+            }
+          ],
+          "paid": 2,
+          "pick": "work-payroll @ src/core2/work-payroll-cash.ts:2386|in",
+          "sample": [
+            {
+              "target": "person_5adf61e87a0a8e37",
+              "row": "applied|budget-line:police|person_5adf61e87a0a8e37",
+              "date": "2025-02-13",
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "treatment": 132360,
+              "control": 0,
+              "journal": "journal:2025-02-13:7977"
+            },
+            {
+              "target": "person_03819202b5d285c1",
+              "row": "applied|budget-line:police|person_03819202b5d285c1",
+              "date": "2025-02-27",
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "treatment": 190890,
+              "control": 0,
+              "journal": "journal:2025-02-27:8368"
+            }
+          ],
+          "near": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 2,
+              "first": {
+                "target": "person_5adf61e87a0a8e37",
+                "row": "applied|budget-line:police|person_5adf61e87a0a8e37",
+                "date": "2025-02-13",
+                "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                "way": "in",
+                "treatment": 132360,
+                "control": 0,
+                "journal": "journal:2025-02-13:7977"
+              }
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1584",
+              "way": "out",
+              "targets": 2,
+              "first": {
+                "target": "person_5adf61e87a0a8e37",
+                "row": "applied|budget-line:police|person_5adf61e87a0a8e37",
+                "date": "2025-02-13",
+                "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1584",
+                "way": "out",
+                "treatment": -21618,
+                "control": 0,
+                "journal": "journal:2025-02-13:7978"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "police-to-violent-crime",
+            "status": "built",
+            "to": "crime.violent"
+          },
+          {
+            "key": "police-to-property-crime",
+            "status": "built",
+            "to": "crime.property"
+          },
+          {
+            "key": "police-to-low-level-arrests",
+            "status": "built",
+            "to": "justice.low-level-arrests"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "police-to-violent-crime",
+            "effect": -0.011979042073985952
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "police-to-property-crime",
+            "effect": -0.005989521036992976
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "police-to-low-level-arrests",
+            "effect": 0.025180651089052233
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "police-to-violent-crime",
+            "effect": -0.011979042073985952
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "police-to-property-crime",
+            "effect": -0.005989521036992976
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "police-to-low-level-arrests",
+            "effect": 0.025180651089052233
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "police-to-violent-crime",
+            "effect": -0.011979042073985952
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "police-to-property-crime",
+            "effect": -0.005989521036992976
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "police-to-low-level-arrests",
+            "effect": 0.025180651089052233
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "police-to-violent-crime",
+            "effect": -0.011979042073985952
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "police-to-property-crime",
+            "effect": -0.005989521036992976
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "police-to-low-level-arrests",
+            "effect": 0.025180651089052233
+          }
+        ],
+        "firedCount": 33,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 80,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:police:law-wiring-e6fd8b9f",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:police:law-wiring-e6fd8b9f",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:police:law-wiring-e6fd8b9f"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 2,
+        "countedGroups": 30,
+        "countedPeople": 115,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 35,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-e6fd8b9f:positions:organization_323a5cedbef21846:2025-01-20",
+          "applied|budget-line:police|organization_323a5cedbef21846",
+          "applied|budget-line:police|organization:treasury:place:3149425",
+          "applied|budget-line:police|person_03819202b5d285c1"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 58
+    }
+  ]
+}

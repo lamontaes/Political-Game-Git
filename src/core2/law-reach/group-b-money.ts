@@ -13,6 +13,7 @@ import {
   type AppliedTarget,
 } from "./applied";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { coreAPI } from "../state";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
   lineBeforeBill,
@@ -23,7 +24,12 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
-import { enactLaw, lawChain, lawInForce } from "../modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../modules/laws";
 import { countedJob, residentsRuntime } from "../modules/residents";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -35,7 +41,6 @@ import {
 } from "./group-b-people";
 import { flowWeights, fundOf } from "../counted-money";
 import { getRow, putRow, REACH_B_MODULE_ID, rowsOf } from "./group-b-store";
-import { payReach } from "./pay-reach";
 import { fundFederalStanding, registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
@@ -74,6 +79,24 @@ export function recordApplied(
     engine: APPLIED_ENGINE,
     amountMinor: paidToday ? 0 : (input.amountMinor ?? 0),
   });
+}
+
+/** The row that makes a policy question law for the town at some level (the latest row there says yes). */
+export function questionRow(
+  api: CoreAPI,
+  key: string,
+): LawRowInput | undefined {
+  const date = api.state.date;
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  for (const { jurisdiction } of lawChain(api).levels) {
+    const latest = (
+      laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
+    )
+      .filter((r) => r.effectiveDate <= date)
+      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+    if (latest?.value === 1) return latest;
+  }
+  return undefined;
 }
 
 /** The government at a law's or budget's level, if the town has one there. */
@@ -355,6 +378,13 @@ export function reconcileObligations(
     readonly line?: string;
     readonly reasonKey: string;
     readonly citation: string;
+    /**
+     * The laws a payment from this government carries the keys of in its id,
+     * so the journal entry of its money names them (the policy's key unless
+     * the payment is set by other laws too: the federal share of Medicaid is
+     * the match's, the SNAP benefit the maximum's).
+     */
+    readonly cites?: (governmentId: string) => readonly string[];
   },
 ): void {
   const accounts = api.accounts();
@@ -382,7 +412,8 @@ export function reconcileObligations(
     const [governmentId, recipientId] = pair.split("|") as [string, string];
     const gov = governments(api).find((g) => g.id === governmentId)!;
     // A second change the same day (two amendments) opens a new obligation beside the one it ended.
-    const today = `reach-b:${input.rowKind}:${pair}:${api.state.date}`;
+    const cited = (input.cites?.(governmentId) ?? [input.key]).join("+");
+    const today = `reach-b:${input.rowKind}:${cited}:${pair}:${api.state.date}`;
     let obligationId = today;
     for (let n = 2; accounts.obligation(obligationId); n += 1)
       obligationId = `${today}#${n}`;
@@ -586,6 +617,9 @@ export function payBenefits(
   const months = reachParameter("monthsPerYear");
   const want = new Map<string, number>();
   const out = new Map<string, Record<string, number>>();
+  // What each household that draws is owed a month, named or counted: the
+  // cash assistance the poverty measure counts as income.
+  const monthlyByHousehold: Record<string, number> = {};
   for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
     const gov = governments(api).find((g) => g.id === govId);
     if (!gov || delta <= 0 || !input.heads.length) continue;
@@ -607,6 +641,9 @@ export function payBenefits(
       (delta * input.modeledShare) / months / everyone,
     );
     if (perHousehold <= 0) continue;
+    for (const head of drawing)
+      monthlyByHousehold[head.householdId] =
+        (monthlyByHousehold[head.householdId] ?? 0) + perHousehold;
     for (const head of named) {
       want.set(`${govId}|${head.id}`, perHousehold);
       const terms = out.get(head.id) ?? { monthlyMinor: 0 };
@@ -633,6 +670,11 @@ export function payBenefits(
       }
     }
   }
+  putRow(api, "taken", {
+    id: `assist|${input.key}`,
+    key: "assist",
+    monthlyByHousehold,
+  });
   reconcileObligations(api, {
     rowKind: "benefit",
     key: input.key,
@@ -641,6 +683,27 @@ export function payBenefits(
     reasonKey: "law-reach:assistance-benefit",
     citation: `Budget line ${input.key} as amended`,
   });
+  return out;
+}
+
+/**
+ * The cash assistance each household draws from the welfare line, in minor
+ * units a year, by household (named households and counted records alike).
+ * The poverty measure reads it as income, as the Census counts public
+ * assistance in the income poverty status is computed from.
+ */
+export function assistanceIncomeByHousehold(
+  core: CoreState,
+): ReadonlyMap<string, number> {
+  const out = new Map<string, number>();
+  if (!core.modules.has(REACH_B_MODULE_ID)) return out;
+  const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
+    coreAPI(core),
+    "taken",
+    "assist|budget-line:welfareAndMedicaid",
+  );
+  for (const [id, monthly] of Object.entries(row?.monthlyByHousehold ?? {}))
+    out.set(id, monthly * reachParameter("monthsPerYear"));
   return out;
 }
 
@@ -746,6 +809,10 @@ export function payCoverage(
     key: input.key,
     want,
     line: "welfareAndMedicaid",
+    cites: (governmentId) =>
+      governmentId === federal?.id
+        ? [input.key, "medicaid-match"]
+        : [input.key],
     reasonKey: "law-reach:medicaid-coverage",
     citation: `Medicaid expansion (${input.key}): the state and, at the federal match, the federal government pay a covered adult's medical spending`,
   });
@@ -1434,33 +1501,4 @@ export function incomeTaxAct(
   };
   putRow(api, "taken", row);
   return row;
-}
-
-/** Raise every covered teacher paid under the floor to it (through rerateJob). */
-export function raiseToSalaryFloor(
-  api: CoreAPI,
-  jobs: readonly JobInput[],
-  floorDollars: number,
-  lawId: string,
-): Map<string, { fromMinor: number; toMinor: number }> {
-  const floorDaily =
-    (floorDollars * reachParameter("centsPerDollar")) /
-    reachParameter("daysPerYear");
-  const out = new Map<string, { fromMinor: number; toMinor: number }>();
-  const reach = payReach(api, {
-    key: "us-policy-positions:education.raise-teacher-minimum-salary",
-    lawId,
-    engine: REACH_B_MODULE_ID,
-    what: "teacher-pay-raised-to-floor",
-  });
-  for (const job of jobs) {
-    const hourly = job.hourlyMinor ?? 0;
-    if (hourly <= 0 || job.wageDailyMinor >= floorDaily) continue;
-    const to = Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
-    api.rerateJob(job.id, to, source(api, `Teacher minimum salary (${lawId})`));
-    out.set(job.id, { fromMinor: hourly, toMinor: to });
-    reach.add(job, (job.wageDailyMinor * (to - hourly)) / hourly);
-  }
-  reach.flush();
-  return out;
 }

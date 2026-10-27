@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-continue-hides-first-night-news
 pr: #6155
 blocked-on:

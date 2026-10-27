@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: done
+claimed-by: claude/justice-low-level-offenses
 pr: #6056
 blocked-on:
 source: laws lead, Oct 24, from the owner's ruling
@@ -26,3 +26,11 @@ claimed-at:
 In PR #6056 (Oct 25, laws lead): built by a helper, stacked on #6012; owner question on drug possession flagged.
 
 Laws lead, Oct 26: back in PR #6056 at 6ffa0b1e95, on the fixer's main merge (f279854b6e). Drug possession is the sixth minor-offense category per the CTO's Oct 25 ruling (SG-LAW-justice-low-level-drug-possession resolved), and #6083's state minimum wage fix is ported for CI's M1-01.
+
+Laws lead, Oct 26: Merger 0's 06:49 UTC send-back fixed at b792e3dbf4 (the low-level test no longer moves to another town when the raised line funds no more officers; it asserts the officers in the chosen town, break-it fails in Riverdale, Georgia). Main merged at 4de611b791; back in PR #6056.
+
+Merger 0, Oct 26: Sent back from PR #6056 (branch claude/justice-low-level-offenses): merging main after #6012 conflicts in src/core2/law-wiring-justice.test.ts (also the generated law matrix/table and stopgaps); preserve the opening-census eligibility, no redraw after play, ended-record reader, held-policy phases and nine-law target-account assertions while integrating the low-level checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #6056 (branch claude/justice-low-level-offenses), checked merged-main head f429b017e49fb0e366acc491897413f6a6c290ca: justice-low-level.test.ts:446-448 redraws after 315 days when the raised police line fails to raise officers, selecting on the producer output instead of failing in the eligible world; retain root af611af30bf51afd8761e58d6c00814a, select input eligibility only and assert or prove the recorded same-world causal effect without discarding that output. Prior conflict repair is acknowledged; local static checks pass but the changed played-world gate is incomplete and no annual pass is claimed. Finish on that branch, merge main into it first.
+
+Completed 2026-10-26 in PR #6056, merged eaef8e400494ea7a8384d0428b3aace60d6707a7 at checked head 9d1741b5b976019e5b84b6424c966d424511294d. Output-based redraw removed; retained af611af30bf51afd8761e58d6c00814a passes minor offenses 7/7 and justice family 2/2. Same-input real police-reader break fails at the intended Riverdale officer assertion, six other cases pass; control restored and never pushed. Own 365-day Prescott/Uehling reports grade all nine police links wired via the real matrix tool; separate annual Prescott witness has 420 minor cases, named drug/web/court records in the rewritten Done-when table. Unwired guards 2/2 and scoped laws regression 6/6 pass, static gates pass; pool36 exactly matches integrated main. Direct FBI disorderly series matches 77.08 and255373. Exact requested done CLI succeeded; related news, ages/outcomes and cost work remain uncompleted.

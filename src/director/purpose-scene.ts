@@ -13,6 +13,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDesignation } from "../english/bill-names";
+import { topicInSentence } from "../english/policy-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
@@ -25,7 +26,8 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
-import { spoken } from "./words";
+import { properName, spoken } from "./words";
+import { PRESS_STORY_EVENT } from "../core2/press-desk";
 
 export interface PurposeScene {
   typeKey: string;
@@ -127,6 +129,10 @@ function composeBinding(
   const town = corePlaceByJurisdictionId(asked.placeId as never);
   if (town)
     facts.place = { text: spoken(town), sourceRecordIds: [asked.placeId] };
+  // What the cause record is about (a shared cause, a speech), as the bill
+  // catalog names its topic.
+  const cause = record?.topic ? topicInSentence(record.topic) : null;
+  if (cause) facts.cause = { text: cause, sourceRecordIds: [moment.causeId] };
   // A bill the record names, by its number, and the section a trade added.
   if (said.number) {
     // Said as a clerk reads it: a bare number takes its form's word first.
@@ -154,6 +160,41 @@ function composeBinding(
       text: said.problem,
       sourceRecordIds: [moment.causeId],
     };
+  // A printed story that runs against the person or their bill (press-desk.ts
+  // recordNamed): the outlet that ran it, who wrote it, and what it is about.
+  if (record?.kind === PRESS_STORY_EVENT) {
+    const outlet = core.organizations.get(said.outletId ?? "");
+    const cited = [moment.causeId, said.storyId ?? moment.causeId];
+    if (outlet) {
+      facts.outlet = {
+        text: properName(outlet.name),
+        sourceRecordIds: [...cited, outlet.id],
+      };
+      facts["press-story"] = facts.outlet;
+    }
+    const reporter = core.people.get((said.reporterId ?? "") as PersonId);
+    if (reporter)
+      facts.reporter = {
+        text: `${reporter.givenName} ${reporter.familyName}`,
+        sourceRecordIds: [...cited, reporter.id],
+      };
+    const bill =
+      said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
+        ? billOf(coreAPI(core as CoreState), said.billId)
+        : undefined;
+    if (
+      bill?.number &&
+      said.sponsorId === askedId &&
+      said.billFraming === "against"
+    ) {
+      facts.bill = {
+        text: spokenDesignation(bill.number, bill.form.kind),
+        sourceRecordIds: [bill.id, ...cited],
+      };
+      facts["about-bill"] = facts.bill;
+    } else if (said.subjectId === askedId && said.subjectFraming === "against")
+      facts["about-you"] = { text: asked.givenName, sourceRecordIds: cited };
+  }
   if (said.office)
     facts.office = {
       text: said.office,

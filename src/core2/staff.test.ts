@@ -6,6 +6,7 @@
  */
 import { createHash } from "node:crypto";
 import { setBookkeeping } from "./bookkeeping";
+import { setKeepEveryonesWhy } from "./why-kept";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -132,9 +133,15 @@ describe("M3-06 staff", () => {
           },
         ],
       });
+      // An aide outside the player's circle has no why kept in ordinary play,
+      // so the test turns the keep-everyone's-why debug scope on to read the
+      // five work records, then restores it.
+      const keptBefore = setKeepEveryonesWhy(true);
       const briefings = [1, 2, 3, 4, 5].map(() =>
         briefOnBill(api, aide.id, bill.id),
       );
+      const kept = workOf(api, aide.id).length;
+      setKeepEveryonesWhy(keptBefore);
       // Experience grows with each task; nothing else in the record changed.
       for (let i = 1; i < briefings.length; i += 1) {
         expect(briefings[i]!.work.parts.experience).toBeGreaterThan(
@@ -147,7 +154,7 @@ describe("M3-06 staff", () => {
       // The briefing covers as many members as the work's quality reaches.
       for (const b of briefings)
         expect(b.stakes.length).toBe(b.work.result.covered as number);
-      expect(workOf(api, aide.id).length).toBe(5);
+      expect(kept).toBe(5);
       // In play (bookkeeping off) the why of an aide nobody deals with is not
       // kept, but the count of their tasks still is.
       const previous = setBookkeeping(false);

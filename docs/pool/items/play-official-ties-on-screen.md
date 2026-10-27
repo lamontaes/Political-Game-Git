@@ -5,13 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6162
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from gov-officials-legislators-know-no-one)
 lead: play-first
 milestone: play-first
+claimed-at:
 ---
 
 **What.** Most state legislators and cabinet members open with no ties, and gov-officials-legislators-know-no-one gives them colleagues. When the player clicks an official, the card shows the office and no people. Add a Knows block to the person card listing the official's closest colleagues by name and office, with the tie in words (close ally, works with, rival), read from the tie records.
@@ -29,3 +30,4 @@ milestone: play-first
 **Files.** src/bench/card.ts, src/bench/government.ts
 
 **Notes.** Filed by the Oct 25 pool audit: gov-officials-legislators-know-no-one's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with gov-officials-legislators-know-no-one (needs-from in the handoff line).
+Sent back 2026-10-26 from PR #6162 (branch play-first/play-official-ties-on-screen): its test can pass with empty colleagues everywhere; assert a non-empty case; finish on that branch, merge main into it first.

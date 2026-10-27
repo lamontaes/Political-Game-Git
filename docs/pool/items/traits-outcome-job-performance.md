@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/traits-outcome-job-performance
+status: open
+claimed-by:
 pr: #5901
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T07:54:41.952Z
+claimed-at:
 ---
 
 **What.** An ordinary worker's performance shapes two employer choices today, whom to hire and whom to lay off first (src/core2/modules/jobs.ts, the applicant fit and layOff's keep score), but both read one raw trait (reliability) at a weight nobody sized (jobsFitReliabilityWeight 0.5, TUNABLE), outside data/content/trait-decisions.json. Give the employer's valuation a decision row whose options carry act kinds, read the worker's lean through the shared helper, and size the weight from Barrick and Mount 1991 (conscientiousness and job performance, rho 0.22, 2.44 between the thirds), so the trait-shaped outcome outcome.job-performance is read by its owning engine. Counted workers must be valued by the same rule, times their count.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-26T07:54:41.952Z
 **Notes.** Split Oct 24 by the traits lead from traits-outcomes-unread.
 
 Sent back 2026-10-24 from PR #5901 (branch claude/traits-outcome-job-performance): its explicit merge-order prerequisite #5587 remains open and unmerged, so the carried money-family stack cannot be accepted through this later PR; finish on that branch, merge main into it first after #5587 merges. No source failure or completed local gate is claimed.
+
+Sent back 2026-10-26 from PR #5901 (branch claude/traits-outcome-job-performance): parent #5587 is merged and old dependency hold resolved, but current normal main integration conflicts in production src/core2/modules/jobs.ts; merge aborted without code resolution; preserve both current jobs/money behavior and performance reader, then finish on that branch and merge main first; no completed gate claimed.

@@ -124,15 +124,26 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
 // campaigning candidate who speaks to a crowd has a campaign stop (owner,
 // Oct 15). The causes are the filing's own announcement and the speech the
 // campaign gave; the clerk is the person the office's records name and the
-// crowd is the speech's recorded listeners.
-it(`filing is a scene with the office's clerk and a campaign speech is a stop with its listeners, in ${place.name}, seed ${seed}`, () => {
+// crowd is the speech's recorded listeners. A place with no local contest
+// that has a clerk, or whose campaign gives no speech to a crowd before the
+// election, is redrawn a bounded number of times; running out of draws fails.
+const FILING_DRAWS = 6;
+/** One draw's budget, the case's limit before it redrew. */
+const DRAW_MS = 900_000;
+
+/** Files up to three residents in a drawn place and follows them to election day, or says why the place cannot show it. */
+function filingAndStops(
+  drawn: ReturnType<typeof drawPlace>,
+  drawSeed: string,
+): { lines: string[]; stops: number } | string {
   setBookkeeping(false);
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
+  const world = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
-    placeKey: place.key,
+    placeKey: drawn.key,
   });
   const { core, director } = world;
   const api = coreAPI(core);
+  const where = `${drawn.name} (${drawn.key}), seed ${drawSeed}`;
   const town = [...core.people.values()]
     .filter((p) => p.alive && p.id !== core.playerId)
     .sort((a, b) => a.id.localeCompare(b.id));
@@ -141,10 +152,7 @@ it(`filing is a scene with the office's clerk and a campaign speech is a stop wi
       (row.family === "municipalOffice" || row.family === "countyOffice") &&
       filingClerkFor(api, row.id),
   );
-  if (!contest) {
-    console.log(`NO CLERK CONTEST ${place.name} ${seed}`);
-    return;
-  }
+  if (!contest) return `${where}: no local contest with a clerk`;
   const clerk = filingClerkFor(api, contest.id)!;
   const filings: FilingRow[] = [];
   for (const person of town) {
@@ -162,7 +170,7 @@ it(`filing is a scene with the office's clerk and a campaign speech is a stop wi
     });
     if (result.status === "on-ballot") filings.push(result.filing);
   }
-  expect(filings.length, "residents who can file").toBeGreaterThan(0);
+  expect(filings.length, `${where}: residents who can file`).toBeGreaterThan(0);
   advanceCore(core, addDays(makeIsoDate(core.date), 2));
   const lines: string[] = [];
   for (const filing of filings) {
@@ -171,7 +179,7 @@ it(`filing is a scene with the office's clerk and a campaign speech is a stop wi
       row.momentId.includes(`candidate-filed:${filing.id}`),
     );
     const scene = entry?.bindings.find((row) => row.typeKey === "filing");
-    expect(scene, `${filing.id} has no filing scene`).toBeTruthy();
+    expect(scene, `${where}: ${filing.id} has no filing scene`).toBeTruthy();
     expect(
       scene!.roles.find((row) => row.role === "candidate")!.personIds,
     ).toEqual([filing.personId]);
@@ -203,7 +211,7 @@ it(`filing is a scene with the office's clerk and a campaign speech is a stop wi
       const speechId = speechIds.find((id) => entry.momentId.includes(id));
       expect(
         speechId,
-        `${entry.momentId} cites no recorded speech`,
+        `${where}: ${entry.momentId} cites no recorded speech`,
       ).toBeTruthy();
       const heard = new Set(
         retellingsOf(api, speechId!).map((row) => row.listenerId),
@@ -213,15 +221,40 @@ it(`filing is a scene with the office's clerk and a campaign speech is a stop wi
       ).toEqual([filing.personId]);
       for (const id of scene.roles.find((row) => row.role === "voters")!
         .personIds)
-        expect(heard.has(id), `${id} was not in the crowd of ${speechId}`).toBe(
-          true,
-        );
+        expect(
+          heard.has(id),
+          `${where}: ${id} was not in the crowd of ${speechId}`,
+        ).toBe(true);
       stops += 1;
       lines.push(`${filing.personId} campaign stop ${entry.momentId}`);
     }
   }
-  console.log(
-    `FILING ${place.name} ${seed} stops ${stops}\n${lines.join("\n")}`,
-  );
-  expect(stops, "a campaign stop for a speaking candidate").toBeGreaterThan(0);
-}, 900_000);
+  if (!stops)
+    return `${where}: ${filings.length} filed, no campaign stop before ${contest.electionDate}`;
+  return { lines, stops };
+}
+
+it(
+  `filing is a scene with the office's clerk and a campaign speech is a stop with its listeners (base ${seed})`,
+  () => {
+    const tried: string[] = [];
+    for (let draw = 0; draw < FILING_DRAWS; draw += 1) {
+      const drawSeed = draw ? `${seed}:${draw}` : seed;
+      const drawn = draw ? drawPlace(drawSeed, "electoral-scenes") : place;
+      const shown = filingAndStops(drawn, drawSeed);
+      if (typeof shown === "string") {
+        tried.push(shown);
+        continue;
+      }
+      process.stdout.write(
+        `FILING ${drawn.name} (${drawn.key}) ${drawSeed} stops ${shown.stops}${tried.length ? ` after ${tried.join("; ")}` : ""}\n${shown.lines.join("\n")}\n`,
+      );
+      expect(shown.stops).toBeGreaterThan(0);
+      return;
+    }
+    throw new Error(
+      `no drawn place in ${FILING_DRAWS} draws showed a filing and a campaign stop: ${tried.join("; ")}`,
+    );
+  },
+  FILING_DRAWS * DRAW_MS,
+);

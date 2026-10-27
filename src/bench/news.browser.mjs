@@ -34,6 +34,7 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const r = await response;
     assert.equal(r.status(), 200);
@@ -59,6 +60,32 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
+  // The rail's News icon carries a dot while News holds rows the player has not read.
+  const dot = () =>
+    page.evaluate(() =>
+      document
+        .querySelector('#rings [data-tab="news"]')
+        .classList.contains("unread"),
+    );
+  await page.waitForFunction(() =>
+    document
+      .querySelector('#rings [data-tab="news"]')
+      .classList.contains("unread"),
+  );
+  assert.equal(await dot(), true, "no unread dot on the first evening");
+  await page
+    .locator('[data-tab="news"]')
+    .first()
+    .evaluate((e) => e.click());
+  await page.locator(".paper").waitFor();
+  await page.locator("#sheet-close").click();
+  await page.waitForFunction(
+    () =>
+      !document
+        .querySelector('#rings [data-tab="news"]')
+        .classList.contains("unread"),
+  );
+  assert.equal(await dot(), false, "the dot stayed after News was read");
   await page
     .locator('[data-tab="news"]')
     .first()

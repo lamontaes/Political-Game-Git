@@ -377,6 +377,118 @@
       }
     },
     {
+      "key": "news.election-result.name-won-the-race-for-office",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} won the race for {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "announce-result",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "news.election-result.name-lost-the-race-for-office",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} lost the race for {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "announce-result",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "news.election-result.name-beat-opponent-for-office",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} beat {opponent} in the race for {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "announce-result",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "news.election-result.name-lost-to-opponent-for-office",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} lost to {opponent} in the race for {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "announce-result",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "news.election-result.opponent-defeated-name-for-office",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{opponent} defeated {name} in the race for {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "announce-result",
+        "key": "loss"
+      }
+    },
+    {
       "key": "news.council-vote.the-vote-was-count",
       "move": "council-vote",
       "kind": "spoken",

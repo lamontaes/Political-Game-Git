@@ -12,6 +12,8 @@ description: >
 
 # Play first
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Scenes are graded against Wildermyth (`OWNER-DECISIONS.md`, Oct 26): the story moves through the scene and hands the player back with something changed. Before any owner question, do the full reading (`OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/`, `LAW.md`, a `docs/` search) and end it with the reading line. Election day is the player's choice, discrimination is yes, Developer ID and licenses are not blockers: none of these is asked again.
+
 Current as of 2026-10-25, 18:30 UTC (the acting CTO's lane PR #5963; the owner's Oct 24 "go ahead": lane agents may edit director and English files for lane items, with the Words session's review)
 
 The owner has never been able to play his game. This lane fixes that, one bounded item at a time, run by many agents of different models in turn. **The owner is a file, not a session:** his rulings are `docs/play-first/LAW.md`, the order is `ORDER.md`, where the last agent stopped is `PROGRESS.md`. Nothing lives in your memory or anyone else's.
@@ -43,6 +45,7 @@ The owner, on the installed Mac build, from **New game → Start a life** in a d
 ## Done
 
 - **Done when** is a screenshot of the installed build, or of the bench at 1440×900, from a drawn place, with the place and seed under it. A test alone is not done.
+- **It must read well, not just be present.** Done-when lines that only check that names or ids appear let rejected work through (Oct 26: play-first-10 named the family and the owner called the entry worthless; play-first-09 counted numbers and he said "That's not a speech"). Every lane PR carries a "Screen text checked" line (`player-screen-text`) and names its mock line (`screen-to-mock`); every scene or talk carries a "Scene standard" row (`scene-standard`). A scene the player cannot reach on the golden path is not a play item.
 - **The browser check.** `npm run bench` runs `src/bench/server.ts` on port 3000 (`BENCH_PORT` overrides it); play is at `/play`, dev mode beside it. Start with the Place field empty so the place is drawn, and write down the place and seed the title shows. Run the check for your screen, `node src/bench/<screen>.browser.mjs` with `BENCH_BROWSER` pointing at Chromium (there are checks for calendar, campaign, character, jobs, money, news, options, party, people, person-card, politics, sheets and travel; `no-scroll` covers every sheet; add one for a new screen in the same pattern). Then look yourself: click and keyboard-activate every control you changed; check fit (main screens don't scroll), people and props touching or overlapping, sharpness, leftover overlays, and hit areas matching what's drawn. Name every visible problem; green automation never overrides a visible failure.
 - Run the changed-file checks (`local-gate`): typecheck, eslint and prettier on changed files, the tests for changed files, `npm run zero-dice`, `npm run release:check -- --mode pr`, `npm run pool -- --check`. Write the gate line.
 - Fill the **Done when** table, the before and after screenshots with place and seed, and **Removed**. Add a release declaration in `docs/release/changes/`.

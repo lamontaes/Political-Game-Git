@@ -163,7 +163,6 @@ async function launch() {
       placeShown: Boolean(place && place.offsetParent !== null),
       seedShown: Boolean(document.getElementById("seed")?.offsetParent),
       patchNotes: document.getElementById("front-patch-notes")?.disabled,
-      watch: document.getElementById("front-watch")?.disabled,
       saves: document.getElementById("front-saves")?.disabled,
       subtitle: Boolean(front.querySelector(".sub")),
       itemLines: front.querySelectorAll(".item span").length,
@@ -177,7 +176,7 @@ async function launch() {
     "title: the backdrop is a painted national scene",
     titleScreen.src !== "" &&
       titleScreen.painted &&
-      /^\/art\/backdrops\/(white-house-exterior|national-convention-floor|national-convention-stage|rally-stage|rally-town-square|rally-courthouse-square|us-house-floor|us-senate-floor|debate-stage|oval-office)__/.test(
+      /^\/art\/backdrops\/(white-house-exterior|lincoln-memorial|national-convention-floor|national-convention-stage|rally-stage|rally-town-square|rally-courthouse-square|us-house-floor|us-senate-floor|debate-stage|oval-office)__/.test(
         titleScreen.src,
       ),
     titleScreen.src,
@@ -192,10 +191,8 @@ async function launch() {
     !titleScreen.seedShown && !titleScreen.placeShown,
   );
   check(
-    "title: Watch the world, Saved games and Patch notes are there, disabled",
-    titleScreen.patchNotes === true &&
-      titleScreen.watch === true &&
-      titleScreen.saves === true,
+    "title: Saved games and Patch notes are there, disabled",
+    titleScreen.patchNotes === true && titleScreen.saves === true,
   );
   check("title: no figure stands on the title", titleScreen.figures === 0);
   check(

@@ -10,6 +10,9 @@
     "state": {
       "places": ["capitol", "governor-office"]
     },
+    "town": {
+      "places": ["council-chamber", "town-hall"]
+    },
     "family": {
       "places": ["@home"]
     }
@@ -27,25 +30,29 @@
       "places": ["@visited-capitol"]
     },
     {
-      "facts": ["goal"],
-      "places": ["us-capitol-exterior", "us-house-floor"],
-      "cast": "congress"
-    },
-    {
-      "facts": ["unemployment-rate", "unemployment-down", "jobless"],
-      "places": ["unemployment-office", "workforce-center"]
+      "facts": [
+        "unemployment-rate",
+        "unemployment-down",
+        "jobless",
+        "unemployment-up"
+      ],
+      "places": ["unemployment-office", "workforce-center"],
+      "cast": "jobless"
     },
     {
       "facts": ["jobs-up", "jobs-added", "factory-jobs-up"],
-      "places": ["factory-floor", "construction-site"]
+      "places": ["factory-floor", "construction-site"],
+      "cast": "workers"
     },
     {
-      "facts": ["wages-up"],
-      "places": ["factory-floor", "workforce-center"]
+      "facts": ["wages-up", "wage-growth"],
+      "places": ["factory-floor", "workforce-center"],
+      "cast": "workers"
     },
     {
       "facts": ["gas-down"],
-      "places": ["gas-station"]
+      "places": ["gas-station"],
+      "cast": "workers"
     },
     {
       "facts": [
@@ -56,15 +63,18 @@
         "prices-up",
         "prices-down"
       ],
-      "places": ["grocery-store", "general-store"]
+      "places": ["grocery-store", "general-store"],
+      "cast": "workers"
     },
     {
-      "facts": ["growth-up", "growth-high"],
-      "places": ["main-street", "downtown-sidewalk"]
+      "facts": ["growth-up", "growth-high", "growth-rate", "mortgage-rate"],
+      "places": ["main-street", "downtown-sidewalk"],
+      "cast": "workers"
     },
     {
       "facts": ["crime-down"],
-      "places": ["police-station"]
+      "places": ["police-station"],
+      "cast": "workers"
     },
     {
       "facts": ["deficit-down", "deficit-cut", "national-debt"],
