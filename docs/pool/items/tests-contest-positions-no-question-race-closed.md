@@ -18,7 +18,7 @@ claimed-at: 2026-10-27T16:55:47.000Z
 
 **Rules.** Never skip, disable or quarantine a case, and never pin a seed. One rule, all 56 places: a place where every race seen was already held is passed over and named, as places with no council or no local filing already are.
 
-**Done when.** The case prefers a filing whose campaign still offers an event, passes over and names a place where none does, can replay a named place by key and place seed, and passes when replayed on Derby Line, Vermont and on two fresh seeds named in the PR body.
+**Done when.** The case prefers a filing whose campaign still offers an event, passes over and names a place where none does, can replay a named place by key and place seed, and the test passes when replayed on Derby Line, Vermont and on two fresh seeds, each drawn place named in the PR body.
 
 **Time box.** 1 hour.
 
