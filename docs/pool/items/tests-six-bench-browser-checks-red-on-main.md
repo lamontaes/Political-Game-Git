@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/tests-six-bench-browser-checks
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-27T16:14:23.763Z
 ---
 
 **What.** The screens lead reported that the browser checks buttons, money, people, travel, politics and, in some places, sheets fail the same way on clean main, and left them. A red check nobody runs guards nothing, so screens can drift from the mocks without anyone seeing it. Find the one shared cause (the lead said they fail the same way), fix it at the root, and make each of the six pass on a restarted bench in a drawn place; if a check covers a screen that no longer exists, delete the check in the same PR and say so. Time box: 3 hours.
