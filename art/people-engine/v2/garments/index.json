@@ -611,48 +611,6 @@
    "pants": 26545,
    "shoes": 4438
   },
-  "v2-24-f-slim": {
-   "labelled": 0.788,
-   "jacket": 10046,
-   "shirt": 9127,
-   "pants": 7571,
-   "shoes": 1264
-  },
-  "v2-24-f-medium": {
-   "labelled": 0.857,
-   "jacket": 12402,
-   "shirt": 12085,
-   "pants": 8884,
-   "shoes": 1245
-  },
-  "v2-24-f-heavy": {
-   "labelled": 0.889,
-   "jacket": 16447,
-   "shirt": 16036,
-   "pants": 11867,
-   "shoes": 1390
-  },
-  "v2-24-m-slim": {
-   "labelled": 0.781,
-   "jacket": 12478,
-   "shirt": 10093,
-   "pants": 6245,
-   "shoes": 1729
-  },
-  "v2-24-m-medium": {
-   "labelled": 0.861,
-   "jacket": 14708,
-   "shirt": 14216,
-   "pants": 7902,
-   "shoes": 1722
-  },
-  "v2-24-m-heavy": {
-   "labelled": 0.876,
-   "jacket": 19504,
-   "shirt": 18408,
-   "pants": 10959,
-   "shoes": 1833
-  },
   "v2-25-f-slim": {
    "labelled": 0.982,
    "jacket": 7777,
@@ -736,6 +694,48 @@
    "shirt": 13671,
    "pants": 26642,
    "shoes": 6441
+  },
+  "v2-28-f-slim": {
+   "labelled": 0.985,
+   "jacket": 9609,
+   "shirt": 8352,
+   "pants": 21371,
+   "shoes": 4540
+  },
+  "v2-28-f-medium": {
+   "labelled": 0.987,
+   "jacket": 11024,
+   "shirt": 9208,
+   "pants": 24095,
+   "shoes": 4568
+  },
+  "v2-28-f-heavy": {
+   "labelled": 0.989,
+   "jacket": 14532,
+   "shirt": 12292,
+   "pants": 31658,
+   "shoes": 5135
+  },
+  "v2-28-m-slim": {
+   "labelled": 0.983,
+   "jacket": 10828,
+   "shirt": 9501,
+   "pants": 21961,
+   "shoes": 4687
+  },
+  "v2-28-m-medium": {
+   "labelled": 0.984,
+   "jacket": 12095,
+   "shirt": 10675,
+   "pants": 25634,
+   "shoes": 4994
+  },
+  "v2-28-m-heavy": {
+   "labelled": 0.99,
+   "jacket": 17635,
+   "shirt": 12737,
+   "pants": 33772,
+   "shoes": 5628
   },
   "v2-29-f-slim": {
    "labelled": 0.985,
@@ -862,48 +862,6 @@
    "shirt": 6973,
    "pants": 15802,
    "shoes": 2834
-  },
-  "v2-34-f-slim": {
-   "labelled": 0.883,
-   "jacket": 237,
-   "shirt": 20018,
-   "pants": 8482,
-   "shoes": 2446
-  },
-  "v2-34-f-medium": {
-   "labelled": 0.894,
-   "jacket": 260,
-   "shirt": 23754,
-   "pants": 9809,
-   "shoes": 2608
-  },
-  "v2-34-f-heavy": {
-   "labelled": 0.925,
-   "jacket": 308,
-   "shirt": 31551,
-   "pants": 12706,
-   "shoes": 3063
-  },
-  "v2-34-m-slim": {
-   "labelled": 0.871,
-   "jacket": 306,
-   "shirt": 24907,
-   "pants": 7553,
-   "shoes": 2711
-  },
-  "v2-34-m-medium": {
-   "labelled": 0.887,
-   "jacket": 365,
-   "shirt": 29071,
-   "pants": 9333,
-   "shoes": 3020
-  },
-  "v2-34-m-heavy": {
-   "labelled": 0.897,
-   "jacket": 372,
-   "shirt": 38242,
-   "pants": 12500,
-   "shoes": 3433
   },
   "v2-36-f-slim": {
    "labelled": 0.986,
@@ -1115,90 +1073,6 @@
    "pants": 26124,
    "shoes": 5351
   },
-  "v2-43-f-slim": {
-   "labelled": 0.326,
-   "jacket": 33,
-   "shirt": 3885,
-   "pants": 2962,
-   "shoes": 198
-  },
-  "v2-43-f-medium": {
-   "labelled": 0.905,
-   "jacket": 33,
-   "shirt": 12400,
-   "pants": 9385,
-   "shoes": 1450
-  },
-  "v2-43-f-heavy": {
-   "labelled": 0.533,
-   "jacket": 74,
-   "shirt": 10816,
-   "pants": 7084,
-   "shoes": 52
-  },
-  "v2-43-m-slim": {
-   "labelled": 0.391,
-   "jacket": 65,
-   "shirt": 6818,
-   "pants": 2514,
-   "shoes": 45
-  },
-  "v2-43-m-medium": {
-   "labelled": 0.884,
-   "jacket": 213,
-   "shirt": 15915,
-   "pants": 7371,
-   "shoes": 1492
-  },
-  "v2-43-m-heavy": {
-   "labelled": 0.546,
-   "jacket": 239,
-   "shirt": 14783,
-   "pants": 5876,
-   "shoes": 57
-  },
-  "v2-44-f-slim": {
-   "labelled": 0.989,
-   "jacket": 57,
-   "shirt": 12560,
-   "pants": 8180,
-   "shoes": 1860
-  },
-  "v2-44-f-medium": {
-   "labelled": 0.983,
-   "jacket": 72,
-   "shirt": 14896,
-   "pants": 9683,
-   "shoes": 1690
-  },
-  "v2-44-f-heavy": {
-   "labelled": 0.989,
-   "jacket": 89,
-   "shirt": 20237,
-   "pants": 12025,
-   "shoes": 2053
-  },
-  "v2-44-m-slim": {
-   "labelled": 0.978,
-   "jacket": 66,
-   "shirt": 16026,
-   "pants": 6380,
-   "shoes": 2028
-  },
-  "v2-44-m-medium": {
-   "labelled": 0.982,
-   "jacket": 71,
-   "shirt": 18454,
-   "pants": 7688,
-   "shoes": 2162
-  },
-  "v2-44-m-heavy": {
-   "labelled": 0.985,
-   "jacket": 100,
-   "shirt": 24867,
-   "pants": 10808,
-   "shoes": 2462
-  },
   "v2-45-f-slim": {
    "labelled": 0.995,
    "jacket": 2,
@@ -1240,48 +1114,6 @@
    "shirt": 22958,
    "pants": 12311,
    "shoes": 2249
-  },
-  "v2-46-f-slim": {
-   "labelled": 0.844,
-   "jacket": 49,
-   "shirt": 10661,
-   "pants": 6658,
-   "shoes": 1400
-  },
-  "v2-46-f-medium": {
-   "labelled": 0.933,
-   "jacket": 66,
-   "shirt": 13137,
-   "pants": 9024,
-   "shoes": 1882
-  },
-  "v2-46-f-heavy": {
-   "labelled": 0.92,
-   "jacket": 85,
-   "shirt": 18629,
-   "pants": 11439,
-   "shoes": 1962
-  },
-  "v2-46-m-slim": {
-   "labelled": 0.86,
-   "jacket": 55,
-   "shirt": 14836,
-   "pants": 5000,
-   "shoes": 1430
-  },
-  "v2-46-m-medium": {
-   "labelled": 0.931,
-   "jacket": 77,
-   "shirt": 17799,
-   "pants": 7272,
-   "shoes": 2029
-  },
-  "v2-46-m-heavy": {
-   "labelled": 0.878,
-   "jacket": 117,
-   "shirt": 22748,
-   "pants": 10250,
-   "shoes": 2114
   },
   "v2-47-f-slim": {
    "labelled": 0.997,
@@ -1703,90 +1535,6 @@
    "pants": 6446,
    "shoes": 4145
   },
-  "v2-62-f-slim": {
-   "labelled": 0.771,
-   "jacket": 53,
-   "shirt": 9490,
-   "pants": 5592,
-   "shoes": 1306
-  },
-  "v2-62-f-medium": {
-   "labelled": 0.842,
-   "jacket": 118,
-   "shirt": 12237,
-   "pants": 6274,
-   "shoes": 2107
-  },
-  "v2-62-f-heavy": {
-   "labelled": 0.872,
-   "jacket": 116,
-   "shirt": 16239,
-   "pants": 7595,
-   "shoes": 2101
-  },
-  "v2-62-m-slim": {
-   "labelled": 0.791,
-   "jacket": 68,
-   "shirt": 14677,
-   "pants": 4768,
-   "shoes": 1228
-  },
-  "v2-62-m-medium": {
-   "labelled": 0.902,
-   "jacket": 139,
-   "shirt": 18394,
-   "pants": 6104,
-   "shoes": 1845
-  },
-  "v2-62-m-heavy": {
-   "labelled": 0.931,
-   "jacket": 141,
-   "shirt": 23865,
-   "pants": 7579,
-   "shoes": 1986
-  },
-  "v2-65-f-slim": {
-   "labelled": 0.531,
-   "jacket": 32,
-   "shirt": 7409,
-   "pants": 2237,
-   "shoes": 494
-  },
-  "v2-65-f-medium": {
-   "labelled": 0.095,
-   "jacket": 69,
-   "shirt": 1869,
-   "pants": 7,
-   "shoes": 254
-  },
-  "v2-65-f-heavy": {
-   "labelled": 0.591,
-   "jacket": 198,
-   "shirt": 14950,
-   "pants": 486,
-   "shoes": 1290
-  },
-  "v2-65-m-slim": {
-   "labelled": 0.551,
-   "jacket": 36,
-   "shirt": 10358,
-   "pants": 1843,
-   "shoes": 260
-  },
-  "v2-65-m-medium": {
-   "labelled": 0.082,
-   "jacket": 59,
-   "shirt": 1810,
-   "pants": 0,
-   "shoes": 257
-  },
-  "v2-65-m-heavy": {
-   "labelled": 0.617,
-   "jacket": 256,
-   "shirt": 18367,
-   "pants": 266,
-   "shoes": 1426
-  },
   "v2-66-f-slim": {
    "labelled": 0.989,
    "jacket": 0,
@@ -1871,48 +1619,6 @@
    "pants": 11042,
    "shoes": 5138
   },
-  "v2-69-f-slim": {
-   "labelled": 0.803,
-   "jacket": 16,
-   "shirt": 9707,
-   "pants": 4811,
-   "shoes": 810
-  },
-  "v2-69-f-medium": {
-   "labelled": 0.792,
-   "jacket": 63,
-   "shirt": 12490,
-   "pants": 4837,
-   "shoes": 961
-  },
-  "v2-69-f-heavy": {
-   "labelled": 0.574,
-   "jacket": 126,
-   "shirt": 12177,
-   "pants": 2304,
-   "shoes": 1909
-  },
-  "v2-69-m-slim": {
-   "labelled": 0.787,
-   "jacket": 51,
-   "shirt": 13465,
-   "pants": 3176,
-   "shoes": 1276
-  },
-  "v2-69-m-medium": {
-   "labelled": 0.787,
-   "jacket": 47,
-   "shirt": 15719,
-   "pants": 4393,
-   "shoes": 297
-  },
-  "v2-69-m-heavy": {
-   "labelled": 0.652,
-   "jacket": 136,
-   "shirt": 15332,
-   "pants": 3433,
-   "shoes": 2663
-  },
   "v2-70-f-slim": {
    "labelled": 0.991,
    "jacket": 0,
@@ -1954,48 +1660,6 @@
    "shirt": 21228,
    "pants": 11122,
    "shoes": 5093
-  },
-  "v2-74-f-slim": {
-   "labelled": 0.334,
-   "jacket": 81,
-   "shirt": 4607,
-   "pants": 1635,
-   "shoes": 880
-  },
-  "v2-74-f-medium": {
-   "labelled": 0.748,
-   "jacket": 70,
-   "shirt": 11326,
-   "pants": 5597,
-   "shoes": 979
-  },
-  "v2-74-f-heavy": {
-   "labelled": 0.64,
-   "jacket": 128,
-   "shirt": 11939,
-   "pants": 8394,
-   "shoes": 34
-  },
-  "v2-74-m-slim": {
-   "labelled": 0.4,
-   "jacket": 73,
-   "shirt": 6396,
-   "pants": 1724,
-   "shoes": 1496
-  },
-  "v2-74-m-medium": {
-   "labelled": 0.745,
-   "jacket": 37,
-   "shirt": 14618,
-   "pants": 4970,
-   "shoes": 589
-  },
-  "v2-74-m-heavy": {
-   "labelled": 0.617,
-   "jacket": 123,
-   "shirt": 15833,
-   "pants": 6846,
-   "shoes": 728
   },
   "v2-76b-f-slim": {
    "labelled": 0.998,

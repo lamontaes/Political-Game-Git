@@ -1833,96 +1833,6 @@
   },
   {
    "view": "front",
-   "style": 9,
-   "sex": "female",
-   "styleName": "shoulder-length locs",
-   "figure": "v2-37-f-slim",
-   "file": "hair-on-figures/front/09/v2-37-f-slim-hair.png",
-   "head": [
-    7,
-    95.5,
-    69
-   ],
-   "facing": 0,
-   "hairPx": 9149
-  },
-  {
-   "view": "front",
-   "style": 9,
-   "sex": "female",
-   "styleName": "shoulder-length locs",
-   "figure": "v2-37-f-medium",
-   "file": "hair-on-figures/front/09/v2-37-f-medium-hair.png",
-   "head": [
-    6,
-    104.0,
-    70
-   ],
-   "facing": 0,
-   "hairPx": 9400
-  },
-  {
-   "view": "front",
-   "style": 9,
-   "sex": "female",
-   "styleName": "shoulder-length locs",
-   "figure": "v2-37-f-heavy",
-   "file": "hair-on-figures/front/09/v2-37-f-heavy-hair.png",
-   "head": [
-    7,
-    122.5,
-    71
-   ],
-   "facing": 0,
-   "hairPx": 10032
-  },
-  {
-   "view": "front",
-   "style": 9,
-   "sex": "male",
-   "styleName": "short locs",
-   "figure": "v2-37-m-slim",
-   "file": "hair-on-figures/front/09/v2-37-m-slim-hair.png",
-   "head": [
-    6,
-    106.5,
-    73
-   ],
-   "facing": 0,
-   "hairPx": 7321
-  },
-  {
-   "view": "front",
-   "style": 9,
-   "sex": "male",
-   "styleName": "short locs",
-   "figure": "v2-37-m-medium",
-   "file": "hair-on-figures/front/09/v2-37-m-medium-hair.png",
-   "head": [
-    6,
-    114.5,
-    73
-   ],
-   "facing": 0,
-   "hairPx": 7502
-  },
-  {
-   "view": "front",
-   "style": 9,
-   "sex": "male",
-   "styleName": "short locs",
-   "figure": "v2-37-m-heavy",
-   "file": "hair-on-figures/front/09/v2-37-m-heavy-hair.png",
-   "head": [
-    6,
-    131.5,
-    75
-   ],
-   "facing": 0,
-   "hairPx": 8695
-  },
-  {
-   "view": "front",
    "style": 10,
    "sex": "female",
    "styleName": "long loose curls",
@@ -2010,96 +1920,6 @@
    ],
    "facing": 0,
    "hairPx": 1258
-  },
-  {
-   "view": "front",
-   "style": 11,
-   "sex": "female",
-   "styleName": "short two-strand twists",
-   "figure": "v2-37-f-slim",
-   "file": "hair-on-figures/front/11/v2-37-f-slim-hair.png",
-   "head": [
-    7,
-    95.5,
-    69
-   ],
-   "facing": 0,
-   "hairPx": 10701
-  },
-  {
-   "view": "front",
-   "style": 11,
-   "sex": "female",
-   "styleName": "short two-strand twists",
-   "figure": "v2-37-f-medium",
-   "file": "hair-on-figures/front/11/v2-37-f-medium-hair.png",
-   "head": [
-    6,
-    104.0,
-    70
-   ],
-   "facing": 0,
-   "hairPx": 12883
-  },
-  {
-   "view": "front",
-   "style": 11,
-   "sex": "female",
-   "styleName": "short two-strand twists",
-   "figure": "v2-37-f-heavy",
-   "file": "hair-on-figures/front/11/v2-37-f-heavy-hair.png",
-   "head": [
-    7,
-    122.5,
-    71
-   ],
-   "facing": 0,
-   "hairPx": 14591
-  },
-  {
-   "view": "front",
-   "style": 11,
-   "sex": "male",
-   "styleName": "medium wavy",
-   "figure": "v2-37-m-slim",
-   "file": "hair-on-figures/front/11/v2-37-m-slim-hair.png",
-   "head": [
-    6,
-    106.5,
-    73
-   ],
-   "facing": 0,
-   "hairPx": 9870
-  },
-  {
-   "view": "front",
-   "style": 11,
-   "sex": "male",
-   "styleName": "medium wavy",
-   "figure": "v2-37-m-medium",
-   "file": "hair-on-figures/front/11/v2-37-m-medium-hair.png",
-   "head": [
-    6,
-    114.5,
-    73
-   ],
-   "facing": 0,
-   "hairPx": 11760
-  },
-  {
-   "view": "front",
-   "style": 11,
-   "sex": "male",
-   "styleName": "medium wavy",
-   "figure": "v2-37-m-heavy",
-   "file": "hair-on-figures/front/11/v2-37-m-heavy-hair.png",
-   "head": [
-    6,
-    131.5,
-    75
-   ],
-   "facing": 0,
-   "hairPx": 13603
   },
   {
    "view": "front",
@@ -3453,6 +3273,186 @@
   },
   {
    "view": "threeqr",
+   "style": 3,
+   "sex": "female",
+   "styleName": "short natural afro",
+   "figure": "v2-70-f-slim",
+   "file": "hair-on-figures/threeqr/03/v2-70-f-slim-hair.png",
+   "head": [
+    6,
+    77.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 6155
+  },
+  {
+   "view": "threeqr",
+   "style": 3,
+   "sex": "female",
+   "styleName": "short natural afro",
+   "figure": "v2-70-f-medium",
+   "file": "hair-on-figures/threeqr/03/v2-70-f-medium-hair.png",
+   "head": [
+    6,
+    88.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 6175
+  },
+  {
+   "view": "threeqr",
+   "style": 3,
+   "sex": "female",
+   "styleName": "short natural afro",
+   "figure": "v2-70-f-heavy",
+   "file": "hair-on-figures/threeqr/03/v2-70-f-heavy-hair.png",
+   "head": [
+    6,
+    103.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 6138
+  },
+  {
+   "view": "threeqr",
+   "style": 3,
+   "sex": "male",
+   "styleName": "short tight curls",
+   "figure": "v2-70-m-slim",
+   "file": "hair-on-figures/threeqr/03/v2-70-m-slim-hair.png",
+   "head": [
+    6,
+    89.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 2588
+  },
+  {
+   "view": "threeqr",
+   "style": 3,
+   "sex": "male",
+   "styleName": "short tight curls",
+   "figure": "v2-70-m-medium",
+   "file": "hair-on-figures/threeqr/03/v2-70-m-medium-hair.png",
+   "head": [
+    6,
+    98.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 2647
+  },
+  {
+   "view": "threeqr",
+   "style": 3,
+   "sex": "male",
+   "styleName": "short tight curls",
+   "figure": "v2-70-m-heavy",
+   "file": "hair-on-figures/threeqr/03/v2-70-m-heavy-hair.png",
+   "head": [
+    7,
+    112.5,
+    77
+   ],
+   "facing": 45,
+   "hairPx": 2822
+  },
+  {
+   "view": "threeqr",
+   "style": 4,
+   "sex": "female",
+   "styleName": "chin-length bob with bangs",
+   "figure": "v2-70-f-slim",
+   "file": "hair-on-figures/threeqr/04/v2-70-f-slim-hair.png",
+   "head": [
+    6,
+    77.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 5265
+  },
+  {
+   "view": "threeqr",
+   "style": 4,
+   "sex": "female",
+   "styleName": "chin-length bob with bangs",
+   "figure": "v2-70-f-medium",
+   "file": "hair-on-figures/threeqr/04/v2-70-f-medium-hair.png",
+   "head": [
+    6,
+    88.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 5202
+  },
+  {
+   "view": "threeqr",
+   "style": 4,
+   "sex": "female",
+   "styleName": "chin-length bob with bangs",
+   "figure": "v2-70-f-heavy",
+   "file": "hair-on-figures/threeqr/04/v2-70-f-heavy-hair.png",
+   "head": [
+    6,
+    103.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 5437
+  },
+  {
+   "view": "threeqr",
+   "style": 4,
+   "sex": "male",
+   "styleName": "buzz cut",
+   "figure": "v2-70-m-slim",
+   "file": "hair-on-figures/threeqr/04/v2-70-m-slim-hair.png",
+   "head": [
+    6,
+    89.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 1315
+  },
+  {
+   "view": "threeqr",
+   "style": 4,
+   "sex": "male",
+   "styleName": "buzz cut",
+   "figure": "v2-70-m-medium",
+   "file": "hair-on-figures/threeqr/04/v2-70-m-medium-hair.png",
+   "head": [
+    6,
+    98.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 1314
+  },
+  {
+   "view": "threeqr",
+   "style": 4,
+   "sex": "male",
+   "styleName": "buzz cut",
+   "figure": "v2-70-m-heavy",
+   "file": "hair-on-figures/threeqr/04/v2-70-m-heavy-hair.png",
+   "head": [
+    7,
+    112.5,
+    77
+   ],
+   "facing": 45,
+   "hairPx": 1472
+  },
+  {
+   "view": "threeqr",
    "style": 5,
    "sex": "female",
    "styleName": "long box braids",
@@ -3633,6 +3633,186 @@
   },
   {
    "view": "threeqr",
+   "style": 7,
+   "sex": "female",
+   "styleName": "low ponytail",
+   "figure": "v2-70-f-slim",
+   "file": "hair-on-figures/threeqr/07/v2-70-f-slim-hair.png",
+   "head": [
+    6,
+    77.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 3041
+  },
+  {
+   "view": "threeqr",
+   "style": 7,
+   "sex": "female",
+   "styleName": "low ponytail",
+   "figure": "v2-70-f-medium",
+   "file": "hair-on-figures/threeqr/07/v2-70-f-medium-hair.png",
+   "head": [
+    6,
+    88.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 3380
+  },
+  {
+   "view": "threeqr",
+   "style": 7,
+   "sex": "female",
+   "styleName": "low ponytail",
+   "figure": "v2-70-f-heavy",
+   "file": "hair-on-figures/threeqr/07/v2-70-f-heavy-hair.png",
+   "head": [
+    6,
+    103.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 3391
+  },
+  {
+   "view": "threeqr",
+   "style": 7,
+   "sex": "male",
+   "styleName": "receding hairline",
+   "figure": "v2-70-m-slim",
+   "file": "hair-on-figures/threeqr/07/v2-70-m-slim-hair.png",
+   "head": [
+    6,
+    89.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 1388
+  },
+  {
+   "view": "threeqr",
+   "style": 7,
+   "sex": "male",
+   "styleName": "receding hairline",
+   "figure": "v2-70-m-medium",
+   "file": "hair-on-figures/threeqr/07/v2-70-m-medium-hair.png",
+   "head": [
+    6,
+    98.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 1244
+  },
+  {
+   "view": "threeqr",
+   "style": 7,
+   "sex": "male",
+   "styleName": "receding hairline",
+   "figure": "v2-70-m-heavy",
+   "file": "hair-on-figures/threeqr/07/v2-70-m-heavy-hair.png",
+   "head": [
+    7,
+    112.5,
+    77
+   ],
+   "facing": 45,
+   "hairPx": 643
+  },
+  {
+   "view": "threeqr",
+   "style": 8,
+   "sex": "female",
+   "styleName": "pixie cut",
+   "figure": "v2-70-f-slim",
+   "file": "hair-on-figures/threeqr/08/v2-70-f-slim-hair.png",
+   "head": [
+    6,
+    77.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 2922
+  },
+  {
+   "view": "threeqr",
+   "style": 8,
+   "sex": "female",
+   "styleName": "pixie cut",
+   "figure": "v2-70-f-medium",
+   "file": "hair-on-figures/threeqr/08/v2-70-f-medium-hair.png",
+   "head": [
+    6,
+    88.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 2919
+  },
+  {
+   "view": "threeqr",
+   "style": 8,
+   "sex": "female",
+   "styleName": "pixie cut",
+   "figure": "v2-70-f-heavy",
+   "file": "hair-on-figures/threeqr/08/v2-70-f-heavy-hair.png",
+   "head": [
+    6,
+    103.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 3097
+  },
+  {
+   "view": "threeqr",
+   "style": 8,
+   "sex": "male",
+   "styleName": "crew cut",
+   "figure": "v2-70-m-slim",
+   "file": "hair-on-figures/threeqr/08/v2-70-m-slim-hair.png",
+   "head": [
+    6,
+    89.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 1457
+  },
+  {
+   "view": "threeqr",
+   "style": 8,
+   "sex": "male",
+   "styleName": "crew cut",
+   "figure": "v2-70-m-medium",
+   "file": "hair-on-figures/threeqr/08/v2-70-m-medium-hair.png",
+   "head": [
+    6,
+    98.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 1502
+  },
+  {
+   "view": "threeqr",
+   "style": 8,
+   "sex": "male",
+   "styleName": "crew cut",
+   "figure": "v2-70-m-heavy",
+   "file": "hair-on-figures/threeqr/08/v2-70-m-heavy-hair.png",
+   "head": [
+    7,
+    112.5,
+    77
+   ],
+   "facing": 45,
+   "hairPx": 1516
+  },
+  {
+   "view": "threeqr",
    "style": 9,
    "sex": "female",
    "styleName": "shoulder-length locs",
@@ -3810,6 +3990,186 @@
    ],
    "facing": 45,
    "hairPx": 1258
+  },
+  {
+   "view": "threeqr",
+   "style": 11,
+   "sex": "female",
+   "styleName": "short two-strand twists",
+   "figure": "v2-70-f-slim",
+   "file": "hair-on-figures/threeqr/11/v2-70-f-slim-hair.png",
+   "head": [
+    6,
+    77.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 3894
+  },
+  {
+   "view": "threeqr",
+   "style": 11,
+   "sex": "female",
+   "styleName": "short two-strand twists",
+   "figure": "v2-70-f-medium",
+   "file": "hair-on-figures/threeqr/11/v2-70-f-medium-hair.png",
+   "head": [
+    6,
+    88.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 3964
+  },
+  {
+   "view": "threeqr",
+   "style": 11,
+   "sex": "female",
+   "styleName": "short two-strand twists",
+   "figure": "v2-70-f-heavy",
+   "file": "hair-on-figures/threeqr/11/v2-70-f-heavy-hair.png",
+   "head": [
+    6,
+    103.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 4083
+  },
+  {
+   "view": "threeqr",
+   "style": 11,
+   "sex": "male",
+   "styleName": "medium wavy",
+   "figure": "v2-70-m-slim",
+   "file": "hair-on-figures/threeqr/11/v2-70-m-slim-hair.png",
+   "head": [
+    6,
+    89.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 4221
+  },
+  {
+   "view": "threeqr",
+   "style": 11,
+   "sex": "male",
+   "styleName": "medium wavy",
+   "figure": "v2-70-m-medium",
+   "file": "hair-on-figures/threeqr/11/v2-70-m-medium-hair.png",
+   "head": [
+    6,
+    98.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 4201
+  },
+  {
+   "view": "threeqr",
+   "style": 11,
+   "sex": "male",
+   "styleName": "medium wavy",
+   "figure": "v2-70-m-heavy",
+   "file": "hair-on-figures/threeqr/11/v2-70-m-heavy-hair.png",
+   "head": [
+    7,
+    112.5,
+    77
+   ],
+   "facing": 45,
+   "hairPx": 4107
+  },
+  {
+   "view": "threeqr",
+   "style": 12,
+   "sex": "female",
+   "styleName": "layered, swept to one side",
+   "figure": "v2-70-f-slim",
+   "file": "hair-on-figures/threeqr/12/v2-70-f-slim-hair.png",
+   "head": [
+    6,
+    77.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 6256
+  },
+  {
+   "view": "threeqr",
+   "style": 12,
+   "sex": "female",
+   "styleName": "layered, swept to one side",
+   "figure": "v2-70-f-medium",
+   "file": "hair-on-figures/threeqr/12/v2-70-f-medium-hair.png",
+   "head": [
+    6,
+    88.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 6015
+  },
+  {
+   "view": "threeqr",
+   "style": 12,
+   "sex": "female",
+   "styleName": "layered, swept to one side",
+   "figure": "v2-70-f-heavy",
+   "file": "hair-on-figures/threeqr/12/v2-70-f-heavy-hair.png",
+   "head": [
+    6,
+    103.0,
+    76
+   ],
+   "facing": 45,
+   "hairPx": 5290
+  },
+  {
+   "view": "threeqr",
+   "style": 12,
+   "sex": "male",
+   "styleName": "bald crown, short sides",
+   "figure": "v2-70-m-slim",
+   "file": "hair-on-figures/threeqr/12/v2-70-m-slim-hair.png",
+   "head": [
+    6,
+    89.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 639
+  },
+  {
+   "view": "threeqr",
+   "style": 12,
+   "sex": "male",
+   "styleName": "bald crown, short sides",
+   "figure": "v2-70-m-medium",
+   "file": "hair-on-figures/threeqr/12/v2-70-m-medium-hair.png",
+   "head": [
+    6,
+    98.5,
+    75
+   ],
+   "facing": 45,
+   "hairPx": 677
+  },
+  {
+   "view": "threeqr",
+   "style": 12,
+   "sex": "male",
+   "styleName": "bald crown, short sides",
+   "figure": "v2-70-m-heavy",
+   "file": "hair-on-figures/threeqr/12/v2-70-m-heavy-hair.png",
+   "head": [
+    7,
+    112.5,
+    77
+   ],
+   "facing": 45,
+   "hairPx": 677
   }
  ]
 }

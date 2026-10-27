@@ -31,9 +31,9 @@ Each edit painted one style per sex on all six figures of one bald sheet (three 
 
 | View | Sheet | Styles delivered (women / men) |
 |---|---|---|
-| front | 37 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 09 shoulder-length locs / short locs; 10 long loose curls / neat cornrows; 11 short two-strand twists / medium-length wavy hair; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
+| front | 37 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 10 long loose curls / neat cornrows; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
 | threeq | 01 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 09 shoulder-length locs / short locs; 10 long loose curls / neat cornrows; 11 short two-strand twists / medium-length wavy hair; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
-| threeqr | 70 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 09 shoulder-length locs / short locs; 10 long loose curls / neat cornrows |
+| threeqr | 70 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 09 shoulder-length locs / short locs; 10 long loose curls / neat cornrows; 11 short two-strand twists / medium-length wavy hair; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
 | back | 06 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 09 shoulder-length locs / short locs; 10 long loose curls / neat cornrows; 11 short two-strand twists / medium-length wavy hair; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
 
 ## Faces (`art/people-engine/v2/faces-on-figures/<view>/<face>/<figure>-face.png`)
@@ -42,9 +42,9 @@ Each edit gave one face and expression per sex on all six figures of one bald sh
 
 | View | Sheet | Faces delivered (face, expression) |
 |---|---|---|
-| front | 37 | 01 a calm neutral expression; 02 a warm closed-mouth smile; 05 a worried look with the inner brows raised; 06 an angry frown; 09 a sad look with a downturned mouth; 10 a confident half smile |
-| threeq | 01 | 01 a calm neutral expression; 02 a warm closed-mouth smile; 05 a worried look with the inner brows raised; 06 an angry frown; 09 a sad look with a downturned mouth; 10 a confident half smile |
-| threeqr | 70 | 01 a calm neutral expression; 02 a warm closed-mouth smile; 05 a worried look with the inner brows raised; 06 an angry frown; 09 a sad look with a downturned mouth; 10 a confident half smile |
+| front | 37 | 01 a calm neutral expression; 02 a warm closed-mouth smile; 04 a serious stern look; 05 a worried look with the inner brows raised; 06 an angry frown; 07 a surprised look with raised brows and an open mouth; 09 a sad look with a downturned mouth; 10 a confident half smile; 11 a tired look with heavy eyelids; 12 a talking look, mouth half open mid-word |
+| threeq | 01 | 01 a calm neutral expression; 02 a warm closed-mouth smile; 04 a serious stern look; 05 a worried look with the inner brows raised; 06 an angry frown; 07 a surprised look with raised brows and an open mouth; 08 a skeptical look with one brow raised; 09 a sad look with a downturned mouth; 10 a confident half smile; 12 a talking look, mouth half open mid-word |
+| threeqr | 70 | 01 a calm neutral expression; 02 a warm closed-mouth smile; 03 a big open laugh; 04 a serious stern look; 05 a worried look with the inner brows raised; 06 an angry frown; 07 a surprised look with raised brows and an open mouth; 08 a skeptical look with one brow raised; 09 a sad look with a downturned mouth; 10 a confident half smile; 12 a talking look, mouth half open mid-word |
 
 ## Standing figures seen from behind (`art/people-engine/v2/figures/v2-sb<sheet>-<f|m>-<build>.png`)
 
@@ -74,22 +74,18 @@ One edit per outfit sheet; six maps per sheet, one per figure id.
 | 20 | v2-20-f/m-slim/medium/heavy | stand front, vest |
 | 21 | v2-21-f/m-slim/medium/heavy | lectern front, vest |
 | 23 | v2-23-f/m-slim/medium/heavy | sit front, vest |
-| 24 | v2-24-f/m-slim/medium/heavy | stand three-quarter left, vest |
 | 25 | v2-25-f/m-slim/medium/heavy | stand three-quarter right, vest |
 | 26 | v2-26-f/m-slim/medium/heavy | sit three-quarter left, vest |
+| 28 | v2-28-f/m-slim/medium/heavy | sit three-quarter right, vest |
 | 29 | v2-29-f/m-slim/medium/heavy | sit back, vest |
 | 31 | v2-31-f/m-slim/medium/heavy | lectern front, blazer |
 | 32 | v2-32-f/m-slim/medium/heavy | stand front, blazer |
-| 34 | v2-34-f/m-slim/medium/heavy | stand three-quarter left, blazer |
 | 36 | v2-36-f/m-slim/medium/heavy | stand three-quarter right, blazer |
 | 37 | v2-37-f/m-slim/medium/heavy | sit front, blazer |
 | 38 | v2-38-f/m-slim/medium/heavy | sit back, blazer |
 | 39 | v2-39-f/m-slim/medium/heavy | sit three-quarter left, blazer |
 | 40 | v2-40-f/m-slim/medium/heavy | sit three-quarter right, blazer |
-| 43 | v2-43-f/m-slim/medium/heavy | stand front, base |
-| 44 | v2-44-f/m-slim/medium/heavy | stand front, base |
 | 45 | v2-45-f/m-slim/medium/heavy | stand front, base |
-| 46 | v2-46-f/m-slim/medium/heavy | stand three-quarter left, base |
 | 47 | v2-47-f/m-slim/medium/heavy | stand three-quarter right, base |
 | 48 | v2-48-f/m-slim/medium/heavy | stand three-quarter left, base |
 | 49 | v2-49-f/m-slim/medium/heavy | stand three-quarter right, base |
@@ -100,13 +96,9 @@ One edit per outfit sheet; six maps per sheet, one per figure id.
 | 57 | v2-57-f/m-slim/medium/heavy | lectern front, base |
 | 58 | v2-58-f/m-slim/medium/heavy | sit front, base |
 | 61 | v2-61-f/m-slim/medium/heavy | sit front, base |
-| 62 | v2-62-f/m-slim/medium/heavy | sit front, base |
-| 65 | v2-65-f/m-slim/medium/heavy | sit three-quarter left, base |
 | 66 | v2-66-f/m-slim/medium/heavy | sit three-quarter left, base |
 | 68 | v2-68-f/m-slim/medium/heavy | sit three-quarter right, base |
-| 69 | v2-69-f/m-slim/medium/heavy | sit three-quarter left, base |
 | 70 | v2-70-f/m-slim/medium/heavy | sit three-quarter right, base |
-| 74 | v2-74-f/m-slim/medium/heavy | sit three-quarter right, base |
 | 76b | v2-76b-f/m-slim/medium/heavy | sit back, base |
 | x3 | v2-x3-f/m-slim/medium/heavy | sit back, base |
 
