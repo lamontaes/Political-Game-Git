@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: scenes-c/bill-held
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T05:20:32.234Z
 ---
 
 **What.** The legislature records bill-held-in-committee (11 to 32 a year in drawn places) and nothing in the director reads it, so a chair burying a bill is never a scene. Add situation type bill-held: the sponsor pleads for a hearing with the committee's chair, or with a committee member who could press the chair; four replies are four stances (set it, keep it held, send it to study, trade for something).
