@@ -26,7 +26,8 @@
   },
   "creator": {
     "people": "people",
-    "about": "about"
+    "about": "about",
+    "countyLine": "in {county}"
   },
   "endedBy": {
     "moment": "Something needs you",
