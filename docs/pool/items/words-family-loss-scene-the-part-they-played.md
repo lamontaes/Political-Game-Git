@@ -11,7 +11,6 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: director
-milestone: play-first
 claimed-at: 2026-10-27T06:07:27.504Z
 ---
 
