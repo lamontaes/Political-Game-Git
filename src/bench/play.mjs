@@ -4,11 +4,19 @@
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
 import { mountMenu, fillChoiceMenu } from "./ui/menu.mjs";
+import {
+  talkLine,
+  talkReply,
+  fillTalk,
+  addTalkLine,
+  mountTalkKeys,
+} from "./ui/talk-box.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
-import { show, mountCloseButtons } from "./ui/panel.mjs";
+import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
+mountPanelHeads();
 mountCloseButtons();
 mountPagers();
 const $ = (id) => document.getElementById(id);
@@ -299,8 +307,10 @@ function pointOut(figures) {
     box.style.animation = "none";
     void box.offsetWidth;
     box.style.animation = "";
-    for (const node of document.querySelectorAll("#people .figure"))
-      if (node.dataset.person === figure.id) node.classList.add("pointed");
+    // Only the one person pointed out is lit.
+    [...document.querySelectorAll("#people .figure")]
+      .find((node) => node.dataset.person === figure.id)
+      ?.classList.add("pointed");
     timer = setTimeout(() => step(index + 1), POINT_MS);
   };
   step(0);
@@ -319,18 +329,14 @@ async function playOpening() {
   openingReady = undefined;
   if (!opening?.frames?.length) return opening;
   const { speaker } = opening;
-  // Who is speaking: the anchor's lead-in on the news, then the President.
-  const speakerCard = (anchor) => {
-    $("opening-bust").style.backgroundImage =
-      !anchor && speaker.figureUrl ? `url("${speaker.figureUrl}")` : "";
-    $("opening-name").textContent = anchor
-      ? (controls.opening?.news ?? "")
-      : speaker.name;
-    $("opening-role").textContent = anchor
-      ? ""
-      : [speaker.title, ...speaker.detail].filter(Boolean).join(" · ");
-  };
-  speakerCard(false);
+  // Who is speaking: the President, from the first frame.
+  $("opening-bust").style.backgroundImage = speaker.figureUrl
+    ? `url("${speaker.figureUrl}")`
+    : "";
+  $("opening-name").textContent = speaker.name;
+  $("opening-role").textContent = [speaker.title, ...speaker.detail]
+    .filter(Boolean)
+    .join(" · ");
   show("opening-box", true);
   $("game").classList.add("letterbox", "cinema");
   frames: for (const frame of opening.frames) {
@@ -339,7 +345,6 @@ async function playOpening() {
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
-    speakerCard(frame.speaker === "anchor");
     // Who the camera points out: a household as the frame opens, anyone the
     // address names on the line that names them.
     const figures = frame.pointOut ?? [];
@@ -1093,45 +1098,34 @@ function spokenLines(lines, speakerOf) {
   const lastMine = lines.findLastIndex((line) => line.speakerId === me.id);
   const theirs = lines.slice(lastMine + 1).slice(-3);
   return [
+    // What was said before sits apart from the line being said now (owner, Oct 26).
     ...(lastMine >= 0
       ? [
-          el("li", {
-            className: `said${lines[lastMine].act === "lie" ? " lying" : ""}`,
-            textContent: lines[lastMine].text,
+          talkLine({
+            kind: "history",
+            who: $("card-name").textContent,
+            text: lines[lastMine].text,
+            lying: lines[lastMine].act === "lie",
           }),
         ]
       : []),
-    ...theirs.map((line) =>
-      el("li", { className: "speech", textContent: speakerOf(line) }),
-    ),
+    ...theirs.map((line) => talkLine({ text: speakerOf(line) })),
   ];
 }
 /** Numbered replies; a key press of the number says it. */
 function replies(choices, onPick) {
-  return choices.map((choice) => {
-    const b = makeButton({
-      className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
+  return choices.map((choice) =>
+    talkReply(
+      choice,
       // Filing is a control of its own, never worded like acknowledging a refusal.
-      textContent:
-        choice.control === "file"
-          ? (controls.filing?.file ?? choice.text)
-          : choice.text,
-    });
-    b.addEventListener("click", () => onPick(choice));
-    return b;
-  });
+      choice.control === "file"
+        ? (controls.filing?.file ?? choice.text)
+        : choice.text,
+      onPick,
+    ),
+  );
 }
-document.addEventListener("keydown", (event) => {
-  const n = Number(event.key);
-  if (
-    !Number.isInteger(n) ||
-    n < 1 ||
-    $("game").classList.contains("sheet-open")
-  )
-    return;
-  if (!$("talk-choices").offsetParent) return;
-  $("talk-choices").children[n - 1]?.click();
-});
+mountTalkKeys(() => $("game").classList.contains("sheet-open"));
 function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
   $("talk-lie").classList.toggle("on", Boolean(available && on));
@@ -1148,15 +1142,13 @@ function renderTalk(value) {
     !$("talk-name").textContent
   )
     setWho(value.otherId, other?.speaker ?? me.names?.[value.otherId]);
-  $("talk-lines").replaceChildren(
-    ...spokenLines(value.lines, (line) => line.text),
-  );
   // Lying, the false set stands in place of the true choices.
   const lies = value.lies ?? [];
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
-  $("talk-choices").replaceChildren(
-    ...replies(choices, (choice) => sayLine(choice.key)),
-  );
+  fillTalk({
+    lines: spokenLines(value.lines, (line) => line.text),
+    replies: replies(choices, (choice) => sayLine(choice.key)),
+  });
   // Dim when there is nothing false to say; tipped and red while lying.
   setScales({ available: lies.length > 0, on: lying });
 }
@@ -1234,7 +1226,7 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
+  fillTalk({ lines: spokenLines(lines, (line) => line.text) });
   renderFilingOverlay(value);
   // More races than the talk can hold open as a menu beside it, never as a long
   // numbered list in the talk box (owner, Oct 26).
@@ -1296,14 +1288,14 @@ function renderFiling(value) {
     if (!value.result && !value.overlay) show("race-menu", true);
   }
   if (!asMenu || value.overlay) show("race-menu", false);
-  $("talk-choices").replaceChildren(...buttons);
+  fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
   // label under the talk, not as words in the clerk's mouth.
   if (value.result)
-    $("talk-lines").append(
-      el("li", {
-        className: "label",
-        textContent: value.result.filing
+    addTalkLine(
+      talkLine({
+        kind: "label",
+        text: value.result.filing
           ? (controls.filing?.status?.[value.result.status] ??
             words(value.result.status))
           : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
@@ -1740,24 +1732,25 @@ async function showStory(momentId) {
   show("talk", true);
   show("talk-who", false);
   $("talk-name").textContent = "";
-  $("talk-lines").replaceChildren(
-    ...story.narration.map((line) =>
-      el("li", {
-        className: `speech narration${line.held ? " held" : ""}`,
-        textContent: line.text,
-      }),
-    ),
-    ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
-  );
   // A scene with a purpose is its own exchange; any other opens a talk.
   const withId = story.talk?.askerId ?? story.talkToId;
-  $("talk-choices").replaceChildren(
-    ...(withId
+  fillTalk({
+    lines: [
+      ...story.narration.map((line) =>
+        talkLine({
+          kind: "speech narration",
+          text: line.text,
+          held: line.held,
+        }),
+      ),
+      ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
+    ],
+    replies: withId
       ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
           story.talk ? playExchange(story) : talkTo(withId, momentId),
         )
-      : []),
-  );
+      : [],
+  });
   setScales({ available: false });
 }
 /** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
@@ -1766,16 +1759,18 @@ function playExchange(story) {
   setWho(talk.askerId, story.names[talk.askerId]);
   const said = [...talk.opening];
   const lineOf = (line) =>
-    el("li", {
-      className: `${line.role === "asked" ? "said" : "speech"}${line.held ? " held" : ""}`,
-      textContent: line.text,
+    talkLine({
+      kind: line.role === "asked" ? "history" : "speech",
+      who: line.role === "asked" ? $("card-name").textContent : undefined,
+      text: line.text,
+      held: line.held,
     });
   // The path is the index of each reply chosen, from the first.
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
-    $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
-    $("talk-choices").replaceChildren(
-      ...replies(
+    fillTalk({ lines: said.slice(-4).map(lineOf) });
+    fillTalk({
+      replies: replies(
         node.replies.map((reply, index) => ({
           text: reply.line.text,
           held: reply.line.held,
@@ -1792,11 +1787,10 @@ function playExchange(story) {
           );
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
-          else $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
-          if (!reply.next) $("talk-choices").replaceChildren();
+          else fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
         },
       ),
-    );
+    });
   };
   play(talk.tree, []);
 }
@@ -1851,7 +1845,7 @@ async function showPerson(person) {
   personArtwork("person-background", c.presentation?.backgroundUrl);
   $("person-name").textContent = c.name;
   $("person-role").textContent = [
-    c.relation,
+    c.relation && c.relation.charAt(0).toUpperCase() + c.relation.slice(1),
     c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
@@ -1872,6 +1866,16 @@ async function showPerson(person) {
               textContent: c.work.title ?? "",
             }),
             el("p", { textContent: c.work.employer ?? "" }),
+          ),
+        ]
+      : []),
+    ...(c.school
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail" },
+            el("h3", { className: "label", textContent: labels.school }),
+            el("p", { textContent: c.school.name }),
           ),
         ]
       : []),
@@ -1906,11 +1910,9 @@ async function showPerson(person) {
         ]
       : []),
     ...[
-      c.tie &&
-        row(
-          c.tie.kind,
-          c.tie.lastContactDate ? proseDate(c.tie.lastContactDate) : "",
-        ),
+      // The date is labeled; a tie with no contact on record shows nothing.
+      c.tie?.lastContactDate &&
+        row(labels.lastTalked, proseDate(c.tie.lastContactDate)),
       ...(known
         ? [
             row("party", known.party),
@@ -4749,7 +4751,6 @@ api("/api/title").then((title) => {
 void displayVersion().then((v) => ($("title-version").textContent = v));
 // Not yet routes on the new core: said on the control itself.
 for (const [id, key] of [
-  ["front-watch", "watch"],
   ["front-saves", "saves"],
   ["front-patch-notes", "patchNotes"],
 ])
@@ -4832,7 +4833,8 @@ $("dev-toggle").addEventListener("click", () => {
 const FRONT_PANELS = [
   "front-main",
   "front-new",
-  "front-custom",
+  "front-advanced",
+  "front-pick",
   "cr-character",
   "cr-place",
   "cr-look",
@@ -4917,8 +4919,13 @@ function chosenAge() {
   )?.[1];
 }
 function derivedAge() {
+  const age = chosenAge();
   $("cr-derived-age").textContent =
-    `${chosenAge() ?? ""} · ${setup.start ? proseDate(setup.start) : ""}`;
+    age && setup.start
+      ? (controls.creator?.ageLine ?? "")
+          .replace("{age}", age)
+          .replace("{date}", proseDate(setup.start))
+      : "";
 }
 $("cr-month").addEventListener("change", async () => {
   fillDays();
@@ -4930,7 +4937,6 @@ function pickGender(g) {
   setup.gender = g;
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
-    b.classList.toggle("primary", on);
     b.setAttribute("aria-pressed", String(on));
   }
 }
@@ -4956,27 +4962,27 @@ async function randomBirthday() {
 }
 $("cr-random-birthday").addEventListener("click", () => void randomBirthday());
 
-/** Opens the creator for Start a life or Custom world. */
-async function openCreator(custom) {
-  setup.custom = custom;
-  if (!setup.seed) setup.seed = (await api("/api/seed")).seed;
-  $("cr-route-name").textContent = $(
-    custom ? "new-custom" : "new-start",
-  ).textContent.trim();
+/** Opens the creator for Start a life. */
+async function openCreator() {
+  // The seed Advanced holds, drawn when the page loads, draws the world.
+  setup.seed = $("seed").value || (await api("/api/seed")).seed;
+  $("cr-route-name").textContent = $("new-start").textContent.trim();
   if (!$("cr-year").options.length) await randomBirthday();
   frontPanel("cr-character");
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-back").addEventListener("click", () => frontPanel("front-main"));
-$("new-custom").addEventListener("click", () => frontPanel("front-custom"));
-$("new-start").addEventListener("click", () => void openCreator(false));
-$("new-world").addEventListener("click", () => startLife({}));
-$("custom-back").addEventListener("click", () => frontPanel("front-new"));
-$("custom-next").addEventListener("click", () => void openCreator(true));
-$("cr-route").addEventListener("click", () => frontPanel("front-new"));
-$("cr-character-back").addEventListener("click", () =>
-  frontPanel(setup.custom ? "front-custom" : "front-new"),
+$("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
+$("new-start").addEventListener("click", () => void openCreator());
+$("new-world").addEventListener("click", () => startLife({ custom: true }));
+$("advanced-back").addEventListener("click", () => frontPanel("front-new"));
+$("advanced-build").addEventListener(
+  "click",
+  () => void startLife({ custom: true, pick: true }),
 );
+$("pick-back").addEventListener("click", () => frontPanel("front-advanced"));
+$("cr-route").addEventListener("click", () => frontPanel("front-new"));
+$("cr-character-back").addEventListener("click", () => frontPanel("front-new"));
 $("cr-character-next").addEventListener("click", () => {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
@@ -5067,6 +5073,38 @@ async function listTowns() {
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
 
+// A row of color swatches: each a button named for its color, the chosen one marked.
+function swatchRow(row) {
+  const buttons = row.swatches.map((swatch) => {
+    const b = makeButton({
+      className: "swatch-button",
+      style: `background:${swatch.color}`,
+    });
+    b.setAttribute("aria-label", `${row.label}: ${swatch.label}`);
+    b.setAttribute("aria-pressed", String(swatch.chosen));
+    b.title = swatch.label;
+    b.dataset.swatch = swatch.id;
+    b.addEventListener("click", () => void pickColor(row.id, swatch.id));
+    return b;
+  });
+  const line = el(
+    "div",
+    { className: "look-row swatch-row" },
+    el("span", { className: "label", textContent: row.label }),
+    el("span", { className: "swatches" }, ...buttons),
+    el("span", { className: "look-value", textContent: row.value }),
+  );
+  line.dataset.testid = `engine-appearance-${row.id}`;
+  return line;
+}
+async function pickColor(row, value) {
+  const view = await post(
+    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, value })}`,
+  );
+  setup.previous = [...setup.previous, setup.recipe].slice(-20);
+  showLook(view);
+}
+
 // Character appearance: the people engine's portrait and arrows.
 function showLook(view) {
   setup.recipe = view.recipe;
@@ -5074,6 +5112,7 @@ function showLook(view) {
     `/api/portrait?recipe=${encodeURIComponent(JSON.stringify(view.recipe))}`;
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) => {
+      if (row.swatches) return swatchRow(row);
       const arrow = (by, glyph) => {
         const b = makeButton({
           className: "action small",
@@ -5167,7 +5206,6 @@ $("cr-look-back").addEventListener("click", () => {
 });
 $("cr-begin").addEventListener("click", () =>
   startLife({
-    custom: setup.custom,
     placeKey: setup.town.key,
     person: {
       givenName: $("cr-given").value.trim(),
@@ -5180,9 +5218,62 @@ $("cr-begin").addEventListener("click", () =>
     },
   }),
 );
-const placeControls = ["new-world", "cr-begin"];
+const placeControls = ["new-world", "advanced-build", "cr-begin"];
 
-async function startLife({ custom = false, placeKey, person }) {
+/** Advanced start: everyone who holds an office in the built world, to play as. */
+async function offerPlayAs(life) {
+  const holders = await api("/api/advanced/officeholders");
+  const labels = controls.advanced;
+  const list = $("pick-list");
+  const draw = () => {
+    const found = holders.filter((h) =>
+      `${h.name} ${h.title} ${h.government}`
+        .toLowerCase()
+        .includes($("pick-search").value.trim().toLowerCase()),
+    );
+    list.replaceChildren(
+      ...found.slice(0, 60).map((h) => {
+        const b = makeButton({
+          textContent: `${h.name} · ${h.title}${h.government ? `, ${h.government.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase())}` : ""}${h.party ? ` · ${h.party}` : ""}`,
+        });
+        b.dataset.record = h.termId;
+        b.addEventListener("click", () => void enterAs(life, h.personId));
+        return b;
+      }),
+      ...(found.length === 0
+        ? [el("p", { className: "label", textContent: labels.none })]
+        : []),
+    );
+  };
+  $("pick-search").oninput = draw;
+  draw();
+  show("front-status", false);
+  document.querySelector("#front .progress").hidden = true;
+  frontPanel("front-pick");
+  for (const id of placeControls) $(id).disabled = false;
+}
+
+/** Steps into one officeholder from today, with no opening address. */
+async function enterAs(life, personId) {
+  frontPanel(null);
+  const value = await post(`/api/play?id=${encodeURIComponent(personId)}`);
+  me = {
+    id: value.personId,
+    placeName: life.placeName,
+    date: life.date,
+    names: life.names,
+    portrait: false,
+  };
+  seenChanges = await changeCount();
+  show("front", false);
+  for (const id of ["rings", "card", "journal-note"]) show(id, true);
+  $("game").classList.add("in-play");
+  renderPacket(value.packet);
+  await refresh();
+  await openOfferMoment();
+}
+
+async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
@@ -5225,6 +5316,11 @@ async function startLife({ custom = false, placeKey, person }) {
     } finally {
       clearInterval(poll);
       built = true;
+    }
+    // Advanced: the world is built; choose whom to play, with no address.
+    if (pick) {
+      await offerPlayAs(life);
+      return;
     }
     // Every picture the opening shows is loaded before it plays.
     const opening = await api(

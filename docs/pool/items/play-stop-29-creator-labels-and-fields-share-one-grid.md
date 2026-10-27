@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-29-creator-labels-and-fields-share-one-grid
+pr: #6241
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:15:24.821Z
 ---
 
 **What.** In the creator (Start a life) the "Gender (required)" heading is indented differently from "Your character"; the label column and the field column do not line up (the name fields sit right while the birthday sits left); and the chosen gender button grows wider and gets a gold corner tab, so the row changes size when you click. The owner: "Your character, gender required. Like, why is that off-center and stuff? Why is everything not lined up like a normal game? I still don't understand." This item puts every section heading, label and field on one left edge with one label column and one field column, and shows the chosen button with a state that does not change its size.
@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/play.css, src/bench/play.html, src/bench/creator-fields.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "Why is everything not lined up like a normal game? I still don't understand." Related and not duplicated: play-first-03-creator-date-fields-aligned (the three date fields and field boxes; implementation merged, item open for the installed-build check) and play-first-17-buttons-same-size (one size per row; PR open). This item adds the label column and the picked state those two do not cover. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+- Merged Oct 27 in PR #6241; awaiting the owner's installed-build check.

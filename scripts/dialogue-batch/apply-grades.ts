@@ -20,6 +20,7 @@ import type {
   CalibrationTable,
   RunningGrade,
 } from "../../src/english/calibration";
+import { buildReach, type PieceMakeup } from "../../src/english/grade-reach";
 import {
   type AxisGradeCounts,
   heldByGrades,
@@ -638,6 +639,27 @@ function without(
 }
 
 export const PARTS_DIR = "data/english/parts";
+export const REACH_FILE = "data/english/grade-reach.json";
+
+/** Every bank piece's makeup by key, read from the banks. */
+export function readPieces(dir = PARTS_DIR): Map<string, PieceMakeup> {
+  const pieces = new Map<string, PieceMakeup>();
+  for (const name of readdirSync(dir)
+    .filter((entry) => entry.endsWith(".json"))
+    .sort()) {
+    const bank = JSON.parse(readFileSync(join(dir, name), "utf8")) as {
+      parts?: (Omit<PieceMakeup, "bank"> & { key: string })[];
+    };
+    for (const part of bank.parts ?? [])
+      pieces.set(part.key, {
+        bank: basename(name, ".json"),
+        move: part.move,
+        ...(part.tag ? { tag: part.tag } : {}),
+        ...(part.bearing ? { bearing: part.bearing } : {}),
+      });
+  }
+  return pieces;
+}
 
 /**
  * Every bank's part plays unless the owner's grades hold it. A grade run
@@ -727,6 +749,14 @@ function main() {
   );
   console.log(
     `Wrote ${LEDGER_FILE}: ${ledger.batches.length} graded batches, ${Object.keys(ledger.parts).length} parts graded, ${held.length} held back.`,
+  );
+  // Every grade reaches the pieces sharing its pattern, voice and register
+  // (`src/english/grade-reach.ts`): the profile and group sums the engine reads.
+  const reach = buildReach(readPieces(), ledger, table.registerClasses ?? {});
+  writeFileSync(REACH_FILE, `${JSON.stringify(reach, null, 2)}\n`);
+  execSync(`npx prettier --write ${REACH_FILE}`, { stdio: "ignore" });
+  console.log(
+    `Wrote ${REACH_FILE}: ${Object.keys(reach.groups).length} groups reaching ${Object.keys(reach.profiles).length} pieces.`,
   );
   const banks = releaseBanks(ledger);
   console.log(

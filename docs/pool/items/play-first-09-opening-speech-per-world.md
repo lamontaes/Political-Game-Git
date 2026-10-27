@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: words/opening-address-from-records
-pr:
+pr: #6235
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
