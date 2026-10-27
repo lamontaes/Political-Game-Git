@@ -5,14 +5,14 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-exposes-conflicts
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web press pass (packet the-story-breaks)"
 lead: laws-effects
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T14:44:28.029Z
 ---
 
 **What.** `press.exposed` is written only for a taken bribe (`src/core2/modules/press.ts`, fact `bribe-taken`). So the scandal scene, its lines and the household's part can fire for one kind of story only. The packet `docs/design/scenes/from-life/the-story-breaks.md` (local cases in four cities, calibration only) shows the common ones. An official voted on a contract their family profits from. A city card paid for personal charges. An official doesn't live in the district they represent. There is also no record that the reporter asked for comment before printing.

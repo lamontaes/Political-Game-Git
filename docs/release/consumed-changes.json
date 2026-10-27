@@ -1,6 +1,34 @@
 {
   "entries": [
     {
+      "version": "0.56.1",
+      "releasedOn": "2026-10-27",
+      "revision": "519667f40432b58c8746a4acf21e73142371f411",
+      "changeIds": [
+        "elections-door-contacts-cool-most-voters",
+        "laws-checker-grant-change-toggles",
+        "tests-campaign-traits-ratios-out-of-band-st-paul",
+        "tests-opening-unemployment-scope-red-on-drawn-seed",
+        "tests-project-request-town-without-lower-seat",
+        "tests-world-poverty-halved-pay-small-town",
+        "words-packet-appointment-next-in-line"
+      ]
+    },
+    {
+      "version": "0.56.0",
+      "releasedOn": "2026-10-27",
+      "revision": "2840510c8b5488ba271ceb714c60fb5a14b07167",
+      "changeIds": [
+        "laws-nine-links-housing-two",
+        "laws-prices-local-sales-tax-average-no-seller",
+        "release-smoke-item-lines",
+        "words-campaign-season-scenes-fill-the-months-a",
+        "words-scene-web-election-day-and-night",
+        "world-jobs-counted-choices-one-rule",
+        "world-treasury-cut-moves-little"
+      ]
+    },
+    {
       "version": "0.55.4",
       "releasedOn": "2026-10-27",
       "revision": "9a9dec7ec786b257a05136b2c331e99bf48cf123",

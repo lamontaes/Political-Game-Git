@@ -642,8 +642,14 @@
       "timing": "next-together",
       "causes": [
         {
-          "match": { "labelPrefix": "tie:", "threadTurn": "grew" },
-          "bind": { "friend": "subject", "other-friend": "counterpart" }
+          "match": {
+            "labelPrefix": "tie:contact:contact",
+            "threadTurn": "grew"
+          },
+          "bind": {
+            "friend": "subject",
+            "other-friend": "counterpart"
+          }
         }
       ],
       "tag": {
