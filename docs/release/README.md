@@ -61,7 +61,12 @@ change means two branches never edit the same paragraph.
 
 ## What happens on merge
 
-A push to `main` runs `.github/workflows/release.yml`, which:
+A push to `main` runs `.github/workflows/release.yml`, which calls the reusable
+`.github/workflows/release-candidate.yml` with `publish: false`: it builds and
+validates the candidate and **publishes nothing** (steps 1 to 5 below; a red
+candidate goes red within minutes). Steps 6 to 8, the version commit and the
+publish record, happen only in the clock run (next section), which calls the
+same workflow with `publish: true`. The steps:
 
 1. uses a read-only job to enforce the exact incoming base/head range and read
    every pending declaration on that source revision;
@@ -109,20 +114,27 @@ npm run release:recover
 
 ## When desktop builds happen, and how to ask for one
 
-A push to `main` builds, validates and publishes the version commit (minutes).
-It does not package the apps. `.github/workflows/release-package.yml` does:
+A push to `main` builds and validates only. Publishing the version commit and
+packaging the apps happen in `.github/workflows/release-package.yml` because,
+with a merge every few minutes, the per-push publish job always queued behind
+the next push and no run ever published:
 
 - **every two hours** on a schedule (GitHub cron can lag), and
 - **on request**: Actions > "Release package" > Run workflow on `main`, or
   `gh workflow run release-package.yml --ref main`.
 
-It packages exactly the newest published candidate, read from the newest
-`publish-record` (highest version; its published commit, candidateSha and
-bundleSha256), never a newer `main`, then builds, stages, plays the packaged
-app (the smoke test, unchanged), checks the update feed and publishes the
-GitHub release `v<version>`. If that version already has a release, the run
-exits cleanly and says "Nothing new". Nothing cancels a running package: a
-merge never starts this workflow, and a second tick or request waits behind it.
+A run builds and validates the newest `main`, pushes the version commit
+(laying it onto a `main` that moved, as above), writes the `publish-record`
+(version, published commit, candidateSha, bundleSha256), then packages exactly
+that published commit, never a newer `main`: it builds, stages, plays the
+packaged app (the smoke test, unchanged), checks the update feed and publishes
+the GitHub release `v<version>`. If nothing new needed a version commit, it
+packages the newest earlier record that has no release yet; if there is none,
+or that version already has a release, it exits cleanly and says "Nothing
+new". A red candidate stops the run before it publishes. Nothing cancels a
+running package: a merge never starts this workflow, and a second tick or
+request waits behind it. Its candidate jobs run in their own concurrency group,
+so a push to `main` cannot take its place in the queue either.
 
 ## What it refuses to do
 

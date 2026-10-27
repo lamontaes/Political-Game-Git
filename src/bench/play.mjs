@@ -456,13 +456,20 @@ function openNewsReader(news) {
   }`;
   $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
-    ...lead.broadcast.map((line) =>
-      el("p", { className: "prose", textContent: line.text }),
-    ),
-    // The address itself, as the record quotes it.
-    ...news.address.map((text) =>
-      el("p", { className: "speech quote", textContent: text }),
-    ),
+    // A story the paper prints (lede, figures, one quote) reads as printed;
+    // otherwise the broadcast, then the address as the record quotes it.
+    ...(lead.paragraphs
+      ? lead.paragraphs.map((text) =>
+          el("p", { className: "prose", textContent: text }),
+        )
+      : [
+          ...lead.broadcast.map((line) =>
+            el("p", { className: "prose", textContent: line.text }),
+          ),
+          ...news.address.map((text) =>
+            el("p", { className: "speech quote", textContent: text }),
+          ),
+        ]),
   );
   $("news-reader-more").replaceChildren(
     ...rest.map((item) =>
