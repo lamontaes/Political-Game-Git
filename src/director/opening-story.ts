@@ -6,9 +6,9 @@
  * composed once while the world loads; a sentence the records can't support
  * is left out, never written.
  *
- * - It opens on the player's household at home that evening, the anchor
- *   leading into the address by its title, so the player knows what they
- *   are watching before the President speaks (owner, Oct 14, 2026).
+ * - It opens on the address itself, the President speaking with the Vice
+ *   President and key people pointed out; home comes after the governor and
+ *   the family (owner, Oct 26, 2026).
  * - The address reads the macro engine's opening month against the year
  *   before, saying a figure with what it is, never a bare claim ("Prices are
  *   too high"); the President's own three issues (an ask of Congress only
@@ -60,7 +60,6 @@ import {
   type SpeechVoice,
 } from "../english/english-opening-speech";
 import {
-  composeLeadIn,
   composeNewsStory,
   NEWSCAST_BANK,
   type StoryKind,
@@ -135,15 +134,6 @@ export interface OpeningStory {
     readonly text: string;
     readonly sourceRecordIds: readonly string[];
   };
-  /**
-   * What the player is watching, said first: the anchor's lead into the
-   * address by its title, on the news the household has on at home.
-   */
-  readonly lead: readonly {
-    readonly speaker: "anchor";
-    readonly text: string;
-    readonly sourceRecordIds: readonly string[];
-  }[];
   /** That evening's news: the address, then the town's own lead story. */
   readonly newscast: readonly OpeningNewsStory[];
   /**
@@ -1067,20 +1057,6 @@ export function composeOpeningStory(
       text: sentences.map((row) => row.text).join(" "),
       sourceRecordIds: allIds,
     },
-    lead: composeLeadIn({
-      ...packet(
-        `opening-lead:${core.date}`,
-        core.seed,
-        id,
-        "default",
-        {
-          evening: fact("yes", id),
-          topic: fact(DATA.speechTitles[kind], id),
-        },
-        [id],
-      ),
-      bankVersion: "words-newscast-v1",
-    }),
     newscast: program,
     sequence,
     home: {
