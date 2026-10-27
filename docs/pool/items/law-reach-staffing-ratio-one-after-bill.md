@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/law-reach/group-a-staffing.ts,src/core2/law-reach/group-a-money.ts,src/core2/modules/budgets.ts,src/core2/budget-line-schools-staffing.test.ts
 
 **Notes.** TODO
+
+Bounded merge 2026-10-26: PR #5632 merged at b2b10b39eaece5192c4c713f04c4395ff94ee2be; only office-budget-line-schools-raise-hires closes. Its own local Hooper Utah 4936400 root 8a38ed23152d36591b17340fe343ca28 proves 46 hires and the same-world broken-budget-vote control. This broader item remains open: its original 1311000 regression and additional-town and police/fire acceptance were not completed by that review; retain them and finish the remaining proof without replacing the specified inputs.

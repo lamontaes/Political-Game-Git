@@ -9,7 +9,9 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
+import unwiredLinks from "../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
 import { ownLeast, pickOwn, type OwnPair } from "./own-payments";
+import { splitByReader } from "./unread-links";
 import {
   allLaws,
   changeInData,
@@ -537,8 +539,15 @@ function webLink(
           evidence: "data/research/outcome-web/links.json",
           why: "no researched outcome-web link starts from this law",
         };
-  const fired = runs.flatMap(({ place, r }) =>
+  const allFired = runs.flatMap(({ place, r }) =>
     (r.web?.fired ?? []).map((f) => ({ place, f })),
+  );
+  // A fired ledger row whose factor no engine reads (unwired.json, open
+  // stopgap) is a record, not wiring.
+  const { read: fired, unread } = splitByReader(
+    allFired,
+    unwiredLinks.links,
+    (id) => stopgapOf(id)?.open ?? false,
   );
   // A link the research puts at about zero is a researched result, not a
   // gap: there is nothing for the web to move (links.json, status about-zero).
@@ -558,6 +567,18 @@ function webLink(
         .join("; "),
       why: "",
     };
+  if (!fired.length && unread.length)
+    return {
+      status: "stopgap",
+      evidence: unread
+        .slice(0, 3)
+        .map(
+          ({ item: { place, f } }) =>
+            `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)} (ledger row only)`,
+        )
+        .join("; "),
+      why: `no production reader: ${[...new Set(unread.map((u) => `${u.item.f.link} (${u.stopgapId})`))].join(", ")} move only the web's ledger`,
+    };
   if (fired.length) {
     const ev = fired
       .slice(0, 3)
@@ -565,11 +586,17 @@ function webLink(
         ({ place, f }) => `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}`,
       )
       .join("; ");
-    return notBuilt.length
+    const missing = [
+      ...notBuilt.map((l) => `${l.key} (${l.status})`),
+      ...new Set(
+        unread.map((u) => `${u.item.f.link} (no reader, ${u.stopgapId})`),
+      ),
+    ];
+    return missing.length
       ? {
           status: "partial",
           evidence: ev,
-          why: `links not built: ${notBuilt.map((l) => `${l.key} (${l.status})`).join(", ")}`,
+          why: `links not built or not read: ${missing.join(", ")}`,
         }
       : { status: "wired", evidence: ev, why: "" };
   }

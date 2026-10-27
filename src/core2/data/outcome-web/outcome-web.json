@@ -357,6 +357,41 @@
       "unitScale": 1,
       "baselineReader": "state-corporate-rate"
     },
+    "program.snap-maximum-change-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",
+      "reader": "snap-maximum-change",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.healthAndHospitals-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the health and hospitals line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:healthAndHospitals",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.welfareAndMedicaid-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the welfare and Medicaid line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:welfareAndMedicaid",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.higherEducation-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the higher education line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:higherEducation",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.schools-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the schools lines of the town's city and county budgets in force (the budgets module's rows the school engine's spending measure reads), together, above their Census base for the fiscal year, as a percent",
+      "reader": "schools-line-above-base",
+      "field": "",
+      "unitScale": 1
+    },
     "police.officers-per-1000": {
       "owner": "OPUS-GOV",
       "record": "public-safety months.officersPer1000 (sworn officers per 1,000 residents: the state's recorded rate times the town's police service, its police lines against where they began the year)",

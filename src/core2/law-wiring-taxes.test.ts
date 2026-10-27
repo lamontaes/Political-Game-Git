@@ -516,7 +516,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         named(
           "fund-pensions-to-schedule",
           govRows(PENSIONS),
-          (row) => `${row.targetId}:retirementContributions`,
+          (row) => `${row.targetId}:budget-line:retirementContributions`,
         );
         named(
           "balanced-operating-budget",
@@ -832,14 +832,27 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
 
         // Repeal: the questions end their rows, and a repealed amount stops
         // citing its old law.
+        const repealedOn = core.date;
         for (const key of QUESTIONS) setQuestion(api, key, 0);
         const incomeOff = scaleAmount(api, "income-tax", 0);
         const propertyOff = scaleAmount(api, "property-tax", 0);
         run(core, 40);
-        for (const key of QUESTIONS)
-          expect(open(key).length, `${where}: ${key} open after repeal`).toBe(
-            0,
+        // A body in play may enact a question again after the test repealed
+        // it (Wassaic, New York: bill A94 re-enacted the balanced budget rule
+        // on 2026-06-02, after the 2026-05-19 repeal). Then the law is in
+        // force and its record rightly stays open, citing that newer row; a
+        // record citing the repealed row, or any record while no row newer
+        // than the repeal stands, means the repeal did not end it.
+        for (const key of QUESTIONS) {
+          const newer = lawInForce(api, key).levels.filter(
+            (l) => l.row && !l.setAside && l.row.effectiveDate > repealedOn,
           );
+          const allowed = new Set(newer.map((l) => l.row!.id));
+          expect(
+            open(key).filter((r) => !allowed.has(r.lawId)).length,
+            `${where}: ${key} open after repeal`,
+          ).toBe(0);
+        }
         expect(
           open("income-tax").filter((r) => r.lawId === ids.income).length,
           `${where}: income tax rows at ${ids.income} after ${incomeOff}`,

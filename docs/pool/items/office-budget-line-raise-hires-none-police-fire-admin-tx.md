@@ -24,3 +24,4 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-26 from PR #5809 (branch claude/budget-line-hires-tx): parent #5632 merged and PR retargeted to main, but current normal integration conflicts in production src/core2/law-reach/group-a-staffing.ts and test src/core2/law-reach-group-a.test.ts; merge aborted without code resolution; preserve both current hiring/payroll readers and unfilled-reason proof, then finish on that branch and merge main first; no completed gate claimed.
+Stale 2026-10-26: PR #5809 closed (no push for five days, sent back); the work is on branch claude/budget-line-hires-tx; claim the item and merge main into that branch.
