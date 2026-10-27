@@ -296,6 +296,39 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.42.0
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **In a big city, a business no longer swells past its customers when you meet
+  its neighbors.** When you meet someone in a large city, the households their
+  record stood for are spread over the rest of the town without carrying jobs to
+  employers that never hired. A business's staff now changes only when it hires,
+  lays off or someone leaves, so city businesses stop closing under a payroll
+  they never chose.
+
+- **A retiring official's seat draws candidates as an open seat** When a sitting
+  official decides not to run again, the people who weigh the seat after them
+  now weigh it as an open seat, so a seat its holder gives up no longer goes to
+  an election with nobody on the ballot because the town still counted it as
+  defended.
+
+- **The game's name is set apart from the menu under it** On the title menu, the
+  New game choice and the character creator, the gold name now has a thin gold
+  line under it and room before the first control, so the name and the menu read
+  as two things.
+
+### Changed
+
+- **Whether people move away now follows their place's age of majority, their
+  whole family and their savings** Young people decide for themselves whether to
+  leave town at the age the law where they live sets, not at 18 everywhere. A
+  big family in town holds someone a little more with each relative, instead of
+  stopping at four. A household that has no income but has savings feels what
+  its home costs less than one with nothing put by.
+
 ## PRE-ALPHA 0.41.2
 
 _Released October 26, 2026._
