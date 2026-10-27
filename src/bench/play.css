@@ -126,6 +126,37 @@ ol {
   width: 100%;
   height: 100%;
 }
+/* The title painting drifts and zooms slowly; the next national scene fades
+   in over it (REG:542, REG:734). */
+#backdrop-next {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+#backdrop-next.fading {
+  opacity: 1;
+}
+#game:has(#front:not([hidden])) #backdrop,
+#game:has(#front:not([hidden])) #backdrop-next {
+  animation: title-drift 40s ease-in-out infinite alternate;
+}
+@keyframes title-drift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.1) translate(-1.5%, -1%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #game:has(#front:not([hidden])) #backdrop,
+  #game:has(#front:not([hidden])) #backdrop-next {
+    animation: none;
+  }
+}
 #people .figure {
   position: absolute;
   overflow: hidden;
@@ -772,8 +803,17 @@ input[type="range"]::-moz-range-thumb {
 #front-status:empty {
   display: none;
 }
+/* One header treatment for every title-side panel: the gold name, a thin
+   gold rule, then room before the first control. */
 #front .title {
-  margin-bottom: 14px;
+  margin-bottom: 0;
+}
+.title-rule {
+  height: 0;
+  margin: 12px 0 16px;
+  border: 0;
+  border-top: 1px solid var(--gold);
+  opacity: 0.7;
 }
 .seed-row {
   display: flex;
@@ -1336,11 +1376,25 @@ body.dev .dev-ring {
 }
 .calendar-layout {
   display: grid;
-  grid-template-columns: minmax(360px, 1.7fr) minmax(170px, 1fr) minmax(
-      170px,
+  grid-template-columns: minmax(360px, 1.7fr) minmax(220px, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+/* The day panel opens between the month and Coming up only for a day with something. */
+.calendar-layout.has-day {
+  grid-template-columns: minmax(360px, 1.7fr) minmax(200px, 1fr) minmax(
+      180px,
       1fr
     );
-  gap: 24px;
+}
+.calendar-month-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.calendar-details[hidden] {
+  display: none;
 }
 .calendar-layout h3 {
   font: 600 17px var(--name);
@@ -1375,7 +1429,8 @@ body.dev .dev-ring {
   padding-bottom: 8px;
 }
 .month .day {
-  min-height: 44px;
+  height: 56px;
+  min-height: 56px;
   padding: 6px;
   background: rgba(255, 255, 255, 0.05);
   position: relative;
@@ -1392,9 +1447,14 @@ body.dev .dev-ring {
   display: none;
 }
 .month .entry {
-  display: block;
-  color: var(--gold);
-  line-height: 8px;
+  display: flex;
+  gap: 3px;
+  margin-top: 4px;
+}
+.month .day-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 .calendar-event {
   margin-bottom: 20px;
@@ -1413,7 +1473,8 @@ body.dev .dev-ring {
   color: var(--gold);
 }
 @media (max-width: 1100px) {
-  .calendar-layout {
+  .calendar-layout,
+  .calendar-layout.has-day {
     grid-template-columns: minmax(300px, 1.6fr) 1fr;
     gap: 18px;
   }
@@ -2415,6 +2476,20 @@ body.dev .dev-ring {
 .budget-summary .record-total {
   font-size: clamp(18px, 2vw, 30px);
   overflow-wrap: anywhere;
+}
+/* What the treasury actually took in and paid out, under the plan. */
+/* The plan's three figures, then what the treasury actually took in, paid out and holds. */
+.budget-summary.with-books {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px;
+}
+.budget-summary.with-books .record-total {
+  font-size: clamp(16px, 1.6vw, 24px);
+}
+.budget-warning {
+  color: var(--red);
+  font: 600 14px var(--ui);
+  margin: 0 0 8px;
 }
 .budget-columns {
   display: grid;

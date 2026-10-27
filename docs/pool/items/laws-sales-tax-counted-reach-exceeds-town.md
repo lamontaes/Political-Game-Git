@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/sales-tax-counted-reach
 pr: #6200
 blocked-on:
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T23:54:13.205Z
 **Rules.** One model, two tiers: a counted group stands for the people it counts, once, and every engine reads the same count. One rule, all 56 places: the fix may not name Prescott or Michigan. Ask why: the PR names the cause by file and line.
 
 **Done when.** In Prescott, Michigan (seed a91c03e7d2b84f10) and one drawn place, the sales tax's counted reach stands for no more people than the town's counted residents, the count matches what the price engine counts for the same households, and the PR names the cause of the 5,845 by file and line. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-people.ts
 

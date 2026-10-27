@@ -7,12 +7,13 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #6208
 blocked-on:
 after: play-stop-01-talk-says-nothing-a
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at:
 ---
 
 **What.** Eleven weeks into the playtest campaign the game stopped me for Noah Chan in a café; the screen said only "Noah Chan is with you." and the talk was "Hi." and "Have a good day.". The moment came from a shared cause on record (right to counsel in eviction), but none of it reached the screen. This part makes a director moment open with narration that introduces the person and the reason, then the person's opener with that purpose, then four replies with stakes.

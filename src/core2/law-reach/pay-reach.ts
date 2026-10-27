@@ -7,6 +7,7 @@
  */
 import { lawApplied } from "./applied";
 import { residentsRuntime } from "../modules/residents";
+import { countedJobHeads } from "../residents-economy";
 import type { CoreAPI, CoreState, JobInput } from "../types";
 
 /**
@@ -50,7 +51,8 @@ export function payReach(
           amountMinor,
         });
       else {
-        const weight = countedWeight(core, job.personId);
+        // A raise reaches the jobs the counted job stands for.
+        const weight = countedJobHeads(core, job);
         const held = groups.get(job.organizationId) ?? {
           count: 0,
           amountMinor: 0,

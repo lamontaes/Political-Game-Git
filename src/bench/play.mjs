@@ -622,9 +622,6 @@ function renderPacket(value) {
 function endedBy(value) {
   const words = controls.endedBy ?? {};
   if (value?.kind !== "stop") return "";
-  const work = value.stop.work?.reasons?.[0];
-  if (work)
-    return `${words[work.boundary] ?? ""} · ${me.names?.[work.owner.organizationId] ?? ""}`;
   const module = value.stop.modules[0];
   return module ? (words[module.reasonKey] ?? words.moment ?? "") : "";
 }
@@ -1472,6 +1469,52 @@ function speechPanel(filing, venue) {
     ),
   );
 }
+/**
+ * The town's next local ballot: every city, township and county seat on it
+ * with each filer by name, from the filing records, marked unopposed or
+ * unfilled where that is what the records hold.
+ */
+async function localRacesBlock() {
+  const { date, races } = await api("/api/government/local-races");
+  const labels = controls.localRaces;
+  const block = el(
+    "div",
+    { className: "row race local-races" },
+    el("b", {
+      textContent: date ? `${labels.title} · ${proseDate(date)}` : labels.title,
+    }),
+  );
+  if (!races.length)
+    block.append(
+      el("div", { className: "label", textContent: labels.noBallot }),
+    );
+  for (const race of races) {
+    const names = race.filers.map(
+      (f) => `${f.name ?? ""}${f.party ? ` (${f.party})` : ""}`,
+    );
+    const mark = !race.filers.length
+      ? labels.noFilers
+      : race.filers.length === 1 && race.filingClosed
+        ? labels.unopposed
+        : null;
+    const line = row(
+      race.title,
+      [
+        names.join(", "),
+        mark,
+        race.filingClosed
+          ? null
+          : `${labels.filingCloses} ${proseDate(race.filingDeadline)}`,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    );
+    line.classList.add("local-race");
+    line.dataset.contest = race.contestId;
+    block.append(line);
+  }
+  return block;
+}
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
@@ -2188,6 +2231,16 @@ async function seatRows() {
     );
   return rows;
 }
+
+/** The Kit 13 calendar icon a kind of dated record is drawn with. */
+const dayIcon = (kind) =>
+  ({
+    birthday: "birthday",
+    "filing-opens": "deadline",
+    "filing-deadline": "deadline",
+    primary: "election",
+    election: "election",
+  })[kind] ?? "meeting";
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
 const kindName = (kind) => {
@@ -3172,18 +3225,35 @@ const sheets = {
       if (!gov?.latest) return;
       const latest = gov.latest;
       const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
+      // What the treasury actually took in and paid out, from its journal,
+      // beside the plan: a treasury gone wrong shows here.
+      const books = gov.books;
       content.append(
         el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
         el("p", {
           className: "label",
-          textContent: `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+          textContent: [
+            `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+            books
+              ? `${labels.booksSince} ${proseDate(books.since)}`
+              : labels.noBooks,
+          ].join(" · "),
         }),
       );
-      const summary = el("div", { className: "budget-summary" });
+      const summary = el("div", {
+        className: `budget-summary${books ? " with-books" : ""}`,
+      });
       for (const [label, value] of [
         [labels.revenue, total(latest.revenue)],
         [labels.spending, total(latest.spending)],
         [labels.balance, total(latest.revenue) - total(latest.spending)],
+        ...(books
+          ? [
+              [labels.takenIn, books.takenInMinor],
+              [labels.paidOut, books.paidOutMinor],
+              [labels.cashOnHand, books.cashMinor],
+            ]
+          : []),
       ])
         summary.append(
           el(
@@ -3197,6 +3267,13 @@ const sheets = {
           ),
         );
       content.append(summary);
+      if (books && books.paidOutMinor > total(latest.spending))
+        content.append(
+          el("p", {
+            className: "budget-warning",
+            textContent: labels.overBudget,
+          }),
+        );
       const columns = el("div", { className: "budget-columns" });
       for (const [label, lines] of [
         [labels.revenue, latest.revenue],
@@ -3248,14 +3325,23 @@ const sheets = {
       }
       content.append(columns);
     };
+    // The town's own books open first; a place with no city government opens
+    // on the county's, the local government that serves it.
+    const local = ["city", "county"].map((level) =>
+      view.governments.find((g) => g.level === level && g.latest),
+    );
+    const town = local.find(Boolean);
+    if (town) select.value = town.id;
     select.addEventListener("change", draw);
     draw();
     return [select, content];
   },
   async calendar() {
-    const { date, items } = await api(
+    const { date: recordDate, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
     );
+    // Today is the day the player's clock names, which the calendar opens on.
+    const date = packet?.at.date ?? recordDate;
     const labels = controls.calendar;
     const byDate = new Map();
     for (const item of items)
@@ -3306,6 +3392,11 @@ const sheets = {
       b.addEventListener("click", fn);
       return b;
     };
+    const skipControl = () =>
+      skipForward(labels.advance, () => {
+        closeSheet();
+        act(`/api/advance?mode=calendar&date=${selected}`);
+      });
     const paging = (index, count, change) => {
       const back = button(labels.back, () => change(index - 1));
       const next = button(labels.next, () => change(index + 1));
@@ -3313,8 +3404,15 @@ const sheets = {
       next.disabled = (index + 1) * 3 >= count;
       return el("nav", { className: "calendar-paging" }, back, next);
     };
+    // The day panel opens only for a day that has something.
     const drawDetails = () => {
       const entries = byDate.get(selected) ?? [];
+      root.classList.toggle("has-day", entries.length > 0);
+      details.hidden = !entries.length;
+      if (!entries.length) {
+        details.replaceChildren();
+        return;
+      }
       details.replaceChildren(
         el("h3", { textContent: dateWords(selected) }),
         ...entries.slice(dayPage * 3, dayPage * 3 + 3).map(event),
@@ -3326,13 +3424,7 @@ const sheets = {
             drawDetails();
           }),
         );
-      if (selected > (packet?.at.date ?? date))
-        details.append(
-          skipForward(labels.advance, () => {
-            closeSheet();
-            act(`/api/advance?mode=calendar&date=${selected}`);
-          }),
-        );
+      if (selected > date) details.append(skipControl());
     };
     const select = (iso) => {
       selected = iso;
@@ -3375,27 +3467,44 @@ const sheets = {
         cell.setAttribute("aria-label", dateWords(iso));
         cell.setAttribute("aria-pressed", String(iso === selected));
         if (iso === date) cell.setAttribute("aria-current", "date");
+        // One small Kit 13 icon per kind of thing on the day.
         if (entries.length)
           cell.append(
-            el("span", {
-              className: "entry",
-              textContent: "•",
-              title: entries
-                .map(
-                  (i) => controls.policyNames?.[i.title] ?? slugWords(i.title),
-                )
-                .join("\n"),
-            }),
+            el(
+              "span",
+              {
+                className: "entry",
+                title: entries
+                  .map(
+                    (i) =>
+                      controls.policyNames?.[i.title] ?? slugWords(i.title),
+                  )
+                  .join("\n"),
+              },
+              ...[...new Set(entries.map((i) => dayIcon(i.kind)))].map((icon) =>
+                el("img", {
+                  src: `/ui/kit13/calendar-${icon}.png`,
+                  alt: "",
+                  className: "day-icon",
+                }),
+              ),
+            ),
           );
         grid.append(cell);
       }
       monthBox.replaceChildren(
         header,
         grid,
-        button(labels.today, () => {
-          month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-          select(date);
-        }),
+        el(
+          "div",
+          { className: "calendar-month-foot" },
+          button(labels.today, () => {
+            month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
+            select(date);
+          }),
+          // A day with nothing on it has no panel, so the skip sits here.
+          ...(selected > date && !byDate.has(selected) ? [skipControl()] : []),
+        ),
       );
     };
     const next = items
@@ -4016,6 +4125,7 @@ const sheets = {
     const labels = controls.results;
     return [
       ...(await campaignRows()),
+      await localRacesBlock(),
       ...v.filings.map((f) =>
         row(
           decided.has(f.contestId)
@@ -4560,8 +4670,33 @@ document.addEventListener("fullscreenchange", () => {
 // The title screen: a national scene or event, full window, that moves on with
 // each visit (owner, Oct 8 and Oct 14). Continue resumes the life in progress.
 let titleLife = null;
+// The painting drifts by CSS while the title is open; every few seconds the
+// next scene of the day's rotation fades in over it.
+function rotateTitle(scenes, seconds) {
+  let at = 0;
+  const next = $("backdrop-next");
+  setInterval(() => {
+    if ($("front").hidden) return;
+    at = (at + 1) % scenes.length;
+    next.src = scenes[at].backdrop.url;
+    next.onload = () => {
+      next.onload = null;
+      next.classList.add("fading");
+      setTimeout(() => {
+        if ($("front").hidden) return next.classList.remove("fading");
+        const back = $("backdrop");
+        back.src = next.src;
+        back.style.animation = "none";
+        void back.offsetWidth;
+        back.style.animation = "";
+        next.classList.remove("fading");
+      }, 3100);
+    };
+  }, seconds * 1000);
+}
 api("/api/title").then((title) => {
   if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
+  if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
   $("front-continue-life").textContent = titleLife

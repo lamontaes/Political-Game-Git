@@ -10,6 +10,7 @@ export const GOV_MEASURES = [
   "election.incumbent-reelection",
   "voting.local-turnout",
   "budget.parks-added-pct",
+  "budget.highways-added-pct",
   "labor.minimum-wage",
   "labor.minimum-wage-to-median",
   "voting.youth-turnout",

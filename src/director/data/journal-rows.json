@@ -48,6 +48,21 @@
       "other": "partner"
     }
   },
+  "kinAddress": {
+    "about": "How two relatives speak of a relative they share, by that relative's relation to both and recorded gender: a brother and sister call their father Dad. A relation with no word here (a shared sibling) is said by first name; a gender with no word, not at all.",
+    "parent": {
+      "female": "Mom",
+      "male": "Dad"
+    },
+    "other-parent": {
+      "female": "Mom",
+      "male": "Dad"
+    },
+    "grandparent": {
+      "female": "Grandma",
+      "male": "Grandpa"
+    }
+  },
   "countWords": [
     "",
     "once",
