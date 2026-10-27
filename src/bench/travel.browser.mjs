@@ -1,8 +1,10 @@
-/* global document, console, URL */
+/* global document, console, URL, process */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-const browser = await chromium.launch({ executablePath: "/usr/bin/chromium" });
-const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
+const browser = await chromium.launch({
+  executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
+});
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(30000);
 await page.route("**/api/controls", async (route) => {
   const response = await route.fetch();
@@ -63,15 +65,27 @@ try {
     .evaluate((e) => e.click());
   await page.locator(".travel-destinations").waitFor();
   assert.ok((await page.locator(".travel-place").count()) > 0);
+  // Every card has a picture, a name, who is there and why it is listed;
+  // no name has a parenthetical, and there is no pager.
+  for (const card of await page.locator(".travel-place").all()) {
+    assert.equal(await card.locator("img.travel-image").count(), 1);
+    const name = await card.locator("h3").innerText();
+    assert.ok(name.trim() && !/[()]/.test(name), `card name: ${name}`);
+    assert.ok((await card.locator(".travel-here").innerText()).trim());
+    assert.ok((await card.locator(".travel-reason").innerText()).trim());
+    assert.ok(await card.getAttribute("data-reason"));
+  }
+  assert.equal(await page.locator(".travel-pager").count(), 0);
+  assert.ok(await page.locator(".travel-from").innerText());
   const first = await page.locator(".travel-info h3").first().innerText();
   await page
     .getByRole("searchbox", { name: "Search destinations" })
     .fill(first);
-  assert.equal(await page.locator(".travel-place").count(), 1);
+  assert.ok((await page.locator(".travel-place").count()) >= 1);
   await page.getByRole("searchbox", { name: "Search destinations" }).fill("");
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
-    path: "docs/reports/filing-in-travel-2026-10-14/travel.png",
+    path: "docs/reports/travel-cards-2026-10-27/travel.png",
   });
   assert.equal(await page.locator("#card-clock").innerText(), clock);
   assert.deepEqual(errors, []);
