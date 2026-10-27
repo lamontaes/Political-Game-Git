@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-filing-positions-own-issues
 pr: #6274
 blocked-on:
