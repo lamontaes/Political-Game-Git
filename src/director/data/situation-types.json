@@ -1378,7 +1378,11 @@
         "key": "arrival",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "housemate-arrives",
+      "asker": "newcomer",
+      "asked": "household",
+      "stakes": ["home"]
     },
     {
       "key": "care",
@@ -2689,6 +2693,9 @@
     },
     {
       "key": "hallway",
+      "purpose": "hallway-word",
+      "asker": "other",
+      "asked": "you",
       "roles": [
         {
           "key": "other",
@@ -2715,6 +2722,7 @@
           "causeEngine": "circumstance",
           "causeRecord": "public-meeting",
           "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "colleague-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         },
@@ -2723,6 +2731,7 @@
           "causeEngine": "circumstance",
           "causeRecord": "public-meeting",
           "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "reporter-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         },
@@ -2731,14 +2740,15 @@
           "causeEngine": "circumstance",
           "causeRecord": "case.made",
           "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "lobbyist-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         }
       ],
       "tag": {
-        "key": "routine",
+        "key": "colleague-word",
         "endpoint": "political",
-        "registers": ["conversation", "scene-words"]
+        "registers": ["scene-talk", "scene-words"]
       }
     },
     {

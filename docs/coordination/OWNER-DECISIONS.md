@@ -6,6 +6,18 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 27, afternoon: screens rulings from the v0.56.2 sitting (owner, via his local Opus session, 3:30 PM Eastern; full block to follow in `docs/coordination/playtest/2026-10-27-1.md`)
+
+- **Screens are designed from game design principles and reference games, not improvised (owner: "How hard is it to look at other games and look at game design principles, examples, and textbooks and stuff and design a good goddamn screen?").** The Political Process (menus, calendar, travel, news), Wildermyth (scenes), Crusader Kings and RimWorld are the references. A dedicated Opus screens designer owns this; every screen PR cites the principles page it builds to.
+- **No dead space** ("there's so much dead space and empty space in these menus"): a panel is sized to its content or its content fills it.
+- **No subheadings** ("Remove all those fucking subheadings. I hate them all"): no "YOU ARE AT HOME" under Travel or its like on any screen.
+- **"Serving when your story began" is gone** from every Government row ("Like, what is that? No. Stop.").
+- **The calendar is usable, not "a blob":** events on their days, one worded line each naming who and what, no duplicates, no "LAW TAKES EFFECT" rows that name no body or effect ("these random laws take effects are not useful"); the player's own deadlines first.
+- **News is a newspaper with story text** ("there is still no newspapers, even though UI was made for them"); no record kinds, series names or jurisdiction labels on screen.
+- **The person card's Talk button is removed** ("Remove the goddamn talk button").
+- **The talk box subtitle and the traits block speak plainly:** not "Warehouse worker · Quinn Supply Company · partner" and not trait names ("The player is not seeing this stuff. It needs to be a plain version of what this person's like"); sentences from the English engine.
+- **Travel always lists destinations**, including at night; **council members never all show "60% of the vote"** (a placeholder); **one left menu, not a panel duplicating the rail.**
+
 ## Oct 27, midday: ship each finished unit (owner, to the CTO, 12:15 to 12:45 PM Eastern)
 
 - **Nothing is held back; one finished unit is one merge (owner, Oct 27, 12:30 PM Eastern: "There's a lot of work, not just in what I mentioned, that's just arbitrarily being held back... There's no reason to be holding shit back. That's the point of having so many mergers and fixers." And 12:45: "That goes for everything, not just what I said. So if one law gets finished, put it in the game. Then work on the next one. If four effects on the web are finished, put those in. Keep working. This rate of update should be fast.").** A finished law, outcome-web link, trait decision, scene, screen or speed change goes to main as its own PR the hour it is green, then the next one starts. No family batches, no "merge after", no merge holds except a red main, no waiting for a matrix to be whole. A merger sends back only for a defect a player would meet, a standing-rule break or a claim the checks disprove, and fixes paperwork in the merge. Scope (owner, 12:55 PM Eastern: "Family batches are fine for the future or overnight, but just not now. There's too much stuff that needs progress and needs human feedback right now"): per-unit shipping is the rule while the owner is awake and testing; a lead may batch a family overnight or when the owner says so. The CTO's release windows of Oct 27 morning stay withdrawn.
