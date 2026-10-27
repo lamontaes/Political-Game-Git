@@ -1314,10 +1314,11 @@ function reviewEmployers(api: CoreAPI): void {
 }
 
 /**
- * A new opening's pay: the role's own rate, moved with the place's pay level
- * since that rate was set (the region's pay), never under the wage floor in
- * force. Each role keeps its own rate above the floor; the median of whoever
- * holds the role now plays no part (owner, Oct 14).
+ * A new opening's pay: the role's own rate, moved with the region's pay level
+ * since it was set, never under the wage floor in force; the median of whoever
+ * holds the role plays no part (owner, Oct 14). Pay does not grow with tenure
+ * or how one works yet: ruled to be built (owner-pay-growth-by-performance,
+ * SG-TRAITS-pay-growth-by-performance).
  */
 function payFor(
   api: CoreAPI,
@@ -1385,6 +1386,43 @@ function managerOf(
     )[0]?.personId;
 }
 
+/**
+ * What an employer sees of how a person works, in years of tenure or
+ * experience: their lean toward diligence over slack (`jobs.value-worker`)
+ * times its weight, sized from conscientiousness and job performance (Barrick
+ * and Mount 1991). Hiring and layoffs both read it, and a counted worker is
+ * valued by the same rule.
+ */
+function howTheyWork(api: CoreAPI, personId: string): number {
+  const c = core(api);
+  return (
+    decisionTraitWeight(c, "jobs.value-worker") *
+    decisionLean(
+      c,
+      { traits: traitsOf(api, personId) },
+      "jobs.value-worker",
+      "keep",
+      "let-go",
+    )
+  );
+}
+
+/**
+ * How a business values each of its workers, in years: their tenure with it
+ * and how they work. A layoff lets go of the worker valued least.
+ */
+export function workerValues(
+  api: CoreAPI,
+  organizationId: string,
+  staff: readonly JobInput[] = currentJobs(api, organizationId),
+): { job: JobInput; tenure: number; work: number }[] {
+  return staff.map((job) => ({
+    job,
+    tenure: api.parameter("jobsKeepTenureWeight") * tenureYears(api, job),
+    work: howTheyWork(api, job.personId),
+  }));
+}
+
 /** The business decides who goes: the worker whose tenure and record it values least. */
 export function layOff(
   api: CoreAPI,
@@ -1394,16 +1432,21 @@ export function layOff(
   values: Readonly<Record<string, number>>,
   tradingId?: string,
 ): { heads: number; id?: string } | "over" | undefined {
-  const c = core(api),
-    reliability = jobsData.traits.reliability;
+  const c = core(api);
+  const valued = new Map(
+    workerValues(api, organizationId, staff).map((row) => [row.job, row]),
+  );
+  const least = (score: (job: JobInput) => number) =>
+    [...staff].sort(
+      (a, b) => score(a) - score(b) || a.id.localeCompare(b.id),
+    )[0];
   const keep = (job: JobInput) =>
-    api.parameter("jobsKeepTenureWeight") * tenureYears(api, job) +
-    api.parameter("jobsFitReliabilityWeight") *
-      (traitsOf(api, job.personId)[reliability] ?? 0);
-  const job = [...staff].sort(
-    (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
-  )[0];
+    valued.get(job)!.tenure + valued.get(job)!.work;
+  const job = least(keep);
   if (!job) return;
+  // Whether how they work, not tenure alone, decided who goes: the record keeps
+  // it as a reason.
+  const workDecided = least((row) => valued.get(row)!.tenure) !== job;
   // A job ends before its day's work. The worker the business chose played
   // their day before this review ran (the controlled character): the same
   // choice is made at the next review, before that day's work.
@@ -1466,7 +1509,13 @@ export function layOff(
     kind: "layoff",
     reasonKey: jobsData.reasons.layoff,
     decidedBy: decidedBy ?? organizationId,
-    values: { ...values, keepScore },
+    values: {
+      ...values,
+      keepScore,
+      tenureScore: valued.get(job)!.tenure,
+      workScore: valued.get(job)!.work,
+      workDecided: workDecided ? 1 : 0,
+    },
     ...(tradingId ? { tradingId } : {}),
   });
   // Read before the event: an event can fill a counted worker in, after which
@@ -2101,9 +2150,7 @@ function runWeek(api: CoreAPI): void {
               (isCounted(api, seeker.personId)
                 ? (countedExperience.get(key) ?? 0)
                 : experienceYears(api, seeker.personId, position.occupation)) +
-            p("jobsFitReliabilityWeight") *
-              (traitsOf(api, seeker.personId)[jobsData.traits.reliability] ??
-                0) +
+            howTheyWork(api, seeker.personId) +
             // An official's word for them counts as one more reason, and
             // fades the longer ago it was given.
             p("jobsFitReferralWeight") *

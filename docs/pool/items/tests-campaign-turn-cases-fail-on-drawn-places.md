@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/campaign-turn-draws
-pr:
+pr: #6344
 blocked-on:
 source: laws-and-effects lead, Oct 27 (changed-file tests of campaigns-local-platform-budget-lines)
 claimed-at: 2026-10-27T15:50:28.906Z
