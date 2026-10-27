@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/creator-look-matches-gender
 pr: #6430
 blocked-on:
