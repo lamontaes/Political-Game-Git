@@ -916,7 +916,7 @@ function townStory(
 }
 
 /** The facts among `keys` that `facts` carries. */
-const pick = (facts: Facts, keys: readonly string[]): Facts =>
+const factsAmong = (facts: Facts, keys: readonly string[]): Facts =>
   Object.fromEntries(
     keys.flatMap((key) => (facts[key] ? [[key, facts[key]!] as const] : [])),
   );
@@ -1064,7 +1064,7 @@ export function composeOpeningStory(
       date: fact(spokenDate(core.date, core.date), id),
       // The country's figures the address argued from, and the line of it
       // the news remembers.
-      ...pick(countryFacts(core, kind).facts, [
+      ...factsAmong(countryFacts(core, kind).facts, [
         "unemployment-rate",
         "wage-growth",
       ]),
