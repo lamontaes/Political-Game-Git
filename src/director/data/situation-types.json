@@ -2982,6 +2982,7 @@
       "stakes": ["home", "rent"]
     },
     {
+      "repeatsBy": "bill",
       "key": "vote-asked",
       "purpose": "ask-vote",
       "asker": "colleague",
@@ -3700,6 +3701,7 @@
       }
     },
     {
+      "repeatsBy": "bill",
       "key": "section-bargain",
       "purpose": "section-bargain",
       "asker": "member",

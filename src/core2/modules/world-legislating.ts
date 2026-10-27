@@ -52,6 +52,7 @@ import {
 import { lastEnactment, lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import type { OfficeLevel } from "../offices-local";
 import { partySide } from "../appointments";
 import { decisionLean, termOfLean } from "../trait-decisions";
 import {
@@ -74,6 +75,7 @@ import {
   settledness,
   tasteForChange,
   type BillRow,
+  type Provision,
   type Sitting,
 } from "./legislature";
 
@@ -126,6 +128,28 @@ function questionForLevel(
   return kind === "federal-district" && level !== "federal"
     ? levels.some((own) => ["state", "county", "city"].includes(own))
     : levels.includes(level);
+}
+
+/**
+ * Whether the government an office belongs to may decide a policy question
+ * here: the question is that level's own (`question-powers.json`), the level
+ * has the power for it, and a town, township or county acts only within what
+ * its state lets its places do. The one check a body files by when it sits,
+ * and the one a contest's positions are read through (`contest-positions.ts`).
+ * A township legislates as a town does.
+ */
+export function levelMayDecide(
+  api: CoreAPI,
+  level: OfficeLevel,
+  question: string,
+  value = 1,
+): boolean {
+  const own = level === "township" ? "city" : level;
+  if (!questionForLevel(api, question, own)) return false;
+  const provision: Provision = { kind: "policy-question", question, value };
+  return own === "federal" || own === "state"
+    ? !beyondPower(provision, own)
+    : !beyondPower(provision, "local") && authorityFor(api, provision).allowed;
 }
 
 export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
@@ -883,11 +907,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           needsChange(direction, answerIn(api, jurisdiction, question, true)),
         // A legislature answers only the questions its level may (data).
         allowed: (question, value) =>
-          questionForLevel(api, question, federal ? "federal" : "state") &&
-          !beyondPower(
-            { kind: "policy-question", question, value },
-            federal ? "federal" : "state",
-          ),
+          levelMayDecide(api, federal ? "federal" : "state", question, value),
         // A new session takes every bill up afresh.
         barred: () => false,
       })
@@ -1330,7 +1350,8 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
-    .get(officeId) as unknown as { kind: string } | undefined;
+    .get(officeId) as unknown as
+    { kind: string; level: OfficeLevel } | undefined;
   const chain = lawChain(api);
   // Each body legislates for its own government: a county board for its
   // county, a township board for its township, a council for its place.
@@ -1360,13 +1381,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? !inForceForTown(api, question)
         : !!own && ownRow(api, own, question) === 1,
     allowed: (question, value) =>
-      questionForLevel(
-        api,
-        question,
-        office?.kind === "county-board" ? "county" : "city",
-      ) &&
-      !beyondPower({ kind: "policy-question", question, value }, "local") &&
-      authorityFor(api, { kind: "policy-question", question, value }).allowed,
+      levelMayDecide(api, office?.level ?? "city", question, value),
     barred: (question, direction) =>
       recentlyDefeated(api, officeId, question, direction),
   });
