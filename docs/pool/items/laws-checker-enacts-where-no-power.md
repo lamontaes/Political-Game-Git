@@ -19,6 +19,8 @@ claimed-at: 2026-10-27T14:12:46.100Z
 
 **Done when.** `scripts/law-wiring/check.ts` picks the enacting level from the series powers (and the town's home-rule authority where it grants a local power), and a rerun of restore voting in Rinard, Iowa (seed 7a3535a49386981d) in a played world (`buildBenchWorld`) enacts it at the state and names the reach records it writes. The families whose laws changed level are listed for regrading. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
+**Time box.** 3 hours, Sonnet, no helpers; builds against nothing.
+
 **Files.** scripts/law-wiring/check.ts, src/core2/data/legislature/series-powers.json, src/core2/data/legislature/bill-catalog.json
 
 **Notes.** From the laws lead, Oct 24, reading the restore-voting draw's run file.
