@@ -1,6 +1,7 @@
 ---
 id: elections-town-meeting-named-turnout-none
 title: "Golden path M2-07 fails in Troy, Vermont: none of 56 named adults votes in the March town meeting board race"
+lead: m0-m2
 area: elections
 kind: bug
 priority: 1

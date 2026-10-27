@@ -1,6 +1,7 @@
 ---
 id: tests-m0-03-election-morning-ends-jump
 title: "Golden path M0-03 fails when a calendar jump reaches election morning: the polling-place pause reads as a jump that ended early"
+lead: play-first
 area: play
 kind: bug
 priority: 1
