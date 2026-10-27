@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/contracts-new-richmond
-pr:
+pr: #6217
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T04:52:17.629Z
