@@ -1,0 +1,24 @@
+{
+  "about": "How a span of days is said aloud: months as people name them, never a day count. Read by src/english/span-words.ts; the director passes the number of days.",
+  "daysPerMonth": {
+    "value": 30,
+    "tag": "SOURCED",
+    "citation": "A month as people say a span of time: 365 days over 12, rounded to 30 for speech; it rounds a count of days to the months a speaker names, never decides anything."
+  },
+  "months": [
+    "less than a month",
+    "one month",
+    "two months",
+    "three months",
+    "four months",
+    "five months",
+    "six months",
+    "seven months",
+    "eight months",
+    "nine months",
+    "ten months",
+    "eleven months",
+    "twelve months"
+  ],
+  "longer": "more than a year"
+}

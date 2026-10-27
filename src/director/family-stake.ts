@@ -9,28 +9,13 @@
  */
 import { ageOnDate, daysBetweenText } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
+import { spanSaid } from "../english/span-words";
 import type { CoreState, PersonId } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 
 const RULES = rulesFile.familyStakes;
 const zero = P.zero;
 const one = P.one;
-
-const MONTH_WORDS = [
-  "less than a month",
-  "one month",
-  "two months",
-  "three months",
-  "four months",
-  "five months",
-  "six months",
-  "seven months",
-  "eight months",
-  "nine months",
-  "ten months",
-  "eleven months",
-  "twelve months",
-];
 
 export type StakeKind = "money" | "time";
 
@@ -51,14 +36,6 @@ export interface Stake {
 const daysBetween = daysBetweenText;
 
 const ageOn = ageOnDate;
-
-/** A span of days as people say it: "three months", never a day count. */
-export function monthsSaid(days: number): string {
-  const months = Math.round(days / RULES.daysPerMonth.value);
-  return months < MONTH_WORDS.length
-    ? MONTH_WORDS[Math.max(zero, months)]!
-    : "more than a year";
-}
 
 /**
  * The stake one relative has in the filing, or null. `causeId` is the filing's
@@ -109,11 +86,11 @@ export function stakeOf(
             recordIds: [causeId, household.id, ...members.map((m) => m.id)],
           },
           cushion: {
-            text: monthsSaid(runwayDays),
+            text: spanSaid(runwayDays),
             recordIds: [household.id, ...members.map((m) => m.id)],
           },
           remaining: {
-            text: monthsSaid(raceDays),
+            text: spanSaid(raceDays),
             recordIds: [causeId],
           },
         },
