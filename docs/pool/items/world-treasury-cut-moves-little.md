@@ -19,6 +19,8 @@ claimed-at: 2026-10-27T13:50:59.399Z
 
 **Done when.** A note here names, by file and line in `src/core2/budgets-treasury.ts`, why a cut line moves about 1% of its size; and either that is shown to be the right rule (a treasury short of cash pays a share), or the treasury pays each line what it holds for it, with a test that fails without the fix. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
+**Time box.** 3 hours, Sonnet, no helpers; builds against nothing.
+
 **Files.** src/core2/budgets-treasury.ts
 
 **Notes.** Filed by the laws lead, Oct 25.
