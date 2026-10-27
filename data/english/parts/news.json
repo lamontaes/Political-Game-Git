@@ -42,7 +42,8 @@
     "to": "The amount now in force, from the law record.",
     "when": "The election's date, from the contest record.",
     "issue": "A policy question, by its name.",
-    "incident": "The kind of disaster, from the declaration record."
+    "incident": "The kind of disaster, from the declaration record.",
+    "area": "The region a rate is measured for (a metro area, or the state), by name."
   },
   "maxWords": 14,
   "mining": {
@@ -1642,10 +1643,10 @@
       }
     },
     {
-      "key": "news.jobs-report.the-unemployment-rate-in-place-was-percent-in-month",
+      "key": "news.jobs-report.the-unemployment-rate-in-area-was-percent-in-month",
       "move": "jobs-report",
       "kind": "written",
-      "text": "The unemployment rate in {place} was {percent} in {month}.",
+      "text": "The unemployment rate in {area} was {percent} in {month}.",
       "uses": [
         {
           "move": "jobs-report",
@@ -1664,10 +1665,10 @@
       }
     },
     {
-      "key": "news.jobs-report.unemployment-in-place-stood-at-percent-against-nation-for-th",
+      "key": "news.jobs-report.unemployment-in-area-stood-at-percent-against-nation-for-the-nation",
       "move": "jobs-report",
       "kind": "written",
-      "text": "Unemployment in {place} stood at {percent}, against {nation} for the nation.",
+      "text": "Unemployment in {area} stood at {percent}, against {nation} for the nation.",
       "uses": [
         {
           "move": "jobs-report",
@@ -1686,10 +1687,10 @@
       }
     },
     {
-      "key": "news.jobs-report.the-jobless-rate-in-place-was-percent-in-month-the-national-",
+      "key": "news.jobs-report.the-jobless-rate-in-area-was-percent-in-month-the-national-rate-was-nation",
       "move": "jobs-report",
       "kind": "written",
-      "text": "The jobless rate in {place} was {percent} in {month}; the national rate was {nation}.",
+      "text": "The jobless rate in {area} was {percent} in {month}; the national rate was {nation}.",
       "uses": [
         {
           "move": "jobs-report",

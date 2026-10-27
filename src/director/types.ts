@@ -143,6 +143,11 @@ export interface Thread {
   closeness: number;
   lastContact?: IsoDate;
   tone: "rising" | "souring" | "steady";
+  /**
+   * The change in closeness since the tie last turned, signed: each contact
+   * moves a tie a little, and the tie turns when the change adds up.
+   */
+  tieDrift?: number;
   momentIds: string[];
   /**
    * Moments forgotten from this pair: their count, summed impact, and summed
@@ -237,6 +242,11 @@ export interface Ledger {
   sceneFilters: Map<PersonId, SceneFilter>;
   /** Each voter's election-day visit to the polls, by `<person>:<election date>`. */
   pollingVisits: Map<string, PollingVisitRecord>;
+  /**
+   * The day each circumstance last staged a scene for a person, by
+   * `<person>|<row id>`, and `<person>|*` for any circumstance (circumstance.ts).
+   */
+  circumstanceLast: Map<string, IsoDate>;
 }
 
 /**
