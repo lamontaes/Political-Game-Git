@@ -37,12 +37,14 @@ Honesty note: I could not verify how The Political Process lays out its calendar
 16. **Judge each screen against a shipped reference before building.** Pull three screens of the same type (Character, Map, Menu, Stats) from Game UI Database or Interface In Game and write one line on what each one puts on the screen and what it leaves out. (Source: Interface In Game, https://interfaceingame.com/, fetched: a collection with screens sorted into Character, Dialogue, Menu, Map, Stats, Quest and other categories. Game UI Database returned HTTP 403 to me, so I could not read it.)
 
 ## What I could not verify
+
 - The Political Process menus, calendar, news and travel layout: the Steam store page (fetched) has no screenshot captions or layout text; the Steam dev board lists only post titles ("Upcoming Updates - Improving User Experience", Jul 27, 2024 is the one to read by hand); one aggregator search snippet called its UI "clunky and overwhelming", unverified.
 - RimWorld inspect pane: the wiki returned HTTP 403; search results only gave forum and mod pages, so no RimWorld rule above rests on a source.
 - CK3 character window layout: no Paradox page fetched describes it; only tooltips and the Issues menu (via Shacknews) and the console diary.
 - Hodent, "The Gamer's Brain" and Fagerholt and Lorentzon, "Beyond the HUD": only search summaries seen, no text fetched, so none are cited for a rule.
 
 ## Sources (pages fetched)
+
 - https://store.steampowered.com/app/1184770/The_Political_Process/
 - https://steamcommunity.com/app/1184770/discussions/3
 - https://awkwardmixture.blogspot.com/2023/12/the-political-process-from-senator-to.html

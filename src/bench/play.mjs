@@ -635,9 +635,6 @@ const words = (key) => {
     .toLowerCase();
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 };
-/** A title that is a bare slug reads as words; a name or a sentence stays as it is. */
-const slugWords = (text) =>
-  /^[a-z][a-z0-9-]*$/.test(text) ? words(text) : text;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
