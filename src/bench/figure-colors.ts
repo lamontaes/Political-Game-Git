@@ -241,9 +241,10 @@ export function recolorFigure(
   // How much of the new color each pixel takes: all of it on a map.
   const weights = new Float32Array(png.width * png.height).fill(1);
   const pieceOf = (i: number): Garment | null => {
-    if (map) return garmentAt(map, i);
+    // No clothing color on the head, whatever a map marks there (eyes).
     const y = Math.floor(i / 4 / png.width);
     if (y < below) return null;
+    if (map) return garmentAt(map, i);
     const share = clothShare(png.data[i]!, png.data[i + 1]!, png.data[i + 2]!);
     if (
       share <= 0 ||
