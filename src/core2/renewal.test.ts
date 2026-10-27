@@ -437,8 +437,8 @@ it(
       tried.push(`${draw.key} seed ${draw.seed}`);
       // The input is on record before the world is built, so a run killed in
       // construction or in its year can be replayed with GOLDEN_PATH_SEED.
-      console.log(
-        `renewal counted unplanned: ${draw.name} (${draw.key}), world seed ${draw.seed}, root ${base}, attempt ${attempt}`,
+      process.stdout.write(
+        `renewal counted unplanned: ${draw.name} (${draw.key}), world seed ${draw.seed}, root ${base}, attempt ${attempt}\n`,
       );
       // The month's counts rows (expected births) are kept only with bookkeeping on.
       setBookkeeping(true);
