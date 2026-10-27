@@ -209,7 +209,7 @@ function withholdingSlot(
 /** Prior fiscal years the history shows before the opening budget. */
 const PRIOR_BUDGET_YEARS = 2;
 
-/** The same month and day `years` earlier (29 February falls back to the 28th). */
+/** The same month and day `years` earlier (February 29 falls back to the 28th). */
 function yearsEarlier(date: string, years: number): string {
   const day = date.slice(5) === "02-29" ? "02-28" : date.slice(5);
   return `${Number(date.slice(0, 4)) - years}-${day}`;
