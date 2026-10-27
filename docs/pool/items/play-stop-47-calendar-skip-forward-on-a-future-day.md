@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-47-calendar-skip-forward-on-a-future-day
-pr:
+pr: #6281
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
