@@ -80,13 +80,10 @@ export function storyScene(
   // A scene with a purpose plays as its exchange: the asker's open and
   // statement, the replies the player taps, the answers, to its close. Its
   // situation is the one staged (a filing's household at home, not the clerk).
-  const purpose = purposeScene(
-    core,
-    director,
-    personId as PersonId,
-    entry,
-    options.held ? { includeHeld: true } : {},
-  );
+  const purpose = purposeScene(core, director, personId as PersonId, entry, {
+    ...(options.held ? { includeHeld: true } : {}),
+    next: true,
+  });
   const lead =
     purpose?.kind === "composed"
       ? entry.bindings.find((row) => row.typeKey === purpose.scene.typeKey)
@@ -212,7 +209,7 @@ export function storyReply(
   personId: string,
   momentId: string,
   path: readonly number[],
-  options: { held?: boolean } = {},
+  options: { held?: boolean; typeKey?: string } = {},
 ) {
   const entry = director.ledger.people
     .get(personId)
@@ -224,7 +221,12 @@ export function storyReply(
     personId as PersonId,
     entry,
     path,
-    options.held ? { includeHeld: true } : {},
+    {
+      ...(options.held ? { includeHeld: true } : {}),
+      // The scene the reply was said in, so the next one of the moment
+      // does not take its place partway through.
+      ...(options.typeKey ? { typeKey: options.typeKey } : {}),
+    },
   );
   if (!recordId) throw new Error("Not a reply the scene offers.");
   return { recordId };

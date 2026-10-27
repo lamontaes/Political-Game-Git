@@ -984,7 +984,12 @@ export async function benchRequest(
               .split(".")
               .filter(Boolean)
               .map(Number),
-            { held: url.searchParams.get("held") === "1" },
+            {
+              held: url.searchParams.get("held") === "1",
+              ...(url.searchParams.get("typeKey")
+                ? { typeKey: url.searchParams.get("typeKey")! }
+                : {}),
+            },
           ),
         );
         return;
