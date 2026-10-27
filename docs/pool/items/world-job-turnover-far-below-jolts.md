@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: each hire, quit and layoff comes from the worker's or employer's own situation, and the JOLTS ranges check the totals only. One model, two tiers: counted workers change jobs by the same rules, times their count.
 
-**Done when.** The M1-04 command passes its hires, quits, layoffs and unemployment clauses in Westport, South Dakota (seed above) and two more places drawn from all 56, each named with its rates in the PR body. **On screen.** Nothing yet: filed play-local-layoffs-on-screen, which puts it on News and Jobs and study.
+**Done when.** The M1-04 command passes its hires, quits, layoffs and unemployment clauses in a played world (buildBenchWorld) in Westport, South Dakota (seed above) and two more drawn places from all 56, each named with its rates in the PR body. **On screen.** Nothing yet: filed play-local-layoffs-on-screen, which puts it on News and Jobs and study.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/tooling/m1-04-check.ts
 

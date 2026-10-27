@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/took-effect-superseded
-pr:
+pr: #6339
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T15:22:15.527Z

@@ -117,7 +117,7 @@ Fragments: "Seat's open in November." / "Have you talked to Jen?" / "My first ra
 ## 13. Police chief warns of a protest and asks the official to cancel an event
 
 Opens (G): "I need ten minutes. Not on the phone." / "Sit."
-Endings: EVENT CANCELLED; MOVED (new place or time); GOES AHEAD with a plan (officers, route); CHIEF OVERRIDDEN and later blamed; STORY RUNS (leaked: "chief asked mayor to cancel").
+Endings: EVENT CANCELED; MOVED (new place or time); GOES AHEAD with a plan (officers, route); CHIEF OVERRIDDEN and later blamed; STORY RUNS (leaked: "chief asked mayor to cancel").
 Moves: chief gives facts (numbers, source, route) and a recommendation -> official asks what the chief needs to hold the event safely -> chief gives a number (officers/cost) -> official weighs politics aloud -> official decides and asks the chief to put the risk in writing.
 Substantive: the chief names specifics and a cost; the official asks what changes the risk. Stock: "Public safety is our top priority."
 Fragments: "Two hundred, maybe more, from out of town." / "What do you need to keep it safe?" / "Eight more officers and the south lot." / "Put the risk in writing for me."
