@@ -221,6 +221,7 @@
     "nameHeadPick": "Name to the post"
   },
   "titleUnavailable": {
+    "continue": "No life in progress yet. Start a life first.",
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."
   },

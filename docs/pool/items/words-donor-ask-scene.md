@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: finisher/words-donor-ask-scene
-pr: #6002
+pr: #6381
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
