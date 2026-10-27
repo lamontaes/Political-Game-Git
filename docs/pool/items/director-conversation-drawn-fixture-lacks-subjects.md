@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/conversation-fixture
-pr:
+pr: #6264
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T08:04:39.246Z

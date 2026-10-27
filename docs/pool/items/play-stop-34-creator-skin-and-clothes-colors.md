@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-34-creator-skin-and-clothes-colors
 pr: #6229
 blocked-on:

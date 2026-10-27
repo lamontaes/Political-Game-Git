@@ -7036,5 +7036,17 @@
     "addedAt": "2026-10-27",
     "replacement": "A painted skin mask and clothing mask for each figure (asset-scene-admission), read by recolorFigure in place of the color test.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-people-skin-tone-weights",
+    "kind": "estimated-data",
+    "file": "src/bench/whole-figures.ts",
+    "line": 236,
+    "whatItFakes": "The skin tone of a person other than the player is drawn from one national spread of eight tones, the same in every place, not from the place's own people.",
+    "why": "The people records hold no skin tone; the figures need one to differ from their neighbors. The weights are a rough estimate of the national spread (Census race and ethnicity counts folded into eight tones), about five points a tone.",
+    "addedBy": "claude/play-stop-35",
+    "addedAt": "2026-10-27",
+    "replacement": "A skin tone set from the place's own demographics when the person is made, stored on their appearance record.",
+    "status": "open"
   }
 ]
