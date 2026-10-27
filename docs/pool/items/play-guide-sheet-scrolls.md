@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-76ksvw
-pr: #5180
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:13:09.513Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T02:13:09.513Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.

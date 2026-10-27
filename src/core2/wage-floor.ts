@@ -8,13 +8,32 @@
  * opening (modules/jobs.ts `wageFloor`), so a later hire is never paid under
  * it either. A repeal writes the old wage back; pay already raised stays.
  */
+import exempt from "./data/laws/minimum-wage-exempt.json" with { type: "json" };
 import { lawApplied } from "./law-reach/applied";
-import { countedWeight } from "./law-reach/pay-reach";
 import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
-import { rerateCountedJobs } from "./residents-economy";
+import { countedJobHeads, rerateCountedJobs } from "./residents-economy";
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI, CoreState, Source } from "./types";
+
+/**
+ * Whether the minimum wage reaches a job (data/laws/minimum-wage-exempt.json):
+ * not an elected official's, their personal staff's or a policymaking
+ * appointee's (a post GOV fills through `startPublicJob`), and not a job at an
+ * employer standing for the world outside the town.
+ */
+export function minimumWageExempt(
+  core: CoreState,
+  jobId: string,
+  organizationId: string,
+): boolean {
+  return (
+    exempt.jobIdPrefixes.some((prefix) => jobId.startsWith(prefix)) ||
+    exempt.employerKinds.includes(
+      core.organizations.get(organizationId)?.kind ?? "",
+    )
+  );
+}
 
 /**
  * Raise every job in the town paying under the minimum wage now in force.
@@ -46,12 +65,13 @@ export function raiseToFloor(
     const employer = core.organizations.get(job.organizationId);
     if (
       !employer ||
+      minimumWageExempt(core, job.id, job.organizationId) ||
       (core.visiblePlaceIds.size && !core.visiblePlaceIds.has(employer.placeId))
     )
       continue;
     raised.set(job.id, floor);
     const held = groups.get(employer.id) ?? { count: 0, amountMinor: 0 };
-    const weight = countedWeight(core, job.personId);
+    const weight = countedJobHeads(core, job);
     // The daily pay the raise adds for this worker.
     groups.set(employer.id, {
       count: held.count + weight,
@@ -156,6 +176,7 @@ export function raiseOne(
   // start keeps a commitment to that start day).
   const job = core.jobs.get(commitment.jobId);
   if (!job || job.endsAt !== undefined) return false;
+  if (minimumWageExempt(core, job.id, commitment.organizationId)) return false;
   const employer = core.organizations.get(commitment.organizationId);
   if (!employer || (town.size && !town.has(employer.placeId))) return false;
   const from = commitment.hourlyMinor;

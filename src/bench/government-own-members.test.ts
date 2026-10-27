@@ -42,7 +42,11 @@ it("lists the player's own members first, leaders by post, and every other membe
   ).length;
   expect(reason("own-us-senator").length, where).toBe(kinds("us-senate"));
   expect(reason("own-us-senator").length, where).toBeLessThanOrEqual(2);
-  expect(reason("own-us-representative").length, where).toBe(kinds("us-house"));
+  // A delegate or resident commissioner is the player's own member of the
+  // House as a state's representative is.
+  expect(reason("own-us-representative").length, where).toBe(
+    kinds("us-house") + kinds("us-house-delegate"),
+  );
   expect(
     kinds("us-house") + kinds("us-house-delegate"),
     where,
@@ -108,5 +112,49 @@ it("lists the player's own members first, leaders by post, and every other membe
     expect(row.holder?.familyName, `${where}: ${row.seatId}`).toBeTruthy();
   process.stdout.write(
     `OWN MEMBERS ${where}: ${own.map((k) => `${k.officeTitle} ${k.name}`).join("; ")}; leaders ${leaders.map((k) => `${k.post} ${k.chamber} ${k.name} (${k.stateName})`).join("; ")}; ${other} in Congress: ${senators.length} senators, ${congress.length - senators.length} House\n`,
+  );
+}, 600_000);
+
+const DELEGATE_JURISDICTIONS = new Set([
+  "US-DC",
+  "US-PR",
+  "US-GU",
+  "US-VI",
+  "US-AS",
+  "US-MP",
+]);
+
+it("names the delegate or resident commissioner as the player's own member of the House in D.C. and the five territories", () => {
+  // Bounded draws over all 56: the first place that falls in D.C. or a territory.
+  let place: ReturnType<typeof drawPlace> | undefined;
+  for (let i = 0; i < 400 && !place; i += 1) {
+    const drawn = drawPlace(`${seed}:${i}`, "politics-own-delegate");
+    if (DELEGATE_JURISDICTIONS.has(drawn.state)) place = drawn;
+  }
+  if (!place)
+    throw new Error(`no D.C. or territory draw in 400 (seed ${seed})`);
+  const where = `${place.name} (${place.key}, ${place.state}), seed ${place.seed}`;
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const core = world.core;
+  const api = coreAPI(core);
+  const seats = townSeats(api).filter(
+    ({ office }) => office.kind === "us-house-delegate",
+  );
+  expect(seats.length, `${where}: the delegate's seat over the town`).toBe(1);
+  const seatId = seats[0]!.seat.id;
+  const holder = seats[0]!.holder;
+  expect(holder?.personId, `${where}: the holder of ${seatId}`).toBeTruthy();
+  const own = governmentView(core, core.playerId!).keyPeople.filter((k) =>
+    k.reasons.includes("own-us-representative"),
+  );
+  expect(own.length, `${where}: one member of the House`).toBe(1);
+  expect(own[0]!.personId, `${where}: ${seatId} is the own member`).toBe(
+    holder!.personId,
+  );
+  process.stdout.write(
+    `OWN DELEGATE ${where}: ${seatId} held by ${holder!.personId}\n`,
   );
 }, 600_000);

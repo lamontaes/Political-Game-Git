@@ -126,6 +126,37 @@ ol {
   width: 100%;
   height: 100%;
 }
+/* The title painting drifts and zooms slowly; the next national scene fades
+   in over it (REG:542, REG:734). */
+#backdrop-next {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+#backdrop-next.fading {
+  opacity: 1;
+}
+#game:has(#front:not([hidden])) #backdrop,
+#game:has(#front:not([hidden])) #backdrop-next {
+  animation: title-drift 40s ease-in-out infinite alternate;
+}
+@keyframes title-drift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.1) translate(-1.5%, -1%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #game:has(#front:not([hidden])) #backdrop,
+  #game:has(#front:not([hidden])) #backdrop-next {
+    animation: none;
+  }
+}
 #people .figure {
   position: absolute;
   overflow: hidden;
@@ -378,8 +409,9 @@ select:focus-visible {
     0 3px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
-/* Icons: gold line icons on a small glass key (the row over the player card). */
+/* Icons: gold line icons on round glass keys, a column over the player card (MOCKS:24). */
 .ring {
+  position: relative;
   width: 40px;
   height: 40px;
   display: grid;
@@ -388,7 +420,7 @@ select:focus-visible {
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
     var(--key);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 1px;
+  border-radius: 50%;
   box-shadow:
     0 2px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
@@ -401,6 +433,18 @@ select:focus-visible {
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+/* A story the player has not read yet: a dot on the News icon. */
+.ring.unread::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 2px var(--iron);
 }
 .ring.active {
   background: var(--raised);
@@ -759,8 +803,17 @@ input[type="range"]::-moz-range-thumb {
 #front-status:empty {
   display: none;
 }
+/* One header treatment for every title-side panel: the gold name, a thin
+   gold rule, then room before the first control. */
 #front .title {
-  margin-bottom: 14px;
+  margin-bottom: 0;
+}
+.title-rule {
+  height: 0;
+  margin: 12px 0 16px;
+  border: 0;
+  border-top: 1px solid var(--gold);
+  opacity: 0.7;
 }
 .seed-row {
   display: flex;
@@ -1033,7 +1086,12 @@ body.dev .dev-ring {
 }
 #rings {
   display: flex;
+  flex-direction: column;
   gap: 8px;
+}
+/* With a screen open the Menu list is the way between screens; the rail steps aside. */
+#game.sheet-open #rings {
+  display: none;
 }
 
 /* ---- Conversation: lower third, portraits top left, scales upper right ---- */
@@ -1117,7 +1175,7 @@ body.dev .dev-ring {
 .nav-item {
   display: block;
   width: 100%;
-  /* Every menu entry one height, with a description line or without. */
+  /* Every menu entry one height. */
   min-height: 50px;
   padding: 8px 18px;
 }
@@ -1127,12 +1185,6 @@ body.dev .dev-ring {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text);
-}
-.nav-item .nd {
-  display: block;
-  font: 400 12px var(--ui);
-  color: var(--text-3);
-  margin-top: 1px;
 }
 .nav-item.active {
   background: var(--raised);
@@ -2301,6 +2353,19 @@ body.dev .dev-ring {
 .government-body {
   max-width: 1000px;
 }
+/* A member's line: name and party, then the term, who won the seat and your
+   race for it, each on a line of its own. */
+.government-body .row:has(> .row) {
+  flex-wrap: wrap;
+}
+.government-body .row > .row {
+  flex-basis: 100%;
+  justify-content: flex-end;
+  padding: 2px 0;
+}
+.government-body .row.own-race {
+  color: var(--gold);
+}
 .key-people {
   break-inside: avoid;
 }
@@ -2347,6 +2412,32 @@ body.dev .dev-ring {
 .record-value {
   text-align: right;
 }
+/* A person in a list (ui/list-row.mjs): face, the name that opens their card, office, party. */
+.person-row {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.person-row-face {
+  flex: none;
+  width: 32px;
+  height: 36px;
+  object-fit: cover;
+  object-position: top;
+  background: var(--iron);
+}
+.person-row .people-initial {
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  font: 15px var(--name);
+}
+.person-row .member-name {
+  flex: 1;
+}
+.person-row-note {
+  color: var(--text-2);
+}
 .record-total {
   display: block;
   font: 600 30px var(--name);
@@ -2364,6 +2455,20 @@ body.dev .dev-ring {
 .budget-summary .record-total {
   font-size: clamp(18px, 2vw, 30px);
   overflow-wrap: anywhere;
+}
+/* What the treasury actually took in and paid out, under the plan. */
+/* The plan's three figures, then what the treasury actually took in, paid out and holds. */
+.budget-summary.with-books {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px;
+}
+.budget-summary.with-books .record-total {
+  font-size: clamp(16px, 1.6vw, 24px);
+}
+.budget-warning {
+  color: var(--red);
+  font: 600 14px var(--ui);
+  margin: 0 0 8px;
 }
 .budget-columns {
   display: grid;

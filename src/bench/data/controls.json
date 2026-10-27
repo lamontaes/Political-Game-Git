@@ -29,8 +29,6 @@
     "about": "about"
   },
   "endedBy": {
-    "start": "Shift starts",
-    "end": "Shift ends",
     "moment": "Something needs you",
     "job-offered": "A job offer",
     "results": "Election results",
@@ -122,7 +120,16 @@
     "place": "Home",
     "talk": "Talk",
     "back": "Back",
-    "continue": "Continue"
+    "continue": "Continue",
+    "knows": "Knows",
+    "noColleagues": "Knows no one in office yet",
+    "tieWords": {
+      "coworker": "Works with",
+      "contact": "Knows",
+      "group": "In a group with",
+      "family": "Family"
+    },
+    "rival": "Rival"
   },
   "options": {
     "version": "Version",
@@ -360,7 +367,18 @@
     "increase": "Increase",
     "decrease": "Decrease",
     "stateFilter": "State",
-    "ownState": "Your state"
+    "ownState": "Your state",
+    "booksSince": "Actually taken in and paid out since",
+    "takenIn": "Taken in",
+    "paidOut": "Paid out",
+    "cashOnHand": "Cash on hand",
+    "overBudget": "Paid out more than this year's budget",
+    "noBooks": "The treasury has paid nothing in or out yet",
+    "seriesNames": {
+      "income-tax": "Income tax rate",
+      "sales-tax": "Sales tax rate"
+    },
+    "noneHere": "None here"
   },
   "results": {
     "cast": "Ballots cast",
@@ -405,5 +423,12 @@
     "jobsLost": "Jobs lost",
     "sales": "Sales",
     "costs": "Costs"
+  },
+  "localRaces": {
+    "title": "Local races on the ballot",
+    "unopposed": "Unopposed",
+    "noFilers": "No one has filed",
+    "filingCloses": "Filing closes",
+    "noBallot": "No local election is on the calendar"
   }
 }
