@@ -4815,10 +4815,10 @@
       }
     },
     {
-      "key": "headlines.address.name-gives-inaugural-address",
+      "key": "headlines.address.name-sworn-in-gives-inaugural-address",
       "move": "address",
       "kind": "written",
-      "text": "{name} gives inaugural address",
+      "text": "{name} sworn in, gives inaugural address",
       "uses": [
         {
           "move": "address",
@@ -4847,12 +4847,82 @@
           "move": "address",
           "subject": "headline",
           "role": "address",
-          "choice": "headline"
+          "choice": "headline",
+          "requiresFacts": ["joint-session"]
         }
       ],
       "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address.name-sworn-in-as-president",
+      "move": "address",
+      "kind": "written",
+      "text": "{name} sworn in as president",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "headline",
+          "role": "address",
+          "choice": "headline",
+          "requiresFacts": ["inaugural"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address.name-takes-the-oath-of-office",
+      "move": "address",
+      "kind": "written",
+      "text": "{name} takes the oath of office",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "headline",
+          "role": "address",
+          "choice": "headline",
+          "requiresFacts": ["inaugural"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address.name-speaks-to-congress",
+      "move": "address",
+      "kind": "written",
+      "text": "{name} speaks to Congress",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "headline",
+          "role": "address",
+          "choice": "headline",
+          "requiresFacts": ["joint-session"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
       "tag": {
         "move": "headline",

@@ -1779,6 +1779,68 @@
         }
       ]
     },
+    "hallway-word": {
+      "state": "ask",
+      "replies": ["tell", "ask", "promise", "refuse"],
+      "follow": {
+        "tell": ["thank", "press"],
+        "ask": ["answer"],
+        "promise": ["thank", "press"],
+        "refuse": ["accept", "press"]
+      },
+      "again": {
+        "press": ["tell", "refuse", "leave"],
+        "answer": ["tell", "promise", "refuse", "leave"]
+      },
+      "endings": [
+        {
+          "id": "gave-word",
+          "label": "You gave your word",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "said-where",
+          "label": "You said where you stand",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["tell"]
+          }
+        },
+        {
+          "id": "turned-down",
+          "label": "You turned them down",
+          "keeps": "none",
+          "when": {
+            "reply": ["refuse"]
+          }
+        },
+        {
+          "id": "cut-short",
+          "label": "You cut it short",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave"]
+          }
+        },
+        {
+          "id": "asked-first",
+          "label": "You asked what they were after",
+          "keeps": "none",
+          "when": {
+            "reply": ["ask"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "conflict-accuse": {
       "state": "confront",
       "replies": ["tell", "deny", "confront", "offer", "lie"],
