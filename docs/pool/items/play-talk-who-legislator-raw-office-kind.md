@@ -1,6 +1,7 @@
 ---
 id: play-talk-who-legislator-raw-office-kind
 title: "The talk box says a legislator colleague is 'legislature-lower at Indiana treasury.'"
+lead: play-first
 area: play
 kind: bug
 priority: 2

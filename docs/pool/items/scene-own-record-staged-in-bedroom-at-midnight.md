@@ -1,6 +1,7 @@
 ---
 id: scene-own-record-staged-in-bedroom-at-midnight
 title: "An ask that stops the day at its close is staged in the player's bedroom at midnight, with the colleague standing in it"
+lead: director
 area: words
 kind: bug
 priority: 2
