@@ -38,6 +38,7 @@ try {
   });
   let filed = null;
   let place = null;
+  let personId = null;
   for (let draw = 0; draw < 6 && !filed; draw += 1) {
     place = drawPlace(`${runSeed}:${draw}`, "election-day");
     const made = await page.request.post(
@@ -45,6 +46,7 @@ try {
       { timeout: 600000 },
     );
     assert.equal(made.status(), 200);
+    personId = (await made.json()).personId;
     await page.reload();
     await page.locator("#front-continue").click();
     await page.waitForFunction(() =>
@@ -78,19 +80,60 @@ try {
   const week = new Date(Date.parse(filed.electionDate) - 7 * 86400000)
     .toISOString()
     .slice(0, 10);
+  // Every stop the player's clock holds is continued past, as a player
+  // would: whatever is pending now (a filing visit, a scene), then each one
+  // the jump reaches. A choice is left to the character.
+  const settle = async (packet) => {
+    let at = packet;
+    for (let i = 0; i < 50 && at?.kind === "stop"; i += 1) {
+      // A job offer whose deadline holds the clock is turned down, as a
+      // player may; resuming alone would not release it.
+      for (const row of at.stop?.modules ?? []) {
+        if (row.moduleId !== "jobs") continue;
+        const view = await (
+          await page.request.get(
+            `${base}/api/jobs?${new URLSearchParams({ id: personId })}`,
+          )
+        ).json();
+        const offer = (view.offers ?? []).find((o) =>
+          row.recordId.startsWith(`${o.id}:`),
+        );
+        if (offer)
+          await page.request.post(
+            `${base}/api/jobs/answer?${new URLSearchParams({ offerId: offer.id, answer: "decline" })}`,
+          );
+      }
+      const r = await page.request.post(
+        `${base}/api/resume?${new URLSearchParams({ pauseId: at.pauseId })}`,
+        { timeout: 600000 },
+      );
+      at = (await r.json().catch(() => ({}))).packet;
+    }
+    return at;
+  };
+  const current = async () =>
+    (
+      await (
+        await page.request.post(
+          `${base}/api/play?${new URLSearchParams({ id: personId })}`,
+          { timeout: 600000 },
+        )
+      ).json()
+    ).packet;
   for (let step = 0; step < 200; step += 1) {
+    await settle(await current());
     const r = await page.request.post(
       `${base}/api/advance?${new URLSearchParams({ mode: "calendar", date: week })}`,
       { timeout: 600000 },
     );
     const body = await r.json().catch(() => ({}));
     if (/can't go backward/.test(JSON.stringify(body))) break;
-    assert.ok(r.ok(), JSON.stringify(body).slice(0, 300));
-    if (body.packet?.kind === "stop") {
-      await page.request.post(
-        `${base}/api/resume?${new URLSearchParams({ pauseId: body.packet.pauseId })}`,
-        { timeout: 600000 },
+    if (!r.ok())
+      assert.fail(
+        `${JSON.stringify(body).slice(0, 200)}; pending ${JSON.stringify(await current()).slice(0, 400)}`,
       );
+    if (body.packet?.kind === "stop") {
+      await settle(body.packet);
       continue;
     }
     break;
@@ -105,10 +148,16 @@ try {
   for (let day = 0; day < 12; day += 1) {
     if (await morning.isVisible().catch(() => false)) break;
     const talk = page.locator("#talk-leave");
-    if (await talk.isVisible().catch(() => false)) await talk.click();
+    if (await talk.isVisible().catch(() => false))
+      await talk.click({ timeout: 5000 }).catch(() => {});
     const resume = page.locator("#continue:not([hidden])");
-    if (await resume.isVisible().catch(() => false)) await resume.click();
-    else await page.locator("#day").click();
+    if (await resume.isVisible().catch(() => false))
+      await resume.click({ timeout: 5000 }).catch(() => {});
+    else
+      await page
+        .locator("#day")
+        .click({ timeout: 5000 })
+        .catch(() => {});
     await page.waitForTimeout(2500);
   }
   await morning.waitFor();
@@ -157,30 +206,34 @@ try {
     await page.locator("#ballot-leave").click();
   // Election night: the returns pop-up, step by step to the call.
   const returns = page.locator("#returns:not([hidden])");
-  for (let i = 0; i < 12; i += 1) {
+  for (let i = 0; i < 30; i += 1) {
     if (await returns.isVisible().catch(() => false)) break;
     // A job offer that holds the clock waits, as a player might let it.
     const later = page.getByRole("button", { name: "Not now", exact: true });
     if (await later.isVisible().catch(() => false)) {
-      await later.click();
+      await later.click({ timeout: 5000 }).catch(() => {});
       await page.waitForTimeout(2000);
       continue;
     }
     const talk = page.locator("#talk-leave");
-    if (await talk.isVisible().catch(() => false)) await talk.click();
+    // A control can hide between the look and the click (a panel opens):
+    // each click waits briefly and the loop looks again.
+    if (await talk.isVisible().catch(() => false))
+      await talk.click({ timeout: 5000 }).catch(() => {});
     else {
       const resume = page.locator("#continue:not([hidden])");
-      if (await resume.isVisible().catch(() => false)) await resume.click();
-      else if (
+      if (await resume.isVisible().catch(() => false))
+        await resume.click({ timeout: 5000 }).catch(() => {});
+      else
         await page
           .locator("#day")
-          .isVisible()
-          .catch(() => false)
-      )
-        await page.locator("#day").click();
+          .click({ timeout: 5000 })
+          .catch(() => {});
     }
     await page.waitForTimeout(3000);
   }
+  if (!(await returns.isVisible().catch(() => false)))
+    await shot("eday-stuck-before-returns");
   await returns.waitFor({ timeout: 300000 });
   console.log("RETURNS 1:", await page.locator("#returns").innerText());
   await shot("eday-4-returns-first");
@@ -197,8 +250,13 @@ try {
     const talk = page.locator("#talk:not([hidden])");
     if (await talk.isVisible().catch(() => false)) break;
     const resume = page.locator("#continue:not([hidden])");
-    if (await resume.isVisible().catch(() => false)) await resume.click();
-    else await page.locator("#day").click();
+    if (await resume.isVisible().catch(() => false))
+      await resume.click({ timeout: 5000 }).catch(() => {});
+    else
+      await page
+        .locator("#day")
+        .click({ timeout: 5000 })
+        .catch(() => {});
     await page.waitForTimeout(2500);
   }
   const talk = page.locator("#talk:not([hidden])");
