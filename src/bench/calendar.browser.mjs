@@ -37,9 +37,6 @@ try {
       document.getElementById("card-name").textContent.trim() &&
       document.getElementById("card-clock").textContent.trim(),
   );
-  // A job offer held for an answer comes first in some worlds.
-  if (await page.locator("#job-offer-turn").isVisible())
-    await page.locator("#job-offer-turn").click();
   const name = await page.locator("#card-name").innerText();
   const clock = await page.locator("#card-clock").innerText();
   console.log(

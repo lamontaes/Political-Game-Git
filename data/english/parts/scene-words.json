@@ -3345,7 +3345,8 @@
           "move": "lead-news-arrives-other",
           "subject": "lead",
           "role": "news-arrives",
-          "choice": "other"
+          "choice": "other",
+          "settings": ["home"]
         }
       ],
       "shippable": true,
@@ -3366,7 +3367,8 @@
           "move": "lead-news-arrives-other",
           "subject": "lead",
           "role": "news-arrives",
-          "choice": "other"
+          "choice": "other",
+          "settings": ["home"]
         }
       ],
       "shippable": true,
