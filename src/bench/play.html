@@ -100,15 +100,6 @@
             <b>New game</b>
           </button>
           <button
-            id="front-watch"
-            class="item"
-            type="button"
-            data-testid="watch-world"
-            disabled
-          >
-            <b>Watch the world</b>
-          </button>
-          <button
             id="front-continue"
             class="item"
             type="button"
@@ -162,14 +153,6 @@
         <!-- New game: how the world begins. -->
         <div id="front-new" data-testid="new-game-choice" hidden>
           <button
-            id="new-custom"
-            class="item"
-            type="button"
-            data-testid="custom-world"
-          >
-            <b>Custom world</b>
-          </button>
-          <button
             id="new-start"
             class="item"
             type="button"
@@ -178,12 +161,12 @@
             <b>Start a life</b>
           </button>
           <button
-            id="new-world"
+            id="new-advanced"
             class="item"
             type="button"
-            data-testid="new-world"
+            data-testid="advanced"
           >
-            <b>New world</b>
+            <b>Advanced</b>
           </button>
           <button
             id="new-back"
@@ -194,8 +177,8 @@
             <b>Back</b>
           </button>
         </div>
-        <!-- Custom world: the Oct 13 front's settings. -->
-        <div id="front-custom" data-testid="custom-world-panel" hidden>
+        <!-- Advanced: the one dev-mode start (owner, Oct 26): the world's settings, then anyone to play as. -->
+        <div id="front-advanced" data-testid="advanced-panel" hidden>
           <div class="field">
             <label for="seed">Seed</label>
             <span class="seed-row"
@@ -274,16 +257,40 @@
           /></label>
 
           <div class="acts">
-            <button id="custom-back" class="action small" type="button">
+            <button id="advanced-back" class="action small" type="button">
               Back
             </button>
             <button
-              id="custom-next"
+              id="new-world"
+              class="action small"
+              type="button"
+              data-testid="new-world"
+            >
+              New world
+            </button>
+            <button
+              id="advanced-build"
               class="action primary small"
               type="button"
-              data-testid="custom-continue"
+              data-testid="advanced-build"
             >
-              Continue
+              Choose who to play
+            </button>
+          </div>
+        </div>
+        <!-- Advanced, after the world is built: step into anyone who holds an office. -->
+        <div id="front-pick" data-testid="advanced-pick" hidden>
+          <h2 class="label">Play as</h2>
+          <input
+            id="pick-search"
+            type="search"
+            aria-label="Search officeholders"
+            placeholder="Search officeholders"
+          />
+          <div id="pick-list" class="pick-list"></div>
+          <div class="acts">
+            <button id="pick-back" class="action small" type="button">
+              Back
             </button>
           </div>
         </div>
