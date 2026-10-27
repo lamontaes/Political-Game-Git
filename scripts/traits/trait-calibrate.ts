@@ -13,15 +13,12 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import decisions from "../../data/content/trait-decisions.json" with { type: "json" };
+import {
+  strongestRows,
+  targetLogOdds,
+  type ResearchRow,
+} from "./trait-targets";
 
-interface ResearchRow {
-  id: string;
-  option?: string;
-  baseRate?: number;
-  effect: { kind: string; value: number; traitSd?: number } | null;
-  /** A pp-per-sd row's outcome is a probability of the option (not a level). */
-  outcomeIsProbability?: boolean;
-}
 interface Sample {
   actions?: string[];
   bare: number | number[];
@@ -36,62 +33,6 @@ const run = JSON.parse(readFileSync(runPath!, "utf8")) as {
 const research = JSON.parse(
   readFileSync("data/research/trait-effect-sizes.json", "utf8"),
 ) as { rows: ResearchRow[] };
-
-/** Thirds apart, in standard deviations of a normal trait. */
-const THIRDS_APART = 2.18;
-/** A normal trait's interquartile range is 1.35 standard deviations. */
-const IQR_IN_SD = 1.35;
-/** Logit change of a probability swing centered on a half. */
-const swingLogit = (swing: number) => {
-  const p0 = Math.min(0.999, Math.max(0.001, 0.5 - swing / 2)),
-    p1 = Math.min(0.999, Math.max(0.001, 0.5 + swing / 2));
-  return Math.log(p1 / (1 - p1)) - Math.log(p0 / (1 - p0));
-};
-/** Logistic scale: a latent shift of one standard deviation is pi over root 3 logits. */
-const LOGIT_PER_SD = Math.PI / Math.sqrt(3);
-
-/** A research row whose size cannot be read as odds: it says why and gives none. */
-function refuse(row: ResearchRow, why: string): null {
-  console.warn(`${row.id}: ${row.effect!.kind} row ${why}; no target`);
-  return null;
-}
-
-/** The study's log odds ratio between the top and bottom thirds. */
-function targetLogOdds(row: ResearchRow): number | null {
-  const e = row.effect;
-  if (!e) return null;
-  switch (e.kind) {
-    case "odds-ratio-per-sd":
-      return Math.log(e.value) * THIRDS_APART;
-    // A trait scored over its full range converts with its own standard
-    // deviation, as a share of that range, from the study's own table.
-    case "logit-coef-full-range":
-      return e.traitSd === undefined
-        ? refuse(row, "gives no trait standard deviation")
-        : e.value * e.traitSd * THIRDS_APART;
-    case "pp-full-range":
-      return e.traitSd === undefined
-        ? refuse(row, "gives no trait standard deviation")
-        : swingLogit(e.value) * e.traitSd * THIRDS_APART;
-    case "pp-per-iqr":
-      return (swingLogit(e.value) / IQR_IN_SD) * THIRDS_APART;
-    case "correlation":
-    case "multiple-R":
-    case "standardized-beta":
-      return (
-        ((LOGIT_PER_SD * e.value) / Math.sqrt(1 - e.value ** 2)) * THIRDS_APART
-      );
-    case "pp-per-sd": {
-      if (!row.outcomeIsProbability)
-        return refuse(row, "measures a level, not a probability of the option");
-      const p0 = row.baseRate ?? 0.5;
-      const p1 = Math.min(0.999, Math.max(0.001, p0 + e.value / 100));
-      return (Math.log(p1 / (1 - p1)) - Math.log(p0 / (1 - p0))) * THIRDS_APART;
-    }
-    default:
-      return null;
-  }
-}
 
 /** Log odds of the option between the top and bottom thirds of lean toward it. */
 function logOdds(rows: { lean: number; yes: boolean }[]): number | null {
@@ -141,15 +82,15 @@ function samplesFor(decisionId: string): Sample[] {
   return out;
 }
 
-/** One row per decision: the study with the largest effect names the decisive trait. */
-const strongest = new Map<string, ResearchRow>();
-for (const row of research.rows) {
-  if (row.id.startsWith("outcome.")) continue;
-  const prior = strongest.get(row.id);
-  const size = Math.abs(targetLogOdds(row) ?? 0);
-  if (!prior || size > Math.abs(targetLogOdds(prior) ?? 0))
-    strongest.set(row.id, row);
-}
+const strongest = strongestRows(research.rows);
+/** Weights tried: fine steps up to 0.2 (a small study effect against a wide case fits there), then steps of 0.05 to 8. */
+const WEIGHTS = [
+  ...Array.from({ length: 40 }, (_, i) => Math.round(i * 0.005 * 1e3) / 1e3),
+  ...Array.from(
+    { length: 157 },
+    (_, i) => Math.round((0.2 + i * 0.05) * 1e3) / 1e3,
+  ),
+];
 /**
  * TRAIT_ASSUME="id=ratio,id=ratio": for a decision whose study gives a
  * direction but no number (or has no row), calibrate to this odds ratio per
@@ -183,11 +124,12 @@ const results = [...strongest.values()].map((row) => {
     return at === null ? null : at - confounded;
   };
   let best = { w: 0, err: Infinity, measured: null as number | null };
-  for (let w = 0; w <= 8.0001; w += 0.05) {
+  for (const w of WEIGHTS) {
     const measured = effect(w);
     if (measured === null) continue;
     const err = Math.abs(measured - target);
-    if (err < best.err) best = { w: Math.round(w * 100) / 100, err, measured };
+    if (err < best.err)
+      best = { w: Math.round(w * 1000) / 1000, err, measured };
   }
   const at1 = effect(1);
   return {
