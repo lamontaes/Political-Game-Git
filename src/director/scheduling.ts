@@ -410,6 +410,11 @@ function fillRole(
       const id = core.durableLog.get(moment.causeId)?.personIds[zero];
       return id && id !== moment.personId && core.people.has(id) ? [id] : [];
     }
+    case "winner": {
+      // Who a count's record says won (its winnerId), never the subject.
+      const id = core.durableLog.get(moment.causeId)?.facts?.winnerId;
+      return id && id !== moment.personId && alive(core, id) ? [id] : [];
+    }
     case "kin":
       return closest(
         [...book.threads.values()]
