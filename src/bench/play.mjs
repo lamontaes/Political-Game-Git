@@ -11,9 +11,11 @@ import {
   addTalkLine,
   mountTalkKeys,
 } from "./ui/talk-box.mjs";
+import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
+import { townRow } from "./ui/town-row.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -25,7 +27,6 @@ let packet;
 let talk;
 let openTab;
 let busy = false;
-let seenResults = 0;
 
 async function api(path, method = "GET") {
   const response = await fetch(path, { method });
@@ -378,24 +379,61 @@ async function playOpening() {
   return opening;
 }
 
-/** That night's news at home: on the table, picked up to read. */
+/**
+ * That night's news at home, as a toast top right: it fades by itself after
+ * controls.opening.newsToastSeconds, goes at once on its close, and the story
+ * stays in News either way.
+ */
+/** A story's headline as every news surface says it: its headline, else its lede, else the newscast's first line. */
+const storyHeadline = (story) =>
+  story.headline ?? story.lede ?? story.broadcast?.[0]?.text ?? "";
+function hideNewsToast() {
+  hideToast($("news-surface"));
+}
 function showNewsSurface(news) {
   const story = news?.stories?.[0];
   if (!story) return;
   $("news-surface-label").textContent = controls.opening?.news ?? "";
-  $("news-surface-headline").textContent =
-    story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
-  $("news-surface").onclick = () => {
+  $("news-surface-headline").textContent = storyHeadline(story);
+  $("news-surface-close").setAttribute(
+    "aria-label",
+    controls.opening?.closeNews ?? "",
+  );
+  $("news-surface-open").onclick = () => {
     coachUsed("news-surface");
+    hideNewsToast();
     openNewsReader(news);
   };
-  // The paper stays on the table for the evening; living on clears it.
-  show("news-surface", true);
+  $("news-surface-close").onclick = () => {
+    coachUsed("news-surface");
+    hideNewsToast();
+  };
+  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8, () =>
+    coachUsed("news-surface"),
+  );
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
-  $("news-reader-headline").textContent =
-    lead.headline ?? lead.lede ?? lead.broadcast[0]?.text ?? "";
+  // The story opens as the paper's front page: its masthead and layout.
+  const outlet = news.outlet ?? {
+    name: controls.news.title,
+    layout: "broadsheet",
+  };
+  $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
+  $("news-reader-date").textContent = new Date(
+    `${me.date}T12:00:00`,
+  ).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  $("news-reader").className = `panel paper paper-${
+    ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
+      ? outlet.layout
+      : "broadsheet"
+  }`;
+  $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
     ...lead.broadcast.map((line) =>
       el("p", { className: "prose", textContent: line.text }),
@@ -409,10 +447,7 @@ function openNewsReader(news) {
     ...rest.map((item) =>
       el("p", {
         className: "prose",
-        textContent:
-          item.headline ??
-          item.lede ??
-          item.broadcast.map((line) => line.text).join(" "),
+        textContent: storyHeadline(item),
       }),
     ),
   );
@@ -632,12 +667,21 @@ function endedBy(value) {
 }
 
 /** The newest line of the journal, bottom right. */
+let shownJournalLine = "";
+$("journal-note-close").addEventListener("click", () =>
+  hideToast($("journal-note")),
+);
 async function renderJournalNote() {
   const chapters = await api(
     `/api/journal?id=${encodeURIComponent(me.id)}`,
   ).catch(() => []);
   const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
   $("journal-line").textContent = line;
+  // A new line is a toast: it holds, fades and goes, or goes at once on its close.
+  if (!line) hideToast($("journal-note"));
+  else if (line !== shownJournalLine)
+    showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
+  shownJournalLine = line;
 }
 async function refresh() {
   await Promise.all([
@@ -651,19 +695,12 @@ async function refresh() {
     await openSheet("handoff");
     return;
   }
-  // Election night: new results open their sheet.
-  const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
-  if (races.length > seenResults) {
-    seenResults = races.length;
-    // Seen where you watched the returns: the party if you ran, else the polls.
-    const night = await api(
-      `/api/results/scene?id=${encodeURIComponent(me.id)}`,
-    );
-    if (night) {
-      $("backdrop").src = night.backdrop.url;
-      drawPeople(night.people);
-    }
-    await openSheet("results");
+  // Election night: the returns for the player's race, once.
+  const night = await api(
+    `/api/election-night?id=${encodeURIComponent(me.id)}`,
+  );
+  if (night) {
+    await electionNight(night);
     return;
   }
   // A law that took effect: what changed in town.
@@ -678,16 +715,21 @@ async function act(path) {
   busy = true;
   renderPacket();
   try {
-    // Polls still open (the page reloaded at the polls): vote first.
+    // Election morning still open (the page reloaded on it): the day first.
     const polls = await api("/api/polling-place");
-    if (polls) await atThePolls(polls);
+    if (polls) await electionMorning(polls);
+    else {
+      const day = await api("/api/election-day");
+      if (day?.away) await electionMorning(null);
+    }
     const result = await post(path);
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
-    if (result.pollingPlace) {
-      // The day stopped at the polls: vote, then the day goes on.
-      await atThePolls(result.pollingPlace);
+    if (result.pollingPlace || result.candidateMorning) {
+      // Election morning: canvass if you're running, then vote or stay home
+      // (or, with no ballot here, go on with the day).
+      await electionMorning(result.pollingPlace);
       busy = false;
       return act(path);
     }
@@ -887,6 +929,159 @@ function atDesk() {
   });
 }
 
+// ---- Election morning (owner, Oct 26, 2026: going to vote is a choice) ----
+// The narrator's morning from the election-day bank, a canvass for a
+// candidate before the polls close, then Go vote (the ballot at the polls)
+// or Stay home (no ballot cast). Buttons are control names.
+function electionMorning(scene) {
+  return new Promise((resolve) => {
+    const labels = controls.electionDay ?? {};
+    const say = (lines) =>
+      $("election-day-lines").append(
+        ...lines.map((line) =>
+          el("p", { className: "prose", textContent: line.text }),
+        ),
+      );
+    const buttons = (...rows) =>
+      $("election-day-acts").replaceChildren(
+        ...rows.map(([text, fn]) => {
+          const node = makeButton({ className: "action", textContent: text });
+          node.addEventListener("click", fn);
+          return node;
+        }),
+      );
+    const finish = () => {
+      show("election-day", false);
+      $("game").classList.remove("cinema");
+      resolve();
+    };
+    const ask = (day) => {
+      say(day.ask);
+      if (day.away)
+        return buttons([
+          labels.go,
+          async () => {
+            await post("/api/election-day/done");
+            finish();
+          },
+        ]);
+      buttons(
+        [
+          labels.vote,
+          async () => {
+            show("election-day", false);
+            await atThePolls(scene);
+            finish();
+          },
+        ],
+        [
+          labels.stayHome,
+          async () => {
+            const left = await post("/api/polling-place/leave");
+            if (left.line) {
+              say([left.line]);
+              buttons([labels.go, finish]);
+            } else finish();
+          },
+        ],
+      );
+    };
+    api("/api/election-day").then((day) => {
+      if (!day)
+        return (scene ? atThePolls(scene) : Promise.resolve()).then(resolve);
+      if (scene) {
+        $("backdrop").src = scene.backdrop.url;
+        drawPeople(scene.people);
+      }
+      $("election-day-lines").replaceChildren();
+      say(day.lines);
+      if (day.canvass)
+        buttons(
+          [
+            labels.canvass,
+            async () => {
+              const done = await post("/api/election-day/canvass");
+              if (done.scene) {
+                $("backdrop").src = done.scene.backdrop.url;
+                drawPeople(done.scene.people);
+              }
+              if (done.line) say([done.line]);
+              ask(day);
+            },
+          ],
+          [labels.skipCanvass, () => ask(day)],
+        );
+      else ask(day);
+      $("game").classList.add("cinema");
+      show("election-day", true);
+    });
+  });
+}
+
+// ---- Election night (owner, Oct 26, 2026: its own pop-up) ----
+// The returns for the player's race as each place reports, smallest first,
+// with the running count; Next returns steps through them; the call ends it,
+// with the governor races elsewhere that night. Numbers and names are the
+// count's record data; the narrator's lines come from the election-day bank.
+function electionNight(night) {
+  return new Promise((resolve) => {
+    const labels = controls.returns ?? {};
+    if (night.scene) {
+      $("backdrop").src = night.scene.backdrop.url;
+      drawPeople(night.scene.people);
+    }
+    let at = 0;
+    const draw = () => {
+      const step = night.steps[at];
+      const last = at === night.steps.length - 1;
+      $("returns-title").textContent = night.title;
+      $("returns-lines").replaceChildren(
+        ...step.lines.map((line) =>
+          el("p", { className: "prose", textContent: line.text }),
+        ),
+      );
+      $("returns-count").replaceChildren(
+        ...step.totals.map((entry) =>
+          row(
+            entry.name,
+            `${entry.votes.toLocaleString("en-US")} ${entry.votes === 1 ? labels.vote : labels.votes}`,
+          ),
+        ),
+        ...(last && night.nation.races.length
+          ? [
+              ...night.nation.lines.map((line) =>
+                el("p", { className: "prose", textContent: line.text }),
+              ),
+              ...night.nation.races.map((race) =>
+                row(
+                  race.state,
+                  `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints} ${labels.points}`,
+                ),
+              ),
+            ]
+          : []),
+      );
+      $("returns-next").textContent = last ? labels.close : labels.next;
+    };
+    $("returns-next").onclick = async () => {
+      if (at < night.steps.length - 1) {
+        at += 1;
+        draw();
+        return;
+      }
+      await post(
+        `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
+      );
+      show("returns", false);
+      $("game").classList.remove("cinema");
+      resolve();
+    };
+    $("game").classList.add("cinema");
+    draw();
+    show("returns", true);
+  });
+}
+
 // ---- Election day (owner, Oct 14, 2026: election day is a scene) ----
 // The polling place's picture with the voter and the household members who
 // may vote, and the ballot: each race as the elections engine lists it, each
@@ -1036,7 +1231,7 @@ async function openOfferMoment() {
 for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => {
     // Living on puts the evening's paper away and ends the first-choice glow.
-    show("news-surface", false);
+    hideNewsToast();
     coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
@@ -1226,7 +1421,17 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  fillTalk({ lines: spokenLines(lines, (line) => line.text) });
+  // The narrator sets the counter up before the clerk speaks (the opening call only).
+  fillTalk({
+    lines: [
+      ...(lines.length <= 1
+        ? (value.intro ?? []).map((line) =>
+            el("li", { className: "speech narration", textContent: line.text }),
+          )
+        : []),
+      ...spokenLines(lines, (line) => line.text),
+    ],
+  });
   renderFilingOverlay(value);
   // More races than the talk can hold open as a menu beside it, never as a long
   // numbered list in the talk box (owner, Oct 26).
@@ -2141,7 +2346,7 @@ async function seatRows() {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
     seatResult = r.number
-      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${
+      ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${proseDate(r.floorDate)}` : ""}${
           r.authority?.some((a) => !a.allowed)
             ? ` · ${r.authority
                 .filter((a) => !a.allowed)
@@ -2224,12 +2429,41 @@ async function seatRows() {
       ),
     );
   }
-  for (const { bill, votes } of v.bills)
+  const floor = controls.floor;
+  for (const { bill, votes, floorDate, whip } of v.bills)
     rows.push(
       listRow(
         "campaign",
         {},
-        el("b", { textContent: `${bill.number} · ${bill.status}` }),
+        el("b", {
+          textContent: `${bill.number} · ${floor.status[bill.status] ?? ""}`,
+        }),
+        // The floor: the day it is taken up, each chamber's count the day
+        // before, and how the vote came out.
+        ...(floorDate
+          ? [
+              el("div", {
+                className: "floor-date",
+                textContent: `${floor.takenUp} ${proseDate(floorDate)}`,
+              }),
+            ]
+          : []),
+        ...(bill.status === "drafted"
+          ? whip.map((count) =>
+              el("div", {
+                className: "floor-whip",
+                textContent: `${count.chamber}: ${count.yes} ${floor.for}, ${count.no} ${floor.against}, ${count.undecided} ${floor.undecided}`,
+              }),
+            )
+          : []),
+        ...(votes.length
+          ? [
+              el("div", {
+                className: "floor-result",
+                textContent: `${floor.voted}: ${votes.filter((x) => x.vote === "yes").length} ${floor.yes}, ${votes.filter((x) => x.vote === "no").length} ${floor.no}`,
+              }),
+            ]
+          : []),
         // The title's subjects name each section (record keys, then words).
         bill.provisions
           .map((p, at) => {
@@ -2457,8 +2691,8 @@ const sheets = {
             { className: "people-center" },
             portrait({
               name: me.card.name,
-              figureUrl: me.scene?.people?.find((p) => p.personId === me.id)
-                ?.figureUrl,
+              // The saved look, as the card and Who you are read it: not whatever room's figure.
+              figureUrl: portraitUrl(),
             }),
             el("b", { textContent: me.card.name }),
           ),
@@ -3051,104 +3285,6 @@ const sheets = {
       ),
     );
   },
-  async results() {
-    const [races, nation] = await Promise.all([
-      api(`/api/results?id=${encodeURIComponent(me.id)}`),
-      api("/api/results/nation"),
-    ]);
-    await controlsReady;
-    const labels = controls.results;
-    seenResults = races.length;
-    const number = (n) => n.toLocaleString("en-US");
-    // The newest night in full, your own race first; earlier nights' races after.
-    const night = races.filter((race) => race.date === races[0]?.date);
-    const earlier = races.slice(night.length, night.length + 8);
-    // After your own night's races, every other state's governor race that
-    // night, from the world's race records: who won and by how much.
-    const nationBlock = listRow(
-      "race nation",
-      {},
-      el("b", { textContent: labels.nation }),
-      nation.length
-        ? el(
-            "div",
-            { className: "nation-grid" },
-            ...nation.map((race) => {
-              const line = row(
-                race.state,
-                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints.toFixed(1)} ${labels.points}`,
-              );
-              line.classList.add("nation-race");
-              line.dataset.race = race.id;
-              return line;
-            }),
-          )
-        : el("div", { className: "label", textContent: labels.noNation }),
-    );
-    const rows = [...night, ...earlier].map((race) =>
-      listRow(
-        `race${race.mine ? " own" : ""}`,
-        {},
-        race.mine
-          ? el(
-              "div",
-              { className: "mine" },
-              el("b", { textContent: `${labels.yourRace} ` }),
-              race.mine.won ? labels.won : labels.lost,
-            )
-          : "",
-        el("b", {
-          textContent: `${race.title} · ${proseDate(race.date)}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
-        }),
-        ...race.candidates.map((c) =>
-          el("div", {
-            className: c.name === race.winner ? "winner" : "",
-            textContent: `${c.name}${c.party ? ` (${c.party})` : ""} · ${number(c.votes)}`,
-          }),
-        ),
-        // One total for the race: every ballot cast in it, the town's and
-        // the rest of the electorate's.
-        el(
-          "div",
-          {},
-          el("b", { textContent: `${labels.cast} ` }),
-          number(race.electorate),
-        ),
-        el(
-          "div",
-          {},
-          el("b", { textContent: `${labels.exitPoll} ` }),
-          Object.entries(race.exitPoll)
-            .map(([k, n]) => `${k} ${n}`)
-            .join(" · "),
-        ),
-        race.places.length
-          ? el(
-              "div",
-              {},
-              el("b", { textContent: `${labels.wonIn} ` }),
-              race.places
-                .slice(0, 6)
-                .map((p) => `${p.name} ${p.leader ?? ""}`)
-                .join(" · "),
-            )
-          : "",
-        race.ballot
-          ? el(
-              "div",
-              { className: "mine" },
-              el("b", { textContent: `${labels.you} ` }),
-              race.ballot.voted ? (race.ballot.choice ?? "") : labels.abstained,
-            )
-          : "",
-      ),
-    );
-    return [
-      ...rows.slice(0, night.length),
-      nationBlock,
-      ...rows.slice(night.length),
-    ];
-  },
   async map() {
     const m = await api("/api/map");
     if (!m) return [];
@@ -3534,8 +3670,16 @@ const sheets = {
             month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
             select(date);
           }),
-          // A day with nothing on it has no panel, so the skip sits here.
-          ...(selected > date && !byDate.has(selected) ? [skipControl()] : []),
+          // A day with nothing on it has no panel, so its date and the skip sit here.
+          ...(selected > date && !byDate.has(selected)
+            ? [
+                el("span", {
+                  className: "calendar-day-date",
+                  textContent: dateWords(selected),
+                }),
+                skipControl(),
+              ]
+            : []),
         ),
       );
     };
@@ -3630,11 +3774,12 @@ const sheets = {
       api(`/api/opening?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.news;
-    // What you heard, newest first, ahead of the opening night's paper.
+    // One feed: the night's lead story the toast showed first, then what you heard,
+    // newest first. News and the toast read the same stories through storyHeadline.
     const stories = [
-      ...rows.filter((r) => r.headline || r.lede),
       ...(opening?.news?.stories ?? []),
-    ].filter((s) => s.headline || s.lede);
+      ...rows.filter((r) => r.headline || r.lede),
+    ].filter(storyHeadline);
     const outlets = new Map();
     for (const story of stories) {
       const outlet = story.outlet ??
@@ -3829,9 +3974,7 @@ const sheets = {
       paper.className = `paper paper-${layout}`;
       const section = el("div", { className: "paper-stories" });
       outlet.stories.slice(page * 3, page * 3 + 3).forEach((story, index) => {
-        const headline = button(story.headline ?? story.lede, () =>
-          article(story),
-        );
+        const headline = button(storyHeadline(story), () => article(story));
         headline.className = "story-headline";
         section.append(
           el(
@@ -4180,7 +4323,6 @@ const sheets = {
           f.filedWith,
         ),
       ),
-      ...(await sheets.results()),
     ];
   },
   async government() {
@@ -4573,7 +4715,6 @@ const titles = {
   parties: "Parties",
   issues: "Issues",
   calendar: "Calendar",
-  results: "Election night",
   budgets: "Budgets",
   family: "Family",
   travel: "Travel",
@@ -4619,7 +4760,6 @@ async function openSheet(tab) {
     ...(groups[group] ?? [])
       .filter(
         (name) =>
-          (name !== "results" || seenResults > 0) &&
           (name !== "office" || holdsOffice) &&
           // Budgets wait until they are the player's business: an office, a
           // filing, or the age to vote.
@@ -4746,6 +4886,13 @@ api("/api/title").then((title) => {
   $("front-continue-life").textContent = titleLife
     ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
     : "";
+  // The life's own face: the look the creator saved, as every other view of the player reads it.
+  setBust(
+    "front-continue-bust",
+    titleLife?.portrait
+      ? `/api/portrait?id=${encodeURIComponent(titleLife.personId)}`
+      : "",
+  );
 });
 // The build version, bottom right of the title (#4014).
 void displayVersion().then((v) => ($("title-version").textContent = v));
@@ -4768,7 +4915,7 @@ $("front-continue").addEventListener("click", async () => {
   };
   seenChanges = await changeCount();
   show("front", false);
-  for (const id of ["rings", "card", "journal-note"]) show(id, true);
+  for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
   if (life.packet) renderPacket(life.packet);
   await refresh();
@@ -5052,23 +5199,17 @@ async function listTowns() {
   const count = new Intl.NumberFormat("en-US");
   const words = controls.creator ?? {};
   $("cr-towns").replaceChildren(
-    ...towns.map((t) => {
-      const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
-      const b = el(
-        "button",
-        // In the state buttons' font, name and count alike.
-        { type: "button", className: "item town" },
-        el("span", { textContent: t.name }),
-        el("small", {
-          textContent: t.county ? `${t.county}, ${size}` : size,
-        }),
-      );
-      b.addEventListener("click", () => {
-        setup.town = t;
-        void openLook();
-      });
-      return b;
-    }),
+    ...towns.map((t) =>
+      townRow(
+        t,
+        words,
+        (n) => count.format(n),
+        (town) => {
+          setup.town = town;
+          void openLook();
+        },
+      ),
+    ),
   );
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
@@ -5266,7 +5407,7 @@ async function enterAs(life, personId) {
   };
   seenChanges = await changeCount();
   show("front", false);
-  for (const id of ["rings", "card", "journal-note"]) show(id, true);
+  for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
   renderPacket(value.packet);
   await refresh();
@@ -5366,7 +5507,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
     // Home that evening (the server's rule for the opening day), with the
     // night's news to pick up, then the first choices pointed out.
-    for (const id of ["rings", "card", "journal-note"]) show(id, true);
+    for (const id of ["rings", "card"]) show(id, true);
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();

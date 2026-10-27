@@ -27,12 +27,12 @@
   "creator": {
     "people": "people",
     "about": "about",
+    "countyLine": "in {county}",
     "ageLine": "You will be {age} on {date}, the day your life begins."
   },
   "endedBy": {
     "moment": "Something needs you",
     "job-offered": "A job offer",
-    "results": "Election results",
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
@@ -113,7 +113,9 @@
     "done": "Ready"
   },
   "opening": {
-    "news": "News"
+    "news": "News",
+    "closeNews": "Close the news",
+    "newsToastSeconds": 8
   },
   "person": {
     "age": "Age",
@@ -220,6 +222,26 @@
   "titleUnavailable": {
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."
+  },
+  "floor": {
+    "status": {
+      "drafted": "Drafted",
+      "passed": "Passed",
+      "failed": "Failed",
+      "signed": "Signed",
+      "vetoed": "Vetoed",
+      "overridden": "Veto overridden",
+      "enacted": "Enacted",
+      "blocked": "Blocked",
+      "awaiting-signature": "Waiting for your signature"
+    },
+    "takenUp": "The floor takes it up on",
+    "for": "for",
+    "against": "against",
+    "undecided": "undecided",
+    "voted": "Voted",
+    "yes": "yes",
+    "no": "no"
   },
   "advanced": {
     "none": "No one holds an office that matches"
@@ -399,19 +421,25 @@
     "noneHere": "None here"
   },
   "results": {
-    "cast": "Ballots cast",
-    "exitPoll": "Exit poll",
-    "wonIn": "Where it was won",
     "you": "You",
     "yourRace": "Your race",
     "won": "Won",
-    "lost": "Lost",
-    "unopposed": "Unopposed",
-    "abstained": "—",
-    "nation": "Governor races across the country",
+    "lost": "Lost"
+  },
+  "electionDay": {
+    "canvass": "Go canvassing",
+    "skipCanvass": "Not today",
+    "vote": "Go vote",
+    "stayHome": "Stay home",
+    "go": "Continue"
+  },
+  "returns": {
+    "next": "Next returns",
+    "close": "Close",
+    "vote": "vote",
+    "votes": "votes",
     "marginBy": "by",
-    "points": "points",
-    "noNation": "No governor races have been counted yet"
+    "points": "points"
   },
   "money": {
     "cash": "Cash available",

@@ -27,7 +27,7 @@ export interface Figure {
   ageBand: "child" | "teen" | "adult" | "older";
   outfit: string;
   angle: string;
-  pose: "stand" | "sit";
+  pose: "stand" | "sit" | "lectern";
   /** A seated figure's hip line on the cushion, in pixels from the top. */
   seatY?: number;
   /** Which way the figure is painted facing: a front or back view faces the viewer or away. */
@@ -59,7 +59,23 @@ interface V2Row {
   flag?: string;
 }
 // Figures holding a cup or a tablet, and the six back views painted facing the
-// wrong way (README "Known problems"), are not drawn; nor is the lectern pose.
+// wrong way (README "Known problems"), are not drawn as standing people; the
+// lectern pose is drawn only at a picture's podium.
+const toFigure = (row: V2Row): Figure => ({
+  file: row.file,
+  look: `${row.outfit}:${row.sex}`,
+  build: row.build,
+  sex: row.sex,
+  ageBand: row.ageBand,
+  outfit: row.outfit,
+  angle: row.angle,
+  pose: row.pose as Figure["pose"],
+  ...(row.seatY !== undefined ? { seatY: row.seatY } : {}),
+  facing: row.facing,
+  width: row.width,
+  height: row.height,
+  footY: row.footY,
+});
 const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
   .filter(
     (row) =>
@@ -67,21 +83,25 @@ const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
       !row.flag &&
       (row.pose === "stand" || row.pose === "sit"),
   )
-  .map((row) => ({
-    file: row.file,
-    look: `${row.outfit}:${row.sex}`,
-    build: row.build,
-    sex: row.sex,
-    ageBand: row.ageBand,
-    outfit: row.outfit,
-    angle: row.angle,
-    pose: row.pose as Figure["pose"],
-    ...(row.seatY !== undefined ? { seatY: row.seatY } : {}),
-    facing: row.facing,
-    width: row.width,
-    height: row.height,
-    footY: row.footY,
-  }));
+  .map(toFigure);
+/** The lectern pose: facing the room, hands forward on the podium the picture has. */
+const LECTERNS: Figure[] = (index.figures as unknown as V2Row[])
+  .filter((row) => row.prop === "none" && !row.flag && row.pose === "lectern")
+  .map(toFigure);
+/** The same person at a lectern: their sex and age band, their outfit and build where painted. */
+function lecternFor(front: Figure, band: Figure["ageBand"]): Figure | null {
+  const same = LECTERNS.filter(
+    (row) => row.sex === front.sex && row.ageBand === band,
+  );
+  return (
+    same.find(
+      (row) => row.outfit === front.outfit && row.build === front.build,
+    ) ??
+    same.find((row) => row.outfit === front.outfit) ??
+    same[0] ??
+    null
+  );
+}
 /** Looks are chosen from the standing three-quarter views; the front and back views are the same look turned. */
 const FIGURES = PAINTED.filter(
   (row) => row.angle === "three-quarter" && row.pose === "stand",
@@ -372,8 +392,10 @@ export function figureOn(
     const seated = seatedFor(front, turn.view);
     return seated ? placeSeated(seated, front, band, stage, spot, turn) : null;
   }
-  // Standing, leaning on a wall or at a podium: the standing figure.
-  const chosen = (turn.view && turned(front, turn.view)) || front;
+  // At a podium, the lectern pose where one is painted for this person;
+  // standing or leaning on a wall, the standing figure.
+  const lectern = spot.pose === "podium" ? lecternFor(front, band) : null;
+  const chosen = lectern ?? ((turn.view && turned(front, turn.view)) || front);
   const heightPercent =
     personPercent(band, stage, spot) * (chosen.height / chosen.footY);
   const widthPercent =

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { PLATFORM_QUESTIONS } from "./campaign-views";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
@@ -50,7 +51,10 @@ const margin = (row: (typeof decisions)[number]) =>
 
 describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("keeps a candidate's position strength instead of turning every position into an absolute", () => {
-    const platforms = adults.map((person) => platformFromViews(api, person.id));
+    // This world has no offices, so the pool of questions stands in for a seat's positions.
+    const platforms = adults.map((person) =>
+      platformFromViews(api, person.id, null, PLATFORM_QUESTIONS),
+    );
     const positions = platforms.flatMap((platform) =>
       platform.map((part) => Number(part.slice(part.lastIndexOf("=") + 1))),
     );
