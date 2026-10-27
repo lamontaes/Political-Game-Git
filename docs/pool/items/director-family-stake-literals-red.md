@@ -9,10 +9,13 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: director
 source: added with npm run pool -- add
 ---
 
 **What.** src/director/director.test.ts ('registers every stopgap it marks and keeps numbers in data') fails on clean main since commit 1b64fb04d3. src/director/family-stake.ts, the relative-with-a-stake scene after a filing, holds sixteen numeric literals (86_400_000 ms a day, 365 days a year, 30 days a month, zeros and ones). Every PR that runs the director tests inherits the red. Move the date arithmetic to the kernel's date helpers and the month span into scene-talk-rules.json, and use the shared constants for zero and one.
+
+**Time box.** 1 hour, Opus (director lead).
 
 **Rules.** Every number lives in a parameter table (AGENTS.md, Placeholders). Red main comes first (owner, Oct 15). Replace, never layer.
 
