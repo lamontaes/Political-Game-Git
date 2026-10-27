@@ -7,9 +7,9 @@ milestone: play-first
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-legislature-floor-date-and-whip
-pr:
+pr: #6285
 blocked-on:
 source: The screen half of laws-player-bill-reaches-the-floor (laws-and-effects lead, Oct 27; the owner's Oct 26 playtest, relayed by the CTO)
 claimed-at: 2026-10-27T10:49:47.630Z
