@@ -1485,6 +1485,47 @@
         }
       ]
     },
+    "morning-after": {
+      "state": "ask",
+      "replies": ["thank", "promise", "deflect", "tell"],
+      "follow": {
+        "thank": ["accept"],
+        "promise": ["thank", "press"],
+        "deflect": ["press"],
+        "tell": ["accept", "disagree"]
+      },
+      "again": {
+        "press": ["promise", "tell", "leave"],
+        "disagree": ["tell", "promise", "leave"],
+        "accept": ["promise", "thank"]
+      },
+      "endings": [
+        {
+          "id": "next-run-promised",
+          "label": "You said you'd run again",
+          "keeps": "promise",
+          "when": { "anyReply": ["promise"] }
+        },
+        {
+          "id": "thanked",
+          "label": "You thanked them for the work",
+          "keeps": "none",
+          "when": { "anyReply": ["thank"] }
+        },
+        {
+          "id": "put-off",
+          "label": "You put them off",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["leave"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "law-reaches": {
       "state": "tell",
       "replies": ["tell", "promise", "deflect", "blame"],

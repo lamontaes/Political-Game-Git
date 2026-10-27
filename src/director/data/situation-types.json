@@ -2581,6 +2581,48 @@
       "stakes": ["bill"]
     },
     {
+      "key": "morning-after",
+      "purpose": "morning-after",
+      "asker": "visitor",
+      "asked": "you",
+      "stakes": ["office", "opponent"],
+      "roles": [
+        {
+          "key": "visitor",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["ask", "thank", "tell", "comfort"],
+          "wants": ["engage", "help-others"],
+          "bearing": "tender"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "promise", "deflect", "tell"],
+          "wants": ["commit"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": { "label": "circumstance:morning-after" },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
+          "bind": { "visitor": "counterpart", "you": "subject" },
+          "opener": "visitor",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      }
+    },
+    {
       "key": "constituent-stop",
       "purpose": "law-reaches",
       "asker": "constituent",

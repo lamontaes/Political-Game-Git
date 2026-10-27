@@ -132,6 +132,16 @@ export function createDirector(
   /** Today's records some circumstance could stage, as they are recorded. */
   const circumstanceRows = rowsByKind();
   const circumstanceQueue: QueuedRecord[] = [];
+  /** Records held for rows that come days after them (the morning after), by the day they come. */
+  const circumstanceLater = new Map<string, QueuedRecord[]>();
+  /** For each record kind, the days after it that some row waits. */
+  const laterDays = new Map<string, number[]>();
+  for (const [kind, rows] of circumstanceRows) {
+    const days = [
+      ...new Set(rows.flatMap((row) => (row.afterDays ? [row.afterDays] : []))),
+    ];
+    if (days.length) laterDays.set(kind, days);
+  }
   /** The open jobs at each controlled person's employer when last measured. */
   const employerJobs = new Map<
     PersonId,
@@ -1341,7 +1351,11 @@ export function createDirector(
    * so scenes cluster where the records give cause and a quiet day has none.
    */
   function produceCircumstances(core: Readonly<CoreState>): void {
-    const queue = circumstanceQueue.splice(zero);
+    const queue = [
+      ...circumstanceQueue.splice(zero),
+      ...(circumstanceLater.get(core.date) ?? []),
+    ];
+    circumstanceLater.delete(core.date);
     for (const book of ledger.people.values()) {
       if (!isExplicitlyControlledPersonV1(core, book.personId)) continue;
       const records = [
@@ -1352,8 +1366,14 @@ export function createDirector(
       if (!records.length) continue;
       const date = makeIsoDate(core.date);
       const lastAny = ledger.circumstanceLast.get(`${book.personId}|*`);
-      if (!spacingAllows(lastAny, param("directorCircumstanceEveryDays"), date))
-        continue;
+      // The week between scenes from circumstance; a row that follows one
+      // thing the player lived through (the morning after) is not held to it.
+      const weekPassed = spacingAllows(
+        lastAny,
+        param("directorCircumstanceEveryDays"),
+        date,
+      );
+      if (!weekPassed && !records.some((record) => record.later)) continue;
       // A record that already staged a scene for this person today is met
       // the ordinary way: one cause stages one scene.
       const staged = new Set<string>();
@@ -1386,6 +1406,7 @@ export function createDirector(
           },
           staged,
           due: (row) =>
+            (weekPassed || !!row.afterDays) &&
             spacingAllows(
               ledger.circumstanceLast.get(`${book.personId}|${row.id}`),
               param(row.everyParameter),
@@ -1653,8 +1674,17 @@ export function createDirector(
     eventKinds: data.eventKinds,
     onEvent(api, event, learnedBy) {
       if (!started) return;
-      if (circumstanceRows.has(event.kind))
-        circumstanceQueue.push(queuedOf(event));
+      if (circumstanceRows.has(event.kind)) {
+        const queued = queuedOf(event);
+        circumstanceQueue.push(queued);
+        for (const days of laterDays.get(event.kind) ?? []) {
+          const due = addDays(makeIsoDate(event.date), days);
+          circumstanceLater.set(due, [
+            ...(circumstanceLater.get(due) ?? []),
+            { ...queued, later: true },
+          ]);
+        }
+      }
       rateNow(api.state, onEvent(api.state, event, learnedBy));
     },
     relationshipKinds: data.relationshipKinds,

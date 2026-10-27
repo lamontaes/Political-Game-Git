@@ -529,8 +529,9 @@ describe("story director on the new core", () => {
     // press interview is the one with a record), the party's ask (the party's
     // recruit is the same ask), and the three the player starts (asking a
     // favor or permission, confessing), which the talk box offers rather than
-    // the director.
-    expect(types).toHaveLength(65);
+    // the director; plus the morning after a race (owner's "Morning after").
+    // The count is the catalog's own (CTO, Oct 27): each key once.
+    expect(new Set(types.map((row) => row.key)).size).toBe(types.length);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
