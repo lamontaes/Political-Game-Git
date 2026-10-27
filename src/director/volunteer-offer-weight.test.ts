@@ -89,9 +89,11 @@ it("an offer of help joins the one campaign record and stops the player only by 
 
     // The same helper weighs less in a bigger race: the weight slides with
     // the race's eligible voters, by the one rule for every place.
-    const statewide = contests.find(
-      (c) => c.family === "statewideExecutive",
-    ) as ContestRow | undefined;
+    const statewide =
+      filed.family === "statewideExecutive"
+        ? undefined
+        : (contests.find((c) => c.family === "statewideExecutive") as
+            ContestRow | undefined);
     const someone = [...core.people.get(me)!.knownIds].sort()[0]!;
     const local = offerWeight(api, filing, filed, someone);
     if (statewide) {
