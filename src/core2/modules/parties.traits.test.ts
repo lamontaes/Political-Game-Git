@@ -15,11 +15,12 @@ import {
   PARTIES_MODULE_ID,
   partyMeetings,
   type PartyRow,
-  type TieRow,
 } from "./parties";
 import type { CoreAPI, CoreState } from "../types";
 
 const SEED = `${RUN_SEED}:parties`;
+/** The fewest people who stayed out for the joining means to be compared. */
+const MIN_NOT_JOINED = 3;
 
 let core: CoreState;
 let api: CoreAPI;
@@ -45,6 +46,9 @@ beforeAll(() => {
         return "nobody tied to a party";
       if (joined.length === 0) return "nobody tied to a party joined it";
       if (notJoined.length === 0) return "everyone tied to a party joined it";
+      // A mean of one or two choices swings either way by chance.
+      if (notJoined.length < MIN_NOT_JOINED)
+        return `fewer than ${MIN_NOT_JOINED} who stayed out (${notJoined.length})`;
       return null;
     },
   ));
@@ -57,24 +61,21 @@ beforeAll(() => {
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
 
-/**
- * The lean toward joining of each full person tied to a party, split by
- * whether they joined it. Only ties the engine weighed joining for count: a
- * tie made by joining as an act (`joinParty`, as an official does filing
- * under the label) records "joined" and weighs nothing, and in Ambrose, North
- * Dakota (seed 49dd8d7d2a283af3d5a18e0906dd54d5f3f4289f:parties:1) five such
- * officials, leaning 0.08 to 1.00 toward joining, held no membership.
- */
+/** The lean toward joining of each full person tied to a party, split by whether they joined it. */
 function tiedChoices(
   core: CoreState,
   api: CoreAPI,
 ): { joined: number[]; notJoined: number[] } {
+  // Only ties the joining rule itself made (the opening's and each meeting's):
+  // a person who joined as an act, to file under a party's label, has a tie
+  // and no membership record, and the rule did not decide them.
   const ties = (
-    api
-      .moduleState(PARTIES_MODULE_ID)
-      .table("ties")
-      .rows() as unknown as TieRow[]
-  ).filter((tie) => !tie.reason.startsWith("joined"));
+    api.moduleState(PARTIES_MODULE_ID).table("ties").rows() as unknown as {
+      personId: string;
+      partyId: string | null;
+      reason: string;
+    }[]
+  ).filter((tie) => !tie.reason.startsWith("joined;"));
   const organizationOf = new Map(
     (
       api
@@ -157,7 +158,7 @@ describe("parties.join reads the person's calibrated lean toward joining", () =>
       `party joining: ${joined.length} joined (mean lean ${mean(joined).toFixed(3)}), ${notJoined.length} did not (${notJoined.length ? mean(notJoined).toFixed(3) : "-"})`,
     );
     expect(joined.length).toBeGreaterThan(0);
-    expect(notJoined.length).toBeGreaterThan(0);
+    expect(notJoined.length).toBeGreaterThanOrEqual(MIN_NOT_JOINED);
     expect(mean(joined)).toBeGreaterThan(mean(notJoined));
   });
 });
