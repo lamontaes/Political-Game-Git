@@ -1429,6 +1429,11 @@
       "eventKind": "recall-petition",
       "channel": "cause",
       "impactParameter": "directorRecallImpact"
+    },
+    {
+      "eventKind": "budget-line-changed",
+      "channel": "cause",
+      "impactParameter": "directorOfficeActImpact"
     }
   ]
 }
