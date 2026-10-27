@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/checker-grant-toggle
-pr:
+pr: #6333
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T14:16:56.467Z
