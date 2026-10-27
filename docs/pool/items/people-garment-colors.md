@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/people-garment-colors
 pr: #6423
 blocked-on:
