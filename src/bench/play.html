@@ -299,8 +299,13 @@
             ><span class="summary-edit">Change</span>
           </button>
           <h2 class="label">Your character</h2>
-          <fieldset class="group" data-testid="gender-choices">
-            <legend class="label">Gender (required)</legend>
+          <div
+            class="group row"
+            role="group"
+            aria-labelledby="cr-gender-label"
+            data-testid="gender-choices"
+          >
+            <span id="cr-gender-label" class="label">Gender (required)</span>
             <div class="choices">
               <button
                 type="button"
@@ -327,7 +332,7 @@
                 Non-binary
               </button>
             </div>
-          </fieldset>
+          </div>
           <div class="group">
             <span class="label">Name</span>
             <label class="field"
@@ -347,8 +352,13 @@
               Randomize name
             </button>
           </div>
-          <fieldset class="group" data-testid="creator-birthday">
-            <legend class="label">Birthday</legend>
+          <div
+            class="group row"
+            role="group"
+            aria-labelledby="cr-birthday-label"
+            data-testid="creator-birthday"
+          >
+            <span id="cr-birthday-label" class="label">Birthday</span>
             <div class="date-row">
               <label class="field"
                 >Month
@@ -376,7 +386,7 @@
               class="when"
               data-testid="creator-derived-age"
             ></p>
-          </fieldset>
+          </div>
           <div class="acts">
             <button id="cr-character-back" class="action small" type="button">
               Back
