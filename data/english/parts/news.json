@@ -4359,6 +4359,121 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.bail.a-judge-ordered-name-held-until-trial",
+      "move": "bail",
+      "kind": "written",
+      "text": "A judge ordered {name} held until trial.",
+      "uses": [
+        {
+          "move": "bail",
+          "subject": "news",
+          "role": "bail",
+          "choice": "lede",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.member-vote.office-name-voted-for-designation-the-law",
+      "move": "member-vote",
+      "kind": "written",
+      "text": "{office} {name} voted for {designation}, the {law}.",
+      "uses": [
+        {
+          "move": "member-vote",
+          "subject": "news",
+          "role": "member-vote",
+          "choice": "lede",
+          "requiresFacts": ["yes"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.member-vote.office-name-voted-against-designation-the-law",
+      "move": "member-vote",
+      "kind": "written",
+      "text": "{office} {name} voted against {designation}, the {law}.",
+      "uses": [
+        {
+          "move": "member-vote",
+          "subject": "news",
+          "role": "member-vote",
+          "choice": "lede",
+          "requiresFacts": ["no"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.member-vote.name-voted-yes-on-designation",
+      "move": "member-vote",
+      "kind": "written",
+      "text": "{name} voted yes on {designation}.",
+      "uses": [
+        {
+          "move": "member-vote",
+          "subject": "news",
+          "role": "member-vote",
+          "choice": "lede",
+          "requiresFacts": ["yes"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.member-vote.name-voted-no-on-designation",
+      "move": "member-vote",
+      "kind": "written",
+      "text": "{name} voted no on {designation}.",
+      "uses": [
+        {
+          "move": "member-vote",
+          "subject": "news",
+          "role": "member-vote",
+          "choice": "lede",
+          "requiresFacts": ["no"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

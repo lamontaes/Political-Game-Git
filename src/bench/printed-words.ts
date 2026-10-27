@@ -223,9 +223,11 @@ class Reader {
       BillRow | undefined;
   }
   /** A bill's name ("Fair Wage Act"), its purpose and its designation ("HB 2"). */
-  billFacts(id: string | undefined): Facts {
+  billFacts(id: string | undefined, number?: string): Facts {
     const bill = this.bill(id);
-    if (!bill) return {};
+    // A bill another chamber's engine keeps is named by the number its record carries.
+    if (!bill)
+      return number ? { designation: this.fact(number, id ?? "") } : {};
     const named = billNameOf(bill);
     return {
       ...(named
@@ -433,7 +435,7 @@ const rollCall: Builder = (read, f) => {
   return story(
     "roll-call",
     {
-      ...read.billFacts(f.billId),
+      ...read.billFacts(f.billId, f.number),
       count: read.fact(`${yes} to ${no}`),
       ...(body ? { body: read.fact(body, f.chamber ?? "") } : {}),
       [yes > no ? "passed" : "failed"]: read.yes(),
@@ -450,7 +452,7 @@ const committee: Builder = (read, f) => {
   return story(
     "committee",
     {
-      ...read.billFacts(f.billId),
+      ...read.billFacts(f.billId, f.number),
       ...(f.committee ? { committee: read.fact(spaced(f.committee)) } : {}),
       ...(held
         ? { held: read.yes() }
@@ -472,12 +474,30 @@ const amendment: Builder = (read, f) =>
     f.movedBy,
   );
 
+/** One member's own vote on a bill. */
+const memberVote: Builder = (read, f) => {
+  // The member is the record's subject, and the last part of its id.
+  const id =
+    read.first() ??
+    read.sourceId.slice(`office.voted:${f.billId ?? ""}:`.length);
+  return story(
+    "member-vote",
+    {
+      ...read.who(id),
+      ...read.billFacts(f.billId, f.number),
+      ...(f.vote === "yes" || f.vote === "no" ? { [f.vote]: read.yes() } : {}),
+    },
+    ["name", "designation"],
+    id,
+  );
+};
+
 /** Lawmakers' vote to override a veto. */
 const override: Builder = (read, f) =>
   story(
     "override",
     {
-      ...read.billFacts(f.billId),
+      ...read.billFacts(f.billId, f.number),
       [f.passed === "true" ? "passed" : "failed"]: read.yes(),
     },
     ["designation"],
@@ -490,7 +510,7 @@ const signed: Builder = (read, f) => {
     "signed",
     {
       ...read.who(f.executiveId),
-      ...read.billFacts(f.billId),
+      ...read.billFacts(f.billId, f.number),
       date: read.date(),
       // A veto fails the bill; a signature passes it into law.
       [vetoed ? "vetoed" : "signed"]: read.yes(),
@@ -509,7 +529,7 @@ const hearing: Builder = (read, f) => {
   return story(
     "hearing",
     {
-      ...read.billFacts(f.billId),
+      ...read.billFacts(f.billId, f.number),
       number: read.fact(count(pro + con)),
       for: read.fact(count(pro)),
       against: read.fact(count(con)),
@@ -524,7 +544,7 @@ const introduced: Builder = (read, f) => {
   return story(
     "introduced",
     {
-      ...read.billFacts(f.billId),
+      ...read.billFacts(f.billId, f.number),
       ...read.who(bill?.sponsorId, "name", false),
     },
     ["designation"],
@@ -930,7 +950,10 @@ const court: Builder = (read, f) => {
   const id = read.first();
   const months = num(f.custodyMonths);
   const stage = read.kind.slice("justice.".length);
-  const bail = stage === "bail-set" || stage === "pretrial";
+  const bail =
+    stage === "bail-set" ||
+    stage === "pretrial" ||
+    stage === "held-before-trial";
   return story(
     bail ? "bail" : (stage as StoryKind),
     {
@@ -940,9 +963,11 @@ const court: Builder = (read, f) => {
       ...(bail
         ? /released/.test(f.decision ?? "")
           ? { released: read.yes() }
-          : num(f.bailMinor)
-            ? { money: read.fact(dollars(num(f.bailMinor)!)) }
-            : {}
+          : f.decision === "held"
+            ? { held: read.yes() }
+            : num(f.bailMinor)
+              ? { money: read.fact(dollars(num(f.bailMinor)!)) }
+              : {}
         : {}),
     },
     ["name"],
@@ -1106,6 +1131,8 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   committee,
   "veto-override": override,
   "bill-amendment": amendment,
+  "office.voted": memberVote,
+  "justice.held-before-trial": court,
   "executive-action": signed,
   "public-comment": hearing,
   "office.introduced": introduced,

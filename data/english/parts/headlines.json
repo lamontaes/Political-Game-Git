@@ -5058,6 +5058,75 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.bail.name-held-until-trial",
+      "move": "bail",
+      "kind": "written",
+      "text": "{name} held until trial",
+      "uses": [
+        {
+          "move": "bail",
+          "subject": "headline",
+          "role": "bail",
+          "choice": "headline",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.member-vote.name-votes-yes-on-designation",
+      "move": "member-vote",
+      "kind": "written",
+      "text": "{name} votes yes on {designation}",
+      "uses": [
+        {
+          "move": "member-vote",
+          "subject": "headline",
+          "role": "member-vote",
+          "choice": "headline",
+          "requiresFacts": ["yes"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.member-vote.name-votes-no-on-designation",
+      "move": "member-vote",
+      "kind": "written",
+      "text": "{name} votes no on {designation}",
+      "uses": [
+        {
+          "move": "member-vote",
+          "subject": "headline",
+          "role": "member-vote",
+          "choice": "headline",
+          "requiresFacts": ["no"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }
