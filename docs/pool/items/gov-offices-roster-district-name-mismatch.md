@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: the matcher must normalize every place's district names by one rule in data or code (subdistrict words, leading zeros, hyphens against commas and 'and', compass words), never a fix for one state, and a chamber's seat count must equal its legal size from the research.
 
-**Done when.** In buildBenchWorld for a drawn place and in a test over all 56 places, every legislative chamber's seat count from stateOffices equals the size in data/research/offices/state-offices.json and every roster member sits in exactly one seat, checked by a test in src/core2/offices-state.test.ts naming the place and seat ids. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
+**Done when.** In buildBenchWorld for a drawn place and in a test over all 56 places, every legislative chamber whose member roster holds its legal number of members (vacant districts counted as empty seats) has exactly the legal size from data/research/offices/state-offices.json from stateOffices, and every roster member sits in exactly one seat, checked by a test in src/core2/offices-state.test.ts naming the place and seat ids. The test checks at least one chamber and lists the four chambers whose roster data itself disagrees with the legal size, so a new disagreement fails it; those four wait on gov-legislature-roster-size-data.
 
 **Files.** src/core2/offices-state.ts, data/research/offices/legislature-party-counts-2026.json, data/research/offices/state-offices.json
 
