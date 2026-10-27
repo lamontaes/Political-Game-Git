@@ -7012,5 +7012,41 @@
     "addedAt": "2026-10-27",
     "replacement": "Correct the counted renters' income to the place's sourced ratio (world-counted-renter-income-puerto-rico-third), then remove the pin so the case meets the HUD bound.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-rent-help-population-share",
+    "kind": "faked-mechanic",
+    "file": "src/core2/housing-assistance.ts",
+    "line": 51,
+    "whatItFakes": "A state's or county's rent-help line is paid to the played town by the town's share of the government's population, as though renter households were spread the same way as people.",
+    "why": "Renter households are not recorded for the whole government, only for the played town, so the town's slice of a larger government's line cannot be read from renters; the population share is the nearest record that exists.",
+    "addedBy": "fixer, Merger 4's send-back of PR 6219",
+    "addedAt": "2026-10-27",
+    "replacement": "Record renter households per government (counted, as the town's are) and pay each line by the town's share of them; the stopgap clears when the share reads renters.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-figure-color-masks-from-picture",
+    "kind": "faked-mechanic",
+    "file": "src/bench/figure-colors.ts",
+    "line": 61,
+    "whatItFakes": "A figure's skin and clothing regions are guessed from pixel colors (warm saturated pixels are skin, unsaturated mid-gray pixels are clothing) instead of read from a painted mask, so the gray shoes follow the clothes color and a very dark skin tone loses some facial shading.",
+    "why": "The v2 figures are flat pictures in one skin tone and gray clothes with no mask layers; play-stop-34 needed color choice in the creator and rooms inside its time box without repainting 389 figures.",
+    "addedBy": "claude/play-stop-34",
+    "addedAt": "2026-10-27",
+    "replacement": "A painted skin mask and clothing mask for each figure (asset-scene-admission), read by recolorFigure in place of the color test.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-people-skin-tone-weights",
+    "kind": "estimated-data",
+    "file": "src/bench/whole-figures.ts",
+    "line": 236,
+    "whatItFakes": "The skin tone of a person other than the player is drawn from one national spread of eight tones, the same in every place, not from the place's own people.",
+    "why": "The people records hold no skin tone; the figures need one to differ from their neighbors. The weights are a rough estimate of the national spread (Census race and ethnicity counts folded into eight tones), about five points a tone.",
+    "addedBy": "claude/play-stop-35",
+    "addedAt": "2026-10-27",
+    "replacement": "A skin tone set from the place's own demographics when the person is made, stored on their appearance record.",
+    "status": "open"
   }
 ]

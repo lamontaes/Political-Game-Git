@@ -17,6 +17,7 @@ import figureRules from "./data/whole-figures.json" with { type: "json" };
 import {
   ageBandOf,
   figureOn,
+  colorsFor,
   pickLook,
   type Figure,
   type FigurePerson,
@@ -513,6 +514,8 @@ interface Looks {
   id: string;
   birthDate: string;
   gender?: string;
+  /** The seed of the person's appearance record, when it holds one. */
+  seed?: string;
   /** The look chosen in the creator (the player), when there is one. */
   look?: FigurePerson["look"];
 }
@@ -520,11 +523,20 @@ interface Looks {
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const { sex, build, outfit } = JSON.parse(text) as Record<string, unknown>;
+    const { sex, build, outfit, skin, clothes } = JSON.parse(text) as Record<
+      string,
+      unknown
+    >;
     return typeof sex === "string" &&
       typeof build === "string" &&
       typeof outfit === "string"
-      ? { sex, build, outfit }
+      ? {
+          sex,
+          build,
+          outfit,
+          ...(typeof skin === "string" ? { skin } : {}),
+          ...(typeof clothes === "string" ? { clothes } : {}),
+        }
       : undefined;
   } catch {
     return undefined;
@@ -539,6 +551,9 @@ export function looksOf(core: CoreState, id: string): Looks | null {
       id: person.id,
       birthDate: person.birthDate,
       ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
+      ...(person.looks?.appearanceSeed
+        ? { seed: person.looks.appearanceSeed }
+        : {}),
       ...(look ? { look } : {}),
     };
   }
@@ -593,11 +608,10 @@ export function stagePeople(
     name: string;
     reason: StageReason;
     look: Figure;
+    colors: string;
     band: Parameters<typeof figureOn>[1];
     spot: StagingSpot;
   }[] = [];
-  // No twins: each look is worn by one person in the scene, the lead first.
-  const taken = new Set<string>();
   for (const { id, name, reason } of ids) {
     if (!reason) {
       unplaced.push({ personId: id, reason: "no-reason" });
@@ -613,9 +627,10 @@ export function stagePeople(
       birthDate: looks.birthDate,
       ...(looks.gender ? { gender: looks.gender } : {}),
       official: isOfficial(core, id),
+      ...(looks.seed ? { seed: looks.seed } : {}),
       ...(looks.look ? { look: looks.look } : {}),
     };
-    const look = pickLook(core, who, place, taken);
+    const look = pickLook(core, who, place);
     if (!look) {
       unplaced.push({ personId: id, reason: "no-whole-figure" });
       continue;
@@ -636,12 +651,13 @@ export function stagePeople(
       });
       continue;
     }
-    taken.add(look.look);
+    const colors = new URLSearchParams(colorsFor(who)).toString();
     placed.push({
       id,
       name,
       reason,
       look,
+      colors,
       band,
       spot: free.splice(index, 1)[0]!,
     });
@@ -650,7 +666,7 @@ export function stagePeople(
   // Drawn far to near, so nearer people stand in front of farther ones.
   const depth = (spot: StagingSpot) => spot.depth ?? spot.y;
   const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
-  for (const { id, name, reason, look, band, spot } of order) {
+  for (const { id, name, reason, look, colors, band, spot } of order) {
     const turn = turnOf(
       spot,
       placed.map((row) => row.spot),
@@ -663,7 +679,7 @@ export function stagePeople(
       reason,
       spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
       figure: whole.figure,
-      figureUrl: whole.url,
+      figureUrl: colors ? `${whole.url}?${colors}` : whole.url,
       art: "whole",
     });
   }
@@ -683,7 +699,11 @@ function outline(stage: PlaceStaging, spot: StagingSpot) {
     left: spot.x - width / 2,
     right: spot.x + width / 2,
     top: spot.y - height,
-    bottom: spot.y,
+    // Behind a counter or desk, only what shows above its front can be covered.
+    bottom:
+      spot.clipBelowY !== undefined
+        ? Math.min(spot.y, spot.clipBelowY)
+        : spot.y,
   };
 }
 /** Whether two people on these spots would cover much of one another. */
@@ -716,9 +736,11 @@ const FRONT_PENALTY = 25;
 const SIDE_BY_SIDE = 6;
 const ON_THE_LINE = 3;
 // An adult's height for the outline, a body's width as a share of its
-// height, and how much of a person may be covered before a spot is passed over.
+// height (measured on the v2 figures: arms and stance make a standing figure
+// about 0.4 as wide as it is tall, as the picture shows), and how much of a
+// person may be covered before a spot is passed over.
 const ADULT_METERS = 1.72;
-const BODY_WIDTH = 0.3;
+const BODY_WIDTH = 0.4;
 const HIDDEN_SHARE = 0.25;
 
 /**
