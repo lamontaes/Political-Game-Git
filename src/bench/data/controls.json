@@ -415,6 +415,7 @@
   "returns": {
     "next": "Next returns",
     "close": "Close",
+    "vote": "vote",
     "votes": "votes",
     "marginBy": "by",
     "points": "points"

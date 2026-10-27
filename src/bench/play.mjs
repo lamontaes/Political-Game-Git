@@ -1008,7 +1008,7 @@ function electionNight(night) {
         ...step.totals.map((entry) =>
           row(
             entry.name,
-            `${entry.votes.toLocaleString("en-US")} ${labels.votes}`,
+            `${entry.votes.toLocaleString("en-US")} ${entry.votes === 1 ? labels.vote : labels.votes}`,
           ),
         ),
         ...(last && night.nation.races.length
