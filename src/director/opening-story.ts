@@ -568,10 +568,10 @@ function planAddress(
     )
     .slice(P.zero, par.prioritiesMax.value);
   // The line they will not cross, when they hold it harder than their weakest priority.
+  const firmest = opposed[P.zero];
   const line =
-    opposed[P.zero] &&
-    -opposed[P.zero].stance >= (priorities.at(-P.one)?.stance ?? P.zero)
-      ? opposed[P.zero]
+    firmest && -firmest.stance >= (priorities.at(-P.one)?.stance ?? P.zero)
+      ? firmest
       : undefined;
   const used = new Set([...priorities, ...(line ? [line] : [])]);
 

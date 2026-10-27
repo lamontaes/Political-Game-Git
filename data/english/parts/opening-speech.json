@@ -343,10 +343,10 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.occasion.polished-ina-the-oath-has-been-taken-and-the-work-begins-today",
+      "key": "opening-speech.occasion.polished-ina-today-begins-the-work-and-i-mean-to-do-it-well",
       "move": "occasion",
       "kind": "spoken",
-      "text": "The oath has been taken, and the work begins today.",
+      "text": "Today begins the work, and I mean to do it well.",
       "uses": [
         {
           "move": "occasion",
@@ -363,10 +363,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.occasion.plain-ina-i-ve-taken-the-oath-now-comes-the-work",
+      "key": "opening-speech.occasion.plain-ina-today-the-work-starts-and-i-mean-to-do-it-right",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I've taken the oath. Now comes the work.",
+      "text": "Today the work starts, and I mean to do it right.",
       "uses": [
         {
           "move": "occasion",
@@ -987,14 +987,14 @@
           "subject": "inaugural",
           "role": "story-fig",
           "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-ahead-of-prices"]
+          "requiresFacts": ["wage-growth", "wages-ahead-of-prices", "prices-up"]
         },
         {
           "move": "story-fig",
           "subject": "state-of-the-union",
           "role": "story-fig",
           "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-ahead-of-prices"]
+          "requiresFacts": ["wage-growth", "wages-ahead-of-prices", "prices-up"]
         }
       ],
       "voice": "polished",
@@ -1016,14 +1016,14 @@
           "subject": "inaugural",
           "role": "story-fig",
           "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-ahead-of-prices"]
+          "requiresFacts": ["wage-growth", "wages-ahead-of-prices", "prices-up"]
         },
         {
           "move": "story-fig",
           "subject": "state-of-the-union",
           "role": "story-fig",
           "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-ahead-of-prices"]
+          "requiresFacts": ["wage-growth", "wages-ahead-of-prices", "prices-up"]
         }
       ],
       "voice": "plain",
@@ -1178,10 +1178,10 @@
       "bearing": "glad"
     },
     {
-      "key": "opening-speech.story-fig.plain-ina-sta-the-economy-grew-growth-rate-percent-last-year",
+      "key": "opening-speech.story-fig.plain-ina-sta-the-economy-grew-growth-rate-percent-over-the-year",
       "move": "story-fig",
       "kind": "spoken",
-      "text": "The economy grew {growth-rate} percent last year.",
+      "text": "The economy grew {growth-rate} percent over the year.",
       "uses": [
         {
           "move": "story-fig",
@@ -1329,10 +1329,10 @@
       "bearing": "glad"
     },
     {
-      "key": "opening-speech.story-fig.plain-sta-we-added-jobs-added-jobs-this-year",
+      "key": "opening-speech.story-fig.plain-sta-we-added-jobs-added-jobs-over-the-year",
       "move": "story-fig",
       "kind": "spoken",
-      "text": "We added {jobs-added} jobs this year.",
+      "text": "We added {jobs-added} jobs over the year.",
       "uses": [
         {
           "move": "story-fig",
@@ -2040,7 +2040,8 @@
           "requiresFacts": [
             "wage-growth",
             "inflation-rate",
-            "wages-ahead-of-prices"
+            "wages-ahead-of-prices",
+            "prices-up"
           ]
         },
         {
@@ -2051,7 +2052,8 @@
           "requiresFacts": [
             "wage-growth",
             "inflation-rate",
-            "wages-ahead-of-prices"
+            "wages-ahead-of-prices",
+            "prices-up"
           ]
         }
       ],
@@ -2076,7 +2078,8 @@
           "requiresFacts": [
             "wage-growth",
             "inflation-rate",
-            "wages-ahead-of-prices"
+            "wages-ahead-of-prices",
+            "prices-up"
           ]
         },
         {
@@ -2087,7 +2090,8 @@
           "requiresFacts": [
             "wage-growth",
             "inflation-rate",
-            "wages-ahead-of-prices"
+            "wages-ahead-of-prices",
+            "prices-up"
           ]
         }
       ],
@@ -2211,10 +2215,10 @@
       "topic": "jobs"
     },
     {
-      "key": "opening-speech.stake.polished-ina-sta-a-home-loan-costs-mortgage-rate-percent-a-year-and-the-rules",
+      "key": "opening-speech.stake.polished-ina-sta-a-home-loan-costs-mortgage-rate-percent-a-year-and-i-want-to",
       "move": "stake",
       "kind": "spoken",
-      "text": "A home loan costs {mortgage-rate} percent a year, and the rules about what we build and where decide who can afford one.",
+      "text": "A home loan costs {mortgage-rate} percent a year, and I want to talk about who can afford one.",
       "uses": [
         {
           "move": "stake",
@@ -2239,10 +2243,10 @@
       "topic": "mortgage"
     },
     {
-      "key": "opening-speech.stake.plain-ina-sta-a-home-loan-costs-mortgage-rate-percent-and-the-rules-on-bui",
+      "key": "opening-speech.stake.plain-ina-sta-a-home-loan-costs-mortgage-rate-percent-and-i-want-to-talk-a",
       "move": "stake",
       "kind": "spoken",
-      "text": "A home loan costs {mortgage-rate} percent, and the rules on building decide who gets a front door.",
+      "text": "A home loan costs {mortgage-rate} percent, and I want to talk about who can afford a house.",
       "uses": [
         {
           "move": "stake",
@@ -2323,10 +2327,10 @@
       "topic": "growth"
     },
     {
-      "key": "opening-speech.stake.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-year-and-what-we",
+      "key": "opening-speech.stake.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-year-and-i-want-",
       "move": "stake",
       "kind": "spoken",
-      "text": "Prices rose {inflation-rate} percent over the year, and what we pay for energy and the air we breathe belongs in that same conversation.",
+      "text": "Prices rose {inflation-rate} percent over the year, and I want to talk about what we pay for energy.",
       "uses": [
         {
           "move": "stake",
@@ -2351,10 +2355,10 @@
       "topic": "inflation"
     },
     {
-      "key": "opening-speech.stake.plain-ina-sta-prices-rose-inflation-rate-percent-and-energy-bills-are-part",
+      "key": "opening-speech.stake.plain-ina-sta-prices-rose-inflation-rate-percent-and-i-want-to-talk-about-",
       "move": "stake",
       "kind": "spoken",
-      "text": "Prices rose {inflation-rate} percent, and energy bills are part of that.",
+      "text": "Prices rose {inflation-rate} percent, and I want to talk about energy bills.",
       "uses": [
         {
           "move": "stake",
@@ -3539,10 +3543,10 @@
       "bearing": "braced"
     },
     {
-      "key": "opening-speech.ask.polished-ina-sta-i-do-not-believe-the-country-wants-about-and-i-will-not-lend",
+      "key": "opening-speech.ask.polished-ina-sta-i-will-not-lend-my-name-to-about-and-i-will-say-so-plainly",
       "move": "ask",
       "kind": "spoken",
-      "text": "I do not believe the country wants {about}, and I will not lend my name to it.",
+      "text": "I will not lend my name to {about}, and I will say so plainly.",
       "uses": [
         {
           "move": "ask",
@@ -3567,10 +3571,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.ask.plain-ina-sta-i-don-t-think-the-country-wants-about-and-i-won-t-put-my-nam",
+      "key": "opening-speech.ask.plain-ina-sta-i-won-t-put-my-name-on-about-and-i-m-saying-so-now",
       "move": "ask",
       "kind": "spoken",
-      "text": "I don't think the country wants {about}, and I won't put my name on it.",
+      "text": "I won't put my name on {about}, and I'm saying so now.",
       "uses": [
         {
           "move": "ask",
@@ -4263,10 +4267,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.towns.polished-ina-sta-i-campaigned-in-place-and-the-people-there-are-part-of-why-i",
+      "key": "opening-speech.towns.polished-ina-sta-i-campaigned-in-place-and-i-have-not-forgotten-it",
       "move": "towns",
       "kind": "spoken",
-      "text": "I campaigned in {place}, and the people there are part of why I am standing here.",
+      "text": "I campaigned in {place}, and I have not forgotten it.",
       "uses": [
         {
           "move": "towns",
@@ -4319,10 +4323,10 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.towns.polished-ina-sta-i-came-through-place-on-the-way-here-and-i-intend-to-answer-",
+      "key": "opening-speech.towns.polished-ina-sta-i-campaigned-in-place-and-i-intend-to-keep-faith-with-it",
       "move": "towns",
       "kind": "spoken",
-      "text": "I came through {place} on the way here, and I intend to answer for what I promised there.",
+      "text": "I campaigned in {place}, and I intend to keep faith with it.",
       "uses": [
         {
           "move": "towns",
@@ -4375,10 +4379,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.families.polished-ina-sta-to-every-family-having-a-hard-year-i-see-it-and-i-intend-to-",
+      "key": "opening-speech.families.polished-ina-sta-to-any-family-having-a-hard-year-i-see-it-and-i-intend-to-ac",
       "move": "families",
       "kind": "spoken",
-      "text": "To every family having a hard year: I see it, and I intend to act.",
+      "text": "To any family having a hard year: I see it, and I intend to act.",
       "uses": [
         {
           "move": "families",
@@ -4431,10 +4435,10 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.families.polished-ina-sta-to-the-families-doing-better-i-want-it-to-last-and-to-those-",
+      "key": "opening-speech.families.polished-ina-sta-to-the-families-doing-better-i-want-it-to-last-and-to-any-wh",
       "move": "families",
       "kind": "spoken",
-      "text": "To the families doing better, I want it to last, and to those who are not, I will not forget you.",
+      "text": "To the families doing better, I want it to last, and to any who are not, I will not forget you.",
       "uses": [
         {
           "move": "families",
@@ -4459,10 +4463,10 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.families.plain-ina-sta-to-the-families-doing-better-i-want-it-to-last-to-the-ones-w",
+      "key": "opening-speech.families.plain-ina-sta-to-the-families-doing-better-i-want-it-to-last-to-any-that-a",
       "move": "families",
       "kind": "spoken",
-      "text": "To the families doing better, I want it to last. To the ones who aren't, I haven't forgotten you.",
+      "text": "To the families doing better, I want it to last. To any that aren't, I haven't forgotten you.",
       "uses": [
         {
           "move": "families",
