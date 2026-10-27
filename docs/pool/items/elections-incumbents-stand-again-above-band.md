@@ -6,7 +6,7 @@ lead: traits
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
 pr: #6167
 blocked-on:
@@ -19,6 +19,8 @@ claimed-at:
 **Rules.** No dice: an incumbent's decision comes from their age, temperament, record and circumstances. Real rates check totals; they never pick one person. One rule, all 56 places.
 
 **Done when.** `src/core2/candidacy.test.ts` passes on the seed and place above and on two fresh random places named in the PR body, and the PR says whether the rule or the band changed, with the share of incumbents standing again in each place.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers. Stopgap allowed: none needed; if the rule is right, widen the band with a sourced small-town spread.
 
 **Files.** src/core2/candidacy.test.ts, src/core2/stand-again.ts
 

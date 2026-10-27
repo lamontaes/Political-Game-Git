@@ -4,9 +4,9 @@ title: "Stopgaps in creator (partial-model): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-76ksvw
-pr: #5180
+pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/creator.ts, kind partial-model"
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T00:43:16.820Z
 
 **Files.** src/bench/creator.ts
 
-**Notes.** First row: Changing the age in the creator moves only the birth date; the life's generated past (schooling, work, household, family ages) stays as it was drawn for the original age.
+**Notes.** First row: Changing the age in the creator moves only the birth date; the life's generated past (schooling, work, household, family ages) stays as it was drawn for the original age. Released from idle draft #5180 by the CTO, Oct 26.
