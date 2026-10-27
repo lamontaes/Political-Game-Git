@@ -6,11 +6,12 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/project-request-lower-seat
+pr: #6266
 blocked-on:
 source: laws-and-effects lead, Oct 27 (the floor PR's changed-file tests)
+claimed-at: 2026-10-27T08:30:35.813Z
 ---
 
 **What.** `src/core2/legislature.test.ts`, "a state member's project request becomes a line naming the city, and the grant lands in the city treasury", failed on Oct 27 with `TypeError: Cannot read properties of undefined (reading 'office')` at line 378. `townSeats(api).find((s) => s.office.kind === "legislature-lower")` found no seat, because the drawn town (in a bicameral state) has no lower-chamber seat whose `coversTown` is set. The case's `town()` draw checks for a city and a state government, not for the lower seat it reads next. The world it builds installs no world-legislating module and is read before any day runs, so the failure is the draw's, not the floor's. The test's random seed is not printed on this path, so the place is not named here.

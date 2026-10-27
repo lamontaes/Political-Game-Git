@@ -6,7 +6,7 @@ lead: laws-effects
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/traits-meetings-take-part-refit
 pr: #6254
 blocked-on:

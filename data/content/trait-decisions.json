@@ -285,6 +285,7 @@
       "owner": "OPUS-WORLD",
       "route": "chooser",
       "traitWeightParameter": "traitWeightCreditBorrow",
+      "hardshipWeightParameter": "hardshipWeightCreditBorrow",
       "options": [
         {
           "id": "credit-do-without",
@@ -752,6 +753,7 @@
       "owner": "OPUS-PEOPLE",
       "route": "formula",
       "traitWeightParameter": "traitWeightMovesMoveAway",
+      "hardshipWeightParameter": "hardshipWeightMovesMoveAway",
       "options": [
         {
           "id": "stay-put",
@@ -1312,6 +1314,7 @@
       "owner": "OPUS-WORLD",
       "route": "formula",
       "traitWeightParameter": "traitWeightJobsBenefitsFileClaim",
+      "hardshipWeightParameter": "hardshipWeightJobsBenefitsFileClaim",
       "options": [
         {
           "id": "skip",
