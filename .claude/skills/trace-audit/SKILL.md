@@ -9,6 +9,10 @@ description: >
 
 # Trace audit
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The example command's state is an example only; every run draws its places from all 56. Each helper brief and each filed defect is SMART with a time box.
+
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: play first; "simulate it, don't ask")
+
 The audit shows the owner what each of the 56 places actually did in a year, and why. It views the game and changes nothing.
 
 ## Steps
@@ -19,7 +23,7 @@ The audit shows the owner what each of the 56 places actually did in a year, and
    For a territory, `STATE` is its name as the places data spells it. `SEED` fixes the seed; the file header records it.
 3. Reader helpers (one per file or a few files each) write `docs/reports/trace-audit-<date>/<state>.md`: the story of the year in plain words (only what the engine did), then every why with the record id (use `ask-why`).
 4. One verifier helper ties every why to a function and line, or "not found". No claim stands without one.
-5. The lead session writes `docs/reports/trace-audit-<date>/README-<session>.md` and files each ranked defect as a pool item.
+5. The lead session writes `docs/reports/trace-audit-<date>/README-<session>.md` and files each ranked defect as a pool item with `lead:` set to the role that owns it; a defect that stops the owner's play is `milestone: play-first` with `lead: play-first`. A mechanic the world lacks is a build item, not an owner question (simulate it, don't ask).
 
 ## Layout
 

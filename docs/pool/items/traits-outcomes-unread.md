@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on: play-first-freeze
+blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 ---
 
@@ -16,10 +16,8 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 
 **Rules.** An effect is a read, not a record: the outcome counts only when the engine that owns it reads the trait at the moment it decides or pays. No dice: the trait shifts a weighed reason, never a roll. Research before building: sizes come from `data/research/trait-effect-sizes.json`.
 
-**Done when.** In a played year (`buildBenchWorld`, every module) in a drawn place, seed named, `docs/reports/trait-wiring-2026-10-20.json` (rebuilt) grades all 23 outcomes as read by their owning engine, each with a record id and the engine file and line; partnering and divorce either read in play or keep their stopgap row with the item that brings the engine.
+**Done when.** In a played year (`buildBenchWorld`, every module) in a drawn place, seed named, `docs/reports/trait-wiring-2026-10-20.json` (rebuilt) grades all 23 outcomes as read by their owning engine, each with a record id and the engine file and line; partnering and divorce either read in play or keep their stopgap row with the item that brings the engine. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** data/content/trait-outcomes.json, src/core2/modules/work.ts, src/core2/modules/jobs.ts, src/core2/emotion.ts
 
 **Notes.** Split Oct 24 by the CTO from `traits-wiring-audit` (order `docs/work-orders/lead-traits-2026-10-24.md`).
-
-Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

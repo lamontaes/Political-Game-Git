@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #5984
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found Oct 24 by the traits lead's never-run audit (branch claude/traits-decisions-never-run, Parkway, Missouri, seed e6ff0d60d6bc).
 
 Sent back 2026-10-24 from PR #5984 (branch claude/traits-stand-again): CTO explicitly orders #5582 before any traits PR (comment 6386070636), and #5582 remains open with its election-cost registration return; no source defect or local green gate claimed; finish on that branch and merge main into it first after #5582 lands.
+
+Sent back 2026-10-25 from PR #5984 (branch claude/traits-stand-again): the prior dependency is cleared but merging current main conflicts in scripts/traits/trait-wiring-audit.ts; finish on that branch, merge main into it first.

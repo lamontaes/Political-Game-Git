@@ -7,6 +7,7 @@
     "unemployment-to-assault",
     "police-to-violent-crime",
     "police-to-property-crime",
+    "police-to-low-level-arrests",
     "child-access-law-to-youth-gun-deaths",
     "stand-your-ground-to-homicide",
     "min-age-to-youth-gun-suicide",
@@ -17,6 +18,8 @@
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
+    "minimum-wage-to-low-wage-jobs",
+    "school-spending-to-attainment",
     "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
@@ -40,7 +43,6 @@
     "medicaid-expansion-to-medical-debt",
     "universal-prek-to-graduation",
     "equalized-funding-to-spending",
-    "end-cash-bail-to-pretrial-detention",
     "concealed-carry-permit-to-firearm-homicide",
     "automatic-registration-to-turnout",
     "restore-voting-to-turnout",
@@ -75,8 +77,6 @@
     "poverty-to-math-proficiency",
     "uninsured-to-graduation",
     "crime-level-to-burglary",
-    "crime-level-to-robbery",
-    "crime-level-to-assault",
     "crime-level-to-vandalism",
     "births-level-to-births",
     "right-to-work-to-turnout",
@@ -98,6 +98,7 @@
     "carry-permit-to-violent-crime",
     "end-cash-bail-to-violent-crime",
     "cannabis-sales-to-violent-crime",
+    "sales-tax-to-prices",
     "mandatory-minimums-to-violent-crime",
     "clean-electricity-to-particulates",
     "carbon-price-to-particulates",
@@ -110,6 +111,9 @@
     "tuition-freeze-to-college-completion",
     "income-tax-to-out-migration",
     "graduated-income-tax-to-out-migration",
+    "income-tax-rate-to-out-migration",
+    "estate-tax-to-out-migration",
+    "inheritance-tax-to-out-migration",
     "balanced-budget-to-borrowing-cost",
     "pension-funding-to-borrowing-cost",
     "reserve-balance-to-borrowing-cost",
@@ -120,20 +124,21 @@
     "farmland-easements-to-farmland-lost",
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
+    "mileage-fee-to-vehicle-miles",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "parks-spending-to-exercise-access"
   ],
   "waiting": {
-    "police-to-low-level-arrests": {
-      "waitingOn": ["justice.low-level-arrests"],
-      "needsSize": true
-    },
     "summer-jobs-to-youth-violence": {
       "waitingOn": ["program.summer-jobs-slots", "crime.youth-violent-arrests"],
       "needsSize": true
     },
     "incarceration-to-crime": {
       "waitingOn": ["crime.all"]
+    },
+    "fire-spending-to-fire-deaths": {
+      "waitingOn": ["budget.fire-added-pct", "fire.civilian-casualties"]
     },
     "pretrial-detention-to-future-crime": {
       "waitingOn": ["crime.reoffense"]
@@ -235,9 +240,6 @@
       "waitingOn": [],
       "carriedBy": "src/core2/modules/jobs.ts wageFloor raises pay; src/core2/world-poverty.ts counts it"
     },
-    "minimum-wage-to-low-wage-jobs": {
-      "waitingOn": ["labor.minimum-wage-to-median"]
-    },
     "unemployment-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/modules/jobs.ts: a lost job ends its pay; src/core2/world-poverty.ts counts the household"
@@ -246,16 +248,9 @@
       "waitingOn": ["justice.parent-incarcerated", "household.income"],
       "needsSize": true
     },
-    "school-spending-to-attainment": {
-      "waitingOn": [
-        "person:school.spending-per-student",
-        "school.years-completed"
-      ],
-      "needsSize": true
-    },
     "child-coverage-to-graduation": {
-      "waitingOn": ["person:health.child-coverage-years", "school.graduation"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the web's uninsured-to-graduation link (the same Cohodes, Grossman, Kleiner and Lovenheim 2016 effect, read from the place's uninsured share five years earlier), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
     },
     "teacher-quality-to-earnings": {
       "waitingOn": [
@@ -269,12 +264,12 @@
       "needsSize": true
     },
     "prek-to-graduation": {
-      "waitingOn": ["school.prek-quality", "school.graduation"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the web's universal-prek-to-graduation link (the same Gray-Lobe, Pathak and Walters 2023 Boston and Tennessee estimates, read from the universal-preschool law in force with a 14-year lag and a range from Tennessee's loss to Boston's gain), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
     },
     "family-income-to-scores": {
-      "waitingOn": ["school.test-scores"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "for math, the web's poverty-to-math-proficiency link (the same Dahl and Lochner 2012 income effect, read as the place's poverty share into the share of eighth graders proficient in math), which the school engine reads when it decides each eighth grader's math result (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.math-proficient-pct, by income fifth); the engine's income-fifth gradient (gradientOf) then spreads the place's result over the fifths. Reading is not carried: no link moves reading proficiency by family income"
     },
     "neighborhood-years-to-adult-outcomes": {
       "waitingOn": [
@@ -413,6 +408,10 @@
       "waitingOn": [],
       "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which reads the work-requirement law in force through assistanceTimeLimit (src/core2/law-reach/group-b.ts) and stops each head the law reaches after their own three months of benefit in 36 (timeLimitedNow in src/core2/law-reach/group-b-money.ts), named and counted households alike"
     },
+    "end-cash-bail-to-pretrial-detention": {
+      "waitingOn": [],
+      "carriedBy": "the justice engine's pretrial decision (decidePretrial in src/core2/justice-pretrial.ts, called from src/core2/modules/justice.ts), which reads the end-cash-bail law in force and the defendant's cash when each charged defendant waits for trial: where the law has ended cash bail nobody is held for want of money (released-no-bail-law), elsewhere they are held or post bail"
+    },
     "mandatory-minimums-to-incarceration": {
       "waitingOn": [],
       "needsSize": true
@@ -438,6 +437,14 @@
     "graduation-to-poverty": {
       "waitingOn": [],
       "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-graduation-no-engine); the measure reads the pay once the jobs engine prices schooling"
+    },
+    "crime-level-to-robbery": {
+      "waitingOn": [],
+      "carriedBy": "the victimization records themselves: the index this link reads (crime months.violentIndex, src/core2/modules/crime.ts) is robbery and assault per person 12 and older, so every move in it is already these offenses' own; scaling them by it again would count each move twice and feed the next month's index one for one, a loop that grows without end"
+    },
+    "crime-level-to-assault": {
+      "waitingOn": [],
+      "carriedBy": "the victimization records themselves: the index this link reads (crime months.violentIndex, src/core2/modules/crime.ts) is robbery and assault per person 12 and older, so every move in it is already these offenses' own; scaling them by it again would count each move twice and feed the next month's index one for one, a loop that grows without end"
     },
     "grocery-exemption-to-poverty": {
       "waitingOn": [],
@@ -513,18 +520,63 @@
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
-    "parks-spending-to-exercise-access": {
-      "waitingOn": ["budget.parks-added-pct"]
+    "income-tax-rate-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
+    "social-security-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "medicare-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "federal-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "state-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "unemployment-insurance-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
+    "unemployment-weekly-maximum-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
+    "revolving-door-ban-to-ex-legislator-lobbyists": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/interest-groups.ts passes over a former officeholder the ban still bars (lobbyingBarredUntil, src/core2/law-reach/group-a-voting.ts) when it chooses a group's lobbyist"
+    },
+    "revolving-door-ban-to-candidate-entry": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/candidacy.ts weighs the law when a would-be newcomer, named or counted, decides whether to run for a legislative seat (afterOffice, read through revolvingDoorFor in src/core2/law-reach/group-a-voting.ts; candidacyRevolvingDoorWeight is calibrated to the paper's 18.2% fewer entrants)"
+    },
+    "public-jobs-to-private-employment": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/jobs.ts fills the openings the line funds (postFundedOpenings, posted by src/core2/law-reach/group-a-staffing.ts) from named and counted seekers, and the unemployment measure counts each hire"
+    },
+    "home-rule-to-local-spending": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/policy-authority.ts lets a town or county body legislate on what the state leaves to home rule, read by src/core2/modules/legislature.ts when a bill is drafted; the bills it passes set the ordinances and spending"
+    },
+    "public-pay-floor-to-other-employers-wages": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay"
     }
   },
   "measuresWanted": {
+    "labor.unemployment-pct": {
+      "owner": "OPUS-WORLD",
+      "links": 5
+    },
     "school.graduation": {
       "owner": "OPUS-GOV",
-      "links": 6
+      "links": 4
     },
     "school.test-scores": {
       "owner": "OPUS-GOV",
-      "links": 5
+      "links": 4
     },
     "crime.rate-index": {
       "owner": "OPUS-CORE",
@@ -570,15 +622,11 @@
       "owner": "OPUS-GOV",
       "links": 2
     },
-    "school.years-completed": {
-      "owner": "OPUS-GOV",
-      "links": 2
-    },
     "spending.disaster-preparedness": {
       "owner": "OPUS-GOV",
       "links": 2
     },
-    "budget.parks-added-pct": {
+    "budget.fire-added-pct": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -640,6 +688,10 @@
     },
     "federal.rail-expansion-pct": {
       "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "fire.civilian-casualties": {
+      "owner": "OPUS-CORE",
       "links": 1
     },
     "gov.nondisaster-transfers": {
@@ -726,10 +778,6 @@
       "owner": "OPUS-GOV",
       "links": 1
     },
-    "justice.low-level-arrests": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
     "justice.parent-incarcerated": {
       "owner": "OPUS-GOV",
       "links": 1
@@ -758,14 +806,6 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "labor.minimum-wage-to-median": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "labor.unemployment-pct": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "labor.workforce": {
       "owner": "OPUS-WORLD",
       "links": 1
@@ -786,10 +826,6 @@
       "owner": "OPUS-CORE",
       "links": 1
     },
-    "person:health.child-coverage-years": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
     "person:health.coverage-pct": {
       "owner": "OPUS-PEOPLE",
       "links": 1
@@ -807,10 +843,6 @@
       "links": 1
     },
     "person:program.snap-years-in-childhood": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "person:school.spending-per-student": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -866,7 +898,7 @@
       "owner": "OPUS-GOV",
       "links": 1
     },
-    "school.prek-quality": {
+    "school.years-completed": {
       "owner": "OPUS-GOV",
       "links": 1
     },

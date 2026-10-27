@@ -2540,6 +2540,63 @@ function dropCountedContracts(
 }
 
 /**
+ * Who in a counted household takes a member's estate: the kin of theirs who
+ * live there, else whoever lives there, in id order. Empty when no one is left.
+ */
+function inheritorsOf(
+  store: CountedStore,
+  h: CountedHousehold,
+  m: number,
+): number[] {
+  const survivors = store.countedMembers(h).filter((member) => member !== m);
+  const kin = new Set<number>();
+  for (let i = 0; i < h.kin.length; i += 2) {
+    if (h.kin[i] === m) kin.add(h.kin[i + 1]!);
+    else if (h.kin[i + 1] === m) kin.add(h.kin[i]!);
+  }
+  const near = survivors.filter((member) => kin.has(member));
+  return (near.length ? near : survivors).sort((a, b) =>
+    store.ids[a]!.localeCompare(store.ids[b]!),
+  );
+}
+
+/**
+ * What a counted person's death passes on, read before they are removed: the
+ * household, those who take their estate, and the estate itself, the cash of
+ * their household shared among its counted members (the counted money is
+ * pooled in the group's account, not held by each member).
+ */
+export function countedEstateOf(
+  core: CoreState,
+  personId: PersonId,
+):
+  | {
+      readonly householdId: string;
+      /** The households the counted record stands for. */
+      readonly households: number;
+      readonly bornOn: string;
+      readonly heirs: readonly PersonId[];
+      readonly estateMinor: number;
+    }
+  | undefined {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined) return undefined;
+  const store = rt.store;
+  const h = store.households[store.household[m]!]!;
+  const members = store.countedCount(h);
+  return {
+    householdId: h.id,
+    households: store.weightOf(h),
+    bornOn: store.born[m]!,
+    heirs: inheritorsOf(store, h, m).map(
+      (member) => store.ids[member]! as PersonId,
+    ),
+    estateMinor: members > 0 ? Math.floor(householdCash(rt, h) / members) : 0,
+  };
+}
+
+/**
  * A counted worker's job started, ended or was re-rated in the jobs engine:
  * their own job and their household's jobs and yearly wages follow, so every
  * reader of the household's income, and a fill-in (which hands over the
@@ -2642,17 +2699,8 @@ export function removeCountedPerson(
   // outlives them, as a full person's estate does: to the kin of theirs who
   // live there in equal shares (the first takes the odd cents), else to
   // whoever lives there. It is returned so the town's record names each heir.
-  const survivors = store.countedMembers(h);
-  if (survivors.length) {
-    const kin = new Set<number>();
-    for (let i = 0; i < h.kin.length; i += 2) {
-      if (h.kin[i] === m) kin.add(h.kin[i + 1]!);
-      else if (h.kin[i + 1] === m) kin.add(h.kin[i]!);
-    }
-    const near = survivors.filter((member) => kin.has(member));
-    const takers = (near.length ? near : survivors).sort((a, b) =>
-      store.ids[a]!.localeCompare(store.ids[b]!),
-    );
+  const takers = inheritorsOf(store, h, m);
+  if (takers.length) {
     const estate = store.liquid[m]!;
     const share = Math.floor(estate / takers.length);
     const paid = takers.map((member, index) => {
@@ -2931,6 +2979,156 @@ export function returnToCounts(
   }
   regroupHousehold(rt, h, core.date);
   return h;
+}
+
+/** A counted household with school-age children, as the August private-school ranking reads it. */
+export interface CountedSchoolFamily {
+  householdId: string;
+  placeId: PlaceId;
+  /** Children in the record (one household's). */
+  children: number;
+  /** Real households the record stands for. */
+  weight: number;
+  /** The household's share of its group's money over its children. */
+  cashPerChild: number;
+}
+
+/** The counted households of these places with children aged `first` to `last`. */
+export function countedSchoolFamilies(
+  core: CoreState,
+  places: ReadonlySet<PlaceId>,
+  first: number,
+  last: number,
+): CountedSchoolFamily[] {
+  const rt = runtimes.get(core);
+  if (!rt) return [];
+  const at = makeIsoDate(core.date);
+  const cash = householdCashReader(rt);
+  const out: CountedSchoolFamily[] = [];
+  for (const h of rt.store.liveHouseholds()) {
+    if (!places.has(h.placeId)) continue;
+    let children = 0,
+      adults = 0;
+    for (const m of rt.store.countedMembers(h)) {
+      const age = ageOn(rt.store.born[m]!, at);
+      if (age >= first && age <= last) children++;
+      else if (age > last) adults++;
+    }
+    if (!children || !adults) continue;
+    out.push({
+      householdId: h.id,
+      placeId: h.placeId,
+      children,
+      weight: rt.store.weightOf(h),
+      cashPerChild: cash(h) / children,
+    });
+  }
+  return out;
+}
+
+/** What each counted household pays these schools now, by household: the school and the monthly amount of its record. */
+export function countedTuitionPlans(
+  core: CoreState,
+  schoolIds: ReadonlySet<string>,
+  financeKind: string,
+): Map<string, { schoolId: string; monthlyMinor: number }> {
+  const rt = runtimes.get(core);
+  const out = new Map<string, { schoolId: string; monthlyMinor: number }>();
+  if (!rt) return out;
+  const prefix = "hh:";
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.endedAt ||
+      flow.kind !== "purchase" ||
+      flow.financeKind !== financeKind ||
+      !schoolIds.has(flow.payeeId) ||
+      !flow.amountByContract
+    )
+      continue;
+    for (const [key, amount] of Object.entries(flow.amountByContract))
+      if (key.startsWith(prefix) && amount > 0)
+        out.set(key.slice(prefix.length), {
+          schoolId: flow.payeeId,
+          monthlyMinor: amount,
+        });
+  }
+  return out;
+}
+
+/**
+ * Set what a counted household pays a private school each month (its record's
+ * amount; its group pays it times the households the record stands for), or
+ * nothing to end it. The amount is the household's part of the school's
+ * merged tuition flow, opened if no counted household has paid it yet.
+ */
+export function setCountedTuition(
+  core: CoreState,
+  householdId: string,
+  school: { id: string; placeId: PlaceId },
+  monthlyMinor: number,
+  terms: { financeKind: string; source: Source },
+): void {
+  const rt = runtimes.get(core);
+  const ix = rt?.store.householdOf.get(householdId);
+  if (!rt || ix === undefined) return;
+  const h = rt.store.households[ix]!;
+  if (h.gone) return;
+  const part = householdPart(householdId);
+  const mine = [...rt.flows.values()]
+    .filter(
+      (flow) =>
+        !flow.endedAt &&
+        flow.kind === "purchase" &&
+        flow.financeKind === terms.financeKind &&
+        flow.payeeId === school.id &&
+        flow.placeId === h.placeId &&
+        flow.amountByContract,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  for (const flow of mine) {
+    const present = flow.amountByContract![part] ?? 0;
+    if (!present) continue;
+    const amounts = ownMap(flow.amountByContract!);
+    delete amounts[part];
+    flow.amountByContract = amounts;
+    flow.amountMinor = Math.max(0, flow.amountMinor - present);
+  }
+  if (!(monthlyMinor > 0)) return;
+  let flow = mine[0];
+  if (!flow) {
+    const account = rt.input.accounts.find(
+      (row) => row.placeId === h.placeId,
+    )?.accountId;
+    if (!account) return;
+    const firstAt = nextMonthDay(
+      makeIsoDate(addDays(makeIsoDate(core.date), 1)),
+      1,
+    );
+    flow = {
+      id: `residents:purchase:${terms.financeKind}:${school.id}`,
+      kind: "purchase",
+      financeKind: terms.financeKind,
+      payerId: account,
+      payeeId: school.id,
+      residentsId: account,
+      placeId: h.placeId,
+      amountMinor: 0,
+      firstAt,
+      nextAt: firstAt,
+      cadence: { kind: "months", every: 1, day: 1 },
+      salesReceipt: true,
+      marketAdjusted: false,
+      amountByContract: {},
+      source: terms.source,
+      arrearsMinor: 0,
+    };
+    rt.flows.set(flow.id, flow);
+    schedule(rt, flow);
+  }
+  const amounts = ownMap(flow.amountByContract!);
+  amounts[part] = monthlyMinor;
+  flow.amountByContract = amounts;
+  flow.amountMinor += monthlyMinor;
 }
 
 /** A counted household's group's account, opening it if needed (money a demotion brings). */

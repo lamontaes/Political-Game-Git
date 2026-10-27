@@ -21,6 +21,9 @@ Run this checklist over every result before it goes out. Each hit needs a cause,
 - A race not held.
 - An office that did nothing.
 - A person with no job and $0.
+- Four or more game weeks with no scene for the player.
+- A stop with no scene (a routine shift, a label that doesn't match what happened).
+- A player's bill, filing or request that never reaches a vote, a decision or a reply.
 - A repeated pattern across places.
 
 ## Find the cause
@@ -38,4 +41,4 @@ Run this checklist over every result before it goes out. Each hit needs a cause,
 - Mark each claim measured or inferred.
 - A cause that is a seeded roll or fixed percentage deciding one actor's outcome breaks `no-dice`.
 - Nobody attributes a change to a law unless they learned of it; cite the source (news, conversation, notice).
-- Put findings in the PR body or progress file, in plain American English, per `civic-reports`. Run `npm run report:check -- <file>`.
+- Put findings in the PR body, your channel section or `docs/play-first/PROGRESS.md`, in plain American English, per `civic-reports`. Run `npm run report:check -- <file>`.

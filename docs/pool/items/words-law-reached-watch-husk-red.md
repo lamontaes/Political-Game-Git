@@ -5,20 +5,24 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: words/law-reached-husk
-pr:
+status: done
+claimed-by:
+pr: #4626
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T06:54:21.604Z
+claimed-at:
 ---
 
 **What.** With GOLDEN_PATH_SEED=23ba48d50ea16bbef679fb1ed07c82c110943a90, src/director/law-reached-scenes.test.ts fails on clean main before any scene is staged. The director's watch throws 'Watched person is not a recorded person: person_030efef252b9bec5' for one of the heirs that heirsOf returns, because that heir is still part of the counted population. Decide by the two-level population rule whether the heir is filled in before the director watches them or the test watches only recorded heirs, and fix it at the root.
 
 **Rules.** Two-level population: a counted heir the story needs is filled in from the records before the director watches them, matching what the records already say. One rule, all 56 places: the fix holds for any drawn place and seed, never a named one.
 
-**Done when.** The test passes on seed 23ba48d50ea16bbef679fb1ed07c82c110943a90 and on three more places drawn from all 56 with seeds the builder did not choose, each named in the PR body.
+**Done when.** The test passes on seed 23ba48d50ea16bbef679fb1ed07c82c110943a90 and on three more places drawn from all 56 with seeds the builder did not choose, each named in the PR body. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/director/law-reached-scenes.test.ts, src/director/ledger.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-25 from PR #5991 (branch words/law-reached-husk): the fix already exists on main via #4626 and the older test conflicts with main; preserve the current fill-in and same-day join assertions, verify any remaining acceptance against the actual merged implementation, and let the CTO retire the superseded PR; do not land a release-only duplicate; finish on that branch, merge main into it first.
+
+Verified 2026-10-26 by Merger 3: actual merged PR #4626 commit606e7c44e0dae790e2450219068b26957564148a already calls personOrFillIn(core, heir) immediately before director.watch(core, heir) in law-reached-scenes.test.ts:44-45, and current main retains it plus newer same-day join assertions. The author reports the named regression and four further drawn-place passes in #5991 and confirms that item acceptance landed through #4626. Closing this bookkeeping item against that actual merged implementation; no new current-main runtime gate or merge of the redundant release-only #5991 is claimed.

@@ -5,7 +5,7 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: blocked
+status: dropped
 claimed-by: claude/political-game-pool-yucp92-bb
 pr:
 blocked-on: the people schools engine: enroll(child, school, pre-k) with household child-care cost, and college tuition read by household spending; neither exists
@@ -22,5 +22,7 @@ claimed-at: 2026-10-20T02:32:10.048Z
 **Files.** src/core2/opening-private-tuition.ts, src/core2/law-reach/group-b-people.ts, src/core2/data/stopgaps.json
 
 **Notes.** Checked Oct 19 before building: this effect appears in none of docs/roadmap/political-process-baseline.md, the golden path, DECISION-REGISTER.md or OWNER-DECISIONS.md, and AGENTS.md ("This is a game, not a spreadsheet") makes a new mechanic of this kind a question for the owner, not a feature. OWNER QUESTION: should universal preschool enroll children and cut child-care cost, and should the higher-education line set tuition, or do both stay budget-line records? (School board play is kept in the world only until he says otherwise.) Until he rules, leave this item unbuilt.
+
+Dropped by the Oct 25 audit: split into laws-reach-b-preschool-childcare and laws-reach-b-college-tuition, which carry all of it.
 
 **Original notes.** Split from laws-stopgap-reach-group-b-missing-engine on Oct 19; the stopgap rows named above are its 13.
